@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  web:
+    image: lamarcke/game-node-web:latest
+
+    # NEXT_PUBLIC_ variables can only be defined before build-time, so adding them here won't work.
+    # Use the .env.(environment) files.
+    environment:
+      NODE_ENV: production
+
+    networks:
+      - game_node_app_public
+
+
+networks:
+  game_node_app_public:
+    external: true
+
+
+

@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.gamenode",
+      "sha256_cert_fingerprints": [
+        "CF:CB:BE:45:4C:D4:EA:F2:8C:01:A2:9A:38:4A:9D:A5:BE:60:5D:F7:10:21:D2:30:A0:15:74:DF:7C:96:8A:A3",
+        "3E:AB:14:95:B2:1B:33:74:A8:2C:5F:26:EB:9E:F0:4C:74:88:CE:71:61:A2:6A:6C:AF:24:C5:34:A6:57:B1:C2"
+      ]
+    }
+  }
+]

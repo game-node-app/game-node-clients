@@ -1,5 +1,22 @@
+const path = require("path")
+
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-  transpilePackages: ["@repo/ui"],
+const nextConfig = {
+    output: "standalone",
+    reactStrictMode: true,
+    transpilePackages: ["@repo/ui", "@repo/wrapper"],
+    experimental: {
+        outputFileTracingRoot: path.join(__dirname, "../../"),
+    },
+    async redirects() {
+        return [
+            {
+                source: "/admin",
+                destination: "https://admin.gamenode.app",
+                permanent: true,
+            },
+        ];
+    },
 };
+
+module.exports = nextConfig;

@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@repo/wrapper",
+  "version": "0.0.0",
+  "exports": {
+    "./search": "./search/index.ts",
+    "./server": "./server/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@lamarcke/openapi-typescript-codegen": "^0.29.1"
+  }
+}
