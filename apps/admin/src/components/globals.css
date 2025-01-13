@@ -1,0 +1,27 @@
+@layer tailwind {
+    @tailwind base;
+}
+@tailwind components;
+@tailwind utilities;
+
+/*
+* Thanks to @layer rule, tailwind base get lower "priority"
+* than mantine css rules even if they have same specificity.
+* Thanks to this, we CAN use preflight reset from tailwind.
+*/
+
+/**
+Undo tailwind reset for tiptap elements
+ */
+.tiptap > h1, h2, h3, h4, h5{
+    font-size: revert;
+    font-weight: revert;
+}
+
+/**
+Styling for tiptap mentions
+ */
+.tiptap  span.mention {
+    background-color: rgb(241 81 38 / 1);
+    border-radius: var(--mantine-radius-xs);
+}

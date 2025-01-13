@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  web-admin:
+    hostname: web-admin
+    image: lamarcke/game-node-admin:latest
+
+    # NEXT_PUBLIC_ variables can only be defined before build-time, so adding them here won't work.
+    # Use the .env.(environment) files.
+    environment:
+      NODE_ENV: production
+
+    networks:
+      - game_node_app_public
+
+    ports:
+      - "3001:3001"
+
+
+networks:
+  game_node_app_public:
+    external: true
