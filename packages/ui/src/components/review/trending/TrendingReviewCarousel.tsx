@@ -5,8 +5,8 @@ import useOnMobile from "../../general/hooks/useOnMobile.ts";
 import { useTrendingReviews } from "../../statistics/hooks/useTrendingReviews.ts";
 import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
 import period = FindStatisticsTrendingReviewsDto.period;
-import ReviewCard from "../../general/card/ReviewCard.tsx";
-import { DetailsBox } from "../../general/DetailsBox.tsx";
+import { ReviewCard } from "../../general/card/ReviewCard";
+import { DetailsBox } from "../../general/DetailsBox";
 
 const buildSkeletons = () => {
   const skeletons = [];

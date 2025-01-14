@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { AchievementDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "../../util/getServerStoredImages.ts";
-import { AchievementLogo } from "./AchievementLogo.tsx";
+import { AchievementLogo } from "./AchievementLogo";
 import { useObtainedAchievement } from "./hooks";
 
 interface Props {

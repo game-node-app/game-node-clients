@@ -1,16 +1,15 @@
 import React from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
 import { Button, Center, Group, Modal, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CollectionsEntriesService } from "@repo/wrapper/server";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
+  BaseModalProps,
   EMatomoEventAction,
   EMatomoEventCategory,
   trackMatomoEvent,
-} from "@/util/trackMatomoEvent";
+} from "../../../../../util";
+import { useOwnCollectionEntryForGameId } from "../../hooks";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;
