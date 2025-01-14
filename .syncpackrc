@@ -1,0 +1,8 @@
+{
+  "versionGroups": [
+    {
+      "dependencies": ["@repo/ui", "@repo/wrapper", "@repo/eslint-config", "@repo/tailwind-config", "@repo/typescript-config"],
+      "isIgnored": true
+    }
+  ]
+}

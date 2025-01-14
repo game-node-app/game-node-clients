@@ -1,0 +1,305 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The GameNode Search API documentation.",
+        "title": "GameNode Search API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "gamenode.com.br/help",
+            "email": "support@gamenode.com.br"
+        },
+        "license": {
+            "name": "GNU General Public License",
+            "url": "http://www.gnu.org/licenses/"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/search/games": {
+            "post": {
+                "description": "Returns a parsed search response from the Manticore engine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Searches for games using Manticore engine",
+                "parameters": [
+                    {
+                        "description": "Account ID",
+                        "name": "query",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.GameSearchRequestDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.GameSearchResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/search/users": {
+            "post": {
+                "description": "Returns a parsed search response from the Manticore engine",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "search"
+                ],
+                "summary": "Searches for users using Manticore engine",
+                "parameters": [
+                    {
+                        "description": "Account ID",
+                        "name": "query",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.UserSearchRequestDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.UserSearchResponseDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schema.GameSearchRequestDto": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "platforms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "profile": {
+                    "type": "boolean"
+                },
+                "query": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "themes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.GameSearchResponseDto": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.ResponseData"
+                },
+                "pagination": {
+                    "$ref": "#/definitions/schema.PaginationInfo"
+                }
+            }
+        },
+        "schema.PaginationInfo": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "type": "boolean"
+                },
+                "totalItems": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.ResponseData": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SearchGame"
+                    }
+                },
+                "profile": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "took": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.SearchGame": {
+            "type": "object",
+            "properties": {
+                "aggregatedRating": {
+                    "type": "number"
+                },
+                "aggregatedRatingCount": {
+                    "type": "integer"
+                },
+                "category": {
+                    "type": "integer"
+                },
+                "checksum": {
+                    "type": "string"
+                },
+                "coverUrl": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "firstReleaseDate": {
+                    "type": "string"
+                },
+                "genresNames": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "keywordsNames": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "numLikes": {
+                    "type": "integer"
+                },
+                "numViews": {
+                    "type": "integer"
+                },
+                "platformsAbbreviations": {
+                    "type": "string"
+                },
+                "platformsNames": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "storyline": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "themesNames": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.UserDto": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.UserSearchRequestDto": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "query": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.UserSearchResponseData": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.UserDto"
+                    }
+                },
+                "profile": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "took": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.UserSearchResponseDto": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.UserSearchResponseData"
+                },
+                "pagination": {
+                    "$ref": "#/definitions/schema.PaginationInfo"
+                }
+            }
+        }
+    }
+}
