@@ -37,13 +37,16 @@ import "@ionic/react/css/palettes/dark.always.css";
 import "./theme/variables.css";
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
 import { IconHome } from "@tabler/icons-react";
-import { OpenAPI as ServerOpenAPI } from "@/wrapper/server";
-import { OpenAPI as SearchOpenAPI } from "@/wrapper/search";
+import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
+import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
 import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
+import { setRoutingComponent, setRoutingManager } from "@repo/ui";
+import { LinkWrapper } from "@/components/general/LinkWrapper";
+import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 
 /**
  * Basic configuration for wrapper services
@@ -53,6 +56,9 @@ ServerOpenAPI.WITH_CREDENTIALS = true;
 SearchOpenAPI.BASE = import.meta.env.VITE_PUBLIC_SEARCH_URL!;
 
 setupIonicReact();
+
+setRoutingComponent(LinkWrapper);
+setRoutingManager(useIonRouterWrapper);
 
 const App: React.FC = () => {
     const [keyboardOpened, setKeyboardOpened] = useState(false);

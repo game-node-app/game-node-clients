@@ -15,15 +15,13 @@ import {
   BaseModalChildrenProps,
   BaseModalProps,
 } from "@/util/types/modal-props";
-import GameInfoSharePreview, {
+import {
   GAME_INFO_SHARE_PREVIEW_ID,
+  GameInfoSharePreview,
 } from "@/components/game/info/share/GameInfoSharePreview";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import { toBlob } from "html-to-image";
 import { useMutation } from "@tanstack/react-query";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { IconDownload } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
@@ -56,7 +54,6 @@ function downloadFile(file: File) {
 
 const GameInfoShare = ({ gameId, onClose }: GameInfoShareProps) => {
   const canShare = navigator.canShare != undefined;
-  const router = useRouter();
 
   const { watch, register, setValue, handleSubmit } = useForm<ShareFormValues>({
     mode: "onBlur",

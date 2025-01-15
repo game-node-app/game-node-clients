@@ -1,5 +1,5 @@
 /**
- * Retrieves a route  with the current tab prefix appended to it.
+ * Retrieves a route with the current tab prefix appended to it.
  * @param targetUrl
  */
 export function getTabAwareHref(targetUrl: string): string {

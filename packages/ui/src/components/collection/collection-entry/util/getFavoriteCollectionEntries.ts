@@ -1,4 +1,4 @@
-import { CollectionEntry } from "@repo/wrapper/server";
+import { CollectionEntry } from "../../../../../../wrapper/src/server";
 
 export default function getFavoriteCollectionEntries(
   collectionEntries: CollectionEntry[],

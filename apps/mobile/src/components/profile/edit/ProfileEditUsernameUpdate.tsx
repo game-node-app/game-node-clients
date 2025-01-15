@@ -3,7 +3,7 @@ import useUserId from "@/components/auth/hooks/useUserId";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { Button, Flex, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
-import { ProfileService } from "@/wrapper/server";
+import { ProfileService } from "@repo/wrapper/server";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { notifications } from "@mantine/notifications";
 

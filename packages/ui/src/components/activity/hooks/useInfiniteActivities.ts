@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { ActivitiesFeedService } from "@repo/wrapper/server";
+import { ActivitiesFeedService } from "../../../../../wrapper/src/server";
 
 interface UseActivitiesProps {
   criteria: "following" | "all";

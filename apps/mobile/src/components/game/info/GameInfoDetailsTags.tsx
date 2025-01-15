@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo } from "react";
-import { Game } from "@/wrapper/server";
+import { Game } from "@repo/wrapper/server";
 import { Badge, Group, Skeleton } from "@mantine/core";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { useGame } from "@/components/game/hooks/useGame";

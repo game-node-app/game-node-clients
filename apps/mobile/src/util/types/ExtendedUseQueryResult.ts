@@ -1,9 +1,5 @@
-import {
-    UseInfiniteQueryResult,
-    UseQueryResult,
-    InfiniteData,
-} from "@tanstack/react-query";
-import { ApiError } from "@/wrapper/server";
+import { UseInfiniteQueryResult, UseQueryResult, InfiniteData } from "@tanstack/react-query";
+import { ApiError } from "@repo/wrapper/server";
 
 export type ExtendedUseQueryResult<TData, TError = ApiError> = {
     queryKey: any[];
@@ -13,7 +9,4 @@ export type ExtendedUseQueryResult<TData, TError = ApiError> = {
 export type ExtendedUseInfiniteQueryResult<TData, TError = ApiError> = {
     queryKey: any[];
     invalidate: () => void;
-} & UseInfiniteQueryResult<
-    InfiniteData<TData>,
-    TError extends ApiError ? ApiError : unknown
->;
+} & UseInfiniteQueryResult<InfiniteData<TData>, TError extends ApiError ? ApiError : unknown>;

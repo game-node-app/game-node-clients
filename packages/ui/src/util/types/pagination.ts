@@ -1,5 +1,5 @@
-import { PaginationInfo } from "@repo/wrapper/server";
-import { schema_PaginationInfo } from "@repo/wrapper/search";
+import { PaginationInfo } from "../../../../wrapper/src/server";
+import { schema_PaginationInfo } from "../../../../wrapper/src/search";
 
 export type TPaginationInfoDto = PaginationInfo | schema_PaginationInfo;
 

@@ -3,7 +3,7 @@ import {
   IToggleLikeProps,
   useUserLike,
 } from "@/components/statistics/hooks/useUserLike";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { ActionIcon, Text } from "@mantine/core";
 import { redirectToAuth } from "supertokens-auth-react";
 import { IconThumbUp } from "@tabler/icons-react";

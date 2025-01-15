@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { UserComment } from "@/components/comment/types";
 import { useRenderedComments } from "@/components/comment/hooks/useRenderedComments";
-import { CreateCommentDto } from "@repo/wrapper/server";
+import { CreateCommentDto } from "../../../../../wrapper/src/server";
 import { Pagination, Stack } from "@mantine/core";
-import GameViewPagination from "@/components/game/view/GameViewPagination";
+import { GameViewPagination } from "@/components/game/view/GameViewPagination";
 import { getCommentSourceId } from "@/components/comment/util/getCommentSourceId";
 import { getCommentSourceType } from "@/components/comment/util/getCommentSourceType";
 

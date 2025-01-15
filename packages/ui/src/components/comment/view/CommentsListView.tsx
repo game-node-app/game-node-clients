@@ -11,11 +11,11 @@ import {
   Paper,
   Stack,
 } from "@mantine/core";
-import CommentsListItem from "@/components/comment/view/CommentsListItem";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import GameViewPagination from "@/components/game/view/GameViewPagination";
-import CommentEditorView from "@/components/comment/editor/CommentEditorView";
+import { CommentsListItem } from "@/components/comment/view/CommentsListItem";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { GameViewPagination } from "@/components/game/view/GameViewPagination";
+import { CommentEditorView } from "@/components/comment/editor/CommentEditorView";
 import { useRenderedComments } from "@/components/comment/hooks/useRenderedComments";
 
 interface Props extends Omit<UseCommentsProps, "limit" | "offset"> {}

@@ -1,4 +1,4 @@
-import { Game } from "@repo/wrapper/server";
+import { Game } from "../../../../../wrapper/src/server";
 import { SearchGame } from "@/components/game/search/utils/types";
 
 export type TGameOrSearchGame = Game | SearchGame;

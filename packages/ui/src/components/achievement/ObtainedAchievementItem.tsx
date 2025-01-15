@@ -1,5 +1,5 @@
 import React from "react";
-import AchievementItem from "@/components/achievement/AchievementItem";
+import { AchievementItem } from "@/components/achievement/AchievementItem";
 import { useAchievements } from "@/components/achievement/hooks/useAchievements";
 
 interface Props {

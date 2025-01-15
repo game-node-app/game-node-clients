@@ -1,4 +1,4 @@
-import { Report } from "@repo/wrapper/server";
+import { Report } from "../../../../../wrapper/src/server";
 
 export default function reportCategoryToString(category: string) {
   switch (category) {

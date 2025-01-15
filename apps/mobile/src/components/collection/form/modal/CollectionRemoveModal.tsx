@@ -2,7 +2,7 @@ import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { Button, Container, Group, Modal, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CollectionsService } from "@/wrapper/server";
+import { CollectionsService } from "@repo/wrapper/server";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { useCollection } from "@/components/collection/hooks/useCollection";

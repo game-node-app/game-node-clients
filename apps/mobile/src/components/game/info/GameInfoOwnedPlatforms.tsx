@@ -5,7 +5,7 @@ import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import { getGamePlatformInfo } from "@/components/game/util/getGamePlatformInfo";
 import { useGame } from "@/components/game/hooks/useGame";
 import { useQuery } from "@tanstack/react-query";
-import { CollectionsEntriesService, GameRepositoryService } from "@/wrapper/server";
+import { CollectionsEntriesService, GameRepositoryService } from "@repo/wrapper/server";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 
 interface IGameInfoOwnedPlatformsProps extends GroupProps {

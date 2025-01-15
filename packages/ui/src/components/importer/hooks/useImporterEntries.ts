@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ImporterPaginatedResponseDto,
   ImporterService,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 interface Props {

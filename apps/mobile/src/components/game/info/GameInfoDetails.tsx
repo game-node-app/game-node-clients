@@ -1,6 +1,6 @@
 import React from "react";
 import { SimpleGrid, Stack } from "@mantine/core";
-import { Game } from "@/wrapper/server";
+import { Game } from "@repo/wrapper/server";
 import { getLocalizedFirstReleaseDate } from "@/components/game/util/getLocalizedFirstReleaseDate";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import GameInfoPlatforms from "@/components/game/info/GameInfoPlatforms";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Activity } from "@/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useUserFollow } from "@/components/follow/hooks/useUserFollow";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { Box, Group, Paper, Text } from "@mantine/core";

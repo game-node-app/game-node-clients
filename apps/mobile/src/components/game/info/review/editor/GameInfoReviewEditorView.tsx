@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import GameInfoReviewEditor from "@/components/game/info/review/editor/GameInfoReviewEditor";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { z } from "zod";
-import { CreateReviewDto, ReviewsService } from "@/wrapper/server";
+import { CreateReviewDto, ReviewsService } from "@repo/wrapper/server";
 import { ActionIcon, Box, Button, Flex, Group, Rating, Stack, Text, Tooltip } from "@mantine/core";
 import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

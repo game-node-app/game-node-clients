@@ -5,7 +5,7 @@ import { DetailsBox } from "@/components/general/DetailsBox";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import ReviewCard from "@/components/general/card/ReviewCard";
 import { useTrendingReviews } from "@/components/statistics/hooks/useTrendingReviews";
-import { FindStatisticsTrendingReviewsDto } from "@/wrapper/server";
+import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
 
 const buildSkeletons = () => {
     const skeletons = [];
@@ -75,4 +75,3 @@ export const TrendingReviewCarousel = () => {
         )
     );
 };
-

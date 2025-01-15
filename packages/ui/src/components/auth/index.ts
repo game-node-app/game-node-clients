@@ -3,6 +3,5 @@
  */
 
 export * from "./SessionAuthWithRoles";
-export * from "./SuperTokensProvider";
 export * from "./roles";
 export * from "./hooks/index";

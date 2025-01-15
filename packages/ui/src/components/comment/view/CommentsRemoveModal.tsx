@@ -7,7 +7,7 @@ import {
   ApiError,
   CommentService,
   FindAllCommentsDto,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { notifications } from "@mantine/notifications";
 import { UserComment } from "@/components/comment/types";
 import { getCommentSourceType } from "@/components/comment/util/getCommentSourceType";

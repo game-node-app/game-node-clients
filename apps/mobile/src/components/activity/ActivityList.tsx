@@ -1,5 +1,5 @@
 import React from "react";
-import { Activity } from "@/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import ReviewActivityItem from "@/components/activity/item/ReviewActivityItem";
 import CollectionEntryActivityItem from "@/components/activity/item/CollectionEntryActivityItem";
 import UserFollowActivityItem from "@/components/activity/item/UserFollowActivityItem";
@@ -14,23 +14,11 @@ const ActivityList = ({ items }: Props) => {
     return items.map((activity) => {
         switch (activity.type) {
             case type.REVIEW:
-                return (
-                    <ReviewActivityItem key={activity.id} activity={activity} />
-                );
+                return <ReviewActivityItem key={activity.id} activity={activity} />;
             case type.COLLECTION_ENTRY:
-                return (
-                    <CollectionEntryActivityItem
-                        key={activity.id}
-                        activity={activity}
-                    />
-                );
+                return <CollectionEntryActivityItem key={activity.id} activity={activity} />;
             case type.FOLLOW:
-                return (
-                    <UserFollowActivityItem
-                        key={activity.id}
-                        activity={activity}
-                    />
-                );
+                return <UserFollowActivityItem key={activity.id} activity={activity} />;
         }
     });
 };

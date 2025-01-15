@@ -2,7 +2,7 @@ import {
   FindStatisticsTrendingGamesDto,
   GameStatisticsPaginatedResponseDto,
   StatisticsService,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import {
   keepPreviousData,
   useInfiniteQuery,

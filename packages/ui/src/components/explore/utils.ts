@@ -1,9 +1,9 @@
 import { ParsedUrlQuery } from "querystring";
-import { FindStatisticsTrendingGamesDto } from "@repo/wrapper/server";
+import { FindStatisticsTrendingGamesDto } from "../../../../wrapper/src/server";
 import period = FindStatisticsTrendingGamesDto.period;
 
-export const DEFAULT_EXPLORE_RESULT_LIMIT = 20;
-export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
+const DEFAULT_EXPLORE_RESULT_LIMIT = 20;
+const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
 
 export const DEFAULT_EXPLORE_TRENDING_GAMES_DTO: FindStatisticsTrendingGamesDto =
   {

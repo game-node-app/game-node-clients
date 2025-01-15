@@ -7,7 +7,7 @@ import {
     ApiError,
     schema_GameSearchRequestDto,
     SearchService,
-} from "@repo/wrapper/search";
+} from "../../../../../wrapper/src/search";
 
 const parseDto = (dto: GameSearchRequestDto) => {
     const parsedDto: schema_GameSearchRequestDto = {

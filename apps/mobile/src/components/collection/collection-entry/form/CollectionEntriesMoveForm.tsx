@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
 import { z } from "zod";
-import { CancelablePromise, CollectionsEntriesService, Game, GamePlatform } from "@/wrapper/server";
+import { CancelablePromise, CollectionsEntriesService, Game, GamePlatform } from "@repo/wrapper/server";
 import { Button, Combobox, ComboboxItem, MultiSelect, Stack, Text, TextInput, Title, useCombobox } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

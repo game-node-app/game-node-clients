@@ -12,15 +12,12 @@ import {
   Stack,
 } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { useAchievements } from "@/components/achievement/hooks/useAchievements";
-import AchievementItem from "@/components/achievement/AchievementItem";
-import UserLevelInfo from "@/components/user-level/UserLevelInfo";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import UserAvatarWithLevelInfo from "@/components/general/avatar/UserAvatarWithLevelInfo";
-import { useMutation } from "@tanstack/react-query";
-import RedeemAchievementCodeModal from "@/components/achievement/RedeemAchievementCodeModal";
 import { useDisclosure } from "@mantine/hooks";
+import { useUserId } from "../auth";
+import { useAchievements } from "./hooks";
+import { CenteredLoading, UserAvatarWithLevelInfo } from "../general";
+import { RedeemAchievementCodeModal } from "./RedeemAchievementCodeModal.tsx";
+import { AchievementItem } from "./AchievementItem.tsx";
 
 interface Props {
   targetUserId: string;

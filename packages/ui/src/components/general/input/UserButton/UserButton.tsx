@@ -6,10 +6,8 @@ import {
 } from "@mantine/core";
 import classes from "./UserButton.module.css";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import { useQuery } from "@tanstack/react-query";
-import { CollectionsEntriesService } from "@repo/wrapper/server";
-import useCollectionEntriesForUserId from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useCollectionEntriesForUserId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
 
 interface UserButtonProps extends UnstyledButtonProps {
   userId: string;

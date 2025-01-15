@@ -1,6 +1,6 @@
 import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
-import { UserConnectionDto } from "@/wrapper/server";
+import { UserConnectionDto } from "@repo/wrapper/server";
 import { Container } from "@mantine/core";
 import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonTitle, IonToolbar } from "@ionic/react";
 import PreferencesConnectionSetup from "@/components/preferences/connections/PreferencesConnectionSetup";

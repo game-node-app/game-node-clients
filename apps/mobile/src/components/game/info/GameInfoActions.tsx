@@ -3,7 +3,7 @@ import { ActionIcon, Button, Group, Stack, Tooltip, Text, Modal } from "@mantine
 import { IconHeartFilled, IconHeartPlus, IconShare, IconX } from "@tabler/icons-react";
 import CollectionEntryAddOrUpdateModal from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
-import { CollectionsEntriesService, Game } from "@/wrapper/server";
+import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import CollectionEntryRemoveModal from "@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";

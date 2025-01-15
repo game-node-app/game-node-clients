@@ -1,7 +1,7 @@
 import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { Container, Modal } from "@mantine/core";
-import CollectionEntriesMoveForm from "@/components/collection/collection-entry/form/CollectionEntriesMoveForm";
+import { CollectionEntriesMoveForm } from "@/components/collection/collection-entry/form/CollectionEntriesMoveForm";
 
 interface Props extends BaseModalProps {
   collectionId: string;

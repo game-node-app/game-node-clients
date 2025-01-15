@@ -9,16 +9,12 @@ import {
   Text,
 } from "@mantine/core";
 import classes from "./ReviewCard.module.css";
-import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { useReview } from "@/components/review/hooks/useReview";
-import { useGame } from "@/components/game/hooks/useGame";
-import {
-  getSizedImageUrl,
-  ImageSize,
-} from "@/components/game/util/getSizedImageUrl";
-import Link from "next/link";
-import GameRating from "@/components/general/input/GameRating";
+import { useOnMobile } from "../hooks/useOnMobile.ts";
+import { useReview } from "../../review";
+import { getSizedImageUrl, ImageSize, useGame } from "../../game";
+import { UserAvatarGroup } from "../avatar";
+import { GameRating } from "../input";
+import { Link } from "@/util";
 
 interface IProps {
   reviewId: string;

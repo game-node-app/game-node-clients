@@ -7,13 +7,11 @@ import {
 } from "@tabler/icons-react";
 import { GameViewContext } from "@/components/game/view/GameView";
 
-interface IGameViewLayoutSwitcherProps {
+export interface GameViewLayoutSwitcherProps {
   setLayout: React.Dispatch<SetStateAction<"grid" | "list">>;
 }
 
-const GameViewLayoutSwitcher = ({
-  setLayout,
-}: IGameViewLayoutSwitcherProps) => {
+const GameViewLayoutSwitcher = ({ setLayout }: GameViewLayoutSwitcherProps) => {
   const { layout } = useContext(GameViewContext);
 
   const handleLayoutChange = (changeTo: "grid" | "list") => {

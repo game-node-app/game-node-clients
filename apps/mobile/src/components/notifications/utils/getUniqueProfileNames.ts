@@ -1,4 +1,4 @@
-import { Notification } from "@/wrapper/server";
+import { Notification } from "@repo/wrapper/server";
 
 export default function getUniqueProfileNames(notifications: Notification[]) {
     const profileNameMap = new Map<string, string>();
@@ -7,10 +7,7 @@ export default function getUniqueProfileNames(notifications: Notification[]) {
 
         if (profileNameMap.has(notification.profile.username)) continue;
 
-        profileNameMap.set(
-            notification.profile.username,
-            notification.profile.username,
-        );
+        profileNameMap.set(notification.profile.username, notification.profile.username);
     }
 
     return [...profileNameMap.values()];

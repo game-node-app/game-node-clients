@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, ScrollArea } from "@mantine/core";
 import { BaseModalProps } from "@/util/types/modal-props";
 import FollowInfoList from "@/components/follow/list/FollowInfoList";
-import { FollowInfoRequestDto } from "@/wrapper/server";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import CenteredLoading from "@/components/general/CenteredLoading";
 

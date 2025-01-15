@@ -1,6 +1,6 @@
 import React from "react";
 import ItemCommentsButton from "@/components/comment/input/ItemCommentsButton";
-import { Activity, FindAllCommentsDto } from "@/wrapper/server";
+import { Activity, FindAllCommentsDto } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
 import { Container, Stack } from "@mantine/core";
 import CommentsListView from "@/components/comment/view/CommentsListView";

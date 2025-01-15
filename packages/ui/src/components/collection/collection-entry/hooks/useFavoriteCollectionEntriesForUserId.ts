@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 
 export function useFavoriteCollectionEntriesForUserId(
   userId: string,

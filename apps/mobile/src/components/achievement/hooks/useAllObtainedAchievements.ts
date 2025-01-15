@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AchievementDto, AchievementsService, ObtainedAchievement } from "@/wrapper/server";
+import { AchievementDto, AchievementsService, ObtainedAchievement } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 export function useAllObtainedAchievements(

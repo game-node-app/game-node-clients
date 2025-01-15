@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReportService } from "@repo/wrapper/server";
+import { ReportService } from "../../../../../wrapper/src/server";
 
 export function useReport(reportId: number) {
   return useQuery({

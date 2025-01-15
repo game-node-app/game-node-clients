@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
 import { Group, Text } from "@mantine/core";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import Link from "next/link";
+import { Link } from "@/util";
 
 const FollowerAggregatedNotification = ({
   aggregatedNotification,

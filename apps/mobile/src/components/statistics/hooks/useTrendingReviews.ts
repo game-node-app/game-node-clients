@@ -1,4 +1,4 @@
-import { FindStatisticsTrendingReviewsDto, StatisticsService } from "@/wrapper/server";
+import { FindStatisticsTrendingReviewsDto, StatisticsService } from "@repo/wrapper/server";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export function useTrendingReviews(dto: FindStatisticsTrendingReviewsDto) {

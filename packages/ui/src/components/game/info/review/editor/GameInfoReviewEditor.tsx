@@ -9,8 +9,8 @@ import { Box, BoxComponentProps, Menu } from "@mantine/core";
 import { JSONContent, ReactRenderer, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
-import useReviewForUserId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Editor } from "@tiptap/core";
 
@@ -33,7 +33,7 @@ const GameInfoReviewEditor = ({
   onBlur,
 }: IGameInfoReviewEditorProps) => {
   const userId = useUserId();
-  const reviewQuery = useReviewForUserId(userId, gameId);
+  const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
   const previousContent = useMemo(() => {
     return reviewQuery.data?.content || "";
   }, [reviewQuery.data]);

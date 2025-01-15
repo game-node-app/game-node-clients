@@ -1,9 +1,9 @@
 import React from "react";
 import { Carousel } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
-import useOnMobile from "../../general/hooks/useOnMobile.ts";
+import { useOnMobile } from "../../general/hooks/useOnMobile.ts";
 import { useTrendingReviews } from "../../statistics/hooks/useTrendingReviews.ts";
-import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
+import { FindStatisticsTrendingReviewsDto } from "../../../../../wrapper/src/server";
 import period = FindStatisticsTrendingReviewsDto.period;
 import { ReviewCard } from "../../general/card/ReviewCard";
 import { DetailsBox } from "../../general/DetailsBox";

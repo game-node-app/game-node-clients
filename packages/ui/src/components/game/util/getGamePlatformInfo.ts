@@ -3,7 +3,7 @@ import {
   isGameObject,
   isGameSearchObject,
 } from "@/components/game/util/isGameObject";
-import { Game } from "@repo/wrapper/server";
+import { Game } from "../../../../../wrapper/src/server";
 
 export interface IGamePlatformInfo {
   platformsIds: number[] | undefined;

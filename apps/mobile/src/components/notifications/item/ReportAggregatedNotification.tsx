@@ -3,13 +3,11 @@ import { AggregatedNotificationContentProps } from "@/components/notifications/A
 import { useReport } from "@/components/report/hooks/useReport";
 import NotificationSkeleton from "@/components/notifications/NotificationSkeleton";
 import { Avatar, Group, Text, ThemeIcon } from "@mantine/core";
-import { Report } from "@/wrapper/server";
+import { Report } from "@repo/wrapper/server";
 import closeHandleAction = Report.closeHandleAction;
 import { IconAlertCircleFilled } from "@tabler/icons-react";
 
-const ReportAggregatedNotification = ({
-    aggregatedNotification,
-}: AggregatedNotificationContentProps) => {
+const ReportAggregatedNotification = ({ aggregatedNotification }: AggregatedNotificationContentProps) => {
     const reportQuery = useReport(aggregatedNotification.sourceId as number);
 
     const alertShortText = useMemo(() => {
@@ -59,8 +57,7 @@ const ReportAggregatedNotification = ({
                 <Text>{alertShortText}</Text>
                 <Text>The reported content may have been deleted.</Text>
                 <Text className={"italic"}>
-                    If you think this is a mistake. Please reach out to us
-                    through our Discord.
+                    If you think this is a mistake. Please reach out to us through our Discord.
                 </Text>
             </div>
         </Group>

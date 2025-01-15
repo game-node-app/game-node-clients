@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Center, Group, Modal, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CollectionsEntriesService } from "@repo/wrapper/server";
+import { CollectionsEntriesService } from "../../../../../../../wrapper/src/server";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
   BaseModalProps,

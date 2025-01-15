@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewsService } from "@repo/wrapper/server";
+import { ReviewsService } from "../../../../../wrapper/src/server";
 
 export function useReviewsScore(gameId: number) {
   return useQuery({

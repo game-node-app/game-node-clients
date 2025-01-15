@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CollectionEntriesPaginatedResponseDto } from "@/wrapper/server";
+import { CollectionEntriesPaginatedResponseDto } from "@repo/wrapper/server";
 import { getCollectionEntriesByCollectionId } from "@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

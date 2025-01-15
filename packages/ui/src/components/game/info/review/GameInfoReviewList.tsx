@@ -1,18 +1,17 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Chip, Group, Pagination, Stack, Text } from "@mantine/core";
-import ReviewListItem from "@/components/review/view/ReviewListItem";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
+import { ReviewListItem } from "@/components/review/view/ReviewListItem";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { TBasePaginationRequest } from "@/util/types/pagination";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { useRouter } from "next/router";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { ParsedUrlQuery } from "querystring";
 import { useTrendingReviews } from "@/components/statistics/hooks/useTrendingReviews";
-import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
+import { FindStatisticsTrendingReviewsDto } from "../../../../../../wrapper/src/server";
 import { useReviews } from "@/components/review/hooks/useReviews";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import Link from "next/link";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
+import { Link } from "@/util/link";
 import period = FindStatisticsTrendingReviewsDto.period;
 
 interface IGameInfoReviewListProps {
@@ -28,34 +27,8 @@ export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto
     limit: DEFAULT_LIMIT,
   };
 
-const urlQueryToDto = (query: ParsedUrlQuery): TBasePaginationRequest => {
-  const dto: FindStatisticsTrendingReviewsDto = structuredClone(
-    DEFAULT_GAME_REVIEW_LIST_VIEW_DTO,
-  );
-  const { page } = query;
-  if (page && typeof page === "string") {
-    const pageInt = parseInt(page, 10);
-    dto.offset = DEFAULT_LIMIT * (pageInt - 1);
-  }
-
-  return dto;
-};
-
-const queryDtoToSearchParams = (dto: TBasePaginationRequest) => {
-  const searchParams = new URLSearchParams();
-  const limitToUse = dto.limit || DEFAULT_LIMIT;
-  if (dto.offset) {
-    const offsetAsPage =
-      dto.offset > limitToUse ? Math.ceil(dto.offset / limitToUse) : 1;
-    searchParams.set("page", `${offsetAsPage}`);
-  }
-  return searchParams;
-};
-
 const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
   const onMobile = useOnMobile();
-  const router = useRouter();
-  const { reviewId } = router.query;
   const ownUserId = useUserId();
   const hasSetInitialQueryParams = useRef(false);
   const [offset, setOffset] = useState(0);
@@ -64,9 +37,8 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
       ...DEFAULT_GAME_REVIEW_LIST_VIEW_DTO,
       offset: offset,
       gameId: gameId,
-      reviewId: reviewId as string | undefined,
     };
-  }, [offset, gameId, reviewId]);
+  }, [offset, gameId]);
   const trendingReviewsQuery = useTrendingReviews(trendingReviewsDto);
   const trendingReviewsPagination = trendingReviewsQuery.data?.pagination;
 
@@ -85,20 +57,6 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
 
   const handlePagination = (page: number) => {
     const offset = (page - 1) * DEFAULT_LIMIT;
-    const updatedDto: FindStatisticsTrendingReviewsDto = {
-      ...trendingReviewsDto,
-      offset,
-    };
-    const searchParams = queryDtoToSearchParams(updatedDto);
-    router.replace(
-      {
-        query: searchParams.toString(),
-      },
-      undefined,
-      {
-        shallow: true,
-      },
-    );
     setOffset(offset);
   };
 
@@ -161,15 +119,6 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
     <DetailsBox enabled={content != undefined} title={"Reviews"}>
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"}>
-          {reviewId && (
-            <Group className={"w-full"}>
-              <Link href={`/game/${gameId}`} shallow>
-                <Chip defaultChecked variant={"light"}>
-                  Showing a single review
-                </Chip>
-              </Link>
-            </Group>
-          )}
           {content}
         </Stack>
 

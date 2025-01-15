@@ -3,7 +3,7 @@ import {
   AchievementDto,
   AchievementsService,
   ObtainedAchievement,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 export function useAllObtainedAchievements(

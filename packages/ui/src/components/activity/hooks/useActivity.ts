@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ActivitiesService } from "@repo/wrapper/server";
+import { ActivitiesService } from "../../../../../wrapper/src/server";
 
 export function useActivity(activityId: string | undefined) {
   return useQuery({

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "@/components/game/info/review/editor/GameInfoReviewEditor";
 import { Box, Flex, Group, Spoiler, Stack } from "@mantine/core";
-import { FindOneStatisticsDto, Review } from "@/wrapper/server";
+import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import ReviewListItemDropdownButton from "@/components/review/view/ReviewListItemDropdownButton";
 import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";

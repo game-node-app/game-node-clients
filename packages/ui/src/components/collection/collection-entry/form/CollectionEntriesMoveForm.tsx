@@ -6,7 +6,7 @@ import {
   CollectionsEntriesService,
   Game,
   GamePlatform,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 import {
   Button,
   Combobox,
@@ -20,13 +20,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useGames } from "@/components/game/hooks/useGames";
-import { useRouter } from "next/router";
 
 const CollectionEntriesMoveFormSchema = z.object({
   gameIds: z
@@ -71,7 +70,6 @@ const CollectionEntriesMoveForm = ({
   collectionId,
   onClose,
 }: ICollectionEntriesMoveFormProps) => {
-  const router = useRouter();
   const { register, handleSubmit, setValue, watch, formState, setError } =
     useForm<CollectionEntriesMoveFormValues>({
       mode: "onSubmit",

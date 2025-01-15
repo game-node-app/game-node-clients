@@ -1,5 +1,5 @@
 import React from "react";
-import { Game, GameRepositoryFindOneDto } from "@/wrapper/server";
+import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useGame } from "@/components/game/hooks/useGame";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import GameInfoCarousel from "@/components/game/info/carousel/GameInfoCarousel";

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "@/components/follow/hooks/useFollowStatus";
 import {
   ActionIcon,
@@ -11,7 +11,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import UserFollowActions from "@/components/follow/input/UserFollowActions";
+import { UserFollowActions } from "@/components/follow/input/UserFollowActions";
 
 interface Props {
   targetUserId: string;

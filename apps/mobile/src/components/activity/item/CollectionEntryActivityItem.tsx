@@ -1,5 +1,5 @@
 import React from "react";
-import { Activity } from "@/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { useGame } from "@/components/game/hooks/useGame";
 import { getSizedImageUrl, ImageSize } from "@/components/game/util/getSizedImageUrl";

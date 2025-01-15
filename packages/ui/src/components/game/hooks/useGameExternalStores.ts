@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "@repo/wrapper/server";
+import { GameRepositoryService } from "../../../../../wrapper/src/server";
 
 export function useGameExternalStores(gameId: number) {
   return useQuery({

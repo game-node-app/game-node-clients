@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewsService } from "@repo/wrapper/server";
+import { ReviewsService } from "../../../../../wrapper/src/server";
 
-export default function useReviewsForUserId(
+export function useReviewsForUserId(
   userId: string,
   offset?: number,
   limit?: number,

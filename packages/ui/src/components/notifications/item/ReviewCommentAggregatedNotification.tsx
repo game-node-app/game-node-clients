@@ -6,15 +6,15 @@ import {
   FindAllCommentsDto,
   NotificationAggregateDto,
   ReviewComment,
-} from "@repo/wrapper/server";
-import getUniqueProfileNames from "@/components/notifications/utils/getUniqueProfileNames";
-import NotificationSkeleton from "@/components/notifications/NotificationSkeleton";
-import Link from "next/link";
+} from "../../../../../wrapper/src/server";
+import { getUniqueProfileNames } from "@/components/notifications/utils/getUniqueProfileNames";
+import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
+import { Link } from "@/util";
 import { Group, Text } from "@mantine/core";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import category = NotificationAggregateDto.category;
 import { useReview } from "@/components/review/hooks/useReview";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 
 const ReviewCommentAggregatedNotification = ({
   aggregatedNotification,

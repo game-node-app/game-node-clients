@@ -10,8 +10,8 @@ import {
 } from "@mantine/core";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { BarChart } from "@mantine/charts";
-import { ProfileMetricsOverviewDto } from "@repo/wrapper/server";
-import TextLink from "@/components/general/TextLink";
+import { ProfileMetricsOverviewDto } from "../../../../../wrapper/src/server";
+import { TextLink } from "@/components/general/TextLink";
 
 interface Props {
   userId: string;

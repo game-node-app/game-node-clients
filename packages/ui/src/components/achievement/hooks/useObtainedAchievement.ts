@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AchievementsService } from "@repo/wrapper/server/services/AchievementsService";
+import { AchievementsService } from "../../../../../wrapper/src/server";
 
 export function useObtainedAchievement(
   targetUserId: string,

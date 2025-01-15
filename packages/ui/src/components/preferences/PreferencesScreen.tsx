@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Box, Divider, Flex, Group, Paper, Stack } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import PreferencesScreenSideBar, {
+import {
   PreferencesActiveCategory,
+  PreferencesScreenSideBar,
 } from "@/components/preferences/PreferencesScreenSideBar";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import PreferencesScreenSelector from "@/components/preferences/PreferencesScreenSelector";
-import { useRouter } from "next/router";
-import PreferencesConnectionsScreen from "@/components/preferences/categories/PreferencesConnectionsScreen";
-import CenteredLoading from "@/components/general/CenteredLoading";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { PreferencesScreenSelector } from "@/components/preferences/PreferencesScreenSelector";
+import { PreferencesConnectionsScreen } from "@/components/preferences/categories/PreferencesConnectionsScreen";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { useRouter } from "@/util";
 
 interface Props {
   category: PreferencesActiveCategory;
@@ -19,7 +18,7 @@ const PreferencesScreen = ({ category }: Props) => {
   const onMobile = useOnMobile();
 
   const onCategoryChange = (category: PreferencesActiveCategory) => {
-    if (router.isReady) {
+    if (router) {
       router.push(`/preferences/${category}`);
     }
   };

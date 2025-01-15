@@ -1,5 +1,5 @@
 import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { ImporterPaginatedResponseDto, ImporterService } from "@/wrapper/server";
+import { ImporterPaginatedResponseDto, ImporterService } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Props {

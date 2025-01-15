@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { notifications } from "@mantine/notifications";
-import { Collection, CollectionsEntriesService, GamePlatform, GameRepositoryService } from "@/wrapper/server";
+import { Collection, CollectionsEntriesService, GamePlatform, GameRepositoryService } from "@repo/wrapper/server";
 import { useGame } from "@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";

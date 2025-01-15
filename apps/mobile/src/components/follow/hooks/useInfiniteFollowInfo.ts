@@ -1,4 +1,4 @@
-import { CancelablePromise, FollowInfoRequestDto, FollowInfoResponseDto, FollowService } from "@/wrapper/server";
+import { CancelablePromise, FollowInfoRequestDto, FollowInfoResponseDto, FollowService } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

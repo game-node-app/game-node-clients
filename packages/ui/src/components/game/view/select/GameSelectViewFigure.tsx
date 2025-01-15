@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from "react";
-import GameFigureImage, {
+import {
   IGameFigureProps,
+  GameFigureImage,
 } from "@/components/game/figure/GameFigureImage";
 import { Box, Center, Overlay, Stack, Text, ThemeIcon } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconCircleCheck, IconCircleCheckFilled } from "@tabler/icons-react";
+import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 
 export interface GameSelectViewFigureProps extends IGameFigureProps {

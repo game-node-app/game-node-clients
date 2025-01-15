@@ -1,17 +1,16 @@
 import React, { useEffect, useMemo } from "react";
 import { Box, Flex, Grid, Paper, Skeleton, Stack, Title } from "@mantine/core";
-import GameFigureImage from "@/components/game/figure/GameFigureImage";
-import GameInfoDetails from "@/components/game/info/GameInfoDetails";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import GameInfoActions from "@/components/game/info/GameInfoActions";
-import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
+import { GameFigureImage } from "@/components/game/figure/GameFigureImage";
+import { GameInfoDetails } from "@/components/game/info/GameInfoDetails";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { GameInfoActions } from "@/components/game/info/GameInfoActions";
+import { Game, GameRepositoryFindOneDto } from "../../../../../wrapper/src/server";
 import { ImageSize } from "@/components/game/util/getSizedImageUrl";
-import GameInfoImageCarousel from "@/components/game/info/carousel/GameInfoImageCarousel";
+import { GameInfoImageCarousel } from "@/components/game/info/carousel/GameInfoImageCarousel";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import Break from "@/components/general/Break";
+import { Break } from "@/components/general/Break";
 import { useGame } from "@/components/game/hooks/useGame";
-import Head from "next/head";
-import CenteredLoading from "@/components/general/CenteredLoading";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
 
 export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
   relations: {

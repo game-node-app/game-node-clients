@@ -1,5 +1,5 @@
 import React from "react";
-import { FollowInfoRequestDto } from "@/wrapper/server";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
 import { useInfiniteFollowInfo } from "@/components/follow/hooks/useInfiniteFollowInfo";
 import FollowInfoListModal from "@/components/follow/modal/FollowInfoListModal";

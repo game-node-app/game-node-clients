@@ -9,18 +9,17 @@ import {
   Badge,
   Flex,
 } from "@mantine/core";
-import GameFigureImage, {
+import {
   IGameFigureProps,
+  GameFigureImage,
 } from "@/components/game/figure/GameFigureImage";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import Link from "next/link";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { getLocalizedFirstReleaseDate } from "@/components/game/util/getLocalizedFirstReleaseDate";
 import { TGameOrSearchGame } from "@/components/game/util/types";
 import { getGameGenres } from "@/components/game/util/getGameGenres";
-import { getGamePlatformInfo } from "@/components/game/util/getGamePlatformInfo";
-import { getGameCategoryName } from "@/components/game/util/getGameCategoryName";
-import GameInfoPlatforms from "@/components/game/info/GameInfoPlatforms";
-import GameFigureWithQuickAdd from "@/components/game/figure/GameFigureWithQuickAdd";
+import { GameInfoPlatforms } from "@/components/game/info/GameInfoPlatforms";
+import { GameFigureWithQuickAdd } from "@/components/game/figure/GameFigureWithQuickAdd";
+import { Link } from "@/util";
 
 interface IGameListFigureProps {
   game: TGameOrSearchGame;

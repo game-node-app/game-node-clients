@@ -6,7 +6,7 @@ import {
 import {
   CollectionEntriesPaginatedResponseDto,
   FindCollectionEntriesOrderBy,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 import { getCollectionEntriesByCollectionId } from "@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

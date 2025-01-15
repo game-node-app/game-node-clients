@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ImporterWatchService } from "@/wrapper/server";
+import { ImporterWatchService } from "@repo/wrapper/server";
 
 export function useImporterNotification(notificationId: number) {
     return useQuery({

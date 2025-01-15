@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import { Collection } from "@repo/wrapper/server";
+import { Collection } from "../../../../../wrapper/src/server";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import {
   IconDots,
@@ -22,20 +22,19 @@ import {
   IconTrash,
   IconTrashOff,
 } from "@tabler/icons-react";
-import CollectionEntriesView from "@/components/collection/collection-entry/view/CollectionEntriesView";
+import { CollectionEntriesView } from "@/components/collection/collection-entry/view/CollectionEntriesView";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CollectionCreateOrUpdateModal from "@/components/collection/form/modal/CollectionCreateOrUpdateModal";
+import { CollectionCreateOrUpdateModal } from "@/components/collection/form/modal/CollectionCreateOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
-import CollectionEntriesMoveModal from "@/components/collection/collection-entry/form/modal/CollectionEntriesMoveModal";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { CollectionEntriesMoveModal } from "@/components/collection/collection-entry/form/modal/CollectionEntriesMoveModal";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useGames } from "@/components/game/hooks/useGames";
-import CollectionRemoveModal from "@/components/collection/form/modal/CollectionRemoveModal";
-import Head from "next/head";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import CollectionViewActions from "@/components/collection/form/CollectionViewActions";
-import SelectWithOrdering from "@/components/general/input/select/SelectWithOrdering";
+import { CollectionRemoveModal } from "@/components/collection/form/modal/CollectionRemoveModal";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { CollectionViewActions } from "@/components/collection/form/CollectionViewActions";
+import { SelectWithOrdering } from "@/components/general/input/select/SelectWithOrdering";
 
 interface ICollectionViewProps {
   libraryUserId: string;
@@ -122,11 +121,6 @@ const CollectionView = ({
 
   return (
     <Container fluid p={0} h={"100%"}>
-      {collection && profile && (
-        <Head>
-          <title>{`${profile.username} - ${collection.name} - GameNode`}</title>
-        </Head>
-      )}
       <Stack w={"100%"} h={"100%"} gap={0} align={"center"}>
         <Group className="w-[calc(100%-2rem)] mt-8 flex-nowrap justify-between">
           <Stack w={{ base: "70%", lg: "30%" }}>

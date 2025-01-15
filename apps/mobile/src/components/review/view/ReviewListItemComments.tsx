@@ -1,5 +1,5 @@
 import React from "react";
-import { FindAllCommentsDto, Review } from "@/wrapper/server";
+import { FindAllCommentsDto, Review } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
 import ItemCommentsButton from "@/components/comment/input/ItemCommentsButton";
 import CommentsViewModal from "@/components/comment/view/CommentsViewModal";

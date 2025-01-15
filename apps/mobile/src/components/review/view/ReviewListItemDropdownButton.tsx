@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateReportRequestDto, Review } from "@/wrapper/server";
+import { CreateReportRequestDto, Review } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
 import ReviewListItemRemoveModal from "@/components/review/view/ReviewListItemRemoveModal";
 import useUserId from "@/components/auth/hooks/useUserId";

@@ -6,7 +6,7 @@ import {
   ReviewStatistics,
   StatisticsService,
   StatisticsStatus,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

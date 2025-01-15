@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useInfiniteActivities } from "@/components/activity/hooks/useInfiniteActivities";
 import { Skeleton, Stack } from "@mantine/core";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 import { useIntersection } from "@mantine/hooks";
-import ActivityList from "@/components/activity/ActivityList";
+import { ActivityList } from "@/components/activity/ActivityList";
 
 interface Props {
   criteria: "following" | "all";

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FollowService } from "@repo/wrapper/server";
+import { FollowService } from "../../../../../wrapper/src/server";
 
 /**
  * Returns a UserFollow entity using it's id.

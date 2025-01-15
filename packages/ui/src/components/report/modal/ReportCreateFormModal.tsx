@@ -1,7 +1,8 @@
 import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
-import ReportCreateForm, {
+import {
   ReportCreateFormProps,
+  ReportCreateForm,
 } from "@/components/report/form/ReportCreateForm";
 import { Modal } from "@mantine/core";
 

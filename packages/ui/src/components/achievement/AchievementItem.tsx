@@ -9,7 +9,7 @@ import {
   Text,
   Overlay,
 } from "@mantine/core";
-import { AchievementDto } from "@repo/wrapper/server";
+import { AchievementDto } from "../../../../wrapper/src/server";
 import { getServerStoredIcon } from "../../util/getServerStoredImages.ts";
 import { AchievementLogo } from "./AchievementLogo";
 import { useObtainedAchievement } from "./hooks";

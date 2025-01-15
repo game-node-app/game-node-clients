@@ -24,7 +24,7 @@ import CollectionEntryAddOrUpdateModal from "@/components/collection/collection-
 import { useDisclosure } from "@mantine/hooks";
 import CollectionEntryRemoveModal from "@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import GameInfoReviewCreateUpdateModal from "@/components/game/info/review/editor/GameInfoReviewCreateUpdateModal";
-import { CollectionsEntriesService } from "@/wrapper/server";
+import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
 import GameInfoShareModal from "@/components/game/info/share/GameInfoShareModal";
 

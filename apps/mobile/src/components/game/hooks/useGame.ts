@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Game, GameRepositoryFindOneDto, GameRepositoryService } from "@/wrapper/server";
+import { Game, GameRepositoryFindOneDto, GameRepositoryService } from "@repo/wrapper/server";
 
 export function useGame(id: number | undefined, dto: GameRepositoryFindOneDto): UseQueryResult<Game | undefined> {
     return useQuery<Game | undefined>({

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ConnectionsService } from "@repo/wrapper/server";
+import { ConnectionsService } from "../../../../../wrapper/src/server";
 
 /**
  * Returns the connections persisted by the current logged-in user.

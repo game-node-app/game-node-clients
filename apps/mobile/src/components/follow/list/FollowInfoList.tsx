@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FollowInfoRequestDto, PaginationInfo } from "@/wrapper/server";
+import { FollowInfoRequestDto, PaginationInfo } from "@repo/wrapper/server";
 import { Divider, Group, Skeleton, Stack, Text } from "@mantine/core";
 import { useInfiniteFollowInfo } from "@/components/follow/hooks/useInfiniteFollowInfo";
 import UserAvatarWithFollowActions from "@/components/follow/input/UserAvatarWithFollowActions";

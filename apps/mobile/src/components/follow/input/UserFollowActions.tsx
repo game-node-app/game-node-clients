@@ -2,7 +2,7 @@ import React from "react";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "@/components/follow/hooks/useFollowStatus";
 import { useMutation } from "@tanstack/react-query";
-import { FollowInfoRequestDto, FollowService } from "@/wrapper/server";
+import { FollowInfoRequestDto, FollowService } from "@repo/wrapper/server";
 import { useInfiniteFollowInfo } from "@/components/follow/hooks/useInfiniteFollowInfo";
 import criteria = FollowInfoRequestDto.criteria;
 import { ActionIcon, Button, Group, Tooltip } from "@mantine/core";

@@ -1,4 +1,4 @@
-import { CollectionEntriesPaginatedResponseDto, CollectionsEntriesService } from "@/wrapper/server";
+import { CollectionEntriesPaginatedResponseDto, CollectionsEntriesService } from "@repo/wrapper/server";
 
 /**
  * Returns a list CollectionEntry entity, given any is available in the user's library for that

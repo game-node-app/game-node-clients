@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { CollectionEntry, Game } from "@repo/wrapper/server";
+import { CollectionEntry, Game } from "../../../../../../wrapper/src/server";
 import { Flex, Skeleton, Stack } from "@mantine/core";
-import GameView from "@/components/game/view/GameView";
-import CenteredLoading from "@/components/general/CenteredLoading";
+import { GameView } from "@/components/game/view/GameView";
 import { Box, Space } from "@mantine/core";
-import GameViewLayoutSwitcher from "@/components/game/view/GameViewLayoutSwitcher";
+import { GameViewLayoutSwitcher } from "@/components/game/view/GameViewLayoutSwitcher";
 import { IGameViewPaginationProps } from "@/components/game/view/GameViewPagination";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import SelectWithOrdering from "@/components/general/input/select/SelectWithOrdering";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
+import { SelectWithOrdering } from "@/components/general/input/select/SelectWithOrdering";
 
 interface ICollectionEntriesViewProps extends IGameViewPaginationProps {
   isLoading: boolean;

@@ -3,9 +3,12 @@ import { IconEdit } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
 import { ItemDropdownButtonProps } from "@/components/general/input/dropdown/types";
 
-interface Props extends ItemDropdownButtonProps {}
+export interface ItemDropdownEditButtonProps extends ItemDropdownButtonProps {}
 
-const ItemDropdownEditButton = ({ onClick, disabled = false }: Props) => {
+const ItemDropdownEditButton = ({
+  onClick,
+  disabled = false,
+}: ItemDropdownEditButtonProps) => {
   return (
     <Menu.Item
       onClick={onClick}

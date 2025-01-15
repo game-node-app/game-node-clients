@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Paper, Stack } from "@mantine/core";
-import GameInfoReviewEditorView from "@/components/game/info/review/editor/GameInfoReviewEditorView";
-import GameInfoReviewList from "@/components/game/info/review/GameInfoReviewList";
+import { GameInfoReviewEditorView } from "@/components/game/info/review/editor/GameInfoReviewEditorView";
+import { GameInfoReviewList } from "@/components/game/info/review/GameInfoReviewList";
 
 interface IGameInfoReviewViewProps {
   gameId: number;

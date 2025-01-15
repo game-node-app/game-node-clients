@@ -3,13 +3,13 @@ import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ConnectionsService, UserConnectionDto } from "@repo/wrapper/server";
+import { ConnectionsService, UserConnectionDto } from "../../../../../../wrapper/src/server";
 import { useOwnUserConnectionByType } from "@/components/connections/hooks/useOwnUserConnectionByType";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import { getCapitalizedText } from "@/util/getCapitalizedText";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 import { Button, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "@/components/connections/hooks/useAvailableConnections";
 

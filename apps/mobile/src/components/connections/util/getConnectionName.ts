@@ -1,4 +1,4 @@
-import { UserConnectionDto } from "@/wrapper/server";
+import { UserConnectionDto } from "@repo/wrapper/server";
 
 export const getConnectionName = (type: UserConnectionDto.type) => {
     switch (type) {

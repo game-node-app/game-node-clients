@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { CreateReportRequestDto, ReportService } from "@/wrapper/server";
+import { CreateReportRequestDto, ReportService } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
 import { Button, ComboboxItem, Select, Stack, Text, Textarea } from "@mantine/core";
 import reportCategoryToString, { reportCategoryToDescription } from "@/components/report/util/reportCategoryToString";

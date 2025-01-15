@@ -3,7 +3,7 @@ import { useProfileMetricsOverview } from "@/components/profile/hooks/useProfile
 import { Group, Popover, SimpleGrid, Stack, Text, Tooltip } from "@mantine/core";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { BarChart } from "@mantine/charts";
-import { ProfileMetricsOverviewDto } from "@/wrapper/server";
+import { ProfileMetricsOverviewDto } from "@repo/wrapper/server";
 import TextLink from "@/components/general/TextLink";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 

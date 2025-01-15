@@ -3,7 +3,7 @@ import {
   FollowInfoRequestDto,
   FollowInfoResponseDto,
   FollowService,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import {
   keepPreviousData,
   useInfiniteQuery,

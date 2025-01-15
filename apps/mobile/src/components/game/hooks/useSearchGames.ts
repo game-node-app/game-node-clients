@@ -1,6 +1,6 @@
 import { GameSearchRequestDto, GameSearchResponseDto } from "@/components/game/search/utils/types";
 import { keepPreviousData, useQuery, UseQueryResult } from "@tanstack/react-query";
-import { schema_GameSearchRequestDto, SearchService } from "@/wrapper/search";
+import { schema_GameSearchRequestDto, SearchService } from "@repo/wrapper/search";
 
 export const parseSearchGamesDto = (dto: GameSearchRequestDto) => {
     const parsedDto: schema_GameSearchRequestDto = {

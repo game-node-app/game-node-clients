@@ -6,14 +6,14 @@ import {
   FindAllCommentsDto,
   Notification,
   NotificationAggregateDto,
-} from "@repo/wrapper/server";
-import NotificationSkeleton from "@/components/notifications/NotificationSkeleton";
-import getUniqueProfileNames from "@/components/notifications/utils/getUniqueProfileNames";
+} from "../../../../../wrapper/src/server";
+import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
+import { getUniqueProfileNames } from "@/components/notifications/utils/getUniqueProfileNames";
 import category = NotificationAggregateDto.category;
 import { Group, Text } from "@mantine/core";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import Link from "next/link";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { Link } from "@/util";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useActivity } from "@/components/activity/hooks/useActivity";
 
 const ActivityCommentAggregatedNotification = ({

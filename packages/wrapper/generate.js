@@ -1,19 +1,19 @@
 const OpenAPI = require("@lamarcke/openapi-typescript-codegen");
 
 const inputs = [
-    {
-        input: "src/wrapper/input/server_swagger.json",
-        output: "src/wrapper/server",
-    },
-    {
-        input: "src/wrapper/input/search_swagger.json",
-        output: "src/wrapper/search",
-    },
+  {
+    input: "input/server_swagger.json",
+    output: "src/server",
+  },
+  {
+    input: "input/search_swagger.json",
+    output: "src/search",
+  },
 ];
 
 for (const input of inputs) {
-    OpenAPI.generate({
-        ...input,
-        httpClient: "fetch",
-    });
+  OpenAPI.generate({
+    ...input,
+    httpClient: "fetch",
+  });
 }

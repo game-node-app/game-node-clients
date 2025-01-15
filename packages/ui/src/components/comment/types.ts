@@ -1,3 +1,3 @@
-import { ActivityComment, ReviewComment } from "@repo/wrapper/server";
+import { ActivityComment, ReviewComment } from "../../../../wrapper/src/server";
 
 export type UserComment = ReviewComment | ActivityComment;

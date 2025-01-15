@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
 import { Group, Text } from "@mantine/core";
-import getUniqueProfileNames from "@/components/notifications/utils/getUniqueProfileNames";
-import Link from "next/link";
+import { getUniqueProfileNames } from "@/components/notifications/utils/getUniqueProfileNames";
+import { Link } from "@/util";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import { Notification, NotificationAggregateDto } from "@repo/wrapper/server";
+import { Notification, NotificationAggregateDto } from "../../../../../wrapper/src/server";
 import category = Notification.category;
 
 const ActivityAggregatedNotification = ({

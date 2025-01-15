@@ -1,9 +1,9 @@
 import React from "react";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import { AvatarProps, Stack, Text } from "@mantine/core";
-import UserLevelInfo from "@/components/user-level/UserLevelInfo";
-import Link from "next/link";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
+import { UserLevelInfo } from "@/components/user-level/UserLevelInfo";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { Link } from "@/util";
 
 const DateFormatter = new Intl.DateTimeFormat();
 

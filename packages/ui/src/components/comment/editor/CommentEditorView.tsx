@@ -7,11 +7,11 @@ import {
   LoadingOverlay,
   Stack,
 } from "@mantine/core";
-import CommentEditor from "@/components/comment/editor/CommentEditor";
+import { CommentEditor } from "@/components/comment/editor/CommentEditor";
 import { IconX } from "@tabler/icons-react";
 import { Editor } from "@tiptap/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
+import { CommentService, CreateCommentDto } from "../../../../../wrapper/src/server";
 import { notifications } from "@mantine/notifications";
 import { useComment } from "@/components/comment/hooks/useComment";
 import {

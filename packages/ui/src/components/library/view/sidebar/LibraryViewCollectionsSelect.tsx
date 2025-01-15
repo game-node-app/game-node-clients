@@ -7,7 +7,7 @@ import {
   Select,
   SelectProps,
 } from "@mantine/core";
-import { Library } from "@repo/wrapper/server";
+import { Library } from "../../../../../../wrapper/src/server";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 
 interface Props extends SelectProps {

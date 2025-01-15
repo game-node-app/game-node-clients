@@ -1,15 +1,16 @@
 import React, { PropsWithChildren, useContext, useMemo } from "react";
 import { Box, Divider, SimpleGrid, SimpleGridProps } from "@mantine/core";
 import { GameViewContext } from "@/components/game/view/GameView";
-import GameGridItem from "@/components/game/figure/GameGridItem";
-import GameListItem from "@/components/game/figure/GameListItem";
+import { GameGridItem } from "@/components/game/figure/GameGridItem";
+import { GameListItem } from "@/components/game/figure/GameListItem";
 import { TGameOrSearchGame } from "@/components/game/util/types";
 import { ImageSize } from "@/components/game/util/getSizedImageUrl";
 import { SearchGame } from "@/components/game/search/utils/types";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { Game } from "@repo/wrapper/server";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { Game } from "../../../../../wrapper/src/server";
 
-interface IMetadataGridContentProps extends PropsWithChildren<SimpleGridProps> {
+export interface GameViewContentProps
+  extends PropsWithChildren<SimpleGridProps> {
   items: TGameOrSearchGame[] | undefined;
 }
 
@@ -17,7 +18,7 @@ const GameViewContent = ({
   items,
   children,
   ...others
-}: IMetadataGridContentProps) => {
+}: GameViewContentProps) => {
   const onMobile = useOnMobile();
   const { layout } = useContext(GameViewContext);
   const columns = useMemo(() => {

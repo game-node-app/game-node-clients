@@ -8,7 +8,7 @@ import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAl
 import { useMutation } from "@tanstack/react-query";
 import { shuffleArray } from "@/util/shuffleArray";
 import { useDisclosure } from "@mantine/hooks";
-import { AchievementDto, AchievementsService } from "@/wrapper/server";
+import { AchievementDto, AchievementsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import { Link } from "react-router-dom";

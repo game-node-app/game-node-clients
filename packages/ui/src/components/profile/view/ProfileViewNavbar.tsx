@@ -1,12 +1,12 @@
 import React from "react";
 import { Group, GroupProps, SimpleGrid } from "@mantine/core";
-import ProfileViewNavbarLink from "@/components/profile/view/ProfileViewNavbarLink";
+import { ProfileViewNavbarLink } from "@/components/profile/view/ProfileViewNavbarLink";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import useCollectionEntriesForUserId from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
-import useReviewsForUserId from "@/components/review/hooks/useReviewsForUserId";
-import ProfileNavbarFollowInfo from "@/components/profile/view/ProfileNavbarFollowInfo";
-import { FollowInfoRequestDto } from "@repo/wrapper/server";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useCollectionEntriesForUserId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
+import { useReviewsForUserId } from "@/components/review/hooks/useReviewsForUserId";
+import { ProfileNavbarFollowInfo } from "@/components/profile/view/ProfileNavbarFollowInfo";
+import { FollowInfoRequestDto } from "../../../../../wrapper/src/server";
 import criteria = FollowInfoRequestDto.criteria;
 import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
 

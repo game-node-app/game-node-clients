@@ -1,7 +1,7 @@
 import {
   CollectionEntry,
   CollectionsEntriesService,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 
 /**
  * Returns a list CollectionEntry entity, given any is available in the current user's library.

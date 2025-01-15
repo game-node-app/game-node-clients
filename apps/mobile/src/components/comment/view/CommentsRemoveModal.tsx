@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CommentService } from "@/wrapper/server";
+import { CommentService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { UserComment } from "@/components/comment/types";
 import ActionConfirm from "@/components/general/ActionConfirm";

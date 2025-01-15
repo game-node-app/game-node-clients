@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { CreateReportRequestDto, FindOneStatisticsDto } from "@/wrapper/server";
+import { CreateReportRequestDto, FindOneStatisticsDto } from "@repo/wrapper/server";
 import { UserComment } from "@/components/comment/types";
 import { Group } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PlaytimeService } from "@repo/wrapper/server";
+import { PlaytimeService } from "../../../../../wrapper/src/server";
 
 export function usePlaytimeForGame(userId: string | undefined, gameId: number) {
   return useQuery({

@@ -1,4 +1,4 @@
-import { CommentService, FindAllCommentsDto } from "@repo/wrapper/server";
+import { CommentService, FindAllCommentsDto } from "../../../../../wrapper/src/server";
 import sourceType = FindAllCommentsDto.sourceType;
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { UserComment } from "../types";

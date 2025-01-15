@@ -8,7 +8,7 @@ import {
   CommentService,
   FindAllCommentsDto,
   FindCommentsPaginatedResponseDto,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 
 const DEFAULT_USE_COMMENTS_ORDER_BY = {
   createdAt: "DESC",

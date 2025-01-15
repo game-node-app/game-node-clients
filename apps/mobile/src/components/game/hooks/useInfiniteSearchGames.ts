@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { schema_GameSearchRequestDto, SearchService } from "@/wrapper/search";
+import { schema_GameSearchRequestDto, SearchService } from "@repo/wrapper/search";
 import { parseSearchGamesDto } from "@/components/game/hooks/useSearchGames";
 
 type InfiniteSearchGamesRequest = Omit<schema_GameSearchRequestDto, "page">;

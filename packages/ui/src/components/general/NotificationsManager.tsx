@@ -3,7 +3,7 @@ import {
   Notifications,
   notifications as notificationsManager,
 } from "@mantine/notifications";
-import { Notification } from "@repo/wrapper/server";
+import { Notification } from "../../../../wrapper/src/server";
 import { Text } from "@mantine/core";
 
 import category = Notification.category;

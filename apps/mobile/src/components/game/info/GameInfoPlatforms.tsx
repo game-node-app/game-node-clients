@@ -5,7 +5,7 @@ import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import { getGamePlatformInfo } from "@/components/game/util/getGamePlatformInfo";
 import { useGame } from "@/components/game/hooks/useGame";
 import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "@/wrapper/server";
+import { GameRepositoryService } from "@repo/wrapper/server";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
 
 interface IGameInfoPlatformsProps extends GroupProps {

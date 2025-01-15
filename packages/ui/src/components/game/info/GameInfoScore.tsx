@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useReviewsScore } from "@/components/review/hooks/useReviewsScore";
-import CenteredLoading from "@/components/general/CenteredLoading";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import {
   Box,
@@ -15,7 +15,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { IconStar } from "@tabler/icons-react";
-import GameRating from "@/components/general/input/GameRating";
+import { GameRating } from "@/components/general/input/GameRating";
 
 interface ScoreDistribution {
   rating: number;

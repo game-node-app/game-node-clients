@@ -1,4 +1,4 @@
-import { FindOneStatisticsDto, StatisticsActionDto, StatisticsQueueService } from "@/wrapper/server";
+import { FindOneStatisticsDto, StatisticsActionDto, StatisticsQueueService } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StatisticsWithStatus, useItemStatistics } from "@/components/statistics/hooks/useItemStatistics";
 import useUserId from "@/components/auth/hooks/useUserId";

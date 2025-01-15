@@ -1,16 +1,9 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import {
   FindStatisticsTrendingGamesDto,
-  FindStatisticsTrendingReviewsDto,
   GameRepositoryFilterDto,
-} from "@repo/wrapper/server";
+} from "../../../../wrapper/src/server";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -20,20 +13,13 @@ import {
   ComboboxItem,
   Drawer,
   Group,
-  LoadingOverlay,
   Select,
   SimpleGrid,
-  Stack,
 } from "@mantine/core";
-import ExploreScreenResourceSelector from "@/components/explore/ExploreScreenResourceSelector";
-import { useRouter } from "next/router";
+import { ExploreScreenResourceSelector } from "@/components/explore/ExploreScreenResourceSelector";
 import { IconAdjustments } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { GameResourceFilter } from "@/components/game/util/types";
-import {
-  exploreScreenDtoToSearchParams,
-  exploreScreenUrlQueryToDto,
-} from "@/components/explore/utils";
 import period = FindStatisticsTrendingGamesDto.period;
 
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
@@ -103,7 +89,6 @@ const ExploreScreenFilters = ({
   onFilterChange,
   hasLoadedQueryParams,
 }: Props) => {
-  const router = useRouter();
   const [drawerOpened, drawerUtils] = useDisclosure();
 
   const { handleSubmit, register, setValue, watch, formState } =
@@ -123,38 +108,10 @@ const ExploreScreenFilters = ({
         period: period as period,
         criteria: criteria as GameRepositoryFilterDto,
       };
-      const searchParams = exploreScreenDtoToSearchParams(updatedState);
-      router.replace(
-        {
-          query: searchParams.toString(),
-        },
-        undefined,
-        { shallow: false },
-      );
       return updatedState;
     });
     drawerUtils.close();
   };
-
-  useEffect(() => {
-    const query = router.query;
-    if (router.isReady && !hasLoadedQueryParams) {
-      const dto = exploreScreenUrlQueryToDto(query);
-      if (dto.criteria) {
-        for (const [k, v] of Object.entries(dto.criteria)) {
-          setValue(k as any, v);
-        }
-      }
-      setValue("period", dto.period);
-      onFilterChange((prevState) => ({ ...prevState, ...dto }));
-    }
-  }, [
-    hasLoadedQueryParams,
-    router.isReady,
-    router.query,
-    onFilterChange,
-    setValue,
-  ]);
 
   return (
     <Group justify={"space-between"} align={"center"} w={"100%"}>

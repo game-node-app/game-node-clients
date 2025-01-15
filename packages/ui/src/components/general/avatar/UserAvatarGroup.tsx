@@ -1,11 +1,11 @@
-import { Profile } from "@repo/wrapper/server";
-import Link from "next/link";
+import { Profile } from "../../../../../wrapper/src/server";
 import { AvatarProps, Group, GroupProps, Text, TextProps } from "@mantine/core";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import React from "react";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import Break from "@/components/general/Break";
+import { useUserProfile } from "../../profile/hooks/useUserProfile.ts";
+import { useOnMobile } from "../hooks/useOnMobile.ts";
+import { Link } from "../../../util";
+import { UserAvatar } from "./UserAvatar.tsx";
+import { Break } from "../Break.tsx";
 
 interface IProps {
   userId: string;

@@ -5,9 +5,12 @@ import {
 } from "@/components/profile/hooks/useProfileMetricsDistributionByType";
 import { Box } from "@mantine/core";
 import { LineChart, RadarChart } from "@mantine/charts";
-import { Game } from "@/wrapper/server";
+import { Game } from "@repo/wrapper/server";
 import category = Game.category;
-import { type ProfileMetricsTypeDistributionItem, ProfileMetricsTypeDistributionResponseDto } from "@/wrapper/server";
+import {
+    type ProfileMetricsTypeDistributionItem,
+    ProfileMetricsTypeDistributionResponseDto,
+} from "@repo/wrapper/server";
 import CenteredLoading from "@/components/general/CenteredLoading";
 
 interface Props {

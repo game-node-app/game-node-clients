@@ -1,5 +1,5 @@
 import { UserComment } from "@/components/comment/types";
-import { CreateCommentDto } from "@repo/wrapper/server";
+import { CreateCommentDto } from "../../../../../wrapper/src/server";
 
 export function getCommentSourceType(comment: UserComment) {
   if ("reviewId" in comment) {

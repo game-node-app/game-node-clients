@@ -2,7 +2,7 @@ import {
     FindStatisticsTrendingGamesDto,
     GameStatisticsPaginatedResponseDto,
     StatisticsService,
-} from "@/wrapper/server";
+} from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

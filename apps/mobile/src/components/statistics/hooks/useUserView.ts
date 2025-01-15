@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { FindOneStatisticsDto, StatisticsActionDto, StatisticsQueueService } from "@/wrapper/server";
+import { FindOneStatisticsDto, StatisticsActionDto, StatisticsQueueService } from "@repo/wrapper/server";
 import { useItemStatistics } from "@/components/statistics/hooks/useItemStatistics";
 import { useRef } from "react";
 

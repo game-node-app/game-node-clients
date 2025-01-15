@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { ApiError, Game, GameRepositoryService } from "@repo/wrapper/server";
+import { ApiError, Game, GameRepositoryService } from "../../../../../wrapper/src/server";
 
 export function useGamesResource<U extends keyof Game>(
   resourceName: U,

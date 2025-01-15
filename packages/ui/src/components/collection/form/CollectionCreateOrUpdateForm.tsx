@@ -3,14 +3,13 @@ import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Stack, TextInput, Text, Switch } from "@mantine/core";
-import { useRouter } from "next/router";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { ApiError, CollectionsService } from "@repo/wrapper/server";
+import { ApiError, CollectionsService } from "../../../../../wrapper/src/server";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import { useMutation } from "@tanstack/react-query";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
@@ -61,8 +60,6 @@ const CollectionCreateOrUpdateForm = ({
       },
     });
 
-  const router = useRouter();
-
   const collectionMutation = useMutation({
     mutationFn: async (data: CreateCollectionFormValues) => {
       if (existingCollection != undefined) {
@@ -96,11 +93,6 @@ const CollectionCreateOrUpdateForm = ({
     onSettled: () => {
       userLibraryQuery.invalidate();
       collectionQuery.invalidate();
-    },
-    onError: (error: ApiError) => {
-      if (error.status === 401) {
-        router.push("/auth");
-      }
     },
   });
 

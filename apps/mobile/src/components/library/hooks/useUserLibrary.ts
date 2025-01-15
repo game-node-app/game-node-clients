@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
-import { ApiError, LibrariesService, Library } from "@/wrapper/server";
+import { ApiError, LibrariesService, Library } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 import useUserId from "@/components/auth/hooks/useUserId";
 

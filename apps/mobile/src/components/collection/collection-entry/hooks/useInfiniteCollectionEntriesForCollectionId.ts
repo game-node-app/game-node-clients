@@ -1,5 +1,5 @@
 import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { CollectionEntriesPaginatedResponseDto, CollectionsEntriesService } from "@/wrapper/server";
+import { CollectionEntriesPaginatedResponseDto, CollectionsEntriesService } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UseInfiniteCollectionEntriesForCollectionIdProps {

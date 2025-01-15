@@ -1,4 +1,4 @@
-import { Game } from "@repo/wrapper/server";
+import { Game } from "../../../../../wrapper/src/server";
 import status = Game.status;
 
 export function getGameStatusText(statusNumber?: number) {

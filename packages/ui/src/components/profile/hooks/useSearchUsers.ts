@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   type schema_UserSearchRequestDto,
   SearchService,
-} from "@repo/wrapper/search";
+} from "../../../../../wrapper/src/search";
 
 export function useSearchUsers(searchParameters: schema_UserSearchRequestDto) {
   return useQuery({

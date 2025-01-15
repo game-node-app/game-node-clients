@@ -1,9 +1,9 @@
 import React from "react";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { Review, ReviewsService } from "@repo/wrapper/server";
+import { Review, ReviewsService } from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const UseReviewForUserIdAndGameId = (
+const useReviewForUserIdAndGameId = (
   userId: string | undefined,
   gameId: number | undefined,
 ): ExtendedUseQueryResult<Review> => {
@@ -38,4 +38,4 @@ const UseReviewForUserIdAndGameId = (
   };
 };
 
-export { UseReviewForUserIdAndGameId };
+export { useReviewForUserIdAndGameId };

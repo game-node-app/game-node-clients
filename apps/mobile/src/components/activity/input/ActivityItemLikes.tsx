@@ -1,9 +1,5 @@
 import React from "react";
-import {
-    Activity,
-    FindOneStatisticsDto,
-    StatisticsActionDto,
-} from "@/wrapper/server";
+import { Activity, FindOneStatisticsDto, StatisticsActionDto } from "@repo/wrapper/server";
 import ItemLikesButton from "@/components/statistics/input/ItemLikesButton";
 import sourceType = FindOneStatisticsDto.sourceType;
 

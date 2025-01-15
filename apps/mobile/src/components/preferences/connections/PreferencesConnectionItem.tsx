@@ -1,5 +1,5 @@
 import React from "react";
-import { UserConnectionDto } from "@/wrapper/server";
+import { UserConnectionDto } from "@repo/wrapper/server";
 import { useOwnUserConnectionByType } from "@/components/connections/hooks/useOwnUserConnectionByType";
 import { useDisclosure } from "@mantine/hooks";
 import { Group, Image } from "@mantine/core";

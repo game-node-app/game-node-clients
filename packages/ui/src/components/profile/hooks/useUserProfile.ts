@@ -1,9 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Profile, ProfileService } from "@repo/wrapper/server";
+import { Profile, ProfileService } from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import useUserId from "@/components/auth/hooks/useUserId";
 
-export default function useUserProfile(
+export function useUserProfile(
   userId: string | undefined,
 ): ExtendedUseQueryResult<Profile | undefined> {
   const queryClient = useQueryClient();

@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-    type schema_UserSearchRequestDto,
-    SearchService,
-} from "@/wrapper/search";
+import { type schema_UserSearchRequestDto, SearchService } from "@repo/wrapper/search";
 
 export function useSearchUsers(searchParameters: schema_UserSearchRequestDto) {
     return useQuery({
@@ -15,8 +12,6 @@ export function useSearchUsers(searchParameters: schema_UserSearchRequestDto) {
             });
         },
         enabled:
-            searchParameters != undefined &&
-            searchParameters.query != undefined &&
-            searchParameters.query.length > 2,
+            searchParameters != undefined && searchParameters.query != undefined && searchParameters.query.length > 2,
     });
 }

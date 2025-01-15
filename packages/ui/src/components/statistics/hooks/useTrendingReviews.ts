@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   FindStatisticsTrendingReviewsDto,
   StatisticsService,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 
 export function useTrendingReviews(dto: FindStatisticsTrendingReviewsDto) {
   return useQuery({

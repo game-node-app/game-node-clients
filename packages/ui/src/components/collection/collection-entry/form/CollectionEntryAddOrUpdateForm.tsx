@@ -7,7 +7,7 @@ import {
   Space,
   Title,
 } from "@mantine/core";
-import GameFigureImage from "@/components/game/figure/GameFigureImage";
+import { GameFigureImage } from "@/components/game/figure/GameFigureImage";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,17 +16,17 @@ import {
   Collection,
   CollectionsEntriesService,
   GamePlatform,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 import { useGame } from "@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useGamesResource } from "@/components/game/hooks/useGamesResource";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 import { DatePickerInput } from "@mantine/dates";
 import {
   EMatomoEventAction,

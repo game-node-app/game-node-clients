@@ -6,7 +6,7 @@ import { Button, Stack, Textarea, TextInput } from "@mantine/core";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useMutation } from "@tanstack/react-query";
-import { ProfileService } from "@/wrapper/server";
+import { ProfileService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 
 const BioForm = z.object({

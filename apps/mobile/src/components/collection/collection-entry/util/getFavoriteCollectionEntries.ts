@@ -1,7 +1,5 @@
-import { CollectionEntry } from "@/wrapper/server";
+import { CollectionEntry } from "@repo/wrapper/server";
 
-export default function getFavoriteCollectionEntries(
-    collectionEntries: CollectionEntry[],
-) {
+export default function getFavoriteCollectionEntries(collectionEntries: CollectionEntry[]) {
     return collectionEntries.filter((collection) => collection.isFavorite);
 }

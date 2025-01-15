@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
 import { useComment } from "@/components/comment/hooks/useComment";
-import { ActivityComment, FindAllCommentsDto, NotificationAggregateDto } from "@/wrapper/server";
+import { ActivityComment, FindAllCommentsDto, NotificationAggregateDto } from "@repo/wrapper/server";
 import NotificationSkeleton from "@/components/notifications/NotificationSkeleton";
 import getUniqueProfileNames from "@/components/notifications/utils/getUniqueProfileNames";
 import { Group, Text } from "@mantine/core";

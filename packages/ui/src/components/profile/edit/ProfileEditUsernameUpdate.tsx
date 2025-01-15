@@ -4,8 +4,8 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import useUserId from "@/components/auth/hooks/useUserId";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
+import { useUserId } from "@/components/auth/hooks/useUserId";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
 import {
   Button,
   Flex,
@@ -19,7 +19,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
-import { CancelablePromise, ProfileService } from "@repo/wrapper/server";
+import { CancelablePromise, ProfileService } from "../../../../../wrapper/src/server";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { notifications } from "@mantine/notifications";
 import { IconCircle } from "@tabler/icons-react";

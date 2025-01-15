@@ -1,8 +1,8 @@
 import React from "react";
-import { Activity } from "@repo/wrapper/server";
-import ReviewActivityItem from "@/components/activity/item/ReviewActivityItem";
-import CollectionEntryActivityItem from "@/components/activity/item/CollectionEntryActivityItem";
-import UserFollowActivityItem from "@/components/activity/item/UserFollowActivityItem";
+import { Activity } from "../../../../wrapper/src/server";
+import { ReviewActivityItem } from "@/components/activity/item/ReviewActivityItem";
+import { CollectionEntryActivityItem } from "@/components/activity/item/CollectionEntryActivityItem";
+import { UserFollowActivityItem } from "@/components/activity/item/UserFollowActivityItem";
 import type = Activity.type;
 
 interface Props {

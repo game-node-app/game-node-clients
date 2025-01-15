@@ -2,16 +2,16 @@ import React, { useMemo } from "react";
 import {
   CreateReportRequestDto,
   FindOneStatisticsDto,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { UserComment } from "@/components/comment/types";
 import { Group } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
-import ItemDropdown from "@/components/general/input/dropdown/ItemDropdown";
-import CommentsRemoveModal from "@/components/comment/view/CommentsRemoveModal";
+import { useUserId } from "@/components/auth/hooks/useUserId";
+import { ItemDropdown } from "@/components/general/input/dropdown/ItemDropdown";
+import { CommentsRemoveModal } from "@/components/comment/view/CommentsRemoveModal";
 import { useDisclosure } from "@mantine/hooks";
-import ReportCreateFormModal from "@/components/report/modal/ReportCreateFormModal";
-import ItemLikesButton from "@/components/statistics/input/ItemLikesButton";
-import CommentsThreadButton from "@/components/comment/input/CommentsThreadButton";
+import { ReportCreateFormModal } from "@/components/report/modal/ReportCreateFormModal";
+import { ItemLikesButton } from "@/components/statistics/input/ItemLikesButton";
+import { CommentsThreadButton } from "@/components/comment/input/CommentsThreadButton";
 
 interface Props {
   comment: UserComment;

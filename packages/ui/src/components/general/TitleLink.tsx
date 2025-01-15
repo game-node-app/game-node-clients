@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Title, TitleProps } from "@mantine/core";
-import Link from "next/link";
+import { Link } from "@/util";
 
 interface ITitleLinkProps extends PropsWithChildren<TitleProps> {
   href: string;

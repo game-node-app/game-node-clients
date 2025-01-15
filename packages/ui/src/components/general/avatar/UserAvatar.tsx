@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps } from "@mantine/core";
-import { ProfileAvatar } from "@repo/wrapper/server";
+import { ProfileAvatar } from "../../../../../wrapper/src/server";
 import { getServerStoredUpload } from "@/util/getServerStoredImages";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
 import { PropsWithChildren } from "react";
 
 interface UserAvatarProps extends AvatarProps {

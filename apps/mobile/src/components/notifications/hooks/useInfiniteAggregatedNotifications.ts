@@ -1,5 +1,5 @@
 import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { NotificationsService, PaginatedNotificationAggregationDto } from "@/wrapper/server";
+import { NotificationsService, PaginatedNotificationAggregationDto } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import useUserId from "@/components/auth/hooks/useUserId";
 

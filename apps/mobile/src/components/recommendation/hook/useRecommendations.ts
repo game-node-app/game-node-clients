@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { RecommendationService } from "@/wrapper/server";
+import { RecommendationService } from "@repo/wrapper/server";
 
 export type RecommendationCriteria = "finished" | "genre" | "theme";
 

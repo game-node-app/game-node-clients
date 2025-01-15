@@ -1,19 +1,19 @@
 import React from "react";
 import { Box, Group, Overlay, Stack, Text, Title } from "@mantine/core";
-import { Activity } from "@repo/wrapper/server";
+import { Activity } from "../../../../../wrapper/src/server";
 import { useReview } from "@/components/review/hooks/useReview";
 import { useGame } from "@/components/game/hooks/useGame";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "@/components/game/util/getSizedImageUrl";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import ActivityItemLikes from "@/components/activity/input/ActivityItemLikes";
-import GameRating from "@/components/general/input/GameRating";
-import Link from "next/link";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { ActivityItemLikes } from "@/components/activity/input/ActivityItemLikes";
+import { GameRating } from "@/components/general/input/GameRating";
+import { Link } from "@/util";
 import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
-import ActivityCreateDate from "@/components/activity/item/ActivityCreateDate";
-import ActivityItemComments from "@/components/activity/input/ActivityItemComments";
+import { ActivityCreateDate } from "@/components/activity/item/ActivityCreateDate";
+import { ActivityItemComments } from "@/components/activity/input/ActivityItemComments";
 import { ActivityItemProps } from "@/components/activity/types";
 
 interface Props extends ActivityItemProps {}

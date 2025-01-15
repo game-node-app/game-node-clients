@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useInfiniteAggregatedNotifications } from "@/components/notifications/hooks/useInfiniteAggregatedNotifications";
 import { useMutation } from "@tanstack/react-query";
-import { NotificationsService } from "@/wrapper/server";
-import { Notification } from "@/wrapper/server";
+import { NotificationsService } from "@repo/wrapper/server";
+import { Notification } from "@repo/wrapper/server";
 import {
     IonBackButton,
     IonButton,

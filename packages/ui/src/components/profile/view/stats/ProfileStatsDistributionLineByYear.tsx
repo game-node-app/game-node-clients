@@ -6,8 +6,8 @@ import {
   useProfileMetricsDistributionByYear,
 } from "@/components/profile/hooks/useProfileMetricsDistributionByYear";
 import { LineChart, LineChartSeries } from "@mantine/charts";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { ProfileMetricsYearDistributionItem } from "@repo/wrapper/server";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { ProfileMetricsYearDistributionItem } from "../../../../../../wrapper/src/server";
 
 interface Props {
   userId: string;

@@ -1,4 +1,4 @@
-import { CollectionEntry, CollectionsEntriesService } from "@/wrapper/server";
+import { CollectionEntry, CollectionsEntriesService } from "@repo/wrapper/server";
 
 /**
  * Returns a list CollectionEntry entity, given any is available in the current user's library.

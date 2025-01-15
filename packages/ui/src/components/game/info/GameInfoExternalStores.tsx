@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "@repo/wrapper/server";
+import { GameRepositoryService } from "../../../../../wrapper/src/server";
 import {
   Group,
   GroupProps,
@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { useGameExternalStores } from "@/components/game/hooks/useGameExternalStores";
 
 interface Props extends GroupProps {

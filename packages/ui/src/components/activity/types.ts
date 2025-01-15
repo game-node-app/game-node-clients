@@ -1,4 +1,4 @@
-import { Activity } from "@repo/wrapper/server";
+import { Activity } from "../../../../wrapper/src/server";
 
 export interface ActivityItemProps {
   activity: Activity;

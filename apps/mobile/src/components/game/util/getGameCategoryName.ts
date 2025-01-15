@@ -1,4 +1,4 @@
-import { Game } from "@/wrapper/server";
+import { Game } from "@repo/wrapper/server";
 
 /**
  * Based on a game's category id, retrieves its readable name.

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { useRouter } from "next/router";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { Anchor, Button, Divider, Drawer, Image, Stack } from "@mantine/core";
 import {
   useDisclosure,
@@ -13,7 +12,6 @@ import {
  * @constructor
  */
 const OpenInAppDialog = () => {
-  const router = useRouter();
   const onMobile = useOnMobile();
 
   /**
@@ -33,7 +31,7 @@ const OpenInAppDialog = () => {
     if (
       !isFirstRender &&
       onMobile &&
-      router.pathname !== "/" &&
+      window.location.pathname !== "/" &&
       !hasBeenClosed
     ) {
       open();
@@ -43,7 +41,7 @@ const OpenInAppDialog = () => {
     isFirstRender,
     onMobile,
     open,
-    router.pathname,
+    window.location.pathname,
     setHasBeenClosed,
   ]);
 

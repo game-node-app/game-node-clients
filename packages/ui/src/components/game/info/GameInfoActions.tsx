@@ -14,15 +14,15 @@ import {
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import CollectionEntryAddOrUpdateModal from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
+import { CollectionEntryAddOrUpdateModal } from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
-import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
+import { CollectionsEntriesService, Game } from "../../../../../wrapper/src/server";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import CollectionEntryRemoveModal from "@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
-import GameInfoShare from "@/components/game/info/share/GameInfoShare";
-import useReviewForUserIdAndGameId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { CollectionEntryRemoveModal } from "@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
+import { GameInfoShare } from "@/components/game/info/share/GameInfoShare";
+import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProfileMetricsService } from "@repo/wrapper/server";
+import { ProfileMetricsService } from "../../../../../wrapper/src/server";
 
 export type ProfileMetricsDistributionTypeBy =
   | "genre"

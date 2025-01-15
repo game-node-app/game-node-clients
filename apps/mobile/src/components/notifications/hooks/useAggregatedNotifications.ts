@@ -1,6 +1,10 @@
 import useUserId from "@/components/auth/hooks/useUserId";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { NotificationAggregateDto, NotificationsService, PaginatedNotificationAggregationDto } from "@/wrapper/server";
+import {
+    NotificationAggregateDto,
+    NotificationsService,
+    PaginatedNotificationAggregationDto,
+} from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 export function useAggregatedNotifications(

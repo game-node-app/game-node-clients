@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { NotificationAggregateDto } from "@/wrapper/server";
+import { NotificationAggregateDto } from "@repo/wrapper/server";
 import ReviewAggregatedNotification from "@/components/notifications/item/ReviewAggregatedNotification";
 import FollowerAggregatedNotification from "@/components/notifications/item/FollowerAggregatedNotification";
 import { Notification } from "@mantine/core";

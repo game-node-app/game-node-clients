@@ -1,5 +1,5 @@
 import React from "react";
-import getTimeSinceString from "@/util/getTimeSinceString";
+import { getTimeSinceString } from "@/util/getTimeSinceString";
 import { Text } from "@mantine/core";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CollectionsEntriesService } from "@/wrapper/server";
+import { CollectionsEntriesService } from "@repo/wrapper/server";
 
 export function useFavoriteCollectionEntriesForUserId(userId: string, offset: number = 0, limit: number = 10) {
     return useQuery({

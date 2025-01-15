@@ -1,4 +1,4 @@
-import { FindStatisticsTrendingGamesDto, StatisticsService } from "@/wrapper/server";
+import { FindStatisticsTrendingGamesDto, StatisticsService } from "@repo/wrapper/server";
 import { useQuery } from "@tanstack/react-query";
 
 export function useTrendingGames(dto: FindStatisticsTrendingGamesDto) {

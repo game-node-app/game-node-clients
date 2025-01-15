@@ -3,9 +3,13 @@ import { ItemDropdownButtonProps } from "@/components/general/input/dropdown/typ
 import { IconTrashOff } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
 
-interface Props extends ItemDropdownButtonProps {}
+export interface ItemDropdownRemoveButtonProps
+  extends ItemDropdownButtonProps {}
 
-const ItemDropdownRemoveButton = ({ onClick, disabled }: Props) => {
+const ItemDropdownRemoveButton = ({
+  onClick,
+  disabled,
+}: ItemDropdownRemoveButtonProps) => {
   return (
     <Menu.Item
       c={"red"}

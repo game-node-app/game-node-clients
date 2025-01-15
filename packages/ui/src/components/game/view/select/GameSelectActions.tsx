@@ -2,12 +2,15 @@ import React from "react";
 import { ActionIcon, Group, Tooltip } from "@mantine/core";
 import { IconSquareCheck, IconSquareCheckFilled } from "@tabler/icons-react";
 
-interface Props {
+export interface GameSelectActionsProps {
   isAllGamesSelected: boolean;
   onSelectAll: () => void;
 }
 
-const GameSelectActions = ({ onSelectAll, isAllGamesSelected }: Props) => {
+const GameSelectActions = ({
+  onSelectAll,
+  isAllGamesSelected,
+}: GameSelectActionsProps) => {
   return (
     <Group wrap={"nowrap"} gap={"xs"}>
       <Tooltip label={"Select all items"}>

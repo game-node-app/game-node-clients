@@ -9,19 +9,19 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useGame } from "@/components/game/hooks/useGame";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
-import GameFigureImage from "@/components/game/figure/GameFigureImage";
-import useReviewForUserIdAndGameId from "@/components/review/hooks/useReviewForUserIdAndGameId";
+import { GameFigureImage } from "@/components/game/figure/GameFigureImage";
+import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import GameInfoPlatforms from "@/components/game/info/GameInfoPlatforms";
+import { GameInfoPlatforms } from "@/components/game/info/GameInfoPlatforms";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import GameInfoOwnedPlatforms from "@/components/game/info/GameInfoOwnedPlatforms";
-import GameNodeLogo from "@/components/general/GameNodeLogo";
+import { GameInfoOwnedPlatforms } from "@/components/game/info/GameInfoOwnedPlatforms";
+import { GameNodeLogo } from "@/components/general/GameNodeLogo";
 import { UseFormWatch } from "react-hook-form";
 import { ShareFormValues } from "@/components/game/info/share/GameInfoShare";
-import GameRating from "@/components/general/input/GameRating";
+import { GameRating } from "@/components/general/input/GameRating";
 import { ImageSize } from "@/components/game/util/getSizedImageUrl";
 
 interface SharePreviewProps {

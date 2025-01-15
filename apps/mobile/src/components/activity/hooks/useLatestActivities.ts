@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ActivitiesService } from "@/wrapper/server";
+import { ActivitiesService } from "@repo/wrapper/server";
 
 export function useLatestActivities(userId: string | undefined, offset = 0, limit = 10) {
     return useQuery({

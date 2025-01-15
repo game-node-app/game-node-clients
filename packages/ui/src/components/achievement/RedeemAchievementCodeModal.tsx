@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
 import { Button, Modal, Stack, TextInput } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
-import { AchievementsCodeService } from "@repo/wrapper/server";
+import { AchievementsCodeService } from "../../../../wrapper/src/server";
 import { notifications } from "@mantine/notifications";
+import { BaseModalProps } from "../../util";
 
 interface Props extends BaseModalProps {}
 

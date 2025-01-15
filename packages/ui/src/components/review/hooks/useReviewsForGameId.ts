@@ -1,5 +1,5 @@
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { FindReviewPaginatedDto, ReviewsService } from "@repo/wrapper/server";
+import { FindReviewPaginatedDto, ReviewsService } from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TBasePaginationRequest } from "@/util/types/pagination";
 

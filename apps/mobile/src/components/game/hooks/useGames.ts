@@ -1,4 +1,4 @@
-import { Game, GameRepositoryFindAllDto, GameRepositoryService } from "@/wrapper/server";
+import { Game, GameRepositoryFindAllDto, GameRepositoryService } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 

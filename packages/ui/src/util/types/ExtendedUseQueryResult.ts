@@ -3,7 +3,7 @@ import {
   UseQueryResult,
   InfiniteData,
 } from "@tanstack/react-query";
-import { ApiError } from "@repo/wrapper/server";
+import { ApiError } from "../../../../wrapper/src/server";
 
 export type ExtendedUseQueryResult<TData, TError = ApiError> = {
   queryKey: any[];

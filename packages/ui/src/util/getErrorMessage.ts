@@ -1,6 +1,6 @@
-import { ApiError as SearchAPIError } from "@repo/wrapper/search";
-import { ApiError as ServerAPIError } from "@repo/wrapper/server";
-import { type ApiError } from "@repo/wrapper/server";
+import { ApiError as SearchAPIError } from "../../../wrapper/src/search";
+import { ApiError as ServerAPIError } from "../../../wrapper/src/server";
+import { type ApiError } from "../../../wrapper/src/server";
 
 export function getErrorMessage(err: Error | ApiError): string {
   if (err instanceof SearchAPIError || err instanceof ServerAPIError) {

@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 
-export default function useCollectionEntriesForUserId(
+export function useCollectionEntriesForUserId(
   userId: string,
   offset = 0,
   limit = 20,

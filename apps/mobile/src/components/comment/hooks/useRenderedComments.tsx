@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import { Divider, Group } from "@mantine/core";
 import CommentEditorView from "@/components/comment/editor/CommentEditorView";
 import CommentsListItem from "@/components/comment/view/CommentsListItem";
-import { CreateCommentDto } from "@/wrapper/server";
+import { CreateCommentDto } from "@repo/wrapper/server";
 
 interface UseRenderedCommentsProps {
     data: UserComment[];

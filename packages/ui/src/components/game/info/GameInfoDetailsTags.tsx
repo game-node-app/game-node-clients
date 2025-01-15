@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useMemo } from "react";
-import { Game } from "@repo/wrapper/server";
+import { Game } from "../../../../../wrapper/src/server";
 import { getGameGenres } from "@/components/game/util/getGameGenres";
 import { getGameThemes } from "@/components/game/util/getGameThemes";
 import { Badge, Group, Skeleton } from "@mantine/core";
@@ -8,8 +8,8 @@ import { getGamePerspectives } from "@/components/game/util/getGamePerspectives"
 import { shuffleArray } from "@/util/shuffleArray";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { useGame } from "@/components/game/hooks/useGame";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import Link from "next/link";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { Link } from "@/util";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
 
 interface TagBuilderElement {

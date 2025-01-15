@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { UserConnectionDto } from "@/wrapper/server";
+import { UserConnectionDto } from "@repo/wrapper/server";
 import { Button, Image, Paper, Stack, Title } from "@mantine/core";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import { Link } from "react-router-dom";

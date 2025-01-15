@@ -1,4 +1,4 @@
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import {
   keepPreviousData,
   useQuery,
@@ -8,7 +8,7 @@ import {
   NotificationAggregateDto,
   NotificationsService,
   PaginatedNotificationAggregationDto,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 export function useAggregatedNotifications(

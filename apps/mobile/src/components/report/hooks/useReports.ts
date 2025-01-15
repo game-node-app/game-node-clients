@@ -1,5 +1,5 @@
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { PaginatedReportResponseDto, ReportService } from "@/wrapper/server";
+import { PaginatedReportResponseDto, ReportService } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useReports(

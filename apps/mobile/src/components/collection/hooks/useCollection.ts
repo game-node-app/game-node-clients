@@ -1,5 +1,5 @@
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { Collection, CollectionsService } from "@/wrapper/server";
+import { Collection, CollectionsService } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCollection(collectionId: string | undefined | null): ExtendedUseQueryResult<Collection> {

@@ -1,8 +1,9 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import { TGameOrSearchGame } from "@/components/game/util/types";
 import { SimpleGrid, SimpleGridProps } from "@mantine/core";
-import GameSelectViewFigure, {
+import {
   GameSelectViewFigureProps,
+  GameSelectViewFigure,
 } from "@/components/game/view/select/GameSelectViewFigure";
 
 type SelectedProps = Pick<
@@ -13,7 +14,8 @@ type SelectedProps = Pick<
   | "onExcludedItemClick"
 >;
 
-interface Props extends PropsWithChildren<SimpleGridProps & SelectedProps> {
+export interface GameSelectViewContentProps
+  extends PropsWithChildren<SimpleGridProps & SelectedProps> {
   items: TGameOrSearchGame[];
 }
 
@@ -36,7 +38,7 @@ const GameSelectViewContent = ({
   excludeItemsInLibrary,
   onExcludedItemClick,
   ...others
-}: Props) => {
+}: GameSelectViewContentProps) => {
   const columns = useMemo(() => {
     if (items == undefined || items.length === 0) {
       return null;

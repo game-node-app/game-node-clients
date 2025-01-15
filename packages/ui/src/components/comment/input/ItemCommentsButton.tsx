@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { CreateCommentDto } from "@repo/wrapper/server";
+import { CreateCommentDto } from "../../../../../wrapper/src/server";
 import sourceType = CreateCommentDto.sourceType;
 import {
   useComments,

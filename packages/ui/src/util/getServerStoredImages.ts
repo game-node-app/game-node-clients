@@ -1,7 +1,8 @@
-import { serverUrl } from "@/util/constants";
+import { OpenAPI as ServerOpenAPI } from "../../../wrapper/src/server";
+import { OpenAPI as SearchOpenAPI } from "../../../wrapper/src/search";
 
 export function getServerStoredUpload(filenameWithExtension: string) {
-    return `${serverUrl}/v1/public/uploads/${filenameWithExtension}`;
+  return `${ServerOpenAPI.BASE}/v1/public/uploads/${filenameWithExtension}`;
 }
 
 /**
@@ -9,5 +10,5 @@ export function getServerStoredUpload(filenameWithExtension: string) {
  * @param iconName
  */
 export function getServerStoredIcon(iconName: string) {
-    return `${serverUrl}/v1/public/icons/${iconName}.png`;
+  return `${ServerOpenAPI.BASE}/v1/public/icons/${iconName}.png`;
 }

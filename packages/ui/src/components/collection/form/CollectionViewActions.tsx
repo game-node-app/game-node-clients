@@ -2,9 +2,9 @@ import React from "react";
 import { ActionIcon, Group, GroupProps, Tooltip } from "@mantine/core";
 import { IconDots, IconReplace, IconTrash } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import CollectionCreateOrUpdateModal from "@/components/collection/form/modal/CollectionCreateOrUpdateModal";
-import CollectionEntriesMoveModal from "@/components/collection/collection-entry/form/modal/CollectionEntriesMoveModal";
-import CollectionRemoveModal from "@/components/collection/form/modal/CollectionRemoveModal";
+import { CollectionCreateOrUpdateModal } from "@/components/collection/form/modal/CollectionCreateOrUpdateModal";
+import { CollectionEntriesMoveModal } from "@/components/collection/collection-entry/form/modal/CollectionEntriesMoveModal";
+import { CollectionRemoveModal } from "@/components/collection/form/modal/CollectionRemoveModal";
 
 interface IProps extends GroupProps {
   collectionId: string;

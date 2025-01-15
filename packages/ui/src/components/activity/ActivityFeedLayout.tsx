@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Box, Divider, Stack, Tabs } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
-import Link from "next/link";
+import { useUserId } from "@/components/auth/hooks/useUserId";
+import { Link } from "@/util";
 
 interface Props extends PropsWithChildren {
   currentTab: "following" | "all";

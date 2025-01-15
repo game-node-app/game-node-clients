@@ -3,7 +3,7 @@ import {
   Game,
   GameRepositoryFindOneDto,
   GameRepositoryService,
-} from "@repo/wrapper/server";
+} from "../../../../../wrapper/src/server";
 
 export function useGame(
   id: number | undefined,

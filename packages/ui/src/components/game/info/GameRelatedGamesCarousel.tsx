@@ -1,8 +1,8 @@
 import React from "react";
-import { Game } from "@repo/wrapper/server";
+import { Game } from "../../../../../wrapper/src/server";
 import { useGame } from "@/components/game/hooks/useGame";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import GameInfoCarousel from "@/components/game/info/carousel/GameInfoCarousel";
+import { GameInfoCarousel } from "@/components/game/info/carousel/GameInfoCarousel";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "./GameInfoView";
 
 interface GameRelatedGameCarouselProps {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CollectionsEntriesService, type FindCollectionEntriesOrderBy } from "@/wrapper/server";
+import { CollectionsEntriesService, type FindCollectionEntriesOrderBy } from "@repo/wrapper/server";
 
 export default function useCollectionEntriesForUserId(
     userId: string,

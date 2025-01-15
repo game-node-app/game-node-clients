@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { ConnectionsService } from "@repo/wrapper/server";
-import { ConnectionCreateDto } from "@repo/wrapper/server";
+import { ConnectionsService } from "../../../../../wrapper/src/server";
+import { ConnectionCreateDto } from "../../../../../wrapper/src/server";
 import type = ConnectionCreateDto.type;
 
 export function useOwnUserConnectionByType(type: type) {

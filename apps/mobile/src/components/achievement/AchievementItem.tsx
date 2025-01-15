@@ -1,15 +1,6 @@
 import React from "react";
-import {
-    Box,
-    Group,
-    Paper,
-    Stack,
-    Image,
-    Title,
-    Text,
-    Overlay,
-} from "@mantine/core";
-import { AchievementDto } from "@/wrapper/server";
+import { Box, Group, Paper, Stack, Image, Title, Text, Overlay } from "@mantine/core";
+import { AchievementDto } from "@repo/wrapper/server";
 import { useObtainedAchievement } from "@/components/achievement/hooks/useObtainedAchievement";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import AchievementLogo from "@/components/achievement/AchievementLogo";
@@ -20,10 +11,7 @@ interface Props {
 }
 
 const AchievementItem = ({ targetUserId, achievement }: Props) => {
-    const obtainedAchievementQuery = useObtainedAchievement(
-        targetUserId,
-        achievement?.id,
-    );
+    const obtainedAchievementQuery = useObtainedAchievement(targetUserId, achievement?.id);
     if (!achievement) {
         return null;
     }
@@ -40,13 +28,7 @@ const AchievementItem = ({ targetUserId, achievement }: Props) => {
     const icon = getServerStoredIcon(achievement.id);
 
     return (
-        <Paper
-            className={"border-4 border-[#282828]"}
-            w={"100%"}
-            bg={backgroundColor}
-            withBorder
-            pos={"relative"}
-        >
+        <Paper className={"border-4 border-[#282828]"} w={"100%"} bg={backgroundColor} withBorder pos={"relative"}>
             <Group
                 wrap={"nowrap"}
                 w={"100%"}

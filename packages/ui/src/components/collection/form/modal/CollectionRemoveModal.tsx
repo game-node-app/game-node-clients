@@ -2,12 +2,11 @@ import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { Button, Group, Modal, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CollectionsService } from "@repo/wrapper/server";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { CollectionsService } from "../../../../../../wrapper/src/server";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import { useRouter } from "next/router";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
@@ -19,7 +18,6 @@ interface Props extends BaseModalProps {
 }
 
 const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
-  const router = useRouter();
   const userId = useUserId();
   const queryClient = useQueryClient();
   const libraryQuery = useUserLibrary(userId);
@@ -43,7 +41,6 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
         EMatomoEventAction.Remove,
         "Removed collection",
       );
-      router.push(`/library/${userId}`);
     },
   });
 

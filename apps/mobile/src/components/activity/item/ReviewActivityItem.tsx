@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Group, Overlay, Stack, Text, Title } from "@mantine/core";
-import { Activity } from "@/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useReview } from "@/components/review/hooks/useReview";
 import { useGame } from "@/components/game/hooks/useGame";
 import { getSizedImageUrl, ImageSize } from "@/components/game/util/getSizedImageUrl";

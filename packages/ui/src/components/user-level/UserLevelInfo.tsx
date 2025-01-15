@@ -1,8 +1,6 @@
 import React from "react";
 import { useUserLevel } from "@/components/user-level/hooks/useUserLevel";
 import { Group, Progress, Stack, Text } from "@mantine/core";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import Link from "next/link";
 
 interface Props {
   targetUserId: string;

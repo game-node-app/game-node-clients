@@ -2,7 +2,7 @@ import {
   CollectionEntriesPaginatedResponseDto,
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "@repo/wrapper/server";
+} from "../../../../../../wrapper/src/server";
 
 /**
  * Returns a list CollectionEntry entity, given any is available in the user's library for that

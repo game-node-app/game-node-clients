@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "@/wrapper/server";
+import { GameRepositoryService } from "@repo/wrapper/server";
 import { Group, GroupProps, Image, ImageProps, Skeleton, Tooltip } from "@mantine/core";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import useOnMobile from "@/components/general/hooks/useOnMobile";

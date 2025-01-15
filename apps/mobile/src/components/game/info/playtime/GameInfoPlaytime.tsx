@@ -4,7 +4,7 @@ import { DetailsBox } from "@/components/general/DetailsBox";
 import GameInfoPlaytimeItem from "@/components/game/info/playtime/GameInfoPlaytimeItem";
 import { Space, Stack, Text } from "@mantine/core";
 import CenteredLoading from "@/components/general/CenteredLoading";
-import { PlaytimeService } from "@/wrapper/server";
+import { PlaytimeService } from "@repo/wrapper/server";
 
 interface Props {
     gameId: number;

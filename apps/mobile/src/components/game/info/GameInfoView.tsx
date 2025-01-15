@@ -3,7 +3,7 @@ import { Box, Flex, Grid, Paper, Skeleton, Stack, Title } from "@mantine/core";
 import GameFigureImage from "@/components/game/figure/GameFigureImage";
 import GameInfoDetails from "@/components/game/info/GameInfoDetails";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { GameRepositoryFindOneDto } from "@/wrapper/server";
+import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { ImageSize } from "@/components/game/util/getSizedImageUrl";
 import GameInfoImageCarousel from "@/components/game/info/carousel/GameInfoImageCarousel";
 import Break from "@/components/general/Break";

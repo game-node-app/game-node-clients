@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import useReviewForUserIdAndGameId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { Group, Stack, Text, Timeline } from "@mantine/core";
 import {

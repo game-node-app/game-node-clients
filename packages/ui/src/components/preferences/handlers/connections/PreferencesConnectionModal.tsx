@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
-import { UserConnectionDto } from "@repo/wrapper/server";
+import { UserConnectionDto } from "../../../../../../wrapper/src/server";
 import { Modal } from "@mantine/core";
-import PreferencesConnectionSetup from "@/components/preferences/handlers/connections/PreferencesConnectionSetup";
+import { PreferencesConnectionSetup } from "@/components/preferences/handlers/connections/PreferencesConnectionSetup";
 
 interface Props extends BaseModalProps {
   type: UserConnectionDto.type;

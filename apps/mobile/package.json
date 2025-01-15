@@ -4,9 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "yarn wrapper:generate && vite --port 3002",
-    "build": "tsc && yarn wrapper:generate && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "wrapper:generate": "node src/wrapper/generate.js",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint"

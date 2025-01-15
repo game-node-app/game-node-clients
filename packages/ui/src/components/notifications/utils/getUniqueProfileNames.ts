@@ -1,6 +1,6 @@
-import { Notification } from "@repo/wrapper/server";
+import { Notification } from "../../../../../wrapper/src/server";
 
-export default function getUniqueProfileNames(notifications: Notification[]) {
+export function getUniqueProfileNames(notifications: Notification[]) {
   const profileNameMap = new Map<string, string>();
   for (const notification of notifications) {
     if (!notification.profile) continue;

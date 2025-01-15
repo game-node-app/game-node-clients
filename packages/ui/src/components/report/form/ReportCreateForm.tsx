@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { CreateReportRequestDto, ReportService } from "@repo/wrapper/server";
+import { CreateReportRequestDto, ReportService } from "../../../../../wrapper/src/server";
 import { useForm } from "react-hook-form";
 import {
   Button,

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProfileService } from "@repo/wrapper/server";
+import { ProfileService } from "../../../../../wrapper/src/server";
 
 export function useUserProfiles() {
   return useQuery({

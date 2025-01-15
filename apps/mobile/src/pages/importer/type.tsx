@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { CollectionsEntriesService, ImporterService } from "@/wrapper/server";
+import { CollectionsEntriesService, ImporterService } from "@repo/wrapper/server";
 import { Button, Center, Container, Flex, Group, Image, Paper, Skeleton, Stack, Text } from "@mantine/core";
 import { useGames } from "@/components/game/hooks/useGames";
 import { useImporterEntries } from "@/components/importer/hooks/useImporterEntries";

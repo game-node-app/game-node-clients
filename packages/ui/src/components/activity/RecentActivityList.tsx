@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
 import { useLatestActivities } from "@/components/activity/hooks/useLatestActivities";
-import ReviewActivityItem from "@/components/activity/item/ReviewActivityItem";
-import CollectionEntryActivityItem from "@/components/activity/item/CollectionEntryActivityItem";
-import UserFollowActivityItem from "@/components/activity/item/UserFollowActivityItem";
+import { ReviewActivityItem } from "@/components/activity/item/ReviewActivityItem";
+import { CollectionEntryActivityItem } from "@/components/activity/item/CollectionEntryActivityItem";
+import { UserFollowActivityItem } from "@/components/activity/item/UserFollowActivityItem";
 import { Stack } from "@mantine/core";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { Activity } from "@repo/wrapper/server";
+import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { Activity } from "../../../../wrapper/src/server";
 import type = Activity.type;
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 
 interface Props {
   userId?: string;

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Game } from "@/wrapper/server";
+import { Game } from "@repo/wrapper/server";
 import GameGridItem from "@/components/game/figure/GameGridItem";
 import { Skeleton } from "@mantine/core";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";

@@ -3,7 +3,7 @@ import { Button, Modal, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { BaseModalChildrenProps, BaseModalProps } from "@/util/types/modal-props";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ConnectionCreateDto, ConnectionsService } from "@/wrapper/server";
+import { ConnectionCreateDto, ConnectionsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { useOwnUserConnectionByType } from "@/components/connections/hooks/useOwnUserConnectionByType";

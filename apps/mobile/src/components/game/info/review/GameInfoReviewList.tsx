@@ -7,7 +7,7 @@ import { DetailsBox } from "@/components/general/DetailsBox";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { ParsedUrlQuery } from "querystring";
 import { useTrendingReviews } from "@/components/statistics/hooks/useTrendingReviews";
-import { FindStatisticsTrendingReviewsDto } from "@/wrapper/server";
+import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
 import { useReviews } from "@/components/review/hooks/useReviews";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";

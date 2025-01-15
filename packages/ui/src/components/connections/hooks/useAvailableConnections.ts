@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ConnectionsService } from "@repo/wrapper/server";
+import { ConnectionsService } from "../../../../../wrapper/src/server";
 
 export function useAvailableConnections() {
   return useQuery({

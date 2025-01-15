@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import ProfileBanner from "@/components/profile/view/ProfileBanner";
+import { ProfileBanner } from "@/components/profile/view/ProfileBanner";
 import {
   ActionIcon,
   AspectRatio,
@@ -13,17 +13,12 @@ import {
   Text,
 } from "@mantine/core";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import ProfileUserInfo from "@/components/profile/view/ProfileUserInfo";
-import ProfileViewNavbar from "@/components/profile/view/ProfileViewNavbar";
-import ProfileFavoriteGames from "@/components/profile/view/ProfileFavoriteGames";
-import RecentActivityList from "@/components/activity/RecentActivityList";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { IconEdit } from "@tabler/icons-react";
+import { ProfileUserInfo } from "@/components/profile/view/ProfileUserInfo";
+import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useDisclosure } from "@mantine/hooks";
-import ProfileEditForm from "@/components/profile/edit/ProfileEditForm";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import UserRecentGames from "@/components/playtime/UserRecentGames";
+import { ProfileEditForm } from "@/components/profile/edit/ProfileEditForm";
+import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
