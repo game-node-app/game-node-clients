@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from "react";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { Flex, Grid, Stack } from "@mantine/core";
 import LibraryViewCollectionsSelect from "@/components/library/view/sidebar/LibraryViewCollectionsSelect";
 

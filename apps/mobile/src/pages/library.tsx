@@ -1,9 +1,5 @@
-import useUserId from "@/components/auth/hooks/useUserId";
-import CollectionView from "@/components/collection/view/CollectionView";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import LibraryViewFab from "@/components/library/view/fab/LibraryViewFab";
-import LibraryView from "@/components/library/view/LibraryView";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import {
     IonBackButton,
     IonButtons,
@@ -18,7 +14,8 @@ import { Container } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
-import RecentCollectionEntriesView from "@/components/collection/collection-entry/view/RecentCollectionEntriesView";
+import { LibraryView, RecentCollectionEntriesView, useUserId, useUserProfile } from "@repo/ui";
+import { MobileCollectionView } from "@/components/collection/view/MobileCollectionView";
 
 interface Props {
     userId?: string;
@@ -73,7 +70,10 @@ const LibraryPage = ({ userId }: Props) => {
                             onChange={setSelectedCollectionId}
                         >
                             {selectedCollectionId ? (
-                                <CollectionView libraryUserId={userIdToUse!} collectionId={selectedCollectionId} />
+                                <MobileCollectionView
+                                    libraryUserId={userIdToUse!}
+                                    collectionId={selectedCollectionId}
+                                />
                             ) : (
                                 <DetailsBox
                                     title={

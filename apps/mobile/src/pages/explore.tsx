@@ -14,11 +14,9 @@ import {
     useIonRouter,
 } from "@ionic/react";
 import { FindStatisticsTrendingGamesDto, GameStatisticsPaginatedResponseDto } from "@repo/wrapper/server";
-import GameView from "@/components/game/view/GameView";
-import { useInfiniteTrendingGames } from "@/components/statistics/hooks/useInfiniteTrendingGames";
-import { useGames } from "@/components/game/hooks/useGames";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import period = FindStatisticsTrendingGamesDto.period;
+import { GameView, useGames, useInfiniteTrendingGames } from "@repo/ui";
 
 const SELECT_PERIOD_DATA = [
     { label: "Week", value: period.WEEK },

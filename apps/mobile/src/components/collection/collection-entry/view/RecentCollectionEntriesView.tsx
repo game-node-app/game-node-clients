@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import useCollectionEntriesForUserId from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
-import GameView from "@/components/game/view/GameView";
+import MobileGameView from "@/components/game/view/MobileGameView";
 import { useGames } from "@/components/game/hooks/useGames";
 
 interface Props {
@@ -28,15 +28,15 @@ const RecentCollectionEntriesView = ({ userId, offset = 0, limit = 12 }: Props) 
     const games = gamesQuery.data;
 
     return (
-        <GameView layout={"grid"}>
-            <GameView.Content
+        <MobileGameView layout={"grid"}>
+            <MobileGameView.Content
                 items={games}
                 isLoading={collectionEntriesQuery.isLoading || gamesQuery.isLoading}
                 isFetching={false}
                 hasNextPage={false}
                 onLoadMore={() => {}}
             />
-        </GameView>
+        </MobileGameView>
     );
 };
 

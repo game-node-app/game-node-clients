@@ -1,18 +1,16 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useInfiniteActivities } from "@/components/activity/hooks/useInfiniteActivities";
 import { Skeleton, Stack } from "@mantine/core";
 import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
-import { useIntersection } from "@mantine/hooks";
 import { ActivityList } from "@/components/activity/ActivityList";
+import { ActivityFeedTabValue } from "@/components/activity/ActivityFeedLayout";
+import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
 
 interface Props {
-  criteria: "following" | "all";
+  criteria: ActivityFeedTabValue;
 }
 
 const ActivityFeed = ({ criteria }: Props) => {
-  const { ref, entry } = useIntersection({
-    threshold: 1,
-  });
   const activityQuery = useInfiniteActivities({
     criteria,
     limit: 10,
@@ -25,8 +23,6 @@ const ActivityFeed = ({ criteria }: Props) => {
 
   const isLoading = activityQuery.isLoading;
   const isError = activityQuery.isError;
-  const isSuccess = activityQuery.isSuccess;
-  const isFetching = activityQuery.isFetching;
 
   const isEmpty =
     activityQuery.data != undefined &&
@@ -39,29 +35,6 @@ const ActivityFeed = ({ criteria }: Props) => {
       return <Skeleton key={i} className={"w-full h-[140px]"} />;
     });
   }, []);
-
-  useEffect(() => {
-    const lastElement =
-      activityQuery.data?.pages[activityQuery.data?.pages.length - 1];
-    const hasNextPage =
-      lastElement != undefined &&
-      lastElement.data.length > 0 &&
-      lastElement.pagination.hasNextPage;
-
-    const canFetchNextPage = !isFetching && !isLoading && hasNextPage;
-
-    // Minimum amount of time (ms) since document creation for
-    // intersection to be considered valid
-    const minimumIntersectionTime = 3000;
-
-    if (
-      canFetchNextPage &&
-      entry?.isIntersecting &&
-      entry.time > minimumIntersectionTime
-    ) {
-      activityQuery.fetchNextPage({ cancelRefetch: false });
-    }
-  }, [activityQuery, entry, isFetching, isLoading]);
 
   return (
     <Stack className={"w-full h-full"}>
@@ -79,7 +52,16 @@ const ActivityFeed = ({ criteria }: Props) => {
         />
       )}
       <ActivityList items={items} />
-      <div ref={ref} id={"last-element-tracker"}></div>
+
+      <IonInfiniteScroll
+        disabled={!activityQuery.hasNextPage}
+        onIonInfinite={async (evt) => {
+          await activityQuery.fetchNextPage();
+          await evt.target.complete();
+        }}
+      >
+        <IonInfiniteScrollContent loadingText={"Fetching more activities..."} />
+      </IonInfiniteScroll>
     </Stack>
   );
 };

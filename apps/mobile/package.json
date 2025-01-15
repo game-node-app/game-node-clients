@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "dev": "yarn wrapper:generate && vite --port 3002",
+    "dev": "vite --port 3002",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test.e2e": "cypress run",

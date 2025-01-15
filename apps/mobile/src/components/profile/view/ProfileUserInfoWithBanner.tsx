@@ -15,25 +15,7 @@ import {
 } from "@mantine/core";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import ProfileUserInfo from "@/components/profile/view/ProfileUserInfo";
-import ProfileViewNavbar from "@/components/profile/view/ProfileViewNavbar";
-import ProfileFavoriteGames from "@/components/profile/view/ProfileFavoriteGames";
-import RecentActivityList from "@/components/activity/RecentActivityList";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { IconEdit } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
-import ProfileEditForm from "@/components/profile/edit/ProfileEditForm";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import {
-    IonBackButton,
-    IonButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonModal,
-    IonTitle,
-    IonToolbar,
-} from "@ionic/react";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
     userId: string;

@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { useInfiniteAggregatedNotifications } from "@/components/notifications/hooks/useInfiniteAggregatedNotifications";
 import { useMutation } from "@tanstack/react-query";
 import { NotificationsService } from "@repo/wrapper/server";
 import { Notification } from "@repo/wrapper/server";
@@ -14,10 +13,9 @@ import {
     IonToolbar,
 } from "@ionic/react";
 import { ActionIcon, Button, Center, Container, Stack, Text } from "@mantine/core";
-import AggregatedNotification from "@/components/notifications/AggregatedNotification";
-import CenteredLoading from "@/components/general/CenteredLoading";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IconInbox, IconInboxOff } from "@tabler/icons-react";
+import { AggregatedNotification, CenteredLoading, useInfiniteAggregatedNotifications } from "@repo/ui";
 
 const NotificationsPage = () => {
     const { data, isLoading, isError, invalidate, isFetching, fetchNextPage } = useInfiniteAggregatedNotifications();

@@ -16,5 +16,3 @@ export * from "./GameInfoScore";
 export * from "./GameInfoView";
 export * from "./GameRelatedGamesCarousel";
 export * from "./carousel/index";
-export * from "./review/index";
-export * from "./share/index";

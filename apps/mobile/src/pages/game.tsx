@@ -10,12 +10,9 @@ import {
     IonToolbar,
 } from "@ionic/react";
 import { Container, Stack } from "@mantine/core";
-import GameInfoView, { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
-import { useGame } from "@/components/game/hooks/useGame";
-import GameExtraInfoView from "@/components/game/info/GameExtraInfoView";
-import GameInfoViewFab from "@/components/game/info/fab/GameInfoViewFab";
+import { CenteredLoading, DEFAULT_GAME_INFO_VIEW_DTO, GameExtraInfoView, GameInfoView, useGame } from "@repo/ui";
+import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
-import CenteredLoading from "@/components/general/CenteredLoading";
 
 interface Props {
     gameId: number;

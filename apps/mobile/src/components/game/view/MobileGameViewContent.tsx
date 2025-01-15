@@ -1,11 +1,10 @@
 import React, { useCallback, useContext } from "react";
 import { Button, Center, Group, SimpleGrid, SimpleGridProps, Skeleton, Stack, Text } from "@mantine/core";
-import { GameViewContext } from "@/components/game/view/GameView";
-import GameGridItem from "@/components/game/figure/GameGridItem";
+import { GameViewContext } from "@/components/game/view/MobileGameView";
 import { TGameOrSearchGame } from "@/components/game/util/types";
-import CenteredLoading from "@/components/general/CenteredLoading";
 import { IonItem, IonList } from "@ionic/react";
 import GameListItemWithSwipe from "@/components/game/figure/GameListItemWithSwipe";
+import { CenteredLoading, GameGridItem } from "@repo/ui";
 
 const GRID_COLUMNS_COUNT = 3;
 
@@ -28,7 +27,7 @@ interface IMetadataGridContentProps extends SimpleGridProps {
  * @param others
  * @constructor
  */
-const GameViewContent = ({
+const MobileGameViewContent = ({
     items,
     isLoading,
     isFetching,
@@ -117,4 +116,4 @@ const GameViewContent = ({
     );
 };
 
-export default GameViewContent;
+export default MobileGameViewContent;

@@ -12,7 +12,7 @@ import {
 } from "@ionic/react";
 import { ActivityFeedTabValue } from "@/components/activity/ActivityFeedLayout";
 import { Container } from "@mantine/core";
-import ActivityFeed from "@/components/activity/ActivityFeed";
+import { ActivityFeed } from "@repo/ui";
 
 const ActivityPage = () => {
     const [selectedActivityTab, setSelectedActivityTab] = useState<ActivityFeedTabValue>("all");

@@ -1,14 +1,18 @@
 import { IonContent, IonPage, IonRefresher, IonRefresherContent, useIonRouter } from "@ionic/react";
 import React, { useState } from "react";
 import { Container, Stack } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import useUserId from "@/components/auth/hooks/useUserId";
-import ActivityFeed from "@/components/activity/ActivityFeed";
-import ActivityFeedLayout, { ActivityFeedTabValue } from "@/components/activity/ActivityFeedLayout";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
-import SearchBar from "@/components/general/input/SearchBar/SearchBar";
 import { useQueryClient } from "@tanstack/react-query";
-import { RecommendationCarousel, TrendingReviewCarousel } from "@repo/ui";
+import {
+    RecommendationCarousel,
+    SearchBar,
+    TrendingReviewCarousel,
+    DetailsBox,
+    ActivityFeedTabValue,
+    ActivityFeedLayout,
+    ActivityFeed,
+} from "@repo/ui";
 
 const HomePage = () => {
     const router = useIonRouter();

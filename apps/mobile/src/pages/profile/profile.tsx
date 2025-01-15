@@ -19,12 +19,12 @@ import ProfileViewNavbar from "@/components/profile/view/ProfileViewNavbar";
 import { Box, Container, Divider } from "@mantine/core";
 import ProfileFavoriteGames from "@/components/profile/view/ProfileFavoriteGames";
 import ProfileStatsSimpleOverview from "@/components/profile/view/ProfileStatsSimpleOverview";
-import RecentActivityList from "@/components/activity/RecentActivityList";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { IconAdjustmentsCog, IconSettings } from "@tabler/icons-react";
+import { IconSettings } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { RecentActivityList } from "@repo/ui";
 
 interface Props {
     userId?: string;

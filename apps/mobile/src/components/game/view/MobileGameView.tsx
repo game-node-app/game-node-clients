@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren } from "react";
-import GameViewContent from "@/components/game/view/GameViewContent";
-import GameViewLayoutSwitcher from "@/components/game/view/GameViewLayoutSwitcher";
+import MobileGameViewContent from "@/components/game/view/MobileGameViewContent";
+import MobileGameViewLayoutSwitcher from "@/components/game/view/MobileGameViewLayoutSwitcher";
 
 export type GameViewLayoutOption = "grid" | "list";
 
@@ -23,11 +23,11 @@ export const GameViewContext = createContext<IGameViewContext>({
  * @constructor
  *
  */
-const GameView = ({ children, layout = "grid" }: IGameViewProps) => {
+const MobileGameView = ({ children, layout = "grid" }: IGameViewProps) => {
     return <GameViewContext.Provider value={{ layout: layout }}>{children}</GameViewContext.Provider>;
 };
 
-GameView.Content = GameViewContent;
-GameView.LayoutSwitcher = GameViewLayoutSwitcher;
+MobileGameView.Content = MobileGameViewContent;
+MobileGameView.LayoutSwitcher = MobileGameViewLayoutSwitcher;
 
-export default GameView;
+export default MobileGameView;

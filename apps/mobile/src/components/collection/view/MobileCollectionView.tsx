@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import { useGames } from "@/components/game/hooks/useGames";
-import GameView, { GameViewLayoutOption } from "@/components/game/view/GameView";
+import MobileGameView, { GameViewLayoutOption } from "@/components/game/view/MobileGameView";
 import { useInfiniteCollectionEntriesForCollectionId } from "../collection-entry/hooks/useInfiniteCollectionEntriesForCollectionId";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 
@@ -13,7 +13,7 @@ interface ICollectionViewProps {
 
 const DEFAULT_LIMIT = 24;
 
-const CollectionView = ({ collectionId }: ICollectionViewProps) => {
+const MobileCollectionView = ({ collectionId }: ICollectionViewProps) => {
     const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
     const collectionQuery = useCollection(collectionId);
@@ -69,9 +69,9 @@ const CollectionView = ({ collectionId }: ICollectionViewProps) => {
             </Group>
             <Divider className={"w-[calc(100%-2rem)]"} my={"sm"} variant={"dashed"} />
             <Stack>
-                <GameView layout={layout}>
-                    <GameView.LayoutSwitcher setLayout={setLayout} />
-                    <GameView.Content
+                <MobileGameView layout={layout}>
+                    <MobileGameView.LayoutSwitcher setLayout={setLayout} />
+                    <MobileGameView.Content
                         items={games}
                         isLoading={isLoading}
                         isFetching={isFetching}
@@ -85,10 +85,10 @@ const CollectionView = ({ collectionId }: ICollectionViewProps) => {
                     {isError && (
                         <CenteredErrorMessage message="Failed to fetch collection entries. Please try again." />
                     )}
-                </GameView>
+                </MobileGameView>
             </Stack>
         </Stack>
     );
 };
 
-export default CollectionView;
+export { MobileCollectionView };

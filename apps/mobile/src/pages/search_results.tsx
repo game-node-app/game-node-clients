@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 import { Container, Group, Stack } from "@mantine/core";
-import GameView, { GameViewLayoutOption } from "@/components/game/view/GameView";
+import MobileGameView, { GameViewLayoutOption } from "@/components/game/view/MobileGameView";
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useInfiniteSearchGames } from "@/components/game/hooks/useInfiniteSearchGames";
 import { TGameOrSearchGame } from "@/components/game/util/types";
@@ -42,11 +42,11 @@ const SearchResultsPage = () => {
                 <Container fluid className={"min-h-screen my-4"}>
                     <Stack className={"w-full h-full"}>
                         {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
-                        <GameView layout={layout}>
+                        <MobileGameView layout={layout}>
                             <Group className={"w-full justify-end"}>
-                                <GameView.LayoutSwitcher setLayout={setLayout} />
+                                <MobileGameView.LayoutSwitcher setLayout={setLayout} />
                             </Group>
-                            <GameView.Content
+                            <MobileGameView.Content
                                 items={items}
                                 isLoading={isLoading}
                                 isFetching={isFetching}
@@ -56,8 +56,8 @@ const SearchResultsPage = () => {
                                         fetchNextPage();
                                     }
                                 }}
-                            ></GameView.Content>
-                        </GameView>
+                            ></MobileGameView.Content>
+                        </MobileGameView>
                     </Stack>
                 </Container>
             </IonContent>

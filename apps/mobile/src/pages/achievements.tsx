@@ -1,10 +1,9 @@
 import React from "react";
 
-import AchievementsScreen from "@/components/achievement/AchievementsScreen";
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { Center } from "@mantine/core";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { AchievementsScreen, useUserProfile } from "@repo/ui";
 
 interface Props {
     userId: string;

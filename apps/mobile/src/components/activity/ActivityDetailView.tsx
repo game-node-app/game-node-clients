@@ -1,11 +1,6 @@
 import React from "react";
 import { Center, Stack } from "@mantine/core";
-import ActivityList from "@/components/activity/ActivityList";
-import { useActivity } from "@/components/activity/hooks/useActivity";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import TextLink from "@/components/general/TextLink";
+import { ActivityList, CenteredErrorMessage, CenteredLoading, TextLink, useActivity, useUserProfile } from "@repo/ui";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 
 interface Props {
@@ -28,7 +23,7 @@ const ActivityDetailView = ({ activityId }: Props) => {
         <Stack className={"w-full"}>
             <ActivityList items={[activityQuery.data]} />
             <Center>
-                <TextLink href={getTabAwareHref("/activity")}>See more</TextLink>
+                <TextLink href={"/activity"}>See more</TextLink>
             </Center>
         </Stack>
     );

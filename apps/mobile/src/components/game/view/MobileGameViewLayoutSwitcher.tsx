@@ -1,13 +1,13 @@
 import React, { SetStateAction, useContext } from "react";
 import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
-import { GameViewContext, GameViewLayoutOption } from "@/components/game/view/GameView";
+import { GameViewContext, GameViewLayoutOption } from "@/components/game/view/MobileGameView";
 import { IonSegment, IonSegmentButton } from "@ionic/react";
 
 interface IGameViewLayoutSwitcherProps {
     setLayout: React.Dispatch<SetStateAction<GameViewLayoutOption>>;
 }
 
-const GameViewLayoutSwitcher = ({ setLayout }: IGameViewLayoutSwitcherProps) => {
+const MobileGameViewLayoutSwitcher = ({ setLayout }: IGameViewLayoutSwitcherProps) => {
     const { layout } = useContext(GameViewContext);
 
     const handleLayoutChange = (changeTo: GameViewLayoutOption) => {
@@ -26,4 +26,4 @@ const GameViewLayoutSwitcher = ({ setLayout }: IGameViewLayoutSwitcherProps) => 
     );
 };
 
-export default GameViewLayoutSwitcher;
+export default MobileGameViewLayoutSwitcher;

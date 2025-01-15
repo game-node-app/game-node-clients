@@ -112,4 +112,4 @@ const GameInfoViewFab = ({ gameId }: Props) => {
     );
 };
 
-export default GameInfoViewFab;
+export { GameInfoViewFab };
