@@ -1,11 +1,5 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import {
-  AspectRatio,
-  Image,
-  ImageProps,
-  Skeleton,
-  SkeletonProps,
-} from "@mantine/core";
+import { AspectRatio, Image, ImageProps } from "@mantine/core";
 import { Link } from "@/util";
 import {
   getSizedImageUrl,
@@ -57,7 +51,7 @@ const GameFigureImage = ({
         <Image
           radius={"sm"}
           src={sizedCoverUrl ?? "/img/game_placeholder.jpeg"}
-          alt={"Game cover"}
+          alt={game?.name ? game.name : "Game cover"}
           className="w-full h-auto max-h-full"
           {...imageProps}
         />

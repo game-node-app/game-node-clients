@@ -10,6 +10,7 @@ export * from "./getTimeSinceString";
 export * from "./imageUtils";
 export * from "./jsonDeepEquals";
 export * from "./link";
+export * from "./modal";
 export * from "./shuffleArray";
 export * from "./sleep";
 export * from "./trackMatomoEvent";

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { GameExternalGame, UserPlaytimeDto } from "../../../../wrapper/src/server";
+import { GameExternalGame, UserPlaytimeDto } from "@repo/wrapper/server";
 import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { useGame } from "@/components/game/hooks/useGame";
 import {
@@ -7,7 +7,6 @@ import {
   ImageSize,
 } from "@/components/game/util/getSizedImageUrl";
 import { Box, Group, Image, Overlay, Stack, Text, Title } from "@mantine/core";
-import { useGameExternalStores } from "@/components/game/hooks/useGameExternalStores";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import { getCapitalizedText } from "@/util/getCapitalizedText";
 import { Link } from "@/util";

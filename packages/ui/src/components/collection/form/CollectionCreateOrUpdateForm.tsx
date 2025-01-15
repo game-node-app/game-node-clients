@@ -6,7 +6,10 @@ import { Button, Stack, TextInput, Text, Switch } from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { ApiError, CollectionsService } from "../../../../../wrapper/src/server";
+import {
+  ApiError,
+  CollectionsService,
+} from "../../../../../wrapper/src/server";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import { useMutation } from "@tanstack/react-query";
 import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
@@ -37,7 +40,7 @@ const CreateCollectionFormSchema = z
 type CreateCollectionFormValues = z.infer<typeof CreateCollectionFormSchema>;
 
 interface ICollectionCreateOrUpdateFormProps extends BaseModalChildrenProps {
-  collectionId?: string;
+  collectionId: string | undefined | null;
 }
 
 const CollectionCreateOrUpdateForm = ({

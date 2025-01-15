@@ -10,9 +10,8 @@ import {
     IonSegmentButton,
     IonToolbar,
 } from "@ionic/react";
-import { ActivityFeedTabValue } from "@/components/activity/ActivityFeedLayout";
 import { Container } from "@mantine/core";
-import { ActivityFeed } from "@repo/ui";
+import { ActivityFeed, ActivityFeedTabValue } from "@repo/ui";
 
 const ActivityPage = () => {
     const [selectedActivityTab, setSelectedActivityTab] = useState<ActivityFeedTabValue>("all");

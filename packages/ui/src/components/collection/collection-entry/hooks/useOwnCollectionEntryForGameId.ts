@@ -7,9 +7,11 @@ import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
  * Returns a collection entry for the current user based on a game ID.
  * The collection entry will be undefined if the user doesn't have the game in their library.
  * @param gameId
+ * @param enabled
  */
 export function useOwnCollectionEntryForGameId(
   gameId: number | undefined,
+  enabled = true,
 ): ExtendedUseQueryResult<CollectionEntry | undefined> {
   const queryClient = useQueryClient();
   const queryKey = ["collection-entries", "own", gameId];
@@ -28,7 +30,7 @@ export function useOwnCollectionEntryForGameId(
           return null;
         }
       },
-      enabled: gameId != undefined,
+      enabled: enabled && gameId != undefined,
     }),
     queryKey,
     invalidate,

@@ -9,9 +9,9 @@ import {
   Text,
   Overlay,
 } from "@mantine/core";
-import { AchievementDto } from "../../../../wrapper/src/server";
-import { getServerStoredIcon } from "../../util/getServerStoredImages.ts";
-import { AchievementLogo } from "./AchievementLogo";
+import { AchievementDto } from "@repo/wrapper/server";
+import { getServerStoredIcon } from "@/util";
+import { AchievementLogo } from "@/components";
 import { useObtainedAchievement } from "./hooks";
 
 interface Props {

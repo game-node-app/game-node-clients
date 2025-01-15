@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Button, Modal, Stack, TextInput } from "@mantine/core";
+import { Button, Stack, TextInput } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
-import { AchievementsCodeService } from "../../../../wrapper/src/server";
+import { AchievementsCodeService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { BaseModalProps } from "../../util";
+import { BaseModalProps, Modal } from "@/util";
 
-interface Props extends BaseModalProps {}
-
-const RedeemAchievementCodeModal = ({ opened, onClose }: Props) => {
+const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
   const [achievementCode, setAchievementCode] = useState<string | undefined>(
     undefined,
   );

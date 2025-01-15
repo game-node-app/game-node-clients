@@ -44,9 +44,14 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
-import { setRoutingComponent, setRoutingManager } from "@repo/ui";
+import {
+  setModalComponent,
+  setRoutingComponent,
+  setRoutingManager,
+} from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
+import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 
 /**
  * Basic configuration for wrapper services
@@ -57,63 +62,72 @@ SearchOpenAPI.BASE = import.meta.env.VITE_PUBLIC_SEARCH_URL!;
 
 setupIonicReact();
 
+/**
+ * @repo/ui setup
+ */
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useIonRouterWrapper);
+setModalComponent(IonModalWrapper);
 
 const App: React.FC = () => {
-    const [keyboardOpened, setKeyboardOpened] = useState(false);
-    const [queryClient] = useState(
-        () =>
-            new QueryClient({
-                defaultOptions: {
-                    queries: {
-                        refetchOnWindowFocus: false,
-                        retry: 2,
-                    },
-                },
-            }),
-    );
+  const [keyboardOpened, setKeyboardOpened] = useState(false);
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchInterval: false,
+            refetchOnMount: false,
+            refetchIntervalInBackground: false,
+            refetchOnReconnect: false,
+            staleTime: Infinity,
+            retry: 2,
+          },
+        },
+      }),
+  );
 
-    useEffect(() => {
-        Keyboard.addListener("keyboardWillShow", () => {
-            setKeyboardOpened(true);
-        });
-        Keyboard.addListener("keyboardWillHide", () => {
-            setKeyboardOpened(false);
-        });
+  useEffect(() => {
+    Keyboard.addListener("keyboardWillShow", () => {
+      setKeyboardOpened(true);
+    });
+    Keyboard.addListener("keyboardWillHide", () => {
+      setKeyboardOpened(false);
+    });
 
-        return () => {
-            Keyboard.removeAllListeners();
-        };
-    }, []);
+    return () => {
+      Keyboard.removeAllListeners();
+    };
+  }, []);
 
-    return (
-        <IonApp>
-            <SuperTokensProvider>
-                <MantineProvider theme={theme} forceColorScheme={"dark"}>
-                    <QueryClientProvider client={queryClient}>
-                        <IonReactRouter>
-                            <AppUrlListener />
-                            <AppUpdateListener />
-                            <NotificationsManager />
-                            <Tabs />
-                            <IonFab
-                                className={keyboardOpened ? "hidden" : undefined}
-                                slot="fixed"
-                                horizontal="center"
-                                vertical="bottom"
-                                edge={false}
-                            >
-                                <IonFabButton routerLink={"/home"}>
-                                    <IconHome />
-                                </IonFabButton>
-                            </IonFab>
-                        </IonReactRouter>
-                    </QueryClientProvider>
-                </MantineProvider>
-            </SuperTokensProvider>
-        </IonApp>
-    );
+  return (
+    <IonApp>
+      <SuperTokensProvider>
+        <MantineProvider theme={theme} forceColorScheme={"dark"}>
+          <QueryClientProvider client={queryClient}>
+            <IonReactRouter>
+              <AppUrlListener />
+              <AppUpdateListener />
+              <NotificationsManager />
+              <Tabs />
+              <IonFab
+                className={keyboardOpened ? "hidden" : undefined}
+                slot="fixed"
+                horizontal="center"
+                vertical="bottom"
+                edge={false}
+              >
+                <IonFabButton routerLink={"/home"}>
+                  <IconHome />
+                </IonFabButton>
+              </IonFab>
+            </IonReactRouter>
+          </QueryClientProvider>
+        </MantineProvider>
+      </SuperTokensProvider>
+    </IonApp>
+  );
 };
 
 export default App;

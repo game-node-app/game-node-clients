@@ -16,11 +16,10 @@ import {
 } from "@tabler/icons-react";
 import { CollectionEntryAddOrUpdateModal } from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
-import { CollectionsEntriesService, Game } from "../../../../../wrapper/src/server";
+import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { CollectionEntryRemoveModal } from "@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
-import { GameInfoShare } from "@/components/game/info/share/GameInfoShare";
 import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
 import { useUserId } from "@/components/auth/hooks/useUserId";
 import {
@@ -32,6 +31,7 @@ import {
 interface IGameViewActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
   game: Game | undefined;
+  onShareClick: () => void;
 }
 
 /**
@@ -39,10 +39,13 @@ interface IGameViewActionsProps {
  * The game add report is handled here.
  * @constructor
  */
-const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
+const GameInfoActions = ({
+  game,
+  wrapperProps,
+  onShareClick,
+}: IGameViewActionsProps) => {
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
-  const [shareModalOpened, shareModalUtils] = useDisclosure();
   const userId = useUserId();
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
 
@@ -111,13 +114,6 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
           onClose={removeModalUtils.close}
           gameId={game.id}
         />
-        <Modal
-          opened={shareModalOpened}
-          onClose={shareModalUtils.close}
-          title={"Share"}
-        >
-          <GameInfoShare gameId={game.id} onClose={shareModalUtils.close} />
-        </Modal>
 
         <Button
           onClick={addUpdateModalUtils.open}
@@ -156,11 +152,7 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
         )}
         {hasReview && (
           <Tooltip label={"Share this game"}>
-            <ActionIcon
-              size="lg"
-              variant="default"
-              onClick={() => shareModalUtils.toggle()}
-            >
+            <ActionIcon size="lg" variant="default" onClick={onShareClick}>
               <IconShare size={"1.05rem"} />
             </ActionIcon>
           </Tooltip>

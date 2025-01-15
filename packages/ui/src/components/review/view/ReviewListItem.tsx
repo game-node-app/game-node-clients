@@ -14,7 +14,7 @@ import {
   FindAllCommentsDto,
   FindOneStatisticsDto,
   Review,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { useUserId } from "@/components/auth/hooks/useUserId";
 import { ReviewListItemDropdownButton } from "@/components/review/view/ReviewListItemDropdownButton";

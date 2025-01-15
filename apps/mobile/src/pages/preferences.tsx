@@ -17,8 +17,6 @@ import {
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { Container } from "@mantine/core";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
-import { Link } from "react-router-dom";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 

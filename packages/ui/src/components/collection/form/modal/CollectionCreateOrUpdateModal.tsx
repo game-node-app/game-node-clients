@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { CollectionCreateOrUpdateForm } from "@/components/collection/form/CollectionCreateOrUpdateForm";
-import { Modal } from "@mantine/core";
-import { useCollection } from "@/components/collection/hooks/useCollection";
+import { Modal } from "@/util";
 
 interface ICreateCollectionModalProps extends BaseModalProps {
   /**
    * Existing collection id (for update actions)
    */
-  collectionId?: string;
+  collectionId: string | undefined | null;
 }
 
 const CollectionCreateOrUpdateModal = ({

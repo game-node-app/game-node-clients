@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, Modal } from "@mantine/core";
+import { Image } from "@mantine/core";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { Modal } from "@/util";
 
 interface Props extends BaseModalProps {
   imageSrc: string;
@@ -18,9 +19,7 @@ const GameInfoImageCarouselModal = ({ imageSrc, onClose, opened }: Props) => {
       p={0}
       withCloseButton={false}
     >
-      <Modal.Body w={"100%"} p={0}>
-        <Image src={imageSrc} width={"100%"} alt={"Game image"} />
-      </Modal.Body>
+      <Image src={imageSrc} width={"100%"} alt={"Game image"} />
     </Modal>
   );
 };

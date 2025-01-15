@@ -4,7 +4,7 @@ import {
   ReportCreateFormProps,
   ReportCreateForm,
 } from "@/components/report/form/ReportCreateForm";
-import { Modal } from "@mantine/core";
+import { Modal } from "@/util";
 
 type Props = BaseModalProps & ReportCreateFormProps;
 
@@ -16,13 +16,11 @@ const ReportCreateFormModal = ({
 }: Props) => {
   return (
     <Modal title={"Report content"} onClose={onClose} opened={opened}>
-      <Modal.Body>
-        <ReportCreateForm
-          sourceId={sourceId}
-          sourceType={sourceType}
-          onSuccess={onClose}
-        />
-      </Modal.Body>
+      <ReportCreateForm
+        sourceId={sourceId}
+        sourceType={sourceType}
+        onSuccess={onClose}
+      />
     </Modal>
   );
 };

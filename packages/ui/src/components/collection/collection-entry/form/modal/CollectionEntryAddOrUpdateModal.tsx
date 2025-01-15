@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Container, Modal } from "@mantine/core";
-import { LoginPromptCentered } from "@/components/general/LoginPromptCentered";
+import React from "react";
 import { CollectionEntryAddOrUpdateForm } from "@/components/collection/collection-entry/form/CollectionEntryAddOrUpdateForm";
 import { BaseModalProps } from "@/util/types/modal-props";
-import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { useOnMobile } from "@/components/general/hooks/useOnMobile";
 import { useUserId } from "@/components/auth/hooks/useUserId";
+import { Modal } from "@/util";
 
 interface IGameAddModalProps extends BaseModalProps {
   id: number;
@@ -18,7 +16,6 @@ const CollectionEntryAddOrUpdateModal = ({
 }: IGameAddModalProps) => {
   const onMobile = useOnMobile();
   const userId = useUserId();
-  const userLibrary = useUserLibrary(userId);
 
   return (
     <Modal
@@ -28,11 +25,7 @@ const CollectionEntryAddOrUpdateModal = ({
       fullScreen={onMobile}
       transitionProps={{ transition: "fade", duration: 200 }}
     >
-      <Modal.Body>
-        <Container fluid h={"100%"} className={""}>
-          <CollectionEntryAddOrUpdateForm gameId={id} onClose={onClose} />
-        </Container>
-      </Modal.Body>
+      <CollectionEntryAddOrUpdateForm gameId={id} onClose={onClose} />
     </Modal>
   );
 };

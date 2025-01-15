@@ -16,7 +16,8 @@ import {
 import { FindStatisticsTrendingGamesDto, GameStatisticsPaginatedResponseDto } from "@repo/wrapper/server";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import period = FindStatisticsTrendingGamesDto.period;
-import { GameView, useGames, useInfiniteTrendingGames } from "@repo/ui";
+import { useGames, useInfiniteTrendingGames } from "@repo/ui";
+import GameView from "@/components/game/view/GameView";
 
 const SELECT_PERIOD_DATA = [
     { label: "Week", value: period.WEEK },

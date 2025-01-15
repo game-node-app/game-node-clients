@@ -13,9 +13,7 @@ import {
     Stack,
     Text,
 } from "@mantine/core";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import ProfileUserInfo from "@/components/profile/view/ProfileUserInfo";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
+import { ProfileUserInfo, UserAvatar, useUserProfile } from "@repo/ui";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
     userId: string;
@@ -54,7 +52,7 @@ const ProfileUserInfoWithBanner = ({ userId, children }: ProfileUserInfoWithBann
                     </Stack>
 
                     <Stack className={"w-full h-full relative -top-14"}>
-                        <ProfileUserInfo userId={userId} />
+                        <ProfileUserInfo userId={userId} withEditDetailsButton={false} />
                     </Stack>
                 </Stack>
 

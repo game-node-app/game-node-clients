@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import {
-  Box,
   Button,
   ComboboxItem,
   MultiSelect,
   Space,
+  Stack,
   Title,
 } from "@mantine/core";
 import { GameFigureImage } from "@/components/game/figure/GameFigureImage";
@@ -33,6 +33,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "@/util/trackMatomoEvent";
+import { ImageSize } from "@/components";
 
 const GameAddOrUpdateSchema = z
   .object({
@@ -68,6 +69,7 @@ type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;
 
 interface IGameAddFormProps extends BaseModalChildrenProps {
   gameId: number;
+  showGameInfo?: boolean;
 }
 
 function buildCollectionOptions(
@@ -105,6 +107,7 @@ function buildPlatformsOptions(
 
 const CollectionEntryAddOrUpdateForm = ({
   gameId,
+  showGameInfo = true,
   onClose,
 }: IGameAddFormProps) => {
   const {
@@ -307,11 +310,13 @@ const CollectionEntryAddOrUpdateForm = ({
         onSubmit={handleSubmit(onSubmit)}
         className="w-full h-full flex flex-col items-center justify-start gap-4"
       >
-        <Box className="min-w-[100%] max-w-fit max-h-fit">
-          <GameFigureImage game={game!} />
-        </Box>
-        <Title size={"h5"}>{game?.name}</Title>
-        <Space />
+        {showGameInfo && (
+          <Stack className="w-full items-center">
+            <GameFigureImage game={game!} imageSize={ImageSize.COVER_BIG_2X} />
+            <Title size={"h5"}>{game?.name}</Title>
+          </Stack>
+        )}
+
         <MultiSelect
           {...register("collectionIds")}
           value={collectionsIdsValue || []}

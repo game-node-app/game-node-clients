@@ -16,7 +16,7 @@ const RecentCollectionEntriesView = ({
   limit = 12,
 }: Props) => {
   const collectionEntriesQuery = useCollectionEntriesForUserId(
-    userId as string,
+    userId,
     offset,
     limit,
   );

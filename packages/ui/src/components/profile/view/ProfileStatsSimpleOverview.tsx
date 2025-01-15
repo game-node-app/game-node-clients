@@ -1,36 +1,12 @@
 import React from "react";
 import { useProfileMetricsOverview } from "@/components/profile/hooks/useProfileMetricsOverview";
-import {
-  Group,
-  Popover,
-  SimpleGrid,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
+import { Group, Popover, Stack, Text } from "@mantine/core";
 import { BarChart } from "@mantine/charts";
-import { ProfileMetricsOverviewDto } from "../../../../../wrapper/src/server";
-import { TextLink } from "@/components/general/TextLink";
+import { ProfileMetricsOverviewDto } from "@repo/wrapper/server";
 
 interface Props {
   userId: string;
 }
-
-const buildBarChartData = (data: ProfileMetricsOverviewDto) => {
-  return [
-    {
-      label: "Total games",
-      totalGames: data.totalGames,
-      // totalFinishedGames: null,
-    },
-    {
-      label: "Finished games",
-      // totalGames: null,
-      totalFinishedGames: data.totalFinishedGames,
-    },
-  ];
-};
 
 const ProfileStatsSimpleOverview = ({ userId }: Props) => {
   const metricsOverviewQuery = useProfileMetricsOverview(userId);

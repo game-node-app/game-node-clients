@@ -1,15 +1,13 @@
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
 import { Box, Group, Stack, Text, Title, Badge, Flex } from "@mantine/core";
-import GameFigureImage, { IGameFigureProps } from "@/components/game/figure/GameFigureImage";
-import { getLocalizedFirstReleaseDate } from "@/components/game/util/getLocalizedFirstReleaseDate";
 import { TGameOrSearchGame } from "@/components/game/util/types";
-import { getGameGenres } from "@/components/game/util/getGameGenres";
-import { getGamePlatformInfo } from "@/components/game/util/getGamePlatformInfo";
-import { getGameCategoryName } from "@/components/game/util/getGameCategoryName";
-import GameInfoPlatforms from "@/components/game/info/GameInfoPlatforms";
-import { Link } from "react-router-dom";
-import GameFigureWithQuickAdd from "@/components/game/figure/GameFigureWithQuickAdd";
-import { createGesture } from "@ionic/react";
+import {
+    GameFigureImage,
+    GameInfoPlatforms,
+    getGameGenres,
+    getLocalizedFirstReleaseDate,
+    IGameFigureProps,
+} from "@repo/ui";
 
 export interface IGameListFigureProps {
     game: TGameOrSearchGame;

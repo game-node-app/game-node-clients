@@ -1,5 +1,4 @@
 import React, { createContext, PropsWithChildren } from "react";
-import { Stack } from "@mantine/core";
 import { GameViewContent } from "@/components/game/view/GameViewContent";
 import { GameViewPagination } from "@/components/game/view/GameViewPagination";
 import { GameViewLayoutSwitcher } from "@/components/game/view/GameViewLayoutSwitcher";

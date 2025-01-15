@@ -6,4 +6,5 @@ export * from "./useCollectionEntriesForCollectionId";
 export * from "./useCollectionEntriesForUserId";
 export * from "./useCollectionEntry";
 export * from "./useFavoriteCollectionEntriesForUserId";
+export * from "./useInfiniteCollectionEntriesForCollectionId";
 export * from "./useOwnCollectionEntryForGameId";

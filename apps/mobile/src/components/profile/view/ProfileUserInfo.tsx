@@ -4,11 +4,9 @@ import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import UserLevelInfo from "@/components/user-level/UserLevelInfo";
 import CenteredLoading from "@/components/general/CenteredLoading";
-import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
-import ObtainedAchievementItem from "@/components/achievement/ObtainedAchievementItem";
 import useUserId from "@/components/auth/hooks/useUserId";
 import ProfileFollowActions from "@/components/profile/view/ProfileFollowActions";
-import TextLink from "@/components/general/TextLink";
+import { ObtainedAchievementItem, useAllObtainedAchievements } from "@repo/ui";
 
 const dateFormatter = new Intl.DateTimeFormat();
 

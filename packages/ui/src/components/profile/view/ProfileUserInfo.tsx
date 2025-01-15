@@ -1,14 +1,6 @@
 import React, { useMemo } from "react";
-import {
-  AvatarProps,
-  Box,
-  Paper,
-  Stack,
-  StackProps,
-  Text,
-} from "@mantine/core";
+import { Box, Paper, Stack, Text } from "@mantine/core";
 import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
 import { UserLevelInfo } from "@/components/user-level/UserLevelInfo";
 import { CenteredLoading } from "@/components/general/CenteredLoading";
 import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
@@ -22,9 +14,14 @@ const dateFormatter = new Intl.DateTimeFormat();
 interface Props {
   userId: string;
   onEditClick?: () => void;
+  withEditDetailsButton?: boolean;
 }
 
-const ProfileUserInfo = ({ userId, onEditClick }: Props) => {
+const ProfileUserInfo = ({
+  userId,
+  onEditClick,
+  withEditDetailsButton = true,
+}: Props) => {
   const ownUserId = useUserId();
   const profileQuery = useUserProfile(userId);
   const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
@@ -71,7 +68,7 @@ const ProfileUserInfo = ({ userId, onEditClick }: Props) => {
           <ProfileFollowActions targetUserId={userId} />
         </Box>
 
-        {isOwnProfile && (
+        {isOwnProfile && withEditDetailsButton && (
           <TextLink
             linkProps={{
               onClick: (evt) => {

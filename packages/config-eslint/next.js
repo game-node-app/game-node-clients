@@ -12,36 +12,43 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    jest: true,
+  },
   extends: [
-    ...[
-      "@vercel/style-guide/eslint/node",
-      "@vercel/style-guide/eslint/typescript",
-      "@vercel/style-guide/eslint/browser",
-      "@vercel/style-guide/eslint/react",
-      "@vercel/style-guide/eslint/next",
-    ].map(require.resolve),
-    "turbo",
+    "plugin:@next/eslint-plugin-next/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
   ],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    project,
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-  globals: {
-    React: true,
-    JSX: true,
+  plugins: [
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "react-refresh",
+    "@next/eslint-plugin-next",
+  ],
+  rules: {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/prefer-default-export": "off",
+    "prettier/prettier": ["warn", { endOfLine: "auto" }],
   },
-  settings: {
-    "import/resolver": {
-      typescript: {
-        project,
-      },
-      node: {
-        extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
+  overrides: [
+    {
+      files: ["*.config.js"],
+      env: {
+        node: true,
       },
     },
-  },
-  ignorePatterns: ["node_modules/", "dist/"],
-  // add rules configurations here
-  rules: {
-    "import/no-default-export": "off",
-  },
+  ],
 };

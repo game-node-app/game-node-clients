@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import GameFigureImage, { IGameFigureProps } from "@/components/game/figure/GameFigureImage";
-import { getGameCategoryName } from "@/components/game/util/getGameCategoryName";
 import { TGameOrSearchGame } from "@/components/game/util/types";
 import GameFigureWithQuickAdd from "@/components/game/figure/GameFigureWithQuickAdd";
+import { GameFigureImage, IGameFigureProps } from "@repo/ui";
 
 interface IGameGridFigureProps {
     game: TGameOrSearchGame;
@@ -16,7 +15,6 @@ interface IGameGridFigureProps {
 
 const GameGridItem = ({ game, figureProps, withQuickAdd = true }: IGameGridFigureProps) => {
     const Figure = withQuickAdd ? GameFigureWithQuickAdd : GameFigureImage;
-    // const Figure = GameFigureImage;
 
     return <Figure {...figureProps} game={game} />;
 };

@@ -1,17 +1,11 @@
 import React, { ReactNode, useCallback, useMemo, useRef, useState } from "react";
 import { Chip, ComboboxItem, Flex, Group, Pagination, Select, Stack, Tabs, Text } from "@mantine/core";
-import ReviewListItem from "@/components/review/view/ReviewListItem";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { TBasePaginationRequest } from "@/util/types/pagination";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { ParsedUrlQuery } from "querystring";
 import { useTrendingReviews } from "@/components/statistics/hooks/useTrendingReviews";
 import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
 import { useReviews } from "@/components/review/hooks/useReviews";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { Carousel } from "@mantine/carousel";
+import { CenteredErrorMessage, CenteredLoading, ReviewListItem, useUserId } from "@repo/ui";
 
 interface IGameInfoReviewListProps {
     gameId: number;

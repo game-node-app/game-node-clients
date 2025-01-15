@@ -4,10 +4,7 @@ import { GameViewContext } from "@/components/game/view/GameView";
 import { GameGridItem } from "@/components/game/figure/GameGridItem";
 import { GameListItem } from "@/components/game/figure/GameListItem";
 import { TGameOrSearchGame } from "@/components/game/util/types";
-import { ImageSize } from "@/components/game/util/getSizedImageUrl";
-import { SearchGame } from "@/components/game/search/utils/types";
 import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { Game } from "../../../../../wrapper/src/server";
 
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {

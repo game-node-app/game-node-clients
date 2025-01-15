@@ -6,7 +6,7 @@ import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
 import { useCollectionEntriesForUserId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
 import { useReviewsForUserId } from "@/components/review/hooks/useReviewsForUserId";
 import { ProfileNavbarFollowInfo } from "@/components/profile/view/ProfileNavbarFollowInfo";
-import { FollowInfoRequestDto } from "../../../../../wrapper/src/server";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import criteria = FollowInfoRequestDto.criteria;
 import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
 

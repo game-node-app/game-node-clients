@@ -1,6 +1,6 @@
 import React from "react";
 import { usePlaytimeForUser } from "@/components/playtime/hooks/usePlaytimeForUser";
-import { Box, Flex, Group, Overlay, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { UserPlaytimeItem } from "@/components/playtime/UserPlaytimeItem";
 import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
@@ -23,7 +23,7 @@ const UserRecentGames = ({ userId, offset, limit }: Props) => {
   const isOwnPlaytime = ownUserId != undefined && ownUserId === userId;
 
   return (
-    <Stack className={"w-full h-full justify-start flex-col"}>
+    <Stack className={"w-full h-full"}>
       {playtime.isError && (
         <CenteredErrorMessage message={getErrorMessage(playtime.error)} />
       )}

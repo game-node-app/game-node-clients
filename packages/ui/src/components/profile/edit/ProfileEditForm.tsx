@@ -6,7 +6,6 @@ import {
   Center,
   Flex,
   Group,
-  Modal,
   Stack,
   Text,
 } from "@mantine/core";
@@ -19,6 +18,7 @@ import { ProfileEditUsernameUpdate } from "@/components/profile/edit/ProfileEdit
 import { ProfileEditFeaturedAchievement } from "@/components/profile/edit/ProfileEditFeaturedAchievement";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { ProfileEditBioForm } from "@/components/profile/edit/ProfileEditBioForm";
+import { Modal } from "@/util";
 
 interface Props {
   userId: string;

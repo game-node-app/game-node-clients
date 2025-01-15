@@ -1,17 +1,16 @@
 import React, { useMemo } from "react";
 import { useAchievements } from "@/components/achievement/hooks/useAchievements";
-import { Center, Group, Modal, Select, Stack, Text } from "@mantine/core";
+import { Group, Select, Stack, Text } from "@mantine/core";
 import { useFeaturedObtainedAchievement } from "@/components/achievement/hooks/useFeaturedObtainedAchievement";
 import { useUserId } from "@/components/auth/hooks/useUserId";
 import { AchievementItem } from "@/components/achievement/AchievementItem";
 import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
 import { useMutation } from "@tanstack/react-query";
-import { shuffleArray } from "@/util/shuffleArray";
 import { useDisclosure } from "@mantine/hooks";
-import { AchievementDto, AchievementsService } from "../../../../../wrapper/src/server";
+import { AchievementDto, AchievementsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { Link } from "@/util";
+import { Link, Modal } from "@/util";
 
 const ProfileEditFeaturedAchievement = () => {
   const [opened, modalUtils] = useDisclosure(false);
@@ -87,40 +86,34 @@ const ProfileEditFeaturedAchievement = () => {
         onClose={modalUtils.close}
         title={"Select a new featured achievement"}
       >
-        <Modal.Body>
-          {allObtainedAchievements.data ? (
-            <Stack>
-              <Select
-                defaultValue={`${featuredAchievement?.id}`}
-                data={allObtainedAchievements.data.map(
-                  (obtainedAchievement) => {
-                    const achievementEntity = achievements.data.data.find(
-                      (achievement) => {
-                        return (
-                          achievement.id === obtainedAchievement.achievementId
-                        );
-                      },
-                    );
-                    return {
-                      label: achievementEntity!.name,
-                      value: achievementEntity!.id,
-                    };
+        {allObtainedAchievements.data ? (
+          <Stack>
+            <Select
+              defaultValue={`${featuredAchievement?.id}`}
+              data={allObtainedAchievements.data.map((obtainedAchievement) => {
+                const achievementEntity = achievements.data.data.find(
+                  (achievement) => {
+                    return achievement.id === obtainedAchievement.achievementId;
                   },
-                )}
-                onChange={(id) => {
-                  if (id) {
-                    featuredAchievementMutation.mutate(id);
-                  }
-                }}
-              />
-            </Stack>
-          ) : (
-            <Text>
-              You have not obtained any achievements. Return here later,
-              adventurer!
-            </Text>
-          )}
-        </Modal.Body>
+                );
+                return {
+                  label: achievementEntity!.name,
+                  value: achievementEntity!.id,
+                };
+              })}
+              onChange={(id) => {
+                if (id) {
+                  featuredAchievementMutation.mutate(id);
+                }
+              }}
+            />
+          </Stack>
+        ) : (
+          <Text>
+            You have not obtained any achievements. Return here later,
+            adventurer!
+          </Text>
+        )}
       </Modal>
       <Link href={"#"} onClick={modalUtils.open}>
         {featuredAchievementQuery.isLoading && <CenteredLoading />}

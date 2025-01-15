@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 import { LibraryView, RecentCollectionEntriesView, useUserId, useUserProfile } from "@repo/ui";
-import { MobileCollectionView } from "@/components/collection/view/MobileCollectionView";
+import { CollectionView } from "@/components/collection/view/CollectionView";
 
 interface Props {
     userId?: string;
@@ -70,10 +70,7 @@ const LibraryPage = ({ userId }: Props) => {
                             onChange={setSelectedCollectionId}
                         >
                             {selectedCollectionId ? (
-                                <MobileCollectionView
-                                    libraryUserId={userIdToUse!}
-                                    collectionId={selectedCollectionId}
-                                />
+                                <CollectionView libraryUserId={userIdToUse!} collectionId={selectedCollectionId} />
                             ) : (
                                 <DetailsBox
                                     title={
@@ -83,7 +80,7 @@ const LibraryPage = ({ userId }: Props) => {
                                     }
                                     stackProps={{ className: "w-full" }}
                                 >
-                                    <RecentCollectionEntriesView userId={userIdToUse!} limit={12} />
+                                    <RecentCollectionEntriesView userId={userIdToUse!} limit={24} />
                                 </DetailsBox>
                             )}
                         </LibraryView>

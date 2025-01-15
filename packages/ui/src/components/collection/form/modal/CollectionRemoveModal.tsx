@@ -1,8 +1,8 @@
 import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
-import { Button, Group, Modal, Stack, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CollectionsService } from "../../../../../../wrapper/src/server";
+import { CollectionsService } from "@repo/wrapper/server";
 import { useUserId } from "@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { useCollection } from "@/components/collection/hooks/useCollection";
@@ -12,6 +12,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "@/util/trackMatomoEvent";
+import { Modal } from "@/util";
 
 interface Props extends BaseModalProps {
   collectionId: string;
@@ -51,32 +52,30 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
       title={"Remove collection"}
       centered
     >
-      <Modal.Body>
-        <Stack w={"100%"} justify={"center"}>
-          <Text fz={"xl"} className={"text-center"}>
-            Are you sure you want to remove this collection?
-          </Text>
-          <Text fw={"bold"} className={"text-center"}>
-            This will also remove all games from this collection. If the games
-            aren't available in other collections, your reviews from them will
-            also be removed.
-          </Text>
-          <Group wrap={"nowrap"} justify={"center"}>
-            <Button onClick={onClose} color={"blue"}>
-              Go back
-            </Button>
-            <Button
-              onClick={() => {
-                collectionRemoveMutation.mutate(collectionId);
-                onClose();
-              }}
-              color={"red"}
-            >
-              Confirm
-            </Button>
-          </Group>
-        </Stack>
-      </Modal.Body>
+      <Stack w={"100%"} justify={"center"}>
+        <Text fz={"xl"} className={"text-center"}>
+          Are you sure you want to remove this collection?
+        </Text>
+        <Text fw={"bold"} className={"text-center"}>
+          This will also remove all games from this collection. If the games
+          aren't available in other collections, your reviews from them will
+          also be removed.
+        </Text>
+        <Group wrap={"nowrap"} justify={"center"}>
+          <Button onClick={onClose} color={"blue"}>
+            Go back
+          </Button>
+          <Button
+            onClick={() => {
+              collectionRemoveMutation.mutate(collectionId);
+              onClose();
+            }}
+            color={"red"}
+          >
+            Confirm
+          </Button>
+        </Group>
+      </Stack>
     </Modal>
   );
 };

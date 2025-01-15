@@ -14,9 +14,9 @@ import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, Io
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import ImporterCollectionSelect from "@/components/importer/ImporterCollectionSelect";
-import GameSelectView from "@/components/game/view/select/GameSelectView";
 import { getCapitalizedText } from "@/util/getCapitalizedText";
 import { getErrorMessage } from "@/util/getErrorMessage";
+import { GameSelectView } from "@repo/ui";
 
 const ImporterFormSchema = z.object({
     selectedCollectionIds: z.array(z.string()).min(1, "Select at least one collection"),
