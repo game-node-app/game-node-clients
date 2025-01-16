@@ -43,14 +43,14 @@ jobs:
       - name: Build APK release
         working-directory: apps/mobile
         run: |
-          npx cap build android --keystorepath ./android/release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
+          npx cap build android --keystorepath release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
           --keystorealias ${{secrets.RELEASE_KEYSTORE_KEY_ALIAS}} --keystorealiaspass ${{secrets.RELEASE_KEYSTORE_KEY_PASS}} \
           --androidreleasetype APK
 
       - name: Build AAB release
         working-directory: apps/mobile
         run: |
-          npx cap build android --keystorepath android/release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
+          npx cap build android --keystorepath release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
           --keystorealias ${{secrets.RELEASE_KEYSTORE_KEY_ALIAS}} --keystorealiaspass ${{secrets.RELEASE_KEYSTORE_KEY_PASS}} \
           --androidreleasetype AAB
 
