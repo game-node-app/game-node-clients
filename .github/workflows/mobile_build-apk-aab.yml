@@ -57,19 +57,17 @@ jobs:
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v4
-        working-directory: apps/mobile/android
         with:
           name: release-artifacts
           path: |
-            app/build/outputs/apk/release/
-            app/build/outputs/bundle/release/
+            apps/mobile/android/app/build/outputs/apk/release/
+            apps/mobile/android/app/build/outputs/bundle/release/
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
-        working-directory: apps/mobile/android
         with:
           generate_release_notes: true
           prerelease: true
           files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+            apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+            apps/mobile/android/app/build/outputs/bundle/release/app-release.aab
