@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
-import { useGames } from "@/components/game/hooks/useGames";
 import GameView, {
   GameViewLayoutOption,
 } from "@/components/game/view/GameView";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import {
   useCollection,
+  useGames,
   useInfiniteCollectionEntriesForCollectionId,
 } from "@repo/ui";
 
