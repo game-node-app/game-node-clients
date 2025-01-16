@@ -4,8 +4,8 @@ import React from "react";
 import { useUserProfile } from "../../profile/hooks/useUserProfile.ts";
 import { useOnMobile } from "../hooks/useOnMobile.ts";
 import { Link } from "../../../util";
-import { UserAvatar } from "./UserAvatar.tsx";
-import { Break } from "../Break.tsx";
+import { UserAvatar } from "./UserAvatar";
+import { Break } from "../Break";
 
 interface IProps {
   userId: string;

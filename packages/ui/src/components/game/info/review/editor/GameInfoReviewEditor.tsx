@@ -1,12 +1,6 @@
-import React, {
-  forwardRef,
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import React, { MutableRefObject, useEffect, useMemo } from "react";
 import { Box, BoxComponentProps, Menu } from "@mantine/core";
-import { JSONContent, ReactRenderer, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
@@ -92,4 +86,4 @@ const GameInfoReviewEditor = ({
   );
 };
 
-export default GameInfoReviewEditor;
+export { GameInfoReviewEditor };

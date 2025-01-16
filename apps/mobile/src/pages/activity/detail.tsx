@@ -10,9 +10,8 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { Container, Stack } from "@mantine/core";
-import { ActivityDetailView } from "@repo/ui";
+import { ActivityDetailView, useActivity, useUserProfile } from "@repo/ui";
 
 interface Props {
   activityId: string;

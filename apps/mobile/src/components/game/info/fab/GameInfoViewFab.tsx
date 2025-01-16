@@ -1,25 +1,16 @@
 import { IonFab, IonFabButton, IonFabList } from "@ionic/react";
 import React from "react";
-import { ActionIcon, ThemeIcon } from "@mantine/core";
 import {
   IconDots,
-  IconEdit,
   IconHeartFilled,
   IconHeartPlus,
   IconLibrary,
   IconLibraryPlus,
-  IconPencil,
-  IconPencilPlus,
-  IconPlus,
   IconShare,
-  IconStarFilled,
   IconStars,
   IconStarsFilled,
   IconTrashFilled,
 } from "@tabler/icons-react";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import useReviewForUserIdAndGameId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import useUserId from "@/components/auth/hooks/useUserId";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
@@ -27,6 +18,9 @@ import GameInfoShareModal from "@/components/game/info/share/GameInfoShareModal"
 import {
   CollectionEntryAddOrUpdateModal,
   CollectionEntryRemoveModal,
+  useOwnCollectionEntryForGameId,
+  useReviewForUserIdAndGameId,
+  useUserId,
 } from "@repo/ui";
 import GameInfoReviewCreateUpdateModal from "@/components/game/info/review/editor/GameInfoReviewCreateUpdateModal";
 

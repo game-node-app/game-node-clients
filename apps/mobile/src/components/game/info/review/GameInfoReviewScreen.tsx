@@ -3,11 +3,11 @@ import React from "react";
 import { Paper, Stack } from "@mantine/core";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import {
+  GameInfoReviewList,
   ReviewListItem,
   useReviewForUserIdAndGameId,
   useUserId,
 } from "@repo/ui";
-import GameInfoReviewList from "@/components/game/info/review/GameInfoReviewList";
 
 interface IGameInfoReviewViewProps {
   gameId: number;

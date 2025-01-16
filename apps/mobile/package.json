@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "dev": "vite --port 3002",
+    "dev": "vite --port 3002 --force",
     "build": "npx cap sync",
     "build:vite": "tsc && vite build",
     "preview": "vite preview",

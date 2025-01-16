@@ -1,30 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import GameInfoReviewEditor from "@/components/game/info/review/editor/GameInfoReviewEditor";
-import { DetailsBox } from "@/components/general/DetailsBox";
+import React from "react";
 import { z } from "zod";
-import { CreateReviewDto, ReviewsService } from "@repo/wrapper/server";
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Flex,
-  Group,
-  Rating,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
-import { Form, useForm } from "react-hook-form";
+import { ReviewsService } from "@repo/wrapper/server";
+import { Button, Group, Stack, Text } from "@mantine/core";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Break from "@/components/general/Break";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useReviewForUserId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import useUserId from "@/components/auth/hooks/useUserId";
 import { notifications } from "@mantine/notifications";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import GameRating from "@/components/general/input/GameRating";
-import { BaseModalChildrenProps } from "@/util/types/modal-props";
+import {
+  BaseModalChildrenProps,
+  CenteredErrorMessage,
+  GameRating,
+  getErrorMessage,
+  useOwnCollectionEntryForGameId,
+  useReviewForUserIdAndGameId,
+  useUserId,
+  GameInfoReviewEditor,
+  Break,
+} from "@repo/ui";
 
 const ReviewFormSchema = z.object({
   rating: z.number().min(0).max(5).default(5),
@@ -52,7 +44,7 @@ const GameInfoReviewEditorView = ({
   const queryClient = useQueryClient();
 
   const userId = useUserId();
-  const reviewQuery = useReviewForUserId(userId, gameId);
+  const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
   const reviewMutation = useMutation({
@@ -112,13 +104,14 @@ const GameInfoReviewEditorView = ({
         />
         <Break />
         <Group mt={"md"} justify={"space-between"}>
-          <Text
-            fz={"sm"}
-            ml={{ base: 0, lg: "0.5rem" }}
-            className={"text-red-500"}
-          >
-            {error?.message}
-          </Text>
+          {reviewMutation.isError && (
+            <CenteredErrorMessage
+              message={getErrorMessage(reviewMutation.error)}
+            />
+          )}
+          {error && error.message && (
+            <CenteredErrorMessage message={error.message} />
+          )}
           <Group>
             <GameRating
               readOnly={false}
@@ -136,4 +129,4 @@ const GameInfoReviewEditorView = ({
   );
 };
 
-export default GameInfoReviewEditorView;
+export { GameInfoReviewEditorView };

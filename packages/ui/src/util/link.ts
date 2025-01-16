@@ -8,9 +8,17 @@ interface RoutingManagerProps {
   push: (route: string) => Promise<void> | void;
 }
 
-export let useRouter: () => RoutingManagerProps;
+export let useRouter: () => RoutingManagerProps = () => {
+  throw new Error(
+    "A routing manager must be set. Call `setRoutingManager` at the project's root.",
+  );
+};
 
-export let Link: React.FC<RoutingComponent>;
+export let Link: React.FC<RoutingComponent> = () => {
+  throw new Error(
+    "A routing component must be set. Call `setRoutingComponent` at the project's root.",
+  );
+};
 
 export function setRoutingComponent(component: React.FC<RoutingComponent>) {
   console.log("Routing component set to: ", component);
