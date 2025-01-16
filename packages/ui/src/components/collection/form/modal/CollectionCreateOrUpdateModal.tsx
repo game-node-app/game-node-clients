@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BaseModalProps } from "@/util/types/modal-props";
 import { CollectionCreateOrUpdateForm } from "@/components/collection/form/CollectionCreateOrUpdateForm";
 import { Modal } from "@/util";
@@ -20,6 +20,8 @@ const CollectionCreateOrUpdateModal = ({
       title={`${collectionId ? "Update" : "Create"} collection`}
       withCloseButton
       opened={opened}
+      breakpoints={[0.5, 0.8, 1]}
+      initialBreakpoint={0.8}
       onClose={() => onClose()}
     >
       <CollectionCreateOrUpdateForm

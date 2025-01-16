@@ -24,7 +24,7 @@ const buildSkeletons = () => {
 const TrendingReviewCarousel = () => {
   const onMobile = useOnMobile();
   const trendingReviews = useTrendingReviews({
-    period: period.MONTH,
+    period: period.WEEK,
     offset: 0,
     limit: 10,
   });

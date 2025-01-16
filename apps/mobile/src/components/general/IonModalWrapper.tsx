@@ -17,6 +17,7 @@ const IonModalWrapper = ({
   title,
   breakpoints,
   initialBreakpoint,
+  onBreakpointChange,
   children,
 }: ModalComponentProps) => {
   return (
@@ -25,6 +26,11 @@ const IonModalWrapper = ({
       onDidDismiss={onClose}
       breakpoints={breakpoints}
       initialBreakpoint={initialBreakpoint}
+      onIonBreakpointDidChange={(evt) => {
+        if (onBreakpointChange) {
+          onBreakpointChange(evt.detail.breakpoint);
+        }
+      }}
     >
       <IonHeader>
         <IonToolbar>
