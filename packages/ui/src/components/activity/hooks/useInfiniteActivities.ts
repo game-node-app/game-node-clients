@@ -21,7 +21,10 @@ export function useInfiniteActivities({
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      return lastPageParam + limit;
+      if (lastPage.pagination != undefined && lastPage.pagination.hasNextPage) {
+        return lastPageParam + 1;
+      }
+      return undefined;
     },
   });
 }

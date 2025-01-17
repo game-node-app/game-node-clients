@@ -1,9 +1,12 @@
 import React, { useCallback, useMemo } from "react";
-import { useInfiniteActivities } from "#@/components/activity/hooks/useInfiniteActivities";
 import { Skeleton, Stack } from "@mantine/core";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { ActivityList } from "#@/components/activity/ActivityList";
-import { ActivityFeedTabValue } from "#@/components/activity/ActivityFeedLayout";
+import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
+import {
+  ActivityFeedTabValue,
+  ActivityList,
+  CenteredErrorMessage,
+  useInfiniteActivities,
+} from "@repo/ui";
 
 interface Props {
   criteria: ActivityFeedTabValue;
@@ -50,8 +53,18 @@ const ActivityFeed = ({ criteria }: Props) => {
           }
         />
       )}
+
       <ActivityList items={items} />
-      {activityQuery.isFetching && buildSkeletons()}
+
+      <IonInfiniteScroll
+        disabled={!activityQuery.hasNextPage}
+        onIonInfinite={async (evt) => {
+          await activityQuery.fetchNextPage();
+          await evt.target.complete();
+        }}
+      >
+        <IonInfiniteScrollContent loadingText={"Fetching more activities..."} />
+      </IonInfiniteScroll>
     </Stack>
   );
 };

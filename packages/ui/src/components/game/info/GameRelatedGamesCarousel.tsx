@@ -1,9 +1,31 @@
 import React from "react";
-import { Game } from "@repo/wrapper/server";
+import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { GameInfoCarousel } from "#@/components/game/info/carousel/GameInfoCarousel";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components";
+
+export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
+  relations: {
+    involvedCompanies: {
+      company: true,
+    },
+    similarGames: {
+      cover: true,
+    },
+    dlcOf: {
+      cover: true,
+    },
+    dlcs: {
+      cover: true,
+    },
+    expansionOf: {
+      cover: true,
+    },
+    expansions: {
+      cover: true,
+    },
+  },
+};
 
 interface GameRelatedGameCarouselProps {
   title: string;
@@ -12,22 +34,21 @@ interface GameRelatedGameCarouselProps {
 }
 
 /**
- * Make sure the target relation (and the cover field) is added to DEFAULT_GAME_INFO_VIEW_DTO
+ * Make sure the target relation (and the cover field) is added to DEFAULT_RELATED_GAMES_DTO
  * before using this.
  * @param title
  * @param gameId
  * @param relationProperty
  * @constructor
- * @see DEFAULT_GAME_INFO_VIEW_DTO
+ * @see DEFAULT_RELATED_GAMES_DTO
  */
 const GameRelatedGamesCarousel = ({
   title,
   gameId,
   relationProperty,
 }: GameRelatedGameCarouselProps) => {
-  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+  const gameQuery = useGame(gameId, DEFAULT_RELATED_GAMES_DTO);
 
-  const data = gameQuery.data;
   // Make sure to add runtime checks for an array of games too.
   const relationData = gameQuery.data?.[relationProperty] as Game[] | undefined;
 
