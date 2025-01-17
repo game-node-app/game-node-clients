@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Anchor, Button, Divider, Drawer, Image, Stack } from "@mantine/core";
 import {
   useDisclosure,

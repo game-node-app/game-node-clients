@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import { Container, SimpleGrid } from "@mantine/core";
-import { useGames } from "@/components/game/hooks/useGames";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
-import { GameGridItem } from "@/components/game/figure/GameGridItem";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useFavoriteCollectionEntriesForUserId } from "@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { useGames } from "#@/components/game/hooks/useGames";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { GameGridItem } from "#@/components/game/figure/GameGridItem";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 interface Props {
   userId: string;

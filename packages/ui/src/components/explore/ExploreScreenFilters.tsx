@@ -16,10 +16,10 @@ import {
   Select,
   SimpleGrid,
 } from "@mantine/core";
-import { ExploreScreenResourceSelector } from "@/components/explore/ExploreScreenResourceSelector";
+import { ExploreScreenResourceSelector } from "#@/components/explore/ExploreScreenResourceSelector";
 import { IconAdjustments } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { GameResourceFilter } from "@/components/game/util/types";
+import { GameResourceFilter } from "#@/components/game/util/types";
 import period = FindStatisticsTrendingGamesDto.period;
 
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();

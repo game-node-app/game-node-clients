@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, useContext, useMemo } from "react";
 import { Box, Divider, SimpleGrid, SimpleGridProps } from "@mantine/core";
-import { GameViewContext } from "@/components/game/view/GameView";
-import { GameGridItem } from "@/components/game/figure/GameGridItem";
-import { GameListItem } from "@/components/game/figure/GameListItem";
-import { TGameOrSearchGame } from "@/components/game/util/types";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { GameViewContext } from "#@/components/game/view/GameView";
+import { GameGridItem } from "#@/components/game/figure/GameGridItem";
+import { GameListItem } from "#@/components/game/figure/GameListItem";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {

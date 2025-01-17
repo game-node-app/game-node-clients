@@ -1,19 +1,19 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useUserId } from "@/components/auth/hooks/useUserId";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import {
   FindStatisticsTrendingGamesDto,
   FindStatisticsTrendingReviewsDto,
 } from "../../../../../wrapper/src/server";
-import { ReviewListItem } from "@/components/review/view/ReviewListItem";
+import { ReviewListItem } from "#@/components/review/view/ReviewListItem";
 import { Group, Pagination, Stack, Tabs, Text } from "@mantine/core";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { ParsedUrlQuery } from "querystring";
-import { TBasePaginationRequest } from "@/util/types/pagination";
-import { GameView } from "@/components/game/view/GameView";
-import { useReviewsForUserId } from "@/components/review/hooks/useReviewsForUserId";
-import { useRouter } from "@/util";
+import { TBasePaginationRequest } from "#@/util/types/pagination";
+import { GameView } from "#@/components/game/view/GameView";
+import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId";
+import { useRouter } from "#@/util";
 
 const DEFAULT_LIMIT = 7;
 

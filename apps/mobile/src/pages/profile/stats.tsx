@@ -1,5 +1,4 @@
 import { DetailsBox } from "@/components/general/DetailsBox";
-import { useProfileMetricsOverview } from "@/components/profile/hooks/useProfileMetricsOverview";
 import {
   IonBackButton,
   IonButtons,
@@ -24,6 +23,7 @@ import {
   ProfileStatsDistributionBarByType,
   ProfileStatsDistributionLineByYear,
   ProfileStatsDistributionRadarByType,
+  useProfileMetricsOverview,
   UserAvatarWithLevelInfo,
 } from "@repo/ui";
 

@@ -8,16 +8,16 @@ import {
   Skeleton,
   Text,
 } from "@mantine/core";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
-import { getGamePlatformInfo } from "@/components/game/util/getGamePlatformInfo";
-import { useGame } from "@/components/game/hooks/useGame";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { getGamePlatformInfo } from "#@/components/game/util/getGamePlatformInfo";
+import { useGame } from "#@/components/game/hooks/useGame";
 import { useQuery } from "@tanstack/react-query";
 import {
   CollectionsEntriesService,
   GameRepositoryService,
 } from "../../../../../wrapper/src/server";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 
 interface IGameInfoOwnedPlatformsProps extends GroupProps {
   gameId: number | undefined;

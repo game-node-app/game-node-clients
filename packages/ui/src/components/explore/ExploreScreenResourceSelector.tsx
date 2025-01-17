@@ -6,7 +6,7 @@ import {
   MultiSelectProps,
   SelectProps,
 } from "@mantine/core";
-import { useGamesResource } from "@/components/game/hooks/useGamesResource";
+import { useGamesResource } from "#@/components/game/hooks/useGamesResource";
 import { Game } from "../../../../wrapper/src/server";
 import { UseQueryResult } from "@tanstack/react-query";
 

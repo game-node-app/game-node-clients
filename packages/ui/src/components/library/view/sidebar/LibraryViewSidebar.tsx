@@ -1,12 +1,12 @@
 import React from "react";
-import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import classes from "../library-view-navbar.module.css";
 import { IconSearch } from "@tabler/icons-react";
 import { Box, Group, Space, Text, TextInput } from "@mantine/core";
-import { Link } from "@/util";
+import { Link } from "#@/util";
 import { Collection } from "../../../../../../wrapper/src/server";
-import { LibraryViewSidebarCollections } from "@/components/library/view/sidebar/LibraryViewSidebarCollections";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { LibraryViewSidebarCollections } from "#@/components/library/view/sidebar/LibraryViewSidebarCollections";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 
 interface ILibraryViewSidebarProps {
   userId: string | undefined;

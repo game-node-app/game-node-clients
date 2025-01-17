@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
+import { BaseModalProps } from "#@/util/types/modal-props";
 import { Button, Group, Stack, Text } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ApiError, CommentService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { UserComment } from "@/components/comment/types";
-import { getCommentSourceType } from "@/components/comment/util/getCommentSourceType";
-import { getCommentSourceId } from "@/components/comment/util/getCommentSourceId";
-import { Modal } from "@/util";
+import { UserComment } from "#@/components/comment/types";
+import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
+import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
+import { Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
   comment: UserComment;

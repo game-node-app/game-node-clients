@@ -1,15 +1,15 @@
 import React from "react";
 import { SimpleGrid, Stack } from "@mantine/core";
-import { Game } from "../../../../../wrapper/src/server";
-import { getLocalizedFirstReleaseDate } from "@/components/game/util/getLocalizedFirstReleaseDate";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { GameInfoPlatforms } from "@/components/game/info/GameInfoPlatforms";
-import { GameInfoDetailsDeveloperInfo } from "@/components/game/info/GameInfoDetailsDeveloperInfo";
-import { GameInfoDetailsTags } from "@/components/game/info/GameInfoDetailsTags";
-import { GameInfoScore } from "@/components/game/info/GameInfoScore";
-import { GameInfoExternalStores } from "@/components/game/info/GameInfoExternalStores";
-import { GameInfoProgressTimeline } from "@/components/game/info/GameInfoProgressTimeline";
-import { GameInfoPlaytimeTracker } from "@/components/game/info/GameInfoPlaytimeTracker";
+import { Game } from "@repo/wrapper/server";
+import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
+import { GameInfoDetailsDeveloperInfo } from "#@/components/game/info/GameInfoDetailsDeveloperInfo";
+import { GameInfoDetailsTags } from "#@/components/game/info/GameInfoDetailsTags";
+import { GameInfoScore } from "#@/components/game/info/GameInfoScore";
+import { GameInfoExternalStores } from "#@/components/game/info/GameInfoExternalStores";
+import { GameInfoProgressTimeline } from "#@/components/game/info/GameInfoProgressTimeline";
+import { GameInfoPlaytimeTracker } from "#@/components/game/info/GameInfoPlaytimeTracker";
 
 interface IGameInfoDetailsProps {
   game: Game | undefined;

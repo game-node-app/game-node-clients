@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { UserComment } from "@/components/comment/types";
+import { UserComment } from "#@/components/comment/types";
 import { ActionIcon, Text } from "@mantine/core";
 import { IconMessages } from "@tabler/icons-react";
 

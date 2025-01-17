@@ -3,7 +3,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 import {
   CommentService,
   FindAllCommentsDto,

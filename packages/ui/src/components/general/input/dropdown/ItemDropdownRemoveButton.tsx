@@ -1,5 +1,5 @@
 import React from "react";
-import { ItemDropdownButtonProps } from "@/components/general/input/dropdown/types";
+import { ItemDropdownButtonProps } from "#@/components/general/input/dropdown/types";
 import { IconTrashOff } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
 

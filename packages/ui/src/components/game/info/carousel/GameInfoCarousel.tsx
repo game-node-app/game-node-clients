@@ -1,10 +1,10 @@
 import React from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Game } from "../../../../../../wrapper/src/server";
-import { GameGridItem } from "@/components/game/figure/GameGridItem";
+import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { Flex, Skeleton, Text } from "@mantine/core";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
 interface IGameInfoCarouselProps extends CarouselProps {
   isLoading: boolean;

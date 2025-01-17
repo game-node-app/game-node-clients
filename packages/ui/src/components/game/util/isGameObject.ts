@@ -1,6 +1,6 @@
 import { Game } from "../../../../../wrapper/src/server";
-import { TGameOrSearchGame } from "@/components/game/util/types";
-import { SearchGame } from "@/components/game/search/utils/types";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { SearchGame } from "#@/components/game/search/utils/types";
 
 export function isGameSearchObject(
   game: TGameOrSearchGame,

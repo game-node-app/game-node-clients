@@ -1,11 +1,11 @@
 import React from "react";
-import { usePlaytimeForUser } from "@/components/playtime/hooks/usePlaytimeForUser";
+import { usePlaytimeForUser } from "#@/components/playtime/hooks/usePlaytimeForUser";
 import { Stack } from "@mantine/core";
-import { UserPlaytimeItem } from "@/components/playtime/UserPlaytimeItem";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
-import { getErrorMessage } from "@/util/getErrorMessage";
-import { TBasePaginationRequest } from "@/util/types/pagination";
-import { useUserId } from "@/components/auth/hooks/useUserId";
+import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { getErrorMessage } from "#@/util/getErrorMessage";
+import { TBasePaginationRequest } from "#@/util/types/pagination";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 interface Props extends TBasePaginationRequest {
   userId: string;

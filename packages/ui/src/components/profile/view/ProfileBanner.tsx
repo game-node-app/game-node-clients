@@ -1,11 +1,11 @@
 import React from "react";
 import { ActionIcon, Box, Center, Paper } from "@mantine/core";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { IconCameraPlus } from "@tabler/icons-react";
-import { getServerStoredUpload } from "@/util/getServerStoredImages";
+import { getServerStoredUpload } from "#@/util/getServerStoredImages";
 import { useDisclosure } from "@mantine/hooks";
-import { ProfileEditBannerUploader } from "@/components/profile/edit/ProfileEditBannerUploader";
-import { Modal } from "@/util";
+import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEditBannerUploader";
+import { Modal } from "#@/util";
 
 interface ProfileBannerProps {
   userId: string;

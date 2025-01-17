@@ -5,7 +5,7 @@ import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Editor } from "@tiptap/core";
-import { useUserId, useReviewForUserIdAndGameId } from "@/components";
+import { useUserId, useReviewForUserIdAndGameId } from "#@/components";
 
 interface IGameInfoReviewEditorProps extends BoxComponentProps {
   editorRef?: MutableRefObject<Editor | null>;

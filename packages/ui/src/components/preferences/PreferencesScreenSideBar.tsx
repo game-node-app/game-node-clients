@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Stack, Text, Title } from "@mantine/core";
-import { Link } from "@/util";
+import { Link } from "#@/util";
 
 export type PreferencesActiveCategory = "connections" | "privacy";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
-import { CollectionCreateOrUpdateForm } from "@/components/collection/form/CollectionCreateOrUpdateForm";
-import { Modal } from "@/util";
+import { BaseModalProps } from "#@/util/types/modal-props";
+import { CollectionCreateOrUpdateForm } from "#@/components/collection/form/CollectionCreateOrUpdateForm";
+import { Modal } from "#@/util";
 
 interface ICreateCollectionModalProps extends BaseModalProps {
   /**

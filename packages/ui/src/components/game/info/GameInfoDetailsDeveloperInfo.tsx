@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { useGame } from "@/components/game/hooks/useGame";
-import { DetailsBox } from "@/components/general/DetailsBox";
+import { useGame } from "#@/components/game/hooks/useGame";
+import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Skeleton, Text } from "@mantine/core";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
+import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
 
 interface IProps {
   gameId: number;

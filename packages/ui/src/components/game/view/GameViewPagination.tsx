@@ -1,7 +1,7 @@
 import React from "react";
 import { Center, Group, Pagination, PaginationProps } from "@mantine/core";
 import { PaginationInfo } from "../../../../../wrapper/src/server";
-import { TPaginationInfoDto } from "@/util/types/pagination";
+import { TPaginationInfoDto } from "#@/util/types/pagination";
 
 export interface IGameViewPaginationProps {
   page: number;

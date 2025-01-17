@@ -4,7 +4,7 @@ import {
   StatisticsActionDto,
   StatisticsQueueService,
 } from "../../../../../wrapper/src/server";
-import { useItemStatistics } from "@/components/statistics/hooks/useItemStatistics";
+import { useItemStatistics } from "#@/components/statistics/hooks/useItemStatistics";
 import { useRef } from "react";
 
 export function useUserView(

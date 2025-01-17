@@ -2,7 +2,7 @@ import React from "react";
 import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
-} from "@/components/profile/hooks/useProfileMetricsDistributionByType";
+} from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
 import { Box } from "@mantine/core";
 import { LineChart, RadarChart } from "@mantine/charts";
 import { Game } from "../../../../../../wrapper/src/server";
@@ -11,7 +11,7 @@ import {
   type ProfileMetricsTypeDistributionItem,
   ProfileMetricsTypeDistributionResponseDto,
 } from "../../../../../../wrapper/src/server";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 interface Props {
   userId: string;

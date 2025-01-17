@@ -2,12 +2,12 @@ import React, { PropsWithChildren, useRef, useState } from "react";
 import {
   IGameFigureProps,
   GameFigureImage,
-} from "@/components/game/figure/GameFigureImage";
+} from "#@/components/game/figure/GameFigureImage";
 import { LongPressEventType, useLongPress } from "use-long-press";
 import { Box, Progress } from "@mantine/core";
-import { CollectionEntryAddOrUpdateModal } from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
+import { CollectionEntryAddOrUpdateModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
 interface GameFigureWIthQuickAddProps
   extends PropsWithChildren<IGameFigureProps> {}

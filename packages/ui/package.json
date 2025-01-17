@@ -1,20 +1,21 @@
 {
   "name": "@repo/ui",
   "version": "0.0.0",
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "files": [
-    "dist"
-  ],
   "exports": {
     ".": "./index.ts"
   },
+  "imports": {
+    "#@/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
   "license": "MIT",
   "scripts": {
-    "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "lint": "eslint src/",
-    "dev": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "type-check": "tsc --noEmit",
     "barrels:generate": "barrelsby --delete -l all -d ./src"
   },

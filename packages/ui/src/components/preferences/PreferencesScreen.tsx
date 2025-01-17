@@ -3,12 +3,12 @@ import { Box, Divider, Flex, Group, Paper, Stack } from "@mantine/core";
 import {
   PreferencesActiveCategory,
   PreferencesScreenSideBar,
-} from "@/components/preferences/PreferencesScreenSideBar";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { PreferencesScreenSelector } from "@/components/preferences/PreferencesScreenSelector";
-import { PreferencesConnectionsScreen } from "@/components/preferences/categories/PreferencesConnectionsScreen";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { useRouter } from "@/util";
+} from "#@/components/preferences/PreferencesScreenSideBar";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { PreferencesScreenSelector } from "#@/components/preferences/PreferencesScreenSelector";
+import { PreferencesConnectionsScreen } from "#@/components/preferences/categories/PreferencesConnectionsScreen";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useRouter } from "#@/util";
 
 interface Props {
   category: PreferencesActiveCategory;

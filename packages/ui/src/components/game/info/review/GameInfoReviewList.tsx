@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Chip, Group, Pagination, Stack, Text } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { useTrendingReviews } from "@/components/statistics/hooks/useTrendingReviews";
-import { useReviews } from "@/components/review/hooks/useReviews";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
+import { useReviews } from "#@/components/review/hooks/useReviews";
 import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
 import period = FindStatisticsTrendingReviewsDto.period;
 import {
@@ -11,7 +11,7 @@ import {
   ReviewListItem,
   useOnMobile,
   useUserId,
-} from "@/components";
+} from "#@/components";
 
 interface IGameInfoReviewListProps {
   gameId: number;

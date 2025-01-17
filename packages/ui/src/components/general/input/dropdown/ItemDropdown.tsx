@@ -1,9 +1,9 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import React, { PropsWithChildren, useState } from "react";
 import { IconDots } from "@tabler/icons-react";
-import { ItemDropdownEditButton } from "@/components/general/input/dropdown/ItemDropdownEditButton";
-import { ItemDropdownRemoveButton } from "@/components/general/input/dropdown/ItemDropdownRemoveButton";
-import { ItemDropdownReportButton } from "@/components/general/input/dropdown/ItemDropdownReportButton";
+import { ItemDropdownEditButton } from "#@/components/general/input/dropdown/ItemDropdownEditButton";
+import { ItemDropdownRemoveButton } from "#@/components/general/input/dropdown/ItemDropdownRemoveButton";
+import { ItemDropdownReportButton } from "#@/components/general/input/dropdown/ItemDropdownReportButton";
 
 /**
  * Common component to build dropdown actions for specific components. <br>

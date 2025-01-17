@@ -9,15 +9,15 @@ import {
   IonItemSliding,
 } from "@ionic/react";
 import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { useDisclosure } from "@mantine/hooks";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
   CollectionEntryAddOrUpdateModal,
   CollectionEntryRemoveModal,
+  useOwnCollectionEntryForGameId,
 } from "@repo/ui";
 
-interface Props extends IGameListFigureProps {}
+type Props = IGameListFigureProps;
 
 const GameListItemWithSwipe = ({ game, ...others }: Props) => {
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game.id);

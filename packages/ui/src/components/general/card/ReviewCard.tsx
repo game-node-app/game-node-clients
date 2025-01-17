@@ -14,7 +14,7 @@ import { useReview } from "../../review";
 import { getSizedImageUrl, ImageSize, useGame } from "../../game";
 import { UserAvatarGroup } from "../avatar";
 import { GameRating } from "../input";
-import { Link } from "@/util";
+import { Link } from "#@/util";
 
 interface IProps {
   reviewId: string;

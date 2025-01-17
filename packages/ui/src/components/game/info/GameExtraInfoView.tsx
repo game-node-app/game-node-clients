@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Paper } from "@mantine/core";
-import { Break } from "@/components/general/Break";
-import { GameRelatedGamesCarousel } from "@/components/game/info/GameRelatedGamesCarousel";
+import { Break } from "#@/components/general/Break";
+import { GameRelatedGamesCarousel } from "#@/components/game/info/GameRelatedGamesCarousel";
 
 interface IGameExtraInfoViewProps {
   id: number;

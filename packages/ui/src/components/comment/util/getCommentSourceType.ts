@@ -1,4 +1,4 @@
-import { UserComment } from "@/components/comment/types";
+import { UserComment } from "#@/components/comment/types";
 import { CreateCommentDto } from "../../../../../wrapper/src/server";
 
 export function getCommentSourceType(comment: UserComment) {

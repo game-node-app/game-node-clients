@@ -1,13 +1,13 @@
 import React from "react";
 import { FindAllCommentsDto, Review } from "@repo/wrapper/server";
 import { Stack } from "@mantine/core";
-import { CommentsListView } from "@/components/comment/view/CommentsListView";
-import { CommentEditorView } from "@/components/comment/editor/CommentEditorView";
+import { CommentsListView } from "#@/components/comment/view/CommentsListView";
+import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
 import sourceType = FindAllCommentsDto.sourceType;
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { ItemCommentsButton } from "@/components/comment/input/ItemCommentsButton";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@/util";
+import { Modal } from "#@/util";
 
 interface ReviewListItemCommentsProps {
   review: Review;

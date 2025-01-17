@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
-import { useAchievements } from "@/components/achievement/hooks/useAchievements";
+import { useAchievements } from "#@/components/achievement/hooks/useAchievements";
 import { Group, Select, Stack, Text } from "@mantine/core";
-import { useFeaturedObtainedAchievement } from "@/components/achievement/hooks/useFeaturedObtainedAchievement";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { AchievementItem } from "@/components/achievement/AchievementItem";
-import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
+import { useFeaturedObtainedAchievement } from "#@/components/achievement/hooks/useFeaturedObtainedAchievement";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { AchievementItem } from "#@/components/achievement/AchievementItem";
+import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
 import { useMutation } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
 import { AchievementDto, AchievementsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { Link, Modal } from "@/util";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { Link, Modal } from "#@/util";
 
 const ProfileEditFeaturedAchievement = () => {
   const [opened, modalUtils] = useDisclosure(false);

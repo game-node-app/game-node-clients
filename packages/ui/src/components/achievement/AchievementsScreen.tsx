@@ -16,8 +16,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { useUserId } from "../auth";
 import { useAchievements } from "./hooks";
 import { CenteredLoading, UserAvatarWithLevelInfo } from "../general";
-import { RedeemAchievementCodeModal } from "@/components";
-import { AchievementItem } from "@/components";
+import { RedeemAchievementCodeModal } from "#@/components";
+import { AchievementItem } from "#@/components";
 
 interface Props {
   targetUserId: string;

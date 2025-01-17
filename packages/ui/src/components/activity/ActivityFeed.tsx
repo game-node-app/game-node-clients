@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from "react";
-import { useInfiniteActivities } from "@/components/activity/hooks/useInfiniteActivities";
+import { useInfiniteActivities } from "#@/components/activity/hooks/useInfiniteActivities";
 import { Skeleton, Stack } from "@mantine/core";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
-import { ActivityList } from "@/components/activity/ActivityList";
-import { ActivityFeedTabValue } from "@/components/activity/ActivityFeedLayout";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { ActivityList } from "#@/components/activity/ActivityList";
+import { ActivityFeedTabValue } from "#@/components/activity/ActivityFeedLayout";
 import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
 
 interface Props {

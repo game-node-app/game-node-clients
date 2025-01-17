@@ -10,7 +10,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useInfiniteFollowInfo(
   dto: Omit<FollowInfoRequestDto, "offset">,

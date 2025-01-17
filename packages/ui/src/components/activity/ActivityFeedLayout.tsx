@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Box, Divider, Stack, Tabs } from "@mantine/core";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { Link } from "@/util";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { Link } from "#@/util";
 
 export type ActivityFeedTabValue = "following" | "all";
 

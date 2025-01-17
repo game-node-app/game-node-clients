@@ -1,7 +1,7 @@
 import React, { ExoticComponent, PropsWithoutRef } from "react";
 import { IconDeviceGamepad2, IconProps } from "@tabler/icons-react";
 import { Group, Stack, Text, Title } from "@mantine/core";
-import { RoundedIcon } from "@/components/general/RoundedIcon";
+import { RoundedIcon } from "#@/components/general/RoundedIcon";
 
 interface ProfileStatsDataIconProps {
   description: string;

@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { DetailsBox } from "@/components/general/DetailsBox";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Group, Stack, Text } from "@mantine/core";
-import { usePlaytimeForGame } from "@/components/playtime/hooks/usePlaytimeForGame";
-import { UserPlaytimeItem } from "@/components/playtime/UserPlaytimeItem";
+import { usePlaytimeForGame } from "#@/components/playtime/hooks/usePlaytimeForGame";
+import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
 
 interface Props {
   gameId: number;

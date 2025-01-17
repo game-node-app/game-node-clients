@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 import { GameExternalGame, UserPlaytimeDto } from "@repo/wrapper/server";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useGame } from "@/components/game/hooks/useGame";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useGame } from "#@/components/game/hooks/useGame";
 import {
   getSizedImageUrl,
   ImageSize,
-} from "@/components/game/util/getSizedImageUrl";
+} from "#@/components/game/util/getSizedImageUrl";
 import { Box, Group, Image, Overlay, Stack, Text, Title } from "@mantine/core";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
-import { getCapitalizedText } from "@/util/getCapitalizedText";
-import { Link } from "@/util";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { getCapitalizedText } from "#@/util/getCapitalizedText";
+import { Link } from "#@/util";
 
 interface Props {
   playtime: UserPlaytimeDto;

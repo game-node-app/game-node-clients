@@ -3,7 +3,7 @@ import { ComboboxItem, Select } from "@mantine/core";
 import {
   PreferencesActiveCategory,
   PREFERENCES_SCREEN_CATEGORIES,
-} from "@/components/preferences/PreferencesScreenSideBar";
+} from "#@/components/preferences/PreferencesScreenSideBar";
 
 interface Props {
   activeCategory: PreferencesActiveCategory;

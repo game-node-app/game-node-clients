@@ -1,8 +1,8 @@
 import React from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
+import { BaseModalProps } from "#@/util/types/modal-props";
 import { UserConnectionDto } from "@repo/wrapper/server";
-import { PreferencesConnectionSetup } from "@/components/preferences/handlers/connections/PreferencesConnectionSetup";
-import { Modal } from "@/util";
+import { PreferencesConnectionSetup } from "#@/components/preferences/handlers/connections/PreferencesConnectionSetup";
+import { Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
   type: UserConnectionDto.type;

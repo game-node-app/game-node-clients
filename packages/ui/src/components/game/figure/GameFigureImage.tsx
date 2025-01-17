@@ -1,12 +1,12 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { AspectRatio, Image, ImageProps } from "@mantine/core";
-import { Link } from "@/util";
+import { Link } from "#@/util";
 import {
   getSizedImageUrl,
   ImageSize,
-} from "@/components/game/util/getSizedImageUrl";
-import { TGameOrSearchGame } from "@/components/game/util/types";
-import { getCoverUrl } from "@/components/game/util/getCoverUrl";
+} from "#@/components/game/util/getSizedImageUrl";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
 
 export interface IGameFigureProps extends PropsWithChildren {
   game: TGameOrSearchGame | undefined | null;

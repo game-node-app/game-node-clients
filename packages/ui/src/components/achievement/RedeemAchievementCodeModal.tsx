@@ -3,7 +3,7 @@ import { Button, Stack, TextInput } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { AchievementsCodeService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { BaseModalProps, Modal } from "@/util";
+import { BaseModalProps, Modal } from "#@/util";
 
 const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
   const [achievementCode, setAchievementCode] = useState<string | undefined>(

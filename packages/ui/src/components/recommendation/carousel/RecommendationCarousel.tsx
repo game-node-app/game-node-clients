@@ -2,12 +2,12 @@ import React, { ComponentProps, useMemo } from "react";
 import {
   RecommendationCriteria,
   useRecommendations,
-} from "@/components/recommendation/hook/useRecommendations";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { GameInfoCarousel } from "@/components/game/info/carousel/GameInfoCarousel";
-import { useGames } from "@/components/game/hooks/useGames";
-import { useGamesResource } from "@/components/game/hooks/useGamesResource";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
+} from "#@/components/recommendation/hook/useRecommendations";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { GameInfoCarousel } from "#@/components/game/info/carousel/GameInfoCarousel";
+import { useGames } from "#@/components/game/hooks/useGames";
+import { useGamesResource } from "#@/components/game/hooks/useGamesResource";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
 interface Props extends Omit<ComponentProps<typeof DetailsBox>, "title"> {
   title?: string;

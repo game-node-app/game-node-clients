@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { CollectionEntryAddOrUpdateForm } from "@/components/collection/collection-entry/form/CollectionEntryAddOrUpdateForm";
-import { BaseModalProps } from "@/util/types/modal-props";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { Modal } from "@/util";
+import { CollectionEntryAddOrUpdateForm } from "#@/components/collection/collection-entry/form/CollectionEntryAddOrUpdateForm";
+import { BaseModalProps } from "#@/util/types/modal-props";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { Modal } from "#@/util";
 
 interface IGameAddModalProps extends BaseModalProps {
   id: number;
