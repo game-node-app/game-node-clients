@@ -1,11 +1,11 @@
 import React, { HTMLProps } from "react";
 
-interface RoutingComponent extends HTMLProps<HTMLAnchorElement> {
+export interface RoutingComponent extends HTMLProps<HTMLAnchorElement> {
   href: string;
 }
 
 interface RoutingManagerProps {
-  push: (route: string) => Promise<void> | void;
+  push: (route: string) => Promise<unknown> | unknown;
 }
 
 export let useRouter: () => RoutingManagerProps = () => {

@@ -1,9 +1,7 @@
 {
   "name": "@repo/ui",
   "version": "0.0.0",
-  "exports": {
-    ".": "./index.ts"
-  },
+  "sideEffects": false,
   "imports": {
     "#@/*": [
       "./src/*",
@@ -13,6 +11,10 @@
       "./src/*/index.tsx"
     ]
   },
+  "exports": {
+    ".": "./index.ts"
+  },
+  "private": true,
   "license": "MIT",
   "scripts": {
     "lint": "eslint src/",
@@ -23,6 +25,7 @@
     "@repo/wrapper": "*"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.49.1",
     "@repo/eslint-config": "*",
     "@repo/tailwind-config": "*",
     "@repo/typescript-config": "*",
@@ -31,6 +34,7 @@
     "barrelsby": "^2.8.1",
     "postcss": "^8.4.47",
     "tailwindcss": "3.4.3",
+    "tsup": "^8.3.5",
     "typescript": "^5.6.3"
   }
 }

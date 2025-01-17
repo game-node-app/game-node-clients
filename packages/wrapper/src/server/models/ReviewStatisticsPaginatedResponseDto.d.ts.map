@@ -1,0 +1,1 @@
+{"version":3,"file":"ReviewStatisticsPaginatedResponseDto.d.ts","sourceRoot":"","sources":["ReviewStatisticsPaginatedResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAC3D,MAAM,MAAM,oCAAoC,GAAG;IAC/C,IAAI,EAAE,KAAK,CAAC,gBAAgB,CAAC,CAAC;IAC9B,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

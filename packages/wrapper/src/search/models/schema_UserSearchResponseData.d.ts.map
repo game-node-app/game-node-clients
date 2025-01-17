@@ -1,0 +1,1 @@
+{"version":3,"file":"schema_UserSearchResponseData.d.ts","sourceRoot":"","sources":["schema_UserSearchResponseData.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,MAAM,MAAM,6BAA6B,GAAG;IACxC,KAAK,CAAC,EAAE,KAAK,CAAC,cAAc,CAAC,CAAC;IAC9B,OAAO,CAAC,EAAE,GAAG,CAAC;IACd,IAAI,CAAC,EAAE,MAAM,CAAC;CACjB,CAAC"}

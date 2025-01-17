@@ -4,7 +4,6 @@ import { Skeleton, Stack } from "@mantine/core";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { ActivityList } from "#@/components/activity/ActivityList";
 import { ActivityFeedTabValue } from "#@/components/activity/ActivityFeedLayout";
-import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
 
 interface Props {
   criteria: ActivityFeedTabValue;
@@ -52,16 +51,7 @@ const ActivityFeed = ({ criteria }: Props) => {
         />
       )}
       <ActivityList items={items} />
-
-      <IonInfiniteScroll
-        disabled={!activityQuery.hasNextPage}
-        onIonInfinite={async (evt) => {
-          await activityQuery.fetchNextPage();
-          await evt.target.complete();
-        }}
-      >
-        <IonInfiniteScrollContent loadingText={"Fetching more activities..."} />
-      </IonInfiniteScroll>
+      {activityQuery.isFetching && buildSkeletons()}
     </Stack>
   );
 };

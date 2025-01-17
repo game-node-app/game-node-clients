@@ -1,0 +1,1 @@
+{"version":3,"file":"ConnectionCreateDto.d.ts","sourceRoot":"","sources":["ConnectionCreateDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,mBAAmB,GAAG;IAC9B,IAAI,EAAE,mBAAmB,CAAC,IAAI,CAAC;IAC/B;;;OAGG;IACH,cAAc,EAAE,MAAM,CAAC;IACvB,iBAAiB,EAAE,OAAO,CAAC;IAC3B,uBAAuB,EAAE,OAAO,CAAC;CACpC,CAAC;AACF,yBAAiB,mBAAmB,CAAC;IACjC,KAAY,IAAI;QACZ,KAAK,UAAU;QACf,GAAG,QAAQ;KACd;CACJ"}

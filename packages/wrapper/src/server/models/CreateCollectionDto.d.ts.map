@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateCollectionDto.d.ts","sourceRoot":"","sources":["CreateCollectionDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,mBAAmB,GAAG;IAC9B,IAAI,EAAE,MAAM,CAAC;IACb,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,QAAQ,EAAE,OAAO,CAAC;IAClB,UAAU,EAAE,OAAO,CAAC;IACpB,UAAU,EAAE,OAAO,CAAC;CACvB,CAAC"}

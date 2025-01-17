@@ -10,6 +10,7 @@ export * from "./GameNodeLogo";
 export * from "./GradientSeparator";
 export * from "./ImageDropzone";
 export * from "./LoginPromptCentered";
+export * from "./MantineModalWrapper";
 export * from "./NotificationsManager";
 export * from "./OpenInAppDialog";
 export * from "./RoundedIcon";
