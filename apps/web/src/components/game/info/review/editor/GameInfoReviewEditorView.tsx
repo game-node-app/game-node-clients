@@ -34,12 +34,7 @@ import {
 
 const ReviewFormSchema = z.object({
     rating: z.number().min(0).max(5).default(5),
-    content: z
-        .string()
-        .min(4, "Your review needs at least 4 characters.")
-        .optional()
-        .or(z.literal(""))
-        .or(z.literal("<p></p>")),
+    content: z.string().optional().or(z.literal("")).or(z.literal("<p></p>")),
 });
 
 export type TReviewFormValues = z.infer<typeof ReviewFormSchema>;

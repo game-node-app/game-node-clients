@@ -17,7 +17,7 @@ import {
 import React from "react";
 
 interface Props {
-  selectedCollectionId: string | null;
+  selectedCollectionId: string | null | undefined;
 }
 
 /**

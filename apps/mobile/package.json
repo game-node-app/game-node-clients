@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite --port 3002 --force",
-    "build": "vite build && npx cap sync",
+    "build": "vite build",
     "build:android": "npx cap build android",
     "preview": "vite preview",
     "test.e2e": "cypress run",

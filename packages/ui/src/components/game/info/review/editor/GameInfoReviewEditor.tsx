@@ -7,7 +7,8 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import { Editor } from "@tiptap/core";
 import { useUserId, useReviewForUserIdAndGameId } from "#@/components";
 
-interface IGameInfoReviewEditorProps extends BoxComponentProps {
+interface IGameInfoReviewEditorProps
+  extends Partial<Omit<RichTextEditorProps, "onBlur" | "editor">> {
   editorRef?: MutableRefObject<Editor | null>;
   gameId: number;
   onBlur: (html: string) => void;
@@ -24,6 +25,7 @@ const GameInfoReviewEditor = ({
   editorRef,
   gameId,
   onBlur,
+  ...others
 }: IGameInfoReviewEditorProps) => {
   const userId = useUserId();
   const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
@@ -36,7 +38,7 @@ const GameInfoReviewEditor = ({
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       content: previousContent,
       onBlur: (e) => {
-        let html = e.editor.getHTML();
+        const html = e.editor.getHTML();
         onBlur(html ?? "");
       },
     },
@@ -58,6 +60,7 @@ const GameInfoReviewEditor = ({
         mx={0}
         mih={{ base: "35vh", lg: "25vh" }}
         editor={editor}
+        {...others}
       >
         <RichTextEditor.Toolbar sticky stickyOffset={60} w={"100%"}>
           <RichTextEditor.ControlsGroup>
@@ -80,7 +83,11 @@ const GameInfoReviewEditor = ({
             <RichTextEditor.OrderedList />
           </RichTextEditor.ControlsGroup>
         </RichTextEditor.Toolbar>
-        <RichTextEditor.Content w={"100%"} />
+        <RichTextEditor.Content
+          w={"100%"}
+          h={"100%"}
+          mih={{ base: "35vh", lg: "25vh" }}
+        />
       </RichTextEditor>
     </Box>
   );

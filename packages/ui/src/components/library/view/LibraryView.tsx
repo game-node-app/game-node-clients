@@ -3,12 +3,11 @@ import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryVi
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Flex, Grid, Stack } from "@mantine/core";
 import { LibraryViewCollectionsSelect } from "#@/components/library/view/sidebar/LibraryViewCollectionsSelect";
-import { useRouter } from "#@/util";
 
 interface ILibraryViewProps extends PropsWithChildren {
   userId: string | undefined;
-  collectionId: string | null;
-  onChange: (collectionId: string | null) => void;
+  collectionId: string | null | undefined;
+  onChange: (collectionId: string | null | undefined) => void;
 }
 
 /**

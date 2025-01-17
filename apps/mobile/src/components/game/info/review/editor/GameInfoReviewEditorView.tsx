@@ -20,7 +20,7 @@ import {
 
 const ReviewFormSchema = z.object({
   rating: z.number().min(0).max(5).default(5),
-  content: z.string().min(20, "Your review needs at least 20 characters."),
+  content: z.string().optional().or(z.literal("")).or(z.literal("<p></p>")),
 });
 
 export type TReviewFormValues = z.infer<typeof ReviewFormSchema>;
@@ -112,7 +112,7 @@ const GameInfoReviewEditorView = ({
           {error && error.message && (
             <CenteredErrorMessage message={error.message} />
           )}
-          <Group>
+          <Group className={"w-full justify-end"}>
             <GameRating
               readOnly={false}
               defaultValue={5}

@@ -11,9 +11,8 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { Container } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 import {
   LibraryView,
   RecentCollectionEntriesView,
@@ -24,9 +23,14 @@ import { CollectionView } from "@/components/collection/view/CollectionView";
 
 interface Props {
   userId?: string;
+  /**
+   * Routed collectionId. Only available when a user enters a direct
+   * link to a collection.
+   */
+  collectionId?: string;
 }
 
-const LibraryPage = ({ userId }: Props) => {
+const LibraryPage = ({ userId, collectionId }: Props) => {
   const ownUserId = useUserId();
   const userIdToUse =
     userId == undefined && ownUserId != undefined ? ownUserId : userId;
@@ -36,20 +40,18 @@ const LibraryPage = ({ userId }: Props) => {
     routeInfo: { pathname },
   } = useIonRouter();
 
-  const params = useSearchParameters();
-
   const isInTab = pathname.split("/").length === 2;
 
   const profileQuery = useUserProfile(userIdToUse);
 
   const [selectedCollectionId, setSelectedCollectionId] = useState<
-    string | null
-  >(null);
+    string | null | undefined
+  >(collectionId);
 
-  useEffect(() => {
-    const paramsCollectionId = params.get("collectionId");
-    setSelectedCollectionId(paramsCollectionId);
-  }, [params]);
+  // useEffect(() => {
+  //   const paramsCollectionId = params.get("collectionId");
+  //   setSelectedCollectionId(paramsCollectionId);
+  // }, [params]);
 
   return (
     <IonPage>

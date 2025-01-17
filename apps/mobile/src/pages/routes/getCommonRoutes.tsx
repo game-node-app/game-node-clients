@@ -78,6 +78,18 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         return <LibraryPage userId={props.match.params.userId} />;
       }}
     />,
+    <Route
+      key={`${prefix}-library-collection`}
+      path={`${prefix}/library/:userId/collection/:collectionId`}
+      render={(props) => {
+        return (
+          <LibraryPage
+            userId={props.match.params.userId}
+            collectionId={props.match.params.collectionId}
+          />
+        );
+      }}
+    />,
     <Route exact key={`${prefix}-importer`} path={`${prefix}/importer`}>
       <ImporterPage />
     </Route>,
