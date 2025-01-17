@@ -1,1 +1,0 @@
-{"version":3,"file":"FindCollectionEntriesForCollectionIdDto.d.ts","sourceRoot":"","sources":["FindCollectionEntriesForCollectionIdDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,4BAA4B,EAAE,MAAM,gCAAgC,CAAC;AACnF,MAAM,MAAM,uCAAuC,GAAG;IAClD,OAAO,CAAC,EAAE,4BAA4B,CAAC;IACvC,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,KAAK,CAAC,EAAE,MAAM,CAAC;CAClB,CAAC"}

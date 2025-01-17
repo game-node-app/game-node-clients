@@ -1,1 +1,0 @@
-{"version":3,"file":"schema_GameSearchResponseDto.d.ts","sourceRoot":"","sources":["schema_GameSearchResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,qBAAqB,EAAE,MAAM,yBAAyB,CAAC;AACrE,OAAO,KAAK,EAAE,mBAAmB,EAAE,MAAM,uBAAuB,CAAC;AACjE,MAAM,MAAM,4BAA4B,GAAG;IACvC,IAAI,CAAC,EAAE,mBAAmB,CAAC;IAC3B,UAAU,CAAC,EAAE,qBAAqB,CAAC;CACtC,CAAC"}

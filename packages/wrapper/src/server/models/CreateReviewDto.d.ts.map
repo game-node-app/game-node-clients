@@ -1,1 +1,0 @@
-{"version":3,"file":"CreateReviewDto.d.ts","sourceRoot":"","sources":["CreateReviewDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,eAAe,GAAG;IAC1B,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,CAAC,EAAE,MAAM,CAAC;IACjB,MAAM,EAAE,MAAM,CAAC;IACf,gBAAgB,CAAC,EAAE,KAAK,CAAC,MAAM,CAAC,CAAC;CACpC,CAAC"}

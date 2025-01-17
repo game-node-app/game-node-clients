@@ -1,1 +1,0 @@
-{"version":3,"file":"ImporterPaginatedResponseDto.d.ts","sourceRoot":"","sources":["ImporterPaginatedResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,uBAAuB,EAAE,MAAM,2BAA2B,CAAC;AACzE,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,MAAM,MAAM,4BAA4B,GAAG;IACvC,IAAI,EAAE,KAAK,CAAC,uBAAuB,CAAC,CAAC;IACrC,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

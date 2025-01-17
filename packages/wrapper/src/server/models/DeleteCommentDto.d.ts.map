@@ -1,1 +1,0 @@
-{"version":3,"file":"DeleteCommentDto.d.ts","sourceRoot":"","sources":["DeleteCommentDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,gBAAgB,GAAG;IAC3B,UAAU,EAAE,gBAAgB,CAAC,UAAU,CAAC;CAC3C,CAAC;AACF,yBAAiB,gBAAgB,CAAC;IAC9B,KAAY,UAAU;QAClB,MAAM,WAAW;QACjB,QAAQ,aAAa;KACxB;CACJ"}

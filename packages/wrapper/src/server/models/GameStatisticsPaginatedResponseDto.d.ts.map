@@ -1,1 +1,0 @@
-{"version":3,"file":"GameStatisticsPaginatedResponseDto.d.ts","sourceRoot":"","sources":["GameStatisticsPaginatedResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,MAAM,MAAM,kCAAkC,GAAG;IAC7C,IAAI,EAAE,KAAK,CAAC,cAAc,CAAC,CAAC;IAC5B,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

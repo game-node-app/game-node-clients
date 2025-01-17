@@ -1,1 +1,0 @@
-{"version":3,"file":"CollectionEntriesPaginatedResponseDto.d.ts","sourceRoot":"","sources":["CollectionEntriesPaginatedResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,mBAAmB,CAAC;AACzD,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,MAAM,MAAM,qCAAqC,GAAG;IAChD,IAAI,EAAE,KAAK,CAAC,eAAe,CAAC,CAAC;IAC7B,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

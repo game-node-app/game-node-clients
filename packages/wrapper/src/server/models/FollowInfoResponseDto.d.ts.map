@@ -1,1 +1,0 @@
-{"version":3,"file":"FollowInfoResponseDto.d.ts","sourceRoot":"","sources":["FollowInfoResponseDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,MAAM,MAAM,qBAAqB,GAAG;IAChC,IAAI,EAAE,KAAK,CAAC,MAAM,CAAC,CAAC;IACpB,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

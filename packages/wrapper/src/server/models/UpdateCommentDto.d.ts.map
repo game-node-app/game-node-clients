@@ -1,1 +1,0 @@
-{"version":3,"file":"UpdateCommentDto.d.ts","sourceRoot":"","sources":["UpdateCommentDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,gBAAgB,GAAG;IAC3B,UAAU,EAAE,gBAAgB,CAAC,UAAU,CAAC;IACxC,OAAO,EAAE,MAAM,CAAC;CACnB,CAAC;AACF,yBAAiB,gBAAgB,CAAC;IAC9B,KAAY,UAAU;QAClB,MAAM,WAAW;QACjB,QAAQ,aAAa;KACxB;CACJ"}

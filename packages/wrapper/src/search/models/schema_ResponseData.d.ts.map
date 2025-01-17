@@ -1,1 +1,0 @@
-{"version":3,"file":"schema_ResponseData.d.ts","sourceRoot":"","sources":["schema_ResponseData.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,qBAAqB,CAAC;AAC7D,MAAM,MAAM,mBAAmB,GAAG;IAC9B,KAAK,CAAC,EAAE,KAAK,CAAC,iBAAiB,CAAC,CAAC;IACjC,OAAO,CAAC,EAAE,GAAG,CAAC;IACd,IAAI,CAAC,EAAE,MAAM,CAAC;CACjB,CAAC"}
