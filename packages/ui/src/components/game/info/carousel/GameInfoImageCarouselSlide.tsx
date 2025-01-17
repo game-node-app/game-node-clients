@@ -1,7 +1,7 @@
 import { Carousel } from "@mantine/carousel";
 import { Image } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { GameInfoImageCarouselModal } from "@/components/game/info/carousel/GameInfoImageCarouselModal";
+import { GameInfoImageCarouselModal } from "#@/components/game/info/carousel/GameInfoImageCarouselModal";
 import { ComponentProps } from "react";
 
 interface Props extends ComponentProps<typeof Carousel.Slide> {

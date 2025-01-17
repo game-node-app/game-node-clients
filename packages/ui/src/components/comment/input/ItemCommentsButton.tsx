@@ -4,7 +4,7 @@ import sourceType = CreateCommentDto.sourceType;
 import {
   useComments,
   UseCommentsProps,
-} from "@/components/comment/hooks/useComments";
+} from "#@/components/comment/hooks/useComments";
 import { IconMessages } from "@tabler/icons-react";
 import { ActionIcon, Text } from "@mantine/core";
 

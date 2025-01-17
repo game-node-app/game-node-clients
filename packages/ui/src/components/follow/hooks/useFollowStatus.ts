@@ -1,5 +1,8 @@
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { FollowService, FollowStatusDto } from "../../../../../wrapper/src/server";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import {
+  FollowService,
+  FollowStatusDto,
+} from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useFollowStatus(

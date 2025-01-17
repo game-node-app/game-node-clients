@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Profile, ProfileService } from "../../../../../wrapper/src/server";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useUserProfile(
   userId: string | undefined,

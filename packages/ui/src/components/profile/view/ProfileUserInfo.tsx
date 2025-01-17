@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { Box, Paper, Stack, Text } from "@mantine/core";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
-import { UserLevelInfo } from "@/components/user-level/UserLevelInfo";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { useAllObtainedAchievements } from "@/components/achievement/hooks/useAllObtainedAchievements";
-import { ObtainedAchievementItem } from "@/components/achievement/ObtainedAchievementItem";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { ProfileFollowActions } from "@/components/profile/view/ProfileFollowActions";
-import { TextLink } from "@/components/general/TextLink";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
+import { ObtainedAchievementItem } from "#@/components/achievement/ObtainedAchievementItem";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
+import { TextLink } from "#@/components/general/TextLink";
 
 const dateFormatter = new Intl.DateTimeFormat();
 

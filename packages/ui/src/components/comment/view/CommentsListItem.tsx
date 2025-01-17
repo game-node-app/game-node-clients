@@ -1,15 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { COMMENT_EDITOR_EXTENSIONS } from "@/components/comment/editor/CommentEditor";
+import { COMMENT_EDITOR_EXTENSIONS } from "#@/components/comment/editor/CommentEditor";
 import { Collapse, Flex, Group, Spoiler, Stack } from "@mantine/core";
-import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
-import { ActivityCreateDate } from "@/components/activity/item/ActivityCreateDate";
-import { CommentsListItemActions } from "@/components/comment/view/CommentsListItemActions";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import { ActivityCreateDate } from "#@/components/activity/item/ActivityCreateDate";
+import { CommentsListItemActions } from "#@/components/comment/view/CommentsListItemActions";
 import { UserComment } from "../types";
-import { CommentsThreadListView } from "@/components/comment/view/CommentsThreadListView";
-import { CommentEditorView } from "@/components/comment/editor/CommentEditorView";
-import { getCommentSourceId } from "@/components/comment/util/getCommentSourceId";
-import { getCommentSourceType } from "@/components/comment/util/getCommentSourceType";
+import { CommentsThreadListView } from "#@/components/comment/view/CommentsThreadListView";
+import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
+import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
+import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 import { useDisclosure } from "@mantine/hooks";
 
 interface Props {

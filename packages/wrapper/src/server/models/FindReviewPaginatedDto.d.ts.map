@@ -1,0 +1,1 @@
+{"version":3,"file":"FindReviewPaginatedDto.d.ts","sourceRoot":"","sources":["FindReviewPaginatedDto.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AACvD,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AACvC,MAAM,MAAM,sBAAsB,GAAG;IACjC,IAAI,EAAE,KAAK,CAAC,MAAM,CAAC,CAAC;IACpB,UAAU,EAAE,cAAc,CAAC;CAC9B,CAAC"}

@@ -4,20 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Stack, TextInput, Text, Switch } from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
-import { BaseModalChildrenProps } from "@/util/types/modal-props";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import {
   ApiError,
   CollectionsService,
 } from "../../../../../wrapper/src/server";
-import { useCollection } from "@/components/collection/hooks/useCollection";
+import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { useMutation } from "@tanstack/react-query";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
   trackMatomoEvent,
-} from "@/util/trackMatomoEvent";
+} from "#@/util/trackMatomoEvent";
 
 const CreateCollectionFormSchema = z
   .object({
@@ -54,7 +54,7 @@ const CollectionCreateOrUpdateForm = ({
   const collectionQuery = useCollection(collectionId);
   const existingCollection = collectionQuery.data;
 
-  const { setValue, watch, handleSubmit, register, formState } =
+  const { setValue, handleSubmit, register, formState } =
     useForm<CreateCollectionFormValues>({
       resolver: zodResolver(CreateCollectionFormSchema),
       mode: "onChange",

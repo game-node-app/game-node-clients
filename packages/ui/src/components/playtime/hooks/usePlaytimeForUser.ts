@@ -1,4 +1,4 @@
-import { TBasePaginationRequest } from "@/util/types/pagination";
+import { TBasePaginationRequest } from "#@/util/types/pagination";
 import { useQuery } from "@tanstack/react-query";
 import { PlaytimeService } from "../../../../../wrapper/src/server";
 

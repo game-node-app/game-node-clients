@@ -2,11 +2,11 @@ import React, { MutableRefObject, useMemo } from "react";
 import {
   IGameFigureProps,
   GameFigureImage,
-} from "@/components/game/figure/GameFigureImage";
+} from "#@/components/game/figure/GameFigureImage";
 import { Badge } from "@mantine/core";
-import { getGameCategoryName } from "@/components/game/util/getGameCategoryName";
-import { TGameOrSearchGame } from "@/components/game/util/types";
-import { GameFigureWithQuickAdd } from "@/components/game/figure/GameFigureWithQuickAdd";
+import { getGameCategoryName } from "#@/components/game/util/getGameCategoryName";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
 
 interface IGameGridFigureProps {
   game: TGameOrSearchGame;

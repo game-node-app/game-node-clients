@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { useReviewForUserIdAndGameId } from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { DetailsBox } from "@/components/general/DetailsBox";
+import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Group, Stack, Text, Timeline } from "@mantine/core";
 import {
   IconCheck,
@@ -11,7 +11,7 @@ import {
   IconLibrary,
   IconMessage,
 } from "@tabler/icons-react";
-import { useAccumulatedPlaytimeForGame } from "@/components/playtime/hooks/useAccumulatedPlaytimeForGame";
+import { useAccumulatedPlaytimeForGame } from "#@/components/playtime/hooks/useAccumulatedPlaytimeForGame";
 
 interface Props {
   gameId: number;

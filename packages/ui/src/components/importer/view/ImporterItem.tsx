@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { UserConnectionDto } from "../../../../../wrapper/src/server";
 import { Button, Image, Paper, Stack, Title } from "@mantine/core";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
-import { Link } from "@/util";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { Link } from "#@/util";
 
 interface Props {
   connection: UserConnectionDto;

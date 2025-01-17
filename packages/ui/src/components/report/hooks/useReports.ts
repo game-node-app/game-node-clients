@@ -1,4 +1,4 @@
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 import {
   PaginatedReportResponseDto,
   ReportService,

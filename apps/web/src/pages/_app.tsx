@@ -1,4 +1,4 @@
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, mergeMantineTheme, Modal } from "@mantine/core";
 import { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
@@ -13,6 +13,14 @@ import {
 import Head from "next/head";
 import { OpenAPI as ServerOpenAPI } from "@/wrapper/server";
 import { OpenAPI as SearchOpenAPI } from "@/wrapper/search";
+
+const roboto = Roboto({
+    subsets: ["latin"],
+    variable: "--font-roboto",
+    style: ["normal", "italic"],
+    weight: ["300", "500", "700"],
+});
+
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -29,11 +37,18 @@ import "@mantine/charts/styles.css";
  */
 import "@/components/globals.css";
 
-import { theme } from "@/util/theme";
 import NotificationsManager from "@/components/general/NotificationsManager";
-import { useMatomoTracker } from "@/components/general/hooks/useMatomoTracker";
 import MatomoWrapper from "@/components/general/MatomoWrapper";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
+import {
+    DEFAULT_MANTINE_THEME,
+    setRoutingComponent,
+    setRoutingManager,
+} from "@repo/ui";
+import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
+import { useRouter } from "next/router";
+import { setupWrapper } from "@repo/wrapper";
+import { Roboto } from "next/font/google";
 
 /**
  * Basic configuration for wrapper services
@@ -41,6 +56,13 @@ import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 ServerOpenAPI.BASE = process.env.NEXT_PUBLIC_SERVER_URL!;
 ServerOpenAPI.WITH_CREDENTIALS = true;
 SearchOpenAPI.BASE = process.env.NEXT_PUBLIC_SEARCH_URL!;
+
+setRoutingComponent(LinkWrapper);
+setRoutingManager(useRouter);
+setupWrapper({
+    searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
+    serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
+});
 
 export interface DehydrationResult {
     dehydratedState: DehydratedState;
@@ -68,7 +90,12 @@ export default function App({
     );
 
     return (
-        <MantineProvider theme={theme} forceColorScheme={"dark"}>
+        <MantineProvider
+            theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+                fontFamily: roboto.style.fontFamily,
+            })}
+            forceColorScheme={"dark"}
+        >
             <Head>
                 <title>GameNode</title>
                 <meta

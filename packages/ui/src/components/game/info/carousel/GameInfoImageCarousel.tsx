@@ -4,13 +4,13 @@ import { Flex } from "@mantine/core";
 import {
   getSizedImageUrl,
   ImageSize,
-} from "@/components/game/util/getSizedImageUrl";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { GameInfoImageCarouselSlide } from "@/components/game/info/carousel/GameInfoImageCarouselSlide";
-import { useGame } from "@/components/game/hooks/useGame";
+} from "#@/components/game/util/getSizedImageUrl";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { GameInfoImageCarouselSlide } from "#@/components/game/info/carousel/GameInfoImageCarouselSlide";
+import { useGame } from "#@/components/game/hooks/useGame";
 import { Game } from "../../../../../../wrapper/src/server";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "@/components/game/info/GameInfoView";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
 
 interface IGameInfoImageCarouselProps {
   gameId: number | undefined;

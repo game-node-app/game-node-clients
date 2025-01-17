@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FollowInfoRequestDto, PaginationInfo } from "../../../../../wrapper/src/server";
+import {
+  FollowInfoRequestDto,
+  PaginationInfo,
+} from "../../../../../wrapper/src/server";
 import { Divider, Group, Skeleton, Stack, Text } from "@mantine/core";
-import { useInfiniteFollowInfo } from "@/components/follow/hooks/useInfiniteFollowInfo";
-import { UserFollowGroup } from "@/components/follow/input/UserFollowGroup";
+import { useInfiniteFollowInfo } from "#@/components/follow/hooks/useInfiniteFollowInfo";
+import { UserFollowGroup } from "#@/components/follow/input/UserFollowGroup";
 import { useIntersection } from "@mantine/hooks";
-import { TBasePaginationRequest } from "@/util/types/pagination";
+import { TBasePaginationRequest } from "#@/util/types/pagination";
 
 interface Props {
   criteria: FollowInfoRequestDto.criteria;

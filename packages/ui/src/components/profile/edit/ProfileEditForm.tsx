@@ -1,5 +1,5 @@
 import React from "react";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import {
   ActionIcon,
   Box,
@@ -9,16 +9,16 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { ProfileBanner } from "@/components/profile/view/ProfileBanner";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
+import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { IconCameraPlus, IconEdit } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { ProfileEditAvatarUploader } from "@/components/profile/edit/ProfileEditAvatarUploader";
-import { ProfileEditUsernameUpdate } from "@/components/profile/edit/ProfileEditUsernameUpdate";
-import { ProfileEditFeaturedAchievement } from "@/components/profile/edit/ProfileEditFeaturedAchievement";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { ProfileEditBioForm } from "@/components/profile/edit/ProfileEditBioForm";
-import { Modal } from "@/util";
+import { ProfileEditAvatarUploader } from "#@/components/profile/edit/ProfileEditAvatarUploader";
+import { ProfileEditUsernameUpdate } from "#@/components/profile/edit/ProfileEditUsernameUpdate";
+import { ProfileEditFeaturedAchievement } from "#@/components/profile/edit/ProfileEditFeaturedAchievement";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { ProfileEditBioForm } from "#@/components/profile/edit/ProfileEditBioForm";
+import { Modal } from "#@/util";
 
 interface Props {
   userId: string;

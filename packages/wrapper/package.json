@@ -3,6 +3,7 @@
   "name": "@repo/wrapper",
   "version": "0.0.0",
   "exports": {
+    ".": "./index.ts",
     "./search": "./src/search/index.ts",
     "./server": "./src/server/index.ts"
   },

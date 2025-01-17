@@ -1,0 +1,1 @@
+{"version":3,"file":"HandleReportRequestDto.d.ts","sourceRoot":"","sources":["HandleReportRequestDto.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,sBAAsB,GAAG;IACjC,MAAM,EAAE,sBAAsB,CAAC,MAAM,CAAC;IACtC,qBAAqB,EAAE,OAAO,CAAC;CAClC,CAAC;AACF,yBAAiB,sBAAsB,CAAC;IACpC,KAAY,MAAM;QACd,OAAO,YAAY;QACnB,KAAK,UAAU;QACf,OAAO,YAAY;QACnB,GAAG,QAAQ;KACd;CACJ"}

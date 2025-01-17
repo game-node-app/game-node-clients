@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
-import { useReport } from "@/components/report/hooks/useReport";
-import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
+import { AggregatedNotificationContentProps } from "#@/components/notifications/AggregatedNotification";
+import { useReport } from "#@/components/report/hooks/useReport";
+import { NotificationSkeleton } from "#@/components/notifications/NotificationSkeleton";
 import { Avatar, Group, Text, ThemeIcon } from "@mantine/core";
 import { Report } from "../../../../../wrapper/src/server";
 import closeHandleAction = Report.closeHandleAction;

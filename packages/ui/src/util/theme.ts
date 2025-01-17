@@ -19,7 +19,7 @@ const themeOverride = createTheme({
   primaryColor: "brand",
 });
 
-export const defaultMantineTheme = mergeMantineTheme(
+export const DEFAULT_MANTINE_THEME = mergeMantineTheme(
   DEFAULT_THEME,
   themeOverride,
 );

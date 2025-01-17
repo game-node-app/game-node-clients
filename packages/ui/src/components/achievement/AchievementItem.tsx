@@ -10,8 +10,8 @@ import {
   Overlay,
 } from "@mantine/core";
 import { AchievementDto } from "@repo/wrapper/server";
-import { getServerStoredIcon } from "@/util";
-import { AchievementLogo } from "@/components";
+import { getServerStoredIcon } from "#@/util";
+import { AchievementLogo } from "#@/components";
 import { useObtainedAchievement } from "./hooks";
 
 interface Props {

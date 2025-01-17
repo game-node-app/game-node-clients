@@ -9,9 +9,9 @@ import {
   Skeleton,
   Tooltip,
 } from "@mantine/core";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useGameExternalStores } from "@/components/game/hooks/useGameExternalStores";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useGameExternalStores } from "#@/components/game/hooks/useGameExternalStores";
 
 interface Props extends GroupProps {
   gameId: number;

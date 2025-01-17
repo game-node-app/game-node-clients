@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
-import { useImporterNotification } from "@/components/importer/hooks/useImporterNotification";
-import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
-import { Link } from "@/util";
+import { AggregatedNotificationContentProps } from "#@/components/notifications/AggregatedNotification";
+import { useImporterNotification } from "#@/components/importer/hooks/useImporterNotification";
+import { NotificationSkeleton } from "#@/components/notifications/NotificationSkeleton";
+import { Link } from "#@/util";
 import { Group, Image, Text } from "@mantine/core";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 
 const ImporterWatchAggregatedNotification = ({
   aggregatedNotification,

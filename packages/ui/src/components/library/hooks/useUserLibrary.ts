@@ -3,9 +3,13 @@ import {
   useQueryClient,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { ApiError, LibrariesService, Library } from "../../../../../wrapper/src/server";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { useUserId } from "@/components/auth/hooks/useUserId";
+import {
+  ApiError,
+  LibrariesService,
+  Library,
+} from "../../../../../wrapper/src/server";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export function useUserLibrary(
   userId: string | undefined | null,

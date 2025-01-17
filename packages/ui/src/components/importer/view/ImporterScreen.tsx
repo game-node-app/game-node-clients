@@ -22,7 +22,7 @@ import {
   EMatomoEventCategory,
   getServerStoredIcon,
   trackMatomoEvent,
-} from "@/util";
+} from "#@/util";
 import {
   CollectionsEntriesService,
   ImporterService,
@@ -35,7 +35,7 @@ import {
   useImporterEntries,
   useUserId,
   useUserLibrary,
-} from "@/components";
+} from "#@/components";
 
 const ImporterFormSchema = z.object({
   selectedCollectionIds: z

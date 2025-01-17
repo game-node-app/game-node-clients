@@ -1,12 +1,12 @@
 import React from "react";
 import { Activity } from "../../../../../wrapper/src/server";
-import { useUserFollow } from "@/components/follow/hooks/useUserFollow";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserFollow } from "#@/components/follow/hooks/useUserFollow";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { Box, Group, Paper, Text, Title } from "@mantine/core";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { TextLink } from "@/components/general/TextLink";
-import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
-import { ActivityItemProps } from "@/components/activity/types";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { TextLink } from "#@/components/general/TextLink";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import { ActivityItemProps } from "#@/components/activity/types";
 
 interface Props extends ActivityItemProps {}
 

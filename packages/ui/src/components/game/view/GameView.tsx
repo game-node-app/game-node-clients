@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren } from "react";
-import { GameViewContent } from "@/components/game/view/GameViewContent";
-import { GameViewPagination } from "@/components/game/view/GameViewPagination";
-import { GameViewLayoutSwitcher } from "@/components/game/view/GameViewLayoutSwitcher";
+import { GameViewContent } from "#@/components/game/view/GameViewContent";
+import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
+import { GameViewLayoutSwitcher } from "#@/components/game/view/GameViewLayoutSwitcher";
 
 interface IGameViewProps extends PropsWithChildren {
   layout: "grid" | "list";

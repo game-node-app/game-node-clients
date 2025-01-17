@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CollectionEntry } from "../../../../../../wrapper/src/server";
-import { getOwnCollectionEntryByGameId } from "@/components/collection/collection-entry/util/getOwnCollectionEntryByGameId";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { getOwnCollectionEntryByGameId } from "#@/components/collection/collection-entry/util/getOwnCollectionEntryByGameId";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 /**
  * Returns a collection entry for the current user based on a game ID.

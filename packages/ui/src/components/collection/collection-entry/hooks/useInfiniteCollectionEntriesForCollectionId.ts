@@ -1,4 +1,4 @@
-import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 import {
   CollectionEntriesPaginatedResponseDto,
   CollectionsEntriesService,

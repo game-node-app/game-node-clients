@@ -1,15 +1,15 @@
-import { TGameOrSearchGame } from "@/components/game/util/types";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
 import {
-    isGameObject,
-    isGameSearchObject,
-} from "@/components/game/util/isGameObject";
+  isGameObject,
+  isGameSearchObject,
+} from "#@/components/game/util/isGameObject";
 
 export function getCoverUrl(game: TGameOrSearchGame | undefined | null) {
-    if (!game) return undefined;
-    if (isGameSearchObject(game) && game.coverUrl) {
-        return game.coverUrl;
-    } else if (isGameObject(game) && game.cover) {
-        return game.cover.url;
-    }
-    return undefined;
+  if (!game) return undefined;
+  if (isGameSearchObject(game) && game.coverUrl) {
+    return game.coverUrl;
+  } else if (isGameObject(game) && game.cover) {
+    return game.cover.url;
+  }
+  return undefined;
 }

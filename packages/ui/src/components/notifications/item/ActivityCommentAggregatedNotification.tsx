@@ -1,20 +1,20 @@
 import React, { useMemo } from "react";
-import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
-import { useComment } from "@/components/comment/hooks/useComment";
+import { AggregatedNotificationContentProps } from "#@/components/notifications/AggregatedNotification";
+import { useComment } from "#@/components/comment/hooks/useComment";
 import {
   ActivityComment,
   FindAllCommentsDto,
   Notification,
   NotificationAggregateDto,
 } from "../../../../../wrapper/src/server";
-import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
-import { getUniqueProfileNames } from "@/components/notifications/utils/getUniqueProfileNames";
+import { NotificationSkeleton } from "#@/components/notifications/NotificationSkeleton";
+import { getUniqueProfileNames } from "#@/components/notifications/utils/getUniqueProfileNames";
 import category = NotificationAggregateDto.category;
 import { Group, Text } from "@mantine/core";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import { Link } from "@/util";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { useActivity } from "@/components/activity/hooks/useActivity";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { Link } from "#@/util";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useActivity } from "#@/components/activity/hooks/useActivity";
 
 const ActivityCommentAggregatedNotification = ({
   aggregatedNotification,

@@ -1,9 +1,9 @@
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { Collection, CollectionsService } from "../../../../../wrapper/src/server";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import { Collection, CollectionsService } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCollection(
-  collectionId: string | undefined,
+  collectionId: string | undefined | null,
 ): ExtendedUseQueryResult<Collection> {
   const queryClient = useQueryClient();
   const queryKey = ["collection", collectionId];

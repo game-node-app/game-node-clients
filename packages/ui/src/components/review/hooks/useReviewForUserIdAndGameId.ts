@@ -1,5 +1,5 @@
 import React from "react";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 import { Review, ReviewsService } from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 

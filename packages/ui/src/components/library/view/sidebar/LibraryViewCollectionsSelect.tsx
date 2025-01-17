@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useCollection } from "@/components/collection/hooks/useCollection";
+import { useCollection } from "#@/components/collection/hooks/useCollection";
 import {
   ComboboxData,
   ComboboxItem,
@@ -7,7 +7,7 @@ import {
   Select,
   SelectProps,
 } from "@mantine/core";
-import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 
 interface Props extends SelectProps {
   userId: string | undefined;

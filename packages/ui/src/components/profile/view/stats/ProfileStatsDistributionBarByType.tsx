@@ -2,9 +2,9 @@ import React from "react";
 import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
-} from "@/components/profile/hooks/useProfileMetricsDistributionByType";
+} from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
 import { BarChart, BarChartProps, LineChart } from "@mantine/charts";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 interface Props extends Omit<BarChartProps, "data" | "dataKey" | "series"> {
   userId: string;

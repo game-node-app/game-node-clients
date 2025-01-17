@@ -31,20 +31,17 @@ import "@ionic/react/css/core.css";
  * https://ionicframework.com/docs/theming/dark-mode
  */
 import "@ionic/react/css/palettes/dark.always.css";
-/* import '@ionic/react/css/palettes/dark.class.css'; */
-// import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import "./theme/variables.css";
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
 import { IconHome } from "@tabler/icons-react";
-import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
-import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
 import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
+  DEFAULT_MANTINE_THEME,
   setModalComponent,
   setRoutingComponent,
   setRoutingManager,
@@ -52,13 +49,7 @@ import {
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
-
-/**
- * Basic configuration for wrapper services
- */
-ServerOpenAPI.BASE = import.meta.env.VITE_PUBLIC_SERVER_URL!;
-ServerOpenAPI.WITH_CREDENTIALS = true;
-SearchOpenAPI.BASE = import.meta.env.VITE_PUBLIC_SEARCH_URL!;
+import { setupWrapper } from "@repo/wrapper";
 
 setupIonicReact();
 
@@ -68,6 +59,10 @@ setupIonicReact();
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useIonRouterWrapper);
 setModalComponent(IonModalWrapper);
+setupWrapper({
+  serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
+  searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
+});
 
 const App: React.FC = () => {
   const [keyboardOpened, setKeyboardOpened] = useState(false);
@@ -104,7 +99,10 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <SuperTokensProvider>
-        <MantineProvider theme={theme} forceColorScheme={"dark"}>
+        <MantineProvider
+          theme={DEFAULT_MANTINE_THEME}
+          forceColorScheme={"dark"}
+        >
           <QueryClientProvider client={queryClient}>
             <IonReactRouter>
               <AppUrlListener />

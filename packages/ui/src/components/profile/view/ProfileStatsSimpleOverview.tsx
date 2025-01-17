@@ -1,5 +1,5 @@
 import React from "react";
-import { useProfileMetricsOverview } from "@/components/profile/hooks/useProfileMetricsOverview";
+import { useProfileMetricsOverview } from "#@/components/profile/hooks/useProfileMetricsOverview";
 import { Group, Popover, Stack, Text } from "@mantine/core";
 import { BarChart } from "@mantine/charts";
 import { ProfileMetricsOverviewDto } from "@repo/wrapper/server";

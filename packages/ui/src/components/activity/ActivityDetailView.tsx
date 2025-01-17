@@ -1,12 +1,12 @@
 import React from "react";
 import { Center, Stack } from "@mantine/core";
-import { ActivityList } from "@/components/activity/ActivityList";
-import { useActivity } from "@/components/activity/hooks/useActivity";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
-import { CenteredErrorMessage } from "@/components/general/CenteredErrorMessage";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { TextLink } from "@/components/general/TextLink";
+import { ActivityList } from "#@/components/activity/ActivityList";
+import { useActivity } from "#@/components/activity/hooks/useActivity";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { TextLink } from "#@/components/general/TextLink";
 
 interface Props {
   activityId: string;

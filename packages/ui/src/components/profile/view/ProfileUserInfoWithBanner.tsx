@@ -1,14 +1,14 @@
 import React, { PropsWithChildren } from "react";
-import { ProfileBanner } from "@/components/profile/view/ProfileBanner";
+import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { Box, Group, Stack, Text } from "@mantine/core";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import { ProfileUserInfo } from "@/components/profile/view/ProfileUserInfo";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
-import { useUserId } from "@/components/auth/hooks/useUserId";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useDisclosure } from "@mantine/hooks";
-import { ProfileEditForm } from "@/components/profile/edit/ProfileEditForm";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { Modal } from "@/util";
+import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { Modal } from "#@/util";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;

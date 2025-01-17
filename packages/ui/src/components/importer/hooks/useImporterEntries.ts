@@ -3,7 +3,7 @@ import {
   ImporterPaginatedResponseDto,
   ImporterService,
 } from "../../../../../wrapper/src/server";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 interface Props {
   source: string;

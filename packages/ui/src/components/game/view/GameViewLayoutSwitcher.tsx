@@ -5,7 +5,7 @@ import {
   IconLayoutColumns,
   IconLayoutList,
 } from "@tabler/icons-react";
-import { GameViewContext } from "@/components/game/view/GameView";
+import { GameViewContext } from "#@/components/game/view/GameView";
 
 export interface GameViewLayoutSwitcherProps {
   setLayout: React.Dispatch<SetStateAction<"grid" | "list">>;

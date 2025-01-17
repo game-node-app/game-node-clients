@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import Cropper, { Area } from "react-easy-crop";
-import { base64ToBlob, getCroppedImg } from "@/util/imageUtils";
-import { ImageDropzone } from "@/components/general/ImageDropzone";
+import { base64ToBlob, getCroppedImg } from "#@/util/imageUtils";
+import { ImageDropzone } from "#@/components/general/ImageDropzone";
 import { Button, Group, Slider, Stack, Stepper } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { BaseModalChildrenProps } from "@/util/types/modal-props";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { useMutation } from "@tanstack/react-query";
 import { ProfileService, UpdateProfileImageDto } from "@repo/wrapper/server";
 import type = UpdateProfileImageDto.type;
 import { useDisclosure } from "@mantine/hooks";
-import { ProfileBanner } from "@/components/profile/view/ProfileBanner";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
   const userId = useUserId();

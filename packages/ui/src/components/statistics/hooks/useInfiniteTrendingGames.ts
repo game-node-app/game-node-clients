@@ -9,8 +9,8 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { ExtendedUseInfiniteQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { sleep } from "@/util/sleep";
+import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import { sleep } from "#@/util/sleep";
 
 export interface InfiniteQueryTrendingGamesDto
   extends Omit<FindStatisticsTrendingGamesDto, "offset" | "search"> {}

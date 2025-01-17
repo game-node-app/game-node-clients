@@ -4,7 +4,7 @@ import {
   AchievementsService,
   ObtainedAchievement,
 } from "../../../../../wrapper/src/server";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useAllObtainedAchievements(
   targetUserId: string | undefined,

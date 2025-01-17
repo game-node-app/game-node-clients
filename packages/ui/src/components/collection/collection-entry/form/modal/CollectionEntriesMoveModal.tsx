@@ -1,7 +1,7 @@
 import React from "react";
-import { BaseModalProps } from "@/util/types/modal-props";
-import { CollectionEntriesMoveForm } from "@/components/collection/collection-entry/form/CollectionEntriesMoveForm";
-import { Modal } from "@/util";
+import { BaseModalProps } from "#@/util/types/modal-props";
+import { CollectionEntriesMoveForm } from "#@/components/collection/collection-entry/form/CollectionEntriesMoveForm";
+import { Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
   collectionId: string;

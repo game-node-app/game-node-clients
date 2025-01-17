@@ -1,0 +1,1 @@
+{"version":3,"file":"LibrariesService.d.ts","sourceRoot":"","sources":["LibrariesService.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,mBAAmB,CAAC;AACjD,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,2BAA2B,CAAC;AAGnE,qBAAa,gBAAgB;IACzB;;;OAGG;WACW,4BAA4B,IAAI,iBAAiB,CAAC,OAAO,CAAC;IAMxE;;;;OAIG;WACW,+CAA+C,CACzD,EAAE,EAAE,MAAM,GACX,iBAAiB,CAAC,OAAO,CAAC;CAShC"}

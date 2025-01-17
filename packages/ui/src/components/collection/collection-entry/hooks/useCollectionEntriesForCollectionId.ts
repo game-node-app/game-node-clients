@@ -7,8 +7,8 @@ import {
   CollectionEntriesPaginatedResponseDto,
   FindCollectionEntriesOrderBy,
 } from "../../../../../../wrapper/src/server";
-import { getCollectionEntriesByCollectionId } from "@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { getCollectionEntriesByCollectionId } from "#@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 interface UseCollectionEntriesForCollectionIdProps {
   collectionId: string;

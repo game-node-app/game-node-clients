@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, useMemo } from "react";
-import { TGameOrSearchGame } from "@/components/game/util/types";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { SimpleGrid, SimpleGridProps } from "@mantine/core";
 import {
   GameSelectViewFigureProps,
   GameSelectViewFigure,
-} from "@/components/game/view/select/GameSelectViewFigure";
+} from "#@/components/game/view/select/GameSelectViewFigure";
 
 type SelectedProps = Pick<
   GameSelectViewFigureProps,

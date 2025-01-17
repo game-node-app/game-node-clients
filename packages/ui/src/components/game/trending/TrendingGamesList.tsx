@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { SimpleGrid, Skeleton } from "@mantine/core";
-import { GameGridItem } from "@/components/game/figure/GameGridItem";
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { useGames } from "@/components/game/hooks/useGames";
-import { useTrendingGames } from "@/components/statistics/hooks/useTrendingGames";
+import { GameGridItem } from "#@/components/game/figure/GameGridItem";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { useGames } from "#@/components/game/hooks/useGames";
+import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
 import { FindStatisticsTrendingGamesDto } from "../../../../../wrapper/src/server";
 import period = FindStatisticsTrendingGamesDto.period;
 

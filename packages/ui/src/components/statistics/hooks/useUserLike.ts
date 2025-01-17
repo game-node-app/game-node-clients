@@ -7,13 +7,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   StatisticsWithStatus,
   useItemStatistics,
-} from "@/components/statistics/hooks/useItemStatistics";
-import { useUserId } from "@/components/auth/hooks/useUserId";
+} from "#@/components/statistics/hooks/useItemStatistics";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
   trackMatomoEvent,
-} from "@/util/trackMatomoEvent";
+} from "#@/util/trackMatomoEvent";
 
 export interface IToggleLikeProps {
   targetUserId: string | undefined;

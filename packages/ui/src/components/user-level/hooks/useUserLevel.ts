@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { LevelService } from "../../../../../wrapper/src/server";
+import { LevelService } from "@repo/wrapper/server";
 
 export function useUserLevel(targetUserId: string) {
   return useQuery({

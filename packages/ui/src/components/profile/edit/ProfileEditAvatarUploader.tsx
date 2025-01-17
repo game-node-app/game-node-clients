@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useUserId } from "@/components/auth/hooks/useUserId";
-import { useUserProfile } from "@/components/profile/hooks/useUserProfile";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import {
   Avatar,
   Button,
@@ -12,14 +12,17 @@ import {
   Text,
 } from "@mantine/core";
 import Cropper, { Area } from "react-easy-crop";
-import { ImageDropzone } from "@/components/general/ImageDropzone";
-import { base64ToBlob, getCroppedImg } from "@/util/imageUtils";
-import { BaseModalChildrenProps } from "@/util/types/modal-props";
+import { ImageDropzone } from "#@/components/general/ImageDropzone";
+import { base64ToBlob, getCroppedImg } from "#@/util/imageUtils";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { useMutation } from "@tanstack/react-query";
-import { ProfileService, UpdateProfileImageDto } from "../../../../../wrapper/src/server";
+import {
+  ProfileService,
+  UpdateProfileImageDto,
+} from "../../../../../wrapper/src/server";
 import type = UpdateProfileImageDto.type;
-import { DetailsBox } from "@/components/general/DetailsBox";
-import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 
 interface Props extends BaseModalChildrenProps {}
 

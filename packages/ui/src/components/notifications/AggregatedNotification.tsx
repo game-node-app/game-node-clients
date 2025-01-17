@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 import { NotificationAggregateDto } from "../../../../wrapper/src/server";
-import { ReviewAggregatedNotification } from "@/components/notifications/item/ReviewAggregatedNotification";
-import { FollowerAggregatedNotification } from "@/components/notifications/item/FollowerAggregatedNotification";
+import { ReviewAggregatedNotification } from "#@/components/notifications/item/ReviewAggregatedNotification";
+import { FollowerAggregatedNotification } from "#@/components/notifications/item/FollowerAggregatedNotification";
 import { Notification } from "@mantine/core";
 import sourceType = NotificationAggregateDto.sourceType;
 import category = NotificationAggregateDto.category;
-import { ImporterWatchAggregatedNotification } from "@/components/notifications/item/ImporterWatchAggregatedNotification";
-import { ReportAggregatedNotification } from "@/components/notifications/item/ReportAggregatedNotification";
-import { ActivityAggregatedNotification } from "@/components/notifications/item/ActivityAggregatedNotification";
-import { ActivityCommentAggregatedNotification } from "@/components/notifications/item/ActivityCommentAggregatedNotification";
-import { ReviewCommentAggregatedNotification } from "@/components/notifications/item/ReviewCommentAggregatedNotification";
+import { ImporterWatchAggregatedNotification } from "#@/components/notifications/item/ImporterWatchAggregatedNotification";
+import { ReportAggregatedNotification } from "#@/components/notifications/item/ReportAggregatedNotification";
+import { ActivityAggregatedNotification } from "#@/components/notifications/item/ActivityAggregatedNotification";
+import { ActivityCommentAggregatedNotification } from "#@/components/notifications/item/ActivityCommentAggregatedNotification";
+import { ReviewCommentAggregatedNotification } from "#@/components/notifications/item/ReviewCommentAggregatedNotification";
 
 export interface AggregatedNotificationProps {
   aggregatedNotification: NotificationAggregateDto;

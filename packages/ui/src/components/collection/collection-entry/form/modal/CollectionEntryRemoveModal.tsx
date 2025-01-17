@@ -9,8 +9,8 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
   Modal,
-} from "@/util";
-import { useOwnCollectionEntryForGameId } from "../../hooks";
+} from "#@/util";
+import { useOwnCollectionEntryForGameId } from "#@/components";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;

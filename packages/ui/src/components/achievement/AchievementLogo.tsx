@@ -1,5 +1,5 @@
 import React from "react";
-import { getServerStoredIcon } from "@/util/getServerStoredImages";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { Image, ImageProps } from "@mantine/core";
 
 interface Props extends ImageProps {

@@ -1,7 +1,10 @@
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
-import { FindReviewPaginatedDto, ReviewsService } from "../../../../../wrapper/src/server";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import {
+  FindReviewPaginatedDto,
+  ReviewsService,
+} from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { TBasePaginationRequest } from "@/util/types/pagination";
+import { TBasePaginationRequest } from "#@/util/types/pagination";
 
 export default function useReviewsForGameId(
   gameId: number,

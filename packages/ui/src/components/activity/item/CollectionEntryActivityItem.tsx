@@ -1,19 +1,19 @@
 import React from "react";
-import { useOnMobile } from "@/components/general/hooks/useOnMobile";
-import { useGame } from "@/components/game/hooks/useGame";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useGame } from "#@/components/game/hooks/useGame";
 import {
   getSizedImageUrl,
   ImageSize,
-} from "@/components/game/util/getSizedImageUrl";
+} from "#@/components/game/util/getSizedImageUrl";
 import { Box, Group, Overlay, Stack, Text, Title } from "@mantine/core";
-import { ActivityItemLikes } from "@/components/activity/input/ActivityItemLikes";
-import { useCollectionEntry } from "@/components/collection/collection-entry/hooks/useCollectionEntry";
-import { useCollection } from "@/components/collection/hooks/useCollection";
-import { Link } from "@/util";
-import { UserAvatarGroup } from "@/components/general/avatar/UserAvatarGroup";
-import { ActivityCreateDate } from "@/components/activity/item/ActivityCreateDate";
-import { ActivityItemComments } from "@/components/activity/input/ActivityItemComments";
-import { ActivityItemProps } from "@/components/activity/types";
+import { ActivityItemLikes } from "#@/components/activity/input/ActivityItemLikes";
+import { useCollectionEntry } from "#@/components/collection/collection-entry/hooks/useCollectionEntry";
+import { useCollection } from "#@/components/collection/hooks/useCollection";
+import { Link } from "#@/util";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import { ActivityCreateDate } from "#@/components/activity/item/ActivityCreateDate";
+import { ActivityItemComments } from "#@/components/activity/input/ActivityItemComments";
+import { ActivityItemProps } from "#@/components/activity/types";
 
 interface Props extends ActivityItemProps {}
 

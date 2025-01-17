@@ -4,7 +4,7 @@ import {
   GameRepositoryService,
 } from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 interface FindAllGamesByIdsDto extends Partial<GameRepositoryFindAllDto> {}
 

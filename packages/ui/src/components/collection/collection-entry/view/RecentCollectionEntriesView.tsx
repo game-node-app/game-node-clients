@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { useCollectionEntriesForUserId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
-import { GameView } from "@/components/game/view/GameView";
-import { useGames } from "@/components/game/hooks/useGames";
-import { CenteredLoading } from "@/components/general/CenteredLoading";
+import { useCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
+import { GameView } from "#@/components/game/view/GameView";
+import { useGames } from "#@/components/game/hooks/useGames";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 interface Props {
   userId: string;

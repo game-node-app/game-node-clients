@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { ModalProps } from "@mantine/core";
+import { MantineModalWrapper } from "#@/components/general/MantineModalWrapper.tsx";
 
 export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
   title?: string;
@@ -19,11 +20,7 @@ export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
   onBreakpointChange?: (breakpoint: number) => void;
 }
 
-export let Modal: React.FC<ModalComponentProps> = () => {
-  throw new Error(
-    "A modal component must be provided! Call `setModalComponent` at the project's root.",
-  );
-};
+export let Modal: React.FC<ModalComponentProps> = MantineModalWrapper;
 
 export function setModalComponent(component: React.FC<ModalComponentProps>) {
   console.log("Set modal component to: ", component);

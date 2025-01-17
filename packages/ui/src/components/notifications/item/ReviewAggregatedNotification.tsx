@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { AggregatedNotificationContentProps } from "@/components/notifications/AggregatedNotification";
-import { useReview } from "@/components/review/hooks/useReview";
+import { AggregatedNotificationContentProps } from "#@/components/notifications/AggregatedNotification";
+import { useReview } from "#@/components/review/hooks/useReview";
 import { NotificationAggregateDto } from "../../../../../wrapper/src/server";
-import { getUniqueProfileNames } from "@/components/notifications/utils/getUniqueProfileNames";
+import { getUniqueProfileNames } from "#@/components/notifications/utils/getUniqueProfileNames";
 import { Group, Text } from "@mantine/core";
-import { UserAvatar } from "@/components/general/avatar/UserAvatar";
-import { Link } from "@/util";
-import { useGame } from "@/components/game/hooks/useGame";
-import { NotificationSkeleton } from "@/components/notifications/NotificationSkeleton";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { Link } from "#@/util";
+import { useGame } from "#@/components/game/hooks/useGame";
+import { NotificationSkeleton } from "#@/components/notifications/NotificationSkeleton";
 import category = NotificationAggregateDto.category;
 
 const ReviewAggregatedNotification = ({
