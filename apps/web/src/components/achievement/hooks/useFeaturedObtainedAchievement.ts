@@ -1,41 +1,41 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AchievementsService, ObtainedAchievement } from "@/wrapper/server";
+import { AchievementsService, ObtainedAchievement } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 export function useFeaturedObtainedAchievement(
-    userId: string | undefined,
+  userId: string | undefined,
 ): ExtendedUseQueryResult<ObtainedAchievement | undefined> {
-    const queryClient = useQueryClient();
-    const queryKey = ["achievements", "featured", userId];
+  const queryClient = useQueryClient();
+  const queryKey = ["achievements", "featured", userId];
 
-    const invalidate = () => {
-        queryClient.invalidateQueries({
-            queryKey,
-        });
-    };
+  const invalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey,
+    });
+  };
 
-    return {
-        ...useQuery({
-            queryKey,
-            queryFn: async () => {
-                if (!userId) {
-                    return null;
-                }
+  return {
+    ...useQuery({
+      queryKey,
+      queryFn: async () => {
+        if (!userId) {
+          return null;
+        }
 
-                const featuredAchivement =
-                    await AchievementsService.achievementsControllerGetFeaturedAchievementForUserIdV1(
-                        userId,
-                    );
+        const featuredAchivement =
+          await AchievementsService.achievementsControllerGetFeaturedAchievementForUserIdV1(
+            userId,
+          );
 
-                if (!featuredAchivement) {
-                    return null;
-                }
+        if (!featuredAchivement) {
+          return null;
+        }
 
-                return featuredAchivement;
-            },
-            enabled: !!userId,
-        }),
-        invalidate,
-        queryKey,
-    };
+        return featuredAchivement;
+      },
+      enabled: !!userId,
+    }),
+    invalidate,
+    queryKey,
+  };
 }

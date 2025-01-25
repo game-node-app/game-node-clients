@@ -1,20 +1,20 @@
 import {
-    keepPreviousData,
-    useQuery,
-    useQueryClient,
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 import {
-    CollectionEntriesPaginatedResponseDto,
-    FindCollectionEntriesOrderBy,
-} from "@/wrapper/server";
+  CollectionEntriesPaginatedResponseDto,
+  FindCollectionEntriesOrderBy,
+} from "@repo/wrapper/server";
 import { getCollectionEntriesByCollectionId } from "@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
 import { ExtendedUseQueryResult } from "@/util/types/ExtendedUseQueryResult";
 
 interface UseCollectionEntriesForCollectionIdProps {
-    collectionId: string;
-    limit?: number;
-    offset?: number;
-    orderBy?: FindCollectionEntriesOrderBy;
+  collectionId: string;
+  limit?: number;
+  offset?: number;
+  orderBy?: FindCollectionEntriesOrderBy;
 }
 
 /**
@@ -26,43 +26,37 @@ interface UseCollectionEntriesForCollectionIdProps {
  * @param gameRelations
  */
 export function useCollectionEntriesForCollectionId({
-    collectionId,
-    limit,
-    offset,
-    orderBy,
+  collectionId,
+  limit,
+  offset,
+  orderBy,
 }: UseCollectionEntriesForCollectionIdProps): ExtendedUseQueryResult<
-    CollectionEntriesPaginatedResponseDto | undefined
+  CollectionEntriesPaginatedResponseDto | undefined
 > {
-    const queryClient = useQueryClient();
-    const queryKey = [
-        "collection-entries",
-        collectionId,
-        offset,
-        limit,
-        orderBy,
-    ];
-    const invalidate = () => {
-        queryClient.invalidateQueries({
-            queryKey: [queryKey[0]],
-        });
-    };
-    return {
-        ...useQuery({
-            queryKey,
-            queryFn: async () => {
-                if (!collectionId) {
-                    return undefined;
-                }
-                return await getCollectionEntriesByCollectionId(
-                    collectionId,
-                    offset,
-                    limit,
-                    orderBy,
-                );
-            },
-            enabled: !!collectionId,
-        }),
-        queryKey,
-        invalidate,
-    };
+  const queryClient = useQueryClient();
+  const queryKey = ["collection-entries", collectionId, offset, limit, orderBy];
+  const invalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey: [queryKey[0]],
+    });
+  };
+  return {
+    ...useQuery({
+      queryKey,
+      queryFn: async () => {
+        if (!collectionId) {
+          return undefined;
+        }
+        return await getCollectionEntriesByCollectionId(
+          collectionId,
+          offset,
+          limit,
+          orderBy,
+        );
+      },
+      enabled: !!collectionId,
+    }),
+    queryKey,
+    invalidate,
+  };
 }

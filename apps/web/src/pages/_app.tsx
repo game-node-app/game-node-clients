@@ -5,20 +5,20 @@ import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
 import React, { useState } from "react";
 import { RouterTransition } from "@/components/general/RouterTransition";
 import {
-    DehydratedState,
-    QueryClient,
-    QueryClientProvider,
-    HydrationBoundary,
+  DehydratedState,
+  QueryClient,
+  QueryClientProvider,
+  HydrationBoundary,
 } from "@tanstack/react-query";
 import Head from "next/head";
-import { OpenAPI as ServerOpenAPI } from "@/wrapper/server";
+import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
 import { OpenAPI as SearchOpenAPI } from "@/wrapper/search";
 
 const roboto = Roboto({
-    subsets: ["latin"],
-    variable: "--font-roboto",
-    style: ["normal", "italic"],
-    weight: ["300", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  style: ["normal", "italic"],
+  weight: ["300", "500", "700"],
 });
 
 /**
@@ -41,9 +41,9 @@ import NotificationsManager from "@/components/general/NotificationsManager";
 import MatomoWrapper from "@/components/general/MatomoWrapper";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import {
-    DEFAULT_MANTINE_THEME,
-    setRoutingComponent,
-    setRoutingManager,
+  DEFAULT_MANTINE_THEME,
+  setRoutingComponent,
+  setRoutingManager,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
 import { useRouter } from "next/router";
@@ -60,65 +60,60 @@ SearchOpenAPI.BASE = process.env.NEXT_PUBLIC_SEARCH_URL!;
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);
 setupWrapper({
-    searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
-    serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
+  searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
+  serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 
 export interface DehydrationResult {
-    dehydratedState: DehydratedState;
+  dehydratedState: DehydratedState;
 }
 
 export default function App({
-    Component,
-    pageProps,
+  Component,
+  pageProps,
 }: AppProps<DehydrationResult>) {
-    const [queryClient, _] = useState(
-        () =>
-            new QueryClient({
-                defaultOptions: {
-                    queries: {
-                        refetchOnWindowFocus: false,
-                        refetchInterval: false,
-                        refetchOnMount: false,
-                        refetchIntervalInBackground: false,
-                        refetchOnReconnect: false,
-                        staleTime: Infinity,
-                        retry: 2,
-                    },
-                },
-            }),
-    );
+  const [queryClient, _] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchInterval: false,
+            refetchOnMount: false,
+            refetchIntervalInBackground: false,
+            refetchOnReconnect: false,
+            staleTime: Infinity,
+            retry: 2,
+          },
+        },
+      }),
+  );
 
-    return (
-        <MantineProvider
-            theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-                fontFamily: roboto.style.fontFamily,
-            })}
-            forceColorScheme={"dark"}
-        >
-            <Head>
-                <title>GameNode</title>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-            </Head>
-            <SuperTokensProvider>
-                <QueryClientProvider client={queryClient}>
-                    <NotificationsManager />
-                    <OpenInAppDialog />
-                    <MatomoWrapper>
-                        <GlobalAppShell>
-                            <HydrationBoundary
-                                state={pageProps.dehydratedState}
-                            >
-                                <RouterTransition />
-                                <Component {...pageProps} />
-                            </HydrationBoundary>
-                        </GlobalAppShell>
-                    </MatomoWrapper>
-                </QueryClientProvider>
-            </SuperTokensProvider>
-        </MantineProvider>
-    );
+  return (
+    <MantineProvider
+      theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+        fontFamily: roboto.style.fontFamily,
+      })}
+      forceColorScheme={"dark"}
+    >
+      <Head>
+        <title>GameNode</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <SuperTokensProvider>
+        <QueryClientProvider client={queryClient}>
+          <NotificationsManager />
+          <OpenInAppDialog />
+          <MatomoWrapper>
+            <GlobalAppShell>
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <RouterTransition />
+                <Component {...pageProps} />
+              </HydrationBoundary>
+            </GlobalAppShell>
+          </MatomoWrapper>
+        </QueryClientProvider>
+      </SuperTokensProvider>
+    </MantineProvider>
+  );
 }

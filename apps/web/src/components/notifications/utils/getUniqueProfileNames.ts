@@ -1,17 +1,17 @@
-import { Notification } from "@/wrapper/server";
+import { Notification } from "@repo/wrapper/server";
 
 export default function getUniqueProfileNames(notifications: Notification[]) {
-    const profileNameMap = new Map<string, string>();
-    for (const notification of notifications) {
-        if (!notification.profile) continue;
+  const profileNameMap = new Map<string, string>();
+  for (const notification of notifications) {
+    if (!notification.profile) continue;
 
-        if (profileNameMap.has(notification.profile.username)) continue;
+    if (profileNameMap.has(notification.profile.username)) continue;
 
-        profileNameMap.set(
-            notification.profile.username,
-            notification.profile.username,
-        );
-    }
+    profileNameMap.set(
+      notification.profile.username,
+      notification.profile.username,
+    );
+  }
 
-    return [...profileNameMap.values()];
+  return [...profileNameMap.values()];
 }

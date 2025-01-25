@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProfileService } from "@/wrapper/server";
+import { ProfileService } from "@repo/wrapper/server";
 
 export function useUserProfiles() {
-    return useQuery({
-        queryKey: ["userProfile", "all"],
-        queryFn: async () => {
-            return ProfileService.profileControllerFindAllV1();
-        },
-        retry: 2,
-    });
+  return useQuery({
+    queryKey: ["userProfile", "all"],
+    queryFn: async () => {
+      return ProfileService.profileControllerFindAllV1();
+    },
+    retry: 2,
+  });
 }

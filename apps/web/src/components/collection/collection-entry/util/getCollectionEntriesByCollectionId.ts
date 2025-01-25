@@ -1,8 +1,8 @@
 import {
-    CollectionEntriesPaginatedResponseDto,
-    CollectionsEntriesService,
-    FindCollectionEntriesOrderBy,
-} from "@/wrapper/server";
+  CollectionEntriesPaginatedResponseDto,
+  CollectionsEntriesService,
+  FindCollectionEntriesOrderBy,
+} from "@repo/wrapper/server";
 
 /**
  * Returns a list CollectionEntry entity, given any is available in the user's library for that
@@ -13,22 +13,22 @@ import {
  * @param orderBy
  */
 export async function getCollectionEntriesByCollectionId(
-    collectionId: string,
-    offset?: number,
-    limit?: number,
-    orderBy?: FindCollectionEntriesOrderBy,
+  collectionId: string,
+  offset?: number,
+  limit?: number,
+  orderBy?: FindCollectionEntriesOrderBy,
 ): Promise<CollectionEntriesPaginatedResponseDto | undefined> {
-    try {
-        return await CollectionsEntriesService.collectionsEntriesControllerFindAllByCollectionIdV1(
-            collectionId,
-            {
-                offset,
-                limit,
-                orderBy,
-            },
-        );
-    } catch (e) {
-        console.error(e);
-        return undefined;
-    }
+  try {
+    return await CollectionsEntriesService.collectionsEntriesControllerFindAllByCollectionIdV1(
+      collectionId,
+      {
+        offset,
+        limit,
+        orderBy,
+      },
+    );
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
 }

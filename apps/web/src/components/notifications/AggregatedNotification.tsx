@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { NotificationAggregateDto } from "@/wrapper/server";
+import { NotificationAggregateDto } from "@repo/wrapper/server";
 import ReviewAggregatedNotification from "@/components/notifications/item/ReviewAggregatedNotification";
 import FollowerAggregatedNotification from "@/components/notifications/item/FollowerAggregatedNotification";
 import { Notification } from "@mantine/core";
@@ -12,91 +12,91 @@ import ActivityCommentAggregatedNotification from "@/components/notifications/it
 import ReviewCommentAggregatedNotification from "@/components/notifications/item/ReviewCommentAggregatedNotification";
 
 export interface AggregatedNotificationProps {
-    aggregatedNotification: NotificationAggregateDto;
-    onClick: () => void;
-    backgroundColor: "normal" | "darker";
+  aggregatedNotification: NotificationAggregateDto;
+  onClick: () => void;
+  backgroundColor: "normal" | "darker";
 }
 
 export interface AggregatedNotificationContentProps {
-    aggregatedNotification: NotificationAggregateDto;
+  aggregatedNotification: NotificationAggregateDto;
 }
 
 const AggregatedNotification = ({
-    aggregatedNotification,
-    onClick,
-    backgroundColor,
+  aggregatedNotification,
+  onClick,
+  backgroundColor,
 }: AggregatedNotificationProps) => {
-    const notificationContent = useMemo(() => {
-        switch (aggregatedNotification.sourceType) {
-            case sourceType.ACTIVITY:
-                return (
-                    <ActivityAggregatedNotification
-                        aggregatedNotification={aggregatedNotification}
-                    />
-                );
-            case sourceType.ACTIVITY_COMMENT:
-                return (
-                    <ActivityCommentAggregatedNotification
-                        aggregatedNotification={aggregatedNotification}
-                    />
-                );
-            case sourceType.REVIEW:
-                return (
-                    <ReviewAggregatedNotification
-                        aggregatedNotification={aggregatedNotification}
-                    />
-                );
-            case sourceType.REVIEW_COMMENT:
-                return (
-                    <ReviewCommentAggregatedNotification
-                        aggregatedNotification={aggregatedNotification}
-                    />
-                );
-            case sourceType.PROFILE:
-                if (aggregatedNotification.category === category.FOLLOW)
-                    return (
-                        <FollowerAggregatedNotification
-                            aggregatedNotification={aggregatedNotification}
-                        />
-                    );
-                return null;
-            case sourceType.IMPORTER:
-                if (aggregatedNotification.category === category.WATCH) {
-                    return (
-                        <ImporterWatchAggregatedNotification
-                            aggregatedNotification={aggregatedNotification}
-                        />
-                    );
-                }
-                return null;
-            case NotificationAggregateDto.sourceType.REPORT:
-                return (
-                    <ReportAggregatedNotification
-                        aggregatedNotification={aggregatedNotification}
-                    />
-                );
-        }
-
+  const notificationContent = useMemo(() => {
+    switch (aggregatedNotification.sourceType) {
+      case sourceType.ACTIVITY:
+        return (
+          <ActivityAggregatedNotification
+            aggregatedNotification={aggregatedNotification}
+          />
+        );
+      case sourceType.ACTIVITY_COMMENT:
+        return (
+          <ActivityCommentAggregatedNotification
+            aggregatedNotification={aggregatedNotification}
+          />
+        );
+      case sourceType.REVIEW:
+        return (
+          <ReviewAggregatedNotification
+            aggregatedNotification={aggregatedNotification}
+          />
+        );
+      case sourceType.REVIEW_COMMENT:
+        return (
+          <ReviewCommentAggregatedNotification
+            aggregatedNotification={aggregatedNotification}
+          />
+        );
+      case sourceType.PROFILE:
+        if (aggregatedNotification.category === category.FOLLOW)
+          return (
+            <FollowerAggregatedNotification
+              aggregatedNotification={aggregatedNotification}
+            />
+          );
         return null;
-    }, [aggregatedNotification]);
+      case sourceType.IMPORTER:
+        if (aggregatedNotification.category === category.WATCH) {
+          return (
+            <ImporterWatchAggregatedNotification
+              aggregatedNotification={aggregatedNotification}
+            />
+          );
+        }
+        return null;
+      case NotificationAggregateDto.sourceType.REPORT:
+        return (
+          <ReportAggregatedNotification
+            aggregatedNotification={aggregatedNotification}
+          />
+        );
+    }
 
-    return (
-        <Notification
-            color="rgba(255, 255, 255, 0)"
-            className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"}`}
-            withCloseButton={false}
-            onClick={onClick}
-            radius={0}
-            styles={{
-                root: {
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                },
-            }}
-        >
-            {notificationContent}
-        </Notification>
-    );
+    return null;
+  }, [aggregatedNotification]);
+
+  return (
+    <Notification
+      color="rgba(255, 255, 255, 0)"
+      className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"}`}
+      withCloseButton={false}
+      onClick={onClick}
+      radius={0}
+      styles={{
+        root: {
+          paddingLeft: 10,
+          paddingRight: 10,
+        },
+      }}
+    >
+      {notificationContent}
+    </Notification>
+  );
 };
 
 export default AggregatedNotification;
