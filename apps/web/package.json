@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "yarn run wrapper:generate && next dev",
-    "dev:turbo": "yarn run wrapper:generate && next dev --turbo",
-    "build": "yarn run wrapper:generate && next build",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
+    "build": "next build",
     "start": "next start",
     "wrapper:generate": "node src/wrapper/generate.js",
     "lint": "next lint"
