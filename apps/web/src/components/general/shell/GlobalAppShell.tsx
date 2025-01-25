@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppShell, Box, useMantineTheme } from "@mantine/core";
+import { AppShell, Box, Container, useMantineTheme } from "@mantine/core";
 import GlobalShellHeader from "@/components/general/shell/GlobalShellHeader/GlobalShellHeader";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
@@ -50,7 +50,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
                 pos={"relative"}
                 className={"!ps-2.5 xl:flex xl:justify-center"}
             >
-                <Box className={"w-full xl:max-w-screen-xl"}>{children}</Box>
+                <Container className={"w-full"}>{children}</Container>
             </AppShell.Main>
             <AppShell.Footer pos={"static"}>
                 <GlobalShellFooter />

@@ -13,8 +13,6 @@
   "dependencies": {
     "@repo/ui": "*",
     "@repo/wrapper": "*",
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
     "@hookform/resolvers": "^3.9.0",
     "@mantine/carousel": "^7.13.3",
     "@mantine/charts": "^7.13.4",
@@ -84,9 +82,5 @@
   },
   "resolutions": {
     "prosemirror-model": "1.23.0"
-  },
-  "prettier": {
-    "tabWidth": 4,
-    "singleQuote": false
   }
 }

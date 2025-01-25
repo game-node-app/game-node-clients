@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite --port 3002 --force",
-    "build": "vite build",
+    "build": "vite build && npx cap sync",
     "build:android": "npx cap build android",
     "preview": "vite preview",
     "test.e2e": "cypress run",
@@ -94,7 +94,6 @@
     "tailwindcss": "3.4.3",
     "terser": "^5.4.0",
     "typescript": "^5.6.3",
-
     "vite": "^5.4.11",
     "vitest": "^0.34.6"
   },

@@ -1,20 +1,21 @@
 import {
-    ActionIcon,
-    Anchor,
-    Box,
-    Button,
-    Container,
-    Divider,
-    Flex,
-    Grid,
-    Group,
-    Image,
-    SimpleGrid,
-    Space,
-    Stack,
-    Text,
-    Title,
-    Transition,
+  ActionIcon,
+  Anchor,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Grid,
+  Group,
+  Image,
+  SimpleGrid,
+  Space,
+  Stack,
+  Text,
+  Title,
+  Tooltip,
+  Transition,
 } from "@mantine/core";
 import SimpleCard from "@/components/general/card/SimpleCard";
 import { IconChevronDown } from "@tabler/icons-react";
@@ -22,123 +23,77 @@ import React, { useEffect, useRef } from "react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { getServerStoredIcon } from "@repo/ui";
 
 export default function Home() {
-    const cardGridRef = useRef<HTMLDivElement>(null);
-    const session = useSessionContext();
-    const router = useRouter();
-    useEffect(() => {
-        if (!session.loading && session.doesSessionExist) {
-            router.replace("/search");
-        }
-    }, [session, router]);
-    return (
-        <Container fluid h={"100%"}>
-            <Stack className="h-[80vh] mb-32 ">
-                <Stack gap={0} className="mt-32 lg:mt-40 mb-8 w-full max-w-fit">
-                    <Title size={"h1"} className="text-7xl">
-                        Play. Review. Share.
-                    </Title>
+  const session = useSessionContext();
+  const router = useRouter();
+  // useEffect(() => {
+  //     if (!session.loading && session.doesSessionExist) {
+  //         router.replace("/search");
+  //     }
+  // }, [session, router]);
+  return (
+    <Stack className={"w-full h-full min-h-screen items-center"}>
+      <Title size={"h1"} className={"text-center mt-10"}>
+        Manage all your games <br />
+        In a single place
+      </Title>
+      <Text ta={"center"}>
+        GameNode is the perfect platform to manage your game collection
+        virtually. Update your backlog, rate the titles you've played, and add
+        the most anticipated releases to your wishlist. Connect with friends,
+        follow their activities, and keep track of everyone's latest gaming
+        sessions.
+      </Text>
+      <Link href={"/search"}>
+        <Button size={"xl"} className={"bg-brand-5 min-w-44 mt-5"}>
+          Join in
+        </Button>
+      </Link>
 
-                    <Stack
-                        className={
-                            "mt-8 h-fit flex-col lg:flex-row lg:items-center"
-                        }
-                    >
-                        <Link href={"/search"}>
-                            <Button size={"lg"}>Join in</Button>
-                        </Link>
-                        <Divider label={"OR"} />
-                        <Anchor
-                            className={"w-44"}
-                            href={
-                                "https://play.google.com/store/apps/details?id=app.gamenode&pcampaignid=web_share"
-                            }
-                        >
-                            <Image
-                                src={"/img/google_play_badge_english.png"}
-                                alt={"Get it on Google Play badge"}
-                            />
-                        </Anchor>
-                    </Stack>
-                </Stack>
-
-                <Stack
-                    gap={0}
-                    align="center"
-                    justify="flex-start"
-                    className="mt-auto mb-xl"
-                >
-                    <ActionIcon
-                        size={"xl"}
-                        onClick={() =>
-                            cardGridRef.current?.scrollIntoView({
-                                behavior: "smooth",
-                            })
-                        }
-                    >
-                        <IconChevronDown size="4rem" />
-                    </ActionIcon>
-                </Stack>
-            </Stack>
-            <Grid
-                px={"lg"}
-                ref={cardGridRef}
-                className=""
-                align="center"
-                w={"100%"}
-                justify="center"
-            >
-                <Grid.Col
-                    span={{
-                        xs: 6,
-                        lg: 3,
-                    }}
-                    className="flex justify-center"
-                >
-                    <SimpleCard text={"Organize your game library"} />
-                </Grid.Col>
-                <Grid.Col
-                    span={{
-                        xs: 6,
-                        lg: 3,
-                    }}
-                    className="flex justify-center"
-                >
-                    <SimpleCard text={"Connect your platforms"} />
-                </Grid.Col>
-                <Grid.Col
-                    span={{
-                        xs: 6,
-                        lg: 3,
-                    }}
-                    className="flex justify-center"
-                >
-                    <SimpleCard text={"Know where to play each game"} />
-                </Grid.Col>
-                <Grid.Col
-                    span={{
-                        xs: 6,
-                        lg: 3,
-                    }}
-                    className="flex justify-center"
-                >
-                    <SimpleCard text={"Share your reviews"} />
-                </Grid.Col>
-            </Grid>
-            <Space mb={"xl"} />
-            <Title ta="center" size="h5">
-                GameNode is free (and ad-free!).
-            </Title>
-            <Text c={"dimmed"} fz={"1rem"} className={"text-center"}>
-                Games metadata are a courtesy of{" "}
-                <a className={"text-blue-800"} href={"https://igdb.com"}>
-                    IGDB
-                </a>
-                .
+      <Stack className={"items-center"}>
+        <Anchor
+          className={"w-44 mt-8"}
+          href={
+            "https://play.google.com/store/apps/details?id=app.gamenode&pcampaignid=web_share"
+          }
+        >
+          <Image
+            src={"/img/google_play_badge_english.png"}
+            alt={"Get it on Google Play badge"}
+          />
+        </Anchor>
+        <Text className={"text-sm"}>Soon in iOS</Text>
+      </Stack>
+      <Stack className={"items-center mt-16"}>
+        <Text className={"text-center"}>
+          Too lazy to import your entire library? Don't worry, we got you!
+        </Text>
+        <Group className={"justify-center"}>
+          <Image
+            w={38}
+            src={getServerStoredIcon("psn")}
+            alt={"Playstation Network"}
+          />
+          <Image w={38} src={getServerStoredIcon("steam")} alt={"Steam"} />
+        </Group>
+        <Text className={"text-sm text-dimmed"}>
+          GameNode can import games and{" "}
+          <Tooltip label={"Only for sources which export playtime info."}>
+            <Text span className={"text-sm"}>
+              playtime*
             </Text>
-
-            <Space mb={"xl"} />
-        </Container>
-    );
+          </Tooltip>{" "}
+          from these sources. More will be available soon.
+        </Text>
+      </Stack>
+      <Text className={"mt-16 text-sm"}>
+        Games metadata are a courtesy of{" "}
+        <Anchor href={"https://igdb.com"} target={"_blank"}>
+          IGDB
+        </Anchor>
+      </Text>
+    </Stack>
+  );
 }

@@ -5,6 +5,8 @@ import Router from "next/router";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
+import { GameNodeLogo } from "@repo/ui";
+import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 
 export const frontendConfig = (): SuperTokensConfig => {
     return {
@@ -15,6 +17,22 @@ export const frontendConfig = (): SuperTokensConfig => {
             apiBasePath: "/v1/auth",
             websiteBasePath: "/auth",
         },
+        style: `
+        [data-supertokens~=container] {
+            --palette-background: 28, 28, 28;
+            --palette-inputBackground: 41, 41, 41;
+            --palette-inputBorder: 41, 41, 41;
+            --palette-textTitle: 255, 255, 255;
+            --palette-textLabel: 255, 255, 255;
+            --palette-textPrimary: 255, 255, 255;
+            --palette-primaryBorder: 0, 0, 0;
+            --palette-primary: 241, 81, 38;
+            --palette-error: 173, 46, 46;
+            --palette-textInput: 169, 169, 169;
+            --palette-textLink: 114,114,114;
+            --palette-textGray: 158, 158, 158;
+        }
+    `,
         getRedirectionURL: async (context: any) => {
             if (context.action === "SUCCESS" && context.newSessionCreated) {
                 if (context.redirectToPath !== undefined) {
@@ -38,11 +56,7 @@ export const frontendConfig = (): SuperTokensConfig => {
             }),
             ThirdParty.init({
                 signInAndUpFeature: {
-                    providers: [
-                        // TODO: Enable once it's approved
-                        // ThirdPartyPasswordlessReact.Google.init(),
-                        ThirdParty.Discord.init(),
-                    ],
+                    providers: [ThirdParty.Discord.init()],
                 },
             }),
             Session.init(),
@@ -67,7 +81,19 @@ if (typeof window !== "undefined") {
 }
 
 const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
-    return <SuperTokensWrapper>{children}</SuperTokensWrapper>;
+    return (
+        <SuperTokensWrapper>
+            <AuthRecipeComponentsOverrideContextProvider
+                components={{
+                    AuthPageHeader_Override: (Default, ...props) => {
+                        return <GameNodeLogo style={{ marginBottom: 20 }} />;
+                    },
+                }}
+            >
+                {children}
+            </AuthRecipeComponentsOverrideContextProvider>
+        </SuperTokensWrapper>
+    );
 };
 
 export default SuperTokensProvider;
