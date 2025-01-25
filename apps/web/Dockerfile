@@ -20,6 +20,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
+COPY --from=builder /app/out/yarn.lock .
 COPY --from=builder /app/out/json/ .
 RUN yarn install
 
