@@ -1,8 +1,8 @@
 import {
-    schema_GameSearchRequestDto,
-    schema_GameSearchResponseDto,
-    schema_SearchGame,
-} from "@/wrapper/search";
+  schema_GameSearchRequestDto,
+  schema_GameSearchResponseDto,
+  schema_SearchGame,
+} from "@repo/wrapper/search";
 
 export type SearchGame = schema_SearchGame;
 export type GameSearchRequestDto = schema_GameSearchRequestDto;

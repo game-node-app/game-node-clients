@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-query";
 import Head from "next/head";
 import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
-import { OpenAPI as SearchOpenAPI } from "@/wrapper/search";
+import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
 
 const roboto = Roboto({
   subsets: ["latin"],
