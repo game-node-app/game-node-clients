@@ -15,11 +15,11 @@ RUN turbo prune web --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 # First install the dependencies (as they change less often)
-COPY --from=builder /app/out/json/ .
+COPY /app/out/json/ .
 RUN yarn install
 
 # Build the project
-COPY --from=builder /app/out/full/ .
+COPY /app/out/full/ .
 
 RUN ls -la apps/web
 
