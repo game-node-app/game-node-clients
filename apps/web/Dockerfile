@@ -14,11 +14,6 @@ COPY . .
 RUN turbo prune web --docker
 
 # Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-RUN apk update
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 RUN yarn install
@@ -26,10 +21,9 @@ RUN yarn install
 # Build the project
 COPY --from=builder /app/out/full/ .
 
-COPY apps/web/.env.production .env.production
+RUN ls -la apps/web
 
-# Copies ENV vars to root dir
-RUN cat .env.production >> /etc/environment
+COPY apps/web/.env.production .env.production
 
 # Uncomment and use build args to enable remote caching
 # ARG TURBO_TEAM
