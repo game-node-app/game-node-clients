@@ -26,8 +26,10 @@ RUN yarn install
 # Build the project
 COPY --from=builder /app/out/full/ .
 
+COPY --from=builder /app/out/full/apps/web/.env.environment .env.environment
+
 # Copies ENV vars to root dir
-RUN cat apps/web/.env.production >> /etc/environment
+RUN cat .env.environment >> /etc/environment
 
 # Uncomment and use build args to enable remote caching
 # ARG TURBO_TEAM
