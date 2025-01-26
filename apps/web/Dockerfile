@@ -27,7 +27,7 @@ RUN yarn install
 COPY --from=builder /app/out/full/ .
 
 # Copies ENV vars to root dir
-COPY apps/web/.env.production .
+RUN cat apps/web/.env.production >> /etc/environment
 
 # Uncomment and use build args to enable remote caching
 # ARG TURBO_TEAM
@@ -51,6 +51,5 @@ USER nextjs
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.env.production .
 
 CMD node apps/web/server.js
