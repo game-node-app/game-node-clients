@@ -30,4 +30,4 @@ jobs:
           context: .
           file: ./apps/web/Dockerfile
           push: true
-          tags: game-node-web:latest,game-node-web:${{inputs.version}}
+          tags: lamarcke/game-node-web:latest,lamarcke/game-node-web:${{inputs.version}}
