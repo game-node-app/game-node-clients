@@ -1,9 +1,13 @@
 name: Publish Docker image
 
 on:
-  push:
-    branches:
-      - releases/web
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: 'version to tag docker image'
+        type: string
+
 
 jobs:
   push_to_registry:
@@ -27,7 +31,7 @@ jobs:
         with:
           images: lamarcke/game-node-web
           tags: |
-            type=semver
+            type=ref,event=tag
             type=raw,value=latest,enable=true
       
       - name: Build and push Docker image
