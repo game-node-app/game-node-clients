@@ -131,6 +131,7 @@ const CommentEditorView = ({
         <CommentEditor
           content={previousContent}
           onCreate={(props) => {
+            // eslint-disable-next-line react/prop-types
             editorRef.current = props.editor;
           }}
         />

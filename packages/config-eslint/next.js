@@ -1,14 +1,6 @@
-const { resolve } = require("node:path");
-
-const project = resolve(process.cwd(), "tsconfig.json");
-
 /*
  * This is a custom ESLint configuration for use with
  * Next.js apps.
- *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
  */
 
 module.exports = {
@@ -37,11 +29,20 @@ module.exports = {
     "react-refresh",
     "@next/eslint-plugin-next",
   ],
+
   rules: {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
-    "prettier/prettier": ["warn", { endOfLine: "auto" }],
+    "react/no-unescaped-entities": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-require-imports": "off",
+    "react/jsx-no-target-blank": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "prettier/prettier": ["off", { endOfLine: "auto" }],
   },
   overrides: [
     {
