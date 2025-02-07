@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from "react";
 import {
   Button,
   ComboboxItem,
+  Divider,
+  Group,
   MultiSelect,
   Space,
   Stack,
@@ -33,7 +35,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
-import { ImageSize } from "#@/components";
+import { ImageSize, useOnMobile } from "#@/components";
 
 const GameAddOrUpdateSchema = z
   .object({
@@ -123,6 +125,8 @@ const CollectionEntryAddOrUpdateForm = ({
       mandatoryFinished: false,
     },
   });
+
+  const onMobile = useOnMobile();
 
   const queryClient = useQueryClient();
 
@@ -273,6 +277,15 @@ const CollectionEntryAddOrUpdateForm = ({
   useEffect(() => {
     const collections = userLibraryQuery.data?.collections;
     if (collections) {
+      const nonFinishedGamesCollections = collections.filter(
+        (collection) => !collection.isFinished,
+      );
+      // QOL to quickly select the available collection when the user only has one.
+      if (nonFinishedGamesCollections.length === 1) {
+        const collectionId = collections[0].id;
+        setValue("collectionIds", [collectionId]);
+      }
+
       for (const collection of collections) {
         if (collectionsIdsValue.includes(`${collection.id}`)) {
           if (collection.isFinished) {
@@ -294,6 +307,23 @@ const CollectionEntryAddOrUpdateForm = ({
     userLibraryQuery.data?.collections,
   ]);
 
+  /**
+   * Effect to quickly select a non-finished collection when only one is available.
+   */
+  useEffect(() => {
+    const collections = userLibraryQuery.data?.collections;
+    if (collections) {
+      const nonFinishedGamesCollections = collections.filter(
+        (collection) => !collection.isFinished,
+      );
+
+      if (nonFinishedGamesCollections.length === 1) {
+        const collectionId = collections[0].id;
+        setValue("collectionIds", [collectionId]);
+      }
+    }
+  }, [setValue, userLibraryQuery.data?.collections]);
+
   if (gameQuery.isLoading || collectionEntryQuery.isLoading) {
     return <CenteredLoading />;
   } else if (gameQuery.isError || collectionEntryQuery.isError) {
@@ -306,72 +336,78 @@ const CollectionEntryAddOrUpdateForm = ({
 
   return (
     <SessionAuth>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full h-full flex flex-col items-center justify-start gap-4"
-      >
-        {showGameInfo && (
-          <Stack className="w-full items-center">
-            <GameFigureImage game={game!} imageSize={ImageSize.COVER_BIG_2X} />
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
+        <Group className={"flex-wrap lg:flex-nowrap w-full h-full "}>
+          {showGameInfo && (
+            <Stack className="w-full items-center justify-start lg:w-1/2">
+              <GameFigureImage
+                game={game!}
+                imageSize={ImageSize.COVER_BIG_2X}
+              />
+            </Stack>
+          )}
+          <Divider orientation={onMobile ? "horizontal" : "vertical"} />
+          <Stack className={"w-full items-start gap-2 h-full lg:w-1/2"}>
             <Title size={"h5"}>{game?.name}</Title>
+            <MultiSelect
+              {...register("collectionIds")}
+              value={collectionsIdsValue || []}
+              className={"w-full"}
+              data={collectionOptions}
+              onChange={(value) => {
+                setValue("collectionIds", value);
+              }}
+              placeholder={"Select collections"}
+              label={"Collections"}
+              error={errors.collectionIds?.message}
+              withAsterisk
+              searchable
+              limit={10}
+              description={"Which collections do you want to save it on?"}
+            />
+            <MultiSelect
+              {...register("platformsIds")}
+              value={platformsIdsValue || []}
+              className={"w-full"}
+              data={platformOptions}
+              onChange={(value) => {
+                setValue("platformsIds", value);
+              }}
+              searchable
+              placeholder={"Select platforms"}
+              label={"Platforms"}
+              error={errors.platformsIds?.message}
+              withAsterisk
+              limit={20}
+              description={"You can search for a platform by typing it's name"}
+            />
+            <DatePickerInput
+              {...register("finishedAt", {
+                setValueAs: (v) => v || undefined,
+              })}
+              error={errors.finishedAt?.message}
+              label={"Finished date"}
+              description={
+                "Date in which you've finished this game. Leave empty if it's not finished yet."
+              }
+              onChange={(date) => {
+                setValue("finishedAt", date || undefined);
+              }}
+              value={finishedAtDate}
+              clearable
+              maxDate={new Date()}
+              required={watch("mandatoryFinished")}
+            />
+
+            <Button
+              type={"submit"}
+              loading={collectionEntryMutation.isPending}
+              className={"w-full mt-4"}
+            >
+              {isUpdateAction ? "Update" : "Add"}
+            </Button>
           </Stack>
-        )}
-
-        <MultiSelect
-          {...register("collectionIds")}
-          value={collectionsIdsValue || []}
-          className={"w-full"}
-          data={collectionOptions}
-          onChange={(value) => {
-            setValue("collectionIds", value);
-          }}
-          placeholder={"Select collections"}
-          label={"Collections"}
-          error={errors.collectionIds?.message}
-          withAsterisk
-          searchable
-          limit={10}
-          description={"Which collections do you want to save it on?"}
-        />
-        <Space />
-        <MultiSelect
-          {...register("platformsIds")}
-          value={platformsIdsValue || []}
-          className={"w-full"}
-          data={platformOptions}
-          onChange={(value) => {
-            setValue("platformsIds", value);
-          }}
-          searchable
-          placeholder={"Select platforms"}
-          label={"Platforms"}
-          error={errors.platformsIds?.message}
-          withAsterisk
-          limit={20}
-          description={"You can search for a platform by typing it's name"}
-        />
-        <Space />
-        <DatePickerInput
-          {...register("finishedAt", {
-            setValueAs: (v) => v || undefined,
-          })}
-          error={errors.finishedAt?.message}
-          label={"Finished date"}
-          description={
-            "Date in which you've finished this game. Leave empty if it's not finished yet."
-          }
-          onChange={(date) => {
-            setValue("finishedAt", date || undefined);
-          }}
-          value={finishedAtDate}
-          clearable
-          maxDate={new Date()}
-          required={watch("mandatoryFinished")}
-        />
-
-        <Button type={"submit"} loading={collectionEntryMutation.isPending}>
-          {isUpdateAction ? "Update" : "Add"}
-        </Button>
+        </Group>
       </form>
     </SessionAuth>
   );

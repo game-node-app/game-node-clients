@@ -14,7 +14,6 @@ import {
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import CollectionEntryAddOrUpdateModal from "@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -28,6 +27,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "@/util/trackMatomoEvent";
+import { CollectionEntryAddOrUpdateModal } from "@repo/ui";
 
 interface IGameViewActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;

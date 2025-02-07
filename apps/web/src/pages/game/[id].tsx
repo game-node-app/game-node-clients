@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from "react";
-import { Container } from "@mantine/core";
-import GameInfoView, {
-  DEFAULT_GAME_INFO_VIEW_DTO,
-} from "@/components/game/info/GameInfoView";
+import { Container, Stack } from "@mantine/core";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import GameExtraInfoView from "@/components/game/info/GameExtraInfoView";
 import { NextPageContext } from "next";
 import {
   FindOneStatisticsDto,
   Game,
   GameRepositoryFindOneDto,
   GameRepositoryService,
-  StatisticsActionDto,
 } from "@repo/wrapper/server";
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { useUserView } from "@/components/statistics/hooks/useUserView";
 import sourceType = FindOneStatisticsDto.sourceType;
 import Head from "next/head";
-import { useGame } from "@/components/game/hooks/useGame";
+import {
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  GameExtraInfoView,
+  GameInfoView,
+  useGame,
+} from "@repo/ui";
+import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen.tsx";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -91,15 +91,11 @@ const GameInfoPage = () => {
           <title>{`${gameQuery.data.name} - GameNode`}</title>
         </Head>
       )}
-      <Container fluid mt={"30px"} p={0} w={"100%"}>
+      <Stack>
         <GameInfoView id={idAsNumber} />
-      </Container>
-      <Container fluid mt={"30px"} p={0} w={"100%"}>
         <GameInfoReviewScreen gameId={idAsNumber} />
-      </Container>
-      <Container fluid mt={"30px"} p={0} w={"100%"}>
         <GameExtraInfoView id={idAsNumber} />
-      </Container>
+      </Stack>
     </Container>
   );
 };

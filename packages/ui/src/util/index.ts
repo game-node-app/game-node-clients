@@ -10,6 +10,7 @@ export * from "./imageUtils";
 export * from "./jsonDeepEquals";
 export * from "./link";
 export * from "./modal";
+export * from "./project";
 export * from "./shuffleArray";
 export * from "./sleep";
 export * from "./theme";

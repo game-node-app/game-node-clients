@@ -3,7 +3,6 @@ import { IonApp, IonFab, IonFabButton, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
-import { theme } from "./util/theme";
 
 /**
  * Should always be imported BEFORE tailwind.
@@ -43,6 +42,7 @@ import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
   DEFAULT_MANTINE_THEME,
   setModalComponent,
+  setProjectContext,
   setRoutingComponent,
   setRoutingManager,
 } from "@repo/ui";
@@ -59,6 +59,9 @@ setupIonicReact();
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useIonRouterWrapper);
 setModalComponent(IonModalWrapper);
+setProjectContext({
+  client: "mobile",
+});
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,

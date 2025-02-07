@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { CollectionEntryAddOrUpdateForm } from "#@/components/collection/collection-entry/form/CollectionEntryAddOrUpdateForm";
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { Modal } from "#@/util";
+import { PROJECT_CONTEXT } from "#@/util/project.ts";
 
 interface IGameAddModalProps extends BaseModalProps {
   id: number;
@@ -14,7 +14,11 @@ const CollectionEntryAddOrUpdateModal = ({
   onClose,
   id,
 }: IGameAddModalProps) => {
-  const [currentBreakpoint, setCurrentBreakpoint] = useState(0.8);
+  const supportsBreakpoints = PROJECT_CONTEXT.client === "mobile";
+
+  const [currentBreakpoint, setCurrentBreakpoint] = useState(
+    supportsBreakpoints ? 0.8 : 1,
+  );
   const onMobile = useOnMobile();
 
   return (
@@ -23,6 +27,7 @@ const CollectionEntryAddOrUpdateModal = ({
       onClose={onClose}
       title={"Add to your library"}
       fullScreen={onMobile}
+      size={"lg"}
       transitionProps={{ transition: "fade", duration: 200 }}
       breakpoints={[0.6, 0.8, 1]}
       initialBreakpoint={currentBreakpoint}

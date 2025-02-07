@@ -49,6 +49,7 @@ import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
 import { useRouter } from "next/router";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
+import { setProjectContext } from "@repo/ui";
 
 /**
  * Basic configuration for wrapper services
@@ -59,6 +60,9 @@ SearchOpenAPI.BASE = process.env.NEXT_PUBLIC_SEARCH_URL!;
 
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);
+setProjectContext({
+  client: "web",
+});
 setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
