@@ -346,7 +346,10 @@ const CollectionEntryAddOrUpdateForm = ({
               />
             </Stack>
           )}
-          <Divider orientation={onMobile ? "horizontal" : "vertical"} />
+          <Divider
+            orientation={onMobile ? "horizontal" : "vertical"}
+            className={"w-full lg:w-fit"}
+          />
           <Stack className={"w-full items-start gap-2 h-full lg:w-1/2"}>
             <Title size={"h5"}>{game?.name}</Title>
             <MultiSelect
