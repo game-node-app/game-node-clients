@@ -9,10 +9,9 @@ import { CollectionEntryAddOrUpdateModal } from "#@/components/collection/collec
 import { useDisclosure } from "@mantine/hooks";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
-interface GameFigureWIthQuickAddProps
-  extends PropsWithChildren<IGameFigureProps> {}
+type GameFigureWIthQuickAddProps = PropsWithChildren<IGameFigureProps>;
 
-const LONG_PRESS_TIMEOUT_MS = 750;
+const LONG_PRESS_TIMEOUT_MS = 1250;
 
 /**
  * A game figure image wrapper that features quick collection add functionality. <br>

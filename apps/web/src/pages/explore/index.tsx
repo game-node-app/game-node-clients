@@ -13,7 +13,6 @@ import { useIntersection, useWindowScroll } from "@mantine/hooks";
 import { useInfiniteTrendingGames } from "@/components/statistics/hooks/useInfiniteTrendingGames";
 import { useGames } from "@/components/game/hooks/useGames";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import GameView from "@/components/game/view/GameView";
 import { IconArrowUp } from "@tabler/icons-react";
 import {
   DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
@@ -22,6 +21,7 @@ import {
 import { jsonDeepEquals } from "@/util/jsonDeepEquals";
 import Head from "next/head";
 import CenteredLoading from "@/components/general/CenteredLoading";
+import { GameView } from "@repo/ui";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;

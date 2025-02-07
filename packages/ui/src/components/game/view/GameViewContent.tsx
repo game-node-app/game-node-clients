@@ -16,7 +16,6 @@ const GameViewContent = ({
   children,
   ...others
 }: GameViewContentProps) => {
-  const onMobile = useOnMobile();
   const { layout } = useContext(GameViewContext);
   const columns = useMemo(() => {
     if (items == null || items.length === 0) {

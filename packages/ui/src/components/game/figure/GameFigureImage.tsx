@@ -41,13 +41,13 @@ const GameFigureImage = ({
   );
   const defaultHref = `/game/${game?.id}`;
   return (
-    <Link
-      href={href ?? defaultHref}
-      className="w-full h-auto"
-      onClick={onClick}
-      {...linkProps}
-    >
-      <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
+    <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
+      <Link
+        href={href ?? defaultHref}
+        className="w-full h-auto"
+        onClick={onClick}
+        {...linkProps}
+      >
         <Image
           radius={"sm"}
           src={sizedCoverUrl ?? "/img/game_placeholder.jpeg"}
@@ -55,9 +55,9 @@ const GameFigureImage = ({
           className="w-full h-auto max-h-full"
           {...imageProps}
         />
-        {children}
-      </AspectRatio>
-    </Link>
+      </Link>
+      {children}
+    </AspectRatio>
   );
 };
 

@@ -1,31 +1,30 @@
-import React, { MutableRefObject, useMemo } from "react";
+import React from "react";
 import {
   IGameFigureProps,
   GameFigureImage,
 } from "#@/components/game/figure/GameFigureImage";
-import { Badge } from "@mantine/core";
-import { getGameCategoryName } from "#@/components/game/util/getGameCategoryName";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
+import { GameHoverEditFigure, useOnMobile } from "#@/components";
 
 interface IGameGridFigureProps {
   game: TGameOrSearchGame;
   figureProps?: Omit<Partial<IGameFigureProps>, "game">;
-  /**
-   * If quick add functionality should be enabled. Checks will still be performed to see if
-   * it's possible to show the game add modal.
-   */
-  withQuickAdd?: boolean;
 }
 
-const GameGridItem = ({
-  game,
-  figureProps,
-  withQuickAdd = true,
-}: IGameGridFigureProps) => {
-  const Figure = withQuickAdd ? GameFigureWithQuickAdd : GameFigureImage;
+const GameGridItem = ({ game, figureProps }: IGameGridFigureProps) => {
+  const onMobile = useOnMobile();
 
-  return <Figure {...figureProps} game={game} href={`/game/${game?.id}`} />;
+  const Figure = onMobile ? GameFigureWithQuickAdd : GameHoverEditFigure;
+
+  return (
+    <Figure
+      {...figureProps}
+      game={game}
+      href={`/game/${game?.id}`}
+      withHoverTitle={true}
+    />
+  );
 };
 
 export { GameGridItem };

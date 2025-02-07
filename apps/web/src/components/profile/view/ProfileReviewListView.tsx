@@ -12,13 +12,10 @@ import ReviewListItem from "@/components/review/view/ReviewListItem";
 import { Group, Pagination, Stack, Tabs, Text } from "@mantine/core";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { DEFAULT_GAME_REVIEW_LIST_VIEW_DTO } from "@/components/game/info/review/GameInfoReviewList";
 import { ParsedUrlQuery } from "querystring";
 import { TBasePaginationRequest } from "@/util/types/pagination";
-import period = FindStatisticsTrendingGamesDto.period;
-import { DetailsBox } from "@/components/general/DetailsBox";
-import GameView from "@/components/game/view/GameView";
 import useReviewsForUserId from "@/components/review/hooks/useReviewsForUserId";
+import { GameView } from "@repo/ui";
 
 const DEFAULT_LIMIT = 7;
 

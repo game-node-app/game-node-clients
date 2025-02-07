@@ -1,13 +1,10 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { CollectionEntry, Game } from "@repo/wrapper/server";
+import React, { useCallback, useState } from "react";
+import { Game } from "@repo/wrapper/server";
 import { Flex, Skeleton, Stack } from "@mantine/core";
-import GameView from "@/components/game/view/GameView";
-import CenteredLoading from "@/components/general/CenteredLoading";
 import { Box, Space } from "@mantine/core";
-import GameViewLayoutSwitcher from "@/components/game/view/GameViewLayoutSwitcher";
-import { IGameViewPaginationProps } from "@/components/game/view/GameViewPagination";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import SelectWithOrdering from "@/components/general/input/select/SelectWithOrdering";
+import { GameView, IGameViewPaginationProps } from "@repo/ui";
 
 interface ICollectionEntriesViewProps extends IGameViewPaginationProps {
   isLoading: boolean;
@@ -70,7 +67,7 @@ const CollectionEntriesView = ({
             </Box>
 
             <Flex className={""}>
-              <GameViewLayoutSwitcher setLayout={setLayout} />
+              <GameView.LayoutSwitcher setLayout={setLayout} />
             </Flex>
           </Box>
           <GameView.Content items={games!}>

@@ -1,14 +1,5 @@
-import React, { PropsWithChildren, useMemo, useState } from "react";
-import {
-  AspectRatio,
-  Box,
-  Group,
-  Stack,
-  Text,
-  Title,
-  Badge,
-  Flex,
-} from "@mantine/core";
+import React from "react";
+import { Box, Group, Stack, Text, Title, Flex } from "@mantine/core";
 import {
   IGameFigureProps,
   GameFigureImage,
@@ -18,8 +9,8 @@ import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocaliz
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { getGameGenres } from "#@/components/game/util/getGameGenres";
 import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
-import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
 import { Link } from "#@/util";
+import { GameFigureWithQuickAdd, GameHoverEditFigure } from "#@/components";
 
 interface IGameListFigureProps {
   game: TGameOrSearchGame;
@@ -43,11 +34,10 @@ const GameListItem = ({
       name = name.substring(0, 30) + "...";
     }
   }
-
   const genres = getGameGenres(game);
   const genreNames = genres?.join(", ");
 
-  const Figure = withQuickAdd ? GameFigureWithQuickAdd : GameFigureImage;
+  const Figure = onMobile ? GameFigureWithQuickAdd : GameHoverEditFigure;
 
   return (
     <Group
@@ -69,6 +59,7 @@ const GameListItem = ({
               },
             },
           }}
+          withHoverTitle={false}
           {...figureProps}
         />
       </Box>

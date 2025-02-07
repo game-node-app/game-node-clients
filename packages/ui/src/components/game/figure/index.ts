@@ -5,4 +5,5 @@
 export * from "./GameFigureImage";
 export * from "./GameFigureWithQuickAdd";
 export * from "./GameGridItem";
+export * from "./GameHoverEditFigure";
 export * from "./GameListItem";

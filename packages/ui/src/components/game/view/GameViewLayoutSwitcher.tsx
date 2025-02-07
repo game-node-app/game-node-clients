@@ -1,10 +1,6 @@
 import React, { SetStateAction, useContext } from "react";
 import { ActionIcon, Divider, Group, Tooltip } from "@mantine/core";
-import {
-  IconGridDots,
-  IconLayoutColumns,
-  IconLayoutList,
-} from "@tabler/icons-react";
+import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 import { GameViewContext } from "#@/components/game/view/GameView";
 
 export interface GameViewLayoutSwitcherProps {
