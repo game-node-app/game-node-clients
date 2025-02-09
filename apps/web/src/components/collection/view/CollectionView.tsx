@@ -23,8 +23,8 @@ import useUserId from "@/components/auth/hooks/useUserId";
 import { useGames } from "@/components/game/hooks/useGames";
 import Head from "next/head";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import CollectionViewActions from "@/components/collection/form/CollectionViewActions";
 import CollectionEntriesView from "@/components/collection/collection-entry/view/CollectionEntriesView.tsx";
+import { CollectionViewActions } from "@repo/ui";
 
 interface ICollectionViewProps {
   libraryUserId: string;
@@ -133,7 +133,10 @@ const CollectionView = ({
             </Text>
           </Stack>
           {!isError && !isLoading && isOwnCollection && (
-            <CollectionViewActions collectionId={collectionId} />
+            <CollectionViewActions
+              libraryUserId={libraryUserId}
+              collectionId={collectionId}
+            />
           )}
         </Group>
         <Divider

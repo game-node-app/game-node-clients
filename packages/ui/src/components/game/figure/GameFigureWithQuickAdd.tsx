@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useState } from "react";
 import {
-  IGameFigureProps,
   GameFigureImage,
+  IGameFigureProps,
 } from "#@/components/game/figure/GameFigureImage";
 import { LongPressEventType, useLongPress } from "use-long-press";
 import { Box, Progress } from "@mantine/core";
@@ -55,8 +55,8 @@ const GameFigureWithQuickAdd = ({
       onStart: onStart,
       onCancel: clearInterval,
       onFinish: clearInterval,
-      detect: onMobile ? LongPressEventType.Touch : LongPressEventType.Mouse,
-      cancelOnMovement: true,
+      detect: LongPressEventType.Touch,
+      cancelOnMovement: false,
       cancelOutsideElement: true,
       threshold: LONG_PRESS_TIMEOUT_MS,
     },
@@ -81,12 +81,12 @@ const GameFigureWithQuickAdd = ({
       >
         {children}
         {progress > 0 && (
-          <div className={"absolute top-full w-full h-2"}>
+          <div className={"absolute h-full top-0 w-full"}>
             <Progress
               value={progress}
               size={"sm"}
               radius={0}
-              className={"h-full w-full"}
+              className={"w-full h-2 mt-auto"}
             />
           </div>
         )}

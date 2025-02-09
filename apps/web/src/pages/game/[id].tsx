@@ -18,7 +18,7 @@ import {
   GameInfoView,
   useGame,
 } from "@repo/ui";
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen.tsx";
+import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -87,7 +87,7 @@ const GameInfoPage = () => {
   return (
     <Container fluid pos={"relative"} className="mb-12" mih={"100vh"} p={0}>
       {gameQuery.data != undefined && (
-        <Head key={"game-title"}>
+        <Head>
           <title>{`${gameQuery.data.name} - GameNode`}</title>
         </Head>
       )}

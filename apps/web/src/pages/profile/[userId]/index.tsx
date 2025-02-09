@@ -5,17 +5,19 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { ProfileService } from "@repo/wrapper/server";
 import { DehydrationResult } from "@/pages/_app";
 import { Box, Container, Divider, Flex, Stack } from "@mantine/core";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import ProfileViewNavbar from "@/components/profile/view/ProfileViewNavbar";
-import ProfileFavoriteGames from "@/components/profile/view/ProfileFavoriteGames";
-import RecentActivityList from "@/components/activity/RecentActivityList";
-import useUserId from "@/components/auth/hooks/useUserId";
-import ProfileStatsSimpleOverview from "@/components/profile/view/ProfileStatsSimpleOverview";
-import UserRecentGames from "@/components/playtime/UserRecentGames";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { usePlaytimeForUser } from "@/components/playtime/hooks/usePlaytimeForUser";
-import TextLink from "@/components/general/TextLink";
-import { ProfileUserInfoWithBanner } from "@repo/ui";
+import {
+  ProfileFavoriteGames,
+  ProfileStatsSimpleOverview,
+  ProfileUserInfoWithBanner,
+  ProfileViewNavbar,
+  RecentActivityList,
+  TextLink,
+  useOnMobile,
+  UserRecentGames,
+  useUserId,
+  useUserProfile,
+} from "@repo/ui";
 
 export async function getServerSideProps(
   ctx: GetServerSidePropsContext,

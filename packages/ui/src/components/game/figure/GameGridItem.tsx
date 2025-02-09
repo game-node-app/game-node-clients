@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  IGameFigureProps,
-  GameFigureImage,
-} from "#@/components/game/figure/GameFigureImage";
+import { IGameFigureProps } from "#@/components/game/figure/GameFigureImage";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
 import { GameHoverEditFigure, useOnMobile } from "#@/components";

@@ -15,18 +15,9 @@ import { GameFigureWithQuickAdd, GameHoverEditFigure } from "#@/components";
 interface IGameListFigureProps {
   game: TGameOrSearchGame;
   figureProps?: Partial<IGameFigureProps>;
-  /**
-   * If quick add functionality should be enabled. Checks will still be performed to see if
-   * it's possible to show the game add modal.
-   */
-  withQuickAdd?: boolean;
 }
 
-const GameListItem = ({
-  game,
-  figureProps,
-  withQuickAdd = true,
-}: IGameListFigureProps) => {
+const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {
   let name = game.name ?? "Unknown";
   const onMobile = useOnMobile();
   if (onMobile) {
@@ -76,7 +67,7 @@ const GameListItem = ({
             </Title>
           </Link>
           <Text size="sm" className="text-gray-500">
-            {getLocalizedFirstReleaseDate(game.firstReleaseDate, undefined)}
+            {getLocalizedFirstReleaseDate(game.firstReleaseDate)}
           </Text>
         </Stack>
         <Flex className={"w-full"}>

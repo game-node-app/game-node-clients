@@ -7,7 +7,7 @@ import {
   ApiError,
   schema_GameSearchRequestDto,
   SearchService,
-} from "../../../../../wrapper/src/search";
+} from "@repo/wrapper/search";
 
 const parseDto = (dto: GameSearchRequestDto) => {
   const parsedDto: schema_GameSearchRequestDto = {
@@ -25,7 +25,7 @@ const parseDto = (dto: GameSearchRequestDto) => {
   return parsedDto;
 };
 
-export default function useSearchGames(
+export function useSearchGames(
   searchParameters: GameSearchRequestDto,
   enabled: boolean = true,
 ) {

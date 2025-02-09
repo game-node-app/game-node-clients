@@ -1,21 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Container, Flex, Space, Stack, Text } from "@mantine/core";
-import SearchBar from "@/components/general/input/SearchBar/SearchBar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import GameSearchResultView from "@/components/game/search/GameSearchResultView";
 import { GameSearchRequestDto } from "@/components/game/search/utils/types";
-import useSearchGames from "@/components/game/hooks/useSearchGames";
-import TrendingGamesList from "@/components/game/trending/TrendingGamesList";
 import { ParsedUrlQuery } from "querystring";
-import TrendingReviewCarousel from "@/components/review/trending/TrendingReviewCarousel";
 import { useRouter } from "next/router";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import RecentActivityList from "@/components/activity/RecentActivityList";
-import GameSearchTips from "@/components/game/search/GameSearchTips";
-import useUserId from "@/components/auth/hooks/useUserId";
-import RecommendationCarousel from "@/components/recommendation/carousel/RecommendationCarousel";
+import {
+  useUserId,
+  useSearchGames,
+  SearchBar,
+  GameSearchTips,
+  TrendingGamesList,
+  RecommendationCarousel,
+  TrendingReviewCarousel,
+  RecentActivityList,
+} from "@repo/ui";
+import GameSearchResultView from "@/components/game/search/GameSearchResultView.tsx";
 
 const SearchFormSchema = z.object({
   query: z.string().min(3),

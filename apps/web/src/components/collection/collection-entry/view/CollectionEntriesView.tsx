@@ -2,9 +2,12 @@ import React, { useCallback, useState } from "react";
 import { Game } from "@repo/wrapper/server";
 import { Flex, Skeleton, Stack } from "@mantine/core";
 import { Box, Space } from "@mantine/core";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import SelectWithOrdering from "@/components/general/input/select/SelectWithOrdering";
-import { GameView, IGameViewPaginationProps } from "@repo/ui";
+import {
+  CenteredErrorMessage,
+  GameView,
+  IGameViewPaginationProps,
+  SelectWithOrdering,
+} from "@repo/ui";
 
 interface ICollectionEntriesViewProps extends IGameViewPaginationProps {
   isLoading: boolean;
@@ -74,7 +77,7 @@ const CollectionEntriesView = ({
             {isLoading && buildLoadingSkeletons()}
           </GameView.Content>
           <Space h={"2rem"} />
-          {!isLoading && !isError && (
+          {!isLoading && !isError && paginationInfo?.hasNextPage && (
             <GameView.Pagination
               page={page}
               paginationInfo={paginationInfo}

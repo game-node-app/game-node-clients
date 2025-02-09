@@ -4,4 +4,4 @@
 
 export * from "./LibraryViewCollectionsSelect";
 export * from "./LibraryViewSidebar";
-export * from "./LibraryViewSidebarCollections";
+export * from "./LibraryViewSidebarCollection";

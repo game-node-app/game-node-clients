@@ -2,27 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import GameInfoReviewEditor from "@/components/game/info/review/editor/GameInfoReviewEditor";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { z } from "zod";
-import { CreateReviewDto, ReviewsService } from "@repo/wrapper/server";
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Flex,
-  Group,
-  Rating,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+import { ReviewsService } from "@repo/wrapper/server";
+import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
 import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Break from "@/components/general/Break";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useReviewForUserId from "@/components/review/hooks/useReviewForUserIdAndGameId";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import useUserId from "@/components/auth/hooks/useUserId";
 import { notifications } from "@mantine/notifications";
-import ReviewListItem from "@/components/review/view/ReviewListItem";
 import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { IconX } from "@tabler/icons-react";
 import GameRating from "@/components/general/input/GameRating";
@@ -31,6 +16,12 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "@/util/trackMatomoEvent";
+import {
+  Break,
+  ReviewListItem,
+  useReviewForUserIdAndGameId,
+  useUserId,
+} from "@repo/ui";
 
 const ReviewFormSchema = z.object({
   rating: z.number().min(0).max(5).default(5),
@@ -60,7 +51,7 @@ const GameInfoReviewEditorView = ({
   const queryClient = useQueryClient();
 
   const userId = useUserId();
-  const reviewQuery = useReviewForUserId(userId, gameId);
+  const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
   const reviewMutation = useMutation({

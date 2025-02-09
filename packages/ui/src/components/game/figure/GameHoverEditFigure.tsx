@@ -14,7 +14,7 @@ import {
   IGameFigureProps,
 } from "#@/components";
 import { Link } from "#@/util";
-import { IconDots, IconEdit } from "@tabler/icons-react";
+import { IconDots } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 
 interface Props extends IGameFigureProps {
@@ -67,9 +67,11 @@ const GameHoverEditFigure = ({
                   href={`/game/${game?.id}`}
                   className={"h-full w-full flex flex-col"}
                 >
-                  <Text className={"font-bold text-lg mt-auto"}>
-                    {game?.name}
-                  </Text>
+                  {withHoverTitle && (
+                    <Text className={"font-bold text-lg mt-auto"}>
+                      {game?.name}
+                    </Text>
+                  )}
                 </Link>
               </Box>
             </Stack>
