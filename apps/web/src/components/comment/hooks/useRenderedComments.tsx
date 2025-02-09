@@ -2,8 +2,8 @@ import { UserComment } from "@/components/comment/types";
 import React, { useMemo, useState } from "react";
 import { Divider, Group } from "@mantine/core";
 import CommentEditorView from "@/components/comment/editor/CommentEditorView";
-import CommentsListItem from "@/components/comment/view/CommentsListItem";
 import { CreateCommentDto } from "@repo/wrapper/server";
+import { CommentsListItem } from "@repo/ui";
 
 interface UseRenderedCommentsProps {
   data: UserComment[];

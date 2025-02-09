@@ -5,13 +5,13 @@ import {
   Review,
 } from "@repo/wrapper/server";
 import { Divider, Modal, Space, Stack } from "@mantine/core";
-import CommentsListView from "@/components/comment/view/CommentsListView";
 import CommentEditorView from "@/components/comment/editor/CommentEditorView";
 import sourceType = FindAllCommentsDto.sourceType;
 import { BaseModalProps } from "@/util/types/modal-props";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import ItemCommentsButton from "@/components/comment/input/ItemCommentsButton";
 import { useDisclosure } from "@mantine/hooks";
+import { CommentsListView } from "@repo/ui";
 
 interface ReviewListItemCommentsProps {
   review: Review;

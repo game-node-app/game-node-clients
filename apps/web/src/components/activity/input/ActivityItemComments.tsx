@@ -5,8 +5,8 @@ import sourceType = FindAllCommentsDto.sourceType;
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Stack } from "@mantine/core";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import CommentsListView from "@/components/comment/view/CommentsListView";
 import CommentEditorView from "@/components/comment/editor/CommentEditorView";
+import { CommentsListView } from "@repo/ui";
 
 interface Props {
   activity: Activity;

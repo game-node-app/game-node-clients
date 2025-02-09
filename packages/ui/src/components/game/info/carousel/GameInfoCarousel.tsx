@@ -1,6 +1,6 @@
 import React from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Game } from "../../../../../../wrapper/src/server";
+import { Game } from "@repo/wrapper/server";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { Flex, Skeleton, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
@@ -19,7 +19,7 @@ const buildGamesFigures = (games: Game[] | undefined) => {
     if (index < 40) {
       return (
         <Carousel.Slide key={game.id} className={"w-full h-full"}>
-          <GameGridItem game={game} withQuickAdd={false} />
+          <GameGridItem game={game} />
         </Carousel.Slide>
       );
     }
