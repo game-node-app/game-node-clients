@@ -26,14 +26,9 @@ export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
 interface IGameInfoViewProps {
   id: number;
   withActions?: boolean;
-  onShareClick?: () => void;
 }
 
-const GameInfoView = ({
-  id,
-  withActions = true,
-  onShareClick,
-}: IGameInfoViewProps) => {
+const GameInfoView = ({ id, withActions = true }: IGameInfoViewProps) => {
   const gameQuery = useGame(id, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
 
@@ -78,9 +73,6 @@ const GameInfoView = ({
                 <GameInfoActions
                   game={game}
                   wrapperProps={{ className: "mt-4" }}
-                  onShareClick={() => {
-                    if (onShareClick) onShareClick();
-                  }}
                 />
               )}
             </Flex>

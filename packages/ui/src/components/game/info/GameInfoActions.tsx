@@ -1,13 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ActionIcon,
-  Button,
-  Group,
-  Stack,
-  Tooltip,
-  Text,
-  Modal,
-} from "@mantine/core";
+import React, { useMemo } from "react";
+import { ActionIcon, Button, Group, Stack, Tooltip, Text } from "@mantine/core";
 import {
   IconHeartFilled,
   IconHeartPlus,
@@ -27,11 +19,12 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
+import { Modal } from "#@/util";
+import GameInfoShare from "./share/GameInfoShare";
 
 interface IGameViewActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
   game: Game | undefined;
-  onShareClick: () => void;
 }
 
 /**
@@ -39,13 +32,11 @@ interface IGameViewActionsProps {
  * The game add report is handled here.
  * @constructor
  */
-const GameInfoActions = ({
-  game,
-  wrapperProps,
-  onShareClick,
-}: IGameViewActionsProps) => {
+const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
+  const [shareModalOpened, shareModalUtils] = useDisclosure();
+
   const userId = useUserId();
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
 
@@ -114,6 +105,13 @@ const GameInfoActions = ({
           onClose={removeModalUtils.close}
           gameId={game.id}
         />
+        <Modal
+          opened={shareModalOpened}
+          onClose={shareModalUtils.close}
+          title={"Share"}
+        >
+          <GameInfoShare gameId={game.id} />
+        </Modal>
 
         <Button
           onClick={addUpdateModalUtils.open}
@@ -152,7 +150,11 @@ const GameInfoActions = ({
         )}
         {hasReview && (
           <Tooltip label={"Share this game"}>
-            <ActionIcon size="lg" variant="default" onClick={onShareClick}>
+            <ActionIcon
+              size="lg"
+              variant="default"
+              onClick={shareModalUtils.open}
+            >
               <IconShare size={"1.05rem"} />
             </ActionIcon>
           </Tooltip>
@@ -161,7 +163,7 @@ const GameInfoActions = ({
       {invisibleFavoriteGame && (
         <Text c={"dimmed"} fz={"sm"} className={"text-center"}>
           This favorite game will not be shown in your public profile because
-          it's only included in private collections.
+          it&apos;s only included in private collections.
         </Text>
       )}
     </Stack>

@@ -1,24 +1,13 @@
 import {
-  ActionIcon,
   Anchor,
-  Box,
   Button,
-  Container,
-  Divider,
-  Flex,
-  Grid,
   Group,
   Image,
-  SimpleGrid,
-  Space,
   Stack,
   Text,
   Title,
   Tooltip,
-  Transition,
 } from "@mantine/core";
-import SimpleCard from "@/components/general/card/SimpleCard";
-import { IconChevronDown } from "@tabler/icons-react";
 import React, { useEffect, useRef } from "react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useRouter } from "next/router";
@@ -28,11 +17,11 @@ import { getServerStoredIcon } from "@repo/ui";
 export default function Home() {
   const session = useSessionContext();
   const router = useRouter();
-  // useEffect(() => {
-  //     if (!session.loading && session.doesSessionExist) {
-  //         router.replace("/search");
-  //     }
-  // }, [session, router]);
+  useEffect(() => {
+    if (!session.loading && session.doesSessionExist) {
+      router.replace("/search");
+    }
+  }, [session, router]);
   return (
     <Stack className={"w-full h-full min-h-screen items-center"}>
       <Title size={"h1"} className={"text-center mt-10"}>

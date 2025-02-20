@@ -277,15 +277,6 @@ const CollectionEntryAddOrUpdateForm = ({
   useEffect(() => {
     const collections = userLibraryQuery.data?.collections;
     if (collections) {
-      const nonFinishedGamesCollections = collections.filter(
-        (collection) => !collection.isFinished,
-      );
-      // QOL to quickly select the available collection when the user only has one.
-      if (nonFinishedGamesCollections.length === 1) {
-        const collectionId = collections[0].id;
-        setValue("collectionIds", [collectionId]);
-      }
-
       for (const collection of collections) {
         if (collectionsIdsValue.includes(`${collection.id}`)) {
           if (collection.isFinished) {
@@ -309,20 +300,32 @@ const CollectionEntryAddOrUpdateForm = ({
 
   /**
    * Effect to quickly select a non-finished collection when only one is available.
+   * Only triggers when the collection entry is 'new' and if no collection has been selected.
    */
   useEffect(() => {
     const collections = userLibraryQuery.data?.collections;
-    if (collections) {
+    if (
+      collections &&
+      collectionsIdsValue.length === 0 &&
+      collectionEntryQuery.data == undefined
+    ) {
       const nonFinishedGamesCollections = collections.filter(
         (collection) => !collection.isFinished,
       );
+      console.log("nonFinishedGamesCollections", nonFinishedGamesCollections);
 
       if (nonFinishedGamesCollections.length === 1) {
-        const collectionId = collections[0].id;
+        const collectionId = nonFinishedGamesCollections[0].id;
+
         setValue("collectionIds", [collectionId]);
       }
     }
-  }, [setValue, userLibraryQuery.data?.collections]);
+  }, [
+    collectionEntryQuery.data,
+    collectionsIdsValue.length,
+    setValue,
+    userLibraryQuery.data?.collections,
+  ]);
 
   if (gameQuery.isLoading || collectionEntryQuery.isLoading) {
     return <CenteredLoading />;

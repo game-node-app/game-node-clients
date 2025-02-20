@@ -41,6 +41,7 @@ const GameInfoReviewEditor = ({
         const html = e.editor.getHTML();
         onBlur(html ?? "");
       },
+      immediatelyRender: window != undefined,
     },
     [previousContent],
   );
