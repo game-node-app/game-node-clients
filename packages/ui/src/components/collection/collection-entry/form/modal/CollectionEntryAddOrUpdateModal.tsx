@@ -3,7 +3,7 @@ import { CollectionEntryAddOrUpdateForm } from "#@/components/collection/collect
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Modal } from "#@/util";
-import { PROJECT_CONTEXT } from "#@/util/project.ts";
+import { PROJECT_CONTEXT } from "#@/util/projectContext.ts";
 
 interface IGameAddModalProps extends BaseModalProps {
   id: number;

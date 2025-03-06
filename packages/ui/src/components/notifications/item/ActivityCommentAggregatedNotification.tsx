@@ -4,17 +4,14 @@ import { useComment } from "#@/components/comment/hooks/useComment";
 import {
   ActivityComment,
   FindAllCommentsDto,
-  Notification,
   NotificationAggregateDto,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { NotificationSkeleton } from "#@/components/notifications/NotificationSkeleton";
-import { getUniqueProfileNames } from "#@/components/notifications/utils/getUniqueProfileNames";
-import category = NotificationAggregateDto.category;
-import { Group, Text } from "@mantine/core";
-import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { Link } from "#@/util";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useActivity } from "#@/components/activity/hooks/useActivity";
+import { useNotificationContent } from "#@/components";
+import category = NotificationAggregateDto.category;
 
 const ActivityCommentAggregatedNotification = ({
   aggregatedNotification,
@@ -26,15 +23,6 @@ const ActivityCommentAggregatedNotification = ({
   );
 
   const activityQuery = useActivity(commentQuery.data?.activityId);
-
-  const profileNames = useMemo(() => {
-    return getUniqueProfileNames(aggregatedNotification.notifications);
-  }, [aggregatedNotification.notifications]);
-
-  const latestNotification = aggregatedNotification.notifications[0];
-  const latestNotificationUserId = latestNotification.profileUserId;
-  const latestProfileNames = profileNames.slice(0, 2).join(", ");
-  const hasMoreProfileNames = profileNames.length > 2;
 
   const isOwnActivity = useMemo(() => {
     return (
@@ -52,6 +40,11 @@ const ActivityCommentAggregatedNotification = ({
     }
   }, [aggregatedNotification.category, isOwnActivity]);
 
+  const content = useNotificationContent({
+    aggregatedNotification,
+    actionText,
+  });
+
   if (commentQuery.isLoading || activityQuery.isLoading) {
     return <NotificationSkeleton />;
   } else if (commentQuery.data == undefined) {
@@ -59,18 +52,7 @@ const ActivityCommentAggregatedNotification = ({
   }
   return (
     <Link href={`/activity/detail/${commentQuery.data.activityId}`}>
-      <Group className={"w-full flex-nowrap"}>
-        {latestNotificationUserId && (
-          <UserAvatar userId={latestNotificationUserId} />
-        )}
-        <Text lineClamp={4}>
-          <strong>{latestProfileNames}</strong>{" "}
-          {hasMoreProfileNames && (
-            <>and {profileNames.length - latestProfileNames.length} others</>
-          )}{" "}
-          {actionText}.
-        </Text>
-      </Group>
+      {content}
     </Link>
   );
 };

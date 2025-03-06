@@ -2,19 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   ActionIcon,
   Box,
-  Button,
   Group,
   LoadingOverlay,
+  ScrollArea,
   Stack,
+  Text,
+  UnstyledButton,
 } from "@mantine/core";
 import { CommentEditor } from "#@/components/comment/editor/CommentEditor";
-import { IconX } from "@tabler/icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 import { Editor } from "@tiptap/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  CommentService,
-  CreateCommentDto,
-} from "../../../../../wrapper/src/server";
+import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { useComment } from "#@/components/comment/hooks/useComment";
 import {
@@ -22,6 +21,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
+import { useUserProfile } from "#@/components";
 
 interface Props {
   /**
@@ -47,7 +47,20 @@ const CommentEditorView = ({
 }: Props) => {
   const queryClient = useQueryClient();
   const editorRef = useRef<Editor>();
+  /**
+   * Queries to fetch edited comment and/or replied to comment
+   */
   const commentQuery = useComment(commentId, sourceType);
+  const childOfCommentQuery = useComment(childOf, sourceType);
+  const childOfProfileQuery = useUserProfile(
+    childOfCommentQuery.data?.profileUserId,
+  );
+
+  const isLoading =
+    commentQuery.isLoading ||
+    childOfCommentQuery.isLoading ||
+    childOfProfileQuery.isLoading;
+
   const [previousContent, setPreviousContent] = useState<string | undefined>(
     undefined,
   );
@@ -92,18 +105,10 @@ const CommentEditorView = ({
       if (commentId) {
         trackMatomoEvent(
           EMatomoEventCategory.Comment,
-          EMatomoEventAction.Create,
+          EMatomoEventAction.Update,
           "Updated a comment",
         );
         return;
-      }
-
-      if (sourceType === CreateCommentDto.sourceType.REVIEW) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Review,
-          EMatomoEventAction.Comment,
-          "Added comment to a review",
-        );
       }
 
       trackMatomoEvent(
@@ -113,9 +118,6 @@ const CommentEditorView = ({
       );
     },
   });
-
-  const isUpdateAction =
-    commentId != undefined && commentQuery.data != undefined;
 
   useEffect(() => {
     if (commentId == undefined && previousContent != undefined) {
@@ -127,38 +129,48 @@ const CommentEditorView = ({
     }
   }, [commentId, commentQuery.data, previousContent]);
 
-  return (
-    <Stack className={"w-full relative"}>
-      <LoadingOverlay visible={commentQuery.isLoading} />
-      <Box className={"w-full"}>
-        <CommentEditor
-          content={previousContent}
-          onCreate={(props) => {
-            editorRef.current = props.editor;
-          }}
-        />
-      </Box>
+  /**
+   * Essentially focuses the editor when the reply button is pressed
+   */
+  useEffect(() => {
+    if (childOf != undefined) {
+      editorRef.current?.commands.focus();
+    }
+  }, [childOf]);
 
-      <Group className={"w-full justify-end"}>
+  return (
+    <Stack className={"w-full sticky py-1 bottom-0 left-0 gap-1.5"}>
+      <LoadingOverlay visible={isLoading} />
+      {childOfProfileQuery.data != undefined && (
+        <UnstyledButton onClick={onEditEnd}>
+          <Text className={"text-sm text-dimmed text-start"}>
+            Replying to {childOfProfileQuery.data.username}&apos; comment
+          </Text>
+        </UnstyledButton>
+      )}
+
+      <Group className={"w-full flex-nowrap items-center"}>
+        <Box className={"w-10/12 lg:flex-grow"}>
+          <ScrollArea.Autosize mah={100}>
+            <CommentEditor
+              content={previousContent}
+              onCreate={(props) => {
+                // eslint-disable-next-line react/prop-types
+                editorRef.current = props.editor;
+              }}
+            />
+          </ScrollArea.Autosize>
+        </Box>
+
         <ActionIcon
-          size={"lg"}
-          variant={"default"}
-          onClick={() => {
-            clearEditor();
-            if (onEditEnd) onEditEnd();
-          }}
-        >
-          <IconX />
-        </ActionIcon>
-        <Button
-          type={"button"}
-          loading={commentMutation.isPending}
+          size={"xl"}
           onClick={() => {
             commentMutation.mutate();
           }}
+          loading={commentMutation.isPending}
         >
-          {isUpdateAction ? "Update" : "Submit"}
-        </Button>
+          <IconArrowRight />
+        </ActionIcon>
       </Group>
     </Stack>
   );

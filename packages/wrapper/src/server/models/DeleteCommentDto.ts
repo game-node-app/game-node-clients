@@ -9,6 +9,7 @@ export namespace DeleteCommentDto {
     export enum sourceType {
         REVIEW = 'review',
         ACTIVITY = 'activity',
+        POST = 'post',
     }
 }
 

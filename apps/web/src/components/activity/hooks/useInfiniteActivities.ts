@@ -20,8 +20,12 @@ export function useInfiniteActivities({
       );
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      return lastPageParam + limit;
+    getNextPageParam: (lastPage, _, lastPageParam) => {
+      if (lastPage && lastPage.pagination && lastPage.pagination.hasNextPage) {
+        return lastPageParam + limit;
+      }
+
+      return undefined;
     },
   });
 }

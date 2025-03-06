@@ -1,25 +1,23 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   ActionIcon,
-  Box,
   Button,
   Center,
   Group,
   Popover,
   ScrollArea,
-  Skeleton,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { IconBell, IconBellFilled } from "@tabler/icons-react";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import AggregatedNotification from "@/components/notifications/AggregatedNotification";
-import { useDisclosure, useIntersection } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { Notification, NotificationsService } from "@repo/wrapper/server";
 import { useInfiniteAggregatedNotifications } from "@/components/notifications/hooks/useInfiniteAggregatedNotifications";
 import CenteredLoading from "@/components/general/CenteredLoading";
+import { AggregatedNotification } from "@repo/ui";
 
 const GlobalShellHeaderNotifications = () => {
   const [isPopoverOpened, popoverUtils] = useDisclosure();

@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FindOneStatisticsDto } from '../models/FindOneStatisticsDto';
-import type { FindStatisticsTrendingActivitiesDto } from '../models/FindStatisticsTrendingActivitiesDto';
 import type { FindStatisticsTrendingGamesDto } from '../models/FindStatisticsTrendingGamesDto';
 import type { FindStatisticsTrendingReviewsDto } from '../models/FindStatisticsTrendingReviewsDto';
 import type { GameStatisticsPaginatedResponseDto } from '../models/GameStatisticsPaginatedResponseDto';
@@ -59,21 +58,6 @@ export class StatisticsService {
         });
     }
     /**
-     * @param requestBody
-     * @returns ReviewStatisticsPaginatedResponseDto
-     * @throws ApiError
-     */
-    public static statisticsControllerFindTrendingActivitiesV1(
-        requestBody: FindStatisticsTrendingActivitiesDto,
-    ): CancelablePromise<ReviewStatisticsPaginatedResponseDto> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/v1/statistics/trending/activities',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
      * @param statisticsId
      * @param sourceType
      * @returns StatisticsStatus
@@ -81,7 +65,7 @@ export class StatisticsService {
      */
     public static statisticsControllerGetStatusV1(
         statisticsId: number,
-        sourceType: 'game' | 'review' | 'activity' | 'review_comment' | 'activity_comment',
+        sourceType: 'game' | 'review' | 'activity' | 'post' | 'review_comment' | 'activity_comment' | 'post_comment',
     ): CancelablePromise<StatisticsStatus> {
         return __request(OpenAPI, {
             method: 'GET',

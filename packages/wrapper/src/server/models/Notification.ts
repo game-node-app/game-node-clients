@@ -6,6 +6,8 @@ import type { Activity } from './Activity';
 import type { ActivityComment } from './ActivityComment';
 import type { Game } from './Game';
 import type { ImporterWatchNotification } from './ImporterWatchNotification';
+import type { Post } from './Post';
+import type { PostComment } from './PostComment';
 import type { Profile } from './Profile';
 import type { Report } from './Report';
 import type { Review } from './Review';
@@ -23,6 +25,8 @@ export type Notification = {
     gameId: number | null;
     activity: Activity | null;
     activityId: string | null;
+    post: Post | null;
+    postId: string | null;
     importerNotification: ImporterWatchNotification | null;
     importerNotificationId: number;
     report: Report | null;
@@ -31,6 +35,8 @@ export type Notification = {
     reviewCommentId: string | null;
     activityComment: ActivityComment | null;
     activityCommentId: string | null;
+    postComment: PostComment | null;
+    postCommentId: string | null;
     isViewed: boolean;
     /**
      * User responsible for generating this notification (e.g. user that liked a review).
@@ -60,6 +66,8 @@ export namespace Notification {
     export enum sourceType {
         GAME = 'game',
         REVIEW = 'review',
+        POST = 'post',
+        POST_COMMENT = 'post_comment',
         REVIEW_COMMENT = 'review_comment',
         ACTIVITY = 'activity',
         ACTIVITY_COMMENT = 'activity_comment',

@@ -1,23 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { COMMENT_EDITOR_EXTENSIONS } from "#@/components/comment/editor/CommentEditor";
 import { Collapse, Flex, Group, Spoiler, Stack } from "@mantine/core";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
-import { ActivityCreateDate } from "#@/components/activity/item/ActivityCreateDate";
 import { CommentsListItemActions } from "#@/components/comment/view/CommentsListItemActions";
 import { UserComment } from "../types";
 import { CommentsThreadListView } from "#@/components/comment/view/CommentsThreadListView";
-import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
-import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
-import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 import { useDisclosure } from "@mantine/hooks";
+import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
 
 interface Props {
   comment: UserComment;
   onEditStart: (commentId: string) => void;
+  onReplyClicked: (commentId: string) => void;
 }
 
-const CommentsListItem = ({ comment, onEditStart }: Props) => {
+const CommentsListItem = ({ comment, onEditStart, onReplyClicked }: Props) => {
   const [isReadMore, setIsReadMore] = useState(false);
 
   const nonEditableEditor = useEditor(
@@ -29,14 +27,6 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
     },
     [comment],
   );
-
-  const sourceId = useMemo(() => {
-    return getCommentSourceId(comment);
-  }, [comment]);
-
-  const sourceType = useMemo(() => {
-    return getCommentSourceType(comment);
-  }, [comment]);
 
   const [commentThreadOpened, commentThreadUtils] = useDisclosure();
 
@@ -67,7 +57,7 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
             />
           </Flex>
 
-          <ActivityCreateDate createdAtDate={comment.createdAt} />
+          <RelativeDate c={"dimmed"} fz={"sm"} date={comment.createdAt} />
         </Group>
 
         <Stack className={"w-full"}>
@@ -86,6 +76,7 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
             comment={comment}
             onEditStart={onEditStart}
             onCommentThreadClick={commentThreadUtils.toggle}
+            onReplyClicked={onReplyClicked}
           />
         </Stack>
       </Group>
@@ -95,11 +86,9 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
         transitionDuration={100}
       >
         <Stack className={"w-full h-full"}>
-          <CommentsThreadListView comment={comment} />
-          <CommentEditorView
-            sourceType={sourceType}
-            sourceId={sourceId}
-            childOf={comment.id}
+          <CommentsThreadListView
+            comment={comment}
+            onReplyClicked={onReplyClicked}
           />
         </Stack>
       </Collapse>

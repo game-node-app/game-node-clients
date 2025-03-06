@@ -6,7 +6,7 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
-interface FindAllGamesByIdsDto extends Partial<GameRepositoryFindAllDto> {}
+type FindAllGamesByIdsDto = Partial<GameRepositoryFindAllDto>;
 
 export function useGames(
   dto: FindAllGamesByIdsDto,

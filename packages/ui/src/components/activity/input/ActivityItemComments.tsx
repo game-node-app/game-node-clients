@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
 import { Activity, FindAllCommentsDto } from "@repo/wrapper/server";
-import sourceType = FindAllCommentsDto.sourceType;
 import { useDisclosure } from "@mantine/hooks";
 import { Stack } from "@mantine/core";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
 import { Modal } from "#@/util";
+import sourceType = FindAllCommentsDto.sourceType;
 
 interface Props {
   activity: Activity;
@@ -16,6 +16,9 @@ interface Props {
 const ActivityItemComments = ({ activity }: Props) => {
   const onMobile = useOnMobile();
   const [commentsModalOpened, commentsModalUtils] = useDisclosure();
+  const [repliedCommentId, setRepliedCommentId] = useState<string | undefined>(
+    undefined,
+  );
 
   return (
     <>
@@ -31,10 +34,13 @@ const ActivityItemComments = ({ activity }: Props) => {
             enabled={commentsModalOpened}
             sourceId={activity.id}
             sourceType={sourceType.ACTIVITY}
+            onReplyClicked={setRepliedCommentId}
           />
           <CommentEditorView
             sourceType={sourceType.ACTIVITY}
             sourceId={activity.id}
+            onEditEnd={() => setRepliedCommentId(undefined)}
+            childOf={repliedCommentId}
           />
         </Stack>
       </Modal>

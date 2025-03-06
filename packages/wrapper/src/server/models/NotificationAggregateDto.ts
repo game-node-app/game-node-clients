@@ -21,6 +21,8 @@ export namespace NotificationAggregateDto {
     export enum sourceType {
         GAME = 'game',
         REVIEW = 'review',
+        POST = 'post',
+        POST_COMMENT = 'post_comment',
         REVIEW_COMMENT = 'review_comment',
         ACTIVITY = 'activity',
         ACTIVITY_COMMENT = 'activity_comment',

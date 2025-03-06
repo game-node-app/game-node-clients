@@ -6,15 +6,19 @@ import { GameInfoReviewList } from "@repo/ui";
 
 interface IGameInfoReviewViewProps {
   gameId: number;
+  targetReviewId?: string;
 }
 
-const GameInfoReviewScreen = ({ gameId }: IGameInfoReviewViewProps) => {
+const GameInfoReviewScreen = ({
+  gameId,
+  targetReviewId,
+}: IGameInfoReviewViewProps) => {
   if (!gameId) return null;
   return (
     <Paper w={"100%"} h={"100%"}>
       <Stack w={"100%"} h={"100%"} align={"center"}>
         <GameInfoReviewEditorView gameId={gameId} />
-        <GameInfoReviewList gameId={gameId} />
+        <GameInfoReviewList gameId={gameId} targetReviewId={targetReviewId} />
       </Stack>
     </Paper>
   );

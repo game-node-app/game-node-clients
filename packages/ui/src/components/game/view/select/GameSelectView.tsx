@@ -3,9 +3,7 @@ import { GameSelectViewContent } from "./GameSelectViewContent";
 import { GameViewPagination } from "../GameViewPagination";
 import { GameSelectActions } from "./GameSelectActions";
 
-interface GameSelectViewProps extends PropsWithChildren {}
-
-const GameSelectView = ({ children }: GameSelectViewProps) => {
+const GameSelectView = ({ children }: PropsWithChildren) => {
   return <>{children}</>;
 };
 

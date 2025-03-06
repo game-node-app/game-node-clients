@@ -1,29 +1,17 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
-import {
-  Box,
-  Flex,
-  Group,
-  Spoiler,
-  Stack,
-  Text,
-  Transition,
-} from "@mantine/core";
-import {
-  FindAllCommentsDto,
-  FindOneStatisticsDto,
-  Review,
-} from "@repo/wrapper/server";
+import { Box, Flex, Group, Spoiler, Stack } from "@mantine/core";
+import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ReviewListItemDropdownButton } from "#@/components/review/view/ReviewListItemDropdownButton";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
-import { useGame } from "#@/components/game/hooks/useGame";
-import { TextLink } from "#@/components/general/TextLink";
-import { GameRating } from "#@/components/general/input/GameRating";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
+import {
+  GameRating,
+  GameTitleWithFigure,
+  ReviewListItemDropdownButton,
+} from "#@/components";
 
 interface IReviewListViewProps {
   review: Review;
@@ -48,41 +36,36 @@ const ReviewListItem = ({
     [review],
   );
 
-  const userId = useUserId();
   const profileUserId = review.profileUserId;
   const gameIdToUse = withGameInfo ? review.gameId : undefined;
 
   const isScoreOnlyReview = review.content == null;
-  const isOwnReview = userId != undefined && userId === profileUserId;
-
-  // Will only be enabled if gameId is not undefined.
-  const gameQuery = useGame(gameIdToUse, {});
 
   return (
     <Stack w={"100%"} align={"center"}>
       <Group
         w={"100%"}
-        justify={"space-evenly"}
+        justify={"flex-start"}
         wrap={onMobile ? "wrap" : "nowrap"}
         align={"start"}
       >
         <Flex
           direction={{
             base: "row",
-            lg: isScoreOnlyReview ? "row" : "column",
           }}
           w={{
             base: "100%",
-            lg: isScoreOnlyReview ? "25%" : "10%",
+            lg: "15%",
           }}
           justify={{
             base: "space-between",
-            lg: isScoreOnlyReview ? "space-between" : "center",
+            lg: "center",
           }}
           align={{
             base: "center",
             lg: "center",
           }}
+          wrap={onMobile ? "nowrap" : "wrap"}
         >
           <UserAvatarGroup
             avatarProps={{
@@ -94,19 +77,20 @@ const ReviewListItem = ({
             }}
             withHorizontalBreak={!onMobile}
           />
-
-          <GameRating
-            value={review.rating}
-            className={
-              isScoreOnlyReview ? "mt-0 lg:ms-8 lg:mb-4" : "mt-0 lg:mt-4"
-            }
-            size={isScoreOnlyReview ? "lg" : "md"}
-          />
+          {!isScoreOnlyReview && (
+            <GameRating
+              value={review.rating}
+              size={isScoreOnlyReview ? "lg" : "md"}
+            />
+          )}
         </Flex>
-        <Stack
-          className={`w-full lg:justify-end ${isScoreOnlyReview ? "lg:mt-auto" : ""}`}
-        >
-          {isScoreOnlyReview ? null : (
+        <Stack className={`w-full`}>
+          {isScoreOnlyReview ? (
+            <GameRating
+              value={review.rating}
+              size={isScoreOnlyReview ? "lg" : "md"}
+            />
+          ) : (
             <Spoiler
               hideLabel={"Show less"}
               showLabel={"Show more"}
@@ -118,15 +102,16 @@ const ReviewListItem = ({
             </Spoiler>
           )}
 
-          <Group justify={withGameInfo ? "space-between" : "end"}>
-            {withGameInfo && gameQuery.data != undefined && (
-              <Box className={"w-6/12 lg:w-4/12"}>
-                <TextLink href={`/game/${gameQuery.data?.id}`} c={"dimmed"}>
-                  {gameQuery.data?.name}
-                </TextLink>
+          <Group
+            justify={withGameInfo ? "space-between" : "end"}
+            wrap={"nowrap"}
+          >
+            {gameIdToUse && (
+              <Box className={"max-w-6 lg:max-w-60"}>
+                <GameTitleWithFigure gameId={gameIdToUse} />
               </Box>
             )}
-            <Group>
+            <Group className={"flex-nowrap justify-start"}>
               <ReviewListItemComments review={review} />
               <ItemLikesButton
                 targetUserId={review.profileUserId}

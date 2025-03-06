@@ -50,6 +50,7 @@ export class PlaytimeService {
     }
     /**
      * @param userId
+     * @param onlyLatest If only entries from the last 3 months should be returned.
      * @param offset
      * @param limit
      * @param orderBy
@@ -58,6 +59,7 @@ export class PlaytimeService {
      */
     public static playtimeControllerFindAllByUserIdV1(
         userId: string,
+        onlyLatest?: Object,
         offset?: number,
         limit: number = 20,
         orderBy?: Object,
@@ -69,6 +71,7 @@ export class PlaytimeService {
                 'userId': userId,
             },
             query: {
+                'onlyLatest': onlyLatest,
                 'offset': offset,
                 'limit': limit,
                 'orderBy': orderBy,

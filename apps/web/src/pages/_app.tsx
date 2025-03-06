@@ -1,4 +1,4 @@
-import { MantineProvider, mergeMantineTheme, Modal } from "@mantine/core";
+import { MantineProvider, mergeMantineTheme } from "@mantine/core";
 import { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
@@ -6,21 +6,16 @@ import React, { useState } from "react";
 import { RouterTransition } from "@/components/general/RouterTransition";
 import {
   DehydratedState,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
-  HydrationBoundary,
 } from "@tanstack/react-query";
 import Head from "next/head";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import RelativeTime from "dayjs/plugin/relativeTime";
 import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
 import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  variable: "--font-roboto",
-  style: ["normal", "italic"],
-  weight: ["300", "500", "700"],
-});
-
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -42,6 +37,7 @@ import MatomoWrapper from "@/components/general/MatomoWrapper";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import {
   DEFAULT_MANTINE_THEME,
+  setProjectContext,
   setRoutingComponent,
   setRoutingManager,
 } from "@repo/ui";
@@ -49,7 +45,19 @@ import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
 import { useRouter } from "next/router";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
-import { setProjectContext } from "@repo/ui";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  style: ["normal", "italic"],
+  weight: ["300", "500", "700"],
+});
+
+/**
+ * dayjs setup
+ */
+dayjs.extend(LocalizedFormat);
+dayjs.extend(RelativeTime);
 
 /**
  * Basic configuration for wrapper services

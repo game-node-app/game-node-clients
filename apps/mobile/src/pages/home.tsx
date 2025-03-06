@@ -19,8 +19,8 @@ import {
   DetailsBox,
   ActivityFeedTabValue,
   ActivityFeedLayout,
+  ActivityFeed,
 } from "@repo/ui";
-import { ActivityFeed } from "@/components/activity/ActivityFeed";
 
 const HomePage = () => {
   const router = useIonRouter();
@@ -110,7 +110,21 @@ const HomePage = () => {
                 currentTab={selectedActivityTab}
                 onChange={setSelectedActivityTab}
               >
-                <ActivityFeed criteria={selectedActivityTab} />
+                <ActivityFeed criteria={selectedActivityTab}>
+                  {({ fetchNextPage, hasNextPage }) => (
+                    <IonInfiniteScroll
+                      disabled={!hasNextPage}
+                      onIonInfinite={async (evt) => {
+                        await fetchNextPage();
+                        await evt.target.complete();
+                      }}
+                    >
+                      <IonInfiniteScrollContent
+                        loadingText={"Fetching more activities..."}
+                      />
+                    </IonInfiniteScroll>
+                  )}
+                </ActivityFeed>
               </ActivityFeedLayout>
             </DetailsBox>
           </Stack>

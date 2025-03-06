@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { UserComment } from "#@/components/comment/types";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
-import { CreateCommentDto } from "../../../../../wrapper/src/server";
 import { Pagination, Stack } from "@mantine/core";
-import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
 import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 
@@ -12,16 +10,17 @@ const DEFAULT_LIMIT = 10;
 interface Props {
   // The source, top-level comment
   comment: UserComment;
+  onReplyClicked: (commentId: string) => void;
 }
 
 /**
  * Used to render the inner comments of any kind of comment (e.g. review or activity comment)
  * @constructor
  */
-const CommentsThreadListView = ({ comment }: Props) => {
+const CommentsThreadListView = ({ comment, onReplyClicked }: Props) => {
   // Children are automatically pre-fetched for each comment, so no need to show
   // a loading state
-  const children = comment.parentOf;
+  const children: UserComment[] = comment.parentOf!;
 
   const [offset, setOffset] = useState(0);
 
@@ -40,6 +39,7 @@ const CommentsThreadListView = ({ comment }: Props) => {
     data: children || [],
     sourceId: sourceId,
     sourceType: sourceType,
+    onReplyClicked: onReplyClicked,
   });
 
   const slicedItems = useMemo(() => {

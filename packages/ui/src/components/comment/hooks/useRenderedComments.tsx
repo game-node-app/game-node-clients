@@ -3,19 +3,21 @@ import React, { useMemo, useState } from "react";
 import { Divider, Group } from "@mantine/core";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
 import { CommentsListItem } from "#@/components/comment/view/CommentsListItem";
-import { CreateCommentDto } from "../../../../../wrapper/src/server";
+import { CreateCommentDto } from "@repo/wrapper/server";
 
 interface UseRenderedCommentsProps {
   data: UserComment[];
   // The original content ID (e.g. the review id)
   sourceId: string;
   sourceType: CreateCommentDto.sourceType;
+  onReplyClicked: (commentId: string) => void;
 }
 
 export function useRenderedComments({
   data,
   sourceId,
   sourceType,
+  onReplyClicked,
 }: UseRenderedCommentsProps) {
   const [editedCommentId, setEditedCommentId] = useState<string | undefined>(
     undefined,
@@ -56,9 +58,10 @@ export function useRenderedComments({
               key={comment.id}
               comment={comment}
               onEditStart={(commentId) => setEditedCommentId(commentId)}
+              onReplyClicked={onReplyClicked}
             />
           </Group>
         );
       });
-  }, [data, editedCommentId, sourceId, sourceType]);
+  }, [data, editedCommentId, onReplyClicked, sourceId, sourceType]);
 }

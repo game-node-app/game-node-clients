@@ -16,6 +16,7 @@ export namespace CreateCommentDto {
     export enum sourceType {
         REVIEW = 'review',
         ACTIVITY = 'activity',
+        POST = 'post',
     }
 }
 

@@ -1,9 +1,7 @@
-import { Profile } from "../../../../../wrapper/src/server";
 import { AvatarProps, Group, GroupProps, Text, TextProps } from "@mantine/core";
 import React from "react";
-import { useUserProfile } from "../../profile/hooks/useUserProfile.ts";
-import { useOnMobile } from "../hooks/useOnMobile.ts";
-import { Link } from "../../../util";
+import { useOnMobile, useUserProfile } from "#@/components";
+import { Link } from "#@/util";
 import { UserAvatar } from "./UserAvatar";
 import { Break } from "../Break";
 

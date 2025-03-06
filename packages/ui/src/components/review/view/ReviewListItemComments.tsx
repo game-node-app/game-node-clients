@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { FindAllCommentsDto, Review } from "@repo/wrapper/server";
 import { Stack } from "@mantine/core";
 import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
-import sourceType = FindAllCommentsDto.sourceType;
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "#@/util";
+import sourceType = FindAllCommentsDto.sourceType;
 
 interface ReviewListItemCommentsProps {
   review: Review;
@@ -16,6 +16,9 @@ interface ReviewListItemCommentsProps {
 const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
   const onMobile = useOnMobile();
   const [commentsModalOpened, commentsModalUtils] = useDisclosure();
+  const [repliedCommentId, setRepliedCommentId] = useState<string | undefined>(
+    undefined,
+  );
 
   return (
     <>
@@ -31,10 +34,13 @@ const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
             enabled={commentsModalOpened}
             sourceId={review.id}
             sourceType={sourceType.REVIEW}
+            onReplyClicked={setRepliedCommentId}
           />
           <CommentEditorView
             sourceType={sourceType.REVIEW}
             sourceId={review.id}
+            onEditEnd={() => setRepliedCommentId(undefined)}
+            childOf={repliedCommentId}
           />
         </Stack>
       </Modal>

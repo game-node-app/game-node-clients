@@ -87,7 +87,7 @@ const GameInfoReviewEditor = ({
         <RichTextEditor.Content
           w={"100%"}
           h={"100%"}
-          mih={{ base: "35vh", lg: "25vh" }}
+          mih={{ base: "25vh", lg: "15vh" }}
         />
       </RichTextEditor>
     </Box>
