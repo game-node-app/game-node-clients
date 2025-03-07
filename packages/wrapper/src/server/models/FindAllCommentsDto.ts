@@ -13,6 +13,7 @@ export namespace FindAllCommentsDto {
     export enum sourceType {
         REVIEW = 'review',
         ACTIVITY = 'activity',
+        POST = 'post',
     }
 }
 

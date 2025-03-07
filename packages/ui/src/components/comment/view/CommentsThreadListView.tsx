@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { UserComment } from "#@/components/comment/types";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
-import { CreateCommentDto } from "../../../../../wrapper/src/server";
 import { Pagination, Stack } from "@mantine/core";
-import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
 import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 
@@ -21,7 +19,7 @@ interface Props {
 const CommentsThreadListView = ({ comment }: Props) => {
   // Children are automatically pre-fetched for each comment, so no need to show
   // a loading state
-  const children = comment.parentOf;
+  const children: UserComment[] = comment.parentOf!;
 
   const [offset, setOffset] = useState(0);
 

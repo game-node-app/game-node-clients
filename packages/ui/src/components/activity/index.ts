@@ -3,6 +3,7 @@
  */
 
 export * from "./ActivityDetailView";
+export * from "./ActivityFeed";
 export * from "./ActivityFeedLayout";
 export * from "./ActivityList";
 export * from "./RecentActivityList";

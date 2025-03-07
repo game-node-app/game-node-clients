@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Group, Overlay, Stack, Text, Title } from "@mantine/core";
-import { Activity } from "../../../../../wrapper/src/server";
 import { useReview } from "#@/components/review/hooks/useReview";
 import { useGame } from "#@/components/game/hooks/useGame";
 import {
@@ -12,9 +11,9 @@ import { ActivityItemLikes } from "#@/components/activity/input/ActivityItemLike
 import { GameRating } from "#@/components/general/input/GameRating";
 import { Link } from "#@/util";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
-import { ActivityCreateDate } from "#@/components/activity/item/ActivityCreateDate";
 import { ActivityItemComments } from "#@/components/activity/input/ActivityItemComments";
 import { ActivityItemProps } from "#@/components/activity/types";
+import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
 
 interface Props extends ActivityItemProps {}
 
@@ -88,7 +87,12 @@ const ReviewActivityItem = ({ activity, withUserAvatar = true }: Props) => {
               "w-full h-full items-end justify-between py-4 pe-2 lg:pe-3"
             }
           >
-            <ActivityCreateDate createdAtDate={activity.createdAt} />
+            <RelativeDate
+              c={"dimmed"}
+              fz={"sm"}
+              force
+              date={activity.createdAt}
+            />
 
             <Link
               href={`/game/${gameQuery.data?.id}?reviewId=${activity.reviewId}`}

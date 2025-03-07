@@ -3,12 +3,12 @@ import { BaseModalProps } from "#@/util/types/modal-props";
 import { Button, Group, Stack, Text } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ApiError, CommentService } from "@repo/wrapper/server";
+import { CommentService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { UserComment } from "#@/components/comment/types";
 import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
-import { Modal } from "#@/util";
+import { createErrorNotification, Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
   comment: UserComment;
@@ -25,7 +25,7 @@ const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
     return getCommentSourceId(comment);
   }, [comment]);
 
-  const commentRemoveMutation = useMutation<any, ApiError, any>({
+  const commentRemoveMutation = useMutation({
     mutationFn: async (commentId: string) => {
       return CommentService.commentControllerDeleteV1(commentId, {
         sourceType,
@@ -42,6 +42,7 @@ const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
         message: "Successfully removed your comment!",
       });
     },
+    onError: createErrorNotification,
   });
 
   return (

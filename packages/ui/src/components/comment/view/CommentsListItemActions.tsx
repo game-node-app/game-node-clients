@@ -1,8 +1,4 @@
 import React, { useMemo } from "react";
-import {
-  CreateReportRequestDto,
-  FindOneStatisticsDto,
-} from "../../../../../wrapper/src/server";
 import { UserComment } from "#@/components/comment/types";
 import { Group } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
@@ -12,6 +8,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
 import { CommentsThreadButton } from "#@/components/comment/input/CommentsThreadButton";
+import { getCommentStatisticsType } from "#@/components/comment/util/getCommentStatisticsType.ts";
+import { getCommentReportType } from "#@/components/comment/util/getCommentReportType.ts";
+import { CommentsReplyButton } from "#@/components/comment/input/CommentsReplyButton.tsx";
 
 interface Props {
   comment: UserComment;
@@ -27,23 +26,11 @@ const CommentsListItemActions = ({
   const ownUserId = useUserId();
 
   const statisticsType = useMemo(() => {
-    if (Object.hasOwn(comment, "reviewId")) {
-      return FindOneStatisticsDto.sourceType.REVIEW_COMMENT;
-    } else if (Object.hasOwn(comment, "activityId")) {
-      return FindOneStatisticsDto.sourceType.ACTIVITY_COMMENT;
-    }
-
-    return FindOneStatisticsDto.sourceType.REVIEW_COMMENT;
+    return getCommentStatisticsType(comment);
   }, [comment]);
 
   const reportType = useMemo(() => {
-    if (Object.hasOwn(comment, "reviewId")) {
-      return CreateReportRequestDto.sourceType.REVIEW_COMMENT;
-    } else if (Object.hasOwn(comment, "activityId")) {
-      return CreateReportRequestDto.sourceType.ACTIVITY_COMMENT;
-    }
-
-    return CreateReportRequestDto.sourceType.REVIEW_COMMENT;
+    return getCommentReportType(comment);
   }, [comment]);
 
   const [removeModalOpened, removeModalUtils] = useDisclosure();
@@ -66,6 +53,7 @@ const CommentsListItemActions = ({
         sourceType={reportType}
       />
 
+      <CommentsReplyButton comment={comment} />
       <CommentsThreadButton comment={comment} onClick={onCommentThreadClick} />
 
       <ItemLikesButton

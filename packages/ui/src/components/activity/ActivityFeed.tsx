@@ -1,18 +1,19 @@
 import React, { useCallback, useMemo } from "react";
 import { Skeleton, Stack } from "@mantine/core";
-import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
 import {
   ActivityFeedTabValue,
   ActivityList,
   CenteredErrorMessage,
+  InfiniteLoaderChildren,
   useInfiniteActivities,
-} from "@repo/ui";
+} from "#@/components";
 
 interface Props {
   criteria: ActivityFeedTabValue;
+  children: InfiniteLoaderChildren;
 }
 
-const ActivityFeed = ({ criteria }: Props) => {
+const ActivityFeed = ({ criteria, children }: Props) => {
   const activityQuery = useInfiniteActivities({
     criteria,
     limit: 10,
@@ -56,15 +57,13 @@ const ActivityFeed = ({ criteria }: Props) => {
 
       <ActivityList items={items} />
 
-      <IonInfiniteScroll
-        disabled={!activityQuery.hasNextPage}
-        onIonInfinite={async (evt) => {
+      {children({
+        fetchNextPage: async () => {
           await activityQuery.fetchNextPage();
-          await evt.target.complete();
-        }}
-      >
-        <IonInfiniteScrollContent loadingText={"Fetching more activities..."} />
-      </IonInfiniteScroll>
+        },
+        isFetching: activityQuery.isFetching,
+        hasNextPage: activityQuery.hasNextPage,
+      })}
     </Stack>
   );
 };

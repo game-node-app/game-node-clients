@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Container, Flex, Space, Stack, Text } from "@mantine/core";
+import { Box, Container, Space, Stack } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,16 +8,19 @@ import { ParsedUrlQuery } from "querystring";
 import { useRouter } from "next/router";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import {
-  useUserId,
-  useSearchGames,
-  SearchBar,
+  BackToTopButton,
   GameSearchTips,
-  TrendingGamesList,
+  HomeFeed,
+  InfiniteLoaderProps,
   RecommendationCarousel,
+  SearchBar,
+  SimpleInfiniteLoader,
+  TrendingGamesList,
   TrendingReviewCarousel,
-  RecentActivityList,
+  useSearchGames,
+  useUserId,
 } from "@repo/ui";
-import GameSearchResultView from "@/components/game/search/GameSearchResultView.tsx";
+import GameSearchResultView from "@/components/game/search/GameSearchResultView";
 
 const SearchFormSchema = z.object({
   query: z.string().min(3),
@@ -119,6 +122,7 @@ const Index = () => {
 
   return (
     <Container fluid mih={"100%"} pos={"relative"} className="mb-12">
+      <BackToTopButton />
       <Stack align="center" justify="center" w={"100%"}>
         <Box
           className={`w-full flex justify-center h-full lg:max-w-screen-lg mt-12 flex-wrap`}
@@ -197,7 +201,11 @@ const Index = () => {
                   className: "",
                 }}
               >
-                <RecentActivityList />
+                <HomeFeed>
+                  {(props: InfiniteLoaderProps) => (
+                    <SimpleInfiniteLoader {...props} />
+                  )}
+                </HomeFeed>
               </DetailsBox>
             </Stack>
           )}

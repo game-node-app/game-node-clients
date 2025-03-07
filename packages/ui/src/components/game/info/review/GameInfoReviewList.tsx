@@ -1,20 +1,20 @@
-import React, { useMemo, useRef, useState } from "react";
-import { Chip, Group, Pagination, Stack, Text } from "@mantine/core";
+import React, { useMemo, useState } from "react";
+import { Group, Pagination, Stack, Text } from "@mantine/core";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
 import { useReviews } from "#@/components/review/hooks/useReviews";
 import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
-import period = FindStatisticsTrendingReviewsDto.period;
 import {
   CenteredErrorMessage,
   CenteredLoading,
   ReviewListItem,
-  useOnMobile,
   useUserId,
 } from "#@/components";
+import period = FindStatisticsTrendingReviewsDto.period;
 
 interface IGameInfoReviewListProps {
   gameId: number;
+  targetReviewId?: string;
 }
 
 const DEFAULT_LIMIT = 7;
@@ -26,16 +26,18 @@ export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto
     limit: DEFAULT_LIMIT,
   };
 
-const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
-  const onMobile = useOnMobile();
+const GameInfoReviewList = ({
+  gameId,
+  targetReviewId,
+}: IGameInfoReviewListProps) => {
   const ownUserId = useUserId();
-  const hasSetInitialQueryParams = useRef(false);
   const [offset, setOffset] = useState(0);
   const trendingReviewsDto = useMemo((): FindStatisticsTrendingReviewsDto => {
     return {
       ...DEFAULT_GAME_REVIEW_LIST_VIEW_DTO,
       offset: offset,
       gameId: gameId,
+      reviewId: targetReviewId,
     };
   }, [offset, gameId]);
   const trendingReviewsQuery = useTrendingReviews(trendingReviewsDto);
@@ -43,9 +45,6 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
 
   const reviewsIds = trendingReviewsQuery.data?.data.map((s) => s.reviewId!);
   const reviewsQuery = useReviews(reviewsIds);
-
-  const isEmpty =
-    reviewsQuery.data == undefined || reviewsQuery.data.length === 0;
   const isLoading = trendingReviewsQuery.isLoading || reviewsQuery.isLoading;
   const isError = trendingReviewsQuery.isError || reviewsQuery.isError;
 
@@ -56,10 +55,6 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
 
   const handlePagination = (page: number) => {
     const offset = (page - 1) * DEFAULT_LIMIT;
-    const updatedDto: FindStatisticsTrendingReviewsDto = {
-      ...trendingReviewsDto,
-      offset,
-    };
     setOffset(offset);
   };
 
@@ -94,7 +89,7 @@ const GameInfoReviewList = ({ gameId }: IGameInfoReviewListProps) => {
     ) {
       return (
         <Text className={"text-center"}>
-          Other users' reviews will appear here.
+          Other users&apos; reviews will appear here.
         </Text>
       );
     } else if (reviews.length === 0) {

@@ -2,8 +2,8 @@ import React, { PropsWithChildren, useMemo } from "react";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { SimpleGrid, SimpleGridProps } from "@mantine/core";
 import {
-  GameSelectViewFigureProps,
   GameSelectViewFigure,
+  GameSelectViewFigureProps,
 } from "#@/components/game/view/select/GameSelectViewFigure";
 
 type SelectedProps = Pick<
@@ -68,7 +68,7 @@ const GameSelectViewContent = ({
     <SimpleGrid
       id={"game-select-view-content"}
       cols={{
-        base: 2,
+        base: 3,
         lg: 5,
       }}
       w={"100%"}

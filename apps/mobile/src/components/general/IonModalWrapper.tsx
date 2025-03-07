@@ -18,6 +18,7 @@ const IonModalWrapper = ({
   breakpoints,
   initialBreakpoint,
   onBreakpointChange,
+  withCloseButton = true,
   children,
 }: ModalComponentProps) => {
   return (
@@ -35,9 +36,17 @@ const IonModalWrapper = ({
       <IonHeader>
         <IonToolbar>
           {title && <IonTitle>{title}</IonTitle>}
-          <IonButtons slot="end">
-            <IonButton onClick={() => onClose()}>Close</IonButton>
-          </IonButtons>
+          {withCloseButton && (
+            <IonButtons slot="end">
+              <IonButton
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                Close
+              </IonButton>
+            </IonButtons>
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent>

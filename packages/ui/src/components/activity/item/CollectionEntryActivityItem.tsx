@@ -11,9 +11,9 @@ import { useCollectionEntry } from "#@/components/collection/collection-entry/ho
 import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { Link } from "#@/util";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
-import { ActivityCreateDate } from "#@/components/activity/item/ActivityCreateDate";
 import { ActivityItemComments } from "#@/components/activity/input/ActivityItemComments";
 import { ActivityItemProps } from "#@/components/activity/types";
+import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
 
 interface Props extends ActivityItemProps {}
 
@@ -93,7 +93,12 @@ const CollectionEntryActivityItem = ({
               "w-full h-full items-end justify-between pe-2 lg:pe-3 py-4"
             }
           >
-            <ActivityCreateDate createdAtDate={activity.createdAt} />
+            <RelativeDate
+              c={"dimmed"}
+              fz={"sm"}
+              force
+              date={activity.createdAt}
+            />
             <Link
               href={`/library/${activity.profileUserId}/collection/${activity.collectionId}`}
             >

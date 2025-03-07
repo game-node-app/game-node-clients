@@ -23,6 +23,5 @@ export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
 export let Modal: React.FC<ModalComponentProps> = MantineModalWrapper;
 
 export function setModalComponent(component: React.FC<ModalComponentProps>) {
-  console.log("Set modal component to: ", component);
   Modal = component;
 }

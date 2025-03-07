@@ -9,8 +9,7 @@ import {
   GameRepositoryFindOneDto,
   GameRepositoryService,
 } from "@repo/wrapper/server";
-import { useUserView } from "@/components/statistics/hooks/useUserView";
-import sourceType = FindOneStatisticsDto.sourceType;
+import { useUserView } from "@/components/statistics/hooks/useUserView.ts";
 import Head from "next/head";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
@@ -18,7 +17,8 @@ import {
   GameInfoView,
   useGame,
 } from "@repo/ui";
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
+import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen.tsx";
+import sourceType = FindOneStatisticsDto.sourceType;
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -52,7 +52,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
 const GameInfoPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, reviewId } = router.query;
   const [_, isViewed, incrementView] = useUserView(`${id}`, sourceType.GAME);
 
   /**
@@ -93,7 +93,10 @@ const GameInfoPage = () => {
       )}
       <Stack>
         <GameInfoView id={idAsNumber} />
-        <GameInfoReviewScreen gameId={idAsNumber} />
+        <GameInfoReviewScreen
+          gameId={idAsNumber}
+          targetReviewId={reviewId as string | undefined}
+        />
         <GameExtraInfoView id={idAsNumber} />
       </Stack>
     </Container>

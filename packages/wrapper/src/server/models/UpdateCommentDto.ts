@@ -10,6 +10,7 @@ export namespace UpdateCommentDto {
     export enum sourceType {
         REVIEW = 'review',
         ACTIVITY = 'activity',
+        POST = 'post',
     }
 }
 

@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ActivityComment } from './ActivityComment';
+import type { Post } from './Post';
+import type { PostComment } from './PostComment';
 import type { Profile } from './Profile';
 import type { Review } from './Review';
 import type { ReviewComment } from './ReviewComment';
@@ -38,6 +40,10 @@ export type Report = {
     targetReviewCommentId: string | null;
     targetActivityComment: ActivityComment | null;
     targetActivityCommentId: string | null;
+    targetPost: Post | null;
+    targetPostId: string | null;
+    targetPostComment: PostComment | null;
+    targetPostCommentId: string | null;
     isClosed: boolean;
     /**
      * Action taken when closing this report
@@ -53,8 +59,10 @@ export namespace Report {
     export enum sourceType {
         REVIEW = 'review',
         PROFILE = 'profile',
+        POST = 'post',
         REVIEW_COMMENT = 'review_comment',
         ACTIVITY_COMMENT = 'activity_comment',
+        POST_COMMENT = 'post_comment',
     }
     export enum category {
         SPAM = 'spam',

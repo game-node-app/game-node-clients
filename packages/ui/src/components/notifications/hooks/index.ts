@@ -4,3 +4,4 @@
 
 export * from "./useAggregatedNotifications";
 export * from "./useInfiniteAggregatedNotifications";
+export * from "./useNotificationContent";

@@ -1,24 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   useComments,
   UseCommentsProps,
 } from "#@/components/comment/hooks/useComments";
-import {
-  Divider,
-  Group,
-  LoadingOverlay,
-  Pagination,
-  Paper,
-  Stack,
-} from "@mantine/core";
-import { CommentsListItem } from "#@/components/comment/view/CommentsListItem";
+import { LoadingOverlay, Stack } from "@mantine/core";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
-import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
 
-interface Props extends Omit<UseCommentsProps, "limit" | "offset"> {}
+type Props = Omit<UseCommentsProps, "limit" | "offset">;
 
 const COMMENTS_LIST_VIEW_DEFAULT_LIMIT = 10;
 

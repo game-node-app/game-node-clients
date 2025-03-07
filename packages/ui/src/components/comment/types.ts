@@ -1,3 +1,10 @@
-import { ActivityComment, ReviewComment } from "../../../../wrapper/src/server";
+import {
+  ActivityCommentDto,
+  PostCommentDto,
+  ReviewCommentDto,
+} from "@repo/wrapper/server";
 
-export type UserComment = ReviewComment | ActivityComment;
+export type UserComment =
+  | ReviewCommentDto
+  | ActivityCommentDto
+  | PostCommentDto;

@@ -2,11 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ActivityComment } from './ActivityComment';
+import type { ActivityCommentDto } from './ActivityCommentDto';
 import type { PaginationInfo } from './PaginationInfo';
-import type { ReviewComment } from './ReviewComment';
+import type { PostCommentDto } from './PostCommentDto';
+import type { ReviewCommentDto } from './ReviewCommentDto';
 export type FindCommentsPaginatedResponseDto = {
-    data: Array<(ReviewComment | ActivityComment)>;
+    data: Array<(ReviewCommentDto | ActivityCommentDto | PostCommentDto)>;
     pagination: PaginationInfo;
 };
 

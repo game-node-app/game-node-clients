@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { BubbleMenu, EditorOptions, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
 
-interface Props extends Partial<EditorOptions> {}
+interface Props extends Partial<EditorOptions> {
+  onClick?: () => void;
+}
 
 export const COMMENT_EDITOR_EXTENSIONS = [
   StarterKit,
@@ -13,7 +15,7 @@ export const COMMENT_EDITOR_EXTENSIONS = [
   }),
 ];
 
-const CommentEditor = ({ ...editorOptions }: Props) => {
+const CommentEditor = ({ onClick, ...editorOptions }: Props) => {
   const editor = useEditor(
     {
       ...editorOptions,
@@ -26,7 +28,11 @@ const CommentEditor = ({ ...editorOptions }: Props) => {
   if (!editor) return null;
 
   return (
-    <RichTextEditor editor={editor} className={"w-full h-full"}>
+    <RichTextEditor
+      editor={editor}
+      className={"w-full h-full"}
+      onClick={onClick}
+    >
       {editor && (
         <BubbleMenu editor={editor}>
           <RichTextEditor.ControlsGroup>

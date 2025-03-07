@@ -4,13 +4,18 @@ import {
   useUserLike,
 } from "#@/components/statistics/hooks/useUserLike";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ActionIcon, Text } from "@mantine/core";
+import { ActionIcon, ActionIconProps, Text } from "@mantine/core";
 import { redirectToAuth } from "supertokens-auth-react";
 import { IconThumbUp } from "@tabler/icons-react";
 
-interface Props extends IToggleLikeProps {}
+interface Props extends IToggleLikeProps, ActionIconProps {}
 
-const ItemLikesButton = ({ targetUserId, sourceType, sourceId }: Props) => {
+const ItemLikesButton = ({
+  targetUserId,
+  sourceType,
+  sourceId,
+  ...others
+}: Props) => {
   const userId = useUserId();
   const [likesCount, isLiked, toggleUserLike] = useUserLike({
     sourceId: sourceId,
@@ -31,6 +36,7 @@ const ItemLikesButton = ({ targetUserId, sourceType, sourceId }: Props) => {
       size={"xl"}
       color={isLiked ? "brand" : "white"}
       data-disabled={!userId}
+      {...others}
     >
       <IconThumbUp />
       <Text>{likesCount}</Text>

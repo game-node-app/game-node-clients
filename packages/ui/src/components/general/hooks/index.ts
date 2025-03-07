@@ -3,3 +3,4 @@
  */
 
 export * from "./useOnMobile";
+export * from "./useOnMobilePlatform";

@@ -5,7 +5,6 @@ import {
   Divider,
   Group,
   MultiSelect,
-  Space,
   Stack,
   Title,
 } from "@mantine/core";
@@ -312,7 +311,6 @@ const CollectionEntryAddOrUpdateForm = ({
       const nonFinishedGamesCollections = collections.filter(
         (collection) => !collection.isFinished,
       );
-      console.log("nonFinishedGamesCollections", nonFinishedGamesCollections);
 
       if (nonFinishedGamesCollections.length === 1) {
         const collectionId = nonFinishedGamesCollections[0].id;

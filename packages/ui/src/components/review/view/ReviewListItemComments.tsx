@@ -3,11 +3,12 @@ import { FindAllCommentsDto, Review } from "@repo/wrapper/server";
 import { Stack } from "@mantine/core";
 import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
-import sourceType = FindAllCommentsDto.sourceType;
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "#@/util";
+import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
+import sourceType = FindAllCommentsDto.sourceType;
 
 interface ReviewListItemCommentsProps {
   review: Review;
@@ -27,15 +28,17 @@ const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
         fullScreen={onMobile}
       >
         <Stack className={`w-full h-full`}>
-          <CommentsListView
-            enabled={commentsModalOpened}
-            sourceId={review.id}
-            sourceType={sourceType.REVIEW}
-          />
-          <CommentEditorView
-            sourceType={sourceType.REVIEW}
-            sourceId={review.id}
-          />
+          <CommentsView>
+            <CommentsListView
+              enabled={commentsModalOpened}
+              sourceId={review.id}
+              sourceType={sourceType.REVIEW}
+            />
+            <CommentEditorView
+              sourceType={sourceType.REVIEW}
+              sourceId={review.id}
+            />
+          </CommentsView>
         </Stack>
       </Modal>
       <ItemCommentsButton
