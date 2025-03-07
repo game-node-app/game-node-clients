@@ -12,7 +12,6 @@ import {
 } from "@tanstack/react-query";
 import Head from "next/head";
 import dayjs from "dayjs";
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
 import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
@@ -56,7 +55,6 @@ const roboto = Roboto({
 /**
  * dayjs setup
  */
-dayjs.extend(LocalizedFormat);
 dayjs.extend(RelativeTime);
 
 /**

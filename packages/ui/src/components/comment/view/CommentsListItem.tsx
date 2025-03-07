@@ -12,10 +12,9 @@ import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
 interface Props {
   comment: UserComment;
   onEditStart: (commentId: string) => void;
-  onReplyClicked: (commentId: string) => void;
 }
 
-const CommentsListItem = ({ comment, onEditStart, onReplyClicked }: Props) => {
+const CommentsListItem = ({ comment, onEditStart }: Props) => {
   const [isReadMore, setIsReadMore] = useState(false);
 
   const nonEditableEditor = useEditor(
@@ -76,7 +75,6 @@ const CommentsListItem = ({ comment, onEditStart, onReplyClicked }: Props) => {
             comment={comment}
             onEditStart={onEditStart}
             onCommentThreadClick={commentThreadUtils.toggle}
-            onReplyClicked={onReplyClicked}
           />
         </Stack>
       </Group>
@@ -86,10 +84,7 @@ const CommentsListItem = ({ comment, onEditStart, onReplyClicked }: Props) => {
         transitionDuration={100}
       >
         <Stack className={"w-full h-full"}>
-          <CommentsThreadListView
-            comment={comment}
-            onReplyClicked={onReplyClicked}
-          />
+          <CommentsThreadListView comment={comment} />
         </Stack>
       </Collapse>
     </Stack>

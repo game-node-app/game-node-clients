@@ -1,12 +1,12 @@
 import StarterKit from "@tiptap/starter-kit";
 import { Link } from "@mantine/tiptap";
-import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
+import { PostImage } from "#@/components/posts/editor/image/PostImage.ts";
 
 export const POST_EDITOR_EXTENSIONS = [
   StarterKit,
   Link,
-  Image.configure({
+  PostImage.configure({
     HTMLAttributes: {
       class: "post-image",
     },

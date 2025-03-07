@@ -22,11 +22,13 @@ import {
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
 import { useUserProfile } from "#@/components";
+import { useCommentsContext } from "#@/components/comment/view/context.ts";
+import { createErrorNotification } from "#@/util";
 
 interface Props {
   /**
    * If available, user will be able to modify this comment. <br>
-   * Ideally, should be cleared when 'onCancel' is called.
+   * Ideally, should be cleared when 'onEditEnd' is called.
    */
   commentId?: string;
   /**
@@ -35,7 +37,6 @@ interface Props {
   onEditEnd?: () => void;
   sourceType: CreateCommentDto.sourceType;
   sourceId: string;
-  childOf?: string;
 }
 
 const CommentEditorView = ({
@@ -43,30 +44,34 @@ const CommentEditorView = ({
   sourceType,
   sourceId,
   onEditEnd,
-  childOf,
 }: Props) => {
+  const context = useCommentsContext();
   const queryClient = useQueryClient();
   const editorRef = useRef<Editor>();
   /**
    * Queries to fetch edited comment and/or replied to comment
    */
   const commentQuery = useComment(commentId, sourceType);
-  const childOfCommentQuery = useComment(childOf, sourceType);
   const childOfProfileQuery = useUserProfile(
-    childOfCommentQuery.data?.profileUserId,
+    context.repliedCommentProfileUserId,
   );
 
-  const isLoading =
-    commentQuery.isLoading ||
-    childOfCommentQuery.isLoading ||
-    childOfProfileQuery.isLoading;
+  const isLoading = commentQuery.isLoading || childOfProfileQuery.isLoading;
 
   const [previousContent, setPreviousContent] = useState<string | undefined>(
     undefined,
   );
 
+  const clearTargetComment = () => {
+    context.updateContext({
+      repliedCommentId: undefined,
+      repliedCommentProfileUserId: undefined,
+    });
+  };
+
   const clearEditor = () => {
     editorRef.current?.commands.clearContent();
+    clearTargetComment();
   };
 
   const commentMutation = useMutation({
@@ -85,7 +90,7 @@ const CommentEditorView = ({
         sourceId,
         sourceType,
         content: content,
-        childOf,
+        childOf: context.repliedCommentId,
       });
     },
     onSettled: () => {
@@ -117,6 +122,10 @@ const CommentEditorView = ({
         "Created a comment",
       );
     },
+    onError: (err) => {
+      if (onEditEnd) onEditEnd();
+      createErrorNotification(err);
+    },
   });
 
   useEffect(() => {
@@ -133,17 +142,17 @@ const CommentEditorView = ({
    * Essentially focuses the editor when the reply button is pressed
    */
   useEffect(() => {
-    if (childOf != undefined) {
+    if (context.repliedCommentId != undefined) {
       editorRef.current?.commands.focus();
     }
-  }, [childOf]);
+  }, [context.repliedCommentId]);
 
   return (
     <Stack className={"w-full sticky py-1 bottom-0 left-0 gap-1.5"}>
       <LoadingOverlay visible={isLoading} />
       {childOfProfileQuery.data != undefined && (
-        <UnstyledButton onClick={onEditEnd}>
-          <Text className={"text-sm text-dimmed text-start"}>
+        <UnstyledButton onClick={clearTargetComment}>
+          <Text className={"text-sm text-dimmed text-start underline"}>
             Replying to {childOfProfileQuery.data.username}&apos; comment
           </Text>
         </UnstyledButton>

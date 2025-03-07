@@ -7,3 +7,5 @@ export * from "./CommentsListItemActions";
 export * from "./CommentsListView";
 export * from "./CommentsRemoveModal";
 export * from "./CommentsThreadListView";
+export * from "./CommentsView";
+export * from "./context";

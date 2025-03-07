@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { RichTextEditor } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
+import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
+import { EditorOptions, useEditor } from "@tiptap/react";
 
 import {
   ActionIcon,
@@ -10,32 +10,42 @@ import {
   LoadingOverlay,
   Paper,
   Stack,
-  Text,
-  UnstyledButton,
+  StackProps,
 } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
-import { PostsService, UploadPostImageResponseDto } from "@repo/wrapper/server";
+import { PostsService } from "@repo/wrapper/server";
 import { getServerStoredUpload } from "#@/util";
 import { notifications } from "@mantine/notifications";
 import {
   GameSearchSelectModal,
-  GameTitleWithFigure,
   POST_EDITOR_PUBLISH_MUTATION_KEY,
   useInfinitePostsFeed,
-  useOnMobile,
+  useUserId,
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
 import { createErrorNotification } from "#@/util/createErrorNotification.ts";
 import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
 
-const PostEditor = () => {
-  const onMobile = useOnMobile();
+interface Props {
+  wrapperProps?: StackProps;
+  editorProps?: Omit<Partial<RichTextEditorProps>, "editor" | "children">;
+  editorOptions?: Omit<
+    Partial<EditorOptions>,
+    "onUpdate" | "onDrop" | "onPaste" | "extensions"
+  >;
+  onPublish?: () => void;
+}
+
+const PostEditor = ({
+  wrapperProps,
+  editorProps,
+  editorOptions,
+  onPublish,
+}: Props) => {
+  const userId = useUserId();
   const [showActions, setShowActions] = useState(false);
   const [content, setContent] = useState("");
-  const [uploadedImages, setUploadedImages] = useState<
-    UploadPostImageResponseDto[]
-  >([]);
   const [selectedGameId, setSelectedGameId] = useState<number | undefined>(
     undefined,
   );
@@ -45,6 +55,7 @@ const PostEditor = () => {
   const postsFeedQuery = useInfinitePostsFeed({});
 
   const editor = useEditor({
+    ...editorOptions,
     extensions: POST_EDITOR_EXTENSIONS,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -81,7 +92,6 @@ const PostEditor = () => {
   });
 
   const resetEditor = () => {
-    setUploadedImages([]);
     editor?.commands.clearContent();
   };
 
@@ -94,21 +104,20 @@ const PostEditor = () => {
         file: file,
       });
 
-      const { filename } = response;
-
-      console.log("Inserting new image: ", response);
+      const { filename, id } = response;
 
       // Insert the image at current cursor position
       editor
         ?.chain()
         .focus()
-        .setImage({ src: getServerStoredUpload(filename) })
+        .setImage({
+          src: getServerStoredUpload(filename),
+          alt: "User provided image",
+          id: id,
+        } as never)
         .run();
 
       return response;
-    },
-    onSuccess: (response) => {
-      setUploadedImages([...uploadedImages, response]);
     },
     onError: createErrorNotification,
   });
@@ -122,27 +131,22 @@ const PostEditor = () => {
       /**
        * Uploaded images that are still present in the editor.
        */
-      const validUploadedImages: UploadPostImageResponseDto[] = [];
+      const validUploadedImages: number[] = [];
 
       editor?.state.doc.descendants((node) => {
         if (node.type.name === "image") {
-          const imgSrc: string = node.attrs.src;
-          const relatedUploadImage = uploadedImages.find((image) =>
-            imgSrc.includes(image.filename),
-          );
-
-          if (relatedUploadImage) {
-            validUploadedImages.push(relatedUploadImage);
+          const imgId: number = node.attrs.id;
+          console.log("Found image id: ", imgId);
+          if (imgId) {
+            validUploadedImages.push(imgId);
           }
         }
       });
 
-      const uploadedImageIds = validUploadedImages.map((image) => image.id);
-
       return PostsService.postsControllerCreateV1({
         gameId: selectedGameId,
         content,
-        associatedImageIds: uploadedImageIds,
+        associatedImageIds: validUploadedImages,
       });
     },
     onSuccess: () => {
@@ -152,16 +156,17 @@ const PostEditor = () => {
       });
       postsFeedQuery.invalidate();
       resetEditor();
+      if (onPublish) onPublish();
     },
     onError: createErrorNotification,
   });
 
-  if (!editor) {
+  if (!editor || !userId) {
     return null;
   }
 
   return (
-    <Stack className="space-y-4 mb-8 gap-2">
+    <Stack className="space-y-4 mb-8 gap-2" {...wrapperProps}>
       <GameSearchSelectModal
         onSelected={(gameId) => {
           setSelectedGameId(gameId);
@@ -172,24 +177,22 @@ const PostEditor = () => {
         onClose={gameSelectModalUtils.close}
       />
       <Paper className="relative overflow-hidden shadow-sm" withBorder p={0}>
-        <RichTextEditor editor={editor} onClick={() => setShowActions(true)}>
+        <RichTextEditor
+          mih={{
+            base: showActions ? "35vh" : "20vh",
+            lg: showActions ? "25vh" : "15vh",
+          }}
+          {...editorProps}
+          editor={editor}
+          onClick={(evt) => {
+            setShowActions(true);
+            if (editorProps?.onClick) {
+              editorProps.onClick(evt);
+            }
+          }}
+        >
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
-            {!onMobile && (
-              <UnstyledButton onClick={gameSelectModalUtils.open}>
-                {selectedGameId ? (
-                  <GameTitleWithFigure
-                    gameId={selectedGameId}
-                    onClick={(evt) => evt.preventDefault()}
-                  />
-                ) : (
-                  <Text className={"underline cursor-pointer"}>
-                    Select Game
-                  </Text>
-                )}
-              </UnstyledButton>
-            )}
-
-            <RichTextEditor.ControlsGroup className={"lg:ms-auto"}>
+            <RichTextEditor.ControlsGroup>
               <RichTextEditor.Bold />
               <RichTextEditor.Italic />
               <RichTextEditor.Underline />
@@ -202,17 +205,10 @@ const PostEditor = () => {
             </RichTextEditor.ControlsGroup>
           </RichTextEditor.Toolbar>
 
-          <RichTextEditor.Content
-            w={"100%"}
-            h={"100%"}
-            mih={{
-              base: showActions ? "35vh" : "20vh",
-              lg: showActions ? "25vh" : "15vh",
-            }}
-          />
+          <RichTextEditor.Content w={"100%"} h={"100%"} />
 
           <LoadingOverlay
-            visible={uploadMutation.isPending}
+            visible={uploadMutation.isPending || publishPostMutation.isPending}
             zIndex={1000}
             overlayProps={{ radius: "sm", blur: 1 }}
           />
@@ -221,7 +217,7 @@ const PostEditor = () => {
       {showActions && (
         <Group>
           <FileButton
-            accept="image/png,image/jpeg"
+            accept="image/png,image/jpeg,image/gif"
             onChange={(payload) => {
               if (payload) {
                 uploadMutation.mutate(payload);

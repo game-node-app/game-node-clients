@@ -15,14 +15,12 @@ import { CommentsReplyButton } from "#@/components/comment/input/CommentsReplyBu
 interface Props {
   comment: UserComment;
   onEditStart: (commentId: string) => void;
-  onReplyClicked: (commentId: string) => void;
   onCommentThreadClick: () => void;
 }
 
 const CommentsListItemActions = ({
   comment,
   onEditStart,
-  onReplyClicked,
   onCommentThreadClick,
 }: Props) => {
   const ownUserId = useUserId();
@@ -55,7 +53,7 @@ const CommentsListItemActions = ({
         sourceType={reportType}
       />
 
-      <CommentsReplyButton comment={comment} onReplyClicked={onReplyClicked} />
+      <CommentsReplyButton comment={comment} />
       <CommentsThreadButton comment={comment} onClick={onCommentThreadClick} />
 
       <ItemLikesButton

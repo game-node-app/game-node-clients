@@ -8,13 +8,11 @@ import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage
 import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
 
-interface Props extends Omit<UseCommentsProps, "limit" | "offset"> {
-  onReplyClicked: (commentId: string) => void;
-}
+type Props = Omit<UseCommentsProps, "limit" | "offset">;
 
 const COMMENTS_LIST_VIEW_DEFAULT_LIMIT = 10;
 
-const CommentsListView = ({ onReplyClicked, ...hookProps }: Props) => {
+const CommentsListView = ({ ...hookProps }: Props) => {
   const [offset, setOffset] = useState(0);
   const offsetAsPage =
     offset >= COMMENTS_LIST_VIEW_DEFAULT_LIMIT
@@ -30,7 +28,6 @@ const CommentsListView = ({ onReplyClicked, ...hookProps }: Props) => {
     data: commentsQuery.data?.data || [],
     sourceId: hookProps.sourceId,
     sourceType: hookProps.sourceType,
-    onReplyClicked: onReplyClicked,
   });
 
   const hasNextPage =

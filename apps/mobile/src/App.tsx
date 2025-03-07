@@ -3,7 +3,8 @@ import { IonApp, IonFab, IonFabButton, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
-
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime";
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -51,7 +52,10 @@ import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrap
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
 
-setupIonicReact();
+/**
+ * dayjs setup
+ */
+dayjs.extend(RelativeTime);
 
 /**
  * @repo/ui setup
@@ -66,6 +70,8 @@ setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
 });
+
+setupIonicReact();
 
 const App: React.FC = () => {
   const [keyboardOpened, setKeyboardOpened] = useState(false);

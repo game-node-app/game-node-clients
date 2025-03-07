@@ -45,6 +45,8 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
       title={"Find and select a game"}
       fullScreen={onMobile}
       size={"lg"}
+      breakpoints={[0.5, 0.75, 1]}
+      initialBreakpoint={1}
     >
       <Stack className={"w-full"}>
         <SearchBar
@@ -65,7 +67,7 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
               cols={{
                 base: 3,
               }}
-            ></GameSelectView.Content>
+            />
           </GameSelectView>
         )}
         {showRecentGames && (

@@ -6,6 +6,8 @@ export * from "./ActivityAggregatedNotification";
 export * from "./ActivityCommentAggregatedNotification";
 export * from "./FollowerAggregatedNotification";
 export * from "./ImporterWatchAggregatedNotification";
+export * from "./PostAggregatedNotification";
+export * from "./PostCommentAggregatedNotification";
 export * from "./ReportAggregatedNotification";
 export * from "./ReviewAggregatedNotification";
 export * from "./ReviewCommentAggregatedNotification";

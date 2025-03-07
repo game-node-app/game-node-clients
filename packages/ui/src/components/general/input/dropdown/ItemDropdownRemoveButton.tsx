@@ -3,8 +3,7 @@ import { ItemDropdownButtonProps } from "#@/components/general/input/dropdown/ty
 import { IconTrashOff } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
 
-export interface ItemDropdownRemoveButtonProps
-  extends ItemDropdownButtonProps {}
+export type ItemDropdownRemoveButtonProps = ItemDropdownButtonProps;
 
 const ItemDropdownRemoveButton = ({
   onClick,

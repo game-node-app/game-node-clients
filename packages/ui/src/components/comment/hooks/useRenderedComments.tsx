@@ -10,14 +10,12 @@ interface UseRenderedCommentsProps {
   // The original content ID (e.g. the review id)
   sourceId: string;
   sourceType: CreateCommentDto.sourceType;
-  onReplyClicked: (commentId: string) => void;
 }
 
 export function useRenderedComments({
   data,
   sourceId,
   sourceType,
-  onReplyClicked,
 }: UseRenderedCommentsProps) {
   const [editedCommentId, setEditedCommentId] = useState<string | undefined>(
     undefined,
@@ -58,10 +56,9 @@ export function useRenderedComments({
               key={comment.id}
               comment={comment}
               onEditStart={(commentId) => setEditedCommentId(commentId)}
-              onReplyClicked={onReplyClicked}
             />
           </Group>
         );
       });
-  }, [data, editedCommentId, onReplyClicked, sourceId, sourceType]);
+  }, [data, editedCommentId, sourceId, sourceType]);
 }

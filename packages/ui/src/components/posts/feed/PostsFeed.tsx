@@ -1,12 +1,15 @@
 import React, { useMemo } from "react";
-import { InfiniteLoaderChildren, PostEditor } from "#@/components";
+import {
+  InfiniteLoaderChildren,
+  PostEditor,
+  useOnMobilePlatform,
+} from "#@/components";
 import { Stack } from "@mantine/core";
 import {
   PostsFeedCriteria,
   useInfinitePostsFeed,
 } from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
 import { PostsList } from "#@/components/posts/PostsList.tsx";
-import { useOnMobilePlatform } from "#@/components/general/hooks/useOnMobilePlatform.ts";
 
 interface Props {
   criteria: PostsFeedCriteria;
@@ -24,7 +27,6 @@ const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
     limit: 20,
     postId: targetedPostId,
   });
-
   const items = useMemo(() => {
     if (postsFeedQuery.data == undefined) {
       return [];
@@ -35,6 +37,7 @@ const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
   return (
     <Stack>
       {!onMobilePlatform && <PostEditor />}
+
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {

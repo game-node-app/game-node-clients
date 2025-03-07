@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
 import {
+  CreateReportRequestDto,
   FindAllCommentsDto,
   FindOneStatisticsDto,
   Post,
+  PostsService,
 } from "@repo/wrapper/server";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
@@ -12,25 +14,31 @@ import {
   CommentsListView,
   GameTitleWithFigure,
   ItemCommentsButton,
+  ItemDropdown,
   ItemLikesButton,
+  ReportCreateFormModal,
   useOnMobile,
   UserAvatarGroup,
+  useUserId,
 } from "#@/components";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "#@/util";
+import { createErrorNotification, Modal } from "#@/util";
+import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
 
 interface Props {
   item: Post;
 }
 
 const PostsListItem = ({ item }: Props) => {
+  const userId = useUserId();
   const onMobile = useOnMobile();
-
+  const queryClient = useQueryClient();
   const [commentsOpened, commentsOpenedUtils] = useDisclosure();
-  const [repliedCommentId, setRepliedCommentId] = useState<string | undefined>(
-    undefined,
-  );
+  const [reportModalOpened, reportModalUtils] = useDisclosure();
+  const [removeModalOpened, removeModalUtils] = useDisclosure();
 
   const editor = useEditor(
     {
@@ -42,64 +50,109 @@ const PostsListItem = ({ item }: Props) => {
     [item.content],
   );
 
+  const deletePostMutation = useMutation({
+    mutationFn: async () => {
+      return PostsService.postsControllerDeleteV1(item.id);
+    },
+    onError: createErrorNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts", "feed"],
+      });
+    },
+  });
+
+  const isOwnPost = userId === item.profileUserId;
+
   if (!editor) return null;
 
   return (
-    <Group className={"w-full"} wrap={"nowrap"} align={"start"}>
+    <Group className={"w-full"} wrap={"nowrap"} align={"start"} gap={0}>
+      <ReportCreateFormModal
+        opened={reportModalOpened}
+        onClose={reportModalUtils.close}
+        sourceId={item.id}
+        sourceType={CreateReportRequestDto.sourceType.POST}
+      />
       <Modal
         title={"Comments in this post"}
         opened={commentsOpened}
         onClose={commentsOpenedUtils.close}
         fullScreen={onMobile}
         size={"xl"}
-        initialBreakpoint={0.5}
+        initialBreakpoint={0.75}
         breakpoints={[0.5, 0.75, 0.85, 1]}
       >
         <Stack className={"w-full h-full"}>
-          <CommentsListView
-            sourceId={item.id}
-            sourceType={FindAllCommentsDto.sourceType.POST}
-            onReplyClicked={setRepliedCommentId}
-          />
-          <CommentEditorView
-            sourceId={item.id}
-            sourceType={FindAllCommentsDto.sourceType.POST}
-            onEditEnd={() => setRepliedCommentId(undefined)}
-            childOf={repliedCommentId}
-          />
+          <CommentsView>
+            <CommentsListView
+              sourceId={item.id}
+              sourceType={FindAllCommentsDto.sourceType.POST}
+            />
+            <CommentEditorView
+              sourceId={item.id}
+              sourceType={FindAllCommentsDto.sourceType.POST}
+            />
+          </CommentsView>
         </Stack>
       </Modal>
-      {!onMobile && (
-        <Box className={"lg:w-2/12"}>
-          <UserAvatarGroup
-            avatarProps={{
-              size: "xl",
-            }}
-            userId={item.profileUserId}
-            groupProps={{
-              justify: "center",
-            }}
-            withHorizontalBreak={!onMobile}
-          />
-        </Box>
-      )}
+
+      <Box className={"hidden lg:block lg:w-2/12"}>
+        <UserAvatarGroup
+          avatarProps={{
+            size: onMobile ? "lg" : "xl",
+          }}
+          userId={item.profileUserId}
+          groupProps={{
+            justify: "center",
+          }}
+          textProps={{
+            display: onMobile ? "none" : undefined,
+          }}
+          withHorizontalBreak
+        />
+      </Box>
+
       <Stack
         className={
           "bg-[#161616] w-full lg:lg:w-10/12 p-2 lg:p-4 flex-grow overflow-auto"
         }
       >
-        <Stack className={"w-full px-2"}>
+        <Group className={"w-full px-2 flex-nowrap"}>
           {onMobile ? (
-            <Group className={"flex-nowrap"}>
+            <Group className={"w-10/12 flex-nowrap"}>
               <GameTitleWithFigure gameId={item.gameId} withTitle={false} />
-              <UserAvatarGroup userId={item.profileUserId} />
+              <Box className={"max-w-fit"}>
+                <UserAvatarGroup userId={item.profileUserId} />
+              </Box>
             </Group>
           ) : (
-            <Group className={"max-w-fit"}>
+            <Group className={"w-10/12"}>
               <GameTitleWithFigure gameId={item.gameId} />
             </Group>
           )}
-        </Stack>
+
+          <Box className={"ms-auto"}>
+            <ActionConfirm
+              onConfirm={() => deletePostMutation.mutate()}
+              opened={removeModalOpened}
+              onClose={removeModalUtils.close}
+              title={"Confirm post removal"}
+              message={
+                "This post will be deleted permanently, and this action cannot be undone. Are you sure?"
+              }
+            />
+            <ItemDropdown>
+              <ItemDropdown.ReportButton
+                onClick={reportModalUtils.open}
+                disabled={isOwnPost}
+              />
+              {isOwnPost && (
+                <ItemDropdown.RemoveButton onClick={removeModalUtils.open} />
+              )}
+            </ItemDropdown>
+          </Box>
+        </Group>
         <Divider className={"w-full"} />
         <Spoiler
           hideLabel={"Show less"}

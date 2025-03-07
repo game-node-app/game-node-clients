@@ -7,51 +7,67 @@ import {
   IonRefresherContent,
   useIonRouter,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Container, Stack } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  DetailsBox,
+  HomeFeed,
+  InfiniteLoaderProps,
   RecommendationCarousel,
   SearchBar,
   TrendingReviewCarousel,
-  DetailsBox,
-  ActivityFeedTabValue,
-  ActivityFeedLayout,
-  ActivityFeed,
 } from "@repo/ui";
+import { HomeFab } from "@/components/home/HomeFab.tsx";
 
 const HomePage = () => {
   const router = useIonRouter();
+
+  const contentRef = useRef<HTMLIonContentElement>(null);
 
   const queryClient = useQueryClient();
 
   const [query, setQuery] = useState<string>("");
 
   const userId = useUserId();
-  const [selectedActivityTab, setSelectedActivityTab] =
-    useState<ActivityFeedTabValue>("all");
   return (
     <IonPage>
-      <IonContent>
+      <IonContent ref={contentRef}>
         <IonRefresher
           slot={"fixed"}
           onIonRefresh={async (evt) => {
-            await queryClient.invalidateQueries({
-              queryKey: ["recommendation"],
-            });
-            await queryClient.invalidateQueries({
-              queryKey: ["activities"],
-            });
-            await queryClient.invalidateQueries({
-              queryKey: ["comments"],
-            });
+            const promises: Promise<unknown>[] = [];
+            promises.push(
+              queryClient.invalidateQueries({
+                queryKey: ["recommendation"],
+              }),
+            );
+            promises.push(
+              queryClient.invalidateQueries({
+                queryKey: ["activities"],
+              }),
+            );
+            promises.push(
+              queryClient.invalidateQueries({
+                queryKey: ["comments"],
+              }),
+            );
+            promises.push(
+              queryClient.invalidateQueries({
+                queryKey: ["posts", "feed"],
+              }),
+            );
+
+            await Promise.all(promises);
+
             evt.detail.complete();
           }}
         >
           <IonRefresherContent />
         </IonRefresher>
+        <HomeFab contentRef={contentRef} />
 
         <Container fluid className={"w-full my-4"}>
           <form
@@ -106,26 +122,19 @@ const HomePage = () => {
                 className: "",
               }}
             >
-              <ActivityFeedLayout
-                currentTab={selectedActivityTab}
-                onChange={setSelectedActivityTab}
-              >
-                <ActivityFeed criteria={selectedActivityTab}>
-                  {({ fetchNextPage, hasNextPage }) => (
-                    <IonInfiniteScroll
-                      disabled={!hasNextPage}
-                      onIonInfinite={async (evt) => {
-                        await fetchNextPage();
-                        await evt.target.complete();
-                      }}
-                    >
-                      <IonInfiniteScrollContent
-                        loadingText={"Fetching more activities..."}
-                      />
-                    </IonInfiniteScroll>
-                  )}
-                </ActivityFeed>
-              </ActivityFeedLayout>
+              <HomeFeed>
+                {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+                  <IonInfiniteScroll
+                    disabled={!hasNextPage}
+                    onIonInfinite={async (evt) => {
+                      await fetchNextPage();
+                      await evt.target.complete();
+                    }}
+                  >
+                    <IonInfiniteScrollContent />
+                  </IonInfiniteScroll>
+                )}
+              </HomeFeed>
             </DetailsBox>
           </Stack>
         </Container>

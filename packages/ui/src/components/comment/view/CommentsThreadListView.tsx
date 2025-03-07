@@ -10,14 +10,13 @@ const DEFAULT_LIMIT = 10;
 interface Props {
   // The source, top-level comment
   comment: UserComment;
-  onReplyClicked: (commentId: string) => void;
 }
 
 /**
  * Used to render the inner comments of any kind of comment (e.g. review or activity comment)
  * @constructor
  */
-const CommentsThreadListView = ({ comment, onReplyClicked }: Props) => {
+const CommentsThreadListView = ({ comment }: Props) => {
   // Children are automatically pre-fetched for each comment, so no need to show
   // a loading state
   const children: UserComment[] = comment.parentOf!;
@@ -39,7 +38,6 @@ const CommentsThreadListView = ({ comment, onReplyClicked }: Props) => {
     data: children || [],
     sourceId: sourceId,
     sourceType: sourceType,
-    onReplyClicked: onReplyClicked,
   });
 
   const slicedItems = useMemo(() => {

@@ -3,5 +3,5 @@
  */
 
 export * from "./PostEditor";
-export * from "./PostImage";
 export * from "./constants";
+export * from "./image/index";

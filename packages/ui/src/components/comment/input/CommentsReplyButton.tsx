@@ -2,13 +2,15 @@ import React from "react";
 import { UserComment } from "#@/components";
 import { IconMessageReply } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
+import { useCommentsContext } from "#@/components/comment/view/context.ts";
 
 interface Props {
   comment: UserComment;
-  onReplyClicked: (commentId: string) => void;
 }
 
-const CommentsReplyButton = ({ comment, onReplyClicked }: Props) => {
+const CommentsReplyButton = ({ comment }: Props) => {
+  const context = useCommentsContext();
+
   if (comment.childOfId != undefined) {
     return null;
   }
@@ -18,7 +20,12 @@ const CommentsReplyButton = ({ comment, onReplyClicked }: Props) => {
       variant={"subtle"}
       size={"xl"}
       color={"white"}
-      onClick={() => onReplyClicked(comment.id)}
+      onClick={() => {
+        context.updateContext({
+          repliedCommentId: comment.id,
+          repliedCommentProfileUserId: comment.profileUserId,
+        });
+      }}
     >
       <IconMessageReply></IconMessageReply>
     </ActionIcon>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FindAllCommentsDto, Review } from "@repo/wrapper/server";
 import { Stack } from "@mantine/core";
 import { CommentsListView } from "#@/components/comment/view/CommentsListView";
@@ -7,6 +7,7 @@ import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "#@/util";
+import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
 import sourceType = FindAllCommentsDto.sourceType;
 
 interface ReviewListItemCommentsProps {
@@ -16,9 +17,6 @@ interface ReviewListItemCommentsProps {
 const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
   const onMobile = useOnMobile();
   const [commentsModalOpened, commentsModalUtils] = useDisclosure();
-  const [repliedCommentId, setRepliedCommentId] = useState<string | undefined>(
-    undefined,
-  );
 
   return (
     <>
@@ -30,18 +28,17 @@ const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
         fullScreen={onMobile}
       >
         <Stack className={`w-full h-full`}>
-          <CommentsListView
-            enabled={commentsModalOpened}
-            sourceId={review.id}
-            sourceType={sourceType.REVIEW}
-            onReplyClicked={setRepliedCommentId}
-          />
-          <CommentEditorView
-            sourceType={sourceType.REVIEW}
-            sourceId={review.id}
-            onEditEnd={() => setRepliedCommentId(undefined)}
-            childOf={repliedCommentId}
-          />
+          <CommentsView>
+            <CommentsListView
+              enabled={commentsModalOpened}
+              sourceId={review.id}
+              sourceType={sourceType.REVIEW}
+            />
+            <CommentEditorView
+              sourceType={sourceType.REVIEW}
+              sourceId={review.id}
+            />
+          </CommentsView>
         </Stack>
       </Modal>
       <ItemCommentsButton
