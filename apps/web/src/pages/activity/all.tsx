@@ -1,23 +1,26 @@
 import React from "react";
-import ActivityFeedLayout from "@/components/activity/ActivityFeedLayout";
-import { Box, Container, Paper, Stack, Text } from "@mantine/core";
-import { useInfiniteActivities } from "@/components/activity/hooks/useInfiniteActivities";
-import ActivityFeed from "@/components/activity/ActivityFeed";
+import { Box, Stack } from "@mantine/core";
+import {
+  ActivityFeed,
+  ActivityFeedLayout,
+  InfiniteLoaderProps,
+  SimpleInfiniteLoader,
+} from "@repo/ui";
 
 const All = () => {
-    const activities = useInfiniteActivities({
-        limit: 10,
-        criteria: "all",
-    });
-    return (
-        <Stack className={"w-full items-center"}>
-            <Box className={"w-full lg:w-8/12"}>
-                <ActivityFeedLayout currentTab={"all"}>
-                    <ActivityFeed criteria={"all"} />
-                </ActivityFeedLayout>
-            </Box>
-        </Stack>
-    );
+  return (
+    <Stack className={"w-full items-center"}>
+      <Box className={"w-full lg:w-8/12"}>
+        <ActivityFeedLayout currentTab={"all"} onChange={() => {}}>
+          <ActivityFeed criteria={"all"}>
+            {(props: InfiniteLoaderProps) => (
+              <SimpleInfiniteLoader {...props} />
+            )}
+          </ActivityFeed>
+        </ActivityFeedLayout>
+      </Box>
+    </Stack>
+  );
 };
 
 export default All;

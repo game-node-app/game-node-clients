@@ -67,7 +67,7 @@ const GameInfoSharePreview = ({
           </Stack>
         )}
         <Flex justify={"center"} className={"mt-16 mb-8"}>
-          <GameNodeLogo className={"w-20 h-auto"} withBetaBadge={false} />
+          <GameNodeLogo className={"w-20 h-auto"} />
         </Flex>
       </Stack>
     </Paper>

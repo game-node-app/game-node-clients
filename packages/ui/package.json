@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "sideEffects": false,
   "imports": {
-    "#@/*": {
-      "types": ["./src/*.tsx", "./src/*.ts", "./src/*"],
-      "default": ["./src/*"]
-    }
+    "#@/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
   },
   "exports": {
     ".": "./src/index.ts"

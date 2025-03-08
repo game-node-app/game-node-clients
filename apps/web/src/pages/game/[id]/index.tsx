@@ -9,15 +9,15 @@ import {
   GameRepositoryFindOneDto,
   GameRepositoryService,
 } from "@repo/wrapper/server";
-import { useUserView } from "@/components/statistics/hooks/useUserView.ts";
 import Head from "next/head";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
   GameInfoView,
   useGame,
+  useUserView,
 } from "@repo/ui";
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen.tsx";
+import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import sourceType = FindOneStatisticsDto.sourceType;
 
 export const getServerSideProps = async (context: NextPageContext) => {

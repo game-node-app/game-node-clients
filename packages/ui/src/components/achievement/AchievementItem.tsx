@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Group,
-  Paper,
-  Stack,
-  Image,
-  Title,
-  Text,
-  Overlay,
-} from "@mantine/core";
+import { Group, Paper, Stack, Text, Title } from "@mantine/core";
 import { AchievementDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "#@/util";
 import { AchievementLogo } from "#@/components";
