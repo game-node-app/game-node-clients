@@ -96,6 +96,8 @@ const PostEditor = ({
   };
 
   const uploadMutation = useMutation({
+    gcTime: 0,
+    retry: 2,
     mutationFn: async (file: File) => {
       const formData = new FormData();
       formData.append("image", file);
@@ -115,6 +117,7 @@ const PostEditor = ({
           alt: "User provided image",
           id: id,
         } as never)
+        .createParagraphNear()
         .run();
 
       return response;
