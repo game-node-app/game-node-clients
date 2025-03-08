@@ -1,21 +1,20 @@
 import {
-  ActivityStatistics,
-  CommentStatistics,
   FindOneStatisticsDto,
   GameStatistics,
   ReviewStatistics,
   StatisticsService,
   StatisticsStatus,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
-export type StatisticsWithStatus<T = any> = (T extends any
-  ? GameStatistics | ReviewStatistics | ActivityStatistics | CommentStatistics
-  : T) &
-  StatisticsStatus;
+export type StatisticsWithStatus<
+  T extends GameStatistics | ReviewStatistics = GameStatistics,
+> = T & StatisticsStatus;
 
-export function useItemStatistics<T = any>(
+export function useItemStatistics<
+  T extends GameStatistics | ReviewStatistics = GameStatistics,
+>(
   sourceId: string | number,
   sourceType: FindOneStatisticsDto.sourceType,
 ): ExtendedUseQueryResult<StatisticsWithStatus<T> | null> {
@@ -35,7 +34,7 @@ export function useItemStatistics<T = any>(
         const statistics =
           await StatisticsService.statisticsControllerFindOneBySourceIdAndTypeV1(
             {
-              sourceId: sourceId as any,
+              sourceId: sourceId as string | number,
               sourceType: sourceType,
             },
           );

@@ -1,8 +1,7 @@
 import {
   FindOneStatisticsDto,
-  StatisticsActionDto,
   StatisticsQueueService,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   StatisticsWithStatus,

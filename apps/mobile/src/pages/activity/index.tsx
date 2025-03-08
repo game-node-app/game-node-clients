@@ -13,7 +13,11 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { Container } from "@mantine/core";
-import { ActivityFeed, ActivityFeedTabValue } from "@repo/ui";
+import {
+  ActivityFeed,
+  ActivityFeedTabValue,
+  InfiniteLoaderProps,
+} from "@repo/ui";
 
 const ActivityPage = () => {
   const [selectedActivityTab, setSelectedActivityTab] =
@@ -46,7 +50,7 @@ const ActivityPage = () => {
       <IonContent>
         <Container fluid className={"my-4"}>
           <ActivityFeed criteria={selectedActivityTab}>
-            {({ fetchNextPage, hasNextPage }) => (
+            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
               <IonInfiniteScroll
                 disabled={!hasNextPage}
                 onIonInfinite={async (evt) => {
