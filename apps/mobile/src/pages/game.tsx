@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -17,8 +17,10 @@ import {
   GameExtraInfoView,
   GameInfoView,
   useGame,
+  useUserView,
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
+import { FindOneStatisticsDto } from "@repo/wrapper/server";
 
 interface Props {
   gameId: number;
@@ -26,6 +28,23 @@ interface Props {
 
 const GamePage = ({ gameId }: Props) => {
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+
+  const [, , incrementView] = useUserView(
+    gameId,
+    FindOneStatisticsDto.sourceType.GAME,
+  );
+
+  /**
+   * Stores the path parameter "id" of the last registered game view.
+   */
+  const lastRegisteredGameView = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (gameId != undefined && lastRegisteredGameView.current !== gameId) {
+      incrementView();
+      lastRegisteredGameView.current = gameId;
+    }
+  }, [gameId, incrementView]);
 
   const content = useMemo(() => {
     if (gameQuery.isLoading) {

@@ -30,11 +30,7 @@ export function useNotificationContent({
       )}
       <Text lineClamp={4}>
         <strong>{latestProfileNames}</strong>{" "}
-        {extraProfilesCount > 0 && (
-          <span>
-            and {profileNames.length - latestProfileNames.length} others
-          </span>
-        )}{" "}
+        {extraProfilesCount > 0 && <span>and {extraProfilesCount} others</span>}{" "}
         {actionText}.
       </Text>
     </Group>

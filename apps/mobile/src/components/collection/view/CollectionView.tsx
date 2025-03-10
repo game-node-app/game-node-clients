@@ -79,7 +79,7 @@ const CollectionView = ({ collectionId }: ICollectionViewProps) => {
           </Text>
         </Stack>
       </Group>
-      <Divider className={"w-[calc(100%-2rem)]"} my={"sm"} variant={"dashed"} />
+      <Divider className={"w-full"} my={"sm"} variant={"dashed"} />
       <Stack>
         <GameView layout={layout}>
           <GameView.LayoutSwitcher setLayout={setLayout} />
