@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
 import { useCollection } from "@/components/collection/hooks/useCollection";
@@ -95,6 +95,11 @@ const CollectionView = ({
     collectionEntriesQuery.isError ||
     gamesQuery.isError;
 
+  useEffect(() => {
+    // Resets page on collection change
+    setValue("page", 1);
+  }, [collectionId, setValue]);
+
   return (
     <Stack w={"100%"} h={"100%"} gap={0} align={"center"}>
       {collection && profile && (
@@ -102,7 +107,7 @@ const CollectionView = ({
           <title>{`${profile.username} - ${collection.name} - GameNode`}</title>
         </Head>
       )}
-      <Group className="w-[calc(100%-2rem)] mt-8 flex-nowrap justify-between">
+      <Group className="w-full mt-8 flex-nowrap justify-between">
         <Stack w={{ base: "70%", lg: "30%" }}>
           {isLoading && (
             <>
@@ -124,7 +129,7 @@ const CollectionView = ({
           />
         )}
       </Group>
-      <Divider className={"w-[calc(100%-2rem)]"} my={"sm"} variant={"dashed"} />
+      <Divider className={"w-full"} my={"sm"} variant={"dashed"} />
       <CollectionEntriesView
         isLoading={isLoading}
         isError={isError}
