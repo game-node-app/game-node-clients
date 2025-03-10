@@ -3,11 +3,11 @@ import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryVi
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Flex, Grid, Stack } from "@mantine/core";
 import { LibraryViewCollectionsSelect } from "#@/components/library/view/sidebar/LibraryViewCollectionsSelect";
+import { useRouter } from "#@/util";
 
 interface ILibraryViewProps extends PropsWithChildren {
   userId: string | undefined;
   collectionId: string | null | undefined;
-  onChange: (collectionId: string | null | undefined) => void;
 }
 
 /**
@@ -18,26 +18,26 @@ interface ILibraryViewProps extends PropsWithChildren {
  * @param collectionSelectProps
  * @constructor
  */
-const LibraryView = ({
-  children,
-  userId,
-  collectionId,
-  onChange,
-}: ILibraryViewProps) => {
+const LibraryView = ({ children, userId, collectionId }: ILibraryViewProps) => {
+  const router = useRouter();
   const onMobile = useOnMobile();
 
   return (
-    <Stack w={"100%"} h={"100%"}>
+    <Stack className={"w-full"} id={"library-view"}>
       {onMobile && (
         <Flex w={"100%"} justify={"center"}>
           <LibraryViewCollectionsSelect
             userId={userId}
             value={collectionId}
             onChange={(value) => {
-              onChange(value);
+              if (value) {
+                router.push(`/library/${userId}/collection/${value}`);
+                return;
+              }
+              router.push(`/library/${userId}`);
             }}
             onClear={() => {
-              onChange(null);
+              router.push(`/library/${userId}`);
             }}
           />
         </Flex>

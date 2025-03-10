@@ -1,20 +1,6 @@
-import React, { useCallback, useMemo } from "react";
-import {
-  ActionIcon,
-  Box,
-  Center,
-  Container,
-  Divider,
-  Group,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-} from "@mantine/core";
+import React, { useMemo } from "react";
+import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import { Collection } from "@repo/wrapper/server";
 import { useCollection } from "@/components/collection/hooks/useCollection";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -110,57 +96,51 @@ const CollectionView = ({
     gamesQuery.isError;
 
   return (
-    <Container fluid p={0} h={"100%"}>
+    <Stack w={"100%"} h={"100%"} gap={0} align={"center"}>
       {collection && profile && (
         <Head>
           <title>{`${profile.username} - ${collection.name} - GameNode`}</title>
         </Head>
       )}
-      <Stack w={"100%"} h={"100%"} gap={0} align={"center"}>
-        <Group className="w-[calc(100%-2rem)] mt-8 flex-nowrap justify-between">
-          <Stack w={{ base: "70%", lg: "30%" }}>
-            {isLoading && (
-              <>
-                <Skeleton className={"w-32 h-9"} />
-                <Skeleton className={"w-48 h-6"} />
-              </>
-            )}
-            <Title size={"h3"} className={"w-full break-words"}>
-              {collection?.name}
-            </Title>
-            <Text c={"dimmed"} w={"100%"} className={"break-words"}>
-              {collectionQuery.data?.description}
-            </Text>
-          </Stack>
-          {!isError && !isLoading && isOwnCollection && (
-            <CollectionViewActions
-              libraryUserId={libraryUserId}
-              collectionId={collectionId}
-            />
+      <Group className="w-[calc(100%-2rem)] mt-8 flex-nowrap justify-between">
+        <Stack w={{ base: "70%", lg: "30%" }}>
+          {isLoading && (
+            <>
+              <Skeleton className={"w-32 h-9"} />
+              <Skeleton className={"w-48 h-6"} />
+            </>
           )}
-        </Group>
-        <Divider
-          className={"w-[calc(100%-2rem)]"}
-          my={"sm"}
-          variant={"dashed"}
-        />
-        <CollectionEntriesView
-          isLoading={isLoading}
-          isError={isError}
-          games={games}
-          paginationInfo={collectionEntriesQuery.data?.pagination}
-          page={formPage}
-          onPaginationChange={(page) => {
-            setValue("page", page);
-          }}
-          onChangeOrder={(value, order) => {
-            setValue("orderBy", {
-              [value]: order,
-            });
-          }}
-        />
-      </Stack>
-    </Container>
+          <Title size={"h3"} className={"w-full break-words"}>
+            {collection?.name}
+          </Title>
+          <Text c={"dimmed"} w={"100%"} className={"break-words"}>
+            {collectionQuery.data?.description}
+          </Text>
+        </Stack>
+        {!isError && !isLoading && isOwnCollection && (
+          <CollectionViewActions
+            libraryUserId={libraryUserId}
+            collectionId={collectionId}
+          />
+        )}
+      </Group>
+      <Divider className={"w-[calc(100%-2rem)]"} my={"sm"} variant={"dashed"} />
+      <CollectionEntriesView
+        isLoading={isLoading}
+        isError={isError}
+        games={games}
+        paginationInfo={collectionEntriesQuery.data?.pagination}
+        page={formPage}
+        onPaginationChange={(page) => {
+          setValue("page", page);
+        }}
+        onChangeOrder={(value, order) => {
+          setValue("orderBy", {
+            [value]: order,
+          });
+        }}
+      />
+    </Stack>
   );
 };
 

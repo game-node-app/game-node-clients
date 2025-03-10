@@ -21,7 +21,7 @@ export function useNotificationContent({
   const latestNotification = aggregatedNotification.notifications[0];
   const latestNotificationUserId = latestNotification.profileUserId;
   const latestProfileNames = profileNames.slice(0, 2).join(", ");
-  const hasMoreProfileNames = profileNames.length > 2;
+  const extraProfilesCount = profileNames.length - latestProfileNames.length;
 
   return (
     <Group className={"w-full flex-nowrap"}>
@@ -30,8 +30,10 @@ export function useNotificationContent({
       )}
       <Text lineClamp={4}>
         <strong>{latestProfileNames}</strong>{" "}
-        {hasMoreProfileNames && (
-          <>and {profileNames.length - latestProfileNames.length} others</>
+        {extraProfilesCount > 0 && (
+          <span>
+            and {profileNames.length - latestProfileNames.length} others
+          </span>
         )}{" "}
         {actionText}.
       </Text>

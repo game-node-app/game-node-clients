@@ -10,7 +10,6 @@ const Collection = () => {
     <LibraryView
       userId={userId as string | undefined}
       collectionId={collectionId as string | undefined}
-      onChange={() => {}}
     >
       <CollectionView
         libraryUserId={userId as string}
