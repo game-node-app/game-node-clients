@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Game } from "@repo/wrapper/server";
-import { Flex, Skeleton, Stack } from "@mantine/core";
-import { Box, Space } from "@mantine/core";
+import { Box, Flex, Skeleton, Space, Stack } from "@mantine/core";
 import {
   CenteredErrorMessage,
   GameView,
@@ -42,51 +41,49 @@ const CollectionEntriesView = ({
       );
     } else if (!isLoading && (games == undefined || games.length === 0)) {
       return <CenteredErrorMessage message={"This collection is empty."} />;
-    } else {
-      return (
-        <Stack
-          className={"w-[calc(100%-2rem)]"}
-          justify={"space-between"}
-          h={"100%"}
-          mt={"md"}
-        >
-          <Box className="w-full flex justify-between mb-8">
-            <Box className={"max-w-40"}>
-              <SelectWithOrdering
-                description={"Order by"}
-                data={[
-                  {
-                    value: "addedDate",
-                    label: "Added Date",
-                  },
-                  {
-                    value: "releaseDate",
-                    label: "Release Date",
-                  },
-                ]}
-                defaultValue={"addedDate"}
-                onChange={onChangeOrder}
-              />
-            </Box>
-
-            <Flex className={""}>
-              <GameView.LayoutSwitcher setLayout={setLayout} />
-            </Flex>
-          </Box>
-          <GameView.Content items={games!}>
-            {isLoading && buildLoadingSkeletons()}
-          </GameView.Content>
-          <Space h={"2rem"} />
-          {!isLoading && !isError && paginationInfo?.hasNextPage && (
-            <GameView.Pagination
-              page={page}
-              paginationInfo={paginationInfo}
-              onPaginationChange={onPaginationChange}
-            />
-          )}
-        </Stack>
-      );
     }
+
+    return (
+      <Stack
+        className={"w-full"}
+        justify={"space-between"}
+        h={"100%"}
+        mt={"md"}
+      >
+        <Box className="w-full flex justify-between mb-8">
+          <Box className={"max-w-40"}>
+            <SelectWithOrdering
+              description={"Order by"}
+              data={[
+                {
+                  value: "addedDate",
+                  label: "Added Date",
+                },
+                {
+                  value: "releaseDate",
+                  label: "Release Date",
+                },
+              ]}
+              defaultValue={"addedDate"}
+              onChange={onChangeOrder}
+            />
+          </Box>
+
+          <Flex className={""}>
+            <GameView.LayoutSwitcher setLayout={setLayout} />
+          </Flex>
+        </Box>
+        <GameView.Content items={games!}>
+          {isLoading && buildLoadingSkeletons()}
+        </GameView.Content>
+        <Space h={"2rem"} className={"mt-auto"} />
+        <GameView.Pagination
+          page={page}
+          paginationInfo={paginationInfo}
+          onPaginationChange={onPaginationChange}
+        />
+      </Stack>
+    );
   };
 
   return <GameView layout={layout}>{render()}</GameView>;

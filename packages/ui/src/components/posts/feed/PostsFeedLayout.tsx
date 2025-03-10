@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from "react";
-import { useUserId } from "#@/components";
 import { Box, Stack, Tabs } from "@mantine/core";
 
 export type PostsFeedTabValue = "following" | "all";
@@ -10,8 +9,6 @@ interface Props extends PropsWithChildren {
 }
 
 const PostsFeedLayout = ({ currentTab, onChange, children }: Props) => {
-  const userId = useUserId();
-
   return (
     <Stack className={"w-full h-full"}>
       <Tabs value={currentTab}>

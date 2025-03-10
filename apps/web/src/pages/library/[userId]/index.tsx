@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { Container, Stack, Title } from "@mantine/core";
-import ProfileFavoriteGames from "@/components/profile/view/ProfileFavoriteGames";
+import { Container, Stack } from "@mantine/core";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import RecentCollectionEntriesView from "@/components/collection/collection-entry/view/RecentCollectionEntriesView";
@@ -15,11 +14,7 @@ const Index = () => {
   const userProfileQuery = useUserProfile(userId as string);
 
   return (
-    <LibraryView
-      userId={userId as string | undefined}
-      collectionId={undefined}
-      onChange={() => {}}
-    >
+    <LibraryView userId={userId as string | undefined} collectionId={undefined}>
       <Container fluid p={0}>
         <Stack
           w={"100%"}

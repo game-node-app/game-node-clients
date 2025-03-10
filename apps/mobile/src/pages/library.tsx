@@ -11,7 +11,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { Container } from "@mantine/core";
-import React, { useState } from "react";
+import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
   LibraryView,
@@ -44,15 +44,6 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
 
   const profileQuery = useUserProfile(userIdToUse);
 
-  const [selectedCollectionId, setSelectedCollectionId] = useState<
-    string | null | undefined
-  >(collectionId);
-
-  // useEffect(() => {
-  //   const paramsCollectionId = params.get("collectionId");
-  //   setSelectedCollectionId(paramsCollectionId);
-  // }, [params]);
-
   return (
     <IonPage>
       <SessionAuth requireAuth={userId == undefined}>
@@ -75,18 +66,14 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
 
         <IonContent>
           {isOwnLibrary && (
-            <LibraryViewFab selectedCollectionId={selectedCollectionId} />
+            <LibraryViewFab selectedCollectionId={collectionId} />
           )}
           <Container fluid className="my-4">
-            <LibraryView
-              userId={userIdToUse}
-              collectionId={selectedCollectionId}
-              onChange={setSelectedCollectionId}
-            >
-              {selectedCollectionId ? (
+            <LibraryView userId={userIdToUse} collectionId={collectionId}>
+              {collectionId ? (
                 <CollectionView
                   libraryUserId={userIdToUse!}
-                  collectionId={selectedCollectionId}
+                  collectionId={collectionId}
                 />
               ) : (
                 <DetailsBox

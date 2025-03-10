@@ -1,17 +1,9 @@
-import { Notification } from "../../../../../wrapper/src/server";
+import { Notification } from "@repo/wrapper/server";
 
 export function getUniqueProfileNames(notifications: Notification[]) {
-  const profileNameMap = new Map<string, string>();
-  for (const notification of notifications) {
-    if (!notification.profile) continue;
+  const profileNames = notifications
+    .map((notification) => notification.profile?.username)
+    .filter((username) => username != undefined);
 
-    if (profileNameMap.has(notification.profile.username)) continue;
-
-    profileNameMap.set(
-      notification.profile.username,
-      notification.profile.username,
-    );
-  }
-
-  return [...profileNameMap.values()];
+  return Array.from(new Set(profileNames));
 }
