@@ -28,7 +28,7 @@ const PostImageRenderer = ({ node, editor, selected }: NodeViewProps) => {
         alt={node.attrs.alt || ""}
         title={node.attrs.title || ""}
         className={
-          "cursor-pointer transition-transform duration-200 w-full h-auto lg:max-w-96 lg:hover:scale-105"
+          "cursor-pointer transition-transform duration-200 w-full h-auto lg:max-w-[50%] lg:hover:scale-105"
         }
         onClick={onImageClick}
       />

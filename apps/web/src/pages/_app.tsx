@@ -68,6 +68,7 @@ setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);
 setProjectContext({
   client: "web",
+  s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,
 });
 setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,

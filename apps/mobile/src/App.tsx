@@ -65,6 +65,7 @@ setRoutingManager(useIonRouterWrapper);
 setModalComponent(IonModalWrapper);
 setProjectContext({
   client: "mobile",
+  s3BucketUrl: import.meta.env.VITE_PUBLIC_S3_BUCKET_URL!,
 });
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
