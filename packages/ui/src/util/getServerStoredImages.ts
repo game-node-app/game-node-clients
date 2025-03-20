@@ -1,10 +1,6 @@
 import { OpenAPI as ServerOpenAPI } from "../../../wrapper/src/server";
 import { PROJECT_CONTEXT } from "#@/util/projectContext.ts";
 
-export function getServerStoredUpload(filenameWithExtension: string) {
-  return `${ServerOpenAPI.BASE}/v1/public/uploads/${filenameWithExtension}`;
-}
-
 export function getS3StoredUpload(filenameWithExtension: string) {
   return `${PROJECT_CONTEXT.s3BucketUrl}/${filenameWithExtension}`;
 }

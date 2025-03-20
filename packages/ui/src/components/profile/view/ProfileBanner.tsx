@@ -2,7 +2,7 @@ import React from "react";
 import { ActionIcon, Box, Center, Paper } from "@mantine/core";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { IconCameraPlus } from "@tabler/icons-react";
-import { getServerStoredUpload } from "#@/util/getServerStoredImages";
+import { getS3StoredUpload } from "#@/util/getServerStoredImages";
 import { useDisclosure } from "@mantine/hooks";
 import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEditBannerUploader";
 import { Modal } from "#@/util";
@@ -25,7 +25,7 @@ const ProfileBanner = ({
 
   const banner = profile.data?.banner;
   const bannerSrc = hasBanner
-    ? getServerStoredUpload(`${banner?.filename}.${banner?.extension}`)
+    ? getS3StoredUpload(`${banner?.filename}.${banner?.extension}`)
     : undefined;
 
   const [editBannerModalOpen, editBannerModalUtils] = useDisclosure();
