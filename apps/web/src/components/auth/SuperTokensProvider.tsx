@@ -7,6 +7,7 @@ import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { GameNodeLogo } from "@repo/ui";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
+import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
 
 export const frontendConfig = (): SuperTokensConfig => {
   return {
@@ -65,7 +66,7 @@ export const frontendConfig = (): SuperTokensConfig => {
       }),
       Session.init(),
     ],
-    windowHandler: (oI: any) => {
+    windowHandler: (oI: WindowHandlerInterface) => {
       return {
         ...oI,
         location: {
@@ -89,7 +90,7 @@ const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
     <SuperTokensWrapper>
       <AuthRecipeComponentsOverrideContextProvider
         components={{
-          AuthPageHeader_Override: (Default, ...props) => {
+          AuthPageHeader_Override: () => {
             return <GameNodeLogo style={{ marginBottom: 20 }} />;
           },
         }}
