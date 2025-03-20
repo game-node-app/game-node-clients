@@ -36,6 +36,7 @@
     "@mantine/notifications": "^7.13.3",
     "@mantine/nprogress": "^7.13.3",
     "@mantine/tiptap": "^7.13.3",
+    "@marsidev/react-turnstile": "^1.1.0",
     "@repo/ui": "*",
     "@repo/wrapper": "*",
     "@tabler/icons-react": "^3.22.0",
