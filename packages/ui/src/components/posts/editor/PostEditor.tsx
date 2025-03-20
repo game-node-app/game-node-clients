@@ -15,7 +15,7 @@ import {
 import { IconPhoto } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { PostsService } from "@repo/wrapper/server";
-import { getServerStoredUpload } from "#@/util";
+import { getS3StoredUpload } from "#@/util";
 import { notifications } from "@mantine/notifications";
 import {
   GameSearchSelectModal,
@@ -106,16 +106,15 @@ const PostEditor = ({
         file: file,
       });
 
-      const { filename, id } = response;
+      const { filename } = response;
 
       // Insert the image at current cursor position
       editor
         ?.chain()
         .focus()
         .setImage({
-          src: getServerStoredUpload(filename),
+          src: getS3StoredUpload(filename),
           alt: "User provided image",
-          id: id,
         } as never)
         .createParagraphNear()
         .run();
