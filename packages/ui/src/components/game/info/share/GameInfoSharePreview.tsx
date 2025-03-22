@@ -9,10 +9,13 @@ import {
   ImageSize,
   ShareFormValues,
   useGame,
+  UserAvatar,
+  UserAvatarGroup,
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
 import { UseFormWatch } from "react-hook-form";
+import UserId from "web/src/pages/library/[userId]";
 
 interface SharePreviewProps {
   gameId: number;
@@ -66,7 +69,8 @@ const GameInfoSharePreview = ({
             />
           </Stack>
         )}
-        <Flex justify={"center"} className={"mt-16 mb-8"}>
+        <Flex justify={"space-between"} className={"w-full px-4 py-2"}>
+          <UserAvatarGroup userId={userId!} />
           <GameNodeLogo className={"w-20 h-auto"} />
         </Flex>
       </Stack>
