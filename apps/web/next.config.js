@@ -5,9 +5,6 @@ const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   transpilePackages: ["@repo/wrapper", "@repo/ui"],
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, "../../"),
-  },
   async redirects() {
     return [
       {

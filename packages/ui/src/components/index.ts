@@ -25,3 +25,4 @@ export * from "./report/index";
 export * from "./review/index";
 export * from "./statistics/index";
 export * from "./user-level/index";
+export * from "./wizard/index";

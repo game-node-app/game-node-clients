@@ -1,16 +1,13 @@
 import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
 import React from "react";
-import Session from "supertokens-auth-react/recipe/session";
-import Passwordless, {
-  PasswordlessComponentsOverrideProvider,
-} from "supertokens-auth-react/recipe/passwordless";
-import ThirdParty, { Discord } from "supertokens-auth-react/recipe/thirdparty";
+import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
+import Passwordless from "supertokens-auth-react/recipe/passwordless";
+import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { Capacitor } from "@capacitor/core";
 import capacitorCookieHandler from "@/util/capacitorCookieHandler";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 import { GameNodeLogo } from "@repo/ui";
-import { Stack, TextInput } from "@mantine/core";
 
 /**
  * @see https://github.com/RobSchilderr/nextjs-native-starter/blob/main/apps/next-app/config/frontendConfig.ts
@@ -66,7 +63,11 @@ export const frontendConfig = (): SuperTokensConfig => {
     recipeList: [
       ThirdParty.init({
         signInAndUpFeature: {
-          providers: [Discord.init()],
+          providers: [
+            ThirdParty.Discord.init(),
+            ThirdParty.Google.init(),
+            ThirdParty.Twitter.init(),
+          ],
         },
         override: {
           functions: (oI) => {
@@ -80,6 +81,8 @@ export const frontendConfig = (): SuperTokensConfig => {
                 } else {
                   frontendCallbackUrl = input.frontendRedirectURI;
                 }
+
+                console.log("frontendCallbackUrl: ", frontendCallbackUrl);
 
                 return oI.getAuthorisationURLWithQueryParamsAndSetState({
                   ...input,
@@ -110,12 +113,12 @@ const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
     <SuperTokensWrapper>
       <AuthRecipeComponentsOverrideContextProvider
         components={{
-          AuthPageHeader_Override: (Default, ...props) => {
+          AuthPageHeader_Override: () => {
             return <GameNodeLogo style={{ marginBottom: 20 }} />;
           },
         }}
       >
-        {children}
+        <SessionAuth requireAuth={false}>{children}</SessionAuth>
       </AuthRecipeComponentsOverrideContextProvider>
     </SuperTokensWrapper>
   );

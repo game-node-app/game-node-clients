@@ -28,7 +28,7 @@ const CollectionEntriesView = ({
 
   const buildLoadingSkeletons = useCallback(() => {
     return new Array(4).fill(0).map((_, i) => {
-      return <Skeleton key={i} className={"w-full h-60 mt-4"} />;
+      return <Skeleton key={i} className={"w-full h-48 mt-4"} />;
     });
   }, []);
 

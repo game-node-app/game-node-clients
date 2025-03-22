@@ -1,6 +1,6 @@
 import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
 import React from "react";
-import Session from "supertokens-auth-react/recipe/session";
+import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Router from "next/router";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
@@ -95,7 +95,7 @@ const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
           },
         }}
       >
-        {children}
+        <SessionAuth requireAuth={false}>{children}</SessionAuth>
       </AuthRecipeComponentsOverrideContextProvider>
     </SuperTokensWrapper>
   );

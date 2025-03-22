@@ -1,5 +1,4 @@
 import React from "react";
-import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import {
   Accordion,
@@ -8,7 +7,6 @@ import {
   Group,
   Paper,
   Stack,
-  Text,
   Title,
 } from "@mantine/core";
 import { CollectionCreateOrUpdateModal, useUserId } from "#@/components";
@@ -41,7 +39,7 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
       />
       <Paper className={"bg-[#42424233] p-5"}>
         <Stack className={"w-full"}>
-          <Group className={"justify-between"}>
+          <Group className={"justify-between flex-nowrap"}>
             <Link href={`/library/${userId}`}>
               <Title size={"h5"}>{username}&apos;s library</Title>
             </Link>

@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { Container, Stack } from "@mantine/core";
 import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { DetailsBox } from "@/components/general/DetailsBox";
-import RecentCollectionEntriesView from "@/components/collection/collection-entry/view/RecentCollectionEntriesView";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { LibraryView } from "@repo/ui";
+import { LibraryView, RecentCollectionEntriesView } from "@repo/ui";
 
 const Index = () => {
   const onMobile = useOnMobile();

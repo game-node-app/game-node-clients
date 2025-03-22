@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Group, Select, SelectProps, Text } from "@mantine/core";
+import { Group, Select, SelectProps } from "@mantine/core";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 
 interface Props
@@ -24,14 +24,14 @@ const SelectWithOrdering = ({
     "ASC" | "DESC"
   >("DESC");
 
+  console.log("current data: ", data);
+
   return (
     <Select
       {...others}
       value={internalSelectedItem}
       defaultValue={defaultValue}
       data={data}
-      // Necessary to trigger "onChange" when selecting the same option
-      allowDeselect={true}
       onChange={(v) => {
         // v != null -> new value selected
         if (v) {
