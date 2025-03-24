@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   IonContent,
   IonHeader,
@@ -19,7 +19,6 @@ interface Props {
 
 const AuthCallbackPage = ({ provider }: Props) => {
   const router = useIonRouter();
-  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     (async () => {

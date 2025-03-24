@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "../../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 
 export function useCollectionEntriesForUserId(
   userId: string,
@@ -20,5 +20,6 @@ export function useCollectionEntriesForUserId(
         limit,
       );
     },
+    enabled: userId != undefined,
   });
 }

@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { FindAllPlaytimeFiltersDto } from '../models/FindAllPlaytimeFiltersDto';
 import type { FindAllPlaytimeResponseDto } from '../models/FindAllPlaytimeResponseDto';
 import type { Object } from '../models/Object';
 import type { UserCumulativePlaytimeDto } from '../models/UserCumulativePlaytimeDto';
@@ -50,7 +51,6 @@ export class PlaytimeService {
     }
     /**
      * @param userId
-     * @param onlyLatest If only entries from the last 3 months should be returned.
      * @param offset
      * @param limit
      * @param orderBy
@@ -59,7 +59,6 @@ export class PlaytimeService {
      */
     public static playtimeControllerFindAllByUserIdV1(
         userId: string,
-        onlyLatest?: Object,
         offset?: number,
         limit: number = 20,
         orderBy?: Object,
@@ -71,11 +70,30 @@ export class PlaytimeService {
                 'userId': userId,
             },
             query: {
-                'onlyLatest': onlyLatest,
                 'offset': offset,
                 'limit': limit,
                 'orderBy': orderBy,
             },
+        });
+    }
+    /**
+     * @param userId
+     * @param requestBody
+     * @returns FindAllPlaytimeResponseDto
+     * @throws ApiError
+     */
+    public static playtimeControllerFindAllByUserIdWithFiltersV1(
+        userId: string,
+        requestBody: FindAllPlaytimeFiltersDto,
+    ): CancelablePromise<FindAllPlaytimeResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/playtime/user/{userId}',
+            path: {
+                'userId': userId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

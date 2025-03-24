@@ -6,6 +6,7 @@ import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage
 import { getErrorMessage } from "#@/util/getErrorMessage";
 import { TBasePaginationRequest } from "#@/util/types/pagination";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
 
 interface Props extends TBasePaginationRequest {
   userId: string;
@@ -14,7 +15,12 @@ interface Props extends TBasePaginationRequest {
 const UserRecentGames = ({ userId, offset, limit }: Props) => {
   const ownUserId = useUserId();
 
-  const playtime = usePlaytimeForUser({ userId, offset, limit });
+  const playtime = usePlaytimeForUser({
+    userId,
+    offset,
+    limit,
+    period: FindAllPlaytimeFiltersDto.period.ALL,
+  });
 
   const isEmpty =
     playtime.data != undefined &&

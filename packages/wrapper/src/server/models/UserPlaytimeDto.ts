@@ -3,13 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GameExternalGame } from './GameExternalGame';
-import type { Profile } from './Profile';
 export type UserPlaytimeDto = {
     lastPlayedDate: string | null;
     firstPlayedDate: string | null;
     id: number;
     source: UserPlaytimeDto.source;
-    profile: Profile;
     profileUserId: string;
     gameId: number;
     /**

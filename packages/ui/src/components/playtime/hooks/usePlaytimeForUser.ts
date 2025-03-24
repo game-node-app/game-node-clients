@@ -1,19 +1,32 @@
-import { TBasePaginationRequest } from "#@/util/types/pagination";
 import { useQuery } from "@tanstack/react-query";
-import { PlaytimeService } from "../../../../../wrapper/src/server";
+import {
+  FindAllPlaytimeFiltersDto,
+  FindAllPlaytimeResponseDto,
+  PlaytimeService,
+} from "@repo/wrapper/server";
 
-interface Props extends TBasePaginationRequest {
+interface Props extends FindAllPlaytimeFiltersDto {
   userId: string;
 }
 
-export function usePlaytimeForUser({ userId, offset = 0, limit = 20 }: Props) {
-  return useQuery({
-    queryKey: ["playtime", "user", userId, offset, limit],
+export function usePlaytimeForUser({
+  userId,
+  offset = 0,
+  limit = 20,
+  period = FindAllPlaytimeFiltersDto.period.ALL,
+  orderBy,
+}: Props) {
+  return useQuery<FindAllPlaytimeResponseDto>({
+    queryKey: ["playtime", "user", userId, period, offset, limit, orderBy],
     queryFn: async () => {
-      return PlaytimeService.playtimeControllerFindAllByUserIdV1(
+      return PlaytimeService.playtimeControllerFindAllByUserIdWithFiltersV1(
         userId,
-        offset,
-        limit,
+        {
+          offset,
+          limit,
+          period,
+          orderBy,
+        },
       );
     },
     staleTime: Infinity,

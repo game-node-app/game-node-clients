@@ -30,6 +30,7 @@ export type { CreateUpdateCollectionEntryDto } from './models/CreateUpdateCollec
 export type { CursorPaginationInfo } from './models/CursorPaginationInfo';
 export { DeleteCommentDto } from './models/DeleteCommentDto';
 export { FindAllCommentsDto } from './models/FindAllCommentsDto';
+export { FindAllPlaytimeFiltersDto } from './models/FindAllPlaytimeFiltersDto';
 export type { FindAllPlaytimeResponseDto } from './models/FindAllPlaytimeResponseDto';
 export type { FindAllProfileResponseItemDto } from './models/FindAllProfileResponseItemDto';
 export type { FindAllReviewsByIdDto } from './models/FindAllReviewsByIdDto';
@@ -89,6 +90,7 @@ export type { PaginatedAchievementsResponseDto } from './models/PaginatedAchieve
 export type { PaginatedNotificationAggregationDto } from './models/PaginatedNotificationAggregationDto';
 export type { PaginatedReportResponseDto } from './models/PaginatedReportResponseDto';
 export type { PaginationInfo } from './models/PaginationInfo';
+export type { PlaytimeFilterOrderBy } from './models/PlaytimeFilterOrderBy';
 export type { Post } from './models/Post';
 export type { PostComment } from './models/PostComment';
 export type { PostCommentDto } from './models/PostCommentDto';

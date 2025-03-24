@@ -32,7 +32,6 @@ import "@mantine/charts/styles.css";
 import "@/components/globals.css";
 
 import NotificationsManager from "@/components/general/NotificationsManager";
-import MatomoWrapper from "@/components/general/MatomoWrapper";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import {
   DEFAULT_MANTINE_THEME,
@@ -44,6 +43,7 @@ import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
 import { useRouter } from "next/router";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
+import MatomoTracker from "@/components/general/MatomoTracker.tsx";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -113,16 +113,15 @@ export default function App({
       </Head>
       <SuperTokensProvider>
         <QueryClientProvider client={queryClient}>
+          <MatomoTracker />
           <NotificationsManager />
           <OpenInAppDialog />
-          <MatomoWrapper>
-            <GlobalAppShell>
-              <HydrationBoundary state={pageProps.dehydratedState}>
-                <RouterTransition />
-                <Component {...pageProps} />
-              </HydrationBoundary>
-            </GlobalAppShell>
-          </MatomoWrapper>
+          <GlobalAppShell>
+            <HydrationBoundary state={pageProps.dehydratedState}>
+              <RouterTransition />
+              <Component {...pageProps} />
+            </HydrationBoundary>
+          </GlobalAppShell>
         </QueryClientProvider>
       </SuperTokensProvider>
     </MantineProvider>
