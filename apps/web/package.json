@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "wrapper:generate": "node src/wrapper/generate.js",

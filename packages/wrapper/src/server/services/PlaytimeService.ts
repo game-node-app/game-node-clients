@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { FindAllPlaytimeFiltersDto } from '../models/FindAllPlaytimeFiltersDto';
 import type { FindAllPlaytimeResponseDto } from '../models/FindAllPlaytimeResponseDto';
 import type { Object } from '../models/Object';
 import type { UserCumulativePlaytimeDto } from '../models/UserCumulativePlaytimeDto';
@@ -73,6 +74,26 @@ export class PlaytimeService {
                 'limit': limit,
                 'orderBy': orderBy,
             },
+        });
+    }
+    /**
+     * @param userId
+     * @param requestBody
+     * @returns FindAllPlaytimeResponseDto
+     * @throws ApiError
+     */
+    public static playtimeControllerFindAllByUserIdWithFiltersV1(
+        userId: string,
+        requestBody: FindAllPlaytimeFiltersDto,
+    ): CancelablePromise<FindAllPlaytimeResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/playtime/user/{userId}',
+            path: {
+                'userId': userId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

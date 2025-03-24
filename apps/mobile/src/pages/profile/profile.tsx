@@ -28,6 +28,7 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
+import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
 
 interface Props {
   userId?: string;
@@ -51,6 +52,7 @@ const ProfilePage = ({ userId }: Props) => {
     userId: userIdToUse!,
     offset: 0,
     limit: 5,
+    period: FindAllPlaytimeFiltersDto.period.ALL,
   });
 
   const hasPlaytimeInfo =
