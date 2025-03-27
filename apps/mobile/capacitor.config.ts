@@ -8,9 +8,6 @@ const config: CapacitorConfig = {
     CapacitorCookies: {
       enabled: true,
     },
-    EdgeToEdge: {
-      backgroundColor: "#161616",
-    },
     StatusBar: {
       backgroundColor: "#161616",
       style: "DARK",
