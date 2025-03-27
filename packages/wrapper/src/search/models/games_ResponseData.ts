@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { schema_SearchGame } from './schema_SearchGame';
-export type schema_ResponseData = {
-    items?: Array<schema_SearchGame>;
+import type { games_SearchGame } from './games_SearchGame';
+export type games_ResponseData = {
+    items?: Array<games_SearchGame>;
     profile?: any;
     took?: number;
 };

@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type schema_UserDto = {
+export type users_UserDto = {
     userId?: string;
     username?: string;
 };

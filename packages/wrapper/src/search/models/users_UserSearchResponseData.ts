@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { schema_UserDto } from './schema_UserDto';
-export type schema_UserSearchResponseData = {
-    items?: Array<schema_UserDto>;
+import type { users_UserDto } from './users_UserDto';
+export type users_UserSearchResponseData = {
+    items?: Array<users_UserDto>;
     profile?: any;
     took?: number;
 };
