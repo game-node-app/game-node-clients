@@ -3,14 +3,10 @@ import {
   GameSearchResponseDto,
 } from "#@/components/game/search/utils/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import {
-  ApiError,
-  schema_GameSearchRequestDto,
-  SearchService,
-} from "@repo/wrapper/search";
+import { ApiError, SearchService } from "@repo/wrapper/search";
 
 const parseDto = (dto: GameSearchRequestDto) => {
-  const parsedDto: schema_GameSearchRequestDto = {
+  const parsedDto: GameSearchRequestDto = {
     page: 1,
     limit: 20,
     ...dto,

@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { games_ResponseData } from './games_ResponseData';
 import type { schema_PaginationInfo } from './schema_PaginationInfo';
-import type { schema_UserSearchResponseData } from './schema_UserSearchResponseData';
-export type schema_UserSearchResponseDto = {
-    data?: schema_UserSearchResponseData;
+export type games_GameSearchResponseDto = {
+    data?: games_ResponseData;
     pagination?: schema_PaginationInfo;
 };
 

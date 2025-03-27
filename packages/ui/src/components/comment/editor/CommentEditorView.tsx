@@ -47,7 +47,7 @@ const CommentEditorView = ({
 }: Props) => {
   const context = useCommentsContext();
   const queryClient = useQueryClient();
-  const editorRef = useRef<Editor>();
+  const editorRef = useRef<Editor>(null);
   /**
    * Queries to fetch edited comment and/or replied to comment
    */

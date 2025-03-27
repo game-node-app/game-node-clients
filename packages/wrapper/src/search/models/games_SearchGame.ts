@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type schema_SearchGame = {
+export type games_SearchGame = {
     aggregatedRating?: number;
     aggregatedRatingCount?: number;
     category?: number;

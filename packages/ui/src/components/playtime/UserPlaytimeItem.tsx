@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { GameExternalGame, UserPlaytimeDto } from "@repo/wrapper/server";
+import React from "react";
+import { UserPlaytimeDto } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useGame } from "#@/components/game/hooks/useGame";
 import {

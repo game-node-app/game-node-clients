@@ -7,14 +7,16 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { schema_GameSearchRequestDto } from './models/schema_GameSearchRequestDto';
-export type { schema_GameSearchResponseDto } from './models/schema_GameSearchResponseDto';
+export type { games_GameAutocompleteRequestDto } from './models/games_GameAutocompleteRequestDto';
+export type { games_GameAutocompleteResponseDto } from './models/games_GameAutocompleteResponseDto';
+export type { games_GameSearchRequestDto } from './models/games_GameSearchRequestDto';
+export type { games_GameSearchResponseDto } from './models/games_GameSearchResponseDto';
+export type { games_ResponseData } from './models/games_ResponseData';
+export type { games_SearchGame } from './models/games_SearchGame';
 export type { schema_PaginationInfo } from './models/schema_PaginationInfo';
-export type { schema_ResponseData } from './models/schema_ResponseData';
-export type { schema_SearchGame } from './models/schema_SearchGame';
-export type { schema_UserDto } from './models/schema_UserDto';
-export type { schema_UserSearchRequestDto } from './models/schema_UserSearchRequestDto';
-export type { schema_UserSearchResponseData } from './models/schema_UserSearchResponseData';
-export type { schema_UserSearchResponseDto } from './models/schema_UserSearchResponseDto';
+export type { users_UserDto } from './models/users_UserDto';
+export type { users_UserSearchRequestDto } from './models/users_UserSearchRequestDto';
+export type { users_UserSearchResponseData } from './models/users_UserSearchResponseData';
+export type { users_UserSearchResponseDto } from './models/users_UserSearchResponseDto';
 
 export { SearchService } from './services/SearchService';

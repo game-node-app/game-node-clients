@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type schema_GameSearchRequestDto = {
+export type games_GameSearchRequestDto = {
     category?: Array<number>;
     genres?: Array<string>;
     limit?: number;

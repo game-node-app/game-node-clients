@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  type schema_UserSearchRequestDto,
+  type users_UserSearchRequestDto,
   SearchService,
-} from "../../../../../wrapper/src/search";
+} from "@repo/wrapper/search";
 
-export function useSearchUsers(searchParameters: schema_UserSearchRequestDto) {
+export function useSearchUsers(searchParameters: users_UserSearchRequestDto) {
   return useQuery({
     queryKey: ["user", "search", searchParameters],
     queryFn: () => {
