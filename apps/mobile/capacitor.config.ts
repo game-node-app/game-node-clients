@@ -13,9 +13,15 @@ const config: CapacitorConfig = {
       backgroundColor: "#161616",
       style: "DARK",
     },
+    EdgeToEdge: {
+      // Should be the same as StatusBar#backgroundColor!
+      backgroundColor: "#161616",
+    },
   },
   android: {
-    adjustMarginsForEdgeToEdge: "auto",
+    // Already done by @capawesome/capacitor-android-edge-to-edge-support
+    // Do not enable here
+    adjustMarginsForEdgeToEdge: "disable",
   },
 };
 
