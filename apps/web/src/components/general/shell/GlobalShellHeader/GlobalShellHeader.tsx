@@ -1,8 +1,11 @@
-import { Burger, Button, Container, Group } from "@mantine/core";
+import { ActionIcon, Burger, Button, Container, Group } from "@mantine/core";
 import GameNodeLogo from "@/components/general/GameNodeLogo";
 import Link from "next/link";
 import useUserId from "@/components/auth/hooks/useUserId";
 import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications";
+import { UserRecentGamesShare } from "@repo/ui";
+import { useState } from "react";
+import { IconCalendarWeek } from "@tabler/icons-react";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -14,6 +17,9 @@ export default function GlobalShellHeader({
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
   const userId = useUserId();
+
+  const [opened, setOpened] = useState(false);
+
   return (
     <header className="h-full">
       <Container fluid className="flex h-full items-center lg:justify-start">
@@ -25,12 +31,27 @@ export default function GlobalShellHeader({
           />
         </a>
         <Group className="ms-auto">
+          <UserRecentGamesShare
+            opened={opened}
+            onClose={() => setOpened(false)}
+          />
+
           {!userId && (
             <Link href={"/auth"}>
               <Button variant="outline">Sign in</Button>
             </Link>
           )}
-          {userId && <GlobalShellHeaderNotifications />}
+          {userId != undefined && (
+            <Group className={"gap-3"}>
+              <ActionIcon
+                variant={"transparent"}
+                onClick={() => setOpened(true)}
+              >
+                <IconCalendarWeek />
+              </ActionIcon>
+              <GlobalShellHeaderNotifications />
+            </Group>
+          )}
         </Group>
       </Container>
     </header>

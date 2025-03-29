@@ -12,10 +12,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@capacitor/android": "^7.0.0",
+    "@capacitor/android": "^7.1.0",
     "@capacitor/app": "^7.0.0",
     "@capacitor/browser": "^7.0.0",
-    "@capacitor/core": "^7.0.0",
+    "@capacitor/core": "^7.1.0",
     "@capacitor/filesystem": "^7.0.0",
     "@capacitor/haptics": "^7.0.0",
     "@capacitor/keyboard": "^7.0.0",
@@ -76,7 +76,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.0.0",
+    "@capacitor/cli": "^7.1.0",
     "@lamarcke/openapi-typescript-codegen": "^0.29.1",
     "@repo/eslint-config": "*",
     "@repo/tailwind-config": "*",
