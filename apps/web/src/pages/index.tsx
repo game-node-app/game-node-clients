@@ -1,88 +1,90 @@
-import {
-  Anchor,
-  Button,
-  Group,
-  Image,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-} from "@mantine/core";
-import React, { useEffect, useRef } from "react";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { getServerStoredIcon } from "@repo/ui";
+import { Box, Button, Text } from "@mantine/core";
+import Image from "next/image";
+import bannerImage from "../../public/img/banner_web_landing.png";
 
-export default function Home() {
-  const session = useSessionContext();
-  const router = useRouter();
-  useEffect(() => {
-    if (!session.loading && session.doesSessionExist) {
-      router.replace("/search");
-    }
-  }, [session, router]);
+const Home = () => {
   return (
-    <Stack className={"w-full h-full min-h-screen items-center"}>
-      <Title size={"h1"} className={"text-center mt-10"}>
-        Manage all your games <br />
-        In a single place
-      </Title>
-      <Text ta={"center"}>
-        GameNode is the perfect platform to manage your game collection
-        virtually. Update your backlog, rate the titles you've played, and add
-        the most anticipated releases to your wishlist. Connect with friends,
-        follow their activities, and keep track of everyone's latest gaming
-        sessions.
-      </Text>
-      <Link href={"/search"}>
-        <Button size={"xl"} className={"bg-brand-5 min-w-44 mt-5"}>
-          Join in
-        </Button>
-      </Link>
+    <>
+      <header className="w-full flex justify-between fixed px-20 pt-8">
+        <Box className="flex flex-row gap-16 items-center">
+          <img
+            src="/img/main-logo.png"
+            alt="Game Node Logo"
+            className="w-full h-full object-contain"
+          />
+          <a href="#">
+            <span>Sobre</span>
+          </a>
+          <a href="#">
+            <span>Download</span>
+          </a>
+          <a href="#">
+            <span>Colabore</span>
+          </a>
+        </Box>
 
-      <Stack className={"items-center"}>
-        <Anchor
-          className={"w-44 mt-8"}
-          href={
-            "https://play.google.com/store/apps/details?id=app.gamenode&pcampaignid=web_share"
-          }
-        >
-          <Image
-            src={"/img/google_play_badge_english.png"}
-            alt={"Get it on Google Play badge"}
-          />
-        </Anchor>
-        <Text className={"text-sm"}>Soon in iOS</Text>
-      </Stack>
-      <Stack className={"items-center mt-16"}>
-        <Text className={"text-center"}>
-          Too lazy to import your entire library? Don't worry, we got you!
-        </Text>
-        <Group className={"justify-center"}>
-          <Image
-            w={38}
-            src={getServerStoredIcon("psn")}
-            alt={"Playstation Network"}
-          />
-          <Image w={38} src={getServerStoredIcon("steam")} alt={"Steam"} />
-        </Group>
-        <Text className={"text-sm text-dimmed"}>
-          GameNode can import games and{" "}
-          <Tooltip label={"Only for sources which export playtime info."}>
-            <Text span className={"text-sm"}>
-              playtime*
+        <Box>
+          <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
+            Login
+          </Button>
+        </Box>
+      </header>
+
+      <Box className="w-full h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
+        <Box>
+          <h1 className="text-center font-bold text-[64px] leading-[75px]">
+            Organize todos os seus jogos <br /> em um só lugar
+          </h1>
+          <h3 className="text-center font-bold text-[20px] leading-[120px]">
+            GameNode é a plataforma ideal para gerenciar sua coleção de jogos de
+            forma virtual.
+          </h3>
+        </Box>
+
+        <img
+          src="/img/banner_web_landing.png"
+          alt="Profile"
+          width="1040"
+          height="468"
+        />
+      </Box>
+
+      <Box className="bg-gradient-to-b from-[#212121]to-[#090909]w-full h-screen flex justify-center pt-[105px]">
+        <Box className="h-[340px] flex items-center">
+          <Box className="flex flex-col items-center gap-5">
+            <Text
+              className="bg-[#F15025] w-[100px] h-[90px] flex justify-center items-center rounded-[5px]
+            font-bold text-[32px]"
+            >
+              1
             </Text>
-          </Tooltip>{" "}
-          from these sources. More will be available soon.
-        </Text>
-      </Stack>
-      <Text className={"mt-16 text-sm"}>
-        Games metadata are a courtesy of{" "}
-        <Anchor href={"https://igdb.com"} target={"_blank"}>
-          IGDB
-        </Anchor>
-      </Text>
-    </Stack>
+            <Text>Adicione jogos a sua biblioteca</Text>
+          </Box>
+          <img src="/img/line_space.png" alt="space" className="h-[1px] mb-5" />
+          <Box className="flex flex-col items-center gap-5 px-4">
+            <Text
+              className="bg-[#F15025] w-[100px] h-[90px] flex justify-center items-center rounded-[5px]
+            font-bold text-[32px]"
+            >
+              2
+            </Text>
+            <Text className="font-bold text-[16px]">Faça Reviews</Text>
+          </Box>
+          <img src="/img/line_space.png" alt="space" className="h-[1px] mb-5" />
+          <Box className="flex flex-col items-center gap-5">
+            <Text
+              className="bg-[#F15025] w-[100px] h-[90px]
+            flex justify-center items-center rounded-[5px]
+            font-bold text-[32px]"
+            >
+              3
+            </Text>
+            <Text>Compartilhe com o mundo</Text>
+          </Box>
+        </Box>
+      </Box>
+    </>
   );
-}
+};
+
+export default Home;

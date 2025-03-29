@@ -4,6 +4,7 @@ import GlobalShellHeader from "@/components/general/shell/GlobalShellHeader/Glob
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbar";
+import { useRouter } from "next/router";
 
 /**
  * https://mantine.dev/core/app-shell/
@@ -11,7 +12,14 @@ import GlobalShellNavbar from "@/components/general/shell/GlobalShellNavbar/Glob
  * @constructor
  */
 const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
+  const { pathname } = useRouter();
+
   const [sidebarOpened, sidebarOpenedUtils] = useDisclosure(false);
+
+  if (pathname === "/") {
+    return children;
+  }
+
   return (
     <AppShell
       padding="xs"
