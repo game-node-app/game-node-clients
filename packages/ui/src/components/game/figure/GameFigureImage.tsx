@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren } from "react";
 import { AspectRatio, Image, ImageProps } from "@mantine/core";
 import { Link } from "#@/util";
 import {
