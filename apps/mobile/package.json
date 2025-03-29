@@ -75,7 +75,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.0.0",
+    "@capacitor/cli": "^7.1.0",
     "@lamarcke/openapi-typescript-codegen": "^0.29.1",
     "@repo/eslint-config": "*",
     "@repo/tailwind-config": "*",

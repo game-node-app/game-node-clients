@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
@@ -12,6 +13,9 @@ const config: CapacitorConfig = {
       backgroundColor: "#161616",
       style: "DARK",
     },
+  },
+  android: {
+    adjustMarginsForEdgeToEdge: "auto",
   },
 };
 
