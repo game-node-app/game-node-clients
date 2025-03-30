@@ -56,7 +56,7 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
     mutationFn: async (downloadOnly: boolean = false) => {
       const node = document.getElementById(GAME_INFO_SHARE_PREVIEW_ID);
       const blob = await toBlob(node!, {
-        skipFonts: true,
+        skipFonts: false,
       });
       if (!blob) {
         throw new Error("Failed to generate final image.");
