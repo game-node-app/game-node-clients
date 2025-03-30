@@ -55,13 +55,15 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
   const shareMutation = useMutation({
     mutationFn: async (downloadOnly: boolean = false) => {
       const node = document.getElementById(GAME_INFO_SHARE_PREVIEW_ID);
-      const blob = await toBlob(node!);
+      const blob = await toBlob(node!, {
+        skipFonts: true,
+      });
       if (!blob) {
         throw new Error("Failed to generate final image.");
       }
       // The blob always has 'image/jpeg' as mimetype.
       const extension = "jpeg";
-      const filename = `gamenode-${gameId}.${extension}`;
+      const filename = `gamenode-${gameId}-${new Date().getTime()}.${extension}`;
       const file = new File([blob], filename, {
         type: blob.type,
       });
