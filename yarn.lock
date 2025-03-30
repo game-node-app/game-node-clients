@@ -3001,6 +3001,16 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
+"@simplewebauthn/browser@^13.0.0":
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-13.1.0.tgz#48b0618fe703894add31dcb4755beddcc0798ab0"
+  integrity sha512-WuHZ/PYvyPJ9nxSzgHtOEjogBhwJfC8xzYkPC+rR/+8chl/ft4ngjiK8kSU5HtRJfczupyOh33b25TjYbvwAcg==
+
+"@simplewebauthn/types@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/types/-/types-12.0.0.tgz#9b2ba09dfd951747f81dde0f77c6e34b7ac7f8a6"
+  integrity sha512-q6y8MkoV8V8jB4zzp18Uyj2I7oFp2/ONL8c3j8uT06AOWu3cIChc1au71QYHrP2b+xDapkGTiv+9lX7xkTlAsA==
+
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
@@ -6749,15 +6759,15 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
-cookie@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
-  integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
-
 cookie@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.1.tgz#2f73c42142d5d5cf71310a74fc4ae61670e5dbc9"
   integrity sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==
+
+cookie@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
+  integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
 
 copy-to-clipboard@^3.3.1:
   version "3.3.3"
@@ -12708,10 +12718,17 @@ prosemirror-menu@^1.2.4:
     prosemirror-history "^1.0.0"
     prosemirror-state "^1.0.0"
 
-prosemirror-model@1.23.0, prosemirror-model@^1.0.0, prosemirror-model@^1.19.0, prosemirror-model@^1.20.0, prosemirror-model@^1.21.0, prosemirror-model@^1.23.0, prosemirror-model@^1.24.1:
+prosemirror-model@^1.0.0, prosemirror-model@^1.19.0, prosemirror-model@^1.20.0, prosemirror-model@^1.21.0, prosemirror-model@^1.23.0:
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.23.0.tgz#652058182ed90dc15c8f0f2cf2df488306fa1dcd"
   integrity sha512-Q/fgsgl/dlOAW9ILu4OOhYWQbc7TQd4BwKH/RwmUjyVf8682Be4zj3rOYdLnYEcGzyg8LL9Q5IWYKD8tdToreQ==
+  dependencies:
+    orderedmap "^2.0.0"
+
+prosemirror-model@^1.24.1:
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.25.0.tgz#c147113edc0718a14f03881e4c20367d0221f7af"
+  integrity sha512-/8XUmxWf0pkj2BmtqZHYJipTBMHIdVjuvFzMvEoxrtyGNmfvdhBiRwYt/eFwy2wA9DtBW3RLqvZnjurEkHaFCw==
   dependencies:
     orderedmap "^2.0.0"
 
@@ -13836,6 +13853,11 @@ serve-static@1.16.2:
     parseurl "~1.3.3"
     send "0.19.0"
 
+set-cookie-parser@^2.6.0:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.7.1.tgz#3016f150072202dfbe90fadee053573cc89d2943"
+  integrity sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==
+
 set-function-length@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/set-function-length/-/set-function-length-1.2.2.tgz#aac72314198eaed975cf77b2c3b6b880695e5449"
@@ -14602,11 +14624,12 @@ sugarss@^4.0.1:
   resolved "https://registry.yarnpkg.com/sugarss/-/sugarss-4.0.1.tgz#128a783ed71ee0fc3b489ce1f7d5a89bc1e24383"
   integrity sha512-WCjS5NfuVJjkQzK10s8WOBY+hhDxxNt/N6ZaGwxFZ+wN3/lKKFSaaKUNecULcTTvE4urLcKaZFQD8vO0mOZujw==
 
-supertokens-auth-react@^0.44.0:
-  version "0.44.0"
-  resolved "https://registry.yarnpkg.com/supertokens-auth-react/-/supertokens-auth-react-0.44.0.tgz#b49dcbef19f6d3052b3c90ff741e30bd92665dc1"
-  integrity sha512-Jml/PDEKY2FxHCXM3Owd7ZfZzkgulIu69nd34nKL6a+wUCFv+qZJga0zNM6i9kMZVrZ6Pty7wE55Dj3O3FyKBQ==
+supertokens-auth-react@^0.49.1:
+  version "0.49.1"
+  resolved "https://registry.yarnpkg.com/supertokens-auth-react/-/supertokens-auth-react-0.49.1.tgz#d950d92c615ea0bc3beeb6fb44c191925143a343"
+  integrity sha512-jjZHSBMW1Gg6rs8W4WY4HQ8fS75/+wBqfAiTaThkXiF+HujcCOc2ujm0y0kny5scwUziArMb0cHevPghaw1bSw==
   dependencies:
+    "@simplewebauthn/types" "^12.0.0"
     intl-tel-input "^17.0.19"
     prop-types "^15.7.2"
     react-qr-code "^2.0.12"
@@ -14617,14 +14640,14 @@ supertokens-js-override@0.0.4, supertokens-js-override@^0.0.4:
   resolved "https://registry.yarnpkg.com/supertokens-js-override/-/supertokens-js-override-0.0.4.tgz#9af583fbc5e1f0195dbb358c4fcf75f44c76dc09"
   integrity sha512-r0JFBjkMIdep3Lbk3JA+MpnpuOtw4RSyrlRAbrzMcxwiYco3GFWl/daimQZ5b1forOiUODpOlXbSOljP/oyurg==
 
-supertokens-node@^20.1.5:
-  version "20.1.6"
-  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-20.1.6.tgz#d33e6b166ad6940268d455459964c14015dd824f"
-  integrity sha512-zzZdyOBdfNvAxdMPZPG8VCqlmtuK98Zq9cT3eUYsT9Te6YKF5j927gytzsGDzMMeNELlKszCjoOQ6voS0dK4ew==
+supertokens-node@^22.0.1:
+  version "22.0.1"
+  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-22.0.1.tgz#c4405621b6f387efecb3b24bcf4d7348842fb6f5"
+  integrity sha512-ZnvjMCY1hFPkmFkFtxJEuaUmDcnvlpDC6f1py7kd03wJ1cpf1+Ym5j2fE02WBJLnW4D71/16salb6+98f8uVug==
   dependencies:
     buffer "^6.0.3"
     content-type "^1.0.5"
-    cookie "0.4.0"
+    cookie "^0.7.2"
     cross-fetch "^3.1.6"
     debug "^4.3.3"
     jose "^4.13.1"
@@ -14633,22 +14656,24 @@ supertokens-node@^20.1.5:
     pako "^2.1.0"
     pkce-challenge "^3.0.0"
     process "^0.11.10"
+    set-cookie-parser "^2.6.0"
     supertokens-js-override "^0.0.4"
     tldts "^6.1.48"
     twilio "^4.19.3"
 
-supertokens-web-js@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/supertokens-web-js/-/supertokens-web-js-0.13.1.tgz#e2b1a96245f7feca667a80a8b10429999208003a"
-  integrity sha512-8ZWlC+01SuyrEerF/Wjkwlikw9SiLPdDIY3CrtVtri6zoJ2enziyg5dbkFrWbxgOagziyl2yjnD0/EEmXxl5tw==
+supertokens-web-js@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/supertokens-web-js/-/supertokens-web-js-0.15.0.tgz#f3b017c21c77a358e35e8cfd1d846c8a61132011"
+  integrity sha512-IJB1Z+SI5gsWwunvrLyhbpyVaetQt23QlMoD6Gy7+OcmJ8EaPO+knhZnqzQAppe4HiNhROAiGZb7gUTJgXonzg==
   dependencies:
+    "@simplewebauthn/browser" "^13.0.0"
     supertokens-js-override "0.0.4"
-    supertokens-website "^20.0.1"
+    supertokens-website "^20.1.5"
 
-supertokens-website@^20.0.1, supertokens-website@^20.1.4:
-  version "20.1.5"
-  resolved "https://registry.yarnpkg.com/supertokens-website/-/supertokens-website-20.1.5.tgz#c3d219b4a9f41b966955e305714a41df54a9508d"
-  integrity sha512-2yN42BvHY41/pNIFdJTKSRW3sWZzfOY607i6cY+WWjHSAx7ppMgujyk8tKj+fiQ4MLWCk3HL6QsXZl0zLV4yEw==
+supertokens-website@^20.1.5, supertokens-website@^20.1.6:
+  version "20.1.6"
+  resolved "https://registry.yarnpkg.com/supertokens-website/-/supertokens-website-20.1.6.tgz#8241545d23ee1339ec6997423107b82a3eb4c5f3"
+  integrity sha512-WSehco2PsrFp4WY7h6tDutYyi2nPgJS8lahUadcL/cpBqgEuZ3pjnvN1NDASSNSTfXeO1smm3HrvvLZG5C7qHA==
   dependencies:
     browser-tabs-lock "^1.3.0"
     supertokens-js-override "^0.0.4"

@@ -3,6 +3,7 @@ import React from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
+import WebAuthN from "supertokens-auth-react/recipe/webauthn";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { Capacitor } from "@capacitor/core";
 import capacitorCookieHandler from "@/util/capacitorCookieHandler";
@@ -61,6 +62,7 @@ export const frontendConfig = (): SuperTokensConfig => {
     },
 
     recipeList: [
+      WebAuthN.init(),
       ThirdParty.init({
         signInAndUpFeature: {
           providers: [
