@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useMemo } from "react";
 import { AspectRatio, Image, ImageProps } from "@mantine/core";
 import { Link } from "#@/util";
 import {
@@ -7,6 +7,10 @@ import {
 } from "#@/components/game/util/getSizedImageUrl";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
+import dayjs from "dayjs";
+
+const KNACK2_COVER_URL =
+  "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co4le9.jpg";
 
 export interface IGameFigureProps extends PropsWithChildren {
   game: TGameOrSearchGame | undefined | null;
@@ -34,12 +38,17 @@ const GameFigureImage = ({
   imageSize,
   children,
 }: IGameFigureProps) => {
+  const isAprilFools = useMemo(() => dayjs().isSame("2025-04-01", "day"), []);
+
   const coverUrl = getCoverUrl(game);
   const sizedCoverUrl = getSizedImageUrl(
     coverUrl,
     imageSize ?? ImageSize.COVER_BIG,
   );
+
   const defaultHref = `/game/${game?.id}`;
+  const src = isAprilFools ? KNACK2_COVER_URL : sizedCoverUrl;
+
   return (
     <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
       <Link
@@ -50,7 +59,7 @@ const GameFigureImage = ({
       >
         <Image
           radius={"sm"}
-          src={sizedCoverUrl ?? "/img/game_placeholder.jpeg"}
+          src={src ?? "/img/game_placeholder.jpeg"}
           alt={game?.name ? game.name : "Game cover"}
           className="w-full h-auto max-h-full"
           {...imageProps}
