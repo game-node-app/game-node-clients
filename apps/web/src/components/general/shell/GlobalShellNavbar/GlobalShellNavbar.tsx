@@ -1,4 +1,11 @@
-import { Anchor, Box, Group, Text, UnstyledButton } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Group,
+  Switch,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import {
   IconBulb,
   IconCheckbox,
@@ -23,6 +30,8 @@ import { ExoticComponent, PropsWithoutRef, useMemo, useState } from "react";
 import GlobalNavbarSearchBar from "@/components/general/shell/GlobalShellNavbar/search-bar/GlobalShellNavbarSearchBar";
 import { useUserRoles } from "@/components/auth/hooks/useUserRoles";
 import { EUserRoles } from "@/components/auth/roles";
+import { useLocalStorage } from "@mantine/hooks";
+import dayjs from "dayjs";
 
 interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;
@@ -79,6 +88,14 @@ export default function GlobalShellNavbar({
     </UnstyledButton>
   ));
 
+  const [knackMode, setKnackMode] = useLocalStorage({
+    key: "KNACK_MODE",
+    defaultValue: true,
+    getInitialValueInEffect: true,
+  });
+
+  const isAprilFools = useMemo(() => dayjs().isSame("2025-04-01", "day"), []);
+
   return (
     <nav className={classes.navbar}>
       {isLoggedIn && userProfile && (
@@ -88,6 +105,7 @@ export default function GlobalShellNavbar({
           </Link>
         </div>
       )}
+
       <Box w={"100%"} my={"0.8rem"}>
         <GlobalNavbarSearchBar
           value={query}
@@ -130,6 +148,16 @@ export default function GlobalShellNavbar({
         </div>
       </div>
       <GlobalShellNavbarCollections onClose={onClose} />
+      {isAprilFools && (
+        <Switch
+          label={"KNACK 2 MODE"}
+          checked={knackMode}
+          onChange={(evt) => {
+            setKnackMode(evt.target.checked);
+          }}
+          size={"md"}
+        />
+      )}
       <div className={`${classes.section} mt-auto mb-0 flex flex-col `}>
         {isLoggedIn && (
           <Link href={"/preferences"} onClick={onClose}>
