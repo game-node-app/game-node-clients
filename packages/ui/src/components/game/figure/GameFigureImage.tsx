@@ -8,6 +8,7 @@ import {
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
 import dayjs from "dayjs";
+import { useLocalStorage } from "@mantine/hooks";
 
 const KNACK2_COVER_URL =
   "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co4le9.jpg";
@@ -38,6 +39,12 @@ const GameFigureImage = ({
   imageSize,
   children,
 }: IGameFigureProps) => {
+  const [knackMode] = useLocalStorage({
+    key: "KNACK_MODE",
+    defaultValue: true,
+    getInitialValueInEffect: true,
+  });
+
   const isAprilFools = useMemo(() => dayjs().isSame("2025-04-01", "day"), []);
 
   const coverUrl = getCoverUrl(game);
@@ -47,7 +54,7 @@ const GameFigureImage = ({
   );
 
   const defaultHref = `/game/${game?.id}`;
-  const src = isAprilFools ? KNACK2_COVER_URL : sizedCoverUrl;
+  const src = isAprilFools && knackMode ? KNACK2_COVER_URL : sizedCoverUrl;
 
   return (
     <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>

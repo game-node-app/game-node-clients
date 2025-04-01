@@ -18,8 +18,6 @@ export default function GlobalShellHeader({
 }: IGlobalShellHeaderProps) {
   const userId = useUserId();
 
-  const [opened, setOpened] = useState(false);
-
   return (
     <header className="h-full">
       <Container fluid className="flex h-full items-center lg:justify-start">
@@ -31,11 +29,6 @@ export default function GlobalShellHeader({
           />
         </a>
         <Group className="ms-auto">
-          <UserRecentGamesShare
-            opened={opened}
-            onClose={() => setOpened(false)}
-          />
-
           {!userId && (
             <Link href={"/auth"}>
               <Button variant="outline">Sign in</Button>
@@ -43,12 +36,6 @@ export default function GlobalShellHeader({
           )}
           {userId != undefined && (
             <Group className={"gap-3"}>
-              <ActionIcon
-                variant={"transparent"}
-                onClick={() => setOpened(true)}
-              >
-                <IconCalendarWeek />
-              </ActionIcon>
               <GlobalShellHeaderNotifications />
             </Group>
           )}
