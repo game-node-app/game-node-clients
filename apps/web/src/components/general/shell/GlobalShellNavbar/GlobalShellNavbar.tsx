@@ -19,19 +19,16 @@ import {
   IconUser,
   IconUserShield,
 } from "@tabler/icons-react";
-import { UserButton } from "@/components/general/input/UserButton/UserButton";
 import Link from "next/link";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import classes from "./global-shell-navbar.module.css";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import GlobalShellNavbarCollections from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollections";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { ExoticComponent, PropsWithoutRef, useMemo, useState } from "react";
 import GlobalNavbarSearchBar from "@/components/general/shell/GlobalShellNavbar/search-bar/GlobalShellNavbarSearchBar";
-import { useUserRoles } from "@/components/auth/hooks/useUserRoles";
-import { EUserRoles } from "@/components/auth/roles";
 import { useLocalStorage } from "@mantine/hooks";
 import dayjs from "dayjs";
+import { EUserRoles, UserButton, useUserProfile, useUserRoles } from "@repo/ui";
 
 interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;

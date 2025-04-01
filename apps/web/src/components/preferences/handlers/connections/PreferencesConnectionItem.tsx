@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
 import { UserConnectionDto } from "@repo/wrapper/server";
 import type = UserConnectionDto.type;
-import { useOwnUserConnectionByType } from "@/components/connections/hooks/useOwnUserConnectionByType";
 import { useDisclosure } from "@mantine/hooks";
 import { Group, Image, Paper, Stack, Switch, Text, Title } from "@mantine/core";
 import { getServerStoredIcon } from "@/util/getServerStoredImages";
 import PreferencesConnectionModal from "@/components/preferences/handlers/connections/PreferencesConnectionModal";
+import { useOwnUserConnectionByType } from "@repo/ui";
 
 interface Props {
   type: type;

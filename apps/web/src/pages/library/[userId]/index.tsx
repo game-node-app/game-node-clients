@@ -1,10 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Container, Stack } from "@mantine/core";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { LibraryView, RecentCollectionEntriesView } from "@repo/ui";
+import {
+  LibraryView,
+  RecentCollectionEntriesView,
+  useUserProfile,
+} from "@repo/ui";
 
 const Index = () => {
   const onMobile = useOnMobile();

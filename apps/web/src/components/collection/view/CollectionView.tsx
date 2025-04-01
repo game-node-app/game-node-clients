@@ -1,16 +1,18 @@
 import React, { useEffect, useMemo } from "react";
 import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
-import { useCollectionEntriesForCollectionId } from "@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import { useCollection } from "@/components/collection/hooks/useCollection";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { useGames } from "@/components/game/hooks/useGames";
 import Head from "next/head";
-import useUserProfile from "@/components/profile/hooks/useUserProfile";
-import CollectionEntriesView from "@/components/collection/collection-entry/view/CollectionEntriesView.tsx";
-import { CollectionViewActions } from "@repo/ui";
+import CollectionEntriesView from "@/components/collection/view/CollectionEntriesView";
+import {
+  CollectionViewActions,
+  useCollection,
+  useCollectionEntriesForCollectionId,
+  useGames,
+  useUserId,
+  useUserProfile,
+} from "@repo/ui";
 
 interface ICollectionViewProps {
   libraryUserId: string;
@@ -38,7 +40,7 @@ const CollectionView = ({
   collectionId,
   libraryUserId,
 }: ICollectionViewProps) => {
-  const { register, watch, setValue } = useForm<CollectionViewFormValues>({
+  const { watch, setValue } = useForm<CollectionViewFormValues>({
     mode: "onSubmit",
     resolver: zodResolver(CollectionViewFormSchema),
     defaultValues: {

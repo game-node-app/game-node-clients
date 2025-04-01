@@ -11,13 +11,15 @@ import {
   Title,
 } from "@mantine/core";
 import { IconBell, IconBellFilled } from "@tabler/icons-react";
-import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { Notification, NotificationsService } from "@repo/wrapper/server";
-import { useInfiniteAggregatedNotifications } from "@/components/notifications/hooks/useInfiniteAggregatedNotifications";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { AggregatedNotification } from "@repo/ui";
+import {
+  AggregatedNotification,
+  CenteredLoading,
+  useInfiniteAggregatedNotifications,
+  useOnMobile,
+} from "@repo/ui";
 
 const GlobalShellHeaderNotifications = () => {
   const [isPopoverOpened, popoverUtils] = useDisclosure();

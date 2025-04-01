@@ -10,15 +10,18 @@ import {
 } from "@repo/wrapper/server";
 import ExploreScreenFilters from "@/components/explore/ExploreScreenFilters";
 import { useIntersection, useWindowScroll } from "@mantine/hooks";
-import { useGames } from "@/components/game/hooks/useGames";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { IconArrowUp } from "@tabler/icons-react";
 import {
   DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
   exploreScreenUrlQueryToDto,
 } from "@/components/explore/utils";
 import Head from "next/head";
-import { GameView, useInfiniteTrendingGames } from "@repo/ui";
+import {
+  CenteredErrorMessage,
+  GameView,
+  useGames,
+  useInfiniteTrendingGames,
+} from "@repo/ui";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;

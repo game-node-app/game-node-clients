@@ -1,11 +1,13 @@
 import React from "react";
 import { Group, Paper, Space, Stack, Text, Title } from "@mantine/core";
-import { useOwnUserConnections } from "@/components/connections/hooks/useOwnUserConnections";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import TextLink from "@/components/general/TextLink";
-import ImporterItem from "@/components/importer/view/ImporterItem";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import {
+  CenteredErrorMessage,
+  CenteredLoading,
+  ImporterItem,
+  TextLink,
+  useOwnUserConnections,
+} from "@repo/ui";
 
 const Index = () => {
   const { data, isLoading, isError, error } = useOwnUserConnections();
