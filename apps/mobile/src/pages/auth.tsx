@@ -13,6 +13,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import { WebauthnPreBuiltUI } from "supertokens-auth-react/lib/build/recipe/webauthn/prebuiltui";
 
 const SupertokensAuthPage = () => {
   const router = useIonRouter();
@@ -30,7 +31,11 @@ const SupertokensAuthPage = () => {
       <IonContent>
         <Box className={"w-full h-full mt-20"}>
           <AuthPage
-            preBuiltUIList={[ThirdPartyPreBuiltUI, PasswordlessPreBuiltUI]}
+            preBuiltUIList={[
+              ThirdPartyPreBuiltUI,
+              PasswordlessPreBuiltUI,
+              WebauthnPreBuiltUI,
+            ]}
             navigate={{
               push: router.push,
               goBack: router.goBack,

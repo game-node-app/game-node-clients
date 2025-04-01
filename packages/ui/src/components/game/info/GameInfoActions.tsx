@@ -9,7 +9,7 @@ import {
 import { CollectionEntryAddOrUpdateModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
@@ -20,7 +20,7 @@ import {
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
 import { Modal } from "#@/util";
-import GameInfoShare from "./share/GameInfoShare";
+import { GameInfoShare } from "#@/components";
 
 interface IGameViewActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;

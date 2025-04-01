@@ -7,4 +7,5 @@ export * from "./useGameExternalStores";
 export * from "./useGames";
 export * from "./useGamesResource";
 export * from "./useSearchGames";
+export * from "./useSearchGamesAutocomplete";
 export * from "./useUserRecentGames";

@@ -4,6 +4,7 @@ import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Router from "next/router";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
+import WebAuthN from "supertokens-auth-react/recipe/webauthn";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { GameNodeLogo } from "@repo/ui";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
@@ -52,6 +53,7 @@ export const frontendConfig = (): SuperTokensConfig => {
     },
 
     recipeList: [
+      WebAuthN.init(),
       Passwordless.init({
         contactMethod: "EMAIL",
       }),

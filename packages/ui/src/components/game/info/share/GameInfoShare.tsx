@@ -169,4 +169,4 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
   );
 };
 
-export default GameInfoShare;
+export { GameInfoShare };
