@@ -1,16 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import GameInfoReviewEditor from "@/components/game/info/review/editor/GameInfoReviewEditor";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import { z } from "zod";
 import { ReviewsService } from "@repo/wrapper/server";
 import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { useOwnCollectionEntryForGameId } from "@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { IconX } from "@tabler/icons-react";
-import GameRating from "@/components/general/input/GameRating";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
@@ -18,7 +15,10 @@ import {
 } from "@/util/trackMatomoEvent";
 import {
   Break,
+  GameInfoReviewEditor,
+  GameRating,
   ReviewListItem,
+  useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
   useUserId,
 } from "@repo/ui";
@@ -111,6 +111,12 @@ const GameInfoReviewEditorView = ({
     }
   }, [isEditMode, reviewQuery.data]);
 
+  useEffect(() => {
+    if (reviewQuery.data && !formState.dirtyFields.rating) {
+      setValue("rating", reviewQuery.data.rating);
+    }
+  }, [formState.dirtyFields.rating, reviewQuery.data, setValue]);
+
   const onSubmit = (data: TReviewFormValues) => {
     reviewMutation.mutate(data);
     reviewQuery.invalidate();
@@ -150,8 +156,6 @@ const GameInfoReviewEditorView = ({
           </Text>
           <Group>
             <GameRating
-              readOnly={false}
-              defaultValue={5}
               value={rating}
               onChange={(v) => setValue("rating", v)}
             />

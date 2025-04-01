@@ -1,20 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Box, Container, Space, Stack } from "@mantine/core";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { GameSearchRequestDto } from "@/components/game/search/utils/types";
-import { ParsedUrlQuery } from "querystring";
-import { useRouter } from "next/router";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import {
   BackToTopButton,
+  DetailsBox,
   GameSearchBar,
+  GameSearchRequestDto,
   GameSearchTips,
   HomeFeed,
   InfiniteLoaderProps,
   RecommendationCarousel,
-  SearchBar,
   SimpleInfiniteLoader,
   TrendingGamesList,
   TrendingReviewCarousel,
@@ -31,8 +25,6 @@ const DEFAULT_SEARCH_PARAMETERS: GameSearchRequestDto = {
 
 const Index = () => {
   const userId = useUserId();
-
-  const router = useRouter();
 
   const [searchParameters, setSearchParameters] = useState(
     DEFAULT_SEARCH_PARAMETERS,

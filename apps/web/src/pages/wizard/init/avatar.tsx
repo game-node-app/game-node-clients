@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Container, Flex, Stack, Title } from "@mantine/core";
-import ProfileEditAvatarUploader from "@/components/profile/edit/ProfileEditAvatarUploader";
 import { useRouter } from "next/router";
+import { ProfileEditAvatarUploader } from "@repo/ui";
 
 const Avatar = () => {
   const router = useRouter();

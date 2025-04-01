@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Autocomplete,
   Button,
@@ -25,6 +25,11 @@ interface Props {
   withFilters?: boolean;
   submitOnSelection?: boolean;
   /**
+   * Trigger submits based on the delayed query parameter.
+   */
+  submitOnDelayedChange?: boolean;
+  submitOnFilterChange?: boolean;
+  /**
    * Triggered when user press enter/search button
    * OR selects an option in the search bar if 'submitOnSelection' is true.
    */
@@ -42,6 +47,8 @@ export type GameSearchFormValues = z.infer<typeof GameSearchFormSchema>;
 const GameSearchBar = ({
   withFilters = true,
   submitOnSelection = true,
+  submitOnFilterChange = true,
+  submitOnDelayedChange = false,
   onSubmit,
 }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -65,9 +72,26 @@ const GameSearchBar = ({
   const registerChip = (fieldName: FieldPath<GameSearchFormValues>) => {
     return {
       checked: watch(fieldName) as boolean,
-      onChange: (v: boolean) => setValue(fieldName, v),
+      onChange: (v: boolean) => {
+        setValue(fieldName, v);
+
+        if (submitOnFilterChange) {
+          triggerSubmit();
+        }
+      },
     } as const;
   };
+
+  const triggerSubmit = () => {
+    formRef.current?.requestSubmit();
+  };
+
+  // Effect to trigger submit on delayed change
+  useEffect(() => {
+    if (submitOnDelayedChange && delayedQuery.length >= 3) {
+      triggerSubmit();
+    }
+  }, [submitOnDelayedChange, delayedQuery]);
 
   return (
     <form
@@ -77,7 +101,15 @@ const GameSearchBar = ({
     >
       <Stack className={"w-full"}>
         <Group className={"w-full flex-nowrap gap-0"}>
-          <Combobox store={combobox}>
+          <Combobox
+            store={combobox}
+            onOptionSubmit={(v) => {
+              setValue("query", v);
+              if (submitOnSelection) {
+                triggerSubmit();
+              }
+            }}
+          >
             <Combobox.Target>
               <TextInput
                 placeholder="Search for games"

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Box, Space, Stack } from "@mantine/core";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { SearchGame } from "@/components/game/search/utils/types";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { getErrorMessage } from "@/util/getErrorMessage";
 import { type ApiError } from "@repo/wrapper/search";
-import { GameView, IGameViewPaginationProps } from "@repo/ui";
+import {
+  CenteredErrorMessage,
+  CenteredLoading,
+  GameView,
+  getErrorMessage,
+  IGameViewPaginationProps,
+  SearchGame,
+} from "@repo/ui";
 
 interface ISearchResultScreenProps extends IGameViewPaginationProps {
   enabled: boolean;
