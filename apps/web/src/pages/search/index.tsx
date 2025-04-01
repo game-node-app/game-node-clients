@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { DetailsBox } from "@/components/general/DetailsBox";
 import {
   BackToTopButton,
+  GameSearchBar,
   GameSearchTips,
   HomeFeed,
   InfiniteLoaderProps,
@@ -22,81 +23,27 @@ import {
 } from "@repo/ui";
 import GameSearchResultView from "@/components/game/search/GameSearchResultView";
 
-const SearchFormSchema = z.object({
-  query: z.string().min(3),
-  page: z.number().min(1).optional().default(1),
-});
-
-type TSearchFormValues = z.infer<typeof SearchFormSchema>;
-
 const DEFAULT_SEARCH_PARAMETERS: GameSearchRequestDto = {
   query: undefined,
   page: 1,
   limit: 20,
 };
 
-const urlQueryToDto = (urlQuery: ParsedUrlQuery) => {
-  const searchParams = DEFAULT_SEARCH_PARAMETERS;
-  const { query, page } = urlQuery;
-  if (query) {
-    searchParams.query = query as string;
-  }
-  if (page) {
-    searchParams.page = Number.parseInt(page as string, 10);
-  }
-
-  return searchParams;
-};
-
-const queryDtoToSearchParams = (dto: GameSearchRequestDto) => {
-  const params = new URLSearchParams();
-  const { query, page } = dto;
-  if (query) params.set("query", query);
-  if (page) params.set("page", `${page}`);
-  return params;
-};
-
 const Index = () => {
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<TSearchFormValues>({
-    resolver: zodResolver(SearchFormSchema),
-    mode: "onBlur",
-  });
-
   const userId = useUserId();
 
   const router = useRouter();
-  const query = router.query;
 
   const [searchParameters, setSearchParameters] = useState(
     DEFAULT_SEARCH_PARAMETERS,
   );
 
   const isQueryEnabled =
+    searchParameters != undefined &&
     searchParameters.query != undefined &&
-    searchParameters.query.length > 2 &&
-    searchParameters.page != undefined &&
-    searchParameters.page > 0;
-
-  const hasSetQueryParams = useRef(false);
+    searchParameters.query.length > 2;
 
   const searchQuery = useSearchGames(searchParameters, isQueryEnabled);
-
-  const onSubmit = (data: TSearchFormValues) => {
-    data.page = data.page || 1;
-    const searchParams = queryDtoToSearchParams(data);
-    router.replace({
-      query: searchParams.toString(),
-    });
-    setSearchParameters((previous) => ({
-      ...previous,
-      ...data,
-    }));
-  };
 
   /**
    * Trending games, reviews, etc.
@@ -106,44 +53,23 @@ const Index = () => {
     !searchQuery.isError &&
     searchQuery.data == undefined;
 
-  useEffect(() => {
-    if (hasSetQueryParams.current) return;
-    if (router.isReady) {
-      const dto = urlQueryToDto(query);
-      if (dto.query) setValue("query", dto.query);
-      if (dto.page) setValue("page", dto.page);
-      setSearchParameters((params) => ({
-        ...params,
-        dto,
-      }));
-      hasSetQueryParams.current = true;
-    }
-  }, [isQueryEnabled, query, router.isReady, setValue]);
-
   return (
     <Container fluid mih={"100%"} pos={"relative"} className="mb-12">
       <BackToTopButton />
       <Stack align="center" justify="center" w={"100%"}>
         <Box
-          className={`w-full flex justify-center h-full lg:max-w-screen-lg mt-12 flex-wrap`}
+          className={`w-full flex justify-center lg:max-w-screen-lg mt-12 flex-wrap`}
         >
-          <form
-            className="w-full h-full"
-            onSubmit={handleSubmit((data) => {
-              setValue("page", 1);
-              onSubmit(data);
-            })}
-          >
-            <SearchBar
-              label={"Search for games"}
-              withButton
-              error={errors.query?.message}
-              value={watch("query")}
-              onChange={(e) => {
-                setValue("query", e.target.value);
-              }}
-            />
-          </form>
+          <GameSearchBar
+            onSubmit={(data) => {
+              setSearchParameters((prev) => {
+                return {
+                  ...prev,
+                  ...data,
+                };
+              });
+            }}
+          />
           <GameSearchTips className={"w-full mt-2"} />
         </Box>
         <Box className={"w-full flex justify-center h-full lg:max-w-screen-lg"}>
@@ -153,11 +79,10 @@ const Index = () => {
             error={searchQuery.error}
             isLoading={searchQuery.isLoading}
             results={searchQuery.data?.data?.items}
-            page={watch("page")}
+            page={searchParameters.page!}
             paginationInfo={searchQuery.data?.pagination}
             onPaginationChange={(page) => {
-              setValue("page", page);
-              handleSubmit(onSubmit)();
+              setSearchParameters((previous) => ({ ...previous, page: page }));
             }}
           />
           {extraItemsEnabled && (

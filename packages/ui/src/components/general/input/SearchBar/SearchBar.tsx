@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Autocomplete, Button, Group } from "@mantine/core";
+import React from "react";
+import { Button, Group } from "@mantine/core";
 import {
   FloatingLabelInput,
   IFloatingLabelInputProps,
