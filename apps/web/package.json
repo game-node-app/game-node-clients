@@ -21,7 +21,6 @@
     "@mantine/notifications": "^7.17.2",
     "@mantine/nprogress": "^7.17.2",
     "@mantine/tiptap": "^7.17.2",
-    "@marsidev/react-turnstile": "^1.1.0",
     "@repo/ui": "*",
     "@repo/wrapper": "*",
     "@socialgouv/matomo-next": "^1.9.1",

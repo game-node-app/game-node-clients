@@ -5,7 +5,6 @@ import React from "react";
 import {
     AppShell,
     Burger,
-    Text,
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
@@ -32,7 +31,7 @@ export default function DashboardLayout({ children }: Props) {
         colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0];
 
     return (
-        <SessionAuthWithRoles roles={[EUserRoles.USER, EUserRoles.MOD]}>
+        <SessionAuthWithRoles roles={[EUserRoles.ADMIN, EUserRoles.MOD]}>
             <AppShell
                 header={{ height: 80 }}
                 navbar={{

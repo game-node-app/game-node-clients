@@ -5,6 +5,5 @@
 export type CreatePostDto = {
     content: string;
     gameId: number;
-    associatedImageIds: Array<number>;
 };
 

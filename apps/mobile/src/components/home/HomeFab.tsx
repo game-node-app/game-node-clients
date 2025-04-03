@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { Modal, PostEditor } from "@repo/ui";
+import { GamePostEditor, Modal } from "@repo/ui";
 import { IonFab, IonFabButton, IonFabList } from "@ionic/react";
 import { IconArrowUp, IconMessage2Share, IconPlus } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
@@ -31,7 +31,7 @@ const HomeFab = ({ contentRef }: Props) => {
         initialBreakpoint={1}
       >
         <SessionAuth>
-          <PostEditor
+          <GamePostEditor
             editorProps={{
               mih: "50vh",
             }}

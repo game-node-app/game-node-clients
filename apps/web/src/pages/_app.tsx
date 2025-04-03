@@ -13,8 +13,6 @@ import {
 import Head from "next/head";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
-import { OpenAPI as ServerOpenAPI } from "@repo/wrapper/server";
-import { OpenAPI as SearchOpenAPI } from "@repo/wrapper/search";
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -56,13 +54,6 @@ const roboto = Roboto({
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
-
-/**
- * Basic configuration for wrapper services
- */
-ServerOpenAPI.BASE = process.env.NEXT_PUBLIC_SERVER_URL!;
-ServerOpenAPI.WITH_CREDENTIALS = true;
-SearchOpenAPI.BASE = process.env.NEXT_PUBLIC_SEARCH_URL!;
 
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);

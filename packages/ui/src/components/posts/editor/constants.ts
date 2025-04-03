@@ -1,7 +1,7 @@
 import StarterKit from "@tiptap/starter-kit";
 import { Link } from "@mantine/tiptap";
 import Placeholder from "@tiptap/extension-placeholder";
-import { PostImage } from "#@/components/posts/editor/image/PostImage.ts";
+import { PostImage } from "#@/components";
 
 export const POST_EDITOR_EXTENSIONS = [
   StarterKit,
