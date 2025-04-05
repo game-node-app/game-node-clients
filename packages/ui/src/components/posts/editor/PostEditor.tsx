@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ComponentProps, useMemo, useState } from "react";
 import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
 import { EditorOptions, useEditor } from "@tiptap/react";
 
@@ -27,8 +27,13 @@ export interface PostEditorProps {
     Partial<EditorOptions>,
     "onDrop" | "onPaste" | "extensions"
   >;
-  isPublishPending?: boolean;
+  isPublishPending: boolean;
   onPublishClick: () => Promise<void> | void;
+  // RichTextEditor.staticComponents members.
+  // Rendered at the top of the editor to provide functionality.
+  controls?: React.ReactNode;
+  // Custom extensions to be used instead of the default ones for Posts.
+  extensions?: EditorOptions["extensions"];
 }
 
 const PostEditor = ({
@@ -37,13 +42,15 @@ const PostEditor = ({
   editorOptions,
   isPublishPending,
   onPublishClick,
+  extensions = POST_EDITOR_EXTENSIONS,
+  controls,
 }: PostEditorProps) => {
   const userId = useUserId();
   const [showActions, setShowActions] = useState(false);
 
   const editor = useEditor({
     ...editorOptions,
-    extensions: POST_EDITOR_EXTENSIONS,
+    extensions,
     onDrop: async (event) => {
       event.preventDefault();
       const files = event.dataTransfer?.files;
@@ -102,6 +109,28 @@ const PostEditor = ({
     onError: createErrorNotification,
   });
 
+  const renderedControls = useMemo(() => {
+    if (controls != undefined) {
+      return controls;
+    }
+
+    return (
+      <>
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Bold />
+          <RichTextEditor.Italic />
+          <RichTextEditor.Underline />
+          <RichTextEditor.Strikethrough />
+        </RichTextEditor.ControlsGroup>
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Link />
+          <RichTextEditor.Unlink />
+        </RichTextEditor.ControlsGroup>
+      </>
+    );
+  }, [controls]);
+
   if (!editor || !userId) {
     return null;
   }
@@ -111,8 +140,8 @@ const PostEditor = ({
       <Paper className="relative overflow-hidden shadow-sm" withBorder p={0}>
         <RichTextEditor
           mih={{
-            base: showActions ? "35vh" : "20vh",
-            lg: showActions ? "25vh" : "15vh",
+            base: "20vh",
+            lg: "25vh",
           }}
           {...editorProps}
           editor={editor}
@@ -124,17 +153,7 @@ const PostEditor = ({
           }}
         >
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
+            {renderedControls}
           </RichTextEditor.Toolbar>
 
           <RichTextEditor.Content w={"100%"} h={"100%"} />
@@ -147,7 +166,7 @@ const PostEditor = ({
         </RichTextEditor>
       </Paper>
       {showActions && (
-        <Group>
+        <Group className={"justify-between"}>
           <FileButton
             accept="image/png,image/jpeg,image/gif"
             onChange={(payload) => {

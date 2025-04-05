@@ -4,6 +4,7 @@ import { IconDots } from "@tabler/icons-react";
 import { ItemDropdownEditButton } from "#@/components/general/input/dropdown/ItemDropdownEditButton";
 import { ItemDropdownRemoveButton } from "#@/components/general/input/dropdown/ItemDropdownRemoveButton";
 import { ItemDropdownReportButton } from "#@/components/general/input/dropdown/ItemDropdownReportButton";
+import { ItemDropdownShareButton } from "#@/components/general/input/dropdown/ItemDropdownShareButton.tsx";
 
 /**
  * Common component to build dropdown actions for specific components. <br>
@@ -30,5 +31,6 @@ const ItemDropdown = ({ children }: PropsWithChildren) => {
 ItemDropdown.EditButton = ItemDropdownEditButton;
 ItemDropdown.RemoveButton = ItemDropdownRemoveButton;
 ItemDropdown.ReportButton = ItemDropdownReportButton;
+ItemDropdown.ShareButton = ItemDropdownShareButton;
 
 export { ItemDropdown };

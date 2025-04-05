@@ -1,0 +1,6 @@
+.hide-children-post-image {
+}
+
+.hide-children-post-image img {
+    display: none !important;
+}

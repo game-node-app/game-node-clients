@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Profile } from './Profile';
-export type ProfileBanner = {
-    profile: Profile;
+import type { BlogPost } from './BlogPost';
+export type BlogPostImage = {
+    blogPost: BlogPost;
     id: number;
     mimetype: string;
     extension: string;
