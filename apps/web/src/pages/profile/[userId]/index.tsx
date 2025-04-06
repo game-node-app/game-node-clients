@@ -1,12 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { GetServerSidePropsContext } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import {
   FindAllPlaytimeFiltersDto,
   ProfileService,
 } from "@repo/wrapper/server";
-import { DehydrationResult } from "@/pages/_app";
 import { Box, Divider, Flex, Stack } from "@mantine/core";
 import {
   ProfileFavoriteGames,
@@ -23,9 +22,7 @@ import {
 } from "@repo/ui";
 import period = FindAllPlaytimeFiltersDto.period;
 
-export async function getServerSideProps(
-  ctx: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<DehydrationResult>> {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const query = ctx.query;
   const userId = query.userId as string;
   const queryClient = new QueryClient();
