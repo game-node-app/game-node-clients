@@ -87,14 +87,6 @@ export default function GlobalShellNavbar({
     </UnstyledButton>
   ));
 
-  const [knackMode, setKnackMode] = useLocalStorage({
-    key: "KNACK_MODE",
-    defaultValue: true,
-    getInitialValueInEffect: true,
-  });
-
-  const isAprilFools = useMemo(() => dayjs().isSame("2025-04-01", "day"), []);
-
   return (
     <nav className={classes.navbar}>
       {isLoggedIn && userProfile && (
@@ -147,16 +139,6 @@ export default function GlobalShellNavbar({
         </div>
       </div>
       <GlobalShellNavbarCollections onClose={onClose} />
-      {isAprilFools && (
-        <Switch
-          label={"KNACK 2 MODE"}
-          checked={knackMode}
-          onChange={(evt) => {
-            setKnackMode(evt.target.checked);
-          }}
-          size={"md"}
-        />
-      )}
       <div className={`${classes.section} mt-auto mb-0 flex flex-col `}>
         {isLoggedIn && (
           <Link href={"/preferences"} onClick={onClose}>
