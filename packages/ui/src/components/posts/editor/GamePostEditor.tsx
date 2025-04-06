@@ -14,7 +14,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { Stack } from "@mantine/core";
 import { Editor } from "@tiptap/core";
 
-interface GamePostEditorProps extends Omit<PostEditorProps, "onPublishClick"> {
+interface GamePostEditorProps
+  extends Omit<PostEditorProps, "onPublishClick" | "isPublishPending"> {
   onPublish?: () => void;
 }
 
@@ -84,6 +85,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
             }
           },
         }}
+        isPublishPending={publishPostMutation.isPending}
         onPublishClick={gameSelectModalUtils.open}
       />
     </Stack>
