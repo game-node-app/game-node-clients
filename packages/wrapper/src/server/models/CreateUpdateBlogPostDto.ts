@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CreateBlogPostDto = {
+export type CreateUpdateBlogPostDto = {
     image?: Record<string, any>;
+    postId?: string;
     content: string;
     title: string;
     tags: Array<string>;

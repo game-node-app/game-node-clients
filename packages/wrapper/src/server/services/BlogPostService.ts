@@ -4,7 +4,7 @@
 /* eslint-disable */
 import type { BlogPost } from '../models/BlogPost';
 import type { BlogPostTag } from '../models/BlogPostTag';
-import type { CreateBlogPostDto } from '../models/CreateBlogPostDto';
+import type { CreateUpdateBlogPostDto } from '../models/CreateUpdateBlogPostDto';
 import type { FindAllBlogPostResponseDto } from '../models/FindAllBlogPostResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -83,7 +83,7 @@ export class BlogPostService {
      * @throws ApiError
      */
     public static blogPostControllerCreateV1(
-        formData: CreateBlogPostDto,
+        formData: CreateUpdateBlogPostDto,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
