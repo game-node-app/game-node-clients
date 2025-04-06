@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  DetailsBox,
   ProfileStatsDataIcon,
   ProfileStatsDistributionBarByType,
   ProfileStatsDistributionLineByYear,
@@ -14,7 +15,6 @@ import {
   IconListCheck,
   IconStack2,
 } from "@tabler/icons-react";
-import { DetailsBox } from "mobile/src/components/general/DetailsBox.tsx";
 import { BarChart } from "@mantine/charts";
 import { useRouter } from "next/router";
 
