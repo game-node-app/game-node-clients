@@ -8,6 +8,7 @@ import {
   Title,
 } from "@mantine/core";
 import {
+  BLOG_POST_EDITOR_EXTENSIONS,
   createErrorNotification,
   PostEditor,
   useBlogPost,
@@ -60,7 +61,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     resolver: zodResolver(BlogPostCreateSchema),
     defaultValues: {
       tags: [],
-      isDraft: true,
+      isDraft: false,
     },
   });
 
@@ -152,10 +153,14 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
           checked={watch("isDraft")}
           onChange={(evt) => setValue("isDraft", evt.target.checked)}
           label="Draft"
-          description={"Save as draft first. You can publish it later."}
+          description={
+            "Save as draft first. This option is temporarily unavailable."
+          }
+          disabled={true}
         />
         <Title size={"h5"}>Content</Title>
         <PostEditor
+          extensions={BLOG_POST_EDITOR_EXTENSIONS}
           isPublishPending={postCreateMutation.isPending}
           onPublishClick={() => {
             formRef.current?.requestSubmit();

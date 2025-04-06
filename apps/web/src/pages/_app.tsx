@@ -42,6 +42,7 @@ import { useRouter } from "next/router";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import MatomoTracker from "@/components/general/MatomoTracker.tsx";
+import { DehydrationResult } from "@/util/types/hydration.ts";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -66,10 +67,6 @@ setupWrapper({
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 
-export interface DehydrationResult {
-  dehydratedState: DehydratedState;
-}
-
 export default function App({
   Component,
   pageProps,
@@ -90,6 +87,8 @@ export default function App({
         },
       }),
   );
+
+  console.log("Dehydrated state: ", pageProps.dehydratedState);
 
   return (
     <MantineProvider

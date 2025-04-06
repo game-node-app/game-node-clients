@@ -12,20 +12,23 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
+  BLOG_POST_EDITOR_EXTENSIONS,
+  BlogPostTags,
   EUserRoles,
   ItemDropdown,
   POST_EDITOR_EXTENSIONS,
   UserAvatarGroup,
   useUserRoles,
 } from "#@/components";
-import { IconCalendarMonth } from "@tabler/icons-react";
+import { IconCalendarMonth, IconTags } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { BlogPost } from "@repo/wrapper/server";
-import { getS3StoredUpload } from "#@/util";
+import { getCapitalizedText, getS3StoredUpload, Link } from "#@/util";
 
 interface Props {
   post: BlogPost;
+  withActions?: boolean;
   /**
    * Function triggered on image,
    * @param postId
@@ -35,10 +38,16 @@ interface Props {
   onDelete?: (postId: string) => void;
 }
 
-const BlogPostCard = ({ post, onClick, onEdit, onDelete }: Props) => {
+const BlogPostCard = ({
+  post,
+  onClick,
+  onEdit,
+  onDelete,
+  withActions = false,
+}: Props) => {
   const editor = useEditor(
     {
-      extensions: POST_EDITOR_EXTENSIONS,
+      extensions: BLOG_POST_EDITOR_EXTENSIONS,
       editable: false,
       content: post.content,
       immediatelyRender: false,
@@ -84,24 +93,31 @@ const BlogPostCard = ({ post, onClick, onEdit, onDelete }: Props) => {
             <IconCalendarMonth size={"1.5rem"} />
             <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
           </Group>
+          <BlogPostTags tags={post.tags} />
 
           {post.isDraft && <Badge color={"red"}>Draft</Badge>}
-          <Box className={"ml-auto"}>
-            <ItemDropdown>
-              {hasEditPermission && onEdit != undefined && (
-                <ItemDropdown.EditButton onClick={() => onEdit(post.id)} />
-              )}
-              {hasEditPermission && onDelete != undefined && (
-                <ItemDropdown.RemoveButton onClick={() => onDelete(post.id)} />
-              )}
-              <ItemDropdown.ShareButton onClick={() => {}} disabled={true} />
-            </ItemDropdown>
-          </Box>
+          {withActions && hasEditPermission && (
+            <Box className={"ml-auto"}>
+              <ItemDropdown>
+                {onEdit != undefined && (
+                  <ItemDropdown.EditButton onClick={() => onEdit(post.id)} />
+                )}
+                {onDelete != undefined && (
+                  <ItemDropdown.RemoveButton
+                    onClick={() => onDelete(post.id)}
+                  />
+                )}
+              </ItemDropdown>
+            </Box>
+          )}
         </Group>
       </Card.Section>
-      <Card.Section className={"px-4 min-h-24"}>
+      <Card.Section className={"px-1 min-h-24"}>
         <Stack>
-          <Title size={"h2"}>{post.title}</Title>
+          <UnstyledButton component={"a"} onClick={() => onClick(post.id)}>
+            <Title size={"h2"}>{post.title}</Title>
+          </UnstyledButton>
+
           <Spoiler
             expanded={false}
             hideLabel={""}

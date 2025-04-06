@@ -3,5 +3,7 @@
  */
 
 export * from "./BlogPostCard";
+export * from "./BlogPostTags";
 export * from "./BlogPostsFeed";
 export * from "./hooks/index";
+export * from "./view/index";

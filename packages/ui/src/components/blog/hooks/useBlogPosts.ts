@@ -17,7 +17,14 @@ export function useBlogPosts(
 ): ExtendedUseQueryResult<FindAllBlogPostResponseDto> {
   const queryClient = useQueryClient();
 
-  const queryKey = ["blog", "posts", dto];
+  const queryKey = [
+    "blog",
+    "posts",
+    dto.tag,
+    dto.includeDraft,
+    dto.limit,
+    dto.offset,
+  ];
 
   const invalidate = () => {
     queryClient.invalidateQueries({

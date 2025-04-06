@@ -24,7 +24,13 @@ const BlogPostsListPage = () => {
       </Text>
       {blogPostsQuery.isLoading && <CenteredLoading />}
       <Stack className={"min-h-dvh"}>
-        <SimpleGrid cols={2} spacing={"md"}>
+        <SimpleGrid
+          cols={{
+            base: 1,
+            lg: 2,
+          }}
+          spacing={"md"}
+        >
           {blogPostsQuery.data?.data.map((blogPost) => {
             return (
               <BlogPostCard
@@ -34,6 +40,7 @@ const BlogPostsListPage = () => {
                 onEdit={() =>
                   router.push(`/dashboard/blog/${blogPost.id}/edit`)
                 }
+                withActions
               />
             );
           })}

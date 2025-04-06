@@ -17,6 +17,17 @@ export const POST_EDITOR_EXTENSIONS = [
   }),
 ];
 
-export const BLOG_POST_EDITOR_EXTENSIONS = POST_EDITOR_EXTENSIONS.concat([]);
+export const BLOG_POST_EDITOR_EXTENSIONS = POST_EDITOR_EXTENSIONS.concat([
+  PostImage.configure({
+    HTMLAttributes: {
+      imageProps: {
+        className: "rounded-sm",
+      },
+      wrapperProps: {
+        className: "flex justify-center",
+      },
+    },
+  }),
+]);
 
 export const POST_EDITOR_PUBLISH_MUTATION_KEY = ["post", "editor", "mutation"];
