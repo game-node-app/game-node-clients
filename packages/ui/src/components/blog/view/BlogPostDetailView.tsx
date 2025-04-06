@@ -49,7 +49,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
   }
 
   return (
-    <Container className={"flex flex-col items-center"}>
+    <Stack className={"w-full items-center"}>
       <Title>{post.title}</Title>
       <Group className={"my-3"}>
         <Box className={"max-w-48"}>
@@ -73,7 +73,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
           <EditorContent className={"w-full"} editor={editor} />
         </Box>
       )}
-    </Container>
+    </Stack>
   );
 };
 

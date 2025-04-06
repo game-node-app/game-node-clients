@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { SimpleGrid, Stack, Text } from "@mantine/core";
-import { BlogPostCard, GameViewPagination, useBlogPosts } from "@repo/ui";
+import {
+  BlogPostCard,
+  GameViewPagination,
+  getOffsetAsPage,
+  getPageAsOffset,
+  useBlogPosts,
+} from "@repo/ui";
 import CenteredLoading from "@/components/general/CenteredLoading.tsx";
 import { PageContainer } from "@/components/PageContainer/PageContainer.tsx";
 import { useRouter } from "next/router";
-import { getOffsetAsPage, getPageAsOffset } from "@repo/ui";
 
 const DEFAULT_LIMIT = 20;
 

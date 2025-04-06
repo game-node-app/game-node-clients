@@ -12,6 +12,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
+  ActionConfirm,
   BLOG_POST_EDITOR_EXTENSIONS,
   BlogPostTags,
   EUserRoles,
@@ -20,11 +21,14 @@ import {
   UserAvatarGroup,
   useUserRoles,
 } from "#@/components";
-import { IconCalendarMonth, IconTags } from "@tabler/icons-react";
+import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { BlogPost } from "@repo/wrapper/server";
-import { getCapitalizedText, getS3StoredUpload, Link } from "#@/util";
+import { BlogPost, BlogPostService } from "@repo/wrapper/server";
+import { getS3StoredUpload } from "#@/util";
+import { useDisclosure } from "@mantine/hooks";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
 interface Props {
   post: BlogPost;
@@ -35,16 +39,17 @@ interface Props {
    */
   onClick: (postId: string) => void;
   onEdit?: (postId: string) => void;
-  onDelete?: (postId: string) => void;
 }
 
 const BlogPostCard = ({
   post,
   onClick,
   onEdit,
-  onDelete,
   withActions = false,
 }: Props) => {
+  const queryClient = useQueryClient();
+  const [deleteConfirmOpened, deleteConfirmUtils] = useDisclosure();
+
   const editor = useEditor(
     {
       extensions: BLOG_POST_EDITOR_EXTENSIONS,
@@ -54,6 +59,23 @@ const BlogPostCard = ({
     },
     [post.content],
   );
+
+  const deletePostMutation = useMutation({
+    mutationFn: async () => {
+      return BlogPostService.blogPostControllerDeleteV1(post.id);
+    },
+    onSuccess: () => {
+      notifications.show({
+        color: "green",
+        message: "Successfully deleted post!",
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["blog"],
+      });
+    },
+  });
 
   const userRoles = useUserRoles();
 
@@ -77,14 +99,22 @@ const BlogPostCard = ({
       shadow="sm"
       padding="lg"
       radius="md"
-      className="hover:shadow-xl transition-shadow duration-200 bg-transparent"
+      className="hover:shadow-xl transition-shadow duration-200 bg-paper"
     >
+      <ActionConfirm
+        onConfirm={() => {
+          deletePostMutation.mutate();
+          deleteConfirmUtils.close();
+        }}
+        opened={deleteConfirmOpened}
+        onClose={deleteConfirmUtils.close}
+      />
       <Card.Section>
         <UnstyledButton onClick={() => onClick(post.id)}>
           <Image src={imageUrl} alt={post.title} />
         </UnstyledButton>
       </Card.Section>
-      <Card.Section className={"flex flex-start flex-nowrap gap-5 px-2 my-2"}>
+      <Card.Section className={"flex flex-start flex-nowrap gap-5 px-3 my-2"}>
         <Box className={"max-w-48"}>
           <UserAvatarGroup userId={post.profileUserId} />
         </Box>
@@ -102,17 +132,15 @@ const BlogPostCard = ({
                 {onEdit != undefined && (
                   <ItemDropdown.EditButton onClick={() => onEdit(post.id)} />
                 )}
-                {onDelete != undefined && (
-                  <ItemDropdown.RemoveButton
-                    onClick={() => onDelete(post.id)}
-                  />
-                )}
+                <ItemDropdown.RemoveButton
+                  onClick={() => deleteConfirmUtils.open()}
+                />
               </ItemDropdown>
             </Box>
           )}
         </Group>
       </Card.Section>
-      <Card.Section className={"px-1 min-h-24"}>
+      <Card.Section className={"p-2 min-h-24"}>
         <Stack>
           <UnstyledButton component={"a"} onClick={() => onClick(post.id)}>
             <Title size={"h2"}>{post.title}</Title>

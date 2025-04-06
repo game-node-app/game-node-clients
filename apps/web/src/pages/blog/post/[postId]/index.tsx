@@ -30,7 +30,7 @@ const BlogPostDetailPage = () => {
   const { postId } = router.query;
 
   return (
-    <Stack>
+    <Stack className={"w-full items-center"}>
       <BlogPostDetailView postId={postId as string} />
     </Stack>
   );

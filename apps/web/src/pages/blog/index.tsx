@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";
 import { NextPageContext } from "next";
-import { DehydrationResult } from "@/util/types/hydration.ts";
+import { useRouter } from "next/router";
 
 const BLOG_FEED_LIMIT = 13;
 
@@ -44,15 +44,18 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const BlogLandingPage = () => {
+  const router = useRouter();
+  const { tag } = router.query;
+
   return (
-    <Stack className="container mx-auto px-4 py-8 gap-0">
+    <Stack className="mx-auto lg:px-4 lg:py-8 gap-0">
       <Title className="text-3xl font-bold mb-6">Blog Posts</Title>
       <Text>
         Our editors share news about games and what&apos;s relevant to the
         industry. We also share updates about GameNode&apos;s development here.
       </Text>
       <Divider className={"mb-10"} />
-      <BlogPostsFeed limit={BLOG_FEED_LIMIT} />
+      <BlogPostsFeed limit={BLOG_FEED_LIMIT} tag={tag as string | undefined} />
     </Stack>
   );
 };
