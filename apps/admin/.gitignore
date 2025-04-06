@@ -48,6 +48,5 @@ public/~partytown
 .env.local
 
 !src/wrapper/input
-!src/wrapper/generate.js
 src/wrapper
 /.env.local

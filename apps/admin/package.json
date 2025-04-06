@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
     "start": "next start",
-    "build": "yarn run wrapper:generate && next build",
-    "wrapper:generate": "node src/wrapper/generate.js",
+    "build": "next build",
     "lint": "next lint"
   },
   "dependencies": {
