@@ -52,25 +52,6 @@ export class ProfileService {
         });
     }
     /**
-     * @param imageType
-     * @param imageId
-     * @returns any
-     * @throws ApiError
-     */
-    public static profileControllerRemoveImageV1(
-        imageType: string,
-        imageId: number,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/v1/profile/image/{type}/{id}',
-            path: {
-                'imageType': imageType,
-                'imageId': imageId,
-            },
-        });
-    }
-    /**
      * @returns FindAllProfileResponseItemDto
      * @throws ApiError
      */

@@ -5,6 +5,7 @@
 export * from "./createErrorNotification";
 export * from "./getCapitalizedText";
 export * from "./getErrorMessage";
+export * from "./getOffsetAsPage";
 export * from "./getServerStoredImages";
 export * from "./getTimeSinceString";
 export * from "./imageUtils";

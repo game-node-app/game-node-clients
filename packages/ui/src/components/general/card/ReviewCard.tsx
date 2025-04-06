@@ -11,10 +11,16 @@ import {
 import classes from "./ReviewCard.module.css";
 import { useOnMobile } from "../hooks/useOnMobile.ts";
 import { useReview } from "../../review";
-import { getSizedImageUrl, ImageSize, useGame } from "../../game";
+import {
+  DEFAULT_REVIEW_EDITOR_EXTENSIONS,
+  getSizedImageUrl,
+  ImageSize,
+  useGame,
+} from "../../game";
 import { UserAvatarGroup } from "../avatar";
 import { GameRating } from "../input";
 import { Link } from "#@/util";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 interface IProps {
   reviewId: string;
@@ -38,6 +44,16 @@ const ReviewCard = ({ reviewId }: IProps) => {
     },
   });
 
+  const editor = useEditor(
+    {
+      extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
+      editable: false,
+      content: reviewQuery.data?.content,
+      immediatelyRender: false,
+    },
+    [reviewQuery.data?.content],
+  );
+
   if (reviewQuery.isLoading || gameQuery.isLoading) {
     return <Skeleton h={"100%"} />;
   } else if (reviewQuery.data == undefined || gameQuery.data == undefined) {
@@ -45,12 +61,6 @@ const ReviewCard = ({ reviewId }: IProps) => {
   }
 
   const profileUserId = reviewQuery.data?.profileUserId;
-
-  // Removes HTML tags from text
-  const strippedContent = reviewQuery.data.content?.replace(
-    /(<([^>]+)>)/gi,
-    "",
-  );
 
   const backgroundUrl = getSizedImageUrl(
     gameQuery.data.cover?.url,
@@ -82,7 +92,7 @@ const ReviewCard = ({ reviewId }: IProps) => {
         </Group>
 
         <Text lineClamp={onMobile ? 8 : 10} className={classes.title}>
-          {strippedContent}
+          {editor && <EditorContent editor={editor} />}
         </Text>
       </div>
       <Link href={`/game/${gameId}`}>

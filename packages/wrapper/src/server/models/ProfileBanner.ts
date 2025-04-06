@@ -4,8 +4,8 @@
 /* eslint-disable */
 import type { Profile } from './Profile';
 export type ProfileBanner = {
-    id: number;
     profile: Profile;
+    id: number;
     mimetype: string;
     extension: string;
     size: number;

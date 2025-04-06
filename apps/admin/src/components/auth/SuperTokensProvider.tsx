@@ -2,70 +2,90 @@
 
 import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
 import React from "react";
-import Session from "supertokens-auth-react/recipe/session";
+import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
-import { usePathname, useRouter } from "next/navigation";
-
-const IS_DEV = process.env.NODE_ENV !== "production";
-
-const routerInfo: { router?: ReturnType<typeof useRouter>; pathName?: string } =
-    {};
-
-export function setRouter(
-    router: ReturnType<typeof useRouter>,
-    pathName: string,
-) {
-    routerInfo.router = router;
-    routerInfo.pathName = pathName;
-}
+import Router from "next/router";
+import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
+import WebAuthN from "supertokens-auth-react/recipe/webauthn";
+import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
+import { GameNodeLogo } from "@repo/ui";
 
 export const frontendConfig = (): SuperTokensConfig => {
-    return {
-        appInfo: {
-            appName: "GameNode Admin",
-            apiDomain: process.env.NEXT_PUBLIC_DOMAIN_SERVER as string,
-            websiteDomain: process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string,
-            apiBasePath: "/v1/auth",
-            websiteBasePath: "/auth",
+  return {
+    appInfo: {
+      appName: "GameNode Admin",
+      apiDomain: process.env.NEXT_PUBLIC_DOMAIN_SERVER as string,
+      websiteDomain: process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string,
+      apiBasePath: "/v1/auth",
+      websiteBasePath: "/auth",
+    },
+    style: `
+        [data-supertokens~=container] {
+            --palette-background: 28, 28, 28;
+            --palette-inputBackground: 41, 41, 41;
+            --palette-inputBorder: 41, 41, 41;
+            --palette-textTitle: 255, 255, 255;
+            --palette-textLabel: 255, 255, 255;
+            --palette-textPrimary: 255, 255, 255;
+            --palette-primaryBorder: 0, 0, 0;
+            --palette-primary: 241, 81, 38;
+            --palette-error: 173, 46, 46;
+            --palette-textInput: 169, 169, 169;
+            --palette-textLink: 114,114,114;
+            --palette-textGray: 158, 158, 158;
+        }
+    `,
+    recipeList: [
+      WebAuthN.init(),
+      Passwordless.init({
+        contactMethod: "EMAIL",
+      }),
+      ThirdParty.init({
+        signInAndUpFeature: {
+          providers: [
+            ThirdParty.Discord.init(),
+            ThirdParty.Google.init(),
+            ThirdParty.Twitter.init(),
+          ],
         },
-        recipeList: [
-            Passwordless.init({
-                contactMethod: "EMAIL",
-            }),
-            ThirdParty.init({
-                signInAndUpFeature: {
-                    providers: [
-                        // TODO: Enable once it's approved
-                        // ThirdPartyPasswordlessReact.Google.init(),
-                        ThirdParty.Discord.init(),
-                    ],
-                },
-            }),
-            Session.init(),
-        ],
-        windowHandler: (original) => ({
-            ...original,
-            location: {
-                ...original.location,
-                getPathName: () => routerInfo.pathName!,
-                assign: (url) => routerInfo.router!.push(url.toString()),
-                setHref: (url) => routerInfo.router!.push(url.toString()),
-            },
-        }),
-    };
+      }),
+      Session.init(),
+    ],
+    windowHandler: (oI: WindowHandlerInterface) => {
+      return {
+        ...oI,
+        location: {
+          ...oI.location,
+          setHref: (href: string) => {
+            Router.push(href);
+          },
+        },
+      };
+    },
+  };
 };
 
 if (typeof window !== "undefined") {
-    // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
-    SuperTokensReact.init(frontendConfig());
+  // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
+  SuperTokensReact.init(frontendConfig());
 }
 
 const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
-    setRouter(useRouter(), usePathname() || window.location.pathname);
-
-    return <SuperTokensWrapper>{children}</SuperTokensWrapper>;
+  return (
+    <SuperTokensWrapper>
+      <AuthRecipeComponentsOverrideContextProvider
+        components={{
+          AuthPageHeader_Override: () => {
+            return <GameNodeLogo style={{ marginBottom: 20 }} />;
+          },
+        }}
+      >
+        <SessionAuth requireAuth={false}>{children}</SessionAuth>
+      </AuthRecipeComponentsOverrideContextProvider>
+    </SuperTokensWrapper>
+  );
 };
 
 export default SuperTokensProvider;

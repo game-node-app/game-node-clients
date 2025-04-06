@@ -1,10 +1,8 @@
-const path = require("path");
-
-module.exports = {
-    output: "standalone",
-    reactStrictMode: true,
-    transpilePackages: ["@repo/ui", "@repo/wrapper"],
-    experimental: {
-        outputFileTracingRoot: path.join(__dirname, "../../"),
-    },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "standalone",
+  reactStrictMode: true,
+  transpilePackages: ["@repo/wrapper", "@repo/ui"],
 };
+
+module.exports = nextConfig;

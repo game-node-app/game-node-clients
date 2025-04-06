@@ -49,9 +49,7 @@ const Index = () => {
     <Container fluid mih={"100%"} pos={"relative"} className="mb-12">
       <BackToTopButton />
       <Stack align="center" justify="center" w={"100%"}>
-        <Box
-          className={`w-full flex justify-center lg:max-w-screen-lg mt-12 flex-wrap`}
-        >
+        <Box className={`w-full flex justify-center mt-12 flex-wrap`}>
           <GameSearchBar
             onSubmit={(data) => {
               setSearchParameters((prev) => {
@@ -64,7 +62,7 @@ const Index = () => {
           />
           <GameSearchTips className={"w-full mt-2"} />
         </Box>
-        <Box className={"w-full flex justify-center h-full lg:max-w-screen-lg"}>
+        <Box className={"w-full flex justify-center h-full"}>
           <GameSearchResultView
             enabled={isQueryEnabled}
             isError={searchQuery.isError}

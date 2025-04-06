@@ -7,6 +7,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
+  IconArticle,
   IconBulb,
   IconCheckbox,
   IconHeartFilled,
@@ -41,6 +42,7 @@ const links: NavbarItem[] = [
   { icon: IconUser, label: "Library", href: "/library" },
   { icon: IconCheckbox, label: "Achievements", href: "/achievements" },
   { icon: IconMessage2, label: "Posts", href: "/posts" },
+  { icon: IconArticle, label: "Blog", href: "/blog" },
   { icon: IconBulb, label: "Activity", href: "/activity" },
   { icon: IconRefresh, label: "Importer", href: "/importer" },
 ];

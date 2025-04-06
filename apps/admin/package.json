@@ -5,20 +5,13 @@
   "author": "GameNode <support@gamenode.app>",
   "description": "GameNode's admin dashboard",
   "scripts": {
-    "dev": "yarn run wrapper:generate && next dev -p 3001",
+    "dev": "next dev -p 3001 --turbopack",
     "start": "next start",
     "build": "yarn run wrapper:generate && next build",
     "wrapper:generate": "node src/wrapper/generate.js",
-    "lint": "next lint",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "type-check": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@repo/ui": "*",
-    "@repo/wrapper": "*",
     "@hookform/resolvers": "^3.9.0",
     "@lamarcke/openapi-typescript-codegen": "^0.29.1",
     "@mantine/charts": "^7.17.2",
@@ -27,12 +20,27 @@
     "@mantine/dropzone": "^7.17.2",
     "@mantine/hooks": "^7.17.2",
     "@mantine/modals": "^7.11.1",
+    "@mantine/next": "^6.0.22",
     "@mantine/notifications": "^7.17.2",
     "@mantine/nprogress": "^7.17.2",
+    "@mantine/tiptap": "^7.17.2",
+    "@repo/ui": "*",
+    "@repo/wrapper": "*",
     "@socialgouv/matomo-next": "^1.9.1",
     "@tabler/icons-react": "^3.22.0",
     "@tanstack/react-query": "^5.66.11",
     "@tanstack/react-table": "^8.19.2",
+    "@tiptap/core": "^2.8.0",
+    "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-link": "^2.8.0",
+    "@tiptap/extension-mention": "^2.8.0",
+    "@tiptap/extension-placeholder": "^2.8.0",
+    "@tiptap/extension-text-align": "^2.11.7",
+    "@tiptap/extension-text-style": "^2.8.0",
+    "@tiptap/pm": "^2.8.0",
+    "@tiptap/react": "^2.8.0",
+    "@tiptap/starter-kit": "^2.8.0",
+    "@tiptap/suggestion": "^2.8.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "mantine-react-table": "^2.0.0-beta.7",
@@ -51,6 +59,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/tailwind-config": "*",
+    "@repo/typescript-config": "*",
     "@storybook/addon-essentials": "^7.6.20",
     "@storybook/addon-interactions": "^7.6.20",
     "@storybook/addon-links": "^7.6.20",
@@ -79,9 +90,5 @@
     "storybook-dark-mode": "^3.0.3",
     "tailwindcss": "3.4.3",
     "typescript": "^5.6.3"
-  },
-  "prettier": {
-    "tabWidth": 4,
-    "singleQuote": false
   }
 }
