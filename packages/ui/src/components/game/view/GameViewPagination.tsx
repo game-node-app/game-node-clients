@@ -8,7 +8,7 @@ import {
 import { TPaginationInfoDto } from "#@/util/types/pagination";
 
 export interface IGameViewPaginationProps
-  extends Omit<PaginationProps, "value" | "total" | "onChange"> {
+  extends Omit<PaginationProps, "value" | "total" | "onChange" | "results"> {
   page: number;
   paginationInfo: TPaginationInfoDto | undefined;
   onPaginationChange: (page: number) => void;
