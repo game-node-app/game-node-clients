@@ -1,8 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  CreateReportRequestDto,
-  ReportService,
-} from "../../../../../wrapper/src/server";
+import { CreateReportRequestDto, ReportService } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
 import {
   Button,
@@ -12,7 +9,8 @@ import {
   Text,
   Textarea,
 } from "@mantine/core";
-import reportCategoryToString, {
+import {
+  reportCategoryToString,
   reportCategoryToDescription,
 } from "#@/components/report/util/reportCategoryToString";
 import { useMutation } from "@tanstack/react-query";

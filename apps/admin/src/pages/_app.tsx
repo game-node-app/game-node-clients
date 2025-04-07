@@ -23,10 +23,7 @@ import MatomoWrapper from "@/components/general/MatomoWrapper";
 import { useRouter } from "next/router";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
-import { DashboardLayout } from "@/components/general/DashboardLayout.tsx";
-import { OpenAPI as ServerOpenAPI } from "@/wrapper/server";
-import { OpenAPI as SearchOpenAPI } from "@/wrapper/search";
-
+import { DashboardLayout } from "@/components/general/DashboardLayout";
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -55,10 +52,6 @@ const roboto = Roboto({
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
-
-ServerOpenAPI.BASE = process.env.NEXT_PUBLIC_SERVER_URL!;
-ServerOpenAPI.WITH_CREDENTIALS = true;
-SearchOpenAPI.BASE = process.env.NEXT_PUBLIC_SEARCH_URL!;
 
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);
