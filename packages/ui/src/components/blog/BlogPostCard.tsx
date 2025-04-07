@@ -1,14 +1,16 @@
 import React, { useMemo } from "react";
 import {
-  Group,
+  AspectRatio,
+  Badge,
+  Box,
   Card,
+  Group,
   Image,
+  ImageProps,
+  Spoiler,
+  Stack,
   Text,
   Title,
-  Box,
-  Stack,
-  Badge,
-  Spoiler,
   UnstyledButton,
 } from "@mantine/core";
 import {
@@ -17,7 +19,6 @@ import {
   BlogPostTags,
   EUserRoles,
   ItemDropdown,
-  POST_EDITOR_EXTENSIONS,
   UserAvatarGroup,
   useUserRoles,
 } from "#@/components";
@@ -39,12 +40,14 @@ interface Props {
    */
   onClick: (postId: string) => void;
   onEdit?: (postId: string) => void;
+  imageProps?: ImageProps;
 }
 
 const BlogPostCard = ({
   post,
   onClick,
   onEdit,
+  imageProps,
   withActions = false,
 }: Props) => {
   const queryClient = useQueryClient();
@@ -110,8 +113,10 @@ const BlogPostCard = ({
         onClose={deleteConfirmUtils.close}
       />
       <Card.Section>
-        <UnstyledButton onClick={() => onClick(post.id)}>
-          <Image src={imageUrl} alt={post.title} />
+        <UnstyledButton onClick={() => onClick(post.id)} className={"w-full"}>
+          <AspectRatio ratio={16 / 9}>
+            <Image src={imageUrl} alt={post.title} />
+          </AspectRatio>
         </UnstyledButton>
       </Card.Section>
       <Card.Section className={"flex flex-start flex-nowrap gap-5 px-3 my-2"}>

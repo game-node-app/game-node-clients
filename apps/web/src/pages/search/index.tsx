@@ -16,6 +16,7 @@ import {
   useUserId,
 } from "@repo/ui";
 import GameSearchResultView from "@/components/game/search/GameSearchResultView";
+import { RecentBlogPostsCarousel } from "@repo/ui";
 
 const DEFAULT_SEARCH_PARAMETERS: GameSearchRequestDto = {
   query: undefined,
@@ -109,6 +110,8 @@ const Index = () => {
               )}
               <Space h={"1rem"} />
               <TrendingReviewCarousel />
+              <Space h={"1rem"} />
+              <RecentBlogPostsCarousel />
               <Space h={"1rem"} />
               <DetailsBox
                 title={"Recent Activity"}
