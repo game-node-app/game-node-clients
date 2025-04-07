@@ -51,11 +51,17 @@ const RecentBlogPostsCarousel = () => {
   }, [data?.data, isLoading, router]);
 
   return (
-    <DetailsBox title={"Recent blog posts"}>
+    <DetailsBox
+      title={"Recent blog posts"}
+      stackProps={{
+        className: "",
+      }}
+    >
       <Carousel
+        dragFree
         align={"start"}
         slideSize={{
-          base: "95%",
+          base: "100%",
           lg: "35%",
         }}
         slideGap={"xs"}
