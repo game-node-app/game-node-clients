@@ -17,11 +17,3 @@ Undo tailwind reset for tiptap elements
     font-size: revert;
     font-weight: revert;
 }
-
-/**
-Styling for tiptap mentions
- */
-.tiptap  span.mention {
-    background-color: rgb(241 81 38 / 1);
-    border-radius: var(--mantine-radius-xs);
-}

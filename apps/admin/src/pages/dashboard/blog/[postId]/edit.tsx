@@ -1,8 +1,8 @@
 import React from "react";
 import { CenteredLoading, useBlogPost } from "@repo/ui";
 import { useRouter } from "next/router";
-import { PageContainer } from "@/components/PageContainer/PageContainer.tsx";
-import { BlogPostCreateEditForm } from "@/components/blog/BlogPostCreateEditForm.tsx";
+import { PageContainer } from "@/components/PageContainer/PageContainer";
+import { BlogPostCreateEditForm } from "@/components/blog/BlogPostCreateEditForm";
 
 const BlogPostEditPage = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import React from "react";
 import { PageContainer } from "@/components/PageContainer/PageContainer";
-import { BlogPostCreateEditForm } from "@/components/blog/BlogPostCreateEditForm.tsx";
+import { BlogPostCreateEditForm } from "@/components/blog/BlogPostCreateEditForm";
 
 const BlogCreatePage = () => {
   return (
