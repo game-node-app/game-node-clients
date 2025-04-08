@@ -5,19 +5,23 @@ import React from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
-import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
+import {
+  GetRedirectionURLContext,
+  SuperTokensConfig,
+} from "supertokens-auth-react/lib/build/types";
 import Router from "next/router";
 import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
-import WebAuthN from "supertokens-auth-react/recipe/webauthn";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 import { GameNodeLogo } from "@repo/ui";
 
 export const frontendConfig = (): SuperTokensConfig => {
+  const websiteDomain = process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string;
+  const mainWebsiteDomain = "https://gamenode.app";
   return {
     appInfo: {
       appName: "GameNode Admin",
       apiDomain: process.env.NEXT_PUBLIC_DOMAIN_SERVER as string,
-      websiteDomain: process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string,
+      websiteDomain: websiteDomain,
       apiBasePath: "/v1/auth",
       websiteBasePath: "/auth",
     },
@@ -37,8 +41,22 @@ export const frontendConfig = (): SuperTokensConfig => {
             --palette-textGray: 158, 158, 158;
         }
     `,
+    getRedirectionURL: async (context: GetRedirectionURLContext) => {
+      if (context.action == "TO_AUTH") {
+        if (process.env.NODE_ENV === "production")
+          return `${mainWebsiteDomain}/auth?redirectToPath=${websiteDomain}`;
+
+        return "/auth";
+      }
+
+      if (context.redirectToPath !== undefined) {
+        // we are navigating back to where the user was before they authenticated
+        return context.redirectToPath;
+      }
+
+      return "/";
+    },
     recipeList: [
-      WebAuthN.init(),
       Passwordless.init({
         contactMethod: "EMAIL",
       }),

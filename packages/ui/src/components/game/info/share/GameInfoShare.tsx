@@ -13,9 +13,16 @@ import {
 } from "#@/util/trackMatomoEvent.ts";
 import GameInfoSharePreview from "./GameInfoSharePreview";
 import { IconDownload } from "@tabler/icons-react";
+import { createErrorNotification } from "#@/util";
 
 interface GameInfoShareProps {
   gameId: number;
+  /**
+   * The function called when the user clicks the SHARE button.
+   * Should throw errors if share is not possible.
+   * @param file
+   */
+  onShare: (file: File) => Promise<void>;
 }
 
 const ShareFormSchema = z.object({
@@ -38,9 +45,7 @@ function downloadFile(file: File) {
   URL.revokeObjectURL(objectURL);
 }
 
-const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
-  const canShare = navigator.canShare != undefined;
-
+const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
   const { watch, setValue, handleSubmit } = useForm<ShareFormValues>({
     mode: "onBlur",
     resolver: zodResolver(ShareFormSchema),
@@ -75,30 +80,8 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
         return downloadFile(file);
       }
 
-      if (!canShare) {
-        console.error("User's browser doesn't support the WebShare API.");
-        throw new Error(
-          "Failed to generate final image: Browser not compatible.",
-        );
-      }
-
-      const toShare: ShareData = {
-        title: "GameNode Share",
-        text: `See more at https://gamenode.app/game/${gameId}`,
-        files: [file],
-        url: `https://gamenode.app/game/${gameId}`,
-      };
-      try {
-        if (navigator.canShare(toShare)) {
-          return await navigator.share(toShare);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-
-      throw new Error("Failed to generate final image: Browser not compatible");
+      await onShare(file);
     },
-
     onSuccess: () => {
       trackMatomoEvent(
         EMatomoEventCategory.Review,
@@ -106,6 +89,7 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
         "Shared generated review image with the game info share button",
       );
     },
+    onError: createErrorNotification,
   });
 
   const registerChip = (fieldName: FieldPath<ShareFormValues>) => {
@@ -123,12 +107,6 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
       })}
     >
       <Stack w={"100%"} align={"center"}>
-        {!canShare && (
-          <Text c={"red"} className={"mt-2 mb-2 text-center"}>
-            It seems like your browser doesn&apos;t support direct share. You
-            can still download the generated image.
-          </Text>
-        )}
         {shareMutation.isError && (
           <Text c={"red"} className={"mt-2 mb-2 text-center"}>
             {shareMutation.error.message}
@@ -147,11 +125,7 @@ const GameInfoShare = ({ gameId }: GameInfoShareProps) => {
         </Group>
 
         <Group className={"justify-end"} h={"fit-content"} gap={"0.5rem"}>
-          <Button
-            disabled={!canShare}
-            loading={shareMutation.isPending}
-            type={"submit"}
-          >
+          <Button loading={shareMutation.isPending} type={"submit"}>
             Share
           </Button>
           <ActionIcon
