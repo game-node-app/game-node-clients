@@ -110,7 +110,19 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
           onClose={shareModalUtils.close}
           title={"Share"}
         >
-          <GameInfoShare gameId={game.id} />
+          <GameInfoShare
+            gameId={game.id}
+            onShare={async (file) => {
+              const toShare: ShareData = {
+                title: "GameNode Share",
+                text: `See more at https://gamenode.app/game/${game?.id}`,
+                files: [file],
+                url: `https://gamenode.app/game/${game?.id}`,
+              };
+
+              return await navigator.share(toShare);
+            }}
+          />
         </Modal>
 
         <Button
