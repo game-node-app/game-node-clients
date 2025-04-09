@@ -9,7 +9,7 @@ const config: Omit<Config, "content"> = {
     extend: {
       backgroundImage: {
         mobile: "url('/img/mobile-bg.jpg')",
-        desktop: "url('/img/desktop-bg.png')",
+        desktop: "url('/img/desktop-bg.jpg')",
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
