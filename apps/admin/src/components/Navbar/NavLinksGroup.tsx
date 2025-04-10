@@ -49,7 +49,7 @@ export function NavLinksGroup({
 
   return (
     <>
-      {link ? (
+      {link != undefined && links == undefined ? (
         <Link
           href={link}
           className={`${classes.control} ${link === pathname && classes.activeControl}`}

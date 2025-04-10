@@ -8,7 +8,7 @@ import {
 import CenteredLoading from "@/components/general/CenteredLoading";
 import { Redirect, Route } from "react-router-dom";
 import HomePage from "@/pages/home";
-import SearchResultsPage from "@/pages/search_results";
+import GameSearchPage from "@/pages/search.tsx";
 import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import ExplorePage from "@/pages/explore";
 import ProfilePage from "@/pages/profile/profile";
@@ -48,8 +48,8 @@ const Tabs = () => {
           <Route exact path={"/explore"}>
             <ExplorePage />
           </Route>
-          <Route exact path={`/explore/search_results`}>
-            <SearchResultsPage />
+          <Route exact path={`/explore/search`}>
+            <GameSearchPage />
           </Route>
           {getCommonRoutes("/explore")}
 
@@ -60,8 +60,8 @@ const Tabs = () => {
           <Route exact path={"/home"}>
             <HomePage />
           </Route>
-          <Route exact path={`/home/search_results`}>
-            <SearchResultsPage />
+          <Route exact path={`/home/search`}>
+            <GameSearchPage />
           </Route>
           {getCommonRoutes("/home")}
 

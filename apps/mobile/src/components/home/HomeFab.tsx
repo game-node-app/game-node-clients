@@ -10,7 +10,7 @@ import { SessionAuth } from "supertokens-auth-react/recipe/session";
 addIcons({ readerOutline });
 
 interface Props {
-  contentRef: RefObject<HTMLIonContentElement>;
+  contentRef: RefObject<HTMLIonContentElement | null>;
 }
 
 const HomeFab = ({ contentRef }: Props) => {

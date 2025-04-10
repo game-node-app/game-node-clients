@@ -10,12 +10,13 @@ const config: CapacitorConfig = {
       enabled: true,
     },
     StatusBar: {
-      backgroundColor: "#161616",
+      overlaysWebView: false,
+      backgroundColor: "rgba(0,0,0,0)",
       style: "DARK",
     },
     EdgeToEdge: {
       // Should be the same as StatusBar#backgroundColor!
-      backgroundColor: "#161616",
+      backgroundColor: "rgba(0,0,0,0)",
     },
   },
   android: {

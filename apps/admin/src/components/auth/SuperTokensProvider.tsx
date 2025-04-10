@@ -54,7 +54,7 @@ export const frontendConfig = (): SuperTokensConfig => {
         return context.redirectToPath;
       }
 
-      return "/";
+      return "/dashboard/home";
     },
     recipeList: [
       Passwordless.init({

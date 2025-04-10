@@ -47,7 +47,6 @@ const BlogPostCard = ({
   post,
   onClick,
   onEdit,
-  imageProps,
   withActions = false,
 }: Props) => {
   const queryClient = useQueryClient();
@@ -83,9 +82,8 @@ const BlogPostCard = ({
   const userRoles = useUserRoles();
 
   const hasEditPermission = useMemo(() => {
-    console.log(userRoles);
     return userRoles.some((role) =>
-      [EUserRoles.ADMIN.valueOf(), EUserRoles.MOD.valueOf()].includes(role),
+      [EUserRoles.ADMIN, EUserRoles.MOD, EUserRoles.EDITOR].includes(role),
     );
   }, [userRoles]);
 

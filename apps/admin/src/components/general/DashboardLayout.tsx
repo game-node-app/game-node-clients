@@ -1,5 +1,5 @@
-import React from "react";
-import { EUserRoles } from "@/components/auth/roles.ts";
+import React, { useMemo } from "react";
+import { EUserRoles, getRolesForRoute } from "@/components/auth/roles.ts";
 import {
   AppShell,
   Burger,
@@ -35,7 +35,7 @@ const DashboardLayout = ({ children }: Props) => {
   }
 
   return (
-    <SessionAuthWithRoles roles={[EUserRoles.ADMIN, EUserRoles.MOD]}>
+    <SessionAuthWithRoles roles={getRolesForRoute(pathname)}>
       <AppShell
         header={{ height: 80 }}
         navbar={{

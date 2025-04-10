@@ -5,6 +5,9 @@
 */
 @layer tailwind {
     @tailwind base;
+    .tiptap *{
+        @apply prose text-[var(--mantine-color-text)]
+    }
 }
 @tailwind components;
 @tailwind utilities;
@@ -20,12 +23,4 @@
 
 ion-tab-button:not(.tab-selected) {
     --color-selected: var(--color);
-}
-
-/**
-Undo tailwind reset for tiptap elements
- */
-.tiptap > h1, h2, h3, h4, h5{
-    font-size: revert;
-    font-weight: revert;
 }
