@@ -66,7 +66,9 @@ export const frontendConfig = (): SuperTokensConfig => {
           ],
         },
       }),
-      Session.init(),
+      Session.init({
+        tokenTransferMethod: "header",
+      }),
     ],
     windowHandler: (oI: WindowHandlerInterface) => {
       return {

@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@mantine/core";
+import { Box, Button, Paper, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 const Home = () => {
@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <>
       <header
-        className={`w-full h-[80px] flex items-center justify-between fixed px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
+        className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
       >
         <Box className="flex flex-row gap-16 items-center">
           <img
@@ -26,13 +26,13 @@ const Home = () => {
             alt="Game Node Logo"
             className="max-h-full pointer-events-none"
           />
-          <a href="#" className="w-full">
+          <a href="#" className="w-full hidden lg:block">
             <span>About us</span>
           </a>
-          <a href="#">
+          <a href="#" className="hidden lg:block">
             <span>Download</span>
           </a>
-          <a href="#">
+          <a href="#" className="hidden lg:block">
             <span>Collaborate</span>
           </a>
         </Box>
@@ -44,14 +44,14 @@ const Home = () => {
         </Box>
       </header>
 
-      <Box className="w-full h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
+      <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
         <Box>
-          <h1 className="text-center font-bold text-[64px] leading-[75px]">
+          <h1 className="text-center font-bold text-3xl lg:text-6xl lg:leading-[4.6rem]">
             Organize all your games <br /> in one place
           </h1>
-          <h3 className="text-center font-bold text-[20px] leading-[120px]">
+          <h3 className="text-center text-xl lg:leading-[120px] mt-6 lg:mt-0 font-light lg:font-bold">
             GameNode is the ideal platform to manage your game collection
-            virtually. Profile
+            virtually.
           </h3>
         </Box>
 
@@ -60,12 +60,12 @@ const Home = () => {
           alt="Profile"
           width="1040"
           height="468"
-          className="overflow-hidden"
+          className="overflow-hidden object-cover"
         />
       </Box>
 
-      <Box className="bg-gradient-to-b from-[#212121]to-[#090909]w-full h-full flex justify-center pt-[105px]">
-        <Box className="h-[340px] flex items-center">
+      <Box className="bg-gradient-to-b from-[#212121]to-[#090909]w-full h-full flex justify-center mt-24">
+        <Box className="lg:h-[340px] flex items-center gap-4 flex-col lg:flex-row">
           <Box className="flex flex-col items-center gap-5">
             <Box className="w-[150px] h-[150px] relative">
               <video
@@ -82,7 +82,11 @@ const Home = () => {
             </Box>
             <Text>Add games to your library space</Text>
           </Box>
-          <img src="/img/line_space.png" alt="space" className="h-[1px] mb-5" />
+          <img
+            src="/img/line_space.png"
+            alt="space"
+            className="h-[1px] mb-5 hidden lg:block"
+          />
           <Box className="flex flex-col items-center gap-5 px-4 z-10">
             <Box className="w-[150px] h-[150px] relative">
               <video
@@ -100,7 +104,11 @@ const Home = () => {
             <Text className="font-bold text-[16px]">Make Reviews</Text>
           </Box>
 
-          <img src="/img/line_space.png" alt="space" className="h-[1px] mb-5" />
+          <img
+            src="/img/line_space.png"
+            alt="space"
+            className="h-[1px] mb-5 hidden lg:block"
+          />
           <Box className="flex flex-col items-center gap-5">
             <Box className="w-[150px] h-[150px] relative">
               <video
@@ -120,19 +128,16 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box className="h-[500px] flex flex-col justify-between">
-        <Box>
-          <h2 className="text-center font-bold text-[24px]">
-            Update your to-do list, evaluate the titles you already have <br />
-            tried and add the most anticipated releases to your <br />
-            lista de desejos. Conecte-se com seus amigos, siga suas atividades{" "}
-            <br />
-            and follow each one's latest gaming sessions.
-          </h2>
-        </Box>
+      <Box className="lg:h-[500px] lg:mt-0 flex flex-col justify-between">
+        <h2 className="text-center text-xl lg:text-2xl font-light lg:font-bold px-4 lg:px-40 my-20">
+          Update your to-do list, evaluate the titles you already have tried and
+          add the most anticipated releases to your lista de desejos. Conecte-se
+          com seus amigos, siga suas atividades and follow each one's latest
+          gaming sessions.
+        </h2>
 
-        <Box className="flex flex-col items-center pb-[90px]">
-          <h3 className="text-center font-medium text-[20px] pt-[90px]">
+        <Box className="flex flex-col items-center lg:mb-24 lg:mt-24">
+          <h3 className="text-center font-medium text-[20px]">
             Import games from your platforms to your GameNode account
           </h3>
 
@@ -141,7 +146,7 @@ const Home = () => {
             alt="Plataforms"
             width="519"
             height="85"
-            className="pt-[26px] pb-[30px]"
+            className="py-6 px-4"
           />
 
           <h3 className="text-center font-medium text-[16px]">Soon</h3>
@@ -151,34 +156,37 @@ const Home = () => {
             alt="soon..."
             width="160"
             height="39"
-            className="pt-[15px]"
+            className="pt-4"
           />
         </Box>
 
-        <footer className="py-11">
-          <Box className="h-full flex justify-between items-center px-20">
-            <img
-              src="/img/main-logo.png"
-              alt="Game Node Logo"
-              width="99"
-              height="40"
-            />
+        <footer className="mt-20">
+          <Paper className="bg-[#191919] h-20">
+            <Box className="h-full flex justify-center lg:justify-between items-center lg:px-20">
+              <img
+                src="/img/main-logo.png"
+                alt="Game Node Logo"
+                width="99"
+                height="40"
+                className="hidden lg:block"
+              />
 
-            <Box className="flex flex-row gap-[28px] items-center">
-              <a href="#" target="_blank">
-                <img src="/img/patreon_footer.png" alt="patreon" />
-              </a>
-              <a href="#" target="_blank">
-                <img src="/img/github_footer.png" alt="github" />
-              </a>
-              <a href="https://discord.gg/kcAT562B5A" target="_blank">
-                <img src="/img/discord_footer.png" alt="discord" />
-              </a>
-              <a href="#" target="_blank">
-                <img src="/img/twitter_footer.png" alt="twitter" />
-              </a>
+              <Box className="flex flex-row gap-[28px] items-center">
+                <a href="#" target="_blank">
+                  <img src="/img/patreon_footer.png" alt="patreon" />
+                </a>
+                <a href="#" target="_blank">
+                  <img src="/img/github_footer.png" alt="github" />
+                </a>
+                <a href="https://discord.gg/kcAT562B5A" target="_blank">
+                  <img src="/img/discord_footer.png" alt="discord" />
+                </a>
+                <a href="#" target="_blank">
+                  <img src="/img/twitter_footer.png" alt="twitter" />
+                </a>
+              </Box>
             </Box>
-          </Box>
+          </Paper>
         </footer>
       </Box>
     </>
