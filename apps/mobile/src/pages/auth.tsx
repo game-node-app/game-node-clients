@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Stack, Text } from "@mantine/core";
+import React from "react";
+import { Box } from "@mantine/core";
 import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
 import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
-import {
-  AuthPage,
-  canHandleRoute,
-  getRoutingComponent,
-} from "supertokens-auth-react/ui";
+import { AuthPage } from "supertokens-auth-react/ui";
 import {
   IonBackButton,
   IonButtons,
@@ -17,10 +13,11 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { useHistory } from "react-router-dom";
-import { Box } from "@mantine/core";
+import { WebauthnPreBuiltUI } from "supertokens-auth-react/lib/build/recipe/webauthn/prebuiltui";
 
 const SupertokensAuthPage = () => {
+  const router = useIonRouter();
+
   return (
     <IonPage>
       <IonHeader>
@@ -34,8 +31,15 @@ const SupertokensAuthPage = () => {
       <IonContent>
         <Box className={"w-full h-full mt-20"}>
           <AuthPage
-            preBuiltUIList={[ThirdPartyPreBuiltUI, PasswordlessPreBuiltUI]}
-            navigate={useHistory}
+            preBuiltUIList={[
+              ThirdPartyPreBuiltUI,
+              PasswordlessPreBuiltUI,
+              WebauthnPreBuiltUI,
+            ]}
+            navigate={{
+              push: router.push,
+              goBack: router.goBack,
+            }}
           />
         </Box>
       </IonContent>

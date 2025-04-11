@@ -28,7 +28,7 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
   const { data, isError, error, isLoading } = useSearchGames(
     {
       query: debouncedQuery,
-      limit: 6,
+      limit: 12,
     },
     isQueryEnabled,
   );

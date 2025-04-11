@@ -13,3 +13,24 @@ export interface GameResourceFilter {
    */
   resource: string;
 }
+
+/**
+ * See: https://api-docs.igdb.com/#game-enums
+ */
+export enum EGameCategory {
+  Main,
+  DlcAddon,
+  Expansion,
+  Bundle,
+  StandaloneExpansion,
+  Mod,
+  Episode,
+  Season,
+  Remake,
+  Remaster,
+  ExpandedGame,
+  Port,
+  Fork,
+  Pack,
+  Update,
+}

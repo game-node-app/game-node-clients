@@ -2,10 +2,12 @@ import React from "react";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { ProfileService } from "@repo/wrapper/server";
+import {
+  FindAllPlaytimeFiltersDto,
+  ProfileService,
+} from "@repo/wrapper/server";
 import { DehydrationResult } from "@/pages/_app";
-import { Box, Container, Divider, Flex, Stack } from "@mantine/core";
-import { usePlaytimeForUser } from "@/components/playtime/hooks/usePlaytimeForUser";
+import { Box, Divider, Flex, Stack } from "@mantine/core";
 import {
   ProfileFavoriteGames,
   ProfileStatsSimpleOverview,
@@ -14,10 +16,12 @@ import {
   RecentActivityList,
   TextLink,
   useOnMobile,
+  usePlaytimeForUser,
   UserRecentGames,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
+import period = FindAllPlaytimeFiltersDto.period;
 
 export async function getServerSideProps(
   ctx: GetServerSidePropsContext,
@@ -55,6 +59,7 @@ const Index = () => {
     userId: userIdString,
     offset: 0,
     limit: 5,
+    period: period.YEAR,
   });
 
   const ownUserId = useUserId();

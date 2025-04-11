@@ -1,8 +1,7 @@
 import { Burger, Button, Container, Group } from "@mantine/core";
-import GameNodeLogo from "@/components/general/GameNodeLogo";
 import Link from "next/link";
-import useUserId from "@/components/auth/hooks/useUserId";
-import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications";
+import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
+import { GameNodeLogo, useUserId } from "@repo/ui";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -14,15 +13,13 @@ export default function GlobalShellHeader({
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
   const userId = useUserId();
+
   return (
     <header className="h-full">
       <Container fluid className="flex h-full items-center lg:justify-start">
         <Burger opened={sidebarOpened} onClick={toggleSidebar} size="sm" />
         <a href={"/search"}>
-          <GameNodeLogo
-            className="ms-6 w-22 h-auto max-h-full"
-            withBetaBadge={false}
-          />
+          <GameNodeLogo className="ms-6 w-22 h-auto max-h-full" />
         </a>
         <Group className="ms-auto">
           {!userId && (
@@ -30,7 +27,11 @@ export default function GlobalShellHeader({
               <Button variant="outline">Sign in</Button>
             </Link>
           )}
-          {userId && <GlobalShellHeaderNotifications />}
+          {userId != undefined && (
+            <Group className={"gap-3"}>
+              <GlobalShellHeaderNotifications />
+            </Group>
+          )}
         </Group>
       </Container>
     </header>

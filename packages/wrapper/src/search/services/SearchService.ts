@@ -2,10 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { schema_GameSearchRequestDto } from '../models/schema_GameSearchRequestDto';
-import type { schema_GameSearchResponseDto } from '../models/schema_GameSearchResponseDto';
-import type { schema_UserSearchRequestDto } from '../models/schema_UserSearchRequestDto';
-import type { schema_UserSearchResponseDto } from '../models/schema_UserSearchResponseDto';
+import type { games_GameAutocompleteRequestDto } from '../models/games_GameAutocompleteRequestDto';
+import type { games_GameAutocompleteResponseDto } from '../models/games_GameAutocompleteResponseDto';
+import type { games_GameSearchRequestDto } from '../models/games_GameSearchRequestDto';
+import type { games_GameSearchResponseDto } from '../models/games_GameSearchResponseDto';
+import type { users_UserSearchRequestDto } from '../models/users_UserSearchRequestDto';
+import type { users_UserSearchResponseDto } from '../models/users_UserSearchResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -13,13 +15,13 @@ export class SearchService {
     /**
      * Searches for games using Manticore engine
      * Returns a parsed search response from the Manticore engine
-     * @param query Account ID
-     * @returns schema_GameSearchResponseDto OK
+     * @param query Request body
+     * @returns games_GameSearchResponseDto OK
      * @throws ApiError
      */
     public static postSearchGames(
-        query: schema_GameSearchRequestDto,
-    ): CancelablePromise<schema_GameSearchResponseDto> {
+        query: games_GameSearchRequestDto,
+    ): CancelablePromise<games_GameSearchResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/search/games',
@@ -27,15 +29,31 @@ export class SearchService {
         });
     }
     /**
+     * Autocomplete games names using Manticore engine
+     * Returns a parsed search response from the Manticore engine
+     * @param query Request body
+     * @returns games_GameAutocompleteResponseDto OK
+     * @throws ApiError
+     */
+    public static postSearchGamesAutocomplete(
+        query: games_GameAutocompleteRequestDto,
+    ): CancelablePromise<games_GameAutocompleteResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/search/games/autocomplete',
+            body: query,
+        });
+    }
+    /**
      * Searches for users using Manticore engine
      * Returns a parsed search response from the Manticore engine
      * @param query Account ID
-     * @returns schema_UserSearchResponseDto OK
+     * @returns users_UserSearchResponseDto OK
      * @throws ApiError
      */
     public static postSearchUsers(
-        query: schema_UserSearchRequestDto,
-    ): CancelablePromise<schema_UserSearchResponseDto> {
+        query: users_UserSearchRequestDto,
+    ): CancelablePromise<users_UserSearchResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/search/users',

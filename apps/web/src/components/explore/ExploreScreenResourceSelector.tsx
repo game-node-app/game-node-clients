@@ -6,9 +6,9 @@ import {
   MultiSelectProps,
   SelectProps,
 } from "@mantine/core";
-import { useGamesResource } from "@/components/game/hooks/useGamesResource";
 import { Game } from "@repo/wrapper/server";
 import { UseQueryResult } from "@tanstack/react-query";
+import { useGamesResource } from "@repo/ui";
 
 interface Props extends MultiSelectProps {
   resourceName: string;

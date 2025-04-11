@@ -7,4 +7,5 @@ export * from "./FloatingLabelInput/index";
 export * from "./SearchBar/index";
 export * from "./UserButton/index";
 export * from "./dropdown/index";
+export * from "./game-search-bar/index";
 export * from "./select/index";

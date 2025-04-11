@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
@@ -8,13 +9,19 @@ const config: CapacitorConfig = {
     CapacitorCookies: {
       enabled: true,
     },
-    EdgeToEdge: {
-      backgroundColor: "#161616",
-    },
     StatusBar: {
       backgroundColor: "#161616",
       style: "DARK",
     },
+    EdgeToEdge: {
+      // Should be the same as StatusBar#backgroundColor!
+      backgroundColor: "#161616",
+    },
+  },
+  android: {
+    // Already done by @capawesome/capacitor-android-edge-to-edge-support
+    // Do not enable here
+    adjustMarginsForEdgeToEdge: "disable",
   },
 };
 

@@ -4,10 +4,9 @@ import GlobalShellNavbarCollectionsHeader from "@/components/general/shell/Globa
 import { Center, ScrollArea, Stack, Text } from "@mantine/core";
 import { Collection } from "@repo/wrapper/server";
 import Link from "next/link";
-import { useUserLibrary } from "@/components/library/hooks/useUserLibrary";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { usePathname } from "next/navigation";
-import { BaseModalChildrenProps } from "@/util/types/modal-props";
+import { BaseModalChildrenProps, useUserLibrary } from "@repo/ui";
 
 interface IGlobalShellNavbarCollectionsProps extends BaseModalChildrenProps {}
 

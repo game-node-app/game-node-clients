@@ -1,14 +1,7 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { z } from "zod";
 import {
   FindStatisticsTrendingGamesDto,
-  FindStatisticsTrendingReviewsDto,
   GameRepositoryFilterDto,
 } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
@@ -20,25 +13,22 @@ import {
   ComboboxItem,
   Drawer,
   Group,
-  LoadingOverlay,
   Select,
   SimpleGrid,
-  Stack,
 } from "@mantine/core";
 import ExploreScreenResourceSelector from "@/components/explore/ExploreScreenResourceSelector";
 import { useRouter } from "next/router";
 import { IconAdjustments } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { GameResourceFilter } from "@/components/game/util/types";
 import {
   exploreScreenDtoToSearchParams,
   exploreScreenUrlQueryToDto,
 } from "@/components/explore/utils";
+import { GameResourceFilter } from "@repo/ui";
 import period = FindStatisticsTrendingGamesDto.period;
 
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
 
-// @ts-ignore
 const FilterFormSchema = z.object({
   themes: z.array(z.string()).optional(),
   genres: z.array(z.string()).optional(),
