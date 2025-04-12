@@ -106,12 +106,12 @@ export default function App({
           <MatomoTracker />
           <NotificationsManager />
           <OpenInAppDialog />
-          <GlobalAppShell>
-            <HydrationBoundary state={pageProps.dehydratedState}>
+          <HydrationBoundary state={pageProps.dehydratedState}>
+            <GlobalAppShell>
               <RouterTransition />
               <Component {...pageProps} />
-            </HydrationBoundary>
-          </GlobalAppShell>
+            </GlobalAppShell>
+          </HydrationBoundary>
         </QueryClientProvider>
       </SuperTokensProvider>
     </MantineProvider>

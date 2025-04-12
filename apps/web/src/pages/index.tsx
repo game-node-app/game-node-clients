@@ -1,88 +1,222 @@
-import {
-  Anchor,
-  Button,
-  Group,
-  Image,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-} from "@mantine/core";
-import React, { useEffect, useRef } from "react";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { useRouter } from "next/router";
+import { Box, Button, Paper, Text } from "@mantine/core";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getServerStoredIcon } from "@repo/ui";
+import { useUserId } from "@repo/ui";
+import { useRouter } from "next/router";
 
-export default function Home() {
-  const session = useSessionContext();
+const Home = () => {
   const router = useRouter();
-  useEffect(() => {
-    if (!session.loading && session.doesSessionExist) {
-      router.replace("/search");
-    }
-  }, [session, router]);
-  return (
-    <Stack className={"w-full h-full min-h-screen items-center"}>
-      <Title size={"h1"} className={"text-center mt-10"}>
-        Manage all your games <br />
-        In a single place
-      </Title>
-      <Text ta={"center"}>
-        GameNode is the perfect platform to manage your game collection
-        virtually. Update your backlog, rate the titles you've played, and add
-        the most anticipated releases to your wishlist. Connect with friends,
-        follow their activities, and keep track of everyone's latest gaming
-        sessions.
-      </Text>
-      <Link href={"/search"}>
-        <Button size={"xl"} className={"bg-brand-5 min-w-44 mt-5"}>
-          Join in
-        </Button>
-      </Link>
+  const userId = useUserId();
+  const [scrolled, setScrolled] = useState(false);
 
-      <Stack className={"items-center"}>
-        <Anchor
-          className={"w-44 mt-8"}
-          href={
-            "https://play.google.com/store/apps/details?id=app.gamenode&pcampaignid=web_share"
-          }
-        >
-          <Image
-            src={"/img/google_play_badge_english.png"}
-            alt={"Get it on Google Play badge"}
+  const checkScrollPosition = () => {
+    setScrolled(() => window.scrollY > 10);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", checkScrollPosition);
+    return () => {
+      window.removeEventListener("scroll", checkScrollPosition);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      router.push("/search");
+    }
+  }, [router, userId]);
+
+  return (
+    <>
+      <header
+        className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
+      >
+        <Box className="flex flex-row gap-16 items-center">
+          <img
+            src="/img/main-logo.png"
+            alt="Game Node Logo"
+            className="max-h-full pointer-events-none"
           />
-        </Anchor>
-        <Text className={"text-sm"}>Soon in iOS</Text>
-      </Stack>
-      <Stack className={"items-center mt-16"}>
-        <Text className={"text-center"}>
-          Too lazy to import your entire library? Don't worry, we got you!
-        </Text>
-        <Group className={"justify-center"}>
-          <Image
-            w={38}
-            src={getServerStoredIcon("psn")}
-            alt={"Playstation Network"}
+          <a href="/about" className="w-full hidden lg:block">
+            <span>About us</span>
+          </a>
+          <a
+            href="https://github.com/game-node-app"
+            className="hidden lg:block"
+          >
+            <span>Collaborate</span>
+          </a>
+        </Box>
+
+        {userId == undefined && (
+          <Link href={"/auth"}>
+            <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
+              Login
+            </Button>
+          </Link>
+        )}
+      </header>
+
+      <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
+        <Box>
+          <h1 className="text-center font-bold text-3xl lg:text-6xl lg:leading-[4.6rem]">
+            Organize all your games <br /> in one place
+          </h1>
+          <h3 className="text-center text-xl lg:leading-[120px] mt-6 lg:mt-0 font-light mb-12">
+            GameNode is the ideal platform to manage your game collection
+            virtually.
+          </h3>
+        </Box>
+
+        <picture className="overflow-hidden">
+          <source
+            media="(max-width: 679px)"
+            srcSet="/img/mock.png"
+            width="220"
+            className="pointer-events-none"
           />
-          <Image w={38} src={getServerStoredIcon("steam")} alt={"Steam"} />
-        </Group>
-        <Text className={"text-sm text-dimmed"}>
-          GameNode can import games and{" "}
-          <Tooltip label={"Only for sources which export playtime info."}>
-            <Text span className={"text-sm"}>
-              playtime*
-            </Text>
-          </Tooltip>{" "}
-          from these sources. More will be available soon.
-        </Text>
-      </Stack>
-      <Text className={"mt-16 text-sm"}>
-        Games metadata are a courtesy of{" "}
-        <Anchor href={"https://igdb.com"} target={"_blank"}>
-          IGDB
-        </Anchor>
-      </Text>
-    </Stack>
+          <source media="(min-width: 680px)" srcSet="/img/mock_desk.png" />
+          <img
+            src="/img/mock_desk.png"
+            alt="Profile"
+            className="overflow-hidden object-cover pointer-events-none"
+            loading="lazy"
+          />
+        </picture>
+      </Box>
+
+      <Box className="bg-gradient-to-b from-[#212121]to-[#090909]w-full h-full flex justify-center mt-24">
+        <Box className="lg:h-[340px] flex items-center gap-4 flex-col lg:flex-row">
+          <Box className="flex flex-col items-center gap-5">
+            <Box className="w-[150px] h-[150px] relative">
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/vergil-compressed.gif"
+                className="w-full h-full object-cover rounded-[5px]"
+              />
+              <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
+                1
+              </Text>
+            </Box>
+            <Text>Add games to your library space</Text>
+          </Box>
+          <img
+            src="/img/line_space.png"
+            alt="space"
+            className="h-[1px] mb-5 hidden lg:block"
+          />
+          <Box className="flex flex-col items-center gap-5 px-4 z-10">
+            <Box className="w-[150px] h-[150px] relative">
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/mh-compressed.gif"
+                className="w-full h-full object-cover rounded-[5px]"
+              />
+              <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
+                2
+              </Text>
+            </Box>
+            <Text className="font-bold text-[16px]">Make Reviews</Text>
+          </Box>
+
+          <img
+            src="/img/line_space.png"
+            alt="space"
+            className="h-[1px] mb-5 hidden lg:block"
+          />
+          <Box className="flex flex-col items-center gap-5">
+            <Box className="w-[150px] h-[150px] relative">
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/valorant-compressed.gif"
+                className="w-full h-full object-cover rounded-[5px]"
+              />
+              <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
+                3
+              </Text>
+            </Box>
+            <Text>Share with the world</Text>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box className="lg:h-[500px] lg:mt-0 flex flex-col justify-between">
+        <h2 className="text-center text-xl lg:text-2xl font-light px-4 lg:px-[22rem] my-20">
+          Update your wishlist, review the titles you&#39;ve already tried, and
+          add the most anticipated releases to your wishlist. Connect with your
+          friends, follow their activity, and keep up with each one&#39;s latest
+          gaming sessions.
+        </h2>
+
+        <Box className="flex flex-col items-center px-4 lg:mb-24 lg:mt-24">
+          <h3 className="text-center font-medium text-[20px]">
+            Import games from your platforms to your GameNode account
+          </h3>
+
+          <img
+            src="/img/plataforms.png"
+            alt="Plataforms"
+            width="492"
+            className="py-6 px-4"
+          />
+
+          <h3 className="text-center font-medium text-[16px]">Soon</h3>
+
+          <img
+            src="/img/plataforms_soon.png"
+            alt="soon..."
+            width="160"
+            height="39"
+            className="pt-4"
+          />
+        </Box>
+
+        <footer className="mt-20">
+          <Paper className="bg-[#191919] h-20">
+            <Box className="h-full flex justify-between items-center lg:px-20">
+              <img
+                src="/img/main-logo.png"
+                alt="Game Node Logo"
+                width="99"
+                height="40"
+                className="hidden lg:block"
+              />
+
+              <a
+                href="https://patreon.com/GameNodeApp"
+                target="_blank"
+                className="lg:hidden pl-4"
+              >
+                <img src="/img/patreon_footer.png" alt="patreon" />
+              </a>
+
+              <Box className="flex flex-row gap-[28px] items-center pr-4 lg:pr-0">
+                <a
+                  href="https://patreon.com/GameNodeApp"
+                  target="_blank"
+                  className="hidden lg:block"
+                >
+                  <img src="/img/patreon_footer.png" alt="patreon" />
+                </a>
+                <a href="https://github.com/game-node-app" target="_blank">
+                  <img src="/img/github_footer.png" alt="github" />
+                </a>
+                <a href="https://discord.gg/kcAT562B5A" target="_blank">
+                  <img src="/img/discord_footer.png" alt="discord" />
+                </a>
+                <a href="https://x.com/gamenodeapp" target="_blank">
+                  <img src="/img/x_footer.png" alt="X" />
+                </a>
+              </Box>
+            </Box>
+          </Paper>
+        </footer>
+      </Box>
+    </>
   );
-}
+};
+
+export default Home;
