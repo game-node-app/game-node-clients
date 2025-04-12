@@ -1,7 +1,12 @@
 import { Box, Button, Paper, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useUserId } from "@repo/ui";
+import { useRouter } from "next/router";
 
 const Home = () => {
+  const router = useRouter();
+  const userId = useUserId();
   const [scrolled, setScrolled] = useState(false);
 
   const checkScrollPosition = () => {
@@ -15,6 +20,12 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (userId) {
+      router.push("/search");
+    }
+  }, [router, userId]);
+
   return (
     <>
       <header
@@ -26,22 +37,24 @@ const Home = () => {
             alt="Game Node Logo"
             className="max-h-full pointer-events-none"
           />
-          <a href="#" className="w-full hidden lg:block">
+          <a href="/about" className="w-full hidden lg:block">
             <span>About us</span>
           </a>
-          <a href="#" className="hidden lg:block">
-            <span>Download</span>
-          </a>
-          <a href="#" className="hidden lg:block">
+          <a
+            href="https://github.com/game-node-app"
+            className="hidden lg:block"
+          >
             <span>Collaborate</span>
           </a>
         </Box>
 
-        <Box>
-          <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
-            Login
-          </Button>
-        </Box>
+        {userId == undefined && (
+          <Link href={"/auth"}>
+            <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
+              Login
+            </Button>
+          </Link>
+        )}
       </header>
 
       <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
@@ -163,7 +176,7 @@ const Home = () => {
 
         <footer className="mt-20">
           <Paper className="bg-[#191919] h-20">
-            <Box className="h-full flex justify-center justify-between items-center lg:px-20">
+            <Box className="h-full flex justify-between items-center lg:px-20">
               <img
                 src="/img/main-logo.png"
                 alt="Game Node Logo"
