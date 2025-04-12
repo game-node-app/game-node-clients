@@ -145,9 +145,9 @@ const Home = () => {
 
       <Box className="lg:h-[500px] lg:mt-0 flex flex-col justify-between">
         <h2 className="text-center text-xl lg:text-2xl font-light px-4 lg:px-[22rem] my-20">
-          Update your to-do list, evaluate the titles you already have tried and
-          add the most anticipated releases to your lista de desejos. Conecte-se
-          com seus amigos, siga suas atividades and follow each one's latest
+          Update your wishlist, review the titles you&#39;ve already tried, and
+          add the most anticipated releases to your wishlist. Connect with your
+          friends, follow their activity, and keep up with each one&#39;s latest
           gaming sessions.
         </h2>
 
