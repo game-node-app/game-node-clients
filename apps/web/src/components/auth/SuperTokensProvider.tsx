@@ -65,7 +65,9 @@ export const frontendConfig = (): SuperTokensConfig => {
         },
       }),
       Session.init({
-        tokenTransferMethod: "header",
+        tokenTransferMethod: window.location.href.includes("localhost")
+          ? "header"
+          : "cookie",
       }),
     ],
     windowHandler: (oI: WindowHandlerInterface) => {
