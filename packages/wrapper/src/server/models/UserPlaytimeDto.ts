@@ -20,17 +20,7 @@ export type UserPlaytimeDto = {
      * Total playtime for this game, in seconds.
      */
     totalPlaytimeSeconds: number;
-    /**
-     * Recent playtime in seconds.
-     * 'Recent' definition varies between sources.
-     * For Steam, it's the last two weeks,
-     * for PSN, it's not available :p
-     */
     recentPlaytimeSeconds: number;
-    /**
-     * Total number of times this game has been played.
-     * Not available in Steam.
-     */
     totalPlayCount: number;
     createdAt: string;
     updatedAt: string;

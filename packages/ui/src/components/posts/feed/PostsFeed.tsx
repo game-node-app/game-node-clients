@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import {
+  GamePostEditor,
   InfiniteLoaderChildren,
-  PostEditor,
   useOnMobilePlatform,
 } from "#@/components";
 import { Stack } from "@mantine/core";
@@ -36,7 +36,7 @@ const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
 
   return (
     <Stack>
-      {!onMobilePlatform && <PostEditor />}
+      {!onMobilePlatform && <GamePostEditor />}
 
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({

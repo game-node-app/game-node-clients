@@ -2,11 +2,6 @@ name: Publish Web Docker image
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        required: true
-        description: 'Version to use when tagging the Docker image'
-        type: string
 
 
 jobs:
@@ -23,11 +18,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: apps/web
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./apps/web/Dockerfile
           push: true
-          tags: lamarcke/game-node-web:latest,lamarcke/game-node-web:${{inputs.version}}
+          tags: lamarcke/game-node-web:latest,lamarcke/game-node-web:${{steps.package-version.outputs.current-version}}

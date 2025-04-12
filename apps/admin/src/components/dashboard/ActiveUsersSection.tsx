@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Center, Text, Title } from "@mantine/core";
-import { useUserProfiles } from "@/components/profile/hooks/useUserProfiles";
 import CenteredLoading from "@/components/general/CenteredLoading";
+import { useUserProfiles } from "@repo/ui";
 
 const sectionStyle = {
   padding: "var(--mantine-spacing-md)",

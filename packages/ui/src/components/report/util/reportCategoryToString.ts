@@ -1,6 +1,6 @@
-import { Report } from "../../../../../wrapper/src/server";
+import { Report } from "@repo/wrapper/server";
 
-export default function reportCategoryToString(category: string) {
+export function reportCategoryToString(category: string) {
   switch (category) {
     case Report.category.SPAM:
       return "Spam";
@@ -23,5 +23,19 @@ export function reportCategoryToDescription(category: string) {
       return "Explicit nudity or sexual content";
     default:
       return "";
+  }
+}
+
+export function reportSourceTypeToString(source: string) {
+  switch (source) {
+    case Report.sourceType.PROFILE:
+      return "Profile";
+    case Report.sourceType.REVIEW:
+      return "Review";
+    case Report.sourceType.REVIEW_COMMENT:
+      return "Review comment";
+
+    default:
+      return "Not available";
   }
 }

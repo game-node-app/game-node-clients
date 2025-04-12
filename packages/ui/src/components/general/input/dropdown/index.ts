@@ -6,4 +6,5 @@ export * from "./ItemDropdown";
 export * from "./ItemDropdownEditButton";
 export * from "./ItemDropdownRemoveButton";
 export * from "./ItemDropdownReportButton";
+export * from "./ItemDropdownShareButton";
 export * from "./types";

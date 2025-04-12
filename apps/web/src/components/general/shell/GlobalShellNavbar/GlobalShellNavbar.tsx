@@ -7,6 +7,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
+  IconArticle,
   IconBulb,
   IconCheckbox,
   IconHeartFilled,
@@ -41,6 +42,7 @@ const links: NavbarItem[] = [
   { icon: IconUser, label: "Library", href: "/library" },
   { icon: IconCheckbox, label: "Achievements", href: "/achievements" },
   { icon: IconMessage2, label: "Posts", href: "/posts" },
+  { icon: IconArticle, label: "Blog", href: "/blog" },
   { icon: IconBulb, label: "Activity", href: "/activity" },
   { icon: IconRefresh, label: "Importer", href: "/importer" },
 ];
@@ -84,14 +86,6 @@ export default function GlobalShellNavbar({
       </Link>
     </UnstyledButton>
   ));
-
-  const [knackMode, setKnackMode] = useLocalStorage({
-    key: "KNACK_MODE",
-    defaultValue: true,
-    getInitialValueInEffect: true,
-  });
-
-  const isAprilFools = useMemo(() => dayjs().isSame("2025-04-01", "day"), []);
 
   return (
     <nav className={classes.navbar}>
@@ -145,16 +139,6 @@ export default function GlobalShellNavbar({
         </div>
       </div>
       <GlobalShellNavbarCollections onClose={onClose} />
-      {isAprilFools && (
-        <Switch
-          label={"KNACK 2 MODE"}
-          checked={knackMode}
-          onChange={(evt) => {
-            setKnackMode(evt.target.checked);
-          }}
-          size={"md"}
-        />
-      )}
       <div className={`${classes.section} mt-auto mb-0 flex flex-col `}>
         {isLoggedIn && (
           <Link href={"/preferences"} onClick={onClose}>

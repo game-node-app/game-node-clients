@@ -1,9 +1,7 @@
 name: Build Android APK/AAB
-run-name: Build Android APK/AAB Release
+
 on:
-  push:
-    branches:
-      - releases/mobile
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,9 +10,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-        # TODO: add your branch to checkout
-        with:
-          ref: releases/mobile
 
       - name: Setup java
         uses: actions/setup-java@v3
@@ -30,27 +25,26 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build project
-        working-directory: apps/mobile
-        run: yarn build
+      - name: Build and sync project
+        run: yarn build -F mobile
 
       - name: Extract Android signing key from env
         working-directory: apps/mobile
         run: |
-          echo "${{ secrets.RELEASE_KEYSTORE }}" > ./android/release.jks.base64
-          base64 -d ./android/release.jks.base64 > ./android/release.decrypted.jks
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
       - name: Build APK release
         working-directory: apps/mobile
         run: |
-          npx cap build android --keystorepath ./android/release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
+          npx cap build android --keystorepath release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
           --keystorealias ${{secrets.RELEASE_KEYSTORE_KEY_ALIAS}} --keystorealiaspass ${{secrets.RELEASE_KEYSTORE_KEY_PASS}} \
           --androidreleasetype APK
 
       - name: Build AAB release
         working-directory: apps/mobile
         run: |
-          npx cap build android --keystorepath android/release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
+          npx cap build android --keystorepath release.decrypted.jks --keystorepass ${{secrets.RELEASE_KEYSTORE_PASS}} \
           --keystorealias ${{secrets.RELEASE_KEYSTORE_KEY_ALIAS}} --keystorealiaspass ${{secrets.RELEASE_KEYSTORE_KEY_PASS}} \
           --androidreleasetype AAB
 
@@ -62,12 +56,3 @@ jobs:
           path: |
             apps/mobile/android/app/build/outputs/apk/release/
             apps/mobile/android/app/build/outputs/bundle/release/
-
-      - name: Create Github Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
-          prerelease: true
-          files: |
-            apps/mobile/android/app/build/outputs/apk/release/app-release.apk
-            apps/mobile/android/app/build/outputs/bundle/release/app-release.aab

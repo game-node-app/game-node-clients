@@ -45,9 +45,8 @@ public/sitemap-0.xml
 # partytown
 public/~partytown
 
-.env
+.env.local
 
 !src/wrapper/input
-!src/wrapper/generate.js
 src/wrapper
 /.env.local

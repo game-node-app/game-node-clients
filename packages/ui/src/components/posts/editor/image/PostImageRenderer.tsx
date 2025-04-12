@@ -4,7 +4,12 @@ import { Modal } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
 import { useOnMobilePlatform } from "#@/components";
 
-const PostImageRenderer = ({ node, editor, selected }: NodeViewProps) => {
+const PostImageRenderer = ({
+  node,
+  editor,
+  selected,
+  extension,
+}: NodeViewProps) => {
   const [opened, { open, close }] = useDisclosure();
   const onMobilePlatform = useOnMobilePlatform();
 
@@ -19,17 +24,19 @@ const PostImageRenderer = ({ node, editor, selected }: NodeViewProps) => {
     [editor.isEditable, selected],
   );
 
+  const attributes = extension.options.HTMLAttributes;
+
   return (
     <NodeViewWrapper
       className={`relative inline-block ${showRing ? "ring-2 ring-brand-5 shadow-lg" : ""}`}
+      {...attributes.wrapperProps}
     >
       <img
+        {...attributes.imageProps}
         src={node.attrs.src}
         alt={node.attrs.alt || ""}
         title={node.attrs.title || ""}
-        className={
-          "cursor-pointer transition-transform duration-200 w-full h-auto lg:max-w-[50%] lg:hover:scale-105"
-        }
+        className={`post-image cursor-pointer transition-transform duration-200 h-auto lg:max-w-[50%] lg:hover:scale-[101%] ${attributes.imageProps?.className ?? ""}`}
         onClick={onImageClick}
       />
       <Modal

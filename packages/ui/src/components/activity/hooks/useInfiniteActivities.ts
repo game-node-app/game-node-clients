@@ -22,7 +22,7 @@ export function useInfiniteActivities({
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
       if (lastPage.pagination != undefined && lastPage.pagination.hasNextPage) {
-        return lastPageParam + 1;
+        return lastPageParam + limit;
       }
       return undefined;
     },
