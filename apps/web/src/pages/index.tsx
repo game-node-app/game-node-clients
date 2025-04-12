@@ -49,19 +49,27 @@ const Home = () => {
           <h1 className="text-center font-bold text-3xl lg:text-6xl lg:leading-[4.6rem]">
             Organize all your games <br /> in one place
           </h1>
-          <h3 className="text-center text-xl lg:leading-[120px] mt-6 lg:mt-0 font-light lg:font-bold">
+          <h3 className="text-center text-xl lg:leading-[120px] mt-6 lg:mt-0 font-light mb-12">
             GameNode is the ideal platform to manage your game collection
             virtually.
           </h3>
         </Box>
 
-        <img
-          src="/img/banner_web_landing.png"
-          alt="Profile"
-          width="1040"
-          height="468"
-          className="overflow-hidden object-cover"
-        />
+        <picture className="overflow-hidden">
+          <source
+            media="(max-width: 679px)"
+            srcSet="/img/mock.png"
+            width="220"
+            className="pointer-events-none"
+          />
+          <source media="(min-width: 680px)" srcSet="/img/mock_desk.png" />
+          <img
+            src="/img/mock_desk.png"
+            alt="Profile"
+            className="overflow-hidden object-cover pointer-events-none"
+            loading="lazy"
+          />
+        </picture>
       </Box>
 
       <Box className="bg-gradient-to-b from-[#212121]to-[#090909]w-full h-full flex justify-center mt-24">
@@ -129,14 +137,14 @@ const Home = () => {
       </Box>
 
       <Box className="lg:h-[500px] lg:mt-0 flex flex-col justify-between">
-        <h2 className="text-center text-xl lg:text-2xl font-light lg:font-bold px-4 lg:px-40 my-20">
+        <h2 className="text-center text-xl lg:text-2xl font-light px-4 lg:px-[22rem] my-20">
           Update your to-do list, evaluate the titles you already have tried and
           add the most anticipated releases to your lista de desejos. Conecte-se
           com seus amigos, siga suas atividades and follow each one's latest
           gaming sessions.
         </h2>
 
-        <Box className="flex flex-col items-center lg:mb-24 lg:mt-24">
+        <Box className="flex flex-col items-center px-4 lg:mb-24 lg:mt-24">
           <h3 className="text-center font-medium text-[20px]">
             Import games from your platforms to your GameNode account
           </h3>
@@ -144,8 +152,7 @@ const Home = () => {
           <img
             src="/img/plataforms.png"
             alt="Plataforms"
-            width="519"
-            height="85"
+            width="492"
             className="py-6 px-4"
           />
 
@@ -162,7 +169,7 @@ const Home = () => {
 
         <footer className="mt-20">
           <Paper className="bg-[#191919] h-20">
-            <Box className="h-full flex justify-center lg:justify-between items-center lg:px-20">
+            <Box className="h-full flex justify-center justify-between items-center lg:px-20">
               <img
                 src="/img/main-logo.png"
                 alt="Game Node Logo"
@@ -171,18 +178,30 @@ const Home = () => {
                 className="hidden lg:block"
               />
 
-              <Box className="flex flex-row gap-[28px] items-center">
-                <a href="#" target="_blank">
+              <a
+                href="https://patreon.com/GameNodeApp"
+                target="_blank"
+                className="lg:hidden pl-4"
+              >
+                <img src="/img/patreon_footer.png" alt="patreon" />
+              </a>
+
+              <Box className="flex flex-row gap-[28px] items-center pr-4 lg:pr-0">
+                <a
+                  href="https://patreon.com/GameNodeApp"
+                  target="_blank"
+                  className="hidden lg:block"
+                >
                   <img src="/img/patreon_footer.png" alt="patreon" />
                 </a>
-                <a href="#" target="_blank">
+                <a href="https://github.com/game-node-app" target="_blank">
                   <img src="/img/github_footer.png" alt="github" />
                 </a>
                 <a href="https://discord.gg/kcAT562B5A" target="_blank">
                   <img src="/img/discord_footer.png" alt="discord" />
                 </a>
-                <a href="#" target="_blank">
-                  <img src="/img/twitter_footer.png" alt="twitter" />
+                <a href="https://x.com/gamenodeapp" target="_blank">
+                  <img src="/img/x_footer.png" alt="X" />
                 </a>
               </Box>
             </Box>
