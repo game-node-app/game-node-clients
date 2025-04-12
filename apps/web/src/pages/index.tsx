@@ -76,12 +76,10 @@ const Home = () => {
         <Box className="lg:h-[340px] flex items-center gap-4 flex-col lg:flex-row">
           <Box className="flex flex-col items-center gap-5">
             <Box className="w-[150px] h-[150px] relative">
-              <video
-                src="/img/vergil.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/vergil-compressed.gif"
                 className="w-full h-full object-cover rounded-[5px]"
               />
               <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
@@ -97,12 +95,10 @@ const Home = () => {
           />
           <Box className="flex flex-col items-center gap-5 px-4 z-10">
             <Box className="w-[150px] h-[150px] relative">
-              <video
-                src="/img/videoplayback.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/mh-compressed.gif"
                 className="w-full h-full object-cover rounded-[5px]"
               />
               <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
@@ -119,12 +115,10 @@ const Home = () => {
           />
           <Box className="flex flex-col items-center gap-5">
             <Box className="w-[150px] h-[150px] relative">
-              <video
-                src="/img/valo.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
+              <img
+                loading={"lazy"}
+                alt={"Box animated gif"}
+                src="/img/valorant-compressed.gif"
                 className="w-full h-full object-cover rounded-[5px]"
               />
               <Text className="absolute inset-0 flex items-center justify-center text-[30px]">
