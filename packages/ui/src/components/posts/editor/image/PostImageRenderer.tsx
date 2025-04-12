@@ -36,7 +36,7 @@ const PostImageRenderer = ({
         src={node.attrs.src}
         alt={node.attrs.alt || ""}
         title={node.attrs.title || ""}
-        className={`post-image cursor-pointer transition-transform duration-200 h-auto lg:max-w-[50%] lg:hover:scale-[101%] ${attributes.imageProps?.className ?? ""}`}
+        className={`post-image cursor-pointer transition-transform duration-200 h-auto lg:hover:scale-[101%] ${attributes.imageProps?.className ?? ""}`}
         onClick={onImageClick}
       />
       <Modal

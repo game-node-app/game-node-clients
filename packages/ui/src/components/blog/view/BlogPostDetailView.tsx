@@ -1,22 +1,13 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Group,
-  Image,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Box, Group, Image, Stack, Text, Title } from "@mantine/core";
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
   BlogPostTags,
   CenteredLoading,
-  POST_EDITOR_EXTENSIONS,
   useBlogPost,
   UserAvatarGroup,
 } from "#@/components";
-import { IconCalendarMonth, IconTags } from "@tabler/icons-react";
+import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { getS3StoredUpload } from "#@/util";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -48,9 +39,18 @@ const BlogPostDetailView = ({ postId }: Props) => {
     return <CenteredLoading />;
   }
 
+  if (!editor) return null;
+
   return (
     <Stack className={"w-full items-center"}>
-      <Title>{post.title}</Title>
+      {presentationImageSrc && (
+        <Image
+          className={"rounded-sm"}
+          src={presentationImageSrc}
+          alt={post.title}
+        />
+      )}
+      <Title className={"text-center lg:p-2"}>{post.title}</Title>
       <Group className={"my-3"}>
         <Box className={"max-w-48"}>
           <UserAvatarGroup userId={post.profileUserId} />
@@ -61,18 +61,10 @@ const BlogPostDetailView = ({ postId }: Props) => {
         </Group>
         <BlogPostTags tags={post.tags} />
       </Group>
-      {presentationImageSrc && (
-        <Image
-          className={"rounded-sm"}
-          src={presentationImageSrc}
-          alt={post.title}
-        />
-      )}
-      {editor && (
-        <Box className={"lg:px-3 mt-5"}>
-          <EditorContent className={"w-full"} editor={editor} />
-        </Box>
-      )}
+
+      <Box className={"lg:px-3 mt-5"}>
+        <EditorContent className={"w-full"} editor={editor} />
+      </Box>
     </Stack>
   );
 };

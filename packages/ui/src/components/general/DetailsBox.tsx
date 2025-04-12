@@ -32,7 +32,6 @@ export const DetailsBox = ({
           },
         }}
         gap={"0.5rem"}
-        className={`justify-start px-4 py-2 `}
         {...stackProps}
       >
         <Text

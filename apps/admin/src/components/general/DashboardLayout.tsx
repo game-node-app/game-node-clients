@@ -9,10 +9,14 @@ import {
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { navLinks } from "@/components/Navbar/Navbar.config.ts";
 import { AdminHeader } from "@/components/Headers/AdminHeader.tsx";
-import SessionAuthWithRoles from "@/components/auth/SessionAuthWithRoles.tsx";
-import useOnMobile from "@/components/general/hooks/useOnMobile.ts";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
+import {
+  CenteredLoading,
+  SessionAuthWithRoles,
+  useOnMobile,
+  useUserRoles,
+} from "@repo/ui";
 
 interface Props {
   children: React.ReactNode;
@@ -22,6 +26,7 @@ const DashboardLayout = ({ children }: Props) => {
   const router = useRouter();
   const pathname = router.pathname;
   const onMobile = useOnMobile();
+  const userRoles = useUserRoles();
   // Initially opened on desktop
   const [opened, { toggle }] = useDisclosure(!onMobile);
   const { colorScheme } = useMantineColorScheme();

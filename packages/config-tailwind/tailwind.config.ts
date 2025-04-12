@@ -4,13 +4,13 @@ import prose from "@tailwindcss/typography";
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
   corePlugins: {
-    preflight: true,
+    preflight: false,
   },
   theme: {
     extend: {
-      backgroundImage: {
-        mobile: "url('/img/mobile-bg.jpg')",
-        desktop: "url('/img/desktop-bg.jpg')",
+      backgroundColor: {
+        mobile: "#191919",
+        desktop: "#191919",
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {

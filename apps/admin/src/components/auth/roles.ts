@@ -8,7 +8,13 @@ export enum EUserRoles {
 }
 
 export const getRolesForRoute = (pathname: string) => {
-  const matchingRoute = navLinks.find((item) => item.link.startsWith(pathname));
+  // Excludes path parameter
+  const parsedPathname = pathname.split("/[")[0];
+  const matchingRoute = navLinks.find((item) =>
+    item.link.startsWith(parsedPathname),
+  );
+
+  console.log(pathname, parsedPathname, matchingRoute);
 
   if (matchingRoute) {
     return matchingRoute.roles;

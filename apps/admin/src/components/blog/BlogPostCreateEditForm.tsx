@@ -109,108 +109,111 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
 
   return (
     <form
+      className={"flex flex-col gap-3"}
       ref={formRef}
       onSubmit={handleSubmit((data) => {
         console.log(data);
         postCreateMutation.mutate(data);
       })}
     >
-      <Stack>
-        <TextInput
-          label="Title"
-          placeholder="Latest development from GameNode"
-          error={errors.title?.message}
-          {...register("title")}
-          withAsterisk
-        />
-        <TagsInput
-          {...register("tags")}
-          value={watch("tags")}
-          data={availableTags}
-          label="Tags"
-          description="Type and press Enter to submit a new tag. Created tags will also be selectable in the future."
-          placeholder="game, development"
-          error={errors.tags?.message}
-          onChange={(tags) => setValue("tags", tags)}
-          withAsterisk
-          clearable
-        />
-        <FileInput
-          label={"Presentation image"}
-          description={
-            editingPostId
-              ? "Replace image. Leave empty to keep the current one."
-              : "Upload image"
+      <TextInput
+        label="Title"
+        placeholder="Latest development from GameNode"
+        error={errors.title?.message}
+        {...register("title")}
+        withAsterisk
+      />
+      <TagsInput
+        {...register("tags")}
+        value={watch("tags")}
+        data={availableTags}
+        label="Tags"
+        description="Type and press Enter to submit a new tag. Created tags will also be selectable in the future."
+        placeholder="game, development"
+        error={errors.tags?.message}
+        onChange={(tags) => setValue("tags", tags)}
+        withAsterisk
+        clearable
+      />
+      <FileInput
+        label={"Presentation image"}
+        description={
+          editingPostId
+            ? "Replace image. Leave empty to keep the current one."
+            : "Upload image"
+        }
+        onChange={(file) => {
+          if (file) {
+            setValue("image", file);
           }
-          onChange={(file) => {
-            if (file) {
-              setValue("image", file);
-            }
-          }}
-        />
-        <Checkbox
-          {...register("isDraft")}
-          checked={watch("isDraft")}
-          onChange={(evt) => setValue("isDraft", evt.target.checked)}
-          label="Draft"
-          description={
-            "Save as draft first. This option is temporarily unavailable."
-          }
-          disabled={true}
-        />
-        <Title size={"h5"}>Content</Title>
-        <PostEditor
-          extensions={BLOG_POST_EDITOR_EXTENSIONS}
-          isPublishPending={postCreateMutation.isPending}
-          onPublishClick={() => {
-            formRef.current?.requestSubmit();
-          }}
-          editorOptions={{
-            onCreate: (editorCreateProps) => {
-              editor.current = editorCreateProps.editor;
-            },
-            onUpdate: ({ editor }) => {
-              setValue("content", editor.getHTML());
-            },
-          }}
-          controls={
-            <>
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Bold />
-                <RichTextEditor.Italic />
-                <RichTextEditor.ClearFormatting />
-                <RichTextEditor.Code />
-              </RichTextEditor.ControlsGroup>
+        }}
+      />
+      <Checkbox
+        {...register("isDraft")}
+        checked={watch("isDraft")}
+        onChange={(evt) => setValue("isDraft", evt.target.checked)}
+        label="Draft"
+        description={
+          "Save as draft first. This option is temporarily unavailable."
+        }
+        disabled={true}
+      />
+      <Title size={"h5"}>Content</Title>
+      <PostEditor
+        extensions={BLOG_POST_EDITOR_EXTENSIONS}
+        isPublishPending={postCreateMutation.isPending}
+        onPublishClick={() => {
+          formRef.current?.requestSubmit();
+        }}
+        editorOptions={{
+          onCreate: (editorCreateProps) => {
+            editor.current = editorCreateProps.editor;
+          },
+          onUpdate: ({ editor }) => {
+            setValue("content", editor.getHTML());
+          },
+        }}
+        toolbarProps={{
+          sticky: true,
+          stickyOffset: 85,
+        }}
+        controls={
+          <>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Bold />
+              <RichTextEditor.Italic />
+              <RichTextEditor.ClearFormatting />
+              <RichTextEditor.Code />
+            </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.H1 />
-                <RichTextEditor.H2 />
-                <RichTextEditor.H3 />
-                <RichTextEditor.H4 />
-              </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.H1 />
+              <RichTextEditor.H2 />
+              <RichTextEditor.H3 />
+              <RichTextEditor.H4 />
+            </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Blockquote />
-                <RichTextEditor.Hr />
-                <RichTextEditor.BulletList />
-                <RichTextEditor.OrderedList />
-              </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Blockquote />
+              <RichTextEditor.Hr />
+              <RichTextEditor.BulletList />
+              <RichTextEditor.OrderedList />
+            </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Link />
-                <RichTextEditor.Unlink />
-              </RichTextEditor.ControlsGroup>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Link />
+              <RichTextEditor.Unlink />
+            </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.AlignLeft />
-                <RichTextEditor.AlignCenter />
-                <RichTextEditor.AlignJustify />
-                <RichTextEditor.AlignRight />
-              </RichTextEditor.ControlsGroup>
-            </>
-          }
-        />
-      </Stack>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.AlignLeft />
+              <RichTextEditor.AlignCenter />
+              <RichTextEditor.AlignJustify />
+              <RichTextEditor.AlignRight />
+            </RichTextEditor.ControlsGroup>
+          </>
+        }
+      />
     </form>
   );
 };

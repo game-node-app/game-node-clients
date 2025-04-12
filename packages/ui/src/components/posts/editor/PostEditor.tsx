@@ -1,5 +1,10 @@
 import React, { ComponentProps, useMemo, useState } from "react";
-import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
+import {
+  RichTextEditor,
+  RichTextEditorContentProps,
+  RichTextEditorProps,
+  RichTextEditorToolbarProps,
+} from "@mantine/tiptap";
 import { EditorOptions, useEditor } from "@tiptap/react";
 
 import {
@@ -22,13 +27,14 @@ import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts"
 
 export interface PostEditorProps {
   wrapperProps?: StackProps;
-  editorProps?: Omit<Partial<RichTextEditorProps>, "editor" | "children">;
+  editorProps?: RichTextEditorContentProps;
   editorOptions?: Omit<
     Partial<EditorOptions>,
     "onDrop" | "onPaste" | "extensions"
   >;
   isPublishPending: boolean;
   onPublishClick: () => Promise<void> | void;
+  toolbarProps?: RichTextEditorToolbarProps;
   // RichTextEditor.staticComponents members.
   // Rendered at the top of the editor to provide functionality.
   controls?: React.ReactNode;
@@ -43,6 +49,7 @@ const PostEditor = ({
   isPublishPending,
   onPublishClick,
   extensions = POST_EDITOR_EXTENSIONS,
+  toolbarProps,
   controls,
 }: PostEditorProps) => {
   const userId = useUserId();
@@ -136,35 +143,28 @@ const PostEditor = ({
   }
 
   return (
-    <Stack className="space-y-4 mb-8 gap-2" {...wrapperProps}>
-      <Paper className="relative overflow-hidden shadow-sm" withBorder p={0}>
-        <RichTextEditor
-          mih={{
-            base: "20vh",
-            lg: "25vh",
-          }}
-          {...editorProps}
-          editor={editor}
-          onClick={(evt) => {
-            setShowActions(true);
-            if (editorProps?.onClick) {
-              editorProps.onClick(evt);
-            }
-          }}
-        >
-          <RichTextEditor.Toolbar sticky stickyOffset={0}>
-            {renderedControls}
-          </RichTextEditor.Toolbar>
+    <>
+      <RichTextEditor
+        editor={editor}
+        onClick={(evt) => {
+          setShowActions(true);
+          if (editorProps?.onClick) {
+            editorProps.onClick(evt);
+          }
+        }}
+      >
+        <RichTextEditor.Toolbar {...toolbarProps}>
+          {renderedControls}
+        </RichTextEditor.Toolbar>
 
-          <RichTextEditor.Content w={"100%"} h={"100%"} />
+        <RichTextEditor.Content w={"100%"} h={"100%"} {...editorProps} />
 
-          <LoadingOverlay
-            visible={uploadImageMutation.isPending || isPublishPending}
-            zIndex={1000}
-            overlayProps={{ radius: "sm", blur: 1 }}
-          />
-        </RichTextEditor>
-      </Paper>
+        <LoadingOverlay
+          visible={uploadImageMutation.isPending || isPublishPending}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 1 }}
+        />
+      </RichTextEditor>
       {showActions && (
         <Group className={"justify-between"}>
           <FileButton
@@ -192,7 +192,7 @@ const PostEditor = ({
           </Button>
         </Group>
       )}
-    </Stack>
+    </>
   );
 };
 
