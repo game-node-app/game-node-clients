@@ -1,7 +1,7 @@
 {
   "name": "admin",
   "private": true,
-  "version": "1.5.3",
+  "version": "1.5.4",
   "author": "GameNode <support@gamenode.app>",
   "description": "GameNode's admin dashboard",
   "scripts": {

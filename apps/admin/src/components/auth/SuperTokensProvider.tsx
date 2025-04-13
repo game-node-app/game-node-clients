@@ -41,21 +41,6 @@ export const frontendConfig = (): SuperTokensConfig => {
             --palette-textGray: 158, 158, 158;
         }
     `,
-    getRedirectionURL: async (context: GetRedirectionURLContext) => {
-      if (context.action == "TO_AUTH") {
-        if (process.env.NODE_ENV === "production")
-          return `${mainWebsiteDomain}/auth?redirectToPath=${websiteDomain}`;
-
-        return "/auth";
-      }
-
-      if (context.redirectToPath !== undefined) {
-        // we are navigating back to where the user was before they authenticated
-        return context.redirectToPath;
-      }
-
-      return "/dashboard/home";
-    },
     recipeList: [
       Passwordless.init({
         contactMethod: "EMAIL",
