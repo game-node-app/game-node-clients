@@ -1,15 +1,15 @@
 @layer tailwind {
     @tailwind base;
-    .tiptap *{
-        @apply prose text-[var(--mantine-color-text)]
-    }
 }
 @tailwind components;
 @tailwind utilities;
 
+a {
+    text-decoration: none;
+    color: unset;
+}
 
-/*
-* Thanks to @layer rule, tailwind base get lower "priority"
-* than mantine css rules even if they have same specificity.
-* Thanks to this, we CAN use preflight reset from tailwind.
-*/
+.tiptap a {
+    @apply text-brand-4 underline
+}
+

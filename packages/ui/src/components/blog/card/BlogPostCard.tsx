@@ -117,7 +117,7 @@ const BlogPostCard = ({
           </AspectRatio>
         </UnstyledButton>
       </Card.Section>
-      <Card.Section className={"flex flex-start flex-nowrap gap-5 px-3 my-2"}>
+      <Card.Section className={"flex flex-start flex-wrap gap-5 px-3 my-2"}>
         <Box className={"max-w-48"}>
           <UserAvatarGroup userId={post.profileUserId} />
         </Box>
@@ -128,7 +128,6 @@ const BlogPostCard = ({
           </Group>
           <BlogPostTags tags={post.tags} />
 
-          {post.isDraft && <Badge color={"red"}>Draft</Badge>}
           {withActions && hasEditPermission && (
             <Box className={"ml-auto"}>
               <ItemDropdown>
@@ -142,6 +141,7 @@ const BlogPostCard = ({
             </Box>
           )}
         </Group>
+        {post.isDraft && <Badge color={"red"}>Draft</Badge>}
       </Card.Section>
       <Card.Section className={"p-2 min-h-24"}>
         <Stack>

@@ -2,22 +2,18 @@ import React, { PropsWithChildren } from "react";
 import { Text, TextProps } from "@mantine/core";
 import { Link } from "#@/util";
 
-interface ITextLinkProps extends PropsWithChildren<TextProps> {
+interface ITextLinkProps extends React.HTMLProps<HTMLAnchorElement> {
   href: string;
-  linkProps?: React.HTMLProps<HTMLAnchorElement>;
 }
 
-const TextLink = ({
-  href,
-  children,
-  linkProps,
-  ...textProps
-}: ITextLinkProps) => {
+const TextLink = ({ href, children, ...linkProps }: ITextLinkProps) => {
   return (
-    <Link href={href} {...linkProps}>
-      <Text {...textProps} className={`underline ${textProps.className}`}>
-        {children}
-      </Text>
+    <Link
+      href={href}
+      {...linkProps}
+      className={`underline ${linkProps.className ?? ""}`}
+    >
+      {children}
     </Link>
   );
 };

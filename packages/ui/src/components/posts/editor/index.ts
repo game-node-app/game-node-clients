@@ -3,6 +3,5 @@
  */
 
 export * from "./GamePostEditor";
-export * from "./PostEditor";
 export * from "./constants";
 export * from "./image/index";

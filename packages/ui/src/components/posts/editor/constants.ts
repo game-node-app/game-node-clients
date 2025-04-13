@@ -31,10 +31,10 @@ export const BLOG_POST_EDITOR_EXTENSIONS = [
   PostImage.configure({
     HTMLAttributes: {
       imageProps: {
-        className: "rounded-sm lg:max-w-[60%]",
+        className: "rounded-sm w-full",
       },
       wrapperProps: {
-        className: "flex justify-center",
+        className: "flex justify-center w-full",
       },
     },
   }),
