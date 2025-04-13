@@ -70,11 +70,9 @@ const ProfileUserInfo = ({
 
         {isOwnProfile && withEditDetailsButton && (
           <TextLink
-            linkProps={{
-              onClick: (evt) => {
-                evt.preventDefault();
-                if (onEditClick) onEditClick();
-              },
+            onClick={(evt) => {
+              evt.preventDefault();
+              if (onEditClick) onEditClick();
             }}
             href={"#"}
             className={"mt-6"}

@@ -40,7 +40,7 @@ const Index = () => {
               <Text c={"red"}>
                 It seems like you don't have any connection set up for
                 importing.{" "}
-                <TextLink span href={"/preferences/connections"}>
+                <TextLink href={"/preferences/connections"}>
                   Click here
                 </TextLink>{" "}
                 to set one up.

@@ -44,11 +44,11 @@ const UserFollowActivityItem = ({ activity, withUserAvatar = true }: Props) => {
         </Box>
         <Box className={withUserAvatar ? "w-6/12" : "w-6/12 ms-4 lg:ms-8"}>
           <Text>
-            <TextLink href={`/profile/${followerUserId}`} span>
+            <TextLink href={`/profile/${followerUserId}`}>
               {followerUserProfile.data?.username}
             </TextLink>{" "}
             has started following{" "}
-            <TextLink href={`/profile/${followedUserId}`} span>
+            <TextLink href={`/profile/${followedUserId}`}>
               {followedUserProfile.data?.username}
             </TextLink>
           </Text>
