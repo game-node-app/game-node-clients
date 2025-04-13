@@ -33,7 +33,7 @@ const HomeFab = ({ contentRef }: Props) => {
         <SessionAuth>
           <GamePostEditor
             editorProps={{
-              mih: "50vh",
+              mih: "95vh",
             }}
             onPublish={createPostModalUtils.close}
           />

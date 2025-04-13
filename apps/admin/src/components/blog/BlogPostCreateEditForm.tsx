@@ -1,16 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import {
+  ActionIcon,
+  Button,
   Checkbox,
+  FileButton,
   FileInput,
+  Group,
   Stack,
   TagsInput,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
   createErrorNotification,
-  PostEditor,
   useBlogPost,
   useBlogPostTags,
 } from "@repo/ui";
@@ -23,6 +27,8 @@ import { BlogPostService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { Editor } from "@tiptap/core";
 import { useRouter } from "next/router";
+import { BlogPostEditor } from "@/components/blog/editor/BlogPostEditor.tsx";
+import { IconPhoto } from "@tabler/icons-react";
 
 const BlogPostCreateSchema = z.object({
   content: z.string().min(10, "Your post must not be empty."),
@@ -33,6 +39,7 @@ const BlogPostCreateSchema = z.object({
     .max(3, "You can only specify up to 3 tags."),
   image: z.instanceof(File, { message: "Must be a valid file." }).optional(),
   isDraft: z.boolean().default(true),
+  targetPostId: z.string().optional(),
 });
 
 type BlogPostCreateFormValues = z.infer<typeof BlogPostCreateSchema>;
@@ -44,7 +51,7 @@ interface Props {
 const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const editor = useRef<Editor>(null);
+  const editorRef = useRef<Editor>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const postTagsQuery = useBlogPostTags();
@@ -61,20 +68,19 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     resolver: zodResolver(BlogPostCreateSchema),
     defaultValues: {
       tags: [],
-      isDraft: false,
+      isDraft: true,
     },
   });
+
+  const isDraft = watch("isDraft");
 
   const availableTags = postTagsQuery.data?.map((tag) => tag.name) || [];
 
   const postCreateMutation = useMutation({
     mutationFn: async (data: BlogPostCreateFormValues) => {
-      console.log("Sent data: ", data);
       await BlogPostService.blogPostControllerCreateV1({
         ...data,
-        // Necessary because multipart/form-data can't parse booleans directly.
-        isDraft: String(data.isDraft) as unknown as boolean,
-        postId: editingPostId,
+        postId: data.targetPostId,
       });
     },
     onSuccess: () => {
@@ -86,7 +92,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ["blog", "posts"],
+        queryKey: ["blog"],
       });
     },
     onError: createErrorNotification,
@@ -95,10 +101,11 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
   // Updates form to match current editing post
   useEffect(() => {
     if (editingPostId && editingPostQuery.data) {
+      setValue("targetPostId", editingPostId);
       const { title, tags, content, isDraft } = editingPostQuery.data;
       setValue("title", title);
       setValue("content", content);
-      editor.current?.commands.setContent(content);
+      editorRef.current?.commands.setContent(content);
       setValue(
         "tags",
         tags.map((tag) => tag.name),
@@ -112,7 +119,6 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
       className={"flex flex-col gap-3"}
       ref={formRef}
       onSubmit={handleSubmit((data) => {
-        console.log(data);
         postCreateMutation.mutate(data);
       })}
     >
@@ -153,67 +159,24 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         checked={watch("isDraft")}
         onChange={(evt) => setValue("isDraft", evt.target.checked)}
         label="Draft"
-        description={
-          "Save as draft first. This option is temporarily unavailable."
-        }
-        disabled={true}
+        description={"Save as draft first."}
       />
       <Title size={"h5"}>Content</Title>
-      <PostEditor
-        extensions={BLOG_POST_EDITOR_EXTENSIONS}
-        isPublishPending={postCreateMutation.isPending}
-        onPublishClick={() => {
-          formRef.current?.requestSubmit();
+      <Text className={"text-dimmed text-sm"}>
+        Make sure to keep your post saved.
+      </Text>
+      <BlogPostEditor
+        onCreate={({ editor }) => {
+          editorRef.current = editor;
         }}
-        editorOptions={{
-          onCreate: (editorCreateProps) => {
-            editor.current = editorCreateProps.editor;
-          },
-          onUpdate: ({ editor }) => {
-            setValue("content", editor.getHTML());
-          },
-        }}
-        toolbarProps={{
-          sticky: true,
-          stickyOffset: 85,
-        }}
-        controls={
-          <>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.ClearFormatting />
-              <RichTextEditor.Code />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.H1 />
-              <RichTextEditor.H2 />
-              <RichTextEditor.H3 />
-              <RichTextEditor.H4 />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Blockquote />
-              <RichTextEditor.Hr />
-              <RichTextEditor.BulletList />
-              <RichTextEditor.OrderedList />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
-          </>
-        }
+        onUpdate={({ editor }) => setValue("content", editor.getHTML())}
+        isPending={postCreateMutation.isPending}
       />
+      <Group className={"justify-end"}>
+        <Button type={"submit"} bg={isDraft ? "blue" : "brand"}>
+          {isDraft ? "Save" : "Publish"}
+        </Button>
+      </Group>
     </form>
   );
 };

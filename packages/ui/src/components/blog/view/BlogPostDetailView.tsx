@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Group, Image, Stack, Text, Title } from "@mantine/core";
+import { Badge, Box, Group, Image, Stack, Text, Title } from "@mantine/core";
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
   BlogPostTags,
@@ -60,6 +60,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
           <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
         </Group>
         <BlogPostTags tags={post.tags} />
+        {post.isDraft && <Badge color={"red"}>Draft</Badge>}
       </Group>
 
       <Box className={"lg:px-3 mt-5"}>

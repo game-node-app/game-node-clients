@@ -6,6 +6,7 @@ import type { BlogPost } from '../models/BlogPost';
 import type { BlogPostTag } from '../models/BlogPostTag';
 import type { CreateUpdateBlogPostDto } from '../models/CreateUpdateBlogPostDto';
 import type { FindAllBlogPostResponseDto } from '../models/FindAllBlogPostResponseDto';
+import type { UpdateBlogPostImageDto } from '../models/UpdateBlogPostImageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -88,6 +89,26 @@ export class BlogPostService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/blog/post',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+        });
+    }
+    /**
+     * @param postId
+     * @param formData
+     * @returns void
+     * @throws ApiError
+     */
+    public static blogPostControllerUpdatePostImageV1(
+        postId: string,
+        formData: UpdateBlogPostImageDto,
+    ): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/v1/blog/post/{postId}/image',
+            path: {
+                'postId': postId,
+            },
             formData: formData,
             mediaType: 'multipart/form-data',
         });

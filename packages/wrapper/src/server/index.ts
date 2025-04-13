@@ -117,6 +117,7 @@ export type { ReviewStatistics } from './models/ReviewStatistics';
 export type { ReviewStatisticsPaginatedResponseDto } from './models/ReviewStatisticsPaginatedResponseDto';
 export { StatisticsActionDto } from './models/StatisticsActionDto';
 export type { StatisticsStatus } from './models/StatisticsStatus';
+export type { UpdateBlogPostImageDto } from './models/UpdateBlogPostImageDto';
 export type { UpdateCollectionDto } from './models/UpdateCollectionDto';
 export { UpdateCommentDto } from './models/UpdateCommentDto';
 export type { UpdateFeaturedObtainedAchievementDto } from './models/UpdateFeaturedObtainedAchievementDto';
