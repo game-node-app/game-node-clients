@@ -1,10 +1,7 @@
 import React, { PropsWithChildren } from "react";
-import { useUserRoles } from "#@/components/auth/hooks/useUserRoles";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { EUserRoles } from "#@/components/auth/roles";
 import { UserRoleClaim } from "supertokens-auth-react/recipe/userroles";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { Stack } from "@mantine/core";
 import { AccessDeniedScreen } from "supertokens-auth-react/recipe/session/prebuiltui";
 
 interface Props extends PropsWithChildren {
@@ -12,16 +9,6 @@ interface Props extends PropsWithChildren {
 }
 
 const SessionAuthWithRoles = ({ children, roles }: Props) => {
-  const userRoles = useUserRoles();
-
-  if (userRoles.length === 0) {
-    return (
-      <Stack className={"w-screen h-screen items-center justify-center"}>
-        <CenteredLoading message={"Loading access permissions..."} />
-      </Stack>
-    );
-  }
-
   return (
     <SessionAuth
       accessDeniedScreen={AccessDeniedScreen}
