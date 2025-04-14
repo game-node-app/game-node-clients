@@ -114,7 +114,13 @@ const GameInfoReviewList = ({
   }
 
   return (
-    <DetailsBox enabled={content != undefined} title={"Reviews"}>
+    <DetailsBox
+      enabled={content != undefined}
+      title={"Reviews"}
+      stackProps={{
+        className: "p-3",
+      }}
+    >
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"}>
           {content}

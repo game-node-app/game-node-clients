@@ -67,7 +67,13 @@ const GameInfoImageCarousel = ({
 
   return (
     <Flex w={"100%"} wrap={"wrap"}>
-      <DetailsBox title={"Images"} enabled={hasImages}>
+      <DetailsBox
+        title={"Images"}
+        enabled={hasImages}
+        stackProps={{
+          className: "p-2",
+        }}
+      >
         <Carousel
           slideSize={{
             base: "100%",

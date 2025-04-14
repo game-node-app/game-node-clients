@@ -12,6 +12,8 @@ import ImporterByTypePage from "@/pages/importer/source";
 import ActivityPage from "@/pages/activity";
 import ActivityDetailPage from "@/pages/activity/detail";
 import { PostsPage } from "@/pages/posts.tsx";
+import { BlogPostsPage } from "@/pages/blog/index";
+import { BlogPostDetailPage } from "@/pages/blog/detail";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -120,5 +122,15 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route key={`${prefix}-posts`} path={`${prefix}/posts`}>
       <PostsPage />
     </Route>,
+    <Route key={`${prefix}-blog-posts`} path={`${prefix}/blog`}>
+      <BlogPostsPage />
+    </Route>,
+    <Route
+      key={`${prefix}-blog-post-detail`}
+      path={`${prefix}/blog/post/:postId`}
+      render={(props) => {
+        return <BlogPostDetailPage postId={props.match.params.postId} />;
+      }}
+    />,
   ];
 }

@@ -1,12 +1,21 @@
-import { SimpleGrid, Stack } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Popover,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
 import React, { useCallback, useState } from "react";
 import {
   BlogPostCard,
   CenteredLoading,
+  DetailsBox,
   GameViewPagination,
   useBlogPosts,
 } from "#@/components";
 import { getOffsetAsPage, getPageAsOffset, useRouter } from "#@/util";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 interface Props {
   limit?: number;
@@ -46,7 +55,36 @@ const BlogPostsFeed = ({ limit = 20, tag }: Props) => {
   if (postsQuery.isLoading) return <CenteredLoading />;
 
   return (
-    <Stack className="w-full min-h-dvh">
+    <DetailsBox
+      title={""}
+      stackProps={{
+        className: "w-full min-h-dvh",
+      }}
+      rightSide={
+        <Popover position={"left-end"}>
+          <Popover.Target>
+            <ActionIcon>
+              <IconQuestionMark />
+            </ActionIcon>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Box className={"w-full max-w-60"}>
+              <Text className={"text-wrap"}>
+                Our blog posts are published by independent contributors as a
+                way to give visibility to the great writers and editors of our
+                community. You too can write for us if interested!
+              </Text>
+              <Text className={"text-sm text-dimmed text-wrap"}>
+                As such, these blog posts may not share or reflect the ideals,
+                vision or opinions of the core GameNode team. Content is of
+                responsibility of the Post author. Please contact our team
+                through Discord if you notice any issues.
+              </Text>
+            </Box>
+          </Popover.Dropdown>
+        </Popover>
+      }
+    >
       {firstPost && (
         <BlogPostCard
           post={firstPost}
@@ -72,7 +110,7 @@ const BlogPostsFeed = ({ limit = 20, tag }: Props) => {
         paginationInfo={postsQuery.data?.pagination}
         onPaginationChange={(page) => setOffset(getPageAsOffset(page, limit))}
       />
-    </Stack>
+    </DetailsBox>
   );
 };
 

@@ -23,7 +23,11 @@ import {
 import { useInfiniteSearchGames } from "@/components/game/hooks/useInfiniteSearchGames";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
-import { TGameOrSearchGame, toGameSearchRequestDto } from "@repo/ui";
+import {
+  GameSearchTips,
+  TGameOrSearchGame,
+  toGameSearchRequestDto,
+} from "@repo/ui";
 import { useDebouncedValue } from "@mantine/hooks";
 
 const GameSearchPage = () => {
@@ -88,6 +92,7 @@ const GameSearchPage = () => {
       <IonContent fullscreen>
         <Container fluid className={"min-h-screen my-4"}>
           <Stack className={"w-full h-full"}>
+            <GameSearchTips />
             {isError && (
               <CenteredErrorMessage message={getErrorMessage(error)} />
             )}

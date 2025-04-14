@@ -1,155 +1,134 @@
-import { Container, Flex, Stack } from "@mantine/core";
+import { Box, Container } from "@mantine/core";
 import React, { useMemo, useState } from "react";
 import {
   IonBackButton,
   IonButtons,
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonLabel,
   IonPage,
-  IonSearchbar,
-  IonSelect,
-  IonSelectOption,
-  IonTitle,
+  IonSegment,
+  IonSegmentButton,
+  IonSegmentContent,
+  IonSegmentView,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import {
-  FindStatisticsTrendingGamesDto,
-  GameStatisticsPaginatedResponseDto,
-} from "@repo/wrapper/server";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
-import period = FindStatisticsTrendingGamesDto.period;
-import { useGames, useInfiniteTrendingGames } from "@repo/ui";
-import GameView from "@/components/game/view/GameView";
+import { ExploreGamesPageView } from "@/components/explore/ExploreGamesPageView";
+import { ExplorePostsPageView } from "@/components/explore/ExplorePostsPageView";
+import { ExploreActivityPageView } from "@/components/explore/ExploreActivityPageView.tsx";
+import "@/components/explore/explore.css";
+import { GamePostEditor, Modal } from "@repo/ui";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { IconMessage2Share } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 
-const SELECT_PERIOD_DATA = [
-  { label: "Week", value: period.WEEK },
-  { label: "Month", value: period.MONTH },
-  {
-    label: "3 months",
-    value: period.QUARTER,
-  },
-  {
-    label: "6 months",
-    value: period.HALF_YEAR,
-  },
-  {
-    label: "Year",
-    value: period.YEAR,
-  },
-  {
-    label: "All time",
-    value: period.ALL,
-  },
-];
-
-const DEFAULT_LIMIT = 48;
+type ExploreSegment = "games" | "posts" | "activity";
 
 const ExplorePage = () => {
   const router = useIonRouter();
-
   const pathname = router.routeInfo.pathname;
-
   const isInTab = pathname.split("/").length === 2;
 
-  const [query, setQuery] = useState("");
+  const [createPostModalOpened, createPostModalUtils] = useDisclosure();
 
-  const [selectedPeriod, setSelectedPeriod] = useState(period.MONTH);
+  const [selectedSegment, setSelectedSegment] =
+    useState<ExploreSegment>("games");
 
-  const [trendingQueryDto, setTrendingQueryDto] =
-    useState<FindStatisticsTrendingGamesDto>({
-      period: selectedPeriod,
-      limit: DEFAULT_LIMIT,
-    });
+  const renderedContent = useMemo(() => {
+    switch (selectedSegment) {
+      case "games":
+        return <ExploreGamesPageView />;
+      case "posts":
+        return <ExplorePostsPageView />;
 
-  const trendingGamesQuery = useInfiniteTrendingGames(trendingQueryDto);
-
-  const gamesIds = useMemo(() => {
-    if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
-      return undefined;
-    return trendingGamesQuery.data?.pages.flatMap(
-      (statisticsPaginatedResponse: GameStatisticsPaginatedResponseDto) => {
-        return statisticsPaginatedResponse.data.map(
-          (statistics) => statistics.gameId!,
-        );
-      },
-    );
-  }, [trendingGamesQuery.data, trendingGamesQuery.isError]);
-
-  const gamesQuery = useGames(
-    {
-      gameIds: gamesIds,
-      relations: {
-        cover: true,
-      },
-    },
-    true,
-  );
-
-  const periodSelectOptions = useMemo(() => {
-    return SELECT_PERIOD_DATA.map((option) => {
-      return (
-        <IonSelectOption key={option.value} value={option.value}>
-          {option.label}
-        </IonSelectOption>
-      );
-    });
-  }, []);
+      default:
+        return <ExploreGamesPageView />;
+    }
+  }, [selectedSegment]);
 
   return (
     <IonPage>
       <IonHeader>
-        {isInTab ? null : (
-          <IonToolbar>
-            <IonButtons>
-              <IonBackButton />
-            </IonButtons>
-          </IonToolbar>
-        )}
+        <IonToolbar>
+          <IonSegment
+            value={selectedSegment}
+            onIonChange={(evt) =>
+              setSelectedSegment(evt.detail.value as unknown as ExploreSegment)
+            }
+          >
+            <IonSegmentButton value="games">
+              <IonLabel>Games</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value="posts">
+              <IonLabel>Posts</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value="activity">
+              <IonLabel>Activity</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
+        </IonToolbar>
       </IonHeader>
       <IonContent>
-        <Container fluid className={"min-h-screen my-4"}>
-          <Stack className={"w-full"}>
-            <Flex className={"w-full justify-end"}>
-              <IonSelect
-                label={"Trending in"}
-                interface="action-sheet"
-                placeholder="Select period"
-                onIonChange={(evt) => {
-                  setSelectedPeriod(evt.detail.value);
-                  setTrendingQueryDto((prev) => ({
-                    ...prev,
-                    period: evt.detail.value,
-                  }));
+        <IonFab
+          slot="fixed"
+          horizontal="end"
+          vertical="bottom"
+          className={"me-2 mb-2 hidden data-[active=true]:block"}
+          data-active={selectedSegment === "posts" ? "true" : "false"}
+        >
+          <Modal
+            opened={createPostModalOpened}
+            onClose={createPostModalUtils.close}
+            title={"Publish post"}
+            breakpoints={[0.5, 0.75, 0.85, 1]}
+            initialBreakpoint={1}
+          >
+            <SessionAuth>
+              <GamePostEditor
+                editorProps={{
+                  mih: "65vh",
                 }}
-                value={selectedPeriod}
-              >
-                {periodSelectOptions}
-              </IonSelect>
-            </Flex>
-            <GameView layout={"grid"}>
-              <GameView.Content
-                items={gamesQuery.data}
-                // This enables a loading spinner at the top
-                isLoading={trendingGamesQuery.isLoading || gamesQuery.isLoading}
-                isFetching={
-                  trendingGamesQuery.isFetching || gamesQuery.isFetching
-                }
-                hasNextPage={trendingGamesQuery.hasNextPage}
-                onLoadMore={async () => {
-                  if (
-                    trendingGamesQuery.isFetching ||
-                    gamesQuery.isLoading ||
-                    gamesQuery.isFetching
-                  ) {
-                    return;
-                  }
-
-                  await trendingGamesQuery.fetchNextPage();
-                }}
+                onPublish={createPostModalUtils.close}
               />
-            </GameView>
-          </Stack>
+            </SessionAuth>
+          </Modal>
+          <IonFabButton
+            color={"primary"}
+            onClick={() => {
+              createPostModalUtils.open();
+            }}
+          >
+            <IconMessage2Share />
+          </IonFabButton>
+        </IonFab>
+        <Container fluid className={"min-h-screen my-4"}>
+          <Box
+            className={
+              "hidden data-[active=true]:block explore-segment-content"
+            }
+            data-active={selectedSegment === "games" ? "true" : "false"}
+          >
+            <ExploreGamesPageView />
+          </Box>
+          <Box
+            className={
+              "hidden data-[active=true]:block explore-segment-content"
+            }
+            data-active={selectedSegment === "posts" ? "true" : "false"}
+          >
+            <ExplorePostsPageView />
+          </Box>
+          <Box
+            className={
+              "hidden data-[active=true]:block explore-segment-content"
+            }
+            data-active={selectedSegment === "activity" ? "true" : "false"}
+          >
+            <ExploreActivityPageView />
+          </Box>
         </Container>
       </IonContent>
     </IonPage>

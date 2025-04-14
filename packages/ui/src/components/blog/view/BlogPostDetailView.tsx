@@ -50,8 +50,8 @@ const BlogPostDetailView = ({ postId }: Props) => {
           alt={post.title}
         />
       )}
-      <Title className={"text-center lg:p-2"}>{post.title}</Title>
-      <Group className={"my-3"}>
+      <Title className={"text-center p-2"}>{post.title}</Title>
+      <Group className={"my-3 p-2"}>
         <Box className={"max-w-48"}>
           <UserAvatarGroup userId={post.profileUserId} />
         </Box>
@@ -63,7 +63,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
         {post.isDraft && <Badge color={"red"}>Draft</Badge>}
       </Group>
 
-      <Box className={"lg:px-3 mt-5"}>
+      <Box className={"lg:px-3 lg:mt-5 p-2"}>
         <EditorContent className={"w-full"} editor={editor} />
       </Box>
     </Stack>

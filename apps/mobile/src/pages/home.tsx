@@ -12,7 +12,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import React, { useRef } from "react";
-import { ActionIcon, Box, Container, Image, Stack } from "@mantine/core";
+import { Container, Image, Stack } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { useQueryClient } from "@tanstack/react-query";
@@ -38,31 +38,37 @@ const HomePage = () => {
   const userId = useUserId();
   return (
     <IonPage>
-      <IonContent ref={contentRef} fullscreen>
+      <IonHeader>
+        <IonToolbar>
+          <Image src={"/img/short-logo.png"} className={"h-auto w-12 ms-4"} />
+          <IonButtons slot={"end"}>
+            <IonButton routerLink={"/home/search"}>
+              <IconSearch />
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent ref={contentRef}>
         <IonRefresher
           slot={"fixed"}
           onIonRefresh={async (evt) => {
-            const promises: Promise<unknown>[] = [];
-            promises.push(
+            const promises: Promise<unknown>[] = [
               queryClient.invalidateQueries({
                 queryKey: ["recommendation"],
               }),
-            );
-            promises.push(
               queryClient.invalidateQueries({
                 queryKey: ["activities"],
               }),
-            );
-            promises.push(
               queryClient.invalidateQueries({
                 queryKey: ["comments"],
               }),
-            );
-            promises.push(
               queryClient.invalidateQueries({
                 queryKey: ["posts", "feed"],
               }),
-            );
+              queryClient.invalidateQueries({
+                queryKey: ["blog"],
+              }),
+            ];
 
             await Promise.all(promises);
 
@@ -72,68 +78,50 @@ const HomePage = () => {
           <IonRefresherContent />
         </IonRefresher>
         <HomeFab contentRef={contentRef} />
-        <Container fluid className={"w-full my-4"}>
-          <SearchBar
-            className={"my-3"}
-            label={"Search for games"}
-            onClick={() => {
-              router.push(getTabAwareHref("/search"));
-            }}
-            onChange={() => {}}
-            value={""}
-            withButton={false}
-          />
+        <Container fluid className={"w-full flex flex-col gap-8 my-4"}>
+          {userId && (
+            <RecommendationCarousel
+              criteria={"finished"}
+              stackProps={{
+                className: "",
+              }}
+            />
+          )}
+          <TrendingReviewCarousel />
 
-          <Stack className={"w-full gap-8"}>
-            {userId && (
+          {userId && (
+            <>
               <RecommendationCarousel
-                criteria={"finished"}
+                criteria={"theme"}
                 stackProps={{
                   className: "",
                 }}
               />
-            )}
-            <TrendingReviewCarousel />
+              <RecommendationCarousel
+                criteria={"genre"}
+                stackProps={{
+                  className: "",
+                }}
+              />
+            </>
+          )}
+          <RecentBlogPostsCarousel />
 
-            {userId && (
-              <>
-                <RecommendationCarousel
-                  criteria={"theme"}
-                  stackProps={{
-                    className: "",
+          <DetailsBox title={"Activity from our users"}>
+            <HomeFeed>
+              {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+                <IonInfiniteScroll
+                  disabled={!hasNextPage}
+                  onIonInfinite={async (evt) => {
+                    await fetchNextPage();
+                    await evt.target.complete();
                   }}
-                />
-                <RecommendationCarousel
-                  criteria={"genre"}
-                  stackProps={{
-                    className: "",
-                  }}
-                />
-              </>
-            )}
-            <RecentBlogPostsCarousel />
-
-            <DetailsBox
-              title={"Activity from our users"}
-              stackProps={{
-                className: "",
-              }}
-            >
-              <HomeFeed>
-                {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-                  <IonInfiniteScroll
-                    disabled={!hasNextPage}
-                    onIonInfinite={async (evt) => {
-                      await fetchNextPage();
-                      await evt.target.complete();
-                    }}
-                  >
-                    <IonInfiniteScrollContent />
-                  </IonInfiniteScroll>
-                )}
-              </HomeFeed>
-            </DetailsBox>
-          </Stack>
+                >
+                  <IonInfiniteScrollContent />
+                </IonInfiniteScroll>
+              )}
+            </HomeFeed>
+          </DetailsBox>
         </Container>
       </IonContent>
     </IonPage>
