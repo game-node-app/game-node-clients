@@ -72,7 +72,7 @@ const ReviewCard = ({ reviewId }: IProps) => {
         backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : "none",
       }}
       className={
-        "relative w-full h-full flex flex-col justify-between items-start bg-cover bg-center p-xl rounded-md shadow-md z-0 max-w-96"
+        "relative w-full h-full flex flex-col justify-between items-start bg-cover bg-center p-xl rounded-md shadow-md z-0"
       }
     >
       <Overlay color="#000" backgroundOpacity={0.75} className={"z-10"} />
