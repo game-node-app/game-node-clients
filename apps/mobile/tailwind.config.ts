@@ -6,9 +6,6 @@ const config: Config = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "../../packages/ui/src/**/*.{js,ts,jsx,tsx}",
   ],
-  corePlugins: {
-    preflight: false,
-  },
   presets: [sharedConfig],
 };
 
