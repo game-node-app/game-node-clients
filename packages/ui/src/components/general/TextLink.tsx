@@ -1,5 +1,4 @@
-import React, { PropsWithChildren } from "react";
-import { Text, TextProps } from "@mantine/core";
+import React from "react";
 import { Link } from "#@/util";
 
 interface ITextLinkProps extends React.HTMLProps<HTMLAnchorElement> {

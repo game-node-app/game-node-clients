@@ -20,7 +20,7 @@ const BlogPostTags = ({ tags }: Props) => {
             href={`/blog?tag=${tag.id}`}
             className={"hover:!underline"}
           >
-            {getCapitalizedText(tag.name)}
+            {tag.name}
             {!isLastElement && ", "}
           </Link>
         );

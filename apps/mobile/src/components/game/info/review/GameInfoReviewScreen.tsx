@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Paper, Stack } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import {
+  DetailsBox,
   GameInfoReviewList,
   ReviewListItem,
   useReviewForUserIdAndGameId,
@@ -22,7 +22,12 @@ const GameInfoReviewScreen = ({ gameId }: IGameInfoReviewViewProps) => {
     <Stack w={"100%"} h={"100%"} align={"center"}>
       {ownReviewQuery.data && (
         <Paper className={"w-full"}>
-          <DetailsBox title={"Your review"}>
+          <DetailsBox
+            title={"Your review"}
+            stackProps={{
+              className: "p-3",
+            }}
+          >
             <ReviewListItem review={ownReviewQuery.data} />
           </DetailsBox>
         </Paper>

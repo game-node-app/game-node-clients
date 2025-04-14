@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { Stack, StackProps, Text } from "@mantine/core";
+import { Group, Stack, StackProps, Text } from "@mantine/core";
 
 interface IDetailsBoxProps extends PropsWithChildren {
   enabled?: boolean;
@@ -8,6 +8,7 @@ interface IDetailsBoxProps extends PropsWithChildren {
   withBorder?: boolean;
   description?: string | undefined;
   stackProps?: StackProps;
+  rightSide?: React.ReactNode;
 }
 
 export const DetailsBox = ({
@@ -17,6 +18,7 @@ export const DetailsBox = ({
   withBorder = false,
   description,
   stackProps,
+  rightSide,
   children,
 }: IDetailsBoxProps) => {
   return (
@@ -34,13 +36,17 @@ export const DetailsBox = ({
         gap={"0.5rem"}
         {...stackProps}
       >
-        <Text
-          className={
-            withDimmedTitle ? "text-[#5C5C5C] text-sm" : "font-bold text-md"
-          }
-        >
-          {title}
-        </Text>
+        <Group className={"justify-between"}>
+          <Text
+            className={
+              withDimmedTitle ? "text-[#5C5C5C] text-sm" : "font-bold text-md"
+            }
+          >
+            {title}
+          </Text>
+          {rightSide}
+        </Group>
+
         {description && (
           <Text fz={"sm"} lh={"md"} c={"dimmed"} className="">
             {description}

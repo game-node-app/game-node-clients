@@ -8,8 +8,7 @@ import {
   Skeleton,
   Text,
 } from "@mantine/core";
-import classes from "./ReviewCard.module.css";
-import { useOnMobile } from "../hooks/useOnMobile.ts";
+import { useOnMobile } from "#@/components";
 import { useReview } from "../../review";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
@@ -91,9 +90,9 @@ const ReviewCard = ({ reviewId }: IProps) => {
           <GameRating value={reviewQuery.data.rating} size={"lg"} />
         </Group>
 
-        <Text lineClamp={onMobile ? 8 : 10} className={classes.title}>
-          {editor && <EditorContent editor={editor} />}
-        </Text>
+        {editor && (
+          <EditorContent className={"line-clamp-[8]"} editor={editor} />
+        )}
       </div>
       <Link href={`/game/${gameId}`}>
         <Button variant="white" color="dark" className={"z-10"}>

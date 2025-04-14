@@ -117,8 +117,8 @@ const BlogPostCard = ({
           </AspectRatio>
         </UnstyledButton>
       </Card.Section>
-      <Card.Section className={"flex flex-start flex-wrap gap-5 px-3 my-2"}>
-        <Box className={"max-w-48"}>
+      <Card.Section className={"flex flex-start flex-nowrap gap-5 px-3 my-2"}>
+        <Box className={"max-w-40 lg:max-w-48"}>
           <UserAvatarGroup userId={post.profileUserId} />
         </Box>
         <Group className={"flex-nowrap relative !flex-grow"}>

@@ -1,6 +1,13 @@
 import React from "react";
-import { Divider, Stack, Text, Title } from "@mantine/core";
-import { BlogPostsFeed } from "@repo/ui";
+import {
+  ActionIcon,
+  Divider,
+  Popover,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+import { BlogPostsFeed, DetailsBox } from "@repo/ui";
 import {
   dehydrate,
   HydrationBoundary,
@@ -9,6 +16,7 @@ import {
 import { BlogPostService } from "@repo/wrapper/server";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 const BLOG_FEED_LIMIT = 13;
 
@@ -50,11 +58,7 @@ const BlogLandingPage = () => {
   return (
     <Stack className="mx-auto lg:px-4 lg:py-8 gap-0">
       <Title className="text-3xl font-bold mb-6">Blog Posts</Title>
-      <Text>
-        Our editors share news about games and what&apos;s relevant to the
-        industry. We also share updates about GameNode&apos;s development here.
-      </Text>
-      <Divider className={"mb-10"} />
+
       <BlogPostsFeed limit={BLOG_FEED_LIMIT} tag={tag as string | undefined} />
     </Stack>
   );

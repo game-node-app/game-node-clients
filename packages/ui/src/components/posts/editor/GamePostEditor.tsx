@@ -143,7 +143,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
           setShowActions(true);
         }}
       >
-        <RichTextEditor.Toolbar>
+        <RichTextEditor.Toolbar sticky stickyOffset={0}>
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.Bold />
             <RichTextEditor.Italic />
