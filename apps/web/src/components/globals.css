@@ -1,15 +1,17 @@
 @layer tailwind {
     @tailwind base;
+
+    /*
+    Reverts Tailwind preflight for Tiptap
+     */
+    .tiptap * {
+        all: revert;
+    }
+
+    .tiptap a {
+        @apply underline text-brand-4
+    }
 }
+
 @tailwind components;
 @tailwind utilities;
-
-a {
-    text-decoration: none;
-    color: unset;
-}
-
-.tiptap a {
-    @apply text-brand-4 underline
-}
-

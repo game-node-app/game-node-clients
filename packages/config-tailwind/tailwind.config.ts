@@ -4,7 +4,7 @@ import prose from "@tailwindcss/typography";
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
   corePlugins: {
-    preflight: false,
+    preflight: true,
   },
   theme: {
     extend: {

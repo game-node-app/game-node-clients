@@ -1,6 +1,20 @@
 @layer tailwind {
     @tailwind base;
+
+    /*
+    Reverts Tailwind preflight for Tiptap
+     */
+    .tiptap * {
+        all: revert;
+    }
+
+    .tiptap a {
+        @apply underline text-brand-4
+    }
 }
+
+
+
 @tailwind components;
 @tailwind utilities;
 
@@ -17,7 +31,3 @@ ion-tab-button:not(.tab-selected) {
     --color-selected: var(--color);
 }
 
-a {
-    text-decoration: none;
-    color: unset;
-}
