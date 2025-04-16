@@ -177,12 +177,24 @@ const GamePostEditor = (props: GamePostEditorProps) => {
       </RichTextEditor>
       {showActions && (
         <Group className={"justify-between"}>
+          <FileButton
+            accept="image/png,image/jpeg,image/gif"
+            onChange={(payload) => {
+              if (payload) {
+                uploadImageMutation.mutate(payload);
+              }
+            }}
+          >
+            {(props) => (
+              <ActionIcon {...props} variant={"default"} size={"lg"}>
+                <IconPhoto />
+              </ActionIcon>
+            )}
+          </FileButton>
           <Button
             className={"ms-auto"}
             type={"button"}
-            onClick={() => {
-              publishPostMutation.mutate();
-            }}
+            onClick={gameSelectModalUtils.open}
           >
             Publish
           </Button>
