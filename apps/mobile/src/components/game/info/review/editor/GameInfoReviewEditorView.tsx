@@ -115,7 +115,6 @@ const GameInfoReviewEditorView = ({
           <Group className={"w-full justify-end"}>
             <GameRating
               readOnly={false}
-              defaultValue={5}
               value={rating}
               onChange={(v) => setValue("rating", v)}
             />
