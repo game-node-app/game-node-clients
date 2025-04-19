@@ -11,7 +11,7 @@ interface Props extends RatingProps {}
  */
 const GameRating = (props: Props) => {
   return (
-    <Rating fractions={2} size={"md"} readOnly color={"#F15025"} {...props} />
+    <Rating fractions={2} size={"md"} color={"#F15025"} readOnly {...props} />
   );
 };
 
