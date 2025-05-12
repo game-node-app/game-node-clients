@@ -4,5 +4,4 @@
 
 export * from "./UserPlaytimeItem";
 export * from "./UserRecentGames";
-export * from "./UserRecentGamesShare";
 export * from "./hooks/index";

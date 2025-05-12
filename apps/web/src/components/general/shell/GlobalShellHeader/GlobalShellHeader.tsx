@@ -1,7 +1,21 @@
-import { Burger, Button, Container, Group } from "@mantine/core";
+import {
+  ActionIcon,
+  Burger,
+  Button,
+  Container,
+  Group,
+  Indicator,
+} from "@mantine/core";
 import Link from "next/link";
 import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
-import { GameNodeLogo, useUserId } from "@repo/ui";
+import {
+  GameNodeLogo,
+  useOnMobile,
+  useUserId,
+  RecentlyPlayedGamesShare,
+} from "@repo/ui";
+import { useDisclosure } from "@mantine/hooks";
+import { IconCalendarWeek } from "@tabler/icons-react";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -13,6 +27,10 @@ export default function GlobalShellHeader({
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
   const userId = useUserId();
+
+  const onMobile = useOnMobile();
+
+  const [wrappedOpened, { close, open }] = useDisclosure();
 
   return (
     <header className="h-full">
@@ -29,6 +47,34 @@ export default function GlobalShellHeader({
           )}
           {userId != undefined && (
             <Group className={"gap-3"}>
+              <RecentlyPlayedGamesShare
+                opened={wrappedOpened}
+                onClose={close}
+                onShare={async (file) => {
+                  const toShare: ShareData = {
+                    title: "GameNode Share",
+                    text: `These are my recently played games!`,
+                    files: [file],
+                    url: `https://gamenode.app`,
+                  };
+
+                  await navigator.share(toShare);
+                }}
+              />
+              {onMobile ? (
+                <ActionIcon variant={"transparent"} onClick={open}>
+                  <IconCalendarWeek />
+                </ActionIcon>
+              ) : (
+                <Button
+                  variant={"outline"}
+                  className={"rounded-xl text-white"}
+                  onClick={open}
+                >
+                  Wrapped
+                </Button>
+              )}
+
               <GlobalShellHeaderNotifications />
             </Group>
           )}

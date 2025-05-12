@@ -26,3 +26,4 @@ export * from "./review/index";
 export * from "./statistics/index";
 export * from "./user-level/index";
 export * from "./wizard/index";
+export * from "./wrapped/index";
