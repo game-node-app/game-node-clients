@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Text } from "@mantine/core";
+import { Anchor, Box, Button, Center, Paper, Stack, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUserId } from "@repo/ui";
@@ -46,12 +46,18 @@ const Home = () => {
           >
             <span>Collaborate</span>
           </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=app.gamenode"
+            className="hidden lg:block"
+          >
+            <span>Android App</span>
+          </a>
         </Box>
 
         {userId == undefined && (
-          <Link href={"/auth"}>
+          <Link href={"/search"}>
             <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
-              Login
+              Join in
             </Button>
           </Link>
         )}
@@ -173,6 +179,19 @@ const Home = () => {
             className="pt-4"
           />
         </Box>
+
+        <Stack className={"w-full items-center justify-center lg:mt-16 mt-12"}>
+          <h3 className="text-center font-medium text-[20px]">
+            We&#39;re also on your phone!
+          </h3>
+          <Anchor href="https://play.google.com/store/apps/details?id=app.gamenode">
+            <img
+              alt={"Get it on Google Play badge"}
+              src={"/img/google_play_badge_english.png"}
+            />
+          </Anchor>
+          <Text className={"text-dimmed text-sm"}>Soon in iOS.</Text>
+        </Stack>
 
         <footer className="mt-20">
           <Paper className="bg-[#191919] h-20">

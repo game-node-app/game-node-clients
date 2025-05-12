@@ -62,6 +62,8 @@ const CommentEditorView = ({
     undefined,
   );
 
+  const [content, setContent] = useState("");
+
   const clearTargetComment = () => {
     context.updateContext({
       repliedCommentId: undefined,
@@ -78,7 +80,6 @@ const CommentEditorView = ({
     mutationFn: async () => {
       if (editorRef.current == undefined) return;
 
-      const content = editorRef.current?.getHTML();
       if (commentId) {
         return CommentService.commentControllerUpdateV1(commentId, {
           sourceType,
@@ -148,7 +149,7 @@ const CommentEditorView = ({
   }, [context.repliedCommentId]);
 
   return (
-    <Stack className={"w-full sticky py-1 bottom-0 left-0 gap-1.5"}>
+    <Stack className={"w-full sticky py-1 bottom-0 left-0 gap-1.5 mt-auto"}>
       <LoadingOverlay visible={isLoading} />
       {childOfProfileQuery.data != undefined && (
         <UnstyledButton onClick={clearTargetComment}>
@@ -166,6 +167,9 @@ const CommentEditorView = ({
               onCreate={(props) => {
                 // eslint-disable-next-line react/prop-types
                 editorRef.current = props.editor;
+              }}
+              onUpdate={(props) => {
+                setContent(props.editor.getHTML());
               }}
             />
           </ScrollArea.Autosize>

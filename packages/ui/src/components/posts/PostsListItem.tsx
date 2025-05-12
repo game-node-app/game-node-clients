@@ -82,19 +82,20 @@ const PostsListItem = ({ item }: Props) => {
         size={"xl"}
         initialBreakpoint={0.75}
         breakpoints={[0.5, 0.75, 0.85, 1]}
+        classNames={{
+          body: "flex flex-col min-h-[92vh]",
+        }}
       >
-        <Stack className={"w-full h-full"}>
-          <CommentsView>
-            <CommentsListView
-              sourceId={item.id}
-              sourceType={FindAllCommentsDto.sourceType.POST}
-            />
-            <CommentEditorView
-              sourceId={item.id}
-              sourceType={FindAllCommentsDto.sourceType.POST}
-            />
-          </CommentsView>
-        </Stack>
+        <CommentsView>
+          <CommentsListView
+            sourceId={item.id}
+            sourceType={FindAllCommentsDto.sourceType.POST}
+          />
+          <CommentEditorView
+            sourceId={item.id}
+            sourceType={FindAllCommentsDto.sourceType.POST}
+          />
+        </CommentsView>
       </Modal>
 
       <Box className={"hidden lg:block lg:w-2/12"}>

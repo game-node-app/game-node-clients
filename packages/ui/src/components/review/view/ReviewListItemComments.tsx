@@ -26,20 +26,21 @@ const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
         onClose={commentsModalUtils.close}
         size={"xl"}
         fullScreen={onMobile}
+        classNames={{
+          body: "flex flex-col min-h-[92vh]",
+        }}
       >
-        <Stack className={`w-full h-full`}>
-          <CommentsView>
-            <CommentsListView
-              enabled={commentsModalOpened}
-              sourceId={review.id}
-              sourceType={sourceType.REVIEW}
-            />
-            <CommentEditorView
-              sourceType={sourceType.REVIEW}
-              sourceId={review.id}
-            />
-          </CommentsView>
-        </Stack>
+        <CommentsView>
+          <CommentsListView
+            enabled={commentsModalOpened}
+            sourceId={review.id}
+            sourceType={sourceType.REVIEW}
+          />
+          <CommentEditorView
+            sourceType={sourceType.REVIEW}
+            sourceId={review.id}
+          />
+        </CommentsView>
       </Modal>
       <ItemCommentsButton
         onClick={commentsModalUtils.open}

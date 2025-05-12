@@ -26,20 +26,21 @@ const ActivityItemComments = ({ activity }: Props) => {
         onClose={commentsModalUtils.close}
         size={"xl"}
         fullScreen={onMobile}
+        classNames={{
+          body: "flex flex-col min-h-[92vh]",
+        }}
       >
-        <Stack className={`w-full h-full`}>
-          <CommentsView>
-            <CommentsListView
-              enabled={commentsModalOpened}
-              sourceId={activity.id}
-              sourceType={sourceType.ACTIVITY}
-            />
-            <CommentEditorView
-              sourceType={sourceType.ACTIVITY}
-              sourceId={activity.id}
-            />
-          </CommentsView>
-        </Stack>
+        <CommentsView>
+          <CommentsListView
+            enabled={commentsModalOpened}
+            sourceId={activity.id}
+            sourceType={sourceType.ACTIVITY}
+          />
+          <CommentEditorView
+            sourceType={sourceType.ACTIVITY}
+            sourceId={activity.id}
+          />
+        </CommentsView>
       </Modal>
       <ItemCommentsButton
         sourceType={sourceType.ACTIVITY}
