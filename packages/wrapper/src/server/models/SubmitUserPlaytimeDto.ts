@@ -2,23 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserPlaytimeDto = {
+export type SubmitUserPlaytimeDto = {
     lastPlayedDate: string | null;
-    firstPlayedDate: string | null;
-    id: number;
-    source: UserPlaytimeDto.source;
-    profileUserId: string;
+    source: SubmitUserPlaytimeDto.source;
     gameId: number;
     /**
      * Total playtime for this game, in seconds.
      */
     totalPlaytimeSeconds: number;
-    recentPlaytimeSeconds: number;
-    totalPlayCount: number;
-    createdAt: string;
-    updatedAt: string;
 };
-export namespace UserPlaytimeDto {
+export namespace SubmitUserPlaytimeDto {
     export enum source {
         STEAM = 'steam',
         PSN = 'psn',

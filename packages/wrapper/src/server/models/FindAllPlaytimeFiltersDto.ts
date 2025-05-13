@@ -5,7 +5,7 @@
 import type { PlaytimeFilterOrderBy } from './PlaytimeFilterOrderBy';
 export type FindAllPlaytimeFiltersDto = {
     period: FindAllPlaytimeFiltersDto.period;
-    orderBy?: PlaytimeFilterOrderBy;
+    orderBy: PlaytimeFilterOrderBy;
     limit?: number;
     offset?: number;
 };

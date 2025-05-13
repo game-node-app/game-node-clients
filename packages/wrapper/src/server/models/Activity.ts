@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Collection } from './Collection';
 import type { CollectionEntry } from './CollectionEntry';
+import type { Post } from './Post';
 import type { Profile } from './Profile';
 import type { Review } from './Review';
 import type { UserFollow } from './UserFollow';
@@ -23,6 +24,8 @@ export type Activity = {
     reviewId: string | null;
     userFollow: UserFollow | null;
     userFollowId: number | null;
+    post: Post | null;
+    postId: string | null;
     createdAt: string;
     updatedAt: string;
 };
@@ -31,6 +34,7 @@ export namespace Activity {
         REVIEW = 'REVIEW',
         FOLLOW = 'FOLLOW',
         COLLECTION_ENTRY = 'COLLECTION_ENTRY',
+        POST = 'POST',
     }
 }
 

@@ -1,9 +1,13 @@
 import React, { useMemo } from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { Stack } from "@mantine/core";
+import { ActionIcon, Stack, Text } from "@mantine/core";
 import { usePlaytimeForGame } from "#@/components/playtime/hooks/usePlaytimeForGame";
 import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
+import { IconPlus } from "@tabler/icons-react";
+import { Modal } from "#@/util";
+import { useDisclosure } from "@mantine/hooks";
+import { PlaytimeSubmitForm } from "#@/components/playtime/PlaytimeSubmitForm.tsx";
 
 interface Props {
   gameId: number;
@@ -11,6 +15,8 @@ interface Props {
 
 const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
   const userId = useUserId();
+
+  const [playtimeSubmitOpened, playtimeSubmitUtils] = useDisclosure();
 
   const playtimeQuery = usePlaytimeForGame(userId, gameId);
 
@@ -27,13 +33,41 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
     ));
   }, [playtimes]);
 
-  if (playtimes == undefined || playtimes.length === 0) {
+  if (userId == undefined) {
     return null;
   }
 
   return (
-    <DetailsBox withBorder withDimmedTitle title={"Your play sessions"}>
-      <Stack className={"w-full"}>{items}</Stack>
+    <DetailsBox
+      withBorder
+      withDimmedTitle
+      title={"Your play sessions"}
+      rightSide={
+        <ActionIcon
+          className={"mt-2 me-2"}
+          size={"sm"}
+          onClick={playtimeSubmitUtils.open}
+        >
+          <IconPlus />
+        </ActionIcon>
+      }
+    >
+      <Modal
+        opened={playtimeSubmitOpened}
+        onClose={playtimeSubmitUtils.close}
+        title={"Submit play session"}
+      >
+        <PlaytimeSubmitForm gameId={gameId} />
+      </Modal>
+      <Stack className={"w-full"}>
+        {(playtimes == undefined || playtimes.length === 0) && (
+          <Text className={"text-center text-sm"}>
+            No play sessions found for this game. You can set up a connection or
+            add your playtime info manually.
+          </Text>
+        )}
+        {items}
+      </Stack>
     </DetailsBox>
   );
 };

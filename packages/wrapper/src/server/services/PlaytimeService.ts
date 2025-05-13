@@ -5,6 +5,7 @@
 import type { FindAllPlaytimeFiltersDto } from '../models/FindAllPlaytimeFiltersDto';
 import type { FindAllPlaytimeResponseDto } from '../models/FindAllPlaytimeResponseDto';
 import type { Object } from '../models/Object';
+import type { SubmitUserPlaytimeDto } from '../models/SubmitUserPlaytimeDto';
 import type { UserCumulativePlaytimeDto } from '../models/UserCumulativePlaytimeDto';
 import type { UserPlaytime } from '../models/UserPlaytime';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -92,6 +93,21 @@ export class PlaytimeService {
             path: {
                 'userId': userId,
             },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns any
+     * @throws ApiError
+     */
+    public static playtimeControllerSubmitV1(
+        requestBody: SubmitUserPlaytimeDto,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/playtime',
             body: requestBody,
             mediaType: 'application/json',
         });
