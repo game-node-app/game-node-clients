@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   CenteredLoading,
+  DetailsBox,
   GameFigureImage,
   GameNodeLogo,
   ImageSize,
@@ -38,6 +39,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { IconDownload } from "@tabler/icons-react";
 import period = FindAllPlaytimeFiltersDto.period;
+import { match } from "ts-pattern";
 
 const CONTAINER_ID = "wrapped-share-preview-container";
 
@@ -142,6 +144,8 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     },
   });
 
+  const isLoading = playtimeQuery.isLoading || gamesQuery.isLoading;
+
   const shareMutation = useMutation({
     mutationFn: async (downloadOnly: boolean = false) => {
       const node = document.getElementById(CONTAINER_ID);
@@ -192,6 +196,14 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     );
   };
 
+  const periodText = useMemo(() => {
+    return match(selectedPeriod)
+      .with(period.WEEK, () => "Weekly Wrapped")
+      .with(period.MONTH, () => "Monthly Wrapped")
+      .with(period.YEAR, () => "Yearly Wrapped")
+      .exhaustive();
+  }, [selectedPeriod]);
+
   return (
     <Modal
       opened={opened}
@@ -212,7 +224,6 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
             importing playtime info.
           </Text>
         )}
-        <Text>Preview</Text>
 
         {gamesQuery.data != undefined && gamesQuery.data.length < limit && (
           <Text className={"text-sm text-yellow-400"}>
@@ -220,10 +231,14 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
             fill the entire grid.
           </Text>
         )}
-        {(playtimeQuery.isLoading || gamesQuery.isLoading) && (
-          <CenteredLoading />
-        )}
-        <Box className={"overflow-auto"}>
+        {isLoading && <CenteredLoading />}
+        <DetailsBox
+          enabled={!isLoading && gamesQuery.data != undefined}
+          title={"Preview"}
+          stackProps={{
+            className: "overflow-auto",
+          }}
+        >
           <Stack
             className={"bg-[#191919] gap-xs w-[480px] pointer-events-none"}
             id={CONTAINER_ID}
@@ -244,10 +259,10 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                     }}
                     imageSize={ImageSize.COVER_BIG_2X}
                   >
-                    <Box className={"absolute top-1 left-1"}>
+                    <Box className={"absolute top-1 left-1 "}>
                       {withRecentPlaytime && relatedPlaytime != undefined && (
                         <Text
-                          className={"font-black text-xs"}
+                          className={"font-black text-xs leading-none"}
                           style={{
                             textShadow: "1px 1px 2px black",
                           }}
@@ -261,7 +276,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                       )}
                       {withTotalPlaytime && relatedPlaytime != undefined && (
                         <Text
-                          className={"font-bold text-xs"}
+                          className={"font-bold text-xs leading-none"}
                           style={{
                             textShadow: "1px 1px 2px black",
                           }}
@@ -296,11 +311,12 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                 />
               </Box>
 
-              <Text className={"text-sm"}>Wrapped</Text>
+              <Text className={"text-sm"}>{periodText}</Text>
               <GameNodeLogo className={"w-20 ms-auto"} />
             </Box>
           </Stack>
-        </Box>
+        </DetailsBox>
+
         <Stack className={"h-full"}>
           <Group className={"my-3"}>
             <Select
