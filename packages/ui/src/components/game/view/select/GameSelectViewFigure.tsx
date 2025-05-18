@@ -50,26 +50,24 @@ const GameSelectViewFigure = ({
     return checkIsSelected(game.id!);
   }, [checkIsSelected, game, isExcluded]);
 
+  const onClick = (evt: React.MouseEvent) => {
+    evt.preventDefault();
+    if (!game || !game.id) return;
+
+    if (isExcluded) {
+      if (onExcludedItemClick) {
+        onExcludedItemClick(game.id);
+      }
+      return;
+    }
+
+    onSelected(game.id);
+  };
+
   if (!game) return;
 
   return (
-    <GameFigureImage
-      {...figureProps}
-      game={game}
-      onClick={(evt) => {
-        evt.preventDefault();
-        if (!game || !game.id) return;
-
-        if (isExcluded) {
-          if (onExcludedItemClick) {
-            onExcludedItemClick(game.id);
-          }
-          return;
-        }
-
-        onSelected(game.id);
-      }}
-    >
+    <GameFigureImage {...figureProps} game={game} onClick={onClick}>
       {isSelected && (
         <>
           <Overlay color="#000" backgroundOpacity={0.85} className={"z-10"} />
@@ -77,6 +75,7 @@ const GameSelectViewFigure = ({
             className={
               "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
             }
+            onClick={onClick}
           >
             <IconCircleCheckFilled className={"text-brand-5"} />
           </Center>
@@ -89,6 +88,7 @@ const GameSelectViewFigure = ({
             className={
               "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center"
             }
+            onClick={onClick}
           >
             <Stack className={"items-center gap-0.5"}>
               <IconCircleCheckFilled className={"w-8 h-8 z-20 text-brand-5"} />

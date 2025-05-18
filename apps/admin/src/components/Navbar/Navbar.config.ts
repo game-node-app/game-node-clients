@@ -2,6 +2,7 @@ import {
   IconBrandBlogger,
   IconCheckbox,
   IconDashboard,
+  IconDeviceGamepad2,
   IconReport,
   IconUsers,
 } from "@tabler/icons-react";
@@ -26,6 +27,18 @@ export const navLinks: NavItem[] = [
     icon: IconReport,
     link: "/dashboard/report",
     roles: [EUserRoles.ADMIN, EUserRoles.MOD],
+  },
+  {
+    label: "Games",
+    icon: IconDeviceGamepad2,
+    link: "/dashboard/game",
+    roles: [EUserRoles.ADMIN, EUserRoles.MOD],
+    links: [
+      {
+        label: "External Games",
+        link: "/dashboard/game/external",
+      },
+    ],
   },
   {
     label: "Achievements",

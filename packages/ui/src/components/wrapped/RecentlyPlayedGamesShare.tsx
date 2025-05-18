@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   CenteredLoading,
   GameFigureImage,
   GameNodeLogo,
+  ImageSize,
   TextLink,
   useGames,
   useOnMobile,
@@ -11,14 +12,12 @@ import {
   useUserId,
 } from "#@/components";
 import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
-import period = FindAllPlaytimeFiltersDto.period;
 import {
   ActionIcon,
   Box,
   Button,
   Chip,
   ComboboxItem,
-  Divider,
   Group,
   Select,
   SimpleGrid,
@@ -29,16 +28,16 @@ import {
   createErrorNotification,
   EMatomoEventAction,
   EMatomoEventCategory,
-  Link,
   Modal,
   trackMatomoEvent,
 } from "#@/util";
 import { z } from "zod";
-import { FieldPath, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { IconDownload } from "@tabler/icons-react";
+import period = FindAllPlaytimeFiltersDto.period;
 
 const CONTAINER_ID = "wrapped-share-preview-container";
 
@@ -71,6 +70,8 @@ const PERIOD_OPTIONS: ComboboxItem[] = [
 const WeeklyWrappedFormSchema = z.object({
   period: z.enum([period.WEEK, period.MONTH, period.YEAR]),
   grid: z.enum(GRID_OPTIONS),
+  withRecentPlaytime: z.boolean(),
+  withTotalPlaytime: z.boolean(),
 });
 
 type WeeklyWrappedFormValues = z.infer<typeof WeeklyWrappedFormSchema>;
@@ -117,6 +118,9 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
   const limit = gridStyle.cols * gridStyle.rows;
 
   const selectedPeriod = watch("period");
+
+  const withRecentPlaytime = watch("withRecentPlaytime");
+  const withTotalPlaytime = watch("withTotalPlaytime");
 
   const playtimeQuery = usePlaytimeForUser({
     userId: userId,
@@ -182,6 +186,12 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     });
   };
 
+  const getRelatedPlaytime = (gameId: number) => {
+    return playtimeQuery.data?.data.find(
+      (playtime) => playtime.gameId === gameId,
+    );
+  };
+
   return (
     <Modal
       opened={opened}
@@ -190,7 +200,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       size={"lg"}
       fullScreen={onMobile}
       classNames={{
-        body: "flex flex-col min-h-[92vh]",
+        body: "flex flex-col min-h-[92vh] lg:min-h-[30vh]",
       }}
     >
       <Stack className={"flex-grow"}>
@@ -214,9 +224,13 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
           <CenteredLoading />
         )}
         <Box className={"overflow-auto"}>
-          <Stack className={"bg-[#191919] gap-xs w-[480px]"} id={CONTAINER_ID}>
+          <Stack
+            className={"bg-[#191919] gap-xs w-[480px] pointer-events-none"}
+            id={CONTAINER_ID}
+          >
             <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
               {gamesQuery.data?.map((game) => {
+                const relatedPlaytime = getRelatedPlaytime(game.id);
                 return (
                   <GameFigureImage
                     key={game.id}
@@ -224,7 +238,43 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                     imageProps={{
                       radius: undefined,
                     }}
-                  />
+                    linkProps={{
+                      className: "pointer-events-none",
+                      onClick: (evt) => evt.preventDefault(),
+                    }}
+                    imageSize={ImageSize.COVER_BIG_2X}
+                  >
+                    <Box className={"absolute top-1 left-1"}>
+                      {withRecentPlaytime && relatedPlaytime != undefined && (
+                        <Text
+                          className={"font-black text-xs"}
+                          style={{
+                            textShadow: "1px 1px 2px black",
+                          }}
+                        >
+                          Recent:{" "}
+                          {Math.ceil(
+                            relatedPlaytime.recentPlaytimeSeconds / 3600,
+                          )}
+                          h
+                        </Text>
+                      )}
+                      {withTotalPlaytime && relatedPlaytime != undefined && (
+                        <Text
+                          className={"font-bold text-xs"}
+                          style={{
+                            textShadow: "1px 1px 2px black",
+                          }}
+                        >
+                          Total:{" "}
+                          {Math.ceil(
+                            relatedPlaytime.totalPlaytimeSeconds / 3600,
+                          )}
+                          h
+                        </Text>
+                      )}
+                    </Box>
+                  </GameFigureImage>
                 );
               })}
             </SimpleGrid>
@@ -268,11 +318,23 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               value={watch("grid")}
               onChange={(v) => onGridChange(v as never)}
             />
+            <Chip
+              checked={withRecentPlaytime}
+              onChange={(v) => setValue("withRecentPlaytime", v)}
+            >
+              With recent playtime
+            </Chip>
+            <Chip
+              checked={withTotalPlaytime}
+              onChange={(v) => setValue("withTotalPlaytime", v)}
+            >
+              With total playtime
+            </Chip>
           </Group>
         </Stack>
       </Stack>
 
-      <Group className="w-full gap-xs mt-auto">
+      <Group className="w-full gap-xs mt-auto lg:mt-6">
         <Button
           onClick={() => shareMutation.mutate(false)}
           loading={shareMutation.isPending}

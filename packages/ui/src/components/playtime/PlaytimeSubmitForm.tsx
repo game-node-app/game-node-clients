@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Button,
   ComboboxItem,
+  LoadingOverlay,
   NumberInput,
   Select,
   Stack,
@@ -52,6 +53,8 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
 
   const queryClient = useQueryClient();
 
+  const playtimeForGameQuery = usePlaytimeForGame(userId, gameId);
+
   const {
     register,
     setValue,
@@ -77,9 +80,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["playtime", "game", userId, gameId],
-      });
+      playtimeForGameQuery.invalidate();
     },
     onSuccess: () => {
       notifications.show({
@@ -90,6 +91,32 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
     },
     onError: createErrorNotification,
   });
+
+  const selectedSource = watch("source");
+
+  useEffect(() => {
+    if (playtimeForGameQuery.data) {
+      const playtimeForSource = playtimeForGameQuery.data.find(
+        (playtime) => playtime.source === selectedSource,
+      );
+
+      if (playtimeForSource) {
+        if (playtimeForSource.lastPlayedDate) {
+          setValue(
+            "lastPlayedDate",
+            new Date(playtimeForSource.lastPlayedDate),
+          );
+        }
+
+        if (playtimeForSource.totalPlaytimeSeconds) {
+          setValue(
+            "totalPlaytimeHours",
+            Math.ceil(playtimeForSource.totalPlaytimeSeconds / 3600),
+          );
+        }
+      }
+    }
+  }, [playtimeForGameQuery.data, selectedSource, setValue]);
 
   return (
     <SessionAuth>
@@ -103,9 +130,24 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
           import your playtime data.
         </Text>
         <form
-          className={"mt-4 flex flex-col gap-3"}
+          className={"mt-4 flex flex-col gap-3 relative"}
           onSubmit={handleSubmit((data) => submitMutation.mutate(data))}
         >
+          {playtimeForGameQuery.isLoading && <LoadingOverlay />}
+          <Select
+            withAsterisk
+            label={"Source"}
+            error={errors.source?.message}
+            data={PLAYTIME_SOURCE_OPTIONS}
+            allowDeselect={true}
+            {...register("source")}
+            value={selectedSource}
+            onChange={(v) => {
+              if (v) {
+                setValue("source", v as never);
+              }
+            }}
+          />
           <NumberInput
             withAsterisk
             error={errors.totalPlaytimeHours?.message}
@@ -132,20 +174,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
             }}
             allowDeselect={true}
           />
-          <Select
-            withAsterisk
-            label={"Source"}
-            error={errors.source?.message}
-            data={PLAYTIME_SOURCE_OPTIONS}
-            allowDeselect={true}
-            {...register("source")}
-            value={watch("source")}
-            onChange={(v) => {
-              if (v) {
-                setValue("source", v as never);
-              }
-            }}
-          />
+
           <Button type={"submit"} loading={submitMutation.isPending}>
             Submit
           </Button>

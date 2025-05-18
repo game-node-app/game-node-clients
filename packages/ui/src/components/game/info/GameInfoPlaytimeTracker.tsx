@@ -40,6 +40,7 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
   return (
     <DetailsBox
       withBorder
+      withPadding
       withDimmedTitle
       title={"Your play sessions"}
       rightSide={

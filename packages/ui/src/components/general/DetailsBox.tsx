@@ -6,6 +6,7 @@ interface IDetailsBoxProps extends PropsWithChildren {
   title: string;
   withDimmedTitle?: boolean;
   withBorder?: boolean;
+  withPadding?: boolean;
   description?: string | undefined;
   stackProps?: StackProps;
   rightSide?: React.ReactNode;
@@ -16,6 +17,7 @@ export const DetailsBox = ({
   title,
   withDimmedTitle = false,
   withBorder = false,
+  withPadding = false,
   description,
   stackProps,
   rightSide,
@@ -28,6 +30,7 @@ export const DetailsBox = ({
         h={"fit-content"}
         styles={{
           root: {
+            padding: withPadding ? "4px" : undefined,
             borderWidth: withBorder ? "2px" : undefined,
             borderColor: withBorder ? "#1F1F1F" : undefined,
             borderRadius: withBorder ? "6px" : undefined,
