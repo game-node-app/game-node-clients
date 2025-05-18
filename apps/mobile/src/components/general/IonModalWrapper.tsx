@@ -19,12 +19,15 @@ const IonModalWrapper = ({
   initialBreakpoint,
   onBreakpointChange,
   withCloseButton = true,
+  classNames,
   children,
 }: ModalComponentProps) => {
   return (
     <IonModal
       isOpen={opened}
-      onDidDismiss={onClose}
+      onDidDismiss={() => {
+        onClose();
+      }}
       breakpoints={breakpoints}
       initialBreakpoint={initialBreakpoint}
       onIonBreakpointDidChange={(evt) => {
@@ -50,7 +53,10 @@ const IonModalWrapper = ({
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <Container fluid className={"my-4"}>
+        <Container
+          fluid
+          className={`my-4 h-full ${classNames?.body ? classNames.body : ""}`}
+        >
           {children}
         </Container>
       </IonContent>

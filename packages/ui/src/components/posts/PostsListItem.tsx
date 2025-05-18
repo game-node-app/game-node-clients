@@ -80,7 +80,7 @@ const PostsListItem = ({ item }: Props) => {
         onClose={commentsOpenedUtils.close}
         fullScreen={onMobile}
         size={"xl"}
-        initialBreakpoint={0.75}
+        initialBreakpoint={1}
         breakpoints={[0.5, 0.75, 0.85, 1]}
         classNames={{
           body: "flex flex-col min-h-[92vh]",

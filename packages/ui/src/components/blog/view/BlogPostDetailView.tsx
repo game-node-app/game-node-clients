@@ -42,10 +42,10 @@ const BlogPostDetailView = ({ postId }: Props) => {
   if (!editor) return null;
 
   return (
-    <Stack className={"w-full items-center"}>
+    <Stack className={"w-full items-center max-w-full"}>
       {presentationImageSrc && (
         <Image
-          className={"rounded-sm"}
+          className={"rounded-sm max-w-full"}
           src={presentationImageSrc}
           alt={post.title}
         />
@@ -63,7 +63,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
         {post.isDraft && <Badge color={"red"}>Draft</Badge>}
       </Group>
 
-      <Box className={"lg:px-3 lg:mt-5 p-2"}>
+      <Box className={"lg:px-3 lg:mt-5 p-2 max-w-full"}>
         <EditorContent className={"w-full"} editor={editor} />
       </Box>
     </Stack>

@@ -9,39 +9,70 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonToolbar,
-  useIonRouter,
 } from "@ionic/react";
-import React, { useRef } from "react";
-import { Container, Image, Stack } from "@mantine/core";
+import React, { useRef, useState } from "react";
+import { Container, Image } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DetailsBox,
   HomeFeed,
   InfiniteLoaderProps,
   RecentBlogPostsCarousel,
+  RecentlyPlayedGamesShare,
   RecommendationCarousel,
-  SearchBar,
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
-import { IconSearch } from "@tabler/icons-react";
+import { IconCalendarWeek, IconSearch } from "@tabler/icons-react";
+import { blobToBase64 } from "@/util/imageUtils.ts";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
 
 const HomePage = () => {
-  const router = useIonRouter();
-
   const contentRef = useRef<HTMLIonContentElement>(null);
 
   const queryClient = useQueryClient();
 
   const userId = useUserId();
+
+  const [wrappedOpened, setWrappedOpened] = useState(false);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <RecentlyPlayedGamesShare
+            opened={wrappedOpened}
+            onClose={() => {
+              setWrappedOpened(false);
+            }}
+            onShare={async (file) => {
+              const base64 = await blobToBase64(file);
+
+              const cachedFileResult = await Filesystem.writeFile({
+                path: file.name,
+                data: base64,
+                directory: Directory.Cache,
+              });
+
+              await Share.share({
+                title: "This is my GameNode Wrapped!",
+                dialogTitle: "Share your wrapped with friends!",
+                url: cachedFileResult.uri,
+              });
+            }}
+          />
           <Image src={"/img/short-logo.png"} className={"h-auto w-12 ms-4"} />
           <IonButtons slot={"end"}>
+            {userId && (
+              <IonButton
+                className={"text-brand-4"}
+                onClick={() => setWrappedOpened(true)}
+              >
+                <IconCalendarWeek />
+              </IonButton>
+            )}
             <IonButton routerLink={"/home/search"}>
               <IconSearch />
             </IonButton>

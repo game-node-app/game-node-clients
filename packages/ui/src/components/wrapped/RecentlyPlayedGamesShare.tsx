@@ -105,7 +105,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
 
   const onMobile = useOnMobile();
 
-  const { register, watch, setValue } = useForm<WeeklyWrappedFormValues>({
+  const { watch, setValue } = useForm<WeeklyWrappedFormValues>({
     resolver: zodResolver(WeeklyWrappedFormSchema),
     mode: "onSubmit",
     defaultValues: {
@@ -208,7 +208,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Weekly Wrapped"}
+      title={"Your Wrapped"}
       size={"lg"}
       fullScreen={onMobile}
       classNames={{
@@ -235,86 +235,85 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         <DetailsBox
           enabled={!isLoading && gamesQuery.data != undefined}
           title={"Preview"}
-          stackProps={{
-            className: "overflow-auto",
-          }}
         >
-          <Stack
-            className={"bg-[#191919] gap-xs w-[480px] pointer-events-none"}
-            id={CONTAINER_ID}
-          >
-            <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
-              {gamesQuery.data?.map((game) => {
-                const relatedPlaytime = getRelatedPlaytime(game.id);
-                return (
-                  <GameFigureImage
-                    key={game.id}
-                    game={game}
-                    imageProps={{
-                      radius: undefined,
-                    }}
-                    linkProps={{
-                      className: "pointer-events-none",
-                      onClick: (evt) => evt.preventDefault(),
-                    }}
-                    imageSize={ImageSize.COVER_BIG_2X}
-                  >
-                    <Box className={"absolute top-1 left-1 "}>
-                      {withRecentPlaytime && relatedPlaytime != undefined && (
-                        <Text
-                          className={"font-black text-xs leading-none"}
-                          style={{
-                            textShadow: "1px 1px 2px black",
-                          }}
-                        >
-                          Recent:{" "}
-                          {Math.ceil(
-                            relatedPlaytime.recentPlaytimeSeconds / 3600,
-                          )}
-                          h
-                        </Text>
-                      )}
-                      {withTotalPlaytime && relatedPlaytime != undefined && (
-                        <Text
-                          className={"font-bold text-xs leading-none"}
-                          style={{
-                            textShadow: "1px 1px 2px black",
-                          }}
-                        >
-                          Total:{" "}
-                          {Math.ceil(
-                            relatedPlaytime.totalPlaytimeSeconds / 3600,
-                          )}
-                          h
-                        </Text>
-                      )}
-                    </Box>
-                  </GameFigureImage>
-                );
-              })}
-            </SimpleGrid>
-
-            <Box
-              className={
-                "grid grid-cols-[1fr_auto_1fr] items-center px-2 mb-2 mt-auto"
-              }
+          <Box className={"overflow-auto"}>
+            <Stack
+              className={"bg-[#191919] gap-xs w-[480px] pointer-events-none"}
+              id={CONTAINER_ID}
             >
-              <Box className={"w-fit"}>
-                <UserAvatarGroup
-                  userId={userId}
-                  avatarProps={{
-                    size: "md",
-                  }}
-                  textProps={{
-                    size: "md",
-                  }}
-                />
-              </Box>
+              <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
+                {gamesQuery.data?.map((game) => {
+                  const relatedPlaytime = getRelatedPlaytime(game.id);
+                  return (
+                    <GameFigureImage
+                      key={`wrapped-item-${game.id}`}
+                      game={game}
+                      imageProps={{
+                        radius: undefined,
+                      }}
+                      linkProps={{
+                        className: "pointer-events-none",
+                        onClick: (evt) => evt.preventDefault(),
+                      }}
+                      imageSize={ImageSize.COVER_BIG_2X}
+                    >
+                      <Box className={"absolute top-1 left-1 "}>
+                        {withRecentPlaytime && relatedPlaytime != undefined && (
+                          <Text
+                            className={"font-bold text-xs leading-tight"}
+                            style={{
+                              textShadow: "1px 1px 2px black",
+                            }}
+                          >
+                            Recent:{" "}
+                            {Math.ceil(
+                              relatedPlaytime.recentPlaytimeSeconds / 3600,
+                            )}
+                            h
+                          </Text>
+                        )}
+                        {withTotalPlaytime && relatedPlaytime != undefined && (
+                          <Text
+                            className={"font-bold text-xs leading-tight"}
+                            style={{
+                              textShadow: "1px 1px 2px black",
+                            }}
+                          >
+                            Total:{" "}
+                            {Math.ceil(
+                              relatedPlaytime.totalPlaytimeSeconds / 3600,
+                            )}
+                            h
+                          </Text>
+                        )}
+                      </Box>
+                    </GameFigureImage>
+                  );
+                })}
+              </SimpleGrid>
 
-              <Text className={"text-sm"}>{periodText}</Text>
-              <GameNodeLogo className={"w-20 ms-auto"} />
-            </Box>
-          </Stack>
+              <Box
+                className={
+                  "grid grid-cols-[1fr_auto_1fr] items-center px-2 mb-2 mt-auto"
+                }
+              >
+                <Box className={"w-fit"}>
+                  <UserAvatarGroup
+                    userId={userId}
+                    avatarProps={{
+                      size: "md",
+                    }}
+                    textProps={{
+                      size: "md",
+                    }}
+                  />
+                </Box>
+
+                <Text className={"text-sm"}>{periodText}</Text>
+                <GameNodeLogo className={"w-20 ms-auto"} />
+              </Box>
+            </Stack>
+          </Box>
         </DetailsBox>
 
         <Stack className={"h-full"}>

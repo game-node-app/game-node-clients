@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useAchievements } from "#@/components/achievement/hooks/useAchievements";
-import { Group, Select, Stack, Text } from "@mantine/core";
+import { Box, Group, Select, Stack, Text } from "@mantine/core";
 import { useFeaturedObtainedAchievement } from "#@/components/achievement/hooks/useFeaturedObtainedAchievement";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { AchievementItem } from "#@/components/achievement/AchievementItem";
@@ -115,7 +115,7 @@ const ProfileEditFeaturedAchievement = () => {
           </Text>
         )}
       </Modal>
-      <Link href={"#"} onClick={modalUtils.open}>
+      <Box onClick={modalUtils.open}>
         {featuredAchievementQuery.isLoading && <CenteredLoading />}
         {featuredAchievementQuery.isSuccess && featuredAchievementReference ? (
           <AchievementItem
@@ -128,7 +128,7 @@ const ProfileEditFeaturedAchievement = () => {
             achievement={fakeSelectAchievement}
           />
         )}
-      </Link>
+      </Box>
     </Stack>
   );
 };

@@ -33,7 +33,7 @@ export function useRenderedComments({
           return (
             <Group
               key={`editing-${comment.id}`}
-              className={"w-full h-full"}
+              className={"w-full"}
               wrap={"nowrap"}
             >
               <Divider orientation={"vertical"} color={"brand"} size={"sm"} />
@@ -50,7 +50,7 @@ export function useRenderedComments({
         }
 
         return (
-          <Group className={"w-full h-full"} wrap={"nowrap"} key={comment.id}>
+          <Group className={"w-full"} wrap={"nowrap"} key={comment.id}>
             <Divider orientation={"vertical"} size={"sm"} />
             <CommentsListItem
               key={comment.id}

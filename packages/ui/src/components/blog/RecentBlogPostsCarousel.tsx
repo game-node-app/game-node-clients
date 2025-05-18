@@ -6,6 +6,7 @@ import {
   DetailsBox,
   TextLink,
   useBlogPosts,
+  useOnMobile,
 } from "#@/components";
 import { useRouter } from "#@/util";
 
@@ -24,6 +25,8 @@ const buildSkeletons = () => {
 
 const RecentBlogPostsCarousel = () => {
   const router = useRouter();
+  const onMobile = useOnMobile();
+
   const { data, isLoading } = useBlogPosts({
     limit: 6,
     includeDraft: false,
@@ -66,7 +69,7 @@ const RecentBlogPostsCarousel = () => {
         }}
         slideGap={"xs"}
         withIndicators={false}
-        withControls={false}
+        withControls={!onMobile}
       >
         {buildSlides()}
       </Carousel>
