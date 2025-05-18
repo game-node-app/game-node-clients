@@ -18,6 +18,10 @@ export namespace SubmitUserPlaytimeDto {
         EPICGAMES = 'epicgames',
         GOG = 'gog',
         BATTLENET = 'battlenet',
+        EMULATOR = 'emulator',
+        NWII = 'nwii',
+        NWIIU = 'nwiiu',
+        NSWITCH = 'nswitch',
     }
 }
 

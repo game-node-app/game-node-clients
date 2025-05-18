@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   ComboboxItem,
@@ -13,26 +13,51 @@ import { z } from "zod";
 import { PlaytimeService, UserPlaytime } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useAvailableConnections,
-  usePlaytimeForGame,
-  useUserId,
-} from "#@/components";
-import {
-  BaseModalChildrenProps,
-  createErrorNotification,
-  getCapitalizedText,
-} from "#@/util";
+import { usePlaytimeForGame, useUserId } from "#@/components";
+import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { DatePickerInput } from "@mantine/dates";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import source = UserPlaytime.source;
 
-const PLAYTIME_SOURCE_OPTIONS = Object.values(UserPlaytime.source).map(
-  (v): ComboboxItem => ({
-    label: getCapitalizedText(v.valueOf()),
-    value: v.valueOf(),
-  }),
-);
+const PLAYTIME_SOURCE_OPTIONS: ComboboxItem[] = [
+  {
+    label: "Steam",
+    value: source.STEAM,
+  },
+  {
+    label: "PSN",
+    value: source.PSN,
+  },
+  {
+    label: "EpicGames",
+    value: source.EPICGAMES,
+  },
+  {
+    label: "GOG",
+    value: source.GOG,
+  },
+  {
+    label: "Battle.net",
+    value: source.BATTLENET,
+  },
+  {
+    label: "Nintendo Wii",
+    value: source.NWII,
+  },
+  {
+    label: "Nintendo Wii U",
+    value: source.NWIIU,
+  },
+  {
+    label: "Nintendo Switch",
+    value: source.NSWITCH,
+  },
+  {
+    label: "Emulator",
+    value: source.EMULATOR,
+  },
+];
 
 const PlaytimeSubmitFormSchema = z.object({
   totalPlaytimeHours: z
@@ -50,8 +75,6 @@ interface Props extends BaseModalChildrenProps {
 
 const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
   const userId = useUserId();
-
-  const queryClient = useQueryClient();
 
   const playtimeForGameQuery = usePlaytimeForGame(userId, gameId);
 
@@ -122,8 +145,8 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
     <SessionAuth>
       <Stack className={"w-full gap-1"}>
         <Text>
-          Your playtime info helps us build your Profile status and Wrapped
-          items, and more.
+          Your playtime info helps us build your profile stats, wrapped items,
+          and more.
         </Text>
         <Text className={"text-sm text-dimmed"}>
           We highly recommend setting up your connections to automatically

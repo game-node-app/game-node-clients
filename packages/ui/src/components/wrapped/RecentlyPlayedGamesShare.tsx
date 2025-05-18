@@ -19,6 +19,7 @@ import {
   Button,
   Chip,
   ComboboxItem,
+  Flex,
   Group,
   Select,
   SimpleGrid,
@@ -29,6 +30,7 @@ import {
   createErrorNotification,
   EMatomoEventAction,
   EMatomoEventCategory,
+  getCapitalizedText,
   Modal,
   trackMatomoEvent,
 } from "#@/util";
@@ -74,6 +76,7 @@ const WeeklyWrappedFormSchema = z.object({
   grid: z.enum(GRID_OPTIONS),
   withRecentPlaytime: z.boolean(),
   withTotalPlaytime: z.boolean(),
+  withSource: z.boolean(),
 });
 
 type WeeklyWrappedFormValues = z.infer<typeof WeeklyWrappedFormSchema>;
@@ -123,6 +126,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
 
   const withRecentPlaytime = watch("withRecentPlaytime");
   const withTotalPlaytime = watch("withTotalPlaytime");
+  const withSource = watch("withSource");
 
   const playtimeQuery = usePlaytimeForUser({
     userId: userId,
@@ -135,14 +139,17 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     limit: limit,
   });
 
-  const gameIds = playtimeQuery.data?.data.map((playtime) => playtime.gameId);
+  const gameIds =
+    playtimeQuery.data?.data.map((playtime) => playtime.gameId) ?? [];
 
   const gamesQuery = useGames({
-    gameIds: gameIds,
+    gameIds: Array.from(new Set(gameIds)),
     relations: {
       cover: true,
     },
   });
+
+  console.log("Games in query: ", gamesQuery.data);
 
   const isLoading = playtimeQuery.isLoading || gamesQuery.isLoading;
 
@@ -190,12 +197,6 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     });
   };
 
-  const getRelatedPlaytime = (gameId: number) => {
-    return playtimeQuery.data?.data.find(
-      (playtime) => playtime.gameId === gameId,
-    );
-  };
-
   const periodText = useMemo(() => {
     return match(selectedPeriod)
       .with(period.WEEK, () => "Weekly Wrapped")
@@ -203,6 +204,61 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       .with(period.YEAR, () => "Yearly Wrapped")
       .exhaustive();
   }, [selectedPeriod]);
+
+  const figures = useMemo(() => {
+    if (gamesQuery.data == undefined || playtimeQuery.data == undefined)
+      return null;
+
+    return playtimeQuery.data.data.map((playtime) => {
+      const game = gamesQuery.data.find((game) => game.id === playtime.gameId)!;
+
+      return (
+        <GameFigureImage
+          key={playtime.id}
+          game={game}
+          imageProps={{
+            radius: undefined,
+          }}
+          linkProps={{
+            className: "pointer-events-none",
+            onClick: (evt) => evt.preventDefault(),
+          }}
+          imageSize={ImageSize.COVER_BIG_2X}
+        >
+          <Box className={"absolute top-1 left-1"}>
+            <Text
+              className={"font-bold text-xs leading-tight"}
+              style={{
+                textShadow: "1px 1px 2px black",
+              }}
+            >
+              {withRecentPlaytime && (
+                <span>
+                  Recent: {Math.ceil(playtime.recentPlaytimeSeconds / 3600)}
+                  h
+                  <br />
+                </span>
+              )}
+              {withTotalPlaytime && (
+                <span>
+                  Total: {Math.ceil(playtime.totalPlaytimeSeconds / 3600)}
+                  h
+                  <br />
+                </span>
+              )}
+              {withSource && <span>{getCapitalizedText(playtime.source)}</span>}
+            </Text>
+          </Box>
+        </GameFigureImage>
+      );
+    });
+  }, [
+    gamesQuery.data,
+    playtimeQuery.data,
+    withRecentPlaytime,
+    withSource,
+    withTotalPlaytime,
+  ]);
 
   return (
     <Modal
@@ -215,7 +271,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         body: "flex flex-col min-h-[92vh] lg:min-h-[30vh]",
       }}
     >
-      <Stack className={"flex-grow"}>
+      <Stack className={"flex-grow mb-4"}>
         {playtimeQuery.data?.pagination.totalItems === 0 && (
           <Text c={"red"}>
             We&apos;ve found no playtime info for the selected period. You may
@@ -242,54 +298,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               id={CONTAINER_ID}
             >
               <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
-                {gamesQuery.data?.map((game) => {
-                  const relatedPlaytime = getRelatedPlaytime(game.id);
-                  return (
-                    <GameFigureImage
-                      key={`wrapped-item-${game.id}`}
-                      game={game}
-                      imageProps={{
-                        radius: undefined,
-                      }}
-                      linkProps={{
-                        className: "pointer-events-none",
-                        onClick: (evt) => evt.preventDefault(),
-                      }}
-                      imageSize={ImageSize.COVER_BIG_2X}
-                    >
-                      <Box className={"absolute top-1 left-1 "}>
-                        {withRecentPlaytime && relatedPlaytime != undefined && (
-                          <Text
-                            className={"font-bold text-xs leading-tight"}
-                            style={{
-                              textShadow: "1px 1px 2px black",
-                            }}
-                          >
-                            Recent:{" "}
-                            {Math.ceil(
-                              relatedPlaytime.recentPlaytimeSeconds / 3600,
-                            )}
-                            h
-                          </Text>
-                        )}
-                        {withTotalPlaytime && relatedPlaytime != undefined && (
-                          <Text
-                            className={"font-bold text-xs leading-tight"}
-                            style={{
-                              textShadow: "1px 1px 2px black",
-                            }}
-                          >
-                            Total:{" "}
-                            {Math.ceil(
-                              relatedPlaytime.totalPlaytimeSeconds / 3600,
-                            )}
-                            h
-                          </Text>
-                        )}
-                      </Box>
-                    </GameFigureImage>
-                  );
-                })}
+                {figures}
               </SimpleGrid>
 
               <Box
@@ -333,6 +342,8 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               value={watch("grid")}
               onChange={(v) => onGridChange(v as never)}
             />
+          </Group>
+          <Flex className={"flex-col lg:flex-row gap-4"}>
             <Chip
               checked={withRecentPlaytime}
               onChange={(v) => setValue("withRecentPlaytime", v)}
@@ -345,7 +356,13 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
             >
               With total playtime
             </Chip>
-          </Group>
+            <Chip
+              checked={withSource}
+              onChange={(v) => setValue("withSource", v)}
+            >
+              With platform
+            </Chip>
+          </Flex>
         </Stack>
       </Stack>
 
