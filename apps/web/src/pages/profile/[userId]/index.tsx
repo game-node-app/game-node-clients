@@ -57,6 +57,7 @@ const Index = () => {
     offset: 0,
     limit: 5,
     period: period.YEAR,
+    orderBy: {},
   });
 
   const ownUserId = useUserId();

@@ -20,6 +20,7 @@ const UserRecentGames = ({ userId, offset, limit }: Props) => {
     offset,
     limit,
     period: FindAllPlaytimeFiltersDto.period.ALL,
+    orderBy: {},
   });
 
   const isEmpty =

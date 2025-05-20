@@ -14,7 +14,7 @@ export function usePlaytimeForUser({
   offset = 0,
   limit = 20,
   period = FindAllPlaytimeFiltersDto.period.ALL,
-  orderBy,
+  orderBy = {},
 }: Props) {
   return useQuery<FindAllPlaytimeResponseDto>({
     queryKey: ["playtime", "user", userId, period, offset, limit, orderBy],
