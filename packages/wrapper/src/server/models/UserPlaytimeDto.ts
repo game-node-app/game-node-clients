@@ -22,6 +22,7 @@ export namespace UserPlaytimeDto {
     export enum source {
         STEAM = 'steam',
         PSN = 'psn',
+        XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         GOG = 'gog',
         BATTLENET = 'battlenet',

@@ -18,6 +18,7 @@ export namespace UserConnectionDto {
     export enum type {
         STEAM = 'steam',
         PSN = 'psn',
+        XBOX = 'xbox',
     }
 }
 

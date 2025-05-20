@@ -20,6 +20,7 @@ import { notifications } from "@mantine/notifications";
 import {
   EMatomoEventAction,
   EMatomoEventCategory,
+  getErrorMessage,
   getServerStoredIcon,
   trackMatomoEvent,
 } from "#@/util";
@@ -303,7 +304,7 @@ const ImporterScreen = ({ source }: Props) => {
           </Group>
           <Stack className={"mt-4 w-full grow"}>
             {isError && error && (
-              <CenteredErrorMessage message={error.message} />
+              <CenteredErrorMessage message={getErrorMessage(error)} />
             )}
             {isEmpty && (
               <CenteredErrorMessage

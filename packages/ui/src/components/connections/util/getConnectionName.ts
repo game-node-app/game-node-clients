@@ -1,12 +1,10 @@
 import { UserConnectionDto } from "@repo/wrapper/server";
+import { match } from "ts-pattern";
 
 export const getConnectionName = (type: UserConnectionDto.type) => {
-    switch (type) {
-        case UserConnectionDto.type.STEAM:
-            return "Steam";
-        case UserConnectionDto.type.PSN:
-            return "Playstation Network";
-        default:
-            return "Name not available";
-    }
+  return match(type)
+    .with(UserConnectionDto.type.STEAM, () => "Steam")
+    .with(UserConnectionDto.type.PSN, () => "Playstation Network")
+    .with(UserConnectionDto.type.XBOX, () => "Xbox Live")
+    .exhaustive();
 };

@@ -24,3 +24,4 @@ export * from "./card/index";
 export * from "./editor/index";
 export * from "./hooks/index";
 export * from "./input/index";
+export * from "./thirdparty/index";

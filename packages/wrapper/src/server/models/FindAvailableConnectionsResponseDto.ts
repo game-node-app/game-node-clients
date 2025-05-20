@@ -23,6 +23,7 @@ export namespace FindAvailableConnectionsResponseDto {
     export enum type {
         STEAM = 'steam',
         PSN = 'psn',
+        XBOX = 'xbox',
     }
 }
 

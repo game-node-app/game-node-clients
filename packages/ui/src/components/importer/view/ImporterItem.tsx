@@ -1,27 +1,17 @@
 import React, { useMemo } from "react";
-import { UserConnectionDto } from "../../../../../wrapper/src/server";
+import { UserConnectionDto } from "@repo/wrapper/server";
 import { Button, Image, Paper, Stack, Title } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { Link } from "#@/util";
+import { getConnectionName } from "#@/components";
 
 interface Props {
   connection: UserConnectionDto;
 }
 
-const connectionTypeToName = (type: UserConnectionDto.type) => {
-  switch (type) {
-    case UserConnectionDto.type.STEAM:
-      return "Steam";
-    case UserConnectionDto.type.PSN:
-      return "Playstation Network";
-    default:
-      return "Name not available";
-  }
-};
-
 const ImporterItem = ({ connection }: Props) => {
   const connectionName = useMemo(
-    () => connectionTypeToName(connection.type),
+    () => getConnectionName(connection.type),
     [connection.type],
   );
   return (

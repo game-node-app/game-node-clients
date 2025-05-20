@@ -8,6 +8,8 @@ import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { GameNodeLogo } from "@repo/ui";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
+import { Image } from "@mantine/core";
+import { EpicGamesLogo } from "@repo/ui";
 
 export const frontendConfig = (): SuperTokensConfig => {
   return {

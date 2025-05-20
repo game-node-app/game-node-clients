@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import { Group, Stack } from "@mantine/core";
-import PreferencesConnectionItem from "@/components/preferences/handlers/connections/PreferencesConnectionItem";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { useAvailableConnections } from "@repo/ui";
+import { PreferencesConnectionItem, useAvailableConnections } from "@repo/ui";
 
 const PreferencesConnectionsScreen = () => {
   const { isLoading, isError, data } = useAvailableConnections();

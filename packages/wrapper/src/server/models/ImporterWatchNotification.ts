@@ -15,6 +15,7 @@ export namespace ImporterWatchNotification {
     export enum source {
         STEAM = 'steam',
         PSN = 'psn',
+        XBOX = 'xbox',
     }
 }
 

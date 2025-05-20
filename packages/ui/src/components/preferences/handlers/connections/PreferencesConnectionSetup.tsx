@@ -15,6 +15,7 @@ import { getCapitalizedText } from "#@/util/getCapitalizedText";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { Button, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
+import { match } from "ts-pattern";
 
 const ConnectionSetupFormSchema = z.object({
   userIdentifier: z.string().min(1, "A username must be provided."),
@@ -131,18 +132,23 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     label: string;
     description: string;
   } => {
-    switch (type) {
-      case UserConnectionDto.type.STEAM:
-        return {
-          label: "Your public Steam profile URL",
-          description: "e.g.: https://steamcommunity.com/id/your-username/",
-        };
-      case UserConnectionDto.type.PSN:
-        return {
-          label: "Your PSN online id",
-          description: "Usually, it's your username.",
-        };
-    }
+    return match<
+      UserConnectionDto.type,
+      { label: string; description: string }
+    >(type)
+      .with(UserConnectionDto.type.STEAM, () => ({
+        label: "Your public Steam profile URL",
+        description: "e.g.: https://steamcommunity.com/id/your-username/",
+      }))
+      .with(UserConnectionDto.type.PSN, () => ({
+        label: "Your PSN online id",
+        description: "Usually, it's your username.",
+      }))
+      .with(UserConnectionDto.type.XBOX, () => ({
+        label: "Your Gamertag",
+        description: "It's the name that appears on your console or Xbox apps.",
+      }))
+      .exhaustive();
   }, [type]);
 
   /**

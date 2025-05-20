@@ -281,12 +281,6 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
           </Text>
         )}
 
-        {gamesQuery.data != undefined && gamesQuery.data.length < limit && (
-          <Text className={"text-sm text-yellow-400"}>
-            You don&apos;t have enough playtime data in the selected period to
-            fill the entire grid.
-          </Text>
-        )}
         {isLoading && <CenteredLoading />}
         <DetailsBox
           enabled={!isLoading && gamesQuery.data != undefined}
