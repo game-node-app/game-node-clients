@@ -21,6 +21,7 @@ import {
   ComboboxItem,
   Flex,
   Group,
+  MultiSelect,
   Select,
   SimpleGrid,
   Stack,
@@ -77,6 +78,7 @@ const WeeklyWrappedFormSchema = z.object({
   withRecentPlaytime: z.boolean(),
   withTotalPlaytime: z.boolean(),
   withSource: z.boolean(),
+  excludedGameIds: z.array(z.number()),
 });
 
 type WeeklyWrappedFormValues = z.infer<typeof WeeklyWrappedFormSchema>;
@@ -114,15 +116,15 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     defaultValues: {
       period: period.WEEK,
       grid: "3x3",
+      excludedGameIds: [],
     },
   });
 
   const [gridStyle, setGridStyle] = useState({ cols: 3, rows: 3 });
 
-  // Num of rows * num of cols
-  const limit = gridStyle.cols * gridStyle.rows;
-
   const selectedPeriod = watch("period");
+
+  const excludedGameIds = watch("excludedGameIds");
 
   const withRecentPlaytime = watch("withRecentPlaytime");
   const withTotalPlaytime = watch("withTotalPlaytime");
@@ -136,7 +138,8 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       recentPlaytimeSeconds: "DESC",
       totalPlaytimeSeconds: "DESC",
     },
-    limit: limit,
+    // Max cols * rows combination possible
+    limit: 16,
   });
 
   const gameIds =
@@ -148,8 +151,6 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       cover: true,
     },
   });
-
-  console.log("Games in query: ", gamesQuery.data);
 
   const isLoading = playtimeQuery.isLoading || gamesQuery.isLoading;
 
@@ -205,55 +206,75 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       .exhaustive();
   }, [selectedPeriod]);
 
-  const figures = useMemo(() => {
+  const excludedGamesOptions = useMemo((): ComboboxItem[] => {
+    if (gamesQuery.data == undefined) return [];
+    return gamesQuery.data?.map((game) => ({
+      label: game.name,
+      value: `${game.id}`,
+    }));
+  }, [gamesQuery.data]);
+
+  const renderedItems = useMemo(() => {
     if (gamesQuery.data == undefined || playtimeQuery.data == undefined)
       return null;
 
-    return playtimeQuery.data.data.map((playtime) => {
-      const game = gamesQuery.data.find((game) => game.id === playtime.gameId)!;
+    // Num of rows * num of cols
+    const renderedLimit = gridStyle.cols * gridStyle.rows;
 
-      return (
-        <GameFigureImage
-          key={playtime.id}
-          game={game}
-          imageProps={{
-            radius: undefined,
-          }}
-          linkProps={{
-            className: "pointer-events-none",
-            onClick: (evt) => evt.preventDefault(),
-          }}
-          imageSize={ImageSize.COVER_BIG_2X}
-        >
-          <Box className={"absolute top-1 left-1"}>
-            <Text
-              className={"font-bold text-xs leading-tight"}
-              style={{
-                textShadow: "1px 1px 2px black",
-              }}
-            >
-              {withRecentPlaytime && (
-                <span>
-                  Recent: {Math.ceil(playtime.recentPlaytimeSeconds / 3600)}
-                  h
-                  <br />
-                </span>
-              )}
-              {withTotalPlaytime && (
-                <span>
-                  Total: {Math.ceil(playtime.totalPlaytimeSeconds / 3600)}
-                  h
-                  <br />
-                </span>
-              )}
-              {withSource && <span>{getCapitalizedText(playtime.source)}</span>}
-            </Text>
-          </Box>
-        </GameFigureImage>
-      );
-    });
+    return playtimeQuery.data.data
+      .filter((playtime) => !excludedGameIds.includes(playtime.gameId))
+      .slice(0, renderedLimit)
+      .map((playtime) => {
+        const game = gamesQuery.data.find(
+          (game) => game.id === playtime.gameId,
+        )!;
+
+        return (
+          <GameFigureImage
+            key={playtime.id}
+            game={game}
+            imageProps={{
+              radius: undefined,
+            }}
+            linkProps={{
+              className: "pointer-events-none",
+              onClick: (evt) => evt.preventDefault(),
+            }}
+            imageSize={ImageSize.COVER_BIG_2X}
+          >
+            <Box className={"absolute top-1 left-1"}>
+              <Text
+                className={"font-bold text-xs leading-tight"}
+                style={{
+                  textShadow: "1px 1px 2px black",
+                }}
+              >
+                {withRecentPlaytime && (
+                  <span>
+                    Recent: {Math.ceil(playtime.recentPlaytimeSeconds / 3600)}
+                    h
+                    <br />
+                  </span>
+                )}
+                {withTotalPlaytime && (
+                  <span>
+                    Total: {Math.ceil(playtime.totalPlaytimeSeconds / 3600)}
+                    h
+                    <br />
+                  </span>
+                )}
+                {withSource && (
+                  <span>{getCapitalizedText(playtime.source)}</span>
+                )}
+              </Text>
+            </Box>
+          </GameFigureImage>
+        );
+      });
   }, [
+    excludedGameIds,
     gamesQuery.data,
+    gridStyle,
     playtimeQuery.data,
     withRecentPlaytime,
     withSource,
@@ -276,8 +297,10 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
           <Text c={"red"}>
             We&apos;ve found no playtime info for the selected period. You may
             change the period criteria below or{" "}
-            <TextLink href={""}>set up a connection</TextLink> to start
-            importing playtime info.
+            <TextLink href={"/preferences/connections"}>
+              set up a connection
+            </TextLink>{" "}
+            to start importing playtime info.
           </Text>
         )}
 
@@ -292,7 +315,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               id={CONTAINER_ID}
             >
               <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
-                {figures}
+                {renderedItems}
               </SimpleGrid>
 
               <Box
@@ -320,7 +343,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         </DetailsBox>
 
         <Stack className={"h-full"}>
-          <Group className={"my-3"}>
+          <Group className={"mt-3"}>
             <Select
               label={"Period"}
               data={PERIOD_OPTIONS}
@@ -335,6 +358,20 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               data={GRID_OPTIONS}
               value={watch("grid")}
               onChange={(v) => onGridChange(v as never)}
+            />
+          </Group>
+          <Group className={"my-3"}>
+            <MultiSelect
+              multiple
+              label={"Excluded games"}
+              description={"These will not appear in the generated image."}
+              data={excludedGamesOptions}
+              value={excludedGameIds.map((id) => `${id}`)}
+              onChange={(ids) => {
+                const convertedValue = ids.map((id) => Number.parseInt(id));
+                setValue("excludedGameIds", convertedValue);
+              }}
+              className={"min-w-60"}
             />
           </Group>
           <Flex className={"flex-col lg:flex-row gap-4"}>
