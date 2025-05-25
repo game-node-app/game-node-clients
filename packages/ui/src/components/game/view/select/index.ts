@@ -3,6 +3,7 @@
  */
 
 export * from "./GameSelectActions";
+export * from "./GameSelectSearchBar";
 export * from "./GameSelectView";
 export * from "./GameSelectViewContent";
 export * from "./GameSelectViewFigure";

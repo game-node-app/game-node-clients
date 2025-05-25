@@ -4,15 +4,16 @@ import PreferencesConnectionItem from "@/components/preferences/connections/Pref
 import { UserConnectionDto } from "@repo/wrapper/server";
 
 const PreferencesConnectionsItems = () => {
-    return (
-        <IonItemGroup>
-            <IonItemDivider>
-                <IonLabel>Connections</IonLabel>
-            </IonItemDivider>
-            <PreferencesConnectionItem type={UserConnectionDto.type.STEAM} />
-            <PreferencesConnectionItem type={UserConnectionDto.type.PSN} />
-        </IonItemGroup>
-    );
+  return (
+    <IonItemGroup>
+      <IonItemDivider>
+        <IonLabel>Connections</IonLabel>
+      </IonItemDivider>
+      <PreferencesConnectionItem type={UserConnectionDto.type.STEAM} />
+      <PreferencesConnectionItem type={UserConnectionDto.type.PSN} />
+      <PreferencesConnectionItem type={UserConnectionDto.type.XBOX} />
+    </IonItemGroup>
+  );
 };
 
 export default PreferencesConnectionsItems;

@@ -8,6 +8,7 @@ import { ObtainedAchievementItem } from "#@/components/achievement/ObtainedAchie
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
 import { TextLink } from "#@/components/general/TextLink";
+import { ProfileUserInfoConnections } from "#@/components";
 
 const dateFormatter = new Intl.DateTimeFormat();
 
@@ -81,7 +82,10 @@ const ProfileUserInfo = ({
           </TextLink>
         )}
 
-        <Text className={"mt-6"} fz={"0.8rem"} c={"dimmed"}>
+        <Stack className={"w-full mt-5"}>
+          <ProfileUserInfoConnections userId={userId} />
+        </Stack>
+        <Text className={"mt-4"} fz={"0.8rem"} c={"dimmed"}>
           Joined at{" "}
           {dateFormatter.format(new Date(profileQuery.data.createdAt))}
         </Text>

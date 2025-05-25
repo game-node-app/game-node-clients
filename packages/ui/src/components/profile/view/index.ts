@@ -9,6 +9,7 @@ export * from "./ProfileNavbarFollowInfo";
 export * from "./ProfileReviewListView";
 export * from "./ProfileStatsSimpleOverview";
 export * from "./ProfileUserInfo";
+export * from "./ProfileUserInfoConnections";
 export * from "./ProfileUserInfoWithBanner";
 export * from "./ProfileViewNavbar";
 export * from "./ProfileViewNavbarLink";

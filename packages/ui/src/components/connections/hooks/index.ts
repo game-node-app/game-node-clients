@@ -5,3 +5,4 @@
 export * from "./useAvailableConnections";
 export * from "./useOwnUserConnectionByType";
 export * from "./useOwnUserConnections";
+export * from "./useUserConnections";

@@ -9,6 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Modal } from "#@/util";
+import { useOnMobilePlatform } from "#@/components";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
@@ -20,8 +21,6 @@ interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
  *
  * @constructor
  * @param userId - target user id
- * @param showEditButtons - if edit buttons should be shown
- * @param customSources
  * @param children - items to be rendered on the RIGHT side of the ProfileUserInfo component for desktop,
  * and BELOW it for mobile.
  */
@@ -31,6 +30,7 @@ const ProfileUserInfoWithBanner = ({
   children,
 }: ProfileUserInfoWithBannerProps) => {
   const onMobile = useOnMobile();
+  const onMobilePlatform = useOnMobilePlatform();
   const profileQuery = useUserProfile(userId);
 
   const [editModalOpened, editModalUtils] = useDisclosure();
@@ -69,6 +69,7 @@ const ProfileUserInfoWithBanner = ({
             <ProfileUserInfo
               userId={userId}
               onEditClick={editModalUtils.open}
+              withEditDetailsButton={!onMobilePlatform}
             />
           </Stack>
         </Stack>
