@@ -61,6 +61,41 @@ export class ConnectionsService {
         });
     }
     /**
+     * @param userId
+     * @returns UserConnectionDto
+     * @throws ApiError
+     */
+    public static connectionsControllerFindAllByUserIdV1(
+        userId: string,
+    ): CancelablePromise<Array<UserConnectionDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/connections/user/{userId}',
+            path: {
+                'userId': userId,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @param type
+     * @returns UserConnectionDto
+     * @throws ApiError
+     */
+    public static connectionsControllerFindOneByUserIdAndTypeV1(
+        userId: string,
+        type: string,
+    ): CancelablePromise<UserConnectionDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/connections/user/{userId}/{type}',
+            path: {
+                'userId': userId,
+                'type': type,
+            },
+        });
+    }
+    /**
      * @param id
      * @returns any
      * @throws ApiError

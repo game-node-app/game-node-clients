@@ -22,7 +22,11 @@ import GameSelectOption from "@/components/general/shell/GlobalShellNavbar/searc
 import { IconLoader, IconX } from "@tabler/icons-react";
 import UserSelectOption from "@/components/general/shell/GlobalShellNavbar/search-bar/UserSelectOption";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
-import { useSearchGames, useSearchUsers } from "@repo/ui";
+import {
+  toGameSearchRequestDto,
+  useSearchGames,
+  useSearchUsers,
+} from "@repo/ui";
 
 interface IUserGamesSearchBarWithSelectProps extends TextInputProps {
   value: string;
@@ -49,7 +53,11 @@ const GlobalNavbarSearchBar = ({
     debouncedQuery != undefined && debouncedQuery.length > 2;
   const searchGamesQuery = useSearchGames(
     {
-      query: debouncedQuery,
+      ...toGameSearchRequestDto({
+        query: debouncedQuery,
+        includeExtraContent: false,
+        includeDlcs: false,
+      }),
       limit: 5,
     },
     isQueryEnabled,

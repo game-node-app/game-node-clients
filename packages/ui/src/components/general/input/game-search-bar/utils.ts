@@ -3,7 +3,7 @@ import { games_GameSearchRequestDto } from "@repo/wrapper/search";
 
 export function toGameSearchRequestDto(
   data: GameSearchFormValues,
-): games_GameSearchRequestDto {
+): Pick<games_GameSearchRequestDto, "query" | "category"> {
   const categories: games_GameSearchRequestDto["category"] = [
     EGameCategory.Main,
     EGameCategory.Remaster,

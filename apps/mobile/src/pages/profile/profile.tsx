@@ -23,6 +23,7 @@ import {
   ProfileUserInfoWithBanner,
   ProfileViewNavbar,
   RecentActivityList,
+  TextLink,
   usePlaytimeForUser,
   UserRecentGames,
   useUserId,
@@ -53,6 +54,7 @@ const ProfilePage = ({ userId }: Props) => {
     offset: 0,
     limit: 5,
     period: FindAllPlaytimeFiltersDto.period.ALL,
+    orderBy: {},
   });
 
   const hasPlaytimeInfo =
@@ -105,7 +107,12 @@ const ProfilePage = ({ userId }: Props) => {
                   <ProfileFavoriteGames userId={userIdToUse} />
                 </Box>
                 <Divider className={"w-full mt-6 mb-2"} label={"Stats"} />
-                <ProfileStatsSimpleOverview userId={userIdToUse} />
+                <Stack>
+                  <ProfileStatsSimpleOverview userId={userIdToUse} />
+                  <TextLink href={`/profile/${userIdToUse}/stats`}>
+                    Show more
+                  </TextLink>
+                </Stack>
                 {showPlaytimeInfo && (
                   <Stack className={"w-full"}>
                     <Divider
