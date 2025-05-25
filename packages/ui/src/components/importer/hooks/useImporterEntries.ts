@@ -9,12 +9,14 @@ interface Props {
   source: string;
   limit?: number;
   offset?: number;
+  search?: string;
 }
 
 export function useImporterEntries({
   source,
   offset,
   limit,
+  search,
 }: Props): ExtendedUseQueryResult<ImporterPaginatedResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = [
@@ -24,6 +26,7 @@ export function useImporterEntries({
     source,
     offset,
     limit,
+    search,
   ];
   const invalidate = () => {
     queryClient.invalidateQueries({
@@ -32,12 +35,13 @@ export function useImporterEntries({
   };
   return {
     ...useQuery({
-      queryKey: ["importer", "entries", "unprocessed", source, offset, limit],
+      queryKey: queryKey,
       queryFn: async () => {
         return ImporterService.importerControllerFindUnprocessedEntriesV1(
           source,
           limit,
           offset,
+          search,
         );
       },
       enabled: source != undefined,

@@ -79,10 +79,13 @@ const ImporterScreen = ({ source }: Props) => {
     setHasSelectedFinishedGamesCollection,
   ] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
+
   const importerEntriesQuery = useImporterEntries({
     source: source,
     limit: DEFAULT_LIMIT,
     offset: (page - 1) * DEFAULT_LIMIT,
+    search: searchQuery,
   });
 
   const gameIds = importerEntriesQuery.data?.data.map(
@@ -315,16 +318,22 @@ const ImporterScreen = ({ source }: Props) => {
             )}
             <GameSelectView>
               {!isEmpty && (
-                <GameSelectView.Actions
-                  isAllGamesSelected={isAllGamesSelected}
-                  onSelectAll={() => {
-                    if (isAllGamesSelected) {
-                      resetSelectedGames();
-                    } else if (gameIds) {
-                      setValue("selectedGameIds", gameIds);
-                    }
-                  }}
-                />
+                <Group className={"items-end"}>
+                  <GameSelectView.Actions
+                    isAllGamesSelected={isAllGamesSelected}
+                    onSelectAll={() => {
+                      if (isAllGamesSelected) {
+                        resetSelectedGames();
+                      } else if (gameIds) {
+                        setValue("selectedGameIds", gameIds);
+                      }
+                    }}
+                  />
+                  <GameSelectView.SearchBar
+                    onSearch={(query) => setSearchQuery(query)}
+                    onClear={() => setSearchQuery(undefined)}
+                  />
+                </Group>
               )}
               <GameSelectView.Content
                 items={gamesQuery.data!}

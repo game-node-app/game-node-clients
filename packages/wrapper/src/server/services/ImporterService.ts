@@ -12,6 +12,7 @@ export class ImporterService {
      * @param source
      * @param limit
      * @param offset
+     * @param search
      * @returns ImporterPaginatedResponseDto
      * @throws ApiError
      */
@@ -19,6 +20,7 @@ export class ImporterService {
         source: string,
         limit: number = 20,
         offset?: number,
+        search?: string,
     ): CancelablePromise<ImporterPaginatedResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -29,6 +31,7 @@ export class ImporterService {
             query: {
                 'limit': limit,
                 'offset': offset,
+                'search': search,
             },
         });
     }
