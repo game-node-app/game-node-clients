@@ -12,6 +12,7 @@ interface ActivityPeriodItem {
   collectionEntryCount: number;
   reviewCount: number;
   followCount: number;
+  postsCount: number;
 }
 
 const activitiesToChartData = (activities: Activity[]) => {
@@ -34,6 +35,7 @@ const activitiesToChartData = (activities: Activity[]) => {
       .with(ActivityType.COLLECTION_ENTRY, () => "collectionEntryCount")
       .with(ActivityType.REVIEW, () => "reviewCount")
       .with(ActivityType.FOLLOW, () => "followCount")
+      .with(ActivityType.POST, () => "postsCount")
       .exhaustive();
 
     const periodValue = periodMap.get(periodString);
@@ -43,6 +45,7 @@ const activitiesToChartData = (activities: Activity[]) => {
         collectionEntryCount: 0,
         followCount: 0,
         reviewCount: 0,
+        postsCount: 0,
         [targetProperty]: 1,
       };
       periodMap.set(periodString, item);
