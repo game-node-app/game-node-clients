@@ -1,24 +1,13 @@
 import React from "react";
+import { Stack } from "@mantine/core";
 import {
-  ActionIcon,
-  Divider,
-  Popover,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import { BlogPostsFeed, DetailsBox } from "@repo/ui";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+  BLOG_POSTS_FEED_DEFAULT_LIMIT,
+  BlogPostsFeed,
+  BlogPostsNavHeader,
+} from "@repo/ui";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";
 import { NextPageContext } from "next";
-import { useRouter } from "next/router";
-import { IconQuestionMark } from "@tabler/icons-react";
-
-const BLOG_FEED_LIMIT = 13;
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryClient = new QueryClient();
@@ -26,7 +15,14 @@ export const getServerSideProps = async (context: NextPageContext) => {
   /**
    * @see useBlogPosts
    */
-  const queryKey = ["blog", "posts", null, false, BLOG_FEED_LIMIT, 0];
+  const queryKey = [
+    "blog",
+    "posts",
+    null,
+    false,
+    BLOG_POSTS_FEED_DEFAULT_LIMIT,
+    null,
+  ];
 
   await queryClient.prefetchQuery({
     queryKey: queryKey,
@@ -35,8 +31,8 @@ export const getServerSideProps = async (context: NextPageContext) => {
         return await BlogPostService.blogPostControllerFindAllV1(
           undefined,
           false,
-          BLOG_FEED_LIMIT,
-          0,
+          BLOG_POSTS_FEED_DEFAULT_LIMIT,
+          undefined,
         );
       } catch (err) {
         console.error(err);
@@ -52,14 +48,10 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const BlogLandingPage = () => {
-  const router = useRouter();
-  const { tag } = router.query;
-
   return (
     <Stack className="mx-auto lg:px-4 lg:py-8 gap-0">
-      <Title className="text-3xl font-bold mb-6">Blog Posts</Title>
-
-      <BlogPostsFeed limit={BLOG_FEED_LIMIT} tag={tag as string | undefined} />
+      <BlogPostsNavHeader />
+      <BlogPostsFeed />
     </Stack>
   );
 };

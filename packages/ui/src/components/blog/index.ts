@@ -4,9 +4,11 @@
 
 export * from "./BlogPostTagBadges";
 export * from "./BlogPostTags";
-export * from "./BlogPostsFeed";
+export * from "./BlogPostsNavHeader";
 export * from "./RecentBlogPostsCarousel";
+export * from "./constants";
 export * from "./card/index";
+export * from "./feed/index";
 export * from "./hooks/index";
 export * from "./list/index";
 export * from "./view/index";

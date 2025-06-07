@@ -1,0 +1,1 @@
+export const BLOG_POSTS_FEED_DEFAULT_LIMIT = 6;

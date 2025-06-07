@@ -1,7 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Stack } from "@mantine/core";
-import { BlogPostDetailLayout, BlogPostDetailView } from "@repo/ui";
+import {
+  BlogPostDetailLayout,
+  BlogPostDetailView,
+  BlogPostsNavHeader,
+} from "@repo/ui";
 import { NextPageContext } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";

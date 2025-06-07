@@ -3,3 +3,5 @@
  */
 
 export * from "./BlogPostCard";
+export * from "./BlogPostFeaturedCard";
+export * from "./BlogPostsFeaturedReviewCard";
