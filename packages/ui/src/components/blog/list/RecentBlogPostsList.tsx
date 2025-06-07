@@ -1,11 +1,21 @@
 import React from "react";
-import { CenteredLoading, useBlogPosts } from "#@/components";
+import {
+  BLOG_POSTS_FEED_DEFAULT_LIMIT,
+  CenteredLoading,
+  useBlogPosts,
+} from "#@/components";
 import { Stack } from "@mantine/core";
 import { BlogPostsListItem } from "#@/components/blog/list/BlogPostsListItem.tsx";
 
-const RecentBlogPostsList = () => {
+interface Props {
+  limit?: number;
+}
+
+const RecentBlogPostsList = ({
+  limit = BLOG_POSTS_FEED_DEFAULT_LIMIT,
+}: Props) => {
   const { data, isLoading } = useBlogPosts({
-    limit: 6,
+    limit: limit,
     includeDraft: false,
   });
 

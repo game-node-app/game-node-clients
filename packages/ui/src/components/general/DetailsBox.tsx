@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Group, Stack, StackProps, Text } from "@mantine/core";
 
-interface IDetailsBoxProps extends PropsWithChildren {
+export interface DetailsBoxProps extends PropsWithChildren {
   enabled?: boolean;
   title: string;
   withDimmedTitle?: boolean;
@@ -22,7 +22,7 @@ export const DetailsBox = ({
   stackProps,
   rightSide,
   children,
-}: IDetailsBoxProps) => {
+}: DetailsBoxProps) => {
   return (
     enabled && (
       <Stack

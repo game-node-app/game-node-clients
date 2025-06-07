@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateUpdateBlogPostReviewInfoDto } from './CreateUpdateBlogPostReviewInfoDto';
 export type CreateUpdateBlogPostDto = {
     image?: Record<string, any>;
     postId?: string;
@@ -9,5 +10,6 @@ export type CreateUpdateBlogPostDto = {
     title: string;
     tags: Array<string>;
     isDraft: boolean;
+    reviewInfo?: CreateUpdateBlogPostReviewInfoDto;
 };
 

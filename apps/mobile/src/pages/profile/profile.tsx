@@ -54,7 +54,6 @@ const ProfilePage = ({ userId }: Props) => {
     offset: 0,
     limit: 5,
     period: FindAllPlaytimeFiltersDto.period.ALL,
-    orderBy: {},
   });
 
   const hasPlaytimeInfo =
