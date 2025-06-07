@@ -33,12 +33,12 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
     <Link href={`/blog/post/${post.id}`} className={"w-full h-full"}>
       <Box
         className={
-          "rounded-lg w-full h-full relative hover:scale-[102%] transition-transform duration-200"
+          "w-full h-full relative hover:scale-[102%] transition-transform duration-200"
         }
       >
         <Stack
           className={
-            "z-10 absolute w-full h-full justify-end items-start text-gray-100 p-4 gap-0.5"
+            "z-10 top-0 absolute w-full h-full justify-end items-start text-gray-100 p-4 gap-0.5"
           }
         >
           <Title size={"h3"} className={"font-semibold"}>
@@ -56,9 +56,9 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
             <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
           </Group>
         </Stack>
-        <AspectRatio ratio={4 / 2} className={"relative "}>
-          <Image src={imageUrl} className={"w-full h-full"} />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0.1)_0%,_rgba(10,10,10,0.6)_54%,_rgba(0,0,0,1)_100%)]"></div>
+        <AspectRatio ratio={4 / 2} className={"relative"}>
+          <Image src={imageUrl} className={"w-full h-full rounded-lg"} />
+          <div className="rounded-lg absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0.1)_0%,_rgba(10,10,10,0.6)_54%,_rgba(0,0,0,1)_100%)]"></div>
         </AspectRatio>
       </Box>
     </Link>

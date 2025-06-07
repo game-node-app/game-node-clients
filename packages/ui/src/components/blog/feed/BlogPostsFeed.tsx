@@ -1,4 +1,13 @@
-import { ActionIcon, Box, Divider, Group, Popover, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Center,
+  Divider,
+  Group,
+  Popover,
+  Text,
+} from "@mantine/core";
 import React from "react";
 import {
   BlogPostsFeatured,
@@ -7,7 +16,7 @@ import {
   RecentBlogPostsList,
 } from "#@/components";
 import { IconQuestionMark } from "@tabler/icons-react";
-import { BlogPostsFeaturedReviewCard } from "#@/components/blog/card/BlogPostsFeaturedReviewCard.tsx";
+import { Link } from "#@/util";
 
 const BlogPostsFeed = () => {
   return (
@@ -51,6 +60,11 @@ const BlogPostsFeed = () => {
           }}
         >
           <RecentBlogPostsList />
+          <Center>
+            <Link href={"/blog/archive"}>
+              <Button className={"mt-4"}>See more</Button>
+            </Link>
+          </Center>
         </DetailsBox>
         <DetailsBox
           title={"Recent reviews"}

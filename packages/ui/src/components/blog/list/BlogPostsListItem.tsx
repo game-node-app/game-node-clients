@@ -22,7 +22,7 @@ const BlogPostsListItem = ({ post }: Props) => {
     >
       <Link
         href={`/blog/post/${post.id}`}
-        className={"w-3/12 min-w-32 h-28 lg:h-32"}
+        className={"w-4/12 lg:w-3/12 lg:min-w-32 h-28 lg:h-32"}
       >
         <Image
           src={imageUrl}
@@ -31,7 +31,7 @@ const BlogPostsListItem = ({ post }: Props) => {
         />
       </Link>
 
-      <Stack className={"w-9/12 justify-start pe-4"}>
+      <Stack className={"w-8/12 lg:w-9/12 justify-start pe-4"}>
         <Link
           href={`/blog/post/${post.id}`}
           className={"hover:text-brand-4 transition-[0.6s]"}
