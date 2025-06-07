@@ -1,67 +1,10 @@
-import { Anchor, Box, Button, Center, Paper, Stack, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useUserId } from "@repo/ui";
-import { useRouter } from "next/router";
+import { Anchor, Box, Paper, Stack, Text } from "@mantine/core";
+import HeaderCustom from "@/components/header/HeaderCustom.tsx";
 
 const Home = () => {
-  const router = useRouter();
-  const userId = useUserId();
-  const [scrolled, setScrolled] = useState(false);
-
-  const checkScrollPosition = () => {
-    setScrolled(() => window.scrollY > 10);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkScrollPosition);
-    return () => {
-      window.removeEventListener("scroll", checkScrollPosition);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      router.push("/search");
-    }
-  }, [router, userId]);
-
   return (
     <>
-      <header
-        className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
-      >
-        <Box className="flex flex-row gap-16 items-center">
-          <img
-            src="/img/main-logo.png"
-            alt="Game Node Logo"
-            className="max-h-full pointer-events-none"
-          />
-          <a href="/about" className="w-full hidden lg:block">
-            <span>About us</span>
-          </a>
-          <a
-            href="https://github.com/game-node-app"
-            className="hidden lg:block"
-          >
-            <span>Collaborate</span>
-          </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=app.gamenode"
-            className="hidden lg:block"
-          >
-            <span>Android App</span>
-          </a>
-        </Box>
-
-        {userId == undefined && (
-          <Link href={"/search"}>
-            <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
-              Join in
-            </Button>
-          </Link>
-        )}
-      </header>
+      <HeaderCustom />
 
       <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
         <Box>
