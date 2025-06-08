@@ -98,9 +98,8 @@ const BlogPostCard = ({
   return (
     <Card
       shadow="sm"
-      padding="lg"
       radius="md"
-      className="hover:shadow-xl transition-shadow duration-200 bg-paper"
+      className="hover:shadow-xl transition-shadow duration-200 bg-paper w-full h-full"
     >
       <ActionConfirm
         onConfirm={() => {
@@ -111,22 +110,32 @@ const BlogPostCard = ({
         onClose={deleteConfirmUtils.close}
       />
       <Card.Section>
-        <UnstyledButton onClick={() => onClick(post.id)} className={"w-full"}>
-          <AspectRatio ratio={16 / 9}>
-            <Image src={imageUrl} alt={post.title} />
-          </AspectRatio>
-        </UnstyledButton>
+        <AspectRatio ratio={37 / 28}>
+          <Image src={imageUrl} alt={post.title} />
+        </AspectRatio>
       </Card.Section>
-      <Card.Section className={"flex flex-start flex-nowrap gap-5 px-3 my-2"}>
+      <Card.Section className={"px-3 my-3"}>
+        <Title lineClamp={2} size={"h3"} className={"text-center text-white"}>
+          {post.title}
+        </Title>
+      </Card.Section>
+      <Card.Section
+        className={"flex justify-between flex-nowrap gap-5 px-3 my-2 mt-auto"}
+      >
         <Box className={"max-w-40 lg:max-w-48"}>
-          <UserAvatarGroup userId={post.profileUserId} />
+          <UserAvatarGroup
+            avatarProps={{
+              size: "sm",
+            }}
+            groupProps={{
+              gap: 3,
+            }}
+            userId={post.profileUserId}
+          />
         </Box>
-        <Group className={"flex-nowrap relative !flex-grow"}>
-          <Group className={"gap-0"}>
-            <IconCalendarMonth size={"1.5rem"} />
-            <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
-          </Group>
-          <BlogPostTags tags={post.tags} />
+        <Group className={"relative items-baseline"}>
+          {post.isDraft && <Badge color={"red"}>Draft</Badge>}
+          <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
 
           {withActions && hasEditPermission && (
             <Box className={"ml-auto"}>
@@ -141,25 +150,6 @@ const BlogPostCard = ({
             </Box>
           )}
         </Group>
-        {post.isDraft && <Badge color={"red"}>Draft</Badge>}
-      </Card.Section>
-      <Card.Section className={"p-2 min-h-24"}>
-        <Stack>
-          <UnstyledButton component={"a"} onClick={() => onClick(post.id)}>
-            <Title size={"h2"}>{post.title}</Title>
-          </UnstyledButton>
-
-          <Spoiler
-            expanded={false}
-            hideLabel={""}
-            showLabel={"Read more..."}
-            maxHeight={80}
-            onExpandedChange={() => onClick(post.id)}
-            className={"w-full"}
-          >
-            <EditorContent className={"w-full"} editor={editor} />
-          </Spoiler>
-        </Stack>
       </Card.Section>
     </Card>
   );
