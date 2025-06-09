@@ -26,7 +26,7 @@ import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { BlogPost, BlogPostService } from "@repo/wrapper/server";
-import { getS3StoredUpload } from "#@/util";
+import { getS3StoredUpload, Link } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
@@ -34,18 +34,14 @@ import { notifications } from "@mantine/notifications";
 interface Props {
   post: BlogPost;
   withActions?: boolean;
-  /**
-   * Function triggered on image,
-   * @param postId
-   */
-  onClick: (postId: string) => void;
   onEdit?: (postId: string) => void;
   imageProps?: ImageProps;
+  blogRoutePrefix: string;
 }
 
 const BlogPostCard = ({
   post,
-  onClick,
+  blogRoutePrefix,
   onEdit,
   withActions = false,
 }: Props) => {
@@ -115,9 +111,11 @@ const BlogPostCard = ({
         </AspectRatio>
       </Card.Section>
       <Card.Section className={"px-3 my-3"}>
-        <Title lineClamp={2} size={"h3"} className={"text-center text-white"}>
-          {post.title}
-        </Title>
+        <Link href={`${blogRoutePrefix}/post/${post.id}`} className={"w-full"}>
+          <Title lineClamp={2} size={"h3"} className={"text-center text-white"}>
+            {post.title}
+          </Title>
+        </Link>
       </Card.Section>
       <Card.Section
         className={"flex justify-between flex-nowrap gap-5 px-3 my-2 mt-auto"}
