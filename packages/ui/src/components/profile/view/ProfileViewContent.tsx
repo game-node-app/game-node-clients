@@ -1,0 +1,99 @@
+import React, { useState } from "react";
+import { Tabs } from "@mantine/core";
+import { IconDeviceGamepad2, IconWriting } from "@tabler/icons-react";
+import {
+  ProfileReviewListView,
+  ProfileViewNavbarItem,
+  useAllObtainedAchievements,
+  useCollectionEntriesForUserId,
+  useReviewsForUserId,
+  useUserLibrary,
+  useUserProfile,
+} from "#@/components";
+import { ProfileViewMainPage } from "#@/components";
+import { ProfileViewGamesPage } from "#@/components";
+
+interface Props {
+  userId: string;
+}
+
+/**
+ * Component that renders a profile's tabs and it's contents
+ * @param userId
+ * @constructor
+ */
+const ProfileViewContent = ({ userId }: Props) => {
+  const [activeTab, setActiveTab] = useState<string | null>(null);
+
+  const profileQuery = useUserProfile(userId);
+  const libraryQuery = useUserLibrary(profileQuery.data?.userId);
+  const collectionEntriesQuery = useCollectionEntriesForUserId(userId, 0, 1);
+  const reviewsQuery = useReviewsForUserId(userId, 0, 1);
+  const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
+
+  return (
+    <Tabs
+      unstyled
+      allowTabDeactivation
+      value={activeTab}
+      onChange={(tab) => setActiveTab(tab)}
+      className={"w-full h-full"}
+    >
+      <Tabs.List
+        className={
+          "w-full flex flex-nowrap gap-8 mb-4 overflow-auto justify-start"
+        }
+      >
+        <ProfileViewNavbarItem
+          label={"Games"}
+          value={"games"}
+          count={collectionEntriesQuery.data?.pagination.totalItems ?? 0}
+          activeTab={activeTab}
+        />
+        <ProfileViewNavbarItem
+          label={"Reviews"}
+          value={"reviews"}
+          count={reviewsQuery.data?.pagination.totalItems ?? 0}
+          activeTab={activeTab}
+        />
+        <ProfileViewNavbarItem
+          label={"Collections"}
+          value={"collections"}
+          count={libraryQuery.data?.collections.length ?? 0}
+          href={`/library/${userId}`}
+          activeTab={activeTab}
+        />
+        <ProfileViewNavbarItem
+          label={"Achievements"}
+          value={"achievements"}
+          count={obtainedAchievementsQuery.data?.length ?? 0}
+          activeTab={activeTab}
+        />
+        <ProfileViewNavbarItem
+          label={"Posts"}
+          value={"posts"}
+          icon={IconWriting}
+          activeTab={activeTab}
+        />
+        <ProfileViewNavbarItem
+          label={"View Stats"}
+          value={"stats"}
+          icon={IconDeviceGamepad2}
+          activeTab={activeTab}
+        />
+      </Tabs.List>
+
+      <Tabs.Panel value="games">
+        <ProfileViewGamesPage userId={userId} />
+      </Tabs.Panel>
+      <Tabs.Panel value="reviews">
+        <ProfileReviewListView userId={userId} />
+      </Tabs.Panel>
+      <Tabs.Panel value="settings">Settings tab content</Tabs.Panel>
+
+      {activeTab == null && <ProfileViewMainPage userId={userId} />}
+    </Tabs>
+  );
+};
+
+export { ProfileViewContent };
