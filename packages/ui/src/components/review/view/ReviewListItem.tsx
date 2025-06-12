@@ -46,71 +46,74 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
   const isScoreOnlyReview = review.content == null;
 
   return (
-    <Group className={"w-full flex-nowrap p-2 bg-[#262525] items-start"}>
-      <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
-        <Box className={"w-11/12"}>
-          <UserAvatarGroup
-            groupProps={{
-              wrap: "wrap",
-              pt: "lg",
-              gap: "xs",
-              justify: "center",
-            }}
-            avatarProps={{
-              size: "xl",
-            }}
-            withHorizontalBreak
-            userId={profileUserId}
-          />
-        </Box>
-      </Stack>
-      <Stack
-        className={
-          "w-9/12 lg:w-10/12 px-2 gap-2 min-h-64 data-[score-only=true]:min-h-40"
-        }
-        data-score-only={isScoreOnlyReview ? "true" : "false"}
-      >
-        {isScoreOnlyReview ? (
-          <GameRating value={review.rating} size={"xl"} mt={"lg"} />
-        ) : (
-          <Spoiler
-            hideLabel={"Show less"}
-            showLabel={"Show more"}
-            expanded={isReadMore}
-            onExpandedChange={setIsReadMore}
-            maxHeight={300}
-          >
-            <EditorContent editor={editor} className={"w-full"} />
-          </Spoiler>
-        )}
-
-        <Divider className={"w-full mt-auto"} />
-        <Group
-          className={
-            "w-full flex-nowrap justify-between data-[score-only=true]:justify-end"
-          }
+    <Group className={"w-full p-2 bg-[#262525]"}>
+      <Group className={"w-full flex-nowrap items-start lg:gap-0"}>
+        <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
+          <Box className={"w-11/12"}>
+            <UserAvatarGroup
+              groupProps={{
+                wrap: "wrap",
+                pt: "lg",
+                gap: "xs",
+                justify: "center",
+              }}
+              avatarProps={{
+                size: "xl",
+              }}
+              withHorizontalBreak
+              userId={profileUserId}
+            />
+          </Box>
+        </Stack>
+        <Stack
+          className={"w-9/12 lg:w-10/12 gap-2"}
+          data-score-only={isScoreOnlyReview ? "true" : "false"}
         >
-          <GameRating
-            value={review.rating}
-            className={"data-[score-only=true]:hidden"}
-            size={"lg"}
-            data-score-only={isScoreOnlyReview ? "true" : "false"}
-          />
-          <Group className={"flex-nowrap flex-grow justify-end"}>
-            <ReviewListItemComments review={review} />
-            <ItemLikesButton
-              targetUserId={review.profileUserId}
-              sourceId={review.id}
-              sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+          {isScoreOnlyReview ? (
+            <GameRating value={review.rating} size={"xl"} mt={"lg"} />
+          ) : (
+            <Spoiler
+              hideLabel={"Show less"}
+              showLabel={"Show more"}
+              expanded={isReadMore}
+              onExpandedChange={setIsReadMore}
+              maxHeight={300}
+            >
+              <EditorContent editor={editor} className={"w-full"} />
+            </Spoiler>
+          )}
+        </Stack>
+      </Group>
+      <Flex className={"justify-end w-full"}>
+        <Stack className={"w-full lg:w-10/12"}>
+          <Divider className={"w-full mt-auto"} />
+          <Group
+            className={
+              "w-full flex-nowrap justify-between data-[score-only=true]:justify-end"
+            }
+          >
+            <GameRating
+              value={review.rating}
+              className={"data-[score-only=true]:hidden"}
+              size={"lg"}
+              data-score-only={isScoreOnlyReview ? "true" : "false"}
             />
+            <Group className={"flex-nowrap flex-grow justify-end"}>
+              <ReviewListItemComments review={review} />
+              <ItemLikesButton
+                targetUserId={review.profileUserId}
+                sourceId={review.id}
+                sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+              />
 
-            <ReviewListItemDropdownButton
-              review={review}
-              onEditStart={onEditStart}
-            />
+              <ReviewListItemDropdownButton
+                review={review}
+                onEditStart={onEditStart}
+              />
+            </Group>
           </Group>
-        </Group>
-      </Stack>
+        </Stack>
+      </Flex>
     </Group>
   );
 };
