@@ -189,6 +189,7 @@ const GameInfoReviewEditorView = ({
           ? "Write your opinions about this game. Reviews are public to all users."
           : undefined
       }
+      withPadding
     >
       <Flex wrap={"wrap"} w={"100%"} h={"100%"} justify={"start"}>
         {renderInnerContent()}

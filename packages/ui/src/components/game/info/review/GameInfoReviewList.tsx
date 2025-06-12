@@ -115,7 +115,7 @@ const GameInfoReviewList = ({
   }
 
   return (
-    <DetailsBox enabled={content != undefined} title={"Reviews"}>
+    <DetailsBox enabled={content != undefined} title={"Reviews"} withPadding>
       <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"} gap={"xs"}>

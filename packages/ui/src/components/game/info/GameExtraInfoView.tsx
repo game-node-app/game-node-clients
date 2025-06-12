@@ -9,7 +9,7 @@ interface IGameExtraInfoViewProps {
 
 const GameExtraInfoView = ({ id }: IGameExtraInfoViewProps) => {
   return (
-    <Stack w={"100%"} h={"100%"} className={"bg-[#262525]"}>
+    <Stack w={"100%"} h={"100%"}>
       <GameRelatedGamesCarousel
         title={"Expansion of"}
         gameId={id}
