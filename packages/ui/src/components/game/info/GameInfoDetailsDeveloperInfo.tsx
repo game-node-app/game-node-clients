@@ -41,10 +41,10 @@ const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
 
   return (
     <>
-      <DetailsBox withBorder withDimmedTitle title={"Developer(s)"}>
+      <DetailsBox withBorder withDimmedTitle title={"Developer(s)"} withPadding>
         {game.isLoading ? <Skeleton className={"w-64 h-4"} /> : developersNames}
       </DetailsBox>
-      <DetailsBox withBorder withDimmedTitle title={"Publisher(s)"}>
+      <DetailsBox withBorder withDimmedTitle title={"Publisher(s)"} withPadding>
         {game.isLoading ? <Skeleton className={"w-64 h-4"} /> : publishersNames}
       </DetailsBox>
     </>

@@ -68,7 +68,7 @@ const GameInfoScore = ({ gameId }: Props) => {
       });
   }, [score.data]);
   return (
-    <DetailsBox withBorder withDimmedTitle title={"User Rating"}>
+    <DetailsBox withBorder withDimmedTitle title={"User Rating"} withPadding>
       <Popover>
         <Popover.Target>
           <Center className={"mt-6 mb-6"}>
