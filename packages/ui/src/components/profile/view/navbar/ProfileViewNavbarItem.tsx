@@ -21,7 +21,15 @@ const ProfileViewNavbarItem = ({
 }: Props) => {
   return (
     <Tabs.Tab value={value} {...others}>
-      <Link href={href ?? "#"}>
+      <Link
+        href={href ?? "#"}
+        onClick={(evt) => {
+          // Prevents screen flicker
+          if (href == undefined) {
+            evt.preventDefault();
+          }
+        }}
+      >
         <Stack
           className={"items-center gap-1 data-[active=true]:text-white"}
           data-active={activeTab === value ? "true" : "false"}

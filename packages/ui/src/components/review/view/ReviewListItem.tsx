@@ -1,33 +1,38 @@
 import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
-import { Box, Flex, Group, Spoiler, Stack } from "@mantine/core";
+import {
+  Box,
+  Divider,
+  Flex,
+  Group,
+  Spoiler,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
 import {
+  GameFigureImage,
   GameRating,
   GameTitleWithFigure,
   ReviewListItemDropdownButton,
+  TextLink,
 } from "#@/components";
 
 interface IReviewListViewProps {
   review: Review;
-  withGameInfo?: boolean;
   onEditStart?: () => void;
 }
 
-const ReviewListItem = ({
-  review,
-  onEditStart,
-  withGameInfo,
-}: IReviewListViewProps) => {
+const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
   const onMobile = useOnMobile();
   const [isReadMore, setIsReadMore] = useState<boolean>(false);
 
-  const nonEditableEditor = useEditor(
+  const editor = useEditor(
     {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       content: review?.content,
@@ -37,97 +42,76 @@ const ReviewListItem = ({
   );
 
   const profileUserId = review.profileUserId;
-  const gameIdToUse = withGameInfo ? review.gameId : undefined;
 
   const isScoreOnlyReview = review.content == null;
 
   return (
-    <Stack w={"100%"} align={"center"}>
-      <Group
-        w={"100%"}
-        justify={"flex-start"}
-        wrap={onMobile ? "wrap" : "nowrap"}
-        align={"start"}
-      >
-        <Flex
-          direction={{
-            base: "row",
-          }}
-          w={{
-            base: "100%",
-            lg: "15%",
-          }}
-          justify={{
-            base: "space-between",
-            lg: "center",
-          }}
-          align={{
-            base: "center",
-            lg: "center",
-          }}
-          wrap={onMobile ? "nowrap" : "wrap"}
-        >
+    <Group className={"w-full flex-nowrap p-2 bg-[#262525] items-start"}>
+      <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
+        <Box className={"w-11/12"}>
           <UserAvatarGroup
-            avatarProps={{
-              size: onMobile ? "lg" : "xl",
-            }}
-            userId={profileUserId}
             groupProps={{
-              justify: onMobile ? "start" : "center",
+              wrap: "wrap",
+              pt: "lg",
+              gap: "xs",
+              justify: "center",
             }}
-            withHorizontalBreak={!onMobile}
+            avatarProps={{
+              size: "xl",
+            }}
+            withHorizontalBreak
+            userId={profileUserId}
           />
-          {!isScoreOnlyReview && (
-            <GameRating
-              value={review.rating}
-              size={isScoreOnlyReview ? "lg" : "md"}
-            />
-          )}
-        </Flex>
-        <Stack className={`w-full`}>
-          {isScoreOnlyReview ? (
-            <GameRating
-              value={review.rating}
-              size={isScoreOnlyReview ? "lg" : "md"}
-            />
-          ) : (
-            <Spoiler
-              hideLabel={"Show less"}
-              showLabel={"Show more"}
-              expanded={isReadMore}
-              onExpandedChange={setIsReadMore}
-              maxHeight={300}
-            >
-              <EditorContent editor={nonEditableEditor} className={"w-full"} />
-            </Spoiler>
-          )}
-
-          <Group
-            justify={withGameInfo ? "space-between" : "end"}
-            wrap={"nowrap"}
+        </Box>
+      </Stack>
+      <Stack
+        className={
+          "w-9/12 lg:w-10/12 px-2 gap-2 min-h-64 data-[score-only=true]:min-h-40"
+        }
+        data-score-only={isScoreOnlyReview ? "true" : "false"}
+      >
+        {isScoreOnlyReview ? (
+          <GameRating value={review.rating} size={"xl"} mt={"lg"} />
+        ) : (
+          <Spoiler
+            hideLabel={"Show less"}
+            showLabel={"Show more"}
+            expanded={isReadMore}
+            onExpandedChange={setIsReadMore}
+            maxHeight={300}
           >
-            {gameIdToUse && (
-              <Box className={"max-w-6 lg:max-w-60"}>
-                <GameTitleWithFigure gameId={gameIdToUse} />
-              </Box>
-            )}
-            <Group className={"flex-nowrap justify-start"}>
-              <ReviewListItemComments review={review} />
-              <ItemLikesButton
-                targetUserId={review.profileUserId}
-                sourceId={review.id}
-                sourceType={FindOneStatisticsDto.sourceType.REVIEW}
-              />
+            <EditorContent editor={editor} className={"w-full"} />
+          </Spoiler>
+        )}
 
-              <ReviewListItemDropdownButton
-                review={review}
-                onEditStart={onEditStart}
-              />
-            </Group>
+        <Divider className={"w-full mt-auto"} />
+        <Group
+          className={
+            "w-full flex-nowrap justify-between data-[score-only=true]:justify-end"
+          }
+        >
+          <GameRating
+            value={review.rating}
+            className={"data-[score-only=true]:hidden"}
+            size={"lg"}
+            data-score-only={isScoreOnlyReview ? "true" : "false"}
+          />
+          <Group className={"flex-nowrap flex-grow justify-end"}>
+            <ReviewListItemComments review={review} />
+            <ItemLikesButton
+              targetUserId={review.profileUserId}
+              sourceId={review.id}
+              sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+            />
+
+            <ReviewListItemDropdownButton
+              review={review}
+              onEditStart={onEditStart}
+            />
           </Group>
-        </Stack>
-      </Group>
-    </Stack>
+        </Group>
+      </Stack>
+    </Group>
   );
 };
 

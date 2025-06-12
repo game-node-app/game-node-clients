@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import { z } from "zod";
 import { ReviewsService } from "@repo/wrapper/server";
 import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
@@ -21,6 +20,7 @@ import {
   useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
   useUserId,
+  DetailsBox,
 } from "@repo/ui";
 
 const ReviewFormSchema = z.object({

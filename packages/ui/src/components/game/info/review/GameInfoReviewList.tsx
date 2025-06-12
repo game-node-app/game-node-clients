@@ -8,6 +8,7 @@ import {
   CenteredErrorMessage,
   CenteredLoading,
   ReviewListItem,
+  ReviewListItemModal,
   useUserId,
 } from "#@/components";
 import period = FindStatisticsTrendingReviewsDto.period;
@@ -39,7 +40,7 @@ const GameInfoReviewList = ({
       gameId: gameId,
       reviewId: targetReviewId,
     };
-  }, [offset, gameId]);
+  }, [offset, gameId, targetReviewId]);
   const trendingReviewsQuery = useTrendingReviews(trendingReviewsDto);
   const trendingReviewsPagination = trendingReviewsQuery.data?.pagination;
 
@@ -114,15 +115,10 @@ const GameInfoReviewList = ({
   }
 
   return (
-    <DetailsBox
-      enabled={content != undefined}
-      title={"Reviews"}
-      stackProps={{
-        className: "p-3",
-      }}
-    >
+    <DetailsBox enabled={content != undefined} title={"Reviews"}>
+      <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
-        <Stack w={"100%"} align={"start"}>
+        <Stack w={"100%"} align={"start"} gap={"xs"}>
           {content}
         </Stack>
 

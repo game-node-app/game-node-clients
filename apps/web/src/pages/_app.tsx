@@ -88,8 +88,6 @@ export default function App({
       }),
   );
 
-  console.log("Dehydrated state: ", pageProps.dehydratedState);
-
   return (
     <MantineProvider
       theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {

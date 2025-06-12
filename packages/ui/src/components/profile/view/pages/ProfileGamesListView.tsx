@@ -7,7 +7,7 @@ interface Props {
   userId: string;
 }
 
-const ProfileViewGamesPage = ({ userId }: Props) => {
+const ProfileGamesListView = ({ userId }: Props) => {
   return (
     <Stack className={"w-full"}>
       <RecentCollectionEntriesView userId={userId} limit={15} />
@@ -20,4 +20,4 @@ const ProfileViewGamesPage = ({ userId }: Props) => {
   );
 };
 
-export { ProfileViewGamesPage };
+export { ProfileGamesListView };

@@ -39,7 +39,7 @@ const ProfileReviewListItem = ({ review }: Props) => {
 
   return (
     <Group className={"w-full flex-nowrap p-2 bg-[#222222] items-start"}>
-      <Stack className={"w-3/12  lg:w-2/12 items-center justify-start"}>
+      <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
         <Box className={"w-11/12"}>
           <GameFigureImage game={gameQuery.data} />
         </Box>
@@ -48,16 +48,16 @@ const ProfileReviewListItem = ({ review }: Props) => {
         </Title>
       </Stack>
       <Stack className={"w-9/12 lg:w-10/12 px-2 gap-2 min-h-64"}>
-        <EditorContent editor={editor} className={"line-clamp-[10]"} />
+        <EditorContent editor={editor} className={"line-clamp-[12]"} />
         <Divider className={"w-full mt-auto"} />
-        <Group className={"w-full justify-between"}>
+        <Group className={"w-full justify-between flex-nowrap"}>
           <TextLink
             href={`/game/${review.gameId}?reviewId=${review.id}`}
             className={"text-dimmed"}
           >
             Visit
           </TextLink>
-          <Group>
+          <Group className={"flex-nowrap"}>
             <ItemLikesButton
               targetUserId={review.profileUserId}
               sourceId={review.id}

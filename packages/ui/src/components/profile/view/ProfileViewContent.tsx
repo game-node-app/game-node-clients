@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Tabs } from "@mantine/core";
+import { Box, Tabs } from "@mantine/core";
 import { IconDeviceGamepad2, IconWriting } from "@tabler/icons-react";
 import {
+  PostsListView,
   ProfileReviewListView,
+  ProfileStatsView,
   ProfileViewNavbarItem,
   useAllObtainedAchievements,
   useCollectionEntriesForUserId,
@@ -11,7 +13,7 @@ import {
   useUserProfile,
 } from "#@/components";
 import { ProfileViewMainPage } from "#@/components";
-import { ProfileViewGamesPage } from "#@/components";
+import { ProfileGamesListView } from "#@/components";
 
 interface Props {
   userId: string;
@@ -84,12 +86,17 @@ const ProfileViewContent = ({ userId }: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value="games">
-        <ProfileViewGamesPage userId={userId} />
+        <ProfileGamesListView userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="reviews">
         <ProfileReviewListView userId={userId} />
       </Tabs.Panel>
-      <Tabs.Panel value="settings">Settings tab content</Tabs.Panel>
+      <Tabs.Panel value="posts">
+        <PostsListView profileUserId={userId} withUserProfile={false} />
+      </Tabs.Panel>
+      <Tabs.Panel value="stats">
+        <ProfileStatsView userId={userId} withUserLevel={false} />
+      </Tabs.Panel>
 
       {activeTab == null && <ProfileViewMainPage userId={userId} />}
     </Tabs>
