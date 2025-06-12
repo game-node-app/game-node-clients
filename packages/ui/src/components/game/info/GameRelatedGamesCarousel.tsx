@@ -58,13 +58,7 @@ const GameRelatedGamesCarousel = ({
     relationData.length > 0;
 
   return (
-    <DetailsBox
-      enabled={hasRelations}
-      title={title}
-      stackProps={{
-        className: "p-3",
-      }}
-    >
+    <DetailsBox enabled={hasRelations} title={title} withPadding>
       <GameInfoCarousel
         isLoading={gameQuery.isLoading}
         isError={gameQuery.isError}
