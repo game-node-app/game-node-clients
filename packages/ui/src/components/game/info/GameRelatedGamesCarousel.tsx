@@ -3,6 +3,7 @@ import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { GameInfoCarousel } from "#@/components/game/info/carousel/GameInfoCarousel";
+import { Box } from "@mantine/core";
 
 export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
   relations: {
@@ -57,14 +58,18 @@ const GameRelatedGamesCarousel = ({
     Array.isArray(relationData) != undefined &&
     relationData.length > 0;
 
+  if (!hasRelations) return null;
+
   return (
-    <DetailsBox enabled={hasRelations} title={title} withPadding>
-      <GameInfoCarousel
-        isLoading={gameQuery.isLoading}
-        isError={gameQuery.isError}
-        games={relationData || []}
-      />
-    </DetailsBox>
+    <Box className={"bg-[#262525] p-3"}>
+      <DetailsBox title={title}>
+        <GameInfoCarousel
+          isLoading={gameQuery.isLoading}
+          isError={gameQuery.isError}
+          games={relationData || []}
+        />
+      </DetailsBox>
+    </Box>
   );
 };
 

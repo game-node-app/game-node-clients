@@ -78,27 +78,8 @@ const GameInfoReviewList = ({
         return <ReviewListItem key={review.id} review={review} />;
       });
 
-    if (reviews == undefined) {
-      return (
-        <Text className={"text-center"}>
-          No reviews yet. Be the first one! 😉
-        </Text>
-      );
-    } else if (
-      reviews.length === 0 &&
-      reviewsQuery.data?.some((review) => review.profileUserId === ownUserId)
-    ) {
-      return (
-        <Text className={"text-center"}>
-          Other users&apos; reviews will appear here.
-        </Text>
-      );
-    } else if (reviews.length === 0) {
-      return (
-        <Text className={"text-center"}>
-          No reviews yet. Be the first one! 😉
-        </Text>
-      );
+    if (reviews == undefined || reviews.length === 0) {
+      return [];
     }
 
     return reviews;
@@ -112,10 +93,12 @@ const GameInfoReviewList = ({
         message={"Failed to fetch reviews. Please try again."}
       />
     );
+  } else if (content == undefined || content.length === 0) {
+    return null;
   }
 
   return (
-    <DetailsBox enabled={content != undefined} title={"Reviews"} withPadding>
+    <DetailsBox title={"Reviews"}>
       <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"} gap={"xs"}>

@@ -36,7 +36,7 @@ const ReviewListItemModal = ({ reviewId }: Props) => {
       title={""}
       opened={opened}
       onClose={close}
-      size={"lg"}
+      size={"xl"}
       fullScreen={onMobile}
     >
       <ReviewListItem review={reviewQuery.data} />

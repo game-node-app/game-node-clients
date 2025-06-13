@@ -10,7 +10,6 @@ import {
   SimpleInfiniteLoader,
 } from "#@/components";
 import { Stack } from "@mantine/core";
-import { getErrorMessage } from "#@/util";
 
 interface Props extends GetPostsRequestDto {
   withUserProfile?: boolean;
@@ -27,11 +26,16 @@ const PostsListView = ({ withUserProfile = true, ...request }: Props) => {
     hasNextPage,
   } = useInfinitePosts(request);
 
+  console.log("PostsListView", data);
+
   if (isLoading) {
     return <CenteredLoading />;
   }
-  if (data == undefined) {
-    return null;
+  if (
+    data == undefined ||
+    (data.pages.length === 1 && data.pages.at(0)?.data.length === 0)
+  ) {
+    return <CenteredErrorMessage message={"No posts found."} />;
   }
 
   const items = data?.pages.flatMap((page) => page.data);

@@ -330,7 +330,10 @@ const ImporterScreen = ({ source }: Props) => {
                     }}
                   />
                   <GameSelectView.SearchBar
-                    onSearch={(query) => setSearchQuery(query)}
+                    onSearch={(query) => {
+                      setValue("page", 1);
+                      setSearchQuery(query);
+                    }}
                     onClear={() => setSearchQuery(undefined)}
                   />
                 </Group>

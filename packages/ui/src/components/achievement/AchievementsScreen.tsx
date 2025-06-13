@@ -21,9 +21,10 @@ import { AchievementItem } from "#@/components";
 
 interface Props {
   targetUserId: string;
+  withUserLevel?: boolean;
 }
 
-const AchievementsScreen = ({ targetUserId }: Props) => {
+const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
   const userId = useUserId();
   const [paginationData, setPaginationData] = useState({
     offset: 0,
@@ -37,66 +38,64 @@ const AchievementsScreen = ({ targetUserId }: Props) => {
   if (!targetUserId) return null;
 
   return (
-    <Paper className={"w-full h-full"}>
-      <Stack w={"100%"} py={"3rem"} px={"2rem"}>
-        <Group
-          wrap={"nowrap"}
-          className={"justify-center lg:justify-between lg:mx-4"}
-        >
-          <Box className={"w-5/12 lg:w-8/12"}>
-            <UserAvatarWithLevelInfo userId={targetUserId} />
-          </Box>
+    <Stack w={"100%"}>
+      <Group
+        wrap={"nowrap"}
+        className={"justify-center lg:justify-between lg:mx-4"}
+      >
+        <Box className={withUserLevel ? "w-5/12 lg:w-8/12" : "hidden"}>
+          <UserAvatarWithLevelInfo userId={targetUserId} />
+        </Box>
 
-          {isOwnUserId && (
-            <>
-              <RedeemAchievementCodeModal
-                opened={redeemCodeModalOpened}
-                onClose={redeemCodeModalUtils.close}
-              />
-              <Button className={""} onClick={redeemCodeModalUtils.open}>
-                Redeem a code
-              </Button>
-            </>
-          )}
-        </Group>
-
-        <Divider className={"w-full"} />
-        {achievements.isError && (
-          <Center className={"mt-10"}>
-            Something happened while loading achievements. Please try again.
-          </Center>
+        {isOwnUserId && (
+          <Group className={"grow justify-end"}>
+            <RedeemAchievementCodeModal
+              opened={redeemCodeModalOpened}
+              onClose={redeemCodeModalUtils.close}
+            />
+            <Button className={""} onClick={redeemCodeModalUtils.open}>
+              Redeem a code
+            </Button>
+          </Group>
         )}
-        {achievements.isLoading && <CenteredLoading />}
-        <SimpleGrid
-          cols={{
-            base: 1,
-            lg: 2,
-          }}
-        >
-          {achievements.data?.data?.map((achievement) => {
-            return (
-              <AchievementItem
-                key={achievement.id}
-                targetUserId={targetUserId}
-                achievement={achievement}
-              />
-            );
-          })}
-        </SimpleGrid>
-        <Center mt={"1rem"}>
-          <Pagination
-            total={achievements.data?.pagination?.totalPages || 1}
-            onChange={(page) => {
-              const pageAsOffset = paginationData.limit * (page - 1);
-              setPaginationData({
-                offset: pageAsOffset,
-                limit: paginationData.limit,
-              });
-            }}
-          />
+      </Group>
+
+      {withUserLevel && <Divider className={"w-full"} />}
+      {achievements.isError && (
+        <Center className={"mt-10"}>
+          Something happened while loading achievements. Please try again.
         </Center>
-      </Stack>
-    </Paper>
+      )}
+      {achievements.isLoading && <CenteredLoading />}
+      <SimpleGrid
+        cols={{
+          base: 1,
+          lg: 2,
+        }}
+      >
+        {achievements.data?.data?.map((achievement) => {
+          return (
+            <AchievementItem
+              key={achievement.id}
+              targetUserId={targetUserId}
+              achievement={achievement}
+            />
+          );
+        })}
+      </SimpleGrid>
+      <Center mt={"1rem"}>
+        <Pagination
+          total={achievements.data?.pagination?.totalPages || 1}
+          onChange={(page) => {
+            const pageAsOffset = paginationData.limit * (page - 1);
+            setPaginationData({
+              offset: pageAsOffset,
+              limit: paginationData.limit,
+            });
+          }}
+        />
+      </Center>
+    </Stack>
   );
 };
 

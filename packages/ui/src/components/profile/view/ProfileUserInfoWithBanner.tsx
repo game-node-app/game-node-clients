@@ -36,7 +36,7 @@ const ProfileUserInfoWithBanner = ({
   const [editModalOpened, editModalUtils] = useDisclosure();
 
   return (
-    <Stack className={"w-full h-full gap-0"}>
+    <Stack className={"h-full gap-0 w-dvw max-w-full"}>
       <Modal
         opened={editModalOpened}
         onClose={editModalUtils.close}

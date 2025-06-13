@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Box, Tabs } from "@mantine/core";
 import { IconDeviceGamepad2, IconWriting } from "@tabler/icons-react";
 import {
+  AchievementsScreen,
+  CenteredLoading,
   PostsListView,
   ProfileReviewListView,
   ProfileStatsView,
@@ -39,7 +41,7 @@ const ProfileViewContent = ({ userId }: Props) => {
       allowTabDeactivation
       value={activeTab}
       onChange={(tab) => setActiveTab(tab)}
-      className={"w-full h-full"}
+      className={"h-full w-full"}
     >
       <Tabs.List
         className={
@@ -90,6 +92,12 @@ const ProfileViewContent = ({ userId }: Props) => {
       </Tabs.Panel>
       <Tabs.Panel value="reviews">
         <ProfileReviewListView userId={userId} />
+      </Tabs.Panel>
+      <Tabs.Panel value="collections">
+        <CenteredLoading />
+      </Tabs.Panel>
+      <Tabs.Panel value="achievements">
+        <AchievementsScreen targetUserId={userId} withUserLevel={false} />
       </Tabs.Panel>
       <Tabs.Panel value="posts">
         <PostsListView profileUserId={userId} withUserProfile={false} />

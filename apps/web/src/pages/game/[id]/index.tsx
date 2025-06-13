@@ -91,7 +91,7 @@ const GameInfoPage = () => {
           <title>{`${gameQuery.data.name} - GameNode`}</title>
         </Head>
       )}
-      <Stack className={"w-full h-full"}>
+      <Stack className={"w-full h-full gap-xl"}>
         <GameInfoView id={idAsNumber} />
         <GameInfoReviewScreen
           gameId={idAsNumber}
