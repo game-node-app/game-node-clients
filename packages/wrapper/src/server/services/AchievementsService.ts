@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AchievementGrantRequestDto } from '../models/AchievementGrantRequestDto';
-import type { ObtainedAchievement } from '../models/ObtainedAchievement';
+import type { ObtainedAchievementDto } from '../models/ObtainedAchievementDto';
 import type { PaginatedAchievementsResponseDto } from '../models/PaginatedAchievementsResponseDto';
 import type { UpdateFeaturedObtainedAchievementDto } from '../models/UpdateFeaturedObtainedAchievementDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -32,13 +32,13 @@ export class AchievementsService {
     /**
      * @param id
      * @param targetUserId
-     * @returns ObtainedAchievement
+     * @returns ObtainedAchievementDto
      * @throws ApiError
      */
     public static achievementsControllerGetObtainedAchievementV1(
         id: string,
         targetUserId: string,
-    ): CancelablePromise<ObtainedAchievement> {
+    ): CancelablePromise<ObtainedAchievementDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/achievements/obtained/{id}',
@@ -52,12 +52,12 @@ export class AchievementsService {
     }
     /**
      * @param targetUserId
-     * @returns ObtainedAchievement
+     * @returns ObtainedAchievementDto
      * @throws ApiError
      */
     public static achievementsControllerGetAllObtainedAchievementsV1(
         targetUserId: string,
-    ): CancelablePromise<Array<ObtainedAchievement>> {
+    ): CancelablePromise<Array<ObtainedAchievementDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/achievements/obtained',

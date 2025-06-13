@@ -2,8 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AchievementDto } from './AchievementDto';
 import type { Profile } from './Profile';
-export type ObtainedAchievement = {
+export type ObtainedAchievementDto = {
+    achievement: AchievementDto;
     id: number;
     /**
      * Achievement id specified in entries for achievements.data.ts

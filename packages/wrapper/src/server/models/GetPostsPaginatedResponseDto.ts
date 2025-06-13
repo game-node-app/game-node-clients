@@ -4,7 +4,7 @@
 /* eslint-disable */
 import type { CursorPaginationInfo } from './CursorPaginationInfo';
 import type { Post } from './Post';
-export type GetPostsPaginatedReponseDto = {
+export type GetPostsPaginatedResponseDto = {
     data: Array<Post>;
     pagination: CursorPaginationInfo;
 };

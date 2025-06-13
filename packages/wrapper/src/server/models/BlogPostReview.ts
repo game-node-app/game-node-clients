@@ -5,7 +5,10 @@
 import type { BlogPost } from './BlogPost';
 import type { Game } from './Game';
 export type BlogPostReview = {
-    id: number;
+    /**
+     * PK and FK targeting BlogPost
+     */
+    postId: string;
     game: Game;
     gameId: number;
     rating: number;

@@ -6,7 +6,7 @@ export function useObtainedAchievement(
   achievementId: string | undefined,
 ) {
   return useQuery({
-    queryKey: ["obtained-achievement", targetUserId, achievementId],
+    queryKey: ["achievement", "obtained", targetUserId, achievementId],
     queryFn: () => {
       if (!achievementId) {
         return null;

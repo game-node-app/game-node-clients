@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GetPostsPaginatedReponseDto } from '../models/GetPostsPaginatedReponseDto';
+import type { GetPostsPaginatedResponseDto } from '../models/GetPostsPaginatedResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -13,7 +13,7 @@ export class PostsFeedService {
      * @param lastId
      * @param limit
      * @param postId
-     * @returns GetPostsPaginatedReponseDto
+     * @returns GetPostsPaginatedResponseDto
      * @throws ApiError
      */
     public static postsFeedControllerBuildFeedV1(
@@ -22,7 +22,7 @@ export class PostsFeedService {
         lastId?: string,
         limit: number = 20,
         postId?: string,
-    ): CancelablePromise<GetPostsPaginatedReponseDto> {
+    ): CancelablePromise<GetPostsPaginatedResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/posts/feed',
