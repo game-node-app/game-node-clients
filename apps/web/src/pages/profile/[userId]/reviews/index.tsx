@@ -1,11 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Container, Paper } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import {
   CenteredLoading,
   ProfileReviewListView,
   useUserProfile,
+  DetailsBox,
 } from "@repo/ui";
 
 const Index = () => {

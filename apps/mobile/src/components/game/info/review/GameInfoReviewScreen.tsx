@@ -8,6 +8,7 @@ import {
   useReviewForUserIdAndGameId,
   useUserId,
 } from "@repo/ui";
+import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 
 interface IGameInfoReviewViewProps {
   gameId: number;
@@ -16,6 +17,7 @@ interface IGameInfoReviewViewProps {
 const GameInfoReviewScreen = ({ gameId }: IGameInfoReviewViewProps) => {
   const userId = useUserId();
   const ownReviewQuery = useReviewForUserIdAndGameId(userId, gameId);
+  const searchParameters = useSearchParameters();
 
   if (!gameId) return null;
   return (
@@ -34,7 +36,10 @@ const GameInfoReviewScreen = ({ gameId }: IGameInfoReviewViewProps) => {
       )}
 
       <Paper className={"w-full"}>
-        <GameInfoReviewList gameId={gameId} />
+        <GameInfoReviewList
+          gameId={gameId}
+          targetReviewId={searchParameters.get("reviewId") ?? undefined}
+        />
       </Paper>
     </Stack>
   );

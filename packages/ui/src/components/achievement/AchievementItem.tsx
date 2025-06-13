@@ -21,22 +21,19 @@ const AchievementItem = ({ targetUserId, achievement }: Props) => {
   const obtainedAchievement = obtainedAchievementQuery.data;
   const achievementNotYetObtained = obtainedAchievement == undefined;
 
-  const backgroundColor = achievementNotYetObtained
-    ? "rgba(0,0,0,0.78)"
-    : "linear-gradient(90deg, rgba(30,30,30,1) 0%, rgba(30,30,30,0.85) 100%)";
-
   const obtainedText = achievementNotYetObtained
     ? "Not yet obtained"
     : `Obtained at ${new Date(obtainedAchievement?.createdAt).toLocaleDateString()}`;
-  const icon = getServerStoredIcon(achievement.id);
 
   return (
     <Paper
-      className={"border-4 border-[#282828]"}
+      className={
+        "border-[#282828] bg-paper data-[obtained=true]:bg-[#222222] border-2 rounded-md"
+      }
       w={"100%"}
-      bg={backgroundColor}
       withBorder
       pos={"relative"}
+      data-obtained={obtainedAchievement ? "true" : "false"}
     >
       <Group
         wrap={"nowrap"}
@@ -44,22 +41,26 @@ const AchievementItem = ({ targetUserId, achievement }: Props) => {
         h={"100%"}
         px={"1rem"}
         py={"1.5rem"}
-        opacity={achievementNotYetObtained ? "0.78" : "1"}
+        opacity={achievementNotYetObtained ? "0.80" : "1"}
       >
         <AchievementLogo achievementId={achievement.id} />
-        <Stack gap={"0.5rem"} w={"50%"}>
+        <Stack gap={"0.5rem"}>
           <Title fz={"1rem"}>{achievement.name}</Title>
           <Text fz={"0.85rem"} className={"break-words"}>
             {achievement.description}
           </Text>
         </Stack>
-        <Stack ml={"auto"} gap={0} justify={"center"} align={"center"}>
+        <Stack
+          ml={"auto"}
+          gap={0}
+          justify={"center"}
+          align={"center"}
+          className={""}
+        >
           <Title fz={"1.5rem"} className={"break-keep text-center"}>
             {achievement.expGainAmount} XP
           </Title>
-          <Text fz={"0.5rem"} className={"text-center"}>
-            {obtainedText}
-          </Text>
+          <Text className={"text-center text-xs"}>{obtainedText}</Text>
         </Stack>
       </Group>
     </Paper>

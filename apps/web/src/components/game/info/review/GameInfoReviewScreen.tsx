@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Paper, Stack } from "@mantine/core";
+import { Paper, Stack, StackProps } from "@mantine/core";
 import GameInfoReviewEditorView from "@/components/game/info/review/editor/GameInfoReviewEditorView";
 import { GameInfoReviewList } from "@repo/ui";
 
@@ -15,12 +15,10 @@ const GameInfoReviewScreen = ({
 }: IGameInfoReviewViewProps) => {
   if (!gameId) return null;
   return (
-    <Paper w={"100%"} h={"100%"}>
-      <Stack w={"100%"} h={"100%"} align={"center"}>
-        <GameInfoReviewEditorView gameId={gameId} />
-        <GameInfoReviewList gameId={gameId} targetReviewId={targetReviewId} />
-      </Stack>
-    </Paper>
+    <Stack w={"100%"} h={"100%"} align={"center"}>
+      <GameInfoReviewEditorView gameId={gameId} />
+      <GameInfoReviewList gameId={gameId} targetReviewId={targetReviewId} />
+    </Stack>
   );
 };
 

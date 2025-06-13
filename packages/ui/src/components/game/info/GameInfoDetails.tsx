@@ -23,28 +23,46 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
   return (
     <Stack align={"start"} justify={"start"} gap={"0.5rem"} w={"100%"}>
       <SimpleGrid cols={{ base: 1, lg: 2 }} w={"100%"}>
-        <DetailsBox withBorder withDimmedTitle title={"Launch date"}>
+        <DetailsBox
+          withBorder
+          withDimmedTitle
+          title={"Launch date"}
+          withPadding
+        >
           {getLocalizedFirstReleaseDate(game.firstReleaseDate) ??
             "Not available"}
         </DetailsBox>
         <GameInfoDetailsDeveloperInfo gameId={game.id} />
         <GameInfoDetailsTags gameId={game.id} />
-        <DetailsBox title={"Where to play"} withBorder withDimmedTitle>
+        <DetailsBox
+          title={"Where to play"}
+          withBorder
+          withDimmedTitle
+          withPadding
+        >
           <GameInfoPlatforms gameId={game.id} className={"my-4 gap-5"} />
         </DetailsBox>
-        <DetailsBox title={"Where to buy"} withBorder withDimmedTitle>
+        <DetailsBox
+          title={"Where to buy"}
+          withBorder
+          withDimmedTitle
+          withPadding
+        >
           <GameInfoExternalStores gameId={game.id} className={"my-4 gap-5"} />
         </DetailsBox>
 
-        <DetailsBox withBorder withDimmedTitle title={"Summary"}>
+        <DetailsBox withBorder withDimmedTitle title={"Summary"} withPadding>
           {game.summary ?? "Not available"}
         </DetailsBox>
-        <Stack>
-          <DetailsBox withBorder withDimmedTitle title={"Your progress"}>
-            <GameInfoProgressTimeline gameId={game.id} />
-          </DetailsBox>
-          <GameInfoPlaytimeTracker gameId={game.id} />
-        </Stack>
+        <DetailsBox
+          withBorder
+          withDimmedTitle
+          title={"Your progress"}
+          withPadding
+        >
+          <GameInfoProgressTimeline gameId={game.id} />
+        </DetailsBox>
+        <GameInfoPlaytimeTracker gameId={game.id} />
 
         <GameInfoScore gameId={game.id} />
       </SimpleGrid>

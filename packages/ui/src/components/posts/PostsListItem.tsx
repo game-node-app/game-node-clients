@@ -30,9 +30,10 @@ import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
 
 interface Props {
   item: Post;
+  withUserProfile?: boolean;
 }
 
-const PostsListItem = ({ item }: Props) => {
+const PostsListItem = ({ item, withUserProfile }: Props) => {
   const userId = useUserId();
   const onMobile = useOnMobile();
   const queryClient = useQueryClient();
@@ -98,7 +99,7 @@ const PostsListItem = ({ item }: Props) => {
         </CommentsView>
       </Modal>
 
-      <Box className={"hidden lg:block lg:w-2/12"}>
+      <Box className={withUserProfile ? "hidden lg:block lg:w-2/12" : "hidden"}>
         <UserAvatarGroup
           avatarProps={{
             size: onMobile ? "lg" : "xl",
@@ -123,7 +124,7 @@ const PostsListItem = ({ item }: Props) => {
           {onMobile ? (
             <Group className={"w-10/12 flex-nowrap"}>
               <GameTitleWithFigure gameId={item.gameId} withTitle={false} />
-              <Box className={"max-w-fit"}>
+              <Box className={withUserProfile ? "max-w-fit" : "hidden"}>
                 <UserAvatarGroup userId={item.profileUserId} />
               </Box>
             </Group>

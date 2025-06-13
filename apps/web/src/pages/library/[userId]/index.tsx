@@ -1,12 +1,12 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Container, Stack } from "@mantine/core";
-import { DetailsBox } from "@/components/general/DetailsBox";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import {
   LibraryView,
   RecentCollectionEntriesView,
   useUserProfile,
+  DetailsBox,
 } from "@repo/ui";
 
 const Index = () => {

@@ -41,7 +41,7 @@ const BlogPostsListPage = () => {
               <BlogPostCard
                 key={blogPost.id}
                 post={blogPost}
-                onClick={() => router.push(`/dashboard/blog/${blogPost.id}`)}
+                blogRoutePrefix={"/dashboard/blog"}
                 onEdit={() =>
                   router.push(`/dashboard/blog/${blogPost.id}/edit`)
                 }

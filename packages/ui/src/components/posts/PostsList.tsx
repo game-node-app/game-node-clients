@@ -5,11 +5,19 @@ import { Stack } from "@mantine/core";
 
 interface Props {
   items: Post[];
+  withUserProfile?: boolean;
 }
 
-const PostsList = ({ items }: Props) => {
+const PostsList = ({ items, withUserProfile = true }: Props) => {
   const renderedContent = useMemo(
-    () => items.map((item) => <PostsListItem key={item.id} item={item} />),
+    () =>
+      items.map((item) => (
+        <PostsListItem
+          key={item.id}
+          item={item}
+          withUserProfile={withUserProfile}
+        />
+      )),
     [items],
   );
   return <Stack className={"w-full"}>{renderedContent}</Stack>;

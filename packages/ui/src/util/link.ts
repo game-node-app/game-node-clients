@@ -4,7 +4,7 @@ export interface RoutingComponent extends HTMLProps<HTMLAnchorElement> {
   href: string;
 }
 
-interface RoutingManagerProps {
+export interface RoutingManagerProps {
   push: (route: string) => Promise<unknown> | unknown;
 }
 

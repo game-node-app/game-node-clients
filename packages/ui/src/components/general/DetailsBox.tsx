@@ -30,7 +30,7 @@ export const DetailsBox = ({
         h={"fit-content"}
         styles={{
           root: {
-            padding: withPadding ? "4px" : undefined,
+            padding: withPadding ? "0.75rem" : undefined,
             borderWidth: withBorder ? "2px" : undefined,
             borderColor: withBorder ? "#1F1F1F" : undefined,
             borderRadius: withBorder ? "6px" : undefined,

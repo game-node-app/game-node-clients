@@ -41,17 +41,12 @@ const RecentBlogPostsCarousel = () => {
       return (
         <Carousel.Slide key={blogPost.id}>
           <Paper className={"w-full h-full bg-paper"} shadow={"sm"}>
-            <BlogPostCard
-              post={blogPost}
-              onClick={() => {
-                router.push(`/blog/post/${blogPost.id}`);
-              }}
-            />
+            <BlogPostCard post={blogPost} blogRoutePrefix="/blog" />
           </Paper>
         </Carousel.Slide>
       );
     });
-  }, [data?.data, isLoading, router]);
+  }, [data?.data, isLoading]);
 
   return (
     <DetailsBox
