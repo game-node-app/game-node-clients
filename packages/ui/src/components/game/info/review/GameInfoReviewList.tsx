@@ -12,6 +12,7 @@ import {
   useUserId,
 } from "#@/components";
 import period = FindStatisticsTrendingReviewsDto.period;
+import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 
 interface IGameInfoReviewListProps {
   gameId: number;
@@ -25,6 +26,7 @@ export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto
     period: period.ALL,
     offset: 0,
     limit: DEFAULT_LIMIT,
+    excludeOwn: true,
   };
 
 const GameInfoReviewList = ({
@@ -55,17 +57,13 @@ const GameInfoReviewList = ({
     offset > 0;
 
   const handlePagination = (page: number) => {
-    const offset = (page - 1) * DEFAULT_LIMIT;
-    setOffset(offset);
+    setOffset(getPageAsOffset(page, DEFAULT_LIMIT));
   };
 
   const content = useMemo(() => {
     const reviews = reviewsQuery.data
-      ?.filter((review) => {
-        return review.profileUserId !== ownUserId;
-      })
       // Give priority to reviews with content
-      .toSorted((a, b) => {
+      ?.toSorted((a, b) => {
         if (a.content == null) {
           return 1;
         } else if (b.content == null) {
@@ -83,7 +81,7 @@ const GameInfoReviewList = ({
     }
 
     return reviews;
-  }, [reviewsQuery.data, ownUserId]);
+  }, [reviewsQuery.data]);
 
   if (isLoading) {
     return <CenteredLoading className={"mt-6 mb-6"} />;
@@ -108,6 +106,7 @@ const GameInfoReviewList = ({
         {shouldShowPagination && (
           <Group w={"100%"} justify={"center"}>
             <Pagination
+              value={getOffsetAsPage(offset, DEFAULT_LIMIT)}
               total={trendingReviewsPagination?.totalPages ?? 1}
               onChange={handlePagination}
             />

@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  type GetPostsPaginatedReponseDto,
+  type GetPostsPaginatedResponseDto,
   PostsFeedService,
 } from "@repo/wrapper/server";
 import { ExtendedUseInfiniteQueryResult } from "#@/util";
@@ -20,7 +20,7 @@ export function useInfinitePostsFeed({
   criteria = "all",
   limit = 20,
   postId,
-}: GetPostsFeedRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedReponseDto> {
+}: GetPostsFeedRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = ["posts", "feed", criteria, limit, postId];
 

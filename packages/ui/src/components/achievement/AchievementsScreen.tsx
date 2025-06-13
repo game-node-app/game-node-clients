@@ -16,6 +16,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useUserId } from "../auth";
 import { useAchievements, useAllObtainedAchievements } from "./hooks";
 import {
+  CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
   UserAvatarWithLevelInfo,
@@ -23,6 +24,7 @@ import {
 import { RedeemAchievementCodeModal } from "#@/components";
 import { AchievementItem } from "#@/components";
 import { getPageAsOffset } from "#@/util";
+import { useNonObtainedAchievements } from "#@/components/achievement/hooks/useNonObtainedAchievements.ts";
 
 interface Props {
   targetUserId: string;
@@ -39,37 +41,32 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
     targetUserId,
     true,
   );
-  const achievementsQuery = useAchievements({});
   const isOwnUserId = userId != undefined && userId === targetUserId;
 
   const obtainedAchievements =
     obtainedAchievementsQuery.data?.slice(0, 6) ?? [];
 
+  const nonObtainedAchievementsQuery = useNonObtainedAchievements(targetUserId);
+
   const pendingAchievements = useMemo(() => {
-    if (
-      achievementsQuery.data == undefined ||
-      obtainedAchievementsQuery.data == undefined
-    ) {
+    if (nonObtainedAchievementsQuery.data == undefined) {
       return [];
     }
 
     const pageAsOffset = getPageAsOffset(page, DEFAULT_LIMIT);
 
-    return achievementsQuery.data.data
-      .filter(
-        (achievement) =>
-          !obtainedAchievementsQuery.data.some(
-            (obtainedAchievement) =>
-              obtainedAchievement.achievementId === achievement.id,
-          ),
-      )
-      .slice(pageAsOffset, DEFAULT_LIMIT);
-  }, [achievementsQuery.data, obtainedAchievementsQuery.data, page]);
-
-  console.log("obtainedAchievements: ", obtainedAchievements);
-  console.log("pendingAchievements: ", pendingAchievements);
+    return nonObtainedAchievementsQuery.data.slice(pageAsOffset, DEFAULT_LIMIT);
+  }, [nonObtainedAchievementsQuery.data, page]);
 
   const [redeemCodeModalOpened, redeemCodeModalUtils] = useDisclosure();
+
+  const isLoading =
+    obtainedAchievementsQuery.isLoading ||
+    nonObtainedAchievementsQuery.isLoading;
+  const isError =
+    obtainedAchievementsQuery.isError || nonObtainedAchievementsQuery.isError;
+  const error =
+    obtainedAchievementsQuery.error || nonObtainedAchievementsQuery.error;
 
   if (!targetUserId) return null;
 
@@ -97,12 +94,8 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
       </Group>
 
       {withUserLevel && <Divider className={"w-full"} />}
-      {achievementsQuery.isError && (
-        <Center className={"mt-10"}>
-          Something happened while loading achievements. Please try again.
-        </Center>
-      )}
-      {achievementsQuery.isLoading && <CenteredLoading />}
+      {isError && <CenteredErrorMessage error={error ?? undefined} />}
+      {isLoading && <CenteredLoading />}
       <DetailsBox title={""}>
         <SimpleGrid
           cols={{

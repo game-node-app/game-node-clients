@@ -20,7 +20,8 @@ export function useAllObtainedAchievements(
     targetUserId,
     sortByLatestObtained,
   ];
-  const invalidate = () => queryClient.invalidateQueries({ queryKey });
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 3) });
   return {
     ...useQuery({
       queryKey,
