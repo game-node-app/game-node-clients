@@ -7,10 +7,10 @@ import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useAllObtainedAchievements(
   targetUserId: string | undefined,
-  /**
-   * Performs client-side sorting. Doesn't affect sorting between pages.
-   */
-  sortByLatestObtained = false,
+  isFeatured?: boolean,
+  orderBy = {
+    createdAt: "DESC",
+  },
 ): ExtendedUseQueryResult<ObtainedAchievementDto[]> {
   const queryClient = useQueryClient();
   const queryKey = [
@@ -18,7 +18,8 @@ export function useAllObtainedAchievements(
     "obtained",
     "all",
     targetUserId,
-    sortByLatestObtained,
+    orderBy,
+    isFeatured,
   ];
   const invalidate = () =>
     queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 3) });
@@ -29,17 +30,12 @@ export function useAllObtainedAchievements(
         const achievements =
           await AchievementsService.achievementsControllerGetAllObtainedAchievementsV1(
             targetUserId!,
+            isFeatured,
+            orderBy,
           );
-        if (achievements == undefined || achievements.length === 0) {
-          return [];
-        }
 
-        if (sortByLatestObtained) {
-          return achievements.toSorted((a, b) => {
-            const aCreateDate = new Date(a.createdAt);
-            const bCreateDate = new Date(b.createdAt);
-            return aCreateDate.getTime() - bCreateDate.getTime();
-          });
+        if (achievements == undefined) {
+          return [];
         }
 
         return achievements;

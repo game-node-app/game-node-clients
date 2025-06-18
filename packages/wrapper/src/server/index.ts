@@ -43,7 +43,7 @@ export type { FindAllProfileResponseItemDto } from './models/FindAllProfileRespo
 export type { FindAllReviewsByIdDto } from './models/FindAllReviewsByIdDto';
 export { FindAvailableConnectionsResponseDto } from './models/FindAvailableConnectionsResponseDto';
 export type { FindCollectionEntriesForCollectionIdDto } from './models/FindCollectionEntriesForCollectionIdDto';
-export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
+export { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';
 export { FindOneStatisticsDto } from './models/FindOneStatisticsDto';
@@ -127,6 +127,7 @@ export type { UpdateBlogPostImageDto } from './models/UpdateBlogPostImageDto';
 export type { UpdateCollectionDto } from './models/UpdateCollectionDto';
 export { UpdateCommentDto } from './models/UpdateCommentDto';
 export type { UpdateFeaturedObtainedAchievementDto } from './models/UpdateFeaturedObtainedAchievementDto';
+export type { UpdateFeaturedObtainedAchievementV2Dto } from './models/UpdateFeaturedObtainedAchievementV2Dto';
 export type { UpdateProfileDto } from './models/UpdateProfileDto';
 export { UpdateProfileImageDto } from './models/UpdateProfileImageDto';
 export type { UploadPostImageRequestDto } from './models/UploadPostImageRequestDto';

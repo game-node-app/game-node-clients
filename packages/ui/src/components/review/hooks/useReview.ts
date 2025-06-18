@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ReviewsService } from "../../../../../wrapper/src/server";
 
-export function useReview(reviewId: string | undefined) {
+export function useReview(reviewId: string | undefined | null) {
   return useQuery({
     queryKey: ["review", reviewId],
     queryFn: () => {

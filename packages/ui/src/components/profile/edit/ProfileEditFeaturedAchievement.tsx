@@ -1,6 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAchievements } from "#@/components/achievement/hooks/useAchievements";
-import { Box, Group, Select, Stack, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Center,
+  Group,
+  MultiSelect,
+  Select,
+  Stack,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import { useFeaturedObtainedAchievement } from "#@/components/achievement/hooks/useFeaturedObtainedAchievement";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { AchievementItem } from "#@/components/achievement/AchievementItem";
@@ -10,35 +20,33 @@ import { useDisclosure } from "@mantine/hooks";
 import { AchievementDto, AchievementsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { Link, Modal } from "#@/util";
+import { createErrorNotification, Link, Modal } from "#@/util";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
+import { AchievementsMultiSelect } from "#@/components/achievement/select/AchievementsMultiSelect.tsx";
+import { DetailsBox } from "#@/components";
 
 const ProfileEditFeaturedAchievement = () => {
   const [opened, modalUtils] = useDisclosure(false);
+  const [selectedAchievementIds, setSelectedAchievementIds] = useState<
+    string[]
+  >([]);
 
   const userId = useUserId();
-  const achievements = useAchievements({
-    limit: 1000,
-  });
-
-  const allObtainedAchievements = useAllObtainedAchievements(userId);
-  const featuredAchievementQuery = useFeaturedObtainedAchievement(userId);
-  const featuredAchievement = featuredAchievementQuery.data;
-  const featuredAchievementReference = useMemo(() => {
-    if (achievements && featuredAchievement) {
-      return achievements.data?.data.find((achievement) => {
-        return achievement.id === featuredAchievement.achievementId;
-      });
+  const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
+  const featuredAchievements = useMemo(() => {
+    if (obtainedAchievementsQuery.data == undefined) {
+      return [];
     }
 
-    return undefined;
-  }, [achievements, featuredAchievement]);
+    return obtainedAchievementsQuery.data.filter((oa) => oa.isFeatured);
+  }, [obtainedAchievementsQuery.data]);
 
   const featuredAchievementMutation = useMutation({
-    mutationFn: async (achievementId: string) => {
-      return AchievementsService.achievementsControllerUpdateFeaturedObtainedAchievementV1(
-        achievementId,
+    mutationFn: async () => {
+      return AchievementsService.achievementsV2ControllerUpdateFeaturedObtainedAchievementsV2(
         {
-          isFeatured: true,
+          featuredAchievementIds: selectedAchievementIds,
         },
       );
     },
@@ -47,36 +55,23 @@ const ProfileEditFeaturedAchievement = () => {
         message: "Successfully updated featured achievement!",
       });
     },
-    onError: (err) => {
-      notifications.show({
-        message:
-          "Error while trying to update featured achievement: " + err.message,
-      });
-    },
+    onError: createErrorNotification,
     onSettled: () => {
-      allObtainedAchievements.invalidate();
-      modalUtils.close();
+      obtainedAchievementsQuery.invalidate();
     },
   });
 
-  const fakeSelectAchievement: AchievementDto = {
-    name: "Select your first featured achievement",
-    expGainAmount: 0,
-    description: "It's on us, don't worry.",
-    id: "campfire",
-    category: 0,
-  };
+  // Effect to sync featured achievements with selection
+  useEffect(() => {
+    if (featuredAchievements.length > 0) {
+      setSelectedAchievementIds(
+        featuredAchievements.map((achievement) => achievement.achievementId),
+      );
+    }
+  }, [featuredAchievements]);
 
-  if (
-    !userId ||
-    achievements.data == undefined ||
-    allObtainedAchievements.data == undefined
-  ) {
-    return (
-      <Group>
-        <Text>No obtained achievement found.</Text>
-      </Group>
-    );
+  if (!userId) {
+    return null;
   }
 
   return (
@@ -84,29 +79,38 @@ const ProfileEditFeaturedAchievement = () => {
       <Modal
         opened={opened}
         onClose={modalUtils.close}
-        title={"Select a new featured achievement"}
+        title={"Select featured achievements"}
       >
-        {allObtainedAchievements.data ? (
-          <Stack>
-            <Select
-              defaultValue={`${featuredAchievement?.id}`}
-              data={allObtainedAchievements.data.map((obtainedAchievement) => {
-                const achievementEntity = achievements.data.data.find(
-                  (achievement) => {
-                    return achievement.id === obtainedAchievement.achievementId;
-                  },
-                );
-                return {
-                  label: achievementEntity!.name,
-                  value: achievementEntity!.id,
-                };
-              })}
-              onChange={(id) => {
-                if (id) {
-                  featuredAchievementMutation.mutate(id);
-                }
+        {obtainedAchievementsQuery.data ? (
+          <Stack className={"w-full"}>
+            <AchievementsMultiSelect
+              achievements={obtainedAchievementsQuery.data.map(
+                (oa) => oa.achievement,
+              )}
+              value={selectedAchievementIds}
+              onChange={(ids) => {
+                setSelectedAchievementIds(ids);
               }}
             />
+            <Center className={"mb-8"}>
+              <Button
+                loading={featuredAchievementMutation.isPending}
+                onClick={() => featuredAchievementMutation.mutate()}
+              >
+                Save
+              </Button>
+            </Center>
+            <DetailsBox title={"Featured Achievements"}>
+              {featuredAchievements.map((featuredAchievement) => {
+                return (
+                  <AchievementItem
+                    key={`featured-${featuredAchievement.achievementId}`}
+                    targetUserId={userId}
+                    achievement={featuredAchievement.achievement}
+                  />
+                );
+              })}
+            </DetailsBox>
           </Stack>
         ) : (
           <Text>
@@ -115,20 +119,9 @@ const ProfileEditFeaturedAchievement = () => {
           </Text>
         )}
       </Modal>
-      <Box onClick={modalUtils.open}>
-        {featuredAchievementQuery.isLoading && <CenteredLoading />}
-        {featuredAchievementQuery.isSuccess && featuredAchievementReference ? (
-          <AchievementItem
-            targetUserId={userId!}
-            achievement={featuredAchievementReference}
-          />
-        ) : (
-          <AchievementItem
-            targetUserId={userId}
-            achievement={fakeSelectAchievement}
-          />
-        )}
-      </Box>
+      <UnstyledButton onClick={modalUtils.open}>
+        <ProfileFeaturedAchievements targetUserId={userId} withEmptyMessage />
+      </UnstyledButton>
     </Stack>
   );
 };

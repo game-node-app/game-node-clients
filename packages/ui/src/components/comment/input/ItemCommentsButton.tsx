@@ -30,12 +30,14 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
     return commentsQuery.data.pagination.totalItems;
   }, [commentsQuery.data]);
 
+  const hasComments = totalCommentsCount > 0;
+
   return (
     <ActionIcon
       onClick={onClick}
       variant={"subtle"}
       size={"xl"}
-      color={"white"}
+      color={hasComments ? "brand.4" : "white"}
       loading={commentsQuery.isLoading}
     >
       <IconMessages className={"me-0.5"} />

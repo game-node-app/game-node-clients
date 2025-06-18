@@ -26,8 +26,8 @@ const ProfileUserInfoConnections = ({ userId }: Props) => {
             <Image
               alt={"Importer source icon"}
               src={getServerStoredIcon(connection.type.valueOf())}
-              w={48}
-              h={48}
+              w={40}
+              h={40}
               className={"mt-6"}
             />
           </Anchor>

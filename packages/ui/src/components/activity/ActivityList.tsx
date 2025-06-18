@@ -4,6 +4,7 @@ import { ReviewActivityItem } from "#@/components/activity/item/ReviewActivityIt
 import { CollectionEntryActivityItem } from "#@/components/activity/item/CollectionEntryActivityItem";
 import { UserFollowActivityItem } from "#@/components/activity/item/UserFollowActivityItem";
 import type = Activity.type;
+import { ActivityItem } from "#@/components";
 
 interface Props {
   items: Activity[] | undefined;
@@ -12,16 +13,18 @@ interface Props {
 const ActivityList = ({ items }: Props) => {
   if (!items) return null;
   return items.map((activity) => {
-    switch (activity.type) {
-      case type.REVIEW:
-        return <ReviewActivityItem key={activity.id} activity={activity} />;
-      case type.COLLECTION_ENTRY:
-        return (
-          <CollectionEntryActivityItem key={activity.id} activity={activity} />
-        );
-      case type.FOLLOW:
-        return <UserFollowActivityItem key={activity.id} activity={activity} />;
-    }
+    // switch (activity.type) {
+    //   case type.REVIEW:
+    //     return <ReviewActivityItem key={activity.id} activity={activity} />;
+    //   case type.COLLECTION_ENTRY:
+    //     return (
+    //       <CollectionEntryActivityItem key={activity.id} activity={activity} />
+    //     );
+    //   case type.FOLLOW:
+    //     return <UserFollowActivityItem key={activity.id} activity={activity} />;
+    // }
+
+    return <ActivityItem key={activity.id} activity={activity} />;
   });
 };
 

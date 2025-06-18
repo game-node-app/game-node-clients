@@ -32,9 +32,9 @@ const ItemLikesButton = ({
         }
         toggleUserLike();
       }}
-      variant={isLiked ? "filled" : "subtle"}
+      variant={"subtle"}
       size={"xl"}
-      color={isLiked ? "brand" : "white"}
+      color={isLiked ? "brand.4" : "white"}
       data-disabled={!userId}
       {...others}
     >

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Box, Container, Space, Stack } from "@mantine/core";
+import { Box, Center, Container, Space, Stack, Title } from "@mantine/core";
 import {
+  ActivityFeed,
   BackToTopButton,
   DetailsBox,
   GameSearchBar,
@@ -8,6 +9,8 @@ import {
   GameSearchTips,
   HomeFeed,
   InfiniteLoaderProps,
+  PostsFeed,
+  RecentActivityList,
   RecommendationCarousel,
   SimpleInfiniteLoader,
   TrendingGamesList,
@@ -47,7 +50,7 @@ const Index = () => {
     searchQuery.data == undefined;
 
   return (
-    <Container fluid mih={"100%"} pos={"relative"} className="mb-12">
+    <Stack mih={"100%"} pos={"relative"} className="mb-12">
       <BackToTopButton />
       <Stack align="center" justify="center" w={"100%"}>
         <Box className={`w-full flex justify-center mt-12 flex-wrap`}>
@@ -113,23 +116,31 @@ const Index = () => {
               <Space h={"1rem"} />
               <RecentBlogPostsCarousel />
               <Space h={"1rem"} />
+              <Center>
+                <Box className={"w-full lg:w-1/2"}>
+                  <Title size={"h3"} className={"text-center"}>
+                    Recent activity
+                  </Title>
+                  <RecentActivityList limit={10} />
+                </Box>
+              </Center>
               <DetailsBox
-                title={"Recent Activity"}
+                title={"Recent Posts"}
                 stackProps={{
                   className: "",
                 }}
               >
-                <HomeFeed>
+                <PostsFeed criteria={"all"}>
                   {(props: InfiniteLoaderProps) => (
                     <SimpleInfiniteLoader {...props} />
                   )}
-                </HomeFeed>
+                </PostsFeed>
               </DetailsBox>
             </Stack>
           )}
         </Box>
       </Stack>
-    </Container>
+    </Stack>
   );
 };
 

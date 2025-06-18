@@ -26,8 +26,6 @@ const PostsListView = ({ withUserProfile = true, ...request }: Props) => {
     hasNextPage,
   } = useInfinitePosts(request);
 
-  console.log("PostsListView", data);
-
   if (isLoading) {
     return <CenteredLoading />;
   }

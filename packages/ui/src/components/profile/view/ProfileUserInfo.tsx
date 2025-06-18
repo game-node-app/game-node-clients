@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Box, Paper, Stack, Text } from "@mantine/core";
+import { Box, Center, Divider, Group, Paper, Stack, Text } from "@mantine/core";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
@@ -8,7 +8,13 @@ import { ObtainedAchievementItem } from "#@/components/achievement/ObtainedAchie
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
 import { TextLink } from "#@/components/general/TextLink";
-import { ProfileUserInfoConnections } from "#@/components";
+import {
+  ProfileFollowInfo,
+  ProfileUserInfoConnections,
+  UserLevel,
+} from "#@/components";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
+import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
 
 const dateFormatter = new Intl.DateTimeFormat();
 
@@ -43,54 +49,45 @@ const ProfileUserInfo = ({
   }
 
   return (
-    <Paper
-      className={"w-full h-full p-1"}
-      styles={{
-        root: {
-          backgroundColor: "#161616",
-        },
-      }}
-    >
-      <Stack className={"w-full h-full items-center p-2"}>
-        <Box w={"80%"}>
-          <UserLevelInfo targetUserId={profileQuery.data?.userId} />
-        </Box>
-
-        <Text className={"mt-4"} fz={"0.9rem"}>
-          {profileQuery.data.bio}
-        </Text>
-        {featuredAchievement && (
-          <ObtainedAchievementItem
-            targetUserId={profileQuery.data.userId}
-            achievementId={featuredAchievement.achievementId}
-          />
-        )}
-        <Box className={"mt-4"}>
-          <ProfileFollowActions targetUserId={userId} />
-        </Box>
-
-        {isOwnProfile && withEditDetailsButton && (
-          <TextLink
-            onClick={(evt) => {
-              evt.preventDefault();
-              if (onEditClick) onEditClick();
-            }}
-            href={"#"}
-            className={"mt-6"}
-          >
-            Edit profile details
-          </TextLink>
-        )}
-
-        <Stack className={"w-full mt-5"}>
-          <ProfileUserInfoConnections userId={userId} />
-        </Stack>
-        <Text className={"mt-4"} fz={"0.8rem"} c={"dimmed"}>
-          Joined at{" "}
-          {dateFormatter.format(new Date(profileQuery.data.createdAt))}
-        </Text>
+    <Stack className={"w-full h-full items-center p-2"}>
+      <Center>
+        <UserLevel userId={userId} />
+      </Center>
+      <Group className={"w-full justify-center gap-12"}>
+        <ProfileFollowInfo
+          targetUserId={userId}
+          criteria={FollowInfoRequestDto.criteria.FOLLOWERS}
+        />
+        <ProfileFollowInfo
+          targetUserId={userId}
+          criteria={FollowInfoRequestDto.criteria.FOLLOWING}
+        />
+      </Group>
+      <Stack className={"mt-4 w-full relative"}>
+        <Text className={"text-center"}>{profileQuery.data?.bio}</Text>
       </Stack>
-    </Paper>
+
+      {isOwnProfile && withEditDetailsButton && (
+        <TextLink
+          onClick={(evt) => {
+            evt.preventDefault();
+            if (onEditClick) onEditClick();
+          }}
+          href={"#"}
+          className={"mt-2"}
+        >
+          Edit profile details
+        </TextLink>
+      )}
+      <Box className={"my-4"}>
+        <ProfileFollowActions targetUserId={userId} />
+      </Box>
+      <Divider className={"w-full"} />
+      <ProfileFeaturedAchievements targetUserId={userId} />
+      <Stack className={"w-full"}>
+        <ProfileUserInfoConnections userId={userId} />
+      </Stack>
+    </Stack>
   );
 };
 
