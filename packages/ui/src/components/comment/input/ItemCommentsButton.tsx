@@ -41,7 +41,7 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
       loading={commentsQuery.isLoading}
     >
       <IconMessages className={"me-0.5"} />
-      <Text>{totalCommentsCount}</Text>
+      {totalCommentsCount > 0 && <Text>{totalCommentsCount}</Text>}
     </ActionIcon>
   );
 };

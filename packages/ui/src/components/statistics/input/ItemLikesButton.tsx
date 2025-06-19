@@ -39,7 +39,7 @@ const ItemLikesButton = ({
       {...others}
     >
       <IconThumbUp />
-      <Text>{likesCount}</Text>
+      {likesCount > 0 && <Text>{likesCount}</Text>}
     </ActionIcon>
   );
 };

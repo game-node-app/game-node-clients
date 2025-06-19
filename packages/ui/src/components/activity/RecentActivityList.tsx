@@ -1,12 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useLatestActivities } from "#@/components/activity/hooks/useLatestActivities";
-import { ReviewActivityItem } from "#@/components/activity/item/ReviewActivityItem";
-import { CollectionEntryActivityItem } from "#@/components/activity/item/CollectionEntryActivityItem";
-import { UserFollowActivityItem } from "#@/components/activity/item/UserFollowActivityItem";
 import { Stack } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { Activity } from "@repo/wrapper/server";
-import type = Activity.type;
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { ActivityList } from "#@/components";
 
@@ -34,7 +29,10 @@ const RecentActivityList = ({
     <Stack className={"w-full h-full"}>
       {activitiesQuery.isLoading && <CenteredLoading />}
       {activitiesQuery.data && (
-        <ActivityList items={activitiesQuery.data.data} />
+        <ActivityList
+          items={activitiesQuery.data.data}
+          withUserAvatar={withUserAvatar}
+        />
       )}
       {isEmpty && (
         <CenteredErrorMessage message={"No recent activity to show."} />

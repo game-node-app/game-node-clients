@@ -8,23 +8,19 @@ import { ActivityItem } from "#@/components";
 
 interface Props {
   items: Activity[] | undefined;
+  withUserAvatar?: boolean;
 }
 
-const ActivityList = ({ items }: Props) => {
+const ActivityList = ({ items, withUserAvatar = true }: Props) => {
   if (!items) return null;
   return items.map((activity) => {
-    // switch (activity.type) {
-    //   case type.REVIEW:
-    //     return <ReviewActivityItem key={activity.id} activity={activity} />;
-    //   case type.COLLECTION_ENTRY:
-    //     return (
-    //       <CollectionEntryActivityItem key={activity.id} activity={activity} />
-    //     );
-    //   case type.FOLLOW:
-    //     return <UserFollowActivityItem key={activity.id} activity={activity} />;
-    // }
-
-    return <ActivityItem key={activity.id} activity={activity} />;
+    return (
+      <ActivityItem
+        key={activity.id}
+        activity={activity}
+        withUserAvatar={withUserAvatar}
+      />
+    );
   });
 };
 

@@ -116,8 +116,8 @@ const Index = () => {
               <Space h={"1rem"} />
               <RecentBlogPostsCarousel />
               <Space h={"1rem"} />
-              <Center>
-                <Box className={"w-full lg:w-1/2"}>
+              <Center className={"w-full"}>
+                <Box className={"w-full lg:w-3/4"}>
                   <Title size={"h3"} className={"text-center"}>
                     Recent activity
                   </Title>
