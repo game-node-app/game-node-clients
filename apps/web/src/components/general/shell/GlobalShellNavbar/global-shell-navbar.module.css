@@ -7,31 +7,13 @@
     padding-bottom: 0;
     display: flex;
     flex-direction: column;
-    border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    /*border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));*/
 }
 
 .section {
     margin-left: calc(var(--mantine-spacing-md) * -1);
     margin-right: calc(var(--mantine-spacing-md) * -1);
     margin-bottom: var(--mantine-spacing-md);
-
-    &:not(:last-of-type) {
-        border-bottom: rem(1px) solid
-        light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-    }
-}
-
-.searchCode {
-    font-weight: 700;
-    font-size: rem(10px);
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
-    border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
-}
-
-.mainLinks {
-    padding-left: calc(var(--mantine-spacing-md) - var(--mantine-spacing-xs));
-    padding-right: calc(var(--mantine-spacing-md) - var(--mantine-spacing-xs));
-    padding-bottom: var(--mantine-spacing-md);
 }
 
 .mainLink {
@@ -39,16 +21,13 @@
     align-items: center;
     width: 100%;
     font-size: var(--mantine-font-size-xs);
-    margin-left: var(--mantine-spacing-sm);
     border-radius: var(--mantine-radius-sm);
     max-width: 100%;
     font-weight: 500;
-    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     margin-bottom: 5px;
 
     &:hover {
         background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-        color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     }
 }
 
@@ -56,6 +35,7 @@
     display: flex;
     align-items: center;
     flex: 1;
+    color: var(--mantine-color-white);
 }
 
 .mainLinkIcon {
@@ -70,12 +50,6 @@
     pointer-events: none;
 }
 
-.collections {
-    padding-left: calc(var(--mantine-spacing-md) - rem(6px));
-    padding-right: calc(var(--mantine-spacing-md) - rem(6px));
-    padding-bottom: var(--mantine-spacing-md);
-}
-
 .collectionsHeader {
     padding-left: calc(var(--mantine-spacing-md) + rem(2px));
     padding-right: var(--mantine-spacing-md);
@@ -84,16 +58,14 @@
 
 .collectionLink {
     display: block;
-    padding: rem(8px) var(--mantine-spacing-xs);
     text-decoration: none;
     border-radius: var(--mantine-radius-sm);
-    font-size: var(--mantine-font-size-xs);
-    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    font-size: var(--mantine-font-size-sm);
+    color: var(--mantine-color-white);
     line-height: 1;
     font-weight: 500;
 
     &:hover {
         background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-        color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     }
 }

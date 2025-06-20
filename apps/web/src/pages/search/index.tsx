@@ -89,28 +89,7 @@ const Index = () => {
             >
               <TrendingGamesList />
               <Space h={"1rem"} />
-              {userId && (
-                <>
-                  <RecommendationCarousel
-                    criteria="finished"
-                    stackProps={{
-                      className: "",
-                    }}
-                  />
-                  <RecommendationCarousel
-                    criteria="theme"
-                    stackProps={{
-                      className: "",
-                    }}
-                  />
-                  <RecommendationCarousel
-                    criteria="genre"
-                    stackProps={{
-                      className: "",
-                    }}
-                  />
-                </>
-              )}
+              {userId && <RecommendationCarousel criteria="finished" />}
               <Space h={"1rem"} />
               <TrendingReviewCarousel />
               <Space h={"1rem"} />
@@ -124,12 +103,7 @@ const Index = () => {
                   <RecentActivityList limit={10} />
                 </Box>
               </Center>
-              <DetailsBox
-                title={"Recent Posts"}
-                stackProps={{
-                  className: "",
-                }}
-              >
+              <DetailsBox title={"Recent Posts"}>
                 <PostsFeed criteria={"all"}>
                   {(props: InfiniteLoaderProps) => (
                     <SimpleInfiniteLoader {...props} />

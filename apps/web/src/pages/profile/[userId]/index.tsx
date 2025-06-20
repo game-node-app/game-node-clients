@@ -6,22 +6,12 @@ import {
   FindAllPlaytimeFiltersDto,
   ProfileService,
 } from "@repo/wrapper/server";
-import { Box, Divider, Flex, Stack } from "@mantine/core";
+import { Box } from "@mantine/core";
 import {
-  ProfileFavoriteGames,
-  ProfileStatsSimpleOverview,
   ProfileUserInfoWithBanner,
-  ProfileViewNavbar,
   ProfileViewContent,
-  RecentActivityList,
-  TextLink,
-  useOnMobile,
-  usePlaytimeForUser,
-  UserRecentGames,
-  useUserId,
   useUserProfile,
 } from "@repo/ui";
-import period = FindAllPlaytimeFiltersDto.period;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const query = ctx.query;

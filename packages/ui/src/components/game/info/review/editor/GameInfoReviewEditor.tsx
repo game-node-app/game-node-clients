@@ -12,6 +12,7 @@ interface IGameInfoReviewEditorProps
   editorRef?: MutableRefObject<Editor | null>;
   gameId: number;
   onBlur: (html: string) => void;
+  stickyOffset?: number;
 }
 
 export const DEFAULT_REVIEW_EDITOR_EXTENSIONS = [
@@ -25,6 +26,7 @@ const GameInfoReviewEditor = ({
   editorRef,
   gameId,
   onBlur,
+  stickyOffset = 65,
   ...others
 }: IGameInfoReviewEditorProps) => {
   const userId = useUserId();
@@ -57,7 +59,7 @@ const GameInfoReviewEditor = ({
   return (
     <Box p={0} mx={0} w={"100%"}>
       <RichTextEditor w={"100%"} mx={0} editor={editor} {...others}>
-        <RichTextEditor.Toolbar sticky stickyOffset={60} w={"100%"}>
+        <RichTextEditor.Toolbar sticky stickyOffset={stickyOffset} w={"100%"}>
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.Bold />
             <RichTextEditor.Italic />

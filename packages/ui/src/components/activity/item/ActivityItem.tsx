@@ -117,20 +117,20 @@ const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
   ]);
 
   return (
-    <Group className={"flex-nowrap gap-2 items-start"}>
+    <Group className={"flex-nowrap gap-2.5 items-center"}>
       {withUserAvatar && (
-        <Box className={"max-w-28"}>
+        <Box className={"max-w-fit w-4/12"}>
           <UserAvatarGroup
             userId={activity.profileUserId}
             avatarProps={{
-              size: "sm",
+              size: "md",
             }}
             groupProps={{
               gap: "xs",
               className: "max-w-fit flex-nowrap",
             }}
             textProps={{
-              lineClamp: 1,
+              lineClamp: 2,
               className: "text-sm lg:text-md",
             }}
           />
