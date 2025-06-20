@@ -37,10 +37,7 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
   const userId = useUserId();
   const [page, setPage] = useState(1);
 
-  const obtainedAchievementsQuery = useAllObtainedAchievements(
-    targetUserId,
-    true,
-  );
+  const obtainedAchievementsQuery = useAllObtainedAchievements(targetUserId);
   const isOwnUserId = userId != undefined && userId === targetUserId;
 
   const obtainedAchievements =

@@ -5,7 +5,7 @@ import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { useCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
 import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId";
-import { ProfileNavbarFollowInfo } from "#@/components/profile/view/ProfileNavbarFollowInfo";
+import { ProfileFollowInfo } from "#@/components/profile/view/ProfileFollowInfo.tsx";
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import criteria = FollowInfoRequestDto.criteria;
 import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
@@ -49,14 +49,8 @@ const ProfileViewNavbar = ({ userId, ...groupProps }: Props) => {
         href={`/achievements/${userId}`}
         itemCount={obtainedAchievementsQuery.data?.length}
       />
-      <ProfileNavbarFollowInfo
-        targetUserId={userId}
-        criteria={criteria.FOLLOWERS}
-      />
-      <ProfileNavbarFollowInfo
-        targetUserId={userId}
-        criteria={criteria.FOLLOWING}
-      />
+      <ProfileFollowInfo targetUserId={userId} criteria={criteria.FOLLOWERS} />
+      <ProfileFollowInfo targetUserId={userId} criteria={criteria.FOLLOWING} />
     </SimpleGrid>
   );
 };

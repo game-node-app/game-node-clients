@@ -55,7 +55,7 @@ const AchievementItem = ({ targetUserId, achievement }: Props) => {
           gap={0}
           justify={"center"}
           align={"center"}
-          className={""}
+          className={"w-24 min-w-24"}
         >
           <Title fz={"1.5rem"} className={"break-keep text-center"}>
             {achievement.expGainAmount} XP

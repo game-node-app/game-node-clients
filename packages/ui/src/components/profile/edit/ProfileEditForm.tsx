@@ -90,7 +90,7 @@ const ProfileEditForm = ({ userId }: Props) => {
           <ProfileEditBioForm />
         </DetailsBox>
         <DetailsBox
-          title={"Featured achievement"}
+          title={"Featured achievements"}
           description={"Click to edit"}
         >
           <Flex className={"w-full justify-center"}>

@@ -11,16 +11,19 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
-import { Container, Image } from "@mantine/core";
+import { Box, Center, Container, Image, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DetailsBox,
   HomeFeed,
   InfiniteLoaderProps,
+  PostsFeed,
+  RecentActivityList,
   RecentBlogPostsCarousel,
   RecentlyPlayedGamesShare,
   RecommendationCarousel,
+  SimpleInfiniteLoader,
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
@@ -110,36 +113,22 @@ const HomePage = () => {
         </IonRefresher>
         <HomeFab contentRef={contentRef} />
         <Container fluid className={"w-full flex flex-col gap-8 my-4"}>
-          {userId && (
-            <RecommendationCarousel
-              criteria={"finished"}
-              stackProps={{
-                className: "",
-              }}
-            />
-          )}
+          {userId && <RecommendationCarousel criteria={"finished"} />}
           <TrendingReviewCarousel />
-
-          {userId && (
-            <>
-              <RecommendationCarousel
-                criteria={"theme"}
-                stackProps={{
-                  className: "",
-                }}
-              />
-              <RecommendationCarousel
-                criteria={"genre"}
-                stackProps={{
-                  className: "",
-                }}
-              />
-            </>
-          )}
           <RecentBlogPostsCarousel />
-
-          <DetailsBox title={"Activity from our users"}>
-            <HomeFeed>
+          <Stack className={"w-full"}>
+            <Title size={"h3"} className={"text-center"}>
+              Recent activity
+            </Title>
+            <RecentActivityList limit={10} />
+          </Stack>
+          <DetailsBox
+            title={"Recent Posts"}
+            stackProps={{
+              className: "",
+            }}
+          >
+            <PostsFeed criteria={"all"}>
               {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
                 <IonInfiniteScroll
                   disabled={!hasNextPage}
@@ -151,7 +140,7 @@ const HomePage = () => {
                   <IonInfiniteScrollContent />
                 </IonInfiniteScroll>
               )}
-            </HomeFeed>
+            </PostsFeed>
           </DetailsBox>
         </Container>
       </IonContent>

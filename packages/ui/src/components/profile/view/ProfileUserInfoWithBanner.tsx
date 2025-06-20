@@ -50,22 +50,22 @@ const ProfileUserInfoWithBanner = ({
       <Group
         className={"w-full justify-start items-start flex-wrap lg:flex-nowrap"}
       >
-        <Stack
-          className={"w-full lg:w-1/4 lg:min-w-52 bg-[#161616] gap-0 relative"}
-        >
+        <Stack className={"w-full lg:w-1/4 lg:min-w-52  gap-0 relative"}>
           <Stack className={"w-full items-center relative -top-20"}>
             <Box className={"relative w-fit h-fit"}>
               <UserAvatar
-                className={"relative border-[#161616] border-[7px]"}
+                className={"relative border-[#161616] border-4"}
                 userId={userId}
                 size={"10rem"}
               />
             </Box>
 
-            <Text className={"text-center"}>{profileQuery.data?.username}</Text>
+            <Text className={"text-center text-white"}>
+              {profileQuery.data?.username}
+            </Text>
           </Stack>
 
-          <Stack className={"w-full h-full relative -top-14"}>
+          <Stack className={"w-full h-full relative -top-16"}>
             <ProfileUserInfo
               userId={userId}
               onEditClick={editModalUtils.open}

@@ -47,26 +47,30 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
 
   return (
     <Group className={"w-full p-2 bg-[#262525] @container"}>
-      <Group className={"w-full flex-nowrap items-start lg:gap-0"}>
-        <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
-          <Box className={"w-11/12"}>
+      <Group className={"w-full flex-wrap lg:flex-nowrap items-start gap-0"}>
+        <Stack
+          className={
+            "w-full lg:w-2/12 items-start lg:items-center justify-start"
+          }
+        >
+          <Box className={"w-full lg:w-11/12"}>
             <UserAvatarGroup
               groupProps={{
-                wrap: "wrap",
-                pt: "lg",
+                wrap: onMobile ? "nowrap" : "wrap",
+                pt: onMobile ? "xs" : "lg",
                 gap: "xs",
-                justify: "center",
+                justify: onMobile ? "start" : "center",
               }}
               avatarProps={{
-                size: "xl",
+                size: onMobile ? "md" : "xl",
               }}
-              withHorizontalBreak
+              withHorizontalBreak={!onMobile}
               userId={profileUserId}
             />
           </Box>
         </Stack>
         <Stack
-          className={"w-9/12 lg:w-10/12 gap-2"}
+          className={"w-full lg:w-10/12 gap-2"}
           data-score-only={isScoreOnlyReview ? "true" : "false"}
         >
           {isScoreOnlyReview ? (
@@ -99,12 +103,14 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
               data-score-only={isScoreOnlyReview ? "true" : "false"}
             />
             <Group className={"flex-nowrap flex-grow justify-end"}>
-              <ReviewListItemComments review={review} />
-              <ItemLikesButton
-                targetUserId={review.profileUserId}
-                sourceId={review.id}
-                sourceType={FindOneStatisticsDto.sourceType.REVIEW}
-              />
+              <Group className={"gap-1"}>
+                <ReviewListItemComments review={review} />
+                <ItemLikesButton
+                  targetUserId={review.profileUserId}
+                  sourceId={review.id}
+                  sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+                />
+              </Group>
 
               <ReviewListItemDropdownButton
                 review={review}

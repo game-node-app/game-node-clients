@@ -3,8 +3,8 @@ import { Profile, ProfileService } from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useUserProfile(
-  userId: string | undefined,
-): ExtendedUseQueryResult<Profile | undefined> {
+  userId: string | undefined | null,
+): ExtendedUseQueryResult<Profile> {
   const queryClient = useQueryClient();
   const queryKey = ["userProfile", userId];
   const invalidate = () => queryClient.invalidateQueries({ queryKey });
@@ -12,8 +12,7 @@ export function useUserProfile(
     ...useQuery({
       queryKey: queryKey,
       queryFn: async () => {
-        if (!userId) return null;
-        return ProfileService.profileControllerFindOneByIdV1(userId);
+        return ProfileService.profileControllerFindOneByIdV1(userId!);
       },
       enabled: !!userId,
       retry: 1,

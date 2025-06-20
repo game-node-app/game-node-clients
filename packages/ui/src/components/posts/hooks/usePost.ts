@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { PostsService } from "@repo/wrapper/server";
 
-export function usePost(postId: string | undefined) {
+export function usePost(postId: string | undefined | null) {
   return useQuery({
     queryKey: ["post", "detail", postId],
     queryFn: async () => {

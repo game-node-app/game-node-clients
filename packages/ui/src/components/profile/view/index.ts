@@ -4,8 +4,9 @@
 
 export * from "./ProfileBanner";
 export * from "./ProfileFavoriteGames";
+export * from "./ProfileFeaturedAchievements";
 export * from "./ProfileFollowActions";
-export * from "./ProfileNavbarFollowInfo";
+export * from "./ProfileFollowInfo";
 export * from "./ProfileStatsSimpleOverview";
 export * from "./ProfileUserInfo";
 export * from "./ProfileUserInfoConnections";

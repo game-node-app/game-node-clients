@@ -23,24 +23,15 @@ const GameInfoReviewScreen = ({ gameId }: IGameInfoReviewViewProps) => {
   return (
     <Stack w={"100%"} h={"100%"} align={"center"}>
       {ownReviewQuery.data && (
-        <Paper className={"w-full"}>
-          <DetailsBox
-            title={"Your review"}
-            stackProps={{
-              className: "p-3",
-            }}
-          >
-            <ReviewListItem review={ownReviewQuery.data} />
-          </DetailsBox>
-        </Paper>
+        <DetailsBox title={"Your review"}>
+          <ReviewListItem review={ownReviewQuery.data} />
+        </DetailsBox>
       )}
 
-      <Paper className={"w-full"}>
-        <GameInfoReviewList
-          gameId={gameId}
-          targetReviewId={searchParameters.get("reviewId") ?? undefined}
-        />
-      </Paper>
+      <GameInfoReviewList
+        gameId={gameId}
+        targetReviewId={searchParameters.get("reviewId") ?? undefined}
+      />
     </Stack>
   );
 };

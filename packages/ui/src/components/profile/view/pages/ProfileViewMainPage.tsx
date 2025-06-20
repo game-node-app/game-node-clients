@@ -51,8 +51,8 @@ const ProfileViewMainPage = ({ userId }: Props) => {
           <Divider className={"w-full mt-6 mb-2"} label={"Recent activity"} />
           <RecentActivityList
             userId={userId}
-            withUserAvatar={false}
-            limit={7}
+            withUserAvatar={true}
+            limit={10}
           />
         </Stack>
       </Flex>
