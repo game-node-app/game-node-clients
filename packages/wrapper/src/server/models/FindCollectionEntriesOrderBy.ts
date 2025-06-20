@@ -3,17 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type FindCollectionEntriesOrderBy = {
-    addedDate?: FindCollectionEntriesOrderBy.addedDate;
-    releaseDate?: FindCollectionEntriesOrderBy.releaseDate;
+    addedDate?: string;
+    releaseDate?: string;
 };
-export namespace FindCollectionEntriesOrderBy {
-    export enum addedDate {
-        DESC = 'DESC',
-        ASC = 'ASC',
-    }
-    export enum releaseDate {
-        DESC = 'DESC',
-        ASC = 'ASC',
-    }
-}
 
