@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Stack, TextInput, Text, Switch } from "@mantine/core";
+import {
+  Button,
+  Fieldset,
+  SegmentedControl,
+  Stack,
+  Switch,
+  TextInput,
+} from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
-import {
-  ApiError,
-  CollectionsService,
-} from "../../../../../wrapper/src/server";
+import { Collection, CollectionsService } from "@repo/wrapper/server";
 import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { useMutation } from "@tanstack/react-query";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
@@ -26,6 +30,7 @@ const CreateCollectionFormSchema = z
     isPublic: z.boolean().default(true),
     isFeatured: z.boolean().default(false),
     isFinished: z.boolean().default(false),
+    defaultEntryStatus: z.nativeEnum(Collection.defaultEntryStatus).nullable(),
   })
   .superRefine((data, ctx) => {
     if (data.isFeatured && !data.isPublic) {
@@ -54,14 +59,17 @@ const CollectionCreateOrUpdateForm = ({
   const collectionQuery = useCollection(collectionId);
   const existingCollection = collectionQuery.data;
 
-  const { setValue, handleSubmit, register, formState } =
+  const { setValue, handleSubmit, register, formState, watch } =
     useForm<CreateCollectionFormValues>({
       resolver: zodResolver(CreateCollectionFormSchema),
       mode: "onChange",
       defaultValues: {
         isPublic: true,
+        defaultEntryStatus: Collection.defaultEntryStatus.PLANNED,
       },
     });
+
+  const defaultEntryStatus = watch("defaultEntryStatus");
 
   const collectionMutation = useMutation({
     mutationFn: async (data: CreateCollectionFormValues) => {
@@ -106,7 +114,7 @@ const CollectionCreateOrUpdateForm = ({
     if (existingCollection != undefined) {
       for (const [key, value] of Object.entries(existingCollection)) {
         if (possibleKeys.includes(key)) {
-          setValue(key as any, value);
+          setValue(key as never, value as never);
         }
       }
     }
@@ -152,15 +160,51 @@ const CollectionCreateOrUpdateForm = ({
           defaultChecked={existingCollection?.isFeatured}
           {...register("isFeatured")}
         />
-        <Switch
-          error={formState.errors.isFinished?.message}
-          label={"Finished games collection"}
-          description={
-            "All games in this collection will be marked as 'Finished' when being added. Only affects new entries."
-          }
-          defaultChecked={existingCollection?.isFinished}
-          {...register("isFinished")}
-        />
+        <Fieldset legend="Automation">
+          <Switch
+            label={"Enable automatic status for games"}
+            error={formState.errors.isFinished?.message}
+            description={
+              "All games in this collection will be filled with the selected status when being added. Only affects new entries."
+            }
+            checked={defaultEntryStatus != null}
+            onChange={(evt) => {
+              setValue(
+                "defaultEntryStatus",
+                evt.currentTarget.checked
+                  ? Collection.defaultEntryStatus.PLANNED
+                  : null,
+              );
+            }}
+          />
+          {defaultEntryStatus != null && (
+            <SegmentedControl
+              fullWidth
+              className={"mt-4"}
+              value={defaultEntryStatus}
+              data={[
+                {
+                  label: "Playing",
+                  value: Collection.defaultEntryStatus.PLAYING,
+                },
+                {
+                  label: "Finished",
+                  value: Collection.defaultEntryStatus.FINISHED,
+                },
+                {
+                  label: "Planned",
+                  value: Collection.defaultEntryStatus.PLANNED,
+                },
+                {
+                  label: "Dropped",
+                  value: Collection.defaultEntryStatus.DROPPED,
+                },
+              ]}
+              onChange={(v) => setValue("defaultEntryStatus", v as never)}
+            ></SegmentedControl>
+          )}
+        </Fieldset>
+
         <Button
           type="submit"
           loading={collectionMutation.isPending || collectionQuery.isLoading}

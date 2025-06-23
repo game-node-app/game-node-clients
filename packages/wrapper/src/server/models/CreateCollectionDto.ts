@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CreateCollectionDto = {
+    defaultEntryStatus?: string | null;
     name: string;
     description?: string;
-    isPublic: boolean;
-    isFeatured: boolean;
-    isFinished: boolean;
+    isPublic?: boolean;
+    isFeatured?: boolean;
 };
 
