@@ -72,7 +72,6 @@ const GameSelectViewContent = ({
         lg: 5,
       }}
       w={"100%"}
-      h={"100%"}
       {...others}
     >
       {columns}

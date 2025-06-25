@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  CollectionEntry,
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
@@ -9,13 +10,23 @@ export function useCollectionEntriesForUserId(
   offset = 0,
   limit = 20,
   orderBy?: FindCollectionEntriesOrderBy,
+  status?: CollectionEntry.status,
 ) {
   return useQuery({
-    queryKey: ["collection-entries", "all", userId, offset, limit, orderBy],
+    queryKey: [
+      "collection-entries",
+      "all",
+      userId,
+      offset,
+      limit,
+      orderBy,
+      status,
+    ],
     queryFn: async () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindAllByLibraryIdV1(
         userId,
         orderBy,
+        status,
         offset,
         limit,
       );

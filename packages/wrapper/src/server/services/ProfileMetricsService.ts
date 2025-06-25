@@ -55,7 +55,7 @@ export class ProfileMetricsService {
      */
     public static profileMetricsControllerGetTypeDistributionV1(
         userId: string,
-        by: 'genre' | 'category' | 'mode' | 'theme' | 'platform',
+        by: 'genre' | 'category' | 'mode' | 'theme' | 'status' | 'platform',
     ): CancelablePromise<ProfileMetricsTypeDistributionResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',

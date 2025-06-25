@@ -3,14 +3,8 @@ import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
 } from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
-import { Box } from "@mantine/core";
-import { LineChart, RadarChart } from "@mantine/charts";
-import { Game } from "../../../../../../wrapper/src/server";
-import category = Game.category;
-import {
-  type ProfileMetricsTypeDistributionItem,
-  ProfileMetricsTypeDistributionResponseDto,
-} from "../../../../../../wrapper/src/server";
+import { RadarChart } from "@mantine/charts";
+import { type ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 
 interface Props {
@@ -40,16 +34,11 @@ const toRadarNamedDistribution = (
 };
 
 const ProfileStatsDistributionRadarByType = ({ userId, by }: Props) => {
-  const metricsDistributionQuery = useProfileMetricsDistributionByType(
-    userId,
-    by,
-  );
-
-  const data = metricsDistributionQuery.data;
+  const { data, isLoading } = useProfileMetricsDistributionByType(userId, by);
 
   return (
     <>
-      {metricsDistributionQuery.isLoading && <CenteredLoading />}
+      {isLoading && <CenteredLoading />}
       {data != undefined && (
         <RadarChart
           h={350}

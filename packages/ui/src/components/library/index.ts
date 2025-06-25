@@ -3,4 +3,5 @@
  */
 
 export * from "./hooks/index";
+export * from "./tabs/index";
 export * from "./view/index";

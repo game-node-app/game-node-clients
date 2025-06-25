@@ -5,6 +5,7 @@ import {
   Divider,
   Fieldset,
   Group,
+  Input,
   InputLabel,
   MultiSelect,
   Stack,
@@ -20,6 +21,7 @@ import {
   CollectionEntry,
   CollectionsEntriesService,
   GamePlatform,
+  ReviewsService,
 } from "../../../../../../wrapper/src/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -39,9 +41,11 @@ import {
 } from "#@/util/trackMatomoEvent";
 import {
   CollectionEntryStatusSelect,
+  GameRating,
   ImageSize,
   useOnMobile,
 } from "#@/components";
+import { createErrorNotification } from "#@/util";
 
 const GameAddOrUpdateSchema = z.object({
   collectionIds: z

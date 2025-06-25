@@ -118,6 +118,7 @@ export class CollectionsEntriesService {
     /**
      * @param id
      * @param orderBy
+     * @param status
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -126,6 +127,7 @@ export class CollectionsEntriesService {
     public static collectionsEntriesControllerFindAllByLibraryIdV1(
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
+        status?: 'playing' | 'finished' | 'planned' | 'dropped',
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -137,6 +139,7 @@ export class CollectionsEntriesService {
             },
             query: {
                 'orderBy': orderBy,
+                'status': status,
                 'offset': offset,
                 'limit': limit,
             },
@@ -145,6 +148,7 @@ export class CollectionsEntriesService {
     /**
      * @param id
      * @param orderBy
+     * @param status
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -153,6 +157,7 @@ export class CollectionsEntriesService {
     public static collectionsEntriesControllerFindFavoritesByLibraryIdV1(
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
+        status?: 'playing' | 'finished' | 'planned' | 'dropped',
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -164,6 +169,7 @@ export class CollectionsEntriesService {
             },
             query: {
                 'orderBy': orderBy,
+                'status': status,
                 'offset': offset,
                 'limit': limit,
             },

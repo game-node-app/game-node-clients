@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box, Tabs } from "@mantine/core";
+import { Box, SimpleGrid, Tabs } from "@mantine/core";
 import { IconDeviceGamepad2, IconWriting } from "@tabler/icons-react";
 import {
   AchievementsScreen,
   CenteredLoading,
   PostsListView,
+  ProfileCollectionsPage,
   ProfileReviewListView,
   ProfileStatsView,
   ProfileViewNavbarItem,
@@ -43,10 +44,12 @@ const ProfileViewContent = ({ userId }: Props) => {
       onChange={(tab) => setActiveTab(tab)}
       className={"h-full w-full"}
     >
-      <Tabs.List
-        className={
-          "w-full flex flex-nowrap gap-8 mb-4 overflow-auto justify-start"
-        }
+      <SimpleGrid
+        cols={{
+          base: 2,
+          md: 8,
+        }}
+        className={"mb-6"}
       >
         <ProfileViewNavbarItem
           label={"Games"}
@@ -64,7 +67,6 @@ const ProfileViewContent = ({ userId }: Props) => {
           label={"Collections"}
           value={"collections"}
           count={libraryQuery.data?.collections.length ?? 0}
-          href={`/library/${userId}`}
           activeTab={activeTab}
         />
         <ProfileViewNavbarItem
@@ -85,7 +87,7 @@ const ProfileViewContent = ({ userId }: Props) => {
           icon={IconDeviceGamepad2}
           activeTab={activeTab}
         />
-      </Tabs.List>
+      </SimpleGrid>
 
       <Tabs.Panel value="games">
         <ProfileGamesListView userId={userId} />
@@ -94,7 +96,7 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileReviewListView userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="collections">
-        <CenteredLoading />
+        <ProfileCollectionsPage userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="achievements">
         <AchievementsScreen targetUserId={userId} withUserLevel={false} />

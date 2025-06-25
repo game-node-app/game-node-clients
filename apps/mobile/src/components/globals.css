@@ -14,17 +14,17 @@
 }
 
 
-
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-    font-family: Inter;
-    src: url("/font/Inter-Variable.ttf");
+    font-family: Roboto;
+    src: url("/font/Roboto-Variable.ttf");
 }
 
 :root {
-   --ion-font-family: Inter;
+    --ion-font-family: Roboto, Roboto Fallback;
+    --ion-text-color: var(--mantine-color-text) !important;
 }
 
 ion-tab-button:not(.tab-selected) {

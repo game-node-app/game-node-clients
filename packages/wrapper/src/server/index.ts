@@ -43,7 +43,7 @@ export type { FindAllPlaytimeResponseDto } from './models/FindAllPlaytimeRespons
 export type { FindAllProfileResponseItemDto } from './models/FindAllProfileResponseItemDto';
 export type { FindAllReviewsByIdDto } from './models/FindAllReviewsByIdDto';
 export { FindAvailableConnectionsResponseDto } from './models/FindAvailableConnectionsResponseDto';
-export type { FindCollectionEntriesForCollectionIdDto } from './models/FindCollectionEntriesForCollectionIdDto';
+export { FindCollectionEntriesForCollectionIdDto } from './models/FindCollectionEntriesForCollectionIdDto';
 export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';

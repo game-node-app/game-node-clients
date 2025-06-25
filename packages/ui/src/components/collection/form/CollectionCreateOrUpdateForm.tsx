@@ -22,6 +22,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
+import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
 
 const CreateCollectionFormSchema = z
   .object({
@@ -55,6 +56,7 @@ const CollectionCreateOrUpdateForm = ({
   const session = useSessionContext();
   const userId = session.loading ? undefined : session.userId;
   const userLibraryQuery = useUserLibrary(userId);
+  const onMobile = useOnMobile();
 
   const collectionQuery = useCollection(collectionId);
   const existingCollection = collectionQuery.data;
@@ -178,30 +180,12 @@ const CollectionCreateOrUpdateForm = ({
             }}
           />
           {defaultEntryStatus != null && (
-            <SegmentedControl
-              fullWidth
-              className={"mt-4"}
+            <CollectionEntryStatusSelect
+              selectedCollectionIds={[]}
               value={defaultEntryStatus}
-              data={[
-                {
-                  label: "Playing",
-                  value: Collection.defaultEntryStatus.PLAYING,
-                },
-                {
-                  label: "Finished",
-                  value: Collection.defaultEntryStatus.FINISHED,
-                },
-                {
-                  label: "Planned",
-                  value: Collection.defaultEntryStatus.PLANNED,
-                },
-                {
-                  label: "Dropped",
-                  value: Collection.defaultEntryStatus.DROPPED,
-                },
-              ]}
               onChange={(v) => setValue("defaultEntryStatus", v as never)}
-            ></SegmentedControl>
+              orientation={onMobile ? "vertical" : "horizontal"}
+            />
           )}
         </Fieldset>
 

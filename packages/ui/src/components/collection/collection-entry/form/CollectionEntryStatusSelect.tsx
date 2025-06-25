@@ -29,8 +29,6 @@ const CollectionEntryStatusSelect = ({
       );
       console.log(selectedCollections);
       for (const userCollection of selectedCollections) {
-        console.log("comparedCollection: ", userCollection.defaultEntryStatus);
-        console.log("current value: ", value);
         if (userCollection.defaultEntryStatus != undefined) {
           if (userCollection.defaultEntryStatus !== value) {
             onChange(userCollection.defaultEntryStatus);
@@ -45,8 +43,6 @@ const CollectionEntryStatusSelect = ({
     }
   }, [onChange, selectedCollectionIds, userCollections, value]);
 
-  console.log("hasMandatoryStatus: ", hasMandatoryStatus);
-
   return (
     <Input.Wrapper
       label={"Status"}
@@ -55,6 +51,7 @@ const CollectionEntryStatusSelect = ({
           ? "Disabled because of selected collections' default status."
           : null
       }
+      className={"w-full"}
     >
       <SegmentedControl
         value={value}

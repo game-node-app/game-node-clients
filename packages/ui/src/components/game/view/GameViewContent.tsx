@@ -43,7 +43,6 @@ const GameViewContent = ({
         lg: layout === "list" ? 1 : 5,
       }}
       w={"100%"}
-      h={"100%"}
       {...others}
     >
       {columns}
