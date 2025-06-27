@@ -1,7 +1,7 @@
 import { createTheme, DEFAULT_THEME, mergeMantineTheme } from "@mantine/core";
 
 const themeOverride = createTheme({
-  fontFamily: "Inter",
+  fontFamily: "Roboto, Roboto Fallback",
   colors: {
     brand: [
       "#ffede5",

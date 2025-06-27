@@ -3,6 +3,7 @@
  */
 
 export * from "./ProfileBanner";
+export * from "./ProfileCollectionsPage";
 export * from "./ProfileFavoriteGames";
 export * from "./ProfileFeaturedAchievements";
 export * from "./ProfileFollowActions";

@@ -5,7 +5,16 @@
 import type { FindCollectionEntriesOrderBy } from './FindCollectionEntriesOrderBy';
 export type FindCollectionEntriesForCollectionIdDto = {
     orderBy?: FindCollectionEntriesOrderBy;
+    status?: FindCollectionEntriesForCollectionIdDto.status;
     offset?: number;
     limit?: number;
 };
+export namespace FindCollectionEntriesForCollectionIdDto {
+    export enum status {
+        PLAYING = 'playing',
+        FINISHED = 'finished',
+        PLANNED = 'planned',
+        DROPPED = 'dropped',
+    }
+}
 

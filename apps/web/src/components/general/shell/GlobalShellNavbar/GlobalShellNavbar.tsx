@@ -1,15 +1,8 @@
 import { Anchor, Box, Group, Text, UnstyledButton } from "@mantine/core";
 import {
-  IconArticle,
-  IconBulb,
-  IconCheckbox,
   IconHeartFilled,
   IconLogout,
-  IconMessage2,
-  IconRefresh,
-  IconRouteAltLeft,
   IconSettings,
-  IconUser,
   IconUserShield,
 } from "@tabler/icons-react";
 import Link from "next/link";

@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Flex, Paper, Stack } from "@mantine/core";
 import {
-  BlogPostsNavHeader,
   BlogPostTagBadges,
   DetailsBox,
   RecentBlogPostsList,
@@ -10,7 +9,6 @@ import {
 const BlogPostDetailLayout = ({ children }: PropsWithChildren) => {
   return (
     <Stack className={"w-full"}>
-      <BlogPostsNavHeader />
       <Flex
         className={
           "flex-col gap-4 lg:flex-row lg:flex-nowrap lg:items-start py-4"

@@ -1,9 +1,9 @@
 {
   "name": "web",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "wrapper:generate": "node src/wrapper/generate.js",
@@ -41,6 +41,7 @@
     "axios": "^1.7.7",
     "bad-words": "^3.0.4",
     "dayjs": "^1.11.13",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.3.0",
     "fuse.js": "^7.1.0",
     "html-to-image": "^1.11.11",

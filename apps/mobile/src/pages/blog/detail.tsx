@@ -14,6 +14,7 @@ import { Box, Container } from "@mantine/core";
 import {
   BlogPostDetailLayout,
   BlogPostDetailView,
+  BlogPostsLayout,
   useBlogPost,
 } from "@repo/ui";
 
@@ -35,11 +36,13 @@ const BlogPostDetailPage = ({ postId }: Props) => {
           {isLoading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="ion-padding">
         <Box className={"w-full min-h-screen mb-8 mt-3"}>
-          <BlogPostDetailLayout>
-            <BlogPostDetailView postId={postId} />
-          </BlogPostDetailLayout>
+          <BlogPostsLayout>
+            <BlogPostDetailLayout>
+              <BlogPostDetailView postId={postId} />
+            </BlogPostDetailLayout>
+          </BlogPostsLayout>
         </Box>
       </IonContent>
     </IonPage>

@@ -20,7 +20,8 @@ export type ProfileMetricsTypeDistributionItem = {
     count: number;
     /**
      * Total number of items of this criteria that have been 'finished'.
-     * E.g. finished 'adventure' genre games.
+     * E.g. finished 'adventure' genre games. <br >
+     * Not avaiable in {@link ProfileMetricsTypeDistributionBy#STATUS}.
      */
     finishedCount: number;
 };

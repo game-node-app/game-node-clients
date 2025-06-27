@@ -50,7 +50,9 @@ const ProfileUserInfoWithBanner = ({
       <Group
         className={"w-full justify-start items-start flex-wrap lg:flex-nowrap"}
       >
-        <Stack className={"w-full lg:w-1/4 lg:min-w-52  gap-0 relative"}>
+        <Stack
+          className={"w-full lg:w-1/4 lg:min-w-52  gap-0 relative bg-[#151515]"}
+        >
           <Stack className={"w-full items-center relative -top-20"}>
             <Box className={"relative w-fit h-fit"}>
               <UserAvatar
@@ -65,7 +67,7 @@ const ProfileUserInfoWithBanner = ({
             </Text>
           </Stack>
 
-          <Stack className={"w-full h-full relative -top-16"}>
+          <Stack className={"w-full h-full relative -top-16 "}>
             <ProfileUserInfo
               userId={userId}
               onEditClick={editModalUtils.open}

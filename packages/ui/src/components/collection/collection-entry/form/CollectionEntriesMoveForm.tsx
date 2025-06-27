@@ -13,9 +13,6 @@ import {
   MultiSelect,
   Stack,
   Text,
-  TextInput,
-  Title,
-  useCombobox,
 } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,7 +67,7 @@ const CollectionEntriesMoveForm = ({
   collectionId,
   onClose,
 }: ICollectionEntriesMoveFormProps) => {
-  const { register, handleSubmit, setValue, watch, formState, setError } =
+  const { register, handleSubmit, setValue, watch, formState } =
     useForm<CollectionEntriesMoveFormValues>({
       mode: "onSubmit",
       resolver: zodResolver(CollectionEntriesMoveFormSchema),
@@ -139,7 +136,7 @@ const CollectionEntriesMoveForm = ({
         );
       }
 
-      const promises: Promise<CancelablePromise<any>>[] = [];
+      const promises: Promise<CancelablePromise<never>>[] = [];
       for (const entry of relevantCollectionEntries) {
         const ownedPlatformsIds = entry.ownedPlatforms.map(
           (platform) => platform.id,
@@ -147,8 +144,9 @@ const CollectionEntriesMoveForm = ({
         const replacePromise =
           CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
             {
+              status: entry.status,
               isFavorite: entry.isFavorite,
-              platformIds: ownedPlatformsIds as unknown as any,
+              platformIds: ownedPlatformsIds,
               collectionIds: targetCollectionsIds,
               gameId: entry.gameId,
             },
@@ -157,7 +155,7 @@ const CollectionEntriesMoveForm = ({
       }
       return Promise.all(promises);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, variables) => {
       const movedItemsLength = variables.gameIds.length;
       notifications.show({
         message: `Sucessfully moved ${movedItemsLength} games!`,
@@ -181,26 +179,6 @@ const CollectionEntriesMoveForm = ({
   });
 
   const targetCollectionIds = watch("targetCollectionIds");
-
-  const finishedGamesCollectionSelected = useMemo(() => {
-    const userCollections = libraryQuery.data?.collections;
-    if (
-      userCollections != undefined &&
-      targetCollectionIds != undefined &&
-      targetCollectionIds.length > 0
-    ) {
-      for (const collection of userCollections) {
-        if (
-          collection.isFinished &&
-          targetCollectionIds.includes(`${collection.id}`)
-        ) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }, [libraryQuery.data?.collections, targetCollectionIds]);
 
   return (
     <form
@@ -240,12 +218,6 @@ const CollectionEntriesMoveForm = ({
           }}
           placeholder={gamesQuery.isLoading ? "Loading..." : undefined}
         />
-        {finishedGamesCollectionSelected && (
-          <Text c={"yellow"} fz={"sm"}>
-            These games will be marked as "Finished" because a "Finished Games"
-            collection has been selected.
-          </Text>
-        )}
         <Button type={"submit"} loading={collectionsMutation.isPending}>
           Submit
         </Button>

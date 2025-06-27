@@ -4,6 +4,7 @@
 
 export * from "./BlogPostTagBadges";
 export * from "./BlogPostTags";
+export * from "./BlogPostsLayout";
 export * from "./BlogPostsNavHeader";
 export * from "./RecentBlogPostsCarousel";
 export * from "./constants";

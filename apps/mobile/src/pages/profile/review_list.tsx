@@ -33,11 +33,9 @@ const ProfileReviewListPage = ({ userId }: Props) => {
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className={"ion-padding"}>
         {profileQuery.isLoading && <CenteredLoading />}
-        <Container fluid className={"my-4"}>
-          <ProfileReviewListView userId={userId} />
-        </Container>
+        <ProfileReviewListView userId={userId} />
       </IonContent>
     </IonPage>
   );

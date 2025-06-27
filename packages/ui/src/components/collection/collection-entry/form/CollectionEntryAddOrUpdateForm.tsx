@@ -3,7 +3,10 @@ import {
   Button,
   ComboboxItem,
   Divider,
+  Fieldset,
   Group,
+  Input,
+  InputLabel,
   MultiSelect,
   Stack,
   Title,
@@ -15,8 +18,10 @@ import { z } from "zod";
 import { notifications } from "@mantine/notifications";
 import {
   Collection,
+  CollectionEntry,
   CollectionsEntriesService,
   GamePlatform,
+  ReviewsService,
 } from "../../../../../../wrapper/src/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -34,37 +39,32 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
-import { ImageSize, useOnMobile } from "#@/components";
+import {
+  CollectionEntryStatusSelect,
+  GameRating,
+  ImageSize,
+  useOnMobile,
+} from "#@/components";
+import { createErrorNotification } from "#@/util";
 
-const GameAddOrUpdateSchema = z
-  .object({
-    collectionIds: z
-      .array(z.string(), {
-        required_error: "Select at least one collection.",
-        invalid_type_error: "Select at least one collection.",
-      })
-      .min(1, "Select at least one collection.")
-      .default([]),
-    platformsIds: z
-      .array(z.string(), {
-        invalid_type_error: "Select at least one platform.",
-        required_error: "Select at least one platform.",
-      })
-      .min(1, "Select at least one platform.")
-      .default([]),
-    finishedAt: z.date().optional(),
-    mandatoryFinished: z.boolean().default(false),
-  })
-  .refine(
-    (data) => {
-      return !(data.mandatoryFinished && data.finishedAt == undefined);
-    },
-    {
-      message:
-        "Finish date required because a collection for finished games is selected",
-      path: ["finishedAt"],
-    },
-  );
+const GameAddOrUpdateSchema = z.object({
+  collectionIds: z
+    .array(z.string(), {
+      required_error: "Select at least one collection.",
+      invalid_type_error: "Select at least one collection.",
+    })
+    .min(1, "Select at least one collection.")
+    .default([]),
+  platformsIds: z
+    .array(z.string(), {
+      invalid_type_error: "Select at least one platform.",
+      required_error: "Select at least one platform.",
+    })
+    .min(1, "Select at least one platform.")
+    .default([]),
+  finishedAt: z.date().nullable(),
+  status: z.nativeEnum(CollectionEntry.status),
+});
 
 type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;
 
@@ -121,7 +121,8 @@ const CollectionEntryAddOrUpdateForm = ({
     mode: "onSubmit",
     resolver: zodResolver(GameAddOrUpdateSchema),
     defaultValues: {
-      mandatoryFinished: false,
+      status: CollectionEntry.status.PLANNED,
+      finishedAt: null,
     },
   });
 
@@ -178,7 +179,8 @@ const CollectionEntryAddOrUpdateForm = ({
           finishedAt:
             data.finishedAt instanceof Date
               ? data.finishedAt.toISOString()
-              : undefined,
+              : null,
+          status: data.status,
         },
       );
     },
@@ -240,6 +242,7 @@ const CollectionEntryAddOrUpdateForm = ({
   const platformsIdsValue = watch("platformsIds", []);
   const collectionsIdsValue = watch("collectionIds", []);
   const finishedAtDate = watch("finishedAt");
+  const status = watch("status");
 
   /**
    * Effect to sync with user's collection data.
@@ -249,12 +252,13 @@ const CollectionEntryAddOrUpdateForm = ({
     if (collectionEntry != undefined) {
       const finishedDate = collectionEntry.finishedAt
         ? new Date(collectionEntry.finishedAt)
-        : undefined;
+        : null;
 
       setValue("finishedAt", finishedDate);
       const collectionIds = collectionEntry.collections.map(
         (collection) => collection.id,
       );
+      setValue("status", collectionEntry.status);
 
       if (platformOptions && platformOptions.length > 0) {
         const platformIds = collectionEntry.ownedPlatforms.map(
@@ -269,33 +273,6 @@ const CollectionEntryAddOrUpdateForm = ({
       setValue("collectionIds", collectionIds);
     }
   }, [collectionEntryQuery.data, platformOptions, setValue]);
-
-  /**
-   * Effect to sync "mandatoryFinished" state with current selected collections
-   */
-  useEffect(() => {
-    const collections = userLibraryQuery.data?.collections;
-    if (collections) {
-      for (const collection of collections) {
-        if (collectionsIdsValue.includes(`${collection.id}`)) {
-          if (collection.isFinished) {
-            setValue("mandatoryFinished", true);
-            if (finishedAtDate == undefined) {
-              setValue("finishedAt", new Date());
-            }
-            break;
-          } else {
-            setValue("mandatoryFinished", false);
-          }
-        }
-      }
-    }
-  }, [
-    collectionsIdsValue,
-    finishedAtDate,
-    setValue,
-    userLibraryQuery.data?.collections,
-  ]);
 
   /**
    * Effect to quickly select a non-finished collection when only one is available.
@@ -338,7 +315,9 @@ const CollectionEntryAddOrUpdateForm = ({
   return (
     <SessionAuth>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
-        <Group className={"flex-wrap lg:flex-nowrap w-full h-full "}>
+        <Group
+          className={"flex-wrap lg:flex-nowrap lg:items-start w-full h-full "}
+        >
           {showGameInfo && (
             <Stack className="w-full items-center justify-start lg:w-1/2">
               <GameFigureImage
@@ -385,23 +364,29 @@ const CollectionEntryAddOrUpdateForm = ({
               limit={20}
               description={"You can search for a platform by typing it's name"}
             />
-            <DatePickerInput
-              {...register("finishedAt", {
-                setValueAs: (v) => v || undefined,
-              })}
-              error={errors.finishedAt?.message}
-              label={"Finished date"}
-              description={
-                "Date in which you've finished this game. Leave empty if it's not finished yet."
-              }
-              onChange={(date) => {
-                setValue("finishedAt", date || undefined);
-              }}
-              value={finishedAtDate}
-              clearable
-              maxDate={new Date()}
-              required={watch("mandatoryFinished")}
+
+            <CollectionEntryStatusSelect
+              selectedCollectionIds={collectionsIdsValue}
+              value={status}
+              onChange={(v) => setValue("status", v as never)}
             />
+            {status === "finished" && (
+              <DatePickerInput
+                {...register("finishedAt", {
+                  setValueAs: (v) => v || null,
+                })}
+                className={"w-full"}
+                error={errors.finishedAt?.message}
+                label={"Finished date"}
+                description={"Optional. Leave empty if you don't remember."}
+                onChange={(date) => {
+                  setValue("finishedAt", date || null);
+                }}
+                value={finishedAtDate}
+                clearable
+                maxDate={new Date()}
+              />
+            )}
 
             <Button
               type={"submit"}

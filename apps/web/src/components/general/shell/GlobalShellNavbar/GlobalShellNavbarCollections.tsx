@@ -57,9 +57,9 @@ const GlobalShellNavbarCollections = ({
   return (
     <div className={clsx(classes.section, "ps-6 pe-2")}>
       <GlobalShellNavbarCollectionsHeader />
-      <ScrollArea className={"w-full"} mah={250}>
+      <ScrollArea.Autosize className={"w-full"} mah={450}>
         <Stack gap="xs">{buildCollectionsLinks()}</Stack>
-      </ScrollArea>
+      </ScrollArea.Autosize>
     </div>
   );
 };

@@ -15,7 +15,7 @@ export function useGames(
   const queryClient = useQueryClient();
   const queryKey = ["game", "all", dto.gameIds, dto.relations];
   const invalidate = () =>
-    queryClient.invalidateQueries({ queryKey: [queryKey[0], queryKey[1]] });
+    queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 3) });
 
   return {
     ...useQuery({
@@ -26,7 +26,7 @@ export function useGames(
           dto.gameIds == undefined ||
           dto.gameIds.length === 0
         ) {
-          return null;
+          return [];
         }
 
         return GameRepositoryService.gameRepositoryControllerFindAllByIdsV1({
@@ -34,7 +34,7 @@ export function useGames(
           relations: dto.relations,
         });
       },
-      enabled: dto.gameIds && dto.gameIds.length > 0,
+      enabled: dto.gameIds != undefined,
       placeholderData: keepPreviousData
         ? (previousData) => previousData
         : undefined,

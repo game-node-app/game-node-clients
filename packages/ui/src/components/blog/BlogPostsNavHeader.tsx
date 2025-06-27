@@ -39,7 +39,7 @@ const BlogPostsNavHeader = () => {
   return (
     <Group
       className={
-        "gap-5 flex-nowrap w-full mb-3 lg:mb-0 overflow-auto whitespace-nowrap pb-2 justify-start lg:justify-center"
+        "gap-5 flex-nowrap w-full lg:mb-0 overflow-auto whitespace-nowrap pb-2 justify-start lg:justify-center"
       }
     >
       {LINKS.map((config) => (

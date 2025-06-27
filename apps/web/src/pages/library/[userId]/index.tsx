@@ -7,6 +7,8 @@ import {
   RecentCollectionEntriesView,
   useUserProfile,
   DetailsBox,
+  LibraryHomeView,
+  CenteredLoading,
 } from "@repo/ui";
 
 const Index = () => {
@@ -15,27 +17,11 @@ const Index = () => {
   const { userId } = router.query;
   const userProfileQuery = useUserProfile(userId as string);
 
+  if (!userId) return <CenteredLoading />;
+
   return (
-    <LibraryView userId={userId as string | undefined} collectionId={undefined}>
-      <Container fluid p={0}>
-        <Stack
-          w={"100%"}
-          h={"100%"}
-          justify={"center"}
-          align={"center"}
-          mt={"sm"}
-        >
-          <DetailsBox
-            title={`${userProfileQuery.data?.username}'s Recent Games`}
-            stackProps={{ className: "w-full" }}
-          >
-            <RecentCollectionEntriesView
-              userId={userId as string}
-              limit={onMobile ? 12 : 15}
-            />
-          </DetailsBox>
-        </Stack>
-      </Container>
+    <LibraryView userId={userId as string} collectionId={undefined}>
+      <LibraryHomeView userId={userId as string} />
     </LibraryView>
   );
 };

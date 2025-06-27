@@ -4,7 +4,7 @@ import { Stack } from "@mantine/core";
 import {
   BlogPostDetailLayout,
   BlogPostDetailView,
-  BlogPostsNavHeader,
+  BlogPostsLayout,
 } from "@repo/ui";
 import { NextPageContext } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
@@ -35,9 +35,11 @@ const BlogPostDetailPage = () => {
 
   return (
     <Stack className={"w-full items-center"}>
-      <BlogPostDetailLayout>
-        <BlogPostDetailView postId={postId as string} />
-      </BlogPostDetailLayout>
+      <BlogPostsLayout>
+        <BlogPostDetailLayout>
+          <BlogPostDetailView postId={postId as string} />
+        </BlogPostDetailLayout>
+      </BlogPostsLayout>
     </Stack>
   );
 };

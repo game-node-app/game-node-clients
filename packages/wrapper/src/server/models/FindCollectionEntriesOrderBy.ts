@@ -5,5 +5,6 @@
 export type FindCollectionEntriesOrderBy = {
     addedDate?: string;
     releaseDate?: string;
+    userCustom?: string;
 };
 

@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CollectionEntry } from './CollectionEntry';
+import type { CollectionEntryToCollection } from './CollectionEntryToCollection';
 import type { Library } from './Library';
 export type Collection = {
     id: string;
@@ -11,10 +11,25 @@ export type Collection = {
     isPublic: boolean;
     library: Library;
     libraryUserId: string;
-    entries: Array<CollectionEntry>;
+    /**
+     * The default status for collection entries added to this collection.
+     */
+    defaultEntryStatus: Collection.defaultEntryStatus | null;
+    entriesMap: Array<CollectionEntryToCollection>;
     isFeatured: boolean;
     isFinished: boolean;
     createdAt: string;
     updatedAt: string;
 };
+export namespace Collection {
+    /**
+     * The default status for collection entries added to this collection.
+     */
+    export enum defaultEntryStatus {
+        PLAYING = 'playing',
+        FINISHED = 'finished',
+        PLANNED = 'planned',
+        DROPPED = 'dropped',
+    }
+}
 

@@ -8,8 +8,8 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { BlogPostsFeed } from "@repo/ui";
-import { Container } from "@mantine/core";
+import { BlogPostsFeed, BlogPostsLayout } from "@repo/ui";
+import { Container, Stack } from "@mantine/core";
 
 const BlogPostsPage = () => {
   return (
@@ -22,10 +22,12 @@ const BlogPostsPage = () => {
           <IonTitle>Blog Posts</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container fluid className={"mb-8 mt-3"}>
-          <BlogPostsFeed />
-        </Container>
+      <IonContent className={"ion-padding"}>
+        <Stack className={"w-full mb-8 mt-3"}>
+          <BlogPostsLayout>
+            <BlogPostsFeed />
+          </BlogPostsLayout>
+        </Stack>
       </IonContent>
     </IonPage>
   );

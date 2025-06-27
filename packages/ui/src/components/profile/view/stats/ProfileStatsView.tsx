@@ -88,7 +88,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
               h={80}
               data={[
                 {
-                  label: "Backlog tackling",
+                  label: "Backlog tracking",
                   totalGames: metricsOverviewQuery.data.totalGames,
                   totalFinishedGames:
                     metricsOverviewQuery.data.totalFinishedGames,
@@ -154,6 +154,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
           }}
           className={"w-full"}
         >
+          <ProfileStatsDistributionRadarByType userId={userId} by={"status"} />
           <ProfileStatsDistributionRadarByType userId={userId} by={"genre"} />
           <ProfileStatsDistributionRadarByType userId={userId} by={"theme"} />
           <ProfileStatsDistributionRadarByType userId={userId} by={"mode"} />

@@ -6,12 +6,12 @@ import { ProfileEditAvatarUploader } from "@repo/ui";
 const Avatar = () => {
   const router = useRouter();
   const onFinish = () => {
-    router.push("/wizard/init/library");
+    router.push("/search");
   };
   return (
     <Container fluid mih={"100vh"}>
       <Title size={"h3"} className={"text-center my-8"}>
-        Upload a nice avatar so everyone can recognize you!
+        Upload a nice avatar so that everyone can recognize you!
       </Title>
       <Stack className={"flex-wrap items-center"}>
         <Box className={"w-full lg:w-8/12"}>

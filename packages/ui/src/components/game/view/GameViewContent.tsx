@@ -4,7 +4,6 @@ import { GameViewContext } from "#@/components/game/view/GameView";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { GameListItem } from "#@/components/game/figure/GameListItem";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {
@@ -43,7 +42,6 @@ const GameViewContent = ({
         lg: layout === "list" ? 1 : 5,
       }}
       w={"100%"}
-      h={"100%"}
       {...others}
     >
       {columns}
