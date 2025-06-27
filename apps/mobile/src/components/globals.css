@@ -27,6 +27,8 @@
     --ion-text-color: var(--mantine-color-text) !important;
 }
 
+
+
 ion-tab-button:not(.tab-selected) {
     --color-selected: var(--color);
 }

@@ -27,23 +27,24 @@ const CollectionEntriesView = ({
   const [layout, setLayout] = useState<"grid" | "list">("grid");
 
   const buildLoadingSkeletons = useCallback(() => {
-    return new Array(4).fill(0).map((_, i) => {
-      return <Skeleton key={i} className={"w-full h-48 mt-4"} />;
+    return new Array(6).fill(0).map((_, i) => {
+      return <Skeleton key={i} className={"w-full h-40 lg:h-52 mt-4"} />;
     });
   }, []);
 
-  const render = () => {
-    if (isError) {
-      return (
-        <CenteredErrorMessage
-          message={"An error occurred. Please try again."}
-        />
-      );
-    } else if (!isLoading && (games == undefined || games.length === 0)) {
-      return <CenteredErrorMessage message={"This collection is empty."} />;
-    }
+  const enablePagination =
+    paginationInfo != undefined && (paginationInfo.totalPages ?? 1) > 1;
 
+  if (isError) {
     return (
+      <CenteredErrorMessage message={"An error occurred. Please try again."} />
+    );
+  } else if (!isLoading && (games == undefined || games.length === 0)) {
+    return <CenteredErrorMessage message={"This collection is empty."} />;
+  }
+
+  return (
+    <GameView layout={layout}>
       <Stack
         className={"w-full"}
         justify={"space-between"}
@@ -77,16 +78,16 @@ const CollectionEntriesView = ({
           {isLoading && buildLoadingSkeletons()}
         </GameView.Content>
         <Space h={"2rem"} className={"mt-auto"} />
-        <GameView.Pagination
-          page={page}
-          paginationInfo={paginationInfo}
-          onPaginationChange={onPaginationChange}
-        />
+        {enablePagination && (
+          <GameView.Pagination
+            page={page}
+            paginationInfo={paginationInfo}
+            onPaginationChange={onPaginationChange}
+          />
+        )}
       </Stack>
-    );
-  };
-
-  return <GameView layout={layout}>{render()}</GameView>;
+    </GameView>
+  );
 };
 
 export default CollectionEntriesView;

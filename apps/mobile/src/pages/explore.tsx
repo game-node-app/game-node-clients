@@ -1,8 +1,6 @@
-import { Box, Container } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
 import React, { useMemo, useState } from "react";
 import {
-  IonBackButton,
-  IonButtons,
   IonContent,
   IonFab,
   IonFabButton,
@@ -11,8 +9,6 @@ import {
   IonPage,
   IonSegment,
   IonSegmentButton,
-  IonSegmentContent,
-  IonSegmentView,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
@@ -37,18 +33,6 @@ const ExplorePage = () => {
   const [selectedSegment, setSelectedSegment] =
     useState<ExploreSegment>("games");
 
-  const renderedContent = useMemo(() => {
-    switch (selectedSegment) {
-      case "games":
-        return <ExploreGamesPageView />;
-      case "posts":
-        return <ExplorePostsPageView />;
-
-      default:
-        return <ExploreGamesPageView />;
-    }
-  }, [selectedSegment]);
-
   return (
     <IonPage>
       <IonHeader>
@@ -71,7 +55,7 @@ const ExplorePage = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className={"ion-padding"}>
         <IonFab
           slot="fixed"
           horizontal="end"
@@ -104,7 +88,7 @@ const ExplorePage = () => {
             <IconMessage2Share />
           </IonFabButton>
         </IonFab>
-        <Container fluid className={"min-h-screen my-4"}>
+        <Stack className={"min-h-screen my-4"}>
           <Box
             className={
               "hidden data-[active=true]:block explore-segment-content"
@@ -129,7 +113,7 @@ const ExplorePage = () => {
           >
             <ExploreActivityPageView />
           </Box>
-        </Container>
+        </Stack>
       </IonContent>
     </IonPage>
   );

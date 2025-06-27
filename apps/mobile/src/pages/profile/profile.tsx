@@ -76,7 +76,7 @@ const ProfilePage = ({ userId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent>
+        <IonContent className={"ion-padding"}>
           {isOwnProfile && (
             <IonFab
               slot="fixed"
@@ -91,15 +91,12 @@ const ProfilePage = ({ userId }: Props) => {
               </Link>
             </IonFab>
           )}
-          <Container fluid className="my-4">
-            {profileQuery.isLoading && <CenteredLoading />}
-
-            {userIdToUse && (
-              <ProfileUserInfoWithBanner userId={userIdToUse}>
-                <ProfileViewContent userId={userIdToUse} />
-              </ProfileUserInfoWithBanner>
-            )}
-          </Container>
+          {profileQuery.isLoading && <CenteredLoading />}
+          {userIdToUse && (
+            <ProfileUserInfoWithBanner userId={userIdToUse}>
+              <ProfileViewContent userId={userIdToUse} />
+            </ProfileUserInfoWithBanner>
+          )}
         </IonContent>
       </SessionAuth>
     </IonPage>

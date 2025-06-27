@@ -63,7 +63,7 @@ const GameFigureWithQuickAdd = ({
   );
 
   return (
-    <Box className={"w-full h-full"}>
+    <Box className={"w-full"}>
       <CollectionEntryAddOrUpdateModal
         id={game!.id!}
         opened={modalOpened}

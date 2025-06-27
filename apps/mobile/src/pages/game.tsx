@@ -54,13 +54,11 @@ const GamePage = ({ gameId }: Props) => {
     return (
       <>
         <GameInfoViewFab gameId={gameId} />
-        <Container fluid className={"min-h-screen my-4"}>
-          <Stack className={"w-full"}>
-            <GameInfoView id={gameId} withActions={false} />
-            <GameInfoReviewScreen gameId={gameId} />
-            <GameExtraInfoView id={gameId} />
-          </Stack>
-        </Container>
+        <Stack className={"w-full min-h-screen my-4"}>
+          <GameInfoView id={gameId} withActions={false} />
+          <GameInfoReviewScreen gameId={gameId} />
+          <GameExtraInfoView id={gameId} />
+        </Stack>
       </>
     );
   }, [gameId, gameQuery.isLoading]);
@@ -76,7 +74,7 @@ const GamePage = ({ gameId }: Props) => {
           {gameQuery.isLoading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
-      <IonContent>{content}</IonContent>
+      <IonContent className={"ion-padding"}>{content}</IonContent>
     </IonPage>
   );
 };

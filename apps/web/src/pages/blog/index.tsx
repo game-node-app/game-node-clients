@@ -3,7 +3,7 @@ import { Stack } from "@mantine/core";
 import {
   BLOG_POSTS_FEED_DEFAULT_LIMIT,
   BlogPostsFeed,
-  BlogPostsNavHeader,
+  BlogPostsLayout,
 } from "@repo/ui";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";
@@ -49,9 +49,10 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
 const BlogLandingPage = () => {
   return (
-    <Stack className="mx-auto lg:px-4 lg:py-8 gap-0">
-      <BlogPostsNavHeader />
-      <BlogPostsFeed />
+    <Stack className="mx-auto lg:px-4 lg:py-8">
+      <BlogPostsLayout>
+        <BlogPostsFeed />
+      </BlogPostsLayout>
     </Stack>
   );
 };

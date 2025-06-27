@@ -1,8 +1,8 @@
-import { useIonRouter } from "@ionic/react";
 import { useMemo } from "react";
+import { useLocation } from "react-router";
 
 export function useSearchParameters() {
-    const router = useIonRouter();
+  const location = useLocation();
 
-    return useMemo(() => new URLSearchParams(router.routeInfo.search), [router.routeInfo.search]);
+  return useMemo(() => new URLSearchParams(location.search), [location.search]);
 }

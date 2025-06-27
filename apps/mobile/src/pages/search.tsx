@@ -89,37 +89,33 @@ const GameSearchPage = () => {
           </FocusTrap>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <Container fluid className={"min-h-screen my-4"}>
-          <Stack className={"w-full h-full"}>
-            <GameSearchTips />
-            {isError && (
-              <CenteredErrorMessage message={getErrorMessage(error)} />
-            )}
-            {!isQueryEnabled ? (
-              <Center>
-                <Text>Start typing to see results.</Text>
-              </Center>
-            ) : (
-              <GameView layout={layout}>
-                <Group className={"w-full justify-end"}>
-                  <GameView.LayoutSwitcher setLayout={setLayout} />
-                </Group>
-                <GameView.Content
-                  items={items}
-                  isLoading={isLoading}
-                  isFetching={isFetching}
-                  hasNextPage={hasNextPage}
-                  onLoadMore={() => {
-                    if (!isFetching && !isLoading) {
-                      fetchNextPage();
-                    }
-                  }}
-                ></GameView.Content>
-              </GameView>
-            )}
-          </Stack>
-        </Container>
+      <IonContent className={"ion-padding"}>
+        <Stack className={"w-full min-h-96 mb-8"}>
+          <GameSearchTips />
+          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+          {!isQueryEnabled ? (
+            <Center>
+              <Text>Start typing to see results.</Text>
+            </Center>
+          ) : (
+            <GameView layout={layout}>
+              <Group className={"w-full justify-end"}>
+                <GameView.LayoutSwitcher setLayout={setLayout} />
+              </Group>
+              <GameView.Content
+                items={items}
+                isLoading={isLoading}
+                isFetching={isFetching}
+                hasNextPage={hasNextPage}
+                onLoadMore={() => {
+                  if (!isFetching && !isLoading) {
+                    fetchNextPage();
+                  }
+                }}
+              ></GameView.Content>
+            </GameView>
+          )}
+        </Stack>
       </IonContent>
     </IonPage>
   );

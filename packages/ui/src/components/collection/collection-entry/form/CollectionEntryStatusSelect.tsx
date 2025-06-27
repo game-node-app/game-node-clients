@@ -27,7 +27,6 @@ const CollectionEntryStatusSelect = ({
       const selectedCollections = userCollections.filter((collection) =>
         selectedCollectionIds.includes(collection.id),
       );
-      console.log(selectedCollections);
       for (const userCollection of selectedCollections) {
         if (userCollection.defaultEntryStatus != undefined) {
           if (userCollection.defaultEntryStatus !== value) {

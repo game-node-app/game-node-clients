@@ -26,10 +26,8 @@ const ProfileStatsPage = ({ userId }: Props) => {
           <IonTitle>Profile Stats</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container fluid className="">
-          <ProfileStatsView userId={userId} />
-        </Container>
+      <IonContent className={"ion-padding"}>
+        <ProfileStatsView userId={userId} />
       </IonContent>
     </IonPage>
   );

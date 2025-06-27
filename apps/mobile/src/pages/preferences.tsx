@@ -15,7 +15,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { Container } from "@mantine/core";
+import { Container, Stack } from "@mantine/core";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
@@ -33,15 +33,15 @@ const PreferencesPage = () => {
             <IonTitle>Preferences</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          <Container fluid className={"mb-4 p-0"}>
+        <IonContent className={"ion-padding"}>
+          <Stack className={"mb-4 p-0"}>
             <IonList className={"pt-0"}>
               <PreferencesProfileItems />
               <PreferencesConnectionsItems />
               <PreferencesImporterItems />
               <PreferencesWrappedItems />
             </IonList>
-          </Container>
+          </Stack>
         </IonContent>
       </SessionAuth>
     </IonPage>

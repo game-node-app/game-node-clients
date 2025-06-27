@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   getCoverUrl,
   getSizedImageUrl,
@@ -10,6 +10,7 @@ import {
 import { Card, Image, Stack, Title, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { Link } from "#@/util";
+import Autoplay from "embla-carousel-autoplay";
 
 interface Props {
   collectionId: string;
@@ -17,11 +18,12 @@ interface Props {
 }
 
 const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
   const collectionQuery = useCollection(collectionId);
   const entriesQuery = useCollectionEntriesForCollectionId({
     collectionId,
     offset: 0,
-    limit: 5,
+    limit: 10,
     orderBy: {
       addedDate: "DESC",
     },
@@ -62,10 +64,13 @@ const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
     <Card shadow="sm" padding="md" radius="md" bg={"#161616"}>
       <Card.Section>
         <Carousel
+          plugins={[autoplay.current]}
           height={200}
           withControls={false}
           withIndicators
-          slideSize={"101%"}
+          slideGap={"xs"}
+          slideSize={"100%"}
+          loop
           classNames={{
             indicator: "w-2 h-2 rounded-xl",
           }}

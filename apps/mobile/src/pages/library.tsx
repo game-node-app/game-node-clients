@@ -65,22 +65,20 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent>
-          <Container fluid className={"p-2"}>
-            {isOwnLibrary && (
-              <LibraryViewFab selectedCollectionId={collectionId} />
+        <IonContent className={"ion-padding"}>
+          {isOwnLibrary && (
+            <LibraryViewFab selectedCollectionId={collectionId} />
+          )}
+          <LibraryView userId={userIdToUse} collectionId={collectionId}>
+            {collectionId ? (
+              <CollectionView
+                libraryUserId={userIdToUse!}
+                collectionId={collectionId}
+              />
+            ) : (
+              <LibraryHomeView userId={userIdToUse!} />
             )}
-            <LibraryView userId={userIdToUse} collectionId={collectionId}>
-              {collectionId ? (
-                <CollectionView
-                  libraryUserId={userIdToUse!}
-                  collectionId={collectionId}
-                />
-              ) : (
-                <LibraryHomeView userId={userIdToUse!} />
-              )}
-            </LibraryView>
-          </Container>
+          </LibraryView>
         </IonContent>
       </SessionAuth>
     </IonPage>

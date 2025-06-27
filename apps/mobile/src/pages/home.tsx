@@ -11,19 +11,17 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
-import { Box, Center, Container, Image, Stack, Title } from "@mantine/core";
+import { Container, Image, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DetailsBox,
-  HomeFeed,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecentlyPlayedGamesShare,
   RecommendationCarousel,
-  SimpleInfiniteLoader,
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
@@ -82,7 +80,7 @@ const HomePage = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent ref={contentRef}>
+      <IonContent ref={contentRef} className={"ion-padding"}>
         <IonRefresher
           slot={"fixed"}
           onIonRefresh={async (evt) => {
@@ -112,7 +110,7 @@ const HomePage = () => {
           <IonRefresherContent />
         </IonRefresher>
         <HomeFab contentRef={contentRef} />
-        <Container fluid className={"w-full flex flex-col gap-8 my-4"}>
+        <Stack className={"w-full gap-8 my-4"}>
           {userId && <RecommendationCarousel criteria={"finished"} />}
           <TrendingReviewCarousel />
           <RecentBlogPostsCarousel />
@@ -142,7 +140,7 @@ const HomePage = () => {
               )}
             </PostsFeed>
           </DetailsBox>
-        </Container>
+        </Stack>
       </IonContent>
     </IonPage>
   );

@@ -34,17 +34,15 @@ const ActivityDetailPage = ({ activityId }: Props) => {
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container fluid className={"my-4"}>
-          <Stack className={"w-full h-full"}>
-            {(activityQuery.isError || profileQuery.isError) && (
-              <CenteredErrorMessage
-                message={"Failed to fetch activity. Please try again."}
-              />
-            )}
-            <ActivityDetailView activityId={activityId} />
-          </Stack>
-        </Container>
+      <IonContent className={"ion-padding"}>
+        <Stack className={"w-full h-full mb-8"}>
+          {(activityQuery.isError || profileQuery.isError) && (
+            <CenteredErrorMessage
+              message={"Failed to fetch activity. Please try again."}
+            />
+          )}
+          <ActivityDetailView activityId={activityId} />
+        </Stack>
       </IonContent>
     </IonPage>
   );

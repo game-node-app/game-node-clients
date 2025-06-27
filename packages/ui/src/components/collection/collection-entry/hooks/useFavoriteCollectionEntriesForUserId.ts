@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "../../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 
 export function useFavoriteCollectionEntriesForUserId(
   userId: string,
@@ -11,11 +11,19 @@ export function useFavoriteCollectionEntriesForUserId(
   orderBy?: FindCollectionEntriesOrderBy,
 ) {
   return useQuery({
-    queryKey: ["collection-entries", "favorites", userId],
+    queryKey: [
+      "collection-entries",
+      "favorites",
+      userId,
+      offset,
+      limit,
+      orderBy,
+    ],
     queryFn: () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindFavoritesByLibraryIdV1(
         userId,
         orderBy,
+        undefined,
         offset,
         limit,
       );

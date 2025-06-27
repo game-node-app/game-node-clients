@@ -13,7 +13,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Container } from "@mantine/core";
+import { Container, Stack } from "@mantine/core";
 import {
   InfiniteLoaderProps,
   PostsFeed,
@@ -53,7 +53,7 @@ const PostsPage = () => {
         >
           <IonRefresherContent />
         </IonRefresher>
-        <Container fluid className={"w-full my-4"}>
+        <Stack className={"w-full my-4"}>
           <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
             <PostsFeed criteria={currentTab} targetedPostId={postId}>
               {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
@@ -69,7 +69,7 @@ const PostsPage = () => {
               )}
             </PostsFeed>
           </PostsFeedLayout>
-        </Container>
+        </Stack>
       </IonContent>
     </IonPage>
   );

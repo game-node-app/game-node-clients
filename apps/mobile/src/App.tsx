@@ -31,6 +31,7 @@ import "@ionic/react/css/core.css";
  * https://ionicframework.com/docs/theming/dark-mode
  */
 import "@ionic/react/css/palettes/dark.always.css";
+import "@ionic/react/css/padding.css";
 /* Theme variables */
 import "./theme/variables.css";
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
