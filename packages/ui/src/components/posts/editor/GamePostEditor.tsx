@@ -5,7 +5,7 @@ import {
   POST_EDITOR_PUBLISH_MUTATION_KEY,
   useInfinitePostsFeed,
 } from "#@/components";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PostsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, getS3StoredUpload } from "#@/util";
@@ -23,6 +23,10 @@ import { useEditor } from "@tiptap/react";
 import { IconPhoto } from "@tabler/icons-react";
 
 interface GamePostEditorProps {
+  /**
+   * If provided, game select modal will be skipped and post will be added with this game as target.
+   */
+  gameId?: number;
   editorProps?: RichTextEditorContentProps;
   onPublish?: () => void;
 }
@@ -63,10 +67,12 @@ const GamePostEditor = (props: GamePostEditorProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const [showActions, setShowActions] = useState(false);
   const [content, setContent] = useState("");
   const [selectedGameId, setSelectedGameId] = useState<number | undefined>(
-    undefined,
+    props.gameId,
   );
 
   const [gameSelectModalOpened, gameSelectModalUtils] = useDisclosure();
@@ -122,6 +128,11 @@ const GamePostEditor = (props: GamePostEditorProps) => {
       postsFeedQuery.invalidate();
       props.onPublish?.();
       resetEditor();
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
     },
     onError: createErrorNotification,
   });
@@ -194,7 +205,14 @@ const GamePostEditor = (props: GamePostEditorProps) => {
           <Button
             className={"ms-auto"}
             type={"button"}
-            onClick={gameSelectModalUtils.open}
+            onClick={() => {
+              if (selectedGameId == undefined) {
+                gameSelectModalUtils.open();
+                return;
+              }
+
+              publishPostMutation.mutate();
+            }}
           >
             Publish
           </Button>

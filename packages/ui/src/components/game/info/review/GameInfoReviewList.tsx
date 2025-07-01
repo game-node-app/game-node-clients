@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Group, Pagination, Stack, Text } from "@mantine/core";
+import { Button, Group, Pagination, Stack, Text } from "@mantine/core";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
 import { useReviews } from "#@/components/review/hooks/useReviews";
@@ -12,11 +12,13 @@ import {
   useUserId,
 } from "#@/components";
 import period = FindStatisticsTrendingReviewsDto.period;
-import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { getOffsetAsPage, getPageAsOffset, Link } from "#@/util";
 
 interface IGameInfoReviewListProps {
   gameId: number;
   targetReviewId?: string;
+  withPagination?: boolean;
+  withViewMore?: boolean;
 }
 
 const DEFAULT_LIMIT = 7;
@@ -32,6 +34,8 @@ export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto
 const GameInfoReviewList = ({
   gameId,
   targetReviewId,
+  withPagination = true,
+  withViewMore = false,
 }: IGameInfoReviewListProps) => {
   const ownUserId = useUserId();
   const [offset, setOffset] = useState(0);
@@ -51,10 +55,16 @@ const GameInfoReviewList = ({
   const isLoading = trendingReviewsQuery.isLoading || reviewsQuery.isLoading;
   const isError = trendingReviewsQuery.isError || reviewsQuery.isError;
 
+  const hasItems = reviewsIds != undefined && reviewsIds.length > 0;
+
+  const hasNextPage =
+    trendingReviewsQuery.data != undefined &&
+    trendingReviewsQuery.data.pagination.hasNextPage;
+
   const shouldShowPagination =
-    (trendingReviewsQuery.data != undefined &&
-      trendingReviewsQuery.data.pagination.hasNextPage) ||
-    offset > 0;
+    (hasItems && withPagination && hasNextPage) || offset > 0;
+
+  const shouldShowViewMore = !shouldShowPagination && hasItems && withViewMore;
 
   const handlePagination = (page: number) => {
     setOffset(getPageAsOffset(page, DEFAULT_LIMIT));
@@ -110,6 +120,13 @@ const GameInfoReviewList = ({
               total={trendingReviewsPagination?.totalPages ?? 1}
               onChange={handlePagination}
             />
+          </Group>
+        )}
+        {shouldShowViewMore && (
+          <Group className={"w-full justify-center"}>
+            <Link href={`/game/${gameId}?tab=reviews`}>
+              <Button>View More</Button>
+            </Link>
           </Group>
         )}
       </Stack>
