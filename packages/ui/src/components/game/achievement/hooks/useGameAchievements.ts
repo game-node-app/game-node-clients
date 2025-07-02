@@ -6,7 +6,10 @@ import {
   GameObtainedAchievementDto,
 } from "@repo/wrapper/server";
 
-export const ACHIEVEMENT_ENABLED_STORES = [GameExternalGame.category._1];
+export const ACHIEVEMENT_ENABLED_STORES = [
+  GameExternalGame.category._1,
+  GameExternalGame.category._36,
+];
 
 export type GameAchievementWithObtainedInfo = GameAchievementDto &
   Pick<GameObtainedAchievementDto, "isObtained" | "obtainedAt">;

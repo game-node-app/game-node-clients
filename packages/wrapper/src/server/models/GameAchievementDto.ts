@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PsnAchievementDetails } from './PsnAchievementDetails';
 import type { SteamAchievementDetails } from './SteamAchievementDetails';
 export type GameAchievementDto = {
     name: string;
@@ -12,7 +13,8 @@ export type GameAchievementDto = {
     gameId: number;
     iconUrl: string;
     iconGrayUrl?: string;
-    steamDetails: SteamAchievementDetails | null;
+    steamDetails?: SteamAchievementDetails | null;
+    psnDetails?: PsnAchievementDetails | null;
 };
 export namespace GameAchievementDto {
     export enum source {

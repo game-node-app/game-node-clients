@@ -20,9 +20,6 @@ const GameAchievementsList = ({ externalGame }: Props) => {
 
   return (
     <Stack className={"w-full"}>
-      <Box className={"max-w-fit"}>
-        <GameInfoAchievementOverviewItem externalGame={externalGame} />
-      </Box>
       <Stack className={"w-full ps-3 gap-6"}>
         {achievements.map((achievement) => (
           <GameAchievementListItem

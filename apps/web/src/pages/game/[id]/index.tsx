@@ -61,7 +61,7 @@ const GameInfoPage = () => {
   const [_, isViewed, incrementView] = useUserView(`${id}`, sourceType.GAME);
   const tabFromQuery = router.query.tab as GameInfoTabValue | undefined;
   const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
-    tabFromQuery ?? GameInfoTabValue.overview,
+    GameInfoTabValue.overview,
   );
 
   /**
@@ -79,6 +79,12 @@ const GameInfoPage = () => {
       lastRegisteredGameView.current = id as string;
     }
   }, [id, incrementView, router]);
+
+  useEffect(() => {
+    if (tabFromQuery) {
+      setCurrentTab(tabFromQuery);
+    }
+  }, [tabFromQuery]);
 
   /**
    * Effect to render /404 if necessary

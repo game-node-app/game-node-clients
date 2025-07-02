@@ -113,6 +113,8 @@ export type { ProfileMetricsTypeDistributionItem } from './models/ProfileMetrics
 export type { ProfileMetricsTypeDistributionResponseDto } from './models/ProfileMetricsTypeDistributionResponseDto';
 export type { ProfileMetricsYearDistributionItem } from './models/ProfileMetricsYearDistributionItem';
 export type { ProfileMetricsYearDistributionResponseDto } from './models/ProfileMetricsYearDistributionResponseDto';
+export type { PsnAchievementDetails } from './models/PsnAchievementDetails';
+export type { PsnExtraMappings } from './models/PsnExtraMappings';
 export { Report } from './models/Report';
 export type { Review } from './models/Review';
 export type { ReviewComment } from './models/ReviewComment';

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
 import { Box, Group, Image, Text, UnstyledButton } from "@mantine/core";
-import { getServerStoredIcon } from "#@/util";
+import { getServerStoredIcon, Link } from "#@/util";
 import { useGameAchievements } from "#@/components";
 import { match } from "ts-pattern";
 
@@ -37,13 +37,21 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
           </Text>
         );
       })
+      .with(GameExternalGame.category._36, () => {
+        return <Text></Text>;
+      })
       .otherwise(() => <div></div>);
   }, [data, externalGame.category]);
 
   if (isError || isEmpty) return null;
 
   return (
-    <UnstyledButton className={"hover:bg-paper rounded-sm p-3"}>
+    <Link
+      href={`/game/${externalGame.gameId}?tab=achievements`}
+      scroll={false}
+      replace
+      className={"hover:bg-paper rounded-sm p-3"}
+    >
       <Group className={"flex-nowrap gap-2 max-w-fit"}>
         <Box className={"p-1"}>
           <Image
@@ -54,7 +62,7 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
         </Box>
         <Box className={"p-1"}>{renderedAchievementsCount}</Box>
       </Group>
-    </UnstyledButton>
+    </Link>
   );
 };
 
