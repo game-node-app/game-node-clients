@@ -20,6 +20,12 @@ interface Props {
 const GameAchievementListItem = ({ achievement }: Props) => {
   const renderRightSideDetail = useCallback(() => {
     return match(achievement.source)
+      .with(GameAchievementDto.source._1, () => {
+        const details = achievement.steamDetails;
+        if (!details) return null;
+
+        return <Text className={"text-md"}>{details.globalPercentage}%</Text>;
+      })
       .with(GameAchievementDto.source._36, () => {
         const details = achievement.psnDetails;
         if (!details) return null;
@@ -33,8 +39,23 @@ const GameAchievementListItem = ({ achievement }: Props) => {
           </AspectRatio>
         );
       })
+      .with(GameAchievementDto.source._11, () => {
+        const details = achievement.xboxDetails;
+        if (!details) return null;
+
+        return (
+          <Group className={"items-center gap-1"}>
+            <Image
+              src={getServerStoredIcon("xbox_achievement")}
+              alt={"Gamerscore icon"}
+              className={"w-10 h-10 object-contain"}
+            />
+            <Text className={"text-lg font-bold"}>{details.gamerScore}</Text>
+          </Group>
+        );
+      })
       .otherwise(() => null);
-  }, [achievement.name, achievement.psnDetails, achievement.source]);
+  }, [achievement]);
 
   return (
     <Group className={"w-full"}>

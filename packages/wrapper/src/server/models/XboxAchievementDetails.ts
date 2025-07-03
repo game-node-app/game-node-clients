@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type PsnAchievementDetails = {
-    trophyType: string;
-    trophyIcon: string;
-    trophyGroupId: string;
+export type XboxAchievementDetails = {
+    /**
+     * Gamerscore granted by this achievement.
+     */
+    gamerScore: number;
 };
 

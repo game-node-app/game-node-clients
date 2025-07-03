@@ -9,6 +9,7 @@ import {
 export const ACHIEVEMENT_ENABLED_STORES = [
   GameExternalGame.category._1,
   GameExternalGame.category._36,
+  GameExternalGame.category._11,
 ];
 
 export type GameAchievementWithObtainedInfo = GameAchievementDto &
@@ -18,25 +19,37 @@ export function useGameAchievements(externalGameId: number) {
   return useQuery({
     queryKey: ["game", "achievements", externalGameId],
     queryFn: async (): Promise<GameAchievementWithObtainedInfo[]> => {
-      const [availableAchievements, obtainedAchievements] = await Promise.all([
-        GameAchievementService.gameAchievementControllerFindAllByExternalGameIdV1(
-          externalGameId,
-        ),
-        GameAchievementService.gameAchievementControllerFindAllObtainedByExternalGameIdV1(
-          externalGameId,
-        ),
-      ]);
+      const [availableAchievements, obtainedAchievements] =
+        await Promise.allSettled([
+          GameAchievementService.gameAchievementControllerFindAllByExternalGameIdV1(
+            externalGameId,
+          ),
+          GameAchievementService.gameAchievementControllerFindAllObtainedByExternalGameIdV1(
+            externalGameId,
+          ),
+        ]);
 
-      return availableAchievements.map((achievement) => {
-        const relatedProgress = obtainedAchievements.find(
-          (obtainedAchievement) =>
-            obtainedAchievement.externalId === achievement.externalId,
-        );
+      if (availableAchievements.status === "rejected") {
+        throw new Error(availableAchievements.reason);
+      }
+
+      return availableAchievements.value.map((achievement) => {
+        let isObtained = false;
+        let obtainedAt: string | null = null;
+
+        if (obtainedAchievements.status === "fulfilled") {
+          const relatedProgress = obtainedAchievements.value.find(
+            (obtainedAchievement) =>
+              obtainedAchievement.externalId === achievement.externalId,
+          );
+          isObtained = relatedProgress?.isObtained ?? false;
+          obtainedAt = relatedProgress?.obtainedAt ?? null;
+        }
 
         return {
           ...achievement,
-          isObtained: relatedProgress?.isObtained ?? false,
-          obtainedAt: relatedProgress?.obtainedAt ?? null,
+          isObtained,
+          obtainedAt,
         };
       });
     },

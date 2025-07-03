@@ -144,6 +144,7 @@ export type { UserFollow } from './models/UserFollow';
 export type { UserLevel } from './models/UserLevel';
 export { UserPlaytime } from './models/UserPlaytime';
 export { UserPlaytimeDto } from './models/UserPlaytimeDto';
+export type { XboxAchievementDetails } from './models/XboxAchievementDetails';
 
 export { AchievementsService } from './services/AchievementsService';
 export { AchievementsCodeService } from './services/AchievementsCodeService';

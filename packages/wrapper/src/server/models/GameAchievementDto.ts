@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { PsnAchievementDetails } from './PsnAchievementDetails';
 import type { SteamAchievementDetails } from './SteamAchievementDetails';
+import type { XboxAchievementDetails } from './XboxAchievementDetails';
 export type GameAchievementDto = {
     name: string;
     description: string | null;
@@ -12,9 +13,9 @@ export type GameAchievementDto = {
     externalGameId: number;
     gameId: number;
     iconUrl: string;
-    iconGrayUrl?: string;
     steamDetails?: SteamAchievementDetails | null;
     psnDetails?: PsnAchievementDetails | null;
+    xboxDetails?: XboxAchievementDetails | null;
 };
 export namespace GameAchievementDto {
     export enum source {
