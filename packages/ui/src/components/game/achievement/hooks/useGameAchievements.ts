@@ -30,7 +30,7 @@ export function useGameAchievements(externalGameId: number) {
         ]);
 
       if (availableAchievements.status === "rejected") {
-        throw new Error(availableAchievements.reason);
+        throw new Error("No achievements available for this item.");
       }
 
       return availableAchievements.value.map((achievement) => {

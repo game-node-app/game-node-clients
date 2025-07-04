@@ -131,12 +131,6 @@ const GameInfoPage = () => {
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
             <Stack className={"w-full h-full gap-xl mt-4"}>
-              <GameInfoReviewScreen
-                gameId={idAsNumber}
-                targetReviewId={reviewId as string | undefined}
-                withPagination={false}
-                withViewMore={true}
-              />
               <GameExtraInfoView id={idAsNumber} />
             </Stack>
           </Tabs.Panel>
@@ -146,8 +140,6 @@ const GameInfoPage = () => {
               <GameInfoReviewScreen
                 gameId={idAsNumber}
                 targetReviewId={reviewId as string | undefined}
-                withPagination={true}
-                withViewMore={false}
               />
             </Stack>
           </Tabs.Panel>

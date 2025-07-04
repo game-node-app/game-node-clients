@@ -34,8 +34,6 @@ export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto
 const GameInfoReviewList = ({
   gameId,
   targetReviewId,
-  withPagination = true,
-  withViewMore = false,
 }: IGameInfoReviewListProps) => {
   const ownUserId = useUserId();
   const [offset, setOffset] = useState(0);
@@ -61,10 +59,7 @@ const GameInfoReviewList = ({
     trendingReviewsQuery.data != undefined &&
     trendingReviewsQuery.data.pagination.hasNextPage;
 
-  const shouldShowPagination =
-    (hasItems && withPagination && hasNextPage) || offset > 0;
-
-  const shouldShowViewMore = !shouldShowPagination && hasItems && withViewMore;
+  const shouldShowPagination = (hasItems && hasNextPage) || offset > 0;
 
   const handlePagination = (page: number) => {
     setOffset(getPageAsOffset(page, DEFAULT_LIMIT));
@@ -86,10 +81,6 @@ const GameInfoReviewList = ({
         return <ReviewListItem key={review.id} review={review} />;
       });
 
-    if (reviews == undefined || reviews.length === 0) {
-      return [];
-    }
-
     return reviews;
   }, [reviewsQuery.data]);
 
@@ -102,7 +93,7 @@ const GameInfoReviewList = ({
       />
     );
   } else if (content == undefined || content.length === 0) {
-    return null;
+    return <CenteredErrorMessage message={"No reviews yet."} />;
   }
 
   return (
@@ -120,13 +111,6 @@ const GameInfoReviewList = ({
               total={trendingReviewsPagination?.totalPages ?? 1}
               onChange={handlePagination}
             />
-          </Group>
-        )}
-        {shouldShowViewMore && (
-          <Group className={"w-full justify-center"}>
-            <Link href={`/game/${gameId}?tab=reviews`}>
-              <Button>View More</Button>
-            </Link>
           </Group>
         )}
       </Stack>
