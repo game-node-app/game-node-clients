@@ -4,6 +4,7 @@
 
 export * from "./GameExtraInfoView";
 export * from "./GameInfoActions";
+export * from "./GameInfoContentTitle";
 export * from "./GameInfoDetails";
 export * from "./GameInfoDetailsDeveloperInfo";
 export * from "./GameInfoDetailsTags";
@@ -13,8 +14,11 @@ export * from "./GameInfoPlatforms";
 export * from "./GameInfoPlaytimeTracker";
 export * from "./GameInfoProgressTimeline";
 export * from "./GameInfoScore";
+export * from "./GameInfoTabs";
 export * from "./GameInfoView";
 export * from "./GameRelatedGamesCarousel";
+export * from "./achievement/index";
 export * from "./carousel/index";
+export * from "./posts/index";
 export * from "./review/index";
 export * from "./share/index";

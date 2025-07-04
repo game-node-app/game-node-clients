@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Group, Pagination, Stack, Text } from "@mantine/core";
+import { Button, Group, Pagination, Stack, Text } from "@mantine/core";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
 import { useReviews } from "#@/components/review/hooks/useReviews";
@@ -12,11 +12,13 @@ import {
   useUserId,
 } from "#@/components";
 import period = FindStatisticsTrendingReviewsDto.period;
-import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { getOffsetAsPage, getPageAsOffset, Link } from "#@/util";
 
 interface IGameInfoReviewListProps {
   gameId: number;
   targetReviewId?: string;
+  withPagination?: boolean;
+  withViewMore?: boolean;
 }
 
 const DEFAULT_LIMIT = 7;
@@ -51,10 +53,13 @@ const GameInfoReviewList = ({
   const isLoading = trendingReviewsQuery.isLoading || reviewsQuery.isLoading;
   const isError = trendingReviewsQuery.isError || reviewsQuery.isError;
 
-  const shouldShowPagination =
-    (trendingReviewsQuery.data != undefined &&
-      trendingReviewsQuery.data.pagination.hasNextPage) ||
-    offset > 0;
+  const hasItems = reviewsIds != undefined && reviewsIds.length > 0;
+
+  const hasNextPage =
+    trendingReviewsQuery.data != undefined &&
+    trendingReviewsQuery.data.pagination.hasNextPage;
+
+  const shouldShowPagination = (hasItems && hasNextPage) || offset > 0;
 
   const handlePagination = (page: number) => {
     setOffset(getPageAsOffset(page, DEFAULT_LIMIT));
@@ -76,10 +81,6 @@ const GameInfoReviewList = ({
         return <ReviewListItem key={review.id} review={review} />;
       });
 
-    if (reviews == undefined || reviews.length === 0) {
-      return [];
-    }
-
     return reviews;
   }, [reviewsQuery.data]);
 
@@ -92,11 +93,11 @@ const GameInfoReviewList = ({
       />
     );
   } else if (content == undefined || content.length === 0) {
-    return null;
+    return <CenteredErrorMessage message={"No reviews yet."} />;
   }
 
   return (
-    <DetailsBox title={"Reviews"}>
+    <DetailsBox title={"From our users"}>
       <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"} gap={"xs"}>

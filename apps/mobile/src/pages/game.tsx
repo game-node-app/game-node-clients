@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -9,12 +9,17 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
+import { Box, Stack, Tabs } from "@mantine/core";
 import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
 import {
   CenteredLoading,
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
+  GameInfoAchievementsScreen,
+  GameInfoContentTitle,
+  GameInfoPostsScreen,
+  GameInfoTabs,
+  GameInfoTabValue,
   GameInfoView,
   useGame,
   useUserView,
@@ -28,6 +33,10 @@ interface Props {
 
 const GamePage = ({ gameId }: Props) => {
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+
+  const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
+    GameInfoTabValue.overview,
+  );
 
   const [, , incrementView] = useUserView(
     gameId,
@@ -46,6 +55,12 @@ const GamePage = ({ gameId }: Props) => {
     }
   }, [gameId, incrementView]);
 
+  const onChange = (tab: GameInfoTabValue) => {
+    setCurrentTab(tab);
+  };
+
+  const onGoBack = () => onChange(GameInfoTabValue.overview);
+
   const content = useMemo(() => {
     if (gameQuery.isLoading) {
       return <CenteredLoading />;
@@ -54,14 +69,38 @@ const GamePage = ({ gameId }: Props) => {
     return (
       <>
         <GameInfoViewFab gameId={gameId} />
-        <Stack className={"w-full min-h-screen my-4"}>
-          <GameInfoView id={gameId} withActions={false} />
-          <GameInfoReviewScreen gameId={gameId} />
-          <GameExtraInfoView id={gameId} />
-        </Stack>
+        <GameInfoView id={gameId} />
+        <GameInfoTabs currentTab={currentTab} onChange={onChange}>
+          <Tabs.Panel value={GameInfoTabValue.overview}>
+            <Box className={"w-full mt-4 mb-6"}>
+              <GameExtraInfoView id={gameId} />
+            </Box>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.reviews}>
+            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+              <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+              <GameInfoReviewScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.discussion}>
+            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+              <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+              <GameInfoPostsScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.achievements}>
+            <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
+              <GameInfoContentTitle
+                title={"Achievements"}
+                onGoBack={onGoBack}
+              />
+              <GameInfoAchievementsScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+        </GameInfoTabs>
       </>
     );
-  }, [gameId, gameQuery.isLoading]);
+  }, [currentTab, gameId, gameQuery.isLoading, onGoBack]);
 
   return (
     <IonPage>

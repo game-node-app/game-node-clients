@@ -10,6 +10,7 @@ import { GameInfoScore } from "#@/components/game/info/GameInfoScore";
 import { GameInfoExternalStores } from "#@/components/game/info/GameInfoExternalStores";
 import { GameInfoProgressTimeline } from "#@/components/game/info/GameInfoProgressTimeline";
 import { GameInfoPlaytimeTracker } from "#@/components/game/info/GameInfoPlaytimeTracker";
+import { GameInfoAchievementOverview } from "#@/components";
 
 interface IGameInfoDetailsProps {
   game: Game | undefined;
@@ -63,8 +64,8 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
           <GameInfoProgressTimeline gameId={game.id} />
         </DetailsBox>
         <GameInfoPlaytimeTracker gameId={game.id} />
-
         <GameInfoScore gameId={game.id} />
+        <GameInfoAchievementOverview gameId={game.id} />
       </SimpleGrid>
     </Stack>
   );
