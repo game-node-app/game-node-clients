@@ -4,7 +4,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 
 interface Props extends PropsWithChildren {
   title: string;
-  onGoBack?: () => void;
+  onGoBack: () => void;
 }
 
 const GameInfoContentTitle = ({ title, onGoBack }: Props) => {

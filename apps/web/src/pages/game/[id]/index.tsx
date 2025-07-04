@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Container, Stack, Tabs } from "@mantine/core";
+import { Box, Container, Stack, Tabs } from "@mantine/core";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
@@ -130,9 +130,9 @@ const GameInfoPage = () => {
         <GameInfoView id={idAsNumber} />
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
-            <Stack className={"w-full h-full gap-xl mt-4"}>
+            <Box className={"w-full mt-4"}>
               <GameExtraInfoView id={idAsNumber} />
-            </Stack>
+            </Box>
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.reviews}>
             <Stack className={"w-full h-full gap-xl mt-4"}>
@@ -151,7 +151,10 @@ const GameInfoPage = () => {
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.achievements}>
             <Stack className={"w-full h-full gap-sm mt-4"}>
-              <GameInfoContentTitle title={"Achievements"} />
+              <GameInfoContentTitle
+                title={"Achievements"}
+                onGoBack={onGoBack}
+              />
               <GameInfoAchievementsScreen gameId={idAsNumber} />
             </Stack>
           </Tabs.Panel>
