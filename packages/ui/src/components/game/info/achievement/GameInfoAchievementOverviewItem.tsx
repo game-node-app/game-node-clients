@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
-import { Box, Group, Image, Text, UnstyledButton } from "@mantine/core";
+import { Box, Group, Image, Skeleton, Text } from "@mantine/core";
 import { getServerStoredIcon, Link } from "#@/util";
 import { useGameAchievements } from "#@/components";
 import { match, P } from "ts-pattern";
@@ -17,15 +17,15 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
   const renderedAchievementsCount = useMemo(() => {
     if (data == undefined) return null;
 
-    const totalAchievements = data.length;
-    const totalObtainedAchievements = data.filter(
-      (achievement) => achievement.isObtained,
-    ).length;
-
     return match(externalGame.category)
       .with(
         P.union(GameExternalGame.category._1, GameExternalGame.category._11),
         () => {
+          const totalAchievements = data.length;
+          const totalObtainedAchievements = data.filter(
+            (achievement) => achievement.isObtained,
+          ).length;
+
           return (
             <Text>
               <Text span className={"font-bold"}>
@@ -41,6 +41,34 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
         },
       )
       .with(GameExternalGame.category._36, () => {
+        const firstObtainedAchievement = data.find(
+          (achievement) => achievement.isObtained,
+        );
+
+        const availablePlatformIds = Array.from(
+          new Set(
+            data.map((achievement) => achievement.psnDetails!.platformId),
+          ),
+          // Priority to PS5 (167)
+        ).toSorted((a, b) => b - a);
+
+        const preferredPlatformId =
+          firstObtainedAchievement?.psnDetails?.platformId ??
+          availablePlatformIds.at(0);
+
+        const filteredAchievements = data.filter((achievement) => {
+          if (preferredPlatformId) {
+            return achievement.psnDetails!.platformId === preferredPlatformId;
+          }
+
+          return true;
+        });
+
+        const totalAchievements = filteredAchievements.length;
+        const totalObtainedAchievements = filteredAchievements.filter(
+          (achievement) => achievement.isObtained,
+        ).length;
+
         return (
           <Text>
             <Text span className={"font-bold"}>
@@ -53,7 +81,7 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
       .otherwise(() => <div></div>);
   }, [data, externalGame.category]);
 
-  if (isError || isEmpty) return null;
+  if (isError || isEmpty || isLoading) return null;
 
   return (
     <Link
