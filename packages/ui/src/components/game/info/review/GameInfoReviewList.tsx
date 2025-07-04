@@ -97,7 +97,7 @@ const GameInfoReviewList = ({
   }
 
   return (
-    <DetailsBox title={"Reviews"}>
+    <DetailsBox title={"From our users"}>
       <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"} gap={"xs"}>
