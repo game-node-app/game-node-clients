@@ -13,6 +13,11 @@ export type GameAchievementDto = {
     externalGameId: number;
     gameId: number;
     iconUrl: string;
+    /**
+     * Related GamePlatform references.
+     * Usually, an achievement is only related to one platform.
+     */
+    platformIds: Array<number>;
     steamDetails?: SteamAchievementDetails | null;
     psnDetails?: PsnAchievementDetails | null;
     xboxDetails?: XboxAchievementDetails | null;

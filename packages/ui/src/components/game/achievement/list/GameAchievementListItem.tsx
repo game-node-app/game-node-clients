@@ -24,7 +24,14 @@ const GameAchievementListItem = ({ achievement }: Props) => {
         const details = achievement.steamDetails;
         if (!details) return null;
 
-        return <Text className={"text-md"}>{details.globalPercentage}%</Text>;
+        return (
+          <Stack className={"gap-1"}>
+            <Text className={"text-md text-center"}>
+              {details.globalPercentage}%
+            </Text>
+            <Text className={"text-center text-xs text-dimmed"}>Own by</Text>
+          </Stack>
+        );
       })
       .with(GameAchievementDto.source._36, () => {
         const details = achievement.psnDetails;
