@@ -24,6 +24,7 @@ export function useFavoriteCollectionEntriesForUserId(
         userId,
         orderBy,
         undefined,
+        undefined,
         offset,
         limit,
       );
