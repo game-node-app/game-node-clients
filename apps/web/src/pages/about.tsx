@@ -152,7 +152,7 @@ const aboutUsPage = () => {
           </div>
         </div>
 
-        <div className={"pt-6 sm:py-4 sm:pt-40"}>
+        <div className={"pt-6 sm:pt-40"}>
           <img src="/img/about_us/mobile.png" alt="mobile" />
         </div>
       </Box>
