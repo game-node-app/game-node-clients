@@ -3,4 +3,5 @@
  */
 
 export * from "./PostImage";
+export * from "./PostImageLightboxContext";
 export * from "./PostImageRenderer";

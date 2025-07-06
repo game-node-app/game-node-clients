@@ -17,8 +17,6 @@ const BlogPostsArchivePage = () => {
   const searchParameters = useSearchParameters();
   const tag = searchParameters.get("tag");
 
-  console.log("searchParameters", searchParameters);
-
   return (
     <IonPage>
       <IonHeader>

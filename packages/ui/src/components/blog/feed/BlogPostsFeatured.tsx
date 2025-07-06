@@ -21,8 +21,6 @@ const BlogPostsFeatured = () => {
     return getRandomItems(data.data, 3);
   }, [data]);
 
-  console.log("Random posts: ", randomPosts);
-
   const renderedItems = useMemo(() => {
     return randomPosts.map((post, i) => {
       return (

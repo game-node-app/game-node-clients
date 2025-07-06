@@ -39,9 +39,10 @@ const GameInfoAchievementOverview = ({ gameId }: Props) => {
     <DetailsBox
       title={"Achievements"}
       enabled={enabledStores.length > 0 || isLoading}
-      withBorder
       withPadding
-      withDimmedTitle
+      stackProps={{
+        className: "bg-[#262525]",
+      }}
     >
       {isLoading && buildLoadingSkeletons()}
       {enabledStores.map((store) => (

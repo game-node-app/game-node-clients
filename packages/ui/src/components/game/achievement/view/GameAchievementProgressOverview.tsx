@@ -110,8 +110,6 @@ const GameAchievementProgressOverview = ({
           0,
         );
 
-        console.log("totalPrct");
-
         return (
           <Progress
             size={"lg"}

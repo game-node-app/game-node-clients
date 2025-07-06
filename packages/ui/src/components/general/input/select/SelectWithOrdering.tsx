@@ -24,8 +24,6 @@ const SelectWithOrdering = ({
     "ASC" | "DESC"
   >("DESC");
 
-  console.log("current data: ", data);
-
   return (
     <Select
       {...others}

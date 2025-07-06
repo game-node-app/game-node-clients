@@ -29,6 +29,12 @@ import "@mantine/charts/styles.css";
  */
 import "@/components/globals.css";
 
+/*
+ * YARL
+ */
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+
 import NotificationsManager from "@/components/general/NotificationsManager";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import {

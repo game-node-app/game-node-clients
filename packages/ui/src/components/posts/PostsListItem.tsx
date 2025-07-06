@@ -16,6 +16,7 @@ import {
   ItemCommentsButton,
   ItemDropdown,
   ItemLikesButton,
+  PostImageLightboxContext,
   ReportCreateFormModal,
   useOnMobile,
   UserAvatarGroup,
@@ -161,7 +162,9 @@ const PostsListItem = ({ item, withUserProfile }: Props) => {
           showLabel={"Show more"}
           maxHeight={300}
         >
-          <EditorContent editor={editor} />
+          <PostImageLightboxContext>
+            <EditorContent editor={editor} />
+          </PostImageLightboxContext>
         </Spoiler>
         <Group className={"w-full flex-nowrap"}>
           <RelativeDate

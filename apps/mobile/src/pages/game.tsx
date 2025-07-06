@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -8,6 +14,7 @@ import {
   IonProgressBar,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
 import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
@@ -26,12 +33,17 @@ import {
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
+import { useHistory } from "react-router-dom";
+import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 
 interface Props {
   gameId: number;
 }
 
 const GamePage = ({ gameId }: Props) => {
+  const router = useHistory();
+  const params = useSearchParameters();
+
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
@@ -55,11 +67,27 @@ const GamePage = ({ gameId }: Props) => {
     }
   }, [gameId, incrementView]);
 
-  const onChange = (tab: GameInfoTabValue) => {
-    setCurrentTab(tab);
-  };
+  const onChange = useCallback(
+    (tab: GameInfoTabValue) => {
+      router.push({
+        pathname: router.location.pathname,
+        search: `?tab=${tab}`,
+        hash: router.location.hash,
+      });
+    },
+    [router],
+  );
 
-  const onGoBack = () => onChange(GameInfoTabValue.overview);
+  const onGoBack = useCallback(() => {
+    onChange(GameInfoTabValue.overview);
+  }, [onChange]);
+
+  // Sync URL params with tab value
+  useEffect(() => {
+    if (params.has("tab")) {
+      setCurrentTab(params.get("tab") as GameInfoTabValue);
+    }
+  }, [params]);
 
   const content = useMemo(() => {
     if (gameQuery.isLoading) {
@@ -73,7 +101,7 @@ const GamePage = ({ gameId }: Props) => {
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
             <Box className={"w-full mt-4 mb-6"}>
-              <GameExtraInfoView id={gameId} />
+              <GameExtraInfoView gameId={gameId} />
             </Box>
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.reviews}>
@@ -100,7 +128,7 @@ const GamePage = ({ gameId }: Props) => {
         </GameInfoTabs>
       </>
     );
-  }, [currentTab, gameId, gameQuery.isLoading, onGoBack]);
+  }, [currentTab, gameId, gameQuery.isLoading, onChange, onGoBack]);
 
   return (
     <IonPage>
