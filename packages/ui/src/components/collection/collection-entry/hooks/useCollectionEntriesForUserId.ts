@@ -27,6 +27,7 @@ export function useCollectionEntriesForUserId(
         userId,
         orderBy,
         status,
+        undefined,
         offset,
         limit,
       );
