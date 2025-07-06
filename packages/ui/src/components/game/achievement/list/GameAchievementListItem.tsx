@@ -29,7 +29,7 @@ const GameAchievementListItem = ({ achievement }: Props) => {
             <Text className={"text-md text-center"}>
               {details.globalPercentage}%
             </Text>
-            <Text className={"text-center text-xs text-dimmed"}>Own by</Text>
+            <Text className={"text-center text-xs text-dimmed"}>Owned by</Text>
           </Stack>
         );
       })

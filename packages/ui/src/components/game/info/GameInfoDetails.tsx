@@ -56,7 +56,6 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
           {game.summary ?? "Not available"}
         </DetailsBox>
 
-        <GameInfoProgressTimeline gameId={game.id} />
         <GameInfoScore gameId={game.id} />
       </SimpleGrid>
     </Stack>
