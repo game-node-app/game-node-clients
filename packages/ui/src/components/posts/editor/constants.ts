@@ -3,7 +3,7 @@ import { Link } from "@mantine/tiptap";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 // This import should be relative, otherwise hoisting fails
-import { PostImage } from "#@/components";
+import { PostImage } from "./image/PostImage";
 
 export const POST_EDITOR_EXTENSIONS = [
   StarterKit.configure(),
