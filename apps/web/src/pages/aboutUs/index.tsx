@@ -60,8 +60,12 @@ const aboutUsPage = () => {
         </Box>
       </Box>
 
-      <Box className={"bg-[#171717] flex gap-32 px-60 pt-20 pb-20 p-0"}>
-        <div>
+      <Box
+        className={
+          "flex bg-[#171717] flex-col sm:flex-row gap-0 sm:gap-32 px-4 sm:px-60 pt-20 pb-20"
+        }
+      >
+        <div className={"sm:block"}>
           <img
             className={"pointer-events-none"}
             src="/img/about_us/platforms.svg"
@@ -69,18 +73,24 @@ const aboutUsPage = () => {
           />
         </div>
 
-        <div>
-          <h2 className={"font-bold text-5xl pb-4"}>Sync with platforms</h2>
-          <p className={"text-[1.25rem] pb-2 font-regular"}>
+        <div className={"pt-6 sm:pt-0"}>
+          <h2 className={"font-bold text-5xl pb-4 text-center sm:text-left"}>
+            Sync with platforms
+          </h2>
+          <p
+            className={
+              "text-[1.25rem] pb-2 font-regular text-center sm:text-left"
+            }
+          >
             Import games from your platforms to your <br />
             GameNode account
           </p>
-          <p className={"text-[1.25rem] font-regular"}>
+          <p className={"text-[1.25rem] font-regular text-center sm:text-left"}>
             Sync your library, your playtime <br />
             directly on our website.
           </p>
 
-          <div className={"pt-10 "}>
+          <div className={"flex flex-col items-center pt-10 sm:items-start"}>
             <p className={"pb-4"}>Soon</p>
             <img
               className={"pointer-events-none"}
@@ -91,9 +101,9 @@ const aboutUsPage = () => {
         </div>
       </Box>
 
-      <Box className={"flex items-center px-9"}>
-        <div className={"w-1/2"}>
-          <h2 className={"font-bold text-4xl pb-6"}>
+      <Box className={"flex flex-col sm:flex-row items-center px-4 sm:px-9"}>
+        <div className={"sm:w-1/2 text-center sm:text-left"}>
+          <h2 className={"font-bold text-4xl py-10 sm:py-6"}>
             Also available for mobile
           </h2>
           <p className={"font-light text-2xl"}>
@@ -102,12 +112,15 @@ const aboutUsPage = () => {
             wherever and whenever you want.
           </p>
 
-          <div className="flex gap-4 pt-5">
-            <a href="#">
-              <button>
+          <div className="flex flex-col sm:flex-row gap-4 pt-5">
+            <a
+              href="https://play.google.com/store/apps/details?id=app.gamenode&pli=1"
+              target={"_blank"}
+            >
+              <button className={"min-w-[200px]"}>
                 <p
                   className={
-                    "bg-white p-2 rounded-[8px] flex gap-2 text-[#191919] px-4 border-2 border-white"
+                    "bg-white p-2 rounded-[8px] flex gap-2 text-[#191919] px-4 border-2 border-white justify-center"
                   }
                 >
                   <img
@@ -121,10 +134,10 @@ const aboutUsPage = () => {
             </a>
 
             <a href="#" className={"pointer-events-none opacity-30"}>
-              <button disabled={true}>
+              <button disabled={true} className={"min-w-[200px]"}>
                 <p
                   className={
-                    "bg-[#171717] p-2 rounded-[8px] flex gap-2 border-2 border-white"
+                    "bg-[#171717] p-2 rounded-[8px] flex gap-2 border-2 border-white flex justify-center"
                   }
                 >
                   <img
@@ -139,22 +152,22 @@ const aboutUsPage = () => {
           </div>
         </div>
 
-        <div className={"pt-40"}>
+        <div className={"pt-6 sm:py-4 sm:pt-40"}>
           <img src="/img/about_us/mobile.png" alt="mobile" />
         </div>
       </Box>
 
       <Box
-        className={"flex justify-center items-center px-9 py-32 bg-[#101010]"}
+        className={"flex justify-center items-center py-32 bg-[#101010]"}
         style={{ background: "url(/img/about_us/coffee.gif)" }}
       >
-        <div className={"w-1/2 text-center"}>
-          <h2 className={"font-bold text-6xl pb-6"}>
-            GameNode is maintained{" "}
+        <div className={"text-center"}>
+          <h2 className={"font-bold text-5xl sm:text-6xl pb-6"}>
+            GameNode is maintained <br />
             <span className={"text-[#f15025]"}>exclusively</span> <br />
             with community support
           </h2>
-          <p className={"font-light text-2xl mb-4"}>
+          <p className={"font-light text-[0.8rem] sm:text-2xl mb-4"}>
             Collaborate with us to keep our platform <br />
             100% Free and constantly evolving.
           </p>
@@ -177,13 +190,13 @@ const aboutUsPage = () => {
               alt="Game Node Logo"
               width="99"
               height="40"
-              className="hidden lg:block"
+              className="block pl-4"
             />
 
             <a
               href="https://patreon.com/GameNodeApp"
               target="_blank"
-              className="lg:hidden pl-4"
+              className="hidden pl-4"
             >
               <img src="/img/patreon_footer.png" alt="patreon" />
             </a>
