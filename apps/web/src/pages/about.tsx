@@ -65,7 +65,7 @@ const aboutUsPage = () => {
           "flex bg-[#171717] flex-col sm:flex-row gap-0 sm:gap-32 px-4 sm:px-60 pt-20 pb-20"
         }
       >
-        <div className={"sm:block"}>
+        <div className={"block"}>
           <img
             className={"pointer-events-none"}
             src="/img/about_us/platforms.svg"
@@ -137,7 +137,7 @@ const aboutUsPage = () => {
               <button disabled={true} className={"min-w-[200px]"}>
                 <p
                   className={
-                    "bg-[#171717] p-2 rounded-[8px] flex gap-2 border-2 border-white flex justify-center"
+                    "bg-[#171717] p-2 rounded-[8px] gap-2 border-2 border-white flex justify-center"
                   }
                 >
                   <img

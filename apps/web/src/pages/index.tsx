@@ -101,25 +101,24 @@ const Home = () => {
         </h2>
 
         <Box className="flex flex-col items-center px-4 lg:mb-24 lg:mt-24">
-          <h3 className="text-center font-medium text-[20px]">
+          <h3 className="text-center font-medium text-[20px] mb-2">
             Import games from your platforms to your GameNode account
           </h3>
 
           <img
-            src="/img/plataforms.png"
-            alt="Plataforms"
-            width="492"
-            className="py-6 px-4"
+            className={"pointer-events-none"}
+            src="/img/about_us/platforms.svg"
+            alt="platforms"
           />
 
-          <h3 className="text-center font-medium text-[16px]">Soon</h3>
+          <h3 className="text-center font-medium text-[16px] mt-4 mb-2">
+            Soon
+          </h3>
 
           <img
-            src="/img/plataforms_soon.png"
-            alt="soon..."
-            width="160"
-            height="39"
-            className="pt-4"
+            className={"pointer-events-none"}
+            src="/img/about_us/soon.svg"
+            alt="soon"
           />
         </Box>
 

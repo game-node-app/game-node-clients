@@ -32,14 +32,17 @@ const HeaderCustom = () => {
         className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
       >
         <Box className="flex flex-row gap-16 items-center">
-          <img
-            src="/img/main-logo.png"
-            alt="Game Node Logo"
-            className="max-h-full pointer-events-none"
-          />
-          <a href="/about" className="hidden lg:block">
+          <Link href={"/"}>
+            <img
+              src="/img/main-logo.png"
+              alt="Game Node Logo"
+              className="max-h-full pointer-events-none"
+            />
+          </Link>
+
+          <Link href="/about" className="hidden lg:block">
             <span>About us</span>
-          </a>
+          </Link>
           <a
             href="https://github.com/game-node-app"
             className="hidden lg:block"
