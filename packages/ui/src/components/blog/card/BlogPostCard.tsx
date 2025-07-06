@@ -7,24 +7,19 @@ import {
   Group,
   Image,
   ImageProps,
-  Spoiler,
-  Stack,
   Text,
   Title,
-  UnstyledButton,
 } from "@mantine/core";
 import {
   ActionConfirm,
   BLOG_POST_EDITOR_EXTENSIONS,
-  BlogPostTags,
   EUserRoles,
   ItemDropdown,
   UserAvatarGroup,
   useUserRoles,
 } from "#@/components";
-import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import { BlogPost, BlogPostService } from "@repo/wrapper/server";
 import { getS3StoredUpload, Link } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
@@ -47,16 +42,6 @@ const BlogPostCard = ({
 }: Props) => {
   const queryClient = useQueryClient();
   const [deleteConfirmOpened, deleteConfirmUtils] = useDisclosure();
-
-  const editor = useEditor(
-    {
-      extensions: BLOG_POST_EDITOR_EXTENSIONS,
-      editable: false,
-      content: post.content,
-      immediatelyRender: false,
-    },
-    [post.content],
-  );
 
   const deletePostMutation = useMutation({
     mutationFn: async () => {
@@ -88,8 +73,6 @@ const BlogPostCard = ({
 
     return getS3StoredUpload(`${post.image.filename}.${post.image.extension}`);
   }, [post.image]);
-
-  if (!editor) return null;
 
   return (
     <Card
