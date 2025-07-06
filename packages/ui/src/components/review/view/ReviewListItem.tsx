@@ -1,33 +1,38 @@
 import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
-import { Box, Flex, Group, Spoiler, Stack } from "@mantine/core";
+import {
+  Box,
+  Divider,
+  Flex,
+  Group,
+  Spoiler,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
 import {
+  GameFigureImage,
   GameRating,
   GameTitleWithFigure,
   ReviewListItemDropdownButton,
+  TextLink,
 } from "#@/components";
 
 interface IReviewListViewProps {
   review: Review;
-  withGameInfo?: boolean;
   onEditStart?: () => void;
 }
 
-const ReviewListItem = ({
-  review,
-  onEditStart,
-  withGameInfo,
-}: IReviewListViewProps) => {
+const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
   const onMobile = useOnMobile();
   const [isReadMore, setIsReadMore] = useState<boolean>(false);
 
-  const nonEditableEditor = useEditor(
+  const editor = useEditor(
     {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       content: review?.content,
@@ -37,59 +42,39 @@ const ReviewListItem = ({
   );
 
   const profileUserId = review.profileUserId;
-  const gameIdToUse = withGameInfo ? review.gameId : undefined;
 
   const isScoreOnlyReview = review.content == null;
 
   return (
-    <Stack w={"100%"} align={"center"}>
-      <Group
-        w={"100%"}
-        justify={"flex-start"}
-        wrap={onMobile ? "wrap" : "nowrap"}
-        align={"start"}
-      >
-        <Flex
-          direction={{
-            base: "row",
-          }}
-          w={{
-            base: "100%",
-            lg: "15%",
-          }}
-          justify={{
-            base: "space-between",
-            lg: "center",
-          }}
-          align={{
-            base: "center",
-            lg: "center",
-          }}
-          wrap={onMobile ? "nowrap" : "wrap"}
+    <Group className={"w-full p-2 bg-[#262525] @container"}>
+      <Group className={"w-full flex-wrap lg:flex-nowrap items-start gap-0"}>
+        <Stack
+          className={
+            "w-full lg:w-2/12 items-start lg:items-center justify-start"
+          }
         >
-          <UserAvatarGroup
-            avatarProps={{
-              size: onMobile ? "lg" : "xl",
-            }}
-            userId={profileUserId}
-            groupProps={{
-              justify: onMobile ? "start" : "center",
-            }}
-            withHorizontalBreak={!onMobile}
-          />
-          {!isScoreOnlyReview && (
-            <GameRating
-              value={review.rating}
-              size={isScoreOnlyReview ? "lg" : "md"}
+          <Box className={"w-full lg:w-11/12"}>
+            <UserAvatarGroup
+              groupProps={{
+                wrap: onMobile ? "nowrap" : "wrap",
+                pt: onMobile ? "xs" : "lg",
+                gap: "xs",
+                justify: onMobile ? "start" : "center",
+              }}
+              avatarProps={{
+                size: onMobile ? "md" : "xl",
+              }}
+              withHorizontalBreak={!onMobile}
+              userId={profileUserId}
             />
-          )}
-        </Flex>
-        <Stack className={`w-full`}>
+          </Box>
+        </Stack>
+        <Stack
+          className={"w-full lg:w-10/12 gap-2"}
+          data-score-only={isScoreOnlyReview ? "true" : "false"}
+        >
           {isScoreOnlyReview ? (
-            <GameRating
-              value={review.rating}
-              size={isScoreOnlyReview ? "lg" : "md"}
-            />
+            <GameRating value={review.rating} size={"xl"} mt={"lg"} />
           ) : (
             <Spoiler
               hideLabel={"Show less"}
@@ -98,26 +83,34 @@ const ReviewListItem = ({
               onExpandedChange={setIsReadMore}
               maxHeight={300}
             >
-              <EditorContent editor={nonEditableEditor} className={"w-full"} />
+              <EditorContent editor={editor} className={"w-full"} />
             </Spoiler>
           )}
-
+        </Stack>
+      </Group>
+      <Flex className={"justify-end w-full"}>
+        <Stack className={"w-full lg:w-10/12"}>
+          <Divider className={"w-full mt-auto"} />
           <Group
-            justify={withGameInfo ? "space-between" : "end"}
-            wrap={"nowrap"}
+            className={
+              "w-full flex-nowrap justify-between data-[score-only=true]:justify-end"
+            }
           >
-            {gameIdToUse && (
-              <Box className={"max-w-6 lg:max-w-60"}>
-                <GameTitleWithFigure gameId={gameIdToUse} />
-              </Box>
-            )}
-            <Group className={"flex-nowrap justify-start"}>
-              <ReviewListItemComments review={review} />
-              <ItemLikesButton
-                targetUserId={review.profileUserId}
-                sourceId={review.id}
-                sourceType={FindOneStatisticsDto.sourceType.REVIEW}
-              />
+            <GameRating
+              value={review.rating}
+              className={"data-[score-only=true]:hidden"}
+              size={"lg"}
+              data-score-only={isScoreOnlyReview ? "true" : "false"}
+            />
+            <Group className={"flex-nowrap flex-grow justify-end"}>
+              <Group className={"gap-1"}>
+                <ReviewListItemComments review={review} />
+                <ItemLikesButton
+                  targetUserId={review.profileUserId}
+                  sourceId={review.id}
+                  sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+                />
+              </Group>
 
               <ReviewListItemDropdownButton
                 review={review}
@@ -126,8 +119,8 @@ const ReviewListItem = ({
             </Group>
           </Group>
         </Stack>
-      </Group>
-    </Stack>
+      </Flex>
+    </Group>
   );
 };
 

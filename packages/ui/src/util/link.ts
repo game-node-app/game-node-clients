@@ -2,9 +2,12 @@ import React, { HTMLProps } from "react";
 
 export interface RoutingComponent extends HTMLProps<HTMLAnchorElement> {
   href: string;
+  scroll?: boolean;
+  shallow?: boolean;
+  replace?: boolean;
 }
 
-interface RoutingManagerProps {
+export interface RoutingManagerProps {
   push: (route: string) => Promise<unknown> | unknown;
 }
 

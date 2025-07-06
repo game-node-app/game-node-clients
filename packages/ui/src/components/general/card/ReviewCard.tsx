@@ -63,7 +63,7 @@ const ReviewCard = ({ reviewId }: IProps) => {
 
   const backgroundUrl = getSizedImageUrl(
     gameQuery.data.cover?.url,
-    ImageSize.COVER_BIG,
+    ImageSize.COVER_BIG_2X,
   );
 
   return (

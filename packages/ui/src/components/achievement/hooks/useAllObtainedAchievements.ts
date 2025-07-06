@@ -1,45 +1,41 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  AchievementDto,
   AchievementsService,
-  ObtainedAchievement,
-} from "../../../../../wrapper/src/server";
+  ObtainedAchievementDto,
+} from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useAllObtainedAchievements(
   targetUserId: string | undefined,
-  /**
-   * Performs client-side sorting. Doesn't affect sorting between pages.
-   */
-  sortByLatestObtained = false,
-): ExtendedUseQueryResult<ObtainedAchievement[] | null> {
+  isFeatured?: boolean,
+  orderBy = {
+    createdAt: "DESC",
+  },
+): ExtendedUseQueryResult<ObtainedAchievementDto[]> {
   const queryClient = useQueryClient();
   const queryKey = [
-    "obtained-achievement",
+    "achievement",
+    "obtained",
     "all",
     targetUserId,
-    sortByLatestObtained,
+    orderBy,
+    isFeatured,
   ];
-  const invalidate = () => queryClient.invalidateQueries({ queryKey });
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 3) });
   return {
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        if (!targetUserId) {
-          return null;
-        }
         const achievements =
           await AchievementsService.achievementsControllerGetAllObtainedAchievementsV1(
-            targetUserId,
+            targetUserId!,
+            isFeatured,
+            orderBy,
           );
-        if (achievements == undefined || achievements.length === 0) {
-          return null;
-        } else if (sortByLatestObtained) {
-          return achievements.toSorted((a, b) => {
-            const aCreateDate = new Date(a.createdAt);
-            const bCreateDate = new Date(b.createdAt);
-            return aCreateDate.getTime() - bCreateDate.getTime();
-          });
+
+        if (achievements == undefined) {
+          return [];
         }
 
         return achievements;

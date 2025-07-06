@@ -36,7 +36,7 @@ const ProfileUserInfoWithBanner = ({
   const [editModalOpened, editModalUtils] = useDisclosure();
 
   return (
-    <Stack className={"w-full h-full gap-0"}>
+    <Stack className={"h-full gap-0 w-dvw max-w-full"}>
       <Modal
         opened={editModalOpened}
         onClose={editModalUtils.close}
@@ -51,21 +51,23 @@ const ProfileUserInfoWithBanner = ({
         className={"w-full justify-start items-start flex-wrap lg:flex-nowrap"}
       >
         <Stack
-          className={"w-full lg:w-1/4 lg:min-w-52 bg-[#161616] gap-0 relative"}
+          className={"w-full lg:w-1/4 lg:min-w-52  gap-0 relative bg-[#151515]"}
         >
           <Stack className={"w-full items-center relative -top-20"}>
             <Box className={"relative w-fit h-fit"}>
               <UserAvatar
-                className={"relative border-[#161616] border-[7px]"}
+                className={"relative border-[#161616] border-4"}
                 userId={userId}
                 size={"10rem"}
               />
             </Box>
 
-            <Text className={"text-center"}>{profileQuery.data?.username}</Text>
+            <Text className={"text-center text-white"}>
+              {profileQuery.data?.username}
+            </Text>
           </Stack>
 
-          <Stack className={"w-full h-full relative -top-14"}>
+          <Stack className={"w-full h-full relative -top-16 "}>
             <ProfileUserInfo
               userId={userId}
               onEditClick={editModalUtils.open}
@@ -74,7 +76,7 @@ const ProfileUserInfoWithBanner = ({
           </Stack>
         </Stack>
 
-        <Stack className={"lg:items-start w-full lg:w-3/4 p-1 lg:p-3 lg:mt-4"}>
+        <Stack className={"lg:items-start w-full lg:w-3/4 p-1 lg:p-3"}>
           {children}
         </Stack>
       </Group>

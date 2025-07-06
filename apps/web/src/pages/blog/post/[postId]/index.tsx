@@ -1,7 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Stack } from "@mantine/core";
-import { BlogPostDetailLayout, BlogPostDetailView } from "@repo/ui";
+import {
+  BlogPostDetailLayout,
+  BlogPostDetailView,
+  BlogPostsLayout,
+} from "@repo/ui";
 import { NextPageContext } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";
@@ -31,9 +35,11 @@ const BlogPostDetailPage = () => {
 
   return (
     <Stack className={"w-full items-center"}>
-      <BlogPostDetailLayout>
-        <BlogPostDetailView postId={postId as string} />
-      </BlogPostDetailLayout>
+      <BlogPostsLayout>
+        <BlogPostDetailLayout>
+          <BlogPostDetailView postId={postId as string} />
+        </BlogPostDetailLayout>
+      </BlogPostsLayout>
     </Stack>
   );
 };

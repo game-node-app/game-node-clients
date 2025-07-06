@@ -7,3 +7,4 @@ export * from "./PostsListItem";
 export * from "./editor/index";
 export * from "./feed/index";
 export * from "./hooks/index";
+export * from "./view/index";

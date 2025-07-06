@@ -4,6 +4,7 @@ import {
   BLOG_POST_EDITOR_EXTENSIONS,
   BlogPostTags,
   CenteredLoading,
+  PostImageLightboxContext,
   useBlogPost,
   UserAvatarGroup,
 } from "#@/components";
@@ -64,7 +65,9 @@ const BlogPostDetailView = ({ postId }: Props) => {
       </Group>
 
       <Box className={"lg:px-3 lg:mt-5 p-2 max-w-full"}>
-        <EditorContent className={"w-full"} editor={editor} />
+        <PostImageLightboxContext>
+          <EditorContent className={"w-full"} editor={editor} />
+        </PostImageLightboxContext>
       </Box>
     </Stack>
   );

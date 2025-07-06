@@ -18,6 +18,7 @@ import {
   RecentCollectionEntriesView,
   useUserId,
   useUserProfile,
+  LibraryHomeView,
 } from "@repo/ui";
 import { CollectionView } from "@/components/collection/view/CollectionView";
 
@@ -64,34 +65,20 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent>
+        <IonContent className={"ion-padding"}>
           {isOwnLibrary && (
             <LibraryViewFab selectedCollectionId={collectionId} />
           )}
-          <Container fluid className="my-4">
-            <LibraryView userId={userIdToUse} collectionId={collectionId}>
-              {collectionId ? (
-                <CollectionView
-                  libraryUserId={userIdToUse!}
-                  collectionId={collectionId}
-                />
-              ) : (
-                <DetailsBox
-                  title={
-                    isOwnLibrary
-                      ? "Your recent games"
-                      : `${profileQuery.data?.username}'s recent games`
-                  }
-                  stackProps={{ className: "w-full" }}
-                >
-                  <RecentCollectionEntriesView
-                    userId={userIdToUse!}
-                    limit={24}
-                  />
-                </DetailsBox>
-              )}
-            </LibraryView>
-          </Container>
+          <LibraryView userId={userIdToUse} collectionId={collectionId}>
+            {collectionId ? (
+              <CollectionView
+                libraryUserId={userIdToUse!}
+                collectionId={collectionId}
+              />
+            ) : (
+              <LibraryHomeView userId={userIdToUse!} />
+            )}
+          </LibraryView>
         </IonContent>
       </SessionAuth>
     </IonPage>

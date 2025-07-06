@@ -3,10 +3,19 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CreateUpdateCollectionEntryDto = {
-    finishedAt?: string;
     collectionIds: Array<string>;
     gameId: number;
     platformIds: Array<number>;
     isFavorite: boolean;
+    finishedAt?: string | null;
+    status: CreateUpdateCollectionEntryDto.status;
 };
+export namespace CreateUpdateCollectionEntryDto {
+    export enum status {
+        PLAYING = 'playing',
+        FINISHED = 'finished',
+        PLANNED = 'planned',
+        DROPPED = 'dropped',
+    }
+}
 

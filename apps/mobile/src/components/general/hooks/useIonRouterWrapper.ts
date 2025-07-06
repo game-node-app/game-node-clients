@@ -1,15 +1,15 @@
 import { useIonRouter, UseIonRouterResult } from "@ionic/react";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { RoutingManagerProps } from "@repo/ui";
 
-export function useIonRouterWrapper(): UseIonRouterResult {
-    const originalMethod = useIonRouter();
+export function useIonRouterWrapper(): RoutingManagerProps {
+  const originalMethod = useIonRouter();
 
-    const patchedPush: UseIonRouterResult["push"] = (pathname, ...args) => {
-        return originalMethod.push(getTabAwareHref(pathname), ...args);
-    };
+  const patchedPush: UseIonRouterResult["push"] = (pathname, ...args) => {
+    return originalMethod.push(getTabAwareHref(pathname), ...args);
+  };
 
-    return {
-        ...originalMethod,
-        push: patchedPush,
-    };
+  return {
+    push: patchedPush,
+  };
 }

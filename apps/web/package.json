@@ -1,9 +1,9 @@
 {
   "name": "web",
-  "version": "1.5.3",
+  "version": "1.6.3",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "wrapper:generate": "node src/wrapper/generate.js",
@@ -41,6 +41,7 @@
     "axios": "^1.7.7",
     "bad-words": "^3.0.4",
     "dayjs": "^1.11.13",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.3.0",
     "fuse.js": "^7.1.0",
     "html-to-image": "^1.11.11",
@@ -58,6 +59,7 @@
     "supertokens-web-js": "^0.15.0",
     "supertokens-website": "^20.1.6",
     "use-long-press": "^3.2.0",
+    "yet-another-react-lightbox": "^3.24.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

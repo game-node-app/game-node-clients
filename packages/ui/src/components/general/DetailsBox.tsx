@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Group, Stack, StackProps, Text } from "@mantine/core";
 
-interface IDetailsBoxProps extends PropsWithChildren {
+export interface DetailsBoxProps extends PropsWithChildren {
   enabled?: boolean;
   title: string;
   withDimmedTitle?: boolean;
@@ -22,7 +22,7 @@ export const DetailsBox = ({
   stackProps,
   rightSide,
   children,
-}: IDetailsBoxProps) => {
+}: DetailsBoxProps) => {
   return (
     enabled && (
       <Stack
@@ -30,7 +30,7 @@ export const DetailsBox = ({
         h={"fit-content"}
         styles={{
           root: {
-            padding: withPadding ? "4px" : undefined,
+            padding: withPadding ? "0.75rem" : undefined,
             borderWidth: withBorder ? "2px" : undefined,
             borderColor: withBorder ? "#1F1F1F" : undefined,
             borderRadius: withBorder ? "6px" : undefined,

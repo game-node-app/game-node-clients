@@ -6,6 +6,7 @@ import {
   FileButton,
   FileInput,
   Group,
+  NumberInput,
   Stack,
   TagsInput,
   Text,
@@ -15,6 +16,8 @@ import {
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
   createErrorNotification,
+  GameRating,
+  GameSearchSelectModal,
   useBlogPost,
   useBlogPostTags,
 } from "@repo/ui";
@@ -29,18 +32,31 @@ import { Editor } from "@tiptap/core";
 import { useRouter } from "next/router";
 import { BlogPostEditor } from "@/components/blog/editor/BlogPostEditor.tsx";
 import { IconPhoto } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 
-const BlogPostCreateSchema = z.object({
-  content: z.string().min(10, "Your post must not be empty."),
-  title: z.string().min(1, "Your post must have a title."),
-  tags: z
-    .array(z.string())
-    .min(1, "You must specify at least one tag.")
-    .max(3, "You can only specify up to 3 tags."),
-  image: z.instanceof(File, { message: "Must be a valid file." }).optional(),
-  isDraft: z.boolean().default(true),
-  targetPostId: z.string().optional(),
-});
+const BlogPostCreateSchema = z
+  .object({
+    content: z.string().min(10, "Your post must not be empty."),
+    title: z.string().min(1, "Your post must have a title."),
+    tags: z
+      .array(z.string())
+      .min(1, "You must specify at least one tag.")
+      .max(3, "You can only specify up to 3 tags."),
+    image: z.instanceof(File, { message: "Must be a valid file." }).optional(),
+    isDraft: z.boolean().default(true),
+    targetPostId: z.string().optional(),
+    isGameReview: z.boolean(),
+    reviewInfo: z
+      .object({
+        gameId: z.number({ message: "Associated game must be set." }).min(0),
+        rating: z.number({ message: "A rating is required." }).min(0).max(5),
+      })
+      .optional(),
+  })
+  .refine((data) => !(data.isGameReview && data.reviewInfo == undefined), {
+    message: "Review info must be provided for game reviews.",
+    path: ["reviewInfo"],
+  });
 
 type BlogPostCreateFormValues = z.infer<typeof BlogPostCreateSchema>;
 
@@ -53,6 +69,8 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
   const router = useRouter();
   const editorRef = useRef<Editor>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const [gameSelectModalOpened, gameSelectModalUtils] = useDisclosure();
 
   const postTagsQuery = useBlogPostTags();
   const editingPostQuery = useBlogPost(editingPostId);
@@ -69,10 +87,12 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     defaultValues: {
       tags: [],
       isDraft: true,
+      isGameReview: false,
     },
   });
 
   const isDraft = watch("isDraft");
+  const isGameReview = watch("isGameReview");
 
   const availableTags = postTagsQuery.data?.map((tag) => tag.name) || [];
 
@@ -102,7 +122,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
   useEffect(() => {
     if (editingPostId && editingPostQuery.data) {
       setValue("targetPostId", editingPostId);
-      const { title, tags, content, isDraft } = editingPostQuery.data;
+      const { title, tags, content, isDraft, review } = editingPostQuery.data;
       setValue("title", title);
       setValue("content", content);
       editorRef.current?.commands.setContent(content);
@@ -111,8 +131,21 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         tags.map((tag) => tag.name),
       );
       setValue("isDraft", isDraft);
+      if (review) {
+        setValue("reviewInfo", {
+          rating: review.rating,
+          gameId: review.gameId,
+        });
+        setValue("isGameReview", true);
+      }
     }
   }, [editingPostId, editingPostQuery.data, setValue]);
+
+  useEffect(() => {
+    if (!isGameReview) {
+      setValue("reviewInfo", undefined);
+    }
+  }, [isGameReview, setValue]);
 
   return (
     <form
@@ -122,6 +155,14 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         postCreateMutation.mutate(data);
       })}
     >
+      <GameSearchSelectModal
+        onSelected={(gameId) => {
+          setValue("reviewInfo.gameId", gameId);
+          gameSelectModalUtils.close();
+        }}
+        opened={gameSelectModalOpened}
+        onClose={gameSelectModalUtils.close}
+      />
       <TextInput
         label="Title"
         placeholder="Latest development from GameNode"
@@ -148,6 +189,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
             ? "Replace image. Leave empty to keep the current one."
             : "Upload image"
         }
+        withAsterisk={editingPostId == undefined}
         onChange={(file) => {
           if (file) {
             setValue("image", file);
@@ -156,12 +198,43 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
       />
       <Checkbox
         {...register("isDraft")}
-        checked={watch("isDraft")}
+        checked={isDraft}
         onChange={(evt) => setValue("isDraft", evt.target.checked)}
         label="Draft"
         description={"Save as draft first."}
       />
-      <Title size={"h5"}>Content</Title>
+      <Checkbox
+        {...register("isGameReview")}
+        checked={isGameReview}
+        onChange={(evt) => setValue("isGameReview", evt.target.checked)}
+        label="Game review"
+        description={"If this is a game review. This will enable more options."}
+        error={errors.isGameReview?.message || errors.reviewInfo?.message}
+      />
+      {isGameReview && (
+        <>
+          <NumberInput
+            label={"Associated game"}
+            description={"The game this review is related to."}
+            withAsterisk
+            value={watch("reviewInfo.gameId")}
+            onClick={gameSelectModalUtils.open}
+            error={
+              errors.reviewInfo?.gameId?.message ||
+              errors.reviewInfo?.rating?.message
+            }
+          />
+          <Text>Rating</Text>
+          <GameRating
+            readOnly={false}
+            value={watch("reviewInfo.rating")}
+            onChange={(v) => setValue("reviewInfo.rating", v)}
+          />
+        </>
+      )}
+      <Title size={"h5"} className={"mt-5"}>
+        Content
+      </Title>
       <Text className={"text-dimmed text-sm"}>
         Make sure to keep your post saved.
       </Text>

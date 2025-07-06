@@ -3,5 +3,6 @@
  */
 
 export * from "./hooks/index";
+export * from "./modal/index";
 export * from "./trending/index";
 export * from "./view/index";

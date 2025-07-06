@@ -1,23 +1,8 @@
+import { Anchor, Box, Group, Text, UnstyledButton } from "@mantine/core";
 import {
-  Anchor,
-  Box,
-  Group,
-  Switch,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
-import {
-  IconArticle,
-  IconBulb,
-  IconCheckbox,
   IconHeartFilled,
   IconLogout,
-  IconMessage2,
-  IconProps,
-  IconRefresh,
-  IconRouteAltLeft,
   IconSettings,
-  IconUser,
   IconUserShield,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -25,26 +10,24 @@ import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import classes from "./global-shell-navbar.module.css";
 import GlobalShellNavbarCollections from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollections";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { ExoticComponent, PropsWithoutRef, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import GlobalNavbarSearchBar from "@/components/general/shell/GlobalShellNavbar/search-bar/GlobalShellNavbarSearchBar";
-import { useLocalStorage } from "@mantine/hooks";
-import dayjs from "dayjs";
 import { EUserRoles, UserButton, useUserProfile, useUserRoles } from "@repo/ui";
+import clsx from "clsx";
 
 interface NavbarItem {
-  icon: ExoticComponent<PropsWithoutRef<IconProps>>;
   label: string;
   href: string;
 }
 
 const links: NavbarItem[] = [
-  { icon: IconRouteAltLeft, label: "Explore", href: "/explore" },
-  { icon: IconUser, label: "Library", href: "/library" },
-  { icon: IconCheckbox, label: "Achievements", href: "/achievements" },
-  { icon: IconMessage2, label: "Posts", href: "/posts" },
-  { icon: IconArticle, label: "Blog", href: "/blog" },
-  { icon: IconBulb, label: "Activity", href: "/activity" },
-  { icon: IconRefresh, label: "Importer", href: "/importer" },
+  { label: "Explore", href: "/explore" },
+  { label: "Library", href: "/library" },
+  { label: "Achievements", href: "/achievements" },
+  { label: "Posts", href: "/posts" },
+  { label: "Blog", href: "/blog" },
+  { label: "Activity", href: "/activity" },
+  { label: "Importer", href: "/importer" },
 ];
 
 interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
@@ -81,14 +64,13 @@ export default function GlobalShellNavbar({
         className={classes.mainLinkInner}
         onClick={onClose}
       >
-        <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
         <span>{link.label}</span>
       </Link>
     </UnstyledButton>
   ));
 
   return (
-    <nav className={classes.navbar}>
+    <div className={classes.navbar}>
       {isLoggedIn && userProfile && (
         <div className={classes.section}>
           <Link href={`/profile/${userProfile.userId}`} onClick={onClose}>
@@ -97,7 +79,7 @@ export default function GlobalShellNavbar({
         </div>
       )}
 
-      <Box w={"100%"} my={"0.8rem"}>
+      <Box w={"100%"} className={!isLoggedIn ? "my-md" : "mb-md"}>
         <GlobalNavbarSearchBar
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -114,8 +96,8 @@ export default function GlobalShellNavbar({
         />
       </Box>
 
-      <div className={classes.section}>
-        <div className={classes.mainLinks}>
+      <div className={clsx(classes.section, "ps-6")}>
+        <div className="">
           {mainLinks}
           {hasAdminRouteAccess && (
             <UnstyledButton className={classes.mainLink}>
@@ -169,6 +151,6 @@ export default function GlobalShellNavbar({
           </Link>
         )}
       </div>
-    </nav>
+    </div>
   );
 }

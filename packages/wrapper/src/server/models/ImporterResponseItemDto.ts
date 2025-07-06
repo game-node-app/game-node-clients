@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Game } from './Game';
+import type { GamePlatform } from './GamePlatform';
+import type { PsnExtraMappings } from './PsnExtraMappings';
 export type ImporterResponseItemDto = {
     id: number;
     /**
@@ -20,6 +22,9 @@ export type ImporterResponseItemDto = {
     updatedAt: string;
     game: Game;
     gameId: number;
+    platform: GamePlatform;
+    platformId: number;
+    psnExtraMappings: Array<PsnExtraMappings> | null;
     /**
      * The preferred platform to use when adding this importer item to a user's collection.
      */

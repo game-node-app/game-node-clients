@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -14,66 +14,111 @@ import {
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { useDisclosure } from "@mantine/hooks";
 import { useUserId } from "../auth";
-import { useAchievements } from "./hooks";
-import { CenteredLoading, UserAvatarWithLevelInfo } from "../general";
+import { useAchievements, useAllObtainedAchievements } from "./hooks";
+import {
+  CenteredErrorMessage,
+  CenteredLoading,
+  DetailsBox,
+  UserAvatarWithLevelInfo,
+} from "../general";
 import { RedeemAchievementCodeModal } from "#@/components";
 import { AchievementItem } from "#@/components";
+import { getPageAsOffset } from "#@/util";
+import { useNonObtainedAchievements } from "#@/components/achievement/hooks/useNonObtainedAchievements.ts";
 
 interface Props {
   targetUserId: string;
+  withUserLevel?: boolean;
 }
 
-const AchievementsScreen = ({ targetUserId }: Props) => {
+const DEFAULT_LIMIT = 12;
+
+const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
   const userId = useUserId();
-  const [paginationData, setPaginationData] = useState({
-    offset: 0,
-    limit: 8,
-  });
-  const achievements = useAchievements(paginationData);
+  const [page, setPage] = useState(1);
+
+  const obtainedAchievementsQuery = useAllObtainedAchievements(targetUserId);
   const isOwnUserId = userId != undefined && userId === targetUserId;
 
+  const obtainedAchievements =
+    obtainedAchievementsQuery.data?.slice(0, 6) ?? [];
+
+  const nonObtainedAchievementsQuery = useNonObtainedAchievements(targetUserId);
+
+  const pendingAchievements = useMemo(() => {
+    if (nonObtainedAchievementsQuery.data == undefined) {
+      return [];
+    }
+
+    const pageAsOffset = getPageAsOffset(page, DEFAULT_LIMIT);
+
+    return nonObtainedAchievementsQuery.data.slice(pageAsOffset, DEFAULT_LIMIT);
+  }, [nonObtainedAchievementsQuery.data, page]);
+
   const [redeemCodeModalOpened, redeemCodeModalUtils] = useDisclosure();
+
+  const isLoading =
+    obtainedAchievementsQuery.isLoading ||
+    nonObtainedAchievementsQuery.isLoading;
+  const isError =
+    obtainedAchievementsQuery.isError || nonObtainedAchievementsQuery.isError;
+  const error =
+    obtainedAchievementsQuery.error || nonObtainedAchievementsQuery.error;
 
   if (!targetUserId) return null;
 
   return (
-    <Paper className={"w-full h-full"}>
-      <Stack w={"100%"} py={"3rem"} px={"2rem"}>
-        <Group
-          wrap={"nowrap"}
-          className={"justify-center lg:justify-between lg:mx-4"}
-        >
-          <Box className={"w-5/12 lg:w-8/12"}>
-            <UserAvatarWithLevelInfo userId={targetUserId} />
-          </Box>
+    <Stack w={"100%"}>
+      <Group
+        wrap={"nowrap"}
+        className={"justify-center lg:justify-between lg:mx-4"}
+      >
+        <Box className={withUserLevel ? "w-5/12 lg:w-8/12" : "hidden"}>
+          <UserAvatarWithLevelInfo userId={targetUserId} />
+        </Box>
 
-          {isOwnUserId && (
-            <>
-              <RedeemAchievementCodeModal
-                opened={redeemCodeModalOpened}
-                onClose={redeemCodeModalUtils.close}
-              />
-              <Button className={""} onClick={redeemCodeModalUtils.open}>
-                Redeem a code
-              </Button>
-            </>
-          )}
-        </Group>
-
-        <Divider className={"w-full"} />
-        {achievements.isError && (
-          <Center className={"mt-10"}>
-            Something happened while loading achievements. Please try again.
-          </Center>
+        {isOwnUserId && (
+          <Group className={"grow justify-end"}>
+            <RedeemAchievementCodeModal
+              opened={redeemCodeModalOpened}
+              onClose={redeemCodeModalUtils.close}
+            />
+            <Button className={""} onClick={redeemCodeModalUtils.open}>
+              Redeem a code
+            </Button>
+          </Group>
         )}
-        {achievements.isLoading && <CenteredLoading />}
+      </Group>
+
+      {withUserLevel && <Divider className={"w-full"} />}
+      {isError && <CenteredErrorMessage error={error ?? undefined} />}
+      {isLoading && <CenteredLoading />}
+      <DetailsBox title={""}>
         <SimpleGrid
           cols={{
             base: 1,
             lg: 2,
           }}
         >
-          {achievements.data?.data?.map((achievement) => {
+          {obtainedAchievements.map((obtainedAchievement) => {
+            return (
+              <AchievementItem
+                key={obtainedAchievement.id}
+                targetUserId={targetUserId}
+                achievement={obtainedAchievement.achievement}
+              />
+            );
+          })}
+        </SimpleGrid>
+      </DetailsBox>
+      <DetailsBox title={"Not yet obtained"}>
+        <SimpleGrid
+          cols={{
+            base: 1,
+            lg: 2,
+          }}
+        >
+          {pendingAchievements.map((achievement) => {
             return (
               <AchievementItem
                 key={achievement.id}
@@ -85,18 +130,15 @@ const AchievementsScreen = ({ targetUserId }: Props) => {
         </SimpleGrid>
         <Center mt={"1rem"}>
           <Pagination
-            total={achievements.data?.pagination?.totalPages || 1}
+            value={page}
+            total={Math.ceil(pendingAchievements.length / DEFAULT_LIMIT)}
             onChange={(page) => {
-              const pageAsOffset = paginationData.limit * (page - 1);
-              setPaginationData({
-                offset: pageAsOffset,
-                limit: paginationData.limit,
-              });
+              setPage(page);
             }}
           />
         </Center>
-      </Stack>
-    </Paper>
+      </DetailsBox>
+    </Stack>
   );
 };
 

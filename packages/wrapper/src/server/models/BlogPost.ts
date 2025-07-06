@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BlogPostImage } from './BlogPostImage';
+import type { BlogPostReview } from './BlogPostReview';
 import type { BlogPostTag } from './BlogPostTag';
 import type { Profile } from './Profile';
 export type BlogPost = {
@@ -18,9 +19,12 @@ export type BlogPost = {
     tags: Array<BlogPostTag>;
     /**
      * The main presentation image for this post.
-     * Optional.
      */
-    image: BlogPostImage | null;
+    image: BlogPostImage;
+    /**
+     * If this is present, this blog post is a game review.
+     */
+    review: BlogPostReview | null;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;

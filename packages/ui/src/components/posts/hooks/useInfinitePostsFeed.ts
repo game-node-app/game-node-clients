@@ -1,9 +1,10 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  type GetPostsPaginatedReponseDto,
+  type GetPostsPaginatedResponseDto,
   PostsFeedService,
 } from "@repo/wrapper/server";
 import { ExtendedUseInfiniteQueryResult } from "#@/util";
+import { GetPostsPageParam } from "#@/components/posts/hooks/useInfinitePosts";
 
 export type PostsFeedCriteria = Parameters<
   typeof PostsFeedService.postsFeedControllerBuildFeedV1
@@ -12,30 +13,16 @@ export type PostsFeedCriteria = Parameters<
 export type GetPostsFeedRequestDto = {
   criteria?: "following" | "all";
   limit?: number;
-  lastCreatedAt?: string;
-  lastId?: string;
   postId?: string;
 };
 
-type QueryPageParam = Pick<GetPostsFeedRequestDto, "lastCreatedAt" | "lastId">;
-
 export function useInfinitePostsFeed({
   criteria = "all",
-  lastId,
-  lastCreatedAt,
   limit = 20,
   postId,
-}: GetPostsFeedRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedReponseDto> {
+}: GetPostsFeedRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedResponseDto> {
   const queryClient = useQueryClient();
-  const queryKey = [
-    "posts",
-    "feed",
-    criteria,
-    limit,
-    lastId,
-    lastCreatedAt,
-    postId,
-  ];
+  const queryKey = ["posts", "feed", criteria, limit, postId];
 
   const invalidate = () => {
     queryClient.invalidateQueries({
@@ -58,7 +45,7 @@ export function useInfinitePostsFeed({
       initialPageParam: {
         lastCreatedAt: undefined,
         lastId: undefined,
-      } as QueryPageParam,
+      } as GetPostsPageParam,
       getNextPageParam: (lastPage, _, lastPageParam) => {
         if (
           lastPage &&

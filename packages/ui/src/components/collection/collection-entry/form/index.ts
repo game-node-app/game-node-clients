@@ -4,4 +4,5 @@
 
 export * from "./CollectionEntriesMoveForm";
 export * from "./CollectionEntryAddOrUpdateForm";
+export * from "./CollectionEntryStatusSelect";
 export * from "./modal/index";

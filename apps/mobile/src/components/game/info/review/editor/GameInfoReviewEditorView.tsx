@@ -101,6 +101,7 @@ const GameInfoReviewEditorView = ({
         <GameInfoReviewEditor
           gameId={gameId}
           onBlur={(v) => setValue("content", v)}
+          stickyOffset={0}
         />
         <Break />
         <Group mt={"md"} justify={"space-between"}>

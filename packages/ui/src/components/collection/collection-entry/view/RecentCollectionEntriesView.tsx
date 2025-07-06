@@ -21,6 +21,7 @@ const RecentCollectionEntriesView = ({
   if (gamesQuery.isLoading) {
     return <CenteredLoading message={"Fetching games..."} />;
   }
+
   return (
     <GameView layout={"grid"}>
       <GameView.Content {...others} items={gamesQuery.data} />

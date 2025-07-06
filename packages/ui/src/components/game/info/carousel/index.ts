@@ -5,4 +5,3 @@
 export * from "./GameInfoCarousel";
 export * from "./GameInfoImageCarousel";
 export * from "./GameInfoImageCarouselModal";
-export * from "./GameInfoImageCarouselSlide";

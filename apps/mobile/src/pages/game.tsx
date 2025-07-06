@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -8,26 +14,41 @@ import {
   IonProgressBar,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
+import { Box, Stack, Tabs } from "@mantine/core";
 import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
 import {
   CenteredLoading,
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
+  GameInfoAchievementsScreen,
+  GameInfoContentTitle,
+  GameInfoPostsScreen,
+  GameInfoTabs,
+  GameInfoTabValue,
   GameInfoView,
   useGame,
   useUserView,
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
+import { useHistory } from "react-router-dom";
+import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 
 interface Props {
   gameId: number;
 }
 
 const GamePage = ({ gameId }: Props) => {
+  const router = useHistory();
+  const params = useSearchParameters();
+
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+
+  const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
+    GameInfoTabValue.overview,
+  );
 
   const [, , incrementView] = useUserView(
     gameId,
@@ -46,6 +67,28 @@ const GamePage = ({ gameId }: Props) => {
     }
   }, [gameId, incrementView]);
 
+  const onChange = useCallback(
+    (tab: GameInfoTabValue) => {
+      router.push({
+        pathname: router.location.pathname,
+        search: `?tab=${tab}`,
+        hash: router.location.hash,
+      });
+    },
+    [router],
+  );
+
+  const onGoBack = useCallback(() => {
+    onChange(GameInfoTabValue.overview);
+  }, [onChange]);
+
+  // Sync URL params with tab value
+  useEffect(() => {
+    if (params.has("tab")) {
+      setCurrentTab(params.get("tab") as GameInfoTabValue);
+    }
+  }, [params]);
+
   const content = useMemo(() => {
     if (gameQuery.isLoading) {
       return <CenteredLoading />;
@@ -54,16 +97,38 @@ const GamePage = ({ gameId }: Props) => {
     return (
       <>
         <GameInfoViewFab gameId={gameId} />
-        <Container fluid className={"min-h-screen my-4"}>
-          <Stack className={"w-full"}>
-            <GameInfoView id={gameId} withActions={false} />
-            <GameInfoReviewScreen gameId={gameId} />
-            <GameExtraInfoView id={gameId} />
-          </Stack>
-        </Container>
+        <GameInfoView id={gameId} />
+        <GameInfoTabs currentTab={currentTab} onChange={onChange}>
+          <Tabs.Panel value={GameInfoTabValue.overview}>
+            <Box className={"w-full mt-4 mb-6"}>
+              <GameExtraInfoView gameId={gameId} />
+            </Box>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.reviews}>
+            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+              <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+              <GameInfoReviewScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.discussion}>
+            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+              <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+              <GameInfoPostsScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.achievements}>
+            <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
+              <GameInfoContentTitle
+                title={"Achievements"}
+                onGoBack={onGoBack}
+              />
+              <GameInfoAchievementsScreen gameId={gameId} />
+            </Stack>
+          </Tabs.Panel>
+        </GameInfoTabs>
       </>
     );
-  }, [gameId, gameQuery.isLoading]);
+  }, [currentTab, gameId, gameQuery.isLoading, onChange, onGoBack]);
 
   return (
     <IonPage>
@@ -76,7 +141,7 @@ const GamePage = ({ gameId }: Props) => {
           {gameQuery.isLoading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
-      <IonContent>{content}</IonContent>
+      <IonContent className={"ion-padding"}>{content}</IonContent>
     </IonPage>
   );
 };

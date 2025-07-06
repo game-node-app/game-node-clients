@@ -124,8 +124,8 @@ const NotificationsPage = () => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          <Container fluid className={"min-h-screen p-0 mb-4"}>
+        <IonContent className={"ion-padding"}>
+          <Stack className={"min-h-screen p-0 mb-4"}>
             <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
               {aggregations?.map((aggregatedNotification, index) => {
                 if (aggregatedNotification.notifications.length === 0) {
@@ -170,7 +170,7 @@ const NotificationsPage = () => {
                 </Center>
               )}
             </Stack>
-          </Container>
+          </Stack>
         </IonContent>
       </SessionAuth>
     </IonPage>

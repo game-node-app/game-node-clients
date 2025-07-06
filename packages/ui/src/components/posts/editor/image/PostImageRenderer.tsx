@@ -1,8 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
-import { Modal } from "#@/util";
-import { useDisclosure } from "@mantine/hooks";
-import { useOnMobilePlatform } from "#@/components";
+import { usePostImageLightboxContext } from "#@/components";
 
 const PostImageRenderer = ({
   node,
@@ -10,12 +8,12 @@ const PostImageRenderer = ({
   selected,
   extension,
 }: NodeViewProps) => {
-  const [opened, { open, close }] = useDisclosure();
-  const onMobilePlatform = useOnMobilePlatform();
+  const { registerImage, unregisterImage, openLightbox } =
+    usePostImageLightboxContext();
 
   const onImageClick = () => {
     if (!editor.isEditable) {
-      open();
+      openLightbox(node.attrs.src);
     }
   };
 
@@ -25,6 +23,16 @@ const PostImageRenderer = ({
   );
 
   const attributes = extension.options.HTMLAttributes;
+
+  useEffect(() => {
+    registerImage(node.attrs.src);
+
+    return () => {
+      unregisterImage(node.attrs.src);
+    };
+    // Do not add more dependencies here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node.attrs.src]);
 
   return (
     <NodeViewWrapper
@@ -39,22 +47,6 @@ const PostImageRenderer = ({
         className={`post-image cursor-pointer transition-transform duration-200 h-auto max-w-full lg:hover:scale-[101%] ${attributes.imageProps?.className ?? ""}`}
         onClick={onImageClick}
       />
-      <Modal
-        opened={opened}
-        onClose={close}
-        size={"xl"}
-        centered
-        breakpoints={[0.75, 1]}
-        initialBreakpoint={0.75}
-        withCloseButton={!onMobilePlatform}
-      >
-        <img
-          src={node.attrs.src}
-          alt={node.attrs.alt || ""}
-          title={node.attrs.title || ""}
-          className={"w-full h-auto"}
-        />
-      </Modal>
     </NodeViewWrapper>
   );
 };

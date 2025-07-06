@@ -6,3 +6,4 @@ export * from "./ProfileStatsDataIcon";
 export * from "./ProfileStatsDistributionBarByType";
 export * from "./ProfileStatsDistributionLineByYear";
 export * from "./ProfileStatsDistributionRadarByType";
+export * from "./ProfileStatsView";

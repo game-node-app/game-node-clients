@@ -7,7 +7,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
+import { Container, Stack } from "@mantine/core";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
 import { redirectToAuth } from "supertokens-auth-react";
@@ -66,10 +66,10 @@ const AuthCallbackPage = ({ provider }: Props) => {
           <IonTitle>Signing in with {getCapitalizedText(provider)}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container className={"mt-20 min-h-screen"}>
+      <IonContent className={"relative ion-padding"}>
+        <Stack className={"mt-20 min-h-screen"}>
           <CenteredLoading message={"Fetching your credentials..."} />
-        </Container>
+        </Stack>
       </IonContent>
     </IonPage>
   );

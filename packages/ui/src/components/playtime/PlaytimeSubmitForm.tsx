@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePlaytimeForGame, useUserId } from "#@/components";
 import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { DatePickerInput } from "@mantine/dates";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import source = UserPlaytime.source;
 
@@ -57,6 +57,7 @@ const PLAYTIME_SOURCE_OPTIONS: ComboboxItem[] = [
     label: "Emulator",
     value: source.EMULATOR,
   },
+  { label: "Xbox", value: source.XBOX },
 ];
 
 const PlaytimeSubmitFormSchema = z.object({

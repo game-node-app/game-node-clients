@@ -47,24 +47,22 @@ const ActivityPage = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container fluid className={"my-4"}>
-          <ActivityFeed criteria={selectedActivityTab}>
-            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <IonInfiniteScroll
-                disabled={!hasNextPage}
-                onIonInfinite={async (evt) => {
-                  await fetchNextPage();
-                  await evt.target.complete();
-                }}
-              >
-                <IonInfiniteScrollContent
-                  loadingText={"Fetching more activities..."}
-                />
-              </IonInfiniteScroll>
-            )}
-          </ActivityFeed>
-        </Container>
+      <IonContent className={"ion-padding"}>
+        <ActivityFeed criteria={selectedActivityTab}>
+          {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+            <IonInfiniteScroll
+              disabled={!hasNextPage}
+              onIonInfinite={async (evt) => {
+                await fetchNextPage();
+                await evt.target.complete();
+              }}
+            >
+              <IonInfiniteScrollContent
+                loadingText={"Fetching more activities..."}
+              />
+            </IonInfiniteScroll>
+          )}
+        </ActivityFeed>
       </IonContent>
     </IonPage>
   );

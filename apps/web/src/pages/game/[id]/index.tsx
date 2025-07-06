@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Container, Stack } from "@mantine/core";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Container, Stack, Tabs } from "@mantine/core";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
@@ -13,6 +13,11 @@ import Head from "next/head";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
+  GameInfoAchievementsScreen,
+  GameInfoContentTitle,
+  GameInfoPostsScreen,
+  GameInfoTabs,
+  GameInfoTabValue,
   GameInfoView,
   useGame,
   useUserView,
@@ -53,7 +58,11 @@ export const getServerSideProps = async (context: NextPageContext) => {
 const GameInfoPage = () => {
   const router = useRouter();
   const { id, reviewId } = router.query;
-  const [_, isViewed, incrementView] = useUserView(`${id}`, sourceType.GAME);
+  const [, , incrementView] = useUserView(`${id}`, sourceType.GAME);
+  const tabFromQuery = router.query.tab as GameInfoTabValue | undefined;
+  const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
+    GameInfoTabValue.overview,
+  );
 
   /**
    * Stores the path parameter "id" of the last registered game view.
@@ -71,6 +80,12 @@ const GameInfoPage = () => {
     }
   }, [id, incrementView, router]);
 
+  useEffect(() => {
+    if (tabFromQuery) {
+      setCurrentTab(tabFromQuery);
+    }
+  }, [tabFromQuery]);
+
   /**
    * Effect to render /404 if necessary
    */
@@ -84,6 +99,25 @@ const GameInfoPage = () => {
 
   const gameQuery = useGame(idAsNumber, DEFAULT_GAME_INFO_VIEW_DTO);
 
+  const onChange = (tab: GameInfoTabValue) => {
+    setCurrentTab(tab);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: {
+          id: id,
+          tab: tab,
+        },
+      },
+      undefined,
+      {
+        scroll: false,
+      },
+    );
+  };
+
+  const onGoBack = () => onChange(GameInfoTabValue.overview);
+
   return (
     <Container fluid pos={"relative"} className="mb-12" mih={"100vh"} p={0}>
       {gameQuery.data != undefined && (
@@ -91,13 +125,39 @@ const GameInfoPage = () => {
           <title>{`${gameQuery.data.name} - GameNode`}</title>
         </Head>
       )}
-      <Stack>
+      <Stack className={"w-full h-full"}>
         <GameInfoView id={idAsNumber} />
-        <GameInfoReviewScreen
-          gameId={idAsNumber}
-          targetReviewId={reviewId as string | undefined}
-        />
-        <GameExtraInfoView id={idAsNumber} />
+        <GameInfoTabs currentTab={currentTab} onChange={onChange}>
+          <Tabs.Panel value={GameInfoTabValue.overview}>
+            <Box className={"w-full mt-4"}>
+              <GameExtraInfoView gameId={idAsNumber} />
+            </Box>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.reviews}>
+            <Stack className={"w-full h-full gap-xl mt-4"}>
+              <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+              <GameInfoReviewScreen
+                gameId={idAsNumber}
+                targetReviewId={reviewId as string | undefined}
+              />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.discussion}>
+            <Stack className={"w-full h-full gap-xl mt-4"}>
+              <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+              <GameInfoPostsScreen gameId={idAsNumber} />
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value={GameInfoTabValue.achievements}>
+            <Stack className={"w-full h-full gap-sm mt-4"}>
+              <GameInfoContentTitle
+                title={"Achievements"}
+                onGoBack={onGoBack}
+              />
+              <GameInfoAchievementsScreen gameId={idAsNumber} />
+            </Stack>
+          </Tabs.Panel>
+        </GameInfoTabs>
       </Stack>
     </Container>
   );

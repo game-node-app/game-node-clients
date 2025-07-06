@@ -4,6 +4,7 @@ import {
   createErrorNotification,
   GameSearchSelectModal,
   getS3StoredUpload,
+  PostImageLightboxContext,
 } from "@repo/ui";
 import { RichTextEditor } from "@mantine/tiptap";
 import {
@@ -87,57 +88,59 @@ const BlogPostEditor = ({ isPending, ...editorOptions }: Props) => {
   });
 
   return (
-    <RichTextEditor editor={editor}>
-      <RichTextEditor.Toolbar sticky stickyOffset={80}>
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Bold />
-          <RichTextEditor.Italic />
-          <RichTextEditor.ClearFormatting />
-          <RichTextEditor.Code />
-        </RichTextEditor.ControlsGroup>
+    <PostImageLightboxContext>
+      <RichTextEditor editor={editor}>
+        <RichTextEditor.Toolbar sticky stickyOffset={80}>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Bold />
+            <RichTextEditor.Italic />
+            <RichTextEditor.ClearFormatting />
+            <RichTextEditor.Code />
+          </RichTextEditor.ControlsGroup>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.H1 />
-          <RichTextEditor.H2 />
-          <RichTextEditor.H3 />
-          <RichTextEditor.H4 />
-        </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.H1 />
+            <RichTextEditor.H2 />
+            <RichTextEditor.H3 />
+            <RichTextEditor.H4 />
+          </RichTextEditor.ControlsGroup>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Blockquote />
-          <RichTextEditor.Hr />
-          <RichTextEditor.BulletList />
-          <RichTextEditor.OrderedList />
-        </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Blockquote />
+            <RichTextEditor.Hr />
+            <RichTextEditor.BulletList />
+            <RichTextEditor.OrderedList />
+          </RichTextEditor.ControlsGroup>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Link />
-          <RichTextEditor.Unlink />
-        </RichTextEditor.ControlsGroup>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.Link />
+            <RichTextEditor.Unlink />
+          </RichTextEditor.ControlsGroup>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.AlignLeft />
-          <RichTextEditor.AlignCenter />
-          <RichTextEditor.AlignJustify />
-          <RichTextEditor.AlignRight />
-        </RichTextEditor.ControlsGroup>
-      </RichTextEditor.Toolbar>
+          <RichTextEditor.ControlsGroup>
+            <RichTextEditor.AlignLeft />
+            <RichTextEditor.AlignCenter />
+            <RichTextEditor.AlignJustify />
+            <RichTextEditor.AlignRight />
+          </RichTextEditor.ControlsGroup>
+        </RichTextEditor.Toolbar>
 
-      <RichTextEditor.Content
-        w={"100%"}
-        h={"100%"}
-        mih={{
-          base: "20vh",
-          lg: "25vh",
-        }}
-      />
+        <RichTextEditor.Content
+          w={"100%"}
+          h={"100%"}
+          mih={{
+            base: "20vh",
+            lg: "25vh",
+          }}
+        />
 
-      <LoadingOverlay
-        visible={uploadImageMutation.isPending || isPending}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 1 }}
-      />
-    </RichTextEditor>
+        <LoadingOverlay
+          visible={uploadImageMutation.isPending || isPending}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 1 }}
+        />
+      </RichTextEditor>
+    </PostImageLightboxContext>
   );
 };
 

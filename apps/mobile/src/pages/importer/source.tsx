@@ -8,7 +8,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
+import { Container, Stack } from "@mantine/core";
 import { ImporterScreen, getCapitalizedText } from "@repo/ui";
 
 interface Props {
@@ -26,10 +26,10 @@ const ImporterBySourcePage = ({ source }: Props) => {
           <IonTitle>Import games from {getCapitalizedText(source)}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container fluid className={"mb-4 min-h-screen"}>
+      <IonContent className={"ion-padding"}>
+        <Stack className={"mb-8 min-h-screen"}>
           <ImporterScreen source={source} />
-        </Container>
+        </Stack>
       </IonContent>
     </IonPage>
   );

@@ -3,9 +3,10 @@ import {
   GameSearchSelectModal,
   POST_EDITOR_EXTENSIONS,
   POST_EDITOR_PUBLISH_MUTATION_KEY,
+  PostImageLightboxContext,
   useInfinitePostsFeed,
 } from "#@/components";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PostsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, getS3StoredUpload } from "#@/util";
@@ -23,6 +24,10 @@ import { useEditor } from "@tiptap/react";
 import { IconPhoto } from "@tabler/icons-react";
 
 interface GamePostEditorProps {
+  /**
+   * If provided, game select modal will be skipped and post will be added with this game as target.
+   */
+  gameId?: number;
   editorProps?: RichTextEditorContentProps;
   onPublish?: () => void;
 }
@@ -63,10 +68,12 @@ const GamePostEditor = (props: GamePostEditorProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const [showActions, setShowActions] = useState(false);
   const [content, setContent] = useState("");
   const [selectedGameId, setSelectedGameId] = useState<number | undefined>(
-    undefined,
+    props.gameId,
   );
 
   const [gameSelectModalOpened, gameSelectModalUtils] = useDisclosure();
@@ -123,84 +130,98 @@ const GamePostEditor = (props: GamePostEditorProps) => {
       props.onPublish?.();
       resetEditor();
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
+    },
     onError: createErrorNotification,
   });
 
   return (
-    <Stack>
-      <GameSearchSelectModal
-        onSelected={(gameId) => {
-          setSelectedGameId(gameId);
-          gameSelectModalUtils.close();
-          publishPostMutation.mutate();
-        }}
-        opened={gameSelectModalOpened}
-        onClose={gameSelectModalUtils.close}
-      />
-      <RichTextEditor
-        editor={editor}
-        onClick={() => {
-          setShowActions(true);
-        }}
-      >
-        <RichTextEditor.Toolbar sticky stickyOffset={0}>
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Bold />
-            <RichTextEditor.Italic />
-            <RichTextEditor.Underline />
-            <RichTextEditor.Strikethrough />
-          </RichTextEditor.ControlsGroup>
-
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Link />
-            <RichTextEditor.Unlink />
-          </RichTextEditor.ControlsGroup>
-        </RichTextEditor.Toolbar>
-
-        <RichTextEditor.Content
-          w={"100%"}
-          h={"100%"}
-          mih={{
-            base: "20vh",
-            lg: "25vh",
+    <PostImageLightboxContext>
+      <Stack>
+        <GameSearchSelectModal
+          onSelected={(gameId) => {
+            setSelectedGameId(gameId);
+            gameSelectModalUtils.close();
+            publishPostMutation.mutate();
           }}
-          {...props.editorProps}
+          opened={gameSelectModalOpened}
+          onClose={gameSelectModalUtils.close}
         />
+        <RichTextEditor
+          editor={editor}
+          onClick={() => {
+            setShowActions(true);
+          }}
+        >
+          <RichTextEditor.Toolbar sticky stickyOffset={0}>
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Bold />
+              <RichTextEditor.Italic />
+              <RichTextEditor.Underline />
+              <RichTextEditor.Strikethrough />
+            </RichTextEditor.ControlsGroup>
 
-        <LoadingOverlay
-          visible={
-            uploadImageMutation.isPending || publishPostMutation.isPending
-          }
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 1 }}
-        />
-      </RichTextEditor>
-      {showActions && (
-        <Group className={"justify-between"}>
-          <FileButton
-            accept="image/png,image/jpeg,image/gif"
-            onChange={(payload) => {
-              if (payload) {
-                uploadImageMutation.mutate(payload);
-              }
+            <RichTextEditor.ControlsGroup>
+              <RichTextEditor.Link />
+              <RichTextEditor.Unlink />
+            </RichTextEditor.ControlsGroup>
+          </RichTextEditor.Toolbar>
+
+          <RichTextEditor.Content
+            w={"100%"}
+            h={"100%"}
+            mih={{
+              base: "20vh",
+              lg: "25vh",
             }}
-          >
-            {(props) => (
-              <ActionIcon {...props} variant={"default"} size={"lg"}>
-                <IconPhoto />
-              </ActionIcon>
-            )}
-          </FileButton>
-          <Button
-            className={"ms-auto"}
-            type={"button"}
-            onClick={gameSelectModalUtils.open}
-          >
-            Publish
-          </Button>
-        </Group>
-      )}
-    </Stack>
+            {...props.editorProps}
+          />
+
+          <LoadingOverlay
+            visible={
+              uploadImageMutation.isPending || publishPostMutation.isPending
+            }
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 1 }}
+          />
+        </RichTextEditor>
+        {showActions && (
+          <Group className={"justify-between"}>
+            <FileButton
+              accept="image/png,image/jpeg,image/gif"
+              onChange={(payload) => {
+                if (payload) {
+                  uploadImageMutation.mutate(payload);
+                }
+              }}
+            >
+              {(props) => (
+                <ActionIcon {...props} variant={"default"} size={"lg"}>
+                  <IconPhoto />
+                </ActionIcon>
+              )}
+            </FileButton>
+            <Button
+              className={"ms-auto"}
+              type={"button"}
+              onClick={() => {
+                if (selectedGameId == undefined) {
+                  gameSelectModalUtils.open();
+                  return;
+                }
+
+                publishPostMutation.mutate();
+              }}
+            >
+              Publish
+            </Button>
+          </Group>
+        )}
+      </Stack>
+    </PostImageLightboxContext>
   );
 };
 

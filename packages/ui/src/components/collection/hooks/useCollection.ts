@@ -21,6 +21,7 @@ export function useCollection(
           collectionId,
         );
       },
+      enabled: !!collectionId,
     }),
     invalidate,
     queryKey,

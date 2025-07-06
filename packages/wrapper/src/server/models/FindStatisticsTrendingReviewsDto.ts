@@ -11,6 +11,7 @@ export type FindStatisticsTrendingReviewsDto = {
     gameId?: number;
     userId?: string;
     period: FindStatisticsTrendingReviewsDto.period;
+    excludeOwn?: boolean;
     offset?: number;
     limit?: number;
 };

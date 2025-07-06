@@ -39,10 +39,11 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      withBorder
       withPadding
-      withDimmedTitle
       title={"Your play sessions"}
+      stackProps={{
+        className: "bg-paper-alt",
+      }}
       rightSide={
         <ActionIcon
           className={"mt-2 me-2"}

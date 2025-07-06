@@ -3,14 +3,18 @@
  */
 
 export * from "./ProfileBanner";
+export * from "./ProfileCollectionsPage";
 export * from "./ProfileFavoriteGames";
+export * from "./ProfileFeaturedAchievements";
 export * from "./ProfileFollowActions";
-export * from "./ProfileNavbarFollowInfo";
-export * from "./ProfileReviewListView";
+export * from "./ProfileFollowInfo";
 export * from "./ProfileStatsSimpleOverview";
 export * from "./ProfileUserInfo";
 export * from "./ProfileUserInfoConnections";
 export * from "./ProfileUserInfoWithBanner";
+export * from "./ProfileViewContent";
 export * from "./ProfileViewNavbar";
 export * from "./ProfileViewNavbarLink";
+export * from "./navbar/index";
+export * from "./pages/index";
 export * from "./stats/index";

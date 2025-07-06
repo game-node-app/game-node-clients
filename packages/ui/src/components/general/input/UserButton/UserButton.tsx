@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Group,
   Text,
@@ -20,12 +21,14 @@ export function UserButton({ userId, ...others }: UserButtonProps) {
   return (
     <UnstyledButton className={classes.user} {...others}>
       <Group wrap={"nowrap"} p={"md"} w={"100%"}>
-        <UserAvatar userId={userId} />
+        <UserAvatar userId={userId} size={"lg"} />
 
         <div style={{ flex: 1 }}>
-          <Text size="sm">{profile.data?.username}</Text>
+          <Text size="md" c={"white"}>
+            {profile.data?.username}
+          </Text>
 
-          <Text c="dimmed" size="xs">
+          <Text c="dimmed" size="sm">
             {totalGames} games
           </Text>
         </div>

@@ -18,16 +18,18 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
       <Group className={"w-full justify-between flex-nowrap"}>
         <Stack className={"gap-1"}>
           <Text className={"text-md text-center"}>
-            {metricsOverviewQuery.data?.totalGames}
+            {metricsOverviewQuery.data?.totalPlayedGames}
           </Text>
-          <Text className={"text-sm text-dimmed text-center"}>Total games</Text>
+          <Text className={"text-sm text-dimmed text-center"}>
+            Total Games Played
+          </Text>
         </Stack>
         <Stack className={"gap-1"}>
           <Text className={"text-sm text-center"}>
-            {metricsOverviewQuery.data?.totalFinishedGames}
+            {metricsOverviewQuery.data?.totalPlayedGamesInYear}
           </Text>
           <Text className={"text-sm text-dimmed text-center"}>
-            Finished games
+            Played this year
           </Text>
         </Stack>
         <Stack className={"gap-1"}>
@@ -35,7 +37,7 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
           <Popover width="target" position="left" withArrow shadow="md">
             <Popover.Target>
               <Text className={"text-sm text-dimmed text-center"}>
-                Estimated playtime (in hours)*
+                Total estimated playtime (in hours)*
               </Text>
             </Popover.Target>
             <Popover.Dropdown>
@@ -55,7 +57,7 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
             h={80}
             data={[
               {
-                label: "Played vs Finished",
+                label: "Backlog tracking",
                 totalGames: metricsOverviewQuery.data.totalGames,
                 totalFinishedGames:
                   metricsOverviewQuery.data.totalFinishedGames,

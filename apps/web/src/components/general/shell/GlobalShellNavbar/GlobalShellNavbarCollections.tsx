@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { usePathname } from "next/navigation";
 import { BaseModalChildrenProps, useUserLibrary } from "@repo/ui";
+import clsx from "clsx";
 
 interface IGlobalShellNavbarCollectionsProps extends BaseModalChildrenProps {}
 
@@ -54,13 +55,11 @@ const GlobalShellNavbarCollections = ({
   };
 
   return (
-    <div className={`${classes.section} !border-b-0`}>
+    <div className={clsx(classes.section, "ps-6 pe-2")}>
       <GlobalShellNavbarCollectionsHeader />
-      <ScrollArea>
-        <Stack className={classes.collections} gap="xs">
-          {buildCollectionsLinks()}
-        </Stack>
-      </ScrollArea>
+      <ScrollArea.Autosize className={"w-full"} mah={450}>
+        <Stack gap="xs">{buildCollectionsLinks()}</Stack>
+      </ScrollArea.Autosize>
     </div>
   );
 };

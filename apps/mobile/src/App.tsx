@@ -31,8 +31,15 @@ import "@ionic/react/css/core.css";
  * https://ionicframework.com/docs/theming/dark-mode
  */
 import "@ionic/react/css/palettes/dark.always.css";
+import "@ionic/react/css/padding.css";
 /* Theme variables */
 import "./theme/variables.css";
+/*
+ * YARL
+ */
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
 import { IconHome } from "@tabler/icons-react";
 import NotificationsManager from "./components/general/NotificationsManager";

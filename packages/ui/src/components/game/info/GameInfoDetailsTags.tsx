@@ -100,7 +100,7 @@ const GameInfoDetailsTags = ({ gameId }: IProps) => {
   }, [game]);
 
   return (
-    <DetailsBox withBorder withDimmedTitle title={"Tags"}>
+    <DetailsBox withBorder withDimmedTitle title={"Tags"} withPadding>
       <Group justify={"start"} gap={10}>
         {gameQuery.isLoading && (
           <Skeleton className={"w-10/12 lg:w-4/12 h-4"}></Skeleton>

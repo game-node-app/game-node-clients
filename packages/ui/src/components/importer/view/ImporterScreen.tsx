@@ -26,6 +26,7 @@ import {
 } from "#@/util";
 import {
   CollectionsEntriesService,
+  CreateUpdateCollectionEntryDto,
   ImporterService,
 } from "@repo/wrapper/server";
 import {
@@ -37,6 +38,7 @@ import {
   useUserId,
   useUserLibrary,
 } from "#@/components";
+import status = CreateUpdateCollectionEntryDto.status;
 
 const ImporterFormSchema = z.object({
   selectedCollectionIds: z
@@ -195,6 +197,7 @@ const ImporterScreen = ({ source }: Props) => {
             collectionIds: selectedCollectionIds,
             platformIds: [importerItem.preferredPlatformId],
             isFavorite: false,
+            status: status.PLANNED,
           },
         );
         await ImporterService.importerControllerChangeStatusV1({
@@ -330,7 +333,10 @@ const ImporterScreen = ({ source }: Props) => {
                     }}
                   />
                   <GameSelectView.SearchBar
-                    onSearch={(query) => setSearchQuery(query)}
+                    onSearch={(query) => {
+                      setValue("page", 1);
+                      setSearchQuery(query);
+                    }}
                     onClear={() => setSearchQuery(undefined)}
                   />
                 </Group>

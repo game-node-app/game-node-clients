@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreatePostDto } from '../models/CreatePostDto';
-import type { GetPostsPaginatedReponseDto } from '../models/GetPostsPaginatedReponseDto';
+import type { GetPostsPaginatedResponseDto } from '../models/GetPostsPaginatedResponseDto';
 import type { Post } from '../models/Post';
 import type { UploadPostImageRequestDto } from '../models/UploadPostImageRequestDto';
 import type { UploadPostImageResponseDto } from '../models/UploadPostImageResponseDto';
@@ -18,7 +18,7 @@ export class PostsService {
      * @param lastCreatedAt
      * @param lastId
      * @param limit
-     * @returns GetPostsPaginatedReponseDto
+     * @returns GetPostsPaginatedResponseDto
      * @throws ApiError
      */
     public static postsControllerFindAllWithPaginationV1(
@@ -28,7 +28,7 @@ export class PostsService {
         lastCreatedAt?: string,
         lastId?: string,
         limit: number = 20,
-    ): CancelablePromise<GetPostsPaginatedReponseDto> {
+    ): CancelablePromise<GetPostsPaginatedResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/posts/repository',

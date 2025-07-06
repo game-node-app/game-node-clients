@@ -4,3 +4,4 @@
 
 export * from "./BlogPostDetailLayout";
 export * from "./BlogPostDetailView";
+export * from "./BlogPostsListView";
