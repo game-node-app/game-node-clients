@@ -3,6 +3,7 @@ import { Box, Divider, Skeleton, Stack, Text, Title } from "@mantine/core";
 import {
   CenteredErrorMessage,
   GameAchievementListItem,
+  GameAchievementProgressOverview,
   useGameAchievements,
 } from "#@/components";
 import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
@@ -35,17 +36,22 @@ const GameAchievementsList = ({ externalGame }: Props) => {
           GameExternalStoreDto.category._11,
         ),
         () => {
-          return achievements.map((achievement) => (
-            <GameAchievementListItem
-              key={achievement.externalId}
-              achievement={achievement}
-            />
-          ));
+          return (
+            <Stack>
+              <GameAchievementProgressOverview externalGame={externalGame} />
+              {achievements.map((achievement) => (
+                <GameAchievementListItem
+                  key={achievement.externalId}
+                  achievement={achievement}
+                />
+              ))}
+            </Stack>
+          );
         },
       )
       .with(GameExternalGame.category._36, () => {
         const platformGroups = new Set(
-          achievements.map((achievement) => achievement.psnDetails!.platformId),
+          achievements.flatMap((achievement) => achievement.platformIds),
         );
 
         return (
@@ -53,26 +59,23 @@ const GameAchievementsList = ({ externalGame }: Props) => {
             // Gives priority to ps5 (platformId = 167)
             .toSorted((a, b) => b - a)
             .map((platformId) => {
-              const platformAchievements = achievements.filter(
-                (achievement) =>
-                  achievement.psnDetails!.platformId === platformId,
+              const platformAchievements = achievements.filter((achievement) =>
+                achievement.platformIds.includes(platformId),
               );
 
               return (
-                <Box key={platformId}>
-                  <Title size={"h3"} className="font-bold mb-2">
-                    {platformId === 167 ? "PS5" : "PS4"}
-                  </Title>
-                  <Divider className={"w-full mb-2"} />
-                  <Stack className={"w-full gap-3"}>
-                    {platformAchievements.map((achievement) => (
-                      <GameAchievementListItem
-                        key={`psn-${platformId}-${achievement.externalId}`}
-                        achievement={achievement}
-                      />
-                    ))}
-                  </Stack>
-                </Box>
+                <Stack key={platformId}>
+                  <GameAchievementProgressOverview
+                    externalGame={externalGame}
+                    targetPlatformId={platformId}
+                  />
+                  {platformAchievements.map((achievement) => (
+                    <GameAchievementListItem
+                      key={`psn-${platformId}-${achievement.externalId}`}
+                      achievement={achievement}
+                    />
+                  ))}
+                </Stack>
               );
             })
         );

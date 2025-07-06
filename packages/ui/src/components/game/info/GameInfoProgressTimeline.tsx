@@ -23,16 +23,12 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
   const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
-  const playtimeQuery = useAccumulatedPlaytimeForGame(userId, gameId);
 
   const isInCollection = collectionEntryQuery.data != undefined;
   const isFinished =
     collectionEntryQuery.data != undefined &&
     collectionEntryQuery.data.finishedAt != undefined;
   const isReviewed = reviewQuery.data != undefined;
-  const hasPlaytimeInfo =
-    playtimeQuery.data != undefined &&
-    playtimeQuery.data.totalPlaytimeSeconds > 0;
 
   useEffect(() => {
     if (isInCollection && isReviewed && isFinished) {
@@ -47,7 +43,13 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
   }, [isInCollection, isFinished, isReviewed]);
 
   return (
-    <Stack className={"w-full"} p={"md"}>
+    <DetailsBox
+      title={"Your progress"}
+      withPadding
+      stackProps={{
+        className: "w-full p-md bg-paper-alt",
+      }}
+    >
       <Timeline active={maxActiveIndex} bulletSize={30}>
         <Timeline.Item title={"Added"} bullet={<IconLibrary />}>
           <Text c={"dimmed"}>Game added to your collection</Text>
@@ -74,7 +76,7 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
           )}
         </Timeline.Item>
       </Timeline>
-    </Stack>
+    </DetailsBox>
   );
 };
 

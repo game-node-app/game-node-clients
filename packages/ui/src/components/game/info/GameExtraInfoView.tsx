@@ -1,41 +1,58 @@
 import React from "react";
-import { Flex, Paper, Stack } from "@mantine/core";
+import { Flex, Paper, SimpleGrid, Stack } from "@mantine/core";
 import { Break } from "#@/components/general/Break";
 import { GameRelatedGamesCarousel } from "#@/components/game/info/GameRelatedGamesCarousel";
+import {
+  DetailsBox,
+  GameInfoAchievementOverview,
+  GameInfoPlaytimeTracker,
+  GameInfoProgressTimeline,
+} from "#@/components";
 
 interface IGameExtraInfoViewProps {
-  id: number;
+  gameId: number;
 }
 
-const GameExtraInfoView = ({ id }: IGameExtraInfoViewProps) => {
+const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
   return (
-    <Stack w={"100%"} h={"100%"}>
+    <Stack className={"w-full gap-5"}>
+      <SimpleGrid
+        cols={{
+          base: 1,
+          lg: 3,
+        }}
+      >
+        <GameInfoAchievementOverview gameId={gameId} />
+        <GameInfoPlaytimeTracker gameId={gameId} />
+        <GameInfoProgressTimeline gameId={gameId} />
+      </SimpleGrid>
+
       <GameRelatedGamesCarousel
         title={"Expansion of"}
-        gameId={id}
+        gameId={gameId}
         relationProperty={"expansionOf"}
       />
       <GameRelatedGamesCarousel
         title={"Expansions"}
-        gameId={id}
+        gameId={gameId}
         relationProperty={"expansions"}
       />
 
       <GameRelatedGamesCarousel
         title={"DLC of"}
-        gameId={id}
+        gameId={gameId}
         relationProperty={"dlcOf"}
       />
 
       <GameRelatedGamesCarousel
         title={"DLCs"}
-        gameId={id}
+        gameId={gameId}
         relationProperty={"dlcs"}
       />
 
       <GameRelatedGamesCarousel
         title={"Similar games"}
-        gameId={id}
+        gameId={gameId}
         relationProperty={"similarGames"}
       />
     </Stack>

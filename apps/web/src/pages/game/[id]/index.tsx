@@ -58,7 +58,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 const GameInfoPage = () => {
   const router = useRouter();
   const { id, reviewId } = router.query;
-  const [_, isViewed, incrementView] = useUserView(`${id}`, sourceType.GAME);
+  const [, , incrementView] = useUserView(`${id}`, sourceType.GAME);
   const tabFromQuery = router.query.tab as GameInfoTabValue | undefined;
   const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
     GameInfoTabValue.overview,
@@ -100,21 +100,20 @@ const GameInfoPage = () => {
   const gameQuery = useGame(idAsNumber, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const onChange = (tab: GameInfoTabValue) => {
+    setCurrentTab(tab);
     router.replace(
       {
         pathname: router.pathname,
         query: {
           id: id,
-          tab: tab === "overview" ? undefined : tab,
+          tab: tab,
         },
       },
       undefined,
       {
-        shallow: true,
         scroll: false,
       },
     );
-    setCurrentTab(tab);
   };
 
   const onGoBack = () => onChange(GameInfoTabValue.overview);
@@ -131,7 +130,7 @@ const GameInfoPage = () => {
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
             <Box className={"w-full mt-4"}>
-              <GameExtraInfoView id={idAsNumber} />
+              <GameExtraInfoView gameId={idAsNumber} />
             </Box>
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.reviews}>

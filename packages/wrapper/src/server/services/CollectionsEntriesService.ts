@@ -119,6 +119,7 @@ export class CollectionsEntriesService {
      * @param id
      * @param orderBy
      * @param status
+     * @param category
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -128,6 +129,7 @@ export class CollectionsEntriesService {
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped',
+        category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -140,6 +142,7 @@ export class CollectionsEntriesService {
             query: {
                 'orderBy': orderBy,
                 'status': status,
+                'category': category,
                 'offset': offset,
                 'limit': limit,
             },
@@ -149,6 +152,7 @@ export class CollectionsEntriesService {
      * @param id
      * @param orderBy
      * @param status
+     * @param category
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -158,6 +162,7 @@ export class CollectionsEntriesService {
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped',
+        category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -170,6 +175,7 @@ export class CollectionsEntriesService {
             query: {
                 'orderBy': orderBy,
                 'status': status,
+                'category': category,
                 'offset': offset,
                 'limit': limit,
             },

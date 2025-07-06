@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
@@ -59,6 +59,7 @@
     "supertokens-web-js": "^0.15.0",
     "supertokens-website": "^20.1.6",
     "use-long-press": "^3.2.0",
+    "yet-another-react-lightbox": "^3.24.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -6,6 +6,5 @@ export type PsnAchievementDetails = {
     trophyType: string;
     trophyIcon: string;
     trophyGroupId: string;
-    platformId: number;
 };
 

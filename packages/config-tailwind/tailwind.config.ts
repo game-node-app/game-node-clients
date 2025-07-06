@@ -44,6 +44,7 @@ const config: Omit<Config, "content"> = {
       colors: {
         dimmed: "var(--mantine-color-dimmed)",
         paper: "#161616",
+        "paper-alt": "#262525",
 
         brand: [
           "#ffede5",

@@ -55,17 +55,8 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
         <DetailsBox withBorder withDimmedTitle title={"Summary"} withPadding>
           {game.summary ?? "Not available"}
         </DetailsBox>
-        <DetailsBox
-          withBorder
-          withDimmedTitle
-          title={"Your progress"}
-          withPadding
-        >
-          <GameInfoProgressTimeline gameId={game.id} />
-        </DetailsBox>
-        <GameInfoPlaytimeTracker gameId={game.id} />
+
         <GameInfoScore gameId={game.id} />
-        <GameInfoAchievementOverview gameId={game.id} />
       </SimpleGrid>
     </Stack>
   );
