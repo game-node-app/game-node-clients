@@ -14,7 +14,6 @@ export * from "./ImageDropzone";
 export * from "./LoginPromptCentered";
 export * from "./MantineModalWrapper";
 export * from "./NotificationsManager";
-export * from "./OpenInAppDialog";
 export * from "./RelativeDate";
 export * from "./RoundedIcon";
 export * from "./TextLink";

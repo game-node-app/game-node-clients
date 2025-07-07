@@ -1,67 +1,10 @@
-import { Anchor, Box, Button, Center, Paper, Stack, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useUserId } from "@repo/ui";
-import { useRouter } from "next/router";
+import { Anchor, Box, Paper, Stack, Text } from "@mantine/core";
+import HeaderCustom from "@/components/header/HeaderCustom.tsx";
 
 const Home = () => {
-  const router = useRouter();
-  const userId = useUserId();
-  const [scrolled, setScrolled] = useState(false);
-
-  const checkScrollPosition = () => {
-    setScrolled(() => window.scrollY > 10);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkScrollPosition);
-    return () => {
-      window.removeEventListener("scroll", checkScrollPosition);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      router.push("/search");
-    }
-  }, [router, userId]);
-
   return (
     <>
-      <header
-        className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
-      >
-        <Box className="flex flex-row gap-16 items-center">
-          <img
-            src="/img/main-logo.png"
-            alt="Game Node Logo"
-            className="max-h-full pointer-events-none"
-          />
-          <a href="/about" className="w-full hidden lg:block">
-            <span>About us</span>
-          </a>
-          <a
-            href="https://github.com/game-node-app"
-            className="hidden lg:block"
-          >
-            <span>Collaborate</span>
-          </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=app.gamenode"
-            className="hidden lg:block"
-          >
-            <span>Android App</span>
-          </a>
-        </Box>
-
-        {userId == undefined && (
-          <Link href={"/search"}>
-            <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
-              Join in
-            </Button>
-          </Link>
-        )}
-      </header>
+      <HeaderCustom />
 
       <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
         <Box>
@@ -158,25 +101,24 @@ const Home = () => {
         </h2>
 
         <Box className="flex flex-col items-center px-4 lg:mb-24 lg:mt-24">
-          <h3 className="text-center font-medium text-[20px]">
+          <h3 className="text-center font-medium text-[20px] mb-2">
             Import games from your platforms to your GameNode account
           </h3>
 
           <img
-            src="/img/plataforms.png"
-            alt="Plataforms"
-            width="492"
-            className="py-6 px-4"
+            className={"pointer-events-none"}
+            src="/img/about_us/platforms.svg"
+            alt="platforms"
           />
 
-          <h3 className="text-center font-medium text-[16px]">Soon</h3>
+          <h3 className="text-center font-medium text-[16px] mt-4 mb-2">
+            Soon
+          </h3>
 
           <img
-            src="/img/plataforms_soon.png"
-            alt="soon..."
-            width="160"
-            height="39"
-            className="pt-4"
+            className={"pointer-events-none"}
+            src="/img/about_us/soon.svg"
+            alt="soon"
           />
         </Box>
 

@@ -16,7 +16,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
 
   const [sidebarOpened, sidebarOpenedUtils] = useDisclosure(false);
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/about") {
     return children;
   }
 
