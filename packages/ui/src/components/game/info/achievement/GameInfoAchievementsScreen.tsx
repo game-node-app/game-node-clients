@@ -1,16 +1,15 @@
 import React, { useCallback, useMemo } from "react";
 import {
-  ACHIEVEMENT_ENABLED_STORES,
   CenteredErrorMessage,
   CenteredLoading,
-  EGameExternalGameCategory,
   GameAchievementsList,
-  GameInfoContentTitle,
+  getAchievementsEnabledStores,
   useGameExternalStores,
+  XBOX_STORES,
 } from "#@/components";
-import { Group, Tabs, Text } from "@mantine/core";
+import { Group, Tabs } from "@mantine/core";
 import { GameExternalGame } from "@repo/wrapper/server";
-import { match } from "ts-pattern";
+import { match, P } from "ts-pattern";
 
 interface Props {
   gameId: number;
@@ -19,8 +18,8 @@ interface Props {
 const getStoreName = (category: GameExternalGame.category) => {
   return match(category)
     .with(GameExternalGame.category._1, () => "Steam")
-    .with(GameExternalGame.category._11, () => "Xbox")
     .with(GameExternalGame.category._36, () => "PSN")
+    .with(P.union(...XBOX_STORES), () => "Xbox")
     .otherwise(() => "Not available");
 };
 
@@ -28,11 +27,9 @@ const GameInfoAchievementsScreen = ({ gameId }: Props) => {
   const { data, isLoading } = useGameExternalStores(gameId);
 
   const enabledStores = useMemo(() => {
-    return (
-      data?.filter((store) =>
-        ACHIEVEMENT_ENABLED_STORES.includes(store.category!),
-      ) ?? []
-    );
+    if (data == undefined) return [];
+
+    return getAchievementsEnabledStores(data);
   }, [data]);
 
   const buildTabs = useCallback(() => {

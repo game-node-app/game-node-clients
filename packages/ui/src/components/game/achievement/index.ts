@@ -4,4 +4,5 @@
 
 export * from "./hooks/index";
 export * from "./list/index";
+export * from "./util/index";
 export * from "./view/index";
