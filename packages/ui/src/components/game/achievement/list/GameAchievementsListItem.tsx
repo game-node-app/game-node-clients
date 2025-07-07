@@ -17,7 +17,7 @@ interface Props {
   achievement: GameAchievementWithObtainedInfo;
 }
 
-const GameAchievementListItem = ({ achievement }: Props) => {
+const GameAchievementsListItem = ({ achievement }: Props) => {
   const renderRightSideDetail = useCallback(() => {
     return match(achievement.source)
       .with(GameAchievementDto.source._1, () => {
@@ -74,7 +74,7 @@ const GameAchievementListItem = ({ achievement }: Props) => {
             alt={achievement.name}
           ></Image>
           {!achievement.isObtained && (
-            <Overlay className={"z-0"} color="#000" backgroundOpacity={0.65} />
+            <Overlay className={"z-0"} color="#000" backgroundOpacity={0.5} />
           )}
         </AspectRatio>
         <Box className={"block lg:hidden"}>{renderRightSideDetail()}</Box>
@@ -82,7 +82,9 @@ const GameAchievementListItem = ({ achievement }: Props) => {
 
       <Group className={"grow justify-between lg:justify-start"}>
         <Stack className={"grow gap-1"}>
-          <Text>{achievement.name}</Text>
+          <Text className={achievement.isObtained ? "text-white" : undefined}>
+            {achievement.name}
+          </Text>
           <Text className={"text-dimmed"}>{achievement.description}</Text>
         </Stack>
         <Box className={"hidden lg:block"}>{renderRightSideDetail()}</Box>
@@ -91,4 +93,4 @@ const GameAchievementListItem = ({ achievement }: Props) => {
   );
 };
 
-export { GameAchievementListItem };
+export { GameAchievementsListItem };

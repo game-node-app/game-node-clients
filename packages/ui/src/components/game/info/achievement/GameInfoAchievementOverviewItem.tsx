@@ -73,7 +73,9 @@ const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
           />
         </Box>
         <Stack className={"gap-1"}>
-          <Box className={"p-1"}>{renderedAchievementsInfo}</Box>
+          <Box className={"p-1"}>
+            {renderedAchievementsInfo ?? <Text>Not Available</Text>}
+          </Box>
           <Group className={"flex-nowrap gap-1"}>
             {availablePlatforms.map((platform) => (
               <Badge

@@ -9,5 +9,6 @@ export * from "./hooks/index";
 export * from "./info/index";
 export * from "./search/index";
 export * from "./trending/index";
+export * from "./ttb/index";
 export * from "./util/index";
 export * from "./view/index";

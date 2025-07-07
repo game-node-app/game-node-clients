@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { Box, Divider, Skeleton, Stack, Text, Title } from "@mantine/core";
 import {
   CenteredErrorMessage,
-  GameAchievementListItem,
+  GameAchievementsListItem,
   GameAchievementProgressOverview,
   useGameAchievements,
 } from "#@/components";
@@ -40,7 +40,7 @@ const GameAchievementsList = ({ externalGame }: Props) => {
             <Stack>
               <GameAchievementProgressOverview externalGame={externalGame} />
               {achievements.map((achievement) => (
-                <GameAchievementListItem
+                <GameAchievementsListItem
                   key={achievement.externalId}
                   achievement={achievement}
                 />
@@ -70,7 +70,7 @@ const GameAchievementsList = ({ externalGame }: Props) => {
                     targetPlatformId={platformId}
                   />
                   {platformAchievements.map((achievement) => (
-                    <GameAchievementListItem
+                    <GameAchievementsListItem
                       key={`psn-${platformId}-${achievement.externalId}`}
                       achievement={achievement}
                     />
@@ -81,7 +81,7 @@ const GameAchievementsList = ({ externalGame }: Props) => {
         );
       })
       .otherwise(() => <div></div>);
-  }, [achievements, externalGame.category]);
+  }, [achievements, externalGame]);
 
   return (
     <Stack className={"w-full"}>

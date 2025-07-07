@@ -53,5 +53,6 @@ export function useGameAchievements(externalGameId: number) {
         };
       });
     },
+    retry: 1,
   });
 }
