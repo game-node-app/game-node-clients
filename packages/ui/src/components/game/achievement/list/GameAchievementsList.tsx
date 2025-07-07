@@ -2,9 +2,10 @@ import React, { useCallback, useMemo } from "react";
 import { Box, Divider, Skeleton, Stack, Text, Title } from "@mantine/core";
 import {
   CenteredErrorMessage,
-  GameAchievementListItem,
+  GameAchievementsListItem,
   GameAchievementProgressOverview,
   useGameAchievements,
+  XBOX_STORES,
 } from "#@/components";
 import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
 import { match, P } from "ts-pattern";
@@ -30,25 +31,19 @@ const GameAchievementsList = ({ externalGame }: Props) => {
 
   const renderItens = useCallback(() => {
     return match(externalGame.category)
-      .with(
-        P.union(
-          GameExternalStoreDto.category._1,
-          GameExternalStoreDto.category._11,
-        ),
-        () => {
-          return (
-            <Stack>
-              <GameAchievementProgressOverview externalGame={externalGame} />
-              {achievements.map((achievement) => (
-                <GameAchievementListItem
-                  key={achievement.externalId}
-                  achievement={achievement}
-                />
-              ))}
-            </Stack>
-          );
-        },
-      )
+      .with(P.union(GameExternalStoreDto.category._1, ...XBOX_STORES), () => {
+        return (
+          <Stack>
+            <GameAchievementProgressOverview externalGame={externalGame} />
+            {achievements.map((achievement) => (
+              <GameAchievementsListItem
+                key={achievement.externalId}
+                achievement={achievement}
+              />
+            ))}
+          </Stack>
+        );
+      })
       .with(GameExternalGame.category._36, () => {
         const platformGroups = new Set(
           achievements.flatMap((achievement) => achievement.platformIds),
@@ -70,7 +65,7 @@ const GameAchievementsList = ({ externalGame }: Props) => {
                     targetPlatformId={platformId}
                   />
                   {platformAchievements.map((achievement) => (
-                    <GameAchievementListItem
+                    <GameAchievementsListItem
                       key={`psn-${platformId}-${achievement.externalId}`}
                       achievement={achievement}
                     />
@@ -81,7 +76,7 @@ const GameAchievementsList = ({ externalGame }: Props) => {
         );
       })
       .otherwise(() => <div></div>);
-  }, [achievements, externalGame.category]);
+  }, [achievements, externalGame]);
 
   return (
     <Stack className={"w-full"}>

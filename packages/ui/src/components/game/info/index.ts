@@ -22,3 +22,4 @@ export * from "./carousel/index";
 export * from "./posts/index";
 export * from "./review/index";
 export * from "./share/index";
+export * from "./ttb/index";

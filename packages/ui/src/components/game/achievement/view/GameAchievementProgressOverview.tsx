@@ -3,6 +3,7 @@ import {
   GameAchievementWithObtainedInfo,
   useGameAchievements,
   useGamesResource,
+  XBOX_STORES,
 } from "#@/components";
 import { GameExternalStoreDto } from "@repo/wrapper/server";
 import {
@@ -118,7 +119,7 @@ const GameAchievementProgressOverview = ({
           />
         );
       })
-      .with(GameExternalStoreDto.category._11, () => {
+      .with(P.union(...XBOX_STORES), () => {
         const totalGamerscore = targetAchievements.reduce((acc, curr) => {
           if (curr.xboxDetails != undefined) {
             return acc + curr.xboxDetails.gamerScore;

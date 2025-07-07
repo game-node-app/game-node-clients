@@ -23,8 +23,8 @@ const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
         }}
       >
         <GameInfoAchievementOverview gameId={gameId} />
-        <GameInfoPlaytimeTracker gameId={gameId} />
         <GameInfoProgressTimeline gameId={gameId} />
+        <GameInfoPlaytimeTracker gameId={gameId} />
       </SimpleGrid>
 
       <GameRelatedGamesCarousel

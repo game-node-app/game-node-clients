@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import {
-  ACHIEVEMENT_ENABLED_STORES,
   DetailsBox,
   GameInfoAchievementOverviewItem,
+  getAchievementsEnabledStores,
   useGameExternalStores,
 } from "#@/components";
 import { Skeleton, Stack } from "@mantine/core";
@@ -15,11 +15,9 @@ const GameInfoAchievementOverview = ({ gameId }: Props) => {
   const { data: stores, isLoading } = useGameExternalStores(gameId);
 
   const enabledStores = useMemo(() => {
-    return (
-      stores?.filter((store) =>
-        ACHIEVEMENT_ENABLED_STORES.includes(store.category!),
-      ) ?? []
-    );
+    if (stores == undefined) return [];
+
+    return getAchievementsEnabledStores(stores);
   }, [stores]);
 
   const buildLoadingSkeletons = useCallback(() => {
