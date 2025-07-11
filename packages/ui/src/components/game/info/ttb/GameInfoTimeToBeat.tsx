@@ -12,20 +12,14 @@ interface Props {
 }
 
 const GameInfoTimeToBeat = ({ gameId }: Props) => {
-  const { data, isLoading, isError, error } = useTimeToBeat(gameId);
-
-  useEffect(() => {
-    if (isError) {
-      createErrorNotification(error);
-    }
-  }, [error, isError]);
+  const { data, isLoading } = useTimeToBeat(gameId);
 
   const renderedSubmissionInfo = useMemo(() => {
     if (isLoading) {
       return null;
     }
 
-    if (data?.submitCount == undefined) {
+    if (data == undefined || !data.submitCount) {
       return (
         <Text className={"text-center text-sm text-dimmed"}>
           Not enough submissions.

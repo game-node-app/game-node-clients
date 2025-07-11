@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite --port 3002 --force",
-    "build": "tsc && vite build && npx cap sync",
+    "build": "vite build && npx cap sync",
     "build:android": "npx cap build android",
     "typecheck": "tsc",
     "preview": "vite preview",
