@@ -6,21 +6,23 @@ const config: CapacitorConfig = {
   appName: "GameNode",
   webDir: "dist",
   plugins: {
+    Keyboard: {
+      resizeOnFullScreen: false, // Prevents bad resizing
+    },
     CapacitorCookies: {
       enabled: true,
     },
     StatusBar: {
-      backgroundColor: "rgba(0,0,0,0)",
+      backgroundColor: "#1f1f1f",
       style: "DARK",
     },
     EdgeToEdge: {
       // Should be the same as StatusBar#backgroundColor!
-      backgroundColor: "rgba(0,0,0,0)",
+      backgroundColor: "#1f1f1f",
     },
   },
   android: {
     // Already done by @capawesome/capacitor-android-edge-to-edge-support
-    // Do not enable here
     adjustMarginsForEdgeToEdge: "auto",
   },
 };
