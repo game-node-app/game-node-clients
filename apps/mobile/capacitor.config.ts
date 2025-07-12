@@ -10,7 +10,6 @@ const config: CapacitorConfig = {
       enabled: true,
     },
     StatusBar: {
-      overlaysWebView: false,
       backgroundColor: "rgba(0,0,0,0)",
       style: "DARK",
     },
@@ -22,7 +21,7 @@ const config: CapacitorConfig = {
   android: {
     // Already done by @capawesome/capacitor-android-edge-to-edge-support
     // Do not enable here
-    adjustMarginsForEdgeToEdge: "disable",
+    adjustMarginsForEdgeToEdge: "auto",
   },
 };
 
