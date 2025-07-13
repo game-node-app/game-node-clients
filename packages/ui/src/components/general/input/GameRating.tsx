@@ -1,15 +1,13 @@
 import { Rating, RatingProps } from "@mantine/core";
 import React from "react";
 
-interface Props extends RatingProps {}
-
 /**
- * Common rating component to be used by all "start" based rating screens. <br>
+ * Common rating component <br>
  * Read-only by default.
  * @param props
  * @constructor
  */
-const GameRating = (props: Props) => {
+const GameRating = (props: RatingProps) => {
   return (
     <Rating fractions={2} size={"md"} color={"#F15025"} readOnly {...props} />
   );

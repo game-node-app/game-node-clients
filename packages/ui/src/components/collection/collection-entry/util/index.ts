@@ -3,5 +3,6 @@
  */
 
 export * from "./getCollectionEntriesByCollectionId";
+export * from "./getCollectionEntryStatusName";
 export * from "./getFavoriteCollectionEntries";
 export * from "./getOwnCollectionEntryByGameId";
