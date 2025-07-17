@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { JournalEntryDetailsDto } from "@repo/wrapper/server";
 import { ActionIcon, Box, Center, Group, Stack, Text } from "@mantine/core";
 import {
   CenteredLoading,
@@ -11,9 +10,11 @@ import {
   useReviewForUserIdAndGameId,
 } from "#@/components";
 import { IconArrowRight } from "@tabler/icons-react";
+import { Link } from "#@/util";
+import { JournalEntryStatusDto } from "@repo/wrapper/server";
 
 interface Props {
-  item: JournalEntryDetailsDto;
+  item: JournalEntryStatusDto;
 }
 
 const JournalOverviewDayItem = ({ item }: Props) => {
@@ -47,7 +48,9 @@ const JournalOverviewDayItem = ({ item }: Props) => {
           <Text className={"font-bold w-full lg:w-fit"}>
             {gameQuery.data.name}
           </Text>
-          {reviewQuery.data && <GameRating value={reviewQuery.data.rating} />}
+          {reviewQuery.data && (
+            <GameRating value={reviewQuery.data.rating} size={"sm"} />
+          )}
         </Stack>
 
         <Group
@@ -62,9 +65,13 @@ const JournalOverviewDayItem = ({ item }: Props) => {
         </Group>
       </Group>
       <Center>
-        <ActionIcon variant={"subtle"} size={"lg"}>
-          <IconArrowRight />
-        </ActionIcon>
+        <Link
+          href={`/library/${targetUserId}/collection/entry/${collectionEntryQuery.data.id}`}
+        >
+          <ActionIcon variant={"subtle"} size={"lg"}>
+            <IconArrowRight />
+          </ActionIcon>
+        </Link>
       </Center>
     </Group>
   );

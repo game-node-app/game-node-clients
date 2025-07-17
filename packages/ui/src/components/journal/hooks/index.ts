@@ -3,3 +3,4 @@
  */
 
 export * from "./useJournalOverview";
+export * from "./useJournalPlaylog";

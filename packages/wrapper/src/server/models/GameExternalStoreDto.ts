@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GamePlatform } from './GamePlatform';
 import type { PsnExtraMappings } from './PsnExtraMappings';
 export type GameExternalStoreDto = {
     /**
@@ -25,8 +24,6 @@ export type GameExternalStoreDto = {
     createdAt: string;
     updatedAt: string;
     gameId: number;
-    platform: GamePlatform;
-    platformId: number;
     psnExtraMappings: Array<PsnExtraMappings> | null;
 };
 export namespace GameExternalStoreDto {

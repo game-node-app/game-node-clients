@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { JournalEntryYearGroupDto } from './JournalEntryYearGroupDto';
-export type JournalEntriesGroupedDto = {
+export type JournalOverviewResponseDto = {
     /**
      * Group of collection entries by year
      */

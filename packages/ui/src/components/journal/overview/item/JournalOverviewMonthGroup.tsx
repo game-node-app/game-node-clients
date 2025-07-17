@@ -14,7 +14,7 @@ const JournalOverviewMonthGroup = ({ monthGroup, year }: Props) => {
   const targetMonthName = dayjs(`${targetMonth + 1}/01/${year}`).format("MMMM");
 
   return (
-    <Stack className={"ps-1"}>
+    <Stack className={"journal-overview-group"}>
       <Title size={"h4"}>{targetMonthName}</Title>
       {monthGroup.days.map((dayGroup) => (
         <JournalOverviewDayGroup key={dayGroup.day} dayGroup={dayGroup} />

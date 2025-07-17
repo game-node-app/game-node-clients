@@ -20,6 +20,7 @@ const GameViewContent = ({
     if (items == null || items.length === 0) {
       return null;
     }
+
     return items.map((item) => {
       if (layout === "list") {
         return (

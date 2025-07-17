@@ -1,70 +1,82 @@
 import React, { useMemo } from "react";
-import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
+import {
+  GameAchievementGroupDto,
+  GameExternalGame,
+  GameExternalStoreDto,
+} from "@repo/wrapper/server";
 import { Badge, Box, Group, Image, Stack, Text } from "@mantine/core";
 import { getServerStoredIcon, Link } from "#@/util";
 import {
   ACHIEVEMENT_ENABLED_STORES,
   useGameAchievements,
+  useGameAchievementsV2,
   useGamesResource,
+  useUserId,
 } from "#@/components";
 
 interface Props {
-  externalGame: GameExternalStoreDto;
+  source: GameAchievementGroupDto.source;
+  gameId: number;
 }
 
-const GameInfoAchievementOverviewItem = ({ externalGame }: Props) => {
-  const { data, isLoading, isError } = useGameAchievements(externalGame.id);
+const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
+  const userId = useUserId();
+  const { data, isLoading, isError } = useGameAchievementsV2(userId, gameId);
   const platformsQuery = useGamesResource("platforms");
 
-  const availablePlatforms = useMemo(() => {
-    if (platformsQuery.data == undefined || data == undefined) return [];
+  const targetAchievementGroup = useMemo(() => {
+    return data?.find((group) => group.source === source);
+  }, [data, source]);
 
-    const availablePlatformIds = Array.from(
-      new Set(data.flatMap((achievement) => achievement.platformIds)),
-    );
+  const availablePlatforms = useMemo(() => {
+    if (targetAchievementGroup == undefined || platformsQuery.data == undefined)
+      return [];
 
     return platformsQuery.data.filter((platform) => {
-      return availablePlatformIds.includes(platform.id);
+      return targetAchievementGroup.achievements.some((achievement) =>
+        achievement.platformIds.includes(platform.id),
+      );
     });
-  }, [data, platformsQuery.data]);
+  }, [platformsQuery.data, targetAchievementGroup]);
 
   const renderedAchievementsInfo = useMemo(() => {
-    if (data == undefined) return null;
+    if (targetAchievementGroup == undefined) return null;
 
-    if (ACHIEVEMENT_ENABLED_STORES.includes(externalGame.category!)) {
-      const totalAchievements = data.length;
-      const itemName =
-        externalGame.category === GameExternalGame.category._36
-          ? "Trophies"
-          : "Achievements";
+    const totalAchievements = targetAchievementGroup.achievements.length;
+    const itemName =
+      targetAchievementGroup.source === GameAchievementGroupDto.source._36
+        ? "Trophies"
+        : "Achievements";
 
-      return (
-        <Text>
-          <Text span className={"font-bold"}>
-            {totalAchievements}
-          </Text>{" "}
-          {itemName}
-        </Text>
-      );
-    }
-
-    return null;
-  }, [data, externalGame.category]);
+    return (
+      <Text>
+        <Text span className={"font-bold"}>
+          {totalAchievements}
+        </Text>{" "}
+        {itemName}
+      </Text>
+    );
+  }, []);
 
   return (
     <Link
-      href={`/game/${externalGame.gameId}?tab=achievements`}
+      href={`/game/${gameId}?tab=achievements`}
       scroll={false}
       replace
       className={"hover:bg-paper rounded-sm p-3"}
     >
       <Group className={"flex-nowrap gap-2 max-w-fit"}>
         <Box className={"p-1"}>
-          <Image
-            alt={externalGame.storeName ?? "External Store"}
-            src={getServerStoredIcon(externalGame.icon!)}
-            className={"h-8 w-8 object-contain"}
-          />
+          {targetAchievementGroup && (
+            <Image
+              alt={
+                targetAchievementGroup?.sourceAbbreviatedName ??
+                "External Store"
+              }
+              src={getServerStoredIcon(targetAchievementGroup?.iconName)}
+              className={"h-8 w-8 object-contain"}
+            />
+          )}
         </Box>
         <Stack className={"gap-1"}>
           <Box className={"p-1"}>

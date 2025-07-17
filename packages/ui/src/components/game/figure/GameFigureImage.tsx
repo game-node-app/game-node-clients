@@ -12,18 +12,13 @@ export interface IGameFigureProps extends PropsWithChildren {
   game: TGameOrSearchGame | undefined | null;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   imageProps?: ImageProps;
-  linkProps?: React.HTMLProps<HTMLAnchorElement>;
+  linkProps?: Omit<React.HTMLProps<HTMLAnchorElement>, "href">;
   href?: string;
   imageSize?: ImageSize;
 }
 
 /**
- * This component is the base building block for anything related to showing a game's metadata.
- * It only handles logic related to image loading (skeletons, etc.).
- *
- * @param metadata
- * @param href
- * @constructor
+ * This component is the base building block for anything related to showing a game's cover.
  */
 const GameFigureImage = ({
   game,
@@ -45,10 +40,10 @@ const GameFigureImage = ({
   return (
     <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
       <Link
-        href={href ?? defaultHref}
         className="w-full h-auto"
         onClick={onClick}
         {...linkProps}
+        href={href ?? defaultHref}
       >
         <Image
           radius={"sm"}

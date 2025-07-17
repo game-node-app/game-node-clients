@@ -9,7 +9,7 @@ interface Props extends PropsWithChildren {
 
 const GameInfoContentTitle = ({ title, onGoBack }: Props) => {
   return (
-    <Group gap={"xs"}>
+    <Group gap={"xs"} className={"flex-nowrap"}>
       <ActionIcon variant={"subtle"} size={"lg"} onClick={onGoBack}>
         <IconArrowLeft />
       </ActionIcon>

@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type JournalEntryDetailsDto = {
+export type JournalEntryStatusDto = {
     /**
      * UUID of the collection entry
      */
@@ -14,9 +14,9 @@ export type JournalEntryDetailsDto = {
     /**
      * Status of the game (e.g., Finished, Started, etc.)
      */
-    status: JournalEntryDetailsDto.status;
+    status: JournalEntryStatusDto.status;
 };
-export namespace JournalEntryDetailsDto {
+export namespace JournalEntryStatusDto {
     /**
      * Status of the game (e.g., Finished, Started, etc.)
      */
