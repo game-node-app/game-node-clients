@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Skeleton, Tabs, Text } from "@mantine/core";
+import { Select, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import {
   CenteredErrorMessage,
   GameAchievementProgressOverview,
@@ -95,37 +95,24 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
     );
   }, [availablePlatforms]);
 
-  const buildPlatformPanels = useCallback(() => {
-    return availablePlatforms.map((platform) => {
-      return (
-        <Tabs.Panel
-          value={String(platform.id)}
-          key={`panel-${platform.id}`}
-          className={"flex flex-col gap-2"}
-        >
-          <GameAchievementProgressOverview
-            source={source}
-            gameId={gameId}
-            userId={userId}
-            targetPlatformId={selectedPlatformId}
+  const renderItens = useCallback(() => {
+    return (
+      <Stack className={"gap-2"}>
+        <GameAchievementProgressOverview
+          source={source}
+          gameId={gameId}
+          userId={userId}
+          targetPlatformId={selectedPlatformId}
+        />
+        {renderedAchievements.map((achievement) => (
+          <GameAchievementsListItem
+            key={`${achievement.externalGameId}-${achievement.externalId}`}
+            achievement={achievement}
           />
-          {renderedAchievements.map((achievement) => (
-            <GameAchievementsListItem
-              key={`${achievement.externalGameId}-${achievement.externalId}`}
-              achievement={achievement}
-            />
-          ))}
-        </Tabs.Panel>
-      );
-    });
-  }, [
-    availablePlatforms,
-    gameId,
-    renderedAchievements,
-    selectedPlatformId,
-    source,
-    userId,
-  ]);
+        ))}
+      </Stack>
+    );
+  }, [gameId, renderedAchievements, selectedPlatformId, source, userId]);
 
   /**
    * Automatically selects the first available platform for rendering.
@@ -152,18 +139,26 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
   }, [targetAchievementsGroup]);
 
   return (
-    <Tabs
-      value={String(selectedPlatformId)}
-      onChange={(value) => setSelectedPlatformId(Number(value))}
-      className={"w-full flex flex-col gap-3"}
-      keepMounted={false}
-      variant={"outline"}
-    >
+    <Stack className={"w-full flex flex-col gap-3"}>
       {isError && <CenteredErrorMessage error={error} />}
       {isLoading && buildLoadingSkeletons()}
-      {buildPlatformTabs()}
-      {buildPlatformPanels()}
-    </Tabs>
+      {availablePlatforms.length > 1 && (
+        <Select
+          data={availablePlatforms.map((platform) => ({
+            label: platform.name,
+            value: String(platform.id),
+          }))}
+          value={String(selectedPlatformId)}
+          onChange={(value) => {
+            setSelectedPlatformId(Number(value));
+          }}
+          description={"Platform"}
+          className={"max-w-fit"}
+          size={"sm"}
+        />
+      )}
+      {renderItens()}
+    </Stack>
   );
 };
 
