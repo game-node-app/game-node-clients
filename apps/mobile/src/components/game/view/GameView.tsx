@@ -5,13 +5,13 @@ import GameViewLayoutSwitcher from "@/components/game/view/GameViewLayoutSwitche
 export type GameViewLayoutOption = "grid" | "list";
 
 interface IGameViewProps extends PropsWithChildren {
-    layout: GameViewLayoutOption;
+  layout: GameViewLayoutOption;
 }
 
 type IGameViewContext = Pick<IGameViewProps, "layout">;
 
 export const GameViewContext = createContext<IGameViewContext>({
-    layout: "grid",
+  layout: "grid",
 });
 
 /**
@@ -24,7 +24,11 @@ export const GameViewContext = createContext<IGameViewContext>({
  *
  */
 const GameView = ({ children, layout = "grid" }: IGameViewProps) => {
-    return <GameViewContext.Provider value={{ layout: layout }}>{children}</GameViewContext.Provider>;
+  return (
+    <GameViewContext.Provider value={{ layout: layout }}>
+      {children}
+    </GameViewContext.Provider>
+  );
 };
 
 GameView.Content = GameViewContent;

@@ -36,6 +36,7 @@ export const DetailsBox = ({
             borderWidth: withBorder ? "2px" : undefined,
             borderColor: withBorder ? "#1F1F1F" : undefined,
             borderRadius: withBorder ? "6px" : undefined,
+            backgroundColor: "#191919",
           },
         }}
         gap={"0.5rem"}

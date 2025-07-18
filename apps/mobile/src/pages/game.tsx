@@ -97,7 +97,7 @@ const GamePage = ({ gameId }: Props) => {
     return (
       <>
         <GameInfoViewFab gameId={gameId} />
-        <GameInfoView id={gameId} />
+        <GameInfoView id={gameId} withActions={false} />
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
             <Box className={"w-full mt-4 mb-6"}>

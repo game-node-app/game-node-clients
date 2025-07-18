@@ -1,4 +1,4 @@
-import { useDebouncedValue, useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
 import { useMantineTheme } from "@mantine/core";
 
 /**
@@ -7,11 +7,5 @@ import { useMantineTheme } from "@mantine/core";
  */
 export function useOnMobile() {
   const theme = useMantineTheme();
-  const value = useMediaQuery(
-    `(max-width: ${theme.breakpoints.sm})`,
-    true,
-  ) as boolean;
-  // Avoids max-depth-reached when changing breakpoints
-  const [debounced] = useDebouncedValue(value, 500);
-  return debounced;
+  return useMediaQuery(`(max-width: ${theme.breakpoints.sm})`, true) as boolean;
 }

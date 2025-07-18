@@ -13,7 +13,6 @@ export interface IGameFigureProps extends PropsWithChildren {
   onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   imageProps?: ImageProps;
   linkProps?: Omit<React.HTMLProps<HTMLAnchorElement>, "href">;
-  href?: string;
   imageSize?: ImageSize;
 }
 
@@ -24,7 +23,6 @@ const GameFigureImage = ({
   game,
   imageProps,
   linkProps,
-  href,
   onClick,
   imageSize,
   children,
@@ -43,7 +41,7 @@ const GameFigureImage = ({
         className="w-full h-auto"
         onClick={onClick}
         {...linkProps}
-        href={href ?? defaultHref}
+        href={game?.href ?? defaultHref}
       >
         <Image
           radius={"sm"}

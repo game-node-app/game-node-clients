@@ -12,7 +12,12 @@ import {
 import { Group, Stack, Text, Timeline, Title } from "@mantine/core";
 import { match } from "ts-pattern";
 import dayjs from "dayjs";
-import { IconMilitaryAward } from "@tabler/icons-react";
+import {
+  IconMilitaryAward,
+  IconProgress,
+  IconProgressCheck,
+} from "@tabler/icons-react";
+import { JournalPlaylogCollectionStatus } from "#@/components/journal/playlog/JournalPlaylogCollectionStatus.tsx";
 
 interface Props {
   targetPlatformId: number;
@@ -44,8 +49,9 @@ const JournalPlaylogTimeline = ({ itens, targetPlatformId }: Props) => {
               <Timeline.Item
                 key={`${log.date}-${log.type}`}
                 title={dayjs(log.date).format("LL")}
+                bullet={<IconProgressCheck />}
               >
-                <Text>TODO.</Text>
+                <JournalPlaylogCollectionStatus items={log.entries} />
               </Timeline.Item>
             );
           }

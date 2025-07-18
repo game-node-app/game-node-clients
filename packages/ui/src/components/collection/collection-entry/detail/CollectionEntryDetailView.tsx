@@ -10,9 +10,11 @@ import {
   SimpleGrid,
   Button,
   Tabs,
+  StackProps,
 } from "@mantine/core";
 import {
   BackToTopButton,
+  Break,
   CollectionEntryAchievementTracker,
   CollectionEntryAddOrUpdateModal,
   CollectionEntryDetailsBox,
@@ -23,6 +25,7 @@ import {
   GameInfoContentTitle,
   GameInfoPlaytimeTracker,
   getCollectionEntryStatusName,
+  getSizedImageUrl,
   ImageSize,
   JournalPlaylogView,
   useCollectionEntry,
@@ -33,16 +36,19 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "#@/util";
 
-interface Props {
+interface Props extends StackProps {
   userId: string;
   collectionEntryId: string;
-  onGoBack: () => void;
+  withTitle?: boolean;
+  onGoBack?: () => void;
 }
 
 const CollectionEntryDetailView = ({
   userId,
   collectionEntryId,
   onGoBack,
+  withTitle = true,
+  ...others
 }: Props) => {
   const onMobile = useOnMobile();
   const profileQuery = useUserProfile(userId);
@@ -51,14 +57,14 @@ const CollectionEntryDetailView = ({
   const gameQuery = useGame(collectionEntryQuery.data?.gameId, {
     relations: {
       cover: true,
-      artworks: true,
+      screenshots: true,
     },
   });
 
   const [editOpened, editOpenedUtils] = useDisclosure();
 
   return (
-    <Stack className={"w-full"}>
+    <Stack className={"w-full"} {...others}>
       <BackToTopButton />
       {gameId && (
         <CollectionEntryAddOrUpdateModal
@@ -67,21 +73,27 @@ const CollectionEntryDetailView = ({
           onClose={editOpenedUtils.close}
         />
       )}
-      {profileQuery.isLoading ? (
-        <Skeleton className={"w-72 h-8"} />
-      ) : (
-        <GameInfoContentTitle
-          title={`${profileQuery.data?.username}'s Collection Entry`}
-          onGoBack={onGoBack}
-        />
+      {withTitle && (
+        <>
+          {profileQuery.isLoading ? (
+            <Skeleton className={"w-72 h-8"} />
+          ) : (
+            <GameInfoContentTitle
+              title={`${profileQuery.data?.username}'s Collection Entry`}
+              onGoBack={() => onGoBack?.()}
+            />
+          )}
+        </>
       )}
 
       <Group className={"w-full lg:flex-nowrap items-start"}>
         <Stack className={"lg:w-2/12 w-full items-center"}>
-          <GameFigureImage
-            game={gameQuery.data}
-            imageSize={ImageSize.COVER_BIG_2X}
-          />
+          <Box className={"w-3/4 lg:w-full"}>
+            <GameFigureImage
+              game={gameQuery.data}
+              imageSize={ImageSize.COVER_BIG_2X}
+            />
+          </Box>
 
           <Title className={"text-center text-xl"}>
             {gameQuery.data?.name}
@@ -94,16 +106,17 @@ const CollectionEntryDetailView = ({
           </Link>
         </Stack>
         <Stack className={"grow"}>
-          <CollectionEntryDetailsBox
-            userId={userId}
-            collectionEntryId={collectionEntryId}
-          />
           <SimpleGrid
             cols={{
               base: 1,
               lg: 2,
             }}
           >
+            <CollectionEntryDetailsBox
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+            <Break />
             <CollectionEntryPlaytimeTracker
               userId={userId}
               collectionEntryId={collectionEntryId}

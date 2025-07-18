@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -65,6 +66,7 @@ import { Device } from "@capacitor/device";
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
+dayjs.extend(LocalizedFormat);
 
 /**
  * @repo/ui setup

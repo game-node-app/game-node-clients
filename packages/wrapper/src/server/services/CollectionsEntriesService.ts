@@ -80,6 +80,25 @@ export class CollectionsEntriesService {
         });
     }
     /**
+     * @param userId
+     * @param gameId
+     * @returns CollectionEntry
+     * @throws ApiError
+     */
+    public static collectionsEntriesControllerFindOneByLibraryIdAndGameIdV1(
+        userId: string,
+        gameId: number,
+    ): CancelablePromise<CollectionEntry> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/collections-entries/library/{userId}/game/{gameId}',
+            path: {
+                'userId': userId,
+                'gameId': gameId,
+            },
+        });
+    }
+    /**
      * @param id
      * @returns string
      * @throws ApiError

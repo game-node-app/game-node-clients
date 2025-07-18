@@ -15,7 +15,7 @@ const GameSelectOption = ({ game }: ISearchBarSelectOptions) => {
       <Link href={`/game/${game.id}`} className={"w-full h-full"}>
         <Group wrap={"nowrap"} w={"100%"} h={"100%"}>
           <Box w={"30%"} maw={"30%"} miw={"30%"}>
-            <GameFigureImage href={`/game/${game.id}`} game={game} />
+            <GameFigureImage game={game} />
           </Box>
           <Stack justify={"start"} h={"100%"}>
             <Text fz={"sm"}>{game.name}</Text>

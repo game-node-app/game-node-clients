@@ -79,41 +79,6 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
       ));
   }, []);
 
-  const buildPlatformTabs = useCallback(() => {
-    if (availablePlatforms.length <= 1) {
-      return null;
-    }
-
-    return (
-      <Tabs.List className={"flex-nowrap mb-3"}>
-        {availablePlatforms.map((platform) => (
-          <Tabs.Tab key={`tab-${platform.id}`} value={String(platform.id)}>
-            {platform.abbreviation.toUpperCase()}
-          </Tabs.Tab>
-        ))}
-      </Tabs.List>
-    );
-  }, [availablePlatforms]);
-
-  const renderItens = useCallback(() => {
-    return (
-      <Stack className={"gap-2"}>
-        <GameAchievementProgressOverview
-          source={source}
-          gameId={gameId}
-          userId={userId}
-          targetPlatformId={selectedPlatformId}
-        />
-        {renderedAchievements.map((achievement) => (
-          <GameAchievementsListItem
-            key={`${achievement.externalGameId}-${achievement.externalId}`}
-            achievement={achievement}
-          />
-        ))}
-      </Stack>
-    );
-  }, [gameId, renderedAchievements, selectedPlatformId, source, userId]);
-
   /**
    * Automatically selects the first available platform for rendering.
    */
@@ -157,7 +122,20 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
           size={"sm"}
         />
       )}
-      {renderItens()}
+      <Stack className={"gap-2"}>
+        <GameAchievementProgressOverview
+          source={source}
+          gameId={gameId}
+          userId={userId}
+          targetPlatformId={selectedPlatformId}
+        />
+        {renderedAchievements.map((achievement) => (
+          <GameAchievementsListItem
+            key={`${achievement.externalGameId}-${achievement.externalId}`}
+            achievement={achievement}
+          />
+        ))}
+      </Stack>
     </Stack>
   );
 };

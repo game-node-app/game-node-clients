@@ -64,7 +64,7 @@ const GameHoverEditFigure = ({
             </Flex>
             <Box className={"h-full w-full"}>
               <Link
-                href={`/game/${game?.id}`}
+                href={game?.href ?? `/game/${game?.id}`}
                 className={"h-full w-full flex flex-col"}
               >
                 {withHoverTitle && (

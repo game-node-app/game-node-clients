@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { ActionIcon, Button, Group, Stack, Tooltip, Text } from "@mantine/core";
 import {
+  IconEye,
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
@@ -19,7 +20,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
-import { Modal } from "#@/util";
+import { Link, Modal } from "#@/util";
 import { GameInfoShare } from "#@/components";
 
 interface IGameViewActionsProps {
@@ -49,18 +50,6 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
   const reviewQuery = useReviewForUserIdAndGameId(userId, game?.id);
 
   const hasReview = reviewQuery.data != undefined;
-
-  const invisibleFavoriteGame = useMemo(() => {
-    if (collectionEntryQuery.data != undefined) {
-      const gameOnlyInPrivateCollections =
-        collectionEntryQuery.data.collections.every(
-          (collection) => !collection.isPublic,
-        );
-      return gameInFavorites && gameOnlyInPrivateCollections;
-    }
-
-    return false;
-  }, [gameInFavorites, collectionEntryQuery.data]);
 
   const collectionEntryFavoriteMutation = useMutation({
     mutationFn: (gameId: number) => {
@@ -171,13 +160,18 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
             </ActionIcon>
           </Tooltip>
         )}
+        {gameInLibrary && (
+          <Tooltip label={"View entry detail"}>
+            <Link
+              href={`/library/${userId}/collection/entry/${collectionEntryQuery.data?.id}`}
+            >
+              <ActionIcon size="lg" variant={"default"}>
+                <IconEye size={"1.05rem"} />
+              </ActionIcon>
+            </Link>
+          </Tooltip>
+        )}
       </Group>
-      {invisibleFavoriteGame && (
-        <Text c={"dimmed"} fz={"sm"} className={"text-center"}>
-          This favorite game will not be shown in your public profile because
-          it&apos;s only included in private collections.
-        </Text>
-      )}
     </Stack>
   );
 };
