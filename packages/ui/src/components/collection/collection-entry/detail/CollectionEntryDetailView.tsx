@@ -28,7 +28,7 @@ import {
   useCollectionEntry,
   useGame,
   useOnMobile,
-  useUserId,
+  useOwnCollectionEntryForGameId,
   useUserProfile,
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
@@ -53,11 +53,13 @@ const CollectionEntryDetailView = ({
 }: Props) => {
   const onMobile = useOnMobile();
 
-  const ownUserId = useUserId();
-
   const profileQuery = useUserProfile(userId);
   const collectionEntryQuery = useCollectionEntry(collectionEntryId);
+
   const gameId = collectionEntryQuery.data?.gameId;
+
+  const ownCollectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
+
   const gameQuery = useGame(collectionEntryQuery.data?.gameId, {
     relations: {
       cover: true,
@@ -75,7 +77,7 @@ const CollectionEntryDetailView = ({
     return getSizedImageUrl(randomScreenshot.url, backgroundImageSize);
   }, [gameQuery.data?.screenshots]);
 
-  const isOwnCollectionEntry = userId === ownUserId;
+  const isInLibrary = ownCollectionEntryQuery.data != undefined;
 
   const [editOpened, editOpenedUtils] = useDisclosure();
   const [removeOpened, removeOpenedUtils] = useDisclosure();
@@ -148,9 +150,9 @@ const CollectionEntryDetailView = ({
                 className={"grow uppercase"}
                 onClick={editOpenedUtils.open}
               >
-                {isOwnCollectionEntry ? "Edit in library" : "Add to library"}
+                {isInLibrary ? "Edit in library" : "Add to library"}
               </Button>
-              {isOwnCollectionEntry && (
+              {isInLibrary && (
                 <ActionIcon
                   size={"lg"}
                   variant={"default"}
