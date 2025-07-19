@@ -160,17 +160,6 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
             </ActionIcon>
           </Tooltip>
         )}
-        {gameInLibrary && (
-          <Tooltip label={"View entry detail"}>
-            <Link
-              href={`/library/${userId}/collection/entry/${collectionEntryQuery.data?.id}`}
-            >
-              <ActionIcon size="lg" variant={"default"}>
-                <IconEye size={"1.05rem"} />
-              </ActionIcon>
-            </Link>
-          </Tooltip>
-        )}
       </Group>
     </Stack>
   );

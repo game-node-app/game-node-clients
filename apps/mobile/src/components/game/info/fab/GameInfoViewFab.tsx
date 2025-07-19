@@ -111,14 +111,6 @@ const GameInfoViewFab = ({ gameId }: Props) => {
           <IonFabButton color={"primary"} onClick={addModalUtils.open}>
             <IconDots />
           </IonFabButton>
-          <IonFabButton
-            color={"primary"}
-            routerLink={getTabAwareHref(
-              `/library/${userId}/collection/entry/${collectionEntryQuery.data?.id}`,
-            )}
-          >
-            <IconEye />
-          </IonFabButton>
 
           {hasReview && (
             <IonFabButton color={"primary"} onClick={shareModalUtils.open}>

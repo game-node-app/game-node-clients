@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
   useGameAchievementsV2,
@@ -35,6 +36,8 @@ const JournalPlaylogView = ({ userId, gameId, withTitle = true }: Props) => {
     );
   }, [platformsQuery.data, playlogQuery.data]);
 
+  const isEmpty = playlogQuery.isSuccess && playlogQuery.data.length === 0;
+
   useEffect(() => {
     if (availablePlatforms.length > 0) {
       setSelectedPlatformid(availablePlatforms[0].id);
@@ -62,6 +65,7 @@ const JournalPlaylogView = ({ userId, gameId, withTitle = true }: Props) => {
         />
       }
     >
+      {isEmpty && <CenteredErrorMessage message={"Not enough data to show."} />}
       {playlogQuery.isLoading && <CenteredLoading />}
       {playlogQuery.data != undefined && selectedPlatformId != undefined && (
         <JournalPlaylogTimeline
