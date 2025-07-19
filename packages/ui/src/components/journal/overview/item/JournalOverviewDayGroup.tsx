@@ -1,10 +1,7 @@
 import React from "react";
-import type {
-  JournalEntryDetailsDto,
-  JournalEntryDayGroupDto,
-} from "@repo/wrapper/server";
+import type { JournalEntryDayGroupDto } from "@repo/wrapper/server";
 import { Box, Center, Divider, Group, Stack, Text } from "@mantine/core";
-import { JournalOverviewDayItem, useGame } from "#@/components";
+import { JournalOverviewDayItem } from "#@/components";
 
 interface Props {
   dayGroup: JournalEntryDayGroupDto;
