@@ -1,7 +1,8 @@
-import { IonFab, IonFabButton, IonFabList } from "@ionic/react";
+import { IonFab, IonFabButton, IonFabList, useIonRouter } from "@ionic/react";
 import React from "react";
 import {
   IconDots,
+  IconEye,
   IconHeartFilled,
   IconHeartPlus,
   IconLibrary,
@@ -23,6 +24,9 @@ import {
   useUserId,
 } from "@repo/ui";
 import GameInfoReviewCreateUpdateModal from "@/components/game/info/review/editor/GameInfoReviewCreateUpdateModal";
+import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper.ts";
+import { Link } from "react-router-dom";
+import { getTabAwareHref } from "@/util/getTabAwareHref.ts";
 
 interface Props {
   gameId: number;
@@ -107,6 +111,7 @@ const GameInfoViewFab = ({ gameId }: Props) => {
           <IonFabButton color={"primary"} onClick={addModalUtils.open}>
             <IconDots />
           </IonFabButton>
+
           {hasReview && (
             <IonFabButton color={"primary"} onClick={shareModalUtils.open}>
               <IconShare />

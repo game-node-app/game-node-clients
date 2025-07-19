@@ -2,23 +2,25 @@ import React, { useCallback, useMemo } from "react";
 import {
   DetailsBox,
   GameInfoAchievementOverviewItem,
-  getAchievementsEnabledStores,
-  useGameExternalStores,
+  useGameAchievementsV2,
+  useUserId,
 } from "#@/components";
-import { Skeleton, Stack } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 
 interface Props {
   gameId: number;
 }
 
 const GameInfoAchievementOverview = ({ gameId }: Props) => {
-  const { data: stores, isLoading } = useGameExternalStores(gameId);
+  const userId = useUserId();
+  const { data: achievements, isLoading } = useGameAchievementsV2(
+    userId,
+    gameId,
+  );
 
-  const enabledStores = useMemo(() => {
-    if (stores == undefined) return [];
-
-    return getAchievementsEnabledStores(stores);
-  }, [stores]);
+  const enabledSources = useMemo(() => {
+    return achievements?.map((achievement) => achievement.source) ?? [];
+  }, [achievements]);
 
   const buildLoadingSkeletons = useCallback(() => {
     return new Array(2)
@@ -36,17 +38,18 @@ const GameInfoAchievementOverview = ({ gameId }: Props) => {
   return (
     <DetailsBox
       title={"Achievements"}
-      enabled={enabledStores.length > 0 || isLoading}
+      enabled={enabledSources.length > 0 || isLoading}
       withPadding
       stackProps={{
         className: "bg-[#262525]",
       }}
     >
       {isLoading && buildLoadingSkeletons()}
-      {enabledStores.map((store) => (
+      {enabledSources.map((source) => (
         <GameInfoAchievementOverviewItem
-          key={`achievement-${store.id}`}
-          externalGame={store}
+          key={`achievement-overview-${source}`}
+          source={source}
+          gameId={gameId}
         />
       ))}
     </DetailsBox>

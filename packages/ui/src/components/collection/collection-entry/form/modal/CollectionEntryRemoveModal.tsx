@@ -9,15 +9,20 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
   Modal,
+  createErrorNotification,
 } from "#@/util";
 import { useOwnCollectionEntryForGameId } from "#@/components";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;
+  onSuccess?: () => void;
+  onError?: (err: Error) => void;
 }
 
 const CollectionEntryRemoveModal = ({
   gameId,
+  onSuccess,
+  onError,
   onClose,
   opened,
 }: ICollectionEntryRemoveModalProps) => {
@@ -30,13 +35,19 @@ const CollectionEntryRemoveModal = ({
       );
     },
     onSuccess: () => {
-      collectionEntriesQuery.invalidate();
-      queryClient.invalidateQueries({ queryKey: ["review", gameId] });
+      queryClient.invalidateQueries({ queryKey: ["collection-entries"] });
+      queryClient.invalidateQueries({ queryKey: ["review"] });
       trackMatomoEvent(
         EMatomoEventCategory.CollectionEntry,
         EMatomoEventAction.Remove,
         "Removed game from collection",
       );
+      onSuccess?.();
+    },
+    onError: (error) => {
+      console.error(error);
+      createErrorNotification(error);
+      onError?.(error);
     },
   });
 

@@ -7,6 +7,7 @@ import Head from "next/head";
 import CollectionEntriesView from "@/components/collection/view/CollectionEntriesView";
 import {
   CollectionViewActions,
+  findCollectionEntryByGameId,
   useCollection,
   useCollectionEntriesForCollectionId,
   useGames,
@@ -83,7 +84,19 @@ const CollectionView = ({
       cover: true,
     },
   });
-  const games = gamesQuery.data;
+  const games = useMemo(() => {
+    return gamesQuery.data?.map((game) => {
+      const relatedCollectionEntry = findCollectionEntryByGameId(
+        game.id,
+        collectionEntriesQuery.data?.data,
+      );
+
+      return {
+        ...game,
+        href: `/library/${libraryUserId}/collection/entry/${relatedCollectionEntry?.id}`,
+      };
+    });
+  }, [collectionEntriesQuery.data?.data, gamesQuery.data, libraryUserId]);
 
   const profileQuery = useUserProfile(ownUserId);
   const profile = profileQuery.data;

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { Box, SimpleGrid, Tabs } from "@mantine/core";
-import { IconDeviceGamepad2, IconWriting } from "@tabler/icons-react";
+import {
+  IconDeviceGamepad2,
+  IconNotebook,
+  IconWriting,
+} from "@tabler/icons-react";
 import {
   AchievementsScreen,
   CenteredLoading,
+  JournalOverviewView,
   PostsListView,
   ProfileCollectionsPage,
   ProfileReviewListView,
@@ -43,6 +48,8 @@ const ProfileViewContent = ({ userId }: Props) => {
       value={activeTab}
       onChange={(tab) => setActiveTab(tab)}
       className={"h-full w-full"}
+      // Render content on demand, saves up some network calls
+      keepMounted={false}
     >
       <SimpleGrid
         cols={{
@@ -76,6 +83,12 @@ const ProfileViewContent = ({ userId }: Props) => {
           activeTab={activeTab}
         />
         <ProfileViewNavbarItem
+          label={"Journal"}
+          activeTab={activeTab}
+          value={"journal"}
+          icon={IconNotebook}
+        />
+        <ProfileViewNavbarItem
           label={"Posts"}
           value={"posts"}
           icon={IconWriting}
@@ -100,6 +113,9 @@ const ProfileViewContent = ({ userId }: Props) => {
       </Tabs.Panel>
       <Tabs.Panel value="achievements">
         <AchievementsScreen targetUserId={userId} withUserLevel={false} />
+      </Tabs.Panel>
+      <Tabs.Panel value="journal">
+        <JournalOverviewView userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="posts">
         <PostsListView profileUserId={userId} withUserProfile={false} />

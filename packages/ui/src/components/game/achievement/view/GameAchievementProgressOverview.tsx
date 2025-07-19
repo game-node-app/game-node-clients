@@ -1,27 +1,20 @@
 import React, { useMemo } from "react";
 import {
   GameAchievementWithObtainedInfo,
-  useGameAchievements,
+  useGameAchievementsV2,
   useGamesResource,
   XBOX_STORES,
 } from "#@/components";
-import { GameExternalStoreDto } from "@repo/wrapper/server";
-import {
-  Badge,
-  Box,
-  Center,
-  Group,
-  Image,
-  Progress,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { Badge, Box, Group, Image, Progress, Stack, Text } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
 import { match, P } from "ts-pattern";
 import { IconTrophyFilled } from "@tabler/icons-react";
 
 interface Props {
-  externalGame: GameExternalStoreDto;
+  userId: string | undefined;
+  gameId: number;
+  source: GameAchievementGroupDto.source;
   /**
    * If not undefined, will be used to filter progress data.
    */
@@ -61,32 +54,45 @@ const countByTrophyType = (
 };
 
 const GameAchievementProgressOverview = ({
-  externalGame,
+  gameId,
+  userId,
+  source,
   targetPlatformId,
 }: Props) => {
-  const { data, isLoading, isError, error } = useGameAchievements(
-    externalGame.id,
+  const { data, isLoading, isError, error } = useGameAchievementsV2(
+    userId,
+    gameId,
   );
 
   const platformsQuery = useGamesResource("platforms");
 
-  const targetAchievements = useMemo(() => {
-    if (data == undefined) return [];
+  const targetAchievementsGroup = useMemo(() => {
+    return data?.find((group) => group.source === source);
+  }, [data, source]);
 
-    return data.filter((achievement) => {
+  const targetAchievements = useMemo(() => {
+    if (targetAchievementsGroup == undefined) return [];
+
+    return targetAchievementsGroup.achievements.filter((achievement) => {
       if (targetPlatformId) {
         return achievement.platformIds.includes(targetPlatformId);
       }
 
       return true;
     });
-  }, [data, targetPlatformId]);
+  }, [targetAchievementsGroup, targetPlatformId]);
 
   const availablePlatforms = useMemo(() => {
-    if (platformsQuery.data == undefined || data == undefined) return [];
+    if (
+      platformsQuery.data == undefined ||
+      targetAchievementsGroup == undefined
+    )
+      return [];
 
     const availablePlatformIds = Array.from(
-      new Set(data.flatMap((achievement) => achievement.platformIds)),
+      new Set(
+        targetAchievements.flatMap((achievement) => achievement.platformIds),
+      ),
     );
 
     return platformsQuery.data.filter((platform) => {
@@ -96,11 +102,16 @@ const GameAchievementProgressOverview = ({
 
       return availablePlatformIds.includes(platform.id);
     });
-  }, [data, platformsQuery.data, targetPlatformId]);
+  }, [
+    platformsQuery.data,
+    targetAchievements,
+    targetAchievementsGroup,
+    targetPlatformId,
+  ]);
 
   const renderedAchievementTotal = useMemo(() => {
-    return match(externalGame.category)
-      .with(P.union(GameExternalStoreDto.category._1), () => {
+    return match(source)
+      .with(P.union(GameAchievementGroupDto.source._1), () => {
         const totalAchievements = targetAchievements.length;
         const totalObtainedAchievements = targetAchievements.reduce(
           (acc, curr) => {
@@ -152,7 +163,7 @@ const GameAchievementProgressOverview = ({
           </Group>
         );
       })
-      .with(GameExternalStoreDto.category._36, () => {
+      .with(GameAchievementGroupDto.source._36, () => {
         const trophyInfos = TROPHY_TYPES.map((trophyType) =>
           countByTrophyType(targetAchievements, trophyType),
         );
@@ -177,11 +188,11 @@ const GameAchievementProgressOverview = ({
         );
       })
       .otherwise(() => null);
-  }, [externalGame.category, targetAchievements]);
+  }, [source, targetAchievements]);
 
   const renderedAchievementCount = useMemo(() => {
-    return match(externalGame.category)
-      .with(GameExternalStoreDto.category._1, () => {
+    return match(source)
+      .with(GameAchievementGroupDto.source._1, () => {
         const totalAchievements = targetAchievements.length;
         const totalObtainedAchievements = targetAchievements.reduce(
           (acc, curr) => {
@@ -205,16 +216,18 @@ const GameAchievementProgressOverview = ({
         );
       })
       .otherwise(() => null);
-  }, [externalGame.category, targetAchievements]);
+  }, [source, targetAchievements]);
 
   return (
     <Group>
       <Box className={"p-1"}>
-        <Image
-          alt={externalGame.storeName ?? "External Store"}
-          src={getServerStoredIcon(externalGame.icon!)}
-          className={"h-8 w-8 object-contain"}
-        />
+        {targetAchievementsGroup && (
+          <Image
+            alt={targetAchievementsGroup?.sourceName ?? "External Store"}
+            src={getServerStoredIcon(targetAchievementsGroup?.iconName)}
+            className={"h-8 w-8 object-contain"}
+          />
+        )}
       </Box>
       <Stack className={"grow lg:max-w-96"}>
         {renderedAchievementTotal}

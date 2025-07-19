@@ -1,7 +1,12 @@
 import { Game } from "../../../../../wrapper/src/server";
 import { SearchGame } from "#@/components/game/search/utils/types";
 
-export type TGameOrSearchGame = Game | SearchGame;
+export type TGameOrSearchGame = {
+  /**
+   * Custom href used by {@link GameFigureImage}.
+   */
+  href?: string;
+} & (Game | SearchGame);
 
 export interface GameResourceFilter {
   /**

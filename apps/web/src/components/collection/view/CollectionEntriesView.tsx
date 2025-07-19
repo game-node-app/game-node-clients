@@ -6,12 +6,13 @@ import {
   GameView,
   IGameViewPaginationProps,
   SelectWithOrdering,
+  TGameOrSearchGame,
 } from "@repo/ui";
 
 interface ICollectionEntriesViewProps extends IGameViewPaginationProps {
   isLoading: boolean;
   isError: boolean;
-  games: Game[] | undefined;
+  games: TGameOrSearchGame[] | undefined;
   onChangeOrder: (value: string, order: "ASC" | "DESC") => void;
 }
 

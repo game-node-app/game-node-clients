@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
+  findCollectionEntryByGameId,
   GameView,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
@@ -42,6 +43,20 @@ const LibraryHomeView = ({ userId }: Props) => {
     },
   });
 
+  const games = useMemo(() => {
+    return gamesQuery.data?.map((game) => {
+      const relatedCollectionEntry = findCollectionEntryByGameId(
+        game.id,
+        collectionEntriesQuery.data?.data,
+      );
+
+      return {
+        ...game,
+        href: `/library/${userId}/collection/entry/${relatedCollectionEntry?.id}`,
+      };
+    });
+  }, [collectionEntriesQuery.data?.data, gamesQuery.data, userId]);
+
   const isLoading = collectionEntriesQuery.isLoading || gamesQuery.isLoading;
 
   const isEmpty =
@@ -64,7 +79,7 @@ const LibraryHomeView = ({ userId }: Props) => {
       )}
       {isLoading && <CenteredLoading message={"Loading games..."} />}
       <GameView layout={"grid"}>
-        <GameView.Content items={gamesQuery.data} />
+        <GameView.Content items={games} />
         {shouldShowPagination && (
           <GameView.Pagination
             wrapperProps={{

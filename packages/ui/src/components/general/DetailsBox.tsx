@@ -9,6 +9,7 @@ export interface DetailsBoxProps extends PropsWithChildren {
   withPadding?: boolean;
   description?: string | undefined;
   stackProps?: StackProps;
+  leftSide?: React.ReactNode;
   rightSide?: React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ export const DetailsBox = ({
   withPadding = false,
   description,
   stackProps,
+  leftSide,
   rightSide,
   children,
 }: DetailsBoxProps) => {
@@ -34,19 +36,24 @@ export const DetailsBox = ({
             borderWidth: withBorder ? "2px" : undefined,
             borderColor: withBorder ? "#1F1F1F" : undefined,
             borderRadius: withBorder ? "6px" : undefined,
+            backgroundColor: "#191919",
           },
         }}
         gap={"0.5rem"}
         {...stackProps}
       >
         <Group className={"justify-between"}>
-          <Text
-            className={
-              withDimmedTitle ? "text-[#5C5C5C] text-sm" : "font-bold text-md"
-            }
-          >
-            {title}
-          </Text>
+          <Group>
+            {leftSide}
+            <Text
+              className={
+                withDimmedTitle ? "text-[#5C5C5C] text-sm" : "font-bold text-md"
+              }
+            >
+              {title}
+            </Text>
+          </Group>
+
           {rightSide}
         </Group>
 

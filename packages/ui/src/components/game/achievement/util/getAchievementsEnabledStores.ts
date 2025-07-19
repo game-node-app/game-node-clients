@@ -1,4 +1,8 @@
-import { GameExternalGame, GameExternalStoreDto } from "@repo/wrapper/server";
+import {
+  GameAchievementGroupDto,
+  GameExternalGame,
+  GameExternalStoreDto,
+} from "@repo/wrapper/server";
 import { P } from "ts-pattern";
 import { Chainable } from "ts-pattern/types";
 
@@ -22,23 +26,23 @@ const isValidXboxProductId = (productId: string) => {
 
 export const XBOX_STORES = [
   // Microsoft
-  GameExternalGame.category._11,
+  GameAchievementGroupDto.source._11,
   // Xbox Marketplace
-  GameExternalGame.category._31,
+  GameAchievementGroupDto.source._31,
   // Xbox Gamepass
-  GameExternalGame.category._54,
+  GameAchievementGroupDto.source._54,
 ] as const;
 
 export const ACHIEVEMENT_ENABLED_STORES = [
-  GameExternalGame.category._1,
-  GameExternalGame.category._36,
+  GameAchievementGroupDto.source._1,
+  GameAchievementGroupDto.source._36,
   ...XBOX_STORES,
 ];
 
 export function getAchievementsEnabledStores(stores: GameExternalStoreDto[]) {
   console.log("stores", stores);
   return stores.filter((store) => {
-    if (ACHIEVEMENT_ENABLED_STORES.includes(store.category!)) {
+    if (ACHIEVEMENT_ENABLED_STORES.includes(store.category as never)) {
       // Xbox
       if (XBOX_STORES.includes(store.category as never)) {
         console.log("Store: ", store);

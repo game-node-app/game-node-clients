@@ -65,7 +65,7 @@ const GameAchievementsListItem = ({ achievement }: Props) => {
   }, [achievement]);
 
   return (
-    <Group className={"w-full"}>
+    <Group className={"w-full p-4 bg-paper"}>
       <Group className={"w-full justify-between lg:justify-start lg:w-fit"}>
         <AspectRatio ratio={1} className={"relative w-12 h-12"}>
           <Image
@@ -85,7 +85,9 @@ const GameAchievementsListItem = ({ achievement }: Props) => {
           <Text className={achievement.isObtained ? "text-white" : undefined}>
             {achievement.name}
           </Text>
-          <Text className={"text-dimmed"}>{achievement.description}</Text>
+          <Text className={"text-dimmed max-w-60"}>
+            {achievement.description}
+          </Text>
         </Stack>
         <Box className={"hidden lg:block"}>{renderRightSideDetail()}</Box>
       </Group>

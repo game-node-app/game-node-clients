@@ -185,17 +185,15 @@ const CollectionEntryAddOrUpdateForm = ({
       );
     },
     onSettled: () => {
-      collectionEntryQuery.invalidate();
-      queryClient
-        .invalidateQueries({
-          queryKey: ["review"],
-        })
-        .then();
-      queryClient
-        .invalidateQueries({
-          queryKey: ["game", "all"],
-        })
-        .then();
+      queryClient.invalidateQueries({
+        queryKey: ["review"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["collection-entries"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["game", "all"],
+      });
     },
     onSuccess: () => {
       notifications.show({

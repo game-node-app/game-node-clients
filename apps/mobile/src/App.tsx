@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -58,11 +59,14 @@ import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+import { Device } from "@capacitor/device";
 
 /**
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
+dayjs.extend(LocalizedFormat);
 
 /**
  * @repo/ui setup
@@ -111,6 +115,20 @@ const App: React.FC = () => {
     return () => {
       Keyboard.removeAllListeners();
     };
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const info = await Device.getInfo();
+      if (info.platform === "android" && Number(info.osVersion) >= 15) {
+        await EdgeToEdge.enable(); // Enable only on Android 15+
+        await EdgeToEdge.setBackgroundColor({
+          color: "#1f1f1f",
+        });
+      } else {
+        await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
+      }
+    })();
   }, []);
 
   return (

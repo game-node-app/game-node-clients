@@ -17,7 +17,10 @@ interface ICollectionViewProps {
 
 const DEFAULT_LIMIT = 24;
 
-const CollectionView = ({ collectionId }: ICollectionViewProps) => {
+const CollectionView = ({
+  collectionId,
+  libraryUserId,
+}: ICollectionViewProps) => {
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
   const collectionQuery = useCollection(collectionId);
@@ -49,7 +52,20 @@ const CollectionView = ({ collectionId }: ICollectionViewProps) => {
     true,
   );
 
-  const games = gamesQuery.data;
+  const games = useMemo(
+    () =>
+      gamesQuery.data?.map((game) => {
+        const relatedCollectionEntry = collectionEntriesQuery.data?.pages
+          .flatMap((page) => page!.data)
+          .find((entry) => entry.gameId === game.id);
+
+        return {
+          ...game,
+          href: `/library/${libraryUserId}/collection/entry/${relatedCollectionEntry?.id}`,
+        };
+      }),
+    [collectionEntriesQuery.data?.pages, gamesQuery.data, libraryUserId],
+  );
 
   const isLoading =
     collectionQuery.isLoading ||

@@ -13,6 +13,8 @@ import {
 import Head from "next/head";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -61,6 +63,7 @@ const roboto = Roboto({
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
+dayjs.extend(LocalizedFormat);
 
 setRoutingComponent(LinkWrapper);
 setRoutingManager(useRouter);

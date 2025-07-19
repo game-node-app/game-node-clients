@@ -4,7 +4,7 @@ import { ExtendedUseQueryResult } from "#@/util";
 
 export function usePlaytimeForGame(
   userId: string | undefined,
-  gameId: number,
+  gameId: number | undefined,
 ): ExtendedUseQueryResult<UserPlaytime[]> {
   const queryClient = useQueryClient();
 
@@ -30,6 +30,7 @@ export function usePlaytimeForGame(
         );
       },
       staleTime: Infinity,
+      enabled: !!userId && !!gameId,
     }),
     queryKey,
     invalidate,

@@ -1,0 +1,14 @@
+.journal-overview-group {
+    position: relative;
+    padding-left: 15px;
+}
+
+.journal-overview-group::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--mantine-color-gray-6);
+}

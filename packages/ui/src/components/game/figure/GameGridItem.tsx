@@ -14,14 +14,7 @@ const GameGridItem = ({ game, figureProps }: IGameGridFigureProps) => {
 
   const Figure = onMobile ? GameFigureWithQuickAdd : GameHoverEditFigure;
 
-  return (
-    <Figure
-      {...figureProps}
-      game={game}
-      href={`/game/${game?.id}`}
-      withHoverTitle={true}
-    />
-  );
+  return <Figure game={game} withHoverTitle={true} {...figureProps} />;
 };
 
 export { GameGridItem };
