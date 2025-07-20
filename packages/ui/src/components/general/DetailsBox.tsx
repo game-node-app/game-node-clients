@@ -30,15 +30,13 @@ export const DetailsBox = ({
       <Stack
         w={"100%"}
         h={"fit-content"}
-        styles={{
-          root: {
-            padding: withPadding ? "0.75rem" : undefined,
-            borderWidth: withBorder ? "2px" : undefined,
-            borderColor: withBorder ? "#1F1F1F" : undefined,
-            borderRadius: withBorder ? "6px" : undefined,
-            backgroundColor: "#191919",
-          },
+        style={{
+          padding: withPadding ? "0.75rem" : undefined,
+          borderWidth: withBorder ? "2px" : undefined,
+          borderColor: withBorder ? "#1F1F1F" : undefined,
+          borderRadius: withBorder ? "6px" : undefined,
         }}
+        bg={"#191919"}
         gap={"0.5rem"}
         {...stackProps}
       >

@@ -62,7 +62,12 @@ const GameRelatedGamesCarousel = ({
 
   return (
     <Box className={"bg-[#262525] p-3"}>
-      <DetailsBox title={title}>
+      <DetailsBox
+        title={title}
+        stackProps={{
+          bg: "#262525",
+        }}
+      >
         <GameInfoCarousel
           isLoading={gameQuery.isLoading}
           isError={gameQuery.isError}

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, SimpleGrid, Tabs } from "@mantine/core";
+import React, { useMemo } from "react";
+import { SimpleGrid, Tabs } from "@mantine/core";
 import {
   IconDeviceGamepad2,
   IconNotebook,
@@ -7,12 +7,13 @@ import {
 } from "@tabler/icons-react";
 import {
   AchievementsScreen,
-  CenteredLoading,
   JournalOverviewView,
   PostsListView,
   ProfileCollectionsPage,
+  ProfileGamesListView,
   ProfileReviewListView,
   ProfileStatsView,
+  ProfileViewMainPage,
   ProfileViewNavbarItem,
   useAllObtainedAchievements,
   useCollectionEntriesForUserId,
@@ -20,8 +21,7 @@ import {
   useUserLibrary,
   useUserProfile,
 } from "#@/components";
-import { ProfileViewMainPage } from "#@/components";
-import { ProfileGamesListView } from "#@/components";
+import { useRouter } from "#@/util";
 
 interface Props {
   userId: string;
@@ -29,11 +29,10 @@ interface Props {
 
 /**
  * Component that renders a profile's tabs and it's contents
- * @param userId
- * @constructor
  */
 const ProfileViewContent = ({ userId }: Props) => {
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const router = useRouter();
+  const query = router.query;
 
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
@@ -41,12 +40,26 @@ const ProfileViewContent = ({ userId }: Props) => {
   const reviewsQuery = useReviewsForUserId(userId, 0, 1);
   const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
 
+  const activeTab = useMemo(() => {
+    const tabQuery = query.get("tab");
+    if (tabQuery == null || tabQuery.length === 0) return null;
+    return tabQuery;
+  }, [query]);
+
+  const onTabChange = (tab: string | null) => {
+    router.push(`${router.pathname}?tab=${tab ?? ""}`, {
+      replace: true,
+      scroll: false,
+      shallow: true,
+    });
+  };
+
   return (
     <Tabs
       unstyled
       allowTabDeactivation
-      value={activeTab}
-      onChange={(tab) => setActiveTab(tab)}
+      value={query.get("tab")}
+      onChange={(tab) => onTabChange(tab)}
       className={"h-full w-full"}
       // Render content on demand, saves up some network calls
       keepMounted={false}
