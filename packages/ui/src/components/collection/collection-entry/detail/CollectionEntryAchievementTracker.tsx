@@ -68,7 +68,7 @@ const CollectionEntryAchievementTracker = ({
     >
       {!achievementsQuery.isLoading && availableGroups.length === 0 && (
         <CenteredErrorMessage
-          message={"No achievements found for this game."}
+          message={"No obtained achievements found for this game."}
         />
       )}
       {selectedSource && (

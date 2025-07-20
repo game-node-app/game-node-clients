@@ -5,7 +5,6 @@ import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
 import React, { useState } from "react";
 import { RouterTransition } from "@/components/general/RouterTransition";
 import {
-  DehydratedState,
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
@@ -42,15 +41,15 @@ import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import {
   DEFAULT_MANTINE_THEME,
   setProjectContext,
-  setRoutingComponent,
-  setRoutingManager,
+  setLinkComponent,
+  setRouterHook,
 } from "@repo/ui";
-import { LinkWrapper } from "@/components/general/LinkWrapper.tsx";
-import { useRouter } from "next/router";
+import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
-import MatomoTracker from "@/components/general/MatomoTracker.tsx";
-import { DehydrationResult } from "@/util/types/hydration.ts";
+import MatomoTracker from "@/components/general/MatomoTracker";
+import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
+import { DehydrationResult } from "@/util/types/hydration";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -65,8 +64,8 @@ const roboto = Roboto({
 dayjs.extend(RelativeTime);
 dayjs.extend(LocalizedFormat);
 
-setRoutingComponent(LinkWrapper);
-setRoutingManager(useRouter);
+setLinkComponent(LinkWrapper);
+setRouterHook(useNextRouterWrapper);
 setProjectContext({
   client: "web",
   s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,

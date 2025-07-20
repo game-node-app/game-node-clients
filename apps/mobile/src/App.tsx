@@ -50,10 +50,10 @@ import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
   DEFAULT_MANTINE_THEME,
+  setLinkComponent,
   setModalComponent,
   setProjectContext,
-  setRoutingComponent,
-  setRoutingManager,
+  setRouterHook,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
@@ -71,8 +71,8 @@ dayjs.extend(LocalizedFormat);
 /**
  * @repo/ui setup
  */
-setRoutingComponent(LinkWrapper);
-setRoutingManager(useIonRouterWrapper);
+setLinkComponent(LinkWrapper);
+setRouterHook(useIonRouterWrapper);
 setModalComponent(IonModalWrapper);
 setProjectContext({
   client: "mobile",

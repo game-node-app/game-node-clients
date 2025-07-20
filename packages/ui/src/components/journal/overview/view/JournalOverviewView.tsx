@@ -8,18 +8,18 @@ interface Props {
   userId: string;
 }
 
-const DEFAULT_LIMIT = 5;
+const DEFAULT_LIMIT = 20;
 
 const JournalOverviewView = ({ userId }: Props) => {
   const { data, isLoading } = useJournalOverview(userId);
 
-  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(DEFAULT_LIMIT);
 
-  const nextOffset = offset + DEFAULT_LIMIT;
+  const nextLimit = limit + DEFAULT_LIMIT;
 
   const renderedItens = useMemo(() => {
-    return data?.years.slice(offset, offset + DEFAULT_LIMIT) ?? [];
-  }, [data, offset]);
+    return data?.years.slice(0, limit) ?? [];
+  }, [data, limit]);
 
   return (
     <Stack>
@@ -28,9 +28,9 @@ const JournalOverviewView = ({ userId }: Props) => {
         <JournalOverviewYearGroup key={yearGroup.year} yearGroup={yearGroup} />
       ))}
       <SimpleInfiniteLoader
-        fetchNextPage={async () => setOffset(nextOffset)}
+        fetchNextPage={async () => setLimit(nextLimit)}
         isFetching={false}
-        hasNextPage={data != undefined && data.years.length > nextOffset}
+        hasNextPage={data != undefined && data.years.length > nextLimit}
       />
     </Stack>
   );

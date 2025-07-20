@@ -11,7 +11,6 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import React from "react";
-import { Container } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IconSettings } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
@@ -20,11 +19,9 @@ import {
   CenteredLoading,
   ProfileUserInfoWithBanner,
   ProfileViewContent,
-  usePlaytimeForUser,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
 
 interface Props {
   userId?: string;
@@ -43,18 +40,6 @@ const ProfilePage = ({ userId }: Props) => {
   const isInTab = pathname.split("/").length === 2;
 
   const profileQuery = useUserProfile(userId);
-
-  const playtime = usePlaytimeForUser({
-    userId: userIdToUse!,
-    offset: 0,
-    limit: 5,
-    period: FindAllPlaytimeFiltersDto.period.ALL,
-  });
-
-  const hasPlaytimeInfo =
-    playtime.data != undefined && playtime.data.data.length > 0;
-
-  const showPlaytimeInfo = hasPlaytimeInfo || ownUserId === userIdToUse;
 
   return (
     <IonPage>
