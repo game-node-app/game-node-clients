@@ -18,13 +18,11 @@ const RecentCollectionEntriesView = ({
 }: Props) => {
   const gamesQuery = useUserRecentGames(userId, offset, limit);
 
-  if (gamesQuery.isLoading) {
-    return <CenteredLoading message={"Fetching games..."} />;
-  }
-
   return (
     <GameView layout={"grid"}>
-      <GameView.Content {...others} items={gamesQuery.data} />
+      <GameView.Content {...others} items={gamesQuery.data}>
+        <GameView.LoadingSkeletons isVisible={gamesQuery.isLoading} />
+      </GameView.Content>
     </GameView>
   );
 };
