@@ -13,6 +13,6 @@ export function getLocalizedFirstReleaseDate(
   return dateObj.toLocaleDateString(locale, {
     year: "numeric",
     month: "long",
-    targetDay: "numeric",
+    day: "numeric",
   });
 }
