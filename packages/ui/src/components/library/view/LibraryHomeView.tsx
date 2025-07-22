@@ -77,9 +77,10 @@ const LibraryHomeView = ({ userId }: Props) => {
       {isEmpty && (
         <CenteredErrorMessage message={"No games in this category."} />
       )}
-      {isLoading && <CenteredLoading message={"Loading games..."} />}
       <GameView layout={"grid"}>
-        <GameView.Content items={games} />
+        <GameView.Content items={games}>
+          <GameView.LoadingSkeletons isVisible={isLoading} />
+        </GameView.Content>
         {shouldShowPagination && (
           <GameView.Pagination
             wrapperProps={{

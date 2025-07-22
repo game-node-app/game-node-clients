@@ -2,12 +2,13 @@ import React, { createContext, PropsWithChildren } from "react";
 import { GameViewContent } from "#@/components/game/view/GameViewContent";
 import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { GameViewLayoutSwitcher } from "#@/components/game/view/GameViewLayoutSwitcher";
+import { GameViewLoadingSkeletons } from "#@/components/game/view/GameViewLoadingSkeletons.tsx";
 
 interface IGameViewProps extends PropsWithChildren {
   layout: "grid" | "list";
 }
 
-interface IGameViewContext extends Pick<IGameViewProps, "layout"> {}
+type IGameViewContext = Pick<IGameViewProps, "layout">;
 
 export const GameViewContext = createContext<IGameViewContext>({
   layout: "grid",
@@ -31,5 +32,6 @@ const GameView = ({ children, layout = "grid" }: IGameViewProps) => {
 GameView.Content = GameViewContent;
 GameView.Pagination = GameViewPagination;
 GameView.LayoutSwitcher = GameViewLayoutSwitcher;
+GameView.LoadingSkeletons = GameViewLoadingSkeletons;
 
 export { GameView };

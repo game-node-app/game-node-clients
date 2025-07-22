@@ -15,10 +15,17 @@ export function useUserRecentGames(userId: string, offset = 0, limit = 20) {
     return collectionEntriesQuery.data?.data?.map((entry) => entry.gameId);
   }, [collectionEntriesQuery]);
 
-  return useGames({
+  const gamesQuery = useGames({
     gameIds: gameIds,
     relations: {
       cover: true,
     },
   });
+
+  return {
+    ...gamesQuery,
+    isLoading: gamesQuery.isLoading || collectionEntriesQuery.isLoading,
+    isError: gamesQuery.isError || collectionEntriesQuery.isError,
+    isFetching: gamesQuery.isFetching || collectionEntriesQuery.isFetching,
+  };
 }
