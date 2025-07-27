@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Group,
-  Image,
   Slider,
   Stack,
   Stepper,
@@ -16,24 +15,18 @@ import { ImageDropzone } from "#@/components/general/ImageDropzone";
 import { base64ToBlob, getCroppedImg } from "#@/util/imageUtils";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { useMutation } from "@tanstack/react-query";
-import {
-  ProfileService,
-  UpdateProfileImageDto,
-} from "../../../../../wrapper/src/server";
-import type = UpdateProfileImageDto.type;
+import { ProfileService, UpdateProfileImageDto } from "@repo/wrapper/server";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import type = UpdateProfileImageDto.type;
+import { FileWithPath } from "@mantine/dropzone";
 
 interface Props extends BaseModalChildrenProps {}
 
 const ProfileEditAvatarUploader = ({ onClose }: Props) => {
   const userId = useUserId();
   const profile = useUserProfile(userId);
-  const [uploadedFileSrc, setUploadedFileSrc] = useState<string>();
+  const [croppingImageSrc, setCroppingImageSrc] = useState<string>();
   const [finalImageSrc, setFinalImageSrc] = useState<string>();
-  const [dropZoneError, setDropZoneError] = useState<Error | undefined>(
-    undefined,
-  );
 
   /*
    * Cropper properties
@@ -47,7 +40,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
 
   const onCropComplete = async (_: Area, croppedAreaPixels: Area) => {
     const croppedImage = await getCroppedImg(
-      uploadedFileSrc!,
+      croppingImageSrc!,
       croppedAreaPixels,
     );
     setFinalImageSrc(croppedImage ?? undefined);
@@ -57,7 +50,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
     const isOutOfBonds = step < 0 || step > 2;
     if (isOutOfBonds) return;
     if (step === 0) {
-      setUploadedFileSrc(undefined);
+      setCroppingImageSrc(undefined);
       setFinalImageSrc(undefined);
     } else if (step === 1) {
       setFinalImageSrc(undefined);
@@ -83,12 +76,25 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
     },
   });
 
-  const handleImageUpload = () => {
+  const performImageUpload = () => {
     if (finalImageSrc == undefined) {
       handleStepClick(0);
       return;
     }
     profileAvatarMutation.mutate();
+  };
+
+  const onReceivedImage = (image: FileWithPath) => {
+    const fileString = URL.createObjectURL(image);
+    if (image.type === "image/gif") {
+      setFinalImageSrc(fileString);
+      // Skips cropping for gifs
+      setCurrentStep(2);
+      return;
+    }
+
+    setCroppingImageSrc(fileString);
+    setCurrentStep(1);
   };
 
   const renderBasedOnStep = () => {
@@ -97,11 +103,12 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
         return (
           <ImageDropzone
             maxFiles={1}
-            maxSize={2 * 1024 ** 2}
+            accept={["image/png", "image/jpeg", "image/gif"]}
+            maxSize={10 * 1024 * 1000}
             onDrop={(files) => {
-              const fileString = URL.createObjectURL(files[0]);
-              setUploadedFileSrc(fileString);
-              setCurrentStep(1);
+              if (files.length > 0) {
+                onReceivedImage(files[0]);
+              }
             }}
           />
         );
@@ -109,7 +116,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
         return (
           <>
             <Cropper
-              image={uploadedFileSrc}
+              image={croppingImageSrc}
               crop={crop}
               zoom={zoom}
               aspect={1}
@@ -151,7 +158,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
               <Button variant={"default"} onClick={() => handleStepClick(1)}>
                 Go back
               </Button>
-              <Button onClick={() => handleImageUpload()}>Confirm</Button>
+              <Button onClick={() => performImageUpload()}>Confirm</Button>
             </Group>
           </>
         );

@@ -17,7 +17,7 @@ import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
 import GameInfoShareModal from "@/components/game/info/share/GameInfoShareModal";
 import {
-  CollectionEntryAddOrUpdateModal,
+  CollectionEntryEditModal,
   CollectionEntryRemoveModal,
   useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
@@ -79,7 +79,7 @@ const GameInfoViewFab = ({ gameId }: Props) => {
         opened={shareModalOpened}
         onClose={shareModalUtils.close}
       />
-      <CollectionEntryAddOrUpdateModal
+      <CollectionEntryEditModal
         id={gameId}
         onClose={addModalUtils.close}
         opened={addModalOpened}

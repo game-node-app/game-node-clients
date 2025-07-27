@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GamePlatform } from './GamePlatform';
 export type UserPlaytimeDto = {
     lastPlayedDate: string | null;
     firstPlayedDate: string | null;
@@ -15,6 +16,8 @@ export type UserPlaytimeDto = {
     totalPlaytimeSeconds: number;
     recentPlaytimeSeconds: number;
     totalPlayCount: number;
+    platform: GamePlatform;
+    platformId: number;
     createdAt: string;
     updatedAt: string;
 };

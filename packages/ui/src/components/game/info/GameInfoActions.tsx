@@ -1,13 +1,12 @@
-import React, { useMemo } from "react";
-import { ActionIcon, Button, Group, Stack, Tooltip, Text } from "@mantine/core";
+import React from "react";
+import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
 import {
-  IconEye,
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import { CollectionEntryAddOrUpdateModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
+import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
@@ -20,7 +19,7 @@ import {
   EMatomoEventCategory,
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
-import { Link, Modal } from "#@/util";
+import { Modal } from "#@/util";
 import { GameInfoShare } from "#@/components";
 
 interface IGameViewActionsProps {
@@ -84,7 +83,7 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
   return (
     <Stack align={"center"}>
       <Group gap={"0.725rem"} {...wrapperProps}>
-        <CollectionEntryAddOrUpdateModal
+        <CollectionEntryEditModal
           opened={addUpdateModalOpened}
           onClose={addUpdateModalUtils.close}
           id={game.id}

@@ -3,5 +3,6 @@
  */
 
 export * from "./BlogPostDetailLayout";
+export * from "./BlogPostReviewInfo.tsx";
 export * from "./BlogPostDetailView";
 export * from "./BlogPostsListView";

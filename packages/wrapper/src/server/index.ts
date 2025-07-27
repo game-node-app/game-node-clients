@@ -44,6 +44,7 @@ export type { FindAllProfileResponseItemDto } from './models/FindAllProfileRespo
 export type { FindAllReviewsByIdDto } from './models/FindAllReviewsByIdDto';
 export { FindAvailableConnectionsResponseDto } from './models/FindAvailableConnectionsResponseDto';
 export { FindCollectionEntriesForCollectionIdDto } from './models/FindCollectionEntriesForCollectionIdDto';
+export { FindCollectionEntriesGameFilterDto } from './models/FindCollectionEntriesGameFilterDto';
 export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';

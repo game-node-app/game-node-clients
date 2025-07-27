@@ -3,6 +3,9 @@
  */
 
 export * from "./CollectionEntriesMoveForm";
-export * from "./CollectionEntryAddOrUpdateForm";
+export * from "./CollectionEntryEditForm";
+export * from "./CollectionEntryFormDetailsPanel";
+export * from "./CollectionEntryFormPanels";
+export * from "./CollectionEntryFormReviewPanel";
 export * from "./CollectionEntryStatusSelect";
 export * from "./modal/index";

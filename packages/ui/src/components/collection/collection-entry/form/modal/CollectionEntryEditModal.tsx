@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { CollectionEntryAddOrUpdateForm } from "#@/components/collection/collection-entry/form/CollectionEntryAddOrUpdateForm";
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Modal } from "#@/util";
 import { PROJECT_CONTEXT } from "#@/util/projectContext.ts";
+import { CollectionEntryEditForm } from "#@/components";
 
 interface IGameAddModalProps extends BaseModalProps {
   id: number;
 }
 
-const CollectionEntryAddOrUpdateModal = ({
+const CollectionEntryEditModal = ({
   opened,
   onClose,
   id,
@@ -27,13 +27,14 @@ const CollectionEntryAddOrUpdateModal = ({
       onClose={onClose}
       title={"Add to your library"}
       fullScreen={onMobile}
-      size={"lg"}
+      size={"xl"}
       transitionProps={{ transition: "fade", duration: 200 }}
       breakpoints={[0.6, 0.8, 1]}
       initialBreakpoint={currentBreakpoint}
       onBreakpointChange={setCurrentBreakpoint}
+      classNames={{}}
     >
-      <CollectionEntryAddOrUpdateForm
+      <CollectionEntryEditForm
         gameId={id}
         onClose={onClose}
         showGameInfo={currentBreakpoint >= 1}
@@ -42,4 +43,4 @@ const CollectionEntryAddOrUpdateModal = ({
   );
 };
 
-export { CollectionEntryAddOrUpdateModal };
+export { CollectionEntryEditModal };

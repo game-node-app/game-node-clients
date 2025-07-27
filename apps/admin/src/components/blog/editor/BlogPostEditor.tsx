@@ -1,21 +1,12 @@
-import React, { RefObject, useState } from "react";
+import React from "react";
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
   createErrorNotification,
-  GameSearchSelectModal,
   getS3StoredUpload,
   PostImageLightboxContext,
 } from "@repo/ui";
 import { RichTextEditor } from "@mantine/tiptap";
-import {
-  ActionIcon,
-  Button,
-  FileButton,
-  Group,
-  LoadingOverlay,
-  Stack,
-} from "@mantine/core";
-import { IconPhoto } from "@tabler/icons-react";
+import { LoadingOverlay } from "@mantine/core";
 import { EditorOptions, useEditor } from "@tiptap/react";
 import { useMutation } from "@tanstack/react-query";
 import { PostsService } from "@repo/wrapper/server";
@@ -28,38 +19,41 @@ interface Props
 }
 
 const BlogPostEditor = ({ isPending, ...editorOptions }: Props) => {
-  const editor = useEditor({
-    ...editorOptions,
-    extensions: BLOG_POST_EDITOR_EXTENSIONS,
-    onDrop: async (event) => {
-      event.preventDefault();
-      const files = event.dataTransfer?.files;
+  const editor = useEditor(
+    {
+      ...editorOptions,
+      extensions: BLOG_POST_EDITOR_EXTENSIONS,
+      onDrop: async (event) => {
+        event.preventDefault();
+        const files = event.dataTransfer?.files;
 
-      if (!files) {
-        return;
-      }
-
-      for (const file of files) {
-        if (file.type.includes("image")) {
-          uploadImageMutation.mutate(file);
+        if (!files) {
+          return;
         }
-      }
-    },
-    onPaste: async (event) => {
-      const items = event.clipboardData?.items;
-      if (!items) return;
 
-      for (const item of items) {
-        if (item.type.includes("image")) {
-          event.preventDefault();
-          const file = item.getAsFile();
-          if (file) {
+        for (const file of files) {
+          if (file.type.includes("image")) {
             uploadImageMutation.mutate(file);
           }
         }
-      }
+      },
+      onPaste: async (event) => {
+        const items = event.clipboardData?.items;
+        if (!items) return;
+
+        for (const item of items) {
+          if (item.type.includes("image")) {
+            event.preventDefault();
+            const file = item.getAsFile();
+            if (file) {
+              uploadImageMutation.mutate(file);
+            }
+          }
+        }
+      },
     },
-  });
+    [editorOptions.content],
+  );
 
   const uploadImageMutation = useMutation({
     gcTime: 0,

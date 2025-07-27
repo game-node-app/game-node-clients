@@ -26,6 +26,12 @@
     --ion-font-family: Roboto, Roboto Fallback;
     --ion-text-color: var(--mantine-color-text) !important;
     --ion-background-color: #191919 !important;
+    --ion-toolbar-background: #191919 !important;
+    --ion-modal-background: #191919 !important;
+
+    @mixin dark-root {
+        --mantine-color-body: #191919;
+    }
 }
 
 

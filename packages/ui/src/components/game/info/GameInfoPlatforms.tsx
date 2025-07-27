@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GameRepositoryService } from "../../../../../wrapper/src/server";
 import { sleep } from "#@/util/sleep";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
+import { useGamePlatformIcons } from "#@/components";
 
 interface IGameInfoPlatformsProps extends GroupProps {
   gameId: number | undefined;
@@ -29,20 +30,7 @@ const GameInfoPlatforms = ({
 }: IGameInfoPlatformsProps) => {
   const onMobile = useOnMobile();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
-  const iconsQuery = useQuery({
-    queryKey: ["game", "platform", "icon", gameId],
-    queryFn: async () => {
-      if (!gameId) return null;
-      try {
-        return GameRepositoryService.gameRepositoryControllerGetIconNamesForPlatformAbbreviationsV1(
-          gameId,
-        );
-      } catch (e) {
-        console.error(e);
-        return [];
-      }
-    },
-  });
+  const iconsQuery = useGamePlatformIcons(gameId);
 
   const buildIconsSkeletons = useCallback(() => {
     return new Array(4).fill(0).map((_, i) => {

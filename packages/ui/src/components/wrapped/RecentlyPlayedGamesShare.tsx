@@ -264,7 +264,9 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                   </span>
                 )}
                 {withSource && (
-                  <span>{getCapitalizedText(playtime.source)}</span>
+                  <span>
+                    {getCapitalizedText(playtime.platform.abbreviation)}
+                  </span>
                 )}
               </Text>
             </Box>
@@ -311,7 +313,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         >
           <Box className={"overflow-auto"}>
             <Stack
-              className={"bg-[#191919] gap-xs w-[480px] pointer-events-none"}
+              className={"bg-paper gap-xs w-[480px] pointer-events-none"}
               id={CONTAINER_ID}
             >
               <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>

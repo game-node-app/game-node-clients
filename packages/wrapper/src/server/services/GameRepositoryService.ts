@@ -43,6 +43,7 @@ export class GameRepositoryService {
         });
     }
     /**
+     * TODO: Move this endpoint to {@link ExternalGameService}
      * @param id
      * @returns GameExternalStoreDto
      * @throws ApiError

@@ -2,6 +2,7 @@ import React from "react";
 import { Badge, Box, Group, Image, Stack, Text, Title } from "@mantine/core";
 import {
   BLOG_POST_EDITOR_EXTENSIONS,
+  BlogPostReviewInfo,
   BlogPostTags,
   CenteredLoading,
   PostImageLightboxContext,

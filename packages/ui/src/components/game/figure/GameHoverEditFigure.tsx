@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import {
-  CollectionEntryAddOrUpdateModal,
+  CollectionEntryEditModal,
   GameFigureImage,
   IGameFigureProps,
 } from "#@/components";
@@ -37,7 +37,7 @@ const GameHoverEditFigure = ({
   return (
     <Box className={"w-full h-full group"}>
       <GameFigureImage game={game} {...others}>
-        <CollectionEntryAddOrUpdateModal
+        <CollectionEntryEditModal
           id={game!.id!}
           opened={addModalOpened}
           onClose={addModalUtils.close}

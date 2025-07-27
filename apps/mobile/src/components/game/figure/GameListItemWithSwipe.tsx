@@ -12,7 +12,7 @@ import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
-  CollectionEntryAddOrUpdateModal,
+  CollectionEntryEditModal,
   CollectionEntryRemoveModal,
   useOwnCollectionEntryForGameId,
 } from "@repo/ui";
@@ -26,7 +26,7 @@ const GameListItemWithSwipe = ({ game, ...others }: Props) => {
 
   return (
     <IonItemSliding>
-      <CollectionEntryAddOrUpdateModal
+      <CollectionEntryEditModal
         id={game.id!}
         opened={addUpdateModalOpened}
         onClose={addUpdateModalUtils.close}

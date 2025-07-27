@@ -101,6 +101,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
         lastPlayedDate: data.lastPlayedDate?.toISOString() ?? null,
         source: data.source,
         totalPlaytimeSeconds: Math.ceil(data.totalPlaytimeHours * 3600),
+        platformId: 6,
       });
     },
     onSettled: () => {

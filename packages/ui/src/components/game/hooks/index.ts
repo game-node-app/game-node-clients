@@ -4,6 +4,7 @@
 
 export * from "./useGame";
 export * from "./useGameExternalStores";
+export * from "./useGamePlatformIcons";
 export * from "./useGames";
 export * from "./useGamesResource";
 export * from "./useSearchGames";

@@ -1,20 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import {
-  ActionIcon,
   Button,
   Checkbox,
-  FileButton,
   FileInput,
   Group,
+  Input,
   NumberInput,
-  Stack,
   TagsInput,
   Text,
   TextInput,
   Title,
 } from "@mantine/core";
 import {
-  BLOG_POST_EDITOR_EXTENSIONS,
   createErrorNotification,
   GameRating,
   GameSearchSelectModal,
@@ -24,14 +21,12 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RichTextEditor } from "@mantine/tiptap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BlogPostService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { Editor } from "@tiptap/core";
 import { useRouter } from "next/router";
 import { BlogPostEditor } from "@/components/blog/editor/BlogPostEditor.tsx";
-import { IconPhoto } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 
 const BlogPostCreateSchema = z
@@ -44,7 +39,6 @@ const BlogPostCreateSchema = z
       .max(3, "You can only specify up to 3 tags."),
     image: z.instanceof(File, { message: "Must be a valid file." }).optional(),
     isDraft: z.boolean().default(true),
-    targetPostId: z.string().optional(),
     isGameReview: z.boolean(),
     reviewInfo: z
       .object({
@@ -80,6 +74,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     register,
     setValue,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<BlogPostCreateFormValues>({
     mode: "onSubmit",
@@ -100,15 +95,22 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     mutationFn: async (data: BlogPostCreateFormValues) => {
       await BlogPostService.blogPostControllerCreateV1({
         ...data,
-        postId: data.targetPostId,
+        reviewInfo: data.isGameReview ? data.reviewInfo : undefined,
+        postId: editingPostId,
       });
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       notifications.show({
         color: "green",
         message: `Post ${editingPostId ? "updated" : "saved"} successfully.`,
       });
-      router.push("/dashboard/blog");
+
+      // Waits for invalidation before routing
+      await queryClient.invalidateQueries({
+        queryKey: ["blog"],
+      });
+
+      await router.push("/dashboard/blog");
     },
     onSettled: () => {
       queryClient.invalidateQueries({
@@ -118,34 +120,30 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     onError: createErrorNotification,
   });
 
+  console.log("Form: ", getValues());
+
   // Updates form to match current editing post
   useEffect(() => {
-    if (editingPostId && editingPostQuery.data) {
-      setValue("targetPostId", editingPostId);
+    if (editingPostQuery.data) {
       const { title, tags, content, isDraft, review } = editingPostQuery.data;
       setValue("title", title);
       setValue("content", content);
-      editorRef.current?.commands.setContent(content);
       setValue(
         "tags",
         tags.map((tag) => tag.name),
       );
       setValue("isDraft", isDraft);
       if (review) {
+        // Needs to be set first to avoid override by effect bellow
+        setValue("isGameReview", true);
+
         setValue("reviewInfo", {
           rating: review.rating,
           gameId: review.gameId,
         });
-        setValue("isGameReview", true);
       }
     }
   }, [editingPostId, editingPostQuery.data, setValue]);
-
-  useEffect(() => {
-    if (!isGameReview) {
-      setValue("reviewInfo", undefined);
-    }
-  }, [isGameReview, setValue]);
 
   return (
     <form
@@ -209,7 +207,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         onChange={(evt) => setValue("isGameReview", evt.target.checked)}
         label="Game review"
         description={"If this is a game review. This will enable more options."}
-        error={errors.isGameReview?.message || errors.reviewInfo?.message}
+        error={errors.isGameReview?.message}
       />
       {isGameReview && (
         <>
@@ -224,12 +222,17 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
               errors.reviewInfo?.rating?.message
             }
           />
-          <Text>Rating</Text>
-          <GameRating
-            readOnly={false}
-            value={watch("reviewInfo.rating")}
-            onChange={(v) => setValue("reviewInfo.rating", v)}
-          />
+          <Input.Wrapper
+            label={"Rating"}
+            withAsterisk
+            error={errors.reviewInfo?.rating?.message}
+          >
+            <GameRating
+              readOnly={false}
+              value={watch("reviewInfo.rating")}
+              onChange={(v) => setValue("reviewInfo.rating", v)}
+            />
+          </Input.Wrapper>
         </>
       )}
       <Title size={"h5"} className={"mt-5"}>
@@ -244,6 +247,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         }}
         onUpdate={({ editor }) => setValue("content", editor.getHTML())}
         isPending={postCreateMutation.isPending}
+        content={watch("content")}
       />
       <Group className={"justify-end"}>
         <Button type={"submit"} bg={isDraft ? "blue" : "brand"}>
