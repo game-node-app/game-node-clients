@@ -30,8 +30,6 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
    */
   const [currentStep, setCurrentStep] = useState<number>(0);
 
-  const [previewModalOpened, previewModalUtils] = useDisclosure();
-
   const onCropComplete = async (_: Area, croppedAreaPixels: Area) => {
     const croppedImage = await getCroppedImg(
       uploadedFileSrc!,

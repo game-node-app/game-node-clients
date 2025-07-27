@@ -7,6 +7,7 @@ import type { CollectionEntry } from '../models/CollectionEntry';
 import type { CreateFavoriteStatusCollectionEntryDto } from '../models/CreateFavoriteStatusCollectionEntryDto';
 import type { CreateUpdateCollectionEntryDto } from '../models/CreateUpdateCollectionEntryDto';
 import type { FindCollectionEntriesForCollectionIdDto } from '../models/FindCollectionEntriesForCollectionIdDto';
+import type { FindCollectionEntriesGameFilterDto } from '../models/FindCollectionEntriesGameFilterDto';
 import type { FindCollectionEntriesOrderBy } from '../models/FindCollectionEntriesOrderBy';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -138,7 +139,7 @@ export class CollectionsEntriesService {
      * @param id
      * @param orderBy
      * @param status
-     * @param category
+     * @param gameFilters
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -148,7 +149,7 @@ export class CollectionsEntriesService {
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped',
-        category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>,
+        gameFilters?: FindCollectionEntriesGameFilterDto,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -161,40 +162,40 @@ export class CollectionsEntriesService {
             query: {
                 'orderBy': orderBy,
                 'status': status,
-                'category': category,
+                'gameFilters': gameFilters,
                 'offset': offset,
                 'limit': limit,
             },
         });
     }
     /**
-     * @param id
+     * @param userId
      * @param orderBy
      * @param status
-     * @param category
+     * @param gameFilters
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
      * @throws ApiError
      */
     public static collectionsEntriesControllerFindFavoritesByLibraryIdV1(
-        id: string,
+        userId: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped',
-        category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>,
+        gameFilters?: FindCollectionEntriesGameFilterDto,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/v1/collections-entries/library/{id}/favorites',
+            url: '/v1/collections-entries/library/{userId}/favorites',
             path: {
-                'id': id,
+                'userId': userId,
             },
             query: {
                 'orderBy': orderBy,
                 'status': status,
-                'category': category,
+                'gameFilters': gameFilters,
                 'offset': offset,
                 'limit': limit,
             },

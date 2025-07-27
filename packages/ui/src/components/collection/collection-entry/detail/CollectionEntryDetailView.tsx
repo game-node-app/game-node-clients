@@ -15,7 +15,7 @@ import {
   BackToTopButton,
   Break,
   CollectionEntryAchievementTracker,
-  CollectionEntryAddOrUpdateModal,
+  CollectionEntryEditModal,
   CollectionEntryDetailsBox,
   CollectionEntryPlaytimeTracker,
   CollectionEntryRemoveModal,
@@ -106,7 +106,7 @@ const CollectionEntryDetailView = ({
         <BackToTopButton />
         {gameId && (
           <>
-            <CollectionEntryAddOrUpdateModal
+            <CollectionEntryEditModal
               id={gameId}
               opened={editOpened}
               onClose={editOpenedUtils.close}

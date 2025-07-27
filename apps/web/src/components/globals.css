@@ -1,3 +1,9 @@
+:root {
+    @mixin dark-root {
+        --mantine-color-body: #191919;
+    }
+}
+
 @layer tailwind {
     @tailwind base;
 

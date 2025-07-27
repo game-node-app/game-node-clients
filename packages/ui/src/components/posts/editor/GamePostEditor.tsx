@@ -93,7 +93,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
 
       const { filename } = response;
 
-      // Insert the image at current cursor position
+      // Insert the image at the current cursor position
       editor
         ?.chain()
         .focus()
@@ -192,9 +192,10 @@ const GamePostEditor = (props: GamePostEditorProps) => {
           <Group className={"justify-between"}>
             <FileButton
               accept="image/png,image/jpeg,image/gif"
+              multiple
               onChange={(payload) => {
-                if (payload) {
-                  uploadImageMutation.mutate(payload);
+                for (const file of payload) {
+                  uploadImageMutation.mutate(file);
                 }
               }}
             >

@@ -35,9 +35,6 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
           desktop: !sidebarOpened,
         },
       }}
-      classNames={{
-        main: "bg-mobile lg:bg-desktop bg-cover bg-center bg-fixed",
-      }}
     >
       <AppShell.Header>
         <GlobalShellHeader

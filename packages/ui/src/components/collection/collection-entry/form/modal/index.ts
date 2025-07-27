@@ -3,5 +3,5 @@
  */
 
 export * from "./CollectionEntriesMoveModal";
-export * from "./CollectionEntryAddOrUpdateModal";
+export * from "./CollectionEntryEditModal";
 export * from "./CollectionEntryRemoveModal";

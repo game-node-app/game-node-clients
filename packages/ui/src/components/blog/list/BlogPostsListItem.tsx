@@ -34,9 +34,9 @@ const BlogPostsListItem = ({ post }: Props) => {
       <Stack className={"w-8/12 lg:w-9/12 justify-start pe-4"}>
         <Link
           href={`/blog/post/${post.id}`}
-          className={"hover:text-brand-4 transition-[0.6s]"}
+          className={"hover:text-brand-4 transition-[0.6s] "}
         >
-          <Text className={"font-bold"} lineClamp={2}>
+          <Text className={"font-bold max-w-36"} lineClamp={2}>
             {post.title}
           </Text>
         </Link>

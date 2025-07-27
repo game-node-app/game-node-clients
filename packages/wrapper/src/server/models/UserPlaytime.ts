@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Game } from './Game';
+import type { GamePlatform } from './GamePlatform';
 import type { Profile } from './Profile';
 export type UserPlaytime = {
     lastPlayedDate: string | null;
@@ -19,6 +20,8 @@ export type UserPlaytime = {
     totalPlaytimeSeconds: number;
     recentPlaytimeSeconds: number;
     totalPlayCount: number;
+    platform: GamePlatform;
+    platformId: number;
     createdAt: string;
     updatedAt: string;
 };

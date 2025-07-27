@@ -43,7 +43,7 @@ const BlogPostsListPage = () => {
                 post={blogPost}
                 blogRoutePrefix={"/dashboard/blog"}
                 onEdit={() =>
-                  router.push(`/dashboard/blog/${blogPost.id}/edit`)
+                  router.push(`/dashboard/blog/post/${blogPost.id}/edit`)
                 }
                 withActions
               />

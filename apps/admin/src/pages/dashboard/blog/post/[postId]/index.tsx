@@ -1,8 +1,12 @@
 import React from "react";
-import { PageContainer } from "@/components/PageContainer/PageContainer";
-import { Divider, Text } from "@mantine/core";
-import { BlogPostDetailView } from "@repo/ui";
+import {
+  BlogPostDetailLayout,
+  BlogPostDetailView,
+  BlogPostsLayout,
+} from "@repo/ui";
+import { Divider, Stack, Text } from "@mantine/core";
 import { useRouter } from "next/router";
+import { PageContainer } from "@/components/PageContainer/PageContainer.tsx";
 
 const BlogPostDetailPage = () => {
   const router = useRouter();
@@ -15,7 +19,9 @@ const BlogPostDetailPage = () => {
         available in this dashboard.
       </Text>
       <Divider className={"mb-4"} />
-      <BlogPostDetailView postId={postId as string} />
+      <BlogPostDetailLayout postId={postId as string}>
+        <BlogPostDetailView postId={postId as string} />
+      </BlogPostDetailLayout>
     </PageContainer>
   );
 };

@@ -10,6 +10,7 @@ export type SubmitUserPlaytimeDto = {
      * Total playtime for this game, in seconds.
      */
     totalPlaytimeSeconds: number;
+    platformId: number;
 };
 export namespace SubmitUserPlaytimeDto {
     export enum source {

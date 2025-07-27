@@ -96,8 +96,8 @@ const UserPlaytimeItem = ({
 
           <Image
             w={32}
-            alt={getCapitalizedText(playtime.source)}
-            src={getServerStoredIcon(playtime.source)}
+            alt={getCapitalizedText(playtime.platform.name)}
+            src={getServerStoredIcon(playtime.source.toLowerCase())}
           />
         </Group>
       </Group>

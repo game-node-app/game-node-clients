@@ -5,7 +5,7 @@ import {
 } from "#@/components/game/figure/GameFigureImage";
 import { LongPressEventType, useLongPress } from "use-long-press";
 import { Box, Progress } from "@mantine/core";
-import { CollectionEntryAddOrUpdateModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryAddOrUpdateModal";
+import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
@@ -64,7 +64,7 @@ const GameFigureWithQuickAdd = ({
 
   return (
     <Box className={"w-full"}>
-      <CollectionEntryAddOrUpdateModal
+      <CollectionEntryEditModal
         id={game!.id!}
         opened={modalOpened}
         onClose={() => {

@@ -9,8 +9,9 @@ const config: Omit<Config, "content"> = {
   theme: {
     extend: {
       backgroundColor: {
-        mobile: "#191919",
-        desktop: "#191919",
+        body: "var(--mantine-color-body)",
+        paper: "#161616",
+        "paper-alt": "#262525",
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
@@ -43,8 +44,6 @@ const config: Omit<Config, "content"> = {
       },
       colors: {
         dimmed: "var(--mantine-color-dimmed)",
-        paper: "#161616",
-        "paper-alt": "#262525",
 
         brand: [
           "#ffede5",

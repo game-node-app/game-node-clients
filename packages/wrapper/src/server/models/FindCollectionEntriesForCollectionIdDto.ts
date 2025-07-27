@@ -2,11 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { FindCollectionEntriesGameFilterDto } from './FindCollectionEntriesGameFilterDto';
 import type { FindCollectionEntriesOrderBy } from './FindCollectionEntriesOrderBy';
 export type FindCollectionEntriesForCollectionIdDto = {
     orderBy?: FindCollectionEntriesOrderBy;
     status?: FindCollectionEntriesForCollectionIdDto.status;
-    category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>;
+    gameFilters?: FindCollectionEntriesGameFilterDto;
     offset?: number;
     limit?: number;
 };
