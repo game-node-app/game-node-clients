@@ -4,3 +4,4 @@
 
 export * from "./useOnMobile";
 export * from "./useOnMobilePlatform";
+export * from "./useWebSocket";

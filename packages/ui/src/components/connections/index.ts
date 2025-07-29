@@ -3,4 +3,5 @@
  */
 
 export * from "./hooks/index";
+export * from "./sync/index";
 export * from "./util/index";

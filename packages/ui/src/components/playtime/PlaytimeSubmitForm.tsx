@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Button,
   ComboboxItem,
+  Group,
   LoadingOverlay,
   NumberInput,
   Select,
@@ -13,7 +14,12 @@ import { z } from "zod";
 import { PlaytimeService, UserPlaytime } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePlaytimeForGame, useUserId } from "#@/components";
+import {
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  useGame,
+  usePlaytimeForGame,
+  useUserId,
+} from "#@/components";
 import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { DatePickerInput } from "@mantine/dates";
 import { useMutation } from "@tanstack/react-query";
@@ -66,6 +72,7 @@ const PlaytimeSubmitFormSchema = z.object({
     .min(0.1, "Total playtime must be provided."),
   lastPlayedDate: z.date().optional(),
   source: z.nativeEnum(UserPlaytime.source),
+  platformId: z.number({ message: "A platform must be selected." }),
 });
 
 type PlaytimeSubmitFormValues = z.infer<typeof PlaytimeSubmitFormSchema>;
@@ -76,6 +83,8 @@ interface Props extends BaseModalChildrenProps {
 
 const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
   const userId = useUserId();
+
+  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const playtimeForGameQuery = usePlaytimeForGame(userId, gameId);
 
@@ -94,6 +103,17 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
     },
   });
 
+  const platformSelectOptions = useMemo(() => {
+    return (
+      gameQuery.data?.platforms?.map(
+        (platform): ComboboxItem => ({
+          label: platform.name,
+          value: `${platform.id}`,
+        }),
+      ) ?? []
+    );
+  }, [gameQuery.data?.platforms]);
+
   const submitMutation = useMutation({
     mutationFn: async (data: PlaytimeSubmitFormValues) => {
       await PlaytimeService.playtimeControllerSubmitV1({
@@ -101,7 +121,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
         lastPlayedDate: data.lastPlayedDate?.toISOString() ?? null,
         source: data.source,
         totalPlaytimeSeconds: Math.ceil(data.totalPlaytimeHours * 3600),
-        platformId: 6,
+        platformId: data.platformId,
       });
     },
     onSettled: () => {
@@ -118,6 +138,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
   });
 
   const selectedSource = watch("source");
+  const selectedPlatformId = watch("platformId");
 
   useEffect(() => {
     if (playtimeForGameQuery.data) {
@@ -131,6 +152,10 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
             "lastPlayedDate",
             new Date(playtimeForSource.lastPlayedDate),
           );
+        }
+
+        if (playtimeForSource.platformId) {
+          setValue("platformId", playtimeForSource.platformId);
         }
 
         if (playtimeForSource.totalPlaytimeSeconds) {
@@ -152,27 +177,45 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
         </Text>
         <Text className={"text-sm text-dimmed"}>
           We highly recommend setting up your connections to automatically
-          import your playtime data.
+          import your playtime data. This data may be overwritten if we find
+          playtime data for this game in one of your connections.
         </Text>
         <form
           className={"mt-4 flex flex-col gap-3 relative"}
           onSubmit={handleSubmit((data) => submitMutation.mutate(data))}
         >
           {playtimeForGameQuery.isLoading && <LoadingOverlay />}
-          <Select
-            withAsterisk
-            label={"Source"}
-            error={errors.source?.message}
-            data={PLAYTIME_SOURCE_OPTIONS}
-            allowDeselect={true}
-            {...register("source")}
-            value={selectedSource}
-            onChange={(v) => {
-              if (v) {
-                setValue("source", v as never);
-              }
-            }}
-          />
+          <Group className={"flex-nowrap w-full"}>
+            <Select
+              {...register("platformId")}
+              label={"Platform"}
+              withAsterisk
+              value={`${selectedPlatformId}`}
+              onChange={(v) => {
+                if (v) {
+                  setValue("platformId", Number.parseInt(v));
+                }
+              }}
+              error={errors.platformId?.message}
+              data={platformSelectOptions}
+              allowDeselect={true}
+            />
+            <Select
+              {...register("source")}
+              withAsterisk
+              label={"Source"}
+              error={errors.source?.message}
+              data={PLAYTIME_SOURCE_OPTIONS}
+              allowDeselect={true}
+              value={selectedSource}
+              onChange={(v) => {
+                if (v) {
+                  setValue("source", v as never);
+                }
+              }}
+            />
+          </Group>
+
           <NumberInput
             withAsterisk
             error={errors.totalPlaytimeHours?.message}

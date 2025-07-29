@@ -1,11 +1,23 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import { UserConnectionDto } from "../../../../../../wrapper/src/server";
-import type = UserConnectionDto.type;
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { useDisclosure } from "@mantine/hooks";
-import { Group, Image, Paper, Stack, Switch, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Group,
+  Image,
+  Paper,
+  Stack,
+  Switch,
+  Text,
+  Title,
+} from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { PreferencesConnectionModal } from "#@/components/preferences/handlers/connections/PreferencesConnectionModal";
+import { IconRefresh } from "@tabler/icons-react";
+import { Modal } from "#@/util";
+import { ConnectionSyncView } from "#@/components/connections/sync/ConnectionSyncView.tsx";
+import type = UserConnectionDto.type;
 
 interface Props {
   type: type;
@@ -14,6 +26,7 @@ interface Props {
 const PreferencesConnectionItem = ({ type }: Props) => {
   const userConnection = useOwnUserConnectionByType(type);
   const [modalOpened, modalUtils] = useDisclosure();
+  const [syncModalOpened, syncModalUtils] = useDisclosure();
 
   return (
     <Paper
@@ -24,6 +37,13 @@ const PreferencesConnectionItem = ({ type }: Props) => {
         },
       }}
     >
+      <Modal
+        opened={syncModalOpened}
+        onClose={syncModalUtils.close}
+        keepMounted={false}
+      >
+        <ConnectionSyncView type={type} />
+      </Modal>
       <Group className={"w-full h-full min-h-28 p-2 px-4"}>
         <PreferencesConnectionModal
           type={type}
@@ -48,14 +68,17 @@ const PreferencesConnectionItem = ({ type }: Props) => {
             </>
           )}
         </Stack>
-        <Stack className={"ms-auto me-4"}>
+        <Group className={"ms-auto me-4"}>
+          <ActionIcon variant={"transparent"} onClick={syncModalUtils.open}>
+            <IconRefresh />
+          </ActionIcon>
           <Switch
             checked={userConnection.data != undefined}
-            onChange={(v) => {
+            onChange={() => {
               modalUtils.open();
             }}
           />
-        </Stack>
+        </Group>
       </Group>
     </Paper>
   );

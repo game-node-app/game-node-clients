@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import {
   CollectionEntryStatusSelect,
+  DEFAULT_GAME_INFO_VIEW_DTO,
   GameFigureImage,
   IGameAddFormProps,
   ImageSize,
@@ -75,12 +76,7 @@ const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
   /**
    * We re-use the default DTO here because the query is probably already cached for it at this point
    */
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
-      platforms: true,
-    },
-  });
+  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const gamePlatformsQuery = useGamesResource("platforms");
 
   const game = gameQuery.data;
