@@ -4,6 +4,8 @@ import { getCapitalizedText } from "#@/util";
 import { UserConnectionDto } from "@repo/wrapper/server";
 import { useUserId, useWebSocket } from "#@/components";
 import type = UserConnectionDto.type;
+import { Socket } from "socket.io-client";
+import DisconnectReason = Socket.DisconnectReason;
 
 interface Props {
   type: type;
@@ -12,20 +14,39 @@ interface Props {
 const ConnectionSyncView = ({ type }: Props) => {
   const userId = useUserId();
   const [messages, setMessages] = useState<string[]>([]);
-  const { socket, isConnected, on, off } = useWebSocket("connection-sync");
+  const { socket, isConnected, error, on, off } =
+    useWebSocket("connection-sync");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isConnected) {
-      on("message", (data) => {
-        setMessages((prev) => [...prev, data as string]);
-      });
+  const handleMessage = (data: unknown) => {
+    setMessages((prev) => [...prev, data as string]);
+  };
+
+  const handleConnect = () => {
+    setMessages([
+      "Connection ready. Click 'Start' below to sync this connection.",
+    ]);
+  };
+
+  const handleError = (err: unknown) => {
+    if (err instanceof Error) {
+      setMessages([err.message, "Trying to reconnect..."]);
     }
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    on("message", handleMessage);
+    on("connect", handleConnect);
+    on("connect_err", handleError);
 
     return () => {
-      off("message");
+      off("message", handleMessage);
+      off("connect", handleConnect);
+      off("connect_err", handleError);
     };
-  }, [off, on, isConnected]);
+  }, [off, on, socket]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -38,10 +59,13 @@ const ConnectionSyncView = ({ type }: Props) => {
 
   return (
     <Stack className={"h-full w-full"}>
-      <Title size={"h4"}>Start sync job for {getCapitalizedText(type)}</Title>
-      <Text className={"text-dimmed"}>
+      <Text className={"text-dimmed text-sm"}>
         This will perform a update request in your library, fetching playtime
         info, check for newer games, etc.
+      </Text>
+      <Text className={"text-dimmed text-sm"}>
+        Important: We already do this automatically. Use this to manually
+        trigger a update or debug importing issues.
       </Text>
       <ScrollArea
         h={400}

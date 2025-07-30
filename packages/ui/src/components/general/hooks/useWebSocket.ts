@@ -7,10 +7,17 @@ const SERVER_URL = OpenAPI.BASE;
 
 export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
   const socketRef = useRef<Socket>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+
+  const sessionContext = Session.useSessionContext();
 
   useEffect(() => {
     (async () => {
+      if (sessionContext.loading || !sessionContext.doesSessionExist) {
+        return;
+      }
+
       const token = await Session.getAccessToken();
 
       const endpoint = namespace.startsWith("/") ? namespace : `/${namespace}`;
@@ -36,6 +43,7 @@ export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
       socketRef.current.on("connect_error", (err) => {
         console.log(`Error connecting to socket in namespace ${namespace}`);
         console.error(err);
+        setError(err);
       });
     })();
 
@@ -46,7 +54,7 @@ export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
         socketRef.current.disconnect();
       }
     };
-  }, [namespace, opts]);
+  }, [namespace, opts, sessionContext]);
 
   const emit = (eventName: string, data: unknown) => {
     if (socketRef.current && isConnected) {
@@ -60,11 +68,14 @@ export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
     }
   };
 
-  const off = (eventName: string) => {
+  const off = (
+    eventName: string,
+    callback: ((...args: unknown[]) => void) | undefined,
+  ) => {
     if (socketRef.current) {
-      socketRef.current.off(eventName);
+      socketRef.current.off(eventName, callback);
     }
   };
 
-  return { socket: socketRef.current, isConnected, emit, on, off };
+  return { socket: socketRef.current, isConnected, emit, on, off, error };
 }
