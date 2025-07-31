@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, ScrollArea, Stack, Text, Title } from "@mantine/core";
-import { getCapitalizedText } from "#@/util";
+import { Button, ScrollArea, Stack, Text } from "@mantine/core";
 import { UserConnectionDto } from "@repo/wrapper/server";
 import { useUserId, useWebSocket } from "#@/components";
 import type = UserConnectionDto.type;
-import { Socket } from "socket.io-client";
-import DisconnectReason = Socket.DisconnectReason;
 
 interface Props {
   type: type;
@@ -14,8 +11,7 @@ interface Props {
 const ConnectionSyncView = ({ type }: Props) => {
   const userId = useUserId();
   const [messages, setMessages] = useState<string[]>([]);
-  const { socket, isConnected, error, on, off } =
-    useWebSocket("connection-sync");
+  const { socket, error, on, off } = useWebSocket("connection-sync");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const handleMessage = (data: unknown) => {
@@ -32,6 +28,13 @@ const ConnectionSyncView = ({ type }: Props) => {
     if (err instanceof Error) {
       setMessages([err.message, "Trying to reconnect..."]);
     }
+
+    if (err != undefined && typeof err === "object" && "message" in err) {
+      setMessages([
+        err.message as string,
+        "Wait some time before trying again.",
+      ]);
+    }
   };
 
   useEffect(() => {
@@ -40,11 +43,13 @@ const ConnectionSyncView = ({ type }: Props) => {
     on("message", handleMessage);
     on("connect", handleConnect);
     on("connect_err", handleError);
+    on("exception", handleError);
 
     return () => {
       off("message", handleMessage);
       off("connect", handleConnect);
       off("connect_err", handleError);
+      off("exception", handleError);
     };
   }, [off, on, socket]);
 

@@ -45,6 +45,14 @@ export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
         console.error(err);
         setError(err);
       });
+
+      socketRef.current.on("exception", (err) => {
+        console.log("Exception in socket in namespace " + namespace);
+        console.error(err);
+        if ("message" in err && typeof err.message === "string") {
+          setError(new Error(err.message));
+        }
+      });
     })();
 
     // Cleanup on unmounting

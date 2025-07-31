@@ -7,9 +7,6 @@ import { Box } from "@mantine/core";
 
 export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
   relations: {
-    involvedCompanies: {
-      company: true,
-    },
     similarGames: {
       cover: true,
     },
@@ -23,6 +20,24 @@ export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
       cover: true,
     },
     expansions: {
+      cover: true,
+    },
+    remakes: {
+      cover: true,
+    },
+    remakeOf: {
+      cover: true,
+    },
+    expandedGames: {
+      cover: true,
+    },
+    expandedGameOf: {
+      cover: true,
+    },
+    remasters: {
+      cover: true,
+    },
+    remasterOf: {
       cover: true,
     },
   },

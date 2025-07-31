@@ -22,6 +22,7 @@ import {
 } from "#@/util/trackMatomoEvent";
 import {
   CollectionEntryFormDetailsPanel,
+  CollectionEntryFormDlcsPanel,
   CollectionEntryFormReviewPanel,
   useOnMobile,
 } from "#@/components";
@@ -54,6 +55,7 @@ const GameAddOrUpdateSchema = z.object({
       .nullish(),
     content: z.string().nullish(),
   }),
+  relatedGamesIds: z.array(z.number()).default([]),
 });
 
 export type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;
@@ -84,13 +86,12 @@ const CollectionEntryEditForm = ({
     defaultValues: {
       status: CollectionEntry.status.PLANNED,
       finishedAt: null,
+      relatedGamesIds: [],
     },
   });
 
   const { handleSubmit } = form;
-
-  const onMobile = useOnMobile();
-
+  useOnMobile();
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
@@ -112,7 +113,6 @@ const CollectionEntryEditForm = ({
       const collectionIds = data.collectionIds;
       const parsedPlatformIds = data.platformsIds.map((id) => parseInt(id));
       const isFavorite =
-        isUpdateAction &&
         collectionEntryQuery.data != undefined &&
         collectionEntryQuery.data.isFavorite;
 
@@ -183,8 +183,6 @@ const CollectionEntryEditForm = ({
     collectionEntryMutation.mutate(data);
   };
 
-  console.log("form: ", form.getValues());
-
   if (gameQuery.isLoading || collectionEntryQuery.isLoading) {
     return <CenteredLoading />;
   } else if (gameQuery.isError || collectionEntryQuery.isError) {
@@ -237,6 +235,9 @@ const CollectionEntryEditForm = ({
             </Tabs.Panel>
             <Tabs.Panel value={"review"}>
               <CollectionEntryFormReviewPanel gameId={gameId} />
+            </Tabs.Panel>
+            <Tabs.Panel value={"dlcs"}>
+              <CollectionEntryFormDlcsPanel gameId={gameId} />
             </Tabs.Panel>
           </Tabs>
         </form>

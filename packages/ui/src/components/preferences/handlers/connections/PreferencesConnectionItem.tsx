@@ -38,6 +38,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
       }}
     >
       <Modal
+        title={"Sync"}
         opened={syncModalOpened}
         onClose={syncModalUtils.close}
         keepMounted={false}
@@ -69,9 +70,11 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           )}
         </Stack>
         <Group className={"ms-auto me-4"}>
-          <ActionIcon variant={"transparent"} onClick={syncModalUtils.open}>
-            <IconRefresh />
-          </ActionIcon>
+          {userConnection.data != undefined && (
+            <ActionIcon variant={"transparent"} onClick={syncModalUtils.open}>
+              <IconRefresh />
+            </ActionIcon>
+          )}
           <Switch
             checked={userConnection.data != undefined}
             onChange={() => {
