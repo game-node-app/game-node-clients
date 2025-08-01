@@ -23,7 +23,7 @@ import { IconLoader, IconX } from "@tabler/icons-react";
 import UserSelectOption from "@/components/general/shell/GlobalShellNavbar/search-bar/UserSelectOption";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import {
-  toGameSearchRequestDto,
+  buildGameSearchRequestDto,
   useSearchGames,
   useSearchUsers,
 } from "@repo/ui";
@@ -53,7 +53,7 @@ const GlobalNavbarSearchBar = ({
     debouncedQuery != undefined && debouncedQuery.length > 2;
   const searchGamesQuery = useSearchGames(
     {
-      ...toGameSearchRequestDto({
+      ...buildGameSearchRequestDto({
         query: debouncedQuery,
         includeExtraContent: false,
         includeDlcs: false,

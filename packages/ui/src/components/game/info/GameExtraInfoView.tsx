@@ -28,6 +28,21 @@ const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
       </SimpleGrid>
 
       <GameRelatedGamesCarousel
+        title={"Other versions of this game"}
+        gameId={gameId}
+        relationProperty={["remasters", "remakes"]}
+      />
+      <GameRelatedGamesCarousel
+        title={"Remake of"}
+        gameId={gameId}
+        relationProperty={"remakeOf"}
+      />
+      <GameRelatedGamesCarousel
+        title={"Remaster of"}
+        gameId={gameId}
+        relationProperty={"remasterOf"}
+      />
+      <GameRelatedGamesCarousel
         title={"Expansion of"}
         gameId={gameId}
         relationProperty={"expansionOf"}
@@ -37,19 +52,16 @@ const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
         gameId={gameId}
         relationProperty={"expansions"}
       />
-
       <GameRelatedGamesCarousel
         title={"DLC of"}
         gameId={gameId}
         relationProperty={"dlcOf"}
       />
-
       <GameRelatedGamesCarousel
         title={"DLCs"}
         gameId={gameId}
         relationProperty={"dlcs"}
       />
-
       <GameRelatedGamesCarousel
         title={"Similar games"}
         gameId={gameId}

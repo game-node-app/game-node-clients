@@ -68,34 +68,35 @@ const GameSelectViewFigure = ({
 
   return (
     <GameFigureImage {...figureProps} game={game} onClick={onClick}>
+      {(isSelected || isExcluded) && (
+        <Overlay
+          color="#000"
+          backgroundOpacity={0.85}
+          className={"z-10 h-full"}
+        />
+      )}
       {isSelected && (
-        <>
-          <Overlay color="#000" backgroundOpacity={0.85} className={"z-10"} />
-          <Center
-            className={
-              "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-            }
-            onClick={onClick}
-          >
-            <IconCircleCheckFilled className={"text-brand-5"} />
-          </Center>
-        </>
+        <Center
+          className={
+            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+          }
+          onClick={onClick}
+        >
+          <IconCircleCheckFilled className={"text-brand-5"} />
+        </Center>
       )}
       {isExcluded && (
-        <>
-          <Overlay color="#000" backgroundOpacity={0.85} className={"z-10"} />
-          <Center
-            className={
-              "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center"
-            }
-            onClick={onClick}
-          >
-            <Stack className={"items-center gap-0.5"}>
-              <IconCircleCheckFilled className={"w-8 h-8 z-20 text-brand-5"} />
-              <Text className={"text-center"}>In your library</Text>
-            </Stack>
-          </Center>
-        </>
+        <Center
+          className={
+            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center"
+          }
+          onClick={onClick}
+        >
+          <Stack className={"items-center gap-0.5"}>
+            <IconCircleCheckFilled className={"w-8 h-8 z-20 text-brand-5"} />
+            <Text className={"text-center text-sm"}>In your library</Text>
+          </Stack>
+        </Center>
       )}
     </GameFigureImage>
   );

@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import {
-  toGameSearchRequestDto,
+  buildGameSearchRequestDto,
   useSearchGamesAutocomplete,
 } from "#@/components";
 import { games_GameSearchRequestDto } from "@repo/wrapper/search";
@@ -97,7 +97,9 @@ const GameSearchBar = ({
     <form
       className={"w-full"}
       ref={formRef}
-      onSubmit={handleSubmit((data) => onSubmit(toGameSearchRequestDto(data)))}
+      onSubmit={handleSubmit((data) =>
+        onSubmit(buildGameSearchRequestDto(data)),
+      )}
     >
       <Stack className={"w-full"}>
         <Group className={"w-full flex-nowrap gap-0"}>

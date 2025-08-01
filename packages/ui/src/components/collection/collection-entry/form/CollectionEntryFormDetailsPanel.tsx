@@ -59,9 +59,10 @@ function buildPlatformsOptions(
     });
 }
 
-interface Props extends Omit<IGameAddFormProps, "onClose"> {}
-
-const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
+const CollectionEntryFormDetailsPanel = ({
+  gameId,
+  showGameInfo,
+}: Omit<IGameAddFormProps, "onClose">) => {
   const {
     watch,
     register,
@@ -94,8 +95,6 @@ const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
     }
     return buildPlatformsOptions(gamePlatformsQuery.data);
   }, [game, gamePlatformsQuery.data]);
-
-  const isUpdateAction = collectionEntryQuery.data != null;
 
   const platformsIdsValue = watch("platformsIds", []);
   const collectionsIdsValue = watch("collectionIds", []);
@@ -132,34 +131,6 @@ const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
     }
   }, [collectionEntryQuery.data, platformOptions, setValue]);
 
-  /**
-   * Effect to quickly select a non-finished collection when only one is available.
-   * Only triggers when the collection entry is 'new' and if no collection has been selected.
-   */
-  useEffect(() => {
-    const collections = userLibraryQuery.data?.collections;
-    if (
-      collections &&
-      collectionsIdsValue.length === 0 &&
-      collectionEntryQuery.data == undefined
-    ) {
-      const nonFinishedGamesCollections = collections.filter(
-        (collection) => !collection.isFinished,
-      );
-
-      if (nonFinishedGamesCollections.length === 1) {
-        const collectionId = nonFinishedGamesCollections[0].id;
-
-        setValue("collectionIds", [collectionId]);
-      }
-    }
-  }, [
-    collectionEntryQuery.data,
-    collectionsIdsValue.length,
-    setValue,
-    userLibraryQuery.data?.collections,
-  ]);
-
   return (
     <Group className={"flex-wrap lg:flex-nowrap lg:items-start w-full h-full "}>
       {showGameInfo && (
@@ -173,22 +144,6 @@ const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
       />
       <Stack className={"w-full items-start gap-2 h-full lg:w-1/2"}>
         <Title size={"h5"}>{game?.name}</Title>
-        <MultiSelect
-          {...register("collectionIds")}
-          value={collectionsIdsValue || []}
-          className={"w-full"}
-          data={collectionOptions}
-          onChange={(value) => {
-            setValue("collectionIds", value);
-          }}
-          placeholder={"Select collections"}
-          label={"Collections"}
-          error={errors.collectionIds?.message}
-          withAsterisk
-          searchable
-          limit={10}
-          description={"Which collections do you want to save it on?"}
-        />
         <MultiSelect
           {...register("platformsIds")}
           value={platformsIdsValue || []}
@@ -205,7 +160,21 @@ const CollectionEntryFormDetailsPanel = ({ gameId, showGameInfo }: Props) => {
           limit={20}
           description={"You can search for a platform by typing it's name"}
         />
-
+        <MultiSelect
+          {...register("collectionIds")}
+          value={collectionsIdsValue}
+          className={"w-full"}
+          data={collectionOptions}
+          onChange={(value) => {
+            setValue("collectionIds", value);
+          }}
+          placeholder={"Select collections"}
+          label={"Collections"}
+          error={errors.collectionIds?.message}
+          searchable
+          limit={10}
+          description={"Optional. Which collections do you want to save it on?"}
+        />
         <CollectionEntryStatusSelect
           selectedCollectionIds={collectionsIdsValue}
           value={status}

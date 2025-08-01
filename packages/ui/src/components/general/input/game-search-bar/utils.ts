@@ -1,7 +1,7 @@
 import { EGameCategory, GameSearchFormValues } from "#@/components";
 import { games_GameSearchRequestDto } from "@repo/wrapper/search";
 
-export function toGameSearchRequestDto(
+export function buildGameSearchRequestDto(
   data: GameSearchFormValues,
 ): Pick<games_GameSearchRequestDto, "query" | "category"> {
   const categories: games_GameSearchRequestDto["category"] = [

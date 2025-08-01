@@ -4,11 +4,12 @@
 /* eslint-disable */
 import type { CollectionEntriesPaginatedResponseDto } from '../models/CollectionEntriesPaginatedResponseDto';
 import type { CollectionEntry } from '../models/CollectionEntry';
-import type { CreateFavoriteStatusCollectionEntryDto } from '../models/CreateFavoriteStatusCollectionEntryDto';
+import type { CollectionEntryFavoriteStatusDto } from '../models/CollectionEntryFavoriteStatusDto';
 import type { CreateUpdateCollectionEntryDto } from '../models/CreateUpdateCollectionEntryDto';
 import type { FindCollectionEntriesForCollectionIdDto } from '../models/FindCollectionEntriesForCollectionIdDto';
 import type { FindCollectionEntriesGameFilterDto } from '../models/FindCollectionEntriesGameFilterDto';
 import type { FindCollectionEntriesOrderBy } from '../models/FindCollectionEntriesOrderBy';
+import type { FindRelatedCollectionEntriesResponseDto } from '../models/FindRelatedCollectionEntriesResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -55,6 +56,22 @@ export class CollectionsEntriesService {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/v1/collections-entries/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns FindRelatedCollectionEntriesResponseDto
+     * @throws ApiError
+     */
+    public static collectionsEntriesControllerFindRelatedEntriesV1(
+        id: string,
+    ): CancelablePromise<FindRelatedCollectionEntriesResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/collections-entries/{id}/related',
             path: {
                 'id': id,
             },
@@ -123,7 +140,7 @@ export class CollectionsEntriesService {
      */
     public static collectionsEntriesControllerChangeFavoriteStatusV1(
         id: number,
-        requestBody: CreateFavoriteStatusCollectionEntryDto,
+        requestBody: CollectionEntryFavoriteStatusDto,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',

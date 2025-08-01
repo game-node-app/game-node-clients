@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
@@ -28,12 +28,6 @@ export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
     remakeOf: {
       cover: true,
     },
-    expandedGames: {
-      cover: true,
-    },
-    expandedGameOf: {
-      cover: true,
-    },
     remasters: {
       cover: true,
     },
@@ -46,7 +40,7 @@ export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
 interface GameRelatedGameCarouselProps {
   title: string;
   gameId: number;
-  relationProperty: keyof Game;
+  relationProperty: keyof Game | (keyof Game)[];
 }
 
 /**
@@ -65,18 +59,23 @@ const GameRelatedGamesCarousel = ({
 }: GameRelatedGameCarouselProps) => {
   const gameQuery = useGame(gameId, DEFAULT_RELATED_GAMES_DTO);
 
-  // Make sure to add runtime checks for an array of games too.
-  const relationData = gameQuery.data?.[relationProperty] as Game[] | undefined;
+  const targetGames = useMemo(() => {
+    const targetProperties = Array.isArray(relationProperty)
+      ? relationProperty
+      : [relationProperty];
 
-  const hasRelations =
-    relationData != undefined &&
-    Array.isArray(relationData) != undefined &&
-    relationData.length > 0;
+    return targetProperties
+      .map((property) => gameQuery.data?.[property] as Game[] | undefined)
+      .flat(1)
+      .filter((game) => game != undefined);
+  }, [gameQuery.data, relationProperty]);
 
-  if (!hasRelations) return null;
+  const isEmpty = targetGames.length === 0;
+
+  if (isEmpty) return null;
 
   return (
-    <Box className={"bg-[#262525] p-3"}>
+    <Box className={"p-3"} bg={"#262525"}>
       <DetailsBox
         title={title}
         stackProps={{
@@ -86,7 +85,7 @@ const GameRelatedGamesCarousel = ({
         <GameInfoCarousel
           isLoading={gameQuery.isLoading}
           isError={gameQuery.isError}
-          games={relationData || []}
+          games={targetGames || []}
         />
       </DetailsBox>
     </Box>

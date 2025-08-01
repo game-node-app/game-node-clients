@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CreateFavoriteStatusCollectionEntryDto = {
+export type CollectionEntryFavoriteStatusDto = {
     isFavorite: boolean;
 };
 

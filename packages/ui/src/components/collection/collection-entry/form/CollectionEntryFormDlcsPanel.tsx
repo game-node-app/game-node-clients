@@ -25,13 +25,7 @@ const CollectionEntryFormDlcsPanel = ({
       return [];
     }
 
-    const targetProperties: (keyof Game)[] = [
-      "dlcs",
-      "expansions",
-      "remakes",
-      "expandedGames",
-      "remasters",
-    ];
+    const targetProperties: (keyof Game)[] = ["dlcs", "expansions"];
 
     return targetProperties
       .map((property) => gameQuery.data![property])
@@ -56,11 +50,24 @@ const CollectionEntryFormDlcsPanel = ({
     <Stack>
       <Title size={"h4"}>Add related content to this game</Title>
       <Text className={"text-dimmed text-sm"}>
-        These items will only be visible when visiting your collection
-        entry&#39;s detail page, unless you add them to collections manually
-        later.
+        These items will be added to your library alongside this game. They will
+        only be visible when visiting your entry&#39;s detail page. They will
+        inherit this game&#39;s status and platforms, but will not be added to
+        collections. You can always add them to your collections manually later.
       </Text>
       <GameSelectView>
+        <GameSelectView.Actions
+          onSelectAll={() => {
+            const relatedGameIds = relatedGames.map((game) => game.id);
+            if (selectedGameIds.length === relatedGameIds.length) {
+              setValue("relatedGamesIds", []);
+              return;
+            }
+
+            setValue("relatedGamesIds", relatedGameIds);
+          }}
+          isAllGamesSelected={selectedGameIds.length === relatedGames.length}
+        ></GameSelectView.Actions>
         <GameSelectView.Content
           items={relatedGames}
           onSelected={onSelected}

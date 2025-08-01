@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, Tabs } from "@mantine/core";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,8 @@ import {
   CollectionEntryFormDetailsPanel,
   CollectionEntryFormDlcsPanel,
   CollectionEntryFormReviewPanel,
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  DEFAULT_RELATED_GAMES_DTO,
   useOnMobile,
 } from "#@/components";
 import {
@@ -33,20 +35,15 @@ import {
 } from "@tabler/icons-react";
 
 const GameAddOrUpdateSchema = z.object({
-  collectionIds: z
-    .array(z.string(), {
-      required_error: "Select at least one collection.",
-      invalid_type_error: "Select at least one collection.",
-    })
-    .min(1, "Select at least one collection.")
-    .default([]),
+  collectionIds: z.array(z.string(), {
+    invalid_type_error: "Collection must be valid.",
+  }),
   platformsIds: z
     .array(z.string(), {
       invalid_type_error: "Select at least one platform.",
       required_error: "Select at least one platform.",
     })
-    .min(1, "Select at least one platform.")
-    .default([]),
+    .min(1, "Select at least one platform."),
   finishedAt: z.date().nullable(),
   status: z.nativeEnum(CollectionEntry.status),
   review: z.object({
@@ -87,6 +84,7 @@ const CollectionEntryEditForm = ({
       status: CollectionEntry.status.PLANNED,
       finishedAt: null,
       relatedGamesIds: [],
+      collectionIds: [],
     },
   });
 
@@ -99,12 +97,18 @@ const CollectionEntryEditForm = ({
   /**
    * We re-use the default DTO here because the query is probably already cached for it at this point
    */
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
-      platforms: true,
-    },
-  });
+  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+
+  const gameWithRelatedGamesQuery = useGame(gameId, DEFAULT_RELATED_GAMES_DTO);
+
+  const hasRelatedGames = useMemo(() => {
+    if (gameWithRelatedGamesQuery.data) {
+      const game = gameWithRelatedGamesQuery.data;
+      return game.dlcs.length > 0 || game.expansions.length > 0;
+    }
+
+    return false;
+  }, [gameWithRelatedGamesQuery.data]);
 
   const isUpdateAction = collectionEntryQuery.data != null;
 
@@ -112,21 +116,18 @@ const CollectionEntryEditForm = ({
     mutationFn: async (data: TGameAddOrUpdateValues) => {
       const collectionIds = data.collectionIds;
       const parsedPlatformIds = data.platformsIds.map((id) => parseInt(id));
-      const isFavorite =
-        collectionEntryQuery.data != undefined &&
-        collectionEntryQuery.data.isFavorite;
 
       await CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
         {
           collectionIds: collectionIds,
           gameId: gameId,
           platformIds: parsedPlatformIds,
-          isFavorite: isFavorite,
           finishedAt:
             data.finishedAt instanceof Date
               ? data.finishedAt.toISOString()
               : null,
           status: data.status,
+          relatedGameIds: data.relatedGamesIds,
         },
       );
     },
@@ -223,6 +224,7 @@ const CollectionEntryEditForm = ({
               <Tabs.Tab
                 value={"dlcs"}
                 leftSection={<IconAppsFilled size={24} />}
+                disabled={!hasRelatedGames}
               >
                 DLCs
               </Tabs.Tab>

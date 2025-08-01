@@ -36,10 +36,10 @@ export type Game = {
     firstReleaseDate: string;
     createdAt: string;
     updatedAt: string;
-    dlcs?: Array<Game>;
-    dlcOf?: Array<Game>;
-    expansions?: Array<Game>;
-    expansionOf?: Array<Game>;
+    dlcs: Array<Game>;
+    dlcOf: Array<Game>;
+    expansions: Array<Game>;
+    expansionOf: Array<Game>;
     expandedGames?: Array<Game>;
     expandedGameOf?: Array<Game>;
     similarGames?: Array<Game>;

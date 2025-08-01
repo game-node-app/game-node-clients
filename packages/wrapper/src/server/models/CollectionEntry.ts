@@ -6,6 +6,7 @@ import type { Collection } from './Collection';
 import type { CollectionEntryToCollection } from './CollectionEntryToCollection';
 import type { Game } from './Game';
 import type { GamePlatform } from './GamePlatform';
+import type { Library } from './Library';
 export type CollectionEntry = {
     /**
      * Collections this entry belongs to
@@ -21,6 +22,8 @@ export type CollectionEntry = {
     collectionsMap: Array<CollectionEntryToCollection>;
     isFavorite: boolean;
     status: CollectionEntry.status;
+    library: Library;
+    libraryUserId: string;
     finishedAt: string | null;
     startedAt: string | null;
     droppedAt: string | null;
