@@ -44,7 +44,7 @@ export type { FindAllProfileResponseItemDto } from './models/FindAllProfileRespo
 export type { FindAllReviewsByIdDto } from './models/FindAllReviewsByIdDto';
 export { FindAvailableConnectionsResponseDto } from './models/FindAvailableConnectionsResponseDto';
 export { FindCollectionEntriesForCollectionIdDto } from './models/FindCollectionEntriesForCollectionIdDto';
-export { FindCollectionEntriesGameFilterDto } from './models/FindCollectionEntriesGameFilterDto';
+export type { FindCollectionEntriesGameFilterDto } from './models/FindCollectionEntriesGameFilterDto';
 export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';
@@ -81,7 +81,7 @@ export type { GameMode } from './models/GameMode';
 export { GameObtainedAchievementDto } from './models/GameObtainedAchievementDto';
 export { GamePlatform } from './models/GamePlatform';
 export type { GamePlayerPerspective } from './models/GamePlayerPerspective';
-export { GameRepositoryFilterDto } from './models/GameRepositoryFilterDto';
+export type { GameRepositoryFilterDto } from './models/GameRepositoryFilterDto';
 export type { GameRepositoryFindAllDto } from './models/GameRepositoryFindAllDto';
 export type { GameRepositoryFindOneDto } from './models/GameRepositoryFindOneDto';
 export type { GameScreenshot } from './models/GameScreenshot';

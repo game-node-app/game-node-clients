@@ -1,13 +1,9 @@
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CollectionEntriesPaginatedResponseDto,
+  CollectionsEntriesService,
   FindCollectionEntriesOrderBy,
-} from "../../../../../../wrapper/src/server";
-import { getCollectionEntriesByCollectionId } from "#@/components/collection/collection-entry/util/getCollectionEntriesByCollectionId";
+} from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 interface UseCollectionEntriesForCollectionIdProps {
@@ -44,14 +40,13 @@ export function useCollectionEntriesForCollectionId({
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        if (!collectionId) {
-          return undefined;
-        }
-        return await getCollectionEntriesByCollectionId(
+        return CollectionsEntriesService.collectionsEntriesControllerFindAllByCollectionIdV1(
           collectionId,
-          offset,
-          limit,
-          orderBy,
+          {
+            offset,
+            limit,
+            orderBy,
+          },
         );
       },
       enabled: !!collectionId,

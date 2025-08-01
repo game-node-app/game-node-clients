@@ -5,14 +5,15 @@ import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { Flex, Skeleton, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { TGameOrSearchGame } from "#@/components";
 
 interface IGameInfoCarouselProps extends CarouselProps {
   isLoading: boolean;
   isError: boolean;
-  games: Game[] | undefined;
+  games: TGameOrSearchGame[] | undefined;
 }
 
-const buildGamesFigures = (games: Game[] | undefined) => {
+const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
   if (games == undefined || games.length === 0) return null;
 
   return games.map((game, index) => {
@@ -25,19 +26,6 @@ const buildGamesFigures = (games: Game[] | undefined) => {
     }
     return null;
   });
-};
-
-const buildSkeletons = () => {
-  const skeletons = [];
-  for (let i = 0; i < 7; i++) {
-    skeletons.push(
-      <Carousel.Slide key={i} className="w-full h-full">
-        <Skeleton height={230} />
-      </Carousel.Slide>,
-    );
-  }
-
-  return skeletons;
 };
 
 const buildErrorView = () => {

@@ -5,7 +5,7 @@ import {
   useCollectionEntry,
   usePlaytimeForGame,
 } from "#@/components";
-import { Badge, Skeleton, Text } from "@mantine/core";
+import { Badge, Group, Skeleton, Text } from "@mantine/core";
 
 interface Props {
   userId: string;
@@ -46,16 +46,16 @@ const CollectionEntryDetailsBox = ({ collectionEntryId, userId }: Props) => {
               {getCollectionEntryStatusName(collectionEntryQuery.data!.status)}
             </Badge>
           </Text>
-          <Text>
+          <Group className={"gap-1"}>
             <Text span className={"font-bold"}>
               Platforms:{" "}
             </Text>
             {platforms?.map((platform) => (
-              <Badge key={platform.id} variant={"default"}>
-                {platform.name}
+              <Badge key={platform.id} variant={"default"} className={"me-1"}>
+                {platform.abbreviation}
               </Badge>
             ))}
-          </Text>
+          </Group>
           <Text>
             <Text span className={"font-bold"}>
               Playtime:{" "}

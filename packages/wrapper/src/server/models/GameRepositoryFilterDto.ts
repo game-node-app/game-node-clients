@@ -8,8 +8,8 @@ export type GameRepositoryFilterDto = {
      * Useful to filter data received from entities which hold game ids (like GameStatistics, Reviews, etc.)
      */
     ids?: Array<number>;
-    status?: GameRepositoryFilterDto.status;
-    category?: GameRepositoryFilterDto.category;
+    status?: Array<0 | 2 | 3 | 4 | 5 | 6 | 7 | 8>;
+    category?: Array<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14>;
     themes?: Array<number>;
     gameModes?: Array<number>;
     platforms?: Array<number>;
@@ -17,33 +17,4 @@ export type GameRepositoryFilterDto = {
     offset?: number;
     limit?: number;
 };
-export namespace GameRepositoryFilterDto {
-    export enum status {
-        '_0' = 0,
-        '_2' = 2,
-        '_3' = 3,
-        '_4' = 4,
-        '_5' = 5,
-        '_6' = 6,
-        '_7' = 7,
-        '_8' = 8,
-    }
-    export enum category {
-        '_0' = 0,
-        '_1' = 1,
-        '_2' = 2,
-        '_3' = 3,
-        '_4' = 4,
-        '_5' = 5,
-        '_6' = 6,
-        '_7' = 7,
-        '_8' = 8,
-        '_9' = 9,
-        '_10' = 10,
-        '_11' = 11,
-        '_12' = 12,
-        '_13' = 13,
-        '_14' = 14,
-    }
-}
 

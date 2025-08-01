@@ -37,7 +37,9 @@ const RecommendationCarousel = ({ criteria, limit = 15, ...others }: Props) => {
   const criteriaTitle = useMemo(() => {
     if (criteria === "finished") {
       return "Based on your played games";
-    } else if (
+    }
+
+    if (
       resourceQuery.data == undefined ||
       recommendationsQuery.data == undefined
     ) {

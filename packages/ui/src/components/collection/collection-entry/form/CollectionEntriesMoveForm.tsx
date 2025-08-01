@@ -145,7 +145,6 @@ const CollectionEntriesMoveForm = ({
           CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
             {
               status: entry.status,
-              isFavorite: entry.isFavorite,
               platformIds: ownedPlatformsIds,
               collectionIds: targetCollectionsIds,
               gameId: entry.gameId,
@@ -177,9 +176,6 @@ const CollectionEntriesMoveForm = ({
       collectionsEntriesQuery.invalidate();
     },
   });
-
-  const targetCollectionIds = watch("targetCollectionIds");
-
   return (
     <form
       className={"w-full h-full"}

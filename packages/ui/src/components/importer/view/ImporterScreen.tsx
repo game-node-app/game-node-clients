@@ -196,7 +196,6 @@ const ImporterScreen = ({ source }: Props) => {
             gameId: selectedGameId,
             collectionIds: selectedCollectionIds,
             platformIds: [importerItem.preferredPlatformId],
-            isFavorite: false,
             status: status.PLANNED,
           },
         );

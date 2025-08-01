@@ -9,5 +9,7 @@ export function useRelatedCollectionEntries(collectionEntryId: string) {
         collectionEntryId,
       );
     },
+    enabled: !!collectionEntryId,
+    retry: false,
   });
 }

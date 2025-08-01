@@ -30,6 +30,8 @@ import {
   useOnMobile,
   useOwnCollectionEntryForGameId,
   useUserProfile,
+  CollectionEntryDetailRelatedEntries,
+  useRelatedCollectionEntries,
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
 import { getRandomItem, Link } from "#@/util";
@@ -58,6 +60,9 @@ const CollectionEntryDetailView = ({
 
   const gameId = collectionEntryQuery.data?.gameId;
 
+  const relatedCollectionEntriesQuery =
+    useRelatedCollectionEntries(collectionEntryId);
+
   const ownCollectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
   const gameQuery = useGame(collectionEntryQuery.data?.gameId, {
@@ -75,9 +80,11 @@ const CollectionEntryDetailView = ({
     }
 
     return getSizedImageUrl(randomScreenshot.url, backgroundImageSize);
-  }, [gameQuery.data?.screenshots]);
+  }, [backgroundImageSize, gameQuery.data?.screenshots]);
 
   const isInLibrary = ownCollectionEntryQuery.data != undefined;
+
+  const hasRelatedGames = relatedCollectionEntriesQuery.data != undefined;
 
   const [editOpened, editOpenedUtils] = useDisclosure();
   const [removeOpened, removeOpenedUtils] = useDisclosure();
@@ -194,12 +201,15 @@ const CollectionEntryDetailView = ({
             <Box className={"w-full lg:w-7/12"}>
               <JournalPlaylogView userId={userId as string} gameId={gameId} />
             </Box>
-            <Box className={"w-full lg:w-5/12"}>
+            <Stack className={"w-full lg:w-5/12"}>
+              <CollectionEntryDetailRelatedEntries
+                collectionEntryId={collectionEntryId}
+              />
               <CollectionEntryAchievementTracker
                 userId={userId}
                 gameId={gameId}
               />
-            </Box>
+            </Stack>
           </Group>
         )}
         {onMobile && gameId && (
@@ -207,6 +217,9 @@ const CollectionEntryDetailView = ({
             <Tabs.List grow>
               <Tabs.Tab value={"playlog"}>Playlog</Tabs.Tab>
               <Tabs.Tab value={"achievements"}>Achievements</Tabs.Tab>
+              {hasRelatedGames && (
+                <Tabs.Tab value={"related"}>Related Content</Tabs.Tab>
+              )}
             </Tabs.List>
 
             <Tabs.Panel value={"playlog"}>
@@ -221,6 +234,11 @@ const CollectionEntryDetailView = ({
                 userId={userId}
                 gameId={gameId}
                 withTitle={false}
+              />
+            </Tabs.Panel>
+            <Tabs.Panel value={"related"}>
+              <CollectionEntryDetailRelatedEntries
+                collectionEntryId={collectionEntryId}
               />
             </Tabs.Panel>
           </Tabs>
