@@ -10,7 +10,7 @@ import {
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
-import { Input, InputLabel, Stack } from "@mantine/core";
+import { Input, InputLabel, ScrollArea, Stack } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -74,9 +74,11 @@ const CollectionEntryFormReviewPanel = ({
         <Input.Wrapper
           description={"Optional. Leave empty to create a score-only review."}
         >
-          <RichTextEditor editor={quickReviewEditor}>
-            <RichTextEditor.Content mih={"20vh"} />
-          </RichTextEditor>
+          <ScrollArea.Autosize mah={"60vh"}>
+            <RichTextEditor editor={quickReviewEditor}>
+              <RichTextEditor.Content mih={"20vh"} />
+            </RichTextEditor>
+          </ScrollArea.Autosize>
         </Input.Wrapper>
       )}
     </Stack>

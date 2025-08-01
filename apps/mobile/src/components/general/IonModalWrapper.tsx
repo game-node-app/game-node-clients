@@ -54,8 +54,7 @@ const IonModalWrapper = ({
       </IonHeader>
       <IonContent>
         <Container
-          fluid
-          className={`my-4 h-full ${classNames?.body ? classNames.body : ""}`}
+          className={`w-full ion-padding ${classNames?.body ? classNames.body : ""}`}
         >
           {children}
         </Container>

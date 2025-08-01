@@ -1,23 +1,15 @@
-import React, { useState } from "react";
-import {
-  ActionIcon,
-  Box,
-  Flex,
-  Overlay,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import React from "react";
+import { ActionIcon, Box, Flex, Overlay, Stack, Text } from "@mantine/core";
 import {
   CollectionEntryEditModal,
   GameFigureImage,
-  IGameFigureProps,
+  IGameFigureImageProps,
 } from "#@/components";
 import { Link } from "#@/util";
 import { IconDots } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 
-interface Props extends IGameFigureProps {
+export interface GameHoverEditFigureProps extends IGameFigureImageProps {
   withHoverTitle: boolean;
 }
 
@@ -31,7 +23,7 @@ const GameHoverEditFigure = ({
   withHoverTitle = true,
   game,
   ...others
-}: Props) => {
+}: GameHoverEditFigureProps) => {
   const [addModalOpened, addModalUtils] = useDisclosure();
 
   return (

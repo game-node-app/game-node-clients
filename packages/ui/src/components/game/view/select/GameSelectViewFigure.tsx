@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from "react";
 import {
-  IGameFigureProps,
+  IGameFigureImageProps,
   GameFigureImage,
 } from "#@/components/game/figure/GameFigureImage";
 import { Box, Center, Overlay, Stack, Text, ThemeIcon } from "@mantine/core";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 
-export interface GameSelectViewFigureProps extends IGameFigureProps {
+export interface GameSelectViewFigureProps extends IGameFigureImageProps {
   /**
    * Not to be confused with 'onSelect'!
    * @param gameId

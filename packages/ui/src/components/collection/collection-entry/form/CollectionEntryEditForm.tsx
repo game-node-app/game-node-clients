@@ -27,6 +27,7 @@ import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   DEFAULT_RELATED_GAMES_DTO,
   useOnMobile,
+  useOnMobilePlatform,
 } from "#@/components";
 import {
   IconAppsFilled,
@@ -77,6 +78,8 @@ const CollectionEntryEditForm = ({
   showGameInfo = true,
   onClose,
 }: IGameAddFormProps) => {
+  const isMobilePlatform = useOnMobilePlatform();
+
   const form = useForm<TGameAddOrUpdateValues>({
     mode: "onSubmit",
     resolver: zodResolver(GameAddOrUpdateSchema),
@@ -89,7 +92,6 @@ const CollectionEntryEditForm = ({
   });
 
   const { handleSubmit } = form;
-  useOnMobile();
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
@@ -202,13 +204,17 @@ const CollectionEntryEditForm = ({
           className="w-full h-full relative"
         >
           <Tabs
-            // orientation={onMobile ? "horizontal" : "vertical"}
-            orientation={"horizontal"}
             defaultValue={"details"}
             allowTabDeactivation={false}
             variant={"default"}
+            keepMounted={false}
           >
-            <Tabs.List className={"bg-body mb-1 lg:me-1 sticky top-14 z-10"}>
+            <Tabs.List
+              className={
+                "bg-body mb-1 lg:me-1 sticky data-[native=true]:top-0 top-14 z-10"
+              }
+              data-native={isMobilePlatform ? "true" : "false"}
+            >
               <Tabs.Tab
                 value={"details"}
                 leftSection={<IconFileDescription size={24} />}
@@ -242,14 +248,14 @@ const CollectionEntryEditForm = ({
               <CollectionEntryFormDlcsPanel gameId={gameId} />
             </Tabs.Panel>
           </Tabs>
+          <Button
+            type={"submit"}
+            loading={collectionEntryMutation.isPending}
+            className={"w-full mt-4"}
+          >
+            {isUpdateAction ? "Update" : "Add"}
+          </Button>
         </form>
-        <Button
-          type={"submit"}
-          loading={collectionEntryMutation.isPending}
-          className={"w-full mt-4"}
-        >
-          {isUpdateAction ? "Update" : "Add"}
-        </Button>
       </FormProvider>
     </SessionAuth>
   );

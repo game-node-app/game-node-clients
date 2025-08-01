@@ -1,8 +1,7 @@
 import React from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Game } from "@repo/wrapper/server";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
-import { Flex, Skeleton, Text } from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { TGameOrSearchGame } from "#@/components";
@@ -20,7 +19,12 @@ const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
     if (index < 40) {
       return (
         <Carousel.Slide key={game.id} className={"w-full h-full"}>
-          <GameGridItem game={game} />
+          <GameGridItem
+            game={game}
+            figureProps={{
+              withHoverTitle: false,
+            }}
+          />
         </Carousel.Slide>
       );
     }

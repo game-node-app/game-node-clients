@@ -28,11 +28,9 @@ const CollectionEntryEditModal = ({
       title={"Add to your library"}
       fullScreen={onMobile}
       size={"xl"}
-      transitionProps={{ transition: "fade", duration: 200 }}
       breakpoints={[0.6, 0.8, 1]}
       initialBreakpoint={currentBreakpoint}
       onBreakpointChange={setCurrentBreakpoint}
-      classNames={{}}
     >
       <CollectionEntryEditForm
         gameId={id}

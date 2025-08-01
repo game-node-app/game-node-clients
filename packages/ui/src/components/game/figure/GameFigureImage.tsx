@@ -8,7 +8,7 @@ import {
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
 
-export interface IGameFigureProps extends PropsWithChildren {
+export interface IGameFigureImageProps extends PropsWithChildren {
   game: TGameOrSearchGame | undefined | null;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   imageProps?: ImageProps;
@@ -26,7 +26,7 @@ const GameFigureImage = ({
   onClick,
   imageSize,
   children,
-}: IGameFigureProps) => {
+}: IGameFigureImageProps) => {
   const coverUrl = getCoverUrl(game);
   const sizedCoverUrl = getSizedImageUrl(
     coverUrl,

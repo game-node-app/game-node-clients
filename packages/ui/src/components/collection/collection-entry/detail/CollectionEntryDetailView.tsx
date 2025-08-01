@@ -84,8 +84,6 @@ const CollectionEntryDetailView = ({
 
   const isInLibrary = ownCollectionEntryQuery.data != undefined;
 
-  const hasRelatedGames = relatedCollectionEntriesQuery.data != undefined;
-
   const [editOpened, editOpenedUtils] = useDisclosure();
   const [removeOpened, removeOpenedUtils] = useDisclosure();
 
@@ -173,53 +171,56 @@ const CollectionEntryDetailView = ({
               <Button className={"w-full uppercase"}>View Game</Button>
             </Link>
           </Stack>
-          <Stack className={"grow"}>
-            <SimpleGrid
-              cols={{
-                base: 1,
-                lg: 2,
+          <SimpleGrid
+            cols={{
+              base: 1,
+              lg: 2,
+            }}
+            className={"grow"}
+          >
+            <CollectionEntryDetailsBox
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+            <CollectionEntryPlaytimeTracker
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+            <CollectionEntryDetailRelatedEntries
+              collectionEntryId={collectionEntryId}
+              carouselProps={{
+                slideSize: {
+                  base: "35%",
+                  lg: "25%",
+                },
               }}
-            >
-              <CollectionEntryDetailsBox
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-              <Break />
-              <CollectionEntryPlaytimeTracker
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-              <CollectionEntryReviewBox
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-            </SimpleGrid>
-          </Stack>
+            />
+            <CollectionEntryReviewBox
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+          </SimpleGrid>
         </Group>
         {!onMobile && gameId && (
-          <Group className={"w-full lg:flex-nowrap items-start"}>
-            <Box className={"w-full lg:w-7/12"}>
-              <JournalPlaylogView userId={userId as string} gameId={gameId} />
-            </Box>
-            <Stack className={"w-full lg:w-5/12"}>
-              <CollectionEntryDetailRelatedEntries
-                collectionEntryId={collectionEntryId}
-              />
-              <CollectionEntryAchievementTracker
-                userId={userId}
-                gameId={gameId}
-              />
-            </Stack>
-          </Group>
+          <Stack className={"w-full"}>
+            <Group className={"w-full lg:flex-nowrap items-start"}>
+              <Box className={"w-full lg:w-7/12"}>
+                <JournalPlaylogView userId={userId as string} gameId={gameId} />
+              </Box>
+              <Box className={"w-full lg:w-5/12"}>
+                <CollectionEntryAchievementTracker
+                  userId={userId}
+                  gameId={gameId}
+                />
+              </Box>
+            </Group>
+          </Stack>
         )}
         {onMobile && gameId && (
           <Tabs defaultValue={"playlog"} variant={"outline"}>
             <Tabs.List grow>
               <Tabs.Tab value={"playlog"}>Playlog</Tabs.Tab>
               <Tabs.Tab value={"achievements"}>Achievements</Tabs.Tab>
-              {hasRelatedGames && (
-                <Tabs.Tab value={"related"}>Related Content</Tabs.Tab>
-              )}
             </Tabs.List>
 
             <Tabs.Panel value={"playlog"}>
@@ -234,11 +235,6 @@ const CollectionEntryDetailView = ({
                 userId={userId}
                 gameId={gameId}
                 withTitle={false}
-              />
-            </Tabs.Panel>
-            <Tabs.Panel value={"related"}>
-              <CollectionEntryDetailRelatedEntries
-                collectionEntryId={collectionEntryId}
               />
             </Tabs.Panel>
           </Tabs>

@@ -6,12 +6,17 @@ import {
   TGameOrSearchGame,
   useGames,
 } from "#@/components";
+import { CarouselProps } from "@mantine/carousel";
 
 interface Props {
   collectionEntryId: string;
+  carouselProps?: CarouselProps;
 }
 
-const CollectionEntryDetailRelatedEntries = ({ collectionEntryId }: Props) => {
+const CollectionEntryDetailRelatedEntries = ({
+  collectionEntryId,
+  carouselProps,
+}: Props) => {
   const relatedCollectionEntriesQuery =
     useRelatedCollectionEntries(collectionEntryId);
 
@@ -49,8 +54,6 @@ const CollectionEntryDetailRelatedEntries = ({ collectionEntryId }: Props) => {
 
   const isError = relatedCollectionEntriesQuery.isError || gamesQuery.isError;
 
-  const isEmpty = gamesWithHref.length === 0;
-
   const hasRelatedGames = relatedCollectionEntriesQuery.data != undefined;
 
   return (
@@ -65,9 +68,7 @@ const CollectionEntryDetailRelatedEntries = ({ collectionEntryId }: Props) => {
         isLoading={isLoading}
         isError={isError}
         games={gamesWithHref}
-        slideSize={{
-          base: "40%",
-        }}
+        {...carouselProps}
       />
     </DetailsBox>
   );
