@@ -30,7 +30,7 @@ const GameHoverEditFigure = ({
     <Box className={"w-full h-full group"}>
       <GameFigureImage game={game} {...others}>
         <CollectionEntryEditModal
-          id={game!.id!}
+          gameId={game!.id!}
           opened={addModalOpened}
           onClose={addModalUtils.close}
         />

@@ -66,7 +66,7 @@ const GameFigureWithQuickAdd = ({
   return (
     <Box className={"w-full"}>
       <CollectionEntryEditModal
-        id={game!.id!}
+        gameId={game!.id!}
         opened={modalOpened}
         onClose={() => {
           modalUtils.close();

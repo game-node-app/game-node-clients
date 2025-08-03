@@ -7,6 +7,7 @@ import { notifications } from "@mantine/notifications";
 import {
   CollectionEntry,
   CollectionsEntriesService,
+  ReviewsService,
 } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -26,7 +27,6 @@ import {
   CollectionEntryFormReviewPanel,
   DEFAULT_GAME_INFO_VIEW_DTO,
   DEFAULT_RELATED_GAMES_DTO,
-  useOnMobile,
   useOnMobilePlatform,
 } from "#@/components";
 import {
@@ -34,6 +34,7 @@ import {
   IconFileDescription,
   IconStarsFilled,
 } from "@tabler/icons-react";
+import { createErrorNotification } from "#@/util";
 
 const GameAddOrUpdateSchema = z.object({
   collectionIds: z.array(z.string(), {
@@ -91,7 +92,10 @@ const CollectionEntryEditForm = ({
     },
   });
 
-  const { handleSubmit } = form;
+  const {
+    handleSubmit,
+    formState: { touchedFields },
+  } = form;
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
@@ -114,6 +118,27 @@ const CollectionEntryEditForm = ({
 
   const isUpdateAction = collectionEntryQuery.data != null;
 
+  const quickReviewMutation = useMutation({
+    mutationFn: async (reviewInfo: TGameAddOrUpdateValues["review"]) => {
+      if (reviewInfo.rating == null || typeof reviewInfo.rating !== "number") {
+        return;
+      }
+      await ReviewsService.reviewsControllerCreateOrUpdateV1({
+        rating: reviewInfo.rating,
+        gameId,
+        content: reviewInfo.content ?? undefined,
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["review"],
+      });
+    },
+    onError: createErrorNotification,
+  });
+
+  console.log("Touched fields: ", touchedFields);
+
   const collectionEntryMutation = useMutation({
     mutationFn: async (data: TGameAddOrUpdateValues) => {
       const collectionIds = data.collectionIds;
@@ -132,11 +157,17 @@ const CollectionEntryEditForm = ({
           relatedGameIds: data.relatedGamesIds,
         },
       );
+
+      const hasReview =
+        data.review != undefined &&
+        (touchedFields.review?.rating != undefined ||
+          touchedFields.review?.content != undefined);
+
+      if (hasReview) {
+        quickReviewMutation.mutate(data.review);
+      }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["review"],
-      });
       queryClient.invalidateQueries({
         queryKey: ["collection-entries"],
       });

@@ -4,6 +4,7 @@ import {
   createErrorNotification,
   getS3StoredUpload,
   PostImageLightboxContext,
+  useBlogPost,
 } from "@repo/ui";
 import { RichTextEditor } from "@mantine/tiptap";
 import { LoadingOverlay } from "@mantine/core";
@@ -16,12 +17,21 @@ interface Props
     Omit<EditorOptions, "editor" | "extensions" | "onDrop" | "onPaste">
   > {
   isPending: boolean;
+  editingPostId?: string;
 }
 
-const BlogPostEditor = ({ isPending, ...editorOptions }: Props) => {
+const BlogPostEditor = ({
+  isPending,
+  editingPostId,
+  ...editorOptions
+}: Props) => {
+  const editingPostQuery = useBlogPost(editingPostId);
+
   const editor = useEditor(
     {
       ...editorOptions,
+      content: editingPostQuery.data?.content,
+      immediatelyRender: false,
       extensions: BLOG_POST_EDITOR_EXTENSIONS,
       onDrop: async (event) => {
         event.preventDefault();
@@ -52,7 +62,7 @@ const BlogPostEditor = ({ isPending, ...editorOptions }: Props) => {
         }
       },
     },
-    [editorOptions.content],
+    [editingPostQuery.data?.content],
   );
 
   const uploadImageMutation = useMutation({

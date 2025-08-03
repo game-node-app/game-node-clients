@@ -5,13 +5,21 @@ import {
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 
-export function useCollectionEntriesForUserId(
-  userId: string,
+interface Props {
+  userId: string;
+  offset?: number;
+  limit?: number;
+  orderBy?: FindCollectionEntriesOrderBy;
+  status?: CollectionEntry.status;
+}
+
+export function useCollectionEntriesForUserId({
+  userId,
   offset = 0,
   limit = 20,
-  orderBy?: FindCollectionEntriesOrderBy,
-  status?: CollectionEntry.status,
-) {
+  orderBy,
+  status,
+}: Props) {
   return useQuery({
     queryKey: [
       "collection-entries",

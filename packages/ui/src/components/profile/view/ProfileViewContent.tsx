@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { SimpleGrid, Tabs } from "@mantine/core";
 import {
   IconDeviceGamepad2,
@@ -18,10 +18,10 @@ import {
   useAllObtainedAchievements,
   useCollectionEntriesForUserId,
   useReviewsForUserId,
+  useUrlState,
   useUserLibrary,
   useUserProfile,
 } from "#@/components";
-import { useRouter } from "#@/util";
 
 interface Props {
   userId: string;
@@ -31,26 +31,22 @@ interface Props {
  * Component that renders a profile's tabs and it's contents
  */
 const ProfileViewContent = ({ userId }: Props) => {
-  const router = useRouter();
-  const query = router.query;
-
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
-  const collectionEntriesQuery = useCollectionEntriesForUserId(userId, 0, 1);
+  const collectionEntriesQuery = useCollectionEntriesForUserId({
+    userId,
+    limit: 1,
+  });
   const reviewsQuery = useReviewsForUserId(userId, 0, 1);
   const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
 
-  const activeTab = useMemo(() => {
-    const tabQuery = query.get("tab");
-    if (tabQuery == null || tabQuery.length === 0) return null;
-    return tabQuery;
-  }, [query]);
+  const [{ tab }, setParams] = useUrlState({
+    tab: "main",
+  });
 
   const onTabChange = (tab: string | null) => {
-    router.push(`${router.pathname}?tab=${tab ?? ""}`, {
-      replace: true,
-      scroll: false,
-      shallow: true,
+    setParams({
+      tab: tab ?? "main",
     });
   };
 
@@ -58,8 +54,8 @@ const ProfileViewContent = ({ userId }: Props) => {
     <Tabs
       unstyled
       allowTabDeactivation
-      value={query.get("tab")}
-      onChange={(tab) => onTabChange(tab)}
+      value={tab}
+      onChange={onTabChange}
       className={"h-full w-full"}
       // Render content on demand, saves up some network calls
       keepMounted={false}
@@ -75,29 +71,29 @@ const ProfileViewContent = ({ userId }: Props) => {
           label={"Games"}
           value={"games"}
           count={collectionEntriesQuery.data?.pagination.totalItems ?? 0}
-          activeTab={activeTab}
+          activeTab={tab}
         />
         <ProfileViewNavbarItem
           label={"Reviews"}
           value={"reviews"}
           count={reviewsQuery.data?.pagination.totalItems ?? 0}
-          activeTab={activeTab}
+          activeTab={tab}
         />
         <ProfileViewNavbarItem
           label={"Collections"}
           value={"collections"}
           count={libraryQuery.data?.collections.length ?? 0}
-          activeTab={activeTab}
+          activeTab={tab}
         />
         <ProfileViewNavbarItem
           label={"Achievements"}
           value={"achievements"}
           count={obtainedAchievementsQuery.data?.length ?? 0}
-          activeTab={activeTab}
+          activeTab={tab}
         />
         <ProfileViewNavbarItem
           label={"Journal"}
-          activeTab={activeTab}
+          activeTab={tab}
           value={"journal"}
           icon={IconNotebook}
         />
@@ -105,16 +101,19 @@ const ProfileViewContent = ({ userId }: Props) => {
           label={"Posts"}
           value={"posts"}
           icon={IconWriting}
-          activeTab={activeTab}
+          activeTab={tab}
         />
         <ProfileViewNavbarItem
           label={"View Stats"}
           value={"stats"}
           icon={IconDeviceGamepad2}
-          activeTab={activeTab}
+          activeTab={tab}
         />
       </SimpleGrid>
 
+      <Tabs.Panel value="main">
+        <ProfileViewMainPage userId={userId} />
+      </Tabs.Panel>
       <Tabs.Panel value="games">
         <ProfileGamesListView userId={userId} />
       </Tabs.Panel>
@@ -136,8 +135,6 @@ const ProfileViewContent = ({ userId }: Props) => {
       <Tabs.Panel value="stats">
         <ProfileStatsView userId={userId} withUserLevel={false} />
       </Tabs.Panel>
-
-      {activeTab == null && <ProfileViewMainPage userId={userId} />}
     </Tabs>
   );
 };

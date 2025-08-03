@@ -27,7 +27,7 @@ const GameListItemWithSwipe = ({ game, ...others }: Props) => {
   return (
     <IonItemSliding>
       <CollectionEntryEditModal
-        id={game.id!}
+        gameId={game.id!}
         opened={addUpdateModalOpened}
         onClose={addUpdateModalUtils.close}
       />

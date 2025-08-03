@@ -86,7 +86,7 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
         <CollectionEntryEditModal
           opened={addUpdateModalOpened}
           onClose={addUpdateModalUtils.close}
-          id={game.id}
+          gameId={game.id}
         />
         <CollectionEntryRemoveModal
           opened={removeModalOpened}

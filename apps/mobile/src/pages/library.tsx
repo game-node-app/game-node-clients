@@ -14,11 +14,11 @@ import { Container } from "@mantine/core";
 import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
-  LibraryView,
+  LibraryViewLayout,
   RecentCollectionEntriesView,
   useUserId,
   useUserProfile,
-  LibraryHomeView,
+  LibraryView,
 } from "@repo/ui";
 import { CollectionView } from "@/components/collection/view/CollectionView";
 
@@ -69,16 +69,16 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           {isOwnLibrary && (
             <LibraryViewFab selectedCollectionId={collectionId} />
           )}
-          <LibraryView userId={userIdToUse} collectionId={collectionId}>
+          <LibraryViewLayout userId={userIdToUse} collectionId={collectionId}>
             {collectionId ? (
               <CollectionView
                 libraryUserId={userIdToUse!}
                 collectionId={collectionId}
               />
             ) : (
-              <LibraryHomeView userId={userIdToUse!} />
+              <LibraryView userId={userIdToUse!} />
             )}
-          </LibraryView>
+          </LibraryViewLayout>
         </IonContent>
       </SessionAuth>
     </IonPage>

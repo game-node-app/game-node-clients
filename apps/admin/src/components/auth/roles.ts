@@ -14,8 +14,6 @@ export const getRolesForRoute = (pathname: string) => {
     item.link.startsWith(parsedPathname),
   );
 
-  console.log(pathname, parsedPathname, matchingRoute);
-
   if (matchingRoute) {
     return matchingRoute.roles;
   }

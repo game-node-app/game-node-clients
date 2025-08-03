@@ -60,9 +60,6 @@ const CollectionEntryDetailView = ({
 
   const gameId = collectionEntryQuery.data?.gameId;
 
-  const relatedCollectionEntriesQuery =
-    useRelatedCollectionEntries(collectionEntryId);
-
   const ownCollectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
   const gameQuery = useGame(collectionEntryQuery.data?.gameId, {
@@ -112,7 +109,7 @@ const CollectionEntryDetailView = ({
         {gameId && (
           <>
             <CollectionEntryEditModal
-              id={gameId}
+              gameId={gameId}
               opened={editOpened}
               onClose={editOpenedUtils.close}
             />

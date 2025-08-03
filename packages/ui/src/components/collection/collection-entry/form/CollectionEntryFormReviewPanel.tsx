@@ -20,7 +20,6 @@ const CollectionEntryFormReviewPanel = ({
   gameId,
 }: Pick<IGameAddFormProps, "gameId">) => {
   const {
-    register,
     watch,
     setValue,
     formState: { errors },
@@ -39,7 +38,9 @@ const CollectionEntryFormReviewPanel = ({
       immediatelyRender: false,
       onBlur: ({ editor }) => {
         const html = editor.getHTML();
-        setValue("review.content", html);
+        setValue("review.content", html, {
+          shouldTouch: true,
+        });
       },
     },
     [reviewQuery.data?.content],
@@ -47,7 +48,10 @@ const CollectionEntryFormReviewPanel = ({
 
   useEffect(() => {
     if (reviewQuery.data) {
-      setValue("review", reviewQuery.data);
+      setValue("review", reviewQuery.data, {
+        shouldTouch: false,
+        shouldDirty: false,
+      });
     }
   }, [reviewQuery.data, setValue]);
 
@@ -67,7 +71,11 @@ const CollectionEntryFormReviewPanel = ({
           className={"mt-2"}
           value={rating ?? undefined}
           size={"lg"}
-          onChange={(v) => setValue("review.rating", v)}
+          onChange={(v) =>
+            setValue("review.rating", v, {
+              shouldTouch: true,
+            })
+          }
         />
       </Input.Wrapper>
       {rating != undefined && (

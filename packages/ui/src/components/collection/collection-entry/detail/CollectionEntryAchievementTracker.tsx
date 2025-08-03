@@ -38,6 +38,8 @@ const CollectionEntryAchievementTracker = ({
     GameAchievementGroupDto.source | undefined
   >(undefined);
 
+  const isEmpty = !achievementsQuery.isLoading && availableGroups.length === 0;
+
   useEffect(() => {
     if (availableGroups.length > 0) {
       const firstSource = availableGroups.at(0)?.source;
@@ -66,12 +68,12 @@ const CollectionEntryAchievementTracker = ({
         />
       }
     >
-      {!achievementsQuery.isLoading && availableGroups.length === 0 && (
+      {isEmpty && (
         <CenteredErrorMessage
           message={"No obtained achievements found for this game."}
         />
       )}
-      {selectedSource && (
+      {selectedSource && !isEmpty && (
         <GameAchievementsList
           source={selectedSource}
           userId={userId}

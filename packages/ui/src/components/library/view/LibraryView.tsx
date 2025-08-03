@@ -1,59 +1,106 @@
-import React, { PropsWithChildren } from "react";
-import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryViewSidebar";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { Flex, Grid, Stack } from "@mantine/core";
-import { LibraryViewCollectionsSelect } from "#@/components/library/view/sidebar/LibraryViewCollectionsSelect";
-import { useRouter } from "#@/util";
+import React, { useMemo } from "react";
+import {
+  CenteredErrorMessage,
+  findCollectionEntryByGameId,
+  GameView,
+  LibraryViewTabs,
+  useCollectionEntriesForUserId,
+  useGames,
+  useUrlState,
+} from "#@/components";
+import { CollectionEntry } from "@repo/wrapper/server";
+import { Stack } from "@mantine/core";
+import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 
-interface ILibraryViewProps extends PropsWithChildren {
-  userId: string | undefined;
-  collectionId: string | null | undefined;
+const DEFAULT_LIMIT = 24;
+
+interface Props {
+  userId: string;
 }
 
-/**
- * LibraryView should be used in any page that renders under the /library route.
- * It provides a sidebar on desktop and a top navigation on mobile.
- * @param children - The main content to render (e.g. a collection entries listing).
- * @param userId
- * @param collectionSelectProps
- * @constructor
- */
-const LibraryView = ({ children, userId, collectionId }: ILibraryViewProps) => {
-  const router = useRouter();
-  const onMobile = useOnMobile();
+const LibraryView = ({ userId }: Props) => {
+  const [params, setParams] = useUrlState({
+    status: CollectionEntry.status.PLAYING,
+    offset: 0,
+  });
+
+  const { status, offset } = params;
+
+  const collectionEntriesQuery = useCollectionEntriesForUserId({
+    userId,
+    orderBy: {
+      addedDate: "DESC",
+    },
+    ...params,
+  });
+
+  const gameIds =
+    collectionEntriesQuery.data?.data.map((entry) => entry.gameId) ?? [];
+
+  const gamesQuery = useGames({
+    gameIds,
+    relations: {
+      cover: true,
+    },
+  });
+
+  const games = useMemo(() => {
+    return gamesQuery.data?.map((game) => {
+      const relatedCollectionEntry = findCollectionEntryByGameId(
+        game.id,
+        collectionEntriesQuery.data?.data,
+      );
+
+      return {
+        ...game,
+        href: `/library/${userId}/collection/entry/${relatedCollectionEntry?.id}`,
+      };
+    });
+  }, [collectionEntriesQuery.data?.data, gamesQuery.data, userId]);
+
+  const isLoading = collectionEntriesQuery.isLoading || gamesQuery.isLoading;
+
+  const isEmpty =
+    !isLoading && gamesQuery.data != undefined && gamesQuery.data.length === 0;
+
+  const shouldShowPagination =
+    (collectionEntriesQuery.data?.pagination.totalPages ?? 0) > 1;
 
   return (
-    <Stack className={"w-full"} id={"library-view"}>
-      {onMobile && (
-        <Flex w={"100%"} justify={"center"}>
-          <LibraryViewCollectionsSelect
-            userId={userId}
-            value={collectionId}
-            onChange={(value) => {
-              if (value) {
-                router.push(`/library/${userId}/collection/${value}`);
-                return;
-              }
-              router.push(`/library/${userId}`);
-            }}
-            onClear={() => {
-              router.push(`/library/${userId}`);
-            }}
-          />
-        </Flex>
+    <Stack className={"w-full h-full min-h-[55dvh]"}>
+      <LibraryViewTabs
+        status={status}
+        onStatusChange={(status) => {
+          setParams({
+            status,
+            offset: 0,
+          });
+        }}
+      />
+      {isEmpty && (
+        <CenteredErrorMessage message={"No games in this category."} />
       )}
-      <Grid columns={12} w={"100%"} h={"100%"}>
-        <Grid.Col
-          span={{ base: 0, lg: 3 }}
-          display={onMobile ? "none" : undefined}
-        >
-          <LibraryViewSidebar userId={userId} />
-        </Grid.Col>
-
-        <Grid.Col span={{ base: 12, lg: 9 }} h={"100%"}>
-          {children}
-        </Grid.Col>
-      </Grid>
+      <GameView layout={"grid"}>
+        <GameView.Content items={games}>
+          <GameView.LoadingSkeletons isVisible={isLoading} />
+        </GameView.Content>
+        {shouldShowPagination && (
+          <GameView.Pagination
+            wrapperProps={{
+              className: "mt-4 mb-8",
+            }}
+            page={getOffsetAsPage(offset, DEFAULT_LIMIT)}
+            onPaginationChange={(page) => {
+              const offset = getPageAsOffset(page, DEFAULT_LIMIT);
+              setParams({
+                status,
+                offset,
+              });
+            }}
+            paginationInfo={collectionEntriesQuery.data?.pagination}
+          />
+        )}
+      </GameView>
     </Stack>
   );
 };

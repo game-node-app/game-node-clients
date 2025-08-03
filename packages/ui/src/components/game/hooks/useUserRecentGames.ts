@@ -2,14 +2,14 @@ import { useCollectionEntriesForUserId, useGames } from "#@/components";
 import { useMemo } from "react";
 
 export function useUserRecentGames(userId: string, offset = 0, limit = 20) {
-  const collectionEntriesQuery = useCollectionEntriesForUserId(
+  const collectionEntriesQuery = useCollectionEntriesForUserId({
     userId,
     offset,
     limit,
-    {
+    orderBy: {
       addedDate: "DESC",
     },
-  );
+  });
 
   const gameIds = useMemo(() => {
     return collectionEntriesQuery.data?.data?.map((entry) => entry.gameId);
