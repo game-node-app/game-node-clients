@@ -35,9 +35,6 @@
     }
 }
 
-
-
 ion-tab-button:not(.tab-selected) {
     --color-selected: var(--color);
 }
-
