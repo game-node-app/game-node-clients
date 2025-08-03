@@ -1,15 +1,18 @@
 import React from "react";
-import { IGameFigureProps } from "#@/components/game/figure/GameFigureImage";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
 import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
-import { GameHoverEditFigure, useOnMobile } from "#@/components";
+import {
+  GameFigureProps,
+  GameHoverEditFigure,
+  useOnMobile,
+} from "#@/components";
 
-interface IGameGridFigureProps {
+interface GameGridItemProps {
   game: TGameOrSearchGame;
-  figureProps?: Omit<Partial<IGameFigureProps>, "game">;
+  figureProps?: Omit<Partial<GameFigureProps>, "game">;
 }
 
-const GameGridItem = ({ game, figureProps }: IGameGridFigureProps) => {
+const GameGridItem = ({ game, figureProps }: GameGridItemProps) => {
   const onMobile = useOnMobile();
 
   const Figure = onMobile ? GameFigureWithQuickAdd : GameHoverEditFigure;

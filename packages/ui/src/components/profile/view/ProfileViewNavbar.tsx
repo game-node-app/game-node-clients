@@ -17,7 +17,10 @@ interface Props extends GroupProps {
 const ProfileViewNavbar = ({ userId, ...groupProps }: Props) => {
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
-  const collectionEntriesQuery = useCollectionEntriesForUserId(userId, 0, 1);
+  const collectionEntriesQuery = useCollectionEntriesForUserId({
+    userId,
+    limit: 1,
+  });
   const reviewsQuery = useReviewsForUserId(userId, 0, 1);
   const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
 

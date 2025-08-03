@@ -12,6 +12,7 @@ import {
   Title,
 } from "@mantine/core";
 import {
+  CenteredLoading,
   createErrorNotification,
   GameRating,
   GameSearchSelectModal,
@@ -242,12 +243,12 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
         Make sure to keep your post saved.
       </Text>
       <BlogPostEditor
+        editingPostId={editingPostId}
         onCreate={({ editor }) => {
           editorRef.current = editor;
         }}
         onUpdate={({ editor }) => setValue("content", editor.getHTML())}
         isPending={postCreateMutation.isPending}
-        content={watch("content")}
       />
       <Group className={"justify-end"}>
         <Button type={"submit"} bg={isDraft ? "blue" : "brand"}>

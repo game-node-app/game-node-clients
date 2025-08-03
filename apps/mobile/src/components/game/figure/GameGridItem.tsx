@@ -1,10 +1,14 @@
 import React, { useMemo } from "react";
-import GameFigureWithQuickAdd from "@/components/game/figure/GameFigureWithQuickAdd";
-import { GameFigureImage, IGameFigureProps, TGameOrSearchGame } from "@repo/ui";
+import {
+  GameFigureImage,
+  GameFigureWithQuickAdd,
+  IGameFigureImageProps,
+  TGameOrSearchGame,
+} from "@repo/ui";
 
 interface IGameGridFigureProps {
   game: TGameOrSearchGame;
-  figureProps?: Omit<Partial<IGameFigureProps>, "game">;
+  figureProps?: Omit<Partial<IGameFigureImageProps>, "game">;
   /**
    * If quick add functionality should be enabled. Checks will still be performed to see if
    * it's possible to show the game add modal.

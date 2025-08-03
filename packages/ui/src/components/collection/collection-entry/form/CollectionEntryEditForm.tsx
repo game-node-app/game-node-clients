@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, Tabs } from "@mantine/core";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +7,7 @@ import { notifications } from "@mantine/notifications";
 import {
   CollectionEntry,
   CollectionsEntriesService,
+  ReviewsService,
 } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -22,30 +23,29 @@ import {
 } from "#@/util/trackMatomoEvent";
 import {
   CollectionEntryFormDetailsPanel,
+  CollectionEntryFormDlcsPanel,
   CollectionEntryFormReviewPanel,
-  useOnMobile,
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  DEFAULT_RELATED_GAMES_DTO,
+  useOnMobilePlatform,
 } from "#@/components";
 import {
   IconAppsFilled,
   IconFileDescription,
   IconStarsFilled,
 } from "@tabler/icons-react";
+import { createErrorNotification } from "#@/util";
 
 const GameAddOrUpdateSchema = z.object({
-  collectionIds: z
-    .array(z.string(), {
-      required_error: "Select at least one collection.",
-      invalid_type_error: "Select at least one collection.",
-    })
-    .min(1, "Select at least one collection.")
-    .default([]),
+  collectionIds: z.array(z.string(), {
+    invalid_type_error: "Collection must be valid.",
+  }),
   platformsIds: z
     .array(z.string(), {
       invalid_type_error: "Select at least one platform.",
       required_error: "Select at least one platform.",
     })
-    .min(1, "Select at least one platform.")
-    .default([]),
+    .min(1, "Select at least one platform."),
   finishedAt: z.date().nullable(),
   status: z.nativeEnum(CollectionEntry.status),
   review: z.object({
@@ -54,6 +54,7 @@ const GameAddOrUpdateSchema = z.object({
       .nullish(),
     content: z.string().nullish(),
   }),
+  relatedGamesIds: z.array(z.number()).default([]),
 });
 
 export type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;
@@ -78,19 +79,23 @@ const CollectionEntryEditForm = ({
   showGameInfo = true,
   onClose,
 }: IGameAddFormProps) => {
+  const isMobilePlatform = useOnMobilePlatform();
+
   const form = useForm<TGameAddOrUpdateValues>({
     mode: "onSubmit",
     resolver: zodResolver(GameAddOrUpdateSchema),
     defaultValues: {
       status: CollectionEntry.status.PLANNED,
       finishedAt: null,
+      relatedGamesIds: [],
+      collectionIds: [],
     },
   });
 
-  const { handleSubmit } = form;
-
-  const onMobile = useOnMobile();
-
+  const {
+    handleSubmit,
+    formState: { touchedFields },
+  } = form;
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
@@ -98,42 +103,71 @@ const CollectionEntryEditForm = ({
   /**
    * We re-use the default DTO here because the query is probably already cached for it at this point
    */
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
-      platforms: true,
-    },
-  });
+  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+
+  const gameWithRelatedGamesQuery = useGame(gameId, DEFAULT_RELATED_GAMES_DTO);
+
+  const hasRelatedGames = useMemo(() => {
+    if (gameWithRelatedGamesQuery.data) {
+      const game = gameWithRelatedGamesQuery.data;
+      return game.dlcs.length > 0 || game.expansions.length > 0;
+    }
+
+    return false;
+  }, [gameWithRelatedGamesQuery.data]);
 
   const isUpdateAction = collectionEntryQuery.data != null;
+
+  const quickReviewMutation = useMutation({
+    mutationFn: async (reviewInfo: TGameAddOrUpdateValues["review"]) => {
+      if (reviewInfo.rating == null || typeof reviewInfo.rating !== "number") {
+        return;
+      }
+      await ReviewsService.reviewsControllerCreateOrUpdateV1({
+        rating: reviewInfo.rating,
+        gameId,
+        content: reviewInfo.content ?? undefined,
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["review"],
+      });
+    },
+    onError: createErrorNotification,
+  });
+
+  console.log("Touched fields: ", touchedFields);
 
   const collectionEntryMutation = useMutation({
     mutationFn: async (data: TGameAddOrUpdateValues) => {
       const collectionIds = data.collectionIds;
       const parsedPlatformIds = data.platformsIds.map((id) => parseInt(id));
-      const isFavorite =
-        isUpdateAction &&
-        collectionEntryQuery.data != undefined &&
-        collectionEntryQuery.data.isFavorite;
 
       await CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
         {
           collectionIds: collectionIds,
           gameId: gameId,
           platformIds: parsedPlatformIds,
-          isFavorite: isFavorite,
           finishedAt:
             data.finishedAt instanceof Date
               ? data.finishedAt.toISOString()
               : null,
           status: data.status,
+          relatedGameIds: data.relatedGamesIds,
         },
       );
+
+      const hasReview =
+        data.review != undefined &&
+        (touchedFields.review?.rating != undefined ||
+          touchedFields.review?.content != undefined);
+
+      if (hasReview) {
+        quickReviewMutation.mutate(data.review);
+      }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["review"],
-      });
       queryClient.invalidateQueries({
         queryKey: ["collection-entries"],
       });
@@ -183,8 +217,6 @@ const CollectionEntryEditForm = ({
     collectionEntryMutation.mutate(data);
   };
 
-  console.log("form: ", form.getValues());
-
   if (gameQuery.isLoading || collectionEntryQuery.isLoading) {
     return <CenteredLoading />;
   } else if (gameQuery.isError || collectionEntryQuery.isError) {
@@ -203,13 +235,17 @@ const CollectionEntryEditForm = ({
           className="w-full h-full relative"
         >
           <Tabs
-            // orientation={onMobile ? "horizontal" : "vertical"}
-            orientation={"horizontal"}
             defaultValue={"details"}
             allowTabDeactivation={false}
             variant={"default"}
+            keepMounted={false}
           >
-            <Tabs.List className={"bg-body mb-1 lg:me-1 sticky top-14 z-10"}>
+            <Tabs.List
+              className={
+                "bg-body mb-1 lg:me-1 sticky data-[native=true]:top-0 top-14 z-10"
+              }
+              data-native={isMobilePlatform ? "true" : "false"}
+            >
               <Tabs.Tab
                 value={"details"}
                 leftSection={<IconFileDescription size={24} />}
@@ -225,6 +261,7 @@ const CollectionEntryEditForm = ({
               <Tabs.Tab
                 value={"dlcs"}
                 leftSection={<IconAppsFilled size={24} />}
+                disabled={!hasRelatedGames}
               >
                 DLCs
               </Tabs.Tab>
@@ -238,15 +275,18 @@ const CollectionEntryEditForm = ({
             <Tabs.Panel value={"review"}>
               <CollectionEntryFormReviewPanel gameId={gameId} />
             </Tabs.Panel>
+            <Tabs.Panel value={"dlcs"}>
+              <CollectionEntryFormDlcsPanel gameId={gameId} />
+            </Tabs.Panel>
           </Tabs>
+          <Button
+            type={"submit"}
+            loading={collectionEntryMutation.isPending}
+            className={"w-full mt-4"}
+          >
+            {isUpdateAction ? "Update" : "Add"}
+          </Button>
         </form>
-        <Button
-          type={"submit"}
-          loading={collectionEntryMutation.isPending}
-          className={"w-full mt-4"}
-        >
-          {isUpdateAction ? "Update" : "Add"}
-        </Button>
       </FormProvider>
     </SessionAuth>
   );

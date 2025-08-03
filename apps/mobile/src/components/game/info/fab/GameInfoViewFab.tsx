@@ -80,7 +80,7 @@ const GameInfoViewFab = ({ gameId }: Props) => {
         onClose={shareModalUtils.close}
       />
       <CollectionEntryEditModal
-        id={gameId}
+        gameId={gameId}
         onClose={addModalUtils.close}
         opened={addModalOpened}
       />

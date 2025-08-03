@@ -1,5 +1,4 @@
 import { PROJECT_CONTEXT } from "#@/util";
-import { useMemo } from "react";
 
 /**
  * Returns true if the current platform context is 'mobile'
@@ -7,5 +6,5 @@ import { useMemo } from "react";
  * Not to be confused with {@link useOnMobile}, which detects breakpoints.
  */
 export function useOnMobilePlatform() {
-  return useMemo(() => PROJECT_CONTEXT.client === "mobile", []);
+  return PROJECT_CONTEXT.client === "mobile";
 }

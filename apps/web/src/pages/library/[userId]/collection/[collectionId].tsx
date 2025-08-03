@@ -1,13 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
 import CollectionView from "@/components/collection/view/CollectionView";
-import { LibraryView } from "@repo/ui";
+import { LibraryViewLayout } from "@repo/ui";
 
 const Collection = () => {
   const router = useRouter();
   const { userId, collectionId } = router.query;
   return (
-    <LibraryView
+    <LibraryViewLayout
       userId={userId as string | undefined}
       collectionId={collectionId as string | undefined}
     >
@@ -15,7 +15,7 @@ const Collection = () => {
         libraryUserId={userId as string}
         collectionId={collectionId as string}
       />
-    </LibraryView>
+    </LibraryViewLayout>
   );
 };
 

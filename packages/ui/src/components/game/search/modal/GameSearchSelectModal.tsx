@@ -6,7 +6,7 @@ import {
   CenteredLoading,
   GameSelectView,
   SearchBar,
-  toGameSearchRequestDto,
+  buildGameSearchRequestDto,
   useOnMobile,
   useSearchGames,
   useUserId,
@@ -28,7 +28,7 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
 
   const { data, isError, error, isLoading } = useSearchGames(
     {
-      ...toGameSearchRequestDto({
+      ...buildGameSearchRequestDto({
         query: debouncedQuery,
         includeDlcs: false,
         includeExtraContent: false,

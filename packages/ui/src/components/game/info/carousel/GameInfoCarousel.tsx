@@ -1,43 +1,35 @@
 import React from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Game } from "@repo/wrapper/server";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
-import { Flex, Skeleton, Text } from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { TGameOrSearchGame } from "#@/components";
 
 interface IGameInfoCarouselProps extends CarouselProps {
   isLoading: boolean;
   isError: boolean;
-  games: Game[] | undefined;
+  games: TGameOrSearchGame[] | undefined;
 }
 
-const buildGamesFigures = (games: Game[] | undefined) => {
+const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
   if (games == undefined || games.length === 0) return null;
 
   return games.map((game, index) => {
     if (index < 40) {
       return (
         <Carousel.Slide key={game.id} className={"w-full h-full"}>
-          <GameGridItem game={game} />
+          <GameGridItem
+            game={game}
+            figureProps={{
+              withHoverTitle: false,
+            }}
+          />
         </Carousel.Slide>
       );
     }
     return null;
   });
-};
-
-const buildSkeletons = () => {
-  const skeletons = [];
-  for (let i = 0; i < 7; i++) {
-    skeletons.push(
-      <Carousel.Slide key={i} className="w-full h-full">
-        <Skeleton height={230} />
-      </Carousel.Slide>,
-    );
-  }
-
-  return skeletons;
 };
 
 const buildErrorView = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Group, Stack, Text, Title } from "@mantine/core";
-import { IGameFigureProps } from "#@/components/game/figure/GameFigureImage";
+import { IGameFigureImageProps } from "#@/components/game/figure/GameFigureImage";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
@@ -11,7 +11,7 @@ import { GameFigureWithQuickAdd, GameHoverEditFigure } from "#@/components";
 
 interface IGameListFigureProps {
   game: TGameOrSearchGame;
-  figureProps?: Omit<Partial<IGameFigureProps>, "game">;
+  figureProps?: Omit<Partial<IGameFigureImageProps>, "game">;
 }
 
 const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {

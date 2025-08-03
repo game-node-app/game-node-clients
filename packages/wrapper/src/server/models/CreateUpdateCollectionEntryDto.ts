@@ -5,8 +5,8 @@
 export type CreateUpdateCollectionEntryDto = {
     collectionIds: Array<string>;
     gameId: number;
+    relatedGameIds?: Array<number>;
     platformIds: Array<number>;
-    isFavorite: boolean;
     finishedAt?: string | null;
     status: CreateUpdateCollectionEntryDto.status;
 };

@@ -36,7 +36,7 @@ const BlogPostDetailPage = () => {
   return (
     <Stack className={"w-full items-center"}>
       <BlogPostsLayout>
-        <BlogPostDetailLayout>
+        <BlogPostDetailLayout postId={postId as string}>
           <BlogPostDetailView postId={postId as string} />
         </BlogPostDetailLayout>
       </BlogPostsLayout>

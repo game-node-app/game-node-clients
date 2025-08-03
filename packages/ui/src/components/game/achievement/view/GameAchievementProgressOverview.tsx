@@ -218,6 +218,10 @@ const GameAchievementProgressOverview = ({
       .otherwise(() => null);
   }, [source, targetAchievements]);
 
+  if (targetAchievementsGroup == undefined) {
+    return null;
+  }
+
   return (
     <Group>
       <Box className={"p-1"}>

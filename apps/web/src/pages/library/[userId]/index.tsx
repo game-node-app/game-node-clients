@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { Container, Stack } from "@mantine/core";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import {
-  LibraryView,
+  LibraryViewLayout,
   RecentCollectionEntriesView,
   useUserProfile,
   DetailsBox,
-  LibraryHomeView,
+  LibraryView,
   CenteredLoading,
 } from "@repo/ui";
 
@@ -20,9 +20,9 @@ const Index = () => {
   if (!userId) return <CenteredLoading />;
 
   return (
-    <LibraryView userId={userId as string} collectionId={undefined}>
-      <LibraryHomeView userId={userId as string} />
-    </LibraryView>
+    <LibraryViewLayout userId={userId as string} collectionId={undefined}>
+      <LibraryView userId={userId as string} />
+    </LibraryViewLayout>
   );
 };
 

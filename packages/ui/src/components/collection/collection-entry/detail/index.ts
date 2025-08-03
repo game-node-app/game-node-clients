@@ -3,6 +3,7 @@
  */
 
 export * from "./CollectionEntryAchievementTracker";
+export * from "./CollectionEntryDetailRelatedEntries";
 export * from "./CollectionEntryDetailView";
 export * from "./CollectionEntryDetailsBox";
 export * from "./CollectionEntryPlaytimeTracker";

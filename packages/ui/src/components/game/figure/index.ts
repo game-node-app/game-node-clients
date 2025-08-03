@@ -7,3 +7,4 @@ export * from "./GameFigureWithQuickAdd";
 export * from "./GameGridItem";
 export * from "./GameHoverEditFigure";
 export * from "./GameListItem";
+export * from "./types";

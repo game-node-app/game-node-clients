@@ -30,6 +30,8 @@ import {
   useOnMobile,
   useOwnCollectionEntryForGameId,
   useUserProfile,
+  CollectionEntryDetailRelatedEntries,
+  useRelatedCollectionEntries,
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
 import { getRandomItem, Link } from "#@/util";
@@ -75,7 +77,7 @@ const CollectionEntryDetailView = ({
     }
 
     return getSizedImageUrl(randomScreenshot.url, backgroundImageSize);
-  }, [gameQuery.data?.screenshots]);
+  }, [backgroundImageSize, gameQuery.data?.screenshots]);
 
   const isInLibrary = ownCollectionEntryQuery.data != undefined;
 
@@ -107,7 +109,7 @@ const CollectionEntryDetailView = ({
         {gameId && (
           <>
             <CollectionEntryEditModal
-              id={gameId}
+              gameId={gameId}
               opened={editOpened}
               onClose={editOpenedUtils.close}
             />
@@ -166,41 +168,50 @@ const CollectionEntryDetailView = ({
               <Button className={"w-full uppercase"}>View Game</Button>
             </Link>
           </Stack>
-          <Stack className={"grow"}>
-            <SimpleGrid
-              cols={{
-                base: 1,
-                lg: 2,
+          <SimpleGrid
+            cols={{
+              base: 1,
+              lg: 2,
+            }}
+            className={"grow"}
+          >
+            <CollectionEntryDetailsBox
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+            <CollectionEntryPlaytimeTracker
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+            <CollectionEntryDetailRelatedEntries
+              collectionEntryId={collectionEntryId}
+              carouselProps={{
+                slideSize: {
+                  base: "35%",
+                  lg: "25%",
+                },
               }}
-            >
-              <CollectionEntryDetailsBox
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-              <Break />
-              <CollectionEntryPlaytimeTracker
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-              <CollectionEntryReviewBox
-                userId={userId}
-                collectionEntryId={collectionEntryId}
-              />
-            </SimpleGrid>
-          </Stack>
+            />
+            <CollectionEntryReviewBox
+              userId={userId}
+              collectionEntryId={collectionEntryId}
+            />
+          </SimpleGrid>
         </Group>
         {!onMobile && gameId && (
-          <Group className={"w-full lg:flex-nowrap items-start"}>
-            <Box className={"w-full lg:w-7/12"}>
-              <JournalPlaylogView userId={userId as string} gameId={gameId} />
-            </Box>
-            <Box className={"w-full lg:w-5/12"}>
-              <CollectionEntryAchievementTracker
-                userId={userId}
-                gameId={gameId}
-              />
-            </Box>
-          </Group>
+          <Stack className={"w-full"}>
+            <Group className={"w-full lg:flex-nowrap items-start"}>
+              <Box className={"w-full lg:w-7/12"}>
+                <JournalPlaylogView userId={userId as string} gameId={gameId} />
+              </Box>
+              <Box className={"w-full lg:w-5/12"}>
+                <CollectionEntryAchievementTracker
+                  userId={userId}
+                  gameId={gameId}
+                />
+              </Box>
+            </Group>
+          </Stack>
         )}
         {onMobile && gameId && (
           <Tabs defaultValue={"playlog"} variant={"outline"}>

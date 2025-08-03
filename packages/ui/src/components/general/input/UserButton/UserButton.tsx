@@ -16,7 +16,10 @@ interface UserButtonProps extends UnstyledButtonProps {
 
 export function UserButton({ userId, ...others }: UserButtonProps) {
   const profile = useUserProfile(userId);
-  const collectionEntriesCount = useCollectionEntriesForUserId(userId, 0, 1);
+  const collectionEntriesCount = useCollectionEntriesForUserId({
+    userId,
+    limit: 1,
+  });
   const totalGames = collectionEntriesCount.data?.pagination.totalItems || 0;
   return (
     <UnstyledButton className={classes.user} {...others}>

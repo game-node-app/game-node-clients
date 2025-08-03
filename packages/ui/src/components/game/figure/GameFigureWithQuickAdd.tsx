@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useState } from "react";
 import {
   GameFigureImage,
-  IGameFigureProps,
+  IGameFigureImageProps,
 } from "#@/components/game/figure/GameFigureImage";
 import { LongPressEventType, useLongPress } from "use-long-press";
 import { Box, Progress } from "@mantine/core";
@@ -9,7 +9,8 @@ import { CollectionEntryEditModal } from "#@/components/collection/collection-en
 import { useDisclosure } from "@mantine/hooks";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 
-type GameFigureWIthQuickAddProps = PropsWithChildren<IGameFigureProps>;
+export type GameFigureWithQuickAddProps =
+  PropsWithChildren<IGameFigureImageProps>;
 
 const LONG_PRESS_TIMEOUT_MS = 1250;
 
@@ -23,7 +24,7 @@ const GameFigureWithQuickAdd = ({
   children,
   linkProps,
   ...others
-}: GameFigureWIthQuickAddProps) => {
+}: GameFigureWithQuickAddProps) => {
   const onMobile = useOnMobile();
 
   const [progress, setProgress] = useState(0);
@@ -65,7 +66,7 @@ const GameFigureWithQuickAdd = ({
   return (
     <Box className={"w-full"}>
       <CollectionEntryEditModal
-        id={game!.id!}
+        gameId={game!.id!}
         opened={modalOpened}
         onClose={() => {
           modalUtils.close();

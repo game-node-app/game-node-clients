@@ -59,7 +59,10 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
         onClose={playtimeSubmitUtils.close}
         title={"Submit play session"}
       >
-        <PlaytimeSubmitForm gameId={gameId} />
+        <PlaytimeSubmitForm
+          gameId={gameId}
+          onClose={playtimeSubmitUtils.close}
+        />
       </Modal>
       <Stack className={"w-full"}>
         {(playtimes == undefined || playtimes.length === 0) && (

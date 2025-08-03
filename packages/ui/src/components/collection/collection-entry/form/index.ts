@@ -5,6 +5,7 @@
 export * from "./CollectionEntriesMoveForm";
 export * from "./CollectionEntryEditForm";
 export * from "./CollectionEntryFormDetailsPanel";
+export * from "./CollectionEntryFormDlcsPanel";
 export * from "./CollectionEntryFormPanels";
 export * from "./CollectionEntryFormReviewPanel";
 export * from "./CollectionEntryStatusSelect";

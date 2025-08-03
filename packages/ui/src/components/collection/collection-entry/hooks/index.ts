@@ -8,3 +8,4 @@ export * from "./useCollectionEntry";
 export * from "./useFavoriteCollectionEntriesForUserId";
 export * from "./useInfiniteCollectionEntriesForCollectionId";
 export * from "./useOwnCollectionEntryForGameId";
+export * from "./useRelatedCollectionEntries";

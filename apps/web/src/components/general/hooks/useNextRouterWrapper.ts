@@ -10,8 +10,6 @@ export function useNextRouterWrapper(): RouterHookProps {
       ? nextRouter.replace
       : nextRouter.push;
 
-    console.log("Transition Options: ", options);
-
     targetMethod(route, undefined, options).catch((err) => console.error(err));
   };
 

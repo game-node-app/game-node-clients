@@ -26,7 +26,7 @@ import { getErrorMessage } from "@/util/getErrorMessage";
 import {
   GameSearchTips,
   TGameOrSearchGame,
-  toGameSearchRequestDto,
+  buildGameSearchRequestDto,
 } from "@repo/ui";
 import { useDebouncedValue } from "@mantine/hooks";
 
@@ -51,7 +51,7 @@ const GameSearchPage = () => {
     error,
   } = useInfiniteSearchGames(
     {
-      ...toGameSearchRequestDto({
+      ...buildGameSearchRequestDto({
         query: delayedQuery,
         includeDlcs: false,
         includeExtraContent: false,
