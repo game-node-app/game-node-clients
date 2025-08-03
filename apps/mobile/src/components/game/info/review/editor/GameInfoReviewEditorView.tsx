@@ -118,6 +118,7 @@ const GameInfoReviewEditorView = ({
               readOnly={false}
               value={rating}
               onChange={(v) => setValue("rating", v)}
+              size={"lg"}
             />
             <Button type={"submit"} loading={reviewMutation.isPending}>
               Submit

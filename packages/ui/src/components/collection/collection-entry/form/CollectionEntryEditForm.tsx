@@ -89,6 +89,7 @@ const CollectionEntryEditForm = ({
       finishedAt: null,
       relatedGamesIds: [],
       collectionIds: [],
+      review: {},
     },
   });
 
@@ -136,8 +137,6 @@ const CollectionEntryEditForm = ({
     },
     onError: createErrorNotification,
   });
-
-  console.log("Touched fields: ", touchedFields);
 
   const collectionEntryMutation = useMutation({
     mutationFn: async (data: TGameAddOrUpdateValues) => {
@@ -230,20 +229,18 @@ const CollectionEntryEditForm = ({
   return (
     <SessionAuth>
       <FormProvider {...form}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-full h-full relative"
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Tabs
             defaultValue={"details"}
             allowTabDeactivation={false}
             variant={"default"}
             keepMounted={false}
+            classNames={{
+              root: "w-full h-full relative",
+            }}
           >
             <Tabs.List
-              className={
-                "bg-body mb-1 lg:me-1 sticky data-[native=true]:top-0 top-14 z-10"
-              }
+              className={"bg-body mb-1 lg:me-1 sticky top-sticky-safe z-10"}
               data-native={isMobilePlatform ? "true" : "false"}
             >
               <Tabs.Tab
