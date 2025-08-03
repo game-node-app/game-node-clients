@@ -159,6 +159,7 @@ const GameInfoReviewEditorView = ({
               value={rating}
               onChange={(v) => setValue("rating", v)}
               readOnly={false}
+              size={"lg"}
             />
             {reviewQuery.data != undefined && (
               <Tooltip label={"Cancel edit"}>

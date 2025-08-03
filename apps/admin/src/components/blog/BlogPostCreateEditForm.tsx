@@ -121,8 +121,6 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
     onError: createErrorNotification,
   });
 
-  console.log("Form: ", getValues());
-
   // Updates form to match current editing post
   useEffect(() => {
     if (editingPostQuery.data) {
@@ -135,9 +133,7 @@ const BlogPostCreateEditForm = ({ editingPostId }: Props) => {
       );
       setValue("isDraft", isDraft);
       if (review) {
-        // Needs to be set first to avoid override by effect bellow
         setValue("isGameReview", true);
-
         setValue("reviewInfo", {
           rating: review.rating,
           gameId: review.gameId,

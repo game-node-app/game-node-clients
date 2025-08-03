@@ -26,7 +26,7 @@ const GameInfoReviewEditor = ({
   editorRef,
   gameId,
   onBlur,
-  stickyOffset = 65,
+  stickyOffset = 78,
   ...others
 }: IGameInfoReviewEditorProps) => {
   const userId = useUserId();
