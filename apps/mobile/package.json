@@ -73,7 +73,7 @@
     "supertokens-node": "22.0.1",
     "supertokens-web-js": "0.15.0",
     "supertokens-website": "20.1.6",
-    "syncpack": "13.0.3",
+    "socket.io-client": "^4.8.1",
     "ts-pattern": "5.7.0",
     "turbo": "2.4.4",
     "use-long-press": "3.3.0",

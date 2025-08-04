@@ -77,6 +77,8 @@ setModalComponent(IonModalWrapper);
 setProjectContext({
   client: "mobile",
   s3BucketUrl: import.meta.env.VITE_PUBLIC_S3_BUCKET_URL!,
+  serverUrl: import.meta.env.VITE_PUBLIC_SERVER_URL!,
+  searchUrl: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
 });
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,

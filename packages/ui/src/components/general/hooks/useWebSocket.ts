@@ -1,9 +1,7 @@
 import { io, Socket, SocketOptions } from "socket.io-client";
-import { OpenAPI } from "@repo/wrapper/server";
 import { useEffect, useRef, useState } from "react";
 import Session from "supertokens-auth-react/recipe/session";
-
-const SERVER_URL = OpenAPI.BASE;
+import { PROJECT_CONTEXT } from "#@/util";
 
 export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
   const socketRef = useRef<Socket>(null);
@@ -22,7 +20,7 @@ export function useWebSocket(namespace: string = "/", opts?: SocketOptions) {
 
       const endpoint = namespace.startsWith("/") ? namespace : `/${namespace}`;
 
-      socketRef.current = io(`${SERVER_URL}${endpoint}`, {
+      socketRef.current = io(`${PROJECT_CONTEXT.serverUrl}${endpoint}`, {
         transports: ["websocket"],
         query: {
           token: token,

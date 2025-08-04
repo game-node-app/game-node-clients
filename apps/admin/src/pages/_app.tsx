@@ -59,6 +59,8 @@ setRouterHook(useNextRouterWrapper);
 setProjectContext({
   client: "web",
   s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,
+  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL!,
+  searchUrl: process.env.NEXT_PUBLIC_SEARCH_URL!,
 });
 setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
