@@ -18,6 +18,12 @@ export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
    * @param breakpoint
    */
   onBreakpointChange?: (breakpoint: number) => void;
+  /**
+   * Only valid for "ion-modal".
+   * @see https://ionicframework.com/docs/api/modal#scrolling-content-at-all-breakpoints
+   * @param expandToScroll
+   */
+  expandToScroll?: boolean;
 }
 
 export let Modal: React.FC<ModalComponentProps> = MantineModalWrapper;
