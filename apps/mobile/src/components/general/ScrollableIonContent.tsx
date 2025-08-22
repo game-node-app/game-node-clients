@@ -28,8 +28,6 @@ const ScrollableIonContent = forwardRef<
   const localRef = useRef<HTMLIonContentElement>(null);
   const pathname = ionRouter.routeInfo.pathname;
 
-  const [, , setScroll] = useScrollHandler({});
-
   // Merge localRef with forwarded ref
   useImperativeHandle(ref, () => localRef.current as HTMLIonContentElement, []);
 
