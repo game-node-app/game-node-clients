@@ -3,4 +3,5 @@
  */
 
 export * from "./GameSearchBar";
+export * from "./GameSearchFilters";
 export * from "./utils";

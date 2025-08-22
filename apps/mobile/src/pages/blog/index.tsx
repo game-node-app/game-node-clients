@@ -10,6 +10,7 @@ import {
 } from "@ionic/react";
 import { BlogPostsFeed, BlogPostsLayout } from "@repo/ui";
 import { Container, Stack } from "@mantine/core";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const BlogPostsPage = () => {
   return (
@@ -22,13 +23,13 @@ const BlogPostsPage = () => {
           <IonTitle>Blog Posts</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full mb-8 mt-3"}>
           <BlogPostsLayout>
             <BlogPostsFeed />
           </BlogPostsLayout>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

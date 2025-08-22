@@ -1,8 +1,14 @@
-import { EGameCategory, GameSearchFormValues } from "#@/components";
+import { EGameCategory } from "#@/components";
 import { games_GameSearchRequestDto } from "@repo/wrapper/search";
 
+export type GameSearchRequestBuilderValues = {
+  query: string;
+  includeDlcs: boolean;
+  includeExtraContent: boolean;
+};
+
 export function buildGameSearchRequestDto(
-  data: GameSearchFormValues,
+  data: GameSearchRequestBuilderValues,
 ): Pick<games_GameSearchRequestDto, "query" | "category"> {
   const categories: games_GameSearchRequestDto["category"] = [
     EGameCategory.Main,

@@ -21,6 +21,7 @@ import {
   LibraryView,
 } from "@repo/ui";
 import { CollectionView } from "@/components/collection/view/CollectionView";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   userId?: string;
@@ -65,7 +66,7 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent className={"ion-padding"}>
+        <ScrollableIonContent className={"ion-padding"}>
           {isOwnLibrary && (
             <LibraryViewFab selectedCollectionId={collectionId} />
           )}
@@ -79,7 +80,7 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
               <LibraryView userId={userIdToUse!} />
             )}
           </LibraryViewLayout>
-        </IonContent>
+        </ScrollableIonContent>
       </SessionAuth>
     </IonPage>
   );

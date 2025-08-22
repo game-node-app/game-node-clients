@@ -10,6 +10,7 @@ import {
 import { Container } from "@mantine/core";
 import React from "react";
 import { ProfileStatsView } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   userId: string;
@@ -26,9 +27,9 @@ const ProfileStatsPage = ({ userId }: Props) => {
           <IonTitle>Profile Stats</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <ProfileStatsView userId={userId} />
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

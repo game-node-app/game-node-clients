@@ -20,6 +20,7 @@ import { GamePostEditor, Modal } from "@repo/ui";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IconMessage2Share } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 type ExploreSegment = "games" | "posts" | "activity";
 
@@ -55,7 +56,7 @@ const ExplorePage = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <IonFab
           slot="fixed"
           horizontal="end"
@@ -114,7 +115,7 @@ const ExplorePage = () => {
             <ExploreActivityPageView />
           </Box>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

@@ -14,8 +14,6 @@ interface Props {
 }
 
 const HomeFab = ({ contentRef }: Props) => {
-  const [createPostModalOpened, createPostModalUtils] = useDisclosure();
-
   return (
     <IonFab
       slot="fixed"
@@ -23,43 +21,13 @@ const HomeFab = ({ contentRef }: Props) => {
       vertical="bottom"
       className={"me-2 mb-2"}
     >
-      <Modal
-        opened={createPostModalOpened}
-        onClose={createPostModalUtils.close}
-        title={"Publish post"}
-        breakpoints={[0.5, 0.75, 0.85, 1]}
-        initialBreakpoint={1}
+      <IonFabButton
+        onClick={() => {
+          contentRef.current?.scrollToTop(500);
+        }}
       >
-        <SessionAuth>
-          <GamePostEditor
-            editorProps={{
-              mih: "70vh",
-            }}
-            onPublish={createPostModalUtils.close}
-          />
-        </SessionAuth>
-      </Modal>
-      <IonFabButton>
-        <IconPlus />
+        <IconArrowUp />
       </IonFabButton>
-      <IonFabList side={"top"}>
-        <IonFabButton
-          color={"primary"}
-          onClick={() => {
-            createPostModalUtils.open();
-          }}
-        >
-          <IconMessage2Share />
-        </IonFabButton>
-        <IonFabButton
-          color={"primary"}
-          onClick={() => {
-            contentRef.current?.scrollToTop(500);
-          }}
-        >
-          <IconArrowUp />
-        </IonFabButton>
-      </IonFabList>
     </IonFab>
   );
 };

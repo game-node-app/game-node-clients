@@ -22,6 +22,7 @@ const LibraryView = ({ userId }: Props) => {
   const [params, setParams] = useUrlState({
     status: CollectionEntry.status.PLAYING,
     offset: 0,
+    limit: DEFAULT_LIMIT,
   });
 
   const { status, offset } = params;

@@ -1,20 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
-import {
-  Center,
-  Container,
-  FocusTrap,
-  Group,
-  Stack,
-  Text,
-} from "@mantine/core";
+import React, { useMemo, useState } from "react";
+import { Center, FocusTrap, Group, Stack, Text } from "@mantine/core";
 import GameView, {
   GameViewLayoutOption,
 } from "@/components/game/view/GameView";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonPage,
   IonSearchbar,
@@ -24,22 +15,35 @@ import { useInfiniteSearchGames } from "@/components/game/hooks/useInfiniteSearc
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import {
+  buildGameSearchRequestDto,
+  GameSearchFilters,
+  GameSearchRequestBuilderValues,
   GameSearchTips,
   TGameOrSearchGame,
-  buildGameSearchRequestDto,
+  useUrlState,
 } from "@repo/ui";
 import { useDebouncedValue } from "@mantine/hooks";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const GameSearchPage = () => {
-  const params = useSearchParameters();
+  const [searchParams, setSearchParams] =
+    useUrlState<GameSearchRequestBuilderValues>(
+      {
+        query: "",
+        includeExtraContent: false,
+        includeDlcs: false,
+      },
+      {
+        replace: true,
+      },
+    );
 
-  const [query, setQuery] = useState("");
-
-  const [delayedQuery] = useDebouncedValue(query, 300);
+  const [debouncedParams] = useDebouncedValue(searchParams, 300);
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
-  const isQueryEnabled = delayedQuery != undefined && delayedQuery.length >= 3;
+  const isQueryEnabled =
+    searchParams.query != undefined && searchParams.query.length >= 3;
 
   const {
     data,
@@ -51,11 +55,7 @@ const GameSearchPage = () => {
     error,
   } = useInfiniteSearchGames(
     {
-      ...buildGameSearchRequestDto({
-        query: delayedQuery,
-        includeDlcs: false,
-        includeExtraContent: false,
-      }),
+      ...buildGameSearchRequestDto(debouncedParams),
       limit: 12,
     },
     isQueryEnabled,
@@ -67,13 +67,6 @@ const GameSearchPage = () => {
       .filter((item) => item != undefined) as TGameOrSearchGame[] | undefined;
   }, [data]);
 
-  useEffect(() => {
-    const urlQuery = params.get("q");
-    if (urlQuery && urlQuery.length >= 3) {
-      setQuery(urlQuery);
-    }
-  }, [params]);
-
   return (
     <IonPage>
       <IonHeader>
@@ -83,16 +76,27 @@ const GameSearchPage = () => {
           </IonButtons>
           <FocusTrap>
             <IonSearchbar
-              value={query}
-              onIonInput={(e) => setQuery(e.detail.value!)}
+              value={searchParams.query}
+              onIonInput={(e) => {
+                setSearchParams((prev) => ({
+                  ...prev,
+                  query: e.detail.value!,
+                }));
+              }}
             />
           </FocusTrap>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full min-h-96 mb-8"}>
+          <GameSearchFilters
+            onChange={(filters) =>
+              setSearchParams((prev) => ({ ...prev, ...filters }))
+            }
+          />
           <GameSearchTips />
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+
           {!isQueryEnabled ? (
             <Center>
               <Text>Start typing to see results.</Text>
@@ -116,7 +120,7 @@ const GameSearchPage = () => {
             </GameView>
           )}
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

@@ -20,6 +20,7 @@ import PreferencesConnectionsItems from "@/components/preferences/connections/Pr
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 import { PreferencesWrappedItems } from "@/components/preferences/wrapped/PreferencesWrappedItems.tsx";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const PreferencesPage = () => {
   return (
@@ -33,7 +34,7 @@ const PreferencesPage = () => {
             <IonTitle>Preferences</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className={"ion-padding"}>
+        <ScrollableIonContent className={"ion-padding"}>
           <Stack className={"mb-4 p-0"}>
             <IonList className={"pt-0"}>
               <PreferencesProfileItems />
@@ -42,7 +43,7 @@ const PreferencesPage = () => {
               <PreferencesWrappedItems />
             </IonList>
           </Stack>
-        </IonContent>
+        </ScrollableIonContent>
       </SessionAuth>
     </IonPage>
   );

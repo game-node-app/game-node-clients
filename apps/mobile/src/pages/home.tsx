@@ -15,6 +15,7 @@ import { Container, Image, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  BackToTopButton,
   DetailsBox,
   InfiniteLoaderProps,
   PostsFeed,
@@ -29,6 +30,7 @@ import { IconCalendarWeek, IconSearch } from "@tabler/icons-react";
 import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const HomePage = () => {
   const contentRef = useRef<HTMLIonContentElement>(null);
@@ -80,7 +82,11 @@ const HomePage = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent ref={contentRef} className={"ion-padding"}>
+      <ScrollableIonContent
+        className={"ion-padding"}
+        ref={contentRef}
+        fixedSlotPlacement={"before"}
+      >
         <IonRefresher
           slot={"fixed"}
           onIonRefresh={async (evt) => {
@@ -141,7 +147,7 @@ const HomePage = () => {
             </PostsFeed>
           </DetailsBox>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

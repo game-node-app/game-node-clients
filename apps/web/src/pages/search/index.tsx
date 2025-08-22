@@ -55,7 +55,7 @@ const Index = () => {
       <Stack align="center" justify="center" w={"100%"}>
         <Box className={`w-full flex justify-center mt-12 flex-wrap`}>
           <GameSearchBar
-            onSubmit={(data) => {
+            onChange={(data) => {
               setSearchParameters((prev) => {
                 return {
                   ...prev,

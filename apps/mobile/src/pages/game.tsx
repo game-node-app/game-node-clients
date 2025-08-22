@@ -35,6 +35,7 @@ import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewSc
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
 import { useHistory } from "react-router-dom";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   gameId: number;
@@ -141,7 +142,9 @@ const GamePage = ({ gameId }: Props) => {
           {gameQuery.isLoading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>{content}</IonContent>
+      <ScrollableIonContent className={"ion-padding"}>
+        {content}
+      </ScrollableIonContent>
     </IonPage>
   );
 };

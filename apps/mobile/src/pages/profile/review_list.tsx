@@ -14,6 +14,7 @@ import {
   ProfileReviewListView,
   useUserProfile,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   userId: string;
@@ -33,10 +34,10 @@ const ProfileReviewListPage = ({ userId }: Props) => {
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         {profileQuery.isLoading && <CenteredLoading />}
         <ProfileReviewListView userId={userId} />
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

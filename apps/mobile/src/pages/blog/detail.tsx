@@ -17,6 +17,7 @@ import {
   BlogPostsLayout,
   useBlogPost,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   postId: string;
@@ -36,7 +37,7 @@ const BlogPostDetailPage = ({ postId }: Props) => {
           {isLoading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <ScrollableIonContent className="ion-padding">
         <Box className={"w-full min-h-screen mb-8 mt-3"}>
           <BlogPostsLayout>
             <BlogPostDetailLayout>
@@ -44,7 +45,7 @@ const BlogPostDetailPage = ({ postId }: Props) => {
             </BlogPostDetailLayout>
           </BlogPostsLayout>
         </Box>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

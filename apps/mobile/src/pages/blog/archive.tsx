@@ -11,6 +11,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const BlogPostsArchivePage = () => {
   const router = useIonRouter();
@@ -27,7 +28,7 @@ const BlogPostsArchivePage = () => {
           <IonTitle>Blog Archive</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <BlogPostsLayout>
           <BlogPostsListView
             tag={tag ?? undefined}
@@ -39,7 +40,7 @@ const BlogPostsArchivePage = () => {
             }}
           />
         </BlogPostsLayout>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

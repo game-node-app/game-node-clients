@@ -12,6 +12,7 @@ import {
 } from "@ionic/react";
 import { Container, Stack } from "@mantine/core";
 import { ActivityDetailView, useActivity, useUserProfile } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   activityId: string;
@@ -34,7 +35,7 @@ const ActivityDetailPage = ({ activityId }: Props) => {
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full h-full mb-8"}>
           {(activityQuery.isError || profileQuery.isError) && (
             <CenteredErrorMessage
@@ -43,7 +44,7 @@ const ActivityDetailPage = ({ activityId }: Props) => {
           )}
           <ActivityDetailView activityId={activityId} />
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };
