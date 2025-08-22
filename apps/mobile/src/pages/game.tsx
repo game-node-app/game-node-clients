@@ -14,7 +14,6 @@ import {
   IonProgressBar,
   IonTitle,
   IonToolbar,
-  useIonRouter,
 } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
 import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
@@ -29,12 +28,12 @@ import {
   GameInfoTabValue,
   GameInfoView,
   useGame,
+  useUrlState,
   useUserView,
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
 import { useHistory } from "react-router-dom";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
@@ -43,13 +42,13 @@ interface Props {
 
 const GamePage = ({ gameId }: Props) => {
   const router = useHistory();
-  const params = useSearchParameters();
-
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
-  const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
-    GameInfoTabValue.overview,
-  );
+  const [params, setParams] = useUrlState({
+    tab: GameInfoTabValue.overview,
+  });
+
+  const currentTab = params.tab;
 
   const [, , incrementView] = useUserView(
     gameId,
@@ -68,35 +67,42 @@ const GamePage = ({ gameId }: Props) => {
     }
   }, [gameId, incrementView]);
 
-  const onChange = useCallback(
-    (tab: GameInfoTabValue) => {
-      router.push({
-        pathname: router.location.pathname,
-        search: `?tab=${tab}`,
-        hash: router.location.hash,
-      });
-    },
-    [router],
-  );
+  const onChange = (tab: GameInfoTabValue) => {
+    setParams({
+      tab,
+    });
+  };
 
-  const onGoBack = useCallback(() => {
+  const onGoBack = () => {
     onChange(GameInfoTabValue.overview);
-  }, [onChange]);
+  };
 
-  // Sync URL params with tab value
-  useEffect(() => {
-    if (params.has("tab")) {
-      setCurrentTab(params.get("tab") as GameInfoTabValue);
-    }
-  }, [params]);
-
-  const content = useMemo(() => {
-    if (gameQuery.isLoading) {
-      return <CenteredLoading />;
-    }
-
+  if (gameQuery.isLoading) {
     return (
-      <>
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot={"start"}>
+              <IonBackButton />
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent></IonContent>
+      </IonPage>
+    );
+  }
+
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot={"start"}>
+            <IonBackButton />
+          </IonButtons>
+          <IonTitle>{gameQuery.data?.name}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <ScrollableIonContent className={"ion-padding"}>
         <GameInfoViewFab gameId={gameId} />
         <GameInfoView id={gameId} withActions={false} />
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
@@ -127,23 +133,6 @@ const GamePage = ({ gameId }: Props) => {
             </Stack>
           </Tabs.Panel>
         </GameInfoTabs>
-      </>
-    );
-  }, [currentTab, gameId, gameQuery.isLoading, onChange, onGoBack]);
-
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>{gameQuery.data?.name}</IonTitle>
-          {gameQuery.isLoading && <IonProgressBar type="indeterminate" />}
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        {content}
       </ScrollableIonContent>
     </IonPage>
   );
