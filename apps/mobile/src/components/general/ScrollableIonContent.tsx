@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { IonContent, useIonRouter } from "@ionic/react";
 import { useDebouncedCallback } from "@mantine/hooks";
-import { useScrollHandler } from "@repo/ui";
 
 interface ScrollPosition {
   x: number;
