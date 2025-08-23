@@ -5,6 +5,7 @@ import GameView, {
 } from "@/components/game/view/GameView";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import {
+  LibraryViewActions,
   useCollection,
   useGames,
   useInfiniteCollectionEntriesForCollectionId,
@@ -98,7 +99,6 @@ const CollectionView = ({
       <Divider className={"w-full"} my={"sm"} variant={"dashed"} />
       <Stack>
         <GameView layout={layout}>
-          <GameView.LayoutSwitcher setLayout={setLayout} />
           <GameView.Content
             items={games}
             isLoading={isLoading}

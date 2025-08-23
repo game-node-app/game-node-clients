@@ -1,16 +1,21 @@
 import React, { useMemo } from "react";
 import {
+  buildGameCategoryFilters,
   CenteredErrorMessage,
   findCollectionEntryByGameId,
   GameView,
+  GameViewLayoutOption,
+  LibraryViewActions,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
+  UseCollectionEntriesForUserIdProps,
   useGames,
   useUrlState,
 } from "#@/components";
 import { CollectionEntry } from "@repo/wrapper/server";
 import { Stack } from "@mantine/core";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { useLocalStorage } from "@mantine/hooks";
 
 const DEFAULT_LIMIT = 24;
 
@@ -19,18 +24,31 @@ interface Props {
 }
 
 const LibraryView = ({ userId }: Props) => {
+  const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
+    key: "library-game-view-layout",
+    defaultValue: "grid",
+    getInitialValueInEffect: false,
+  });
+
   const [params, setParams] = useUrlState({
     status: CollectionEntry.status.PLAYING,
     offset: 0,
     limit: DEFAULT_LIMIT,
+    orderBy: {
+      addedDate: "DESC",
+    },
+    includeExtraContent: false,
   });
 
-  const { status, offset } = params;
+  const { status, offset, includeExtraContent } = params;
 
   const collectionEntriesQuery = useCollectionEntriesForUserId({
     userId,
-    orderBy: {
-      addedDate: "DESC",
+    gameFilters: {
+      category: buildGameCategoryFilters({
+        includeDlcs: includeExtraContent,
+        includeExtraContent: includeExtraContent,
+      }),
     },
     ...params,
   });
@@ -69,19 +87,38 @@ const LibraryView = ({ userId }: Props) => {
 
   return (
     <Stack className={"w-full h-full min-h-[55dvh]"}>
-      <LibraryViewTabs
-        status={status}
-        onStatusChange={(status) => {
-          setParams({
-            status,
-            offset: 0,
-          });
-        }}
-      />
-      {isEmpty && (
-        <CenteredErrorMessage message={"No games in this category."} />
-      )}
-      <GameView layout={"grid"}>
+      <GameView layout={layout}>
+        <LibraryViewTabs
+          status={status}
+          onStatusChange={(status) => {
+            setParams({
+              status,
+              offset: 0,
+            });
+          }}
+        />
+        <LibraryViewActions
+          includeExtraContent={includeExtraContent}
+          onExtraContentChange={(value) => {
+            setParams((prev) => ({
+              ...prev,
+              includeExtraContent: value,
+            }));
+          }}
+          onSort={(value, order) => {
+            const orderBy = {
+              [value]: order,
+            };
+            setParams((prev) => ({
+              ...prev,
+              orderBy: orderBy as never,
+            }));
+          }}
+          onLayoutChange={setLayout}
+        />
+        {isEmpty && (
+          <CenteredErrorMessage message={"No games in this category."} />
+        )}
         <GameView.Content items={games}>
           <GameView.LoadingSkeletons isVisible={isLoading} />
         </GameView.Content>

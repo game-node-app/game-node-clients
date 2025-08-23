@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { games_GameSearchRequestDto } from "@repo/wrapper/search";
+import React, { useRef } from "react";
 import { Chip, Group } from "@mantine/core";
 import { z } from "zod";
 import { FieldPath, useForm } from "react-hook-form";

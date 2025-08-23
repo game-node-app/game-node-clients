@@ -7,16 +7,17 @@ export type GameSearchRequestBuilderValues = {
   includeExtraContent: boolean;
 };
 
-export function buildGameSearchRequestDto(
-  data: GameSearchRequestBuilderValues,
-): Pick<games_GameSearchRequestDto, "query" | "category"> {
+export function buildGameCategoryFilters({
+  includeExtraContent,
+  includeDlcs,
+}: Omit<GameSearchRequestBuilderValues, "query">): Array<EGameCategory> {
   const categories: games_GameSearchRequestDto["category"] = [
     EGameCategory.Main,
     EGameCategory.Remaster,
     EGameCategory.Remake,
   ];
 
-  if (data.includeDlcs) {
+  if (includeDlcs) {
     categories.push(
       ...[
         EGameCategory.DlcAddon,
@@ -26,7 +27,7 @@ export function buildGameSearchRequestDto(
     );
   }
 
-  if (data.includeExtraContent) {
+  if (includeExtraContent) {
     categories.push(
       ...[
         EGameCategory.Bundle,
@@ -42,8 +43,14 @@ export function buildGameSearchRequestDto(
     );
   }
 
+  return categories;
+}
+
+export function buildGameSearchRequestDto(
+  data: GameSearchRequestBuilderValues,
+): Pick<games_GameSearchRequestDto, "query" | "category"> {
   return {
     query: data.query,
-    category: categories,
+    category: buildGameCategoryFilters(data),
   };
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { IconEdit } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
-import { ItemDropdownButtonProps } from "#@/components/general/input/dropdown/types";
+import { ItemDropdownButtonProps } from "#@/components/general/input/ItemDropdown/types";
 
 export interface ItemDropdownEditButtonProps extends ItemDropdownButtonProps {}
 

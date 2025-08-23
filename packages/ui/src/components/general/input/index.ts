@@ -4,7 +4,8 @@
 
 export * from "./GameRating";
 export * from "./FloatingLabelInput/index";
+export * from "./ItemDropdown/index";
 export * from "./SearchBar/index";
+export * from "./SelectWithOrdering/index";
+export * from "./SortingChip/index";
 export * from "./UserButton/index";
-export * from "./dropdown/index";
-export * from "./select/index";
