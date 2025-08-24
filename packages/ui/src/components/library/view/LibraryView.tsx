@@ -43,6 +43,7 @@ const LibraryView = ({ userId }: Props) => {
   const { status, offset, includeExtraContent } = params;
 
   const collectionEntriesQuery = useCollectionEntriesForUserId({
+    ...params,
     userId,
     gameFilters: {
       category: buildGameCategoryFilters({
@@ -50,7 +51,7 @@ const LibraryView = ({ userId }: Props) => {
         includeExtraContent: includeExtraContent,
       }),
     },
-    ...params,
+    limit: DEFAULT_LIMIT,
   });
 
   const gameIds =

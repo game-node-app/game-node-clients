@@ -16,10 +16,6 @@ const getEquivalentDeepLink = (slug: string) => {
 const AppUrlListener = () => {
   const history = useHistory();
 
-  const [{ x, y }] = useWindowScroll();
-
-  console.log(x, y);
-
   useEffect(() => {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       // Example url: https://gamenode.app/profile/xxxxxxx/reviews

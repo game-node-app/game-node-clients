@@ -47,6 +47,7 @@ const SortingChip = ({ data, onChange, defaultValue, ...others }: Props) => {
     <Combobox
       store={combobox}
       width={175}
+      offset={16}
       onOptionSubmit={(v) => {
         if (v !== internalSelectedItem) {
           // Only changes value when selecting another option

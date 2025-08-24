@@ -81,7 +81,11 @@ const GameSearchBar = ({ withButton = true, onChange }: Props) => {
           </Combobox.Dropdown>
         </Combobox>
         {withButton && (
-          <Button type="submit" className="!rounded-tl-none !rounded-bl-none">
+          <Button
+            type="button"
+            className="!rounded-tl-none !rounded-bl-none"
+            onClick={() => triggerDelayedOnChange()}
+          >
             <IconSearch />
           </Button>
         )}

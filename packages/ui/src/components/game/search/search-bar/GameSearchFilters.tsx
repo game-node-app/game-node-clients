@@ -3,6 +3,7 @@ import { Chip, Group } from "@mantine/core";
 import { z } from "zod";
 import { FieldPath, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GameViewLayoutOption } from "#@/components";
 
 const SearchRequestFiltersSchema = z.object({
   includeDlcs: z.boolean().default(false),
@@ -13,9 +14,10 @@ type SearchRequestFiltersValues = z.infer<typeof SearchRequestFiltersSchema>;
 
 interface Props {
   onChange: (data: SearchRequestFiltersValues) => void;
+  onLayoutChange: (layout: GameViewLayoutOption) => void;
 }
 
-const GameSearchFilters = ({ onChange }: Props) => {
+const GameSearchFilters = ({ onChange, onLayoutChange }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const { watch, setValue, handleSubmit, register } =
     useForm<SearchRequestFiltersValues>({

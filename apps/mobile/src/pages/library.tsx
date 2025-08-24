@@ -1,26 +1,22 @@
-import { DetailsBox } from "@/components/general/DetailsBox";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
 import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
+  CollectionView,
+  LibraryView,
   LibraryViewLayout,
-  RecentCollectionEntriesView,
   useUserId,
   useUserProfile,
-  LibraryView,
 } from "@repo/ui";
-import { CollectionView } from "@/components/collection/view/CollectionView";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
@@ -75,6 +71,7 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
               <CollectionView
                 libraryUserId={userIdToUse!}
                 collectionId={collectionId}
+                withEditActions={false}
               />
             ) : (
               <LibraryView userId={userIdToUse!} />

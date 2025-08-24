@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { Center, FocusTrap, Group, Stack, Text } from "@mantine/core";
-import GameView, {
-  GameViewLayoutOption,
-} from "@/components/game/view/GameView";
 import {
   IonBackButton,
   IonButtons,
   IonHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
   IonPage,
   IonSearchbar,
   IonToolbar,
@@ -19,6 +18,8 @@ import {
   GameSearchFilters,
   GameSearchRequestBuilderValues,
   GameSearchTips,
+  GameView,
+  GameViewLayoutOption,
   TGameOrSearchGame,
   useUrlState,
 } from "@repo/ui";
@@ -47,10 +48,10 @@ const GameSearchPage = () => {
 
   const {
     data,
-    isFetching,
     isLoading,
     hasNextPage,
     fetchNextPage,
+    isFetching,
     isError,
     error,
   } = useInfiniteSearchGames(
@@ -89,36 +90,36 @@ const GameSearchPage = () => {
       </IonHeader>
       <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full min-h-96 mb-8"}>
-          <GameSearchFilters
-            onChange={(filters) =>
-              setSearchParams((prev) => ({ ...prev, ...filters }))
-            }
-          />
-          <GameSearchTips />
-          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
-
-          {!isQueryEnabled ? (
-            <Center>
-              <Text>Start typing to see results.</Text>
-            </Center>
-          ) : (
-            <GameView layout={layout}>
-              <Group className={"w-full justify-end"}>
-                <GameView.LayoutSwitcher setLayout={setLayout} />
-              </Group>
-              <GameView.Content
-                items={items}
-                isLoading={isLoading}
-                isFetching={isFetching}
-                hasNextPage={hasNextPage}
-                onLoadMore={() => {
-                  if (!isFetching && !isLoading) {
-                    fetchNextPage();
-                  }
-                }}
-              ></GameView.Content>
-            </GameView>
-          )}
+          <GameView layout={layout}>
+            <Group className={"w-full flex-nowrap"}>
+              <GameView.LayoutSwitcher mode={"chip"} setLayout={setLayout} />
+            </Group>
+            <GameSearchTips />
+            {isError && (
+              <CenteredErrorMessage message={getErrorMessage(error)} />
+            )}
+            {!isQueryEnabled ? (
+              <Center>
+                <Text>Start typing to see results.</Text>
+              </Center>
+            ) : (
+              <>
+                <GameView.Content items={items}>
+                  <GameView.LoadingSkeletons isVisible={true} />
+                </GameView.Content>
+                <IonInfiniteScroll
+                  onIonInfinite={async (evt) => {
+                    // await fetchNextPage();
+                    // await evt.target.complete();
+                  }}
+                >
+                  <IonInfiniteScrollContent
+                    loadingText={"Fetching more games..."}
+                  />
+                </IonInfiniteScroll>
+              </>
+            )}
+          </GameView>
         </Stack>
       </ScrollableIonContent>
     </IonPage>

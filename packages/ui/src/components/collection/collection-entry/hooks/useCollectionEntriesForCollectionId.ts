@@ -2,15 +2,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CollectionEntriesPaginatedResponseDto,
   CollectionsEntriesService,
+  type FindCollectionEntriesForCollectionIdDto,
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
-interface UseCollectionEntriesForCollectionIdProps {
+interface UseCollectionEntriesForCollectionIdProps
+  extends FindCollectionEntriesForCollectionIdDto {
   collectionId: string;
-  limit?: number;
-  offset?: number;
-  orderBy?: FindCollectionEntriesOrderBy;
 }
 
 /**
@@ -26,26 +25,40 @@ export function useCollectionEntriesForCollectionId({
   limit,
   offset,
   orderBy,
+  status,
+  gameFilters,
 }: UseCollectionEntriesForCollectionIdProps): ExtendedUseQueryResult<
   CollectionEntriesPaginatedResponseDto | undefined
 > {
   const queryClient = useQueryClient();
-  const queryKey = ["collection-entries", collectionId, offset, limit, orderBy];
+  const queryKey = [
+    "collection-entries",
+    collectionId,
+    offset,
+    limit,
+    orderBy,
+    status,
+    gameFilters,
+  ];
   const invalidate = () => {
     queryClient.invalidateQueries({
       queryKey: [queryKey[0]],
     });
   };
+
   return {
     ...useQuery({
       queryKey,
       queryFn: async () => {
+        console.log("Doing request with limit: ", limit);
         return CollectionsEntriesService.collectionsEntriesControllerFindAllByCollectionIdV1(
           collectionId,
           {
             offset,
             limit,
             orderBy,
+            status,
+            gameFilters,
           },
         );
       },

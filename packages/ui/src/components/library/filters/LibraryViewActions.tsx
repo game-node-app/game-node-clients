@@ -4,7 +4,6 @@ import {
   GameViewLayoutOption,
   GameViewLayoutSwitcher,
   SortingChip,
-  useUrlState,
 } from "#@/components";
 
 interface Props {
@@ -21,7 +20,7 @@ const LibraryViewActions = ({
   onExtraContentChange,
 }: Props) => {
   return (
-    <Group className={"flex-nowrap w-full overflow-x-auto gap-xs"}>
+    <Group className={"flex-nowrap w-full gap-xs"}>
       <SortingChip
         data={[
           {

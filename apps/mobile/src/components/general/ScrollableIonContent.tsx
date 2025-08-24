@@ -33,19 +33,18 @@ const ScrollableIonContent = forwardRef<
 
   const onScrollChange = useDebouncedCallback(
     (scrollPosition: ScrollPosition) => {
-      console.log("scroll position: ", scrollPosition);
       SCROLL_POSITIONS.set(pathname, scrollPosition);
     },
     300,
   );
 
   useEffect(() => {
-    const currentScrollPosition = SCROLL_POSITIONS.get(pathname);
-    if (currentScrollPosition) {
-      console.log("Restoring scroll position: ", currentScrollPosition);
+    const storedScrollPosition = SCROLL_POSITIONS.get(pathname);
+    if (storedScrollPosition) {
+      console.log(`Restoring scroll position: `, storedScrollPosition);
       localRef.current?.scrollToPoint(
-        currentScrollPosition.x,
-        currentScrollPosition.y,
+        storedScrollPosition.x,
+        storedScrollPosition.y,
       );
       SCROLL_POSITIONS.delete(pathname);
     }
