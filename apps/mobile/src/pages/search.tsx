@@ -4,18 +4,15 @@ import {
   IonBackButton,
   IonButtons,
   IonHeader,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
   IonPage,
   IonSearchbar,
   IonToolbar,
 } from "@ionic/react";
-import { useInfiniteSearchGames } from "../../../../packages/ui/src/components/game/hooks/useInfiniteSearchGames";
+import { useInfiniteSearchGames } from "@repo/ui";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import {
   buildGameSearchRequestDto,
-  GameSearchFilters,
   GameSearchRequestBuilderValues,
   GameSearchTips,
   GameView,
