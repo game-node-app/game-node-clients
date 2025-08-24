@@ -5,7 +5,7 @@ import {
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ApiError, SearchService } from "@repo/wrapper/search";
 
-const parseDto = (dto: GameSearchRequestDto) => {
+export const parseSearchGamesDto = (dto: GameSearchRequestDto) => {
   const parsedDto: GameSearchRequestDto = {
     page: 1,
     limit: 20,
@@ -28,7 +28,9 @@ export function useSearchGames(
   return useQuery<GameSearchResponseDto, ApiError>({
     queryKey: ["game", "search", searchParameters],
     queryFn: async () => {
-      return SearchService.postSearchGames(parseDto(searchParameters));
+      return SearchService.postSearchGames(
+        parseSearchGamesDto(searchParameters),
+      );
     },
     placeholderData: keepPreviousData,
     enabled: enabled,

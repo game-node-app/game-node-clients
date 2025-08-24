@@ -10,7 +10,7 @@ import {
   IonSearchbar,
   IonToolbar,
 } from "@ionic/react";
-import { useInfiniteSearchGames } from "@/components/game/hooks/useInfiniteSearchGames";
+import { useInfiniteSearchGames } from "../../../../packages/ui/src/components/game/hooks/useInfiniteSearchGames";
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import {
@@ -20,6 +20,7 @@ import {
   GameSearchTips,
   GameView,
   GameViewLayoutOption,
+  SimpleInfiniteLoader,
   TGameOrSearchGame,
   useUrlState,
 } from "@repo/ui";
@@ -31,8 +32,8 @@ const GameSearchPage = () => {
     useUrlState<GameSearchRequestBuilderValues>(
       {
         query: "",
-        includeExtraContent: false,
-        includeDlcs: false,
+        includeExtraContent: true,
+        includeDlcs: true,
       },
       {
         replace: true,
@@ -48,10 +49,10 @@ const GameSearchPage = () => {
 
   const {
     data,
-    isLoading,
     hasNextPage,
     fetchNextPage,
     isFetching,
+    isLoading,
     isError,
     error,
   } = useInfiniteSearchGames(
@@ -107,17 +108,14 @@ const GameSearchPage = () => {
                 <GameView.Content items={items}>
                   <GameView.LoadingSkeletons isVisible={isFetching} />
                 </GameView.Content>
-                <IonInfiniteScroll
-                  disabled={!hasNextPage}
-                  onIonInfinite={async (evt) => {
+                <SimpleInfiniteLoader
+                  fetchNextPage={async () => {
+                    if (isFetching) return;
                     await fetchNextPage();
-                    await evt.target.complete();
                   }}
-                >
-                  <IonInfiniteScrollContent
-                    loadingText={"Fetching more games..."}
-                  />
-                </IonInfiniteScroll>
+                  isFetching={isFetching}
+                  hasNextPage={hasNextPage}
+                />
               </>
             )}
           </GameView>
