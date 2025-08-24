@@ -105,12 +105,13 @@ const GameSearchPage = () => {
             ) : (
               <>
                 <GameView.Content items={items}>
-                  <GameView.LoadingSkeletons isVisible={true} />
+                  <GameView.LoadingSkeletons isVisible={isFetching} />
                 </GameView.Content>
                 <IonInfiniteScroll
+                  disabled={!hasNextPage}
                   onIonInfinite={async (evt) => {
-                    // await fetchNextPage();
-                    // await evt.target.complete();
+                    await fetchNextPage();
+                    await evt.target.complete();
                   }}
                 >
                   <IonInfiniteScrollContent
