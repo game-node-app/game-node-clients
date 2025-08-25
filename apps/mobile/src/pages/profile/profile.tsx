@@ -22,6 +22,7 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   userId?: string;
@@ -61,7 +62,7 @@ const ProfilePage = ({ userId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent className={"ion-padding"}>
+        <ScrollableIonContent className={"ion-padding"}>
           {isOwnProfile && (
             <IonFab
               slot="fixed"
@@ -82,7 +83,7 @@ const ProfilePage = ({ userId }: Props) => {
               <ProfileViewContent userId={userIdToUse} />
             </ProfileUserInfoWithBanner>
           )}
-        </IonContent>
+        </ScrollableIonContent>
       </SessionAuth>
     </IonPage>
   );

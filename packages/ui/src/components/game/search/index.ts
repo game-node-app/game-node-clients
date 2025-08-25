@@ -5,4 +5,5 @@
 export * from "./GameSearchResultErrorMessage";
 export * from "./GameSearchTips";
 export * from "./modal/index";
+export * from "./search-bar/index";
 export * from "./utils/index";

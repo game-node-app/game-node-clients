@@ -23,6 +23,8 @@ import {
   trackMatomoEvent,
 } from "#@/util/trackMatomoEvent";
 import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
+import { notifications } from "@mantine/notifications";
+import { createErrorNotification } from "#@/util";
 
 const CreateCollectionFormSchema = z
   .object({
@@ -85,6 +87,10 @@ const CollectionCreateOrUpdateForm = ({
       await CollectionsService.collectionsControllerCreateV1(data);
     },
     onSuccess: () => {
+      notifications.show({
+        color: "green",
+        message: `Successfully ${collectionId != undefined ? "updated" : "created"} collection.`,
+      });
       if (onClose) {
         onClose();
       }
@@ -103,6 +109,7 @@ const CollectionCreateOrUpdateForm = ({
         );
       }
     },
+    onError: createErrorNotification,
     onSettled: () => {
       userLibraryQuery.invalidate();
       collectionQuery.invalidate();

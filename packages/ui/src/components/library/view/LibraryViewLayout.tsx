@@ -34,8 +34,12 @@ const LibraryViewLayout = ({
             userId={userId}
             value={collectionId}
             onChange={(value) => {
+              // User is already viewing a collection
+              const isInCollection = collectionId != undefined;
               if (value) {
-                router.push(`/library/${userId}/collection/${value}`);
+                router.push(`/library/${userId}/collection/${value}`, {
+                  replace: isInCollection,
+                });
                 return;
               }
               router.push(`/library/${userId}`);

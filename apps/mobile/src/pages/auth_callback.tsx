@@ -12,6 +12,7 @@ import CenteredLoading from "@/components/general/CenteredLoading";
 import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
 import { redirectToAuth } from "supertokens-auth-react";
 import { getCapitalizedText } from "@/util/getCapitalizedText";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   provider: string;
@@ -66,11 +67,11 @@ const AuthCallbackPage = ({ provider }: Props) => {
           <IonTitle>Signing in with {getCapitalizedText(provider)}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"relative ion-padding"}>
+      <ScrollableIonContent className={"relative ion-padding"}>
         <Stack className={"mt-20 min-h-screen"}>
           <CenteredLoading message={"Fetching your credentials..."} />
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

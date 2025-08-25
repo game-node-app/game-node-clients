@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import CollectionView from "@/components/collection/view/CollectionView";
-import { LibraryViewLayout } from "@repo/ui";
+import { LibraryViewLayout, CollectionView } from "@repo/ui";
 
 const Collection = () => {
   const router = useRouter();

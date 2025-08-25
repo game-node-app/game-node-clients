@@ -18,6 +18,7 @@ import {
   ActivityFeedTabValue,
   InfiniteLoaderProps,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const ActivityPage = () => {
   const [selectedActivityTab, setSelectedActivityTab] =
@@ -47,7 +48,7 @@ const ActivityPage = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <ActivityFeed criteria={selectedActivityTab}>
           {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
             <IonInfiniteScroll
@@ -63,7 +64,7 @@ const ActivityPage = () => {
             </IonInfiniteScroll>
           )}
         </ActivityFeed>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

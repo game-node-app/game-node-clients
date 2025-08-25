@@ -30,8 +30,8 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
     {
       ...buildGameSearchRequestDto({
         query: debouncedQuery,
-        includeDlcs: false,
-        includeExtraContent: false,
+        includeDlcs: true,
+        includeExtraContent: true,
       }),
       limit: 20,
     },

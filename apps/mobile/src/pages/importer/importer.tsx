@@ -17,6 +17,7 @@ import {
   ImporterItem,
   useOwnUserConnections,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const ImporterPage = () => {
   const { data, isLoading, isError, error } = useOwnUserConnections();
@@ -39,7 +40,7 @@ const ImporterPage = () => {
           <IonTitle>Import games</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <Stack w={"100%"} justify={"center"} align={"center"} mb={"lg"}>
           <Stack className={"w-full h-full items-center p-2 pb-8"}>
             <Text className={"text-center"}>
@@ -68,7 +69,7 @@ const ImporterPage = () => {
             </Group>
           </Stack>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

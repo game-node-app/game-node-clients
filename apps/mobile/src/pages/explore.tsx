@@ -1,7 +1,6 @@
 import { Box, Stack } from "@mantine/core";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import {
-  IonContent,
   IonFab,
   IonFabButton,
   IonHeader,
@@ -10,28 +9,29 @@ import {
   IonSegment,
   IonSegmentButton,
   IonToolbar,
-  useIonRouter,
 } from "@ionic/react";
 import { ExploreGamesPageView } from "@/components/explore/ExploreGamesPageView";
 import { ExplorePostsPageView } from "@/components/explore/ExplorePostsPageView";
 import { ExploreActivityPageView } from "@/components/explore/ExploreActivityPageView.tsx";
 import "@/components/explore/explore.css";
-import { GamePostEditor, Modal } from "@repo/ui";
+import { GamePostEditor, Modal, useUrlState } from "@repo/ui";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IconMessage2Share } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 type ExploreSegment = "games" | "posts" | "activity";
 
 const ExplorePage = () => {
-  const router = useIonRouter();
-  const pathname = router.routeInfo.pathname;
-  const isInTab = pathname.split("/").length === 2;
-
   const [createPostModalOpened, createPostModalUtils] = useDisclosure();
 
-  const [selectedSegment, setSelectedSegment] =
-    useState<ExploreSegment>("games");
+  const [params, setParams] = useUrlState<{
+    selectedSegment: ExploreSegment;
+  }>({
+    selectedSegment: "games",
+  });
+
+  const { selectedSegment } = params;
 
   return (
     <IonPage>
@@ -39,9 +39,11 @@ const ExplorePage = () => {
         <IonToolbar>
           <IonSegment
             value={selectedSegment}
-            onIonChange={(evt) =>
-              setSelectedSegment(evt.detail.value as unknown as ExploreSegment)
-            }
+            onIonChange={(evt) => {
+              setParams({
+                selectedSegment: evt.detail.value as unknown as ExploreSegment,
+              });
+            }}
           >
             <IonSegmentButton value="games">
               <IonLabel>Games</IonLabel>
@@ -55,7 +57,7 @@ const ExplorePage = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <IonFab
           slot="fixed"
           horizontal="end"
@@ -114,7 +116,7 @@ const ExplorePage = () => {
             <ExploreActivityPageView />
           </Box>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

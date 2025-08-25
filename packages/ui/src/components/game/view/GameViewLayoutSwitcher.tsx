@@ -1,18 +1,48 @@
 import React, { SetStateAction, useContext } from "react";
-import { ActionIcon, Divider, Group, Tooltip } from "@mantine/core";
+import { ActionIcon, Chip, Divider, Group, Tooltip } from "@mantine/core";
 import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 import { GameViewContext } from "#@/components/game/view/GameView";
+import { ActionChip } from "#@/components";
+
+export type GameViewLayoutOption = "grid" | "list";
 
 export interface GameViewLayoutSwitcherProps {
-  setLayout: React.Dispatch<SetStateAction<"grid" | "list">>;
+  mode: "icon" | "chip";
+  setLayout: (layout: GameViewLayoutOption) => void;
 }
 
-const GameViewLayoutSwitcher = ({ setLayout }: GameViewLayoutSwitcherProps) => {
+const GameViewLayoutSwitcher = ({
+  mode = "icon",
+  setLayout,
+}: GameViewLayoutSwitcherProps) => {
   const { layout } = useContext(GameViewContext);
 
-  const handleLayoutChange = (changeTo: "grid" | "list") => {
+  const handleLayoutChange = (changeTo: GameViewLayoutOption) => {
+    console.log("Changing layout to", changeTo);
     setLayout(changeTo);
   };
+
+  if (mode === "chip") {
+    const icon =
+      layout === "grid" ? (
+        <IconLayoutColumns size={16} />
+      ) : (
+        <IconLayoutList size={16} />
+      );
+
+    return (
+      <Group wrap={"nowrap"} gap={"xs"}>
+        <ActionChip
+          icon={icon}
+          onClick={() =>
+            handleLayoutChange(layout === "grid" ? "list" : "grid")
+          }
+        >
+          {layout === "grid" ? "Grid" : "List"}
+        </ActionChip>
+      </Group>
+    );
+  }
 
   return (
     <Group wrap={"nowrap"} gap={"xs"}>

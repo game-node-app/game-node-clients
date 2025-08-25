@@ -9,6 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { CollectionEntryDetailView, ImageSize, useUserProfile } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 interface Props {
   userId: string;
@@ -32,14 +33,14 @@ const CollectionEntryDetailPage = ({ userId, collectionEntryId }: Props) => {
           </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <CollectionEntryDetailView
           userId={userId}
           collectionEntryId={collectionEntryId}
           withTitle={false}
           backgroundImageSize={ImageSize.SCREENSHOT_MED}
         />
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

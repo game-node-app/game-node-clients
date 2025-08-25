@@ -2,19 +2,16 @@ import React, { useEffect } from "react";
 import {
   CenteredLoading,
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
-  GameInfoReviewEditor,
   GameRating,
   IGameAddFormProps,
   TGameAddOrUpdateValues,
-  useReview,
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
-import { Input, InputLabel, ScrollArea, Stack } from "@mantine/core";
+import { Input, ScrollArea, Stack } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
-import { StarterKit } from "@tiptap/starter-kit";
 
 const CollectionEntryFormReviewPanel = ({
   gameId,
@@ -82,11 +79,9 @@ const CollectionEntryFormReviewPanel = ({
         <Input.Wrapper
           description={"Optional. Leave empty to create a score-only review."}
         >
-          <ScrollArea.Autosize mah={"60vh"}>
-            <RichTextEditor editor={quickReviewEditor}>
-              <RichTextEditor.Content mih={"20vh"} />
-            </RichTextEditor>
-          </ScrollArea.Autosize>
+          <RichTextEditor editor={quickReviewEditor}>
+            <RichTextEditor.Content mih={"20vh"} />
+          </RichTextEditor>
         </Input.Wrapper>
       )}
     </Stack>

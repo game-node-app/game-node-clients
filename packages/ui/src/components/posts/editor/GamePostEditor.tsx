@@ -174,7 +174,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
             w={"100%"}
             h={"100%"}
             mih={{
-              base: "20vh",
+              base: "30vh",
               lg: "25vh",
             }}
             {...props.editorProps}

@@ -1,12 +1,16 @@
 import React, { useMemo, useState } from "react";
 import { Flex, Stack } from "@mantine/core";
 import { IonSelect, IonSelectOption } from "@ionic/react";
-import GameView from "@/components/game/view/GameView.tsx";
 import {
   FindStatisticsTrendingGamesDto,
   GameStatisticsPaginatedResponseDto,
 } from "@repo/wrapper/server";
-import { useGames, useInfiniteTrendingGames } from "@repo/ui";
+import {
+  GameView,
+  SimpleInfiniteLoader,
+  useGames,
+  useInfiniteTrendingGames,
+} from "@repo/ui";
 
 import period = FindStatisticsTrendingGamesDto.period;
 
@@ -76,6 +80,9 @@ const ExploreGamesPageView = () => {
     });
   }, []);
 
+  const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
+  const isFetching = trendingGamesQuery.isFetching || gamesQuery.isFetching;
+
   return (
     <Stack className={"w-full"}>
       <Flex className={"w-full justify-end"}>
@@ -96,23 +103,16 @@ const ExploreGamesPageView = () => {
         </IonSelect>
       </Flex>
       <GameView layout={"grid"}>
-        <GameView.Content
-          items={gamesQuery.data}
-          // This enables a loading spinner at the top
-          isLoading={trendingGamesQuery.isLoading || gamesQuery.isLoading}
-          isFetching={trendingGamesQuery.isFetching || gamesQuery.isFetching}
-          hasNextPage={trendingGamesQuery.hasNextPage}
-          onLoadMore={async () => {
-            if (
-              trendingGamesQuery.isFetching ||
-              gamesQuery.isLoading ||
-              gamesQuery.isFetching
-            ) {
-              return;
-            }
-
+        <GameView.Content items={gamesQuery.data}>
+          <GameView.LoadingSkeletons isVisible={isFetching} />
+        </GameView.Content>
+        <SimpleInfiniteLoader
+          fetchNextPage={async () => {
+            if (isFetching) return;
             await trendingGamesQuery.fetchNextPage();
           }}
+          isFetching={isFetching}
+          hasNextPage={trendingGamesQuery.hasNextPage}
         />
       </GameView>
     </Stack>

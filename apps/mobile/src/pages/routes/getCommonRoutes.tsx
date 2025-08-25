@@ -16,6 +16,7 @@ import { BlogPostsPage } from "@/pages/blog";
 import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
+import CollectionPage from "@/pages/collection.tsx";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -88,7 +89,7 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       exact
       render={(props) => {
         return (
-          <LibraryPage
+          <CollectionPage
             userId={props.match.params.userId}
             collectionId={props.match.params.collectionId}
           />

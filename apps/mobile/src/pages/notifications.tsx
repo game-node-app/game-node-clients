@@ -27,6 +27,7 @@ import {
   CenteredLoading,
   useInfiniteAggregatedNotifications,
 } from "@repo/ui";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const NotificationsPage = () => {
   const { data, isLoading, invalidate, isFetching, fetchNextPage } =
@@ -124,7 +125,7 @@ const NotificationsPage = () => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent className={"ion-padding"}>
+        <ScrollableIonContent className={"ion-padding"}>
           <Stack className={"min-h-screen p-0 mb-4"}>
             <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
               {aggregations?.map((aggregatedNotification, index) => {
@@ -171,7 +172,7 @@ const NotificationsPage = () => {
               )}
             </Stack>
           </Stack>
-        </IonContent>
+        </ScrollableIonContent>
       </SessionAuth>
     </IonPage>
   );
