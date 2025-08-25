@@ -21,7 +21,7 @@ const Index = () => {
 
   return (
     <LibraryViewLayout userId={userId as string} collectionId={undefined}>
-      <LibraryView userId={userId as string} />
+      <LibraryView libraryUserId={userId as string} />
     </LibraryViewLayout>
   );
 };

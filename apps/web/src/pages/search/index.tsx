@@ -7,6 +7,7 @@ import {
   GameSearchBar,
   GameSearchRequestDto,
   GameSearchTips,
+  GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
@@ -25,14 +26,6 @@ import {
 } from "@repo/ui";
 import { useLocalStorage } from "@mantine/hooks";
 
-const DEFAULT_LIMIT = 20;
-
-const DEFAULT_SEARCH_PARAMETERS = {
-  query: "",
-  page: 1,
-  limit: DEFAULT_LIMIT,
-};
-
 const Index = () => {
   const userId = useUserId();
 
@@ -42,9 +35,11 @@ const Index = () => {
     getInitialValueInEffect: false,
   });
 
-  const [searchParameters, setSearchParameters] = useUrlState(
-    DEFAULT_SEARCH_PARAMETERS,
-  );
+  const [searchParameters, setSearchParameters] = useUrlState({
+    query: "",
+    page: 1,
+    includeExtraContent: false,
+  });
 
   const isQueryEnabled =
     searchParameters != undefined &&
@@ -75,9 +70,13 @@ const Index = () => {
               setSearchParameters({ query });
             }}
           />
-          <Group className={"w-full flex-nowrap"}>
-            <GameView.LayoutSwitcher mode={"chip"} setLayout={setLayout} />
-          </Group>
+          <GameSearchViewActions
+            includeExtraContent={searchParameters.includeExtraContent}
+            onExtraContentChange={(value) =>
+              setSearchParameters({ includeExtraContent: value })
+            }
+            onLayoutChange={setLayout}
+          />
           <GameSearchTips className={"w-full"} />
 
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}

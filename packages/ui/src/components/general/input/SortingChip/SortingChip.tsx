@@ -8,6 +8,7 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
+import { ActionChip } from "#@/components";
 
 interface Props
   extends Omit<SelectProps, "onChange" | "value" | "allowDeselect" | "data"> {
@@ -65,18 +66,12 @@ const SortingChip = ({ data, onChange, defaultValue, ...others }: Props) => {
       }}
     >
       <Combobox.Target>
-        <Chip
-          variant={"outline"}
-          checked
-          icon={<IconSortDescending />}
-          classNames={{
-            iconWrapper: "me-1",
-          }}
-          color={"#262525"}
+        <ActionChip
+          icon={<IconSortDescending size={16} />}
           onClick={() => combobox.toggleDropdown()}
         >
           Sort
-        </Chip>
+        </ActionChip>
       </Combobox.Target>
       <Combobox.Dropdown>
         <Combobox.Options>{options}</Combobox.Options>

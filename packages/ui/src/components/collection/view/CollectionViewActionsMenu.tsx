@@ -43,32 +43,29 @@ const CollectionViewActionsMenu = ({ collectionId }: Props) => {
         onClose={removeModalUtils.close}
       />
       <Menu.Target>
-        <ActionChip icon={<IconAdjustments size={"1rem"} />}>Edit</ActionChip>
+        <ActionChip icon={<IconAdjustments size={16} />}>Edit</ActionChip>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item
-          leftSection={<IconDots size={"1rem"} />}
+          leftSection={<IconDots size={16} />}
           onClick={createUpdateModalUtils.open}
         >
           Update title and description
         </Menu.Item>
         <Menu.Item
-          leftSection={<IconReplace size={"1rem"} />}
+          leftSection={<IconReplace size={16} />}
           onClick={moveModalUtils.open}
         >
           Move games to another collection
         </Menu.Item>
-        <Menu.Item leftSection={<IconDownload size={"1rem"} />}>
-          <Link href={"/importer"}>Import games</Link>
-        </Menu.Item>
         <Menu.Divider />
         <Menu.Label>Danger Zone</Menu.Label>
         <Menu.Item
-          color="red"
-          leftSection={<IconTrash size={"1rem"} />}
+          color={"red"}
+          leftSection={<IconTrash size={16} />}
           onClick={removeModalUtils.open}
         >
-          Delete Collection
+          Delete collection
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

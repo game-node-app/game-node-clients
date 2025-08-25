@@ -58,7 +58,7 @@ const GameSearchBar = ({ withButton = true, onChange }: Props) => {
                 combobox.openDropdown();
               }}
               onBlur={() => combobox.closeDropdown()}
-              rightSection={autoCompleteQuery.isLoading && <Loader size={18} />}
+              rightSection={autoCompleteQuery.isLoading && <Loader size={16} />}
               classNames={{
                 root: "flex-grow",
                 input: "!rounded-tr-none !rounded-br-none",

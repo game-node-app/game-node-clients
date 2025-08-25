@@ -8,57 +8,56 @@ import {
   IonSearchbar,
   IonToolbar,
 } from "@ionic/react";
-import { useInfiniteSearchGames } from "@repo/ui";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { getErrorMessage } from "@/util/getErrorMessage";
 import {
+  buildGameCategoryFilters,
   buildGameSearchRequestDto,
   GameSearchRequestBuilderValues,
   GameSearchTips,
+  GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   SimpleInfiniteLoader,
   TGameOrSearchGame,
+  useInfiniteSearchGames,
   useUrlState,
 } from "@repo/ui";
+import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { getErrorMessage } from "@/util/getErrorMessage";
 import { useDebouncedValue } from "@mantine/hooks";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const GameSearchPage = () => {
-  const [searchParams, setSearchParams] =
-    useUrlState<GameSearchRequestBuilderValues>(
-      {
-        query: "",
-        includeExtraContent: true,
-        includeDlcs: true,
-      },
-      {
-        replace: true,
-      },
-    );
+  const [searchParams, setSearchParams] = useUrlState(
+    {
+      query: "",
+      includeExtraContent: false,
+    },
+    {
+      replace: true,
+    },
+  );
 
-  const [debouncedParams] = useDebouncedValue(searchParams, 300);
+  const { includeExtraContent, query } = searchParams;
+
+  const debouncedQuery = useDebouncedValue(query ?? "", 300);
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
   const isQueryEnabled =
     searchParams.query != undefined && searchParams.query.length >= 3;
 
-  const {
-    data,
-    hasNextPage,
-    fetchNextPage,
-    isFetching,
-    isLoading,
-    isError,
-    error,
-  } = useInfiniteSearchGames(
-    {
-      ...buildGameSearchRequestDto(debouncedParams),
-      limit: 12,
-    },
-    isQueryEnabled,
-  );
+  const { data, hasNextPage, fetchNextPage, isFetching, isError, error } =
+    useInfiniteSearchGames(
+      {
+        query: query,
+        category: buildGameCategoryFilters({
+          includeDlcs: includeExtraContent,
+          includeExtraContent: includeExtraContent,
+        }),
+        limit: 12,
+      },
+      isQueryEnabled,
+    );
 
   const items = useMemo(() => {
     return data?.pages
@@ -89,9 +88,13 @@ const GameSearchPage = () => {
       <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full min-h-96 mb-8"}>
           <GameView layout={layout}>
-            <Group className={"w-full flex-nowrap"}>
-              <GameView.LayoutSwitcher mode={"chip"} setLayout={setLayout} />
-            </Group>
+            <GameSearchViewActions
+              includeExtraContent={includeExtraContent}
+              onExtraContentChange={(value) =>
+                setSearchParams({ includeExtraContent: value })
+              }
+              onLayoutChange={setLayout}
+            />
             <GameSearchTips />
             {isError && (
               <CenteredErrorMessage message={getErrorMessage(error)} />

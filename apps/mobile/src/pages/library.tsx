@@ -62,19 +62,19 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           </IonHeader>
         )}
 
-        <ScrollableIonContent className={"ion-padding"}>
-          {isOwnLibrary && (
-            <LibraryViewFab selectedCollectionId={collectionId} />
-          )}
+        <ScrollableIonContent
+          className={"ion-padding"}
+          fixedSlotPlacement={"before"}
+        >
+          {isOwnLibrary && <LibraryViewFab />}
           <LibraryViewLayout userId={userIdToUse} collectionId={collectionId}>
             {collectionId ? (
               <CollectionView
                 libraryUserId={userIdToUse!}
                 collectionId={collectionId}
-                withEditActions={false}
               />
             ) : (
-              <LibraryView userId={userIdToUse!} />
+              <LibraryView libraryUserId={userIdToUse!} />
             )}
           </LibraryViewLayout>
         </ScrollableIonContent>

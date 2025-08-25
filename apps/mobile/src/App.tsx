@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { IonApp, IonFab, IonFabButton, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
@@ -61,6 +64,8 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
+import { Preferences } from "@capacitor/preferences";
+import { CapacitorAsyncStorage } from "@/util/asyncStorage.ts";
 
 /**
  * dayjs setup
@@ -99,11 +104,17 @@ const App: React.FC = () => {
             refetchOnMount: false,
             refetchIntervalInBackground: false,
             refetchOnReconnect: false,
-            staleTime: Infinity,
-            retry: 2,
+            staleTime: 1000 * 60 * 5, // 5 minutes
+            retry: 3,
+            gcTime: 1000 * 60 * 60 * 24 * 7, // a week
           },
         },
       }),
+  );
+  const [persister] = useState(() =>
+    createAsyncStoragePersister({
+      storage: new CapacitorAsyncStorage(),
+    }),
   );
 
   useEffect(() => {
@@ -140,7 +151,10 @@ const App: React.FC = () => {
           theme={DEFAULT_MANTINE_THEME}
           forceColorScheme={"dark"}
         >
-          <QueryClientProvider client={queryClient}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister }}
+          >
             <IonReactRouter>
               <AppUrlListener />
               <AppUpdateListener />
@@ -158,7 +172,7 @@ const App: React.FC = () => {
                 </IonFabButton>
               </IonFab>
             </IonReactRouter>
-          </QueryClientProvider>
+          </PersistQueryClientProvider>
         </MantineProvider>
       </SuperTokensProvider>
     </IonApp>

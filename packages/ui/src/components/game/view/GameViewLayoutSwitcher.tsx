@@ -2,6 +2,7 @@ import React, { SetStateAction, useContext } from "react";
 import { ActionIcon, Chip, Divider, Group, Tooltip } from "@mantine/core";
 import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 import { GameViewContext } from "#@/components/game/view/GameView";
+import { ActionChip } from "#@/components";
 
 export type GameViewLayoutOption = "grid" | "list";
 
@@ -22,24 +23,23 @@ const GameViewLayoutSwitcher = ({
   };
 
   if (mode === "chip") {
-    const icon = layout === "grid" ? <IconLayoutColumns /> : <IconLayoutList />;
+    const icon =
+      layout === "grid" ? (
+        <IconLayoutColumns size={16} />
+      ) : (
+        <IconLayoutList size={16} />
+      );
 
     return (
       <Group wrap={"nowrap"} gap={"xs"}>
-        <Chip
-          variant={"outline"}
+        <ActionChip
           icon={icon}
-          classNames={{
-            iconWrapper: "me-1",
-          }}
-          color={"#262525"}
-          checked
-          onChange={() =>
+          onClick={() =>
             handleLayoutChange(layout === "grid" ? "list" : "grid")
           }
         >
           {layout === "grid" ? "Grid" : "List"}
-        </Chip>
+        </ActionChip>
       </Group>
     );
   }

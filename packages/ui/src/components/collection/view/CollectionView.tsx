@@ -29,10 +29,6 @@ import { useLocalStorage } from "@mantine/hooks";
 interface ICollectionViewProps {
   libraryUserId: string;
   collectionId: string;
-  /**
-   * Enables a menu with edit actions if this collection is owned by the current logged in user.
-   */
-  withEditActions?: boolean;
 }
 
 const DEFAULT_LIMIT = 24;
@@ -40,7 +36,6 @@ const DEFAULT_LIMIT = 24;
 const CollectionView = ({
   collectionId,
   libraryUserId,
-  withEditActions = true,
 }: ICollectionViewProps) => {
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
@@ -139,11 +134,14 @@ const CollectionView = ({
       <Divider className={"w-full"} my={"sm"} variant={"dashed"} />
       <Stack className={"w-full"}>
         <GameView layout={layout}>
-          <Group className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2"}>
-            {withEditActions && isOwnCollection && (
+          <Group
+            className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
+          >
+            {isOwnCollection && (
               <CollectionViewActionsMenu collectionId={collectionId} />
             )}
             <LibraryViewActions
+              libraryUserId={libraryUserId}
               includeExtraContent={includeExtraContent}
               onSort={(value, order) => {
                 const orderBy = {
