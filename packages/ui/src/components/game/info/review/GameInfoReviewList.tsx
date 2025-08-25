@@ -43,6 +43,7 @@ const GameInfoReviewList = ({
       offset: offset,
       gameId: gameId,
       reviewId: targetReviewId,
+      excludeOwn: true,
     };
   }, [offset, gameId, targetReviewId]);
   const trendingReviewsQuery = useTrendingReviews(trendingReviewsDto);

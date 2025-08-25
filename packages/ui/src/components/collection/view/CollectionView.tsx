@@ -117,7 +117,7 @@ const CollectionView = ({
     <Stack w={"100%"} h={"100%"} className={"gap-0 mb-8"}>
       <Group className="w-full flex-nowrap justify-between">
         <Stack w={{ base: "70%", lg: "30%" }}>
-          {isLoading && (
+          {collectionQuery.isLoading && (
             <>
               <Skeleton className={"w-32 h-9"} />
               <Skeleton className={"w-48 h-6"} />

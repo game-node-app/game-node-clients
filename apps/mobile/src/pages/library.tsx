@@ -11,24 +11,19 @@ import {
 import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
-  CollectionView,
   LibraryView,
   LibraryViewLayout,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 
 interface Props {
   userId?: string;
-  /**
-   * Routed collectionId. Only available when a user enters a direct
-   * link to a collection.
-   */
-  collectionId?: string;
 }
 
-const LibraryPage = ({ userId, collectionId }: Props) => {
+const LibraryPage = ({ userId }: Props) => {
   const ownUserId = useUserId();
   const userIdToUse =
     userId == undefined && ownUserId != undefined ? ownUserId : userId;
@@ -66,16 +61,10 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           className={"ion-padding"}
           fixedSlotPlacement={"before"}
         >
+          <LibraryViewRefresher userId={userIdToUse!} />
           {isOwnLibrary && <LibraryViewFab />}
-          <LibraryViewLayout userId={userIdToUse} collectionId={collectionId}>
-            {collectionId ? (
-              <CollectionView
-                libraryUserId={userIdToUse!}
-                collectionId={collectionId}
-              />
-            ) : (
-              <LibraryView libraryUserId={userIdToUse!} />
-            )}
+          <LibraryViewLayout userId={userIdToUse} collectionId={undefined}>
+            <LibraryView libraryUserId={userIdToUse!} />
           </LibraryViewLayout>
         </ScrollableIonContent>
       </SessionAuth>

@@ -50,7 +50,6 @@ export function useCollectionEntriesForCollectionId({
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        console.log("Doing request with limit: ", limit);
         return CollectionsEntriesService.collectionsEntriesControllerFindAllByCollectionIdV1(
           collectionId,
           {

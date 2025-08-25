@@ -13,12 +13,8 @@ export function useCollection(
     ...useQuery({
       queryKey: queryKey,
       queryFn: () => {
-        if (collectionId == undefined) {
-          return null;
-        }
-
         return CollectionsService.collectionsControllerFindOneByIdWithPermissionsV1(
-          collectionId,
+          collectionId!,
         );
       },
       enabled: !!collectionId,

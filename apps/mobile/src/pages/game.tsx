@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -12,13 +6,14 @@ import {
   IonHeader,
   IonPage,
   IonProgressBar,
+  IonRefresher,
+  IonRefresherContent,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
 import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
 import {
-  CenteredLoading,
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
   GameInfoAchievementsScreen,
@@ -33,15 +28,16 @@ import {
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
-import { useHistory } from "react-router-dom";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   gameId: number;
 }
 
 const GamePage = ({ gameId }: Props) => {
-  const router = useHistory();
+  const queryClient = useQueryClient();
+
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const [params, setParams] = useUrlState({
@@ -77,21 +73,6 @@ const GamePage = ({ gameId }: Props) => {
     onChange(GameInfoTabValue.overview);
   };
 
-  if (gameQuery.isLoading) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot={"start"}>
-              <IonBackButton />
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent></IonContent>
-      </IonPage>
-    );
-  }
-
   return (
     <IonPage>
       <IonHeader>
@@ -100,9 +81,33 @@ const GamePage = ({ gameId }: Props) => {
             <IonBackButton />
           </IonButtons>
           <IonTitle>{gameQuery.data?.name}</IonTitle>
+          {gameQuery.isLoading && <IonProgressBar type={"indeterminate"} />}
         </IonToolbar>
       </IonHeader>
       <ScrollableIonContent className={"ion-padding"}>
+        <IonRefresher
+          slot={"fixed"}
+          onIonRefresh={async (evt) => {
+            const promises = [
+              queryClient.invalidateQueries({
+                queryKey: ["game", gameId],
+              }),
+              queryClient.invalidateQueries({
+                queryKey: ["review", gameId],
+              }),
+              queryClient.invalidateQueries({
+                queryKey: ["posts", "infinite"],
+              }),
+              queryClient.invalidateQueries({
+                queryKey: ["game", "achievements", gameId],
+              }),
+            ];
+            await Promise.all(promises);
+            evt.detail.complete();
+          }}
+        >
+          <IonRefresherContent />
+        </IonRefresher>
         <GameInfoViewFab gameId={gameId} />
         <GameInfoView id={gameId} withActions={false} />
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
