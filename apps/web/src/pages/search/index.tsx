@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Center, Group, Space, Stack, Title } from "@mantine/core";
 import {
   BackToTopButton,
+  buildGameCategoryFilters,
   CenteredErrorMessage,
   DetailsBox,
   GameSearchBar,
@@ -24,7 +25,7 @@ import {
   useUrlState,
   useUserId,
 } from "@repo/ui";
-import { useLocalStorage } from "@mantine/hooks";
+import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
 
 const Index = () => {
   const userId = useUserId();
@@ -41,13 +42,19 @@ const Index = () => {
     includeExtraContent: false,
   });
 
+  const [debouncedQuery] = useDebouncedValue(searchParameters.query, 500);
+
   const isQueryEnabled =
-    searchParameters != undefined &&
-    searchParameters.query != undefined &&
-    searchParameters.query.length > 2;
+    searchParameters.query != undefined && searchParameters.query.length > 2;
 
   const { data, isLoading, isSuccess, isError, error } = useSearchGames(
-    searchParameters,
+    {
+      query: debouncedQuery,
+      category: buildGameCategoryFilters({
+        includeExtraContent: searchParameters.includeExtraContent,
+        includeDlcs: searchParameters.includeExtraContent,
+      }),
+    },
     isQueryEnabled,
   );
 
