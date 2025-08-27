@@ -1,37 +1,57 @@
 import React, { useMemo } from "react";
 import {
+  buildGameCategoryFilters,
   CenteredErrorMessage,
   findCollectionEntryByGameId,
   GameView,
+  GameViewLayoutOption,
+  LibraryViewActions,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
+  UseCollectionEntriesForUserIdProps,
   useGames,
   useUrlState,
 } from "#@/components";
 import { CollectionEntry } from "@repo/wrapper/server";
-import { Stack } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { useLocalStorage } from "@mantine/hooks";
 
 const DEFAULT_LIMIT = 24;
 
 interface Props {
-  userId: string;
+  libraryUserId: string;
 }
 
-const LibraryView = ({ userId }: Props) => {
+const LibraryView = ({ libraryUserId }: Props) => {
+  const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
+    key: "library-game-view-layout",
+    defaultValue: "grid",
+    getInitialValueInEffect: false,
+  });
+
   const [params, setParams] = useUrlState({
     status: CollectionEntry.status.PLAYING,
     offset: 0,
-  });
-
-  const { status, offset } = params;
-
-  const collectionEntriesQuery = useCollectionEntriesForUserId({
-    userId,
+    limit: DEFAULT_LIMIT,
     orderBy: {
       addedDate: "DESC",
     },
+    includeExtraContent: false,
+  });
+
+  const { status, offset, includeExtraContent } = params;
+
+  const collectionEntriesQuery = useCollectionEntriesForUserId({
     ...params,
+    userId: libraryUserId,
+    gameFilters: {
+      category: buildGameCategoryFilters({
+        includeDlcs: includeExtraContent,
+        includeExtraContent: includeExtraContent,
+      }),
+    },
+    limit: DEFAULT_LIMIT,
   });
 
   const gameIds =
@@ -53,10 +73,10 @@ const LibraryView = ({ userId }: Props) => {
 
       return {
         ...game,
-        href: `/library/${userId}/collection/entry/${relatedCollectionEntry?.id}`,
+        href: `/library/${libraryUserId}/collection/entry/${relatedCollectionEntry?.id}`,
       };
     });
-  }, [collectionEntriesQuery.data?.data, gamesQuery.data, userId]);
+  }, [collectionEntriesQuery.data?.data, gamesQuery.data, libraryUserId]);
 
   const isLoading = collectionEntriesQuery.isLoading || gamesQuery.isLoading;
 
@@ -68,19 +88,42 @@ const LibraryView = ({ userId }: Props) => {
 
   return (
     <Stack className={"w-full h-full min-h-[55dvh]"}>
-      <LibraryViewTabs
-        status={status}
-        onStatusChange={(status) => {
-          setParams({
-            status,
-            offset: 0,
-          });
-        }}
-      />
-      {isEmpty && (
-        <CenteredErrorMessage message={"No games in this category."} />
-      )}
-      <GameView layout={"grid"}>
+      <GameView layout={layout}>
+        <LibraryViewTabs
+          status={status}
+          onStatusChange={(status) => {
+            setParams({
+              status,
+              offset: 0,
+            });
+          }}
+        />
+        <Group className={"w-full overflow-x-auto pb-2 lg:pb-0"}>
+          <LibraryViewActions
+            libraryUserId={libraryUserId}
+            includeExtraContent={includeExtraContent}
+            onExtraContentChange={(value) => {
+              setParams((prev) => ({
+                ...prev,
+                includeExtraContent: value,
+              }));
+            }}
+            onSort={(value, order) => {
+              const orderBy = {
+                [value]: order,
+              };
+              setParams((prev) => ({
+                ...prev,
+                orderBy: orderBy as never,
+              }));
+            }}
+            onLayoutChange={setLayout}
+          />
+        </Group>
+
+        {isEmpty && (
+          <CenteredErrorMessage message={"No games in this category."} />
+        )}
         <GameView.Content items={games}>
           <GameView.LoadingSkeletons isVisible={isLoading} />
         </GameView.Content>

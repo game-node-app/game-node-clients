@@ -1,83 +1,69 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
-import {
-  Center,
-  Chip,
-  Container,
-  FocusTrap,
-  Group,
-  Stack,
-  Text,
-} from "@mantine/core";
-import GameView, {
-  GameViewLayoutOption,
-} from "@/components/game/view/GameView";
+import React, { useMemo, useState } from "react";
+import { Center, FocusTrap, Group, Stack, Text } from "@mantine/core";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonPage,
   IonSearchbar,
   IonToolbar,
 } from "@ionic/react";
-import { useInfiniteSearchGames } from "@/components/game/hooks/useInfiniteSearchGames";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { getErrorMessage } from "@/util/getErrorMessage";
 import {
-  GameSearchTips,
-  TGameOrSearchGame,
+  buildGameCategoryFilters,
   buildGameSearchRequestDto,
+  GameSearchRequestBuilderValues,
+  GameSearchTips,
+  GameSearchViewActions,
+  GameView,
+  GameViewLayoutOption,
+  SimpleInfiniteLoader,
+  TGameOrSearchGame,
+  useInfiniteSearchGames,
   useUrlState,
 } from "@repo/ui";
+import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { getErrorMessage } from "@/util/getErrorMessage";
 import { useDebouncedValue } from "@mantine/hooks";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 
 const GameSearchPage = () => {
-  const params = useSearchParameters();
+  const [searchParams, setSearchParams] = useUrlState(
+    {
+      query: "",
+      includeExtraContent: false,
+    },
+    {
+      replace: true,
+    },
+  );
 
-  const [query, setQuery] = useState("");
+  const { includeExtraContent, query } = searchParams;
 
-  const [searchParameters, setSearchParameters] = useUrlState({
-    query: "",
-    includeDlcs: false,
-    includeExtraContent: false,
-  });
-
-  const [delayedQuery] = useDebouncedValue(query, 300);
+  const debouncedQuery = useDebouncedValue(query ?? "", 300);
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
   const isQueryEnabled =
-    searchParameters.query != undefined && searchParameters.query.length >= 3;
+    searchParams.query != undefined && searchParams.query.length >= 3;
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    hasNextPage,
-    fetchNextPage,
-    isError,
-    error,
-  } = useInfiniteSearchGames(
-    {
-      ...buildGameSearchRequestDto(searchParameters),
-      limit: 12,
-    },
-    isQueryEnabled,
-  );
+  const { data, hasNextPage, fetchNextPage, isFetching, isError, error } =
+    useInfiniteSearchGames(
+      {
+        query: query,
+        category: buildGameCategoryFilters({
+          includeDlcs: includeExtraContent,
+          includeExtraContent: includeExtraContent,
+        }),
+        limit: 12,
+      },
+      isQueryEnabled,
+    );
 
   const items = useMemo(() => {
     return data?.pages
       ?.flatMap((page) => page.data?.items)
       .filter((item) => item != undefined) as TGameOrSearchGame[] | undefined;
   }, [data]);
-
-  useEffect(() => {
-    const urlQuery = params.get("q");
-    if (urlQuery && urlQuery.length >= 3) {
-      setQuery(urlQuery);
-    }
-  }, [params]);
 
   return (
     <IonPage>
@@ -88,70 +74,53 @@ const GameSearchPage = () => {
           </IonButtons>
           <FocusTrap>
             <IonSearchbar
-              value={searchParameters.query}
+              value={searchParams.query}
               onIonInput={(e) => {
-                setSearchParameters({
-                  ...searchParameters,
+                setSearchParams((prev) => ({
+                  ...prev,
                   query: e.detail.value!,
-                });
+                }));
               }}
             />
           </FocusTrap>
         </IonToolbar>
       </IonHeader>
-      <IonContent className={"ion-padding"}>
+      <ScrollableIonContent className={"ion-padding"}>
         <Stack className={"w-full min-h-96 mb-8"}>
-          <Group className="flex-nowrap overflow-x-auto pb-4">
-            <Chip
-              checked={searchParameters.includeDlcs}
-              onChange={() => {
-                setSearchParameters({
-                  ...searchParameters,
-                  includeDlcs: !searchParameters.includeDlcs,
-                });
-              }}
-            >
-              include DLCs/Expansions
-            </Chip>
-            <Chip
-              checked={searchParameters.includeExtraContent}
-              onChange={() => {
-                setSearchParameters({
-                  ...searchParameters,
-                  includeExtraContent: !searchParameters.includeExtraContent,
-                });
-              }}
-            >
-              Include Bundles/Updates/Extra
-            </Chip>
-          </Group>
-
-          <GameSearchTips />
-          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
-          {!isQueryEnabled ? (
-            <Center>
-              <Text>Start typing to see results.</Text>
-            </Center>
-          ) : (
-            <GameView layout={layout}>
-              <Group className={"w-full justify-end"}>
-                <GameView.LayoutSwitcher setLayout={setLayout} />
-              </Group>
-              <GameView.Content
-                items={items}
-                isLoading={isLoading}
-                isFetching={isFetching}
-                hasNextPage={hasNextPage}
-                onLoadMore={() => {
-                  if (!isFetching && !isLoading) {
-                    fetchNextPage();
-                  }
-                }}
-              ></GameView.Content>
-            </GameView>
-          )}
+          <GameView layout={layout}>
+            <GameSearchViewActions
+              includeExtraContent={includeExtraContent}
+              onExtraContentChange={(value) =>
+                setSearchParams({ includeExtraContent: value })
+              }
+              onLayoutChange={setLayout}
+            />
+            <GameSearchTips />
+            {isError && (
+              <CenteredErrorMessage message={getErrorMessage(error)} />
+            )}
+            {!isQueryEnabled ? (
+              <Center>
+                <Text>Start typing to see results.</Text>
+              </Center>
+            ) : (
+              <>
+                <GameView.Content items={items}>
+                  <GameView.LoadingSkeletons isVisible={isFetching} />
+                </GameView.Content>
+                <SimpleInfiniteLoader
+                  fetchNextPage={async () => {
+                    if (isFetching) return;
+                    await fetchNextPage();
+                  }}
+                  isFetching={isFetching}
+                  hasNextPage={hasNextPage}
+                />
+              </>
+            )}
+          </GameView>
         </Stack>
-      </IonContent>
+      </ScrollableIonContent>
     </IonPage>
   );
 };

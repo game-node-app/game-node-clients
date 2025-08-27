@@ -6,7 +6,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { ReviewListItemRemoveModal } from "#@/components/review/view/ReviewListItemRemoveModal";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ItemDropdown } from "#@/components/general/input/dropdown/ItemDropdown";
+import { ItemDropdown } from "#@/components/general/input/ItemDropdown/ItemDropdown";
 import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";
 
 interface IReviewListItemDropdownProps {

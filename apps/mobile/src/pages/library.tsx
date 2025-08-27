@@ -1,37 +1,29 @@
-import { DetailsBox } from "@/components/general/DetailsBox";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonPage,
   IonTitle,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
 import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
+  LibraryView,
   LibraryViewLayout,
-  RecentCollectionEntriesView,
   useUserId,
   useUserProfile,
-  LibraryView,
 } from "@repo/ui";
-import { CollectionView } from "@/components/collection/view/CollectionView";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 
 interface Props {
   userId?: string;
-  /**
-   * Routed collectionId. Only available when a user enters a direct
-   * link to a collection.
-   */
-  collectionId?: string;
 }
 
-const LibraryPage = ({ userId, collectionId }: Props) => {
+const LibraryPage = ({ userId }: Props) => {
   const ownUserId = useUserId();
   const userIdToUse =
     userId == undefined && ownUserId != undefined ? ownUserId : userId;
@@ -65,21 +57,16 @@ const LibraryPage = ({ userId, collectionId }: Props) => {
           </IonHeader>
         )}
 
-        <IonContent className={"ion-padding"}>
-          {isOwnLibrary && (
-            <LibraryViewFab selectedCollectionId={collectionId} />
-          )}
-          <LibraryViewLayout userId={userIdToUse} collectionId={collectionId}>
-            {collectionId ? (
-              <CollectionView
-                libraryUserId={userIdToUse!}
-                collectionId={collectionId}
-              />
-            ) : (
-              <LibraryView userId={userIdToUse!} />
-            )}
+        <ScrollableIonContent
+          className={"ion-padding"}
+          fixedSlotPlacement={"before"}
+        >
+          <LibraryViewRefresher userId={userIdToUse!} />
+          {isOwnLibrary && <LibraryViewFab />}
+          <LibraryViewLayout userId={userIdToUse} collectionId={undefined}>
+            <LibraryView libraryUserId={userIdToUse!} />
           </LibraryViewLayout>
-        </IonContent>
+        </ScrollableIonContent>
       </SessionAuth>
     </IonPage>
   );

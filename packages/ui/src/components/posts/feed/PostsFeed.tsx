@@ -21,7 +21,6 @@ interface Props {
 }
 
 const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
-  const onMobilePlatform = useOnMobilePlatform();
   const postsFeedQuery = useInfinitePostsFeed({
     criteria,
     limit: 20,
@@ -36,8 +35,7 @@ const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
 
   return (
     <Stack>
-      {!onMobilePlatform && <GamePostEditor />}
-
+      <GamePostEditor />
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {

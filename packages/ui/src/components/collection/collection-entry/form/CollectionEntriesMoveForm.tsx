@@ -79,6 +79,7 @@ const CollectionEntriesMoveForm = ({
     orderBy: {
       addedDate: "DESC",
     },
+    limit: 999999,
   });
   const gameIds = collectionsEntriesQuery.data?.data.map(
     (entry) => entry.gameId,
@@ -190,6 +191,7 @@ const CollectionEntriesMoveForm = ({
             "Select which games you want to move. You can search by typing a game's name."
           }
           searchable
+          limit={20}
           {...register("gameIds")}
           onChange={(values) => {
             const valuesNumbers = values.map((v) => Number.parseInt(v));

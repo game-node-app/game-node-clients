@@ -1,118 +1,141 @@
-import React, { useState } from "react";
-import { Box, Center, Container, Space, Stack, Title } from "@mantine/core";
+import React from "react";
+import { Box, Center, Group, Space, Stack, Title } from "@mantine/core";
 import {
-  ActivityFeed,
   BackToTopButton,
+  buildGameCategoryFilters,
+  CenteredErrorMessage,
   DetailsBox,
   GameSearchBar,
   GameSearchRequestDto,
   GameSearchTips,
-  HomeFeed,
+  GameSearchViewActions,
+  GameView,
+  GameViewLayoutOption,
+  getErrorMessage,
+  getOffsetAsPage,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
+  RecentBlogPostsCarousel,
   RecommendationCarousel,
   SimpleInfiniteLoader,
   TrendingGamesList,
   TrendingReviewCarousel,
   useSearchGames,
+  useUrlState,
   useUserId,
 } from "@repo/ui";
-import GameSearchResultView from "@/components/game/search/GameSearchResultView";
-import { RecentBlogPostsCarousel } from "@repo/ui";
-
-const DEFAULT_SEARCH_PARAMETERS: GameSearchRequestDto = {
-  query: undefined,
-  page: 1,
-  limit: 20,
-};
+import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
 
 const Index = () => {
   const userId = useUserId();
 
-  const [searchParameters, setSearchParameters] = useState(
-    DEFAULT_SEARCH_PARAMETERS,
-  );
+  const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
+    key: "search-game-view-layout",
+    defaultValue: "grid",
+    getInitialValueInEffect: false,
+  });
+
+  const [searchParameters, setSearchParameters] = useUrlState({
+    query: "",
+    page: 1,
+    includeExtraContent: false,
+  });
+
+  const [debouncedQuery] = useDebouncedValue(searchParameters.query, 500);
 
   const isQueryEnabled =
-    searchParameters != undefined &&
-    searchParameters.query != undefined &&
-    searchParameters.query.length > 2;
+    searchParameters.query != undefined && searchParameters.query.length > 2;
 
-  const searchQuery = useSearchGames(searchParameters, isQueryEnabled);
+  const { data, isLoading, isSuccess, isError, error } = useSearchGames(
+    {
+      query: debouncedQuery,
+      category: buildGameCategoryFilters({
+        includeExtraContent: searchParameters.includeExtraContent,
+        includeDlcs: searchParameters.includeExtraContent,
+      }),
+    },
+    isQueryEnabled,
+  );
+
+  const isEmpty = isSuccess && data?.data?.items?.length === 0;
+
+  const enablePagination = (data?.pagination?.totalPages ?? 1) > 1;
 
   /**
    * Trending games, reviews, etc.
    */
-  const extraItemsEnabled =
-    !searchQuery.isLoading &&
-    !searchQuery.isError &&
-    searchQuery.data == undefined;
+  const extraItemsEnabled = !isLoading && !isError && data == undefined;
 
   return (
-    <Stack mih={"100%"} pos={"relative"} className="mb-12">
+    <Stack mih={"100%"} pos={"relative"} className="mt-12 mb-8">
       <BackToTopButton />
-      <Stack align="center" justify="center" w={"100%"}>
-        <Box className={`w-full flex justify-center mt-12 flex-wrap`}>
+      <Stack className={"w-full items-center gap-xs"}>
+        <GameView layout={layout}>
           <GameSearchBar
-            onSubmit={(data) => {
-              setSearchParameters((prev) => {
-                return {
-                  ...prev,
-                  ...data,
-                };
-              });
+            onChange={(query) => {
+              setSearchParameters({ query });
             }}
           />
-          <GameSearchTips className={"w-full mt-2"} />
-        </Box>
-        <Box className={"w-full flex justify-center h-full"}>
-          <GameSearchResultView
-            enabled={isQueryEnabled}
-            isError={searchQuery.isError}
-            error={searchQuery.error}
-            isLoading={searchQuery.isLoading}
-            results={searchQuery.data?.data?.items}
-            page={searchParameters.page!}
-            paginationInfo={searchQuery.data?.pagination}
-            onPaginationChange={(page) => {
-              setSearchParameters((previous) => ({ ...previous, page: page }));
-            }}
+          <GameSearchViewActions
+            includeExtraContent={searchParameters.includeExtraContent}
+            onExtraContentChange={(value) =>
+              setSearchParameters({ includeExtraContent: value })
+            }
+            onLayoutChange={setLayout}
           />
-          {extraItemsEnabled && (
-            <Stack
-              w={"100%"}
-              h={"100%"}
-              justify={"center"}
-              align={"center"}
-              mt={"1rem"}
-            >
-              <TrendingGamesList />
-              <Space h={"1rem"} />
-              {userId && <RecommendationCarousel criteria="finished" />}
-              <Space h={"1rem"} />
-              <TrendingReviewCarousel />
-              <Space h={"1rem"} />
-              <RecentBlogPostsCarousel />
-              <Space h={"1rem"} />
-              <Center className={"w-full"}>
-                <Box className={"w-full lg:w-3/4"}>
-                  <Title size={"h3"} className={"text-center"}>
-                    Recent activity
-                  </Title>
-                  <RecentActivityList limit={10} />
-                </Box>
-              </Center>
-              <DetailsBox title={"Recent Posts"}>
-                <PostsFeed criteria={"all"}>
-                  {(props: InfiniteLoaderProps) => (
-                    <SimpleInfiniteLoader {...props} />
-                  )}
-                </PostsFeed>
-              </DetailsBox>
-            </Stack>
+          <GameSearchTips className={"w-full"} />
+
+          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+          {isEmpty && (
+            <CenteredErrorMessage
+              message={"No results found. Please try again."}
+            />
           )}
-        </Box>
+          <GameView.Content items={data?.data?.items}>
+            <GameView.LoadingSkeletons isVisible={isLoading} />
+          </GameView.Content>
+          {enablePagination && (
+            <GameView.Pagination
+              page={searchParameters.page}
+              paginationInfo={data?.pagination}
+              onPaginationChange={(page) => setSearchParameters({ page })}
+            ></GameView.Pagination>
+          )}
+        </GameView>
+        {extraItemsEnabled && (
+          <Stack
+            w={"100%"}
+            h={"100%"}
+            justify={"center"}
+            align={"center"}
+            mt={"1rem"}
+          >
+            <TrendingGamesList />
+            <Space h={"1rem"} />
+            {userId && <RecommendationCarousel criteria="finished" />}
+            <Space h={"1rem"} />
+            <TrendingReviewCarousel />
+            <Space h={"1rem"} />
+            <RecentBlogPostsCarousel />
+            <Space h={"1rem"} />
+            <Center className={"w-full"}>
+              <Box className={"w-full lg:w-3/4"}>
+                <Title size={"h3"} className={"text-center"}>
+                  Recent activity
+                </Title>
+                <RecentActivityList limit={10} />
+              </Box>
+            </Center>
+            <DetailsBox title={"Recent Posts"}>
+              <PostsFeed criteria={"all"}>
+                {(props: InfiniteLoaderProps) => (
+                  <SimpleInfiniteLoader {...props} />
+                )}
+              </PostsFeed>
+            </DetailsBox>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );

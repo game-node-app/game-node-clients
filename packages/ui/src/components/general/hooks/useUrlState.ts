@@ -7,30 +7,30 @@ type UseUrlStateOptions = {
   replace?: boolean;
 };
 
-export function useUrlState<T extends Record<string, unknown>>(
+export function useUrlState<T extends object>(
   defaultState: T,
   options?: UseUrlStateOptions,
 ): [T, (action: SetUrlStateAction<T>) => void] {
   const router = useRouter();
-
   const { replace = true } = options ?? {};
 
+  // Iterate over keys explicitly using Object.keys
   const parseFromUrl = (): T => {
     const query = router.query;
-    const parsed: Record<string, unknown> = { ...defaultState };
+    const parsed = { ...defaultState } as T;
 
-    for (const key in defaultState) {
+    Object.keys(defaultState).forEach((key) => {
       const raw = query.get(key);
       if (raw !== null) {
         try {
-          parsed[key] = JSON.parse(raw);
+          parsed[key as keyof T] = JSON.parse(raw);
         } catch {
-          parsed[key] = raw;
+          parsed[key as keyof T] = raw as never;
         }
       }
-    }
+    });
 
-    return parsed as T;
+    return parsed;
   };
 
   const [state, setState] = useState<T>(() => parseFromUrl());
@@ -39,9 +39,8 @@ export function useUrlState<T extends Record<string, unknown>>(
     (partial: Partial<T>) => {
       const query = new URLSearchParams(router.query.toString());
 
-      for (const key in partial) {
-        const value = partial[key];
-
+      Object.keys(partial).forEach((key) => {
+        const value = partial[key as keyof T];
         if (value === undefined || value === null) {
           query.delete(key);
         } else {
@@ -49,7 +48,7 @@ export function useUrlState<T extends Record<string, unknown>>(
             typeof value === "string" ? value : JSON.stringify(value);
           query.set(key, encoded);
         }
-      }
+      });
 
       const url = `${router.pathname}?${query.toString()}`;
       router.push(url, { replace, scroll: false, shallow: true });
@@ -61,7 +60,6 @@ export function useUrlState<T extends Record<string, unknown>>(
     (action: SetUrlStateAction<T>) => {
       setState((prev) => {
         const partial = typeof action === "function" ? action(prev) : action;
-
         const next = { ...prev, ...partial };
         updateUrl(partial);
         return next;
@@ -74,7 +72,7 @@ export function useUrlState<T extends Record<string, unknown>>(
     const parsed = parseFromUrl();
     setState((prev) => {
       const hasChanged = Object.keys(defaultState).some(
-        (key) => parsed[key] !== prev[key],
+        (key) => parsed[key as keyof T] !== prev[key as keyof T],
       );
       return hasChanged ? parsed : prev;
     });

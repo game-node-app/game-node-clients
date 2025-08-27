@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { UserComment } from "#@/components/comment/types";
 import { Group } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ItemDropdown } from "#@/components/general/input/dropdown/ItemDropdown";
+import { ItemDropdown } from "#@/components/general/input/ItemDropdown/ItemDropdown";
 import { CommentsRemoveModal } from "#@/components/comment/view/CommentsRemoveModal";
 import { useDisclosure } from "@mantine/hooks";
 import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";

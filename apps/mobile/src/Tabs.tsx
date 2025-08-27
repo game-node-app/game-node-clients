@@ -23,7 +23,11 @@ import SupertokensAuthCallbackPage from "@/pages/auth_callback";
 const Tabs = () => {
   return (
     <IonTabs>
-      <IonRouterOutlet>
+      <IonRouterOutlet
+        onScroll={(evt) => {
+          console.log("onScroll: ", evt);
+        }}
+      >
         <Suspense fallback={<CenteredLoading message={"Loading page..."} />}>
           <Route exact path={"/m/auth"}>
             <SupertokensAuthPage />

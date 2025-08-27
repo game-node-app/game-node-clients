@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
+import { useWindowScroll } from "@mantine/hooks";
 
 const getEquivalentDeepLink = (slug: string) => {
   if (slug.startsWith("/search")) {

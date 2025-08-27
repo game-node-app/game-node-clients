@@ -57,9 +57,8 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
           Are you sure you want to remove this collection?
         </Text>
         <Text fw={"bold"} className={"text-center"}>
-          This will also remove all games from this collection. If the games
-          aren't available in other collections, your reviews from them will
-          also be removed.
+          The games in this collection will remain intact in your library, and
+          you may add them to other collections later.
         </Text>
         <Group wrap={"nowrap"} justify={"center"}>
           <Button onClick={onClose} color={"blue"}>

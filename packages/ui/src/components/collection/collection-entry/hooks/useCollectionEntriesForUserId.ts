@@ -2,15 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CollectionEntry,
   CollectionsEntriesService,
+  FindCollectionEntriesGameFilterDto,
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 
-interface Props {
+export interface UseCollectionEntriesForUserIdProps {
   userId: string;
   offset?: number;
   limit?: number;
   orderBy?: FindCollectionEntriesOrderBy;
   status?: CollectionEntry.status;
+  gameFilters?: FindCollectionEntriesGameFilterDto;
 }
 
 export function useCollectionEntriesForUserId({
@@ -19,7 +21,8 @@ export function useCollectionEntriesForUserId({
   limit = 20,
   orderBy,
   status,
-}: Props) {
+  gameFilters,
+}: UseCollectionEntriesForUserIdProps) {
   return useQuery({
     queryKey: [
       "collection-entries",
@@ -28,6 +31,7 @@ export function useCollectionEntriesForUserId({
       offset,
       limit,
       orderBy,
+      gameFilters,
       status,
     ],
     queryFn: async () => {
@@ -35,7 +39,7 @@ export function useCollectionEntriesForUserId({
         userId,
         orderBy,
         status,
-        undefined,
+        gameFilters,
         offset,
         limit,
       );
