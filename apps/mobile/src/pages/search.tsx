@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 import {
   Center,
+  Chip,
   Container,
   FocusTrap,
   Group,
@@ -27,6 +28,7 @@ import {
   GameSearchTips,
   TGameOrSearchGame,
   buildGameSearchRequestDto,
+  useUrlState,
 } from "@repo/ui";
 import { useDebouncedValue } from "@mantine/hooks";
 
@@ -35,11 +37,18 @@ const GameSearchPage = () => {
 
   const [query, setQuery] = useState("");
 
+  const [searchParameters, setSearchParameters] = useUrlState({
+    query: "",
+    includeDlcs: false,
+    includeExtraContent: false,
+  });
+
   const [delayedQuery] = useDebouncedValue(query, 300);
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
-  const isQueryEnabled = delayedQuery != undefined && delayedQuery.length >= 3;
+  const isQueryEnabled =
+    searchParameters.query != undefined && searchParameters.query.length >= 3;
 
   const {
     data,
@@ -51,11 +60,7 @@ const GameSearchPage = () => {
     error,
   } = useInfiniteSearchGames(
     {
-      ...buildGameSearchRequestDto({
-        query: delayedQuery,
-        includeDlcs: false,
-        includeExtraContent: false,
-      }),
+      ...buildGameSearchRequestDto(searchParameters),
       limit: 12,
     },
     isQueryEnabled,
@@ -83,14 +88,44 @@ const GameSearchPage = () => {
           </IonButtons>
           <FocusTrap>
             <IonSearchbar
-              value={query}
-              onIonInput={(e) => setQuery(e.detail.value!)}
+              value={searchParameters.query}
+              onIonInput={(e) => {
+                setSearchParameters({
+                  ...searchParameters,
+                  query: e.detail.value!,
+                });
+              }}
             />
           </FocusTrap>
         </IonToolbar>
       </IonHeader>
       <IonContent className={"ion-padding"}>
         <Stack className={"w-full min-h-96 mb-8"}>
+          <Group className="flex-nowrap overflow-x-auto pb-4">
+            <Chip
+              checked={searchParameters.includeDlcs}
+              onChange={() => {
+                setSearchParameters({
+                  ...searchParameters,
+                  includeDlcs: !searchParameters.includeDlcs,
+                });
+              }}
+            >
+              include DLCs/Expansions
+            </Chip>
+            <Chip
+              checked={searchParameters.includeExtraContent}
+              onChange={() => {
+                setSearchParameters({
+                  ...searchParameters,
+                  includeExtraContent: !searchParameters.includeExtraContent,
+                });
+              }}
+            >
+              Include Bundles/Updates/Extra
+            </Chip>
+          </Group>
+
           <GameSearchTips />
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
           {!isQueryEnabled ? (
