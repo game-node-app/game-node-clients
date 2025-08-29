@@ -16,13 +16,12 @@ import {
 } from "#@/components";
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
+import { ActivityItemProps } from "#@/components/activity/item/types.ts";
 
-interface Props {
-  activity: Activity;
-  withUserAvatar?: boolean;
-}
-
-const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
+const ActivityItem = ({
+  activity,
+  withUserAvatar = true,
+}: ActivityItemProps) => {
   const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
   const collectionQuery = useCollection(activity.collectionId);
   const reviewQuery = useReview(activity.reviewId);
@@ -49,7 +48,7 @@ const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
         <Text>
           <Text span>Posted about </Text>
           <TextLink
-            href={`/post?postId=${activity.postId}`}
+            href={`/posts?postId=${activity.postId}`}
             className={"font-bold text-white no-underline"}
           >
             {gameQuery.data?.name}

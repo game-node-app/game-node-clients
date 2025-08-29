@@ -5,6 +5,8 @@ import {
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonMenu,
+  IonMenuButton,
   IonPage,
   IonRefresher,
   IonRefresherContent,
@@ -66,7 +68,9 @@ const HomePage = () => {
               });
             }}
           />
-          <Image src={"/img/short-logo.png"} className={"h-auto w-12 ms-4"} />
+          <IonButtons slot={"start"}>
+            <IonMenuButton />
+          </IonButtons>
           <IonButtons slot={"end"}>
             {userId && (
               <IonButton

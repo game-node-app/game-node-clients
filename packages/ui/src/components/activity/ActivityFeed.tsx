@@ -2,6 +2,8 @@ import React, { useCallback, useMemo } from "react";
 import { Skeleton, Stack } from "@mantine/core";
 import {
   ActivityFeedTabValue,
+  ActivityItem,
+  ActivityItemProps,
   ActivityList,
   CenteredErrorMessage,
   InfiniteLoaderChildren,
@@ -11,9 +13,14 @@ import {
 interface Props {
   criteria: ActivityFeedTabValue;
   children: InfiniteLoaderChildren;
+  Component?: React.ComponentType<ActivityItemProps>;
 }
 
-const ActivityFeed = ({ criteria, children }: Props) => {
+const ActivityFeed = ({
+  criteria,
+  children,
+  Component = ActivityItem,
+}: Props) => {
   const activityQuery = useInfiniteActivities({
     criteria,
     limit: 10,
@@ -40,7 +47,7 @@ const ActivityFeed = ({ criteria, children }: Props) => {
   }, []);
 
   return (
-    <Stack className={"w-full h-full"}>
+    <Stack className={"w-full h-full gap-xs"}>
       {activityQuery.isLoading && buildSkeletons()}
       {!isLoading && isEmpty && (
         <CenteredErrorMessage
@@ -55,7 +62,7 @@ const ActivityFeed = ({ criteria, children }: Props) => {
         />
       )}
 
-      <ActivityList items={items} />
+      <ActivityList items={items} Component={Component} />
 
       {children({
         fetchNextPage: async () => {

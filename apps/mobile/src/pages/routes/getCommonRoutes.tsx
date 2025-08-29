@@ -17,6 +17,7 @@ import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import CollectionPage from "@/pages/collection.tsx";
+import PreferencesPage from "@/pages/preferences.tsx";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -107,10 +108,13 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
           />
         );
       }}
-    ></Route>,
-    <Route exact key={`${prefix}-importer`} path={`${prefix}/importer`}>
-      <ImporterPage />
-    </Route>,
+    />,
+    <Route
+      exact
+      key={`${prefix}-importer`}
+      path={`${prefix}/importer`}
+      render={() => <ImporterPage />}
+    />,
     <Route
       key={`${prefix}-importer-type`}
       path={`${prefix}/importer/:source`}
@@ -119,12 +123,18 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         return <ImporterByTypePage source={props.match.params.source} />;
       }}
     />,
-    <Route exact key={`${prefix}-auth`} path={`${prefix}/auth`}>
-      <SupertokensAuthPage />
-    </Route>,
-    <Route exact key={`${prefix}-activity`} path={`${prefix}/activity`}>
-      <ActivityPage />
-    </Route>,
+    <Route
+      exact
+      key={`${prefix}-auth`}
+      path={`${prefix}/auth`}
+      render={() => <SupertokensAuthPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-activity`}
+      path={`${prefix}/activity`}
+      render={() => <ActivityPage />}
+    />,
     <Route
       key={`${prefix}-activity-detail`}
       path={`${prefix}/activity/detail/:activityId`}
@@ -135,21 +145,34 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         );
       }}
     />,
-    <Route exact key={`${prefix}-posts`} path={`${prefix}/posts`}>
-      <PostsPage />
-    </Route>,
-    <Route exact key={`${prefix}-blog-posts`} path={`${prefix}/blog`}>
-      <BlogPostsPage />
-    </Route>,
-    <Route key={`${prefix}-blog-posts-archive`} path={`${prefix}/blog/archive`}>
-      <BlogPostsArchivePage />
-    </Route>,
+    <Route
+      exact
+      key={`${prefix}-posts`}
+      path={`${prefix}/posts`}
+      render={() => <PostsPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-blog-posts`}
+      path={`${prefix}/blog`}
+      render={() => <BlogPostsPage />}
+    />,
+    <Route
+      key={`${prefix}-blog-posts-archive`}
+      path={`${prefix}/blog/archive`}
+      render={() => <BlogPostsArchivePage />}
+    />,
     <Route
       key={`${prefix}-blog-post-detail`}
       path={`${prefix}/blog/post/:postId`}
       render={(props) => {
         return <BlogPostDetailPage postId={props.match.params.postId} />;
       }}
+    />,
+    <Route
+      key={`${prefix}-preferences`}
+      path={`${prefix}/preferences`}
+      render={() => <PreferencesPage />}
     />,
   ];
 }

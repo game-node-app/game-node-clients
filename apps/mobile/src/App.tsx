@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { IonApp, IonFab, IonFabButton, setupIonicReact } from "@ionic/react";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
@@ -45,11 +45,9 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
-import { IconHome } from "@tabler/icons-react";
 import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
-import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
   DEFAULT_MANTINE_THEME,
@@ -64,8 +62,8 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
-import { Preferences } from "@capacitor/preferences";
-import { CapacitorAsyncStorage } from "@/util/asyncStorage.ts";
+import { createCapacitorAsyncStorage } from "@/util/asyncStorage.ts";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
 
 /**
  * dayjs setup
@@ -93,42 +91,24 @@ setupWrapper({
 setupIonicReact();
 
 const App: React.FC = () => {
-  const [keyboardOpened, setKeyboardOpened] = useState(false);
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            refetchOnWindowFocus: false,
-            refetchInterval: false,
-            refetchOnMount: false,
-            refetchIntervalInBackground: false,
-            refetchOnReconnect: false,
-            staleTime: 1000 * 60 * 5, // 5 minutes
+            staleTime: 1000 * 60 * 60, // 1 hour
             retry: 3,
-            gcTime: 1000 * 60 * 60 * 24 * 7, // a week
+            gcTime: 1000 * 60 * 60 * 24 * 14, // 2 weeks
           },
         },
       }),
   );
   const [persister] = useState(() =>
     createAsyncStoragePersister({
-      storage: new CapacitorAsyncStorage(),
+      storage: createCapacitorAsyncStorage(),
+      throttleTime: 1000,
     }),
   );
-
-  useEffect(() => {
-    Keyboard.addListener("keyboardWillShow", () => {
-      setKeyboardOpened(true);
-    });
-    Keyboard.addListener("keyboardWillHide", () => {
-      setKeyboardOpened(false);
-    });
-
-    return () => {
-      Keyboard.removeAllListeners();
-    };
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -146,35 +126,25 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <SuperTokensProvider>
-        <MantineProvider
-          theme={DEFAULT_MANTINE_THEME}
-          forceColorScheme={"dark"}
-        >
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister }}
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <SuperTokensProvider>
+          <MantineProvider
+            theme={DEFAULT_MANTINE_THEME}
+            forceColorScheme={"dark"}
           >
             <IonReactRouter>
               <AppUrlListener />
               <AppUpdateListener />
               <NotificationsManager />
+              <QueryProgressBar />
               <Tabs />
-              <IonFab
-                className={keyboardOpened ? "hidden" : undefined}
-                slot="fixed"
-                horizontal="center"
-                vertical="bottom"
-                edge={false}
-              >
-                <IonFabButton routerLink={"/home"}>
-                  <IconHome />
-                </IonFabButton>
-              </IonFab>
             </IonReactRouter>
-          </PersistQueryClientProvider>
-        </MantineProvider>
-      </SuperTokensProvider>
+          </MantineProvider>
+        </SuperTokensProvider>
+      </PersistQueryClientProvider>
     </IonApp>
   );
 };

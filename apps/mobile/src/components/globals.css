@@ -36,5 +36,5 @@
 }
 
 ion-tab-button:not(.tab-selected) {
-    --color-selected: var(--color);
+    color: #FAF4F4;
 }

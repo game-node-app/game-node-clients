@@ -2,25 +2,30 @@ import React, { useState } from "react";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonLabel,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonSegment,
   IonSegmentButton,
   IonToolbar,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
 import {
   ActivityFeed,
   ActivityFeedTabValue,
   InfiniteLoaderProps,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
+import { ActivityItem } from "@/components/activity/ActivityItem.tsx";
+import { Text } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ActivityPage = () => {
+  const queryClient = useQueryClient();
   const [selectedActivityTab, setSelectedActivityTab] =
     useState<ActivityFeedTabValue>("all");
 
@@ -46,10 +51,28 @@ const ActivityPage = () => {
               <IonLabel>Following</IonLabel>
             </IonSegmentButton>
           </IonSegment>
+          <QueryProgressBar />
         </IonToolbar>
       </IonHeader>
       <ScrollableIonContent className={"ion-padding"}>
-        <ActivityFeed criteria={selectedActivityTab}>
+        <IonRefresher
+          slot={"fixed"}
+          onIonRefresh={async (evt) => {
+            const promises = [
+              queryClient.invalidateQueries({
+                queryKey: ["activities"],
+              }),
+            ];
+            await Promise.all(promises);
+            evt.detail.complete();
+          }}
+        >
+          <IonRefresherContent />
+        </IonRefresher>
+        <Text className={"text-sm text-dimmed mb-2"}>
+          Tip: press and hold to show actions.
+        </Text>
+        <ActivityFeed criteria={selectedActivityTab} Component={ActivityItem}>
           {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
             <IonInfiniteScroll
               disabled={!hasNextPage}

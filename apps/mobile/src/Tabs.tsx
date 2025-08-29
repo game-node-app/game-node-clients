@@ -1,11 +1,16 @@
-import React, { Suspense } from "react";
+import React, { useCallback } from "react";
 import {
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonMenu,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
-import CenteredLoading from "@/components/general/CenteredLoading";
 import { Redirect, Route } from "react-router-dom";
 import HomePage from "@/pages/home";
 import GameSearchPage from "@/pages/search.tsx";
@@ -15,87 +20,88 @@ import ProfilePage from "@/pages/profile/profile";
 import LibraryPage from "@/pages/library";
 import NotificationsPage from "@/pages/notifications";
 import PreferencesPage from "@/pages/preferences";
-import { IconLibrary, IconRouteAltLeft, IconUser } from "@tabler/icons-react";
-import NotificationsIcon from "@/components/notifications/NotificationsIcon";
 import SupertokensAuthPage from "./pages/auth";
 import SupertokensAuthCallbackPage from "@/pages/auth_callback";
+import ActivityPage from "@/pages/activity";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
 
 const Tabs = () => {
   return (
     <IonTabs>
+      <IonMenu contentId="main-outlet" type="overlay">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu Content</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          This is the menu content.
+        </IonContent>
+      </IonMenu>
       <IonRouterOutlet
+        id="main-outlet"
         onScroll={(evt) => {
           console.log("onScroll: ", evt);
         }}
       >
-        <Suspense fallback={<CenteredLoading message={"Loading page..."} />}>
-          <Route exact path={"/m/auth"}>
-            <SupertokensAuthPage />
-          </Route>
-          <Route
-            path={"/m/auth/callback/:provider"}
-            render={(match) => {
-              return (
-                <SupertokensAuthCallbackPage
-                  provider={match.match.params.provider}
-                />
-              );
-            }}
-          />
-          {/* ---- LIBRARY ROUTES ---- */}
-          <Route exact path="/library">
-            <LibraryPage />
-          </Route>
-          {getCommonRoutes("/library")}
+        <Redirect exact from="/" to="/home" />
+        <Route exact path={"/m/auth"} render={() => <SupertokensAuthPage />} />
+        <Route
+          path={"/m/auth/callback/:provider"}
+          render={(match) => {
+            return (
+              <SupertokensAuthCallbackPage
+                provider={match.match.params.provider}
+              />
+            );
+          }}
+        />
+        {/* ---- ACTIVITY ROUTES ---- */}
+        <Route exact path={"/activity"} render={() => <ActivityPage />} />
+        {getCommonRoutes("/activity")}
 
-          {/* ---- EXPLORE ROUTES ---- */}
-          <Route exact path={"/explore"}>
-            <ExplorePage />
-          </Route>
-          <Route exact path={`/explore/search`}>
-            <GameSearchPage />
-          </Route>
-          {getCommonRoutes("/explore")}
+        {/* ---- EXPLORE ROUTES ---- */}
+        <Route exact path={"/explore"} render={() => <ExplorePage />} />
+        <Route
+          exact
+          path={`/explore/search`}
+          render={() => <GameSearchPage />}
+        />
+        {getCommonRoutes("/explore")}
 
-          {/* ---- HOME ROUTES ---- */}
-          <Route exact path={"/"}>
-            <Redirect to={"/home"} push={false} />
-          </Route>
-          <Route exact path={"/home"}>
-            <HomePage />
-          </Route>
-          <Route exact path={`/home/search`}>
-            <GameSearchPage />
-          </Route>
-          {getCommonRoutes("/home")}
+        {/* ---- HOME ROUTES ---- */}
+        <Route exact path={"/home"} render={() => <HomePage />} />
+        <Route exact path={`/home/search`} render={() => <GameSearchPage />} />
+        {getCommonRoutes("/home")}
 
-          <Route exact path="/notifications">
-            <NotificationsPage />
-          </Route>
-          {getCommonRoutes("/notifications")}
-          {/* ---- PROFILE ROUTES ---- */}
-          <Route exact path={"/profile"}>
-            <ProfilePage />
-          </Route>
-          <Route exact path="/profile/preferences">
-            <PreferencesPage />
-          </Route>
-          {getCommonRoutes("/profile")}
-        </Suspense>
+        <Route
+          exact
+          path="/notifications"
+          render={() => <NotificationsPage />}
+        />
+        {getCommonRoutes("/notifications")}
+        {/* ---- PROFILE ROUTES ---- */}
+        <Route exact path={"/profile"} render={() => <ProfilePage />} />
+        {getCommonRoutes("/profile")}
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="library" href="/library">
-          <IconLibrary aria-hidden={"true"} />
+        <IonTabButton tab="activity" href="/activity">
+          <IonIcon src={"/img/icon/icon_zap.svg"} aria-hidden={"true"} />
         </IonTabButton>
         <IonTabButton tab="explore" href="/explore">
-          <IconRouteAltLeft aria-hidden={"true"} />
+          <IonIcon src={"/img/icon/icon_trending.svg"} aria-hidden={"true"} />
         </IonTabButton>
-        <IonTabButton tab={"home"} href={"/home"}></IonTabButton>
+        <IonTabButton tab="home" href={"/home"}>
+          <IonIcon src={"/img/icon/icon_house.svg"} aria-hidden={"true"} />
+        </IonTabButton>
         <IonTabButton tab="notifications" href="/notifications">
-          <NotificationsIcon />
+          <IonIcon
+            src={"/img/icon/icon_notification.svg"}
+            aria-hidden={"true"}
+          />
         </IonTabButton>
         <IonTabButton tab="profile" href="/profile">
-          <IconUser aria-hidden={"true"} />
+          <IonIcon src={"/img/icon/icon_user.svg"} aria-hidden={"true"} />
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

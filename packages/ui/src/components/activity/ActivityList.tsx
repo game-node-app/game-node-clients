@@ -1,25 +1,26 @@
 import React from "react";
-import { Activity } from "../../../../wrapper/src/server";
-import { ReviewActivityItem } from "#@/components/activity/item/ReviewActivityItem";
-import { CollectionEntryActivityItem } from "#@/components/activity/item/CollectionEntryActivityItem";
-import { UserFollowActivityItem } from "#@/components/activity/item/UserFollowActivityItem";
-import type = Activity.type;
-import { ActivityItem } from "#@/components";
+import { Activity } from "@repo/wrapper/server";
+import { ActivityItem, ActivityItemProps } from "#@/components";
 
 interface Props {
   items: Activity[] | undefined;
   withUserAvatar?: boolean;
+  Component?: React.ComponentType<ActivityItemProps>;
 }
 
-const ActivityList = ({ items, withUserAvatar = true }: Props) => {
+const ActivityList = ({
+  items,
+  withUserAvatar = true,
+  Component = ActivityItem,
+}: Props) => {
   if (!items) return null;
   return items.map((activity) => {
     return (
-      <ActivityItem
+      <Component
         key={activity.id}
         activity={activity}
         withUserAvatar={withUserAvatar}
-      />
+      ></Component>
     );
   });
 };
