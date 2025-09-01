@@ -24,6 +24,7 @@ import {
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import sourceType = FindOneStatisticsDto.sourceType;
+import HeaderOpenGraph from "@/components/general/HeaderOpenGraph.tsx";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -121,9 +122,11 @@ const GameInfoPage = () => {
   return (
     <Container fluid pos={"relative"} className="mb-12" mih={"100vh"} p={0}>
       {gameQuery.data != undefined && (
-        <Head>
-          <title>{`${gameQuery.data.name} - GameNode`}</title>
-        </Head>
+        <HeaderOpenGraph
+          cover={gameQuery.data?.cover?.url}
+          title={gameQuery.data.name}
+          description={gameQuery.data.summary}
+        />
       )}
       <Stack className={"w-full h-full"}>
         <GameInfoView id={idAsNumber} />

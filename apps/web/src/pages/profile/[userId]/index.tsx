@@ -12,6 +12,7 @@ import {
   ProfileViewContent,
   useUserProfile,
 } from "@repo/ui";
+import HeaderOpenGraph from "@/components/general/HeaderOpenGraph.tsx";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const query = ctx.query;
@@ -42,14 +43,22 @@ const Index = () => {
   const userIdString = userId as string;
   useUserProfile(userIdString);
 
+  const { data: userProfile } = useUserProfile(userIdString);
+
   return (
-    <Box className={"w-full h-full xl:flex xl:justify-center"}>
-      <Box className={"mt-3 mb-12 xl:max-w-screen-xl"}>
-        <ProfileUserInfoWithBanner userId={userIdString}>
-          <ProfileViewContent userId={userIdString} />
-        </ProfileUserInfoWithBanner>
+    <>
+      <HeaderOpenGraph
+        title={userProfile?.username}
+        cover={userProfile?.avatar}
+      />
+      <Box className={"w-full h-full xl:flex xl:justify-center"}>
+        <Box className={"mt-3 mb-12 xl:max-w-screen-xl"}>
+          <ProfileUserInfoWithBanner userId={userIdString}>
+            <ProfileViewContent userId={userIdString} />
+          </ProfileUserInfoWithBanner>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
