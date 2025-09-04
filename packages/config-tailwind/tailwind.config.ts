@@ -11,7 +11,7 @@ const config: Omit<Config, "content"> = {
       backgroundColor: {
         body: "var(--mantine-color-body)",
         paper: "#161616",
-        "paper-alt": "#262525",
+        "paper-alt": ["#262525", "#1D1D1D"],
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
@@ -47,7 +47,7 @@ const config: Omit<Config, "content"> = {
       },
       colors: {
         dimmed: "var(--mantine-color-dimmed)",
-
+        "dimmed-alt": ["#808080"],
         brand: [
           "#ffede5",
           "#ffd9cf",

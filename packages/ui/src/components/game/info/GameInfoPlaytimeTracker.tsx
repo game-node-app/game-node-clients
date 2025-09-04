@@ -42,7 +42,7 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
       withPadding
       title={"Your play sessions"}
       stackProps={{
-        className: "bg-paper-alt",
+        className: "bg-paper-alt-0",
       }}
       rightSide={
         <ActionIcon

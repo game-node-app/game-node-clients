@@ -6,3 +6,4 @@ export * from "./ActivityItem";
 export * from "./CollectionEntryActivityItem";
 export * from "./ReviewActivityItem";
 export * from "./UserFollowActivityItem";
+export * from "./types";

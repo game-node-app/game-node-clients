@@ -18,6 +18,7 @@ import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import CollectionPage from "@/pages/collection.tsx";
 import PreferencesPage from "@/pages/preferences.tsx";
+import { JournalPage } from "@/pages/journal.tsx";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -173,6 +174,11 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       key={`${prefix}-preferences`}
       path={`${prefix}/preferences`}
       render={() => <PreferencesPage />}
+    />,
+    <Route
+      key={`${prefix}-journal`}
+      path={`${prefix}/journal/:userId`}
+      render={({ match }) => <JournalPage userId={match.params.userId} />}
     />,
   ];
 }

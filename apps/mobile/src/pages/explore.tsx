@@ -36,7 +36,7 @@ const ExplorePage = () => {
             await queryClient.invalidateQueries({
               queryKey: ["statistics", "trending", "game"],
             });
-            await evt.detail.complete();
+            evt.detail.complete();
           }}
         >
           <IonRefresherContent />

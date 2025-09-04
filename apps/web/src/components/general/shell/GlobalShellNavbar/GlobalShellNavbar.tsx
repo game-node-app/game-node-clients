@@ -74,7 +74,7 @@ export default function GlobalShellNavbar({
       {isLoggedIn && userProfile && (
         <div className={classes.section}>
           <Link href={`/profile/${userProfile.userId}`} onClick={onClose}>
-            <UserButton userId={userProfile.userId} />
+            <UserButton userId={userProfile.userId} className={"p-lg"} />
           </Link>
         </div>
       )}

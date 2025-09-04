@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   Divider,
+  Flex,
   Group,
   Pagination,
   Paper,
@@ -70,15 +71,22 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
   return (
     <Stack w={"100%"}>
       <Group
-        wrap={"nowrap"}
-        className={"justify-center lg:justify-between lg:mx-4"}
+        className={
+          "justify-center flex-wrap lg:flex-nowrap lg:justify-between lg:mx-4"
+        }
       >
-        <Box className={withUserLevel ? "w-5/12 lg:w-8/12" : "hidden"}>
+        <Flex
+          className={
+            withUserLevel
+              ? "w-full justify-center lg:justify-start lg:w-8/12"
+              : "hidden"
+          }
+        >
           <UserAvatarWithLevelInfo userId={targetUserId} />
-        </Box>
+        </Flex>
 
         {isOwnUserId && (
-          <Group className={"grow justify-end"}>
+          <Group className={"grow justify-center lg:justify-end"}>
             <RedeemAchievementCodeModal
               opened={redeemCodeModalOpened}
               onClose={redeemCodeModalUtils.close}

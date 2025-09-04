@@ -6,6 +6,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonRefresher,
   IonRefresherContent,
@@ -34,7 +35,7 @@ const ActivityPage = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot={"start"}>
-            <IonBackButton />
+            <IonMenuButton />
           </IonButtons>
           <IonSegment
             value={selectedActivityTab}

@@ -1,15 +1,11 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {
-  IonContent,
-  IonHeader,
   IonIcon,
   IonMenu,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
 import HomePage from "@/pages/home";
@@ -17,26 +13,25 @@ import GameSearchPage from "@/pages/search.tsx";
 import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import ExplorePage from "@/pages/explore";
 import ProfilePage from "@/pages/profile/profile";
-import LibraryPage from "@/pages/library";
 import NotificationsPage from "@/pages/notifications";
-import PreferencesPage from "@/pages/preferences";
 import SupertokensAuthPage from "./pages/auth";
 import SupertokensAuthCallbackPage from "@/pages/auth_callback";
 import ActivityPage from "@/pages/activity";
-import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
+import { SidebarMenu } from "@/components/sidebar/SidebarMenu.tsx";
+import {
+  IconActivity,
+  IconBell,
+  IconHome,
+  IconNotification,
+  IconTrendingUp,
+  IconUser,
+} from "@tabler/icons-react";
 
 const Tabs = () => {
   return (
     <IonTabs>
       <IonMenu contentId="main-outlet" type="overlay">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          This is the menu content.
-        </IonContent>
+        <SidebarMenu />
       </IonMenu>
       <IonRouterOutlet
         id="main-outlet"
@@ -86,22 +81,19 @@ const Tabs = () => {
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="activity" href="/activity">
-          <IonIcon src={"/img/icon/icon_zap.svg"} aria-hidden={"true"} />
+          <IconActivity />
         </IonTabButton>
         <IonTabButton tab="explore" href="/explore">
-          <IonIcon src={"/img/icon/icon_trending.svg"} aria-hidden={"true"} />
+          <IconTrendingUp />
         </IonTabButton>
-        <IonTabButton tab="home" href={"/home"}>
-          <IonIcon src={"/img/icon/icon_house.svg"} aria-hidden={"true"} />
+        <IonTabButton tab="home" href="/home">
+          <IconHome />
         </IonTabButton>
         <IonTabButton tab="notifications" href="/notifications">
-          <IonIcon
-            src={"/img/icon/icon_notification.svg"}
-            aria-hidden={"true"}
-          />
+          <IconBell />
         </IonTabButton>
         <IonTabButton tab="profile" href="/profile">
-          <IonIcon src={"/img/icon/icon_user.svg"} aria-hidden={"true"} />
+          <IconUser />
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

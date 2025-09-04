@@ -47,7 +47,7 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
       title={"Your progress"}
       withPadding
       stackProps={{
-        className: "w-full p-md bg-paper-alt",
+        className: "w-full p-md bg-paper-alt-0",
       }}
     >
       <Timeline active={maxActiveIndex} bulletSize={30}>

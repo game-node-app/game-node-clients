@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel } from "@mantine/carousel";
+import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
 import { useOnMobile } from "../../general/hooks/useOnMobile.ts";
 import { useTrendingReviews } from "../../statistics/hooks/useTrendingReviews.ts";
@@ -21,7 +21,14 @@ const buildSkeletons = () => {
   return skeletons;
 };
 
-const TrendingReviewCarousel = () => {
+interface Props extends CarouselProps {
+  CardComponent?: React.ComponentType<{ reviewId: string }>;
+}
+
+const TrendingReviewCarousel = ({
+  CardComponent = ReviewCard,
+  ...others
+}: Props) => {
   const onMobile = useOnMobile();
   const trendingReviews = useTrendingReviews({
     period: period.MONTH,
@@ -45,7 +52,7 @@ const TrendingReviewCarousel = () => {
       }
       return (
         <Carousel.Slide key={reviewStatistics.id}>
-          <ReviewCard reviewId={reviewStatistics.reviewId!} />
+          <CardComponent reviewId={reviewStatistics.reviewId!} />
         </Carousel.Slide>
       );
     });
@@ -73,6 +80,7 @@ const TrendingReviewCarousel = () => {
           slidesToScroll={onMobile ? 1 : 2}
           controlsOffset="xs"
           dragFree
+          {...others}
         >
           {buildSlides()}
         </Carousel>
