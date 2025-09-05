@@ -44,12 +44,12 @@ export class PostsService {
     }
     /**
      * @param requestBody
-     * @returns Post
+     * @returns any
      * @throws ApiError
      */
     public static postsControllerCreateV1(
         requestBody: CreatePostDto,
-    ): CancelablePromise<Post> {
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/posts/repository',
