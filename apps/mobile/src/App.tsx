@@ -50,11 +50,13 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
+  buildPresenterRegistry,
   DEFAULT_MANTINE_THEME,
   setLinkComponent,
   setModalComponent,
   setProjectContext,
   setRouterHook,
+  UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
@@ -64,6 +66,7 @@ import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
 import { createCapacitorAsyncStorage } from "@/util/asyncStorage.ts";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
+import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
 
 /**
  * dayjs setup
@@ -90,6 +93,10 @@ setupWrapper({
 
 setupIonicReact();
 
+const UI_PRESENTERS = buildPresenterRegistry({
+  ActivityItem: MobileActivityItem,
+});
+
 const App: React.FC = () => {
   const [queryClient] = useState(
     () =>
@@ -113,8 +120,8 @@ const App: React.FC = () => {
   useEffect(() => {
     (async () => {
       const info = await Device.getInfo();
-      if (info.platform === "android" && Number(info.osVersion) >= 15) {
-        await EdgeToEdge.enable(); // Enable only on Android 15+
+      if (info.platform === "android" && Number(info.osVersion) >= 14) {
+        await EdgeToEdge.enable();
         await EdgeToEdge.setBackgroundColor({
           color: "#1f1f1f",
         });
@@ -126,25 +133,27 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{ persister }}
-      >
-        <SuperTokensProvider>
-          <MantineProvider
-            theme={DEFAULT_MANTINE_THEME}
-            forceColorScheme={"dark"}
-          >
-            <IonReactRouter>
-              <AppUrlListener />
-              <AppUpdateListener />
-              <NotificationsManager />
-              <QueryProgressBar />
-              <Tabs />
-            </IonReactRouter>
-          </MantineProvider>
-        </SuperTokensProvider>
-      </PersistQueryClientProvider>
+      <UIProvider presenters={UI_PRESENTERS}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister }}
+        >
+          <SuperTokensProvider>
+            <MantineProvider
+              theme={DEFAULT_MANTINE_THEME}
+              forceColorScheme={"dark"}
+            >
+              <IonReactRouter>
+                <AppUrlListener />
+                <AppUpdateListener />
+                <NotificationsManager />
+                <QueryProgressBar />
+                <Tabs />
+              </IonReactRouter>
+            </MantineProvider>
+          </SuperTokensProvider>
+        </PersistQueryClientProvider>
+      </UIProvider>
     </IonApp>
   );
 };

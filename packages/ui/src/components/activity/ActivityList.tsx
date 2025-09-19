@@ -1,26 +1,21 @@
 import React from "react";
 import { Activity } from "@repo/wrapper/server";
-import { ActivityItem, ActivityItemProps } from "#@/components";
+import { ActivityItem } from "#@/components";
 
 interface Props {
   items: Activity[] | undefined;
   withUserAvatar?: boolean;
-  Component?: React.ComponentType<ActivityItemProps>;
 }
 
-const ActivityList = ({
-  items,
-  withUserAvatar = true,
-  Component = ActivityItem,
-}: Props) => {
+const ActivityList = ({ items, withUserAvatar = true }: Props) => {
   if (!items) return null;
   return items.map((activity) => {
     return (
-      <Component
+      <ActivityItem
         key={activity.id}
         activity={activity}
         withUserAvatar={withUserAvatar}
-      ></Component>
+      />
     );
   });
 };

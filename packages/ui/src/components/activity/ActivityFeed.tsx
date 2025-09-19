@@ -2,8 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import { Skeleton, Stack } from "@mantine/core";
 import {
   ActivityFeedTabValue,
-  ActivityItem,
-  ActivityItemProps,
   ActivityList,
   CenteredErrorMessage,
   InfiniteLoaderChildren,
@@ -13,14 +11,9 @@ import {
 interface Props {
   criteria: ActivityFeedTabValue;
   children: InfiniteLoaderChildren;
-  Component?: React.ComponentType<ActivityItemProps>;
 }
 
-const ActivityFeed = ({
-  criteria,
-  children,
-  Component = ActivityItem,
-}: Props) => {
+const ActivityFeed = ({ criteria, children }: Props) => {
   const activityQuery = useInfiniteActivities({
     criteria,
     limit: 10,
@@ -62,7 +55,7 @@ const ActivityFeed = ({
         />
       )}
 
-      <ActivityList items={items} Component={Component} />
+      <ActivityList items={items} />
 
       {children({
         fetchNextPage: async () => {

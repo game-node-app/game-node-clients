@@ -37,7 +37,7 @@ const LibraryPage = ({ userId }: Props) => {
 
   return (
     <IonPage>
-      <SessionAuth requireAuth={userId == undefined}>
+      <SessionAuth requireAuth={userId == undefined || userId === "undefined"}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot={"start"}>

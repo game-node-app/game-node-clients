@@ -21,7 +21,7 @@ import {
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
-import { ActivityItem } from "@/components/activity/ActivityItem.tsx";
+import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
 import { Text } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -73,7 +73,10 @@ const ActivityPage = () => {
         <Text className={"text-sm text-dimmed mb-2"}>
           Tip: press and hold to show actions.
         </Text>
-        <ActivityFeed criteria={selectedActivityTab} Component={ActivityItem}>
+        <ActivityFeed
+          criteria={selectedActivityTab}
+          Component={MobileActivityItem}
+        >
           {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
             <IonInfiniteScroll
               disabled={!hasNextPage}

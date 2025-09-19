@@ -25,6 +25,7 @@ import {
   RecentBlogPostsCarousel,
   RecentlyPlayedGamesShare,
   RecommendationCarousel,
+  TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
@@ -123,6 +124,7 @@ const HomePage = () => {
         <HomeFab contentRef={contentRef} />
         <Stack className={"w-full gap-8 my-4"}>
           {userId && <RecommendationCarousel criteria={"finished"} />}
+          <TrendingGamesList />
           <TrendingReviewCarousel
             CardComponent={TrendingReviewCard}
             slideSize={"25%"}

@@ -4,8 +4,8 @@ import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { AwardsEvent } from "@repo/wrapper/server";
 import { Link, useAwardEvents } from "@repo/ui";
-import { CreateUpdateAwardsForm } from "@/components/awards/CreateUpdateAwardsForm.tsx";
 import { IconArrowRight, IconEdit } from "@tabler/icons-react";
+import { CreateUpdateAwardsForm } from "@/components/awards/form/CreateUpdateAwardsForm.tsx";
 
 const COLUMNS: MRT_ColumnDef<AwardsEvent>[] = [
   {
@@ -46,7 +46,7 @@ const AwardsView = () => {
       ],
     },
     enableEditing: true,
-    renderCreateRowModalContent: ({ row }) => <CreateUpdateAwardsForm />,
+    renderCreateRowModalContent: () => <CreateUpdateAwardsForm />,
     renderTopToolbarCustomActions: ({ table }) => {
       return (
         <Button onClick={() => table.setCreatingRow(true)}>

@@ -4,6 +4,7 @@ import {
   IconDashboard,
   IconDeviceGamepad2,
   IconReport,
+  IconTrophy,
   IconUsers,
 } from "@tabler/icons-react";
 import type { NavItem } from "@/types/nav-item";
@@ -73,5 +74,12 @@ export const navLinks: NavItem[] = [
         link: "/dashboard/blog",
       },
     ],
+  },
+  {
+    label: "Awards",
+    icon: IconTrophy,
+    initiallyOpened: false,
+    roles: [EUserRoles.ADMIN],
+    link: "/dashboard/awards",
   },
 ];

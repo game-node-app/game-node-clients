@@ -43,6 +43,7 @@ import {
   setProjectContext,
   setLinkComponent,
   setRouterHook,
+  UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { setupWrapper } from "@repo/wrapper";
@@ -99,29 +100,31 @@ export default function App({
   );
 
   return (
-    <MantineProvider
-      theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-        fontFamily: roboto.style.fontFamily,
-      })}
-      forceColorScheme={"dark"}
-    >
-      <Head>
-        <title>GameNode</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <SuperTokensProvider>
-        <QueryClientProvider client={queryClient}>
-          <MatomoTracker />
-          <NotificationsManager />
-          <OpenInAppDialog />
-          <HydrationBoundary state={pageProps.dehydratedState}>
-            <GlobalAppShell>
-              <RouterTransition />
-              <Component {...pageProps} />
-            </GlobalAppShell>
-          </HydrationBoundary>
-        </QueryClientProvider>
-      </SuperTokensProvider>
-    </MantineProvider>
+    <UIProvider>
+      <MantineProvider
+        theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+          fontFamily: roboto.style.fontFamily,
+        })}
+        forceColorScheme={"dark"}
+      >
+        <Head>
+          <title>GameNode</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <SuperTokensProvider>
+          <QueryClientProvider client={queryClient}>
+            <MatomoTracker />
+            <NotificationsManager />
+            <OpenInAppDialog />
+            <HydrationBoundary state={pageProps.dehydratedState}>
+              <GlobalAppShell>
+                <RouterTransition />
+                <Component {...pageProps} />
+              </GlobalAppShell>
+            </HydrationBoundary>
+          </QueryClientProvider>
+        </SuperTokensProvider>
+      </MantineProvider>
+    </UIProvider>
   );
 }

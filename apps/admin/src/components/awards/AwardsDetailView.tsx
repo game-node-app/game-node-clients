@@ -24,6 +24,7 @@ import {
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { AwardsCategorySuggestionView } from "@/components/awards/AwardsCategorySuggestionView.tsx";
+import { CreateUpdateAwardsCategoryForm } from "@/components/awards/form/CreateUpdateAwardsCategoryForm.tsx";
 
 const COLUMNS: MRT_ColumnDef<VotableAwardsCategoryDto>[] = [
   {
@@ -66,6 +67,7 @@ const AwardsDetailView = ({ eventId }: Props) => {
   const [editingCategoryId, setEditingCategoryId] = useState<
     number | undefined
   >(undefined);
+
   const editingCategory = useMemo(() => {
     return eventCategories?.find(
       (category) => category.id === editingCategoryId,
@@ -78,6 +80,17 @@ const AwardsDetailView = ({ eventId }: Props) => {
     enableEditing: true,
     state: {
       isLoading,
+    },
+    renderCreateRowModalContent: () => {
+      return <CreateUpdateAwardsCategoryForm eventId={eventId} />;
+    },
+    renderEditRowModalContent: ({ row }) => {
+      return (
+        <CreateUpdateAwardsCategoryForm
+          eventId={eventId}
+          categoryId={row.original?.id}
+        />
+      );
     },
     renderTopToolbarCustomActions: ({ table }) => {
       return (

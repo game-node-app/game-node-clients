@@ -17,8 +17,9 @@ import {
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
 import { ActivityItemProps } from "#@/components/activity/item/types.ts";
+import { usePresenter } from "#@/presenters";
 
-const ActivityItem = ({
+const DEFAULT_ActivityItem = ({
   activity,
   withUserAvatar = true,
 }: ActivityItemProps) => {
@@ -142,6 +143,15 @@ const ActivityItem = ({
       </Group>
     </Group>
   );
+};
+
+const ActivityItem = (props: ActivityItemProps) => {
+  const Presenter = usePresenter("ActivityItem");
+  if (Presenter) {
+    return <Presenter {...props} />;
+  }
+
+  return <DEFAULT_ActivityItem {...props} />;
 };
 
 export { ActivityItem };

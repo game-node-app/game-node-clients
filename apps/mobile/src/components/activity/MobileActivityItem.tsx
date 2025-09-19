@@ -13,15 +13,10 @@ import {
   UserAvatar,
   useReview,
   useRouter,
-  useUserFollow,
   useUserProfile,
 } from "@repo/ui";
 import { match } from "ts-pattern";
-import {
-  Activity,
-  FindAllCommentsDto,
-  FindOneStatisticsDto,
-} from "@repo/wrapper/server";
+import { Activity, FindAllCommentsDto } from "@repo/wrapper/server";
 import { Box, Group, Menu, Stack, Text } from "@mantine/core";
 import { useLongPress } from "use-long-press";
 import { IonRippleEffect } from "@ionic/react";
@@ -32,7 +27,7 @@ import { ActivityItemMenu } from "@/components/activity/ActivityItemMenu.tsx";
  * Variant of the ActivityItem component for mobile.
  * @constructor
  */
-const ActivityItem = ({ activity }: ActivityItemProps) => {
+const MobileActivityItem = ({ activity }: ActivityItemProps) => {
   const router = useRouter();
 
   const [menuOpened, menuUtils] = useDisclosure();
@@ -123,6 +118,13 @@ const ActivityItem = ({ activity }: ActivityItemProps) => {
             className={
               "bg-[#1D1D1D] w-full items-center flex-nowrap p-2 relative ion-activatable rounded"
             }
+            onClick={() => {
+              router.push(
+                reviewQuery.data
+                  ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
+                  : `/game/${gameId}`,
+              );
+            }}
           >
             <IonRippleEffect />
             <Group className={"w-2/4 items-center flex-nowrap"}>
@@ -153,4 +155,4 @@ const ActivityItem = ({ activity }: ActivityItemProps) => {
   );
 };
 
-export { ActivityItem };
+export { MobileActivityItem };
