@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { ActivityItemProps, DetailsBoxProps } from "#@/components";
+import { AwardsEventCategoryProps } from "#@/components/awards/category/AwardsEventCategory.tsx";
 
 /**
  * The registry of components that can be replaced at runtime

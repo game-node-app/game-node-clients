@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Center, Group, Space, Stack, Title } from "@mantine/core";
 import {
+  AwardsEventOverview,
   BackToTopButton,
   buildGameCategoryFilters,
   CenteredErrorMessage,
@@ -110,15 +111,15 @@ const Index = () => {
             justify={"center"}
             align={"center"}
             mt={"1rem"}
+            gap={"5rem"}
           >
             <TrendingGamesList />
-            <Space h={"1rem"} />
             {userId && <RecommendationCarousel criteria="finished" />}
-            <Space h={"1rem"} />
             <TrendingReviewCarousel />
-            <Space h={"1rem"} />
+            <Box className={"w-full"}>
+              <AwardsEventOverview eventId={1} withBackground={false} />
+            </Box>
             <RecentBlogPostsCarousel />
-            <Space h={"1rem"} />
             <Center className={"w-full"}>
               <Box className={"w-full lg:w-3/4"}>
                 <Title size={"h3"} className={"text-center"}>

@@ -79,10 +79,10 @@ export class AwardsService {
      * @returns AwardsVote
      * @throws ApiError
      */
-    public static awardsVoteControllerGetVotesByUserIdV1(
+    public static awardsVoteControllerGetVoteByUserIdV1(
         userId: string,
         categoryId: number,
-    ): CancelablePromise<Array<AwardsVote>> {
+    ): CancelablePromise<AwardsVote> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/awards/vote/{userId}/{categoryId}',

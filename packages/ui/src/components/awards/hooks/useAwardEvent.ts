@@ -13,11 +13,11 @@ export function useAwardEvent({ eventYear, eventId }: UseAwardEventProps) {
   return useQuery({
     queryKey: ["awards", "event", eventYear, eventId],
     queryFn: async () => {
-      if (eventYear) {
-        return AwardsService.awardsControllerGetEventsByYearV1(eventYear);
+      if (eventId) {
+        return AwardsService.awardsControllerGetEventByIdV1(eventId);
       }
 
-      return AwardsService.awardsControllerGetEventByIdV1(eventId!);
+      return AwardsService.awardsControllerGetEventsByYearV1(eventYear!);
     },
     enabled: !!eventYear || !!eventId,
   });

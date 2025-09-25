@@ -15,9 +15,6 @@ export type AwardsCategory = {
      * If this category corresponds to the 'global' goty award.
      */
     isGOTY: boolean;
-    /**
-     * If this category corresponds to the 'personal goty' award.
-     */
     isPersonalGOTY: boolean;
     suggestions: Array<AwardsCategorySuggestion>;
     createdAt: string;

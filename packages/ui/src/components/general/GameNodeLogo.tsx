@@ -5,14 +5,12 @@ type GameNodeLogoProps = React.ComponentPropsWithoutRef<"img">;
 
 const GameNodeLogo = ({ ...props }: GameNodeLogoProps) => {
   return (
-    <Group gap={10}>
-      <img
-        alt={"GameNode logo"}
-        className="w-full h-auto max-h-full "
-        {...props}
-        src={"/img/main-logo.png"}
-      />
-    </Group>
+    <img
+      alt={"GameNode logo"}
+      className="w-full h-auto max-h-full "
+      {...props}
+      src={"/img/main-logo.png"}
+    />
   );
 };
 

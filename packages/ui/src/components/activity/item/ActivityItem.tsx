@@ -17,7 +17,7 @@ import {
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
 import { ActivityItemProps } from "#@/components/activity/item/types.ts";
-import { usePresenter } from "#@/presenters";
+import { buildPresenterFallback, usePresenter } from "#@/presenters";
 
 const DEFAULT_ActivityItem = ({
   activity,
@@ -145,13 +145,9 @@ const DEFAULT_ActivityItem = ({
   );
 };
 
-const ActivityItem = (props: ActivityItemProps) => {
-  const Presenter = usePresenter("ActivityItem");
-  if (Presenter) {
-    return <Presenter {...props} />;
-  }
-
-  return <DEFAULT_ActivityItem {...props} />;
-};
+const ActivityItem = buildPresenterFallback(
+  "ActivityItem",
+  DEFAULT_ActivityItem,
+);
 
 export { ActivityItem };

@@ -1,4 +1,4 @@
-import { PresenterRegistry } from "#@/presenters/UIProvider.tsx";
+import { PresenterRegistry } from "#@/presenters";
 
 /**
  * Build a PresenterRegistry incrementally. You can pass only the keys you override.
