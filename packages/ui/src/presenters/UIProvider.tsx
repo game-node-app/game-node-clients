@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useMemo } from "react";
-import { ActivityItemProps, DetailsBoxProps } from "#@/components";
-import { AwardsEventCategoryProps } from "#@/components/awards/category/AwardsEventCategory.tsx";
+import React, { createContext, useContext } from "react";
+import {
+  ActivityItemProps,
+  DetailsBoxProps,
+  GameInfoActionsProps,
+} from "#@/components";
+import { GameInfoTitleFigureProps } from "#@/components/game/info/GameInfoTitleFigure.tsx";
 
 /**
  * The registry of components that can be replaced at runtime
@@ -9,6 +13,8 @@ import { AwardsEventCategoryProps } from "#@/components/awards/category/AwardsEv
 export type PresenterRegistry = {
   DetailsBox: React.ComponentType<DetailsBoxProps>;
   ActivityItem: React.ComponentType<ActivityItemProps>;
+  GameInfoTitleFigure: React.ComponentType<GameInfoTitleFigureProps>;
+  GameInfoActions: React.ComponentType<GameInfoActionsProps>;
 };
 
 const PresenterContext = createContext<Partial<PresenterRegistry>>({});

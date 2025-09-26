@@ -5,7 +5,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, mergeMantineTheme } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -64,9 +64,10 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
-import { createCapacitorAsyncStorage } from "@/util/asyncStorage.ts";
-import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
-import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
+import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar";
+import { UI_PRESENTER_REGISTRY } from "@/components/registry";
+import { MANTINE_THEME } from "@/components/theme.ts";
 
 /**
  * dayjs setup
@@ -91,10 +92,8 @@ setupWrapper({
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
 });
 
-setupIonicReact();
-
-const UI_PRESENTERS = buildPresenterRegistry({
-  ActivityItem: MobileActivityItem,
+setupIonicReact({
+  backButtonIcon: "/img/icon/icon_back_button.svg",
 });
 
 const App: React.FC = () => {
@@ -133,16 +132,13 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <UIProvider presenters={UI_PRESENTERS}>
+      <UIProvider presenters={UI_PRESENTER_REGISTRY}>
         <PersistQueryClientProvider
           client={queryClient}
           persistOptions={{ persister }}
         >
           <SuperTokensProvider>
-            <MantineProvider
-              theme={DEFAULT_MANTINE_THEME}
-              forceColorScheme={"dark"}
-            >
+            <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
               <IonReactRouter>
                 <AppUrlListener />
                 <AppUpdateListener />

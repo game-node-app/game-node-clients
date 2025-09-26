@@ -30,6 +30,7 @@ import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewSc
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { useQueryClient } from "@tanstack/react-query";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   gameId: number;
@@ -74,72 +75,58 @@ const GamePage = ({ gameId }: Props) => {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>{gameQuery.data?.name}</IonTitle>
-          {gameQuery.isLoading && <IonProgressBar type={"indeterminate"} />}
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <IonRefresher
-          slot={"fixed"}
-          onIonRefresh={async (evt) => {
-            const promises = [
-              queryClient.invalidateQueries({
-                queryKey: ["game", gameId],
-              }),
-              queryClient.invalidateQueries({
-                queryKey: ["review", gameId],
-              }),
-              queryClient.invalidateQueries({
-                queryKey: ["posts", "infinite"],
-              }),
-              queryClient.invalidateQueries({
-                queryKey: ["game", "achievements", gameId],
-              }),
-            ];
-            await Promise.all(promises);
-            evt.detail.complete();
-          }}
-        >
-          <IonRefresherContent />
-        </IonRefresher>
-        <GameInfoViewFab gameId={gameId} />
-        <GameInfoView id={gameId} withActions={false} />
-        <GameInfoTabs currentTab={currentTab} onChange={onChange}>
-          <Tabs.Panel value={GameInfoTabValue.overview}>
-            <Box className={"w-full mt-4 mb-6"}>
-              <GameExtraInfoView gameId={gameId} />
-            </Box>
-          </Tabs.Panel>
-          <Tabs.Panel value={GameInfoTabValue.reviews}>
-            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
-              <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
-              <GameInfoReviewScreen gameId={gameId} />
-            </Stack>
-          </Tabs.Panel>
-          <Tabs.Panel value={GameInfoTabValue.discussion}>
-            <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
-              <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
-              <GameInfoPostsScreen gameId={gameId} />
-            </Stack>
-          </Tabs.Panel>
-          <Tabs.Panel value={GameInfoTabValue.achievements}>
-            <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
-              <GameInfoContentTitle
-                title={"Achievements"}
-                onGoBack={onGoBack}
-              />
-              <GameInfoAchievementsScreen gameId={gameId} />
-            </Stack>
-          </Tabs.Panel>
-        </GameInfoTabs>
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage>
+      <IonRefresher
+        slot={"fixed"}
+        onIonRefresh={async (evt) => {
+          const promises = [
+            queryClient.invalidateQueries({
+              queryKey: ["game", gameId],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["review", gameId],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["posts", "infinite"],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["game", "achievements", gameId],
+            }),
+          ];
+          await Promise.all(promises);
+          evt.detail.complete();
+        }}
+      >
+        <IonRefresherContent />
+      </IonRefresher>
+      <GameInfoViewFab gameId={gameId} />
+      <GameInfoView id={gameId} />
+      <GameInfoTabs currentTab={currentTab} onChange={onChange}>
+        <Tabs.Panel value={GameInfoTabValue.overview}>
+          <Box className={"w-full mt-4 mb-6"}>
+            <GameExtraInfoView gameId={gameId} />
+          </Box>
+        </Tabs.Panel>
+        <Tabs.Panel value={GameInfoTabValue.reviews}>
+          <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+            <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+            <GameInfoReviewScreen gameId={gameId} />
+          </Stack>
+        </Tabs.Panel>
+        <Tabs.Panel value={GameInfoTabValue.discussion}>
+          <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
+            <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+            <GameInfoPostsScreen gameId={gameId} />
+          </Stack>
+        </Tabs.Panel>
+        <Tabs.Panel value={GameInfoTabValue.achievements}>
+          <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
+            <GameInfoContentTitle title={"Achievements"} onGoBack={onGoBack} />
+            <GameInfoAchievementsScreen gameId={gameId} />
+          </Stack>
+        </Tabs.Panel>
+      </GameInfoTabs>
+    </AppPage>
   );
 };
 

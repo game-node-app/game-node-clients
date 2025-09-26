@@ -1,41 +1,41 @@
 import React from "react";
-import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
+import {
+  CollectionEntryEditModal,
+  CollectionEntryRemoveModal,
+  EMatomoEventAction,
+  EMatomoEventCategory,
+  GameInfoActionsProps,
+  GameInfoShare,
+  Modal,
+  trackMatomoEvent,
+  useOwnCollectionEntryForGameId,
+  useReviewForUserIdAndGameId,
+  useUserId,
+} from "@repo/ui";
+import { useDisclosure } from "@mantine/hooks";
+import { useMutation } from "@tanstack/react-query";
+import { CollectionsEntriesService } from "@repo/wrapper/server";
+import {
+  ActionIcon,
+  Button,
+  Center,
+  Group,
+  Stack,
+  Tooltip,
+} from "@mantine/core";
 import {
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
-import { useDisclosure } from "@mantine/hooks";
-import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
-import { useMutation } from "@tanstack/react-query";
-import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
-import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
-import { Modal } from "#@/util";
-import { GameInfoShare } from "#@/components";
-import { buildPresenterFallback } from "#@/presenters";
+import { blobToBase64 } from "@/util/imageUtils.ts";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
 
-export interface GameInfoActionsProps {
-  wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
-  game: Game | undefined;
-}
-
-/**
- * Component that handles the library-related actions for a game.
- * The game add report is handled here.
- * @constructor
- */
-const DEFAULT_GameInfoActions = ({
-  game,
+const MobileGameInfoActions = ({
   wrapperProps,
+  game,
 }: GameInfoActionsProps) => {
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
@@ -84,6 +84,25 @@ const DEFAULT_GameInfoActions = ({
     return null;
   }
 
+  if (collectionEntryQuery.data == undefined) {
+    return (
+      <Group className={"w-full justify-center"} {...wrapperProps}>
+        <CollectionEntryEditModal
+          opened={addUpdateModalOpened}
+          onClose={addUpdateModalUtils.close}
+          gameId={game.id}
+        />
+        <Button
+          onClick={addUpdateModalUtils.open}
+          loading={collectionEntryQuery.isLoading}
+          className={"w-40 h-10"}
+        >
+          Add to library
+        </Button>
+      </Group>
+    );
+  }
+
   return (
     <Stack align={"center"}>
       <Group gap={"0.725rem"} {...wrapperProps}>
@@ -105,14 +124,19 @@ const DEFAULT_GameInfoActions = ({
           <GameInfoShare
             gameId={game.id}
             onShare={async (file) => {
-              const toShare: ShareData = {
-                title: "GameNode Share",
-                text: `See more at https://gamenode.app/game/${game?.id}`,
-                files: [file],
-                url: `https://gamenode.app/game/${game?.id}`,
-              };
+              const base64 = await blobToBase64(file);
 
-              return await navigator.share(toShare);
+              const cachedFileResult = await Filesystem.writeFile({
+                path: file.name,
+                data: base64,
+                directory: Directory.Cache,
+              });
+
+              await Share.share({
+                title: "My review of this game",
+                dialogTitle: "Share your review with friends!",
+                url: cachedFileResult.uri,
+              });
             }}
           />
         </Modal>
@@ -120,13 +144,14 @@ const DEFAULT_GameInfoActions = ({
         <Button
           onClick={addUpdateModalUtils.open}
           loading={collectionEntryQuery.isLoading}
+          className={"w-40 h-10"}
         >
-          {gameInLibrary ? "Update" : "Add to library"}
+          Update
         </Button>
 
         <Tooltip label={"Add to your favorites"}>
           <ActionIcon
-            size="lg"
+            size="xl"
             variant="default"
             disabled={!gameInLibrary}
             onClick={() => {
@@ -140,26 +165,25 @@ const DEFAULT_GameInfoActions = ({
             )}
           </ActionIcon>
         </Tooltip>
-
-        {gameInLibrary && (
-          <Tooltip label={"Remove from your library"}>
-            <ActionIcon
-              variant="default"
-              size="lg"
-              onClick={removeModalUtils.open}
-            >
-              <IconX color="red" />
-            </ActionIcon>
-          </Tooltip>
-        )}
         {hasReview && (
           <Tooltip label={"Share this game"}>
             <ActionIcon
-              size="lg"
+              size="xl"
               variant="default"
               onClick={shareModalUtils.open}
             >
               <IconShare size={"1.05rem"} />
+            </ActionIcon>
+          </Tooltip>
+        )}
+        {gameInLibrary && (
+          <Tooltip label={"Remove from your library"}>
+            <ActionIcon
+              variant="default"
+              size="xl"
+              onClick={removeModalUtils.open}
+            >
+              <IconX color="red" />
             </ActionIcon>
           </Tooltip>
         )}
@@ -168,9 +192,4 @@ const DEFAULT_GameInfoActions = ({
   );
 };
 
-const GameInfoActions = buildPresenterFallback(
-  "GameInfoActions",
-  DEFAULT_GameInfoActions,
-);
-
-export { GameInfoActions };
+export { MobileGameInfoActions };

@@ -45,6 +45,7 @@ const config: Omit<Config, "content"> = {
         lg: "var(--mantine-font-size-lg)",
         xl: "var(--mantine-font-size-xl)",
       },
+      textColor: "#D9D9D9",
       colors: {
         dimmed: "var(--mantine-color-dimmed)",
         "dimmed-alt": ["#808080"],

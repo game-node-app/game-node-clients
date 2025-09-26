@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Group, Stack, StackProps, Text } from "@mantine/core";
+import { buildPresenterFallback } from "#@/presenters";
 
 export interface DetailsBoxProps extends PropsWithChildren {
   enabled?: boolean;
@@ -13,7 +14,7 @@ export interface DetailsBoxProps extends PropsWithChildren {
   rightSide?: React.ReactNode;
 }
 
-export const DetailsBox = ({
+const DEFAULT_DetailsBox = ({
   enabled = true,
   title,
   withDimmedTitle = false,
@@ -45,7 +46,7 @@ export const DetailsBox = ({
             {leftSide}
             <Text
               className={
-                withDimmedTitle ? "text-[#5C5C5C] text-sm" : "font-bold text-md"
+                withDimmedTitle ? "text-dimmed text-sm" : "font-bold text-md"
               }
             >
               {title}
@@ -65,3 +66,7 @@ export const DetailsBox = ({
     )
   );
 };
+
+const DetailsBox = buildPresenterFallback("DetailsBox", DEFAULT_DetailsBox);
+
+export { DetailsBox };
