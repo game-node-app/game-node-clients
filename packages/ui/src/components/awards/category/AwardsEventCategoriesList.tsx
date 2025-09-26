@@ -17,7 +17,7 @@ const AwardsEventCategoriesList = ({ eventId, userId }: Props) => {
         base: 2,
         lg: 5,
       }}
-      className={"lg:px-12 py-6"}
+      className={"px-2 lg:px-12 py-6"}
     >
       {categories?.map((category) => {
         return (

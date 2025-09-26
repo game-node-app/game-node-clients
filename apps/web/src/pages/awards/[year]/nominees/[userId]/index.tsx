@@ -1,7 +1,12 @@
 import React from "react";
-import { Stack } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
 import { useRouter } from "next/router";
-import { useUserProfile } from "@repo/ui";
+import {
+  AwardsNomineesScreen,
+  AwardsNomineesVoteCTA,
+  AwardsNomineesVotes,
+  useUserProfile,
+} from "@repo/ui";
 import { AwardsNomineesOverview } from "@repo/ui";
 
 const AwardsUserNomineesPage = () => {
@@ -12,11 +17,7 @@ const AwardsUserNomineesPage = () => {
 
   const userProfile = useUserProfile(userId as string);
 
-  return (
-    <Stack>
-      <AwardsNomineesOverview eventId={1} userId={userId as string} />
-    </Stack>
-  );
+  return <AwardsNomineesScreen eventId={1} userId={userId as string} />;
 };
 
 export default AwardsUserNomineesPage;

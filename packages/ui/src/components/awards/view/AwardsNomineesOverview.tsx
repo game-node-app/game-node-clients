@@ -29,7 +29,7 @@ const AwardsNomineesOverview = ({ eventId, userId }: Props) => {
           top: 0,
           left: 0,
           width: "100vw",
-          height: "100%",
+          height: "30%",
           backgroundImage: `url('/img/awards_event_bg.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
