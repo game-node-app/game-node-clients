@@ -5,6 +5,7 @@ import {
   AwardsNomineesScreen,
   AwardsNomineesVoteCTA,
   AwardsNomineesVotes,
+  useAwardEvent,
   useUserProfile,
 } from "@repo/ui";
 import { AwardsNomineesOverview } from "@repo/ui";
@@ -15,9 +16,15 @@ const AwardsUserNomineesPage = () => {
 
   const yearAsNumber = Number.parseInt(year as string);
 
+  const { data: event } = useAwardEvent({ eventYear: yearAsNumber });
+
   const userProfile = useUserProfile(userId as string);
 
-  return <AwardsNomineesScreen eventId={1} userId={userId as string} />;
+  return (
+    <Stack className={"w-full mb-12"}>
+      <AwardsNomineesScreen eventId={1} userId={userId as string} />
+    </Stack>
+  );
 };
 
 export default AwardsUserNomineesPage;

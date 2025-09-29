@@ -7,6 +7,7 @@ export * from "./AwardsEventOverview";
 export * from "./AwardsEventVoteScreen";
 export * from "./AwardsNomineesOverview";
 export * from "./AwardsNomineesScreen";
+export * from "./AwardsNomineesShareButtons";
 export * from "./AwardsNomineesVoteCTA";
 export * from "./AwardsNomineesVotes";
 export * from "./AwardsOverviewTextBadge";

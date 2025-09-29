@@ -3,8 +3,10 @@ import {
   AwardsNomineesOverview,
   AwardsNomineesVoteCTA,
   AwardsNomineesVotes,
+  useAwardEvent,
 } from "#@/components";
 import { Stack } from "@mantine/core";
+import { AwardsNomineesShareButtons } from "#@/components/awards/view/AwardsNomineesShareButtons.tsx";
 
 interface Props {
   eventId: number;
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
+  const { data: event } = useAwardEvent({ eventId });
+
   return (
     <Stack className={"overflow-clip"}>
       <div
@@ -29,6 +33,21 @@ const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
       />
       <AwardsNomineesOverview eventId={eventId} userId={userId} />
       <AwardsNomineesVotes eventId={eventId} userId={userId} />
+      <AwardsNomineesShareButtons
+        userId={userId}
+        eventId={eventId}
+        className={"my-10"}
+        onShare={async (file) => {
+          const toShare: ShareData = {
+            title: "GameNode Share",
+            text: `Create yours at https://gamenode.app/awards/${event?.year}/vote`,
+            files: [file],
+            url: `https://gamenode.app/awards/${event?.year}/vote`,
+          };
+
+          return await navigator.share(toShare);
+        }}
+      />
       <AwardsNomineesVoteCTA eventId={eventId} />
     </Stack>
   );

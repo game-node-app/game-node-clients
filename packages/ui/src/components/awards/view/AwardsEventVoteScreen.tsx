@@ -26,11 +26,12 @@ const AwardsEventVoteScreen = ({ eventYear, eventId }: Props) => {
         <Box className={"w-full mt-8 lg:mt-14"}>
           <AwardsEventOverview eventId={event.id} />
         </Box>
-        <Box className={"mt-10 lg:mt-8 w-screen xl:w-full -ms-2.5 xl:-ms-0"}>
+        <Box className={"mt-10 lg:mt-8 w-screen xl:w-full"}>
           <AwardsVoteLayout
             userId={userId!}
             title={"Your Votes"}
             eventId={event.id}
+            withShareButton
           >
             <AwardsEventCategoriesList
               eventId={event.id}

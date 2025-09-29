@@ -9,8 +9,13 @@ interface Props {
 
 const AwardsNomineesVotes = ({ eventId, userId }: Props) => {
   return (
-    <Box className={"mt-8 lg:w-screen xl:w-full -ms-2.5 xl:-ms-0"}>
-      <AwardsVoteLayout eventId={eventId} userId={userId} title={"Nominees"}>
+    <Box className={"mt-8 lg:w-screen xl:w-full"}>
+      <AwardsVoteLayout
+        eventId={eventId}
+        userId={userId}
+        title={"Nominees"}
+        withShareButton={false}
+      >
         <AwardsEventCategoriesList eventId={eventId} userId={userId!} />
       </AwardsVoteLayout>
     </Box>

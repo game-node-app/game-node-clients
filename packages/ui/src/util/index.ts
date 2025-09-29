@@ -4,6 +4,7 @@
 
 export * from "./cn";
 export * from "./createErrorNotification";
+export * from "./downloadFile";
 export * from "./getCapitalizedText";
 export * from "./getErrorMessage";
 export * from "./getOffsetAsPage";

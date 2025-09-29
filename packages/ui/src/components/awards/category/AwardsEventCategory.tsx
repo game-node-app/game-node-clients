@@ -38,10 +38,6 @@ const AwardsEventCategory = ({
   const isOwnVote = ownUserId === userId;
 
   const isVotingEnabled = isOwnVote && isVotingPermitted && category.isVotable;
-
-  console.log("isVotingPermitted", isVotingPermitted);
-  console.log("isVotingEnabled", isVotingEnabled);
-
   if (isLoading) {
     return <CenteredLoading />;
   }

@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import prose from "@tailwindcss/typography";
+import containerQueries from "@tailwindcss/container-queries";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
@@ -64,6 +65,6 @@ const config: Omit<Config, "content"> = {
       },
     },
   },
-  plugins: [prose()],
+  plugins: [prose(), containerQueries],
 };
 export default config;

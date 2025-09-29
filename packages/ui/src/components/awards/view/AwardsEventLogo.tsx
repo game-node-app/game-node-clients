@@ -13,7 +13,7 @@ const AwardsEventLogo = ({ logoProps, titleProps }: Props) => {
     <Group className={"flex-nowrap gap-3 w-fit"}>
       <GameNodeLogo
         {...logoProps}
-        className={cn(`h-8 lg:h-10 w-auto`, logoProps?.className)}
+        className={cn(`h-8 @lg:h-10 w-auto`, logoProps?.className)}
       />
       <Title
         {...titleProps}

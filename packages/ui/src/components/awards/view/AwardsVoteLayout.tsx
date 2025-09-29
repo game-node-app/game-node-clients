@@ -2,46 +2,61 @@ import React, { PropsWithChildren } from "react";
 import { Box, Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { AwardsEventLogo } from "#@/components/awards/view/AwardsEventLogo.tsx";
 import { useAwardEvent, UserAvatarGroup } from "#@/components";
-import { Link } from "#@/util";
+import { cn, Link } from "#@/util";
 
 interface Props extends PropsWithChildren {
   userId: string;
   title: string;
   eventId: number;
+  withShareButton?: boolean;
 }
 
-const AwardsVoteLayout = ({ userId, title, eventId, children }: Props) => {
+const AwardsVoteLayout = ({
+  userId,
+  title,
+  eventId,
+  withShareButton = false,
+  children,
+}: Props) => {
   const { data: event } = useAwardEvent({ eventId });
 
   return (
     <Stack
       className={
-        "w-full min-h-screen bg-cover bg-[#1B1B1B] z-10 relative pb-32 lg:pb-20"
+        "w-full min-h-screen bg-cover bg-[#1B1B1B] z-10 relative pb-32 @lg:pb-20 @container"
       }
     >
       <Group
-        className={
-          "w-full lg:flex-nowrap justify-center lg:justify-start px-6 pt-4"
-        }
+        className={cn("w-full @lg:flex-nowrap justify-center px-6 pt-4", {
+          "@lg:justify-start": withShareButton,
+          "@lg:justify-between": !withShareButton,
+        })}
       >
         <Group
           className={
-            "flex-nowrap gap-4 lg:w-96 justify-center lg:justify-start"
+            "flex-nowrap gap-4 @lg:w-96 justify-center @lg:justify-start"
           }
         >
           <AwardsEventLogo />
           <Box className={"w-0.5 h-8 bg-brand-5"} />
           <Text className={"text-white text-sm"}>{title}</Text>
         </Group>
-        <Group className={"flex-nowrap gap-4 lg:ms-auto lg:w-96 justify-end"}>
-          <Box className={"max-w-56"}>
+        <Group className={"flex-nowrap gap-4 @lg:ms-auto @lg:w-96 justify-end"}>
+          <Box
+            className={cn({
+              "max-w-56": withShareButton,
+              "max-w-96": !withShareButton,
+            })}
+          >
             <UserAvatarGroup userId={userId} />
           </Box>
-          <Link href={`/awards/${event?.year}/nominees/${userId}`}>
-            <UnstyledButton>
-              <Text className={"text-white text-sm"}>Share</Text>
-            </UnstyledButton>
-          </Link>
+          {withShareButton && (
+            <Link href={`/awards/${event?.year}/nominees/${userId}`}>
+              <UnstyledButton>
+                <Text className={"text-white text-sm"}>Share</Text>
+              </UnstyledButton>
+            </Link>
+          )}
         </Group>
       </Group>
       {children}
