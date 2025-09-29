@@ -31,8 +31,6 @@ const JournalHeatmap = ({ userId }: Props) => {
     return null;
   }
 
-  console.log("Heatmap:", heatmapData);
-
   return (
     <Box className={"overflow-x-auto"}>
       <Box className={"w-full justify-center"}>

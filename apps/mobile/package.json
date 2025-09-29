@@ -8,7 +8,6 @@
     "build:android": "npx cap build android",
     "typecheck": "tsc",
     "preview": "vite preview",
-    "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint"
   },
@@ -100,7 +99,6 @@
     "@types/react-router-dom": "5.3.3",
     "@vitejs/plugin-legacy": "5.4.3",
     "@vitejs/plugin-react": "4.3.4",
-    "cypress": "13.17.0",
     "globals": "15.15.0",
     "jsdom": "22.1.0",
     "postcss": "8.5.6",
