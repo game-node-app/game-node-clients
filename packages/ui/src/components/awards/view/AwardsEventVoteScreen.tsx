@@ -1,5 +1,5 @@
 import React from "react";
-import { useAwardEvent, useUserId } from "#@/components";
+import { AwardsEventCategory, useAwardEvent, useUserId } from "#@/components";
 import { AwardsEventOverview } from "#@/components/awards/view/AwardsEventOverview.tsx";
 import { Box, Stack } from "@mantine/core";
 import { AwardsVoteLayout } from "#@/components/awards/view/AwardsVoteLayout.tsx";
@@ -32,7 +32,11 @@ const AwardsEventVoteScreen = ({ eventYear, eventId }: Props) => {
             title={"Your Votes"}
             eventId={event.id}
           >
-            <AwardsEventCategoriesList eventId={event.id} userId={userId!} />
+            <AwardsEventCategoriesList
+              eventId={event.id}
+              userId={userId!}
+              isVotingPermitted={true}
+            />
           </AwardsVoteLayout>
         </Box>
         <AwardsPhaseNotice eventId={event.id} />

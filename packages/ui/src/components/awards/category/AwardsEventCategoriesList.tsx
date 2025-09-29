@@ -6,9 +6,14 @@ import { AwardsEventCategory } from "#@/components/awards/category/AwardsEventCa
 interface Props {
   eventId: number;
   userId: string;
+  isVotingPermitted?: boolean;
 }
 
-const AwardsEventCategoriesList = ({ eventId, userId }: Props) => {
+const AwardsEventCategoriesList = ({
+  eventId,
+  userId,
+  isVotingPermitted = false,
+}: Props) => {
   const { data: categories } = useAwardEventCategories(eventId);
 
   return (
@@ -25,6 +30,7 @@ const AwardsEventCategoriesList = ({ eventId, userId }: Props) => {
             key={category.id}
             userId={userId}
             category={category}
+            isVotingPermitted={isVotingPermitted}
           />
         );
       })}

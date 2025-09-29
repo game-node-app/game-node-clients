@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AwardsCategory } from './AwardsCategory';
 export type AwardsEvent = {
     id: number;
     /**
@@ -14,6 +15,7 @@ export type AwardsEvent = {
     votingStartDate: string;
     votingEndDate: string;
     resultsDate: string;
+    categories: Array<AwardsCategory>;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;

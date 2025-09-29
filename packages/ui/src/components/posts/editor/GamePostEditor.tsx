@@ -34,6 +34,7 @@ interface GamePostEditorProps {
 
 const GamePostEditor = (props: GamePostEditorProps) => {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: POST_EDITOR_EXTENSIONS,
     onDrop: async (event) => {
       event.preventDefault();

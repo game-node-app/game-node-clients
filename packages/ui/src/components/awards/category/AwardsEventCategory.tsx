@@ -1,27 +1,27 @@
 import React from "react";
 import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
-import { ActionIcon, Box, Group, Stack, Text } from "@mantine/core";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import {
   AwardsCategoryGameFigure,
   CenteredLoading,
-  GameFigureImage,
   useGame,
   useUserId,
 } from "#@/components";
 import { useAwardCategoryVote } from "#@/components/awards/hooks/useAwardCategoryVote.ts";
-import { IconEditCircle, IconStarFilled } from "@tabler/icons-react";
+import { IconStarFilled } from "@tabler/icons-react";
 import { AwardsVoteSubmitFormModal } from "#@/components/awards/form/AwardsVoteSubmitFormModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 
 export interface AwardsEventCategoryProps {
   userId: string;
   category: VotableAwardsCategoryDto;
+  isVotingPermitted: boolean;
 }
 
 const AwardsEventCategory = ({
   userId,
   category,
+  isVotingPermitted = false,
 }: AwardsEventCategoryProps) => {
   const ownUserId = useUserId();
 
@@ -36,7 +36,11 @@ const AwardsEventCategory = ({
   });
 
   const isOwnVote = ownUserId === userId;
-  const isVotingEnabled = isOwnVote && category.isVotable;
+
+  const isVotingEnabled = isOwnVote && isVotingPermitted && category.isVotable;
+
+  console.log("isVotingPermitted", isVotingPermitted);
+  console.log("isVotingEnabled", isVotingEnabled);
 
   if (isLoading) {
     return <CenteredLoading />;

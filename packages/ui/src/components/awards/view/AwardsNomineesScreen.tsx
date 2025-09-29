@@ -4,8 +4,7 @@ import {
   AwardsNomineesVoteCTA,
   AwardsNomineesVotes,
 } from "#@/components";
-import { Box, Stack } from "@mantine/core";
-import "./AwardsNomineesScreen.css";
+import { Stack } from "@mantine/core";
 
 interface Props {
   eventId: number;
@@ -14,7 +13,7 @@ interface Props {
 
 const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
   return (
-    <Stack className={"overflow-hidden"}>
+    <Stack className={"overflow-clip"}>
       <div
         style={{
           position: "absolute",
@@ -30,7 +29,7 @@ const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
       />
       <AwardsNomineesOverview eventId={eventId} userId={userId} />
       <AwardsNomineesVotes eventId={eventId} userId={userId} />
-      <AwardsNomineesVoteCTA />
+      <AwardsNomineesVoteCTA eventId={eventId} />
     </Stack>
   );
 };
