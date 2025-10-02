@@ -19,6 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   BackToTopButton,
   DetailsBox,
+  DynamicAwardsOverview,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
@@ -34,7 +35,6 @@ import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
-import { TrendingReviewCard } from "@/components/review/trending/TrendingReviewCard.tsx";
 
 const HomePage = () => {
   const contentRef = useRef<HTMLIonContentElement>(null);
@@ -126,10 +126,12 @@ const HomePage = () => {
           {userId && <RecommendationCarousel criteria={"finished"} />}
           <TrendingGamesList />
           <TrendingReviewCarousel
-            CardComponent={TrendingReviewCard}
-            slideSize={"25%"}
+            slideSize={210}
             height={260}
+            withIndicators={false}
+            withControls={false}
           />
+          <DynamicAwardsOverview />
           <RecentBlogPostsCarousel />
           <Stack className={"w-full"}>
             <Title size={"h3"} className={"text-center"}>

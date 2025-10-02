@@ -11,13 +11,15 @@ import { Card, Image, Stack, Title, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { Link } from "#@/util";
 import Autoplay from "embla-carousel-autoplay";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface Props {
+export interface CollectionThumbnailCardProps {
   collectionId: string;
-  userId: string;
 }
 
-const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
+const DEFAULT_CollectionThumbnailCard = ({
+  collectionId,
+}: CollectionThumbnailCardProps) => {
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const collectionQuery = useCollection(collectionId);
   const entriesQuery = useCollectionEntriesForCollectionId({
@@ -70,7 +72,9 @@ const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
           withIndicators
           slideGap={"xs"}
           slideSize={"100%"}
-          loop
+          emblaOptions={{
+            loop: true,
+          }}
           classNames={{
             indicator: "w-2 h-2 rounded-xl",
           }}
@@ -78,7 +82,9 @@ const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
           {carouselSlides}
         </Carousel>
       </Card.Section>
-      <Link href={`/library/${userId}/collection/${collectionId}`}>
+      <Link
+        href={`/library/${collectionQuery.data?.libraryUserId}/collection/${collectionId}`}
+      >
         <Stack className={"mt-4 gap-2"}>
           <Title size={"h4"}>{collectionQuery.data?.name}</Title>
           <Text className={"text-dimmed"}>
@@ -90,4 +96,9 @@ const CollectionPreviewCard = ({ collectionId, userId }: Props) => {
   );
 };
 
-export { CollectionPreviewCard };
+const CollectionThumbnailCard = buildPresenterFallback(
+  "CollectionThumbnailCard",
+  DEFAULT_CollectionThumbnailCard,
+);
+
+export { CollectionThumbnailCard };

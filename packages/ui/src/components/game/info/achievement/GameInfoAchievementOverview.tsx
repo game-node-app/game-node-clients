@@ -40,9 +40,8 @@ const GameInfoAchievementOverview = ({ gameId }: Props) => {
       title={"Achievements"}
       enabled={enabledSources.length > 0 || isLoading}
       withPadding
-      stackProps={{
-        className: "bg-[#262525]",
-      }}
+      withBackground
+      withDimmedTitle
     >
       {isLoading && buildLoadingSkeletons()}
       {enabledSources.map((source) => (

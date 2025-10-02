@@ -13,3 +13,4 @@ export * from "./AwardsNomineesVotes";
 export * from "./AwardsOverviewTextBadge";
 export * from "./AwardsPhaseNotice";
 export * from "./AwardsVoteLayout";
+export * from "./DynamicAwardsOverview";

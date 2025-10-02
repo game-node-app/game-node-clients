@@ -20,8 +20,9 @@ import { UserAvatarGroup } from "../avatar";
 import { GameRating } from "../input";
 import { Link } from "#@/util";
 import { EditorContent, useEditor } from "@tiptap/react";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface IProps {
+export interface ReviewCardProps {
   reviewId: string;
 }
 
@@ -33,7 +34,7 @@ interface IProps {
  * @param backgroundUrl
  * @constructor
  */
-const ReviewCard = ({ reviewId }: IProps) => {
+const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
   const onMobile = useOnMobile();
   const reviewQuery = useReview(reviewId);
   const gameId = reviewQuery.data?.gameId;
@@ -103,4 +104,9 @@ const ReviewCard = ({ reviewId }: IProps) => {
   );
 };
 
-export { ReviewCard };
+const TrendingReviewCard = buildPresenterFallback(
+  "TrendingReviewCard",
+  DEFAULT_TrendingReviewCard,
+);
+
+export { TrendingReviewCard };

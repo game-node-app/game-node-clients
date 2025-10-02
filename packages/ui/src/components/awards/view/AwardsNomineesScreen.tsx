@@ -11,9 +11,10 @@ import { AwardsNomineesShareButtons } from "#@/components/awards/view/AwardsNomi
 interface Props {
   eventId: number;
   userId: string;
+  onShare: (file: File) => Promise<void>;
 }
 
-const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
+const AwardsNomineesScreen = ({ eventId, userId, onShare }: Props) => {
   const { data: event } = useAwardEvent({ eventId });
 
   return (
@@ -37,16 +38,7 @@ const AwardsNomineesScreen = ({ eventId, userId }: Props) => {
         userId={userId}
         eventId={eventId}
         className={"my-10"}
-        onShare={async (file) => {
-          const toShare: ShareData = {
-            title: "GameNode Share",
-            text: `Create yours at https://gamenode.app/awards/${event?.year}/vote`,
-            files: [file],
-            url: `https://gamenode.app/awards/${event?.year}/vote`,
-          };
-
-          return await navigator.share(toShare);
-        }}
+        onShare={onShare}
       />
       <AwardsNomineesVoteCTA eventId={eventId} />
     </Stack>

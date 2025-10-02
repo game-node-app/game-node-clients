@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
 import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Flex, Image } from "@mantine/core";
+import { Box, Image } from "@mantine/core";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { Game } from "@repo/wrapper/server";
 import { DetailsBox } from "#@/components/general/DetailsBox";
@@ -43,7 +42,6 @@ const GameInfoImageCarousel = ({
   carouselProps,
   imageSize,
 }: IGameInfoImageCarouselProps) => {
-  const onMobile = useOnMobile();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const [lightboxOpened, lightboxUtils] = useDisclosure();
 
@@ -77,13 +75,15 @@ const GameInfoImageCarousel = ({
   };
 
   return (
-    <Flex w={"100%"} wrap={"wrap"}>
+    <Box w={"100%"}>
       <DetailsBox
         title={"Images"}
         enabled={hasImages}
         stackProps={{
           className: "p-2",
         }}
+        withDimmedTitle
+        withBackground
       >
         <Carousel
           slideSize={{
@@ -91,10 +91,8 @@ const GameInfoImageCarousel = ({
             lg: "35%",
           }}
           height={"fit-content"}
-          align="start"
           slideGap="xs"
           controlsOffset="xs"
-          dragFree
           {...carouselProps}
         >
           {buildSlides()}
@@ -116,8 +114,8 @@ const GameInfoImageCarousel = ({
           zoom: 0.9,
           swipe: 0.3,
         }}
-      ></Lightbox>
-    </Flex>
+      />
+    </Box>
   );
 };
 

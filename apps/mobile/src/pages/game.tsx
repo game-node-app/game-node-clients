@@ -1,24 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonProgressBar,
-  IonRefresher,
-  IonRefresherContent,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
-import { GameInfoViewFab } from "@/components/game/info/fab/GameInfoViewFab";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
   GameInfoAchievementsScreen,
   GameInfoContentTitle,
   GameInfoPostsScreen,
+  GameInfoTabIcons,
   GameInfoTabs,
   GameInfoTabValue,
   GameInfoView,
@@ -28,9 +17,21 @@ import {
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import {
+  IconBrandAppleArcade,
+  IconMedal2,
+  IconMessage,
+  IconStars,
+} from "@tabler/icons-react";
+
+const TAB_ICONS: GameInfoTabIcons = {
+  home: <IconBrandAppleArcade size={20} />,
+  reviews: <IconStars size={20} />,
+  discussion: <IconMessage size={20} />,
+  achievements: <IconMedal2 size={20} />,
+};
 
 interface Props {
   gameId: number;
@@ -75,7 +76,7 @@ const GamePage = ({ gameId }: Props) => {
   };
 
   return (
-    <AppPage>
+    <AppPage withSearch>
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {
@@ -99,9 +100,12 @@ const GamePage = ({ gameId }: Props) => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <GameInfoViewFab gameId={gameId} />
       <GameInfoView id={gameId} />
-      <GameInfoTabs currentTab={currentTab} onChange={onChange}>
+      <GameInfoTabs
+        currentTab={currentTab}
+        onChange={onChange}
+        icons={TAB_ICONS}
+      >
         <Tabs.Panel value={GameInfoTabValue.overview}>
           <Box className={"w-full mt-4 mb-6"}>
             <GameExtraInfoView gameId={gameId} />

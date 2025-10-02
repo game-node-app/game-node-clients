@@ -3,7 +3,6 @@ import { Menu } from "@mantine/core";
 import {
   IconAdjustments,
   IconDots,
-  IconDownload,
   IconReplace,
   IconTrash,
 } from "@tabler/icons-react";
@@ -14,7 +13,6 @@ import {
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
 import { ActionChip } from "#@/components/general/input/ActionChip.tsx";
-import { Link } from "#@/util";
 
 interface Props {
   collectionId: string;
@@ -26,7 +24,7 @@ const CollectionViewActionsMenu = ({ collectionId }: Props) => {
   const [removeModalOpened, removeModalUtils] = useDisclosure();
 
   return (
-    <Menu offset={16}>
+    <Menu>
       <CollectionCreateOrUpdateModal
         opened={createUpdateModalOpened}
         onClose={() => createUpdateModalUtils.close()}
@@ -42,7 +40,7 @@ const CollectionViewActionsMenu = ({ collectionId }: Props) => {
         opened={removeModalOpened}
         onClose={removeModalUtils.close}
       />
-      <Menu.Target>
+      <Menu.Target refProp={"rootRef"}>
         <ActionChip icon={<IconAdjustments size={16} />}>Edit</ActionChip>
       </Menu.Target>
       <Menu.Dropdown>

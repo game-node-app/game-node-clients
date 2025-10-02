@@ -39,7 +39,7 @@ const SidebarMenu = () => {
           <SidebarButton
             title={"Collections"}
             Icon={IconLibrary}
-            href={`/library/${userId}`}
+            href={`/library/${userId}/collections`}
           />
           <SidebarButton
             title={"Reviews"}

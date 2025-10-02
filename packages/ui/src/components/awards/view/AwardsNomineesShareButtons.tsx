@@ -47,7 +47,9 @@ const AwardsNomineesShareButtons = ({
       />
       <Text className={"text-dimmed text-sm"}>Share your votes!</Text>
       <Group className={"w-full justify-center gap-6 flex-wrap"}>
-        <CopyButton value={location.href}>
+        <CopyButton
+          value={`https://${window.location.host}/awards/${event.year}/nominees/${userId}`}
+        >
           {({ copied, copy }) => (
             <Button
               size={"lg"}

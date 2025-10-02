@@ -53,7 +53,10 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
 
     const pageAsOffset = getPageAsOffset(page, DEFAULT_LIMIT);
 
-    return nonObtainedAchievementsQuery.data.slice(pageAsOffset, DEFAULT_LIMIT);
+    return nonObtainedAchievementsQuery.data.slice(
+      pageAsOffset,
+      DEFAULT_LIMIT + 1,
+    );
   }, [nonObtainedAchievementsQuery.data, page]);
 
   const [redeemCodeModalOpened, redeemCodeModalUtils] = useDisclosure();
@@ -139,7 +142,7 @@ const AchievementsScreen = ({ targetUserId, withUserLevel = true }: Props) => {
         <Center mt={"1rem"}>
           <Pagination
             value={page}
-            total={Math.ceil(pendingAchievements.length / DEFAULT_LIMIT)}
+            total={Math.trunc(pendingAchievements.length / DEFAULT_LIMIT)}
             onChange={(page) => {
               setPage(page);
             }}

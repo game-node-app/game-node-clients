@@ -23,7 +23,14 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
 
   return (
     <SimpleGrid cols={{ base: 1, lg: 2 }} w={"100%"} p={0}>
-      <DetailsBox withBorder withDimmedTitle title={"Launch date"} withPadding>
+      <DetailsBox
+        withBorder
+        withDimmedTitle
+        title={"Launch date"}
+        withPadding
+        withBackground
+        withRipple
+      >
         <Text>
           {getLocalizedFirstReleaseDate(game.firstReleaseDate) ??
             "Not available"}
@@ -36,14 +43,30 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
         withBorder
         withDimmedTitle
         withPadding
+        withBackground
+        withRipple
       >
         <GameInfoPlatforms gameId={game.id} className={"my-4 gap-5"} />
       </DetailsBox>
-      <DetailsBox title={"Where to buy"} withBorder withDimmedTitle withPadding>
+      <DetailsBox
+        title={"Where to buy"}
+        withBorder
+        withDimmedTitle
+        withPadding
+        withBackground
+        withRipple
+      >
         <GameInfoExternalStores gameId={game.id} className={"my-4 gap-5"} />
       </DetailsBox>
 
-      <DetailsBox withBorder withDimmedTitle title={"Summary"} withPadding>
+      <DetailsBox
+        withBorder
+        withDimmedTitle
+        title={"Summary"}
+        withPadding
+        withBackground
+        withRipple
+      >
         {game.summary ?? "Not available"}
       </DetailsBox>
       <GameInfoScore gameId={game.id} />

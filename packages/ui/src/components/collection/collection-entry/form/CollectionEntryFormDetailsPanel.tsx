@@ -25,6 +25,7 @@ import {
 import { useFormContext } from "react-hook-form";
 import { DatePickerInput } from "@mantine/dates";
 import { Collection, GamePlatform } from "@repo/wrapper/server";
+import dayjs from "dayjs";
 
 function buildCollectionOptions(
   collections: Collection[] | undefined,
@@ -182,15 +183,13 @@ const CollectionEntryFormDetailsPanel = ({
         />
         {status === "finished" && (
           <DatePickerInput
-            {...register("finishedAt", {
-              setValueAs: (v) => v || null,
-            })}
+            {...register("finishedAt")}
             className={"w-full"}
             error={errors.finishedAt?.message}
             label={"Finished date"}
             description={"Optional. Leave empty if you don't remember."}
             onChange={(date) => {
-              setValue("finishedAt", date || null);
+              setValue("finishedAt", date ? dayjs(date).toDate() : null);
             }}
             value={finishedAtDate}
             clearable

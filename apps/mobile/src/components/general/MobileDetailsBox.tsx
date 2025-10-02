@@ -1,26 +1,48 @@
-import { Box, Stack, Text } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import React from "react";
 import { cn, DetailsBoxProps } from "@repo/ui";
+import { IonRippleEffect } from "@ionic/react";
 
 export const MobileDetailsBox = ({
   enabled = true,
   title,
+  withDimmedTitle = false,
+  withPadding = false,
+  withBackground = false,
+  withRipple = false,
   description,
   stackProps,
   children,
 }: DetailsBoxProps) => {
   return (
     enabled && (
-      <Box
+      <Stack
         {...stackProps}
-        className={cn(`bg-paper-alt-1 p-3 rounded`, "", stackProps?.className)}
+        className={cn(
+          "gap-2 w-full h-fit rounded-md",
+          {
+            "bg-paper-2": withBackground,
+            "p-3": withPadding,
+            "relative ion-activatable": withRipple,
+          },
+          stackProps?.className,
+        )}
       >
-        <Text className={"text-dimmed text-sm font-medium mb-1"}>{title}</Text>
+        {withRipple && <IonRippleEffect className={"rounded-md"} />}
+        <Text
+          className={
+            withDimmedTitle
+              ? "text-dimmed text-sm font-medium mb-1"
+              : "text-md font-medium mb-1"
+          }
+        >
+          {title}
+        </Text>
         {description && (
-          <Text className="text-sm text-dimmed">{description}</Text>
+          <Text className="text-sm text-dimmed mb-1">{description}</Text>
         )}
         {children}
-      </Box>
+      </Stack>
     )
   );
 };

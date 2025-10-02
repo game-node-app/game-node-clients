@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Group, Stack, StackProps, Text } from "@mantine/core";
 import { buildPresenterFallback } from "#@/presenters";
+import { cn } from "#@/util";
 
 export interface DetailsBoxProps extends PropsWithChildren {
   enabled?: boolean;
@@ -8,6 +9,9 @@ export interface DetailsBoxProps extends PropsWithChildren {
   withDimmedTitle?: boolean;
   withBorder?: boolean;
   withPadding?: boolean;
+  withBackground?: boolean;
+  // Only available in mobile-native
+  withRipple?: boolean;
   description?: string | undefined;
   stackProps?: StackProps;
   leftSide?: React.ReactNode;
@@ -20,6 +24,7 @@ const DEFAULT_DetailsBox = ({
   withDimmedTitle = false,
   withBorder = false,
   withPadding = false,
+  withBackground = false,
   description,
   stackProps,
   leftSide,
@@ -29,17 +34,16 @@ const DEFAULT_DetailsBox = ({
   return (
     enabled && (
       <Stack
-        w={"100%"}
-        h={"fit-content"}
-        style={{
-          padding: withPadding ? "0.75rem" : undefined,
-          borderWidth: withBorder ? "2px" : undefined,
-          borderColor: withBorder ? "#1F1F1F" : undefined,
-          borderRadius: withBorder ? "6px" : undefined,
-        }}
-        bg={"#191919"}
-        gap={"0.5rem"}
         {...stackProps}
+        className={cn(
+          "w-full h-fit gap-2",
+          {
+            "bg-paper-3": withBackground,
+            "p-3": withPadding,
+            "border-2 border-[#1F1F1F] rounded-xs": withBorder,
+          },
+          stackProps?.className,
+        )}
       >
         <Group className={"justify-between"}>
           <Group>

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  IonIcon,
   IonMenu,
   IonRouterOutlet,
   IonTabBar,
@@ -22,10 +21,11 @@ import {
   IconActivity,
   IconBell,
   IconHome,
-  IconNotification,
+  IconLibrary,
   IconTrendingUp,
   IconUser,
 } from "@tabler/icons-react";
+import LibraryPage from "@/pages/library.tsx";
 
 const Tabs = () => {
   return (
@@ -51,9 +51,9 @@ const Tabs = () => {
             );
           }}
         />
-        {/* ---- ACTIVITY ROUTES ---- */}
-        <Route exact path={"/activity"} render={() => <ActivityPage />} />
-        {getCommonRoutes("/activity")}
+        {/* ---- LIBRARY ROUTES ---- */}
+        <Route exact path={"/library"} render={() => <LibraryPage />} />
+        {getCommonRoutes("/library")}
 
         {/* ---- EXPLORE ROUTES ---- */}
         <Route exact path={"/explore"} render={() => <ExplorePage />} />
@@ -80,8 +80,8 @@ const Tabs = () => {
         {getCommonRoutes("/profile")}
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="activity" href="/activity">
-          <IconActivity />
+        <IonTabButton tab="library" href="/library">
+          <IconLibrary />
         </IonTabButton>
         <IonTabButton tab="explore" href="/explore">
           <IconTrendingUp />

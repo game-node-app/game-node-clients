@@ -18,11 +18,28 @@ const AwardsUserNomineesPage = () => {
 
   const { data: event } = useAwardEvent({ eventYear: yearAsNumber });
 
-  const userProfile = useUserProfile(userId as string);
+  useUserProfile(userId as string);
+
+  if (!event) {
+    return;
+  }
 
   return (
     <Stack className={"w-full mb-12"}>
-      <AwardsNomineesScreen eventId={1} userId={userId as string} />
+      <AwardsNomineesScreen
+        eventId={event.id}
+        userId={userId as string}
+        onShare={async (file) => {
+          const toShare: ShareData = {
+            title: "GameNode Share",
+            text: `Create yours at https://gamenode.app/awards/${event?.year}/vote`,
+            files: [file],
+            url: `https://gamenode.app/awards/${event?.year}/vote`,
+          };
+
+          return await navigator.share(toShare);
+        }}
+      />
     </Stack>
   );
 };

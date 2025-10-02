@@ -3,4 +3,5 @@
  */
 
 export * from "./UIProvider";
+export * from "./registry";
 export * from "./utils/index";

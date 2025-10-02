@@ -40,10 +40,17 @@ const GameInfoTimeToBeat = ({ gameId }: Props) => {
         .
       </Text>
     );
-  }, [data?.submitCount, isLoading]);
+  }, [data, isLoading]);
 
   return (
-    <DetailsBox title={"Time to beat"} withPadding withBorder withDimmedTitle>
+    <DetailsBox
+      title={"Time to beat"}
+      withPadding
+      withBorder
+      withDimmedTitle
+      withBackground
+      withRipple
+    >
       <GameInfoTimeToBeatItem
         title={"Main Story"}
         seconds={data?.main ?? 0}

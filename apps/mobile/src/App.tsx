@@ -5,7 +5,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
-import { MantineProvider, mergeMantineTheme } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -50,8 +50,6 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
-  buildPresenterRegistry,
-  DEFAULT_MANTINE_THEME,
   setLinkComponent,
   setModalComponent,
   setProjectContext,
@@ -67,7 +65,7 @@ import { Device } from "@capacitor/device";
 import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar";
 import { UI_PRESENTER_REGISTRY } from "@/components/registry";
-import { MANTINE_THEME } from "@/components/theme.ts";
+import { MANTINE_THEME } from "@/components/theme.tsx";
 
 /**
  * dayjs setup
@@ -102,6 +100,9 @@ const App: React.FC = () => {
       new QueryClient({
         defaultOptions: {
           queries: {
+            refetchOnWindowFocus: false,
+            refetchOnMount: true,
+            refetchOnReconnect: true,
             staleTime: 1000 * 60 * 60, // 1 hour
             retry: 3,
             gcTime: 1000 * 60 * 60 * 24 * 14, // 2 weeks

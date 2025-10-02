@@ -1,21 +1,5 @@
 import React, { createContext, useContext } from "react";
-import {
-  ActivityItemProps,
-  DetailsBoxProps,
-  GameInfoActionsProps,
-} from "#@/components";
-import { GameInfoTitleFigureProps } from "#@/components/game/info/GameInfoTitleFigure.tsx";
-
-/**
- * The registry of components that can be replaced at runtime
- * by the apps consuming this library.
- */
-export type PresenterRegistry = {
-  DetailsBox: React.ComponentType<DetailsBoxProps>;
-  ActivityItem: React.ComponentType<ActivityItemProps>;
-  GameInfoTitleFigure: React.ComponentType<GameInfoTitleFigureProps>;
-  GameInfoActions: React.ComponentType<GameInfoActionsProps>;
-};
+import { PresenterRegistry } from "#@/presenters/registry.ts";
 
 const PresenterContext = createContext<Partial<PresenterRegistry>>({});
 

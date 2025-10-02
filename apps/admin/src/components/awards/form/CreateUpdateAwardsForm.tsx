@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, useAwardEvent } from "@repo/ui";
+import dayjs from "dayjs";
 
 const CreateAwardsFormSchema = z.object({
   year: z.number(),
@@ -100,7 +101,7 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
           value={watch("votingStartDate")}
           onChange={(date) => {
             if (date) {
-              setValue("votingStartDate", date);
+              setValue("votingStartDate", dayjs(date).toDate());
             }
           }}
           error={errors.votingStartDate?.message}
@@ -114,7 +115,7 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
           value={watch("votingEndDate")}
           onChange={(date) => {
             if (date) {
-              setValue("votingEndDate", date);
+              setValue("votingEndDate", dayjs(date).toDate());
             }
           }}
           error={errors.votingEndDate?.message}
@@ -128,7 +129,7 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
           value={watch("resultsDate")}
           onChange={(date) => {
             if (date) {
-              setValue("resultsDate", date);
+              setValue("resultsDate", dayjs(date).toDate());
             }
           }}
           error={errors.votingEndDate?.message}

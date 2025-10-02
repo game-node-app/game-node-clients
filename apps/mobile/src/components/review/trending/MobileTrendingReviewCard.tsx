@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Group, Skeleton, Stack, Text } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
+  GameFigureImage,
   GameGridItem,
   GameRating,
   Link,
@@ -16,7 +17,7 @@ interface Props {
   reviewId: string;
 }
 
-const TrendingReviewCard = ({ reviewId }: Props) => {
+const MobileTrendingReviewCard = ({ reviewId }: Props) => {
   const reviewQuery = useReview(reviewId);
   const gameId = reviewQuery.data?.gameId;
   const gameQuery = useGame(gameId, {
@@ -48,13 +49,13 @@ const TrendingReviewCard = ({ reviewId }: Props) => {
     >
       <Stack
         className={
-          "bg-paper-alt-1 p-2 gap-0 rounded w-full h-full relative ion-activatable"
+          "bg-paper-2 p-2 gap-0 rounded-md w-full h-full relative ion-activatable"
         }
       >
-        <IonRippleEffect />
-        <Group className={"w-full flex-nowrap items-start"}>
-          <Box className={"w-14 min-w-14"}>
-            <GameGridItem game={gameQuery.data} />
+        <IonRippleEffect className={"rounded-md"} />
+        <Group className={"w-full flex-nowrap justify-start gap-1"}>
+          <Box className={"min-w-16 w-16"}>
+            <GameFigureImage game={gameQuery.data} />
           </Box>
           <Stack className={"grow gap-xs"}>
             <Text className={"font-bold text-sm"}>{gameQuery.data.name}</Text>
@@ -72,18 +73,16 @@ const TrendingReviewCard = ({ reviewId }: Props) => {
               }}
               userId={reviewQuery.data.profileUserId}
             />
-            <GameRating value={reviewQuery.data.rating} size={"xs"} />
+            <GameRating value={reviewQuery.data.rating} size={"md"} />
           </Stack>
         </Group>
         <EditorContent
           editor={editor}
-          className={
-            "w-full line-clamp-6 text-dimmed-alt-0 text-sm overflow-hidden"
-          }
+          className={"w-full line-clamp-6 text-dimmed-alt-0 text-sm"}
         />
       </Stack>
     </Link>
   );
 };
 
-export { TrendingReviewCard };
+export { MobileTrendingReviewCard };

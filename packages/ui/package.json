@@ -22,7 +22,7 @@
     "barrels:generate": "barrelsby --delete -l all -d ./src"
   },
   "dependencies": {
-    "@repo/wrapper": "0.0.0"
+    "@repo/wrapper": "*"
   },
   "peerDependencies": {
     "@hookform/resolvers": "3.10.0",
@@ -59,9 +59,9 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.2",
-    "@repo/eslint-config": "0.0.0",
-    "@repo/tailwind-config": "0.0.0",
-    "@repo/typescript-config": "0.0.0",
+    "@repo/eslint-config": "*",
+    "@repo/tailwind-config": "*",
+    "@repo/typescript-config": "*",
     "@types/react": "19.1.14",
     "autoprefixer": "^10.4.21",
     "barrelsby": "^2.8.1",

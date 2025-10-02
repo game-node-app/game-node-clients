@@ -19,6 +19,10 @@ import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import CollectionPage from "@/pages/collection.tsx";
 import PreferencesPage from "@/pages/preferences.tsx";
 import { JournalPage } from "@/pages/journal.tsx";
+import LibraryCollectionsPage from "@/pages/library_collections.tsx";
+import GameSearchPage from "@/pages/search.tsx";
+import AwardsVotePage from "@/pages/awards/vote.tsx";
+import AwardsNomineesPage from "@/pages/awards/nominees.tsx";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -31,6 +35,12 @@ import { JournalPage } from "@/pages/journal.tsx";
  */
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
+    <Route
+      exact
+      key={`${prefix}-game-search`}
+      path={`${prefix}/search`}
+      render={() => <GameSearchPage />}
+    />,
     <Route
       key={`${prefix}-game`}
       path={`${prefix}/game/:id`}
@@ -83,6 +93,14 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       path={`${prefix}/library/:userId`}
       render={(props) => {
         return <LibraryPage userId={props.match.params.userId} />;
+      }}
+    />,
+    <Route
+      exact
+      key={`${prefix}-library-collections`}
+      path={`${prefix}/library/:userId/collections`}
+      render={(props) => {
+        return <LibraryCollectionsPage userId={props.match.params.userId} />;
       }}
     />,
     <Route
@@ -179,6 +197,25 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       key={`${prefix}-journal`}
       path={`${prefix}/journal/:userId`}
       render={({ match }) => <JournalPage userId={match.params.userId} />}
+    />,
+    <Route
+      key={`${prefix}-awards-vote`}
+      path={`${prefix}/awards/:eventYear/vote`}
+      render={(props) => {
+        return <AwardsVotePage eventYear={props.match.params.eventYear} />;
+      }}
+    />,
+    <Route
+      key={`${prefix}-awards-nominees`}
+      path={`${prefix}/awards/:eventYear/nominees/:userId`}
+      render={(props) => {
+        return (
+          <AwardsNomineesPage
+            eventYear={props.match.params.eventYear}
+            userId={props.match.params.userId}
+          />
+        );
+      }}
     />,
   ];
 }

@@ -1,0 +1,23 @@
+.action-icon {
+    &[data-variant='default']{
+        @apply bg-paper-2 border-0
+    }
+}
+
+.badge {
+    &[data-variant='filled']{
+        @apply bg-tertiary
+    }
+}
+
+.input {
+    &[data-variant='default']{
+        @apply border-0 outline-1 outline-[#424242]
+    }
+}
+
+.button {
+    &[data-variant='default']{
+        @apply bg-secondary border border-[#373737] rounded-xs
+    }
+}
