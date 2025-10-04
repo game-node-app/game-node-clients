@@ -54,7 +54,8 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
     >
       <Stack w={"100%"} justify={"center"}>
         <Text fz={"xl"} className={"text-center"}>
-          Are you sure you want to remove this collection?
+          Are you sure you want to remove your &#34;{collectionQuery.data?.name}
+          &#34; collection?
         </Text>
         <Text fw={"bold"} className={"text-center"}>
           The games in this collection will remain intact in your library, and

@@ -5,7 +5,7 @@ const NotificationsManager = () => {
   return (
     <Notifications
       classNames={{
-        notification: "mb-14",
+        root: "mb-14",
       }}
     />
   );

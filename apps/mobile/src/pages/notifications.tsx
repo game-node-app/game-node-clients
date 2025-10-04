@@ -8,6 +8,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -110,6 +111,7 @@ const NotificationsPage = () => {
           <IonToolbar>
             <IonButtons slot={"start"}>
               <IonBackButton />
+              <IonMenuButton />
             </IonButtons>
             <IonTitle>Notifications</IonTitle>
             <IonButtons slot={"primary"}>

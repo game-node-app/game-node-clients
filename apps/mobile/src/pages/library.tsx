@@ -18,16 +18,16 @@ import {
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId?: string;
 }
 
-const LibraryPage = ({ userId }: Props) => {
+const LibraryPage = (props: Props) => {
   const ownUserId = useUserId();
-  const userIdToUse =
-    userId == undefined && ownUserId != undefined ? ownUserId : userId;
-  const isOwnLibrary = userIdToUse === ownUserId;
+  const isOwnLibrary = props.userId === ownUserId;
+  const userId = props.userId ?? ownUserId;
 
   const {
     routeInfo: { pathname },
@@ -35,40 +35,26 @@ const LibraryPage = ({ userId }: Props) => {
 
   const isInTab = pathname.split("/").length === 2;
 
-  const profileQuery = useUserProfile(userIdToUse);
+  const profileQuery = useUserProfile(userId);
 
   return (
-    <IonPage>
-      <SessionAuth requireAuth={userId == undefined}>
-        {isInTab && isOwnLibrary ? null : (
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot={"start"}>
-                <IonBackButton />
-              </IonButtons>
-              {isOwnLibrary ? (
-                <IonTitle>Your library</IonTitle>
-              ) : (
-                <IonTitle>
-                  {`${profileQuery.data?.username}`}&apos;s library
-                </IonTitle>
-              )}
-            </IonToolbar>
-          </IonHeader>
-        )}
-
-        <ScrollableIonContent
-          className={"ion-padding"}
-          fixedSlotPlacement={"before"}
-        >
-          <LibraryViewRefresher userId={userIdToUse!} />
-          {isOwnLibrary && <LibraryViewFab />}
-          <LibraryViewLayout userId={userIdToUse} collectionId={undefined}>
-            <LibraryView libraryUserId={userIdToUse!} />
-          </LibraryViewLayout>
-        </ScrollableIonContent>
+    <AppPage
+      withMenuButton
+      withSearch
+      contentProps={{
+        fixedSlotPlacement: "before",
+      }}
+    >
+      <SessionAuth
+        requireAuth={props.userId == undefined || props.userId === "undefined"}
+      >
+        <LibraryViewRefresher userId={userId!} />
+        {isOwnLibrary && <LibraryViewFab />}
+        <LibraryViewLayout userId={userId}>
+          <LibraryView libraryUserId={userId!} />
+        </LibraryViewLayout>
       </SessionAuth>
-    </IonPage>
+    </AppPage>
   );
 };
 

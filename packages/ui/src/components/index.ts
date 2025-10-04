@@ -5,6 +5,7 @@
 export * from "./achievement/index";
 export * from "./activity/index";
 export * from "./auth/index";
+export * from "./awards/index";
 export * from "./blog/index";
 export * from "./collection/index";
 export * from "./comment/index";

@@ -19,19 +19,15 @@ export default function useReviewsForGameId(
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        if (gameId == undefined) return null;
-
-        try {
-          return await ReviewsService.reviewsControllerFindAllByGameIdV1(
-            gameId,
-            dto?.offset,
-            dto?.limit,
-          );
-        } catch (e) {
-          return null;
-        }
+        return ReviewsService.reviewsControllerFindAllByGameIdV1(
+          gameId!,
+          dto?.offset,
+          dto?.limit,
+        );
       },
+      enabled: !!gameId,
     }),
+
     queryKey,
     invalidate,
   };

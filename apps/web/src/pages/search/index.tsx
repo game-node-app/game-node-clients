@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Center, Group, Space, Stack, Title } from "@mantine/core";
 import {
+  AwardsEventOverview,
   BackToTopButton,
+  buildGameCategoryFilters,
   CenteredErrorMessage,
   DetailsBox,
+  DynamicAwardsOverview,
   GameSearchBar,
   GameSearchRequestDto,
   GameSearchTips,
@@ -24,7 +27,7 @@ import {
   useUrlState,
   useUserId,
 } from "@repo/ui";
-import { useLocalStorage } from "@mantine/hooks";
+import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
 
 const Index = () => {
   const userId = useUserId();
@@ -41,13 +44,19 @@ const Index = () => {
     includeExtraContent: false,
   });
 
+  const [debouncedQuery] = useDebouncedValue(searchParameters.query, 500);
+
   const isQueryEnabled =
-    searchParameters != undefined &&
-    searchParameters.query != undefined &&
-    searchParameters.query.length > 2;
+    searchParameters.query != undefined && searchParameters.query.length > 2;
 
   const { data, isLoading, isSuccess, isError, error } = useSearchGames(
-    searchParameters,
+    {
+      query: debouncedQuery,
+      category: buildGameCategoryFilters({
+        includeExtraContent: searchParameters.includeExtraContent,
+        includeDlcs: searchParameters.includeExtraContent,
+      }),
+    },
     isQueryEnabled,
   );
 
@@ -103,15 +112,15 @@ const Index = () => {
             justify={"center"}
             align={"center"}
             mt={"1rem"}
+            gap={"5rem"}
           >
             <TrendingGamesList />
-            <Space h={"1rem"} />
             {userId && <RecommendationCarousel criteria="finished" />}
-            <Space h={"1rem"} />
             <TrendingReviewCarousel />
-            <Space h={"1rem"} />
+            <Box className={"w-full"}>
+              <DynamicAwardsOverview />
+            </Box>
             <RecentBlogPostsCarousel />
-            <Space h={"1rem"} />
             <Center className={"w-full"}>
               <Box className={"w-full lg:w-3/4"}>
                 <Title size={"h3"} className={"text-center"}>

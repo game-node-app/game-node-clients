@@ -7,7 +7,7 @@ import { useRouter } from "#@/util";
 
 interface ILibraryViewProps extends PropsWithChildren {
   userId: string | undefined;
-  collectionId: string | null | undefined;
+  collectionId?: string | null;
 }
 
 /**
@@ -39,6 +39,7 @@ const LibraryViewLayout = ({
               if (value) {
                 router.push(`/library/${userId}/collection/${value}`, {
                   replace: isInCollection,
+                  shallow: true,
                 });
                 return;
               }

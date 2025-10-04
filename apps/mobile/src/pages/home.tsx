@@ -5,6 +5,8 @@ import {
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonMenu,
+  IonMenuButton,
   IonPage,
   IonRefresher,
   IonRefresherContent,
@@ -17,12 +19,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   BackToTopButton,
   DetailsBox,
+  DynamicAwardsOverview,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecentlyPlayedGamesShare,
   RecommendationCarousel,
+  TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
@@ -66,7 +70,9 @@ const HomePage = () => {
               });
             }}
           />
-          <Image src={"/img/short-logo.png"} className={"h-auto w-12 ms-4"} />
+          <IonButtons slot={"start"}>
+            <IonMenuButton />
+          </IonButtons>
           <IonButtons slot={"end"}>
             {userId && (
               <IonButton
@@ -118,7 +124,14 @@ const HomePage = () => {
         <HomeFab contentRef={contentRef} />
         <Stack className={"w-full gap-8 my-4"}>
           {userId && <RecommendationCarousel criteria={"finished"} />}
-          <TrendingReviewCarousel />
+          <TrendingGamesList />
+          <TrendingReviewCarousel
+            slideSize={210}
+            height={260}
+            withIndicators={false}
+            withControls={false}
+          />
+          <DynamicAwardsOverview />
           <RecentBlogPostsCarousel />
           <Stack className={"w-full"}>
             <Title size={"h3"} className={"text-center"}>

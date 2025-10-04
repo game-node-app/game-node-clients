@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Group, HoverCard, Popover, Skeleton, Text } from "@mantine/core";
-import { useOnMobile } from "#@/components";
+import { useOnMobile, useOnMobilePlatform } from "#@/components";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { cn } from "#@/util";
 
 interface Props {
   title: string;
@@ -20,6 +21,7 @@ const GameInfoTimeToBeatItem = ({
   description,
   isLoading,
 }: Props) => {
+  const isMobilePlatform = useOnMobilePlatform();
   const onMobile = useOnMobile();
   const renderedValue =
     seconds === 0 ? "N/A" : `${Math.ceil(seconds / 3600)} Hours`;
@@ -50,9 +52,12 @@ const GameInfoTimeToBeatItem = ({
         <Skeleton className={"w-1/2 h-10"} />
       ) : (
         <Box
-          className={
-            "border-[#1F1F1F] border rounded-tr-md rounded-br-md bg-brand-5 w-1/2 p-2"
-          }
+          className={cn(
+            "border-[#1F1F1F] border rounded-tr-md rounded-br-md bg-brand w-1/2 p-2",
+            {
+              "bg-tertiary": isMobilePlatform,
+            },
+          )}
         >
           <Text className={"text-center"}>{renderedValue}</Text>
         </Box>

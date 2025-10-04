@@ -13,7 +13,7 @@ import {
 } from "#@/util/trackMatomoEvent.ts";
 import GameInfoSharePreview from "./GameInfoSharePreview";
 import { IconDownload } from "@tabler/icons-react";
-import { createErrorNotification } from "#@/util";
+import { createErrorNotification, downloadFile } from "#@/util";
 
 interface GameInfoShareProps {
   gameId: number;
@@ -33,17 +33,6 @@ const ShareFormSchema = z.object({
 });
 
 export type ShareFormValues = z.infer<typeof ShareFormSchema>;
-
-function downloadFile(file: File) {
-  const objectURL = URL.createObjectURL(file);
-  const link = document.createElement("a");
-  link.download = file.name;
-  link.href = objectURL;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(objectURL);
-}
 
 const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
   const { watch, setValue, handleSubmit } = useForm<ShareFormValues>({

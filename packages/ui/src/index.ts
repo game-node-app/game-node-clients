@@ -3,4 +3,5 @@
  */
 
 export * from "./components/index";
+export * from "./presenters/index";
 export * from "./util/index";

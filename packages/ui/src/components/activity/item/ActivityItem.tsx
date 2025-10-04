@@ -3,6 +3,7 @@ import { Box, Group, Text } from "@mantine/core";
 import {
   ActivityItemComments,
   ActivityItemLikes,
+  ActivityItemProps,
   GameRating,
   TextLink,
   useCollection,
@@ -16,13 +17,12 @@ import {
 } from "#@/components";
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface Props {
-  activity: Activity;
-  withUserAvatar?: boolean;
-}
-
-const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
+const DEFAULT_ActivityItem = ({
+  activity,
+  withUserAvatar = true,
+}: ActivityItemProps) => {
   const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
   const collectionQuery = useCollection(activity.collectionId);
   const reviewQuery = useReview(activity.reviewId);
@@ -49,7 +49,7 @@ const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
         <Text>
           <Text span>Posted about </Text>
           <TextLink
-            href={`/post?postId=${activity.postId}`}
+            href={`/posts?postId=${activity.postId}`}
             className={"font-bold text-white no-underline"}
           >
             {gameQuery.data?.name}
@@ -144,5 +144,10 @@ const ActivityItem = ({ activity, withUserAvatar = true }: Props) => {
     </Group>
   );
 };
+
+const ActivityItem = buildPresenterFallback(
+  "ActivityItem",
+  DEFAULT_ActivityItem,
+);
 
 export { ActivityItem };

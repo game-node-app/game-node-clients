@@ -39,7 +39,7 @@ const GameSearchPage = () => {
 
   const { includeExtraContent, query } = searchParams;
 
-  const debouncedQuery = useDebouncedValue(query ?? "", 300);
+  const [debouncedQuery] = useDebouncedValue(query ?? "", 300);
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
@@ -49,7 +49,7 @@ const GameSearchPage = () => {
   const { data, hasNextPage, fetchNextPage, isFetching, isError, error } =
     useInfiniteSearchGames(
       {
-        query: query,
+        query: debouncedQuery,
         category: buildGameCategoryFilters({
           includeDlcs: includeExtraContent,
           includeExtraContent: includeExtraContent,

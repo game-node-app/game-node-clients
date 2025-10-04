@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, useState } from "react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { Flex, Group, rem, Stack, Text } from "@mantine/core";
+import { Group, rem, Stack, Text } from "@mantine/core";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
-import { FileError } from "react-dropzone-esm";
+import type { FileError } from "react-dropzone";
 
 const ImageDropzone = ({
   maxSize,

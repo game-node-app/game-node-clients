@@ -63,13 +63,15 @@ const GameInfoCarousel = ({
         lg: "15%",
       }}
       height={"fit-content"}
-      align="start"
       slideGap={{
         base: "xs",
         lg: "md",
       }}
+      emblaOptions={{
+        dragFree: true,
+        align: "start",
+      }}
       withControls={!onMobile}
-      dragFree
       {...others}
     >
       {isLoading ? <CenteredLoading /> : buildGamesFigures(games)}

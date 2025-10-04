@@ -25,6 +25,7 @@ import { DatePickerInput } from "@mantine/dates";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import source = UserPlaytime.source;
+import dayjs from "dayjs";
 
 const PLAYTIME_SOURCE_OPTIONS: ComboboxItem[] = [
   {
@@ -238,7 +239,10 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
             defaultValue={new Date()}
             {...register("lastPlayedDate")}
             onChange={(date) => {
-              setValue("lastPlayedDate", date || undefined);
+              setValue(
+                "lastPlayedDate",
+                date ? dayjs(date).toDate() : undefined,
+              );
             }}
             allowDeselect={true}
           />

@@ -17,6 +17,12 @@ import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import CollectionPage from "@/pages/collection.tsx";
+import PreferencesPage from "@/pages/preferences.tsx";
+import { JournalPage } from "@/pages/journal.tsx";
+import LibraryCollectionsPage from "@/pages/library_collections.tsx";
+import GameSearchPage from "@/pages/search.tsx";
+import AwardsVotePage from "@/pages/awards/vote.tsx";
+import AwardsNomineesPage from "@/pages/awards/nominees.tsx";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -29,6 +35,12 @@ import CollectionPage from "@/pages/collection.tsx";
  */
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
+    <Route
+      exact
+      key={`${prefix}-game-search`}
+      path={`${prefix}/search`}
+      render={() => <GameSearchPage />}
+    />,
     <Route
       key={`${prefix}-game`}
       path={`${prefix}/game/:id`}
@@ -84,6 +96,14 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       }}
     />,
     <Route
+      exact
+      key={`${prefix}-library-collections`}
+      path={`${prefix}/library/:userId/collections`}
+      render={(props) => {
+        return <LibraryCollectionsPage userId={props.match.params.userId} />;
+      }}
+    />,
+    <Route
       key={`${prefix}-library-collection`}
       path={`${prefix}/library/:userId/collection/:collectionId`}
       exact
@@ -107,10 +127,13 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
           />
         );
       }}
-    ></Route>,
-    <Route exact key={`${prefix}-importer`} path={`${prefix}/importer`}>
-      <ImporterPage />
-    </Route>,
+    />,
+    <Route
+      exact
+      key={`${prefix}-importer`}
+      path={`${prefix}/importer`}
+      render={() => <ImporterPage />}
+    />,
     <Route
       key={`${prefix}-importer-type`}
       path={`${prefix}/importer/:source`}
@@ -119,12 +142,18 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         return <ImporterByTypePage source={props.match.params.source} />;
       }}
     />,
-    <Route exact key={`${prefix}-auth`} path={`${prefix}/auth`}>
-      <SupertokensAuthPage />
-    </Route>,
-    <Route exact key={`${prefix}-activity`} path={`${prefix}/activity`}>
-      <ActivityPage />
-    </Route>,
+    <Route
+      exact
+      key={`${prefix}-auth`}
+      path={`${prefix}/auth`}
+      render={() => <SupertokensAuthPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-activity`}
+      path={`${prefix}/activity`}
+      render={() => <ActivityPage />}
+    />,
     <Route
       key={`${prefix}-activity-detail`}
       path={`${prefix}/activity/detail/:activityId`}
@@ -135,20 +164,57 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         );
       }}
     />,
-    <Route exact key={`${prefix}-posts`} path={`${prefix}/posts`}>
-      <PostsPage />
-    </Route>,
-    <Route exact key={`${prefix}-blog-posts`} path={`${prefix}/blog`}>
-      <BlogPostsPage />
-    </Route>,
-    <Route key={`${prefix}-blog-posts-archive`} path={`${prefix}/blog/archive`}>
-      <BlogPostsArchivePage />
-    </Route>,
+    <Route
+      exact
+      key={`${prefix}-posts`}
+      path={`${prefix}/posts`}
+      render={() => <PostsPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-blog-posts`}
+      path={`${prefix}/blog`}
+      render={() => <BlogPostsPage />}
+    />,
+    <Route
+      key={`${prefix}-blog-posts-archive`}
+      path={`${prefix}/blog/archive`}
+      render={() => <BlogPostsArchivePage />}
+    />,
     <Route
       key={`${prefix}-blog-post-detail`}
       path={`${prefix}/blog/post/:postId`}
       render={(props) => {
         return <BlogPostDetailPage postId={props.match.params.postId} />;
+      }}
+    />,
+    <Route
+      key={`${prefix}-preferences`}
+      path={`${prefix}/preferences`}
+      render={() => <PreferencesPage />}
+    />,
+    <Route
+      key={`${prefix}-journal`}
+      path={`${prefix}/journal/:userId`}
+      render={({ match }) => <JournalPage userId={match.params.userId} />}
+    />,
+    <Route
+      key={`${prefix}-awards-vote`}
+      path={`${prefix}/awards/:eventYear/vote`}
+      render={(props) => {
+        return <AwardsVotePage eventYear={props.match.params.eventYear} />;
+      }}
+    />,
+    <Route
+      key={`${prefix}-awards-nominees`}
+      path={`${prefix}/awards/:eventYear/nominees/:userId`}
+      render={(props) => {
+        return (
+          <AwardsNomineesPage
+            eventYear={props.match.params.eventYear}
+            userId={props.match.params.userId}
+          />
+        );
       }}
     />,
   ];

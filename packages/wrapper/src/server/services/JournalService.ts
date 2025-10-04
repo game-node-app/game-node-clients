@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GetJournalHeatmapResponseDto } from '../models/GetJournalHeatmapResponseDto';
 import type { JournalOverviewResponseDto } from '../models/JournalOverviewResponseDto';
 import type { JournalPlaylogGroupDto } from '../models/JournalPlaylogGroupDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -40,6 +41,22 @@ export class JournalService {
             path: {
                 'userId': userId,
                 'gameId': gameId,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @returns GetJournalHeatmapResponseDto
+     * @throws ApiError
+     */
+    public static journalControllerGetHeatmapV1(
+        userId: string,
+    ): CancelablePromise<GetJournalHeatmapResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/journal/heatmap/{userId}',
+            path: {
+                'userId': userId,
             },
         });
     }

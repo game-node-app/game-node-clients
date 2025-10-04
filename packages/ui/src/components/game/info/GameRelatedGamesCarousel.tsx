@@ -75,20 +75,15 @@ const GameRelatedGamesCarousel = ({
   if (isEmpty) return null;
 
   return (
-    <Box className={"p-3"} bg={"#262525"}>
-      <DetailsBox
-        title={title}
-        stackProps={{
-          bg: "#262525",
-        }}
-      >
+    <DetailsBox title={title} withPadding withDimmedTitle withBackground>
+      <Box className={"lg:p-3"}>
         <GameInfoCarousel
           isLoading={gameQuery.isLoading}
           isError={gameQuery.isError}
           games={targetGames || []}
         />
-      </DetailsBox>
-    </Box>
+      </Box>
+    </DetailsBox>
   );
 };
 

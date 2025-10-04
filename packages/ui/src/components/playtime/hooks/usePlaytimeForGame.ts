@@ -5,7 +5,7 @@ import { ExtendedUseQueryResult } from "#@/util";
 export function usePlaytimeForGame(
   userId: string | undefined,
   gameId: number | undefined,
-): ExtendedUseQueryResult<UserPlaytime[]> {
+): ExtendedUseQueryResult<UserPlaytime[] | null> {
   const queryClient = useQueryClient();
 
   const queryKey = ["playtime", "game", userId, gameId];

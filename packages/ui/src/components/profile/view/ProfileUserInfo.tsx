@@ -16,8 +16,6 @@ import {
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
 
-const dateFormatter = new Intl.DateTimeFormat();
-
 interface Props {
   userId: string;
   onEditClick?: () => void;
