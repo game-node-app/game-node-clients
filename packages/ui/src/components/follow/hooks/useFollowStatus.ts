@@ -8,7 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 export function useFollowStatus(
   followerUserId: string | undefined,
   followedUserId: string | undefined,
-): ExtendedUseQueryResult<FollowStatusDto> {
+): ExtendedUseQueryResult<FollowStatusDto | null> {
   const queryClient = useQueryClient();
   const queryKey = ["follow", "status", followerUserId, followedUserId];
   const invalidate = () => {
@@ -22,7 +22,7 @@ export function useFollowStatus(
     invalidate,
     ...useQuery({
       queryKey,
-      queryFn: () => {
+      queryFn: async () => {
         if (!followerUserId || !followedUserId) return null;
         return FollowService.followControllerGetFollowerStatusV1(
           followerUserId,

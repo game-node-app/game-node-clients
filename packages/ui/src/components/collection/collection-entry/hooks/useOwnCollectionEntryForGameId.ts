@@ -21,13 +21,13 @@ export function useOwnCollectionEntryForGameId(
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        if (!gameId) return null;
+        if (!gameId) return undefined;
         try {
           const collectionEntry = await getOwnCollectionEntryByGameId(gameId);
-          if (!collectionEntry) return null;
+          if (!collectionEntry) return undefined;
           return collectionEntry;
         } catch (e) {
-          return null;
+          return undefined;
         }
       },
       enabled: enabled && gameId != undefined,

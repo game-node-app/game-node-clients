@@ -1,27 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useAchievements } from "#@/components/achievement/hooks/useAchievements";
-import {
-  Box,
-  Button,
-  Center,
-  Group,
-  MultiSelect,
-  Select,
-  Stack,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
-import { useFeaturedObtainedAchievement } from "#@/components/achievement/hooks/useFeaturedObtainedAchievement";
+import { Button, Center, Stack, Text, UnstyledButton } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { AchievementItem } from "#@/components/achievement/AchievementItem";
 import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
 import { useMutation } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
-import { AchievementDto, AchievementsService } from "@repo/wrapper/server";
+import { AchievementsService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { createErrorNotification, Link, Modal } from "#@/util";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { createErrorNotification, Modal } from "#@/util";
 import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
 import { AchievementsMultiSelect } from "#@/components/achievement/select/AchievementsMultiSelect.tsx";
 import { DetailsBox } from "#@/components";

@@ -56,11 +56,13 @@ const RecentBlogPostsCarousel = () => {
       }}
     >
       <Carousel
-        dragFree
-        align={"start"}
         slideSize={{
           base: "100%",
           lg: "35%",
+        }}
+        emblaOptions={{
+          dragFree: true,
+          align: "start",
         }}
         slideGap={"xs"}
         withIndicators={false}

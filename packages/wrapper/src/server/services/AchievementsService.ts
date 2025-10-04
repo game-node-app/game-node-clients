@@ -81,22 +81,6 @@ export class AchievementsService {
         });
     }
     /**
-     * @param userId
-     * @returns any
-     * @throws ApiError
-     */
-    public static achievementsControllerGetFeaturedAchievementForUserIdV1(
-        userId: string,
-    ): CancelablePromise<Record<string, any>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/v1/achievements/{userId}/featured',
-            path: {
-                'userId': userId,
-            },
-        });
-    }
-    /**
      * @param id
      * @param requestBody
      * @returns any

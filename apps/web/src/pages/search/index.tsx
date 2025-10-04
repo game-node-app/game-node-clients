@@ -6,6 +6,7 @@ import {
   buildGameCategoryFilters,
   CenteredErrorMessage,
   DetailsBox,
+  DynamicAwardsOverview,
   GameSearchBar,
   GameSearchRequestDto,
   GameSearchTips,
@@ -117,7 +118,7 @@ const Index = () => {
             {userId && <RecommendationCarousel criteria="finished" />}
             <TrendingReviewCarousel />
             <Box className={"w-full"}>
-              <AwardsEventOverview eventId={1} withBackground={false} />
+              <DynamicAwardsOverview />
             </Box>
             <RecentBlogPostsCarousel />
             <Center className={"w-full"}>

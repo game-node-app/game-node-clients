@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 const useReviewForUserIdAndGameId = (
   userId: string | undefined,
   gameId: number | undefined,
-): ExtendedUseQueryResult<Review> => {
+): ExtendedUseQueryResult<Review | null> => {
   const queryClient = useQueryClient();
   const queryKey = ["review", userId, gameId];
   const invalidate = () => queryClient.invalidateQueries({ queryKey });

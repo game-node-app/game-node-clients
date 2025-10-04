@@ -4,6 +4,5 @@
 
 export * from "./useAchievements";
 export * from "./useAllObtainedAchievements";
-export * from "./useFeaturedObtainedAchievement";
 export * from "./useNonObtainedAchievements";
 export * from "./useObtainedAchievement";

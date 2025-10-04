@@ -3,6 +3,7 @@ import { Box, Group, Text } from "@mantine/core";
 import {
   ActivityItemComments,
   ActivityItemLikes,
+  ActivityItemProps,
   GameRating,
   TextLink,
   useCollection,
@@ -16,8 +17,7 @@ import {
 } from "#@/components";
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
-import { ActivityItemProps } from "#@/components/activity/item/types.ts";
-import { buildPresenterFallback, usePresenter } from "#@/presenters";
+import { buildPresenterFallback } from "#@/presenters";
 
 const DEFAULT_ActivityItem = ({
   activity,

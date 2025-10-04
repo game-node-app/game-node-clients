@@ -36,7 +36,6 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
             <CollectionThumbnailCard
               collectionId={collection.id}
               key={collection.id}
-              userId={userId}
             />
           ))}
         </SimpleGrid>
@@ -53,7 +52,6 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
             <CollectionThumbnailCard
               collectionId={collection.id}
               key={collection.id}
-              userId={userId}
             />
           ))}
         </SimpleGrid>
