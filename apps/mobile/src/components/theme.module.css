@@ -21,3 +21,9 @@
         @apply bg-secondary border border-[#373737] rounded-xs
     }
 }
+
+.tab {
+    &[data-variant='default']{
+        --tabs-color: white !important;
+    }
+}

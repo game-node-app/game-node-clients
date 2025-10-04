@@ -2,8 +2,9 @@ import React, { ExoticComponent, PropsWithoutRef } from "react";
 import { Stack, Tabs, TabsTabProps, Text } from "@mantine/core";
 import { IconProps } from "@tabler/icons-react";
 import { Link } from "#@/util";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface Props extends TabsTabProps {
+export interface ProfileViewNavbarItemProps extends TabsTabProps {
   label: string;
   icon?: ExoticComponent<PropsWithoutRef<IconProps>>;
   count?: number;
@@ -11,14 +12,14 @@ interface Props extends TabsTabProps {
   activeTab: string | null;
 }
 
-const ProfileViewNavbarItem = ({
+const DEFAULT_ProfileViewNavbarItem = ({
   label,
   count,
   value,
   href,
   activeTab,
   ...others
-}: Props) => {
+}: ProfileViewNavbarItemProps) => {
   return (
     <Tabs.Tab value={value} {...others}>
       <Link
@@ -31,20 +32,36 @@ const ProfileViewNavbarItem = ({
         }}
       >
         <Stack
-          className={"items-center gap-1 data-[active=true]:text-white"}
-          data-active={activeTab === value ? "true" : "false"}
+          className={
+            "items-center gap-1 text-gray-100 data-[active=true]:text-white"
+          }
         >
           {others.icon != undefined && (
             <others.icon className={"font-bold"} size={"2rem"} />
           )}
           {count != undefined && (
-            <Text className={"font-bold text-lg"}>{count}</Text>
+            <Text
+              className={"font-bold text-lg data-[active=true]:text-white"}
+              data-active={activeTab === value ? "true" : "false"}
+            >
+              {count}
+            </Text>
           )}
-          <Text className={"font-bold"}>{label}</Text>
+          <Text
+            className={"font-bold data-[active=true]:text-white"}
+            data-active={activeTab === value ? "true" : "false"}
+          >
+            {label}
+          </Text>
         </Stack>
       </Link>
     </Tabs.Tab>
   );
 };
+
+const ProfileViewNavbarItem = buildPresenterFallback(
+  "ProfileViewNavbarItem",
+  DEFAULT_ProfileViewNavbarItem,
+);
 
 export { ProfileViewNavbarItem };

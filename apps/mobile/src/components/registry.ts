@@ -5,6 +5,7 @@ import { MobileGameInfoActions } from "@/components/game/info/MobileGameInfoActi
 import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
+import { MobileGameAchievementListItem } from "@/components/achievement/MobileGameAchievementListItem.tsx";
 
 export const UI_PRESENTER_REGISTRY = buildPresenterRegistry({
   ActivityItem: MobileActivityItem,
@@ -13,4 +14,5 @@ export const UI_PRESENTER_REGISTRY = buildPresenterRegistry({
   DetailsBox: MobileDetailsBox,
   TrendingReviewCard: MobileTrendingReviewCard,
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
+  GameAchievementsListItem: MobileGameAchievementListItem,
 });

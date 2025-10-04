@@ -93,6 +93,9 @@ const GamePage = ({ gameId }: Props) => {
             queryClient.invalidateQueries({
               queryKey: ["game", "achievements", gameId],
             }),
+            queryClient.invalidateQueries({
+              queryKey: ["game", "external-stores", gameId],
+            }),
           ];
           await Promise.all(promises);
           evt.detail.complete();

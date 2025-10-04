@@ -3,8 +3,10 @@ import {
   ActivityItemProps,
   CollectionThumbnailCardProps,
   DetailsBoxProps,
+  GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  ProfileViewNavbarItemProps,
   ReviewCardProps,
 } from "#@/components";
 
@@ -19,4 +21,6 @@ export type PresenterRegistry = {
   GameInfoActions: React.ComponentType<GameInfoActionsProps>;
   TrendingReviewCard: React.ComponentType<ReviewCardProps>;
   CollectionThumbnailCard: React.ComponentType<CollectionThumbnailCardProps>;
+  ProfileViewNavbarItem: React.ComponentType<ProfileViewNavbarItemProps>;
+  GameAchievementsListItem: React.ComponentType<GameAchievementsListItemProps>;
 };

@@ -32,7 +32,7 @@ const JournalHeatmap = ({ userId }: Props) => {
   }
 
   return (
-    <Box className={"overflow-x-auto"}>
+    <Box className={"overflow-x-auto pb-2"}>
       <Box className={"w-full justify-center"}>
         <Heatmap
           colors={["#fbb3a0", "#f36742", "#f14517", "#c02e06"]}

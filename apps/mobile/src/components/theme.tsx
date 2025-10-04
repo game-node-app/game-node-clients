@@ -9,7 +9,6 @@ import {
   Select,
   Tabs,
   Timeline,
-  TimelineItem,
 } from "@mantine/core";
 import { DEFAULT_MANTINE_THEME } from "@repo/ui";
 import classes from "./theme.module.css";
@@ -36,8 +35,11 @@ export const MANTINE_THEME = mergeMantineTheme(DEFAULT_MANTINE_THEME, {
       },
     }),
     Tabs: Tabs.extend({
+      classNames: {
+        root: classes.tab,
+      },
       defaultProps: {
-        color: "white",
+        variant: "default",
       },
     }),
     Input: Input.extend({
