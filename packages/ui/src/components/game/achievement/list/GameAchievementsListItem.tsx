@@ -12,12 +12,15 @@ import {
 import { match } from "ts-pattern";
 import { GameAchievementDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "#@/util";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface Props {
+export interface GameAchievementsListItemProps {
   achievement: GameAchievementWithObtainedInfo;
 }
 
-const GameAchievementsListItem = ({ achievement }: Props) => {
+const DEFAULT_GameAchievementsListItem = ({
+  achievement,
+}: GameAchievementsListItemProps) => {
   const renderRightSideDetail = useCallback(() => {
     return match(achievement.source)
       .with(GameAchievementDto.source._1, () => {
@@ -94,5 +97,10 @@ const GameAchievementsListItem = ({ achievement }: Props) => {
     </Group>
   );
 };
+
+const GameAchievementsListItem = buildPresenterFallback(
+  "GameAchievementsListItem",
+  DEFAULT_GameAchievementsListItem,
+);
 
 export { GameAchievementsListItem };

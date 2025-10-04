@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { IonApp, IonFab, IonFabButton, setupIonicReact } from "@ionic/react";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
@@ -45,18 +45,16 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import SuperTokensProvider from "./components/auth/SuperTokensProvider";
-import { IconHome } from "@tabler/icons-react";
 import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
-import { Keyboard } from "@capacitor/keyboard";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import {
-  DEFAULT_MANTINE_THEME,
   setLinkComponent,
   setModalComponent,
   setProjectContext,
   setRouterHook,
+  UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
@@ -64,8 +62,10 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
-import { Preferences } from "@capacitor/preferences";
-import { CapacitorAsyncStorage } from "@/util/asyncStorage.ts";
+import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar";
+import { UI_PRESENTER_REGISTRY } from "@/components/registry";
+import { MANTINE_THEME } from "@/components/theme.tsx";
 
 /**
  * dayjs setup
@@ -90,51 +90,38 @@ setupWrapper({
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
 });
 
-setupIonicReact();
+setupIonicReact({
+  backButtonIcon: "/img/icon/icon_back_button.svg",
+});
 
 const App: React.FC = () => {
-  const [keyboardOpened, setKeyboardOpened] = useState(false);
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
-            refetchInterval: false,
-            refetchOnMount: false,
-            refetchIntervalInBackground: false,
-            refetchOnReconnect: false,
-            staleTime: 1000 * 60 * 5, // 5 minutes
+            refetchOnMount: true,
+            refetchOnReconnect: true,
+            staleTime: 1000 * 60 * 60, // 1 hour
             retry: 3,
-            gcTime: 1000 * 60 * 60 * 24 * 7, // a week
+            gcTime: 1000 * 60 * 60 * 24 * 14, // 2 weeks
           },
         },
       }),
   );
   const [persister] = useState(() =>
     createAsyncStoragePersister({
-      storage: new CapacitorAsyncStorage(),
+      storage: createCapacitorAsyncStorage(),
+      throttleTime: 1000,
     }),
   );
 
   useEffect(() => {
-    Keyboard.addListener("keyboardWillShow", () => {
-      setKeyboardOpened(true);
-    });
-    Keyboard.addListener("keyboardWillHide", () => {
-      setKeyboardOpened(false);
-    });
-
-    return () => {
-      Keyboard.removeAllListeners();
-    };
-  }, []);
-
-  useEffect(() => {
     (async () => {
       const info = await Device.getInfo();
-      if (info.platform === "android" && Number(info.osVersion) >= 15) {
-        await EdgeToEdge.enable(); // Enable only on Android 15+
+      if (info.platform === "android" && Number(info.osVersion) >= 14) {
+        await EdgeToEdge.enable();
         await EdgeToEdge.setBackgroundColor({
           color: "#1f1f1f",
         });
@@ -146,35 +133,24 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <SuperTokensProvider>
-        <MantineProvider
-          theme={DEFAULT_MANTINE_THEME}
-          forceColorScheme={"dark"}
+      <UIProvider presenters={UI_PRESENTER_REGISTRY}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister }}
         >
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister }}
-          >
-            <IonReactRouter>
-              <AppUrlListener />
-              <AppUpdateListener />
-              <NotificationsManager />
-              <Tabs />
-              <IonFab
-                className={keyboardOpened ? "hidden" : undefined}
-                slot="fixed"
-                horizontal="center"
-                vertical="bottom"
-                edge={false}
-              >
-                <IonFabButton routerLink={"/home"}>
-                  <IconHome />
-                </IonFabButton>
-              </IonFab>
-            </IonReactRouter>
-          </PersistQueryClientProvider>
-        </MantineProvider>
-      </SuperTokensProvider>
+          <SuperTokensProvider>
+            <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+              <IonReactRouter>
+                <AppUrlListener />
+                <AppUpdateListener />
+                <NotificationsManager />
+                <QueryProgressBar />
+                <Tabs />
+              </IonReactRouter>
+            </MantineProvider>
+          </SuperTokensProvider>
+        </PersistQueryClientProvider>
+      </UIProvider>
     </IonApp>
   );
 };

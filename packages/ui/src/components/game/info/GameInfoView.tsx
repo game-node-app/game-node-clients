@@ -9,7 +9,7 @@ import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { GameInfoImageCarousel } from "#@/components/game/info/carousel/GameInfoImageCarousel";
 import { Break } from "#@/components/general/Break";
 import { useGame } from "#@/components/game/hooks/useGame";
-import { CenteredLoading } from "#@/components";
+import { CenteredLoading, GameInfoTitleFigure } from "#@/components";
 
 export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
   relations: {
@@ -25,10 +25,9 @@ export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
 
 interface IGameInfoViewProps {
   id: number;
-  withActions?: boolean;
 }
 
-const GameInfoView = ({ id, withActions = true }: IGameInfoViewProps) => {
+const GameInfoView = ({ id }: IGameInfoViewProps) => {
   const gameQuery = useGame(id, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
 
@@ -42,7 +41,7 @@ const GameInfoView = ({ id, withActions = true }: IGameInfoViewProps) => {
     <Stack className={"w-full"}>
       <Grid
         columns={12}
-        className="justify-center lg:justify-start p-3 lg:ps-3 w-full"
+        className="justify-center lg:justify-start lg:ps-3 w-full"
       >
         <Grid.Col span={{ xs: 12, lg: 3 }}>
           <Flex
@@ -52,25 +51,9 @@ const GameInfoView = ({ id, withActions = true }: IGameInfoViewProps) => {
             w={"inherit"}
             h={"inherit"}
           >
-            <Box className="w-full lg:w-96">
-              <GameFigureImage game={game} imageSize={ImageSize.COVER_BIG_2X} />
-            </Box>
-
+            <GameInfoTitleFigure game={game} />
             <Break />
-            <Title
-              ta={"center"}
-              size={"h3"}
-              className="mx-5 lg:mx-1 mt-4 lg:mt-8"
-            >
-              {game ? game.name : <Skeleton />}
-            </Title>
-            <Break />
-            {withActions && (
-              <GameInfoActions
-                game={game}
-                wrapperProps={{ className: "mt-4" }}
-              />
-            )}
+            <GameInfoActions game={game} wrapperProps={{ className: "mt-4" }} />
           </Flex>
         </Grid.Col>
 

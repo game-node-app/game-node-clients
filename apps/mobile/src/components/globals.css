@@ -23,18 +23,21 @@
 }
 
 :root {
+    --text-color: #D9D9D9;
     --ion-padding: var(--mantine-spacing-xs) !important;
     --ion-font-family: Roboto, Roboto Fallback;
-    --ion-text-color: var(--mantine-color-text) !important;
+    --ion-text-color: var(--text-color) !important;
     --ion-background-color: #191919 !important;
     --ion-toolbar-background: #191919 !important;
     --ion-modal-background: #191919 !important;
 
     @mixin dark-root {
         --mantine-color-body: #191919;
+        --mantine-color-text: var(--text-color);
+        --mantine-color-dimmed: #737373;
     }
 }
 
 ion-tab-button:not(.tab-selected) {
-    --color-selected: var(--color);
+    color: #FAF4F4;
 }

@@ -1,15 +1,23 @@
 import React, { useMemo } from "react";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { Skeleton, Text } from "@mantine/core";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
+import { Skeleton } from "@mantine/core";
+import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
 
 interface IProps {
   gameId: number;
 }
 
+const INVOLVED_COMPANIES_DTO: GameRepositoryFindOneDto = {
+  relations: {
+    involvedCompanies: {
+      company: true,
+    },
+  },
+};
+
 const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
-  const game = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+  const game = useGame(gameId, INVOLVED_COMPANIES_DTO);
   const involvedCompanies = game.data?.involvedCompanies;
   const developers = useMemo(() => {
     const hasDevelopers =
@@ -41,10 +49,24 @@ const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
 
   return (
     <>
-      <DetailsBox withBorder withDimmedTitle title={"Developer(s)"} withPadding>
+      <DetailsBox
+        withBorder
+        withDimmedTitle
+        title={"Developer(s)"}
+        withPadding
+        withBackground
+        withRipple
+      >
         {game.isLoading ? <Skeleton className={"w-64 h-4"} /> : developersNames}
       </DetailsBox>
-      <DetailsBox withBorder withDimmedTitle title={"Publisher(s)"} withPadding>
+      <DetailsBox
+        withBorder
+        withDimmedTitle
+        title={"Publisher(s)"}
+        withPadding
+        withBackground
+        withRipple
+      >
         {game.isLoading ? <Skeleton className={"w-64 h-4"} /> : publishersNames}
       </DetailsBox>
     </>

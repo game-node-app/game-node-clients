@@ -77,7 +77,7 @@ const getSourceUrl = async (report: Report) => {
     .with(ReportSourceType.POST, async () => {
       const postId = report.targetPostId!;
 
-      return `/post?postId=${postId}`;
+      return `/posts?postId=${postId}`;
     })
     .with(ReportSourceType.POST_COMMENT, async () => {
       const commentSourceType = FindAllCommentsDto.sourceType.POST;
@@ -88,7 +88,7 @@ const getSourceUrl = async (report: Report) => {
 
       const postId = postComment.id;
 
-      return `/post?postId=${postId}`;
+      return `/posts?postId=${postId}`;
     })
     .exhaustive();
 };

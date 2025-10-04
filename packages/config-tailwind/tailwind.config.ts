@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import prose from "@tailwindcss/typography";
+import containerQueries from "@tailwindcss/container-queries";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
@@ -10,8 +11,13 @@ const config: Omit<Config, "content"> = {
     extend: {
       backgroundColor: {
         body: "var(--mantine-color-body)",
-        paper: "#161616",
-        "paper-alt": "#262525",
+        paper: {
+          DEFAULT: "#161616",
+          0: "#161616",
+          1: "#262525",
+          2: "#1D1D1D",
+          3: "#191919",
+        },
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
@@ -45,24 +51,31 @@ const config: Omit<Config, "content"> = {
         lg: "var(--mantine-font-size-lg)",
         xl: "var(--mantine-font-size-xl)",
       },
+      textColor: "#D9D9D9",
       colors: {
-        dimmed: "var(--mantine-color-dimmed)",
-
-        brand: [
-          "#ffede5",
-          "#ffd9cf",
-          "#fbb3a0",
-          "#f7896d",
-          "#f36742",
-          "#f15025",
-          "#f14517",
-          "#d6360b",
-          "#c02d06",
-          "#a82301",
-        ],
+        dimmed: {
+          DEFAULT: "var(--mantine-color-dimmed)",
+          0: "var(--mantine-color-dimmed)",
+          1: "#808080",
+        },
+        brand: {
+          DEFAULT: "#f15025",
+          0: "#ffede5",
+          1: "#ffd9cf",
+          2: "#fbb3a0",
+          3: "#f7896d",
+          4: "#f36742",
+          5: "#f15025",
+          6: "#f14517",
+          7: "#d6360b",
+          8: "#c02d06",
+          9: "#a82301",
+        },
+        secondary: "#1A1A1A",
+        tertiary: "#872C13",
       },
     },
   },
-  plugins: [prose()],
+  plugins: [prose(), containerQueries],
 };
 export default config;

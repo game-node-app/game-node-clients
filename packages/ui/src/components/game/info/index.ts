@@ -15,6 +15,7 @@ export * from "./GameInfoPlaytimeTracker";
 export * from "./GameInfoProgressTimeline";
 export * from "./GameInfoScore";
 export * from "./GameInfoTabs";
+export * from "./GameInfoTitleFigure";
 export * from "./GameInfoView";
 export * from "./GameRelatedGamesCarousel";
 export * from "./achievement/index";

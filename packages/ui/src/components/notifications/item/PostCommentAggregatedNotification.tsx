@@ -20,7 +20,7 @@ const PostCommentAggregatedNotification = ({
   aggregatedNotification,
 }: AggregatedNotificationContentProps) => {
   const userId = useUserId();
-  const commentQuery: UseQueryResult<PostComment> = useComment(
+  const commentQuery = useComment<PostComment>(
     aggregatedNotification.sourceId as string,
     FindAllCommentsDto.sourceType.POST,
   );

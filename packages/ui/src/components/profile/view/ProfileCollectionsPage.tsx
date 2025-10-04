@@ -2,7 +2,7 @@ import React from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
-  CollectionPreviewCard,
+  CollectionThumbnailCard,
   DetailsBox,
   useUserLibrary,
 } from "#@/components";
@@ -33,10 +33,9 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
           }}
         >
           {featuredCollections.map((collection) => (
-            <CollectionPreviewCard
+            <CollectionThumbnailCard
               collectionId={collection.id}
               key={collection.id}
-              userId={userId}
             />
           ))}
         </SimpleGrid>
@@ -50,10 +49,9 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
           }}
         >
           {nonFeaturedCollections.map((collection) => (
-            <CollectionPreviewCard
+            <CollectionThumbnailCard
               collectionId={collection.id}
               key={collection.id}
-              userId={userId}
             />
           ))}
         </SimpleGrid>

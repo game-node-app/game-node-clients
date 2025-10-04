@@ -21,8 +21,9 @@ import {
 } from "#@/util/trackMatomoEvent";
 import { Modal } from "#@/util";
 import { GameInfoShare } from "#@/components";
+import { buildPresenterFallback } from "#@/presenters";
 
-interface IGameViewActionsProps {
+export interface GameInfoActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
   game: Game | undefined;
 }
@@ -32,7 +33,10 @@ interface IGameViewActionsProps {
  * The game add report is handled here.
  * @constructor
  */
-const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
+const DEFAULT_GameInfoActions = ({
+  game,
+  wrapperProps,
+}: GameInfoActionsProps) => {
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
@@ -163,5 +167,10 @@ const GameInfoActions = ({ game, wrapperProps }: IGameViewActionsProps) => {
     </Stack>
   );
 };
+
+const GameInfoActions = buildPresenterFallback(
+  "GameInfoActions",
+  DEFAULT_GameInfoActions,
+);
 
 export { GameInfoActions };

@@ -45,13 +45,16 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
   return (
     <DetailsBox
       title={"Your progress"}
+      withDimmedTitle
       withPadding
-      stackProps={{
-        className: "w-full p-md bg-paper-alt",
-      }}
+      withBackground
     >
-      <Timeline active={maxActiveIndex} bulletSize={30}>
-        <Timeline.Item title={"Added"} bullet={<IconLibrary />}>
+      <Timeline active={maxActiveIndex} bulletSize={30} variant={"default"}>
+        <Timeline.Item
+          title={"Added"}
+          bullet={<IconLibrary />}
+          variant={"default"}
+        >
           <Text c={"dimmed"}>Game added to your collection</Text>
           {isInCollection && (
             <Text c={"dimmed"} fz={"xs"}>
@@ -59,7 +62,11 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
             </Text>
           )}
         </Timeline.Item>
-        <Timeline.Item title={"Reviewed"} bullet={<IconMessage />}>
+        <Timeline.Item
+          title={"Reviewed"}
+          bullet={<IconMessage />}
+          variant={"default"}
+        >
           <Text c={"dimmed"}>Game reviewed</Text>
           {isReviewed && (
             <Text c={"dimmed"} fz={"xs"}>
@@ -67,7 +74,11 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
             </Text>
           )}
         </Timeline.Item>
-        <Timeline.Item title={"Finished"} bullet={<IconCheck />}>
+        <Timeline.Item
+          title={"Finished"}
+          bullet={<IconCheck />}
+          variant={"default"}
+        >
           <Text c={"dimmed"}>Game marked as finished</Text>
           {isFinished && (
             <Text c={"dimmed"} fz={"xs"}>

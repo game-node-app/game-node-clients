@@ -17,6 +17,7 @@ import {
   setProjectContext,
   setLinkComponent,
   setRouterHook,
+  UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import MatomoWrapper from "@/components/general/MatomoWrapper";
@@ -93,27 +94,29 @@ export default function App({
   );
 
   return (
-    <MantineProvider
-      theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-        fontFamily: roboto.style.fontFamily,
-      })}
-      forceColorScheme={"dark"}
-    >
-      <Head>
-        <title>GameNode</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <SuperTokensProvider>
-        <QueryClientProvider client={queryClient}>
-          <MatomoWrapper />
-          <NotificationsManager />
-          <DashboardLayout>
-            <HydrationBoundary state={pageProps.dehydratedState}>
-              <Component {...pageProps} />
-            </HydrationBoundary>
-          </DashboardLayout>
-        </QueryClientProvider>
-      </SuperTokensProvider>
-    </MantineProvider>
+    <UIProvider>
+      <MantineProvider
+        theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+          fontFamily: roboto.style.fontFamily,
+        })}
+        forceColorScheme={"dark"}
+      >
+        <Head>
+          <title>GameNode</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <SuperTokensProvider>
+          <QueryClientProvider client={queryClient}>
+            <MatomoWrapper />
+            <NotificationsManager />
+            <DashboardLayout>
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <Component {...pageProps} />
+              </HydrationBoundary>
+            </DashboardLayout>
+          </QueryClientProvider>
+        </SuperTokensProvider>
+      </MantineProvider>
+    </UIProvider>
   );
 }

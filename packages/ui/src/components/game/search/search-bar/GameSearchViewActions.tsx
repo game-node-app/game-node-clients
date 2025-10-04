@@ -5,7 +5,7 @@ import { GameView, GameViewLayoutOption } from "#@/components";
 interface Props {
   includeExtraContent: boolean;
   onExtraContentChange: (includeExtraContent: boolean) => void;
-  onLayoutChange: (layout: GameViewLayoutOption) => void;
+  onLayoutChange?: (layout: GameViewLayoutOption) => void;
 }
 
 const GameSearchViewActions = ({
@@ -15,7 +15,9 @@ const GameSearchViewActions = ({
 }: Props) => {
   return (
     <Group className={"w-full flex-nowrap gap-sm overflow-x-hidden"}>
-      <GameView.LayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />
+      {onLayoutChange && (
+        <GameView.LayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />
+      )}
       <Chip
         variant={"outline"}
         checked={includeExtraContent}

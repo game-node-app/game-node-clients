@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Divider, Flex, Stack } from "@mantine/core";
 import {
+  JournalHeatmap,
   ProfileFavoriteGames,
   ProfileStatsSimpleOverview,
   RecentActivityList,
@@ -36,6 +37,7 @@ const ProfileViewMainPage = ({ userId }: Props) => {
       <Box className={"w-full mt-2 mb-4"}>
         <ProfileFavoriteGames userId={userId} />
       </Box>
+      <JournalHeatmap userId={userId} />
       <Divider className={"w-full mt-6 mb-2"} label={"Stats"} />
       <Stack>
         <ProfileStatsSimpleOverview userId={userId} />

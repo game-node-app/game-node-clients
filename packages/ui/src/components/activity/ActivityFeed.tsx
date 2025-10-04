@@ -40,7 +40,7 @@ const ActivityFeed = ({ criteria, children }: Props) => {
   }, []);
 
   return (
-    <Stack className={"w-full h-full"}>
+    <Stack className={"w-full h-full gap-xs"}>
       {activityQuery.isLoading && buildSkeletons()}
       {!isLoading && isEmpty && (
         <CenteredErrorMessage

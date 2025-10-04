@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { ActionIcon, Stack, Text } from "@mantine/core";
+import { ActionIcon, Button, Stack, Text } from "@mantine/core";
 import { usePlaytimeForGame } from "#@/components/playtime/hooks/usePlaytimeForGame";
 import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
 import { IconPlus } from "@tabler/icons-react";
@@ -39,20 +39,10 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      withPadding
       title={"Your play sessions"}
-      stackProps={{
-        className: "bg-paper-alt",
-      }}
-      rightSide={
-        <ActionIcon
-          className={"mt-2 me-2"}
-          size={"sm"}
-          onClick={playtimeSubmitUtils.open}
-        >
-          <IconPlus />
-        </ActionIcon>
-      }
+      withBackground
+      withPadding
+      withDimmedTitle
     >
       <Modal
         opened={playtimeSubmitOpened}
@@ -72,6 +62,9 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
           </Text>
         )}
         {items}
+        <Button variant={"default"} onClick={playtimeSubmitUtils.open}>
+          Add Session
+        </Button>
       </Stack>
     </DetailsBox>
   );

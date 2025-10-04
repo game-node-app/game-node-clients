@@ -6,7 +6,7 @@ import {
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ActionIcon, ActionIconProps, Text } from "@mantine/core";
 import { redirectToAuth } from "supertokens-auth-react";
-import { IconThumbUp } from "@tabler/icons-react";
+import { IconThumbUp, IconThumbUpFilled } from "@tabler/icons-react";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 
@@ -38,7 +38,7 @@ const ItemLikesButton = ({
       data-disabled={!userId}
       {...others}
     >
-      <IconThumbUp />
+      {isLiked ? <IconThumbUpFilled /> : <IconThumbUp />}
       {likesCount > 0 && <Text>{likesCount}</Text>}
     </ActionIcon>
   );

@@ -1,8 +1,9 @@
 import React from "react";
-import { BubbleMenu, EditorOptions, useEditor } from "@tiptap/react";
+import { EditorOptions, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
+import { BubbleMenu } from "@tiptap/react/menus";
 
 interface Props extends Partial<EditorOptions> {
   onClick?: () => void;

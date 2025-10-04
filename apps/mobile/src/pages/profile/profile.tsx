@@ -5,6 +5,7 @@ import {
   IonFab,
   IonFabButton,
   IonHeader,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -45,7 +46,16 @@ const ProfilePage = ({ userId }: Props) => {
   return (
     <IonPage>
       <SessionAuth requireAuth={userId == undefined}>
-        {isInTab && isOwnProfile ? null : (
+        {isInTab && isOwnProfile ? (
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot={"start"}>
+                <IonMenuButton />
+              </IonButtons>
+              <IonTitle>Your profile</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+        ) : (
           <IonHeader>
             <IonToolbar>
               <IonButtons slot={"start"}>
