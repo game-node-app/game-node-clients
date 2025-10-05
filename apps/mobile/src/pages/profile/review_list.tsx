@@ -15,6 +15,7 @@ import {
   useUserProfile,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
 
 interface Props {
   userId: string;
@@ -23,22 +24,10 @@ interface Props {
 const ProfileReviewListPage = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          {profileQuery.data && (
-            <IonTitle>{profileQuery.data.username}&apos;s reviews</IonTitle>
-          )}
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        {profileQuery.isLoading && <CenteredLoading />}
-        <ProfileReviewListView userId={userId} />
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage>
+      {profileQuery.isLoading && <CenteredLoading />}
+      <ProfileReviewListView userId={userId} />
+    </AppPage>
   );
 };
 

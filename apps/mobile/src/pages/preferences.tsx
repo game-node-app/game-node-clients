@@ -21,31 +21,22 @@ import PreferencesProfileItems from "@/components/preferences/profile/Preference
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 import { PreferencesWrappedItems } from "@/components/preferences/wrapped/PreferencesWrappedItems.tsx";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
 
 const PreferencesPage = () => {
   return (
-    <IonPage>
+    <AppPage withSearch={false} withMenuButton>
       <SessionAuth>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot={"start"}>
-              <IonBackButton />
-            </IonButtons>
-            <IonTitle>Preferences</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ScrollableIonContent className={"ion-padding"}>
-          <Stack className={"mb-4 p-0"}>
-            <IonList className={"pt-0"}>
-              <PreferencesProfileItems />
-              <PreferencesConnectionsItems />
-              <PreferencesImporterItems />
-              <PreferencesWrappedItems />
-            </IonList>
-          </Stack>
-        </ScrollableIonContent>
+        <Stack className={"mb-4 p-0"}>
+          <IonList className={"pt-0"}>
+            <PreferencesProfileItems />
+            <PreferencesConnectionsItems />
+            <PreferencesImporterItems />
+            <PreferencesWrappedItems />
+          </IonList>
+        </Stack>
       </SessionAuth>
-    </IonPage>
+    </AppPage>
   );
 };
 

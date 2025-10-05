@@ -24,6 +24,7 @@ import {
   useUserProfile,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
 
 interface Props {
   userId?: string;
@@ -44,58 +45,30 @@ const ProfilePage = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
 
   return (
-    <IonPage>
+    <AppPage withMenuButton>
       <SessionAuth requireAuth={userId == undefined}>
-        {isInTab && isOwnProfile ? (
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot={"start"}>
-                <IonMenuButton />
-              </IonButtons>
-              <IonTitle>Your profile</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-        ) : (
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot={"start"}>
-                <IonBackButton />
-              </IonButtons>
-              {isOwnProfile ? (
-                <IonTitle>Your profile</IonTitle>
-              ) : (
-                <IonTitle>
-                  {profileQuery.data?.username}&apos;s profile
-                </IonTitle>
-              )}
-            </IonToolbar>
-          </IonHeader>
+        {isOwnProfile && (
+          <IonFab
+            slot="fixed"
+            horizontal="end"
+            vertical="bottom"
+            className={"me-2 mb-2"}
+          >
+            <Link to={getTabAwareHref("/preferences")}>
+              <IonFabButton>
+                <IconSettings />
+              </IonFabButton>
+            </Link>
+          </IonFab>
         )}
-
-        <ScrollableIonContent className={"ion-padding"}>
-          {isOwnProfile && (
-            <IonFab
-              slot="fixed"
-              horizontal="end"
-              vertical="bottom"
-              className={"me-2 mb-2"}
-            >
-              <Link to={getTabAwareHref("/preferences")}>
-                <IonFabButton>
-                  <IconSettings />
-                </IonFabButton>
-              </Link>
-            </IonFab>
-          )}
-          {profileQuery.isLoading && <CenteredLoading />}
-          {userIdToUse && (
-            <ProfileUserInfoWithBanner userId={userIdToUse}>
-              <ProfileViewContent userId={userIdToUse} />
-            </ProfileUserInfoWithBanner>
-          )}
-        </ScrollableIonContent>
+        {profileQuery.isLoading && <CenteredLoading />}
+        {userIdToUse && (
+          <ProfileUserInfoWithBanner userId={userIdToUse}>
+            <ProfileViewContent userId={userIdToUse} />
+          </ProfileUserInfoWithBanner>
+        )}
       </SessionAuth>
-    </IonPage>
+    </AppPage>
   );
 };
 

@@ -10,6 +10,7 @@ import {
 } from "@ionic/react";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { RouteComponentProps } from "react-router";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId: string;
@@ -22,23 +23,9 @@ const JournalPage = ({ userId }: Props) => {
   const isOwnJournal = userId === ownUserId;
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>
-            {isOwnJournal
-              ? "Your Journal"
-              : `${profileQuery.data?.username}'s Journal`}
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <JournalOverviewView userId={userId} />
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage>
+      <JournalOverviewView userId={userId} />
+    </AppPage>
   );
 };
 

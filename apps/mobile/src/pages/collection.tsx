@@ -20,6 +20,7 @@ import LibraryViewFab from "@/components/library/fab/LibraryViewFab.tsx";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId: string;
@@ -34,41 +35,19 @@ const CollectionPage = ({ userId, collectionId }: Props) => {
   const collectionQuery = useCollection(collectionId);
 
   return (
-    <IonPage>
+    <AppPage
+      contentProps={{
+        fixedSlotPlacement: "before",
+      }}
+    >
       <SessionAuth requireAuth={userId == undefined}>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot={"start"}>
-              <IonBackButton />
-            </IonButtons>
-            {isOwnLibrary ? (
-              <IonTitle>{collectionQuery.data?.name}</IonTitle>
-            ) : (
-              <IonTitle>
-                {collectionQuery.data?.name} -{" "}
-                {`${profileQuery.data?.username}`}
-              </IonTitle>
-            )}
-            {collectionQuery.isLoading && (
-              <IonProgressBar type="indeterminate" />
-            )}
-          </IonToolbar>
-        </IonHeader>
-        <ScrollableIonContent
-          className={"ion-padding"}
-          fixedSlotPlacement={"before"}
-        >
-          <LibraryViewRefresher userId={userId} collectionId={collectionId} />
-          {isOwnLibrary && <LibraryViewFab />}
-          <LibraryViewLayout userId={userId} collectionId={collectionId}>
-            <CollectionView
-              libraryUserId={userId}
-              collectionId={collectionId}
-            />
-          </LibraryViewLayout>
-        </ScrollableIonContent>
+        <LibraryViewRefresher userId={userId} collectionId={collectionId} />
+        {isOwnLibrary && <LibraryViewFab />}
+        <LibraryViewLayout userId={userId} collectionId={collectionId}>
+          <CollectionView libraryUserId={userId} collectionId={collectionId} />
+        </LibraryViewLayout>
       </SessionAuth>
-    </IonPage>
+    </AppPage>
   );
 };
 

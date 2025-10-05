@@ -6,13 +6,14 @@ import {
   Loader,
   Stack,
   TextInput,
+  TextInputProps,
   useCombobox,
 } from "@mantine/core";
 import { useDebouncedCallback, useDebouncedValue } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import { useSearchGamesAutocomplete } from "#@/components";
 
-interface Props {
+interface Props extends Omit<TextInputProps, "onChange"> {
   withButton?: boolean;
   /**
    * Triggered when user press enter/search button or types in the search bar (debounced)
@@ -20,7 +21,7 @@ interface Props {
   onChange: (query: string) => void;
 }
 
-const GameSearchBar = ({ withButton = true, onChange }: Props) => {
+const GameSearchBar = ({ withButton = true, onChange, ...others }: Props) => {
   const combobox = useCombobox();
 
   const [query, setQuery] = useState("");
@@ -63,6 +64,7 @@ const GameSearchBar = ({ withButton = true, onChange }: Props) => {
                 root: "flex-grow",
                 input: "!rounded-tr-none !rounded-br-none",
               }}
+              {...others}
             />
           </Combobox.Target>
           <Combobox.Dropdown

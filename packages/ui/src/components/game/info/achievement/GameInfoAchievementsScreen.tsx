@@ -91,7 +91,7 @@ const GameInfoAchievementsScreen = ({ gameId }: Props) => {
           "justify-start": onMobilePlatform,
         })}
       >
-        <Tabs.List>{buildTabs()}</Tabs.List>
+        <Tabs.List grow={onMobilePlatform}>{buildTabs()}</Tabs.List>
       </Group>
       {buildPanels()}
     </Tabs>

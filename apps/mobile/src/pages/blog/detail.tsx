@@ -18,6 +18,7 @@ import {
   useBlogPost,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
 
 interface Props {
   postId: string;
@@ -27,26 +28,15 @@ const BlogPostDetailPage = ({ postId }: Props) => {
   const { data, isLoading } = useBlogPost(postId);
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          {data != undefined && <IonTitle>{data.title}</IonTitle>}
-          {isLoading && <IonProgressBar type="indeterminate" />}
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className="ion-padding">
-        <Box className={"w-full min-h-screen mb-8 mt-3"}>
-          <BlogPostsLayout>
-            <BlogPostDetailLayout>
-              <BlogPostDetailView postId={postId} />
-            </BlogPostDetailLayout>
-          </BlogPostsLayout>
-        </Box>
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage>
+      <Box className={"w-full min-h-screen mb-8 mt-3"}>
+        <BlogPostsLayout>
+          <BlogPostDetailLayout postId={postId}>
+            <BlogPostDetailView postId={postId} />
+          </BlogPostDetailLayout>
+        </BlogPostsLayout>
+      </Box>
+    </AppPage>
   );
 };
 

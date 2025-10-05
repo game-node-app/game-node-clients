@@ -10,6 +10,7 @@ import {
 } from "@ionic/react";
 import { CollectionEntryDetailView, ImageSize, useUserProfile } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId: string;
@@ -20,28 +21,14 @@ const CollectionEntryDetailPage = ({ userId, collectionEntryId }: Props) => {
   const profileQuery = useUserProfile(userId);
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>
-            {profileQuery.data != undefined
-              ? `${profileQuery.data?.username}'s Collection Entry`
-              : ""}
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <CollectionEntryDetailView
-          userId={userId}
-          collectionEntryId={collectionEntryId}
-          withTitle={false}
-          backgroundImageSize={ImageSize.SCREENSHOT_MED}
-        />
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage withSearch>
+      <CollectionEntryDetailView
+        userId={userId}
+        collectionEntryId={collectionEntryId}
+        withTitle={false}
+        backgroundImageSize={ImageSize.SCREENSHOT_MED}
+      />
+    </AppPage>
   );
 };
 

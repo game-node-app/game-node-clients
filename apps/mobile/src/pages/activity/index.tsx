@@ -16,6 +16,7 @@ import {
 } from "@ionic/react";
 import {
   ActivityFeed,
+  ActivityFeedLayout,
   ActivityFeedTabValue,
   InfiniteLoaderProps,
 } from "@repo/ui";
@@ -24,6 +25,7 @@ import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
 import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
 import { Text } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
+import { AppPage } from "@/components/general/AppPage";
 
 const ActivityPage = () => {
   const queryClient = useQueryClient();
@@ -31,52 +33,29 @@ const ActivityPage = () => {
     useState<ActivityFeedTabValue>("all");
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonMenuButton />
-          </IonButtons>
-          <IonSegment
-            value={selectedActivityTab}
-            onIonChange={(evt) =>
-              setSelectedActivityTab(
-                (evt.detail.value as ActivityFeedTabValue) ?? "all",
-              )
-            }
-          >
-            <IonSegmentButton value="all">
-              <IonLabel>All</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="following">
-              <IonLabel>Following</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-          <QueryProgressBar />
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <IonRefresher
-          slot={"fixed"}
-          onIonRefresh={async (evt) => {
-            const promises = [
-              queryClient.invalidateQueries({
-                queryKey: ["activities"],
-              }),
-            ];
-            await Promise.all(promises);
-            evt.detail.complete();
-          }}
-        >
-          <IonRefresherContent />
-        </IonRefresher>
-        <Text className={"text-sm text-dimmed mb-2"}>
-          Tip: press and hold to show actions.
-        </Text>
-        <ActivityFeed
-          criteria={selectedActivityTab}
-          Component={MobileActivityItem}
-        >
+    <AppPage withSearch>
+      <IonRefresher
+        slot={"fixed"}
+        onIonRefresh={async (evt) => {
+          const promises = [
+            queryClient.invalidateQueries({
+              queryKey: ["activities"],
+            }),
+          ];
+          await Promise.all(promises);
+          evt.detail.complete();
+        }}
+      >
+        <IonRefresherContent />
+      </IonRefresher>
+      <Text className={"text-sm text-dimmed mb-2"}>
+        Tip: press and hold to show actions.
+      </Text>
+      <ActivityFeedLayout
+        currentTab={selectedActivityTab}
+        onChange={setSelectedActivityTab}
+      >
+        <ActivityFeed criteria={selectedActivityTab}>
           {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
             <IonInfiniteScroll
               disabled={!hasNextPage}
@@ -91,8 +70,8 @@ const ActivityPage = () => {
             </IonInfiniteScroll>
           )}
         </ActivityFeed>
-      </ScrollableIonContent>
-    </IonPage>
+      </ActivityFeedLayout>
+    </AppPage>
   );
 };
 

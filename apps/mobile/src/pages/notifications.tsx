@@ -1,34 +1,15 @@
 import React, { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { NotificationsService } from "@repo/wrapper/server";
-import { Notification } from "@repo/wrapper/server";
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Container,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Notification, NotificationsService } from "@repo/wrapper/server";
+import { IonPage } from "@ionic/react";
+import { Button, Center, Stack, Text } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { IconInbox, IconInboxOff } from "@tabler/icons-react";
 import {
   AggregatedNotification,
   CenteredLoading,
   useInfiniteAggregatedNotifications,
 } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
 
 const NotificationsPage = () => {
   const { data, isLoading, invalidate, isFetching, fetchNextPage } =
@@ -105,78 +86,56 @@ const NotificationsPage = () => {
   };
 
   return (
-    <IonPage>
+    <AppPage>
       <SessionAuth>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot={"start"}>
-              <IonBackButton />
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>Notifications</IonTitle>
-            <IonButtons slot={"primary"}>
-              <IonButton onClick={markAllAsRead}>
-                {hasUnreadNotifications ? (
-                  <ActionIcon>
-                    <IconInboxOff />
-                  </ActionIcon>
-                ) : (
-                  <IconInbox />
-                )}
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <ScrollableIonContent className={"ion-padding"}>
-          <Stack className={"min-h-screen p-0 mb-4"}>
-            <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
-              {aggregations?.map((aggregatedNotification, index) => {
-                if (aggregatedNotification.notifications.length === 0) {
-                  return null;
-                }
+        <Stack className={"min-h-screen p-0 mb-4"}>
+          <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
+            {aggregations?.map((aggregatedNotification, index) => {
+              if (aggregatedNotification.notifications.length === 0) {
+                return null;
+              }
 
-                const key = aggregatedNotification.notifications
-                  .map((notif) => notif.id)
-                  .join(",");
+              const key = aggregatedNotification.notifications
+                .map((notif) => notif.id)
+                .join(",");
 
-                return (
-                  <AggregatedNotification
-                    key={key}
-                    aggregatedNotification={aggregatedNotification}
-                    backgroundColor={
-                      index === 0 || index % 2 === 0 ? "normal" : "darker"
+              return (
+                <AggregatedNotification
+                  key={key}
+                  aggregatedNotification={aggregatedNotification}
+                  backgroundColor={
+                    index === 0 || index % 2 === 0 ? "normal" : "darker"
+                  }
+                  onClick={() => {
+                    if (notificationViewMutation.isPending || isFetching) {
+                      return;
                     }
-                    onClick={() => {
-                      if (notificationViewMutation.isPending || isFetching) {
-                        return;
-                      }
-                      notificationViewMutation.mutate(
-                        aggregatedNotification.notifications,
-                      );
-                    }}
-                  />
-                );
-              })}
-              {isEmpty && <Text>No notifications.</Text>}
-              {isFetching && <CenteredLoading className={"my-4"} />}
+                    notificationViewMutation.mutate(
+                      aggregatedNotification.notifications,
+                    );
+                  }}
+                />
+              );
+            })}
+            {isEmpty && <Text>No notifications.</Text>}
+            {isFetching && <CenteredLoading className={"my-4"} />}
 
-              {hasNextPage && (
-                <Center className={"mt-4"}>
-                  <Button
-                    size={"sm"}
-                    onClick={() => {
-                      fetchNextPage();
-                    }}
-                  >
-                    Show more
-                  </Button>
-                </Center>
-              )}
-            </Stack>
+            {hasNextPage && (
+              <Center className={"mt-4"}>
+                <Button
+                  size={"sm"}
+                  onClick={() => {
+                    fetchNextPage();
+                  }}
+                >
+                  Show more
+                </Button>
+              </Center>
+            )}
           </Stack>
-        </ScrollableIonContent>
+        </Stack>
       </SessionAuth>
-    </IonPage>
+    </AppPage>
   );
 };
 

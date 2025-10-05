@@ -13,6 +13,7 @@ import { Center } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { AchievementsScreen, useUserProfile } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId: string;
@@ -21,23 +22,9 @@ interface Props {
 const AchievementsPage = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          {profileQuery.data && (
-            <IonTitle>
-              {profileQuery.data.username}&apos;s achievements
-            </IonTitle>
-          )}
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <AchievementsScreen targetUserId={userId} />
-      </ScrollableIonContent>
-    </IonPage>
+    <AppPage withSearch>
+      <AchievementsScreen targetUserId={userId} />
+    </AppPage>
   );
 };
 

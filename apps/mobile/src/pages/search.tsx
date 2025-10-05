@@ -11,6 +11,7 @@ import {
 import {
   buildGameCategoryFilters,
   buildGameSearchRequestDto,
+  GameSearchBar,
   GameSearchRequestBuilderValues,
   GameSearchTips,
   GameSearchViewActions,
@@ -25,6 +26,8 @@ import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import { useDebouncedValue } from "@mantine/hooks";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { AppPage } from "@/components/general/AppPage";
+import { IconSearch } from "@tabler/icons-react";
 
 const GameSearchPage = () => {
   const [searchParams, setSearchParams] = useUrlState(
@@ -66,62 +69,47 @@ const GameSearchPage = () => {
   }, [data]);
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
+    <AppPage withSearch={false}>
+      <Stack className={"w-full min-h-96 mb-8"}>
+        <GameView layout={layout}>
           <FocusTrap>
-            <IonSearchbar
-              value={searchParams.query}
-              onIonInput={(e) => {
-                setSearchParams((prev) => ({
-                  ...prev,
-                  query: e.detail.value!,
-                }));
-              }}
+            <GameSearchBar
+              onChange={(query) => setSearchParams({ query })}
+              withButton={false}
+              leftSection={<IconSearch size={21} />}
             />
           </FocusTrap>
-        </IonToolbar>
-      </IonHeader>
-      <ScrollableIonContent className={"ion-padding"}>
-        <Stack className={"w-full min-h-96 mb-8"}>
-          <GameView layout={layout}>
-            <GameSearchViewActions
-              includeExtraContent={includeExtraContent}
-              onExtraContentChange={(value) =>
-                setSearchParams({ includeExtraContent: value })
-              }
-              onLayoutChange={setLayout}
-            />
-            <GameSearchTips />
-            {isError && (
-              <CenteredErrorMessage message={getErrorMessage(error)} />
-            )}
-            {!isQueryEnabled ? (
-              <Center>
-                <Text>Start typing to see results.</Text>
-              </Center>
-            ) : (
-              <>
-                <GameView.Content items={items}>
-                  <GameView.LoadingSkeletons isVisible={isFetching} />
-                </GameView.Content>
-                <SimpleInfiniteLoader
-                  fetchNextPage={async () => {
-                    if (isFetching) return;
-                    await fetchNextPage();
-                  }}
-                  isFetching={isFetching}
-                  hasNextPage={hasNextPage}
-                />
-              </>
-            )}
-          </GameView>
-        </Stack>
-      </ScrollableIonContent>
-    </IonPage>
+          <GameSearchViewActions
+            includeExtraContent={includeExtraContent}
+            onExtraContentChange={(value) =>
+              setSearchParams({ includeExtraContent: value })
+            }
+            onLayoutChange={setLayout}
+          />
+          <GameSearchTips />
+          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+          {!isQueryEnabled ? (
+            <Center>
+              <Text>Start typing to see results.</Text>
+            </Center>
+          ) : (
+            <>
+              <GameView.Content items={items}>
+                <GameView.LoadingSkeletons isVisible={isFetching} />
+              </GameView.Content>
+              <SimpleInfiniteLoader
+                fetchNextPage={async () => {
+                  if (isFetching) return;
+                  await fetchNextPage();
+                }}
+                isFetching={isFetching}
+                hasNextPage={hasNextPage}
+              />
+            </>
+          )}
+        </GameView>
+      </Stack>
+    </AppPage>
   );
 };
 

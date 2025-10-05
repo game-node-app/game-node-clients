@@ -21,6 +21,7 @@ import {
   PostsFeedTabValue,
 } from "@repo/ui";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
+import { AppPage } from "@/components/general/AppPage";
 
 const PostsPage = () => {
   const params = useSearchParameters();
@@ -32,46 +33,41 @@ const PostsPage = () => {
   const queryClient = useQueryClient();
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot={"start"}>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>Posts</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent ref={contentRef}>
-        <IonRefresher
-          slot={"fixed"}
-          onIonRefresh={async (evt) => {
-            await queryClient.invalidateQueries({
-              queryKey: ["posts", "feed"],
-            });
-            evt.detail.complete();
-          }}
-        >
-          <IonRefresherContent />
-        </IonRefresher>
-        <Stack className={"w-full my-4"}>
-          <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
-            <PostsFeed criteria={currentTab} targetedPostId={postId}>
-              {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-                <IonInfiniteScroll
-                  disabled={!hasNextPage}
-                  onIonInfinite={async (evt) => {
-                    await fetchNextPage();
-                    await evt.target.complete();
-                  }}
-                >
-                  <IonInfiniteScrollContent />
-                </IonInfiniteScroll>
-              )}
-            </PostsFeed>
-          </PostsFeedLayout>
-        </Stack>
-      </IonContent>
-    </IonPage>
+    <AppPage
+      withSearch
+      contentProps={{
+        ref: contentRef,
+      }}
+    >
+      <IonRefresher
+        slot={"fixed"}
+        onIonRefresh={async (evt) => {
+          await queryClient.invalidateQueries({
+            queryKey: ["posts", "feed"],
+          });
+          evt.detail.complete();
+        }}
+      >
+        <IonRefresherContent />
+      </IonRefresher>
+      <Stack className={"w-full my-4"}>
+        <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
+          <PostsFeed criteria={currentTab} targetedPostId={postId}>
+            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+              <IonInfiniteScroll
+                disabled={!hasNextPage}
+                onIonInfinite={async (evt) => {
+                  await fetchNextPage();
+                  await evt.target.complete();
+                }}
+              >
+                <IonInfiniteScrollContent />
+              </IonInfiniteScroll>
+            )}
+          </PostsFeed>
+        </PostsFeedLayout>
+      </Stack>
+    </AppPage>
   );
 };
 
