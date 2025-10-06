@@ -101,13 +101,13 @@ export default function App({
   );
 
   return (
-    <UIProvider>
-      <MantineProvider
-        theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-          fontFamily: roboto.style.fontFamily,
-        })}
-        forceColorScheme={"dark"}
-      >
+    <MantineProvider
+      theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+        fontFamily: roboto.style.fontFamily,
+      })}
+      forceColorScheme={"dark"}
+    >
+      <UIProvider>
         <Head>
           <title>GameNode</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -125,7 +125,7 @@ export default function App({
             </HydrationBoundary>
           </QueryClientProvider>
         </SuperTokensProvider>
-      </MantineProvider>
-    </UIProvider>
+      </UIProvider>
+    </MantineProvider>
   );
 }
