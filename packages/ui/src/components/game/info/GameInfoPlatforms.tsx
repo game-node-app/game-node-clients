@@ -45,7 +45,7 @@ const GameInfoPlatforms = ({
       return (
         <Image
           key={icon}
-          w={60}
+          w={40}
           alt={icon}
           src={getServerStoredIcon(icon)}
           {...iconsProps}

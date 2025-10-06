@@ -1,9 +1,5 @@
 import React, { useMemo } from "react";
-import {
-  GamePostEditor,
-  InfiniteLoaderChildren,
-  useOnMobilePlatform,
-} from "#@/components";
+import { GamePostEditor, InfiniteLoaderChildren } from "#@/components";
 import { Stack } from "@mantine/core";
 import {
   PostsFeedCriteria,
@@ -18,12 +14,24 @@ interface Props {
    * This post will appear on top
    */
   targetedPostId?: string;
+  limit?: number;
+  /**
+   * If set, the feed will be limited to this number of posts.
+   * Pagination will be disabled if this is set.
+   */
+  hardLimit?: number;
 }
 
-const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
+const PostsFeed = ({
+  criteria,
+  targetedPostId,
+  limit = 20,
+  hardLimit,
+  children,
+}: Props) => {
   const postsFeedQuery = useInfinitePostsFeed({
     criteria,
-    limit: 20,
+    limit: hardLimit ?? limit,
     postId: targetedPostId,
   });
   const items = useMemo(() => {
@@ -35,10 +43,11 @@ const PostsFeed = ({ criteria, targetedPostId, children }: Props) => {
 
   return (
     <Stack>
-      <GamePostEditor />
+      <GamePostEditor withEnableButton />
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {
+          if (hardLimit != undefined) return;
           await postsFeedQuery.fetchNextPage();
         },
         isFetching: postsFeedQuery.isFetching,

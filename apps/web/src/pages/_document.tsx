@@ -26,7 +26,7 @@ export default function Document() {
         />
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </Head>
-      <body>
+      <body className="app-web">
         <Main />
         <NextScript />
       </body>

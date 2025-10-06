@@ -7,7 +7,6 @@ import {
   useCollection,
   useCollectionEntriesForCollectionId,
   useGames,
-  useRouter,
   useUserId,
 } from "@repo/ui";
 import {
@@ -30,6 +29,7 @@ import { IonRippleEffect, useIonRouter } from "@ionic/react";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { getTabAwareHref } from "@/util/getTabAwareHref.ts";
 import { notifications } from "@mantine/notifications";
+import { Share } from "@capacitor/share";
 
 const ITEMS_LIMIT = 9;
 
@@ -38,7 +38,7 @@ const MobileCollectionThumbnailCard = ({
 }: CollectionThumbnailCardProps) => {
   const router = useIonRouter();
   const ownUserId = useUserId();
-  let clipboardManager = useClipboard();
+  const clipboardManager = useClipboard();
   const [collectionEditOpened, collectionEditUtils] = useDisclosure();
   const [collectionRemoveOpened, collectionRemoveUtils] = useDisclosure();
 
@@ -86,13 +86,14 @@ const MobileCollectionThumbnailCard = ({
         </Menu.Item>
         <Menu.Item
           leftSection={<IconBrandTelegram size={20} />}
-          onClick={() => {
+          onClick={async () => {
             clipboardManager.copy(
               `https://${window.location.host}${targetHref}`,
             );
-            notifications.show({
-              color: "green",
-              message: "Collection URL copied to clipboard!",
+            await Share.share({
+              url: `https://${window.location.host}${targetHref}`,
+              text: `Check out my ${collection?.name} collection on GameNode!`,
+              dialogTitle: "Share your collection with friends!",
             });
           }}
         >

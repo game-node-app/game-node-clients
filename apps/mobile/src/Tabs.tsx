@@ -16,7 +16,7 @@ import NotificationsPage from "@/pages/notifications";
 import SupertokensAuthPage from "./pages/auth";
 import SupertokensAuthCallbackPage from "@/pages/auth_callback";
 import ActivityPage from "@/pages/activity";
-import { SidebarMenu } from "@/components/sidebar/SidebarMenu.tsx";
+import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import {
   IconActivity,
   IconBell,
@@ -30,8 +30,8 @@ import LibraryPage from "@/pages/library.tsx";
 const Tabs = () => {
   return (
     <IonTabs>
-      <IonMenu contentId="main-outlet" type="overlay">
-        <SidebarMenu />
+      <IonMenu menuId={"main-menu"} contentId="main-outlet" type="overlay">
+        <MobileSidebarMenu />
       </IonMenu>
       <IonRouterOutlet
         id="main-outlet"

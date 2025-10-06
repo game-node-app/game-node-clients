@@ -6,6 +6,7 @@ import {
   getAchievementsEnabledStores,
   useGameAchievementsV2,
   useGameExternalStores,
+  useOnMobile,
   useOnMobilePlatform,
   useUserId,
   XBOX_STORES,
@@ -21,7 +22,7 @@ interface Props {
 
 const GameInfoAchievementsScreen = ({ gameId }: Props) => {
   const userId = useUserId();
-  const onMobilePlatform = useOnMobilePlatform();
+  const onMobile = useOnMobile();
   const { data, isLoading, isError, error } = useGameAchievementsV2(
     userId,
     gameId,
@@ -76,23 +77,18 @@ const GameInfoAchievementsScreen = ({ gameId }: Props) => {
 
   return (
     <Tabs
-      variant={onMobilePlatform ? "default" : "pills"}
+      variant={"default"}
       keepMounted={false}
       defaultValue={data != undefined ? `${data.at(0)?.source}` : undefined}
       classNames={{
-        tabSection: onMobilePlatform ? "me-0 block" : "hidden",
-        tabLabel: onMobilePlatform ? "hidden lg:block text-lg" : undefined,
-        tab: onMobilePlatform ? "flex justify-center" : undefined,
+        tabSection: "me-0 block lg:me-2",
+        tabLabel: "hidden lg:block text-lg",
+        tab: "flex justify-center",
+        list: "w-fit",
       }}
     >
       {isError && <CenteredErrorMessage error={error} />}
-      <Group
-        className={cn("w-full justify-end mb-4 pe-4", {
-          "justify-start": onMobilePlatform,
-        })}
-      >
-        <Tabs.List grow={onMobilePlatform}>{buildTabs()}</Tabs.List>
-      </Group>
+      <Tabs.List>{buildTabs()}</Tabs.List>
       {buildPanels()}
     </Tabs>
   );

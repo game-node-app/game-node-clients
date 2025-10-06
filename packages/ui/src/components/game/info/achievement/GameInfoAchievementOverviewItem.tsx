@@ -1,16 +1,11 @@
 import React, { useMemo } from "react";
-import {
-  GameAchievementGroupDto,
-  GameExternalGame,
-  GameExternalStoreDto,
-} from "@repo/wrapper/server";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
 import { Badge, Box, Group, Image, Stack, Text } from "@mantine/core";
 import { getServerStoredIcon, Link } from "#@/util";
 import {
-  ACHIEVEMENT_ENABLED_STORES,
-  useGameAchievements,
   useGameAchievementsV2,
   useGamesResource,
+  useOnMobilePlatform,
   useUserId,
 } from "#@/components";
 
@@ -56,7 +51,7 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
         {itemName}
       </Text>
     );
-  }, []);
+  }, [targetAchievementGroup]);
 
   return (
     <Link
@@ -88,6 +83,7 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
                 key={`platform-${platform.id}`}
                 variant={"default"}
                 size={"sm"}
+                className={"mobile:bg-paper-0 mobile:border-0"}
               >
                 {platform.abbreviation.toUpperCase()}
               </Badge>

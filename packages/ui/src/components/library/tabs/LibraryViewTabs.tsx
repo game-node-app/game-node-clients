@@ -1,6 +1,7 @@
 import React from "react";
 import { CollectionEntry } from "@repo/wrapper/server";
 import { Tabs } from "@mantine/core";
+import { useOnMobile } from "#@/components";
 
 interface Props {
   status: CollectionEntry.status;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
+  const onMobile = useOnMobile();
   return (
     <Tabs
       value={status}
@@ -15,7 +17,7 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
       variant={"outline"}
       radius={"md"}
     >
-      <Tabs.List className={"flex-nowrap"}>
+      <Tabs.List grow={onMobile} className={"flex-nowrap"}>
         <Tabs.Tab value={CollectionEntry.status.PLAYING}>Playing</Tabs.Tab>
         <Tabs.Tab value={CollectionEntry.status.FINISHED}>Finished</Tabs.Tab>
         <Tabs.Tab value={CollectionEntry.status.PLANNED}>Planned</Tabs.Tab>

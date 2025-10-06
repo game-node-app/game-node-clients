@@ -1,6 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { CollectionEntry } from "../../../../../../wrapper/src/server";
-import { getOwnCollectionEntryByGameId } from "#@/components/collection/collection-entry/util/getOwnCollectionEntryByGameId";
+import {
+  ApiError,
+  CollectionEntry,
+  CollectionsEntriesService,
+} from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 /**
@@ -12,7 +15,7 @@ import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 export function useOwnCollectionEntryForGameId(
   gameId: number | undefined,
   enabled = true,
-): ExtendedUseQueryResult<CollectionEntry | undefined> {
+): ExtendedUseQueryResult<CollectionEntry | null> {
   const queryClient = useQueryClient();
   const queryKey = ["collection-entries", "own", gameId];
   const invalidate = () =>
@@ -21,13 +24,16 @@ export function useOwnCollectionEntryForGameId(
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        if (!gameId) return undefined;
         try {
-          const collectionEntry = await getOwnCollectionEntryByGameId(gameId);
-          if (!collectionEntry) return undefined;
-          return collectionEntry;
-        } catch (e) {
-          return undefined;
+          return await CollectionsEntriesService.collectionsEntriesControllerFindOwnEntryByGameIdV1(
+            gameId!,
+          );
+        } catch (err) {
+          if (err instanceof ApiError && err.status === 404) {
+            return null;
+          }
+
+          throw err;
         }
       },
       enabled: enabled && gameId != undefined,

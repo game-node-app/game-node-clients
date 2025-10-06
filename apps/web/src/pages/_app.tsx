@@ -1,4 +1,5 @@
 import { MantineProvider, mergeMantineTheme } from "@mantine/core";
+
 import { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";

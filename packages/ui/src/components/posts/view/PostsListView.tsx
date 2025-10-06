@@ -13,9 +13,14 @@ import { Stack } from "@mantine/core";
 
 interface Props extends GetPostsRequestDto {
   withUserProfile?: boolean;
+  withGameInfo?: boolean;
 }
 
-const PostsListView = ({ withUserProfile = true, ...request }: Props) => {
+const PostsListView = ({
+  withUserProfile,
+  withGameInfo,
+  ...request
+}: Props) => {
   const {
     data,
     isLoading,
@@ -41,7 +46,11 @@ const PostsListView = ({ withUserProfile = true, ...request }: Props) => {
   return (
     <Stack className={"w-full h-full"}>
       {isError && <CenteredErrorMessage error={error} />}
-      <PostsList items={items} withUserProfile={withUserProfile} />
+      <PostsList
+        items={items}
+        withUserProfile={withUserProfile}
+        withGameInfo={withGameInfo}
+      />
       <SimpleInfiniteLoader
         fetchNextPage={async () => {
           await fetchNextPage();

@@ -1,9 +1,8 @@
 import React, {
-  forwardRef,
+  ComponentProps,
   useEffect,
   useImperativeHandle,
   useRef,
-  ComponentPropsWithoutRef,
 } from "react";
 import { IonContent, useIonRouter } from "@ionic/react";
 import { useDebouncedCallback } from "@mantine/hooks";
@@ -20,16 +19,17 @@ const SCROLL_POSITIONS = new Map<string, ScrollPosition>();
  * This is necessary due to a bug in Ionic's part:
  * https://github.com/ionic-team/ionic-framework/issues/29578
  */
-const ScrollableIonContent = forwardRef<
-  HTMLIonContentElement,
-  ComponentPropsWithoutRef<typeof IonContent>
->((props, ref) => {
+const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
   const ionRouter = useIonRouter();
   const localRef = useRef<HTMLIonContentElement>(null);
   const pathname = ionRouter.routeInfo.pathname;
 
   // Merge localRef with forwarded ref
-  useImperativeHandle(ref, () => localRef.current as HTMLIonContentElement, []);
+  useImperativeHandle(
+    props.ref,
+    () => localRef.current as HTMLIonContentElement,
+    [],
+  );
 
   const onScrollChange = useDebouncedCallback(
     (scrollPosition: ScrollPosition) => {
@@ -41,7 +41,10 @@ const ScrollableIonContent = forwardRef<
   useEffect(() => {
     const storedScrollPosition = SCROLL_POSITIONS.get(pathname);
     if (storedScrollPosition) {
-      console.log(`Restoring scroll position: `, storedScrollPosition);
+      console.log(
+        `Restoring scroll position for ${pathname}: `,
+        storedScrollPosition,
+      );
       localRef.current?.scrollToPoint(
         storedScrollPosition.x,
         storedScrollPosition.y,
@@ -63,8 +66,6 @@ const ScrollableIonContent = forwardRef<
       }
     />
   );
-});
-
-ScrollableIonContent.displayName = "ScrollableIonContent";
+};
 
 export { ScrollableIonContent };

@@ -6,7 +6,16 @@ import {
   XBOX_STORES,
 } from "#@/components";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
-import { Badge, Box, Group, Image, Progress, Stack, Text } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Flex,
+  Group,
+  Image,
+  Progress,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
 import { match, P } from "ts-pattern";
 import { IconTrophyFilled } from "@tabler/icons-react";
@@ -223,34 +232,14 @@ const GameAchievementProgressOverview = ({
   }
 
   return (
-    <Group>
-      <Box className={"p-1"}>
-        {targetAchievementsGroup && (
-          <Image
-            alt={targetAchievementsGroup?.sourceName ?? "External Store"}
-            src={getServerStoredIcon(targetAchievementsGroup?.iconName)}
-            className={"h-8 w-8 object-contain"}
-          />
-        )}
-      </Box>
-      <Stack className={"grow lg:max-w-96"}>
+    <Flex className={"w-full justify-center mt-8 lg:mt-4"}>
+      <Stack className={"grow lg:max-w-96 px-8 lg:px-0"}>
         {renderedAchievementTotal}
-        <Group className={"flex-nowrap justify-between"}>
-          <Group className={"flex-nowrap gap-1"}>
-            {availablePlatforms.map((platform) => (
-              <Badge
-                key={`platform-${platform.id}`}
-                variant={"default"}
-                size={"sm"}
-              >
-                {platform.abbreviation.toUpperCase()}
-              </Badge>
-            ))}
-          </Group>
+        <Group className={"flex-nowrap justify-center"}>
           {renderedAchievementCount}
         </Group>
       </Stack>
-    </Group>
+    </Flex>
   );
 };
 

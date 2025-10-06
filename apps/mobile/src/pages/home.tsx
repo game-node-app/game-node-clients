@@ -13,7 +13,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
-import { Container, Image, Stack, Title } from "@mantine/core";
+import { Button, Container, Image, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -36,6 +36,8 @@ import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { Link } from "react-router-dom";
+import { getTabAwareHref } from "@/util/getTabAwareHref";
 
 const HomePage = () => {
   const contentRef = useRef<HTMLIonContentElement>(null);
@@ -55,27 +57,6 @@ const HomePage = () => {
         fixedSlotPlacement: "before",
       }}
     >
-      <RecentlyPlayedGamesShare
-        opened={wrappedOpened}
-        onClose={() => {
-          setWrappedOpened(false);
-        }}
-        onShare={async (file) => {
-          const base64 = await blobToBase64(file);
-
-          const cachedFileResult = await Filesystem.writeFile({
-            path: file.name,
-            data: base64,
-            directory: Directory.Cache,
-          });
-
-          await Share.share({
-            title: "This is my GameNode Wrapped!",
-            dialogTitle: "Share your wrapped with friends!",
-            url: cachedFileResult.uri,
-          });
-        }}
-      />
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {
@@ -128,17 +109,24 @@ const HomePage = () => {
             className: "",
           }}
         >
-          <PostsFeed criteria={"all"}>
+          <PostsFeed criteria={"all"} hardLimit={5}>
             {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <IonInfiniteScroll
-                disabled={!hasNextPage}
-                onIonInfinite={async (evt) => {
-                  await fetchNextPage();
-                  await evt.target.complete();
-                }}
-              >
-                <IonInfiniteScrollContent />
-              </IonInfiniteScroll>
+              <Stack className={"items-center"}>
+                <Link to={getTabAwareHref("/posts")} className={"w-2/4"}>
+                  <Button className={"w-full"} size={"md"}>
+                    View All
+                  </Button>
+                </Link>
+                <IonInfiniteScroll
+                  disabled={!hasNextPage}
+                  onIonInfinite={async (evt) => {
+                    await fetchNextPage();
+                    await evt.target.complete();
+                  }}
+                >
+                  <IonInfiniteScrollContent />
+                </IonInfiniteScroll>
+              </Stack>
             )}
           </PostsFeed>
         </DetailsBox>

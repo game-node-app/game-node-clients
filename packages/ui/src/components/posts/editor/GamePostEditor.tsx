@@ -30,9 +30,17 @@ interface GamePostEditorProps {
   gameId?: number;
   editorProps?: RichTextEditorContentProps;
   onPublish?: () => void;
+  /**
+   * If the editor should initially be hidden, and a button should be shown to enable it.
+   */
+  withEnableButton?: boolean;
 }
 
 const GamePostEditor = (props: GamePostEditorProps) => {
+  const [editorEnabled, editorEnabledUtils] = useDisclosure(
+    props.withEnableButton == undefined || !props.withEnableButton,
+  );
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: POST_EDITOR_EXTENSIONS,
@@ -138,6 +146,14 @@ const GamePostEditor = (props: GamePostEditorProps) => {
     },
     onError: createErrorNotification,
   });
+
+  if (!editorEnabled) {
+    return (
+      <Button variant={"default"} onClick={editorEnabledUtils.open}>
+        Create Post
+      </Button>
+    );
+  }
 
   return (
     <PostImageLightboxContext>

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import prose from "@tailwindcss/typography";
 import containerQueries from "@tailwindcss/container-queries";
+import plugin from "tailwindcss/plugin";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
@@ -76,6 +77,16 @@ const config: Omit<Config, "content"> = {
       },
     },
   },
-  plugins: [prose(), containerQueries],
+  plugins: [
+    prose(),
+    containerQueries,
+    plugin(({ addVariant }) => {
+      // Add custom conditional variants that are applied based on the root element's
+      // classname.
+      addVariant("mobile", ":is(.app-mobile &)");
+      addVariant("web", ":is(.app-web &)");
+      addVariant("admin", ":is(.app-admin &)");
+    }),
+  ],
 };
 export default config;

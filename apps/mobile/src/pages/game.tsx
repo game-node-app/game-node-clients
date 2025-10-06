@@ -116,19 +116,40 @@ const GamePage = ({ gameId }: Props) => {
         </Tabs.Panel>
         <Tabs.Panel value={GameInfoTabValue.reviews}>
           <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
-            <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+            <GameInfoContentTitle
+              title={"Reviews"}
+              onGoBack={onGoBack}
+              iconProps={{ display: "none" }}
+              titleProps={{
+                className: "text-md font-medium ps-2",
+              }}
+            />
             <GameInfoReviewScreen gameId={gameId} />
           </Stack>
         </Tabs.Panel>
         <Tabs.Panel value={GameInfoTabValue.discussion}>
           <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
-            <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+            <GameInfoContentTitle
+              title={"Discussion"}
+              onGoBack={onGoBack}
+              iconProps={{ display: "none" }}
+              titleProps={{
+                className: "text-md font-medium ps-2",
+              }}
+            />
             <GameInfoPostsScreen gameId={gameId} />
           </Stack>
         </Tabs.Panel>
         <Tabs.Panel value={GameInfoTabValue.achievements}>
           <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
-            <GameInfoContentTitle title={"Achievements"} onGoBack={onGoBack} />
+            <GameInfoContentTitle
+              title={"Achievements"}
+              onGoBack={onGoBack}
+              iconProps={{ display: "none" }}
+              titleProps={{
+                className: "text-md font-medium ps-2",
+              }}
+            />
             <GameInfoAchievementsScreen gameId={gameId} />
           </Stack>
         </Tabs.Panel>

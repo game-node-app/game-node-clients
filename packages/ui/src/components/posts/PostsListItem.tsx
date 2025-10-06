@@ -32,9 +32,14 @@ import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
 interface Props {
   item: Post;
   withUserProfile?: boolean;
+  withGameInfo?: boolean;
 }
 
-const PostsListItem = ({ item, withUserProfile }: Props) => {
+const PostsListItem = ({
+  item,
+  withUserProfile = true,
+  withGameInfo = true,
+}: Props) => {
   const userId = useUserId();
   const onMobile = useOnMobile();
   const queryClient = useQueryClient();
@@ -118,20 +123,22 @@ const PostsListItem = ({ item, withUserProfile }: Props) => {
 
       <Stack
         className={
-          "bg-[#161616] w-full lg:lg:w-10/12 p-2 lg:p-4 flex-grow overflow-auto"
+          "bg-paper mobile:bg-paper-2 w-full lg:lg:w-10/12 p-2 lg:p-4 flex-grow overflow-auto"
         }
       >
         <Group className={"w-full px-2 flex-nowrap"}>
           {onMobile ? (
             <Group className={"w-10/12 flex-nowrap"}>
-              <GameTitleWithFigure gameId={item.gameId} withTitle={false} />
+              {withGameInfo && (
+                <GameTitleWithFigure gameId={item.gameId} withTitle={false} />
+              )}
               <Box className={withUserProfile ? "max-w-fit" : "hidden"}>
                 <UserAvatarGroup userId={item.profileUserId} />
               </Box>
             </Group>
           ) : (
             <Group className={"w-10/12"}>
-              <GameTitleWithFigure gameId={item.gameId} />
+              {withGameInfo && <GameTitleWithFigure gameId={item.gameId} />}
             </Group>
           )}
 

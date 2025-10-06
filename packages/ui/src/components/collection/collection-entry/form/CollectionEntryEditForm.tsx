@@ -218,10 +218,10 @@ const CollectionEntryEditForm = ({
 
   if (gameQuery.isLoading || collectionEntryQuery.isLoading) {
     return <CenteredLoading />;
-  } else if (gameQuery.isError || collectionEntryQuery.isError) {
+  } else if (gameQuery.isError) {
     return (
       <CenteredErrorMessage
-        message={"Error while fetching data. Please try again."}
+        message={"Error while fetching game data. Please try again."}
       />
     );
   }
