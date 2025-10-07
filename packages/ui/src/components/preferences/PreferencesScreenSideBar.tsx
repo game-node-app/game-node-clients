@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Stack, Text, Title } from "@mantine/core";
 import { Link } from "#@/util";
 
-export type PreferencesActiveCategory = "connections" | "privacy";
+export type PreferencesActiveCategory = "connections" | "account";
 
 interface PreferencesCategory {
   name: string;
@@ -19,10 +19,10 @@ export const PREFERENCES_SCREEN_CATEGORIES: PreferencesCategory[] = [
     name: "Connections",
     activeCategoryName: "connections",
   },
-  // {
-  //     name: "Privacy",
-  //     activeCategoryName: "privacy",
-  // },
+  {
+    name: "Account",
+    activeCategoryName: "account",
+  },
 ];
 
 const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {

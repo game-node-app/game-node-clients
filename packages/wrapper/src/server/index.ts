@@ -203,3 +203,4 @@ export { ReviewsService } from './services/ReviewsService';
 export { StatisticsService } from './services/StatisticsService';
 export { StatisticsQueueService } from './services/StatisticsQueueService';
 export { SyncIgdbService } from './services/SyncIgdbService';
+export { UserAccountService } from './services/UserAccountService';
