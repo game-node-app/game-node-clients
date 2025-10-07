@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { PreferencesActiveCategory } from "@/components/preferences/PreferencesScreenSideBar";
 import { Container } from "@mantine/core";
-import { PreferencesScreen } from "@repo/ui";
+import { PreferencesActiveCategory, PreferencesScreen } from "@repo/ui";
 
 const Category = () => {
   const router = useRouter();
