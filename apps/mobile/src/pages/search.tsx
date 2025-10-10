@@ -1,18 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { Center, FocusTrap, Group, Stack, Text } from "@mantine/core";
-import {
-  IonBackButton,
-  IonButtons,
-  IonHeader,
-  IonPage,
-  IonSearchbar,
-  IonToolbar,
-} from "@ionic/react";
+import { Center, FocusTrap, Stack, Text } from "@mantine/core";
 import {
   buildGameCategoryFilters,
-  buildGameSearchRequestDto,
   GameSearchBar,
-  GameSearchRequestBuilderValues,
   GameSearchTips,
   GameSearchViewActions,
   GameView,
@@ -25,7 +15,6 @@ import {
 import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
 import { getErrorMessage } from "@/util/getErrorMessage";
 import { useDebouncedValue } from "@mantine/hooks";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
 import { IconSearch } from "@tabler/icons-react";
 
@@ -57,7 +46,7 @@ const GameSearchPage = () => {
           includeDlcs: includeExtraContent,
           includeExtraContent: includeExtraContent,
         }),
-        limit: 12,
+        limit: 24,
       },
       isQueryEnabled,
     );
