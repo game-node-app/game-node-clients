@@ -11,7 +11,7 @@ export interface GameInfoTitleFigureProps {
 const DEFAULT_GameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
   return (
     <Box>
-      <Box className="w-full lg:w-96">
+      <Box className="w-full lg:max-w-72 lg:min-w-72">
         <GameFigureImage game={game} imageSize={ImageSize.COVER_BIG_2X} />
       </Box>
 

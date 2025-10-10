@@ -37,6 +37,7 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       content: review?.content,
       editable: false,
+      immediatelyRender: false,
     },
     [review],
   );

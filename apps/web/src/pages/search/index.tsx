@@ -56,6 +56,7 @@ const Index = () => {
         includeExtraContent: searchParameters.includeExtraContent,
         includeDlcs: searchParameters.includeExtraContent,
       }),
+      page: searchParameters.page,
     },
     isQueryEnabled,
   );
@@ -99,6 +100,7 @@ const Index = () => {
           </GameView.Content>
           {enablePagination && (
             <GameView.Pagination
+              className={"mt-4"}
               page={searchParameters.page}
               paginationInfo={data?.pagination}
               onPaginationChange={(page) => setSearchParameters({ page })}

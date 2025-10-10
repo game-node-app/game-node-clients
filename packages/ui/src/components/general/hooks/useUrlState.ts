@@ -76,6 +76,7 @@ export function useUrlState<T extends object>(
       );
       return hasChanged ? parsed : prev;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.toString()]);
 
   return [state, setUrlState];

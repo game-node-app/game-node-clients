@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Paper, Stack, StackProps } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import GameInfoReviewEditorView from "@/components/game/info/review/editor/GameInfoReviewEditorView";
 import { GameInfoReviewList } from "@repo/ui";
 

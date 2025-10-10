@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Stack, Text, Title } from "@mantine/core";
+import React, { useMemo } from "react";
+import { Box, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
 
 export type PreferencesActiveCategory = "connections" | "account";
@@ -26,27 +26,29 @@ export const PREFERENCES_SCREEN_CATEGORIES: PreferencesCategory[] = [
 ];
 
 const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {
-  const itemsElements = PREFERENCES_SCREEN_CATEGORIES.map((item) => {
-    const isActiveItem = item.activeCategoryName === activeItem;
-    return (
-      <Link
-        key={item.activeCategoryName}
-        href={``}
-        onClick={(evt) => {
-          evt.preventDefault();
-          onChange(item.activeCategoryName);
-        }}
-      >
-        <Box
-          className={`w-full flex justify-center items-center h-12 ${isActiveItem ? "bg-brand-5" : undefined}`}
+  const itemsElements = useMemo(() => {
+    return PREFERENCES_SCREEN_CATEGORIES.map((item) => {
+      const isActiveItem = item.activeCategoryName === activeItem;
+      return (
+        <Link
+          key={item.activeCategoryName}
+          href={``}
+          onClick={(evt) => {
+            evt.preventDefault();
+            onChange(item.activeCategoryName);
+          }}
         >
-          <Text fz={"1.3rem"} fw={"bold"}>
-            {item.name}
-          </Text>
-        </Box>
-      </Link>
-    );
-  });
+          <Box
+            className={`w-full flex justify-center items-center h-12 ${isActiveItem ? "bg-brand-5" : undefined}`}
+          >
+            <Text fz={"1.3rem"} fw={"bold"}>
+              {item.name}
+            </Text>
+          </Box>
+        </Link>
+      );
+    });
+  }, [activeItem, onChange]);
 
   return (
     <Stack gap={0} className={"w-full h-96 justify-between"}>
