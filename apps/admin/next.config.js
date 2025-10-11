@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ["@tabler/icons-react"],
+    reactCompiler: true,
+  },
   transpilePackages: ["@repo/wrapper", "@repo/ui"],
 };
 

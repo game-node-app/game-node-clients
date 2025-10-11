@@ -7,8 +7,8 @@ const nextConfig = {
   transpilePackages: ["@repo/wrapper", "@repo/ui"],
   experimental: {
     optimizePackageImports: ["@tabler/icons-react"],
+    reactCompiler: true,
   },
-  outputFileTracingRoot: path.join(__dirname, "../../"),
   async redirects() {
     return [
       {
