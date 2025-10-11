@@ -4,7 +4,6 @@ import { IonReactRouter } from "@ionic/react-router";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
@@ -130,6 +129,8 @@ const App: React.FC = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {}, []);
 
   return (
     <IonApp>
