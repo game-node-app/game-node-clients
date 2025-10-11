@@ -70,10 +70,12 @@ const CollectionEntryRemoveModal = ({
             </Button>
             <Button
               onClick={() => {
-                collectionEntryRemoveMutation.mutate(
-                  collectionEntriesQuery.data!.id,
-                );
-                onClose();
+                if (collectionEntriesQuery.data) {
+                  collectionEntryRemoveMutation.mutate(
+                    collectionEntriesQuery.data.id,
+                  );
+                  onClose();
+                }
               }}
               color={"red"}
             >
