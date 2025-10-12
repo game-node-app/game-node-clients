@@ -99,7 +99,6 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
   });
 
   const canFetchNextPage =
-    !isDraggingRef.current &&
     !applyPendingMovesMutation.isPending &&
     !isFetching &&
     !isFetchingGames &&
@@ -113,7 +112,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
   useEffect(() => {
     if (games != undefined && games.length > renderedGames.length) {
       console.log("Syncing rendered games with database games");
-      renderedGamesHandlers.setState(games.slice(renderedGames.length));
+      renderedGamesHandlers.append(...games.slice(renderedGames.length));
     }
   }, [games, renderedGames, renderedGamesHandlers]);
 
