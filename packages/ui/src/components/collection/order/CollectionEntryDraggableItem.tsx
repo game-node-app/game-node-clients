@@ -3,7 +3,7 @@ import { Game } from "@repo/wrapper/server";
 import { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
 import { Box, Group, Loader, Text } from "@mantine/core";
 import { GameFigureImage } from "#@/components";
-import { IconGripHorizontal } from "@tabler/icons-react";
+import { IconClock, IconGripHorizontal } from "@tabler/icons-react";
 import { cn } from "#@/util";
 
 interface Props {
@@ -34,7 +34,7 @@ const CollectionEntryDraggableItem = ({
       <Text className={"text-white w-48 text-wrap"}>{game.name}</Text>
       <Box className={"ms-auto me-2"}>
         {isPending ? (
-          <Loader size={20} />
+          <IconClock size={20} className={isPending && "text-yellow-300"} />
         ) : (
           <IconGripHorizontal
             size={20}
