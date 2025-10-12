@@ -20,6 +20,7 @@ import {
   GameInfoTabValue,
   GameInfoView,
   useGame,
+  useUrlState,
   useUserView,
 } from "@repo/ui";
 import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
@@ -59,10 +60,11 @@ const GameInfoPage = () => {
   const router = useRouter();
   const { id, reviewId } = router.query;
   const [, , incrementView] = useUserView(`${id}`, sourceType.GAME);
-  const tabFromQuery = router.query.tab as GameInfoTabValue | undefined;
-  const [currentTab, setCurrentTab] = useState<GameInfoTabValue>(
-    GameInfoTabValue.overview,
-  );
+
+  const [params, setParams] = useUrlState({
+    tab: GameInfoTabValue.overview,
+  });
+  const currentTab = params.tab;
 
   /**
    * Stores the path parameter "id" of the last registered game view.
@@ -80,12 +82,6 @@ const GameInfoPage = () => {
     }
   }, [id, incrementView, router]);
 
-  useEffect(() => {
-    if (tabFromQuery) {
-      setCurrentTab(tabFromQuery);
-    }
-  }, [tabFromQuery]);
-
   /**
    * Effect to render /404 if necessary
    */
@@ -100,20 +96,7 @@ const GameInfoPage = () => {
   const gameQuery = useGame(idAsNumber, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const onChange = (tab: GameInfoTabValue) => {
-    setCurrentTab(tab);
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: {
-          id: id,
-          tab: tab,
-        },
-      },
-      undefined,
-      {
-        scroll: false,
-      },
-    );
+    setParams({ tab: tab });
   };
 
   const onGoBack = () => onChange(GameInfoTabValue.overview);
