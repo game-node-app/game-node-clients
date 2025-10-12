@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import { Chip, ChipProps } from "@mantine/core";
-import { IconSortDescending } from "@tabler/icons-react";
 
 interface Props extends Omit<ChipProps, "onChange" | "checked" | "icon"> {
   icon: React.ReactNode;

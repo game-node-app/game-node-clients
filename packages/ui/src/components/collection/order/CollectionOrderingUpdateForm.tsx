@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   COLLECTION_VIEW_DEFAULT_LIMIT,
   CollectionEntryDraggableItem,
@@ -21,7 +21,7 @@ interface Props extends BaseModalChildrenProps {
   collectionId: string;
 }
 
-const CollectionOrderingUpdateForm = ({ collectionId, onClose }: Props) => {
+const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
   const isDraggingRef = useRef(false);
 
   const {
@@ -82,6 +82,15 @@ const CollectionOrderingUpdateForm = ({ collectionId, onClose }: Props) => {
         pendingGamesHandlers.remove(gameIndex);
       }
     },
+    onSuccess: (dto) => {
+      const gameId = collectionEntries.find(
+        (entry) => entry.id === dto?.entryId,
+      )?.gameId;
+      if (gameId) {
+        const gameIndex = pendingGames.indexOf(gameId);
+        pendingGamesHandlers.remove(gameIndex);
+      }
+    },
     onError: createErrorNotification,
   });
 
@@ -124,8 +133,13 @@ const CollectionOrderingUpdateForm = ({ collectionId, onClose }: Props) => {
           });
 
           // Mutation logic
+          console.log(result.destination);
           const nextGameId = renderedGames.at(destinationIndex + 1)?.id;
-          const previousGameId = renderedGames.at(destinationIndex)?.id;
+          // Avoids matching the same game when moving to the top
+          const previousGameId =
+            destinationIndex > 0
+              ? renderedGames.at(destinationIndex)?.id
+              : undefined;
           const targetEntry = findCollectionEntryByGameId(
             targetGameId,
             collectionEntries,
