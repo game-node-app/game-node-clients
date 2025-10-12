@@ -105,6 +105,11 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     !isFetchingGames &&
     hasNextPage;
 
+  const resetPendingMoves = () => {
+    setPendingMoves(new Map());
+    renderedGamesHandlers.setState(games ?? []);
+  };
+
   useEffect(() => {
     if (games != undefined && games.length > renderedGames.length) {
       console.log("Syncing rendered games with database games");
@@ -125,7 +130,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
           disabled={
             pendingMoves.size === 0 || applyPendingMovesMutation.isPending
           }
-          onClick={() => setPendingMoves(new Map())}
+          onClick={resetPendingMoves}
         >
           Discard
         </Button>
