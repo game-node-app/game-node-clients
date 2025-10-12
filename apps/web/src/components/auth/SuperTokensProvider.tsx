@@ -7,9 +7,7 @@ import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { GameNodeLogo } from "@repo/ui";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
-import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
-import { Image } from "@mantine/core";
-import { EpicGamesLogo } from "@repo/ui";
+import posthog from "posthog-js";
 
 export const frontendConfig = (): SuperTokensConfig => {
   return {
@@ -56,6 +54,11 @@ export const frontendConfig = (): SuperTokensConfig => {
     recipeList: [
       Passwordless.init({
         contactMethod: "EMAIL",
+        onHandleEvent: async (context) => {
+          if (context.action === "SUCCESS" && context.createdNewSession) {
+            posthog.identify(context.user.id);
+          }
+        },
       }),
       ThirdParty.init({
         signInAndUpFeature: {
@@ -65,12 +68,17 @@ export const frontendConfig = (): SuperTokensConfig => {
             ThirdParty.Twitter.init(),
           ],
         },
+        onHandleEvent: async (context) => {
+          if (context.action === "SUCCESS" && context.createdNewSession) {
+            posthog.identify(context.user.id);
+          }
+        },
       }),
       Session.init({
         tokenTransferMethod: "header",
       }),
     ],
-    windowHandler: (oI: WindowHandlerInterface) => {
+    windowHandler: (oI) => {
       return {
         ...oI,
         location: {

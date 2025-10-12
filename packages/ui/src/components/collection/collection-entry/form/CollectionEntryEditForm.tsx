@@ -37,14 +37,23 @@ import {
 import { createErrorNotification } from "#@/util";
 
 const GameAddOrUpdateSchema = z.object({
-  collectionIds: z.array(z.string(), {
-    invalid_type_error: "Collection must be valid.",
-  }),
+  collectionIds: z.array(
+    z.string({
+      error: "Collection must be valid.",
+    }),
+    {
+      error: "Collection must be valid.",
+    },
+  ),
   platformsIds: z
-    .array(z.string(), {
-      invalid_type_error: "Select at least one platform.",
-      required_error: "Select at least one platform.",
-    })
+    .array(
+      z.string({
+        error: "Select at least one platform.",
+      }),
+      {
+        error: "Select at least one platform.",
+      },
+    )
     .min(1, "Select at least one platform."),
   finishedAt: z.date().nullable(),
   status: z.nativeEnum(CollectionEntry.status),
@@ -97,6 +106,7 @@ const CollectionEntryEditForm = ({
     handleSubmit,
     formState: { touchedFields },
   } = form;
+
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);

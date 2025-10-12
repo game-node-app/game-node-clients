@@ -2,14 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  Button,
-  Fieldset,
-  SegmentedControl,
-  Stack,
-  Switch,
-  TextInput,
-} from "@mantine/core";
+import { Button, Fieldset, Stack, Switch, TextInput } from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
@@ -24,7 +17,7 @@ import {
 } from "#@/util/trackMatomoEvent";
 import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
 import { notifications } from "@mantine/notifications";
-import { createErrorNotification } from "#@/util";
+import { createErrorNotification, syncEntityToZodForm } from "#@/util";
 
 const CreateCollectionFormSchema = z
   .object({
@@ -33,7 +26,7 @@ const CreateCollectionFormSchema = z
     isPublic: z.boolean().default(true),
     isFeatured: z.boolean().default(false),
     isFinished: z.boolean().default(false),
-    defaultEntryStatus: z.nativeEnum(Collection.defaultEntryStatus).nullable(),
+    defaultEntryStatus: z.enum(Collection.defaultEntryStatus).nullable(),
   })
   .superRefine((data, ctx) => {
     if (data.isFeatured && !data.isPublic) {
@@ -63,7 +56,7 @@ const CollectionCreateOrUpdateForm = ({
   const collectionQuery = useCollection(collectionId);
   const existingCollection = collectionQuery.data;
 
-  const { setValue, handleSubmit, register, formState, watch } =
+  const { setValue, handleSubmit, register, formState, watch, reset } =
     useForm<CreateCollectionFormValues>({
       resolver: zodResolver(CreateCollectionFormSchema),
       mode: "onChange",
@@ -117,17 +110,14 @@ const CollectionCreateOrUpdateForm = ({
   });
 
   useEffect(() => {
-    const possibleKeys = Object.keys(
-      CreateCollectionFormSchema.innerType().shape,
-    );
     if (existingCollection != undefined) {
-      for (const [key, value] of Object.entries(existingCollection)) {
-        if (possibleKeys.includes(key)) {
-          setValue(key as never, value as never);
-        }
-      }
+      syncEntityToZodForm(
+        existingCollection,
+        CreateCollectionFormSchema,
+        reset,
+      );
     }
-  }, [existingCollection, setValue]);
+  }, [existingCollection, reset]);
 
   return (
     <form

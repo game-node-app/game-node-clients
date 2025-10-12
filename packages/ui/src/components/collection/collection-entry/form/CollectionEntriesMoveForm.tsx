@@ -6,14 +6,7 @@ import {
   Game,
   GamePlatform,
 } from "@repo/wrapper/server";
-import {
-  Button,
-  Combobox,
-  ComboboxItem,
-  MultiSelect,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Button, ComboboxItem, MultiSelect, Stack } from "@mantine/core";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
@@ -29,31 +22,19 @@ const CollectionEntriesMoveFormSchema = z.object({
     .array(z.number())
     .min(1, "At least one game must be selected.")
     .default([]),
-  targetCollectionIds: z.array(z.string(), {
-    required_error: "At least one collection must be selected",
-    invalid_type_error:
-      "Target collections returned as string. Please contact support.",
-  }),
+  targetCollectionIds: z.array(
+    z.string({
+      error: "Target collections returned as string. Please contact support.",
+    }),
+    {
+      error: "At least one collection must be selected",
+    },
+  ),
 });
 
 type CollectionEntriesMoveFormValues = z.infer<
   typeof CollectionEntriesMoveFormSchema
 >;
-interface ISelectionOptionProps {
-  game: Game;
-  ownedPlatforms: GamePlatform[];
-}
-const SelectionOption = ({ game, ownedPlatforms }: ISelectionOptionProps) => {
-  const ownedPlatformsNames = ownedPlatforms.map((p) => p.name).join(", ");
-  return (
-    <Combobox.Option value={`${game.id}`}>
-      <Stack>
-        <Text fz={"sm"}>{game.name}</Text>
-        <Text fz={"xs"}>{ownedPlatformsNames}</Text>
-      </Stack>
-    </Combobox.Option>
-  );
-};
 
 interface ICollectionEntriesMoveFormProps extends BaseModalChildrenProps {
   collectionId: string;
@@ -67,7 +48,7 @@ const CollectionEntriesMoveForm = ({
   collectionId,
   onClose,
 }: ICollectionEntriesMoveFormProps) => {
-  const { register, handleSubmit, setValue, watch, formState } =
+  const { register, handleSubmit, setValue, formState } =
     useForm<CollectionEntriesMoveFormValues>({
       mode: "onSubmit",
       resolver: zodResolver(CollectionEntriesMoveFormSchema),

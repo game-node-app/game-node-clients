@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Chip,
+  Button,
   Combobox,
   ComboboxItem,
   Group,
@@ -10,30 +10,29 @@ import {
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { ActionChip } from "#@/components";
 
+export type SortingChipValue = {
+  value: string;
+  ordering: "ASC" | "DESC";
+};
+
 interface Props
   extends Omit<SelectProps, "onChange" | "value" | "allowDeselect" | "data"> {
-  defaultValue: string;
-  onChange: (value: string, order: "ASC" | "DESC") => void;
+  value: SortingChipValue;
+  onChange: (updatedValue: SortingChipValue) => void;
   data: ComboboxItem[];
 }
 
-const SortingChip = ({ data, onChange, defaultValue, ...others }: Props) => {
+const SortingChip = ({ data, onChange, value }: Props) => {
   const combobox = useCombobox();
 
-  const [internalSelectedItem, setInternalSelectedItem] =
-    useState<string>(defaultValue);
-  const [internalSelectedOrdering, setInternalSelectedOrdering] = useState<
-    "ASC" | "DESC"
-  >("DESC");
-
   const options = data?.map((option, i) => {
-    const checked = option.value === internalSelectedItem;
+    const checked = option.value === value.value;
     return (
       <Combobox.Option key={i} value={option.value} className={"min-w-32"}>
         <Group className={"w-full flex-nowrap justify-between"}>
           {option.label}
           {checked ? (
-            internalSelectedOrdering === "ASC" ? (
+            value.ordering === "ASC" ? (
               <IconSortAscending />
             ) : (
               <IconSortDescending />
@@ -49,26 +48,33 @@ const SortingChip = ({ data, onChange, defaultValue, ...others }: Props) => {
       store={combobox}
       width={175}
       offset={16}
+      position={"bottom-start"}
       onOptionSubmit={(v) => {
-        if (v !== internalSelectedItem) {
+        if (v !== value.value) {
           // Only changes value when selecting another option
-          onChange(v, internalSelectedOrdering);
-          setInternalSelectedItem(v);
+          onChange({
+            value: v,
+            ordering: "DESC",
+          });
           return;
         }
 
-        const updatedOrdering =
-          internalSelectedOrdering === "ASC" ? "DESC" : "ASC";
+        const updatedOrdering = value.ordering === "ASC" ? "DESC" : "ASC";
 
-        setInternalSelectedOrdering(updatedOrdering);
-        onChange(internalSelectedItem, updatedOrdering);
+        onChange({
+          value: v,
+          ordering: updatedOrdering,
+        });
         return;
       }}
     >
       <Combobox.Target>
         <ActionChip
           icon={<IconSortDescending size={16} />}
-          onClick={() => combobox.toggleDropdown()}
+          onClick={() => {
+            console.log("Open!");
+            combobox.toggleDropdown();
+          }}
         >
           Sort
         </ActionChip>

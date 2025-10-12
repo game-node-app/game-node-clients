@@ -65,6 +65,8 @@ import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar";
 import { UI_PRESENTER_REGISTRY } from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
+import posthog from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
 
 /**
  * dayjs setup
@@ -92,6 +94,13 @@ setupWrapper({
 setupIonicReact({
   backButtonIcon: "/img/icon/icon_back_button.svg",
 });
+
+posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
+  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+  defaults: "2025-05-24",
+  ui_host: "https://app.posthog.com",
+});
+posthog.register({ app_name: "mobile" });
 
 const App: React.FC = () => {
   const [queryClient] = useState(
@@ -130,28 +139,28 @@ const App: React.FC = () => {
     })();
   }, []);
 
-  useEffect(() => {}, []);
-
   return (
     <IonApp>
-      <UIProvider presenters={UI_PRESENTER_REGISTRY}>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{ persister }}
-        >
-          <SuperTokensProvider>
-            <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
-              <IonReactRouter>
-                <AppUrlListener />
-                <AppUpdateListener />
-                <NotificationsManager />
-                <QueryProgressBar />
-                <Tabs />
-              </IonReactRouter>
-            </MantineProvider>
-          </SuperTokensProvider>
-        </PersistQueryClientProvider>
-      </UIProvider>
+      <PostHogProvider client={posthog}>
+        <UIProvider presenters={UI_PRESENTER_REGISTRY}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister }}
+          >
+            <SuperTokensProvider>
+              <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+                <IonReactRouter>
+                  <AppUrlListener />
+                  <AppUpdateListener />
+                  <NotificationsManager />
+                  <QueryProgressBar />
+                  <Tabs />
+                </IonReactRouter>
+              </MantineProvider>
+            </SuperTokensProvider>
+          </PersistQueryClientProvider>
+        </UIProvider>
+      </PostHogProvider>
     </IonApp>
   );
 };

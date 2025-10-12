@@ -8,7 +8,6 @@ import {
   LibraryViewActions,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
-  UseCollectionEntriesForUserIdProps,
   useGames,
   useUrlState,
 } from "#@/components";
@@ -87,7 +86,7 @@ const LibraryView = ({ libraryUserId }: Props) => {
     (collectionEntriesQuery.data?.pagination.totalPages ?? 0) > 1;
 
   return (
-    <Stack className={"w-full h-full min-h-[55dvh]"}>
+    <Stack className={"w-full h-full"}>
       <GameView layout={layout}>
         <LibraryViewTabs
           status={status}
@@ -98,9 +97,13 @@ const LibraryView = ({ libraryUserId }: Props) => {
             });
           }}
         />
-        <Group className={"w-full overflow-x-auto pb-2 lg:pb-0"}>
+
+        <Group
+          className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
+        >
           <LibraryViewActions
             libraryUserId={libraryUserId}
+            collectionId={undefined}
             includeExtraContent={includeExtraContent}
             onExtraContentChange={(value) => {
               setParams((prev) => ({
@@ -108,9 +111,13 @@ const LibraryView = ({ libraryUserId }: Props) => {
                 includeExtraContent: value,
               }));
             }}
-            onSort={(value, order) => {
+            sortValue={{
+              value: Object.keys(params.orderBy)[0],
+              ordering: Object.values(params.orderBy)[0] as never,
+            }}
+            onSort={(updatedValue) => {
               const orderBy = {
-                [value]: order,
+                [updatedValue.value]: updatedValue.ordering,
               };
               setParams((prev) => ({
                 ...prev,

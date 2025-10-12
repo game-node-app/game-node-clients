@@ -7,7 +7,7 @@ const nextConfig = {
   transpilePackages: ["@repo/wrapper", "@repo/ui"],
   experimental: {
     optimizePackageImports: ["@tabler/icons-react"],
-    reactCompiler: true,
+    reactCompiler: false,
   },
   async redirects() {
     return [

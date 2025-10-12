@@ -1,37 +1,28 @@
-import React, { useCallback, useEffect, useMemo } from "react";
-import {
-  Divider,
-  Group,
-  Skeleton,
-  Space,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import React, { useMemo } from "react";
+import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import {
   buildGameCategoryFilters,
   CenteredErrorMessage,
-  CollectionViewActionsMenu,
+  CollectionViewActions,
   findCollectionEntryByGameId,
   GameView,
   GameViewLayoutOption,
-  getOffsetAsPage,
-  getPageAsOffset,
   LibraryViewActions,
   useCollection,
   useCollectionEntriesForCollectionId,
   useGames,
   useUrlState,
   useUserId,
-} from "@repo/ui";
+} from "#@/components";
 import { useLocalStorage } from "@mantine/hooks";
+import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 
 interface ICollectionViewProps {
   libraryUserId: string;
   collectionId: string;
 }
 
-const DEFAULT_LIMIT = 24;
+export const COLLECTION_VIEW_DEFAULT_LIMIT = 24;
 
 const CollectionView = ({
   collectionId,
@@ -47,7 +38,7 @@ const CollectionView = ({
     includeExtraContent: false,
     offset: 0,
     orderBy: {
-      addedDate: "DESC",
+      userCustom: "ASC",
     },
   });
 
@@ -62,7 +53,7 @@ const CollectionView = ({
   const collectionEntriesQuery = useCollectionEntriesForCollectionId({
     ...params,
     collectionId,
-    limit: DEFAULT_LIMIT,
+    limit: COLLECTION_VIEW_DEFAULT_LIMIT,
     gameFilters: {
       category: buildGameCategoryFilters({
         includeDlcs: includeExtraContent,
@@ -138,14 +129,19 @@ const CollectionView = ({
             className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
           >
             {isOwnCollection && (
-              <CollectionViewActionsMenu collectionId={collectionId} />
+              <CollectionViewActions collectionId={collectionId} />
             )}
             <LibraryViewActions
               libraryUserId={libraryUserId}
+              collectionId={collectionId}
               includeExtraContent={includeExtraContent}
-              onSort={(value, order) => {
+              sortValue={{
+                value: Object.keys(params.orderBy)[0],
+                ordering: Object.values(params.orderBy)[0] as never,
+              }}
+              onSort={(updatedValue) => {
                 const orderBy = {
-                  [value]: order,
+                  [updatedValue.value]: updatedValue.ordering,
                 };
 
                 setParams((prev) => ({ ...prev, orderBy: orderBy as never }));
@@ -170,12 +166,12 @@ const CollectionView = ({
           </GameView.Content>
           {enablePagination && (
             <GameView.Pagination
-              page={getOffsetAsPage(offset, DEFAULT_LIMIT)}
+              page={getOffsetAsPage(offset, COLLECTION_VIEW_DEFAULT_LIMIT)}
               paginationInfo={paginationInfo}
               onPaginationChange={(page) =>
                 setParams((prev) => ({
                   ...prev,
-                  offset: getPageAsOffset(page, DEFAULT_LIMIT),
+                  offset: getPageAsOffset(page, COLLECTION_VIEW_DEFAULT_LIMIT),
                 }))
               }
             />

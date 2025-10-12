@@ -13,6 +13,7 @@ module.exports = {
     "plugin:@next/eslint-plugin-next/recommended",
     "prettier",
     "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -33,7 +34,7 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
     "import/prefer-default-export": "off",
     "react/no-unescaped-entities": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",

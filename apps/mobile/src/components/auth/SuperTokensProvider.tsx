@@ -8,6 +8,7 @@ import { Capacitor } from "@capacitor/core";
 import capacitorCookieHandler from "@/util/capacitorCookieHandler";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 import { GameNodeLogo } from "@repo/ui";
+import posthog from "posthog-js";
 
 /**
  * @see https://github.com/RobSchilderr/nextjs-native-starter/blob/main/apps/next-app/config/frontendConfig.ts
@@ -69,6 +70,11 @@ export const frontendConfig = (): SuperTokensConfig => {
             ThirdParty.Twitter.init(),
           ],
         },
+        onHandleEvent: async (context) => {
+          if (context.action === "SUCCESS" && context.createdNewSession) {
+            posthog.identify(context.user.id);
+          }
+        },
         override: {
           functions: (oI) => {
             return {
@@ -95,6 +101,11 @@ export const frontendConfig = (): SuperTokensConfig => {
       }),
       Passwordless.init({
         contactMethod: "EMAIL",
+        onHandleEvent: async (context) => {
+          if (context.action === "SUCCESS" && context.createdNewSession) {
+            posthog.identify(context.user.id);
+          }
+        },
       }),
       Session.init({
         tokenTransferMethod: "header",

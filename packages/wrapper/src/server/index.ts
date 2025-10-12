@@ -28,6 +28,7 @@ export type { CollectionEntriesPaginatedResponseDto } from './models/CollectionE
 export { CollectionEntry } from './models/CollectionEntry';
 export type { CollectionEntryFavoriteStatusDto } from './models/CollectionEntryFavoriteStatusDto';
 export type { CollectionEntryToCollection } from './models/CollectionEntryToCollection';
+export type { CollectionEntryUpdateOrderingDto } from './models/CollectionEntryUpdateOrderingDto';
 export { ConnectionCreateDto } from './models/ConnectionCreateDto';
 export type { CreateAchievementCodeRequestDto } from './models/CreateAchievementCodeRequestDto';
 export type { CreateAchievementCodeResponseDto } from './models/CreateAchievementCodeResponseDto';
@@ -178,6 +179,7 @@ export { AwardsService } from './services/AwardsService';
 export { BlogPostService } from './services/BlogPostService';
 export { CollectionsService } from './services/CollectionsService';
 export { CollectionsEntriesService } from './services/CollectionsEntriesService';
+export { CollectionsEntriesOrderingService } from './services/CollectionsEntriesOrderingService';
 export { CommentService } from './services/CommentService';
 export { ConnectionsService } from './services/ConnectionsService';
 export { ExternalGameService } from './services/ExternalGameService';

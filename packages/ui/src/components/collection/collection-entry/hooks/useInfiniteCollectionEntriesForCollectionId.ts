@@ -2,13 +2,14 @@ import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryRe
 import {
   CollectionEntriesPaginatedResponseDto,
   CollectionsEntriesService,
+  FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UseInfiniteCollectionEntriesForCollectionIdProps {
   collectionId: string;
   limit?: number;
-  orderBy?: Record<string, unknown>;
+  orderBy?: FindCollectionEntriesOrderBy;
 }
 
 export function useInfiniteCollectionEntriesForCollectionId({

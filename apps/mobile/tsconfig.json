@@ -7,7 +7,7 @@
       "dom.iterable",
       "ESNext"
     ],
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

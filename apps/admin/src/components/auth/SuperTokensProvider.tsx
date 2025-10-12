@@ -5,10 +5,7 @@ import React from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
-import {
-  GetRedirectionURLContext,
-  SuperTokensConfig,
-} from "supertokens-auth-react/lib/build/types";
+import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import Router from "next/router";
 import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";

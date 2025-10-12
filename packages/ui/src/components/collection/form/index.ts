@@ -3,5 +3,4 @@
  */
 
 export * from "./CollectionCreateOrUpdateForm";
-export * from "./CollectionViewActions";
 export * from "./modal/index";

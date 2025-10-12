@@ -1,46 +1,66 @@
 import React from "react";
-import { Chip, Group } from "@mantine/core";
+import { Chip, Group, GroupProps } from "@mantine/core";
 import {
   ActionChip,
   GameViewLayoutOption,
   GameViewLayoutSwitcher,
   SortingChip,
+  SortingChipValue,
   useUserId,
 } from "#@/components";
 import { IconDownload } from "@tabler/icons-react";
-import { Link } from "#@/util";
+import { cn, Link } from "#@/util";
 
-interface Props {
+const SORTING_CHIP_DATA = [
+  {
+    value: "addedDate",
+    label: "Added Date",
+  },
+  {
+    value: "releaseDate",
+    label: "Release Date",
+  },
+];
+
+const COLLECTION_SORTING_CHIP_DATA = [
+  {
+    value: "userCustom",
+    label: "User Order",
+  },
+  ...SORTING_CHIP_DATA,
+];
+
+interface Props extends GroupProps {
   libraryUserId: string;
+  collectionId?: string;
   includeExtraContent: boolean;
-  onSort: (value: string, order: "ASC" | "DESC") => void;
+  sortValue: SortingChipValue;
+  onSort: (updatedValue: SortingChipValue) => void;
   onLayoutChange: (layout: GameViewLayoutOption) => void;
   onExtraContentChange: (value: boolean) => void;
 }
 
 const LibraryViewActions = ({
   libraryUserId,
+  collectionId,
+  sortValue,
   onSort,
   onLayoutChange,
   includeExtraContent,
   onExtraContentChange,
+  ...others
 }: Props) => {
   const ownUserId = useUserId();
   const isOwnLibrary = ownUserId != undefined && ownUserId === libraryUserId;
+
   return (
-    <Group className={"w-full flex-nowrap gap-xs"}>
+    <Group
+      {...others}
+      className={cn("w-full flex-nowrap gap-xs", others.className)}
+    >
       <SortingChip
-        data={[
-          {
-            value: "addedDate",
-            label: "Added Date",
-          },
-          {
-            value: "releaseDate",
-            label: "Release Date",
-          },
-        ]}
-        defaultValue={"addedDate"}
+        data={COLLECTION_SORTING_CHIP_DATA}
+        value={sortValue}
         onChange={onSort}
       />
       <GameViewLayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />

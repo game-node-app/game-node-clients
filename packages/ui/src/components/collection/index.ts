@@ -6,4 +6,5 @@ export * from "./card/index";
 export * from "./collection-entry/index";
 export * from "./form/index";
 export * from "./hooks/index";
+export * from "./order/index";
 export * from "./view/index";

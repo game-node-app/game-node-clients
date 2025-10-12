@@ -3,13 +3,12 @@
   "version": "1.7.5",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "wrapper:generate": "node src/wrapper/generate.js",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "3.10.0",
     "@mantine/carousel": "^8.3.3",
     "@mantine/charts": "^8.3.3",
@@ -52,8 +51,9 @@
     "posthog-js": "^1.275.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-easy-crop": "5.5.2",
-    "react-hook-form": "7.64.0",
+    "react-easy-crop": "^5.5.3",
+    "react-hook-form": "^8.0.0-alpha.5",
+    "react-virtuoso": "^4.14.1",
     "recharts": "^3.2.1",
     "reconnecting-eventsource": "^1.6.4",
     "socket.io-client": "^4.8.1",
@@ -79,7 +79,7 @@
     "@types/node": "20.12.5",
     "@types/react": "19.1.14",
     "@types/react-dom": "19.1.9",
-    "babel-plugin-react-compiler": "^19.1.0-rc.3",
+    "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.5.4",
     "eslint-config-prettier": "^9.1.2",

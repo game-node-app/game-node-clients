@@ -3,4 +3,4 @@
  */
 
 export * from "./CollectionView";
-export * from "./CollectionViewActionsMenu";
+export * from "./CollectionViewActions";
