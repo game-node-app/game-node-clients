@@ -59,7 +59,7 @@ const LibraryViewActions = ({
       className={cn("w-full flex-nowrap gap-xs", others.className)}
     >
       <SortingChip
-        data={COLLECTION_SORTING_CHIP_DATA}
+        data={collectionId ? COLLECTION_SORTING_CHIP_DATA : SORTING_CHIP_DATA}
         value={sortValue}
         onChange={onSort}
       />
