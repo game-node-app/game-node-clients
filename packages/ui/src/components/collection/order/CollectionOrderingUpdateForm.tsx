@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   COLLECTION_VIEW_DEFAULT_LIMIT,
   CollectionEntryDraggableItem,
@@ -9,21 +9,27 @@ import {
 } from "#@/components";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Button, Stack, Text } from "@mantine/core";
-import { useListState } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
+import { useDebouncedCallback, useListState } from "@mantine/hooks";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   CollectionEntryUpdateOrderingDto,
   CollectionsEntriesOrderingService,
+  Game,
 } from "@repo/wrapper/server";
-import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
+import {
+  BaseModalChildrenProps,
+  getErrorMessage,
+  jsonDeepEquals,
+} from "#@/util";
 import { notifications } from "@mantine/notifications";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
 
 interface Props extends BaseModalChildrenProps {
   collectionId: string;
 }
 
 const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
+  const queryClient = useQueryClient();
   const isDraggingRef = useRef(false);
   /**
    * Using the collection entry as ID prevents duplicate or concurrent requests for the same collection entry.
@@ -40,7 +46,8 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     isFetching,
   } = useInfiniteCollectionEntriesForCollectionId({
     collectionId,
-    limit: COLLECTION_VIEW_DEFAULT_LIMIT,
+    // limit: COLLECTION_VIEW_DEFAULT_LIMIT,
+    limit: 2,
     orderBy: {
       userCustom: "ASC",
     },
@@ -67,24 +74,23 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     mutationFn: async () => {
       console.log("Applying pending moves");
       console.log(pendingMoves);
-      const notificationId = notifications.show({
-        loading: true,
-        message: "Applying changes...",
-        autoClose: false,
-      });
 
+      // Apply pending moves sequentially to avoid concurrent requests with row locks.
       for (const move of pendingMoves.values()) {
         await CollectionsEntriesOrderingService.collectionsOrderingControllerUpdateCollectionEntryOrderingV1(
           move,
         );
       }
-
-      return notificationId;
     },
-    onSettled: () => {
-      setPendingMoves(new Map());
+    onMutate: () => {
+      return notifications.show({
+        loading: true,
+        message: "Applying changes...",
+        autoClose: false,
+        withCloseButton: false,
+      });
     },
-    onSuccess: (notificationId) => {
+    onSuccess: (_data, _variables, notificationId) => {
       notifications.update({
         id: notificationId,
         color: "teal",
@@ -93,9 +99,25 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
         icon: <IconCheck size={18} />,
         loading: false,
         autoClose: 2000,
+        withCloseButton: true,
       });
+
+      setPendingMoves(new Map());
     },
-    onError: createErrorNotification,
+    onError: (err, _variables, notificationId) => {
+      notifications.update({
+        id: notificationId,
+        color: "red",
+        title: "Failed to sync changes!",
+        message: getErrorMessage(err),
+        loading: false,
+        autoClose: 10000,
+        withCloseButton: true,
+        icon: <IconExclamationCircle size={18} />,
+      });
+      setPendingMoves(new Map());
+      renderedGamesHandlers.setState(games ?? []);
+    },
   });
 
   const canFetchNextPage =
@@ -103,11 +125,6 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     !isFetching &&
     !isFetchingGames &&
     hasNextPage;
-
-  const resetPendingMoves = () => {
-    setPendingMoves(new Map());
-    renderedGamesHandlers.setState(games ?? []);
-  };
 
   useEffect(() => {
     if (games != undefined && games.length > renderedGames.length) {
@@ -125,11 +142,14 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
       </Text>
       <Button.Group className={"mt-4"}>
         <Button
-          bg={"red"}
+          color={"red"}
           disabled={
             pendingMoves.size === 0 || applyPendingMovesMutation.isPending
           }
-          onClick={resetPendingMoves}
+          onClick={() => {
+            setPendingMoves(new Map());
+            renderedGamesHandlers.setState(games ?? []);
+          }}
         >
           Discard
         </Button>
@@ -138,7 +158,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
         </Button.GroupSection>
         <Button
           disabled={pendingMoves.size === 0}
-          bg={"green"}
+          color={"green"}
           onClick={() => applyPendingMovesMutation.mutate()}
           loading={applyPendingMovesMutation.isPending}
         >
@@ -153,24 +173,32 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
           isDraggingRef.current = false;
           console.log("Drag end with result: ", result);
           if (!result.destination) return;
-          const targetGameId = Number.parseInt(result.draggableId);
+
           const sourceIndex = result.source.index;
           const destinationIndex = result.destination.index;
 
-          // Updates rendering list
-          renderedGamesHandlers.reorder({
-            from: sourceIndex,
-            to: destinationIndex,
-          });
+          /**
+           * Creates a snapshot of the list state before the reorder.
+           * Avoids issue with react state update being async and causing the logic below
+           * to use the 'old' list version.
+           */
+          const reorderedGames = [...renderedGames];
+          const [moved] = reorderedGames.splice(sourceIndex, 1);
+          reorderedGames.splice(destinationIndex, 0, moved);
+          // Sync state with the snapshot
+          renderedGamesHandlers.setState(reorderedGames);
 
-          // Add item to pending moves
-          const nextGameId = renderedGames.at(destinationIndex + 1)?.id;
+          const targetGameId = Number.parseInt(result.draggableId);
+          const nextGameId = reorderedGames.at(destinationIndex + 1)?.id;
           // Avoids matching the same game when moving to the top
           const previousGameId =
             destinationIndex > 0
-              ? renderedGames.at(destinationIndex)?.id
+              ? reorderedGames.at(destinationIndex - 1)?.id
               : undefined;
 
+          console.log("Current list: ", reorderedGames);
+          console.log("Prev: ", previousGameId);
+          console.log("Next: ", nextGameId);
           const targetEntry = findCollectionEntryByGameId(
             targetGameId,
             collectionEntries,
