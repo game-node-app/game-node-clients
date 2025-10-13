@@ -46,8 +46,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     isFetching,
   } = useInfiniteCollectionEntriesForCollectionId({
     collectionId,
-    // limit: COLLECTION_VIEW_DEFAULT_LIMIT,
-    limit: 2,
+    limit: COLLECTION_VIEW_DEFAULT_LIMIT,
     orderBy: {
       userCustom: "ASC",
     },
