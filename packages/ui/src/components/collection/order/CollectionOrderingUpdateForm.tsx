@@ -8,7 +8,7 @@ import {
   useInfiniteCollectionEntriesForCollectionId,
 } from "#@/components";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Button, ButtonGroup, Stack, Text } from "@mantine/core";
+import { Button, Stack, Text } from "@mantine/core";
 import { useListState } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -151,6 +151,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
         }}
         onDragEnd={(result) => {
           isDraggingRef.current = false;
+          console.log("Drag end with result: ", result);
           if (!result.destination) return;
           const targetGameId = Number.parseInt(result.draggableId);
           const sourceIndex = result.source.index;
@@ -190,11 +191,9 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
             previousEntryId: previousCollectionEntry?.id ?? undefined,
           };
 
-          setPendingMoves((prev) => {
-            const next = new Map(prev);
-            prev.set(dto.entryId, dto);
-            return next;
-          });
+          const nextPendingMoves = new Map(pendingMoves);
+          nextPendingMoves.set(dto.entryId, dto);
+          setPendingMoves(nextPendingMoves);
         }}
       >
         <Droppable

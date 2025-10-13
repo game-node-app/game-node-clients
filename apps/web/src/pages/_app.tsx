@@ -49,7 +49,6 @@ import {
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
-import MatomoTracker from "@/components/general/MatomoTracker";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { DehydrationResult } from "@/util/types/hydration";
 
@@ -114,7 +113,6 @@ export default function App({
         </Head>
         <SuperTokensProvider>
           <QueryClientProvider client={queryClient}>
-            <MatomoTracker />
             <NotificationsManager />
             <OpenInAppDialog />
             <HydrationBoundary state={pageProps.dehydratedState}>

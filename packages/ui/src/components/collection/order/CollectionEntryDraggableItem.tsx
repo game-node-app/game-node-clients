@@ -1,7 +1,7 @@
 import React from "react";
 import { Game } from "@repo/wrapper/server";
-import { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
-import { Box, Group, Loader, Text } from "@mantine/core";
+import { DraggableProvided } from "@hello-pangea/dnd";
+import { Box, Group, Text } from "@mantine/core";
 import { GameFigureImage } from "#@/components";
 import { IconClock, IconGripHorizontal } from "@tabler/icons-react";
 import { cn } from "#@/util";
@@ -19,13 +19,17 @@ const CollectionEntryDraggableItem = ({
   isDragging,
   isPending,
 }: Props) => {
+  /* eslint-disable-next-line react-hooks/refs */
   return (
     <Group
       className={cn("w-full gap-4 bg-paper-2 rounded-lg p-3", {
         "bg-paper-1": isDragging,
       })}
+      /* eslint-disable-next-line react-hooks/refs */
       ref={provided.innerRef}
+      /* eslint-disable-next-line react-hooks/refs */
       {...provided.draggableProps}
+      /* eslint-disable-next-line react-hooks/refs */
       {...provided.dragHandleProps}
     >
       <Box className={"w-11"}>

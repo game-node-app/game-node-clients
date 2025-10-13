@@ -20,7 +20,6 @@ import {
   UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
-import MatomoWrapper from "@/components/general/MatomoWrapper";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { DashboardLayout } from "@/components/general/DashboardLayout";
@@ -107,7 +106,6 @@ export default function App({
         </Head>
         <SuperTokensProvider>
           <QueryClientProvider client={queryClient}>
-            <MatomoWrapper />
             <NotificationsManager />
             <DashboardLayout>
               <HydrationBoundary state={pageProps.dehydratedState}>
