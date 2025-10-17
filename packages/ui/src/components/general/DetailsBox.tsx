@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Group, Stack, StackProps, Text } from "@mantine/core";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 import { cn } from "#@/util";
 
 export interface DetailsBoxProps extends PropsWithChildren {
@@ -71,6 +71,6 @@ const DEFAULT_DetailsBox = ({
   );
 };
 
-const DetailsBox = buildPresenterFallback("DetailsBox", DEFAULT_DetailsBox);
+const DetailsBox = buildPresenterComponent("DetailsBox", DEFAULT_DetailsBox);
 
 export { DetailsBox };

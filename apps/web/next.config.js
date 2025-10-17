@@ -1,14 +1,15 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require("path");
+import withAnalyzer from "@next/bundle-analyzer";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   reactStrictMode: true,
-  transpilePackages: ["@repo/wrapper", "@repo/ui"],
+  transpilePackages: ["@repo/wrapper", "@repo/ui", "@repo/analytics"],
   experimental: {
     optimizePackageImports: ["@tabler/icons-react"],
-    reactCompiler: true,
+    turbopackFileSystemCacheForDev: true,
   },
+  reactCompiler: true,
   async redirects() {
     return [
       {
@@ -20,9 +21,8 @@ const nextConfig = {
   },
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
+const withBundleAnalyzer = withAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-module.exports = withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(nextConfig);

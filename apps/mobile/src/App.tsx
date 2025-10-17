@@ -8,6 +8,20 @@ import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import SuperTokensProvider from "./components/auth/SuperTokensProvider";
+import NotificationsManager from "./components/general/NotificationsManager";
+import AppUrlListener from "./components/general/AppUrlListener";
+import Tabs from "./Tabs";
+import AppUpdateListener from "@/components/general/AppUpdateListener";
+import { setProjectContext, UIProvider } from "@repo/ui";
+import { setupWrapper } from "@repo/wrapper";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+import { Device } from "@capacitor/device";
+import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
+import { UI_HOOK_REGISTRY, UI_PRESENTER_REGISTRY } from "@/components/registry";
+import { MANTINE_THEME } from "@/components/theme.tsx";
+import { PostHogProvider } from "@repo/analytics";
+
 /**
  * Should always be imported BEFORE tailwind.
  */
@@ -43,43 +57,12 @@ import "./theme/variables.css";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-import SuperTokensProvider from "./components/auth/SuperTokensProvider";
-import NotificationsManager from "./components/general/NotificationsManager";
-import AppUrlListener from "./components/general/AppUrlListener";
-import Tabs from "./Tabs";
-import AppUpdateListener from "@/components/general/AppUpdateListener";
-import {
-  setLinkComponent,
-  setModalComponent,
-  setProjectContext,
-  setRouterHook,
-  UIProvider,
-} from "@repo/ui";
-import { LinkWrapper } from "@/components/general/LinkWrapper";
-import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
-import { IonModalWrapper } from "@/components/general/IonModalWrapper";
-import { setupWrapper } from "@repo/wrapper";
-import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
-import { Device } from "@capacitor/device";
-import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
-import { QueryProgressBar } from "@/components/general/QueryProgressBar";
-import { UI_PRESENTER_REGISTRY } from "@/components/registry";
-import { MANTINE_THEME } from "@/components/theme.tsx";
-import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
-
 /**
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
 dayjs.extend(LocalizedFormat);
 
-/**
- * @repo/ui setup
- */
-setLinkComponent(LinkWrapper);
-setRouterHook(useIonRouterWrapper);
-setModalComponent(IonModalWrapper);
 setProjectContext({
   client: "mobile",
   s3BucketUrl: import.meta.env.VITE_PUBLIC_S3_BUCKET_URL!,
@@ -94,13 +77,6 @@ setupWrapper({
 setupIonicReact({
   backButtonIcon: "/img/icon/icon_back_button.svg",
 });
-
-posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
-  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
-  defaults: "2025-05-24",
-  ui_host: "https://app.posthog.com",
-});
-posthog.register({ app_name: "mobile" });
 
 const App: React.FC = () => {
   const [queryClient] = useState(
@@ -141,26 +117,29 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <PostHogProvider client={posthog}>
-        <UIProvider presenters={UI_PRESENTER_REGISTRY}>
+      <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+        <UIProvider presenters={UI_PRESENTER_REGISTRY} hooks={UI_HOOK_REGISTRY}>
           <PersistQueryClientProvider
             client={queryClient}
             persistOptions={{ persister }}
           >
             <SuperTokensProvider>
-              <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+              <PostHogProvider
+                appName={"mobile"}
+                posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+                posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+              >
                 <IonReactRouter>
                   <AppUrlListener />
                   <AppUpdateListener />
                   <NotificationsManager />
-                  <QueryProgressBar />
                   <Tabs />
                 </IonReactRouter>
-              </MantineProvider>
+              </PostHogProvider>
             </SuperTokensProvider>
           </PersistQueryClientProvider>
         </UIProvider>
-      </PostHogProvider>
+      </MantineProvider>
     </IonApp>
   );
 };

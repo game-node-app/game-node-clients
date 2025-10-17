@@ -5,7 +5,6 @@ import ProfilePage from "@/pages/profile/profile";
 import ProfileStatsPage from "@/pages/profile/stats";
 import ProfileReviewListPage from "@/pages/profile/review_list";
 import AchievementsPage from "@/pages/achievements";
-import LibraryPage from "@/pages/library";
 import SupertokensAuthPage from "@/pages/auth";
 import ImporterPage from "@/pages/importer/importer";
 import ImporterByTypePage from "@/pages/importer/source";
@@ -16,13 +15,15 @@ import { BlogPostsPage } from "@/pages/blog";
 import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
-import CollectionPage from "@/pages/collection.tsx";
 import PreferencesPage from "@/pages/preferences.tsx";
 import { JournalPage } from "@/pages/journal.tsx";
-import LibraryCollectionsPage from "@/pages/library_collections.tsx";
 import GameSearchPage from "@/pages/search.tsx";
 import AwardsVotePage from "@/pages/awards/vote.tsx";
 import AwardsNomineesPage from "@/pages/awards/nominees.tsx";
+import LibraryPage from "@/pages/library/library";
+import LibraryCollectionsPage from "@/pages/library/library_collections";
+import CollectionPage from "@/pages/library/collection";
+import CollectionReorderPage from "@/pages/library/collection_reorder";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -111,6 +112,18 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         return (
           <CollectionPage
             userId={props.match.params.userId}
+            collectionId={props.match.params.collectionId}
+          />
+        );
+      }}
+    />,
+    <Route
+      key={`${prefix}-library-collection-reorder`}
+      path={`${prefix}/library/:userId/collection/:collectionId/reorder`}
+      exact
+      render={(props) => {
+        return (
+          <CollectionReorderPage
             collectionId={props.match.params.collectionId}
           />
         );

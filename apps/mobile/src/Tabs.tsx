@@ -15,17 +15,15 @@ import ProfilePage from "@/pages/profile/profile";
 import NotificationsPage from "@/pages/notifications";
 import SupertokensAuthPage from "./pages/auth";
 import SupertokensAuthCallbackPage from "@/pages/auth_callback";
-import ActivityPage from "@/pages/activity";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import {
-  IconActivity,
   IconBell,
   IconHome,
   IconLibrary,
   IconTrendingUp,
   IconUser,
 } from "@tabler/icons-react";
-import LibraryPage from "@/pages/library.tsx";
+import LibraryPage from "@/pages/library/library";
 
 const Tabs = () => {
   return (

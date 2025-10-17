@@ -5,11 +5,12 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonList,
   IonModal,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { Container } from "@mantine/core";
+import { Box, Container, ScrollArea } from "@mantine/core";
 
 const IonModalWrapper = ({
   opened,
@@ -52,12 +53,10 @@ const IonModalWrapper = ({
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Container
-          className={`w-full ion-padding ${classNames?.body ? classNames.body : ""}`}
-        >
-          {children}
-        </Container>
+      <IonContent
+        className={`w-full ion-padding ${classNames?.body ? classNames.body : ""}`}
+      >
+        {children}
       </IonContent>
     </IonModal>
   );

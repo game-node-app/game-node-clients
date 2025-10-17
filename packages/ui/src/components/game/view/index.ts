@@ -7,4 +7,5 @@ export * from "./GameViewContent";
 export * from "./GameViewLayoutSwitcher";
 export * from "./GameViewLoadingSkeletons";
 export * from "./GameViewPagination";
+export * from "./dnd/index";
 export * from "./select/index";

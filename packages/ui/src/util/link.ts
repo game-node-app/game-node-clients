@@ -1,4 +1,5 @@
-import React, { HTMLProps } from "react";
+import { HTMLProps } from "react";
+import { buildPresenterComponent, useHooks } from "#@/context";
 
 interface TransitionOptions {
   scroll?: boolean;
@@ -19,22 +20,14 @@ export interface RouterHookProps {
   query: URLSearchParams;
 }
 
-export let useRouter: () => RouterHookProps = () => {
-  throw new Error(
-    "A routing manager must be set. Call `setRoutingManager` at the project's root.",
-  );
+const MandatoryLinkFallback = () => {
+  throw new Error("A Link component must be set in UIProvider.");
 };
 
-export let Link: React.FC<LinkComponentProps> = () => {
-  throw new Error(
-    "A routing component must be set. Call `setRoutingComponent` at the project's root.",
-  );
-};
+export function useRouter() {
+  const { useRouter: impl } = useHooks();
 
-export function setLinkComponent(component: React.FC<LinkComponentProps>) {
-  Link = component;
+  return impl();
 }
 
-export function setRouterHook(routerHook: () => RouterHookProps) {
-  useRouter = routerHook;
-}
+export const Link = buildPresenterComponent("Link", MandatoryLinkFallback);

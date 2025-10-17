@@ -21,7 +21,7 @@ import {
 } from "#@/util/trackMatomoEvent";
 import { Modal } from "#@/util";
 import { GameInfoShare } from "#@/components";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 export interface GameInfoActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
@@ -168,7 +168,7 @@ const DEFAULT_GameInfoActions = ({
   );
 };
 
-const GameInfoActions = buildPresenterFallback(
+const GameInfoActions = buildPresenterComponent(
   "GameInfoActions",
   DEFAULT_GameInfoActions,
 );

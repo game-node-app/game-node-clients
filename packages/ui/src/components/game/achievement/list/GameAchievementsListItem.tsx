@@ -12,7 +12,7 @@ import {
 import { match } from "ts-pattern";
 import { GameAchievementDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "#@/util";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 export interface GameAchievementsListItemProps {
   achievement: GameAchievementWithObtainedInfo;
@@ -98,7 +98,7 @@ const DEFAULT_GameAchievementsListItem = ({
   );
 };
 
-const GameAchievementsListItem = buildPresenterFallback(
+const GameAchievementsListItem = buildPresenterComponent(
   "GameAchievementsListItem",
   DEFAULT_GameAchievementsListItem,
 );

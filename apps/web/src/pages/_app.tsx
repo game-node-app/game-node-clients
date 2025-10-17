@@ -5,6 +5,7 @@ import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
 import React, { useState } from "react";
 import { RouterTransition } from "@/components/general/RouterTransition";
+import { PostHogProvider } from "@repo/analytics";
 import {
   HydrationBoundary,
   QueryClient,
@@ -25,6 +26,7 @@ import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
+import "@mantine/nprogress/styles.css";
 
 /**
  * Includes tailwind styles
@@ -39,18 +41,12 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import NotificationsManager from "@/components/general/NotificationsManager";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
-import {
-  DEFAULT_MANTINE_THEME,
-  setProjectContext,
-  setLinkComponent,
-  setRouterHook,
-  UIProvider,
-} from "@repo/ui";
-import { LinkWrapper } from "@/components/general/LinkWrapper";
+import { DEFAULT_MANTINE_THEME, setProjectContext, UIProvider } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { DehydrationResult } from "@/util/types/hydration";
+import { LinkWrapper } from "@/components/general/LinkWrapper";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -65,8 +61,6 @@ const roboto = Roboto({
 dayjs.extend(RelativeTime);
 dayjs.extend(LocalizedFormat);
 
-setLinkComponent(LinkWrapper);
-setRouterHook(useNextRouterWrapper);
 setProjectContext({
   client: "web",
   s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,
@@ -82,7 +76,7 @@ export default function App({
   Component,
   pageProps,
 }: AppProps<DehydrationResult>) {
-  const [queryClient, _] = useState(
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
@@ -100,30 +94,46 @@ export default function App({
   );
 
   return (
-    <MantineProvider
-      theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-        fontFamily: roboto.style.fontFamily,
-      })}
-      forceColorScheme={"dark"}
-    >
-      <UIProvider>
-        <Head>
-          <title>GameNode</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
-        <SuperTokensProvider>
-          <QueryClientProvider client={queryClient}>
-            <NotificationsManager />
-            <OpenInAppDialog />
-            <HydrationBoundary state={pageProps.dehydratedState}>
-              <GlobalAppShell>
-                <RouterTransition />
-                <Component {...pageProps} />
-              </GlobalAppShell>
-            </HydrationBoundary>
-          </QueryClientProvider>
-        </SuperTokensProvider>
-      </UIProvider>
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <SuperTokensProvider>
+        <PostHogProvider
+          appName={"web"}
+          posthogKey={process.env.NEXT_PUBLIC_POSTHOG_KEY!}
+          posthogHost={process.env.NEXT_PUBLIC_POSTHOG_HOST!}
+        >
+          <MantineProvider
+            theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+              fontFamily: roboto.style.fontFamily,
+            })}
+            forceColorScheme={"dark"}
+          >
+            <UIProvider
+              presenters={{
+                Link: LinkWrapper,
+              }}
+              hooks={{
+                useRouter: useNextRouterWrapper,
+              }}
+            >
+              <Head>
+                <title>GameNode</title>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1"
+                />
+              </Head>
+              <NotificationsManager />
+              <OpenInAppDialog />
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <GlobalAppShell>
+                  <RouterTransition />
+                  <Component {...pageProps} />
+                </GlobalAppShell>
+              </HydrationBoundary>
+            </UIProvider>
+          </MantineProvider>
+        </PostHogProvider>
+      </SuperTokensProvider>
+    </QueryClientProvider>
   );
 }

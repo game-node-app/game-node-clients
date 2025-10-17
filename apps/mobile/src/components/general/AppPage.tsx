@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { HeaderSearchButton } from "@/components/general/header/HeaderSearchButton.tsx";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar";
 
 interface Props extends PropsWithChildren {
   withSearch?: boolean;
@@ -53,6 +54,7 @@ const AppPage = ({
             </IonButtons>
           )}
         </IonToolbar>
+        <QueryProgressBar />
       </IonHeader>
       <ScrollableIonContent className={"ion-padding"} {...contentProps}>
         {children}

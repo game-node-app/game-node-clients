@@ -26,6 +26,9 @@
     "@repo/wrapper": "*"
   },
   "peerDependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
     "@hookform/resolvers": "3.10.0",
     "@mantine/carousel": "^8.3.3",
     "@mantine/charts": "^8.3.3",
@@ -38,7 +41,7 @@
     "@mantine/nprogress": "^8.3.3",
     "@mantine/tiptap": "^8.3.3",
     "@tabler/icons-react": "^3.35.0",
-    "@tanstack/react-query": "5.90.2",
+    "@tanstack/react-query": "^5.90.3",
     "@tiptap/core": "^3.6.5",
     "@tiptap/extension-image": "^3.6.5",
     "@tiptap/extension-link": "^3.6.5",

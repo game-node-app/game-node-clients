@@ -2,7 +2,7 @@ import React, { ExoticComponent, PropsWithoutRef } from "react";
 import { Stack, Tabs, TabsTabProps, Text } from "@mantine/core";
 import { IconProps } from "@tabler/icons-react";
 import { Link } from "#@/util";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 export interface ProfileViewNavbarItemProps extends TabsTabProps {
   label: string;
@@ -59,7 +59,7 @@ const DEFAULT_ProfileViewNavbarItem = ({
   );
 };
 
-const ProfileViewNavbarItem = buildPresenterFallback(
+const ProfileViewNavbarItem = buildPresenterComponent(
   "ProfileViewNavbarItem",
   DEFAULT_ProfileViewNavbarItem,
 );

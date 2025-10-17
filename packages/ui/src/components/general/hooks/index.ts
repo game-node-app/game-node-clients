@@ -4,5 +4,6 @@
 
 export * from "./useOnMobile";
 export * from "./useOnMobilePlatform";
+export * from "./useOnTouchDevice";
 export * from "./useUrlState";
 export * from "./useWebSocket";

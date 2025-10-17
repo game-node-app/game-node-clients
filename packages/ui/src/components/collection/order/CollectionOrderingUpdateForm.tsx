@@ -1,26 +1,21 @@
-import React, { useEffect, useEffectEvent, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   COLLECTION_VIEW_DEFAULT_LIMIT,
   CollectionEntryDraggableItem,
   findCollectionEntryByGameId,
-  SimpleInfiniteLoader,
+  GameDraggableView,
   useGames,
   useInfiniteCollectionEntriesForCollectionId,
 } from "#@/components";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Button, Stack, Text } from "@mantine/core";
-import { useDebouncedCallback, useListState } from "@mantine/hooks";
+import { Box, Button, Divider, Stack, Text } from "@mantine/core";
+import { useListState } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   CollectionEntryUpdateOrderingDto,
   CollectionsEntriesOrderingService,
   Game,
 } from "@repo/wrapper/server";
-import {
-  BaseModalChildrenProps,
-  getErrorMessage,
-  jsonDeepEquals,
-} from "#@/util";
+import { BaseModalChildrenProps, getErrorMessage } from "#@/util";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
 
@@ -164,125 +159,41 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
           Apply
         </Button>
       </Button.Group>
-      <DragDropContext
-        onBeforeDragStart={() => {
-          isDraggingRef.current = true;
-        }}
-        onDragEnd={(result) => {
-          isDraggingRef.current = false;
-          console.log("Drag end with result: ", result);
-          if (!result.destination) return;
-
-          const sourceIndex = result.source.index;
-          const destinationIndex = result.destination.index;
-
-          /**
-           * Creates a snapshot of the list state before the reorder.
-           * Avoids issue with react state update being async and causing the logic below
-           * to use the 'old' list version.
-           */
-          const reorderedGames = [...renderedGames];
-          const [moved] = reorderedGames.splice(sourceIndex, 1);
-          reorderedGames.splice(destinationIndex, 0, moved);
-          // Sync state with the snapshot
-          renderedGamesHandlers.setState(reorderedGames);
-
-          const targetGameId = Number.parseInt(result.draggableId);
-          const nextGameId = reorderedGames.at(destinationIndex + 1)?.id;
-          // Avoids matching the same game when moving to the top
-          const previousGameId =
-            destinationIndex > 0
-              ? reorderedGames.at(destinationIndex - 1)?.id
-              : undefined;
-
-          console.log("Current list: ", reorderedGames);
-          console.log("Prev: ", previousGameId);
-          console.log("Next: ", nextGameId);
+      <GameDraggableView
+        onDragFinished={(evt) => {
+          console.log("Result: ", evt);
+          const gameId = evt.currentItem.id!;
+          const beforeGameId = evt.beforeIndex
+            ? renderedGames[evt.beforeIndex].id
+            : undefined;
+          const afterGameId = evt.afterIndex
+            ? renderedGames[evt.afterIndex].id
+            : undefined;
+          const beforeEntry = beforeGameId
+            ? findCollectionEntryByGameId(beforeGameId, collectionEntries)
+            : undefined;
+          const afterEntry = afterGameId
+            ? findCollectionEntryByGameId(afterGameId, collectionEntries)
+            : undefined;
           const targetEntry = findCollectionEntryByGameId(
-            targetGameId,
+            gameId,
             collectionEntries,
-          );
-          const previousCollectionEntry = findCollectionEntryByGameId(
-            previousGameId ?? 0,
-            collectionEntries,
-          );
-          const nextCollectionEntry = findCollectionEntryByGameId(
-            nextGameId ?? 0,
-            collectionEntries,
-          );
+          )!;
 
           const dto: CollectionEntryUpdateOrderingDto = {
             collectionId,
             entryId: targetEntry!.id,
-            nextEntryId: nextCollectionEntry?.id ?? undefined,
-            previousEntryId: previousCollectionEntry?.id ?? undefined,
+            nextEntryId: beforeEntry?.id ?? undefined,
+            previousEntryId: afterEntry?.id ?? undefined,
           };
 
           const nextPendingMoves = new Map(pendingMoves);
           nextPendingMoves.set(dto.entryId, dto);
           setPendingMoves(nextPendingMoves);
         }}
-      >
-        <Droppable
-          droppableId={"dropabble"}
-          isDropDisabled={applyPendingMovesMutation.isPending}
-          renderClone={(provided, snapshot, rubric) => {
-            const game = renderedGames[rubric.source.index];
-            return (
-              <CollectionEntryDraggableItem
-                key={game.id}
-                game={game}
-                provided={provided}
-                isDragging={true}
-                isPending={false}
-              />
-            );
-          }}
-        >
-          {(provided) => (
-            <Stack
-              className={"gap-2 w-full"}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {renderedGames.map((game, index) => (
-                <Draggable
-                  draggableId={`${game.id}`}
-                  index={index}
-                  key={game.id}
-                >
-                  {(provided) => {
-                    const collectionEntry = findCollectionEntryByGameId(
-                      game.id,
-                      collectionEntries,
-                    );
-                    const isPending =
-                      collectionEntry != undefined &&
-                      pendingMoves.has(collectionEntry.id);
-                    return (
-                      <CollectionEntryDraggableItem
-                        game={game}
-                        provided={provided}
-                        isDragging={false}
-                        isPending={isPending}
-                      />
-                    );
-                  }}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-              <SimpleInfiniteLoader
-                fetchNextPage={async () => {
-                  if (!canFetchNextPage) return;
-                  await fetchNextPage();
-                }}
-                isFetching={isFetching || isFetchingGames}
-                hasNextPage={hasNextPage}
-              />
-            </Stack>
-          )}
-        </Droppable>
-      </DragDropContext>
+        items={renderedGames ?? []}
+        setItems={(items) => renderedGamesHandlers.setState(items as Game[])}
+      />
     </Stack>
   );
 };

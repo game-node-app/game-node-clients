@@ -11,7 +11,7 @@ import { Card, Image, Stack, Title, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { Link } from "#@/util";
 import Autoplay from "embla-carousel-autoplay";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 export interface CollectionThumbnailCardProps {
   collectionId: string;
@@ -96,7 +96,7 @@ const DEFAULT_CollectionThumbnailCard = ({
   );
 };
 
-const CollectionThumbnailCard = buildPresenterFallback(
+const CollectionThumbnailCard = buildPresenterComponent(
   "CollectionThumbnailCard",
   DEFAULT_CollectionThumbnailCard,
 );

@@ -20,7 +20,7 @@ import { UserAvatarGroup } from "../avatar";
 import { GameRating } from "../input";
 import { Link } from "#@/util";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 export interface ReviewCardProps {
   reviewId: string;
@@ -104,7 +104,7 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
   );
 };
 
-const TrendingReviewCard = buildPresenterFallback(
+const TrendingReviewCard = buildPresenterComponent(
   "TrendingReviewCard",
   DEFAULT_TrendingReviewCard,
 );

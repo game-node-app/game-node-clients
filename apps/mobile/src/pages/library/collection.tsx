@@ -1,23 +1,13 @@
 import React from "react";
 import {
   CollectionView,
-  LibraryView,
   LibraryViewLayout,
   useCollection,
+  useRouter,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import {
-  IonBackButton,
-  IonButtons,
-  IonHeader,
-  IonPage,
-  IonProgressBar,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab.tsx";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
@@ -28,11 +18,12 @@ interface Props {
 }
 
 const CollectionPage = ({ userId, collectionId }: Props) => {
+  const router = useRouter();
   const ownUserId = useUserId();
   const isOwnLibrary = userId === ownUserId;
 
-  const profileQuery = useUserProfile(userId);
-  const collectionQuery = useCollection(collectionId);
+  useUserProfile(userId);
+  useCollection(collectionId);
 
   return (
     <AppPage
@@ -44,7 +35,15 @@ const CollectionPage = ({ userId, collectionId }: Props) => {
         <LibraryViewRefresher userId={userId} collectionId={collectionId} />
         {isOwnLibrary && <LibraryViewFab />}
         <LibraryViewLayout userId={userId} collectionId={collectionId}>
-          <CollectionView libraryUserId={userId} collectionId={collectionId} />
+          <CollectionView
+            libraryUserId={userId}
+            collectionId={collectionId}
+            onReorderButtonClick={() => {
+              router.push(
+                `/library/${userId}/collection/${collectionId}/reorder`,
+              );
+            }}
+          />
         </LibraryViewLayout>
       </SessionAuth>
     </AppPage>

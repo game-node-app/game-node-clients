@@ -17,7 +17,7 @@ import {
 } from "#@/components";
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
-import { buildPresenterFallback } from "#@/presenters";
+import { buildPresenterComponent } from "#@/context";
 
 const DEFAULT_ActivityItem = ({
   activity,
@@ -145,7 +145,7 @@ const DEFAULT_ActivityItem = ({
   );
 };
 
-const ActivityItem = buildPresenterFallback(
+const ActivityItem = buildPresenterComponent(
   "ActivityItem",
   DEFAULT_ActivityItem,
 );

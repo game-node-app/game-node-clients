@@ -1,0 +1,28 @@
+{
+  "name": "@repo/analytics",
+  "version": "0.0.0",
+  "description": "Centralized package for analytics related functionality.",
+  "main": "index.ts",
+  "license": "MIT",
+  "imports": {
+    "#@/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
+    ]
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.14"
+  },
+  "peerDependencies": {
+    "posthog-js": "^1.275.1",
+    "@repo/ui": "*",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}

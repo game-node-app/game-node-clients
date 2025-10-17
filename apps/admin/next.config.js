@@ -5,7 +5,7 @@ const nextConfig = {
     optimizePackageImports: ["@tabler/icons-react"],
     reactCompiler: true,
   },
-  transpilePackages: ["@repo/wrapper", "@repo/ui"],
+  transpilePackages: ["@repo/wrapper", "@repo/ui", "@repo/analytics"],
 };
 
 module.exports = nextConfig;

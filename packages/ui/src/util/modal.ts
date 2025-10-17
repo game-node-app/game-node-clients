@@ -1,6 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { ModalProps } from "@mantine/core";
 import { MantineModalWrapper } from "#@/components/general/MantineModalWrapper.tsx";
+import { buildPresenterComponent } from "#@/context";
 
 export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
   title?: string;
@@ -26,8 +27,4 @@ export interface ModalComponentProps extends PropsWithChildren<ModalProps> {
   expandToScroll?: boolean;
 }
 
-export let Modal: React.FC<ModalComponentProps> = MantineModalWrapper;
-
-export function setModalComponent(component: React.FC<ModalComponentProps>) {
-  Modal = component;
-}
+export const Modal = buildPresenterComponent("Modal", MantineModalWrapper);

@@ -8,7 +8,6 @@ import {
   useBlogPosts,
   useOnMobile,
 } from "#@/components";
-import { useRouter } from "#@/util";
 
 const buildSkeletons = () => {
   const skeletons = [];
@@ -24,7 +23,6 @@ const buildSkeletons = () => {
 };
 
 const RecentBlogPostsCarousel = () => {
-  const router = useRouter();
   const onMobile = useOnMobile();
 
   const { data, isLoading } = useBlogPosts({

@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import {
-  IonBackButton,
-  IonButtons,
-  IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonLabel,
-  IonMenuButton,
-  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonSegment,
-  IonSegmentButton,
-  IonToolbar,
 } from "@ionic/react";
 import {
   ActivityFeed,
@@ -20,9 +11,6 @@ import {
   ActivityFeedTabValue,
   InfiniteLoaderProps,
 } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
-import { QueryProgressBar } from "@/components/general/QueryProgressBar.tsx";
-import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
 import { Text } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { AppPage } from "@/components/general/AppPage";
