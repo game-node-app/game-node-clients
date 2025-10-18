@@ -1,9 +1,8 @@
 import React, { MouseEventHandler } from "react";
 import { Group, GroupProps, Text } from "@mantine/core";
-import { cn } from "@repo/ui";
+import { cn, Link } from "@repo/ui";
 import { IonRippleEffect } from "@ionic/react";
 import { IconProps } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 
 interface Props extends Omit<GroupProps, "onClick"> {
@@ -25,7 +24,7 @@ const MobileSidebarButton = ({
 }: Props) => {
   return (
     <Link
-      to={getTabAwareHref(href)}
+      href={href}
       onClick={onClick}
       className={"w-full relative ion-activatable"}
     >

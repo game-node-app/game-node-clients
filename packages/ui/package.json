@@ -56,7 +56,6 @@
     "dayjs": "^1.11.18",
     "html-to-image": "1.11.13",
     "react-virtuoso": "^4.14.1",
-    "@hello-pangea/dnd": "^18.0.1",
     "react-hook-form": "^8.0.0-alpha.5",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.3.1",

@@ -29,7 +29,6 @@
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
-    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "3.10.0",
     "@ionic/react": "8.7.6",
     "@ionic/react-router": "8.7.6",
