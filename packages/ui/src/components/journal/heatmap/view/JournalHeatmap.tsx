@@ -3,7 +3,6 @@ import { useHeatmap } from "#@/components/journal/heatmap/hooks/useHeatmap.ts";
 import { CenteredLoading } from "#@/components";
 import { Heatmap } from "@mantine/charts";
 import { Box, Flex } from "@mantine/core";
-import "@mantine/charts/styles.css";
 import dayjs from "dayjs";
 
 interface Props {

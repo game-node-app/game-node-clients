@@ -2,18 +2,15 @@ import React, { useMemo } from "react";
 import { BlogPost } from "@repo/wrapper/server";
 import {
   AspectRatio,
-  BackgroundImage,
   Box,
   Group,
   Image,
-  Overlay,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { getS3StoredUpload, Link } from "#@/util";
 import { UserAvatarGroup } from "#@/components";
-import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 interface Props {

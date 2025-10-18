@@ -17,8 +17,6 @@ import {
 } from "@mantine/core";
 import { getS3StoredUpload, Link } from "#@/util";
 import { BlogPost } from "@repo/wrapper/server";
-import { EditorContent, useEditor } from "@tiptap/react";
-import "./BlogPostsFeaturedReviewCard.css";
 
 interface Props {
   post: BlogPost;
