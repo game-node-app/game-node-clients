@@ -20,13 +20,9 @@ import { Modal } from "#@/util";
 
 interface Props {
   collectionId: string;
-  onReorderButtonClick: () => void;
 }
 
-const CollectionViewActions = ({
-  collectionId,
-  onReorderButtonClick,
-}: Props) => {
+const CollectionViewActions = ({ collectionId }: Props) => {
   const [createUpdateModalOpened, createUpdateModalUtils] = useDisclosure();
   const [moveModalOpened, moveModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();

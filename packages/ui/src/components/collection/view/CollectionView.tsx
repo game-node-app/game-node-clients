@@ -20,7 +20,6 @@ import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 interface ICollectionViewProps {
   libraryUserId: string;
   collectionId: string;
-  onReorderButtonClick: () => void;
 }
 
 export const COLLECTION_VIEW_DEFAULT_LIMIT = 24;
@@ -28,7 +27,6 @@ export const COLLECTION_VIEW_DEFAULT_LIMIT = 24;
 const CollectionView = ({
   collectionId,
   libraryUserId,
-  onReorderButtonClick,
 }: ICollectionViewProps) => {
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
@@ -131,10 +129,7 @@ const CollectionView = ({
             className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
           >
             {isOwnCollection && (
-              <CollectionViewActions
-                collectionId={collectionId}
-                onReorderButtonClick={onReorderButtonClick}
-              />
+              <CollectionViewActions collectionId={collectionId} />
             )}
             <LibraryViewActions
               libraryUserId={libraryUserId}

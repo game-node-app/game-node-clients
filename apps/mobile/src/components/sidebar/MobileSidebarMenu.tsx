@@ -1,3 +1,5 @@
+// prettier-ignore
+"use no memo"
 import React from "react";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { RecentlyPlayedGamesShare, UserButton, useUserId } from "@repo/ui";

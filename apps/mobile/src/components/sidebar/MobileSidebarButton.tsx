@@ -1,9 +1,13 @@
+// prettier-ignore
+"use no memo"
+
+import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { Link } from "react-router-dom";
 import React, { MouseEventHandler } from "react";
 import { Group, GroupProps, Text } from "@mantine/core";
-import { cn, Link } from "@repo/ui";
+import { cn } from "@repo/ui";
 import { IonRippleEffect } from "@ionic/react";
 import { IconProps } from "@tabler/icons-react";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
 
 interface Props extends Omit<GroupProps, "onClick"> {
   title: string;
@@ -24,7 +28,7 @@ const MobileSidebarButton = ({
 }: Props) => {
   return (
     <Link
-      href={href}
+      to={getTabAwareHref(href)}
       onClick={onClick}
       className={"w-full relative ion-activatable"}
     >

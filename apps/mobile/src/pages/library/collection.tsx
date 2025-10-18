@@ -3,7 +3,6 @@ import {
   CollectionView,
   LibraryViewLayout,
   useCollection,
-  useRouter,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
@@ -18,7 +17,6 @@ interface Props {
 }
 
 const CollectionPage = ({ userId, collectionId }: Props) => {
-  const router = useRouter();
   const ownUserId = useUserId();
   const isOwnLibrary = userId === ownUserId;
 
@@ -35,15 +33,7 @@ const CollectionPage = ({ userId, collectionId }: Props) => {
         <LibraryViewRefresher userId={userId} collectionId={collectionId} />
         {isOwnLibrary && <LibraryViewFab />}
         <LibraryViewLayout userId={userId} collectionId={collectionId}>
-          <CollectionView
-            libraryUserId={userId}
-            collectionId={collectionId}
-            onReorderButtonClick={() => {
-              router.push(
-                `/library/${userId}/collection/${collectionId}/reorder`,
-              );
-            }}
-          />
+          <CollectionView libraryUserId={userId} collectionId={collectionId} />
         </LibraryViewLayout>
       </SessionAuth>
     </AppPage>
