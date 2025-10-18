@@ -16,11 +16,6 @@ interface Props extends MultiSelectProps {
 
 const ImporterCollectionSelect = ({ userId, onChange, ...others }: Props) => {
   const userLibraryQuery = useUserLibrary(userId);
-  const collections = userLibraryQuery.data?.collections;
-  const [
-    hasSelectedFinishedGamesCollection,
-    setHasSelectedFinishedGamesCollection,
-  ] = useState();
 
   const collectionsSelectOptions = useMemo(() => {
     if (

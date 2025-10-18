@@ -1,22 +1,17 @@
-import React, { SetStateAction, useContext } from "react";
-import { ActionIcon, Chip, Divider, Group, Tooltip } from "@mantine/core";
+import React from "react";
+import {
+  GameViewLayoutOption,
+  GameViewLayoutSwitcherProps,
+} from "#@/components/game/view/layout/GameViewLayoutSwitcher";
 import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
-import { GameViewContext } from "#@/components/game/view/GameView";
+import { ActionIcon, Divider, Group, Tooltip } from "@mantine/core";
 import { ActionChip } from "#@/components";
 
-export type GameViewLayoutOption = "grid" | "list";
-
-export interface GameViewLayoutSwitcherProps {
-  mode: "icon" | "chip";
-  setLayout: (layout: GameViewLayoutOption) => void;
+interface Props extends GameViewLayoutSwitcherProps {
+  layout: GameViewLayoutOption;
 }
 
-const GameViewLayoutSwitcher = ({
-  mode = "icon",
-  setLayout,
-}: GameViewLayoutSwitcherProps) => {
-  const { layout } = useContext(GameViewContext);
-
+const GameViewLayoutSwitcherContent = ({ layout, setLayout, mode }: Props) => {
   const handleLayoutChange = (changeTo: GameViewLayoutOption) => {
     console.log("Changing layout to", changeTo);
     setLayout(changeTo);
@@ -69,4 +64,4 @@ const GameViewLayoutSwitcher = ({
   );
 };
 
-export { GameViewLayoutSwitcher };
+export { GameViewLayoutSwitcherContent };

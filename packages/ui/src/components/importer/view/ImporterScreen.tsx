@@ -41,9 +41,7 @@ import {
 import status = CreateUpdateCollectionEntryDto.status;
 
 const ImporterFormSchema = z.object({
-  selectedCollectionIds: z
-    .array(z.string())
-    .min(1, "Select at least one collection"),
+  selectedCollectionIds: z.array(z.string()),
   selectedGameIds: z.array(z.number()).min(1, "Select at least one game."),
   page: z.number().default(1),
 });
@@ -61,16 +59,20 @@ const ImporterScreen = ({ source }: Props) => {
 
   const userLibrary = useUserLibrary(userId);
 
-  const { watch, handleSubmit, formState, setValue } =
-    useForm<ImporterFormValues>({
-      mode: "onBlur",
-      resolver: zodResolver(ImporterFormSchema),
-      defaultValues: {
-        page: 1,
-        selectedCollectionIds: [],
-        selectedGameIds: [],
-      },
-    });
+  const {
+    watch,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<ImporterFormValues>({
+    mode: "onBlur",
+    resolver: zodResolver(ImporterFormSchema),
+    defaultValues: {
+      page: 1,
+      selectedCollectionIds: [],
+      selectedGameIds: [],
+    },
+  });
 
   const selectedGameIds = watch("selectedGameIds");
   const selectedCollectionIds = watch("selectedCollectionIds");
@@ -232,28 +234,6 @@ const ImporterScreen = ({ source }: Props) => {
     },
   });
 
-  useEffect(() => {
-    if (
-      userLibrary.data == undefined ||
-      userLibrary.data.collections == undefined
-    ) {
-      return;
-    }
-
-    const hasSelected = userLibrary.data.collections.some((collection) => {
-      return (
-        collection.isFinished && selectedCollectionIds.includes(collection.id)
-      );
-    });
-
-    setHasSelectedFinishedGamesCollection(hasSelected);
-  }, [
-    hasSelectedFinishedGamesCollection,
-    setHasSelectedFinishedGamesCollection,
-    userLibrary.data,
-    selectedCollectionIds,
-  ]);
-
   return (
     <Flex justify={"center"} mih={"100vh"} p={0} wrap={"wrap"}>
       <Paper className={"w-full lg:w-10/12 p-4"}>
@@ -282,15 +262,9 @@ const ImporterScreen = ({ source }: Props) => {
                 onChange={(values) => {
                   setValue("selectedCollectionIds", values);
                 }}
-                error={formState.errors.selectedCollectionIds?.message}
+                error={errors.selectedCollectionIds?.message}
+                description={"Optional"}
               />
-              {hasSelectedFinishedGamesCollection && (
-                <Text className={"text-sm text-yellow-300"}>
-                  Selected games will be marked as &quot;Finished&quot; because
-                  a collection for finished games is being used. You can change
-                  the finish date later.
-                </Text>
-              )}
             </Stack>
             <Center w={"100%"}>
               <Button
@@ -301,10 +275,8 @@ const ImporterScreen = ({ source }: Props) => {
                 Import
               </Button>
             </Center>
-            {formState.errors.selectedGameIds != undefined && (
-              <CenteredErrorMessage
-                message={formState.errors.selectedGameIds.message!}
-              />
+            {errors.selectedGameIds != undefined && (
+              <CenteredErrorMessage message={errors.selectedGameIds.message!} />
             )}
           </Group>
           <Stack className={"mt-4 w-full grow"}>

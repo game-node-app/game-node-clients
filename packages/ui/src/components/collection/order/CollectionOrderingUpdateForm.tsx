@@ -1,31 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   COLLECTION_VIEW_DEFAULT_LIMIT,
-  CollectionEntryDraggableItem,
   findCollectionEntryByGameId,
   GameDraggableView,
+  GameViewLayoutOption,
+  SimpleInfiniteLoader,
   useGames,
   useInfiniteCollectionEntriesForCollectionId,
 } from "#@/components";
-import { Box, Button, Divider, Stack, Text } from "@mantine/core";
+import { Button, Flex, Stack, Text } from "@mantine/core";
 import { useListState } from "@mantine/hooks";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import {
   CollectionEntryUpdateOrderingDto,
   CollectionsEntriesOrderingService,
-  Game,
 } from "@repo/wrapper/server";
 import { BaseModalChildrenProps, getErrorMessage } from "#@/util";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
+import { arrayMove } from "@dnd-kit/sortable";
 
 interface Props extends BaseModalChildrenProps {
   collectionId: string;
 }
 
 const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
-  const queryClient = useQueryClient();
-  const isDraggingRef = useRef(false);
+  const [dragLayout, setDragLayout] = useState<GameViewLayoutOption>("grid");
   /**
    * Using the collection entry as ID prevents duplicate or concurrent requests for the same collection entry.
    * (Only the final one matter).
@@ -160,40 +160,65 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
         </Button>
       </Button.Group>
       <GameDraggableView
-        onDragFinished={(evt) => {
-          console.log("Result: ", evt);
-          const gameId = evt.currentItem.id!;
-          const beforeGameId = evt.beforeIndex
-            ? renderedGames[evt.beforeIndex].id
-            : undefined;
-          const afterGameId = evt.afterIndex
-            ? renderedGames[evt.afterIndex].id
-            : undefined;
-          const beforeEntry = beforeGameId
-            ? findCollectionEntryByGameId(beforeGameId, collectionEntries)
-            : undefined;
-          const afterEntry = afterGameId
-            ? findCollectionEntryByGameId(afterGameId, collectionEntries)
-            : undefined;
+        layout={dragLayout}
+        onDragFinished={(targetGameId, previousIndex, nextIndex) => {
+          const updatedItems = arrayMove(
+            renderedGames,
+            previousIndex,
+            nextIndex,
+          );
+
+          const currentIndex = updatedItems.findIndex(
+            (item) => item.id === targetGameId,
+          );
+          const previousGame = updatedItems[currentIndex - 1];
+          const nextGame = updatedItems[currentIndex + 1];
+
           const targetEntry = findCollectionEntryByGameId(
-            gameId,
+            targetGameId,
             collectionEntries,
           )!;
+          const previousEntry = findCollectionEntryByGameId(
+            previousGame?.id,
+            collectionEntries,
+          );
+          const nextEntry = findCollectionEntryByGameId(
+            nextGame?.id,
+            collectionEntries,
+          );
 
-          const dto: CollectionEntryUpdateOrderingDto = {
+          const move: CollectionEntryUpdateOrderingDto = {
             collectionId,
-            entryId: targetEntry!.id,
-            nextEntryId: beforeEntry?.id ?? undefined,
-            previousEntryId: afterEntry?.id ?? undefined,
+            entryId: targetEntry.id,
+            previousEntryId: previousEntry?.id,
+            nextEntryId: nextEntry?.id,
           };
 
-          const nextPendingMoves = new Map(pendingMoves);
-          nextPendingMoves.set(dto.entryId, dto);
-          setPendingMoves(nextPendingMoves);
+          const updatedMoves = new Map(pendingMoves);
+          updatedMoves.set(targetEntry.id, move);
+          setPendingMoves(updatedMoves);
+          renderedGamesHandlers.setState(updatedItems);
         }}
-        items={renderedGames ?? []}
-        setItems={(items) => renderedGamesHandlers.setState(items as Game[])}
-      />
+      >
+        <Flex className={"justify-end w-full mt-3"}>
+          <GameDraggableView.LayoutSwitcher
+            mode={"icon"}
+            setLayout={setDragLayout}
+          />
+        </Flex>
+
+        <GameDraggableView.Content items={renderedGames} />
+        <GameDraggableView.Overlay />
+        <SimpleInfiniteLoader
+          fetchNextPage={async () => {
+            if (canFetchNextPage) {
+              await fetchNextPage();
+            }
+          }}
+          isFetching={isFetching}
+          hasNextPage={hasNextPage}
+        />
+      </GameDraggableView>
     </Stack>
   );
 };

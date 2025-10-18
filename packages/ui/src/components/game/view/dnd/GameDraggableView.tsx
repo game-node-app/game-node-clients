@@ -1,10 +1,12 @@
 import React, {
   createContext,
   PropsWithChildren,
+  useContext,
   useMemo,
   useState,
 } from "react";
 import {
+  GameSortableItemData,
   GameViewLayoutOption,
   TGameOrSearchGame,
   useOnTouchDevice,
@@ -13,57 +15,43 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  DragOverlay,
   PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { GameDraggableListItemContent } from "#@/components/game/view/dnd/GameDraggableListItemContent";
-import { Portal } from "@mantine/core";
-import { GameDraggableContent } from "./GameDraggableContent";
-import { arrayMove } from "@dnd-kit/sortable";
-
-/**
- * Result of a drag operation.
- * "Previous" and "Next" refer to the items that are before and after the dragged item when drag finishes.
- */
-export interface GameDragResult {
-  currentItem: TGameOrSearchGame;
-  /**
-   * Index after the drag operation finishes.
-   */
-  currentIndex: number;
-  /**
-   * Index of the item before the dragging occurred.
-   */
-  previousIndex: number;
-  /**
-   * Index of the item that comes before the target item when dragging finishes.
-   * When undefined, the item is dropped at the beginning of the list.
-   */
-  beforeIndex: number | undefined;
-  /**
-   * Index of the item that comes after the target item when dragging finishes.
-   * When undefined, the item is dropped at the end of the list.
-   */
-  afterIndex: number | undefined;
-}
+import { GameDraggableViewContent } from "#@/components/game/view/dnd/GameDraggableViewContent";
+import { GameDraggableViewOverlay } from "#@/components/game/view/dnd/GameDraggableViewOverlay";
+import { GameDraggableViewLayoutSwitcher } from "#@/components/game/view/dnd/GameDraggableViewLayoutSwitcher";
 
 export interface GameDraggableViewProps extends PropsWithChildren {
-  layout?: GameViewLayoutOption;
-  items: TGameOrSearchGame[];
+  layout: GameViewLayoutOption;
   /**
-   * This function will be used to reorder elements after a dragging ends.
-   * @param items
-   */
-  setItems: (items: TGameOrSearchGame[]) => void;
-  /**
-   * Called when a dragging ends, automatically calculating the position of related elements.
-   * Not to be confused with onDragEnd from DndContext.
+   * Called when dragging ends, returns the result of the drag operation.
+   * The previous index corresponds to the older item index before drag.
+   * The next index corresponds to the newer item index after drag.
    * @param result
    */
-  onDragFinished: (result: GameDragResult) => void;
+  onDragFinished: (
+    targetGameId: number,
+    previousIndex: number,
+    nextIndex: number,
+  ) => void;
+}
+
+export interface GameDraggableViewContextType {
+  activeGame: TGameOrSearchGame | null;
+  layout: GameViewLayoutOption;
+}
+
+export const GameDraggableViewContext =
+  createContext<GameDraggableViewContextType>({
+    activeGame: null,
+    layout: "list",
+  });
+
+export function useGameDraggableViewContext() {
+  return useContext(GameDraggableViewContext);
 }
 
 /**
@@ -72,16 +60,13 @@ export interface GameDraggableViewProps extends PropsWithChildren {
  * @param children
  * @param onDragFinished
  * @param items
- * @param setItems
  * @param layout
  * @constructor
  */
 const GameDraggableView = ({
   children,
-  onDragFinished,
-  items,
-  setItems,
   layout = "list",
+  onDragFinished,
 }: GameDraggableViewProps) => {
   const onTouch = useOnTouchDevice();
 
@@ -102,40 +87,33 @@ const GameDraggableView = ({
 
   const handleDragEnd = (evt: DragEndEvent) => {
     const { active, over } = evt;
-    if (!over) return;
 
-    const previousIndex = items.findIndex((game) => game.id === active.id);
-    /*
-     * New index of the item that was dragged.
-     */
-    const updatedIndex = items.findIndex((game) => game.id === over.id);
+    if (over == undefined || active.id === over.id) return;
 
-    if (previousIndex === updatedIndex) return;
+    const originalSortableData = active.data.current as GameSortableItemData;
+    const updatedSortableData = over.data.current as GameSortableItemData;
 
-    const targetItem = items[previousIndex];
+    if (originalSortableData && updatedSortableData) {
+      const {
+        game,
+        sortable: { index: originalIndex },
+      } = originalSortableData;
+      const {
+        sortable: { index: updatedIndex },
+      } = updatedSortableData;
 
-    const result: GameDragResult = {
-      currentItem: targetItem,
-      currentIndex: updatedIndex,
-      previousIndex: previousIndex,
-      beforeIndex: updatedIndex - 1 >= 0 ? updatedIndex - 1 : undefined,
-      afterIndex:
-        updatedIndex + 1 < items.length ? updatedIndex + 1 : undefined,
-    };
-
-    const updatedItems = arrayMove(items, previousIndex, updatedIndex);
-
-    onDragFinished(result);
-    setItems(updatedItems);
+      onDragFinished(game.id!, originalIndex, updatedIndex);
+    }
   };
 
   return (
     <DndContext
       sensors={sensors}
       onDragStart={(evt) => {
-        const id = evt.active.id as number;
-        const game = items.find((game) => game.id === id)!;
-        setActiveGame(game);
+        const sortableData = evt.active.data.current as GameSortableItemData;
+        if (sortableData) {
+          setActiveGame(sortableData.game);
+        }
       }}
       onDragEnd={(evt) => {
         setActiveGame(null);
@@ -143,20 +121,20 @@ const GameDraggableView = ({
       }}
       collisionDetection={closestCenter}
     >
-      <GameDraggableContent items={items} layout={layout} />
-      <Portal>
-        <DragOverlay>
-          {activeGame && (
-            <GameDraggableListItemContent
-              game={activeGame}
-              isDragging
-              isOverlay
-            />
-          )}
-        </DragOverlay>
-      </Portal>
+      <GameDraggableViewContext.Provider
+        value={{
+          activeGame,
+          layout,
+        }}
+      >
+        {children}
+      </GameDraggableViewContext.Provider>
     </DndContext>
   );
 };
+
+GameDraggableView.Content = GameDraggableViewContent;
+GameDraggableView.Overlay = GameDraggableViewOverlay;
+GameDraggableView.LayoutSwitcher = GameDraggableViewLayoutSwitcher;
 
 export { GameDraggableView };

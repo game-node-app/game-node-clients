@@ -1,8 +1,10 @@
 import { CollectionEntry } from "@repo/wrapper/server";
 
 export function findCollectionEntryByGameId(
-  gameId: number,
+  gameId: number | undefined,
   collectionEntries: CollectionEntry[] | undefined,
 ) {
-  return collectionEntries?.find((collection) => collection.gameId === gameId);
+  if (gameId == undefined || collectionEntries == undefined) return undefined;
+
+  return collectionEntries.find((collection) => collection.gameId === gameId);
 }

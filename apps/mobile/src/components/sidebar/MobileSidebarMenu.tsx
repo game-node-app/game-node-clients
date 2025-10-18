@@ -4,6 +4,7 @@ import { RecentlyPlayedGamesShare, UserButton, useUserId } from "@repo/ui";
 import { Stack } from "@mantine/core";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
 import {
+  IconCloudDownload,
   IconDeviceGamepad2,
   IconLayout2Filled,
   IconLibrary,
@@ -114,6 +115,12 @@ const MobileSidebarMenu = () => {
             Icon={IconTrophy}
             onClick={closeMenu}
             href={`/achievements/${userId}`}
+          />
+          <MobileSidebarButton
+            title={"Import Games"}
+            Icon={IconCloudDownload}
+            onClick={closeMenu}
+            href={`/importer`}
           />
         </Stack>
       </IonContent>

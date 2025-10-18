@@ -1,12 +1,11 @@
 import React from "react";
+import { GameDraggableItemProps, GameFigureImage } from "#@/components";
 import { useSortable } from "@dnd-kit/sortable";
+import { Box } from "@mantine/core";
 import { CSS } from "@dnd-kit/utilities";
-import { GameDraggableItemProps } from "#@/components/game/view/dnd/types";
-import { GameDraggableListItemContent } from "#@/components/game/view/dnd/GameDraggableListItemContent";
+import { GameDraggableGridItemContent } from "#@/components/game/view/dnd/item/GameDraggableGridItemContent";
 
-type GameDraggableListItemProps = Pick<GameDraggableItemProps, "game">;
-
-const GameDraggableListItem = ({ game }: GameDraggableListItemProps) => {
+const GameDraggableGridItem = ({ game }: GameDraggableItemProps) => {
   const {
     attributes,
     listeners,
@@ -14,7 +13,7 @@ const GameDraggableListItem = ({ game }: GameDraggableListItemProps) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: game.id! });
+  } = useSortable({ id: game.id!, data: { game } });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -22,7 +21,7 @@ const GameDraggableListItem = ({ game }: GameDraggableListItemProps) => {
   };
 
   return (
-    <GameDraggableListItemContent
+    <GameDraggableGridItemContent
       game={game}
       isDragging={isDragging}
       isOverlay={false}
@@ -34,4 +33,4 @@ const GameDraggableListItem = ({ game }: GameDraggableListItemProps) => {
   );
 };
 
-export { GameDraggableListItem };
+export { GameDraggableGridItem };
