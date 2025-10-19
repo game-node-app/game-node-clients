@@ -36,7 +36,7 @@ const FilterFormSchema = z.object({
   category: z.string().optional(),
   gameModes: z.array(z.string()).optional(),
   status: z.string().optional(),
-  period: z.string().default(DEFAULT_EXPLORE_SCREEN_PERIOD),
+  period: z.string(),
 });
 
 const SELECT_PERIOD_DATA: ComboboxItem[] = [

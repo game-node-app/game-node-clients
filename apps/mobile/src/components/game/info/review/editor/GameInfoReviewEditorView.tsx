@@ -19,7 +19,7 @@ import {
 } from "@repo/ui";
 
 const ReviewFormSchema = z.object({
-  rating: z.number().min(0).max(5).default(5),
+  rating: z.number().min(0).max(5),
   content: z.string().optional().or(z.literal("")).or(z.literal("<p></p>")),
 });
 

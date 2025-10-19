@@ -26,10 +26,10 @@ interface GameInfoShareProps {
 }
 
 const ShareFormSchema = z.object({
-  withRating: z.boolean().default(true),
-  withOwnedPlatforms: z.boolean().default(true),
-  transparentBackground: z.boolean().default(false),
-  withDivider: z.boolean().default(true),
+  withRating: z.boolean(),
+  withOwnedPlatforms: z.boolean(),
+  transparentBackground: z.boolean(),
+  withDivider: z.boolean(),
 });
 
 export type ShareFormValues = z.infer<typeof ShareFormSchema>;

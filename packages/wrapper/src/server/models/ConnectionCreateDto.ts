@@ -11,6 +11,8 @@ export type ConnectionCreateDto = {
     userIdentifier: string;
     isImporterEnabled: boolean;
     isPlaytimeImportEnabled: boolean;
+    isAutoImportEnabled: boolean;
+    autoImportCollectionId?: string | null;
 };
 export namespace ConnectionCreateDto {
     export enum type {

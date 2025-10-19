@@ -23,9 +23,9 @@ const CreateCollectionFormSchema = z
   .object({
     name: z.string().min(3, "Collection must have a name.").max(50),
     description: z.string().optional(),
-    isPublic: z.boolean().default(true),
-    isFeatured: z.boolean().default(false),
-    isFinished: z.boolean().default(false),
+    isPublic: z.boolean(),
+    isFeatured: z.boolean(),
+    isFinished: z.boolean(),
     defaultEntryStatus: z.enum(Collection.defaultEntryStatus).nullable(),
   })
   .superRefine((data, ctx) => {

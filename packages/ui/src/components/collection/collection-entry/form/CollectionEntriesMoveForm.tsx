@@ -18,10 +18,7 @@ import { useGames } from "#@/components/game/hooks/useGames";
 import { useCollectionEntriesForCollectionId } from "#@/components";
 
 const CollectionEntriesMoveFormSchema = z.object({
-  gameIds: z
-    .array(z.number())
-    .min(1, "At least one game must be selected.")
-    .default([]),
+  gameIds: z.array(z.number()).min(1, "At least one game must be selected."),
   targetCollectionIds: z.array(
     z.string({
       error: "Target collections returned as string. Please contact support.",

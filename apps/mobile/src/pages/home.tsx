@@ -46,8 +46,6 @@ const HomePage = () => {
 
   const userId = useUserId();
 
-  const [wrappedOpened, setWrappedOpened] = useState(false);
-
   return (
     <AppPage
       withMenuButton

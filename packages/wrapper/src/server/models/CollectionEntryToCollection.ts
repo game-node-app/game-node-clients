@@ -10,5 +10,6 @@ export type CollectionEntryToCollection = {
     order: number;
     collectionEntry: CollectionEntry;
     collection: Collection;
+    createdAt: string;
 };
 

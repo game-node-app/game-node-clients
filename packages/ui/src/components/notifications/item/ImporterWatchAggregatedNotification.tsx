@@ -23,6 +23,30 @@ const ImporterWatchAggregatedNotification = ({
     }
   }, [notificationQuery.data]);
 
+  const message = useMemo(() => {
+    if (!notificationQuery.data) return null;
+
+    const gamesCount = notificationQuery.data.games?.length ?? 0;
+    const autoImportedCount = notificationQuery.data.autoImportedCount ?? 0;
+    const autoImportSkippedCount =
+      notificationQuery.data.autoImportSkippedCount ?? 0;
+
+    const baseMessage = `We've found ${gamesCount} new games ready to be imported from your ${sourceName} connection.`;
+
+    if (autoImportedCount > 0 || autoImportSkippedCount > 0) {
+      const parts = [];
+      if (autoImportedCount > 0) {
+        parts.push(`${autoImportedCount} automatically imported`);
+      }
+      if (autoImportSkippedCount > 0) {
+        parts.push(`${autoImportSkippedCount} already in your library`);
+      }
+      return `${baseMessage} ${parts.join(", ")}.`;
+    }
+
+    return baseMessage;
+  }, [notificationQuery.data, sourceName]);
+
   if (notificationQuery.isLoading) {
     return <NotificationSkeleton />;
   } else if (notificationQuery.data == undefined) {
@@ -38,10 +62,7 @@ const ImporterWatchAggregatedNotification = ({
           w={38}
           h={38}
         />
-        <Text>
-          We've found {notificationQuery.data?.games?.length} new games ready to
-          be imported from your {sourceName} connection.
-        </Text>
+        <Text>{message}</Text>
       </Group>
     </Link>
   );

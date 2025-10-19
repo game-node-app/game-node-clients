@@ -10,6 +10,8 @@ export type ImporterWatchNotification = {
     libraryUserId: string;
     source: ImporterWatchNotification.source;
     games: Array<GameExternalGame> | null;
+    autoImportedCount: number;
+    autoImportSkippedCount: number;
 };
 export namespace ImporterWatchNotification {
     export enum source {

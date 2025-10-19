@@ -3,25 +3,31 @@ import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ConnectionsService,
-  UserConnectionDto,
-} from "../../../../../../wrapper/src/server";
+import { ConnectionsService, UserConnectionDto } from "@repo/wrapper/server";
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { getErrorMessage } from "#@/util/getErrorMessage";
 import { getCapitalizedText } from "#@/util/getCapitalizedText";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { Button, Stack, Switch, Text, TextInput } from "@mantine/core";
+import { Button, Select, Stack, Switch, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
 import { match } from "ts-pattern";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
-const ConnectionSetupFormSchema = z.object({
-  userIdentifier: z.string().min(1, "A username must be provided."),
-  isImporterEnabled: z.boolean().default(true),
-  isPlaytimeImportEnabled: z.boolean().default(true),
-});
+const ConnectionSetupFormSchema = z
+  .object({
+    userIdentifier: z.string().min(1, "A username must be provided."),
+    isImporterEnabled: z.boolean(),
+    isPlaytimeImportEnabled: z.boolean(),
+    isAutoImportEnabled: z.boolean(),
+    autoImportCollectionId: z.string().nullish(),
+  })
+  .refine((data) => !(data.isAutoImportEnabled && !data.isImporterEnabled), {
+    error: "Auto importing can only be enabled if importing is allowed.",
+    path: ["isAutoImportEnabled"],
+  });
 
 type ConnectionSetupFormValues = z.infer<typeof ConnectionSetupFormSchema>;
 
@@ -30,6 +36,7 @@ export interface Props extends BaseModalChildrenProps {
 }
 
 const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
+  const userId = useUserId();
   const {
     register,
     watch,
@@ -41,11 +48,14 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     defaultValues: {
       isImporterEnabled: true,
       isPlaytimeImportEnabled: true,
+      isAutoImportEnabled: false,
+      autoImportCollectionId: undefined,
     },
     resolver: zodResolver(ConnectionSetupFormSchema),
   });
 
   const userConnection = useOwnUserConnectionByType(type);
+  const userLibrary = useUserLibrary(userId);
 
   const availableConnections = useAvailableConnections();
 
@@ -58,6 +68,8 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         userIdentifier: data.userIdentifier,
         isImporterEnabled: data.isImporterEnabled,
         isPlaytimeImportEnabled: data.isPlaytimeImportEnabled,
+        isAutoImportEnabled: data.isAutoImportEnabled,
+        autoImportCollectionId: data.autoImportCollectionId,
       });
     },
     onSuccess: () => {
@@ -151,14 +163,30 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       .exhaustive();
   }, [type]);
 
+  const collectionSelectData = useMemo(() => {
+    return (
+      userLibrary.data?.collections.map((collection) => ({
+        value: collection.id,
+        label: collection.name,
+      })) ?? []
+    );
+  }, [userLibrary.data]);
+
   /**
    * Effect to synchronize form state with user connection info.
    */
   useEffect(() => {
     if (userConnection.data) {
       setValue("isImporterEnabled", userConnection.data.isImporterEnabled);
+      setValue("isAutoImportEnabled", userConnection.data.isAutoImportEnabled);
+      setValue(
+        "autoImportCollectionId",
+        userConnection.data.autoImportCollectionId,
+      );
     }
   }, [setValue, userConnection.data]);
+
+  console.log(errors);
 
   return (
     <form
@@ -219,6 +247,38 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
               }
               {...register("isPlaytimeImportEnabled")}
             />
+          </Stack>
+        )}
+        {isImporterViable && (
+          <Stack>
+            <Switch
+              error={errors.isAutoImportEnabled?.message}
+              label={"Enable automatic importing"}
+              labelPosition={"left"}
+              defaultChecked={
+                userConnection.data
+                  ? userConnection.data.isAutoImportEnabled
+                  : false
+              }
+              description={
+                "Automatically import newly detected games to your library."
+              }
+              {...register("isAutoImportEnabled")}
+            />
+            {watch("isAutoImportEnabled") && (
+              <Select
+                label={"Target collection (optional)"}
+                description={
+                  "Games will be added to your library if not specified."
+                }
+                placeholder={"None"}
+                clearable
+                data={collectionSelectData}
+                value={watch("autoImportCollectionId")}
+                onChange={(value) => setValue("autoImportCollectionId", value)}
+                error={errors.autoImportCollectionId?.message}
+              />
+            )}
           </Stack>
         )}
 

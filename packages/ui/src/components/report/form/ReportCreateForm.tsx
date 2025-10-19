@@ -16,11 +16,10 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const ReportCreateFormSchema = z.object({
-  category: z
-    .nativeEnum(CreateReportRequestDto.category)
-    .default(CreateReportRequestDto.category.SPAM),
+  category: z.enum(CreateReportRequestDto.category),
   reason: z.string().optional(),
 });
 
@@ -40,6 +39,7 @@ const ReportCreateForm = ({
   const { register, watch, handleSubmit, setValue } =
     useForm<ReportCreateFormValues>({
       mode: "onSubmit",
+      resolver: zodResolver(ReportCreateFormSchema),
       defaultValues: {
         reason: undefined,
         category: CreateReportRequestDto.category.SPAM,

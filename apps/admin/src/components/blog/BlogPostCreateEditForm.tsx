@@ -39,7 +39,7 @@ const BlogPostCreateSchema = z
       .min(1, "You must specify at least one tag.")
       .max(3, "You can only specify up to 3 tags."),
     image: z.instanceof(File, { message: "Must be a valid file." }).optional(),
-    isDraft: z.boolean().default(true),
+    isDraft: z.boolean(),
     isGameReview: z.boolean(),
     reviewInfo: z
       .object({

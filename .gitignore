@@ -37,4 +37,4 @@ yarn-error.log*
 
 # ui
 dist/
-apps/mobile/tsconfig.tsbuildinfo
+*.tsbuildinfo

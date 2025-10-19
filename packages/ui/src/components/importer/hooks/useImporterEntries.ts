@@ -45,6 +45,7 @@ export function useImporterEntries({
         );
       },
       enabled: source != undefined,
+      retry: 1,
     }),
     queryKey,
     invalidate,

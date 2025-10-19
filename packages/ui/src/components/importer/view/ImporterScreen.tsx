@@ -21,6 +21,7 @@ import {
   EMatomoEventAction,
   EMatomoEventCategory,
   getErrorMessage,
+  getPageAsOffset,
   getServerStoredIcon,
   trackMatomoEvent,
 } from "#@/util";
@@ -43,7 +44,7 @@ import status = CreateUpdateCollectionEntryDto.status;
 const ImporterFormSchema = z.object({
   selectedCollectionIds: z.array(z.string()),
   selectedGameIds: z.array(z.number()).min(1, "Select at least one game."),
-  page: z.number().default(1),
+  page: z.number(),
 });
 
 type ImporterFormValues = z.infer<typeof ImporterFormSchema>;
@@ -56,8 +57,6 @@ interface Props {
 
 const ImporterScreen = ({ source }: Props) => {
   const userId = useUserId();
-
-  const userLibrary = useUserLibrary(userId);
 
   const {
     watch,
@@ -75,20 +74,14 @@ const ImporterScreen = ({ source }: Props) => {
   });
 
   const selectedGameIds = watch("selectedGameIds");
-  const selectedCollectionIds = watch("selectedCollectionIds");
   const page = watch("page");
-
-  const [
-    hasSelectedFinishedGamesCollection,
-    setHasSelectedFinishedGamesCollection,
-  ] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
 
   const importerEntriesQuery = useImporterEntries({
     source: source,
     limit: DEFAULT_LIMIT,
-    offset: (page - 1) * DEFAULT_LIMIT,
+    offset: getPageAsOffset(page, DEFAULT_LIMIT),
     search: searchQuery,
   });
 
@@ -103,7 +96,7 @@ const ImporterScreen = ({ source }: Props) => {
         cover: true,
       },
     },
-    true,
+    false,
   );
   const isLoading = importerEntriesQuery.isLoading || gamesQuery.isLoading;
   const isError = importerEntriesQuery.isError || gamesQuery.isError;
@@ -120,7 +113,7 @@ const ImporterScreen = ({ source }: Props) => {
 
   const buildLoadingSkeletons = useCallback(() => {
     return new Array(10).fill(0).map((v, i) => {
-      return <Skeleton key={i} className={"w-full h-60 mt-4"} />;
+      return <Skeleton key={i} className={"w-full h-48 mt-4"} />;
     });
   }, []);
 
@@ -235,110 +228,108 @@ const ImporterScreen = ({ source }: Props) => {
   });
 
   return (
-    <Flex justify={"center"} mih={"100vh"} p={0} wrap={"wrap"}>
-      <Paper className={"w-full lg:w-10/12 p-4"}>
-        <form
-          className={"w-full h-full flex flex-col"}
-          onSubmit={handleSubmit((data) => {
-            importMutation.mutate(data);
-          })}
-        >
-          <Group className={"w-full border-[#302D2D] border-2 py-2 px-4"}>
-            <Group className={"w-full lg:w-6/12 flex-nowrap"}>
-              <Image src={getServerStoredIcon(source)} w={48} h={48} />
-              <Stack gap={4}>
-                <Title size={"h4"}>
-                  GAME <span className={"text-[#F15025]"}>IMPORTER</span>
-                </Title>
-                <Text>
-                  Select one or multiple games which you want to bring to your
-                  GameNode library.
-                </Text>
-              </Stack>
-            </Group>
-            <Stack className={"w-full lg:ms-auto lg:w-4/12"}>
-              <ImporterCollectionSelect
-                userId={userId}
-                onChange={(values) => {
-                  setValue("selectedCollectionIds", values);
-                }}
-                error={errors.selectedCollectionIds?.message}
-                description={"Optional"}
-              />
+    <Flex justify={"center"} p={0} wrap={"wrap"}>
+      <form
+        className={"w-full flex flex-col w-full lg:w-10/12 p-4"}
+        onSubmit={handleSubmit((data) => {
+          importMutation.mutate(data);
+        })}
+      >
+        <Group className={"w-full border-[#302D2D] border-2 py-2 px-4"}>
+          <Group className={"w-full lg:w-6/12 flex-nowrap"}>
+            <Image src={getServerStoredIcon(source)} w={48} h={48} />
+            <Stack gap={4}>
+              <Title size={"h4"}>
+                GAME <span className={"text-[#F15025]"}>IMPORTER</span>
+              </Title>
+              <Text>
+                Select one or multiple games which you want to bring to your
+                GameNode library.
+              </Text>
             </Stack>
-            <Center w={"100%"}>
-              <Button
-                type={"submit"}
-                loading={importMutation.isPending}
-                disabled={isLoading || isError || isEmpty}
-              >
-                Import
-              </Button>
-            </Center>
-            {errors.selectedGameIds != undefined && (
-              <CenteredErrorMessage message={errors.selectedGameIds.message!} />
-            )}
           </Group>
-          <Stack className={"mt-4 w-full grow"}>
-            {isError && error && (
-              <CenteredErrorMessage message={getErrorMessage(error)} />
-            )}
-            {isEmpty && (
-              <CenteredErrorMessage
-                message={
-                  "No items available for importing. Check if your library at the target platform is set to public."
-                }
-              />
-            )}
-            <GameSelectView>
-              {!isEmpty && (
-                <Group className={"items-end"}>
-                  <GameSelectView.Actions
-                    isAllGamesSelected={isAllGamesSelected}
-                    onSelectAll={() => {
-                      if (isAllGamesSelected) {
-                        resetSelectedGames();
-                      } else if (gameIds) {
-                        setValue("selectedGameIds", gameIds);
-                      }
-                    }}
-                  />
-                  <GameSelectView.SearchBar
-                    onSearch={(query) => {
-                      setValue("page", 1);
-                      setSearchQuery(query);
-                    }}
-                    onClear={() => setSearchQuery(undefined)}
-                  />
-                </Group>
-              )}
-              <GameSelectView.Content
-                items={gamesQuery.data!}
-                checkIsSelected={(gameId) => {
-                  return selectedGameIds.includes(gameId);
-                }}
-                onSelected={(gameId) => handleSelection(gameId)}
-                excludeItemsInLibrary={true}
-                onExcludedItemClick={removeExcludedItemMutation.mutate}
-              >
-                {isLoading && buildLoadingSkeletons()}
-              </GameSelectView.Content>
-              {!isEmpty && (
-                <Box className={"mt-auto"}>
-                  <GameSelectView.Pagination
-                    paginationInfo={importerEntriesQuery.data?.pagination}
-                    page={page}
-                    onPaginationChange={(selectedPage) => {
-                      setValue("page", selectedPage);
-                      resetSelectedGames();
-                    }}
-                  />
-                </Box>
-              )}
-            </GameSelectView>
+          <Stack className={"w-full lg:ms-auto lg:w-4/12"}>
+            <ImporterCollectionSelect
+              userId={userId}
+              onChange={(values) => {
+                setValue("selectedCollectionIds", values);
+              }}
+              error={errors.selectedCollectionIds?.message}
+              description={"Optional"}
+            />
           </Stack>
-        </form>
-      </Paper>
+          <Center w={"100%"}>
+            <Button
+              type={"submit"}
+              loading={importMutation.isPending}
+              disabled={isLoading || isError || isEmpty}
+            >
+              Import
+            </Button>
+          </Center>
+          {errors.selectedGameIds != undefined && (
+            <CenteredErrorMessage message={errors.selectedGameIds.message!} />
+          )}
+        </Group>
+        <Stack className={"mt-4 w-full grow"}>
+          {isError && error && (
+            <CenteredErrorMessage message={getErrorMessage(error)} />
+          )}
+          {isEmpty && (
+            <CenteredErrorMessage
+              message={
+                "No items available for importing. Check if your library at the target platform is set to public."
+              }
+            />
+          )}
+          <GameSelectView>
+            {!isEmpty && (
+              <Group className={"items-end"}>
+                <GameSelectView.Actions
+                  isAllGamesSelected={isAllGamesSelected}
+                  onSelectAll={() => {
+                    if (isAllGamesSelected) {
+                      resetSelectedGames();
+                    } else if (gameIds) {
+                      setValue("selectedGameIds", gameIds);
+                    }
+                  }}
+                />
+                <GameSelectView.SearchBar
+                  onSearch={(query) => {
+                    setValue("page", 1);
+                    setSearchQuery(query);
+                  }}
+                  onClear={() => setSearchQuery(undefined)}
+                />
+              </Group>
+            )}
+            <GameSelectView.Content
+              items={gamesQuery.data!}
+              checkIsSelected={(gameId) => {
+                return selectedGameIds.includes(gameId);
+              }}
+              onSelected={(gameId) => handleSelection(gameId)}
+              excludeItemsInLibrary={true}
+              onExcludedItemClick={removeExcludedItemMutation.mutate}
+            >
+              {isLoading && buildLoadingSkeletons()}
+            </GameSelectView.Content>
+            {!isEmpty && (
+              <Box className={"mt-auto"}>
+                <GameSelectView.Pagination
+                  paginationInfo={importerEntriesQuery.data?.pagination}
+                  page={page}
+                  onPaginationChange={(selectedPage) => {
+                    setValue("page", selectedPage);
+                    resetSelectedGames();
+                  }}
+                />
+              </Box>
+            )}
+          </GameSelectView>
+        </Stack>
+      </form>
     </Flex>
   );
 };

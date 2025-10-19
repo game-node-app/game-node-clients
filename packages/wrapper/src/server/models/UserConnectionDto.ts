@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Collection } from './Collection';
 export type UserConnectionDto = {
     isImporterViable: boolean;
     isImporterWatchViable: boolean;
@@ -13,6 +14,9 @@ export type UserConnectionDto = {
     sourceUsername: string;
     isImporterEnabled: boolean;
     isPlaytimeImportEnabled: boolean;
+    isAutoImportEnabled: boolean;
+    autoImportCollection: Collection | null;
+    autoImportCollectionId: string | null;
 };
 export namespace UserConnectionDto {
     export enum type {

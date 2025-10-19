@@ -56,14 +56,14 @@ const GameAddOrUpdateSchema = z.object({
     )
     .min(1, "Select at least one platform."),
   finishedAt: z.date().nullable(),
-  status: z.nativeEnum(CollectionEntry.status),
+  status: z.enum(CollectionEntry.status),
   review: z.object({
     rating: z
       .number({ message: "Rating must be a number between 1 and 5." })
       .nullish(),
     content: z.string().nullish(),
   }),
-  relatedGamesIds: z.array(z.number()).default([]),
+  relatedGamesIds: z.array(z.number()),
 });
 
 export type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;

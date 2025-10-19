@@ -55,7 +55,10 @@ const PreferencesConnectionItem = ({ type }: Props) => {
         )}
         <IonToggle
           checked={userConnection.data != undefined}
-          onClick={modalUtils.open}
+          onClick={(evt) => {
+            evt.preventDefault();
+            modalUtils.open();
+          }}
         ></IonToggle>
       </Group>
     </IonItem>

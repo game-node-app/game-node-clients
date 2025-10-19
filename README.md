@@ -37,4 +37,4 @@ Each project root directory contains a `README.md` file with instructions on how
 - Use `yarn dev` to start all client apps  
 Alternatively, start a single client app by using a turbo repo filter:  
 `yarn dev -F [project]` where `[project]` is the project's name.  
-E.g.: `yarn dev -F web` or `yarn dev -F mobile`  
+E.g.: `yarn dev -F web` or `yarn dev -F mobile`
