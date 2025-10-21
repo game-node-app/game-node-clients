@@ -1,23 +1,16 @@
-import type { Preview } from '@storybook/react';
-import { MantineProvider } from '@mantine/core';
+import type { Preview } from '@storybook/react'
 
 const preview: Preview = {
-  decorators: [
-    (Story) => (
-      <MantineProvider>
-        <Story />
-      </MantineProvider>
-    ),
-  ],
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
-      },
-    },
-  },
-};
+        date: /Date$/
+      }
+    }
+    // removed: zeplinLink
+  }
+}
 
-export default preview;
+export default preview

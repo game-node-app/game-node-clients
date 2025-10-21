@@ -1,19 +1,20 @@
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
-    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
     '@storybook/addon-links',
+    '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    // removed: 'storybook-zeplin/register'
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {},
+    options: {}
   },
   docs: {
-    autodocs: true,
-  },
-};
-
-export default config;
+    autodocs: 'tag'
+  }
+}
+export default config

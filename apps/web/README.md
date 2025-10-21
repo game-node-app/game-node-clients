@@ -20,4 +20,4 @@ If you are developing **exclusively** for the web client, you don't need to host
 2. Replace all instances of `localhost:5000` with `server.gamenode.app`
 
 If you need to make changes to any of the backend systems, please refer to their respective repositories for instructions on how to set them up.   
-Feel free to reach out to us through Discord to get help setting everything up! Alternatively, open an issue and we will try our best to help.  
+Feel free to reach out to us through Discord to get help setting everything up! Alternatively, open an issue and we will try our best to help.

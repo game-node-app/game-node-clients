@@ -1,26 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@mantine/core';
+import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from '@repo/ui'
 
-const meta: Meta<typeof Button> = {
-  title: 'Mantine/Button',
+const meta = {
+  title: 'Example/Button',
   component: Button,
+  parameters: {
+    // removed zeplinLink examples
+  }
+} satisfies Meta<typeof Button>
+
+export default meta
+
+export const Primary: StoryObj<typeof Button> = {
   args: {
-    children: 'Clique-me',
-  },
-};
-
-export default meta;
-
-type Story = StoryObj<typeof Button>;
-
-export const Primario: Story = {
-  args: {
-    color: 'blue',
-  },
-};
-
-export const Secundario: Story = {
-  args: {
-    color: 'gray',
-  },
-};
+    children: 'Button'
+  }
+}
