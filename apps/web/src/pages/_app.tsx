@@ -121,6 +121,26 @@ export default function App({
                   name="viewport"
                   content="width=device-width, initial-scale=1"
                 />
+                {/* Default Open Graph Meta Tags */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://gamenode.app" />
+                <meta property="og:title" content="GameNode" />
+                <meta
+                  property="og:description"
+                  content="GameNode is the ideal platform to manage your game collection virtually."
+                />
+                <meta property="og:image" content="/img/og_image.png" />
+                <meta property="og:site_name" content="GameNode" />
+
+                {/* Default Twitter Meta Tags */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content="https://gamenode.app" />
+                <meta property="twitter:title" content="GameNode" />
+                <meta
+                  property="twitter:description"
+                  content="GameNode is the ideal platform to manage your game collection virtually."
+                />
+                <meta property="twitter:image" content="/img/og_image.png" />
               </Head>
               <NotificationsManager />
               <OpenInAppDialog />

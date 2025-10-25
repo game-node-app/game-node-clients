@@ -85,11 +85,11 @@ const App: React.FC = () => {
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
-            refetchOnMount: true,
-            refetchOnReconnect: true,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
             staleTime: 1000 * 60 * 60, // 1 hour
             retry: 3,
-            gcTime: 1000 * 60 * 60 * 24 * 14, // 2 weeks
+            gcTime: Infinity,
           },
         },
       }),
@@ -116,12 +116,19 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <IonApp>
-      <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
-        <UIProvider presenters={UI_PRESENTER_REGISTRY} hooks={UI_HOOK_REGISTRY}>
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister }}
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister,
+        // 30 days
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+      }}
+    >
+      <IonApp>
+        <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+          <UIProvider
+            presenters={UI_PRESENTER_REGISTRY}
+            hooks={UI_HOOK_REGISTRY}
           >
             <SuperTokensProvider>
               <PostHogProvider
@@ -137,10 +144,10 @@ const App: React.FC = () => {
                 </IonReactRouter>
               </PostHogProvider>
             </SuperTokensProvider>
-          </PersistQueryClientProvider>
-        </UIProvider>
-      </MantineProvider>
-    </IonApp>
+          </UIProvider>
+        </MantineProvider>
+      </IonApp>
+    </PersistQueryClientProvider>
   );
 };
 

@@ -23,6 +23,7 @@ import {
   SimpleInfiniteLoader,
   TrendingGamesList,
   TrendingReviewCarousel,
+  UserRecentStatsReport,
   useSearchGames,
   useUrlState,
   useUserId,
@@ -117,11 +118,10 @@ const Index = () => {
             gap={"5rem"}
           >
             <TrendingGamesList />
+            <UserRecentStatsReport />
             {userId && <RecommendationCarousel criteria="finished" />}
             <TrendingReviewCarousel />
-            <Box className={"w-full"}>
-              <DynamicAwardsOverview />
-            </Box>
+            <DynamicAwardsOverview />
             <RecentBlogPostsCarousel />
             <Center className={"w-full"}>
               <Box className={"w-full lg:w-3/4"}>

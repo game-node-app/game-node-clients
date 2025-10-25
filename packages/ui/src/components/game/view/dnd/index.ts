@@ -4,6 +4,7 @@
 
 export * from "./GameDraggableView";
 export * from "./GameDraggableViewContent";
+export * from "./GameDraggableViewLayoutSwitcher";
 export * from "./GameDraggableViewOverlay";
 export * from "./types";
 export * from "./item/index";

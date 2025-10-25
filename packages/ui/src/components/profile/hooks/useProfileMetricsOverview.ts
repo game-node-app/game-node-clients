@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProfileMetricsService } from "../../../../../wrapper/src/server";
+import { ProfileMetricsService } from "@repo/wrapper/server";
 
 export function useProfileMetricsOverview(userId: string) {
   return useQuery({

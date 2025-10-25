@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ProfileMetricsOverviewDto } from '../models/ProfileMetricsOverviewDto';
+import type { ProfileMetricsReportResponseDto } from '../models/ProfileMetricsReportResponseDto';
 import type { ProfileMetricsTypeDistributionResponseDto } from '../models/ProfileMetricsTypeDistributionResponseDto';
 import type { ProfileMetricsYearDistributionResponseDto } from '../models/ProfileMetricsYearDistributionResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -44,6 +45,25 @@ export class ProfileMetricsService {
             },
             query: {
                 'by': by,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @param period
+     * @returns ProfileMetricsReportResponseDto
+     * @throws ApiError
+     */
+    public static profileMetricsControllerGetPeriodReportV1(
+        userId: string,
+        period: string,
+    ): CancelablePromise<ProfileMetricsReportResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/profile/metrics/report/{userId}/{period}',
+            path: {
+                'userId': userId,
+                'period': period,
             },
         });
     }

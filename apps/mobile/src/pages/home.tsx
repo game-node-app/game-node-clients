@@ -1,40 +1,28 @@
 import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonMenu,
-  IonMenuButton,
-  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonToolbar,
 } from "@ionic/react";
-import React, { useRef, useState } from "react";
-import { Button, Container, Image, Stack, Title } from "@mantine/core";
+import React, { useRef } from "react";
+import { Button, SimpleGrid, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  BackToTopButton,
   DetailsBox,
   DynamicAwardsOverview,
   InfiniteLoaderProps,
+  Period,
   PostsFeed,
+  ProfileStatsForPeriod,
   RecentActivityList,
   RecentBlogPostsCarousel,
-  RecentlyPlayedGamesShare,
   RecommendationCarousel,
   TrendingGamesList,
   TrendingReviewCarousel,
+  UserRecentStatsReport,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
-import { IconCalendarWeek, IconSearch } from "@tabler/icons-react";
-import { blobToBase64 } from "@/util/imageUtils.ts";
-import { Directory, Filesystem } from "@capacitor/filesystem";
-import { Share } from "@capacitor/share";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { Link } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
@@ -87,6 +75,7 @@ const HomePage = () => {
       <Stack className={"w-full gap-8 my-4"}>
         {userId && <RecommendationCarousel criteria={"finished"} />}
         <TrendingGamesList />
+        <UserRecentStatsReport />
         <TrendingReviewCarousel
           slideSize={210}
           height={260}

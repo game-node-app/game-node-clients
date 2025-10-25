@@ -301,9 +301,9 @@ These should be maintained across all packages.
 - **Version**: 19.2.0
 - **Compiler**: React Compiler (babel-plugin-react-compiler) enabled
 - **Patterns**: Functional components with hooks
-- **State Management**: 
-  - React Query (@tanstack/react-query v5.90.5) for server state
-  - React hooks for local state
+- **State Management**:
+    - React Query (@tanstack/react-query v5.90.5) for server state
+    - React hooks for local state
 
 **Component Guidelines**:
 - Use functional components
@@ -800,6 +800,8 @@ PORT=3003 yarn dev
 5. **Follow naming conventions**: PascalCase for components, camelCase for functions/variables
 6. **Add error handling**: Use try-catch, loading states, error boundaries
 7. **Keep dependencies minimal**: Only add new packages if absolutely necessary
+8. **Prefer generating via CLI tools**: When generating a project, prefer to use the tool's 'create' command
+   instead of generating the template yourself
 
 ### Making Changes
 
@@ -808,16 +810,18 @@ PORT=3003 yarn dev
 3. **Test locally**: Run `yarn dev` and verify changes work
 4. **Lint before committing**: Run `yarn lint` and fix all warnings
 5. **Type check**: Run `yarn type-check` in relevant packages
-6. **Update documentation**: If adding features, update READMEs
+6. **Update documentation**: If adding features, update READMEs. Avoid creating new, one-off documentation files unless instructed to.
 7. **Keep it minimal**: Make the smallest change that solves the problem
 
 ### Communication
 
 1. **Be specific**: Mention exact file paths and line numbers
-2. **Explain reasoning**: Why you chose a particular approach
+2. **Explain reasoning**: Why you chose a particular approach. Output your reasoning, do not create one-off documentation files.
 3. **Note dependencies**: If changes require updates elsewhere
 4. **Highlight risks**: Potential breaking changes or side effects
 5. **Suggest tests**: Recommend how to verify changes work
+6. **Be concise**: Never use big words, add too much preamble or text walls. Eat words if you have to.
+7. **Output your reasoning**: Show your reasoning to user directly. Do not create documentation files unless instructed to.
 
 ---
 

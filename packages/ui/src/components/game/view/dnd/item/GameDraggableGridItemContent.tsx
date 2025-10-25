@@ -16,7 +16,7 @@ const GameDraggableGridItemContent = ({
       {...others}
       className={cn("min-h-40 w-auto", {
         "opacity-25": isDragging && !isOverlay,
-        "z-[99999]": isOverlay,
+        "z-[99999] scale-110 transition-transform": isOverlay,
       })}
     >
       <GameFigureImage

@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/apps/desktop/src-tauri/Cargo.toml">
+      <package file="$PROJECT_DIR$/apps/desktop/src-tauri">
+        <feature name="default" enabled="true" />
+      </package>
+    </cargoProject>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- vibenode">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/game-node-clients.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGENDS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/item/GameDraggableGridItemContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/item/GameDraggableGridItemContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/hooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/hooks/useProfileMetricsOverview.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/hooks/useProfileMetricsOverview.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDataIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDataIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/util/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/util/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/ProfileMetricsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/ProfileMetricsService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+        <option value="CSS File" />
+        <option value="Rust File" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="tailwind_v4" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/@tailwindcss/vite/dist/index.d.mts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="gfZNSE8l" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/apps/admin/package.json" />
+    <dismissed value="$PROJECT_DIR$/apps/mobile/package.json" />
+    <dismissed value="$PROJECT_DIR$/apps/web/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/ui/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="32qL5dnvzugckFhES15s7LaAHTq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients/apps/desktop&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.desktop &gt; tauri dev .executor&quot;: &quot;Run&quot;,
+    &quot;npm.desktop &gt; tauri:dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:admin.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:mobile.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:web.executor&quot;: &quot;Run&quot;,
+    &quot;npm.ui &gt; barrels:generate.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint:fix.executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate.executor&quot;: &quot;Run&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/prettier&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;,
+      &quot;TEXT&quot;,
+      &quot;JSON&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/desktop" />
+      <recent name="$PROJECT_DIR$/apps/desktop/src/components/auth" />
+      <recent name="$PROJECT_DIR$/packages/analytics" />
+      <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\apps\web" />
+      <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\apps\admin" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/desktop/src-tauri/src/db/entity" />
+      <recent name="$PROJECT_DIR$/apps/desktop/src/components/local-game" />
+      <recent name="$PROJECT_DIR$/packages/ui/src/components/game/view/layout" />
+      <recent name="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/item" />
+      <recent name="$PROJECT_DIR$/apps/mobile/src/pages/library" />
+    </key>
+    <key name="es6.move.members.recent.items">
+      <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
+      <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.dev:mobile">
+    <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+      <deployment type="docker-image">
+        <settings>
+          <option name="imageTag" value="lamarcke/game-node-web:latest" />
+          <option name="containerName" value="" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="desktop &gt; tauri dev " type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/apps/desktop/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="tauri" />
+      </scripts>
+      <arguments value="dev" />
+      <node-interpreter value="project" />
+      <envs>
+        <env name="RUST_BACKTRACE" value="1" />
+      </envs>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:mobile" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <arguments value="-F mobile" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:web" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <arguments value="-F web" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="ui &gt; barrels:generate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/ui/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="barrels:generate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="wrapper:generate" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/packages/wrapper/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="wrapper:generate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Docker Image" />
+      <item itemvalue="npm.desktop &gt; tauri dev " />
+      <item itemvalue="npm.dev:mobile" />
+      <item itemvalue="npm.dev:web" />
+      <item itemvalue="npm.wrapper:generate" />
+      <item itemvalue="npm.ui &gt; barrels:generate" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.ui &gt; barrels:generate" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="" />
+      <created>1758142973673</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758142973673</updated>
+      <workItem from="1758142975180" duration="4657000" />
+      <workItem from="1758161385214" duration="2609000" />
+      <workItem from="1758227662699" duration="8877000" />
+      <workItem from="1758299898942" duration="2893000" />
+      <workItem from="1758302883248" duration="117000" />
+      <workItem from="1758303041151" duration="5549000" />
+      <workItem from="1758376425962" duration="6567000" />
+      <workItem from="1758421653976" duration="6000000" />
+      <workItem from="1758547708384" duration="20185000" />
+      <workItem from="1758641568119" duration="5719000" />
+      <workItem from="1758675635943" duration="1197000" />
+      <workItem from="1758760751462" duration="2043000" />
+      <workItem from="1758837916671" duration="4818000" />
+      <workItem from="1758846740058" duration="9886000" />
+      <workItem from="1758923681934" duration="12220000" />
+      <workItem from="1759101305191" duration="2448000" />
+      <workItem from="1759106318812" duration="8294000" />
+      <workItem from="1759151474025" duration="8789000" />
+      <workItem from="1759168138233" duration="1665000" />
+      <workItem from="1759190365905" duration="4325000" />
+      <workItem from="1759272270139" duration="4125000" />
+      <workItem from="1759317351700" duration="34007000" />
+      <workItem from="1759445572380" duration="1717000" />
+      <workItem from="1759533972743" duration="1014000" />
+      <workItem from="1759535019226" duration="10852000" />
+      <workItem from="1759631591172" duration="1676000" />
+      <workItem from="1759676020614" duration="2528000" />
+      <workItem from="1759700430503" duration="5390000" />
+      <workItem from="1759711538003" duration="12858000" />
+      <workItem from="1759796741105" duration="4997000" />
+      <workItem from="1760097165489" duration="4961000" />
+      <workItem from="1760202008179" duration="7175000" />
+      <workItem from="1760214936453" duration="109000" />
+      <workItem from="1760215076566" duration="27029000" />
+      <workItem from="1760296551220" duration="10186000" />
+      <workItem from="1760319637626" duration="5603000" />
+      <workItem from="1760379988139" duration="3318000" />
+      <workItem from="1760387868539" duration="9095000" />
+      <workItem from="1760490353904" duration="7094000" />
+      <workItem from="1760522506861" duration="1547000" />
+      <workItem from="1760535211640" duration="710000" />
+      <workItem from="1760565278727" duration="6780000" />
+      <workItem from="1760648129560" duration="9126000" />
+      <workItem from="1760747480454" duration="9745000" />
+      <workItem from="1760827484954" duration="79000" />
+      <workItem from="1760832534216" duration="1143000" />
+      <workItem from="1760839073769" duration="6100000" />
+      <workItem from="1760845911839" duration="4040000" />
+      <workItem from="1760882883059" duration="3244000" />
+      <workItem from="1760920432381" duration="1253000" />
+      <workItem from="1760921794073" duration="4107000" />
+      <workItem from="1761003243091" duration="8207000" />
+      <workItem from="1761070540637" duration="730000" />
+      <workItem from="1761071360192" duration="76000" />
+      <workItem from="1761071460173" duration="4935000" />
+      <workItem from="1761257673668" duration="3554000" />
+      <workItem from="1761264561729" duration="149000" />
+      <workItem from="1761264729977" duration="89000" />
+      <workItem from="1761264827638" duration="32000" />
+      <workItem from="1761264861942" duration="104000" />
+      <workItem from="1761265006548" duration="37000" />
+      <workItem from="1761265065922" duration="2237000" />
+      <workItem from="1761352006172" duration="459000" />
+      <workItem from="1761360340601" duration="3240000" />
+      <workItem from="1761364061592" duration="229000" />
+    </task>
+    <task id="LOCAL-00001" summary="- awards admin panel improvements&#10;- new presenters model for UI project">
+      <option name="closed" value="true" />
+      <created>1758243974316</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1758243974316</updated>
+    </task>
+    <task id="LOCAL-00002" summary="- type module for tailwind config">
+      <option name="closed" value="true" />
+      <created>1758300228377</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758300228377</updated>
+    </task>
+    <task id="LOCAL-00003" summary="- type module for tailwind config">
+      <option name="closed" value="true" />
+      <created>1758300319916</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758300319916</updated>
+    </task>
+    <task id="LOCAL-00004" summary="- type module for tailwind config">
+      <option name="closed" value="true" />
+      <created>1758300369130</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1758300369130</updated>
+    </task>
+    <task id="LOCAL-00005" summary="- awards service changes">
+      <option name="closed" value="true" />
+      <created>1758770526594</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758770526594</updated>
+    </task>
+    <task id="LOCAL-00006" summary="- awards share screen">
+      <option name="closed" value="true" />
+      <created>1758847173673</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758847173673</updated>
+    </task>
+    <task id="LOCAL-00007" summary="- mobile redesign work">
+      <option name="closed" value="true" />
+      <created>1758924392825</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758924392825</updated>
+    </task>
+    <task id="LOCAL-00008" summary="- Journal Heatmap feature&#10;- package upgrades">
+      <option name="closed" value="true" />
+      <created>1759104187959</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1759104187959</updated>
+    </task>
+    <task id="LOCAL-00009" summary="- Journal Heatmap feature&#10;- package upgrades">
+      <option name="closed" value="true" />
+      <created>1759105236864</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759105236865</updated>
+    </task>
+    <task id="LOCAL-00010" summary="- awards votes sharing">
+      <option name="closed" value="true" />
+      <created>1759117469881</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759117469881</updated>
+    </task>
+    <task id="LOCAL-00011" summary="-">
+      <option name="closed" value="true" />
+      <created>1759427052887</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1759427052887</updated>
+    </task>
+    <task id="LOCAL-00012" summary="- work on mobile redesign">
+      <option name="closed" value="true" />
+      <created>1759611577294</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1759611577294</updated>
+    </task>
+    <task id="LOCAL-00013" summary="- fixes type errors in some hooks">
+      <option name="closed" value="true" />
+      <created>1759614506607</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1759614506607</updated>
+    </task>
+    <task id="LOCAL-00014" summary="- make all mobile pages use the new default AppPage component">
+      <option name="closed" value="true" />
+      <created>1759633417494</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759633417494</updated>
+    </task>
+    <task id="LOCAL-00015" summary="- add custom variant properties with project name to Tailwind config&#10;- game info page redesign&#10;- final sidebar menu work">
+      <option name="closed" value="true" />
+      <created>1759716745414</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1759716745415</updated>
+    </task>
+    <task id="LOCAL-00016" summary="- versioning&#10;- eslint fixes">
+      <option name="closed" value="true" />
+      <created>1759717089188</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1759717089188</updated>
+    </task>
+    <task id="LOCAL-00017" summary="- trying to ditch nextjs output mode i guess">
+      <option name="closed" value="true" />
+      <created>1759725900660</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759725900660</updated>
+    </task>
+    <task id="LOCAL-00018" summary="- new user restart service">
+      <option name="closed" value="true" />
+      <created>1759801282582</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1759801282582</updated>
+    </task>
+    <task id="LOCAL-00019" summary="- fix import error">
+      <option name="closed" value="true" />
+      <created>1759801564255</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1759801564255</updated>
+    </task>
+    <task id="LOCAL-00020" summary="- fix image size for game cover&#10;- fix search pagination">
+      <option name="closed" value="true" />
+      <created>1760099139468</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1760099139468</updated>
+    </task>
+    <task id="LOCAL-00021" summary="- package upgrades and react compiler rc install">
+      <option name="closed" value="true" />
+      <created>1760101011613</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1760101011613</updated>
+    </task>
+    <task id="LOCAL-00022" summary="- react compiler working!!">
+      <option name="closed" value="true" />
+      <created>1760102525179</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1760102525179</updated>
+    </task>
+    <task id="LOCAL-00023" summary="- enables react compiler for nextjs projects">
+      <option name="closed" value="true" />
+      <created>1760202143868</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760202143868</updated>
+    </task>
+    <task id="LOCAL-00024" summary="- adds posthog instrumentation for web client and updates privacy notice">
+      <option name="closed" value="true" />
+      <created>1760206047412</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1760206047412</updated>
+    </task>
+    <task id="LOCAL-00025" summary="- posthog for mobile client">
+      <option name="closed" value="true" />
+      <created>1760208051531</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1760208051531</updated>
+    </task>
+    <task id="LOCAL-00026" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1760208065753</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1760208065753</updated>
+    </task>
+    <task id="LOCAL-00027" summary="- collection ordering modal and etc">
+      <option name="closed" value="true" />
+      <created>1760250851579</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1760250851579</updated>
+    </task>
+    <task id="LOCAL-00028" summary="- changes ordering update form to a queue like system">
+      <option name="closed" value="true" />
+      <created>1760303159089</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1760303159089</updated>
+    </task>
+    <task id="LOCAL-00029" summary="- finishing touches in ordering form&#10;- react compiler">
+      <option name="closed" value="true" />
+      <created>1760303905115</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1760303905115</updated>
+    </task>
+    <task id="LOCAL-00030" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1760303927848</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1760303927848</updated>
+    </task>
+    <task id="LOCAL-00031" summary="- eslint issues">
+      <option name="closed" value="true" />
+      <created>1760304588971</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1760304588971</updated>
+    </task>
+    <task id="LOCAL-00032" summary="- fixes wrong infinite loading logic">
+      <option name="closed" value="true" />
+      <created>1760305723814</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1760305723814</updated>
+    </task>
+    <task id="LOCAL-00033" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1760305761979</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1760305761979</updated>
+    </task>
+    <task id="LOCAL-00034" summary="- removes matomo references in web client">
+      <option name="closed" value="true" />
+      <created>1760320868872</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1760320868872</updated>
+    </task>
+    <task id="LOCAL-00035" summary="- fixes issue with game matching by doing a list snapshot in ordering update form">
+      <option name="closed" value="true" />
+      <created>1760324863967</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1760324863967</updated>
+    </task>
+    <task id="LOCAL-00036" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1760324880789</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1760324880789</updated>
+    </task>
+    <task id="LOCAL-00037" summary="- cleanup">
+      <option name="closed" value="true" />
+      <created>1760324892583</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1760324892583</updated>
+    </task>
+    <task id="LOCAL-00038" summary="- conditional sorting chip data in library view">
+      <option name="closed" value="true" />
+      <created>1760325687113</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1760325687113</updated>
+    </task>
+    <task id="LOCAL-00039" summary="-">
+      <option name="closed" value="true" />
+      <created>1760665757760</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1760665757760</updated>
+    </task>
+    <task id="LOCAL-00040" summary="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections">
+      <option name="closed" value="true" />
+      <created>1760754831737</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1760754831738</updated>
+    </task>
+    <task id="LOCAL-00041" summary="- versioning&#10;- removes @hello-pangea/dnd">
+      <option name="closed" value="true" />
+      <created>1760755526075</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1760755526075</updated>
+    </task>
+    <task id="LOCAL-00042" summary="- fixes wrong link issue for mobile app in sidebar">
+      <option name="closed" value="true" />
+      <created>1760756614273</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1760756614273</updated>
+    </task>
+    <task id="LOCAL-00043" summary="- global css importing issues fixed">
+      <option name="closed" value="true" />
+      <created>1760757547976</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1760757547976</updated>
+    </task>
+    <task id="LOCAL-00044" summary="- games automatic import">
+      <option name="closed" value="true" />
+      <created>1760850208609</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1760850208609</updated>
+    </task>
+    <task id="LOCAL-00045" summary="- vibenode">
+      <option name="closed" value="true" />
+      <created>1760883181135</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1760883181135</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/packages/wrapper/src/search/index.d.ts" />
+        <option value="$PROJECT_DIR$/packages/wrapper/src/search/index.d.ts.map" />
+        <option value="$PROJECT_DIR$/packages/wrapper/src/server/index.d.ts" />
+        <option value="$PROJECT_DIR$/packages/wrapper/src/server/index.d.ts.map" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="- fix import error" />
+    <MESSAGE value="- fix image size for game cover&#10;- fix search pagination" />
+    <MESSAGE value="- package upgrades and react compiler rc install" />
+    <MESSAGE value="- react compiler working!!" />
+    <MESSAGE value="- enables react compiler for nextjs projects" />
+    <MESSAGE value="- adds posthog instrumentation for web client and updates privacy notice" />
+    <MESSAGE value="- posthog for mobile client" />
+    <MESSAGE value="- collection ordering modal and etc" />
+    <MESSAGE value="- changes ordering update form to a queue like system" />
+    <MESSAGE value="- finishing touches in ordering form&#10;- react compiler" />
+    <MESSAGE value="- eslint issues" />
+    <MESSAGE value="- fixes wrong infinite loading logic" />
+    <MESSAGE value="- removes matomo references in web client" />
+    <MESSAGE value="- fixes issue with game matching by doing a list snapshot in ordering update form" />
+    <MESSAGE value="- versioning" />
+    <MESSAGE value="- cleanup" />
+    <MESSAGE value="- conditional sorting chip data in library view" />
+    <MESSAGE value="virtual scroll" />
+    <MESSAGE value="-" />
+    <MESSAGE value="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections" />
+    <MESSAGE value="- versioning&#10;- removes @hello-pangea/dnd" />
+    <MESSAGE value="- fixes wrong link issue for mobile app in sidebar" />
+    <MESSAGE value="- global css importing issues fixed" />
+    <MESSAGE value="- games automatic import" />
+    <MESSAGE value="- vibenode" />
+    <option name="LAST_COMMIT_MESSAGE" value="- vibenode" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

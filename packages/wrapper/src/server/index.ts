@@ -131,6 +131,7 @@ export type { Profile } from './models/Profile';
 export type { ProfileAvatar } from './models/ProfileAvatar';
 export type { ProfileBanner } from './models/ProfileBanner';
 export type { ProfileMetricsOverviewDto } from './models/ProfileMetricsOverviewDto';
+export type { ProfileMetricsReportResponseDto } from './models/ProfileMetricsReportResponseDto';
 export type { ProfileMetricsTypeDistributionItem } from './models/ProfileMetricsTypeDistributionItem';
 export type { ProfileMetricsTypeDistributionResponseDto } from './models/ProfileMetricsTypeDistributionResponseDto';
 export type { ProfileMetricsYearDistributionItem } from './models/ProfileMetricsYearDistributionItem';

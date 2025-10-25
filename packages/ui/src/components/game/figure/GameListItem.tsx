@@ -57,7 +57,7 @@ const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {
         justify="start"
       >
         <Stack gap={"xs"}>
-          <Link href={`/game/${game.id}`}>
+          <Link href={game.href ?? `/game/${game.id}`}>
             <Title size="h4" className="font-bold">
               {name}
             </Title>

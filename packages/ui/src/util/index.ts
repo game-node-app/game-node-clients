@@ -15,6 +15,7 @@ export * from "./imageUtils";
 export * from "./jsonDeepEquals";
 export * from "./link";
 export * from "./modal";
+export * from "./period";
 export * from "./projectContext";
 export * from "./shuffleArray";
 export * from "./sleep";

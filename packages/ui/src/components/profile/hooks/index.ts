@@ -5,6 +5,7 @@
 export * from "./useProfileMetricsDistributionByType";
 export * from "./useProfileMetricsDistributionByYear";
 export * from "./useProfileMetricsOverview";
+export * from "./useProfileMetricsReport";
 export * from "./useSearchUsers";
 export * from "./useUserProfile";
 export * from "./useUserProfiles";

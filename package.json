@@ -6,11 +6,13 @@
     "dev:web": "yarn dev -F web",
     "dev:mobile": "yarn dev -F mobile",
     "dev:admin": "yarn dev -F admin",
+    "dev:raycast": "yarn dev -F raycast",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "mismatches:list": "syncpack list-mismatches",
     "mismatches:fix": "syncpack fix-mismatches",
+    "wrapper:generate": "yarn build -F @repo/wrapper",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
