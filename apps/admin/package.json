@@ -49,7 +49,7 @@
     "react-dom": "19.2.0",
     "react-hook-form": "^8.0.0-alpha.5",
     "react-use": "17.5.0",
-    "recharts": "^3.2.1",
+    "recharts": "^2.15.4",
     "supertokens-auth-react": "^0.50.0",
     "supertokens-node": "^23.0.1",
     "supertokens-web-js": "^0.16.0",
