@@ -31,7 +31,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@hookform/resolvers": "^5.2.2",
     "@mantine/carousel": "^8.3.3",
-    "@mantine/charts": "^8.3.3",
+    "@mantine/charts": "^8.3.5",
     "@mantine/core": "^8.3.5",
     "@mantine/dates": "^8.3.3",
     "@mantine/dropzone": "^8.3.3",
