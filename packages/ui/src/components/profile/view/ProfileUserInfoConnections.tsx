@@ -1,13 +1,27 @@
 import React from "react";
 import { getConnectionProfileURL, useUserConnections } from "#@/components";
-import { Anchor, Group, Image } from "@mantine/core";
-import { getServerStoredIcon } from "#@/util";
+import {
+  Anchor,
+  AnchorProps,
+  Group,
+  GroupProps,
+  Image,
+  ImageProps,
+} from "@mantine/core";
+import { cn, getServerStoredIcon } from "#@/util";
 
-interface Props {
+interface Props extends GroupProps {
   userId: string;
+  imageProps?: ImageProps;
+  anchorProps?: AnchorProps;
 }
 
-const ProfileUserInfoConnections = ({ userId }: Props) => {
+const ProfileUserInfoConnections = ({
+  userId,
+  anchorProps,
+  imageProps,
+  ...others
+}: Props) => {
   const { data, isLoading, isError, error } = useUserConnections(userId);
 
   if (isError || data == undefined) {
@@ -15,20 +29,27 @@ const ProfileUserInfoConnections = ({ userId }: Props) => {
   }
 
   return (
-    <Group className={"w-full justify-center items-center"}>
+    <Group
+      className={cn(
+        "w-full justify-center items-center mobile:justify-start",
+        others.className,
+      )}
+      {...others}
+    >
       {data?.map((connection) => {
         return (
           <Anchor
             href={getConnectionProfileURL(connection)}
             target={"_blank"}
             key={`connection-${connection.profileUserId}-${connection.type}`}
+            {...anchorProps}
           >
             <Image
               alt={"Importer source icon"}
               src={getServerStoredIcon(connection.type.valueOf())}
               w={40}
               h={40}
-              className={"mt-6"}
+              {...imageProps}
             />
           </Anchor>
         );

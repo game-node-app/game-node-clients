@@ -62,6 +62,8 @@ const MobileCollectionThumbnailCard = ({
   const isEmpty = games?.length === 0;
   const hasHitLimit = (games?.length ?? 0) >= ITEMS_LIMIT;
   const remainingItems = (games?.length ?? 0) + 1 - ITEMS_LIMIT;
+  const remainingItemsCapped =
+    remainingItems > 99 ? "99+" : `${remainingItems}`;
 
   const targetHref = `/library/${collection?.libraryUserId}/collection/${collectionId}`;
 
@@ -169,7 +171,7 @@ const MobileCollectionThumbnailCard = ({
             >
               <Center className={"w-full h-full p-4"}>
                 <Text className={"text-xl text-wrap text-center"}>
-                  {remainingItems} more
+                  {remainingItemsCapped} more
                 </Text>
               </Center>
             </Box>

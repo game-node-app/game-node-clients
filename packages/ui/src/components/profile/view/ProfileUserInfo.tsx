@@ -38,7 +38,7 @@ const DEFAULT_ProfileUserInfo = ({
   }
 
   return (
-    <Stack className={"w-full h-full items-center"}>
+    <Stack className={"w-full h-full items-center mb-6"}>
       <Center>
         <UserLevel userId={userId} />
       </Center>

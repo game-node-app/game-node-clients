@@ -117,9 +117,9 @@ const DEFAULT_ActivityItem = ({
   ]);
 
   return (
-    <Group className={"flex-nowrap gap-2.5 items-center"}>
+    <Group className={"flex-nowrap gap-2.5 lg:items-center "}>
       {withUserAvatar && (
-        <Box className={"max-w-fit w-4/12"}>
+        <Box className={"max-w-fit"}>
           <UserAvatarGroup
             userId={activity.profileUserId}
             avatarProps={{
@@ -131,12 +131,12 @@ const DEFAULT_ActivityItem = ({
             }}
             textProps={{
               lineClamp: 2,
-              className: "text-sm lg:text-md",
+              className: "text-xs lg:text-md",
             }}
           />
         </Box>
       )}
-      <Box className={"flex-grow"}>{content}</Box>
+      <Box className={"lg:w-10/12"}>{content}</Box>
       <Group className={"flex-nowrap ms-auto gap-1 lg:gap-2 items-start"}>
         <ActivityItemLikes activity={activity} />
         <ActivityItemComments activity={activity} />

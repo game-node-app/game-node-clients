@@ -25,13 +25,11 @@ export const UserAvatarGroup = ({
   return (
     <Link
       href={`/profile/${profileQuery.data?.userId}`}
-      className={"w-full h-full"}
+      className={"inline-flex"}
     >
       <Group
         wrap={onMobile ? "nowrap" : "wrap"}
         gap={onMobile ? undefined : 5}
-        w={"100%"}
-        h={"100%"}
         {...groupProps}
       >
         <UserAvatar {...avatarProps} userId={userId} />

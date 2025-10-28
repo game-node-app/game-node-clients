@@ -11,51 +11,14 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- fixed chart issues with @mantine/charts and recharts &gt;3">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/collection/MobileCollectionThumbnailCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/collection/MobileCollectionThumbnailCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/MobileGameInfoActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/game/info/MobileGameInfoActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/profile/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/profile/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/profile/[userId]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/profile/[userId]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/achievement/AchievementLogo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/achievement/AchievementLogo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/modal/CollectionRemoveModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/modal/CollectionRemoveModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/comment/editor/CommentEditorView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/comment/editor/CommentEditorView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoPlaytimeTracker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoPlaytimeTracker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoShare.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/heatmap/view/JournalHeatmap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/heatmap/view/JournalHeatmap.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserPlaytimeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserPlaytimeItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserRecentGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserRecentGames.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBannerUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBannerUploader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBioForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBioForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFavoriteGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFavoriteGames.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/profile/view/MobileProfileUserInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/profile/view/MobileProfileUserInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/avatar/UserAvatarGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/avatar/UserAvatarGroup.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoWithBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoWithBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileViewContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileViewContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/pages/ProfileViewMainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/pages/ProfileViewMainPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionLineByYear.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionLineByYear.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/review/view/ReviewListItemRemoveModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/review/view/ReviewListItemRemoveModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/statistics/hooks/useUserLike.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/statistics/hooks/useUserLike.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/context/registry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/context/registry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/util/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/util/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/util/trackMatomoEvent.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoConnections.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoConnections.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,7 +306,7 @@
       <workItem from="1761406557033" duration="122000" />
       <workItem from="1761565646760" duration="1027000" />
       <workItem from="1761566982174" duration="7340000" />
-      <workItem from="1761606946790" duration="9320000" />
+      <workItem from="1761606946790" duration="10449000" />
     </task>
     <task id="LOCAL-00001" summary="- awards admin panel improvements&#10;- new presenters model for UI project">
       <option name="closed" value="true" />
@@ -721,7 +684,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761566738581</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view">
+      <option name="closed" value="true" />
+      <created>1761622749099</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1761622749099</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +731,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- package upgrades and react compiler rc install" />
     <MESSAGE value="- react compiler working!!" />
     <MESSAGE value="- enables react compiler for nextjs projects" />
     <MESSAGE value="- adds posthog instrumentation for web client and updates privacy notice" />
@@ -785,7 +755,8 @@
     <MESSAGE value="- vibenode" />
     <MESSAGE value="- recent activity component" />
     <MESSAGE value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
+    <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
+    <option name="LAST_COMMIT_MESSAGE" value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

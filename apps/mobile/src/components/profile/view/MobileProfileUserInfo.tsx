@@ -32,7 +32,7 @@ const MobileProfileUserInfo = ({ userId }: ProfileUserInfoProps) => {
 
   return (
     <Stack className={"w-full h-full items-start"}>
-      <Stack className={"gap-1 w-full"}>
+      <Stack className={"gap-4 w-full"}>
         <UserLevel
           userId={userId}
           className={"text-sm font-bold text-dimmed"}
@@ -50,7 +50,15 @@ const MobileProfileUserInfo = ({ userId }: ProfileUserInfoProps) => {
             <Text className={"text-dimmed"}>Since {memberSinceDate}</Text>
           )}
         </Group>
+        <ProfileUserInfoConnections
+          userId={userId}
+          imageProps={{
+            w: 28,
+            h: 28,
+          }}
+        />
       </Stack>
+
       <MobileProfileFeaturedAchievement userId={userId} />
     </Stack>
   );
