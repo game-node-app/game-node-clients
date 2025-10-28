@@ -5,26 +5,18 @@ import {
   Flex,
   Group,
   Image,
-  Paper,
   Skeleton,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  getErrorMessage,
-  getPageAsOffset,
-  getServerStoredIcon,
-  trackMatomoEvent,
-} from "#@/util";
+import { getErrorMessage, getPageAsOffset, getServerStoredIcon } from "#@/util";
 import {
   CollectionsEntriesService,
   CreateUpdateCollectionEntryDto,
@@ -37,7 +29,6 @@ import {
   useGames,
   useImporterEntries,
   useUserId,
-  useUserLibrary,
 } from "#@/components";
 import status = CreateUpdateCollectionEntryDto.status;
 
@@ -208,11 +199,6 @@ const ImporterScreen = ({ source }: Props) => {
         color: "green",
         message: `Successfully imported ${importedGamesCount} games to your library!`,
       });
-      trackMatomoEvent(
-        EMatomoEventCategory.Importer,
-        EMatomoEventAction.Create,
-        `Imported ${importedGamesCount} games from source ${source}`,
-      );
       resetSelectedGames();
     },
     onSettled: () => {

@@ -43,12 +43,10 @@ const Index = () => {
   useUserProfile(userIdString);
 
   return (
-    <Box className={"w-full h-full xl:flex xl:justify-center"}>
-      <Box className={"mt-3 mb-12 xl:max-w-screen-xl"}>
-        <ProfileUserInfoWithBanner userId={userIdString}>
-          <ProfileViewContent userId={userIdString} />
-        </ProfileUserInfoWithBanner>
-      </Box>
+    <Box className={"w-full h-full mt-3 mb-8"}>
+      <ProfileUserInfoWithBanner userId={userIdString}>
+        <ProfileViewContent userId={userIdString} />
+      </ProfileUserInfoWithBanner>
     </Box>
   );
 };

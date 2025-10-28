@@ -3,14 +3,7 @@ import { Button, Group, Stack, Text } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import {
-  BaseModalProps,
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-  Modal,
-  createErrorNotification,
-} from "#@/util";
+import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
 import { useOwnCollectionEntryForGameId } from "#@/components";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
@@ -37,11 +30,6 @@ const CollectionEntryRemoveModal = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collection-entries"] });
       queryClient.invalidateQueries({ queryKey: ["review"] });
-      trackMatomoEvent(
-        EMatomoEventCategory.CollectionEntry,
-        EMatomoEventAction.Remove,
-        "Removed game from collection",
-      );
       onSuccess?.();
     },
     onError: (error) => {

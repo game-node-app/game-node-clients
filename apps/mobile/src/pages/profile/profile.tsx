@@ -7,6 +7,8 @@ import {
   IonHeader,
   IonMenuButton,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -25,12 +27,14 @@ import {
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   userId?: string;
 }
 
 const ProfilePage = ({ userId }: Props) => {
+  const queryClient = useQueryClient();
   const ownUserId = useUserId();
   const userIdToUse =
     userId == undefined && ownUserId != undefined ? ownUserId : userId;
@@ -45,7 +49,39 @@ const ProfilePage = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
 
   return (
-    <AppPage withMenuButton>
+    <AppPage
+      withMenuButton
+      contentProps={{
+        fixedSlotPlacement: "before",
+      }}
+    >
+      <IonRefresher
+        slot="fixed"
+        onIonRefresh={async (event) => {
+          const promises: Promise<unknown>[] = [
+            queryClient.invalidateQueries({
+              queryKey: ["userProfile", userIdToUse],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["collection-entries", "favorites", userIdToUse],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["playtime", "user", userIdToUse],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["achievement", "obtained", "all", userIdToUse],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["journal", "overview", userIdToUse],
+            }),
+          ];
+
+          await Promise.all(promises);
+          event.detail.complete();
+        }}
+      >
+        <IonRefresherContent />
+      </IonRefresher>
       <SessionAuth requireAuth={userId == undefined}>
         {isOwnProfile && (
           <IonFab

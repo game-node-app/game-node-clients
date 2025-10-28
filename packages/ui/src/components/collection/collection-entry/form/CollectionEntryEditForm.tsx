@@ -17,11 +17,6 @@ import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
-import {
   CollectionEntryFormDetailsPanel,
   CollectionEntryFormDlcsPanel,
   CollectionEntryFormReviewPanel,
@@ -195,21 +190,6 @@ const CollectionEntryEditForm = ({
 
       if (onClose) {
         onClose();
-      }
-
-      // Matomo
-      if (isUpdateAction) {
-        trackMatomoEvent(
-          EMatomoEventCategory.CollectionEntry,
-          EMatomoEventAction.Update,
-          "Updated game in one or more collection(s)",
-        );
-      } else {
-        trackMatomoEvent(
-          EMatomoEventCategory.CollectionEntry,
-          EMatomoEventAction.Create,
-          "Added game in one or more collection(s)",
-        );
       }
     },
     onError: (err) => {

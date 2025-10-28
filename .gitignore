@@ -38,3 +38,6 @@ yarn-error.log*
 # ui
 dist/
 *.tsbuildinfo
+
+# intellij
+.idea/

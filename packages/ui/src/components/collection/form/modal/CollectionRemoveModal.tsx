@@ -7,11 +7,6 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { useCollectionEntriesForCollectionId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
 import { Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
@@ -36,13 +31,7 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
       collectionEntriesQuery.invalidate();
       libraryQuery.invalidate();
     },
-    onSuccess: () => {
-      trackMatomoEvent(
-        EMatomoEventCategory.Collection,
-        EMatomoEventAction.Remove,
-        "Removed collection",
-      );
-    },
+    onSuccess: () => {},
   });
 
   return (

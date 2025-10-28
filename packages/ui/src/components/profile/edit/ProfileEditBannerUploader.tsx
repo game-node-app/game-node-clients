@@ -13,6 +13,7 @@ import type = UpdateProfileImageDto.type;
 import { useDisclosure } from "@mantine/hooks";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { createErrorNotification } from "#@/util";
 
 const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
   const userId = useUserId();
@@ -62,6 +63,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
         type: type.BANNER,
       });
     },
+    onError: createErrorNotification,
     onSuccess: () => {
       profileQuery.invalidate();
       if (onClose) onClose();

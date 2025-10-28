@@ -6,11 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { GAME_INFO_SHARE_PREVIEW_ID } from "#@/components";
 import { toBlob } from "html-to-image";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent.ts";
 import GameInfoSharePreview from "./GameInfoSharePreview";
 import { IconDownload } from "@tabler/icons-react";
 import { createErrorNotification, downloadFile } from "#@/util";
@@ -70,13 +65,6 @@ const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
       }
 
       await onShare(file);
-    },
-    onSuccess: () => {
-      trackMatomoEvent(
-        EMatomoEventCategory.Review,
-        EMatomoEventAction.Share,
-        "Shared generated review image with the game info share button",
-      );
     },
     onError: createErrorNotification,
   });

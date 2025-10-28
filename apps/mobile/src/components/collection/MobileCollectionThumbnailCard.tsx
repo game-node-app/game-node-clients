@@ -159,7 +159,7 @@ const MobileCollectionThumbnailCard = ({
           {hasHitLimit && (
             <Box
               className={
-                "bg-[#242424] rounded pointer-events-auto cursor-pointer"
+                "bg-paper-4 rounded pointer-events-auto cursor-pointer"
               }
               style={{
                 gridColumn: `10 / span 3`,

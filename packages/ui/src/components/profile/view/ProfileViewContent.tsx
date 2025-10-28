@@ -22,6 +22,7 @@ import {
   useUserLibrary,
   useUserProfile,
 } from "#@/components";
+import { useDebouncedCallback } from "@mantine/hooks";
 
 interface Props {
   userId: string;
@@ -44,11 +45,14 @@ const ProfileViewContent = ({ userId }: Props) => {
     tab: "main",
   });
 
-  const onTabChange = (tab: string | null) => {
+  /**
+   * Avoids screen flicker if the user rages presses the navbar buttons for some reason
+   */
+  const onTabChange = useDebouncedCallback((tab: string | null) => {
     setParams({
       tab: tab ?? "main",
     });
-  };
+  }, 200);
 
   return (
     <Tabs

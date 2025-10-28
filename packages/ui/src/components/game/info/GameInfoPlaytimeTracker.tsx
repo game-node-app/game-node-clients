@@ -27,8 +27,7 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
       <UserPlaytimeItem
         key={playtime.id}
         playtime={playtime}
-        withBackground={false}
-        withTitle={false}
+        variant={"compact"}
       />
     ));
   }, [playtimes]);

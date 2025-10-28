@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
-import { Container, SimpleGrid } from "@mantine/core";
+import { Box, Container, SimpleGrid } from "@mantine/core";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { DetailsBox, useOnMobilePlatform } from "#@/components";
 
 interface Props {
   userId: string;
@@ -14,6 +15,7 @@ interface Props {
 
 const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
   const onMobile = useOnMobile();
+  const onMobilePlatform = useOnMobilePlatform();
   const favoriteCollectionEntriesQuery = useFavoriteCollectionEntriesForUserId(
     userId,
     0,
@@ -56,11 +58,19 @@ const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
     );
   }
   return (
-    <SimpleGrid cols={onMobile ? 3 : 5} w={"100%"}>
-      {gamesQuery.data?.map((game) => {
-        return <GameGridItem key={game.id} game={game} />;
-      })}
-    </SimpleGrid>
+    <DetailsBox
+      title={"Favorite Games"}
+      withDimmedTitle
+      stackProps={{
+        className: onMobilePlatform ? "bg-paper-4 p-2" : undefined,
+      }}
+    >
+      <SimpleGrid cols={onMobile ? 3 : 5} w={"100%"}>
+        {gamesQuery.data?.map((game) => {
+          return <GameGridItem key={game.id} game={game} />;
+        })}
+      </SimpleGrid>
+    </DetailsBox>
   );
 };
 

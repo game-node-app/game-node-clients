@@ -12,13 +12,6 @@ const config: Omit<Config, "content"> = {
     extend: {
       backgroundColor: {
         body: "var(--mantine-color-body)",
-        paper: {
-          DEFAULT: "#161616",
-          0: "#161616",
-          1: "#262525",
-          2: "#1D1D1D",
-          3: "#191919",
-        },
       },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
@@ -54,6 +47,14 @@ const config: Omit<Config, "content"> = {
       },
       textColor: "#D9D9D9",
       colors: {
+        paper: {
+          DEFAULT: "#161616",
+          0: "#161616",
+          1: "#262525",
+          2: "#1D1D1D",
+          3: "#191919",
+          4: "#242424",
+        },
         dimmed: {
           DEFAULT: "var(--mantine-color-dimmed)",
           0: "var(--mantine-color-dimmed)",

@@ -31,7 +31,11 @@ const ProfileBanner = ({
   const [editBannerModalOpen, editBannerModalUtils] = useDisclosure();
 
   return (
-    <Box className={"w-full h-full bg-[#161616] p-4"}>
+    <Box
+      className={
+        "w-full h-full bg-[#161616] p-4 mobile:p-0 mobile:-ms-2.5 mobile:min-w-[100vw]"
+      }
+    >
       <Paper
         style={{
           backgroundColor: "#161616",

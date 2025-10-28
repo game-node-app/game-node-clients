@@ -21,5 +21,4 @@ export * from "./shuffleArray";
 export * from "./sleep";
 export * from "./syncEntityToZodForm";
 export * from "./theme";
-export * from "./trackMatomoEvent";
 export * from "./types/index";

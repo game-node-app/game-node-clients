@@ -27,22 +27,15 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import {
-  createErrorNotification,
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  getCapitalizedText,
-  Modal,
-  trackMatomoEvent,
-} from "#@/util";
+import { createErrorNotification, getCapitalizedText, Modal } from "#@/util";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { IconDownload } from "@tabler/icons-react";
-import period = FindAllPlaytimeFiltersDto.period;
 import { match } from "ts-pattern";
+import period = FindAllPlaytimeFiltersDto.period;
 
 const CONTAINER_ID = "wrapped-share-preview-container";
 
@@ -178,13 +171,6 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       }
 
       await onShare(file);
-    },
-    onSuccess: () => {
-      trackMatomoEvent(
-        EMatomoEventCategory.Review,
-        EMatomoEventAction.Share,
-        "Shared generated review image with the game info share button",
-      );
     },
     onError: createErrorNotification,
   });

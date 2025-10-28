@@ -3,7 +3,7 @@ import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
 import { useInfiniteFollowInfo } from "#@/components/follow/hooks/useInfiniteFollowInfo";
 import { FollowInfoListModal } from "#@/components/follow/modal/FollowInfoListModal";
-import { Anchor, Stack, Text, UnstyledButton } from "@mantine/core";
+import { Anchor, Box, Flex, Stack, Text, UnstyledButton } from "@mantine/core";
 
 interface Props {
   targetUserId: string;
@@ -21,7 +21,7 @@ const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
   const criteriaText = criteria === "followers" ? "Followers" : "Following";
 
   return (
-    <Stack className={"gap-1"}>
+    <Box>
       <FollowInfoListModal
         targetUserId={targetUserId}
         criteria={criteria}
@@ -32,11 +32,16 @@ const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
         onClick={() => {
           modalUtils.open();
         }}
+        className={
+          "mobile:flex mobile:flex-row mobile:items-center mobile:gap-2"
+        }
       >
-        <Text className={"text-white text-center"}>{totalItems}</Text>
-        <Text>{criteriaText}</Text>
+        <Text className={"text-white text-center mobile:font-bold"}>
+          {totalItems}
+        </Text>
+        <Text className={"mobile:text-dimmed"}>{criteriaText}</Text>
       </UnstyledButton>
-    </Stack>
+    </Box>
   );
 };
 

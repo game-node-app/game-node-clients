@@ -2,27 +2,18 @@ import React from "react";
 import {
   CollectionEntryEditModal,
   CollectionEntryRemoveModal,
-  EMatomoEventAction,
-  EMatomoEventCategory,
   GameInfoActionsProps,
   GameInfoShare,
   Modal,
-  trackMatomoEvent,
   useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
+  useUpdateFavoriteStatusMutation,
   useUserId,
 } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { CollectionsEntriesService } from "@repo/wrapper/server";
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Group,
-  Stack,
-  Tooltip,
-} from "@mantine/core";
+import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
 import {
   IconHeartFilled,
   IconHeartPlus,
@@ -54,31 +45,10 @@ const MobileGameInfoActions = ({
 
   const hasReview = reviewQuery.data != undefined;
 
-  const collectionEntryFavoriteMutation = useMutation({
-    mutationFn: (gameId: number) => {
-      return CollectionsEntriesService.collectionsEntriesControllerChangeFavoriteStatusV1(
-        gameId,
-        { isFavorite: !gameInFavorites },
-      );
-    },
-
-    onSuccess: () => {
-      collectionEntryQuery.invalidate();
-      if (gameInFavorites) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Favorites,
-          EMatomoEventAction.Remove,
-          "Game removed from favorites",
-        );
-      } else {
-        trackMatomoEvent(
-          EMatomoEventCategory.Favorites,
-          EMatomoEventAction.Create,
-          "Game added to favorites",
-        );
-      }
-    },
-  });
+  const collectionEntryFavoriteMutation = useUpdateFavoriteStatusMutation(
+    game?.id,
+    gameInFavorites,
+  );
 
   if (game == undefined) {
     return null;

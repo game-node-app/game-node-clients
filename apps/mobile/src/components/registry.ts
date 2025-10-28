@@ -9,6 +9,8 @@ import { MobileGameAchievementListItem } from "@/components/achievement/MobileGa
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
+import { MobileProfileUserInfo } from "@/components/profile/view/MobileProfileUserInfo.tsx";
+import { MobileProfileViewNavbarItem } from "@/components/profile/view/navbar/MobileProfileViewNavbarItem.tsx";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   ActivityItem: MobileActivityItem,
@@ -20,6 +22,8 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameAchievementsListItem: MobileGameAchievementListItem,
   Link: LinkWrapper,
   Modal: IonModalWrapper,
+  ProfileUserInfo: MobileProfileUserInfo,
+  ProfileViewNavbarItem: MobileProfileViewNavbarItem,
 };
 
 export const UI_HOOK_REGISTRY: UIHookRegistry = {

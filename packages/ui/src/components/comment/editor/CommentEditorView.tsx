@@ -16,11 +16,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { useComment } from "#@/components/comment/hooks/useComment";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
 import { useUserProfile } from "#@/components";
 import { useCommentsContext } from "#@/components/comment/view/context.ts";
 import { createErrorNotification } from "#@/util";
@@ -106,22 +101,6 @@ const CommentEditorView = ({
       });
       clearEditor();
       if (onEditEnd) onEditEnd();
-
-      // Matomo
-      if (commentId) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Comment,
-          EMatomoEventAction.Update,
-          "Updated a comment",
-        );
-        return;
-      }
-
-      trackMatomoEvent(
-        EMatomoEventCategory.Comment,
-        EMatomoEventAction.Create,
-        "Created a comment",
-      );
     },
     onError: (err) => {
       if (onEditEnd) onEditEnd();

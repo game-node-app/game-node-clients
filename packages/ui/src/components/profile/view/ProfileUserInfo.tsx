@@ -1,10 +1,8 @@
 import React, { useMemo } from "react";
-import { Box, Center, Divider, Group, Paper, Stack, Text } from "@mantine/core";
+import { Box, Center, Divider, Flex, Group, Stack, Text } from "@mantine/core";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
-import { ObtainedAchievementItem } from "#@/components/achievement/ObtainedAchievementItem";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
 import { TextLink } from "#@/components/general/TextLink";
@@ -15,30 +13,23 @@ import {
 } from "#@/components";
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
+import { buildPresenterComponent } from "#@/context";
 
-interface Props {
+export interface ProfileUserInfoProps {
   userId: string;
   onEditClick?: () => void;
   withEditDetailsButton?: boolean;
 }
 
-const ProfileUserInfo = ({
+const DEFAULT_ProfileUserInfo = ({
   userId,
   onEditClick,
   withEditDetailsButton = true,
-}: Props) => {
+}: ProfileUserInfoProps) => {
   const ownUserId = useUserId();
   const profileQuery = useUserProfile(userId);
-  const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
 
   const isOwnProfile = ownUserId != undefined && ownUserId === userId;
-
-  const featuredAchievement = useMemo(() => {
-    if (obtainedAchievementsQuery.data == undefined) return null;
-    return obtainedAchievementsQuery.data.find(
-      (achievement) => achievement.isFeatured,
-    );
-  }, [obtainedAchievementsQuery.data]);
 
   if (profileQuery.isLoading) {
     return <CenteredLoading />;
@@ -47,7 +38,7 @@ const ProfileUserInfo = ({
   }
 
   return (
-    <Stack className={"w-full h-full items-center p-2"}>
+    <Stack className={"w-full h-full items-center"}>
       <Center>
         <UserLevel userId={userId} />
       </Center>
@@ -88,5 +79,10 @@ const ProfileUserInfo = ({
     </Stack>
   );
 };
+
+const ProfileUserInfo = buildPresenterComponent(
+  "ProfileUserInfo",
+  DEFAULT_ProfileUserInfo,
+);
 
 export { ProfileUserInfo };

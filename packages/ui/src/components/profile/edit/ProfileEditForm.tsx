@@ -28,7 +28,7 @@ const ProfileEditForm = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
 
   const [editAvatarModalOpened, editAvatarModalUtils] = useDisclosure();
-  const [editUsernameModalOpen, editUsernameModalUtils] = useDisclosure();
+  const [editUserNameModalOpen, editUserNameModalUtils] = useDisclosure();
 
   return (
     <Stack className={"w-full h-full "}>
@@ -40,12 +40,12 @@ const ProfileEditForm = ({ userId }: Props) => {
         <ProfileEditAvatarUploader onClose={editAvatarModalUtils.close} />
       </Modal>
       <Modal
-        opened={editUsernameModalOpen}
-        onClose={editUsernameModalUtils.close}
+        opened={editUserNameModalOpen}
+        onClose={editUserNameModalUtils.close}
         size={"xl"}
         title={"Update username"}
       >
-        <ProfileEditUsernameUpdate onClose={editUsernameModalUtils.close} />
+        <ProfileEditUsernameUpdate onClose={editUserNameModalUtils.close} />
       </Modal>
       <Stack className={"w-full gap-0 items-center"}>
         <ProfileBanner userId={userId} showEditButton={true} />
@@ -78,7 +78,7 @@ const ProfileEditForm = ({ userId }: Props) => {
             <ActionIcon
               size={"md"}
               variant="default"
-              onClick={editUsernameModalUtils.open}
+              onClick={editUserNameModalUtils.open}
             >
               <IconEdit />
             </ActionIcon>

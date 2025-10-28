@@ -8,11 +8,6 @@ import {
   useItemStatistics,
 } from "#@/components/statistics/hooks/useItemStatistics";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
 
 export interface IToggleLikeProps {
   targetUserId: string | undefined;
@@ -62,34 +57,6 @@ export function useUserLike({
       }
 
       StatisticsQueueService.statisticsQueueControllerAddLikeV1(dto).then();
-    },
-
-    onSuccess: () => {
-      switch (sourceType) {
-        case FindOneStatisticsDto.sourceType.ACTIVITY: {
-          trackMatomoEvent(
-            EMatomoEventCategory.Activity,
-            EMatomoEventAction.Like,
-            "Liked a activity",
-          );
-          break;
-        }
-        case FindOneStatisticsDto.sourceType.REVIEW: {
-          trackMatomoEvent(
-            EMatomoEventCategory.Review,
-            EMatomoEventAction.Like,
-            "Liked a review",
-          );
-          break;
-        }
-        case FindOneStatisticsDto.sourceType.REVIEW_COMMENT: {
-          trackMatomoEvent(
-            EMatomoEventCategory.Comment,
-            EMatomoEventAction.Like,
-            "Liked a review comment",
-          );
-        }
-      }
     },
 
     onMutate: async () => {

@@ -6,6 +6,7 @@ import {
   GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  ProfileUserInfoProps,
   ProfileViewNavbarItemProps,
   ReviewCardProps,
 } from "#@/components";
@@ -30,6 +31,7 @@ export type UIPresenterRegistry = {
   GameAchievementsListItem: React.ComponentType<GameAchievementsListItemProps>;
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
+  ProfileUserInfo: React.ComponentType<ProfileUserInfoProps>;
 };
 
 /**

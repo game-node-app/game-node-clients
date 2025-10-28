@@ -9,19 +9,14 @@ import {
 import { Box, Group, Image, Overlay, Stack, Text, Title } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { getCapitalizedText } from "#@/util/getCapitalizedText";
-import { Link } from "#@/util";
+import { cn, Link } from "#@/util";
 
 interface Props {
   playtime: UserPlaytimeDto;
-  withTitle?: boolean;
-  withBackground?: boolean;
+  variant?: "compact" | "detailed" | "simple";
 }
 
-const UserPlaytimeItem = ({
-  playtime,
-  withTitle = true,
-  withBackground = true,
-}: Props) => {
+const UserPlaytimeItem = ({ playtime, variant = "detailed" }: Props) => {
   const onMobile = useOnMobile();
 
   const gameId = playtime.gameId;
@@ -36,10 +31,13 @@ const UserPlaytimeItem = ({
     onMobile ? ImageSize.SCREENSHOT_MED : ImageSize.SCREENSHOT_BIG,
   );
 
+  const withBackground = variant === "detailed";
+  const withTitle = variant === "detailed" || variant === "simple";
+
   return (
     <Box
       style={
-        withBackground
+        variant === "detailed"
           ? {
               backgroundImage: `url(${imageUrl})`,
               backgroundSize: "cover",
@@ -47,21 +45,20 @@ const UserPlaytimeItem = ({
             }
           : undefined
       }
-      className={
-        withTitle && withBackground
-          ? "relative w-full h-28 rounded-md"
-          : "relative w-full"
-      }
+      className={cn("relative w-full min-h-11 px-4 py-2", {
+        "h-28 rounded-md": variant === "detailed",
+        "bg-paper-4 rounded-md": variant === "simple",
+      })}
     >
-      {withBackground && (
-        <Overlay backgroundOpacity={0.8} className={"z-0 rounded-md"}></Overlay>
+      {variant === "detailed" && (
+        <Overlay backgroundOpacity={0.8} className={"z-0 rounded-sm"}></Overlay>
       )}
       <Group className={"w-full h-full relative z-20 items-center flex-nowrap"}>
         {withTitle && (
           <Stack className={"w-fit max-w-32 items-start justify-center h-full"}>
             <Link
               href={`/game/${gameQuery.data?.id}`}
-              className={"flex flex-nowrap ms-4 max-w-28"}
+              className={"flex flex-nowrap max-w-28"}
             >
               <Title className={"text-sm lg:text-md text-center"}>
                 {gameQuery.data?.name}
@@ -72,7 +69,7 @@ const UserPlaytimeItem = ({
         <Group
           className={
             withTitle
-              ? "ms-auto w-5/12 justify-end items-center flex-nowrap gap-8 me-4"
+              ? "ms-auto w-5/12 justify-end items-center flex-nowrap gap-8"
               : withBackground
                 ? "w-full flex-nowrap mx-4"
                 : "w-full flex-nowrap"

@@ -40,7 +40,11 @@ const JournalHeatmap = ({ userId }: Props) => {
           withMonthLabels
           rectSize={16}
           getTooltipLabel={(input) => {
-            return `${dayjs(input.date).format("LL")}`;
+            if (input.value === 0 || input.value == null) {
+              return `${dayjs(input.date).format("LL")}`;
+            }
+
+            return `${dayjs(input.date).format("LL")}: ${input.value} games added/updated`;
           }}
         />
       </Box>

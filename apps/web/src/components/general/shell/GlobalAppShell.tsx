@@ -22,7 +22,6 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AppShell
-      padding="xs"
       header={{
         height: { base: 80, md: 70 },
       }}
@@ -48,14 +47,10 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
           onClose={sidebarOpenedUtils.close}
         />
       </AppShell.Navbar>
-      {/**
-             Remove '!ps-2.5' to make the sidebar push the main content to its right when opened
-             */}
-      <AppShell.Main
-        pos={"relative"}
-        className={"!ps-2.5 xl:flex xl:justify-center"}
-      >
-        <Box className={"w-full xl:max-w-screen-xl"}>{children}</Box>
+      <AppShell.Main pos={"relative"}>
+        <Container fluid className={"max-w-screen-xl"}>
+          {children}
+        </Container>
       </AppShell.Main>
       <AppShell.Footer pos={"static"}>
         <GlobalShellFooter />

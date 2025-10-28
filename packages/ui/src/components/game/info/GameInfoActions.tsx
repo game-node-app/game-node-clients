@@ -14,13 +14,8 @@ import { useOwnCollectionEntryForGameId } from "#@/components/collection/collect
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
 import { Modal } from "#@/util";
-import { GameInfoShare } from "#@/components";
+import { GameInfoShare, useUpdateFavoriteStatusMutation } from "#@/components";
 import { buildPresenterComponent } from "#@/context";
 
 export interface GameInfoActionsProps {
@@ -54,31 +49,10 @@ const DEFAULT_GameInfoActions = ({
 
   const hasReview = reviewQuery.data != undefined;
 
-  const collectionEntryFavoriteMutation = useMutation({
-    mutationFn: (gameId: number) => {
-      return CollectionsEntriesService.collectionsEntriesControllerChangeFavoriteStatusV1(
-        gameId,
-        { isFavorite: !gameInFavorites },
-      );
-    },
-
-    onSuccess: () => {
-      collectionEntryQuery.invalidate();
-      if (gameInFavorites) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Favorites,
-          EMatomoEventAction.Remove,
-          "Game removed from favorites",
-        );
-      } else {
-        trackMatomoEvent(
-          EMatomoEventCategory.Favorites,
-          EMatomoEventAction.Create,
-          "Game added to favorites",
-        );
-      }
-    },
-  });
+  const collectionEntryFavoriteMutation = useUpdateFavoriteStatusMutation(
+    game?.id,
+    gameInFavorites,
+  );
 
   if (game == undefined) {
     return null;

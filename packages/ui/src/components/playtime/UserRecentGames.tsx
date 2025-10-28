@@ -7,12 +7,14 @@ import { getErrorMessage } from "#@/util/getErrorMessage";
 import { TBasePaginationRequest } from "#@/util/types/pagination";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
+import { useOnMobilePlatform } from "#@/components";
 
 interface Props extends TBasePaginationRequest {
   userId: string;
 }
 
 const UserRecentGames = ({ userId, offset, limit }: Props) => {
+  const onMobilePlatform = useOnMobilePlatform();
   const ownUserId = useUserId();
 
   const playtime = usePlaytimeForUser({
@@ -49,6 +51,7 @@ const UserRecentGames = ({ userId, offset, limit }: Props) => {
         <UserPlaytimeItem
           key={`${item.profileUserId}-${item.id}`}
           playtime={item}
+          variant={onMobilePlatform ? "simple" : "detailed"}
         />
       ))}
     </Stack>

@@ -36,7 +36,10 @@ const ProfileUserInfoWithBanner = ({
   const [editModalOpened, editModalUtils] = useDisclosure();
 
   return (
-    <Stack className={"h-full gap-0 w-dvw max-w-full"}>
+    <Stack
+      id={"profile-user-info-banner"}
+      className={"h-full gap-0 w-dvw max-w-full relative"}
+    >
       <Modal
         opened={editModalOpened}
         onClose={editModalUtils.close}
@@ -51,29 +54,36 @@ const ProfileUserInfoWithBanner = ({
         className={"w-full justify-start items-start flex-wrap lg:flex-nowrap"}
       >
         <Stack
-          className={"w-full lg:w-1/4 lg:min-w-52  gap-0 relative bg-[#151515]"}
+          className={
+            "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-[#151515]"
+          }
         >
-          <Stack className={"w-full items-center relative -top-20"}>
-            <Box className={"relative w-fit h-fit"}>
-              <UserAvatar
-                className={"relative border-[#161616] border-4"}
-                userId={userId}
-                size={"10rem"}
-              />
+          <Stack className={"w-full items-center relative mobile:items-start "}>
+            <Box className={"w-fit h-8 mobile:h-3 mobile:ps-2"}>
+              <Box className={"relative w-fit h-fit -translate-y-3/4"}>
+                <UserAvatar
+                  className={"relative border-[#161616] border-4"}
+                  userId={userId}
+                  size={onMobilePlatform ? "8rem" : "10rem"}
+                />
+              </Box>
             </Box>
-
-            <Text className={"text-center text-white"}>
+            <Text
+              className={
+                "text-center text-white mobile:font-bold mobile:text-xl mobile:ps-6"
+              }
+            >
               {profileQuery.data?.username}
             </Text>
           </Stack>
-
-          <Stack className={"w-full h-full relative -top-16 "}>
-            <ProfileUserInfo
-              userId={userId}
-              onEditClick={editModalUtils.open}
-              withEditDetailsButton={!onMobilePlatform}
-            />
-          </Stack>
+          {onMobilePlatform && (
+            <Text className={"my-3"}>{profileQuery.data?.bio}</Text>
+          )}
+          <ProfileUserInfo
+            userId={userId}
+            onEditClick={editModalUtils.open}
+            withEditDetailsButton={!onMobilePlatform}
+          />
         </Stack>
 
         <Stack className={"lg:items-start w-full lg:w-3/4 p-1 lg:p-3"}>

@@ -10,11 +10,6 @@ import { Collection, CollectionsService } from "@repo/wrapper/server";
 import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { useMutation } from "@tanstack/react-query";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "#@/util/trackMatomoEvent";
 import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, syncEntityToZodForm } from "#@/util";
@@ -86,20 +81,6 @@ const CollectionCreateOrUpdateForm = ({
       });
       if (onClose) {
         onClose();
-      }
-
-      if (existingCollection) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Collection,
-          EMatomoEventAction.Update,
-          "Updated collection",
-        );
-      } else {
-        trackMatomoEvent(
-          EMatomoEventCategory.Collection,
-          EMatomoEventAction.Create,
-          "Created collection",
-        );
       }
     },
     onError: createErrorNotification,

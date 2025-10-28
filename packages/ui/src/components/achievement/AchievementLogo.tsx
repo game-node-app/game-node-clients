@@ -10,7 +10,7 @@ const AchievementLogo = ({ achievementId, ...others }: Props) => {
   return (
     <Flex className={"w-14 min-w-14 justify-center"}>
       <Image
-        className="w-[48px] h-[48px]"
+        className="w-[48px] h-[48px] object-contain"
         src={getServerStoredIcon(achievementId)}
         alt={achievementId}
         height={48}
