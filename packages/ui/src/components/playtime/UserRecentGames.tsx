@@ -31,7 +31,7 @@ const UserRecentGames = ({ userId, offset, limit }: Props) => {
   const isOwnPlaytime = ownUserId != undefined && ownUserId === userId;
 
   return (
-    <Stack className={"w-full h-full"}>
+    <Stack className={"w-full h-full mobile:gap-1"}>
       {playtime.isError && (
         <CenteredErrorMessage message={getErrorMessage(playtime.error)} />
       )}

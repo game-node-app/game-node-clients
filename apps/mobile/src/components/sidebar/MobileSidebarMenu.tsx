@@ -2,10 +2,16 @@
 "use no memo"
 import React from "react";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
-import { RecentlyPlayedGamesShare, UserButton, useUserId } from "@repo/ui";
+import {
+  Link,
+  RecentlyPlayedGamesShare,
+  UserButton,
+  useUserId,
+} from "@repo/ui";
 import { Stack } from "@mantine/core";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
 import {
+  IconActivity,
   IconCloudDownload,
   IconDeviceGamepad2,
   IconLayout2Filled,
@@ -35,14 +41,16 @@ const MobileSidebarMenu = () => {
       {userId && (
         <IonHeader className={"relative ion-activatable"}>
           <IonRippleEffect onClick={closeMenu} />
-          <UserButton
-            userId={userId}
-            count={"level"}
-            className={"px-6 py-3.5"}
-            avatarProps={{
-              size: "md",
-            }}
-          />
+          <Link href={`/profile/${userId}`} onClick={closeMenu}>
+            <UserButton
+              userId={userId}
+              count={"level"}
+              className={"px-6 py-3.5"}
+              avatarProps={{
+                size: "md",
+              }}
+            />
+          </Link>
         </IonHeader>
       )}
       <IonContent>
@@ -105,6 +113,12 @@ const MobileSidebarMenu = () => {
               wrappedOpenedUtils.open();
               closeMenu();
             }}
+          />
+          <MobileSidebarButton
+            title={"Activity"}
+            Icon={IconActivity}
+            href={"/activity"}
+            onClick={closeMenu}
           />
           <MobileSidebarButton
             title={"Blog"}

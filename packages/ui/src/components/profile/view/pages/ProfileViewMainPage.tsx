@@ -75,6 +75,7 @@ const ProfileViewMainPage = ({ userId }: Props) => {
             userId={userId}
             withUserAvatar={true}
             limit={10}
+            variant={"default"}
           />
         </DetailsBox>
       </Flex>

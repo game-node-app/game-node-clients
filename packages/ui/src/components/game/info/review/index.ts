@@ -3,4 +3,5 @@
  */
 
 export * from "./GameInfoReviewList";
+export * from "./GameInfoReviewScreen";
 export * from "./editor/index";

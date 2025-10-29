@@ -1,30 +1,30 @@
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
+import React, { useEffect, useRef } from "react";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
 import {
-    DEFAULT_GAME_INFO_VIEW_DTO,
-    GameExtraInfoView,
-    GameInfoAchievementsScreen,
-    GameInfoContentTitle,
-    GameInfoPostsScreen,
-    GameInfoTabIcons,
-    GameInfoTabs,
-    GameInfoTabValue,
-    GameInfoView,
-    useGame,
-    useUrlState,
-    useUserView,
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  GameExtraInfoView,
+  GameInfoAchievementsScreen,
+  GameInfoContentTitle,
+  GameInfoPostsScreen,
+  GameInfoReviewScreen,
+  GameInfoTabIcons,
+  GameInfoTabs,
+  GameInfoTabValue,
+  GameInfoView,
+  useGame,
+  useUrlState,
+  useUserView,
 } from "@repo/ui";
 import { FindOneStatisticsDto } from "@repo/wrapper/server";
 import {
-    IconBrandAppleArcade,
-    IconMedal2,
-    IconMessage,
-    IconStars,
+  IconBrandAppleArcade,
+  IconMedal2,
+  IconMessage,
+  IconStars,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
 
 const TAB_ICONS: GameInfoTabIcons = {
   home: <IconBrandAppleArcade size={20} />,
@@ -40,7 +40,7 @@ interface Props {
 const GamePage = ({ gameId }: Props) => {
   const queryClient = useQueryClient();
 
-  const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+  useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const [params, setParams] = useUrlState({
     tab: GameInfoTabValue.overview,

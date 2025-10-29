@@ -3,20 +3,19 @@ import { useLatestActivities } from "#@/components/activity/hooks/useLatestActiv
 import { Stack } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { ActivityList } from "#@/components";
+import { ActivityItem, ActivityItemProps } from "#@/components";
 
-interface Props {
+interface Props extends Omit<ActivityItemProps, "activity"> {
   userId?: string;
   limit?: number;
   offset?: number;
-  withUserAvatar?: boolean;
 }
 
 const RecentActivityList = ({
   userId,
-  withUserAvatar = true,
   offset = 0,
   limit = 5,
+  ...others
 }: Props) => {
   const activitiesQuery = useLatestActivities(userId, offset, limit);
   const isEmpty =
@@ -28,12 +27,11 @@ const RecentActivityList = ({
   return (
     <Stack className={"w-full h-full"}>
       {activitiesQuery.isLoading && <CenteredLoading />}
-      {activitiesQuery.data && (
-        <ActivityList
-          items={activitiesQuery.data.data}
-          withUserAvatar={withUserAvatar}
-        />
-      )}
+      {activitiesQuery.data?.data?.map((activity) => {
+        return (
+          <ActivityItem key={activity.id} activity={activity} {...others} />
+        );
+      })}
       {isEmpty && (
         <CenteredErrorMessage message={"No recent activity to show."} />
       )}

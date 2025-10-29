@@ -12,6 +12,7 @@ const GameInfoReviewScreen = ({
   targetReviewId,
 }: IGameInfoReviewViewProps) => {
   if (!gameId) return null;
+
   return (
     <Stack w={"100%"} h={"100%"} align={"center"}>
       <GameInfoReviewEditorView gameId={gameId} />
@@ -20,4 +21,4 @@ const GameInfoReviewScreen = ({
   );
 };
 
-export default GameInfoReviewScreen;
+export { GameInfoReviewScreen };

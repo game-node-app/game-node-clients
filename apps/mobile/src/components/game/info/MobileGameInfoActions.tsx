@@ -11,8 +11,6 @@ import {
   useUserId,
 } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
-import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
 import {
   IconHeartFilled,

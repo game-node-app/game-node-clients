@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
-import { Box, Group, Stack, Text } from "@mantine/core";
+import { ActionIcon, Box, Button, Group, Stack, Text } from "@mantine/core";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
@@ -9,7 +9,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Modal } from "#@/util";
-import { useOnMobilePlatform } from "#@/components";
+import {
+  ProfileAvatarSectionButtons,
+  useOnMobilePlatform,
+} from "#@/components";
+import { IconDots, IconDotsCircleHorizontal } from "@tabler/icons-react";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
@@ -29,6 +33,8 @@ const ProfileUserInfoWithBanner = ({
   userId,
   children,
 }: ProfileUserInfoWithBannerProps) => {
+  const ownUserId = useUserId();
+  const isOwnProfile = ownUserId === userId;
   const onMobile = useOnMobile();
   const onMobilePlatform = useOnMobilePlatform();
   const profileQuery = useUserProfile(userId);
@@ -58,24 +64,40 @@ const ProfileUserInfoWithBanner = ({
             "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-[#151515]"
           }
         >
-          <Stack className={"w-full items-center relative mobile:items-start "}>
-            <Box className={"w-fit h-8 mobile:h-3 mobile:ps-2"}>
-              <Box className={"relative w-fit h-fit -translate-y-3/4"}>
-                <UserAvatar
-                  className={"relative border-[#161616] border-4"}
-                  userId={userId}
-                  size={onMobilePlatform ? "8rem" : "10rem"}
-                />
-              </Box>
-            </Box>
-            <Text
-              className={
-                "text-center text-white mobile:font-bold mobile:text-xl mobile:ps-6"
-              }
+          <Group
+            className={
+              "w-full justify-center flex-nowrap mobile:justify-between"
+            }
+          >
+            <Stack
+              className={"w-full items-center relative mobile:items-start"}
             >
-              {profileQuery.data?.username}
-            </Text>
-          </Stack>
+              <Box className={"w-fit h-8 mobile:h-3 mobile:ps-2"}>
+                <Box className={"relative w-fit h-fit -translate-y-3/4"}>
+                  <UserAvatar
+                    className={"relative border-[#161616] border-4"}
+                    userId={userId}
+                    size={onMobilePlatform ? "8rem" : "10rem"}
+                  />
+                </Box>
+              </Box>
+              <Box className={"w-36"}>
+                <Text
+                  className={
+                    "text-center text-white mobile:font-bold mobile:text-xl"
+                  }
+                >
+                  {profileQuery.data?.username}
+                </Text>
+              </Box>
+            </Stack>
+            {onMobilePlatform && (
+              <ProfileAvatarSectionButtons
+                userId={userId}
+                onEditClick={editModalUtils.open}
+              />
+            )}
+          </Group>
           {onMobilePlatform && (
             <Text className={"my-3"}>{profileQuery.data?.bio}</Text>
           )}

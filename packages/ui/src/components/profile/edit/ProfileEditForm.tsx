@@ -91,7 +91,9 @@ const ProfileEditForm = ({ userId }: Props) => {
         </DetailsBox>
         <DetailsBox
           title={"Featured achievements"}
-          description={"Click to edit"}
+          description={
+            "Click to edit. Only the first achievement will be shown on your profile."
+          }
         >
           <Flex className={"w-full justify-center"}>
             <ProfileEditFeaturedAchievement />

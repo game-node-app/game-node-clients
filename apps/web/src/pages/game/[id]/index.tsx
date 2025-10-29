@@ -22,8 +22,8 @@ import {
   useGame,
   useUrlState,
   useUserView,
+  GameInfoReviewScreen,
 } from "@repo/ui";
-import GameInfoReviewScreen from "@/components/game/info/review/GameInfoReviewScreen";
 import sourceType = FindOneStatisticsDto.sourceType;
 
 export const getServerSideProps = async (context: NextPageContext) => {

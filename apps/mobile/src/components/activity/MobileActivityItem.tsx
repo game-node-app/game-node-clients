@@ -1,10 +1,14 @@
 import React, { useMemo } from "react";
 import {
+  ActivityItemComments,
+  ActivityItemLikes,
   ActivityItemProps,
+  cn,
   CommentEditorView,
   CommentsListView,
   CommentsView,
   GameRating,
+  Link,
   Modal,
   useCollection,
   useCollectionEntry,
@@ -27,12 +31,16 @@ import { ActivityItemMenu } from "@/components/activity/ActivityItemMenu.tsx";
  * Variant of the ActivityItem component for mobile.
  * @constructor
  */
-const MobileActivityItem = ({ activity }: ActivityItemProps) => {
+const MobileActivityItem = ({
+  activity,
+  variant = "default",
+}: ActivityItemProps) => {
   const router = useRouter();
 
   const [menuOpened, menuUtils] = useDisclosure();
   const [commentsOpened, commentsUtils] = useDisclosure();
   const bind = useLongPress(() => {
+    if (variant !== "card") return;
     menuUtils.open();
   });
   const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
@@ -115,38 +123,60 @@ const MobileActivityItem = ({ activity }: ActivityItemProps) => {
         </Menu.Dropdown>
         <Menu.Target>
           <Group
-            className={
-              "bg-[#1D1D1D] w-full items-center flex-nowrap p-2 relative ion-activatable rounded"
-            }
-            onClick={() => {
-              router.push(
-                reviewQuery.data
-                  ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
-                  : `/game/${gameId}`,
-              );
-            }}
+            className={cn(
+              "w-full items-center flex-nowrap p-2 relative ion-activatable rounded",
+              {
+                "bg-paper-2": variant === "card",
+              },
+            )}
           >
-            <IonRippleEffect />
-            <Group className={"w-2/4 items-center flex-nowrap"}>
-              <UserAvatar userId={activity.profileUserId} size={"lg"} />
+            {variant === "card" && <IonRippleEffect />}
+            <Link
+              href={`/profile/${activity.profileUserId}`}
+              className={"flex w-28 items-center flex-nowrap gap-2"}
+            >
+              <UserAvatar userId={activity.profileUserId} size={"md"} />
               <Stack className={"gap-xs"}>
-                <Text className={"text-xs text-[#808080] line-clamp-2"}>
+                <Text
+                  className={cn({
+                    "text-xs text-[#808080] line-clamp-2": variant === "card",
+                    "font-bold text-sm": variant === "default",
+                  })}
+                >
                   {profileQuery.data?.username}
                 </Text>
-                <Text className={"text-xs font-bold line-clamp-2"}>
-                  {actionText}
-                </Text>
-              </Stack>
-            </Group>
-            <Group className={"ms-auto flex-nowrap"}>
-              <Stack className={"gap-xs w-36 items-center"}>
-                <Text className={"font-bold text-sm text-center"}>
-                  {gameQuery.data?.name}
-                </Text>
-                {reviewQuery.data && (
-                  <GameRating value={reviewQuery.data.rating} size={"sm"} />
+                {variant === "card" && (
+                  <Text className={"text-xs font-bold"}>{actionText}</Text>
                 )}
               </Stack>
+            </Link>
+            <Link
+              href={
+                reviewQuery.data
+                  ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
+                  : `/game/${gameId}`
+              }
+              className={cn("flex flex-col w-fit items-center", {
+                "mx-auto gap-1": variant === "default",
+                "ms-auto items-center": variant === "card",
+              })}
+            >
+              {variant === "default" && (
+                <Text className={"text-xs text-dimmed"}>{actionText}</Text>
+              )}
+              <Text className={"font-bold text-sm text-center"}>
+                {gameQuery.data?.name}
+              </Text>
+              {variant === "card" && reviewQuery.data && (
+                <GameRating size={"sm"} value={reviewQuery.data.rating} />
+              )}
+            </Link>
+
+            <Group className={"flex-nowrap gap-1 items-start"}>
+              {variant === "default" && (
+                <ActivityItemComments activity={activity} />
+              )}
+              <ActivityItemLikes activity={activity} />
             </Group>
           </Group>
         </Menu.Target>

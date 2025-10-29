@@ -10,7 +10,7 @@ import { AppPage } from "@/components/general/AppPage";
 
 const PreferencesPage = () => {
   return (
-    <AppPage withSearch={false} withMenuButton>
+    <AppPage withSearch={false}>
       <SessionAuth>
         <Stack className={"mb-4 p-0"}>
           <IonList className={"pt-0"}>

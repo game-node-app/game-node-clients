@@ -3,7 +3,7 @@ import {
   useComments,
   UseCommentsProps,
 } from "#@/components/comment/hooks/useComments";
-import { IconMessages } from "@tabler/icons-react";
+import { IconMessageCircle, IconMessages } from "@tabler/icons-react";
 import { ActionIcon, Text } from "@mantine/core";
 
 interface Props extends Omit<UseCommentsProps, "enabled"> {
@@ -38,7 +38,7 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
       color={"white"}
       loading={commentsQuery.isLoading}
     >
-      <IconMessages className={"me-0.5"} />
+      <IconMessageCircle className={"me-0.5"} />
       {totalCommentsCount > 0 && <Text>{totalCommentsCount}</Text>}
     </ActionIcon>
   );

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { Skeleton, Stack } from "@mantine/core";
 import {
   ActivityFeedTabValue,
-  ActivityList,
+  ActivityItem,
   CenteredErrorMessage,
   InfiniteLoaderChildren,
   useInfiniteActivities,
@@ -55,7 +55,14 @@ const ActivityFeed = ({ criteria, children }: Props) => {
         />
       )}
 
-      <ActivityList items={items} />
+      {items?.map((activity) => (
+        <ActivityItem
+          key={activity.id}
+          activity={activity}
+          withUserAvatar
+          variant={"default"}
+        />
+      ))}
 
       {children({
         fetchNextPage: async () => {

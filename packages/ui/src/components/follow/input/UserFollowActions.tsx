@@ -11,22 +11,15 @@ import { IconX } from "@tabler/icons-react";
 
 interface Props {
   targetUserId: string;
-  withUnfollowButton?: boolean;
 }
 
-const UserFollowActions = ({
-  targetUserId,
-  withUnfollowButton = true,
-}: Props) => {
+const UserFollowActions = ({ targetUserId }: Props) => {
   const ownUserId = useUserId();
   /*
     Checks if current logged-in user is following target user
      */
   const ownToTargetFollowStatus = useFollowStatus(ownUserId, targetUserId);
   const isFollowing = ownToTargetFollowStatus.data?.isFollowing ?? false;
-
-  const shouldShowFollowButton =
-    ownUserId != undefined && ownUserId !== targetUserId;
 
   const followMutation = useMutation({
     mutationFn: async (action: "register" | "remove") => {
@@ -54,28 +47,14 @@ const UserFollowActions = ({
   return (
     <Group className={"flex-nowrap w-fit"}>
       <Button
-        disabled={isFollowing}
+        variant={"default"}
         loading={followMutation.isPending}
         onClick={() => {
-          followMutation.mutate("register");
+          followMutation.mutate(isFollowing ? "remove" : "register");
         }}
       >
-        {isFollowing ? "Following" : "Follow"}
+        {isFollowing ? "Unfollow" : "Follow"}
       </Button>
-      {isFollowing && withUnfollowButton && (
-        <Tooltip label={"Unfollow this user"}>
-          <ActionIcon
-            loading={followMutation.isPending}
-            variant="default"
-            size="lg"
-            onClick={() => {
-              followMutation.mutate("remove");
-            }}
-          >
-            <IconX color="red" />
-          </ActionIcon>
-        </Tooltip>
-      )}
     </Group>
   );
 };

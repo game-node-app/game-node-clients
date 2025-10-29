@@ -8,11 +8,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 import {
-  EMatomoEventAction,
-  EMatomoEventCategory,
-  trackMatomoEvent,
-} from "@/util/trackMatomoEvent";
-import {
   Break,
   GameInfoReviewEditor,
   GameRating,
@@ -71,19 +66,6 @@ const GameInfoReviewEditorView = ({
             : "Review created!",
         color: "green",
       });
-      if (reviewQuery.data) {
-        trackMatomoEvent(
-          EMatomoEventCategory.Review,
-          EMatomoEventAction.Update,
-          "Updated a review",
-        );
-      } else {
-        trackMatomoEvent(
-          EMatomoEventCategory.Review,
-          EMatomoEventAction.Create,
-          "Created a review",
-        );
-      }
     },
     onError: () => {
       notifications.show({
@@ -198,4 +180,4 @@ const GameInfoReviewEditorView = ({
   );
 };
 
-export default GameInfoReviewEditorView;
+export { GameInfoReviewEditorView };
