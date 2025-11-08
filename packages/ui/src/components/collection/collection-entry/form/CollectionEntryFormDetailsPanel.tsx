@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import {
+  CollectionEntryPlatformSelect,
   CollectionEntryStatusSelect,
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameFigureImage,
@@ -96,7 +97,6 @@ const CollectionEntryFormDetailsPanel = ({
     return buildPlatformsOptions(gamePlatformsQuery.data);
   }, [game, gamePlatformsQuery.data]);
 
-  const platformsIdsValue = watch("platformsIds", []);
   const collectionsIdsValue = watch("collectionIds", []);
   const finishedAtDate = watch("finishedAt");
   const status = watch("status");
@@ -122,10 +122,7 @@ const CollectionEntryFormDetailsPanel = ({
           (platform) => platform.id,
         );
         const uniquePlatformIds = Array.from(new Set(platformIds));
-        setValue(
-          "platformsIds",
-          uniquePlatformIds.map((v) => `${v}`),
-        );
+        setValue("platformsIds", uniquePlatformIds);
       }
       setValue("collectionIds", collectionIds);
     }
@@ -144,22 +141,7 @@ const CollectionEntryFormDetailsPanel = ({
       />
       <Stack className={"w-full items-start gap-2 h-full lg:w-1/2"}>
         <Title size={"h5"}>{game?.name}</Title>
-        <MultiSelect
-          {...register("platformsIds")}
-          value={platformsIdsValue || []}
-          className={"w-full"}
-          data={platformOptions}
-          onChange={(value) => {
-            setValue("platformsIds", value);
-          }}
-          searchable
-          placeholder={"Select platforms"}
-          label={"Platforms"}
-          error={errors.platformsIds?.message}
-          withAsterisk
-          limit={20}
-          description={"You can search for a platform by typing it's name"}
-        />
+        <CollectionEntryPlatformSelect gameId={gameId} />
         <MultiSelect
           {...register("collectionIds")}
           value={collectionsIdsValue}

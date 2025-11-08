@@ -4,3 +4,4 @@
 
 export * from "./account/index";
 export * from "./connections/index";
+export * from "./library/index";

@@ -11,6 +11,7 @@ import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useRouter } from "#@/util";
 import { PreferencesAccountScreen } from "#@/components";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { PreferencesLibraryScreen } from "#@/components/preferences/categories/PreferencesLibraryScreen";
 
 interface Props {
   category: PreferencesActiveCategory;
@@ -31,6 +32,8 @@ const PreferencesScreen = ({ category }: Props) => {
         return <PreferencesConnectionsScreen />;
       case "account":
         return <PreferencesAccountScreen />;
+      case "library":
+        return <PreferencesLibraryScreen />;
 
       default:
         return <CenteredLoading />;
@@ -39,33 +42,32 @@ const PreferencesScreen = ({ category }: Props) => {
 
   return (
     <SessionAuth>
-      <Stack className={"justify-center items-center w-full relative"}>
-        <Paper className={"w-full lg:w-[90vw]  mt-8 relative"}>
-          <Group
-            wrap={"wrap"}
-            h={"fit-content"}
-            className={"w-full items-start wrap"}
-            gap={0}
-          >
-            <Stack className={"w-full lg:w-1/5 lg:mt-12 lg:mb-12"}>
-              {onMobile ? (
-                <PreferencesScreenSelector
-                  activeCategory={category}
-                  onChange={onCategoryChange}
-                />
-              ) : (
-                <PreferencesScreenSideBar
-                  activeItem={category}
-                  onChange={onCategoryChange}
-                />
-              )}
-            </Stack>
-            {!onMobile && <Divider orientation={"vertical"} />}
-            <Stack className={"w-full h-full lg:w-9/12 lg:mt-4 lg:ms-4"}>
-              {render()}
-            </Stack>
-          </Group>
-        </Paper>
+      <Stack
+        className={"justify-start items-center w-full relative min-h-screen"}
+      >
+        <Group
+          wrap={"wrap"}
+          className={"w-full h-full items-start wrap lg:w-[90vw] mt-8 relative"}
+          gap={0}
+        >
+          <Stack className={"w-full lg:w-1/5 lg:mt-12 lg:mb-12"}>
+            {onMobile ? (
+              <PreferencesScreenSelector
+                activeCategory={category}
+                onChange={onCategoryChange}
+              />
+            ) : (
+              <PreferencesScreenSideBar
+                activeItem={category}
+                onChange={onCategoryChange}
+              />
+            )}
+          </Stack>
+          {!onMobile && <Divider orientation={"vertical"} />}
+          <Stack className={"w-full h-full lg:w-9/12 lg:mt-4 lg:ms-4"}>
+            {render()}
+          </Stack>
+        </Group>
       </Stack>
     </SessionAuth>
   );

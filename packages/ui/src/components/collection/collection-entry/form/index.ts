@@ -8,5 +8,6 @@ export * from "./CollectionEntryFormDetailsPanel";
 export * from "./CollectionEntryFormDlcsPanel";
 export * from "./CollectionEntryFormPanels";
 export * from "./CollectionEntryFormReviewPanel";
+export * from "./CollectionEntryPlatformSelect";
 export * from "./CollectionEntryStatusSelect";
 export * from "./modal/index";

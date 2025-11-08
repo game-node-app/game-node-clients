@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Box, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
 
-export type PreferencesActiveCategory = "connections" | "account";
+export type PreferencesActiveCategory = "connections" | "account" | "library";
 
 interface PreferencesCategory {
   name: string;
@@ -22,6 +22,10 @@ export const PREFERENCES_SCREEN_CATEGORIES: PreferencesCategory[] = [
   {
     name: "Account",
     activeCategoryName: "account",
+  },
+  {
+    name: "Library",
+    activeCategoryName: "library",
   },
 ];
 

@@ -11,43 +11,20 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- activity item improvements for web version">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- cleanup&#10;- profile screen redesign for mobile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/activity/MobileActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/activity/MobileActivityItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/explore/ExploreActivityPageView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/explore/ExplorePostsPageView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/explore/explore.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/figure/GameGridItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/figure/GameListItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/figure/GameListItemWithSwipe.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/MobileGameInfoActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/game/info/MobileGameInfoActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/fab/GameInfoViewFab.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/review/GameInfoReviewScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/review/editor/GameInfoReviewCreateUpdateModal.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/review/editor/GameInfoReviewEditorView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/game/info/share/GameInfoShareModal.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/explore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/explore.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/game.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/game.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/preferences.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/preferences.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/game/info/review/GameInfoReviewScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/game/info/review/GameInfoReviewScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/game/info/review/editor/GameInfoReviewEditorView.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/game/[id]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/game/[id]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/ActivityFeed.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/ActivityFeed.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/ActivityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/ActivityList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/RecentActivityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/RecentActivityList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/comment/input/ItemCommentsButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/comment/input/ItemCommentsButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/editor/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/editor/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/input/ItemDropdown/ItemDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/input/ItemDropdown/ItemDropdown.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserRecentGames.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserRecentGames.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoWithBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileUserInfoWithBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/pages/ProfileViewMainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/pages/ProfileViewMainPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDetailsPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDetailsPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreenSideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreenSideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/categories/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/categories/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,67 +75,67 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Docker Image.executor": "Run",
-    "Docker.web/Dockerfile.executor": "Run",
-    "Docker.web: Compose Deployment.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SHELLCHECK.PATH": "/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "js.last.introduce.type": "CONST",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/cassio/Projects/game-node-clients/packages/ui/src/components/game/info/review",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "yarn",
-    "npm.desktop > tauri dev .executor": "Run",
-    "npm.desktop > tauri:dev.executor": "Run",
-    "npm.dev:admin.executor": "Run",
-    "npm.dev:mobile.executor": "Run",
-    "npm.dev:web.executor": "Run",
-    "npm.ui > barrels:generate.executor": "Run",
-    "npm.web > build.executor": "Run",
-    "npm.web > lint.executor": "Run",
-    "npm.web > lint:fix.executor": "Run",
-    "npm.wrapper:generate (1).executor": "Run",
-    "npm.wrapper:generate.executor": "Run",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "prettierjs.PrettierConfiguration.Package": "/home/cassio/Projects/game-node-clients/node_modules/prettier",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.completions.CompletionsConfigurable",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "/home/cassio/Projects/game-node-clients/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients/packages/ui/src/components/game/info/review&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.desktop &gt; tauri dev .executor&quot;: &quot;Run&quot;,
+    &quot;npm.desktop &gt; tauri:dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:admin.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:mobile.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:web.executor&quot;: &quot;Run&quot;,
+    &quot;npm.ui &gt; barrels:generate.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint:fix.executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate.executor&quot;: &quot;Run&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/prettier&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.completions.CompletionsConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Shell Script",
-      "TEXT",
-      "JSON"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;,
+      &quot;TEXT&quot;,
+      &quot;JSON&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/info/review" />
@@ -168,11 +145,11 @@
       <recent name="$PROJECT_DIR$/packages/analytics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view" />
       <recent name="$PROJECT_DIR$/apps/desktop/src-tauri/src/db/entity" />
       <recent name="$PROJECT_DIR$/apps/desktop/src/components/local-game" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/view/layout" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/view/dnd/item" />
-      <recent name="$PROJECT_DIR$/apps/mobile/src/pages/library" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
@@ -352,15 +329,13 @@
       <workItem from="1761694207398" duration="37000" />
       <workItem from="1761694278214" duration="679000" />
       <workItem from="1761695187031" duration="145000" />
-      <workItem from="1761695743605" duration="5829000" />
-    </task>
-    <task id="LOCAL-00001" summary="- awards admin panel improvements&#10;- new presenters model for UI project">
-      <option name="closed" value="true" />
-      <created>1758243974316</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1758243974316</updated>
+      <workItem from="1761695743605" duration="5856000" />
+      <workItem from="1761777051824" duration="1395000" />
+      <workItem from="1761874719493" duration="657000" />
+      <workItem from="1761964212891" duration="1198000" />
+      <workItem from="1762048658105" duration="610000" />
+      <workItem from="1762468488215" duration="7169000" />
+      <workItem from="1762565911012" duration="3449000" />
     </task>
     <task id="LOCAL-00002" summary="- type module for tailwind config">
       <option name="closed" value="true" />
@@ -746,7 +721,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761623923147</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="- cleanup&#10;- profile screen redesign for mobile">
+      <option name="closed" value="true" />
+      <created>1761702141824</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1761702141824</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -785,7 +768,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- enables react compiler for nextjs projects" />
     <MESSAGE value="- adds posthog instrumentation for web client and updates privacy notice" />
     <MESSAGE value="- posthog for mobile client" />
     <MESSAGE value="- collection ordering modal and etc" />
@@ -810,7 +792,8 @@
     <MESSAGE value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
     <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
     <MESSAGE value="- activity item improvements for web version" />
-    <option name="LAST_COMMIT_MESSAGE" value="- activity item improvements for web version" />
+    <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
+    <option name="LAST_COMMIT_MESSAGE" value="- cleanup&#10;- profile screen redesign for mobile" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

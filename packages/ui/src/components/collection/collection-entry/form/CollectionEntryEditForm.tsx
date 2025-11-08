@@ -42,7 +42,7 @@ const GameAddOrUpdateSchema = z.object({
   ),
   platformsIds: z
     .array(
-      z.string({
+      z.number({
         error: "Select at least one platform.",
       }),
       {
@@ -71,12 +71,7 @@ export interface IGameAddFormProps extends BaseModalChildrenProps {
 /**
  * A component that handles the creation or editing of a collection entry for a game in the user's library.
  * It allows users to select collections, platforms, update statuses, set completion dates, and save the game to their library.
- * The component manages form behavior, validation, and submission logic, and synchronizes with the backend and local state.
  *
- * Props:
- * - `gameId` (string): The ID of the game to create or update a collection entry for.
- * - `showGameInfo` (boolean, optional): Boolean flag to indicate if game details such as the cover image should be displayed. Default is set to `true`.
- * - `onClose` (function, optional): Callback function invoked when the form is closed or successfully submitted.
  */
 const CollectionEntryEditForm = ({
   gameId,
@@ -146,13 +141,12 @@ const CollectionEntryEditForm = ({
   const collectionEntryMutation = useMutation({
     mutationFn: async (data: TGameAddOrUpdateValues) => {
       const collectionIds = data.collectionIds;
-      const parsedPlatformIds = data.platformsIds.map((id) => parseInt(id));
 
       await CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
         {
           collectionIds: collectionIds,
           gameId: gameId,
-          platformIds: parsedPlatformIds,
+          platformIds: data.platformsIds,
           finishedAt:
             data.finishedAt instanceof Date
               ? data.finishedAt.toISOString()

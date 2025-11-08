@@ -21,6 +21,7 @@ export * from "./notifications/index";
 export * from "./playtime/index";
 export * from "./posts/index";
 export * from "./preferences/index";
+export * from "./preferred-platform/index";
 export * from "./profile/index";
 export * from "./recommendation/index";
 export * from "./report/index";

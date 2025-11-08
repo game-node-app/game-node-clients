@@ -4,3 +4,4 @@
 
 export * from "./PreferencesAccountScreen";
 export * from "./PreferencesConnectionsScreen";
+export * from "./PreferencesLibraryScreen";
