@@ -14,7 +14,7 @@ import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
   CenteredErrorMessage,
   CenteredLoading,
-  ImporterItem,
+  ImporterPlatform,
   useOwnUserConnections,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
@@ -55,7 +55,7 @@ const ImporterPage = () => {
           <Group className={"w-full gap-5 justify-center"}>
             {importerUsableConnections?.map((connection) => {
               return (
-                <ImporterItem key={connection.id} connection={connection} />
+                <ImporterPlatform key={connection.id} connection={connection} />
               );
             })}
           </Group>

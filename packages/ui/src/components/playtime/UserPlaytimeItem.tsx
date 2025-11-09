@@ -55,16 +55,19 @@ const UserPlaytimeItem = ({ playtime, variant = "detailed" }: Props) => {
       )}
       <Group className={"w-full h-full relative z-20 items-center flex-nowrap"}>
         {withTitle && (
-          <Stack className={"w-fit max-w-32 items-start justify-center h-full"}>
-            <Link
-              href={`/game/${gameQuery.data?.id}`}
-              className={"flex flex-nowrap max-w-28"}
-            >
-              <Title className={"text-sm lg:text-md text-center"}>
-                {gameQuery.data?.name}
-              </Title>
-            </Link>
-          </Stack>
+          <Link
+            href={`/game/${gameQuery.data?.id}`}
+            className={cn(
+              "flex flex-nowrap w-32 items-center justify-center h-full",
+              {
+                "w-24": variant === "detailed",
+              },
+            )}
+          >
+            <Title className={"text-sm lg:text-md text-center line-clamp-2"}>
+              {gameQuery.data?.name}
+            </Title>
+          </Link>
         )}
         <Group
           className={

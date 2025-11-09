@@ -162,9 +162,11 @@ const MobileActivityItem = ({
               })}
             >
               {variant === "default" && (
-                <Text className={"text-xs text-dimmed"}>{actionText}</Text>
+                <Text className={"text-xs text-dimmed text-center"}>
+                  {actionText}
+                </Text>
               )}
-              <Text className={"font-bold text-sm text-center"}>
+              <Text className={"font-bold text-sm text-center line-clamp-2"}>
                 {gameQuery.data?.name}
               </Text>
               {variant === "card" && reviewQuery.data && (

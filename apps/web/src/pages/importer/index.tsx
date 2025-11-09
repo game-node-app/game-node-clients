@@ -4,7 +4,7 @@ import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
   CenteredErrorMessage,
   CenteredLoading,
-  ImporterItem,
+  ImporterPlatform,
   TextLink,
   useOwnUserConnections,
 } from "@repo/ui";
@@ -49,7 +49,10 @@ const Index = () => {
             <Group className={"w-full gap-5 justify-center"}>
               {importerUsableConnections?.map((connection) => {
                 return (
-                  <ImporterItem key={connection.id} connection={connection} />
+                  <ImporterPlatform
+                    key={connection.id}
+                    connection={connection}
+                  />
                 );
               })}
             </Group>

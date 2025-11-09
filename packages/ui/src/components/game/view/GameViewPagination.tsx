@@ -22,9 +22,14 @@ const GameViewPagination = ({
   wrapperProps,
   ...others
 }: IGameViewPaginationProps) => {
+  const totalPages = paginationInfo?.totalPages || 1;
+  const withEdges = totalPages > 3;
+
   return (
     <Center w={"100%"} {...wrapperProps}>
       <Pagination
+        withEdges={withEdges}
+        siblings={1}
         {...others}
         value={page || 1}
         total={paginationInfo?.totalPages || 1}

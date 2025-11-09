@@ -31,6 +31,7 @@ import {
   useUserId,
 } from "#@/components";
 import status = CreateUpdateCollectionEntryDto.status;
+import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
 
 const ImporterFormSchema = z.object({
   selectedCollectionIds: z.array(z.string()),
@@ -170,8 +171,11 @@ const ImporterScreen = ({ source }: Props) => {
             return externalGame.gameId === selectedGameId;
           },
         );
+        const targetGame = gamesQuery.data?.find((game) => {
+          return game.id === selectedGameId;
+        });
 
-        if (!importerItem) {
+        if (!importerItem || !targetGame) {
           throw new Error(
             "Error while inserting game. Invalid external game ID. Please contact support.",
           );
@@ -194,10 +198,24 @@ const ImporterScreen = ({ source }: Props) => {
 
       return importedGameIds.length;
     },
-    onSuccess: (importedGamesCount) => {
-      notifications.show({
+    onMutate: () => {
+      return notifications.show({
+        loading: true,
+        message: "Applying changes...",
+        autoClose: false,
+        withCloseButton: false,
+      });
+    },
+    onSuccess: (importedGamesCount, _variables, notificationId) => {
+      notifications.update({
+        id: notificationId,
         color: "green",
         message: `Successfully imported ${importedGamesCount} games to your library!`,
+        title: "Changes applied!",
+        icon: <IconCheck size={18} />,
+        loading: false,
+        autoClose: 4000,
+        withCloseButton: true,
       });
       resetSelectedGames();
     },
@@ -205,10 +223,16 @@ const ImporterScreen = ({ source }: Props) => {
       importerEntriesQuery.invalidate();
       gamesQuery.invalidate();
     },
-    onError: (err) => {
-      notifications.show({
+    onError: (err, _variables, notificationId) => {
+      notifications.update({
+        id: notificationId,
         color: "red",
-        message: `Error while importing games: ${err.message}`,
+        title: "Failed to sync changes!",
+        message: getErrorMessage(err),
+        loading: false,
+        autoClose: 10000,
+        withCloseButton: true,
+        icon: <IconExclamationCircle size={18} />,
       });
     },
   });
@@ -216,7 +240,7 @@ const ImporterScreen = ({ source }: Props) => {
   return (
     <Flex justify={"center"} p={0} wrap={"wrap"}>
       <form
-        className={"w-full flex flex-col w-full lg:w-10/12 p-4"}
+        className={"w-full flex flex-col lg:w-10/12 p-4"}
         onSubmit={handleSubmit((data) => {
           importMutation.mutate(data);
         })}
@@ -241,7 +265,9 @@ const ImporterScreen = ({ source }: Props) => {
                 setValue("selectedCollectionIds", values);
               }}
               error={errors.selectedCollectionIds?.message}
-              description={"Optional"}
+              description={
+                "Optional. Select collections to add the imported games to."
+              }
             />
           </Stack>
           <Center w={"100%"}>

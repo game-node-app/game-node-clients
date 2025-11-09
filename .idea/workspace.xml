@@ -11,20 +11,18 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- cleanup&#10;- profile screen redesign for mobile">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- draggable preferred platform view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDetailsPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDetailsPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreenSideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/PreferencesScreenSideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/categories/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/categories/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/activity/MobileActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/activity/MobileActivityItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/general/LinkWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/general/LinkWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/importer/importer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/importer/importer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewPagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewPagination.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterPlatform.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/importer/view/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/importer/view/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserPlaytimeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/playtime/UserPlaytimeItem.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +154,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.ui &gt; barrels:generate">
+  <component name="RunManager" selected="npm.dev:mobile">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -335,15 +333,8 @@
       <workItem from="1761964212891" duration="1198000" />
       <workItem from="1762048658105" duration="610000" />
       <workItem from="1762468488215" duration="7169000" />
-      <workItem from="1762565911012" duration="3449000" />
-    </task>
-    <task id="LOCAL-00002" summary="- type module for tailwind config">
-      <option name="closed" value="true" />
-      <created>1758300228377</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1758300228377</updated>
+      <workItem from="1762565911012" duration="3745000" />
+      <workItem from="1762702151727" duration="4765000" />
     </task>
     <task id="LOCAL-00003" summary="- type module for tailwind config">
       <option name="closed" value="true" />
@@ -729,7 +720,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761702141824</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="- draggable preferred platform view">
+      <option name="closed" value="true" />
+      <created>1762570017907</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1762570017907</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -768,7 +767,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- adds posthog instrumentation for web client and updates privacy notice" />
     <MESSAGE value="- posthog for mobile client" />
     <MESSAGE value="- collection ordering modal and etc" />
     <MESSAGE value="- changes ordering update form to a queue like system" />
@@ -793,7 +791,8 @@
     <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
     <MESSAGE value="- activity item improvements for web version" />
     <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
-    <option name="LAST_COMMIT_MESSAGE" value="- cleanup&#10;- profile screen redesign for mobile" />
+    <MESSAGE value="- draggable preferred platform view" />
+    <option name="LAST_COMMIT_MESSAGE" value="- draggable preferred platform view" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
