@@ -5,22 +5,19 @@ import {
   IonRefresherContent,
 } from "@ionic/react";
 import React, { useRef } from "react";
-import { Button, SimpleGrid, Stack, Title } from "@mantine/core";
+import { Button, Stack, Title } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DetailsBox,
   DynamicAwardsOverview,
   InfiniteLoaderProps,
-  Period,
   PostsFeed,
-  ProfileStatsForPeriod,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   TrendingGamesList,
   TrendingReviewCarousel,
-  UserRecentStatsReport,
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
@@ -75,7 +72,6 @@ const HomePage = () => {
       <Stack className={"w-full gap-8 my-4"}>
         {userId && <RecommendationCarousel criteria={"finished"} />}
         <TrendingGamesList />
-        <UserRecentStatsReport />
         <TrendingReviewCarousel
           slideSize={210}
           height={260}

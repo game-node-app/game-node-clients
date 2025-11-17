@@ -1,20 +1,17 @@
 import React from "react";
-import { Box, Center, Group, Space, Stack, Title } from "@mantine/core";
+import { Box, Center, Stack, Title } from "@mantine/core";
 import {
-  AwardsEventOverview,
   BackToTopButton,
   buildGameCategoryFilters,
   CenteredErrorMessage,
   DetailsBox,
   DynamicAwardsOverview,
   GameSearchBar,
-  GameSearchRequestDto,
   GameSearchTips,
   GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
-  getOffsetAsPage,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
@@ -23,7 +20,6 @@ import {
   SimpleInfiniteLoader,
   TrendingGamesList,
   TrendingReviewCarousel,
-  UserRecentStatsReport,
   useSearchGames,
   useUrlState,
   useUserId,
@@ -118,7 +114,6 @@ const Index = () => {
             gap={"5rem"}
           >
             <TrendingGamesList />
-            <UserRecentStatsReport />
             {userId && <RecommendationCarousel criteria="finished" />}
             <TrendingReviewCarousel />
             <DynamicAwardsOverview />

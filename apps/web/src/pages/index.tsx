@@ -1,7 +1,19 @@
 import { Anchor, Box, Paper, Stack, Text } from "@mantine/core";
 import { LandingHeader } from "@/components/general/header/LandingHeader";
+import { useEffect } from "react";
+import { useUserId } from "@repo/ui";
+import { useRouter } from "next/router";
 
 const Home = () => {
+  const userId = useUserId();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userId) {
+      router.push("/search");
+    }
+  }, [router, userId]);
+
   return (
     <>
       <LandingHeader />
