@@ -11,11 +11,8 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- preferred platforms changes">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- type fixes">
       <change beforePath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryPlaytimeTracker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryPlaytimeTracker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowGroup.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,15 +328,7 @@
       <workItem from="1762785419421" duration="7422000" />
       <workItem from="1763219301085" duration="9235000" />
       <workItem from="1763320009794" duration="79000" />
-      <workItem from="1763399387974" duration="832000" />
-    </task>
-    <task id="LOCAL-00005" summary="- awards service changes">
-      <option name="closed" value="true" />
-      <created>1758770526594</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758770526594</updated>
+      <workItem from="1763399387974" duration="1250000" />
     </task>
     <task id="LOCAL-00006" summary="- awards share screen">
       <option name="closed" value="true" />
@@ -725,7 +714,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763399824338</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="- type fixes">
+      <option name="closed" value="true" />
+      <created>1763400281495</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1763400281495</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -764,7 +761,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- changes ordering update form to a queue like system" />
     <MESSAGE value="- finishing touches in ordering form&#10;- react compiler" />
     <MESSAGE value="- eslint issues" />
     <MESSAGE value="- fixes wrong infinite loading logic" />
@@ -789,7 +785,8 @@
     <MESSAGE value="- draggable preferred platform view" />
     <MESSAGE value="- importer system improvements" />
     <MESSAGE value="- preferred platforms changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- preferred platforms changes" />
+    <MESSAGE value="- type fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="- type fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
