@@ -36,8 +36,7 @@ const CollectionEntryPlaytimeTracker = ({
       <UserPlaytimeItem
         key={playtime.id}
         playtime={playtime}
-        withBackground={false}
-        withTitle={false}
+        variant={"detailed"}
       />
     ));
   }, [playtimes]);

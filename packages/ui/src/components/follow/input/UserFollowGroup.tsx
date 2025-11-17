@@ -17,7 +17,7 @@ const UserFollowGroup = ({ userId, ...groupProps }: Props) => {
           wrap: "nowrap",
         }}
       />
-      <UserFollowActions targetUserId={userId} withUnfollowButton={false} />
+      <UserFollowActions targetUserId={userId} />
     </Group>
   );
 };

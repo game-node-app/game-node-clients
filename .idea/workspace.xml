@@ -11,39 +11,11 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- importer system improvements">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- preferred platforms changes">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/general/ScrollableIonContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/general/ScrollableIonContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/preferences/connections/PreferencesConnectionItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/preferences/connections/PreferencesConnectionItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/preferences/library/PreferencesLibraryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/preferences/library/PreferencesLibraryItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/preferences/profile/PreferencesProfileItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/preferences/profile/PreferencesProfileItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/preferences.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/preferences.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/profile/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/profile/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/header/HeaderCustom.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/config-typescript/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-typescript/base.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/category/AwardsEventCategory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/category/AwardsEventCategory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/figure/AwardsCategoryGameFigure.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/figure/AwardsCategoryGameFigure.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsEventVoteScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsEventVoteScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesShareButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesShareButtons.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryPlatformSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryPlatformSelect.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/GameInfoReviewList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/review/GameInfoReviewList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/library/view/LibraryViewLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/library/view/LibraryViewLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/library/EditPreferredPlatformForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/library/EditPreferredPlatformForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformsView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformsViewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view/PreferredPlatformsViewModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryPlaytimeTracker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryPlaytimeTracker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/follow/input/UserFollowGroup.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -359,15 +331,7 @@
       <workItem from="1762785419421" duration="7422000" />
       <workItem from="1763219301085" duration="9235000" />
       <workItem from="1763320009794" duration="79000" />
-      <workItem from="1763399387974" duration="407000" />
-    </task>
-    <task id="LOCAL-00004" summary="- type module for tailwind config">
-      <option name="closed" value="true" />
-      <created>1758300369130</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1758300369130</updated>
+      <workItem from="1763399387974" duration="832000" />
     </task>
     <task id="LOCAL-00005" summary="- awards service changes">
       <option name="closed" value="true" />
@@ -753,7 +717,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762725709184</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="- preferred platforms changes">
+      <option name="closed" value="true" />
+      <created>1763399824337</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1763399824338</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -792,7 +764,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- collection ordering modal and etc" />
     <MESSAGE value="- changes ordering update form to a queue like system" />
     <MESSAGE value="- finishing touches in ordering form&#10;- react compiler" />
     <MESSAGE value="- eslint issues" />
@@ -817,7 +788,8 @@
     <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
     <MESSAGE value="- draggable preferred platform view" />
     <MESSAGE value="- importer system improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="- importer system improvements" />
+    <MESSAGE value="- preferred platforms changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="- preferred platforms changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
