@@ -1,11 +1,10 @@
 import { Anchor, Box, Paper, Stack, Text } from "@mantine/core";
-import HeaderCustom from "@/components/header/HeaderCustom.tsx";
+import { LandingHeader } from "@/components/general/header/LandingHeader";
 
 const Home = () => {
   return (
     <>
-      <HeaderCustom />
-
+      <LandingHeader />
       <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
         <Box>
           <h1 className="text-center font-bold text-3xl lg:text-6xl lg:leading-[4.6rem]">

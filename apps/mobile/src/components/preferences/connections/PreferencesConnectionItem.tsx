@@ -42,6 +42,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
         <Image
           alt={"Connection icon"}
           src={getServerStoredIcon(type.valueOf())}
+          className="object-contain"
           w={28}
           h={28}
         />

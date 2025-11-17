@@ -4,7 +4,7 @@
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { Link } from "react-router-dom";
 import React, { MouseEventHandler } from "react";
-import { Group, GroupProps, Text } from "@mantine/core";
+import { Group, GroupProps, Text, TextProps } from "@mantine/core";
 import { cn } from "@repo/ui";
 import { IonRippleEffect } from "@ionic/react";
 import { IconProps } from "@tabler/icons-react";
@@ -17,6 +17,8 @@ interface Props extends Omit<GroupProps, "onClick"> {
    */
   href: string;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
+  iconProps?: IconProps;
+  textProps?: TextProps;
 }
 
 const MobileSidebarButton = ({
@@ -24,6 +26,8 @@ const MobileSidebarButton = ({
   onClick,
   Icon,
   href,
+  iconProps,
+  textProps,
   ...others
 }: Props) => {
   return (
@@ -39,8 +43,12 @@ const MobileSidebarButton = ({
           others.className,
         )}
       >
-        <Icon size={24} color={"#E3E3E3"} />
-        <Text span className={"font-bold"}>
+        <Icon
+          size={24}
+          {...iconProps}
+          className={cn("text-[#E3E3E3]", iconProps?.className)}
+        />
+        <Text span {...textProps}>
           {title}
         </Text>
       </Group>

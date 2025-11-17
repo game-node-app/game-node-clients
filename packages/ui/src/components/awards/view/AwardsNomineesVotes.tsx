@@ -9,7 +9,7 @@ interface Props {
 
 const AwardsNomineesVotes = ({ eventId, userId }: Props) => {
   return (
-    <Box className={"mt-8 lg:w-screen xl:w-full"}>
+    <Box className={"mt-8"}>
       <AwardsVoteLayout
         eventId={eventId}
         userId={userId}

@@ -26,6 +26,9 @@ const AwardsNomineesShareButtons = ({
   onShare,
   ...others
 }: Props) => {
+  const host = window.location.host.includes("localhost")
+    ? window.location.host
+    : "gamenode.app";
   const ownUserId = useUserId();
   const { data: event } = useAwardEvent({ eventId });
 
@@ -48,7 +51,7 @@ const AwardsNomineesShareButtons = ({
       <Text className={"text-dimmed text-sm"}>Share your votes!</Text>
       <Group className={"w-full justify-center gap-6 flex-wrap"}>
         <CopyButton
-          value={`https://${window.location.host}/awards/${event.year}/nominees/${userId}`}
+          value={`https://${host}/awards/${event.year}/nominees/${userId}`}
         >
           {({ copied, copy }) => (
             <Button

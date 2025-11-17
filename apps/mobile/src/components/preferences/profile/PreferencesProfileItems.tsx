@@ -55,19 +55,6 @@ const PreferencesProfileItems = () => {
           <IonLabel>Edit profile details</IonLabel>
         </Group>
       </IonItem>
-      <IonItem
-        button
-        onClick={() => {
-          signOut().then(() => {
-            router.push("/home");
-          });
-        }}
-      >
-        <Group className={"gap-2"}>
-          <IconLogout2 />
-          <IonLabel>Sign out</IonLabel>
-        </Group>
-      </IonItem>
     </IonItemGroup>
   );
 };

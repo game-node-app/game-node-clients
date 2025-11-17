@@ -1,21 +1,15 @@
-import {
-  ActionIcon,
-  Burger,
-  Button,
-  Container,
-  Group,
-  Indicator,
-} from "@mantine/core";
+import { ActionIcon, Burger, Button, Container, Group } from "@mantine/core";
 import Link from "next/link";
 import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
 import {
   GameNodeLogo,
+  RecentlyPlayedGamesShare,
   useOnMobile,
   useUserId,
-  RecentlyPlayedGamesShare,
 } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCalendarWeek } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -26,6 +20,7 @@ export default function GlobalShellHeader({
   sidebarOpened,
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
+  const { pathname } = useRouter();
   const userId = useUserId();
 
   const onMobile = useOnMobile();

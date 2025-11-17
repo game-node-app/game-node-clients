@@ -1,16 +1,8 @@
 import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
   IonFab,
   IonFabButton,
-  IonHeader,
-  IonMenuButton,
-  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonTitle,
-  IonToolbar,
   useIonRouter,
 } from "@ionic/react";
 import React from "react";
@@ -25,7 +17,6 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -83,20 +74,6 @@ const ProfilePage = ({ userId }: Props) => {
         <IonRefresherContent />
       </IonRefresher>
       <SessionAuth requireAuth={userId == undefined}>
-        {isOwnProfile && (
-          <IonFab
-            slot="fixed"
-            horizontal="end"
-            vertical="bottom"
-            className={"me-2 mb-2"}
-          >
-            <Link to={getTabAwareHref("/preferences")}>
-              <IonFabButton>
-                <IconSettings />
-              </IonFabButton>
-            </Link>
-          </IonFab>
-        )}
         {profileQuery.isLoading && <CenteredLoading />}
         {userIdToUse && (
           <ProfileUserInfoWithBanner userId={userIdToUse}>

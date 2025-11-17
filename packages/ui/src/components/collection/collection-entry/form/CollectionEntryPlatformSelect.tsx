@@ -7,6 +7,7 @@ import {
   IGameAddFormProps,
   TextLink,
   TGameAddOrUpdateValues,
+  useActivePreferredPlatforms,
   useGame,
   useOwnCollectionEntryForGameId,
   usePreferredPlatforms,
@@ -29,7 +30,7 @@ const CollectionEntryPlatformSelect = ({
   const [preferredPlatformsModalOpened, preferredPlatformsModalUtils] =
     useDisclosure();
 
-  const { data: preferredPlatforms } = usePreferredPlatforms();
+  const { data: preferredPlatforms } = useActivePreferredPlatforms();
 
   /**
    * We re-use the default DTO here because the query is probably already cached for it at this point

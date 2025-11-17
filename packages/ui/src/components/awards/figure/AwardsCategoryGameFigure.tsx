@@ -9,10 +9,12 @@ import { IconDots, IconEdit } from "@tabler/icons-react";
 
 interface AwardsCategoryGameFigureProps extends IGameFigureImageProps {
   onEditClick: () => void;
+  isVotingPermitted?: boolean;
 }
 
 const AwardsCategoryGameFigure = ({
   onEditClick,
+  isVotingPermitted = false,
   ...others
 }: AwardsCategoryGameFigureProps) => {
   const onMobile = useOnMobile();
@@ -44,13 +46,15 @@ const AwardsCategoryGameFigure = ({
           />
           <Stack className={"relative h-full w-full p-2 z-10"}>
             <Flex className={"absolute top-1.5 right-1.5"}>
-              <ActionIcon
-                variant={"default"}
-                onClick={onEditClick}
-                className={"ms-auto z-20"}
-              >
-                <IconEdit size={24} />
-              </ActionIcon>
+              {isVotingPermitted && (
+                <ActionIcon
+                  variant={"default"}
+                  onClick={onEditClick}
+                  className={"ms-auto z-20"}
+                >
+                  <IconEdit size={24} />
+                </ActionIcon>
+              )}
             </Flex>
           </Stack>
         </Box>

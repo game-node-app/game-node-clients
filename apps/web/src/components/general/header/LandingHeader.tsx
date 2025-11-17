@@ -1,35 +1,28 @@
 import { Box, Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useUserId } from "@repo/ui";
+import { cn, useUserId } from "@repo/ui";
+import { useWindowScroll } from "@mantine/hooks";
 
-const HeaderCustom = () => {
+/**
+ * A "landing page" style header component.
+ * @constructor
+ */
+const LandingHeader = () => {
   const router = useRouter();
   const userId = useUserId();
-  const [scrolled, setScrolled] = useState(false);
-
-  const checkScrollPosition = () => {
-    setScrolled(() => window.scrollY > 10);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkScrollPosition);
-    return () => {
-      window.removeEventListener("scroll", checkScrollPosition);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      router.push("/search");
-    }
-  }, [router, userId]);
+  const [scrollPositions] = useWindowScroll();
 
   return (
     <div>
       <header
-        className={`w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50 ${scrolled ? "backdrop-blur" : "bg-transparent"}`}
+        className={cn(
+          `w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50`,
+          {
+            "backdrop-blur": scrollPositions.y > 10,
+            "bg-transparent": scrollPositions.y <= 10,
+          },
+        )}
       >
         <Box className="flex flex-row gap-16 items-center">
           <Link href={"/"}>
@@ -69,4 +62,4 @@ const HeaderCustom = () => {
   );
 };
 
-export default HeaderCustom;
+export { LandingHeader };

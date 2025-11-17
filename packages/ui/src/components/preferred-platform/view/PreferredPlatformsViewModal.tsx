@@ -1,9 +1,6 @@
-import React from "react";
-import { ActionIcon, Button, ModalProps } from "@mantine/core";
-import { BaseModalProps, Modal } from "#@/util";
 import { PreferredPlatformsView, useOnMobile } from "#@/components";
-import { useDisclosure } from "@mantine/hooks";
-import { IconPlus } from "@tabler/icons-react";
+import { BaseModalProps, Modal } from "#@/util";
+import React from "react";
 
 interface Props extends BaseModalProps {}
 

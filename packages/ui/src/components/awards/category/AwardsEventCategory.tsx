@@ -11,6 +11,7 @@ import { useAwardCategoryVote } from "#@/components/awards/hooks/useAwardCategor
 import { IconStarFilled } from "@tabler/icons-react";
 import { AwardsVoteSubmitFormModal } from "#@/components/awards/form/AwardsVoteSubmitFormModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 
 export interface AwardsEventCategoryProps {
   userId: string;
@@ -38,6 +39,7 @@ const AwardsEventCategory = ({
   const isOwnVote = ownUserId === userId;
 
   const isVotingEnabled = isOwnVote && isVotingPermitted && category.isVotable;
+
   if (isLoading) {
     return <CenteredLoading />;
   }
@@ -58,11 +60,11 @@ const AwardsEventCategory = ({
         </Group>
         <AwardsCategoryGameFigure
           game={game}
+          isVotingPermitted={isVotingEnabled}
           onEditClick={() => {
             if (!isVotingEnabled) {
               return;
             }
-
             voteModalUtils.open();
           }}
         />

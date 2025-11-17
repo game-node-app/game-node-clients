@@ -1,32 +1,36 @@
+// eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
 // prettier-ignore
-"use no memo"
+"use no memo";
 import React from "react";
+import { signOut } from "supertokens-website";
+import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
+import { blobToBase64 } from "@/util/imageUtils";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
+import { menuController } from "@ionic/core/components";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
+import { Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   Link,
   RecentlyPlayedGamesShare,
   UserButton,
   useUserId,
 } from "@repo/ui";
-import { Stack } from "@mantine/core";
-import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
 import {
   IconActivity,
   IconCloudDownload,
   IconDeviceGamepad2,
   IconLayout2Filled,
   IconLibrary,
+  IconLogout,
   IconMessage,
   IconNews,
   IconNotebook,
+  IconSettings,
   IconStars,
   IconTrophy,
 } from "@tabler/icons-react";
-import { blobToBase64 } from "@/util/imageUtils";
-import { Directory, Filesystem } from "@capacitor/filesystem";
-import { Share } from "@capacitor/share";
-import { useDisclosure } from "@mantine/hooks";
-import { menuController } from "@ionic/core/components";
 
 const MobileSidebarMenu = () => {
   const userId = useUserId();
@@ -54,7 +58,7 @@ const MobileSidebarMenu = () => {
         </IonHeader>
       )}
       <IonContent>
-        <Stack className={"w-full gap-0"}>
+        <Stack className={"w-full h-full gap-0"}>
           <RecentlyPlayedGamesShare
             opened={wrappedOpened}
             onClose={wrappedOpenedUtils.close}
@@ -138,6 +142,31 @@ const MobileSidebarMenu = () => {
             onClick={closeMenu}
             href={`/importer`}
           />
+          <Stack className={"mt-auto gap-0"}>
+            <MobileSidebarButton
+              title={"Settings"}
+              Icon={IconSettings}
+              href={"/preferences"}
+              onClick={closeMenu}
+            />
+            <MobileSidebarButton
+              title={"Logout"}
+              Icon={IconLogout}
+              href={"#"}
+              onClick={() => {
+                signOut().then(() => {
+                  closeMenu();
+                });
+              }}
+              iconProps={{
+                className: "text-[#1D1D1D]",
+              }}
+              textProps={{
+                className: "text-[#1A1A1A] font-medium",
+              }}
+              className={"bg-[#DDA4A4]"}
+            />
+          </Stack>
         </Stack>
       </IonContent>
     </>

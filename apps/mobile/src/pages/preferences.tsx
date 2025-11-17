@@ -7,14 +7,21 @@ import PreferencesProfileItems from "@/components/preferences/profile/Preference
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 import { PreferencesWrappedItems } from "@/components/preferences/wrapped/PreferencesWrappedItems.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 
 const PreferencesPage = () => {
   return (
-    <AppPage withSearch={false}>
+    <AppPage
+      withSearch={false}
+      contentProps={{
+        className: "!px-4",
+      }}
+    >
       <SessionAuth>
         <Stack className={"mb-4 p-0"}>
           <IonList className={"pt-0"}>
             <PreferencesProfileItems />
+            <PreferencesLibraryItems />
             <PreferencesConnectionsItems />
             <PreferencesImporterItems />
             <PreferencesWrappedItems />

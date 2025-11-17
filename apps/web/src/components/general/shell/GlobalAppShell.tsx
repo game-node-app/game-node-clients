@@ -6,6 +6,8 @@ import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
 
+const IGNORED_PATHNAMES = ["/", "/about", "/awards"];
+
 /**
  * https://mantine.dev/core/app-shell/
  * @param children - The main content of the page
@@ -13,10 +15,9 @@ import { useRouter } from "next/router";
  */
 const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
-
   const [sidebarOpened, sidebarOpenedUtils] = useDisclosure(false);
 
-  if (pathname === "/" || pathname === "/about") {
+  if (IGNORED_PATHNAMES.includes(pathname)) {
     return children;
   }
 

@@ -18,7 +18,7 @@ const AwardsNomineesScreen = ({ eventId, userId, onShare }: Props) => {
   const { data: event } = useAwardEvent({ eventId });
 
   return (
-    <Stack className={"overflow-clip"}>
+    <Stack className={"mb-10"}>
       <div
         style={{
           position: "absolute",

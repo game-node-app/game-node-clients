@@ -1,18 +1,18 @@
-import React, { useMemo, useState } from "react";
-import { Button, Group, Pagination, Stack, Text } from "@mantine/core";
-import { DetailsBox } from "#@/components/general/DetailsBox";
-import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
-import { useReviews } from "#@/components/review/hooks/useReviews";
-import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
+import React from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   ReviewListItem,
-  ReviewListItemModal,
-  useUserId,
+  ReviewListItemModal
 } from "#@/components";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { useReviews } from "#@/components/review/hooks/useReviews";
+import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
+import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { Group, Pagination, Stack } from "@mantine/core";
+import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
+import { useMemo, useState } from "react";
 import period = FindStatisticsTrendingReviewsDto.period;
-import { getOffsetAsPage, getPageAsOffset, Link } from "#@/util";
 
 interface IGameInfoReviewListProps {
   gameId: number;
@@ -35,7 +35,6 @@ const GameInfoReviewList = ({
   gameId,
   targetReviewId,
 }: IGameInfoReviewListProps) => {
-  const ownUserId = useUserId();
   const [offset, setOffset] = useState(0);
   const trendingReviewsDto = useMemo((): FindStatisticsTrendingReviewsDto => {
     return {

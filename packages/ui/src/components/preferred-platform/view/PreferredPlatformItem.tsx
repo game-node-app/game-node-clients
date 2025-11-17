@@ -1,60 +1,84 @@
-import React from "react";
-import { PreferredPlatformDto } from "@repo/wrapper/server";
+import {
+  EditPreferredPlatformModal,
+  usePreferredPlatforms,
+} from "#@/components";
+import { getServerStoredIcon, sleep } from "#@/util";
 import {
   ActionIcon,
-  Box,
   Flex,
   Group,
   Image,
   Stack,
+  Switch,
   Text,
 } from "@mantine/core";
-import { cn, getServerStoredIcon } from "#@/util";
-import {
-  IconDragDrop,
-  IconEdit,
-  IconGripHorizontal,
-} from "@tabler/icons-react";
-import {
-  EditPreferredPlatformForm,
-  EditPreferredPlatformModal,
-} from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import {
+  PreferredPlatformDto,
+  PreferredPlatformService,
+} from "@repo/wrapper/server";
+import { IconEdit } from "@tabler/icons-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
 interface Props {
   item: PreferredPlatformDto;
-  disabled?: boolean;
 }
 
-const PreferredPlatformItem = ({ item, disabled }: Props) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.platformId!, disabled });
-
-  const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
+const PreferredPlatformItem = ({ item }: Props) => {
   const platform = item.platform;
+  const { invalidate, queryKey } = usePreferredPlatforms();
   const [modalOpened, modalOpenedUtils] = useDisclosure();
+  const queryClient = useQueryClient();
+
+  const statusMutation = useMutation({
+    mutationFn: async (newStatus: boolean) => {
+      await PreferredPlatformService.preferredPlatformControllerCreateOrUpdateV1(
+        {
+          platformId: platform.id,
+          label: item.label,
+          isEnabled: newStatus,
+        },
+      );
+    },
+    onMutate: async () => {
+      const previousItems =
+        queryClient.getQueryData<PreferredPlatformDto[]>(queryKey);
+
+      queryClient.setQueryData(queryKey, (oldData?: PreferredPlatformDto[]) => {
+        const targetIndex = oldData?.findIndex((pp) => pp.id === item.id);
+        if (targetIndex === undefined || targetIndex < 0) {
+          return oldData;
+        }
+        const newData = [...(oldData || [])];
+        newData[targetIndex] = {
+          ...newData[targetIndex],
+          enabled: !newData[targetIndex].enabled,
+        };
+        console.log(
+          "Optimistically updated preferred platform:",
+          newData[targetIndex],
+        );
+        console.log(newData);
+        return newData;
+      });
+
+      return {
+        previousItems,
+      };
+    },
+    onError: (_err, _newStatus, context) => {
+      if (context?.previousItems) {
+        queryClient.setQueryData(queryKey, context.previousItems);
+      }
+    },
+    onSettled: async () => {
+      invalidate();
+    },
+  });
 
   return (
-    <Flex
-      className={cn("rounded-md p-4 bg-paper-2", {
-        "bg-paper-1 z-50": isDragging,
-      })}
-      style={style}
-      ref={setNodeRef}
-      {...attributes}
-    >
+    <Flex className={"rounded-md p-4 bg-paper-2"}>
       <EditPreferredPlatformModal
         opened={modalOpened}
         onClose={modalOpenedUtils.close}
@@ -76,13 +100,11 @@ const PreferredPlatformItem = ({ item, disabled }: Props) => {
         <ActionIcon variant={"default"} onClick={modalOpenedUtils.open}>
           <IconEdit size={20} />
         </ActionIcon>
-        <IconGripHorizontal
-          size={28}
-          className={cn("cursor-grab", {
-            "text-brand-4 cursor-grabbing": isDragging,
-            "text-dimmed": disabled,
-          })}
-          {...listeners}
+        <Switch
+          checked={item.enabled}
+          onChange={() => {
+            statusMutation.mutate(!item.enabled);
+          }}
         />
       </Group>
     </Flex>

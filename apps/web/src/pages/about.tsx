@@ -1,10 +1,10 @@
-import { Box, Paper } from "@mantine/core";
-import HeaderCustom from "@/components/header/HeaderCustom.tsx";
+import { Box, Button, Paper, Stack } from "@mantine/core";
+import { LandingHeader } from "@/components/general/header/LandingHeader";
 
-const aboutUsPage = () => {
+const AboutPage = () => {
   return (
     <>
-      <HeaderCustom />
+      <LandingHeader />
       <Box className="w-full flex flex-col items-center bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat">
         <Box className={"h-96 flex justify-center items-center"}>
           <h1 className={"text-5xl font-bold text-center"}>
@@ -158,7 +158,9 @@ const aboutUsPage = () => {
       </Box>
 
       <Box
-        className={"flex justify-center items-center py-32 bg-[#101010]"}
+        className={
+          "flex flex-col justify-center items-center py-32 gap-4 bg-[#101010]"
+        }
         style={{ background: "url(/img/about_us/coffee.gif) left" }}
       >
         <div className={"text-center"}>
@@ -171,15 +173,19 @@ const aboutUsPage = () => {
             Collaborate with us to keep our platform <br />
             100% Free and constantly evolving.
           </p>
-
-          <button className={"bg-[#ff424d] px-6 py-2 rounded-2xl"}>
-            <a href="https://patreon.com/GameNodeApp" target="_blank">
-              <p className={"tracking-wider text-2xl font-bold"}>
-                Buy me a Coffee
-              </p>
-            </a>
-          </button>
         </div>
+        <button className={"bg-[#ff424d] px-6 py-2 rounded-2xl"}>
+          <a href="https://patreon.com/GameNodeApp" target="_blank">
+            <p className={"tracking-wider text-2xl font-bold"}>
+              Buy us a coffe
+            </p>
+          </a>
+        </button>
+        <button className={"bg-[#eb4a3b] px-6 py-2 rounded-2xl"}>
+          <a href="https://apoia.se/gamenode" target="_blank">
+            <p className={"tracking-wider text-2xl font-bold"}>Apoia.se</p>
+          </a>
+        </button>
       </Box>
 
       <footer>
@@ -193,20 +199,7 @@ const aboutUsPage = () => {
               className="block pl-4"
             />
 
-            <a
-              href="https://patreon.com/GameNodeApp"
-              target="_blank"
-              className="hidden pl-4"
-            >
-              <img src="/img/patreon_footer.png" alt="patreon" />
-            </a>
-
             <Box className="flex flex-row gap-[28px] items-center pr-4 lg:pr-0">
-              <a
-                href="https://patreon.com/GameNodeApp"
-                target="_blank"
-                className="hidden lg:block"
-              ></a>
               <a href="https://github.com/game-node-app" target="_blank">
                 <img src="/img/github_footer.png" alt="github" />
               </a>
@@ -224,4 +217,4 @@ const aboutUsPage = () => {
   );
 };
 
-export default aboutUsPage;
+export default AboutPage;

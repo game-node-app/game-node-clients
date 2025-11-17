@@ -1,5 +1,5 @@
 import React from "react";
-import { AwardsEventCategory, useAwardEvent, useUserId } from "#@/components";
+import { useAwardEvent, useUserId } from "#@/components";
 import { AwardsEventOverview } from "#@/components/awards/view/AwardsEventOverview.tsx";
 import { Box, Stack } from "@mantine/core";
 import { AwardsVoteLayout } from "#@/components/awards/view/AwardsVoteLayout.tsx";
@@ -26,7 +26,7 @@ const AwardsEventVoteScreen = ({ eventYear, eventId }: Props) => {
         <Box className={"w-full mt-8 lg:mt-14"}>
           <AwardsEventOverview eventId={event.id} />
         </Box>
-        <Box className={"mt-10 lg:mt-8 w-screen xl:w-full"}>
+        <Box className={"mt-10 lg:mt-8 xl:w-full"}>
           <AwardsVoteLayout
             userId={userId!}
             title={"Your Votes"}
