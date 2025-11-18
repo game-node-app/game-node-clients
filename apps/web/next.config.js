@@ -1,5 +1,3 @@
-import withAnalyzer from "@next/bundle-analyzer";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
@@ -10,7 +8,7 @@ const nextConfig = {
     turbopackFileSystemCacheForDev: true,
   },
   reactCompiler: true,
-  async redirects() {
+  redirects() {
     return [
       {
         source: "/admin",
@@ -21,8 +19,4 @@ const nextConfig = {
   },
 };
 
-const withBundleAnalyzer = withAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-});
-
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;

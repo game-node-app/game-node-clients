@@ -107,7 +107,7 @@ const AwardsDetailView = ({ eventId }: Props) => {
               <IconEdit />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={"Add/remove suggested games"}>
+          <Tooltip label={"Add/remove nominees"}>
             <ActionIcon
               onClick={() => {
                 setEditingCategoryId(row.original.id);

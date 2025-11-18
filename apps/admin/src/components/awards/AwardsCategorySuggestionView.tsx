@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   AwardsService,
   Game,
@@ -6,6 +6,7 @@ import {
 } from "@repo/wrapper/server";
 import { Button, Stack, Text } from "@mantine/core";
 import {
+  ActionConfirm,
   createErrorNotification,
   GameSearchSelectModal,
   useGames,
@@ -13,6 +14,7 @@ import {
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDisclosure } from "@mantine/hooks";
 
 const COLUMNS: MRT_ColumnDef<Game>[] = [
   {
@@ -31,6 +33,9 @@ interface Props {
 
 const AwardsCategorySuggestionView = ({ category }: Props) => {
   const queryClient = useQueryClient();
+
+  const removedGameIdRef = useRef<number>(null);
+  const [removeModalOpened, removeModalUtils] = useDisclosure();
 
   const suggestions = category.suggestions;
 
@@ -59,6 +64,24 @@ const AwardsCategorySuggestionView = ({ category }: Props) => {
     },
   });
 
+  const removeSuggestionMutation = useMutation({
+    mutationFn: async () => {
+      const gameId = removedGameIdRef.current;
+      if (!gameId) return;
+      await AwardsService.awardsAdminControllerRemoveCategorySuggestionV1({
+        categoryId: category.id,
+        gameId: gameId,
+      });
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["awards", "event", category.eventId, "categories"],
+      });
+      removedGameIdRef.current = null;
+    },
+    onError: createErrorNotification,
+  });
+
   const table = useCustomTable({
     data: games ?? [],
     columns: COLUMNS,
@@ -66,6 +89,28 @@ const AwardsCategorySuggestionView = ({ category }: Props) => {
     state: {
       isLoading,
       isSaving: addSuggestionMutation.isPending,
+    },
+    renderRowActions: ({ row }) => {
+      return (
+        <Flex gap="md">
+          <Tooltip label="Edit">
+            <ActionIcon onClick={() => table.setEditingRow(row)}>
+              <IconEdit />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Delete">
+            <ActionIcon
+              color="red"
+              onClick={() => {
+                removedGameIdRef.current = row.original.id;
+                removeModalUtils.open();
+              }}
+            >
+              <IconTrash />
+            </ActionIcon>
+          </Tooltip>
+        </Flex>
+      );
     },
     renderCreateRowModalContent: ({ table }) => {
       return (
@@ -81,15 +126,21 @@ const AwardsCategorySuggestionView = ({ category }: Props) => {
     },
     renderTopToolbarCustomActions: ({ table }) => {
       return (
-        <Button onClick={() => table.setCreatingRow(true)}>
-          Add suggestion
-        </Button>
+        <Button onClick={() => table.setCreatingRow(true)}>Add nominee</Button>
       );
     },
   });
 
   return (
     <Stack>
+      <ActionConfirm
+        message={"Are you sure you want to remove this nominee?"}
+        onConfirm={() => {
+          removeSuggestionMutation.mutate();
+        }}
+        opened={removeModalOpened}
+        onClose={removeModalUtils.close}
+      />
       <Text className={"text-dimmed"}>
         These games will be suggested to users when voting in the &#34;
         {category.name}&#34; category. Choose with care!

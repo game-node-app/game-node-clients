@@ -15,8 +15,6 @@ import {
   DEFAULT_MANTINE_THEME,
   NotificationsManager,
   setProjectContext,
-  setLinkComponent,
-  setRouterHook,
   UIProvider,
 } from "@repo/ui";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
@@ -53,11 +51,8 @@ const roboto = Roboto({
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
-
-setLinkComponent(LinkWrapper);
-setRouterHook(useNextRouterWrapper);
 setProjectContext({
-  client: "web",
+  client: "admin",
   s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL!,
   searchUrl: process.env.NEXT_PUBLIC_SEARCH_URL!,
@@ -93,7 +88,14 @@ export default function App({
   );
 
   return (
-    <UIProvider>
+    <UIProvider
+      presenters={{
+        Link: LinkWrapper,
+      }}
+      hooks={{
+        useRouter: useNextRouterWrapper,
+      }}
+    >
       <MantineProvider
         theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
           fontFamily: roboto.style.fontFamily,

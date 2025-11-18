@@ -11,12 +11,17 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- web docker worflow">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- versioning">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/web_docker-build-push.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/next-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/next-env.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/src/components/awards/AwardsCategorySuggestionView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/src/components/awards/AwardsCategorySuggestionView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/src/components/awards/AwardsDetailView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/src/components/awards/AwardsDetailView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesShareButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesShareButtons.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +74,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Docker.Docker Image (1).executor&quot;: &quot;Run&quot;,
     &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
     &quot;Docker.web/Dockerfile.executor&quot;: &quot;Run&quot;,
     &quot;Docker.web: Compose Deployment.executor&quot;: &quot;Run&quot;,
@@ -83,7 +89,7 @@
     &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients/packages/ui/src/components/game/info/review&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -130,11 +136,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/info/review" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/info/review/editor" />
       <recent name="$PROJECT_DIR$/apps/desktop" />
       <recent name="$PROJECT_DIR$/apps/desktop/src/components/auth" />
-      <recent name="$PROJECT_DIR$/packages/analytics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/web/src/components/general" />
@@ -148,11 +154,11 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:web">
-    <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+  <component name="RunManager" selected="Docker.Docker Image">
+    <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
-          <option name="imageTag" value="lamarcke/game-node-web:latest" />
+          <option name="imageTag" value="lamarcke/game-node-clients:0.0.1" />
           <option name="containerName" value="" />
         </settings>
       </deployment>
@@ -164,10 +170,26 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-image" temporary="true">
+      <deployment type="docker-image">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
       </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:admin" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:admin" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
       <method v="2" />
     </configuration>
     <configuration name="dev:mobile" type="js.build_tools.npm">
@@ -216,11 +238,13 @@
       <item itemvalue="Docker.Docker Image" />
       <item itemvalue="npm.dev:mobile" />
       <item itemvalue="npm.dev:web" />
+      <item itemvalue="npm.dev:admin" />
       <item itemvalue="npm.wrapper:generate" />
       <item itemvalue="npm.ui &gt; barrels:generate" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.Docker Image" />
         <item itemvalue="npm.ui &gt; barrels:generate" />
       </list>
     </recent_temporary>
@@ -332,23 +356,10 @@
       <workItem from="1762785419421" duration="7422000" />
       <workItem from="1763219301085" duration="9235000" />
       <workItem from="1763320009794" duration="79000" />
-      <workItem from="1763399387974" duration="2876000" />
-    </task>
-    <task id="LOCAL-00007" summary="- mobile redesign work">
-      <option name="closed" value="true" />
-      <created>1758924392825</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1758924392825</updated>
-    </task>
-    <task id="LOCAL-00008" summary="- Journal Heatmap feature&#10;- package upgrades">
-      <option name="closed" value="true" />
-      <created>1759104187959</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1759104187959</updated>
+      <workItem from="1763399387974" duration="4548000" />
+      <workItem from="1763418250103" duration="552000" />
+      <workItem from="1763465064778" duration="10762000" />
+      <workItem from="1763479544259" duration="3111000" />
     </task>
     <task id="LOCAL-00009" summary="- Journal Heatmap feature&#10;- package upgrades">
       <option name="closed" value="true" />
@@ -726,7 +737,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763400674002</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="- fixes routing logic for logged in users">
+      <option name="closed" value="true" />
+      <created>1763404175602</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1763404175602</updated>
+    </task>
+    <task id="LOCAL-00057" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1763404193982</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1763404193982</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -765,11 +792,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- eslint issues" />
     <MESSAGE value="- fixes wrong infinite loading logic" />
     <MESSAGE value="- removes matomo references in web client" />
     <MESSAGE value="- fixes issue with game matching by doing a list snapshot in ordering update form" />
-    <MESSAGE value="- versioning" />
     <MESSAGE value="- cleanup" />
     <MESSAGE value="- conditional sorting chip data in library view" />
     <MESSAGE value="virtual scroll" />
@@ -790,10 +815,20 @@
     <MESSAGE value="- preferred platforms changes" />
     <MESSAGE value="- type fixes" />
     <MESSAGE value="- web docker worflow" />
-    <option name="LAST_COMMIT_MESSAGE" value="- web docker worflow" />
+    <MESSAGE value="- fixes routing logic for logged in users" />
+    <MESSAGE value="- versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="- versioning" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
