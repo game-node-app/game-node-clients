@@ -11,13 +11,9 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- versioning">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/capacitor.build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/capacitor.build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/capacitor.settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/capacitor.settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- network status listener for react query with capacitor plugin">
+      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,15 +352,7 @@
       <workItem from="1763418250103" duration="552000" />
       <workItem from="1763465064778" duration="10762000" />
       <workItem from="1763479544259" duration="11970000" />
-      <workItem from="1763588396100" duration="1201000" />
-    </task>
-    <task id="LOCAL-00012" summary="- work on mobile redesign">
-      <option name="closed" value="true" />
-      <created>1759611577294</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1759611577294</updated>
+      <workItem from="1763588396100" duration="1489000" />
     </task>
     <task id="LOCAL-00013" summary="- fixes type errors in some hooks">
       <option name="closed" value="true" />
@@ -750,7 +738,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763589321100</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="- network status listener for react query with capacitor plugin">
+      <option name="closed" value="true" />
+      <created>1763589625750</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1763589625750</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -789,7 +785,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- fixes issue with game matching by doing a list snapshot in ordering update form" />
     <MESSAGE value="- cleanup" />
     <MESSAGE value="- conditional sorting chip data in library view" />
     <MESSAGE value="virtual scroll" />
@@ -814,7 +809,8 @@
     <MESSAGE value="- Dockerfile improvements for web/admin" />
     <MESSAGE value="- admin next16 upgrade&#10;- admin category nominees removal option&#10;- recent votes for awards screen" />
     <MESSAGE value="- versioning" />
-    <option name="LAST_COMMIT_MESSAGE" value="- versioning" />
+    <MESSAGE value="- network status listener for react query with capacitor plugin" />
+    <option name="LAST_COMMIT_MESSAGE" value="- network status listener for react query with capacitor plugin" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -10,12 +10,7 @@ interface Props {
 const AwardsNomineesVotes = ({ eventId, userId }: Props) => {
   return (
     <Box className={"mt-8"}>
-      <AwardsVoteLayout
-        eventId={eventId}
-        userId={userId}
-        title={"Nominees"}
-        withShareButton={false}
-      >
+      <AwardsVoteLayout eventId={eventId} userId={userId} title={"Nominees"}>
         <AwardsEventCategoriesList eventId={eventId} userId={userId!} />
       </AwardsVoteLayout>
     </Box>
