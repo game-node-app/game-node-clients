@@ -20,9 +20,11 @@ const Index = () => {
   if (!userId) return <CenteredLoading />;
 
   return (
-    <LibraryViewLayout userId={userId as string} collectionId={undefined}>
-      <LibraryView libraryUserId={userId as string} />
-    </LibraryViewLayout>
+    <Stack className={"lg:my-10"}>
+      <LibraryViewLayout userId={userId as string} collectionId={undefined}>
+        <LibraryView libraryUserId={userId as string} />
+      </LibraryViewLayout>
+    </Stack>
   );
 };
 

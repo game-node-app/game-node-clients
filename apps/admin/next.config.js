@@ -7,7 +7,7 @@ const nextConfig = {
     optimizePackageImports: ["@tabler/icons-react"],
     turbopackFileSystemCacheForDev: true,
   },
-  reactCompiler: true,
+  reactCompiler: false,
   async redirects() {
     return [
       {

@@ -31,6 +31,7 @@ const COLUMNS: MRT_ColumnDef<AwardsEvent>[] = [
 
 const AwardsView = () => {
   const { data: events, isLoading } = useAwardEvents();
+  console.log("Events:", events);
   const table = useCustomTable({
     columns: COLUMNS,
     data: events ?? [],

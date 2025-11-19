@@ -87,7 +87,6 @@ const App: React.FC = () => {
             refetchOnWindowFocus: true,
             refetchOnMount: true,
             refetchOnReconnect: true,
-            staleTime: 1000 * 60 * 60, // 1 hour
             retry: 3,
             gcTime: Infinity,
           },

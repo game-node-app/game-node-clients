@@ -1,15 +1,6 @@
-import {
-  IonFab,
-  IonFabButton,
-  IonRefresher,
-  IonRefresherContent,
-  useIonRouter,
-} from "@ionic/react";
+import { IonRefresher, IonRefresherContent, useIonRouter } from "@ionic/react";
 import React from "react";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { IconSettings } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
   CenteredLoading,
   ProfileUserInfoWithBanner,

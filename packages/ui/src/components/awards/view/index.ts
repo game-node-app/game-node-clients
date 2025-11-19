@@ -12,5 +12,6 @@ export * from "./AwardsNomineesVoteCTA";
 export * from "./AwardsNomineesVotes";
 export * from "./AwardsOverviewTextBadge";
 export * from "./AwardsPhaseNotice";
+export * from "./AwardsRecentVotes";
 export * from "./AwardsVoteLayout";
 export * from "./DynamicAwardsOverview";

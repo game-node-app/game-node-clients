@@ -29,7 +29,13 @@ const ActionConfirm = ({
         <Button variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="red" onClick={onConfirm}>
+        <Button
+          color="red"
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
+        >
           Confirm
         </Button>
       </Group>

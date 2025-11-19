@@ -14,8 +14,7 @@ interface Props {
 }
 
 const AwardsNomineesOverview = ({ eventId, userId }: Props) => {
-  const router = useRouter();
-  const { data: event, isLoading } = useAwardEvent({ eventId });
+  const { isLoading } = useAwardEvent({ eventId });
 
   if (isLoading) {
     return <CenteredLoading />;
@@ -50,7 +49,7 @@ const AwardsNomineesOverview = ({ eventId, userId }: Props) => {
       </div>
       <Group>
         <Text>Indicated by</Text>
-        <Box className={"w-56"}>
+        <Box className={"max-w-96"}>
           <UserAvatarGroup
             userId={userId}
             groupProps={{

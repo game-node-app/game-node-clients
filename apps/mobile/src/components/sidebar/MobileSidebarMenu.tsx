@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   Link,
   RecentlyPlayedGamesShare,
+  useAwardEvent,
   UserButton,
   useUserId,
 } from "@repo/ui";
@@ -30,11 +31,15 @@ import {
   IconSettings,
   IconStars,
   IconTrophy,
+  IconTrophyFilled,
 } from "@tabler/icons-react";
 
 const MobileSidebarMenu = () => {
   const userId = useUserId();
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
+  const { data: awardEvent } = useAwardEvent({
+    eventYear: new Date().getFullYear(),
+  });
 
   const closeMenu = () => {
     menuController.close("main-menu").catch(console.error);
@@ -118,6 +123,15 @@ const MobileSidebarMenu = () => {
               closeMenu();
             }}
           />
+          {awardEvent && (
+            <MobileSidebarButton
+              title={"Awards"}
+              Icon={IconTrophyFilled}
+              href={`/awards/${awardEvent.year}/vote`}
+              onClick={closeMenu}
+              withBadge
+            />
+          )}
           <MobileSidebarButton
             title={"Activity"}
             Icon={IconActivity}

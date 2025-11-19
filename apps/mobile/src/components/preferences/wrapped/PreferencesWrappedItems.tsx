@@ -24,7 +24,7 @@ const PreferencesWrappedItems = () => {
           const cachedFileResult = await Filesystem.writeFile({
             path: file.name,
             data: base64,
-            directory: Directory.Cache,
+            directory: Directory.Library,
           });
 
           await Share.share({

@@ -4,7 +4,7 @@ import {
   Game,
   VotableAwardsCategoryDto,
 } from "@repo/wrapper/server";
-import { Button, Stack, Text } from "@mantine/core";
+import { ActionIcon, Button, Flex, Stack, Text, Tooltip } from "@mantine/core";
 import {
   ActionConfirm,
   createErrorNotification,
@@ -15,6 +15,7 @@ import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 const COLUMNS: MRT_ColumnDef<Game>[] = [
   {

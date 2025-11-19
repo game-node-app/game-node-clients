@@ -8,13 +8,14 @@ import PreferencesImporterItems from "@/components/preferences/importer/Preferen
 import { PreferencesWrappedItems } from "@/components/preferences/wrapped/PreferencesWrappedItems.tsx";
 import { AppPage } from "@/components/general/AppPage";
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
+import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 
 const PreferencesPage = () => {
   return (
     <AppPage
       withSearch={false}
       contentProps={{
-        className: "!px-4",
+        className: "p-0",
       }}
     >
       <SessionAuth>
@@ -25,6 +26,7 @@ const PreferencesPage = () => {
             <PreferencesConnectionsItems />
             <PreferencesImporterItems />
             <PreferencesWrappedItems />
+            <PreferencesMiscItems />
           </IonList>
         </Stack>
       </SessionAuth>

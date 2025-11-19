@@ -7,6 +7,7 @@ import {
   useUserProfile,
 } from "@repo/ui";
 import { Stack, Text } from "@mantine/core";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher";
 
 interface Props {
   userId: string;
@@ -21,7 +22,8 @@ const LibraryCollectionsPage = ({ userId }: Props) => {
   const isOwnLibrary = userId === ownUserId;
 
   return (
-    <AppPage withSearch>
+    <AppPage withSearch contentProps={{ fixedSlotPlacement: "before" }}>
+      <LibraryViewRefresher userId={userId} />
       <Text className={"text-xl font-bold mb-5"}>
         {isOwnLibrary ? "Your" : `${profile?.username}'`} collections
       </Text>

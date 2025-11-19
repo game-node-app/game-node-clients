@@ -74,6 +74,22 @@ export class AwardsService {
         });
     }
     /**
+     * @param eventId
+     * @returns AwardsVote
+     * @throws ApiError
+     */
+    public static awardsVoteControllerGetRecentVotesByEventIdV1(
+        eventId: number,
+    ): CancelablePromise<Array<AwardsVote>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/awards/vote/{eventId}/recent',
+            path: {
+                'eventId': eventId,
+            },
+        });
+    }
+    /**
      * @param userId
      * @param categoryId
      * @returns AwardsVote

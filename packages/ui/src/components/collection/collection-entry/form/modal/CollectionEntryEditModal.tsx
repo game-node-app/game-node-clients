@@ -37,6 +37,9 @@ const CollectionEntryEditModal = ({
       breakpoints={[0.6, 0.8, 1]}
       initialBreakpoint={currentBreakpoint}
       onBreakpointChange={setCurrentBreakpoint}
+      classNames={{
+        body: "py-0",
+      }}
     >
       <CollectionEntryEditForm
         gameId={gameId}

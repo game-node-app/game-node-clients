@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { CreatePreferredPlatformDto } from '../models/CreatePreferredPlatformDto';
 import type { PreferredPlatformDto } from '../models/PreferredPlatformDto';
-import type { UpdatePreferredPlatformOrderDto } from '../models/UpdatePreferredPlatformOrderDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -30,21 +29,6 @@ export class PreferredPlatformService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/preferred-platform',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
-     * @param requestBody
-     * @returns any
-     * @throws ApiError
-     */
-    public static preferredPlatformControllerUpdateOrderV1(
-        requestBody: UpdatePreferredPlatformOrderDto,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/v1/preferred-platform/order',
             body: requestBody,
             mediaType: 'application/json',
         });

@@ -8,16 +8,9 @@ interface Props extends PropsWithChildren {
   userId: string;
   title: string;
   eventId: number;
-  withShareButton?: boolean;
 }
 
-const AwardsVoteLayout = ({
-  userId,
-  title,
-  eventId,
-  withShareButton = false,
-  children,
-}: Props) => {
+const AwardsVoteLayout = ({ userId, title, eventId, children }: Props) => {
   const { data: event } = useAwardEvent({ eventId });
 
   return (
@@ -27,10 +20,9 @@ const AwardsVoteLayout = ({
       }
     >
       <Group
-        className={cn("w-full @lg:flex-nowrap justify-center px-6 pt-4", {
-          "@lg:justify-start": withShareButton,
-          "@lg:justify-between": !withShareButton,
-        })}
+        className={cn(
+          "w-full @lg:flex-nowrap justify-center px-6 pt-4 @lg:justify-between",
+        )}
       >
         <Group
           className={
@@ -42,21 +34,9 @@ const AwardsVoteLayout = ({
           <Text className={"text-white text-sm"}>{title}</Text>
         </Group>
         <Group className={"flex-nowrap gap-4 @lg:ms-auto @lg:w-96 justify-end"}>
-          <Box
-            className={cn({
-              "max-w-56": withShareButton,
-              "max-w-96": !withShareButton,
-            })}
-          >
+          <Box className={"max-w-96"}>
             <UserAvatarGroup userId={userId} />
           </Box>
-          {withShareButton && (
-            <Link href={`/awards/${event?.year}/nominees/${userId}`}>
-              <UnstyledButton>
-                <Text className={"text-white text-sm"}>Share</Text>
-              </UnstyledButton>
-            </Link>
-          )}
         </Group>
       </Group>
       {children}

@@ -27,7 +27,7 @@ const LibraryViewLayout = ({
   const onMobile = useOnMobile();
 
   return (
-    <Stack className={"w-full my-10"} id={"library-view"}>
+    <Stack className={"w-full"} id={"library-view"}>
       {onMobile && (
         <Flex w={"100%"} justify={"center"}>
           <LibraryViewCollectionsSelect

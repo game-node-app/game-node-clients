@@ -9,7 +9,6 @@ export type PreferredPlatformDto = {
     libraryUserId: string;
     platformId: number;
     platform: GamePlatform;
-    order: number;
     enabled: boolean;
     label?: string;
     createdAt: string;

@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import dayjs from "dayjs";
 import { AwardsEventOverview, useAwardEvent } from "#@/components";
-import { Box } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
+import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
 
 /**
  * Component that dinamically renders the awards' vote CTA or result overview based on the event year
@@ -31,15 +32,16 @@ const DynamicAwardsOverview = () => {
     return null;
   }
 
-  if (isVotingPermitted) {
+  if (isVotingPermitted || !isResultAvailable) {
     return (
-      <Box className={"w-full"}>
+      <Stack className={"w-fit"}>
         <AwardsEventOverview
           eventId={event.id}
           withBackground={false}
           withButton
         />
-      </Box>
+        <AwardsRecentVotes eventId={event.id} limit={3} />
+      </Stack>
     );
   }
 

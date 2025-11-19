@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
+import { CenteredLoading } from "@repo/ui";
 
 const AwardsEventPage = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const AwardsEventPage = () => {
     router.push(`/awards/${targetYear}/vote`);
   }, [router, targetYear]);
 
-  return <div></div>;
+  return <CenteredLoading />;
 };
 
 export default AwardsEventPage;

@@ -7,6 +7,7 @@ import {
 } from "#@/components";
 import { Stack } from "@mantine/core";
 import { AwardsNomineesShareButtons } from "#@/components/awards/view/AwardsNomineesShareButtons.tsx";
+import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
 
 interface Props {
   eventId: number;
@@ -41,6 +42,7 @@ const AwardsNomineesScreen = ({ eventId, userId, onShare }: Props) => {
         onShare={onShare}
       />
       <AwardsNomineesVoteCTA eventId={eventId} />
+      <AwardsRecentVotes eventId={eventId} />
     </Stack>
   );
 };
