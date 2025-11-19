@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { QueryClient } from "@tanstack/react-query";
+import { onlineManager, QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MantineProvider } from "@mantine/core";
@@ -56,6 +56,7 @@ import "./theme/variables.css";
  */
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { Network } from "@capacitor/network";
 
 /**
  * dayjs setup
@@ -112,6 +113,16 @@ const App: React.FC = () => {
         await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    Network.addListener("networkStatusChange", (status) => {
+      onlineManager.setOnline(status.connected);
+    }).catch(console.error);
+
+    return () => {
+      Network.removeAllListeners().catch(console.error);
+    };
   }, []);
 
   return (
