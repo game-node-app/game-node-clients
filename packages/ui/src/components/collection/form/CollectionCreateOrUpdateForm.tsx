@@ -20,7 +20,6 @@ const CreateCollectionFormSchema = z
     description: z.string().optional(),
     isPublic: z.boolean(),
     isFeatured: z.boolean(),
-    isFinished: z.boolean(),
     defaultEntryStatus: z.enum(Collection.defaultEntryStatus).nullable(),
   })
   .superRefine((data, ctx) => {
@@ -143,7 +142,7 @@ const CollectionCreateOrUpdateForm = ({
         <Fieldset legend="Automation">
           <Switch
             label={"Enable automatic status for games"}
-            error={formState.errors.isFinished?.message}
+            error={formState.errors.defaultEntryStatus?.message}
             description={
               "All games in this collection will be filled with the selected status when being added. Only affects new entries."
             }

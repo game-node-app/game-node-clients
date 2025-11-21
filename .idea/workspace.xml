@@ -11,9 +11,12 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- network status listener for react query with capacitor plugin">
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVotes.tsx" afterDir="false" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- typescript fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/library/library.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/library/library.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/library/library_collections.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/library/library_collections.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +149,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.ui &gt; barrels:generate">
+  <component name="RunManager" selected="npm.dev:mobile">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -352,15 +355,8 @@
       <workItem from="1763418250103" duration="552000" />
       <workItem from="1763465064778" duration="10762000" />
       <workItem from="1763479544259" duration="11970000" />
-      <workItem from="1763588396100" duration="1489000" />
-    </task>
-    <task id="LOCAL-00013" summary="- fixes type errors in some hooks">
-      <option name="closed" value="true" />
-      <created>1759614506607</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1759614506607</updated>
+      <workItem from="1763588396100" duration="2472000" />
+      <workItem from="1763694963148" duration="449000" />
     </task>
     <task id="LOCAL-00014" summary="- make all mobile pages use the new default AppPage component">
       <option name="closed" value="true" />
@@ -746,7 +742,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763589625750</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="- typescript fixes">
+      <option name="closed" value="true" />
+      <created>1763590452759</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1763590452760</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -785,7 +789,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- cleanup" />
     <MESSAGE value="- conditional sorting chip data in library view" />
     <MESSAGE value="virtual scroll" />
     <MESSAGE value="-" />
@@ -810,7 +813,8 @@
     <MESSAGE value="- admin next16 upgrade&#10;- admin category nominees removal option&#10;- recent votes for awards screen" />
     <MESSAGE value="- versioning" />
     <MESSAGE value="- network status listener for react query with capacitor plugin" />
-    <option name="LAST_COMMIT_MESSAGE" value="- network status listener for react query with capacitor plugin" />
+    <MESSAGE value="- typescript fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="- typescript fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

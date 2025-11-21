@@ -85,7 +85,7 @@ const App: React.FC = () => {
       new QueryClient({
         defaultOptions: {
           queries: {
-            refetchOnWindowFocus: true,
+            refetchOnWindowFocus: false,
             refetchOnMount: true,
             refetchOnReconnect: true,
             retry: 3,

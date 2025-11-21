@@ -8,6 +8,7 @@ import {
 } from "@repo/ui";
 import { Stack, Text } from "@mantine/core";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher";
+import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
 
 interface Props {
   userId: string;
@@ -24,6 +25,7 @@ const LibraryCollectionsPage = ({ userId }: Props) => {
   return (
     <AppPage withSearch contentProps={{ fixedSlotPlacement: "before" }}>
       <LibraryViewRefresher userId={userId} />
+      {isOwnLibrary && <LibraryViewFab />}
       <Text className={"text-xl font-bold mb-5"}>
         {isOwnLibrary ? "Your" : `${profile?.username}'`} collections
       </Text>

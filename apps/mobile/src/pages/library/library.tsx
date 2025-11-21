@@ -26,8 +26,7 @@ interface Props {
 
 const LibraryPage = (props: Props) => {
   const ownUserId = useUserId();
-  const isOwnLibrary = props.userId === ownUserId;
-  const userId = props.userId ?? ownUserId;
+  const targetUserId = props.userId ?? ownUserId;
 
   const {
     routeInfo: { pathname },
@@ -35,7 +34,9 @@ const LibraryPage = (props: Props) => {
 
   const isInTab = pathname.split("/").length === 2;
 
-  const profileQuery = useUserProfile(userId);
+  const profileQuery = useUserProfile(targetUserId);
+
+  const isOwnLibrary = targetUserId === ownUserId;
 
   return (
     <AppPage
@@ -48,10 +49,10 @@ const LibraryPage = (props: Props) => {
       <SessionAuth
         requireAuth={props.userId == undefined || props.userId === "undefined"}
       >
-        <LibraryViewRefresher userId={userId!} />
+        <LibraryViewRefresher userId={targetUserId!} />
         {isOwnLibrary && <LibraryViewFab />}
-        <LibraryViewLayout userId={userId}>
-          <LibraryView libraryUserId={userId!} />
+        <LibraryViewLayout userId={targetUserId}>
+          <LibraryView libraryUserId={targetUserId!} />
         </LibraryViewLayout>
       </SessionAuth>
     </AppPage>
