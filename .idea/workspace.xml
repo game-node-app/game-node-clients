@@ -11,12 +11,10 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- typescript fixes">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- versioning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/library/library.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/library/library.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/library/library_collections.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/library/library_collections.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +82,7 @@
     &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-sync-igdb&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -356,23 +354,14 @@
       <workItem from="1763465064778" duration="10762000" />
       <workItem from="1763479544259" duration="11970000" />
       <workItem from="1763588396100" duration="2472000" />
-      <workItem from="1763694963148" duration="449000" />
-    </task>
-    <task id="LOCAL-00014" summary="- make all mobile pages use the new default AppPage component">
-      <option name="closed" value="true" />
-      <created>1759633417494</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1759633417494</updated>
-    </task>
-    <task id="LOCAL-00015" summary="- add custom variant properties with project name to Tailwind config&#10;- game info page redesign&#10;- final sidebar menu work">
-      <option name="closed" value="true" />
-      <created>1759716745414</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1759716745415</updated>
+      <workItem from="1763694963148" duration="1352000" />
+      <workItem from="1763739138154" duration="3597000" />
+      <workItem from="1763750792569" duration="2431000" />
+      <workItem from="1764548676743" duration="1901000" />
+      <workItem from="1764561957580" duration="561000" />
+      <workItem from="1764607636427" duration="599000" />
+      <workItem from="1764680086739" duration="599000" />
+      <workItem from="1764694627502" duration="1019000" />
     </task>
     <task id="LOCAL-00016" summary="- versioning&#10;- eslint fixes">
       <option name="closed" value="true" />
@@ -750,7 +739,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763590452760</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="- fixes regression related to collection entry form unused field">
+      <option name="closed" value="true" />
+      <created>1763695559934</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1763695559935</updated>
+    </task>
+    <task id="LOCAL-00064" summary="- versioning">
+      <option name="closed" value="true" />
+      <created>1763695726237</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1763695726237</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -789,7 +794,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- conditional sorting chip data in library view" />
     <MESSAGE value="virtual scroll" />
     <MESSAGE value="-" />
     <MESSAGE value="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections" />
@@ -811,10 +815,11 @@
     <MESSAGE value="- fixes routing logic for logged in users" />
     <MESSAGE value="- Dockerfile improvements for web/admin" />
     <MESSAGE value="- admin next16 upgrade&#10;- admin category nominees removal option&#10;- recent votes for awards screen" />
-    <MESSAGE value="- versioning" />
     <MESSAGE value="- network status listener for react query with capacitor plugin" />
     <MESSAGE value="- typescript fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- typescript fixes" />
+    <MESSAGE value="- fixes regression related to collection entry form unused field" />
+    <MESSAGE value="- versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="- versioning" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -186,8 +186,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     }
   }, [setValue, userConnection.data]);
 
-  console.log(errors);
-
   return (
     <form
       className={"w-full h-full"}
@@ -216,6 +214,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         {isImporterViable && (
           <Stack>
             <Switch
+              className={"w-full"}
               error={errors.isImporterEnabled?.message}
               label={"Allow importing"}
               labelPosition={"left"}
@@ -234,6 +233,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         {isPlaytimeImportViable && (
           <Stack>
             <Switch
+              className={"w-full"}
               error={errors.isPlaytimeImportEnabled?.message}
               label={"Allow playtime importing"}
               labelPosition={"left"}
@@ -252,6 +252,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         {isImporterViable && (
           <Stack>
             <Switch
+              className={"w-full"}
               error={errors.isAutoImportEnabled?.message}
               label={"Enable automatic importing"}
               labelPosition={"left"}
@@ -269,7 +270,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
               <Select
                 label={"Target collection (optional)"}
                 description={
-                  "Games will be added to your library if not specified."
+                  "Games will be added directly to your library if not specified."
                 }
                 placeholder={"None"}
                 clearable
