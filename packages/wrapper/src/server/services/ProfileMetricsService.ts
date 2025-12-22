@@ -70,12 +70,14 @@ export class ProfileMetricsService {
     /**
      * @param userId
      * @param by
+     * @param year
      * @returns ProfileMetricsTypeDistributionResponseDto
      * @throws ApiError
      */
     public static profileMetricsControllerGetTypeDistributionV1(
         userId: string,
         by: 'genre' | 'category' | 'mode' | 'theme' | 'status' | 'platform',
+        year?: number,
     ): CancelablePromise<ProfileMetricsTypeDistributionResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -85,6 +87,7 @@ export class ProfileMetricsService {
             },
             query: {
                 'by': by,
+                'year': year,
             },
         });
     }

@@ -15,6 +15,23 @@ import { useAvailableConnections } from "#@/components/connections/hooks/useAvai
 import { match } from "ts-pattern";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { createErrorNotification } from "#@/util";
+
+function parseSteamIdentifier(
+  identifier: string,
+  existingConnection: UserConnectionDto,
+) {
+  // If the identifier is already a full URL, return as is
+  if (identifier.startsWith("http://") || identifier.startsWith("https://")) {
+    return identifier;
+  }
+
+  if (identifier === existingConnection.sourceUsername) {
+    return `https://steamcommunity.com/profiles/${existingConnection.sourceUserId}/`;
+  }
+
+  return `https://steamcommunity.com/id/${identifier}/`;
+}
 
 const ConnectionSetupFormSchema = z
   .object({
@@ -63,6 +80,13 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
 
   const connectionCreateMutation = useMutation({
     mutationFn: async (data: ConnectionSetupFormValues) => {
+      if (type === UserConnectionDto.type.STEAM && userConnection.data) {
+        data.userIdentifier = parseSteamIdentifier(
+          data.userIdentifier,
+          userConnection.data,
+        );
+      }
+
       await ConnectionsService.connectionsControllerCreateOrUpdateV1({
         type: type,
         userIdentifier: data.userIdentifier,
@@ -73,25 +97,19 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["connections", "own"],
+      });
       notifications.show({
         color: "green",
         message: `Successfully set up ${getCapitalizedText(type)} connection!`,
       });
+
       if (onClose) {
         onClose();
       }
     },
-    onError: (err) => {
-      notifications.show({
-        color: "red",
-        message: getErrorMessage(err),
-      });
-    },
-    onSettled: () => {
-      queryClient.resetQueries({
-        queryKey: ["connections", "own"],
-      });
-    },
+    onError: createErrorNotification,
   });
 
   const connectionDeleteMutation = useMutation({
@@ -250,8 +268,11 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
           </Stack>
         )}
         {isImporterViable && (
-          <Stack>
+          <Stack className={"w-full"}>
             <Switch
+              classNames={{
+                labelWrapper: "grow",
+              }}
               className={"w-full"}
               error={errors.isAutoImportEnabled?.message}
               label={"Enable automatic importing"}

@@ -18,6 +18,7 @@ export type UserPlaytimeDto = {
     totalPlayCount: number;
     platform: GamePlatform;
     platformId: number;
+    checksum: string | null;
     createdAt: string;
     updatedAt: string;
 };

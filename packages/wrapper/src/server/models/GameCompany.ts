@@ -15,6 +15,7 @@ export type GameCompany = {
     logo?: GameCompanyLogo;
     name: string;
     parent?: GameCompany;
+    parentId: number | null;
     slug: string;
     startDate?: string;
     startDateCategory?: string;

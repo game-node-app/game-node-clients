@@ -6,5 +6,6 @@ export * from "./category/index";
 export * from "./figure/index";
 export * from "./form/index";
 export * from "./hooks/index";
+export * from "./result/index";
 export * from "./share/index";
 export * from "./view/index";

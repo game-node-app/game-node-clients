@@ -9,12 +9,12 @@ export type GameInvolvedCompany = {
     checksum?: string;
     company: GameCompany;
     companyId: number;
-    createdAt: string;
     developer: boolean;
     porting: boolean;
     publisher: boolean;
     supporting: boolean;
-    updatedAt: string;
     games: Array<Game>;
+    createdAt: string;
+    updatedAt: string;
 };
 

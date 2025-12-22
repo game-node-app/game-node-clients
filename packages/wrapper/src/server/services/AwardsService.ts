@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AddCategorySuggestionDto } from '../models/AddCategorySuggestionDto';
+import type { AwardsCategoryResult } from '../models/AwardsCategoryResult';
 import type { AwardsEvent } from '../models/AwardsEvent';
 import type { AwardsVote } from '../models/AwardsVote';
 import type { CreateUpdateAwardsCategoryDto } from '../models/CreateUpdateAwardsCategoryDto';
@@ -176,6 +177,22 @@ export class AwardsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/awards/{eventId}/categories',
+            path: {
+                'eventId': eventId,
+            },
+        });
+    }
+    /**
+     * @param eventId
+     * @returns AwardsCategoryResult
+     * @throws ApiError
+     */
+    public static awardsControllerGetResultsByEventIdV1(
+        eventId: number,
+    ): CancelablePromise<Array<AwardsCategoryResult>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/awards/{eventId}/results',
             path: {
                 'eventId': eventId,
             },

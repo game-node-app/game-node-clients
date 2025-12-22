@@ -4,6 +4,7 @@
 
 export * from "./AwardsEventLogo";
 export * from "./AwardsEventOverview";
+export * from "./AwardsEventResultOverview";
 export * from "./AwardsEventVoteScreen";
 export * from "./AwardsNomineesOverview";
 export * from "./AwardsNomineesScreen";

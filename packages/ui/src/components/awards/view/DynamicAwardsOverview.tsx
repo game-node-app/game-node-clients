@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { AwardsEventOverview, useAwardEvent } from "#@/components";
 import { Box, Stack } from "@mantine/core";
 import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
+import { AwardsEventResultOverview } from "#@/components/awards/view/AwardsEventResultOverview";
 
 /**
  * Component that dinamically renders the awards' vote CTA or result overview based on the event year
@@ -43,6 +44,10 @@ const DynamicAwardsOverview = () => {
         <AwardsRecentVotes eventId={event.id} limit={3} />
       </Stack>
     );
+  }
+
+  if (isResultAvailable) {
+    return <AwardsEventResultOverview eventId={event.id} />;
   }
 
   return null;
