@@ -11,24 +11,19 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="- versioning">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="add awards result components and update models for event results">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultGameFigure.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultGameFigure.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/Game.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/GameCollection.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/GameCompany.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/GameCompany.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/GameInvolvedCompany.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/GameInvolvedCompany.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserPlaytime.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserPlaytime.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserPlaytimeDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserPlaytimeDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/AwardsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/AwardsService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/ProfileMetricsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/ProfileMetricsService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recommendation/hook/useRecommendations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recommendation/hook/useRecommendations.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +156,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:web">
+  <component name="RunManager" selected="npm.dev:mobile">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -381,15 +376,7 @@
       <workItem from="1765198398636" duration="1216000" />
       <workItem from="1766273464958" duration="1697000" />
       <workItem from="1766276203102" duration="1350000" />
-      <workItem from="1766365858460" duration="3421000" />
-    </task>
-    <task id="LOCAL-00017" summary="- trying to ditch nextjs output mode i guess">
-      <option name="closed" value="true" />
-      <created>1759725900660</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1759725900660</updated>
+      <workItem from="1766365858460" duration="5411000" />
     </task>
     <task id="LOCAL-00018" summary="- new user restart service">
       <option name="closed" value="true" />
@@ -775,7 +762,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764696680064</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="add awards result components and update models for event results">
+      <option name="closed" value="true" />
+      <created>1766369589353</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1766369589353</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -814,7 +809,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="virtual scroll" />
     <MESSAGE value="-" />
     <MESSAGE value="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections" />
     <MESSAGE value="- versioning&#10;- removes @hello-pangea/dnd" />
@@ -839,7 +833,8 @@
     <MESSAGE value="- typescript fixes" />
     <MESSAGE value="- fixes regression related to collection entry form unused field" />
     <MESSAGE value="- versioning" />
-    <option name="LAST_COMMIT_MESSAGE" value="- versioning" />
+    <MESSAGE value="add awards result components and update models for event results" />
+    <option name="LAST_COMMIT_MESSAGE" value="add awards result components and update models for event results" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

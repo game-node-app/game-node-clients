@@ -46,7 +46,7 @@ const AwardsResultCategory = ({ result }: Props) => {
   }, [gamesQuery.data, onMobile, result.winners]);
 
   return (
-    <Stack className={"items-center p-4 bg-paper-3"}>
+    <Stack className={"items-center p-4 bg-paper-3 mobile:bg-paper-2"}>
       <Title size={"h4"} className={"mb-3"}>
         {category.name}
       </Title>

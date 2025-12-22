@@ -30,8 +30,6 @@ const AwardsResultGameFigure = ({
 
   const color =
     colorClasses[position as keyof typeof colorClasses] || "text-gray-600";
-  const scale =
-    scaleClasses[position as keyof typeof scaleClasses] || "scale-95";
 
   const DescriptionElement = onMobile ? Popover : HoverCard;
 
@@ -60,7 +58,7 @@ const AwardsResultGameFigure = ({
         </DescriptionElement.Dropdown>
       </DescriptionElement>
 
-      <Flex className={"mt-auto"}>
+      <Flex className={"mt-auto gap-1"}>
         <IconTrophyFilled className={cn(color)} />
         <Box className={cn(color)}>{position}</Box>
       </Flex>

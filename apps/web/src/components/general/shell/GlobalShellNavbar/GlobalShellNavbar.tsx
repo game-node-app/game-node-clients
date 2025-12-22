@@ -12,7 +12,14 @@ import GlobalShellNavbarCollections from "@/components/general/shell/GlobalShell
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { useMemo, useState } from "react";
 import GlobalNavbarSearchBar from "@/components/general/shell/GlobalShellNavbar/search-bar/GlobalShellNavbarSearchBar";
-import { EUserRoles, UserButton, useUserProfile, useUserRoles } from "@repo/ui";
+import {
+  EUserRoles,
+  useAwardEvent,
+  UserButton,
+  useRunningAwardEvent,
+  useUserProfile,
+  useUserRoles,
+} from "@repo/ui";
 import clsx from "clsx";
 
 interface NavbarItem {
@@ -44,6 +51,8 @@ export default function GlobalShellNavbar({
   const userProfileQuery = useUserProfile(
     session.loading ? undefined : session.userId,
   );
+  const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
+    useRunningAwardEvent();
 
   const userRoles = useUserRoles();
 
@@ -99,6 +108,17 @@ export default function GlobalShellNavbar({
       <div className={clsx(classes.section, "ps-6")}>
         <div className="">
           {mainLinks}
+          {isAwardsEventRunning && (
+            <UnstyledButton className={classes.mainLink}>
+              <Link
+                href={`/awards/${awardsEventYear}`}
+                className={classes.mainLinkInner}
+                onClick={onClose}
+              >
+                <span>Awards</span>
+              </Link>
+            </UnstyledButton>
+          )}
           {hasAdminRouteAccess && (
             <UnstyledButton className={classes.mainLink}>
               <Anchor

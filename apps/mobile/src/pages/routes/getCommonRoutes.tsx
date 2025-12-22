@@ -24,6 +24,8 @@ import LibraryPage from "@/pages/library/library";
 import LibraryCollectionsPage from "@/pages/library/library_collections";
 import CollectionPage from "@/pages/library/collection";
 import CollectionReorderPage from "@/pages/library/collection_reorder";
+import AwardsEventRedirectPage from "@/pages/awards";
+import AwardsResultPage from "@/pages/awards/result";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -212,10 +214,27 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       render={({ match }) => <JournalPage userId={match.params.userId} />}
     />,
     <Route
+      key={`${prefix}-awards-redirect`}
+      path={`${prefix}/awards/:eventYear`}
+      exact
+      render={(props) => {
+        return (
+          <AwardsEventRedirectPage eventYear={props.match.params.eventYear} />
+        );
+      }}
+    />,
+    <Route
       key={`${prefix}-awards-vote`}
       path={`${prefix}/awards/:eventYear/vote`}
       render={(props) => {
         return <AwardsVotePage eventYear={props.match.params.eventYear} />;
+      }}
+    />,
+    <Route
+      key={`${prefix}-awards-result`}
+      path={`${prefix}/awards/:eventYear/result`}
+      render={(props) => {
+        return <AwardsResultPage eventYear={props.match.params.eventYear} />;
       }}
     />,
     <Route

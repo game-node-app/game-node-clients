@@ -16,6 +16,7 @@ import {
   RecentlyPlayedGamesShare,
   useAwardEvent,
   UserButton,
+  useRunningAwardEvent,
   useUserId,
 } from "@repo/ui";
 import {
@@ -37,9 +38,8 @@ import {
 const MobileSidebarMenu = () => {
   const userId = useUserId();
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
-  const { data: awardEvent } = useAwardEvent({
-    eventYear: new Date().getFullYear(),
-  });
+  const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
+    useRunningAwardEvent();
 
   const closeMenu = () => {
     menuController.close("main-menu").catch(console.error);
@@ -123,11 +123,11 @@ const MobileSidebarMenu = () => {
               closeMenu();
             }}
           />
-          {awardEvent && (
+          {isAwardsEventRunning && (
             <MobileSidebarButton
               title={"Awards"}
               Icon={IconTrophyFilled}
-              href={`/awards/${awardEvent.year}/vote`}
+              href={`/awards/${awardsEventYear}`}
               onClick={closeMenu}
               withBadge
             />

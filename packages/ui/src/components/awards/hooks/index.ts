@@ -6,5 +6,7 @@ export * from "./useAwardCategoryResults";
 export * from "./useAwardCategoryVote";
 export * from "./useAwardEvent";
 export * from "./useAwardEventCategories";
+export * from "./useAwardEventRedirect";
 export * from "./useAwardEvents";
 export * from "./useAwardsRecentVotes";
+export * from "./useRunningAwardEvent";

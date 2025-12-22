@@ -15,6 +15,7 @@ export function useRecommendations(
         limit,
       );
     },
+    retry: false,
     staleTime: Infinity,
   });
 }

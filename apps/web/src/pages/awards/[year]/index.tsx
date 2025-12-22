@@ -1,23 +1,12 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import dayjs from "dayjs";
-import { CenteredLoading } from "@repo/ui";
+import { CenteredLoading, useAwardEventRedirect } from "@repo/ui";
 
 const AwardsEventPage = () => {
   const router = useRouter();
-
-  const targetYear = useMemo(() => {
-    // Shows last year event if the current month is before March (non-inclusive)
-    if (dayjs().month() + 1 < 3) {
-      return dayjs().subtract(1, "year").year();
-    }
-
-    return dayjs().year();
-  }, []);
-
-  useEffect(() => {
-    router.push(`/awards/${targetYear}/vote`);
-  }, [router, targetYear]);
+  const { year } = router.query;
+  const eventYear = Array.isArray(year) ? undefined : Number(year);
+  useAwardEventRedirect(eventYear);
 
   return <CenteredLoading />;
 };

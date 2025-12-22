@@ -4,4 +4,5 @@
 
 export * from "./AwardsResultCategories";
 export * from "./AwardsResultCategory";
+export * from "./AwardsResultGameFigure";
 export * from "./AwardsResultScreen";

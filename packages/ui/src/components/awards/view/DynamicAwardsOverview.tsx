@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
-import dayjs from "dayjs";
-import { AwardsEventOverview, useAwardEvent } from "#@/components";
-import { Box, Stack } from "@mantine/core";
+import React from "react";
+import { AwardsEventOverview, useRunningAwardEvent } from "#@/components";
+import { Stack } from "@mantine/core";
 import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
 import { AwardsEventResultOverview } from "#@/components/awards/view/AwardsEventResultOverview";
 
@@ -10,44 +9,23 @@ import { AwardsEventResultOverview } from "#@/components/awards/view/AwardsEvent
  * @constructor
  */
 const DynamicAwardsOverview = () => {
-  const targetYear = useMemo(() => {
-    // Shows last year event if the current month is before March (non-inclusive)
-    if (dayjs().month() + 1 < 3) {
-      return dayjs().subtract(1, "year").year();
-    }
+  const { isResultsPeriod, isVotingPeriod, eventId } = useRunningAwardEvent();
 
-    return dayjs().year();
-  }, []);
-
-  const { data: event } = useAwardEvent({ eventYear: targetYear });
-
-  const isResultAvailable =
-    event != undefined && dayjs().isAfter(dayjs(event?.resultsDate));
-
-  const isVotingPermitted =
-    event != undefined &&
-    dayjs().isAfter(event.votingStartDate) &&
-    dayjs().isBefore(dayjs(event?.votingEndDate));
-
-  if (!event) {
-    return null;
-  }
-
-  if (isVotingPermitted || !isResultAvailable) {
+  if (isVotingPeriod) {
     return (
       <Stack className={"w-fit"}>
         <AwardsEventOverview
-          eventId={event.id}
+          eventId={eventId!}
           withBackground={false}
           withButton
         />
-        <AwardsRecentVotes eventId={event.id} limit={3} />
+        <AwardsRecentVotes eventId={eventId!} />
       </Stack>
     );
   }
 
-  if (isResultAvailable) {
-    return <AwardsEventResultOverview eventId={event.id} />;
+  if (isResultsPeriod) {
+    return <AwardsEventResultOverview eventId={eventId!} />;
   }
 
   return null;
