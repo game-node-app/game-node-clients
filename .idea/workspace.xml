@@ -11,19 +11,10 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="add awards result components and update models for event results">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="versioning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/awards/[year]/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultGameFigure.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultGameFigure.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/DynamicAwardsOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recommendation/hook/useRecommendations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recommendation/hook/useRecommendations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/useAwardCategoryVote.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/useAwardCategoryVote.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategories.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -376,23 +367,8 @@
       <workItem from="1765198398636" duration="1216000" />
       <workItem from="1766273464958" duration="1697000" />
       <workItem from="1766276203102" duration="1350000" />
-      <workItem from="1766365858460" duration="5411000" />
-    </task>
-    <task id="LOCAL-00018" summary="- new user restart service">
-      <option name="closed" value="true" />
-      <created>1759801282582</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1759801282582</updated>
-    </task>
-    <task id="LOCAL-00019" summary="- fix import error">
-      <option name="closed" value="true" />
-      <created>1759801564255</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1759801564255</updated>
+      <workItem from="1766365858460" duration="5455000" />
+      <workItem from="1766584579051" duration="2145000" />
     </task>
     <task id="LOCAL-00020" summary="- fix image size for game cover&#10;- fix search pagination">
       <option name="closed" value="true" />
@@ -770,7 +746,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766369589353</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="add awards result components and implement event redirection logic">
+      <option name="closed" value="true" />
+      <created>1766371560559</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1766371560559</updated>
+    </task>
+    <task id="LOCAL-00068" summary="versioning">
+      <option name="closed" value="true" />
+      <created>1766584659027</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1766584659027</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -809,8 +801,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="-" />
-    <MESSAGE value="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections" />
     <MESSAGE value="- versioning&#10;- removes @hello-pangea/dnd" />
     <MESSAGE value="- fixes wrong link issue for mobile app in sidebar" />
     <MESSAGE value="- global css importing issues fixed" />
@@ -834,7 +824,9 @@
     <MESSAGE value="- fixes regression related to collection entry form unused field" />
     <MESSAGE value="- versioning" />
     <MESSAGE value="add awards result components and update models for event results" />
-    <option name="LAST_COMMIT_MESSAGE" value="add awards result components and update models for event results" />
+    <MESSAGE value="add awards result components and implement event redirection logic" />
+    <MESSAGE value="versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="versioning" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
