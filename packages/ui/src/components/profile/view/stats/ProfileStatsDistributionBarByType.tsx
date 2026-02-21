@@ -3,8 +3,9 @@ import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
 } from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
-import { BarChart, BarChartProps, LineChart } from "@mantine/charts";
+import { BarChartProps } from "@mantine/charts";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { ProfileStatsDistributionByTypeChart } from "#@/components";
 
 interface Props extends Omit<BarChartProps, "data" | "dataKey" | "series"> {
   userId: string;
@@ -25,23 +26,9 @@ const ProfileStatsDistributionBarByType = ({
     <>
       {metricsDistributionQuery.isLoading && <CenteredLoading />}
       {metricsDistributionQuery.data != undefined && (
-        <BarChart
-          h={300}
-          barProps={{
-            barSize: 30,
-            height: 30,
-          }}
+        <ProfileStatsDistributionByTypeChart
+          distribution={metricsDistributionQuery.data.distribution}
           {...barChartProps}
-          data={metricsDistributionQuery.data.distribution}
-          dataKey={"criteriaName"}
-          series={[
-            { name: "count", color: "blue", label: "Total" },
-            {
-              name: "finishedCount",
-              color: "red",
-              label: "Finished",
-            },
-          ]}
         />
       )}
     </>

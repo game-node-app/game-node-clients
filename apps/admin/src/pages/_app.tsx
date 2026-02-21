@@ -96,12 +96,7 @@ export default function App({
         useRouter: useNextRouterWrapper,
       }}
     >
-      <MantineProvider
-        theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-          fontFamily: roboto.style.fontFamily,
-        })}
-        forceColorScheme={"dark"}
-      >
+      <MantineProvider theme={DEFAULT_MANTINE_THEME} forceColorScheme={"dark"}>
         <Head>
           <title>GameNode</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />

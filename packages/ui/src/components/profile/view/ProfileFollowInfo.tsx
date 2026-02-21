@@ -39,7 +39,7 @@ const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
         <Text className={"text-white text-center mobile:font-bold"}>
           {totalItems}
         </Text>
-        <Text className={"mobile:text-dimmed"}>{criteriaText}</Text>
+        <Text className={"text-dimmed"}>{criteriaText}</Text>
       </UnstyledButton>
     </Box>
   );

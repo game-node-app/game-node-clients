@@ -29,7 +29,7 @@ const GameInfoContentTitle = ({
         onClick={onGoBack}
         {...iconProps}
       >
-        <IconArrowLeft />
+        <IconArrowLeft style={{ width: "70%", height: "70%" }} stroke={1.5} />
       </ActionIcon>
       <Title size={"h2"} {...titleProps}>
         {title}

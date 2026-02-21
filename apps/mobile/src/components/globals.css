@@ -23,7 +23,7 @@
 }
 
 :root {
-    --text-color: #D9D9D9;
+    --text-color: #FFFFFF;
     --ion-padding: var(--mantine-spacing-md) !important;
     --ion-font-family: Roboto, Roboto Fallback;
     --ion-text-color: var(--text-color) !important;

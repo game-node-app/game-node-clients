@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "Furore";
+    src: url("/font/Furore.otf");
+}
+
+.recapYearTitle {
+    font-family: "Furore", sans-serif;
+    font-weight: bold;
+}

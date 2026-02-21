@@ -127,8 +127,11 @@ const CollectionEntryDetailView = ({
               <Skeleton className={"w-72 h-8"} />
             ) : (
               <GameInfoContentTitle
-                title={`${profileQuery.data?.username}'s Collection Entry`}
+                title=""
                 onGoBack={() => onGoBack?.()}
+                iconProps={{
+                  size: "xl",
+                }}
               />
             )}
           </>

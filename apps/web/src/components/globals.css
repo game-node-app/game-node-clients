@@ -17,7 +17,10 @@
 @tailwind utilities;
 
 :root {
+    --text-color: #FFFFFF;
+
     @mixin dark-root {
+        --mantine-color-text: var(--text-color);
         --mantine-color-body: #191919;
     }
 }

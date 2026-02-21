@@ -33,22 +33,30 @@ const DEFAULT_ProfileViewNavbarItem = ({
       >
         <Stack
           className={
-            "items-center gap-1 text-gray-100 data-[active=true]:text-white"
+            "items-center gap-1 text-[#868686] data-[active=true]:text-white"
           }
         >
           {others.icon != undefined && (
-            <others.icon className={"font-bold"} size={"2rem"} />
+            <others.icon
+              className={
+                "font-bold text-[#868686] data-[active=true]:text-white"
+              }
+              size={"2rem"}
+              data-active={activeTab === value ? "true" : "false"}
+            />
           )}
           {count != undefined && (
             <Text
-              className={"font-bold text-lg data-[active=true]:text-white"}
+              className={
+                "font-bold text-lg text-[#868686] data-[active=true]:text-white"
+              }
               data-active={activeTab === value ? "true" : "false"}
             >
               {count}
             </Text>
           )}
           <Text
-            className={"font-bold data-[active=true]:text-white"}
+            className={"font-bold text-[#868686] data-[active=true]:text-white"}
             data-active={activeTab === value ? "true" : "false"}
           >
             {label}

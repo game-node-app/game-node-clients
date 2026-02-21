@@ -4,8 +4,10 @@
 
 export * from "./ProfileStatsDataIcon";
 export * from "./ProfileStatsDistributionBarByType";
+export * from "./ProfileStatsDistributionByTypeChart";
 export * from "./ProfileStatsDistributionLineByYear";
 export * from "./ProfileStatsDistributionRadarByType";
+export * from "./ProfileStatsDistributionRadarByTypeChart";
 export * from "./ProfileStatsForPeriod";
 export * from "./ProfileStatsView";
 export * from "./UserRecentStatsReport";

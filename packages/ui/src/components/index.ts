@@ -23,6 +23,7 @@ export * from "./posts/index";
 export * from "./preferences/index";
 export * from "./preferred-platform/index";
 export * from "./profile/index";
+export * from "./recap/index";
 export * from "./recommendation/index";
 export * from "./report/index";
 export * from "./review/index";

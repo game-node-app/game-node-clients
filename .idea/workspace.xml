@@ -11,10 +11,26 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="versioning">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="chore: versioning">
+      <change beforePath="$PROJECT_DIR$/.idea/game-node-clients.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/game-node-clients.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/useAwardCategoryVote.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/hooks/useAwardCategoryVote.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/result/AwardsResultCategories.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoContentTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoContentTitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/navbar/ProfileViewNavbarItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/navbar/ProfileViewNavbarItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionBarByType.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionBarByType.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionRadarByType.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionRadarByType.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +41,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="CSS File" />
         <option value="Rust File" />
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
@@ -43,6 +59,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/node_modules/@tailwindcss/vite/dist/index.d.mts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupnpm">
+      <scroll-view-position x="0" y="0" />
+    </layout>
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="gfZNSE8l" />
@@ -147,7 +168,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:mobile">
+  <component name="RunManager" selected="npm.dev:web">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -248,8 +269,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
       </set>
     </attachedChunks>
   </component>
@@ -368,23 +389,18 @@
       <workItem from="1766273464958" duration="1697000" />
       <workItem from="1766276203102" duration="1350000" />
       <workItem from="1766365858460" duration="5455000" />
-      <workItem from="1766584579051" duration="2145000" />
-    </task>
-    <task id="LOCAL-00020" summary="- fix image size for game cover&#10;- fix search pagination">
-      <option name="closed" value="true" />
-      <created>1760099139468</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1760099139468</updated>
-    </task>
-    <task id="LOCAL-00021" summary="- package upgrades and react compiler rc install">
-      <option name="closed" value="true" />
-      <created>1760101011613</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1760101011613</updated>
+      <workItem from="1766584579051" duration="2910000" />
+      <workItem from="1767698555850" duration="2462000" />
+      <workItem from="1767875760703" duration="881000" />
+      <workItem from="1769964257757" duration="620000" />
+      <workItem from="1770032379215" duration="602000" />
+      <workItem from="1770035270692" duration="1283000" />
+      <workItem from="1770037914330" duration="160000" />
+      <workItem from="1770038260139" duration="12172000" />
+      <workItem from="1770291956581" duration="603000" />
+      <workItem from="1770381382572" duration="8234000" />
+      <workItem from="1770641032045" duration="12065000" />
+      <workItem from="1770771634078" duration="3238000" />
     </task>
     <task id="LOCAL-00022" summary="- react compiler working!!">
       <option name="closed" value="true" />
@@ -762,7 +778,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766584659027</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="fix: hide your goty category in result screen">
+      <option name="closed" value="true" />
+      <created>1766589980105</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1766589980105</updated>
+    </task>
+    <task id="LOCAL-00070" summary="chore: versioning">
+      <option name="closed" value="true" />
+      <created>1766589992717</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1766589992717</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -801,8 +833,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- versioning&#10;- removes @hello-pangea/dnd" />
-    <MESSAGE value="- fixes wrong link issue for mobile app in sidebar" />
     <MESSAGE value="- global css importing issues fixed" />
     <MESSAGE value="- games automatic import" />
     <MESSAGE value="- vibenode" />
@@ -826,7 +856,9 @@
     <MESSAGE value="add awards result components and update models for event results" />
     <MESSAGE value="add awards result components and implement event redirection logic" />
     <MESSAGE value="versioning" />
-    <option name="LAST_COMMIT_MESSAGE" value="versioning" />
+    <MESSAGE value="fix: hide your goty category in result screen" />
+    <MESSAGE value="chore: versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: versioning" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
