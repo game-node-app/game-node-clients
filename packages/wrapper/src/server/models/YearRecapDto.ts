@@ -34,7 +34,7 @@ export type YearRecapDto = {
     totalReviewsCreated: number;
     totalCollectionsCreated: number;
     totalFollowersGained: number;
-    totalLikesReceived: number;
+    totalLikesPerformed: number;
     genres: Array<YearRecapGenre>;
     themes: Array<YearRecapTheme>;
     modes: Array<YearRecapMode>;

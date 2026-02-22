@@ -42,9 +42,9 @@ const RecapMiscStats = ({ userId, targetYear }: BaseRecapStatsProps) => {
         </Group>
         <Group className={"gap-3"}>
           <Text className={"text-4xl font-black"}>
-            {recap?.totalLikesReceived}
+            {recap?.totalLikesPerformed}
           </Text>
-          <Text className={"text-sm"}>likes received</Text>
+          <Text className={"text-sm"}>likes given</Text>
         </Group>
       </Group>
     </Stack>

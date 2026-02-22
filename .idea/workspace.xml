@@ -11,26 +11,17 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="chore: versioning">
-      <change beforePath="$PROJECT_DIR$/.idea/game-node-clients.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/game-node-clients.iml" afterDir="false" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: year recap work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoContentTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoContentTitle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileFollowInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/navbar/ProfileViewNavbarItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/navbar/ProfileViewNavbarItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionBarByType.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionBarByType.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionRadarByType.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/ProfileStatsDistributionRadarByType.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/stats/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/RecapYearTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/RecapYearTitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecapDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecapDto.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,14 +392,8 @@
       <workItem from="1770381382572" duration="8234000" />
       <workItem from="1770641032045" duration="12065000" />
       <workItem from="1770771634078" duration="3238000" />
-    </task>
-    <task id="LOCAL-00022" summary="- react compiler working!!">
-      <option name="closed" value="true" />
-      <created>1760102525179</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1760102525179</updated>
+      <workItem from="1771716129255" duration="2967000" />
+      <workItem from="1771766026224" duration="960000" />
     </task>
     <task id="LOCAL-00023" summary="- enables react compiler for nextjs projects">
       <option name="closed" value="true" />
@@ -794,7 +779,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766589992717</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="feat: year recap work">
+      <option name="closed" value="true" />
+      <created>1771716222340</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1771716222341</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -833,7 +826,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- global css importing issues fixed" />
     <MESSAGE value="- games automatic import" />
     <MESSAGE value="- vibenode" />
     <MESSAGE value="- recent activity component" />
@@ -858,7 +850,8 @@
     <MESSAGE value="versioning" />
     <MESSAGE value="fix: hide your goty category in result screen" />
     <MESSAGE value="chore: versioning" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: versioning" />
+    <MESSAGE value="feat: year recap work" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: year recap work" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

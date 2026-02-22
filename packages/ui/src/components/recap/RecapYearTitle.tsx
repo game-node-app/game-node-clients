@@ -9,12 +9,14 @@ interface Props {
   userId: string;
   targetYear: number;
   withShareButton?: boolean;
+  withUserAvatar?: boolean;
 }
 
 const RecapYearTitle = ({
   userId,
   targetYear,
   withShareButton = false,
+  withUserAvatar = false,
 }: Props) => {
   const ownUserId = useUserId();
   const isOwnRecap = ownUserId === userId;
@@ -33,7 +35,7 @@ const RecapYearTitle = ({
         </Text>
       </Group>
       <Group className={"justify-between"}>
-        <UserAvatarGroup userId={userId} />
+        {withUserAvatar && <UserAvatarGroup userId={userId} />}
         {withShareButton && (
           <UnstyledButton
             onClick={() => {

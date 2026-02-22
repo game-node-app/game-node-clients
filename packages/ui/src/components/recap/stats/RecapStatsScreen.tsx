@@ -28,6 +28,7 @@ const RecapStatsScreen = ({ userId, targetYear }: Props) => {
           userId={userId}
           targetYear={targetYear}
           withShareButton
+          withUserAvatar
         />
       </Flex>
       <RecapStatsCard className={"mt-24 p-4"}>

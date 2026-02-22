@@ -19,7 +19,7 @@ export type YearRecap = {
     totalReviewsCreated: number;
     totalCollectionsCreated: number;
     totalFollowersGained: number;
-    totalLikesReceived: number;
+    totalLikesPerformed: number;
     playedGames: Array<YearRecapPlayedGame>;
     genres: Array<YearRecapGenre>;
     themes: Array<YearRecapTheme>;

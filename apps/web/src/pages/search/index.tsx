@@ -6,6 +6,7 @@ import {
   CenteredErrorMessage,
   DetailsBox,
   DynamicAwardsOverview,
+  DynamicRecapOverview,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
@@ -117,6 +118,7 @@ const Index = () => {
             {userId && <RecommendationCarousel criteria="finished" />}
             <TrendingReviewCarousel />
             <DynamicAwardsOverview />
+            <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
             <Center className={"w-full"}>
               <Box className={"w-full lg:w-3/4"}>
