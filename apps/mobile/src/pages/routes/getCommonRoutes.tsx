@@ -26,6 +26,7 @@ import CollectionPage from "@/pages/library/collection";
 import CollectionReorderPage from "@/pages/library/collection_reorder";
 import AwardsEventRedirectPage from "@/pages/awards";
 import AwardsResultPage from "@/pages/awards/result";
+import RecapStatsPage from "@/pages/recap/recap_stats";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -247,6 +248,15 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
             userId={props.match.params.userId}
           />
         );
+      }}
+    />,
+    <Route
+      key={`${prefix}-recap-stats`}
+      path={`${prefix}/recap/:year/:userId`}
+      render={(props) => {
+        const year = props.match.params.year;
+        const userId = props.match.params.userId;
+        return <RecapStatsPage year={parseInt(year)} userId={userId} />;
       }}
     />,
   ];

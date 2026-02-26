@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   DetailsBox,
   DynamicAwardsOverview,
+  DynamicRecapOverview,
   InfiniteLoaderProps,
   PostsFeed,
   RecentActivityList,
@@ -59,6 +60,9 @@ const HomePage = () => {
             queryClient.invalidateQueries({
               queryKey: ["blog"],
             }),
+            queryClient.invalidateQueries({
+              queryKey: ["recap"],
+            }),
           ];
 
           await Promise.all(promises);
@@ -79,6 +83,7 @@ const HomePage = () => {
           withControls={false}
         />
         <DynamicAwardsOverview />
+        <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
         <Stack className={"w-full"}>
           <Title size={"h3"} className={"text-center"}>

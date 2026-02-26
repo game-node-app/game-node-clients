@@ -13,15 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: year recap work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/RecapYearTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/RecapYearTitle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecap.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecapDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/YearRecapDto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +153,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:web">
+  <component name="RunManager" selected="npm.dev:mobile">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -393,15 +387,8 @@
       <workItem from="1770641032045" duration="12065000" />
       <workItem from="1770771634078" duration="3238000" />
       <workItem from="1771716129255" duration="2967000" />
-      <workItem from="1771766026224" duration="960000" />
-    </task>
-    <task id="LOCAL-00023" summary="- enables react compiler for nextjs projects">
-      <option name="closed" value="true" />
-      <created>1760202143868</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1760202143868</updated>
+      <workItem from="1771766026224" duration="1377000" />
+      <workItem from="1772103827886" duration="1696000" />
     </task>
     <task id="LOCAL-00024" summary="- adds posthog instrumentation for web client and updates privacy notice">
       <option name="closed" value="true" />
@@ -787,7 +774,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771716222341</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="feat: year recap work">
+      <option name="closed" value="true" />
+      <created>1771769312551</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1771769312552</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
