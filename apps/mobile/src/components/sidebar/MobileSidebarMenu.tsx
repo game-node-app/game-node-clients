@@ -14,7 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   Link,
   RecentlyPlayedGamesShare,
-  useAwardEvent,
+  useCurrentRecapStatus,
   UserButton,
   useRunningAwardEvent,
   useUserId,
@@ -23,6 +23,7 @@ import {
   IconActivity,
   IconCloudDownload,
   IconDeviceGamepad2,
+  IconHistory,
   IconLayout2Filled,
   IconLibrary,
   IconLogout,
@@ -40,6 +41,7 @@ const MobileSidebarMenu = () => {
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
     useRunningAwardEvent();
+  const { isRecapCreated, targetYear } = useCurrentRecapStatus(userId);
 
   const closeMenu = () => {
     menuController.close("main-menu").catch(console.error);
@@ -128,6 +130,15 @@ const MobileSidebarMenu = () => {
               title={"Awards"}
               Icon={IconTrophyFilled}
               href={`/awards/${awardsEventYear}`}
+              onClick={closeMenu}
+              withBadge
+            />
+          )}
+          {isRecapCreated && (
+            <MobileSidebarButton
+              title={`${targetYear} Recap`}
+              Icon={IconHistory}
+              href={`/recap/${targetYear}/${userId}`}
               onClick={closeMenu}
               withBadge
             />

@@ -1,6 +1,6 @@
 import React from "react";
 import { AppPage } from "@/components/general/AppPage";
-import { RecapStatsScreen, useUserProfile } from "@repo/ui";
+import { RecapStatsScreen, useUserId, useUserProfile } from "@repo/ui";
 
 interface Props {
   year: number;
@@ -8,10 +8,18 @@ interface Props {
 }
 
 const RecapStatsPage = ({ year, userId }: Props) => {
+  const ownUserId = useUserId();
   const profile = useUserProfile(userId);
+  const isOwnRecap = ownUserId === userId;
 
   return (
-    <AppPage title={`Recap for ${profile.data?.username} (${year})`}>
+    <AppPage
+      title={
+        isOwnRecap
+          ? `Your ${year} Recap`
+          : `${year} recap for ${profile.data?.username}`
+      }
+    >
       <RecapStatsScreen userId={userId} targetYear={year} />
     </AppPage>
   );

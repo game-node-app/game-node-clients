@@ -11,11 +11,11 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: year recap work">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: year recap for mobile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/recap/recap_stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/recap/recap_stats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/hooks/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +28,8 @@
         <option value="package.json" />
         <option value="Rust File" />
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -388,15 +388,7 @@
       <workItem from="1770771634078" duration="3238000" />
       <workItem from="1771716129255" duration="2967000" />
       <workItem from="1771766026224" duration="1377000" />
-      <workItem from="1772103827886" duration="1696000" />
-    </task>
-    <task id="LOCAL-00024" summary="- adds posthog instrumentation for web client and updates privacy notice">
-      <option name="closed" value="true" />
-      <created>1760206047412</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760206047412</updated>
+      <workItem from="1772103827886" duration="4102000" />
     </task>
     <task id="LOCAL-00025" summary="- posthog for mobile client">
       <option name="closed" value="true" />
@@ -782,7 +774,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771769312552</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="feat: year recap for mobile">
+      <option name="closed" value="true" />
+      <created>1772114844167</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1772114844168</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -821,7 +821,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- games automatic import" />
     <MESSAGE value="- vibenode" />
     <MESSAGE value="- recent activity component" />
     <MESSAGE value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
@@ -846,7 +845,8 @@
     <MESSAGE value="fix: hide your goty category in result screen" />
     <MESSAGE value="chore: versioning" />
     <MESSAGE value="feat: year recap work" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: year recap work" />
+    <MESSAGE value="feat: year recap for mobile" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: year recap for mobile" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
