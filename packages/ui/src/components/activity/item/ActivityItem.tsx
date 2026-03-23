@@ -1,5 +1,5 @@
 import React, { ReactElement, useMemo } from "react";
-import { Box, Group, Text } from "@mantine/core";
+import { Box, Flex, Group, Text } from "@mantine/core";
 import {
   ActivityItemComments,
   ActivityItemLikes,
@@ -10,6 +10,7 @@ import {
   useCollectionEntry,
   useGame,
   usePost,
+  UserAvatar,
   UserAvatarGroup,
   useReview,
   useUserFollow,
@@ -18,11 +19,13 @@ import {
 import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
 import { buildPresenterComponent } from "#@/context";
+import { Link } from "#@/util";
 
 const DEFAULT_ActivityItem = ({
   activity,
   withUserAvatar = true,
 }: ActivityItemProps) => {
+  const profileQuery = useUserProfile(activity.profileUserId);
   const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
   const collectionQuery = useCollection(activity.collectionId);
   const reviewQuery = useReview(activity.reviewId);
@@ -46,18 +49,18 @@ const DEFAULT_ActivityItem = ({
   const content = useMemo(() => {
     return match<Activity.type, ReactElement>(activity.type)
       .with(Activity.type.POST, () => (
-        <Text>
-          <Text span>Posted about </Text>
+        <>
+          <Text span>posted about </Text>
           <TextLink
             href={`/posts?postId=${activity.postId}`}
             className={"font-bold text-white no-underline"}
           >
             {gameQuery.data?.name}
           </TextLink>
-        </Text>
+        </>
       ))
       .with(Activity.type.COLLECTION_ENTRY, () => (
-        <Text className={""}>
+        <>
           <Text span>added </Text>
           <TextLink
             href={`/game/${gameId}`}
@@ -72,26 +75,23 @@ const DEFAULT_ActivityItem = ({
           >
             {collectionQuery.data?.name}
           </TextLink>
-        </Text>
+        </>
       ))
       .with(Activity.type.REVIEW, () => (
-        <Group className={"gap-1"}>
-          <Text className={""}>
-            <Text span>reviewed </Text>
-            <TextLink
-              href={`/game/${gameId}?reviewId=${activity.reviewId}`}
-              className={"font-bold text-white no-underline"}
-            >
-              {gameQuery.data?.name}
-            </TextLink>
-            <Text span> with </Text>
-          </Text>
-
+        <>
+          <Text span>reviewed </Text>
+          <TextLink
+            href={`/game/${gameId}?reviewId=${activity.reviewId}`}
+            className={"font-bold text-white no-underline"}
+          >
+            {gameQuery.data?.name}
+          </TextLink>
+          <Text span> with </Text>
           <GameRating size={"sm"} value={reviewQuery.data?.rating} />
-        </Group>
+        </>
       ))
       .with(Activity.type.FOLLOW, () => (
-        <Text>
+        <>
           <Text span>Started following </Text>
           <TextLink
             href={`/profile/${userFollowQuery.data?.followedUserId}`}
@@ -99,7 +99,7 @@ const DEFAULT_ActivityItem = ({
           >
             {followedProfileQuery.data?.username}
           </TextLink>
-        </Text>
+        </>
       ))
       .exhaustive();
   }, [
@@ -117,26 +117,26 @@ const DEFAULT_ActivityItem = ({
   ]);
 
   return (
-    <Group className={"flex-nowrap gap-2.5 lg:items-center "}>
+    <Group className={"flex-nowrap gap-2 lg:items-center "}>
       {withUserAvatar && (
-        <Box className={"max-w-fit"}>
-          <UserAvatarGroup
-            userId={activity.profileUserId}
-            avatarProps={{
-              size: "md",
-            }}
-            groupProps={{
-              gap: "xs",
-              className: "max-w-fit flex-nowrap",
-            }}
-            textProps={{
-              lineClamp: 2,
-              className: "text-xs lg:text-md",
-            }}
-          />
-        </Box>
+        <Link
+          href={`/profile/${activity.profileUserId}`}
+          className={"max-w-fit"}
+        >
+          <UserAvatar userId={activity.profileUserId} size={"md"} />
+        </Link>
       )}
-      <Box className={"lg:w-10/12"}>{content}</Box>
+
+      <Text className={"w-10/12"}>
+        <Link
+          className={"font-bold truncate max-w-[25%] me-1"}
+          href={`/profile/${activity.profileUserId}`}
+        >
+          {profileQuery.data?.username}
+        </Link>
+        {content}
+      </Text>
+
       <Group className={"flex-nowrap ms-auto gap-1 lg:gap-2 items-start"}>
         <ActivityItemLikes activity={activity} />
         <ActivityItemComments activity={activity} />

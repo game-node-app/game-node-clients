@@ -36,6 +36,9 @@ const LandingHeader = () => {
           <Link href="/about" className="hidden lg:block">
             <span>About us</span>
           </Link>
+          <a href="https://status.gamenode.app" className="hidden lg:block">
+            <span>Service Status</span>
+          </a>
           <a
             href="https://github.com/game-node-app"
             className="hidden lg:block"

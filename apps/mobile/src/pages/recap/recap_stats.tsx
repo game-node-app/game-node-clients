@@ -17,7 +17,7 @@ const RecapStatsPage = ({ year, userId }: Props) => {
       title={
         isOwnRecap
           ? `Your ${year} Recap`
-          : `${year} recap for ${profile.data?.username}`
+          : `${year} Recap for ${profile.data?.username}`
       }
     >
       <RecapStatsScreen userId={userId} targetYear={year} />

@@ -11,11 +11,11 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: year recap for mobile">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: recap sidebar button for mobile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/recap/recap_stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/recap/recap_stats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/hooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +153,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:mobile">
+  <component name="RunManager" selected="npm.dev:web">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -388,15 +388,10 @@
       <workItem from="1770771634078" duration="3238000" />
       <workItem from="1771716129255" duration="2967000" />
       <workItem from="1771766026224" duration="1377000" />
-      <workItem from="1772103827886" duration="4102000" />
-    </task>
-    <task id="LOCAL-00025" summary="- posthog for mobile client">
-      <option name="closed" value="true" />
-      <created>1760208051531</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1760208051531</updated>
+      <workItem from="1772103827886" duration="4907000" />
+      <workItem from="1773454357195" duration="426000" />
+      <workItem from="1773668039951" duration="12000" />
+      <workItem from="1774272502486" duration="4465000" />
     </task>
     <task id="LOCAL-00026" summary="- versioning">
       <option name="closed" value="true" />
@@ -782,7 +777,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772114844168</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="feat: recap sidebar button for mobile">
+      <option name="closed" value="true" />
+      <created>1772125685011</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1772125685011</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -821,7 +824,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- vibenode" />
     <MESSAGE value="- recent activity component" />
     <MESSAGE value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
     <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
@@ -846,7 +848,8 @@
     <MESSAGE value="chore: versioning" />
     <MESSAGE value="feat: year recap work" />
     <MESSAGE value="feat: year recap for mobile" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: year recap for mobile" />
+    <MESSAGE value="feat: recap sidebar button for mobile" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: recap sidebar button for mobile" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
