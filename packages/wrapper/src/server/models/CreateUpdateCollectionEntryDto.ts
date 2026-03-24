@@ -16,6 +16,7 @@ export namespace CreateUpdateCollectionEntryDto {
         FINISHED = 'finished',
         PLANNED = 'planned',
         DROPPED = 'dropped',
+        ONGOING = 'ongoing',
     }
 }
 

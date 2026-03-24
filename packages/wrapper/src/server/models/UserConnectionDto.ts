@@ -7,13 +7,12 @@ export type UserConnectionDto = {
     isImporterViable: boolean;
     isImporterWatchViable: boolean;
     isPlaytimeImportViable: boolean;
+    isAchievementImportViable: boolean;
     id: number;
     type: UserConnectionDto.type;
     profileUserId: string;
     sourceUserId: string;
     sourceUsername: string;
-    isImporterEnabled: boolean;
-    isPlaytimeImportEnabled: boolean;
     isAutoImportEnabled: boolean;
     autoImportCollection: Collection | null;
     autoImportCollectionId: string | null;

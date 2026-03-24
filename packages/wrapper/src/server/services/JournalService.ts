@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GetJournalHeatmapResponseDto } from '../models/GetJournalHeatmapResponseDto';
+import type { GetObtainedAchievementsJournalResponseDto } from '../models/GetObtainedAchievementsJournalResponseDto';
 import type { JournalOverviewResponseDto } from '../models/JournalOverviewResponseDto';
 import type { JournalPlaylogGroupDto } from '../models/JournalPlaylogGroupDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -55,6 +56,22 @@ export class JournalService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/journal/heatmap/{userId}',
+            path: {
+                'userId': userId,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @returns GetObtainedAchievementsJournalResponseDto
+     * @throws ApiError
+     */
+    public static journalControllerGetObtainedAchievementsJournalV1(
+        userId: string,
+    ): CancelablePromise<GetObtainedAchievementsJournalResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/journal/achievements/{userId}',
             path: {
                 'userId': userId,
             },

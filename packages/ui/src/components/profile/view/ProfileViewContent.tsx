@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react";
 import {
   AchievementsScreen,
+  JournalObtainedAchievementsView,
   JournalOverviewView,
   PostsListView,
   ProfileCollectionsPage,
@@ -23,6 +24,7 @@ import {
   useUserProfile,
 } from "#@/components";
 import { useDebouncedCallback } from "@mantine/hooks";
+import { useObtainedGameAchievements } from "#@/components/game/achievement/hooks/useObtainedGameAchievements";
 
 interface Props {
   userId: string;
@@ -40,6 +42,7 @@ const ProfileViewContent = ({ userId }: Props) => {
   });
   const reviewsQuery = useReviewsForUserId(userId, 0, 1);
   const obtainedAchievementsQuery = useAllObtainedAchievements(userId);
+  const obtainedGameAchievementsQuery = useObtainedGameAchievements({ userId });
 
   const [{ tab }, setParams] = useUrlState({
     tab: "main",
@@ -92,6 +95,12 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileViewNavbarItem
           label={"Achievements"}
           value={"achievements"}
+          count={obtainedGameAchievementsQuery.data?.pagination.totalItems ?? 0}
+          activeTab={tab}
+        />
+        <ProfileViewNavbarItem
+          label={"Feats"}
+          value={"feats"}
           count={obtainedAchievementsQuery.data?.length ?? 0}
           activeTab={tab}
         />
@@ -128,6 +137,10 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileCollectionsPage userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="achievements">
+        <JournalObtainedAchievementsView userId={userId} />
+      </Tabs.Panel>
+
+      <Tabs.Panel value="feats">
         <AchievementsScreen targetUserId={userId} withUserLevel={false} />
       </Tabs.Panel>
       <Tabs.Panel value="journal">

@@ -25,6 +25,7 @@ export namespace JournalEntryStatusDto {
         FINISHED = 'finished',
         PLANNED = 'planned',
         DROPPED = 'dropped',
+        ONGOING = 'ongoing',
     }
 }
 

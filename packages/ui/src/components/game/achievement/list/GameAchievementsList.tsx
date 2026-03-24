@@ -89,6 +89,7 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
         ?.platformIds.at(0);
 
       if (firstWithOwnedAchievement) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedPlatformId(firstWithOwnedAchievement);
         return;
       }

@@ -30,6 +30,7 @@ export namespace Collection {
         FINISHED = 'finished',
         PLANNED = 'planned',
         DROPPED = 'dropped',
+        ONGOING = 'ongoing',
     }
 }
 

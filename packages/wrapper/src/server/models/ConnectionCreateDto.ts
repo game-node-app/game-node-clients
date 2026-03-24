@@ -9,8 +9,6 @@ export type ConnectionCreateDto = {
      * e.g. a Steam's profile URL
      */
     userIdentifier: string;
-    isImporterEnabled: boolean;
-    isPlaytimeImportEnabled: boolean;
     isAutoImportEnabled: boolean;
     autoImportCollectionId?: string | null;
 };

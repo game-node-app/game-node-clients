@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { FindObtainedAchievementsResponseDto } from '../models/FindObtainedAchievementsResponseDto';
 import type { GameAchievementDto } from '../models/GameAchievementDto';
 import type { GameAchievementGroupDto } from '../models/GameAchievementGroupDto';
 import type { GameObtainedAchievementDto } from '../models/GameObtainedAchievementDto';
+import type { Object } from '../models/Object';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -94,11 +96,38 @@ export class GameAchievementService {
     }
     /**
      * @param userId
+     * @param offset
+     * @param limit
+     * @param orderBy
+     * @returns FindObtainedAchievementsResponseDto
+     * @throws ApiError
+     */
+    public static gameAchievementV2ControllerFindAllObtainedByUserIdV2(
+        userId: string,
+        offset?: number,
+        limit: number = 20,
+        orderBy?: Object,
+    ): CancelablePromise<FindObtainedAchievementsResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/game/achievement/{userId}/obtained/all',
+            path: {
+                'userId': userId,
+            },
+            query: {
+                'offset': offset,
+                'limit': limit,
+                'orderBy': orderBy,
+            },
+        });
+    }
+    /**
+     * @param userId
      * @param gameId
      * @returns GameObtainedAchievementDto
      * @throws ApiError
      */
-    public static gameAchievementV2ControllerFindAllObtainedByUserIdV2(
+    public static gameAchievementV2ControllerFindAllObtainedByUserIdAndGameIdV2(
         userId: string,
         gameId: number,
     ): CancelablePromise<Array<GameObtainedAchievementDto>> {

@@ -178,12 +178,12 @@ const GameAchievementProgressOverview = ({
         );
 
         return (
-          <Group className={"flex-nowrap gap-1"}>
+          <Group className={"flex-nowrap gap-1 justify-center"}>
             {trophyInfos.map((trophyInfo) => {
               return (
                 <Group
                   key={trophyInfo.trophyType}
-                  className={"gap-1 flex-nowrap items-center"}
+                  className={"gap-1 flex-nowrap items-center "}
                   c={TROPHY_TYPE_TO_COLOR[trophyInfo.trophyType]}
                 >
                   <IconTrophyFilled size={16} />

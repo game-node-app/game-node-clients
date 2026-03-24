@@ -17,6 +17,7 @@ export namespace FindCollectionEntriesForCollectionIdDto {
         FINISHED = 'finished',
         PLANNED = 'planned',
         DROPPED = 'dropped',
+        ONGOING = 'ongoing',
     }
 }
 

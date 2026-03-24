@@ -37,6 +37,7 @@ export namespace JournalPlaylogEntryDto {
         FINISHED = 'finished',
         PLANNED = 'planned',
         DROPPED = 'dropped',
+        ONGOING = 'ongoing',
     }
 }
 

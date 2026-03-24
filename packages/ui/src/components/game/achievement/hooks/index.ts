@@ -4,3 +4,4 @@
 
 export * from "./useGameAchievements";
 export * from "./useGameAchievementsV2";
+export * from "./useObtainedGameAchievements";

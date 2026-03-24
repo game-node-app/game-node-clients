@@ -17,6 +17,7 @@ export type FindAvailableConnectionsResponseDto = {
      */
     isImporterWatchViable: boolean;
     isPlaytimeImportViable: boolean;
+    isAchievementImportViable: boolean;
     iconName: string;
 };
 export namespace FindAvailableConnectionsResponseDto {

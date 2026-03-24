@@ -165,7 +165,7 @@ export class CollectionsEntriesService {
     public static collectionsEntriesControllerFindAllByLibraryIdV1(
         id: string,
         orderBy?: FindCollectionEntriesOrderBy,
-        status?: 'playing' | 'finished' | 'planned' | 'dropped',
+        status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
         offset?: number,
         limit: number = 20,
@@ -198,7 +198,7 @@ export class CollectionsEntriesService {
     public static collectionsEntriesControllerFindFavoritesByLibraryIdV1(
         userId: string,
         orderBy?: FindCollectionEntriesOrderBy,
-        status?: 'playing' | 'finished' | 'planned' | 'dropped',
+        status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
         offset?: number,
         limit: number = 20,

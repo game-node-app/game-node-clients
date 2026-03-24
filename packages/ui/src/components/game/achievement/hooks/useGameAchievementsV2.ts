@@ -13,6 +13,7 @@ export interface GameAchievementExtendedGroup extends GameAchievementGroupDto {
 export function useGameAchievementsV2(
   userId: string | undefined,
   gameId: number,
+  withObtained = true,
 ) {
   return useQuery({
     queryKey: ["game", "achievements", gameId, userId],
@@ -27,9 +28,9 @@ export function useGameAchievementsV2(
       }
 
       let obtainedAchievements: GameObtainedAchievementDto[] = [];
-      if (userId) {
+      if (userId && withObtained) {
         obtainedAchievements =
-          await GameAchievementService.gameAchievementV2ControllerFindAllObtainedByUserIdV2(
+          await GameAchievementService.gameAchievementV2ControllerFindAllObtainedByUserIdAndGameIdV2(
             userId,
             gameId,
           );

@@ -59,6 +59,7 @@ export type { FindCollectionEntriesGameFilterDto } from './models/FindCollection
 export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';
+export type { FindObtainedAchievementsResponseDto } from './models/FindObtainedAchievementsResponseDto';
 export { FindOneStatisticsDto } from './models/FindOneStatisticsDto';
 export type { FindRelatedCollectionEntriesResponseDto } from './models/FindRelatedCollectionEntriesResponseDto';
 export type { FindReviewPaginatedDto } from './models/FindReviewPaginatedDto';
@@ -101,6 +102,7 @@ export type { GameStatisticsPaginatedResponseDto } from './models/GameStatistics
 export type { GameTheme } from './models/GameTheme';
 export type { GameTimeToBeatDto } from './models/GameTimeToBeatDto';
 export type { GetJournalHeatmapResponseDto } from './models/GetJournalHeatmapResponseDto';
+export type { GetObtainedAchievementsJournalResponseDto } from './models/GetObtainedAchievementsJournalResponseDto';
 export type { GetPostsPaginatedResponseDto } from './models/GetPostsPaginatedResponseDto';
 export type { GetRecommendationsResponseDto } from './models/GetRecommendationsResponseDto';
 export { HandleReportRequestDto } from './models/HandleReportRequestDto';
@@ -108,6 +110,9 @@ export type { ImporterPaginatedResponseDto } from './models/ImporterPaginatedRes
 export { ImporterResponseItemDto } from './models/ImporterResponseItemDto';
 export type { ImporterStatusUpdateRequestDto } from './models/ImporterStatusUpdateRequestDto';
 export { ImporterWatchNotification } from './models/ImporterWatchNotification';
+export type { JournalAchievementsGameGroup } from './models/JournalAchievementsGameGroup';
+export type { JournalAchievementsMonthGroup } from './models/JournalAchievementsMonthGroup';
+export type { JournalAchievementsYearGroup } from './models/JournalAchievementsYearGroup';
 export type { JournalEntryDayGroupDto } from './models/JournalEntryDayGroupDto';
 export type { JournalEntryMonthGroupDto } from './models/JournalEntryMonthGroupDto';
 export { JournalEntryStatusDto } from './models/JournalEntryStatusDto';
