@@ -30,7 +30,7 @@ const JournalOverviewYearGroup = ({ yearGroup }: Props) => {
   }, [targetYear, yearGroup.months]);
 
   return (
-    <Stack className={"gap-0 ps-2"}>
+    <Stack className={"gap-0"}>
       <Group className={"gap-3"}>
         <Title size={"h4"} fw={"bold"} className={"text-white"}>
           {targetYear}

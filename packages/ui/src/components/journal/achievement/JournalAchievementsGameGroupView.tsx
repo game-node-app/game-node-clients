@@ -1,12 +1,12 @@
 import React from "react";
 import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import {
-  CenteredLoading,
   GameAchievementHoverIcon,
   GameFigureImage,
   useGame,
 } from "#@/components";
-import { Box, Flex, Group, Skeleton, Stack, Text } from "@mantine/core";
+import { Badge, Box, Flex, Group, Skeleton, Stack, Text } from "@mantine/core";
+import { cn } from "#@/util";
 
 interface Props {
   userId: string;
@@ -14,6 +14,8 @@ interface Props {
 }
 
 const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
+  const { isPlatinum, isComplete } = gameGroup;
+
   const { data: game, isLoading: isGameLoading } = useGame(gameGroup.gameId, {
     relations: {
       cover: true,
@@ -28,9 +30,9 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
         "bg-paper-6 border rounded-md border-[#2B2A2A] gap-2 p-2 flex-col lg:flex-row lg:flex-nowrap"
       }
     >
-      <Box className={"min-w-20 w-20 relative"}>
+      <Box className={"min-w-24 w-24 relative"}>
         {isGameLoading ? (
-          <Skeleton className={"w-20 h-24"} />
+          <Skeleton className={"w-24 h-32"} />
         ) : (
           <GameFigureImage game={game} />
         )}
@@ -43,7 +45,32 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
             {game?.name}
           </Text>
         )}
-        <Text className={"text-sm text-dimmed"}>{flavorText}</Text>
+        <Flex className={"flex-nowrap justify-start gap-1.5"}>
+          {gameGroup.isComplete && (
+            <Badge
+              size="sm"
+              radius="sm"
+              variant="light"
+              color="teal"
+              className="font-semibold tracking-wide"
+            >
+              Completed
+            </Badge>
+          )}
+
+          {gameGroup.isPlatinum && (
+            <Badge
+              size="sm"
+              radius="sm"
+              variant="gradient"
+              gradient={{ from: "#0d47a1", to: "#cfd8dc", deg: 120 }}
+              className="font-semibold tracking-wide text-[#0b1930]"
+            >
+              Platinum
+            </Badge>
+          )}
+        </Flex>
+        <Text className={"text-sm text-dimmed mt-auto"}>{flavorText}</Text>
         <Group
           className={"gap-1.5 flex-nowrap max-w-full overflow-x-auto pb-2"}
         >

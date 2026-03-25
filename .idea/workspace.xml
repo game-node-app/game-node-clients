@@ -11,30 +11,15 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="fix: positioning on activity item">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: obtained achievements in profile view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/hooks/useGameAchievementsV2.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/hooks/useGameAchievementsV2.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/list/GameAchievementsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/list/GameAchievementsList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/view/GameAchievementProgressOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/view/GameAchievementProgressOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileViewContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/view/ProfileViewContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/overview/item/JournalOverviewYearGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/overview/item/JournalOverviewYearGroup.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/Collection.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/CollectionEntry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/CollectionEntry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/ConnectionCreateDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/ConnectionCreateDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/CreateUpdateCollectionEntryDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/CreateUpdateCollectionEntryDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/FindAvailableConnectionsResponseDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/FindAvailableConnectionsResponseDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/FindCollectionEntriesForCollectionIdDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/FindCollectionEntriesForCollectionIdDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalEntryStatusDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalEntryStatusDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalPlaylogEntryDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalPlaylogEntryDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserConnectionDto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/UserConnectionDto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/CollectionsEntriesService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/CollectionsEntriesService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/GameAchievementService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/GameAchievementService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/JournalService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/JournalService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +157,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.ui &gt; barrels:generate">
+  <component name="RunManager" selected="npm.dev:web">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -410,15 +395,8 @@
       <workItem from="1772103827886" duration="4907000" />
       <workItem from="1773454357195" duration="426000" />
       <workItem from="1773668039951" duration="12000" />
-      <workItem from="1774272502486" duration="18302000" />
-    </task>
-    <task id="LOCAL-00027" summary="- collection ordering modal and etc">
-      <option name="closed" value="true" />
-      <created>1760250851579</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1760250851579</updated>
+      <workItem from="1774272502486" duration="18345000" />
+      <workItem from="1774398402793" duration="5432000" />
     </task>
     <task id="LOCAL-00028" summary="- changes ordering update form to a queue like system">
       <option name="closed" value="true" />
@@ -804,7 +782,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774281494479</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="feat: obtained achievements in profile view">
+      <option name="closed" value="true" />
+      <created>1774324822139</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1774324822139</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -843,7 +829,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- fixed chart issues with @mantine/charts and recharts &gt;3" />
     <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
     <MESSAGE value="- activity item improvements for web version" />
     <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
@@ -868,7 +853,8 @@
     <MESSAGE value="feat: year recap for mobile" />
     <MESSAGE value="feat: recap sidebar button for mobile" />
     <MESSAGE value="fix: positioning on activity item" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: positioning on activity item" />
+    <MESSAGE value="feat: obtained achievements in profile view" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: obtained achievements in profile view" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
