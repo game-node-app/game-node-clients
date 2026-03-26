@@ -1,13 +1,12 @@
 import React from "react";
 import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import {
-  GameAchievementHoverIcon,
   GameFigureImage,
   JournalAchievementsIconsList,
+  JournalAchievementsTags,
   useGame,
 } from "#@/components";
-import { Badge, Box, Flex, Group, Skeleton, Stack, Text } from "@mantine/core";
-import { cn } from "#@/util";
+import { Badge, Box, Flex, Skeleton, Stack, Text } from "@mantine/core";
 
 interface Props {
   userId: string;
@@ -15,8 +14,6 @@ interface Props {
 }
 
 const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
-  const { isPlatinum, isComplete } = gameGroup;
-
   const { data: game, isLoading: isGameLoading } = useGame(gameGroup.gameId, {
     relations: {
       cover: true,
@@ -46,31 +43,7 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
             {game?.name}
           </Text>
         )}
-        <Flex className={"flex-nowrap justify-start gap-1.5"}>
-          {isComplete && (
-            <Badge
-              size="sm"
-              radius="sm"
-              variant="light"
-              color="teal"
-              className="font-semibold tracking-wide"
-            >
-              Completed
-            </Badge>
-          )}
-
-          {isPlatinum && (
-            <Badge
-              size="sm"
-              radius="sm"
-              variant="gradient"
-              gradient={{ from: "#0d47a1", to: "#cfd8dc", deg: 120 }}
-              className="font-semibold tracking-wide text-[#0b1930]"
-            >
-              Platinum
-            </Badge>
-          )}
-        </Flex>
+        <JournalAchievementsTags group={gameGroup} />
         <Text className={"text-sm text-dimmed mt-auto"}>{flavorText}</Text>
         <JournalAchievementsIconsList achievements={gameGroup.achievements} />
       </Stack>

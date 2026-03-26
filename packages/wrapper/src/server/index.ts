@@ -110,7 +110,7 @@ export type { ImporterPaginatedResponseDto } from './models/ImporterPaginatedRes
 export { ImporterResponseItemDto } from './models/ImporterResponseItemDto';
 export type { ImporterStatusUpdateRequestDto } from './models/ImporterStatusUpdateRequestDto';
 export { ImporterWatchNotification } from './models/ImporterWatchNotification';
-export type { JournalAchievementsGameGroup } from './models/JournalAchievementsGameGroup';
+export { JournalAchievementsGameGroup } from './models/JournalAchievementsGameGroup';
 export type { JournalAchievementsMonthGroup } from './models/JournalAchievementsMonthGroup';
 export type { JournalAchievementsYearGroup } from './models/JournalAchievementsYearGroup';
 export type { JournalEntryDayGroupDto } from './models/JournalEntryDayGroupDto';

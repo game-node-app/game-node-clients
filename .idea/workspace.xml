@@ -11,7 +11,16 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: journal achievements listing" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="chore: versioning">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/hooks/useGameExternalStores.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/hooks/useGameExternalStores.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsCompactLayoutView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsCompactLayoutView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -148,7 +157,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:web">
+  <component name="RunManager" selected="npm.ui &gt; barrels:generate">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -388,15 +397,9 @@
       <workItem from="1773668039951" duration="12000" />
       <workItem from="1774272502486" duration="18345000" />
       <workItem from="1774398402793" duration="5543000" />
-      <workItem from="1774480258091" duration="6458000" />
-    </task>
-    <task id="LOCAL-00031" summary="- eslint issues">
-      <option name="closed" value="true" />
-      <created>1760304588971</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1760304588971</updated>
+      <workItem from="1774480258091" duration="6892000" />
+      <workItem from="1774520685356" duration="776000" />
+      <workItem from="1774538614983" duration="3649000" />
     </task>
     <task id="LOCAL-00032" summary="- fixes wrong infinite loading logic">
       <option name="closed" value="true" />
@@ -782,7 +785,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774499886044</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="chore: versioning">
+      <option name="closed" value="true" />
+      <created>1774499899469</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1774499899469</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -837,7 +848,6 @@
     <MESSAGE value="add awards result components and implement event redirection logic" />
     <MESSAGE value="versioning" />
     <MESSAGE value="fix: hide your goty category in result screen" />
-    <MESSAGE value="chore: versioning" />
     <MESSAGE value="feat: year recap work" />
     <MESSAGE value="feat: year recap for mobile" />
     <MESSAGE value="feat: recap sidebar button for mobile" />
@@ -846,7 +856,8 @@
     <MESSAGE value="feat: compact view for achievements list" />
     <MESSAGE value="feat: journal achievements icons expand and collapse" />
     <MESSAGE value="feat: journal achievements listing" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: journal achievements listing" />
+    <MESSAGE value="chore: versioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: versioning" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

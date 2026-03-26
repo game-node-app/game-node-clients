@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "../../../../../wrapper/src/server";
+import { GameRepositoryService } from "@repo/wrapper/server";
 
 // @see game-node-server
 export enum EGameExternalGameCategory {
   Steam = 1,
+  GiantBomb = 3,
   Gog = 5,
   Youtube = 10,
   Microsoft = 11,
@@ -23,6 +24,7 @@ export enum EGameExternalGameCategory {
   FocusEntertainment = 37,
   XboxGamePassUltimateCloud = 54,
   Gamejolt = 55,
+  Igdb = 121,
 }
 
 export function useGameExternalStores(gameId: number) {

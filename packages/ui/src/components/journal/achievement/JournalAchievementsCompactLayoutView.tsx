@@ -24,15 +24,23 @@ const JournalAchievementsCompactLayoutView = ({ userId, groups }: Props) => {
     /**
      * Flatten the groups to avoid rendering multiple components for the same game.
      */
-    const groupedOnlyByGameId = Map.groupBy(gameGroups, (g) => g.gameId);
+    const groupedOnlyByExternalGameId = Map.groupBy(
+      gameGroups,
+      (g) => g.externalGameId,
+    );
 
     const gameGroupsFlattened: JournalAchievementsGameGroup[] = Array.from(
-      groupedOnlyByGameId.entries(),
-    ).map(([gameId, groups]) => {
+      groupedOnlyByExternalGameId.entries(),
+    ).map(([externalGameId, groups]) => {
       const allObtainedAchievements = groups.flatMap((g) => g.achievements);
 
       return {
-        gameId,
+        gameId: groups[0].gameId,
+        externalGameId: externalGameId,
+        source: groups[0].source,
+        sourceIcon: groups[0].sourceIcon,
+        sourceName: groups[0].sourceName,
+        sourceAbbreviatedName: groups[0].sourceAbbreviatedName,
         isComplete: groups.some((g) => g.isComplete),
         isPlatinum: groups.some((g) => g.isPlatinum),
         achievements: allObtainedAchievements,

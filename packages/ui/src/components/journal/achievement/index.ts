@@ -7,5 +7,6 @@ export * from "./JournalAchievementsContext";
 export * from "./JournalAchievementsGameGroupView";
 export * from "./JournalAchievementsIconsList";
 export * from "./JournalAchievementsMonthGroupView";
+export * from "./JournalAchievementsTags";
 export * from "./JournalAchievementsYearGroupView";
 export * from "./JournalObtainedAchievementsView";
