@@ -4,14 +4,23 @@ import {
   GameAchievementWithObtainedInfo,
 } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components";
-import { HoverCard, Image, Popover, Stack, Text, Title } from "@mantine/core";
+import {
+  HoverCard,
+  Image,
+  ImageProps,
+  Popover,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import dayjs from "dayjs";
+import { cn } from "#@/util";
 
-interface Props {
+interface Props extends Omit<ImageProps, "src" | "alt"> {
   achievement: GameAchievementWithObtainedInfo;
 }
 
-const GameAchievementHoverIcon = ({ achievement }: Props) => {
+const GameAchievementHoverIcon = ({ achievement, ...others }: Props) => {
   const onMobile = useOnMobile();
   const TargetElement = onMobile ? Popover : HoverCard;
 
@@ -19,9 +28,10 @@ const GameAchievementHoverIcon = ({ achievement }: Props) => {
     <TargetElement openDelay={500}>
       <TargetElement.Target>
         <Image
+          {...others}
           src={achievement.iconUrl}
           alt={achievement.name}
-          className={"w-12 h-12"}
+          className={cn("w-12 h-12", others.className)}
         />
       </TargetElement.Target>
       <TargetElement.Dropdown className={"max-w-60 lg:max-w-96"}>

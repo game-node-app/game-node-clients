@@ -3,6 +3,7 @@ import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import {
   GameAchievementHoverIcon,
   GameFigureImage,
+  JournalAchievementsIconsList,
   useGame,
 } from "#@/components";
 import { Badge, Box, Flex, Group, Skeleton, Stack, Text } from "@mantine/core";
@@ -46,7 +47,7 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
           </Text>
         )}
         <Flex className={"flex-nowrap justify-start gap-1.5"}>
-          {gameGroup.isComplete && (
+          {isComplete && (
             <Badge
               size="sm"
               radius="sm"
@@ -58,7 +59,7 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
             </Badge>
           )}
 
-          {gameGroup.isPlatinum && (
+          {isPlatinum && (
             <Badge
               size="sm"
               radius="sm"
@@ -71,16 +72,7 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
           )}
         </Flex>
         <Text className={"text-sm text-dimmed mt-auto"}>{flavorText}</Text>
-        <Group
-          className={"gap-1.5 flex-nowrap max-w-full overflow-x-auto pb-2"}
-        >
-          {gameGroup.achievements.map((achievement) => (
-            <GameAchievementHoverIcon
-              key={achievement.externalId}
-              achievement={achievement}
-            />
-          ))}
-        </Group>
+        <JournalAchievementsIconsList achievements={gameGroup.achievements} />
       </Stack>
     </Flex>
   );

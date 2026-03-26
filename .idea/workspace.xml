@@ -11,15 +11,11 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: obtained achievements in profile view">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: compact view for achievements list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/overview/item/JournalOverviewYearGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/overview/item/JournalOverviewYearGroup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/models/JournalAchievementsGameGroup.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,15 +392,8 @@
       <workItem from="1773454357195" duration="426000" />
       <workItem from="1773668039951" duration="12000" />
       <workItem from="1774272502486" duration="18345000" />
-      <workItem from="1774398402793" duration="5432000" />
-    </task>
-    <task id="LOCAL-00028" summary="- changes ordering update form to a queue like system">
-      <option name="closed" value="true" />
-      <created>1760303159089</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1760303159089</updated>
+      <workItem from="1774398402793" duration="5543000" />
+      <workItem from="1774480258091" duration="2634000" />
     </task>
     <task id="LOCAL-00029" summary="- finishing touches in ordering form&#10;- react compiler">
       <option name="closed" value="true" />
@@ -790,7 +779,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774324822139</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="feat: compact view for achievements list">
+      <option name="closed" value="true" />
+      <created>1774431844377</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1774431844378</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -829,7 +826,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view" />
     <MESSAGE value="- activity item improvements for web version" />
     <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
     <MESSAGE value="- draggable preferred platform view" />
@@ -854,7 +850,8 @@
     <MESSAGE value="feat: recap sidebar button for mobile" />
     <MESSAGE value="fix: positioning on activity item" />
     <MESSAGE value="feat: obtained achievements in profile view" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: obtained achievements in profile view" />
+    <MESSAGE value="feat: compact view for achievements list" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: compact view for achievements list" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
