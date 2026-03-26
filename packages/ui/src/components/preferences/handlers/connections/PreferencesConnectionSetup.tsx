@@ -33,18 +33,11 @@ function parseSteamIdentifier(
   return `https://steamcommunity.com/id/${identifier}/`;
 }
 
-const ConnectionSetupFormSchema = z
-  .object({
-    userIdentifier: z.string().min(1, "A username must be provided."),
-    isImporterEnabled: z.boolean(),
-    isPlaytimeImportEnabled: z.boolean(),
-    isAutoImportEnabled: z.boolean(),
-    autoImportCollectionId: z.string().nullish(),
-  })
-  .refine((data) => !(data.isAutoImportEnabled && !data.isImporterEnabled), {
-    error: "Auto importing can only be enabled if importing is allowed.",
-    path: ["isAutoImportEnabled"],
-  });
+const ConnectionSetupFormSchema = z.object({
+  userIdentifier: z.string().min(1, "A username must be provided."),
+  isAutoImportEnabled: z.boolean(),
+  autoImportCollectionId: z.string().nullish(),
+});
 
 type ConnectionSetupFormValues = z.infer<typeof ConnectionSetupFormSchema>;
 
@@ -63,8 +56,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
   } = useForm<ConnectionSetupFormValues>({
     mode: "onBlur",
     defaultValues: {
-      isImporterEnabled: true,
-      isPlaytimeImportEnabled: true,
       isAutoImportEnabled: false,
       autoImportCollectionId: undefined,
     },
@@ -90,8 +81,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       await ConnectionsService.connectionsControllerCreateOrUpdateV1({
         type: type,
         userIdentifier: data.userIdentifier,
-        isImporterEnabled: data.isImporterEnabled,
-        isPlaytimeImportEnabled: data.isPlaytimeImportEnabled,
         isAutoImportEnabled: data.isAutoImportEnabled,
         autoImportCollectionId: data.autoImportCollectionId,
       });
@@ -148,16 +137,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     return false;
   }, [availableConnections.data, type]);
 
-  const isPlaytimeImportViable = useMemo(() => {
-    if (availableConnections.data != undefined) {
-      return availableConnections.data.some((connection) => {
-        return connection.type === type && connection.isPlaytimeImportViable;
-      });
-    }
-
-    return false;
-  }, [availableConnections.data, type]);
-
   const identifierInfo = useMemo((): {
     label: string;
     description: string;
@@ -195,7 +174,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
    */
   useEffect(() => {
     if (userConnection.data) {
-      setValue("isImporterEnabled", userConnection.data.isImporterEnabled);
       setValue("isAutoImportEnabled", userConnection.data.isAutoImportEnabled);
       setValue(
         "autoImportCollectionId",
@@ -229,44 +207,6 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
           defaultValue={userConnection.data?.sourceUsername}
           {...register("userIdentifier")}
         />
-        {isImporterViable && (
-          <Stack>
-            <Switch
-              className={"w-full"}
-              error={errors.isImporterEnabled?.message}
-              label={"Allow importing"}
-              labelPosition={"left"}
-              defaultChecked={
-                userConnection.data
-                  ? userConnection.data.isImporterEnabled
-                  : true
-              }
-              description={
-                "If this connection can be used by the Importer system to import games."
-              }
-              {...register("isImporterEnabled")}
-            />
-          </Stack>
-        )}
-        {isPlaytimeImportViable && (
-          <Stack>
-            <Switch
-              className={"w-full"}
-              error={errors.isPlaytimeImportEnabled?.message}
-              label={"Allow playtime importing"}
-              labelPosition={"left"}
-              defaultChecked={
-                userConnection.data
-                  ? userConnection.data.isPlaytimeImportEnabled
-                  : true
-              }
-              description={
-                "If playtime data can be imported from this collection, even for games not in your collection."
-              }
-              {...register("isPlaytimeImportEnabled")}
-            />
-          </Stack>
-        )}
         {isImporterViable && (
           <Stack className={"w-full"}>
             <Switch

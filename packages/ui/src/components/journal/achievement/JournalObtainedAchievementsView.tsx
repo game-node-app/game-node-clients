@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   BackToTopButton,
+  CenteredLoading,
   JournalAchievementsCompactLayoutView,
   JournalAchievementsYearGroupView,
   useJournalObtainedAchievements,
@@ -39,23 +40,27 @@ const JournalObtainedAchievementsView = ({ userId }: Props) => {
   const ownUserId = useUserId();
   const isOwnJournal = ownUserId === userId;
   const [layout, setLayout] = useState<"compact" | "detailed">("compact");
-  const { data: achievementGroups } = useJournalObtainedAchievements(userId);
+  const { data: achievementGroups, isLoading } =
+    useJournalObtainedAchievements(userId);
 
-  const renderedLayout =
-    layout === "compact" ? (
-      <JournalAchievementsCompactLayoutView
-        userId={userId}
-        groups={achievementGroups?.years || []}
-      />
-    ) : (
-      achievementGroups?.years.map((yearGroup) => (
-        <JournalAchievementsYearGroupView
-          key={`${userId}_${yearGroup.year}`}
+  const renderedLayout = useMemo(() => {
+    if (layout === "compact") {
+      return (
+        <JournalAchievementsCompactLayoutView
           userId={userId}
-          yearGroup={yearGroup}
+          groups={achievementGroups?.years || []}
         />
-      ))
-    );
+      );
+    }
+
+    return achievementGroups?.years.map((yearGroup) => (
+      <JournalAchievementsYearGroupView
+        key={`${userId}_${yearGroup.year}`}
+        userId={userId}
+        yearGroup={yearGroup}
+      />
+    ));
+  }, [achievementGroups?.years, layout, userId]);
 
   return (
     <Stack className={"gap-1.5 h-full w-full"}>
@@ -113,7 +118,8 @@ const JournalObtainedAchievementsView = ({ userId }: Props) => {
         Tip: {onMobile ? "Tap" : "Hover"} the achievements to show details.
         Latest achievements are shown first.
       </Text>
-      {achievementGroups && renderedLayout}
+      {isLoading && <CenteredLoading message={"Loading achievements..."} />}
+      {renderedLayout}
     </Stack>
   );
 };

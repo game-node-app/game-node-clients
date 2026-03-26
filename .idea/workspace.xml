@@ -11,11 +11,15 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: compact view for achievements list">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: journal achievements icons expand and collapse">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/util/getCollectionEntryStatusName.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/util/getCollectionEntryStatusName.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsMonthGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsMonthGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsYearGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionSetup.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -393,15 +397,7 @@
       <workItem from="1773668039951" duration="12000" />
       <workItem from="1774272502486" duration="18345000" />
       <workItem from="1774398402793" duration="5543000" />
-      <workItem from="1774480258091" duration="2634000" />
-    </task>
-    <task id="LOCAL-00029" summary="- finishing touches in ordering form&#10;- react compiler">
-      <option name="closed" value="true" />
-      <created>1760303905115</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1760303905115</updated>
+      <workItem from="1774480258091" duration="6444000" />
     </task>
     <task id="LOCAL-00030" summary="- versioning">
       <option name="closed" value="true" />
@@ -787,7 +783,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774431844378</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="feat: journal achievements icons expand and collapse">
+      <option name="closed" value="true" />
+      <created>1774484531228</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1774484531228</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -826,7 +830,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- activity item improvements for web version" />
     <MESSAGE value="- cleanup&#10;- profile screen redesign for mobile" />
     <MESSAGE value="- draggable preferred platform view" />
     <MESSAGE value="- importer system improvements" />
@@ -851,7 +854,8 @@
     <MESSAGE value="fix: positioning on activity item" />
     <MESSAGE value="feat: obtained achievements in profile view" />
     <MESSAGE value="feat: compact view for achievements list" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: compact view for achievements list" />
+    <MESSAGE value="feat: journal achievements icons expand and collapse" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: journal achievements icons expand and collapse" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

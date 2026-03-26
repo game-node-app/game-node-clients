@@ -7,5 +7,6 @@ export function getCollectionEntryStatusName(status: CollectionEntry.status) {
     .with(CollectionEntry.status.FINISHED, () => "Finished")
     .with(CollectionEntry.status.DROPPED, () => "Dropped")
     .with(CollectionEntry.status.PLANNED, () => "Planned")
+    .with(CollectionEntry.status.ONGOING, () => "Ongoing")
     .exhaustive();
 }

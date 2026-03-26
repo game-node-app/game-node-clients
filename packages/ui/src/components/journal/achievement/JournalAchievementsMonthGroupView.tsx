@@ -21,18 +21,22 @@ const JournalAchievementsMonthGroupView = ({
     [targetMonth, year],
   );
 
+  const renderedContent = useMemo(() => {
+    return monthGroup.games.map((gameGroup) => (
+      <JournalAchievementsGameGroupView
+        key={`${year}_${monthGroup.month}_${gameGroup.gameId}`}
+        userId={userId}
+        gameGroup={gameGroup}
+      />
+    ));
+  }, [monthGroup.games, monthGroup.month, userId, year]);
+
   return (
     <Stack className={"gap-2"}>
       <Title size={"h5"} className={"text-white"}>
         {targetMonthName}
       </Title>
-      {monthGroup.games.map((gameGroup) => (
-        <JournalAchievementsGameGroupView
-          key={`${year}_${monthGroup.month}_${gameGroup.gameId}`}
-          userId={userId}
-          gameGroup={gameGroup}
-        />
-      ))}
+      {renderedContent}
     </Stack>
   );
 };

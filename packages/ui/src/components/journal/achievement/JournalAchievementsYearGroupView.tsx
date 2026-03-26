@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { JournalAchievementsYearGroup } from "@repo/wrapper/server";
 import { Divider, Group, Stack, Text, Title } from "@mantine/core";
 import { JournalAchievementsMonthGroupView } from "#@/components/journal/achievement/JournalAchievementsMonthGroupView";
@@ -9,6 +9,17 @@ interface Props {
 }
 
 const JournalAchievementsYearGroupView = ({ userId, yearGroup }: Props) => {
+  const renderedContent = useMemo(() => {
+    return yearGroup.months.map((monthGroup) => (
+      <JournalAchievementsMonthGroupView
+        key={monthGroup.month}
+        userId={userId}
+        year={yearGroup.year}
+        monthGroup={monthGroup}
+      />
+    ));
+  }, [userId, yearGroup.months, yearGroup.year]);
+
   return (
     <Stack className={"gap-0"}>
       <Group className={"gap-3"}>
@@ -20,16 +31,7 @@ const JournalAchievementsYearGroupView = ({ userId, yearGroup }: Props) => {
         </Text>
       </Group>
       <Divider className={"w-full mt-2 mb-5"} />
-      <Stack className={"gap-3"}>
-        {yearGroup.months.map((monthGroup) => (
-          <JournalAchievementsMonthGroupView
-            key={monthGroup.month}
-            userId={userId}
-            year={yearGroup.year}
-            monthGroup={monthGroup}
-          />
-        ))}
-      </Stack>
+      <Stack className={"gap-3"}>{renderedContent}</Stack>
     </Stack>
   );
 };
