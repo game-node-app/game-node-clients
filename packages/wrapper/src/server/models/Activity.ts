@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Collection } from './Collection';
 import type { CollectionEntry } from './CollectionEntry';
+import type { ObtainedGameAchievementActivity } from './ObtainedGameAchievementActivity';
 import type { Post } from './Post';
 import type { Profile } from './Profile';
 import type { Review } from './Review';
@@ -26,6 +27,8 @@ export type Activity = {
     userFollowId: number | null;
     post: Post | null;
     postId: string | null;
+    obtainedGameAchievementActivity: ObtainedGameAchievementActivity | null;
+    obtainedGameAchievementActivityId: number | null;
     createdAt: string;
     updatedAt: string;
 };
@@ -35,6 +38,7 @@ export namespace Activity {
         FOLLOW = 'FOLLOW',
         COLLECTION_ENTRY = 'COLLECTION_ENTRY',
         POST = 'POST',
+        OBTAINED_GAME_ACHIEVEMENT = 'OBTAINED_GAME_ACHIEVEMENT',
     }
 }
 

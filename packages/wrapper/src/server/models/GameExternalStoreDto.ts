@@ -29,6 +29,7 @@ export type GameExternalStoreDto = {
 export namespace GameExternalStoreDto {
     export enum category {
         '_1' = 1,
+        '_3' = 3,
         '_5' = 5,
         '_10' = 10,
         '_11' = 11,
@@ -48,6 +49,7 @@ export namespace GameExternalStoreDto {
         '_37' = 37,
         '_54' = 54,
         '_55' = 55,
+        '_121' = 121,
     }
     export enum media {
         '_1' = 1,

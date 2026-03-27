@@ -5,6 +5,7 @@
 import type { FindObtainedAchievementsResponseDto } from '../models/FindObtainedAchievementsResponseDto';
 import type { GameAchievementDto } from '../models/GameAchievementDto';
 import type { GameAchievementGroupDto } from '../models/GameAchievementGroupDto';
+import type { GameObtainedAchievementActivityDto } from '../models/GameObtainedAchievementActivityDto';
 import type { GameObtainedAchievementDto } from '../models/GameObtainedAchievementDto';
 import type { Object } from '../models/Object';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -59,6 +60,22 @@ export class GameAchievementService {
             path: {
                 'externalGameId': externalGameId,
                 'externalAchievementId': externalAchievementId,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns GameObtainedAchievementActivityDto
+     * @throws ApiError
+     */
+    public static gameAchievementV2ControllerFindActivityByIdV2(
+        id: number,
+    ): CancelablePromise<GameObtainedAchievementActivityDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/game/achievement/activity/{id}',
+            path: {
+                'id': id,
             },
         });
     }

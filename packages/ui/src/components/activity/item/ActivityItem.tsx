@@ -5,10 +5,12 @@ import {
   ActivityItemLikes,
   ActivityItemProps,
   GameRating,
+  ObtainedAchievementActivityContent,
   TextLink,
   useCollection,
   useCollectionEntry,
   useGame,
+  useObtainedGameAchievementActivity,
   usePost,
   UserAvatar,
   UserAvatarGroup,
@@ -34,6 +36,10 @@ const DEFAULT_ActivityItem = ({
     userFollowQuery.data?.followedUserId,
   );
   const postQuery = usePost(activity.postId);
+  const obtainedGameAchievementActivityQuery =
+    useObtainedGameAchievementActivity(
+      activity.obtainedGameAchievementActivityId,
+    );
 
   const gameId =
     collectionEntryQuery.data?.gameId ||
@@ -47,6 +53,8 @@ const DEFAULT_ActivityItem = ({
   });
 
   const content = useMemo(() => {
+    console.log("Rendering content for activity", activity);
+
     return match<Activity.type, ReactElement>(activity.type)
       .with(Activity.type.POST, () => (
         <>
@@ -101,17 +109,24 @@ const DEFAULT_ActivityItem = ({
           </TextLink>
         </>
       ))
-      .exhaustive();
+      .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => (
+        <ObtainedAchievementActivityContent
+          activity={obtainedGameAchievementActivityQuery.data}
+        />
+      ))
+      .otherwise(() => (
+        <Text span>
+          performed an action which is not yet mapped. This will be updated
+          soon.
+        </Text>
+      ));
   }, [
-    activity.collectionId,
-    activity.postId,
-    activity.profileUserId,
-    activity.reviewId,
-    activity.type,
+    activity,
     collectionQuery.data?.name,
     followedProfileQuery.data?.username,
     gameId,
     gameQuery.data?.name,
+    obtainedGameAchievementActivityQuery.data,
     reviewQuery.data?.rating,
     userFollowQuery.data?.followedUserId,
   ]);

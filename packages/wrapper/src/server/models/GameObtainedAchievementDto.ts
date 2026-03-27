@@ -13,6 +13,7 @@ export type GameObtainedAchievementDto = {
 export namespace GameObtainedAchievementDto {
     export enum source {
         '_1' = 1,
+        '_3' = 3,
         '_5' = 5,
         '_10' = 10,
         '_11' = 11,
@@ -32,6 +33,7 @@ export namespace GameObtainedAchievementDto {
         '_37' = 37,
         '_54' = 54,
         '_55' = 55,
+        '_121' = 121,
     }
 }
 
