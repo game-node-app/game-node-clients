@@ -1,19 +1,13 @@
-import {
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
-  IonRefresher,
-  IonRefresherContent,
-} from "@ionic/react";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import React, { useRef } from "react";
-import { Button, Stack, Title } from "@mantine/core";
+import { SimpleGrid, Stack } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  DetailsBox,
+  DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  InfiniteLoaderProps,
-  PostsFeed,
+  GameCollectionTypeView,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -22,8 +16,12 @@ import {
 } from "@repo/ui";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
-import { Link } from "react-router-dom";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
+import {
+  Activity,
+  FindGamesByCollectionTypeRequestDto,
+} from "@repo/wrapper/server";
+import ActivityType = Activity.type;
+import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const contentRef = useRef<HTMLIonContentElement>(null);
@@ -85,39 +83,20 @@ const HomePage = () => {
         <DynamicAwardsOverview />
         <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
-        <Stack className={"w-full"}>
-          <Title size={"h3"} className={"text-center"}>
-            Recent activity
-          </Title>
-          <RecentActivityList limit={10} />
-        </Stack>
-        <DetailsBox
-          title={"Recent Posts"}
-          stackProps={{
-            className: "",
-          }}
-        >
-          <PostsFeed criteria={"all"} hardLimit={5}>
-            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <Stack className={"items-center"}>
-                <Link to={getTabAwareHref("/posts")} className={"w-2/4"}>
-                  <Button className={"w-full"} size={"md"}>
-                    View All
-                  </Button>
-                </Link>
-                <IonInfiniteScroll
-                  disabled={!hasNextPage}
-                  onIonInfinite={async (evt) => {
-                    await fetchNextPage();
-                    await evt.target.complete();
-                  }}
-                >
-                  <IonInfiniteScrollContent />
-                </IonInfiniteScroll>
-              </Stack>
-            )}
-          </PostsFeed>
-        </DetailsBox>
+        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
+          <DetailsCard title={"Recent Activity"}>
+            <RecentActivityList limit={10} />
+          </DetailsCard>
+          <DetailsCard title={"Last reviews"}>
+            <RecentActivityList limit={10} type={ActivityType.REVIEW} />
+          </DetailsCard>
+        </SimpleGrid>
+        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
+          <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
+          <GameCollectionTypeView
+            collectionType={CollectionType.RECENTLY_RELEASED}
+          />
+        </SimpleGrid>
       </Stack>
     </AppPage>
   );

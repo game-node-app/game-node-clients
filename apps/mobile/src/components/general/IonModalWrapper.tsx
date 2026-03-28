@@ -5,12 +5,10 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonList,
   IonModal,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { Box, Container, ScrollArea } from "@mantine/core";
 
 const IonModalWrapper = ({
   opened,

@@ -1,5 +1,4 @@
 import { UIHookRegistry, UIPresenterRegistry } from "@repo/ui";
-import { MobileActivityItem } from "@/components/activity/MobileActivityItem.tsx";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
 import { MobileGameInfoActions } from "@/components/game/info/MobileGameInfoActions.tsx";
 import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
@@ -13,7 +12,6 @@ import { MobileProfileUserInfo } from "@/components/profile/view/MobileProfileUs
 import { MobileProfileViewNavbarItem } from "@/components/profile/view/navbar/MobileProfileViewNavbarItem.tsx";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
-  ActivityItem: MobileActivityItem,
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
   GameInfoActions: MobileGameInfoActions,
   DetailsBox: MobileDetailsBox,

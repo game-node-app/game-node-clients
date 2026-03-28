@@ -13230,6 +13230,11 @@ react-element-to-jsx-string@^15.0.0:
     is-plain-object "5.0.0"
     react-is "18.1.0"
 
+react-error-boundary@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-6.1.1.tgz#491d655e86c32434ede852755bb649119fdddd89"
+  integrity sha512-BrYwPOdXi5mqkk5lw+Uvt0ThHx32rCt3BkukS4X23A2AIWDPSGX6iaWTc0y9TU/mHDA/6qOSGel+B2ERkOvD1w==
+
 react-hook-form@^8.0.0-alpha.5:
   version "8.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-8.0.0-alpha.5.tgz#f6d18864428534773cbaf336254786995dedf7da"

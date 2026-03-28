@@ -12,6 +12,8 @@ import {
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { HeaderSearchButton } from "@/components/general/header/HeaderSearchButton.tsx";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar";
+import { ErrorBoundary } from "react-error-boundary";
+import { CenteredErrorMessage } from "@repo/ui";
 
 interface Props extends PropsWithChildren {
   withSearch?: boolean;
@@ -57,7 +59,13 @@ const AppPage = ({
         <QueryProgressBar />
       </IonHeader>
       <ScrollableIonContent className={"ion-padding"} {...contentProps}>
-        {children}
+        <ErrorBoundary
+          fallbackRender={({ error }) => (
+            <CenteredErrorMessage error={error as Error} />
+          )}
+        >
+          {children}
+        </ErrorBoundary>
       </ScrollableIonContent>
     </IonPage>
   );

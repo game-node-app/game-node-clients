@@ -72,6 +72,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-easy-crop": "^5.5.3",
+    "react-error-boundary": "^6.1.1",
     "react-hook-form": "^8.0.0-alpha.5",
     "react-router": "5.3.4",
     "react-router-dom": "5.3.4",
