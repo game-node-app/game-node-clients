@@ -4,6 +4,7 @@ export default {
     "postcss-import": {},
     "tailwindcss/nesting": {},
     tailwindcss: {},
+    autoprefixer: {},
     "postcss-preset-mantine": {},
     "postcss-simple-vars": {
       variables: {

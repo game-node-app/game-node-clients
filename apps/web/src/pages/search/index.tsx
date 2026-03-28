@@ -1,24 +1,22 @@
 import React from "react";
-import { Box, Center, Stack, Title } from "@mantine/core";
+import { SimpleGrid, Stack } from "@mantine/core";
 import {
   BackToTopButton,
   buildGameCategoryFilters,
   CenteredErrorMessage,
-  DetailsBox,
+  DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
+  GameCollectionTypeView,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
-  InfiniteLoaderProps,
-  PostsFeed,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
-  SimpleInfiniteLoader,
   TrendingGamesList,
   TrendingReviewCarousel,
   useSearchGames,
@@ -26,6 +24,12 @@ import {
   useUserId,
 } from "@repo/ui";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
+import {
+  Activity,
+  FindGamesByCollectionTypeRequestDto,
+} from "@repo/wrapper/server";
+import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
+import type = Activity.type;
 
 const Index = () => {
   const userId = useUserId();
@@ -112,29 +116,30 @@ const Index = () => {
             justify={"center"}
             align={"center"}
             mt={"1rem"}
-            gap={"5rem"}
+            gap={40}
           >
             <TrendingGamesList />
-            {userId && <RecommendationCarousel criteria="finished" />}
+            {userId && <RecommendationCarousel criteria="played" />}
             <TrendingReviewCarousel />
             <DynamicAwardsOverview />
             <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
-            <Center className={"w-full"}>
-              <Box className={"w-full lg:w-3/4"}>
-                <Title size={"h3"} className={"text-center"}>
-                  Recent activity
-                </Title>
+            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
+              <DetailsCard title={"Recent Activity"}>
                 <RecentActivityList limit={10} />
-              </Box>
-            </Center>
-            <DetailsBox title={"Recent Posts"}>
-              <PostsFeed criteria={"all"}>
-                {(props: InfiniteLoaderProps) => (
-                  <SimpleInfiniteLoader {...props} />
-                )}
-              </PostsFeed>
-            </DetailsBox>
+              </DetailsCard>
+              <DetailsCard title={"Last reviews"}>
+                <RecentActivityList limit={10} type={type.REVIEW} />
+              </DetailsCard>
+            </SimpleGrid>
+            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
+              <GameCollectionTypeView
+                collectionType={collectionType.UPCOMING}
+              />
+              <GameCollectionTypeView
+                collectionType={collectionType.RECENTLY_RELEASED}
+              />
+            </SimpleGrid>
           </Stack>
         )}
       </Stack>

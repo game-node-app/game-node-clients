@@ -21,6 +21,6 @@
 
     @mixin dark-root {
         --mantine-color-text: var(--text-color);
-        --mantine-color-body: #191919;
+        --mantine-color-body: #111111;
     }
 }

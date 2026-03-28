@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
-import { Group, Spoiler } from "@mantine/core";
+import { Group, SimpleGrid, Spoiler } from "@mantine/core";
 import { GameAchievementHoverIcon } from "#@/components";
 
 interface Props {
@@ -25,7 +25,12 @@ const JournalAchievementsIconsList = ({ achievements }: Props) => {
       transitionDuration={200}
       classNames={{ control: "mt-2" }}
     >
-      <Group className={"gap-1.5 w-full"}>{renderedContent}</Group>
+      <SimpleGrid
+        cols={{ base: 6, xs: 12, md: 15 }}
+        className={"gap-1 gap-y-3 w-full"}
+      >
+        {renderedContent}
+      </SimpleGrid>
     </Spoiler>
   );
 };

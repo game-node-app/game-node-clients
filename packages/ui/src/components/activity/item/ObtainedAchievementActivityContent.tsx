@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { GameObtainedAchievementActivityDto } from "@repo/wrapper/server";
 import {
   Box,
@@ -34,78 +34,54 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
     },
   });
 
-  const renderConditionalFlavorText = useCallback(() => {
-    if (activity?.hasObtainedPlatinumTrophy) {
-      return (
-        <Text span>
-          {" "}
-          and the{" "}
-          <Text span className={"font-bold"}>
-            Platinum trophy
-          </Text>
-        </Text>
-      );
-    }
+  const renderedText = useMemo(() => {
+    if (activity == undefined) return "";
 
-    if (activity?.hasCompletedAllAchievements) {
-      return (
-        <Text span>
-          {" "}
-          and the{" "}
-          <Text span className={"font-bold"}>
-            100%
-          </Text>
-        </Text>
-      );
-    }
+    const totalObtained = activity.totalObtained || 0;
+    const hasCompleted = activity.hasCompletedAllAchievements || false;
+    const hasPlatinum = activity.hasObtainedPlatinumTrophy || false;
 
-    return null;
-  }, [
-    activity?.hasObtainedPlatinumTrophy,
-    activity?.hasCompletedAllAchievements,
-  ]);
+    if (hasCompleted && hasPlatinum) {
+      return `Obtained platinum trophy and completed all achievements`;
+    } else if (hasCompleted) {
+      return `Completed all achievements`;
+    } else if (hasPlatinum) {
+      return `Obtained platinum trophy`;
+    } else {
+      return `Obtained ${totalObtained} achievement${totalObtained > 1 ? "s" : ""}`;
+    }
+  }, [activity]);
 
   if (!activity) {
     return <></>;
   }
 
   return (
-    <>
-      <Text span>obtained </Text>
-      <PopoverElement openDelay={500} closeDelay={300}>
-        <PopoverElement.Target>
-          <Text span className={"font-bold cursor-pointer text-white"}>
-            {activity.totalObtained} achievements
-          </Text>
-        </PopoverElement.Target>
-        <PopoverElement.Dropdown className={"max-w-[95vw] lg:max-w-[60vw]"}>
-          <Stack>
-            <Group className={"gap-1"}>
-              {activity.obtainedGameAchievements.map((obtainedAchievement) => (
-                <GameAchievementHoverIcon
-                  key={obtainedAchievement.externalId}
-                  achievement={obtainedAchievement}
-                />
-              ))}
-            </Group>
-            <TextLink
-              href={`/profile/${activity.profileUserId}?tab=achievements`}
-              className={"mt-2"}
-            >
-              See more
-            </TextLink>
-          </Stack>
-        </PopoverElement.Dropdown>
-      </PopoverElement>
-      {renderConditionalFlavorText()}
-      <Text span> in </Text>
-      <TextLink
-        href={`/game/${gameId}`}
-        className={"font-bold text-white no-underline"}
-      >
-        {gameQuery.data?.name}
-      </TextLink>
-    </>
+    <PopoverElement withArrow>
+      <PopoverElement.Target>
+        <Text span className={"text-xs font-bold"}>
+          {renderedText}
+        </Text>
+      </PopoverElement.Target>
+      <PopoverElement.Dropdown className={"max-w-[95vw] md:max-w-sm"}>
+        <Stack>
+          <SimpleGrid className={"w-full gap-1 gap-y-2"} cols={6}>
+            {activity.obtainedGameAchievements.map((obtainedAchievement) => (
+              <GameAchievementHoverIcon
+                key={obtainedAchievement.externalId}
+                achievement={obtainedAchievement}
+              />
+            ))}
+          </SimpleGrid>
+          <TextLink
+            href={`/profile/${activity.profileUserId}?tab=achievements`}
+            className={"mt-2"}
+          >
+            See more
+          </TextLink>
+        </Stack>
+      </PopoverElement.Dropdown>
+    </PopoverElement>
   );
 };
 

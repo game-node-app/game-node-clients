@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GetRecommendationsResponseDto } from '../models/GetRecommendationsResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -11,13 +10,13 @@ export class RecommendationService {
      * @param criteria Criteria to be used for deciding on what to recommend.
      * E.g. finished games, genre of played games, etc.
      * @param limit
-     * @returns GetRecommendationsResponseDto
+     * @returns any
      * @throws ApiError
      */
     public static recommendationControllerGetRecommendationsV1(
-        criteria: 'finished' | 'genre' | 'theme',
+        criteria: 'played' | 'finished' | 'genre' | 'theme',
         limit: number = 20,
-    ): CancelablePromise<GetRecommendationsResponseDto> {
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/recommendation',

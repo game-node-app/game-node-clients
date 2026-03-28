@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewsService } from "../../../../../wrapper/src/server";
+import { ReviewsService } from "@repo/wrapper/server";
 
-export function useReviewsScore(gameId: number) {
+export function useReviewsScore(gameId: number | undefined) {
   return useQuery({
     queryKey: ["review", "score", gameId],
     queryFn: () => {
-      return ReviewsService.reviewsControllerGetScoreForGameIdV1(gameId);
+      return ReviewsService.reviewsControllerGetScoreForGameIdV1(gameId!);
     },
-    staleTime: 5 * 1000,
+    enabled: !!gameId,
   });
 }

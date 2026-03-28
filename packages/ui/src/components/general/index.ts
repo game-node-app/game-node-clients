@@ -8,6 +8,7 @@ export * from "./Break";
 export * from "./CenteredErrorMessage";
 export * from "./CenteredLoading";
 export * from "./DetailsBox";
+export * from "./DetailsCard";
 export * from "./GameNodeLogo";
 export * from "./GradientSeparator";
 export * from "./ImageDropzone";

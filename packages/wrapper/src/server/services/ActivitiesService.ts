@@ -10,6 +10,7 @@ import { request as __request } from '../core/request';
 export class ActivitiesService {
     /**
      * @param userId
+     * @param type
      * @param offset
      * @param limit
      * @returns ActivitiesPaginatedResponseDto
@@ -17,6 +18,7 @@ export class ActivitiesService {
      */
     public static activitiesRepositoryControllerFindLatestV1(
         userId?: string,
+        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT',
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<ActivitiesPaginatedResponseDto> {
@@ -25,6 +27,7 @@ export class ActivitiesService {
             url: '/v1/activities',
             query: {
                 'userId': userId,
+                'type': type,
                 'offset': offset,
                 'limit': limit,
             },

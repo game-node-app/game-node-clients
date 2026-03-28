@@ -13,6 +13,7 @@ import {
   useCollection,
   useCollectionEntry,
   useGame,
+  useObtainedGameAchievementActivity,
   usePost,
   UserAvatar,
   useReview,
@@ -48,11 +49,15 @@ const MobileActivityItem = ({
   const reviewQuery = useReview(activity.reviewId);
   const postQuery = usePost(activity.postId);
   const profileQuery = useUserProfile(activity.profileUserId);
+  const gameAchievementActivityQuery = useObtainedGameAchievementActivity(
+    activity.obtainedGameAchievementActivityId,
+  );
 
   const gameId =
     collectionEntryQuery.data?.gameId ||
     reviewQuery.data?.gameId ||
-    postQuery.data?.gameId;
+    postQuery.data?.gameId ||
+    gameAchievementActivityQuery.data?.externalGame.gameId;
 
   const actionText = useMemo(() => {
     return match(activity.type)
@@ -68,8 +73,33 @@ const MobileActivityItem = ({
       .with(Activity.type.FOLLOW, () => {
         return "Followed";
       })
-      .exhaustive();
-  }, [activity.type, collectionQuery.data?.name]);
+      .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => {
+        const totalObtained =
+          gameAchievementActivityQuery.data?.totalObtained || 0;
+        const hasCompleted =
+          gameAchievementActivityQuery.data?.hasCompletedAllAchievements ||
+          false;
+        const hasPlatinum =
+          gameAchievementActivityQuery.data?.hasObtainedPlatinumTrophy || false;
+
+        if (hasCompleted && hasPlatinum) {
+          return `Obtained platinum trophy and completed all achievements`;
+        } else if (hasCompleted) {
+          return `Completed all achievements`;
+        } else if (hasPlatinum) {
+          return `Obtained platinum trophy`;
+        } else {
+          return `Obtained ${totalObtained} achievement${totalObtained > 1 ? "s" : ""}`;
+        }
+      })
+      .otherwise(() => {
+        return "Performed an action which is not yet mapped. This will be updated soon.";
+      });
+  }, [
+    activity.type,
+    collectionQuery.data?.name,
+    gameAchievementActivityQuery.data,
+  ]);
 
   const gameQuery = useGame(gameId, {
     relations: {

@@ -6,6 +6,7 @@ export * from "./useGame";
 export * from "./useGameExternalStores";
 export * from "./useGamePlatformIcons";
 export * from "./useGames";
+export * from "./useGamesByCollectionType";
 export * from "./useGamesResource";
 export * from "./useInfiniteSearchGames";
 export * from "./useSearchGames";

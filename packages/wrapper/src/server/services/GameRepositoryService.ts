@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { FindGamesByCollectionTypeRequestDto } from '../models/FindGamesByCollectionTypeRequestDto';
+import type { FindGamesByCollectionTypeResponseDto } from '../models/FindGamesByCollectionTypeResponseDto';
 import type { Game } from '../models/Game';
 import type { GameExternalStoreDto } from '../models/GameExternalStoreDto';
 import type { GameRepositoryFindAllDto } from '../models/GameRepositoryFindAllDto';
@@ -24,6 +26,22 @@ export class GameRepositoryService {
             query: {
                 'resourceName': resourceName,
             },
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns FindGamesByCollectionTypeResponseDto
+     * @returns any
+     * @throws ApiError
+     */
+    public static gameRepositoryControllerGetGameIdsByCollectionTypeV1(
+        requestBody: FindGamesByCollectionTypeRequestDto,
+    ): CancelablePromise<FindGamesByCollectionTypeResponseDto | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/game/repository/collection',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

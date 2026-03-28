@@ -4,6 +4,7 @@
 
 export * from "./GameTitleWithFigure";
 export * from "./achievement/index";
+export * from "./collection/index";
 export * from "./figure/index";
 export * from "./hooks/index";
 export * from "./info/index";

@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { ActivitiesService } from "../../../../../wrapper/src/server";
+import { ActivitiesService, Activity } from "@repo/wrapper/server";
 
 export function useLatestActivities(
   userId: string | undefined,
   offset = 0,
   limit = 10,
+  type?: Activity.type,
 ) {
   return useQuery({
-    queryKey: ["activities", "latest", userId, offset, limit],
+    queryKey: ["activities", "latest", userId, offset, limit, type],
     queryFn: async () => {
       return ActivitiesService.activitiesRepositoryControllerFindLatestV1(
         userId,
+        type,
         offset,
         limit,
       );

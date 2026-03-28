@@ -35,7 +35,7 @@ const RecommendationCarousel = ({ criteria, limit = 15, ...others }: Props) => {
   );
 
   const criteriaTitle = useMemo(() => {
-    if (criteria === "finished") {
+    if (["finished", "played"].includes(criteria)) {
       return "Based on your played games";
     }
 

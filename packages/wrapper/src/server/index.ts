@@ -59,6 +59,8 @@ export type { FindCollectionEntriesGameFilterDto } from './models/FindCollection
 export type { FindCollectionEntriesOrderBy } from './models/FindCollectionEntriesOrderBy';
 export type { FindCommentsPaginatedResponseDto } from './models/FindCommentsPaginatedResponseDto';
 export type { FindExternalGamesResponseDto } from './models/FindExternalGamesResponseDto';
+export { FindGamesByCollectionTypeRequestDto } from './models/FindGamesByCollectionTypeRequestDto';
+export type { FindGamesByCollectionTypeResponseDto } from './models/FindGamesByCollectionTypeResponseDto';
 export type { FindObtainedAchievementsResponseDto } from './models/FindObtainedAchievementsResponseDto';
 export { FindOneStatisticsDto } from './models/FindOneStatisticsDto';
 export type { FindRelatedCollectionEntriesResponseDto } from './models/FindRelatedCollectionEntriesResponseDto';
@@ -105,7 +107,6 @@ export type { GameTimeToBeatDto } from './models/GameTimeToBeatDto';
 export type { GetJournalHeatmapResponseDto } from './models/GetJournalHeatmapResponseDto';
 export type { GetObtainedAchievementsJournalResponseDto } from './models/GetObtainedAchievementsJournalResponseDto';
 export type { GetPostsPaginatedResponseDto } from './models/GetPostsPaginatedResponseDto';
-export type { GetRecommendationsResponseDto } from './models/GetRecommendationsResponseDto';
 export { HandleReportRequestDto } from './models/HandleReportRequestDto';
 export type { ImporterPaginatedResponseDto } from './models/ImporterPaginatedResponseDto';
 export { ImporterResponseItemDto } from './models/ImporterResponseItemDto';
