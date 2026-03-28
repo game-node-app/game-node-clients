@@ -3,7 +3,6 @@ import {
   BackToTopButton,
   CenteredLoading,
   JournalAchievementsCompactLayoutView,
-  JournalAchievementsYearGroupView,
   useJournalObtainedAchievements,
   useOnMobile,
   UserAvatarWithLevelInfo,
@@ -21,8 +20,8 @@ import {
   Tooltip,
 } from "@mantine/core";
 import {
-  IconLayoutColumns,
-  IconLayoutList,
+  IconBaselineDensityMedium,
+  IconBaselineDensitySmall,
   IconQuestionMark,
 } from "@tabler/icons-react";
 import { cn } from "#@/util";
@@ -110,7 +109,7 @@ const JournalObtainedAchievementsView = ({
               onClick={() => setLayout("compact")}
               variant={layout === "compact" ? "filled" : "outline"}
             >
-              <IconLayoutColumns />
+              <IconBaselineDensitySmall />
             </ActionIcon>
           </Tooltip>
           <Divider orientation={"vertical"} />
@@ -120,7 +119,7 @@ const JournalObtainedAchievementsView = ({
               onClick={() => setLayout("detailed")}
               variant={layout === "detailed" ? "filled" : "outline"}
             >
-              <IconLayoutList />
+              <IconBaselineDensityMedium />
             </ActionIcon>
           </Tooltip>
         </Group>
