@@ -20,13 +20,6 @@ const ProfilePage = ({ userId }: Props) => {
   const ownUserId = useUserId();
   const userIdToUse =
     userId == undefined && ownUserId != undefined ? ownUserId : userId;
-  const isOwnProfile = userIdToUse === ownUserId;
-
-  const {
-    routeInfo: { pathname },
-  } = useIonRouter();
-
-  const isInTab = pathname.split("/").length === 2;
 
   const profileQuery = useUserProfile(userId);
 
@@ -55,6 +48,9 @@ const ProfilePage = ({ userId }: Props) => {
             }),
             queryClient.invalidateQueries({
               queryKey: ["journal", "overview", userIdToUse],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["journal", "achievements", "obtained"],
             }),
           ];
 
