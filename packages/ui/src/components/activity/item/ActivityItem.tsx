@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import {
   ActivityItemLikes,

@@ -11,16 +11,28 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="chore: bump version to 1.7.22">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: integrate error boundary and enhance home page layout with game collection components">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/activity/ActivityItemMenu.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/activity/MobileActivityItem.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/general/AppPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/general/AppPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/general/IonModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/general/IonModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/sidebar/MobileSidebarMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/achievements.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/feats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/journal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/journal/journal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/routes/getCommonRoutes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/RecentActivityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/RecentActivityList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/hooks/useLatestActivities.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/hooks/useLatestActivities.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/icon/GameAchievementHoverIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsCompactLayoutView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsCompactLayoutView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/input/server_swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/wrapper/src/server/services/ActivitiesService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/wrapper/src/server/services/ActivitiesService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,82 +89,82 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Docker Image (1).executor&quot;: &quot;Run&quot;,
-    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.web/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.web: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-sync-igdb&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;npm.desktop &gt; tauri dev .executor&quot;: &quot;Run&quot;,
-    &quot;npm.desktop &gt; tauri:dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:admin.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:mobile.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:web.executor&quot;: &quot;Run&quot;,
-    &quot;npm.ui &gt; barrels:generate.executor&quot;: &quot;Run&quot;,
-    &quot;npm.web &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.web &gt; lint.executor&quot;: &quot;Run&quot;,
-    &quot;npm.web &gt; lint:fix.executor&quot;: &quot;Run&quot;,
-    &quot;npm.wrapper:generate (1).executor&quot;: &quot;Run&quot;,
-    &quot;npm.wrapper:generate.executor&quot;: &quot;Run&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/prettier&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.completions.CompletionsConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Docker Image (1).executor": "Run",
+    "Docker.Docker Image.executor": "Run",
+    "Docker.web/Dockerfile.executor": "Run",
+    "Docker.web: Compose Deployment.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHELLCHECK.PATH": "/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "js.last.introduce.type": "CONST",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/cassio/Projects/game-node-clients/packages/ui/src/components/journal/achievement",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "yarn",
+    "npm.desktop > tauri dev .executor": "Run",
+    "npm.desktop > tauri:dev.executor": "Run",
+    "npm.dev:admin.executor": "Run",
+    "npm.dev:mobile.executor": "Run",
+    "npm.dev:web.executor": "Run",
+    "npm.ui > barrels:generate.executor": "Run",
+    "npm.web > build.executor": "Run",
+    "npm.web > lint.executor": "Run",
+    "npm.web > lint:fix.executor": "Run",
+    "npm.wrapper:generate (1).executor": "Run",
+    "npm.wrapper:generate.executor": "Run",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
+    "prettierjs.PrettierConfiguration.Package": "/home/cassio/Projects/game-node-clients/node_modules/prettier",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.completions.CompletionsConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/home/cassio/Projects/game-node-clients/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Shell Script&quot;,
-      &quot;TEXT&quot;,
-      &quot;JSON&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Shell Script",
+      "TEXT",
+      "JSON"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/ui/src/components/journal/achievement" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/info/review" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/game/info/review/editor" />
       <recent name="$PROJECT_DIR$/apps/desktop" />
-      <recent name="$PROJECT_DIR$/apps/desktop/src/components/auth" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/mobile/src/pages/journal" />
       <recent name="$PROJECT_DIR$/apps/web/src/components/general" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view" />
       <recent name="$PROJECT_DIR$/apps/desktop/src-tauri/src/db/entity" />
       <recent name="$PROJECT_DIR$/apps/desktop/src/components/local-game" />
-      <recent name="$PROJECT_DIR$/packages/ui/src/components/game/view/layout" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
@@ -404,15 +416,7 @@
       <workItem from="1774538614983" duration="6223000" />
       <workItem from="1774577185592" duration="7244000" />
       <workItem from="1774659277139" duration="11650000" />
-      <workItem from="1774702451692" duration="1793000" />
-    </task>
-    <task id="LOCAL-00037" summary="- cleanup">
-      <option name="closed" value="true" />
-      <created>1760324892583</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1760324892583</updated>
+      <workItem from="1774702451692" duration="11818000" />
     </task>
     <task id="LOCAL-00038" summary="- conditional sorting chip data in library view">
       <option name="closed" value="true" />
@@ -798,7 +802,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774675919911</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="feat: integrate error boundary and enhance home page layout with game collection components">
+      <option name="closed" value="true" />
+      <created>1774704427543</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1774704427543</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -846,7 +858,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- web docker worflow" />
     <MESSAGE value="- fixes routing logic for logged in users" />
     <MESSAGE value="- Dockerfile improvements for web/admin" />
     <MESSAGE value="- admin next16 upgrade&#10;- admin category nominees removal option&#10;- recent votes for awards screen" />
@@ -871,7 +882,8 @@
     <MESSAGE value="feat: game achievements activity" />
     <MESSAGE value="feat: add game collection type components and update activity handling" />
     <MESSAGE value="chore: bump version to 1.7.22" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: bump version to 1.7.22" />
+    <MESSAGE value="feat: integrate error boundary and enhance home page layout with game collection components" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate error boundary and enhance home page layout with game collection components" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

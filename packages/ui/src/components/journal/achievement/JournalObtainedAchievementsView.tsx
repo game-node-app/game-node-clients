@@ -6,6 +6,7 @@ import {
   JournalAchievementsYearGroupView,
   useJournalObtainedAchievements,
   useOnMobile,
+  UserAvatarWithLevelInfo,
   useUserId,
 } from "#@/components";
 import {
@@ -25,17 +26,23 @@ import {
   IconQuestionMark,
 } from "@tabler/icons-react";
 import { cn } from "#@/util";
+import { JournalAchievementsDetailedLayoutView } from "#@/components/journal/achievement/JournalAchievementsDetailedLayoutView";
 
 interface Props {
   userId: string;
+  withUserInfo?: boolean;
 }
 
 /**
  * Render a list of obtained achievements grouped by year and month, then by game.
  * @param userId
+ * @param withUserInfo
  * @constructor
  */
-const JournalObtainedAchievementsView = ({ userId }: Props) => {
+const JournalObtainedAchievementsView = ({
+  userId,
+  withUserInfo = false,
+}: Props) => {
   const onMobile = useOnMobile();
   const ownUserId = useUserId();
   const isOwnJournal = ownUserId === userId;
@@ -53,18 +60,22 @@ const JournalObtainedAchievementsView = ({ userId }: Props) => {
       );
     }
 
-    return achievementGroups?.years.map((yearGroup) => (
-      <JournalAchievementsYearGroupView
-        key={`${userId}_${yearGroup.year}`}
+    return (
+      <JournalAchievementsDetailedLayoutView
         userId={userId}
-        yearGroup={yearGroup}
+        groups={achievementGroups?.years || []}
       />
-    ));
+    );
   }, [achievementGroups?.years, layout, userId]);
 
   return (
     <Stack className={"gap-1.5 h-full w-full"}>
       <BackToTopButton />
+      {withUserInfo && (
+        <Flex>
+          <UserAvatarWithLevelInfo userId={userId} />
+        </Flex>
+      )}
       <Flex className={"justify-between mb-2"}>
         <Popover position={"bottom"}>
           <Popover.Target>

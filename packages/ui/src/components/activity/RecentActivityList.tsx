@@ -35,6 +35,9 @@ const RecentActivityList = ({
           <ActivityItem key={activity.id} activity={activity} {...others} />
         );
       })}
+      {activitiesQuery.isError && (
+        <CenteredErrorMessage error={activitiesQuery.error} />
+      )}
       {isEmpty && (
         <CenteredErrorMessage message={"No recent activity to show."} />
       )}

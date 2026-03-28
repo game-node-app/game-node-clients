@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  GameAchievementDto,
-  GameAchievementWithObtainedInfo,
-} from "@repo/wrapper/server";
+import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components";
 import {
   HoverCard,

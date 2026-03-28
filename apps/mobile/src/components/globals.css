@@ -24,17 +24,17 @@
 
 :root {
     --text-color: #FFFFFF;
+    --bg-color: #111111;
     --ion-padding: var(--mantine-spacing-md) !important;
     --ion-font-family: Roboto, Roboto Fallback;
     --ion-text-color: var(--text-color) !important;
-    --ion-background-color: #191919 !important;
-    --ion-toolbar-background: #191919 !important;
-    --ion-modal-background: #191919 !important;
+    --ion-background-color: var(--bg-color) !important;
+    --ion-toolbar-background: var(--bg-color) !important;
+    --ion-modal-background: var(--bg-color) !important;
 
     @mixin dark-root {
-        --mantine-color-body: #191919;
         --mantine-color-text: var(--text-color);
-        --mantine-color-dimmed: #737373;
+        --mantine-color-body: var(--bg-color);
     }
 }
 

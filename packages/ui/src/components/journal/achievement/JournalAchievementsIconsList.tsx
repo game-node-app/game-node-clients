@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
-import { Group, SimpleGrid, Spoiler } from "@mantine/core";
+import { SimpleGrid, Spoiler } from "@mantine/core";
 import { GameAchievementHoverIcon } from "#@/components";
 
 interface Props {

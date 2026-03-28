@@ -41,12 +41,19 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import NotificationsManager from "@/components/general/NotificationsManager";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
-import { DEFAULT_MANTINE_THEME, setProjectContext, UIProvider } from "@repo/ui";
+import {
+  CenteredErrorMessage,
+  DEFAULT_MANTINE_THEME,
+  ErrorBoundaryFallback,
+  setProjectContext,
+  UIProvider,
+} from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { DehydrationResult } from "@/util/types/hydration";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
+import { ErrorBoundary } from "react-error-boundary";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -147,7 +154,13 @@ export default function App({
               <HydrationBoundary state={pageProps.dehydratedState}>
                 <GlobalAppShell>
                   <RouterTransition />
-                  <Component {...pageProps} />
+                  <ErrorBoundary
+                    fallbackRender={({ error }) => (
+                      <ErrorBoundaryFallback error={error as Error} />
+                    )}
+                  >
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                 </GlobalAppShell>
               </HydrationBoundary>
             </UIProvider>

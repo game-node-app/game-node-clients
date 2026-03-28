@@ -49,4 +49,29 @@ export class ActivitiesService {
             },
         });
     }
+    /**
+     * @param userId
+     * @param type
+     * @param offset
+     * @param limit
+     * @returns ActivitiesPaginatedResponseDto
+     * @throws ApiError
+     */
+    public static activitiesRepositoryV2ControllerFindLatestV2(
+        userId?: string,
+        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT',
+        offset?: number,
+        limit: number = 20,
+    ): CancelablePromise<ActivitiesPaginatedResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/activities',
+            query: {
+                'userId': userId,
+                'type': type,
+                'offset': offset,
+                'limit': limit,
+            },
+        });
+    }
 }

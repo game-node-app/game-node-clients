@@ -4,7 +4,7 @@ import GamePage from "@/pages/game";
 import ProfilePage from "@/pages/profile/profile";
 import ProfileStatsPage from "@/pages/profile/stats";
 import ProfileReviewListPage from "@/pages/profile/review_list";
-import AchievementsPage from "@/pages/achievements";
+import AchievementsPage from "@/pages/feats";
 import SupertokensAuthPage from "@/pages/auth";
 import ImporterPage from "@/pages/importer/importer";
 import ImporterByTypePage from "@/pages/importer/source";
@@ -16,7 +16,6 @@ import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import PreferencesPage from "@/pages/preferences.tsx";
-import { JournalPage } from "@/pages/journal.tsx";
 import GameSearchPage from "@/pages/search.tsx";
 import AwardsVotePage from "@/pages/awards/vote.tsx";
 import AwardsNomineesPage from "@/pages/awards/nominees.tsx";
@@ -27,6 +26,8 @@ import CollectionReorderPage from "@/pages/library/collection_reorder";
 import AwardsEventRedirectPage from "@/pages/awards";
 import AwardsResultPage from "@/pages/awards/result";
 import RecapStatsPage from "@/pages/recap/recap_stats";
+import JournalAchievementsPage from "@/pages/journal/journal_achievements";
+import { JournalPage } from "@/pages/journal/journal";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -83,14 +84,20 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       }}
     />,
     <Route
-      key={`${prefix}-achievements`}
+      key={`${prefix}-journal-achievements`}
       path={`${prefix}/achievements/:userId`}
+      render={(props) => {
+        return <JournalAchievementsPage userId={props.match.params.userId} />;
+      }}
+    />,
+    <Route
+      key={`${prefix}-feats`}
+      path={`${prefix}/feats/:userId`}
       render={(props) => {
         const userId = props.match.params.userId;
         return <AchievementsPage userId={userId} />;
       }}
     />,
-
     <Route
       exact
       key={`${prefix}-library`}

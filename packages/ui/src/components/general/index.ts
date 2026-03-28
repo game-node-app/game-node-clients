@@ -9,6 +9,7 @@ export * from "./CenteredErrorMessage";
 export * from "./CenteredLoading";
 export * from "./DetailsBox";
 export * from "./DetailsCard";
+export * from "./ErrorBoundaryFallback";
 export * from "./GameNodeLogo";
 export * from "./GradientSeparator";
 export * from "./ImageDropzone";
