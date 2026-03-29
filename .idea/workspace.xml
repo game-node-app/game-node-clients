@@ -11,9 +11,16 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: add error boundary fallback and refactor activity handling components">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: add refresher and session authentication to JournalAchievementsPage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalObtainedAchievementsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/achievements/[targetUserId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/feats/[targetUserId].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/achievements/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/feats/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/achievement/RedeemAchievementCodeModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/achievement/RedeemAchievementCodeModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsGameGroupView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/JournalAchievementsIconsList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,68 +76,68 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Docker Image (1).executor": "Run",
-    "Docker.Docker Image.executor": "Run",
-    "Docker.web/Dockerfile.executor": "Run",
-    "Docker.web: Compose Deployment.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SHELLCHECK.PATH": "/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "js.last.introduce.type": "CONST",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/cassio/Projects/game-node-clients/packages/ui/src/components/journal/achievement",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "yarn",
-    "npm.desktop > tauri dev .executor": "Run",
-    "npm.desktop > tauri:dev.executor": "Run",
-    "npm.dev:admin.executor": "Run",
-    "npm.dev:mobile.executor": "Run",
-    "npm.dev:web.executor": "Run",
-    "npm.ui > barrels:generate.executor": "Run",
-    "npm.web > build.executor": "Run",
-    "npm.web > lint.executor": "Run",
-    "npm.web > lint:fix.executor": "Run",
-    "npm.wrapper:generate (1).executor": "Run",
-    "npm.wrapper:generate.executor": "Run",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "prettierjs.PrettierConfiguration.Package": "/home/cassio/Projects/game-node-clients/node_modules/prettier",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.completions.CompletionsConfigurable",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "/home/cassio/Projects/game-node-clients/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Docker Image (1).executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.web: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/home/cassio/.local/share/JetBrains/IntelliJIdea2025.2/Shell Script/shellcheck&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/cassio/Projects/game-node-clients/packages/ui/src/components/journal/achievement&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.desktop &gt; tauri dev .executor&quot;: &quot;Run&quot;,
+    &quot;npm.desktop &gt; tauri:dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:admin.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:mobile.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:web.executor&quot;: &quot;Run&quot;,
+    &quot;npm.ui &gt; barrels:generate.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.web &gt; lint:fix.executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.wrapper:generate.executor&quot;: &quot;Run&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/prettier&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.completions.CompletionsConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/cassio/Projects/game-node-clients/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Shell Script",
-      "TEXT",
-      "JSON"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Shell Script&quot;,
+      &quot;TEXT&quot;,
+      &quot;JSON&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/packages/ui/src/components/journal/achievement" />
@@ -151,7 +158,7 @@
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:mobile">
+  <component name="RunManager" selected="npm.dev:web">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -396,31 +403,8 @@
       <workItem from="1774538614983" duration="6223000" />
       <workItem from="1774577185592" duration="7244000" />
       <workItem from="1774659277139" duration="11650000" />
-      <workItem from="1774702451692" duration="12178000" />
-    </task>
-    <task id="LOCAL-00039" summary="-">
-      <option name="closed" value="true" />
-      <created>1760665757760</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1760665757760</updated>
-    </task>
-    <task id="LOCAL-00040" summary="- game drag and drop optimizations and centralized logic&#10;- import screen now allows importing without selecting collections">
-      <option name="closed" value="true" />
-      <created>1760754831737</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1760754831738</updated>
-    </task>
-    <task id="LOCAL-00041" summary="- versioning&#10;- removes @hello-pangea/dnd">
-      <option name="closed" value="true" />
-      <created>1760755526075</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1760755526075</updated>
+      <workItem from="1774702451692" duration="14026000" />
+      <workItem from="1774740809058" duration="3151000" />
     </task>
     <task id="LOCAL-00042" summary="- fixes wrong link issue for mobile app in sidebar">
       <option name="closed" value="true" />
@@ -790,7 +774,31 @@
       <option name="project" value="LOCAL" />
       <updated>1774720471941</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="feat: update icon components in JournalObtainedAchievementsView">
+      <option name="closed" value="true" />
+      <created>1774720740187</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1774720740187</updated>
+    </task>
+    <task id="LOCAL-00089" summary="chore: bump version to 1.7.23">
+      <option name="closed" value="true" />
+      <created>1774720758590</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1774720758590</updated>
+    </task>
+    <task id="LOCAL-00090" summary="feat: add refresher and session authentication to JournalAchievementsPage">
+      <option name="closed" value="true" />
+      <created>1774722278534</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1774722278534</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -838,9 +846,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- Dockerfile improvements for web/admin" />
-    <MESSAGE value="- admin next16 upgrade&#10;- admin category nominees removal option&#10;- recent votes for awards screen" />
-    <MESSAGE value="- network status listener for react query with capacitor plugin" />
     <MESSAGE value="- typescript fixes" />
     <MESSAGE value="- fixes regression related to collection entry form unused field" />
     <MESSAGE value="- versioning" />
@@ -863,7 +868,10 @@
     <MESSAGE value="chore: bump version to 1.7.22" />
     <MESSAGE value="feat: integrate error boundary and enhance home page layout with game collection components" />
     <MESSAGE value="feat: add error boundary fallback and refactor activity handling components" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add error boundary fallback and refactor activity handling components" />
+    <MESSAGE value="feat: update icon components in JournalObtainedAchievementsView" />
+    <MESSAGE value="chore: bump version to 1.7.23" />
+    <MESSAGE value="feat: add refresher and session authentication to JournalAchievementsPage" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add refresher and session authentication to JournalAchievementsPage" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

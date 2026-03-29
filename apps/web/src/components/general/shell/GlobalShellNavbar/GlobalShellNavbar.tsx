@@ -31,6 +31,10 @@ const links: NavbarItem[] = [
   { label: "Explore", href: "/explore" },
   { label: "Library", href: "/library" },
   { label: "Achievements", href: "/achievements" },
+  {
+    label: "Feats",
+    href: "/feats",
+  },
   { label: "Posts", href: "/posts" },
   { label: "Blog", href: "/blog" },
   { label: "Activity", href: "/activity" },

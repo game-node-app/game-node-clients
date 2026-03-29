@@ -8,6 +8,8 @@ interface Props {
 }
 
 const JournalAchievementsIconsList = ({ achievements }: Props) => {
+  console.log("JournalAchievementsIconsList render", achievements.length);
+
   const renderedContent = useMemo(() => {
     return achievements.map((achievement) => (
       <GameAchievementHoverIcon
@@ -23,11 +25,12 @@ const JournalAchievementsIconsList = ({ achievements }: Props) => {
       hideLabel={"Show less"}
       showLabel={"Show more"}
       transitionDuration={200}
-      classNames={{ control: "mt-2" }}
+      classNames={{ control: "mt-2", root: "w-full @container" }}
     >
       <SimpleGrid
-        cols={{ base: 6, xs: 12, md: 15 }}
-        className={"gap-1 gap-y-3 w-full"}
+        className={
+          "gap-1 gap-y-3 w-full grid-cols-6 @xs:grid-cols-8 @sm:grid-cols-12 @md:grid-cols-[repeat(15,minmax(0,1fr))] @lg:grid-cols-[repeat(18,minmax(0,1fr))]"
+        }
       >
         {renderedContent}
       </SimpleGrid>

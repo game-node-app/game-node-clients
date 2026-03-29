@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import {
   GameFigureImage,
@@ -20,7 +20,11 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
     },
   });
 
-  const flavorText = `${gameGroup.achievements.length} achievement${gameGroup.achievements.length > 1 ? "s" : ""}`;
+  const flavorText = useMemo(
+    () =>
+      `${gameGroup.achievements.length} achievement${gameGroup.achievements.length > 1 ? "s" : ""}`,
+    [gameGroup.achievements.length],
+  );
 
   return (
     <Flex

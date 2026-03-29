@@ -39,7 +39,7 @@ const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Redeem a achievement with a code"}
+      title={"Redeem achievement with a code"}
     >
       <Stack>
         <TextInput

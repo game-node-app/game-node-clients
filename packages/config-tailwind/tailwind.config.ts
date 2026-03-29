@@ -32,11 +32,11 @@ const config: Omit<Config, "content"> = {
         xl: "var(--mantine-radius-xl)",
       },
       screens: {
-        xs: "30em",
+        xs: "36em",
         sm: "48em",
-        md: "64em",
-        lg: "74em",
-        xl: "90em",
+        md: "62em",
+        lg: "75em",
+        xl: "88em",
       },
       fontSize: {
         xs: "var(--mantine-font-size-xs)",
