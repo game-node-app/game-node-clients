@@ -30,9 +30,14 @@ export default function GlobalShellHeader({
   return (
     <header className="h-full">
       <Container fluid className="flex h-full items-center lg:justify-start">
-        <Burger opened={sidebarOpened} onClick={toggleSidebar} size="sm" />
+        <Burger
+          className={"block xs:hidden me-6"}
+          opened={sidebarOpened}
+          onClick={toggleSidebar}
+          size="sm"
+        />
         <a href={"/search"}>
-          <GameNodeLogo className="ms-6 w-22 h-auto max-h-full" />
+          <GameNodeLogo className="w-22 h-auto max-h-full" />
         </a>
         <Group className="ms-auto">
           {!userId && (

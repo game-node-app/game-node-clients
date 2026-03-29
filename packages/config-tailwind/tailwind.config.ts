@@ -56,6 +56,7 @@ const config: Omit<Config, "content"> = {
           4: "#242424",
           5: "#1C1C1C",
           6: "#212121",
+          7: "#111111",
         },
         dimmed: {
           DEFAULT: "var(--mantine-color-dimmed)",

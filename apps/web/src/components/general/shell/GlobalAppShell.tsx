@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { AppShell, Box, Container, useMantineTheme } from "@mantine/core";
+import React from "react";
+import { AppShell, Container } from "@mantine/core";
 import GlobalShellHeader from "@/components/general/shell/GlobalShellHeader/GlobalShellHeader";
-import { useDisclosure, useHeadroom } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
@@ -28,12 +28,12 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
       }}
       footer={{ height: 60, offset: false }}
       navbar={{
-        width: 300,
         breakpoint: "xs",
-        collapsed: {
-          mobile: !sidebarOpened,
-          desktop: !sidebarOpened,
-        },
+        width: 64,
+        collapsed: { mobile: !sidebarOpened },
+      }}
+      classNames={{
+        navbar: "max-w-16 sm:max-w-none",
       }}
     >
       <AppShell.Header>
@@ -44,11 +44,12 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
       </AppShell.Header>
       <AppShell.Navbar>
         <GlobalShellNavbar
+          isOpen={sidebarOpened}
           onOpen={sidebarOpenedUtils.open}
           onClose={sidebarOpenedUtils.close}
         />
       </AppShell.Navbar>
-      <AppShell.Main pos={"relative"}>
+      <AppShell.Main>
         <Container fluid className={"max-w-screen-xl"}>
           {children}
         </Container>
