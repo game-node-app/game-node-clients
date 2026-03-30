@@ -24,16 +24,16 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppShell
       header={{
-        height: { base: 80, md: 70 },
+        height: 54,
       }}
       footer={{ height: 60, offset: false }}
       navbar={{
-        breakpoint: "xs",
+        breakpoint: "md",
         width: 64,
         collapsed: { mobile: !sidebarOpened },
       }}
       classNames={{
-        navbar: "max-w-16 sm:max-w-none",
+        navbar: "max-w-24",
       }}
     >
       <AppShell.Header>

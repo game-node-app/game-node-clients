@@ -37,7 +37,7 @@ export default function GlobalShellHeader({
           size="sm"
         />
         <a href={"/search"}>
-          <GameNodeLogo className="w-22 h-auto max-h-full" />
+          <GameNodeLogo className="w-20 h-auto max-h-full" />
         </a>
         <Group className="ms-auto">
           {!userId && (
@@ -61,20 +61,6 @@ export default function GlobalShellHeader({
                   await navigator.share(toShare);
                 }}
               />
-              {onMobile ? (
-                <ActionIcon variant={"transparent"} onClick={open}>
-                  <IconCalendarWeek />
-                </ActionIcon>
-              ) : (
-                <Button
-                  variant={"outline"}
-                  className={"rounded-xl text-white"}
-                  onClick={open}
-                >
-                  Wrapped
-                </Button>
-              )}
-
               <GlobalShellHeaderNotifications />
             </Group>
           )}
