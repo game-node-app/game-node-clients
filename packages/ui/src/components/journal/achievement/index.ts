@@ -4,6 +4,7 @@
 
 export * from "./JournalAchievementsCompactLayoutView";
 export * from "./JournalAchievementsContext";
+export * from "./JournalAchievementsDetailedLayoutView";
 export * from "./JournalAchievementsGameGroupView";
 export * from "./JournalAchievementsIconsList";
 export * from "./JournalAchievementsMonthGroupView";

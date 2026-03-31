@@ -19,6 +19,7 @@ import Head from "next/head";
 import {
   CenteredErrorMessage,
   GameView,
+  SimpleInfiniteLoader,
   useGames,
   useInfiniteTrendingGames,
 } from "@repo/ui";
@@ -77,9 +78,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const Index = () => {
-  const { ref, entry } = useIntersection({
-    threshold: 1,
-  });
   const [scroll, scrollTo] = useWindowScroll();
   const [hasLoadedQueryParams, setHasLoadedQueryParams] =
     useState<boolean>(false);
@@ -114,7 +112,7 @@ const Index = () => {
     true,
   );
 
-  const games = gamesQuery.data;
+  const games = gamesQuery.data || [];
 
   const isFetching =
     trendingGamesQuery.isFetching ||
@@ -122,38 +120,9 @@ const Index = () => {
     trendingGamesQuery.isPending ||
     trendingGamesQuery.isFetchingPreviousPage ||
     gamesQuery.isFetching;
+
   const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
   const isError = trendingGamesQuery.isError || gamesQuery.isError;
-
-  const buildLoadingSkeletons = useCallback(() => {
-    return new Array(10).fill(0).map((v, i) => {
-      return <Skeleton key={i} className={"w-full h-60 mt-4"} />;
-    });
-  }, []);
-
-  useEffect(() => {
-    const lastElement =
-      trendingGamesQuery.data?.pages[trendingGamesQuery.data?.pages.length - 1];
-
-    const hasNextPage =
-      lastElement != undefined &&
-      lastElement.data.length > 0 &&
-      lastElement.pagination.hasNextPage;
-
-    const canFetchNextPage = !isFetching && !isLoading && hasNextPage;
-
-    // Minimum amount of time (ms) since document creation for
-    // intersection to be considered valid
-    const minimumIntersectionTime = 3000;
-
-    if (
-      canFetchNextPage &&
-      entry?.isIntersecting &&
-      entry.time > minimumIntersectionTime
-    ) {
-      trendingGamesQuery.fetchNextPage({ cancelRefetch: false });
-    }
-  }, [entry, isFetching, isLoading, trendingGamesQuery]);
 
   if (isError) {
     return (
@@ -170,7 +139,13 @@ const Index = () => {
         <title>Explore - GameNode</title>
       </Head>
       <Stack className={"w-full"}>
-        <GameView layout={"grid"}>
+        <GameView
+          layout={"grid"}
+          cols={{
+            base: 4,
+            lg: 8,
+          }}
+        >
           <ExploreScreenFilters
             hasLoadedQueryParams={hasLoadedQueryParams}
             onFilterChange={(stateAction) => {
@@ -179,18 +154,21 @@ const Index = () => {
               trendingGamesQuery.invalidate();
             }}
           />
-          <GameView.Content
-            items={games!}
-            cols={{
-              base: 4,
-              lg: 8,
-            }}
-          >
-            {(isFetching || isLoading) && buildLoadingSkeletons()}
+          <GameView.Content items={games}>
+            <GameView.LoadingSkeletons
+              isVisible={isFetching || isLoading}
+              itemCount={games.length}
+            />
           </GameView.Content>
         </GameView>
 
-        <div id={"last-element-ref-tracker"} ref={ref}></div>
+        <SimpleInfiniteLoader
+          fetchNextPage={async () => {
+            await trendingGamesQuery.fetchNextPage();
+          }}
+          isFetching={trendingGamesQuery.isFetching}
+          hasNextPage={trendingGamesQuery.hasNextPage}
+        />
       </Stack>
       <Affix position={{ bottom: 20, right: 20 }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>

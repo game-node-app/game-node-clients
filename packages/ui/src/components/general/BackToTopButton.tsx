@@ -1,13 +1,19 @@
 import React from "react";
 import { ActionIcon, Affix, Transition } from "@mantine/core";
-import { useWindowScroll } from "@mantine/hooks";
 import { IconArrowUp } from "@tabler/icons-react";
+import { useOnMobilePlatform, useScrollPosition } from "#@/components";
 
 const BackToTopButton = () => {
-  const [scroll, scrollTo] = useWindowScroll();
+  const onMobilePlatform = useOnMobilePlatform();
+  const [scroll, scrollTo] = useScrollPosition();
 
   return (
-    <Affix position={{ bottom: 20, right: 20 }}>
+    <Affix
+      position={{
+        bottom: onMobilePlatform ? 70 : 20,
+        right: 20,
+      }}
+    >
       <Transition transition="slide-up" mounted={scroll.y > 0}>
         {(transitionStyles) => (
           <ActionIcon
@@ -16,10 +22,11 @@ const BackToTopButton = () => {
             onClick={() =>
               scrollTo({
                 y: 0,
+                duration: 500,
               })
             }
           >
-            <IconArrowUp />
+            <IconArrowUp size={25} />
           </ActionIcon>
         )}
       </Transition>

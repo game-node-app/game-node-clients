@@ -15,6 +15,7 @@ import {
   ModalComponentProps,
   RouterHookProps,
 } from "#@/util";
+import { UseScrollPositionReturn } from "#@/components/general/hooks/useScrollPosition";
 
 /**
  * The registry of components that can be replaced at runtime
@@ -40,4 +41,5 @@ export type UIPresenterRegistry = {
  */
 export type UIHookRegistry = {
   useRouter: () => RouterHookProps;
+  useScrollPosition?: () => UseScrollPositionReturn;
 };

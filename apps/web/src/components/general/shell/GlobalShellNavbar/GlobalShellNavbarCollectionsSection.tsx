@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, ScrollArea, Stack, Text } from "@mantine/core";
 import {
+  BaseModalChildrenProps,
   CollectionCreateOrUpdateModal,
   TextLink,
   useUserId,
@@ -8,7 +9,9 @@ import {
 } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
 
-const GlobalShellNavbarCollectionsSection = () => {
+const GlobalShellNavbarCollectionsSection = ({
+  onClose,
+}: BaseModalChildrenProps) => {
   const userId = useUserId();
   const { data: library } = useUserLibrary(userId);
 
@@ -30,7 +33,13 @@ const GlobalShellNavbarCollectionsSection = () => {
         opened={collectionModalOpened}
         onClose={collectionModalUtils.close}
       />
-      <Button fullWidth onClick={collectionModalUtils.open}>
+      <Button
+        fullWidth
+        onClick={() => {
+          onClose?.();
+          collectionModalUtils.open();
+        }}
+      >
         New Collection
       </Button>
       <Text className={"text-sm text-dimmed"}>Featured Collections</Text>

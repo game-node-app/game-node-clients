@@ -17,6 +17,7 @@ const GlobalShellNavbarCollectionsMenu = () => {
 
   return (
     <TargetHoverElement
+      opened={onMobile ? collectionMenuExpanded : undefined}
       onOpen={collectionMenuUtils.open}
       onClose={collectionMenuUtils.close}
       transitionProps={{
@@ -33,6 +34,7 @@ const GlobalShellNavbarCollectionsMenu = () => {
             "w-full hover:bg-paper-8 data-[opened=true]:bg-paper-8 h-8 rounded-md"
           }
           data-opened={collectionMenuExpanded ? "true" : "false"}
+          onClick={collectionMenuUtils.toggle}
         >
           <Center>
             <TargetIcon></TargetIcon>
@@ -41,10 +43,12 @@ const GlobalShellNavbarCollectionsMenu = () => {
       </TargetHoverElement.Target>
       <TargetHoverElement.Dropdown
         className={
-          "h-screen mt-[50px] min-w-64 bg-paper-3 rounded-sm py-4 px-3.5 max-w-full"
+          "h-screen mt-[53px] min-w-64 bg-paper-3 rounded-sm py-4 px-3.5 max-w-full"
         }
       >
-        <GlobalShellNavbarCollectionsSection />
+        <GlobalShellNavbarCollectionsSection
+          onClose={collectionMenuUtils.close}
+        />
       </TargetHoverElement.Dropdown>
     </TargetHoverElement>
   );

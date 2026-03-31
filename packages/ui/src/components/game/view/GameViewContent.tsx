@@ -1,4 +1,9 @@
-import React, { PropsWithChildren, useContext, useMemo } from "react";
+import React, {
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { Box, Divider, SimpleGrid, SimpleGridProps } from "@mantine/core";
 import { GameViewContext } from "#@/components/game/view/GameView";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
@@ -8,16 +13,16 @@ import { TGameOrSearchGame } from "#@/components/game/util/types";
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {
   items: TGameOrSearchGame[] | undefined;
-  cols?: SimpleGridProps["cols"];
 }
 
 const GameViewContent = ({
   items,
-  cols,
   children,
   ...others
 }: GameViewContentProps) => {
-  const { layout } = useContext(GameViewContext);
+  const gameViewContext = useContext(GameViewContext);
+  const { layout, cols } = gameViewContext;
+
   const columns = useMemo(() => {
     if (items == null || items.length === 0) {
       return null;
@@ -37,18 +42,14 @@ const GameViewContent = ({
     });
   }, [items, layout]);
 
+  useEffect(() => {
+    if (gameViewContext == null) {
+      throw new Error("GameViewContent must be used within a GameView");
+    }
+  }, [gameViewContext]);
+
   return (
-    <SimpleGrid
-      id={"game-view-content"}
-      cols={
-        cols ?? {
-          base: layout === "list" ? 1 : 3,
-          lg: layout === "list" ? 1 : 5,
-        }
-      }
-      w={"100%"}
-      {...others}
-    >
+    <SimpleGrid id={"game-view-content"} cols={cols} w={"100%"} {...others}>
       {columns}
       {children}
     </SimpleGrid>

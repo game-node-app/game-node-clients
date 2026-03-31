@@ -1,9 +1,15 @@
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { Skeleton } from "@mantine/core";
+import { GameViewContext, useOnMobile } from "#@/components";
+import { cn } from "#@/util/cn.ts";
 
 export interface GameViewLoadingSkeletonsProps {
-  count?: number;
   isVisible: boolean;
+  /**
+   * This makes the loading skeletons "fill" the remainder of the last row before rendering more itens.
+   * This should be the total itens actually rendered by {@link GameViewContent}
+   */
+  itemCount?: number;
 }
 
 /**
@@ -13,16 +19,37 @@ export interface GameViewLoadingSkeletonsProps {
  * @constructor
  */
 const GameViewLoadingSkeletons = ({
-  count = 6,
   isVisible,
+  itemCount = 0,
 }: GameViewLoadingSkeletonsProps) => {
+  const onMobile = useOnMobile();
+  const { layout, cols } = useContext(GameViewContext);
+
+  const colsPerRow =
+    layout === "list" ? 1 : onMobile ? (cols.base ?? 3) : (cols.lg ?? 5);
+
+  const count = useMemo(() => {
+    if (layout === "list") return 4;
+
+    const remainder = itemCount % colsPerRow;
+    const remainingInRow = (colsPerRow - remainder) % colsPerRow;
+
+    return remainingInRow + colsPerRow * 3;
+  }, [layout, itemCount, colsPerRow]);
+
   return useMemo(() => {
     if (!isVisible) return null;
 
-    return new Array(count).fill(0).map((_, i) => {
-      return <Skeleton key={i} className={"w-full h-36 lg:h-52"} />;
-    });
-  }, [count, isVisible]);
+    return Array.from({ length: count }).map((_, i) => (
+      <Skeleton
+        key={i}
+        className={cn("w-full h-24 xs:h-32 md:h-40 lg:h-52", {
+          "col-span-full": layout === "list",
+          "aspect-square": layout === "grid",
+        })}
+      />
+    ));
+  }, [count, isVisible, layout]);
 };
 
 export { GameViewLoadingSkeletons };

@@ -2,18 +2,18 @@ import {
   FindStatisticsTrendingGamesDto,
   GameStatisticsPaginatedResponseDto,
   StatisticsService,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import {
   keepPreviousData,
   useInfiniteQuery,
-  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryResult";
-import { sleep } from "#@/util/sleep";
 
-export interface InfiniteQueryTrendingGamesDto
-  extends Omit<FindStatisticsTrendingGamesDto, "offset" | "search"> {}
+export type InfiniteQueryTrendingGamesDto = Omit<
+  FindStatisticsTrendingGamesDto,
+  "offset" | "search"
+>;
 
 export function useInfiniteTrendingGames(
   dto: InfiniteQueryTrendingGamesDto,
@@ -48,8 +48,14 @@ export function useInfiniteTrendingGames(
           offset: pageParam,
         });
       },
-      getNextPageParam: (previousData, allData, lastPageParam) => {
-        return lastPageParam + limitToUse;
+      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+        if (
+          lastPage.pagination != undefined &&
+          lastPage.pagination.hasNextPage
+        ) {
+          return lastPageParam + limitToUse;
+        }
+        return undefined;
       },
       placeholderData: keepPreviousData,
       initialPageParam: 0,

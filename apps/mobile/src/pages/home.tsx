@@ -4,6 +4,7 @@ import { SimpleGrid, Stack } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  BackToTopButton,
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
@@ -70,7 +71,8 @@ const HomePage = () => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <HomeFab contentRef={contentRef} />
+      {/*<HomeFab contentRef={contentRef} />*/}
+      <BackToTopButton />
       <Stack className={"w-full gap-8 my-4"}>
         {userId && <RecommendationCarousel criteria={"finished"} />}
         <TrendingGamesList />
