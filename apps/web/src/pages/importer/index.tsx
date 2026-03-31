@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <SessionAuth>
       <Stack w={"100%"} justify={"center"} align={"center"}>
-        <Paper className={"w-full lg:w-10/12 p-2 pb-8"}>
+        <Paper className={"w-full p-2 pb-8"}>
           <Stack className={"w-full h-full items-center"}>
             <Title size={"h4"}>
               GAME <span className={"text-[#F15025]"}>IMPORTER</span>

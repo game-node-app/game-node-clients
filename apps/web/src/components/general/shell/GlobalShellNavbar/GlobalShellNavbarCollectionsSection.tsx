@@ -1,12 +1,18 @@
 import React from "react";
 import { Button, ScrollArea, Stack, Text } from "@mantine/core";
-import { TextLink, useUserId, useUserLibrary } from "@repo/ui";
-
-interface Props {}
+import {
+  CollectionCreateOrUpdateModal,
+  TextLink,
+  useUserId,
+  useUserLibrary,
+} from "@repo/ui";
+import { useDisclosure } from "@mantine/hooks";
 
 const GlobalShellNavbarCollectionsSection = () => {
   const userId = useUserId();
   const { data: library } = useUserLibrary(userId);
+
+  const [collectionModalOpened, collectionModalUtils] = useDisclosure();
 
   const collections = library?.collections || [];
 
@@ -19,7 +25,14 @@ const GlobalShellNavbarCollectionsSection = () => {
 
   return (
     <Stack className={"w-full"}>
-      <Button fullWidth>New Collection</Button>
+      <CollectionCreateOrUpdateModal
+        collectionId={undefined}
+        opened={collectionModalOpened}
+        onClose={collectionModalUtils.close}
+      />
+      <Button fullWidth onClick={collectionModalUtils.open}>
+        New Collection
+      </Button>
       <Text className={"text-sm text-dimmed"}>Featured Collections</Text>
       <ScrollArea.Autosize mah={200}>
         <Stack className={"flex flex-col gap-1"}>

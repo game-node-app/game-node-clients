@@ -54,18 +54,16 @@ const GameHoverEditFigure = ({
                 <IconDots />
               </ActionIcon>
             </Flex>
-            <Box className={"h-full w-full"}>
-              <Link
-                href={game?.href ?? `/game/${game?.id}`}
-                className={"h-full w-full flex flex-col"}
-              >
-                {withHoverTitle && (
-                  <Text className={"font-bold text-lg mt-auto"}>
-                    {game?.name}
-                  </Text>
-                )}
-              </Link>
-            </Box>
+            <Link
+              href={game?.href ?? `/game/${game?.id}`}
+              className={"h-full w-full flex flex-col max-w-full"}
+            >
+              {withHoverTitle && (
+                <Text className={"font-bold text-lg mt-auto"}>
+                  {game?.name}
+                </Text>
+              )}
+            </Link>
           </Stack>
         </Box>
       </GameFigureImage>

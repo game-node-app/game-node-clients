@@ -15,6 +15,11 @@ const nextConfig = {
         destination: "https://admin.gamenode.app",
         permanent: true,
       },
+      {
+        source: "/search",
+        destination: "/home",
+        permanent: true,
+      },
     ];
   },
 };

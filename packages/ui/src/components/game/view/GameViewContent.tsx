@@ -8,10 +8,12 @@ import { TGameOrSearchGame } from "#@/components/game/util/types";
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {
   items: TGameOrSearchGame[] | undefined;
+  cols?: SimpleGridProps["cols"];
 }
 
 const GameViewContent = ({
   items,
+  cols,
   children,
   ...others
 }: GameViewContentProps) => {
@@ -38,10 +40,12 @@ const GameViewContent = ({
   return (
     <SimpleGrid
       id={"game-view-content"}
-      cols={{
-        base: layout === "list" ? 1 : 3,
-        lg: layout === "list" ? 1 : 5,
-      }}
+      cols={
+        cols ?? {
+          base: layout === "list" ? 1 : 3,
+          lg: layout === "list" ? 1 : 5,
+        }
+      }
       w={"100%"}
       {...others}
     >

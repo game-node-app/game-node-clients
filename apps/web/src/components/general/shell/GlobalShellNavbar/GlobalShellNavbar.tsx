@@ -22,12 +22,13 @@ import {
   IconTrophy,
 } from "@tabler/icons-react";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { ExoticComponent, PropsWithoutRef } from "react";
+import { ExoticComponent, PropsWithoutRef, useCallback } from "react";
 import { cn } from "@repo/ui";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { GlobalShellNavbarCollectionsSection } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection";
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu";
+import { useRouter } from "next/router";
 
 export interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;
@@ -65,11 +66,15 @@ interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
 }
 
 export default function GlobalShellNavbar({
-  isOpen,
-  onOpen,
   onClose,
 }: IGlobalShellNavbarProps) {
-  const [collectionMenuExpanded, collectionMenuUtils] = useDisclosure();
+  const router = useRouter();
+  const pathname = router.pathname;
+
+  const isActive = useCallback(
+    (href: string) => pathname.startsWith(href),
+    [pathname],
+  );
 
   return (
     <Stack className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative")}>
@@ -79,16 +84,14 @@ export default function GlobalShellNavbar({
           <Tooltip label={link.label}>
             <UnstyledButton
               className={
-                "w-full hover:bg-[#1A1A1A] h-8 rounded-md flex items-center lg:justify-center gap-1"
+                "w-full hover:bg-paper-8 hover:opacity-90 data-[active=true]:bg-paper-8 h-8 rounded-md flex items-center justify-center gap-1"
               }
               onClick={onClose}
+              data-active={isActive(link.href) ? "true" : "false"}
             >
               <Link href={link.href}>
                 <link.icon className={""}></link.icon>
               </Link>
-              <Text className={"block lg:hidden font-bold text-sm truncate"}>
-                {link.label}
-              </Text>
             </UnstyledButton>
           </Tooltip>
 

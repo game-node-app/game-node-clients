@@ -33,7 +33,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
         collapsed: { mobile: !sidebarOpened },
       }}
       classNames={{
-        navbar: "max-w-24",
+        navbar: "max-w-20",
       }}
     >
       <AppShell.Header>

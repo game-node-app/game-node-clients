@@ -18,11 +18,11 @@ const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
   return games.map((game, index) => {
     if (index < 40) {
       return (
-        <Carousel.Slide key={game.id} className={"w-full h-full"}>
+        <Carousel.Slide key={`${index}-${game.id}`} className={"w-full h-full"}>
           <GameGridItem
             game={game}
             figureProps={{
-              withHoverTitle: false,
+              withHoverTitle: true,
             }}
           />
         </Carousel.Slide>

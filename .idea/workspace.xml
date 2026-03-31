@@ -11,14 +11,19 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: app shell work">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: enhance app shell with new collections menu and navbar updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/feats/[targetUserId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/feats/[targetUserId].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/profile/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameHoverEditFigure.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameHoverEditFigure.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/carousel/GameInfoCarousel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/carousel/GameInfoCarousel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/importer/view/ImporterScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,9 +243,9 @@
     </configuration>
     <list>
       <item itemvalue="Docker.Docker Image" />
+      <item itemvalue="npm.dev:admin" />
       <item itemvalue="npm.dev:mobile" />
       <item itemvalue="npm.dev:web" />
-      <item itemvalue="npm.dev:admin" />
       <item itemvalue="npm.wrapper:generate" />
       <item itemvalue="npm.ui &gt; barrels:generate" />
     </list>
@@ -403,15 +408,10 @@
       <workItem from="1774659277139" duration="11650000" />
       <workItem from="1774702451692" duration="14026000" />
       <workItem from="1774740809058" duration="3151000" />
-      <workItem from="1774820782644" duration="14272000" />
-    </task>
-    <task id="LOCAL-00043" summary="- global css importing issues fixed">
-      <option name="closed" value="true" />
-      <created>1760757547976</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1760757547976</updated>
+      <workItem from="1774820782644" duration="14301000" />
+      <workItem from="1774875890471" duration="938000" />
+      <workItem from="1774891965923" duration="3428000" />
+      <workItem from="1774948915381" duration="1198000" />
     </task>
     <task id="LOCAL-00044" summary="- games automatic import">
       <option name="closed" value="true" />
@@ -797,7 +797,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774827174594</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="feat: enhance app shell with new collections menu and navbar updates">
+      <option name="closed" value="true" />
+      <created>1774841776149</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1774841776149</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -845,7 +853,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="- fixes regression related to collection entry form unused field" />
     <MESSAGE value="- versioning" />
     <MESSAGE value="add awards result components and update models for event results" />
     <MESSAGE value="add awards result components and implement event redirection logic" />
@@ -870,7 +877,8 @@
     <MESSAGE value="chore: bump version to 1.7.23" />
     <MESSAGE value="feat: add refresher and session authentication to JournalAchievementsPage" />
     <MESSAGE value="feat: app shell work" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: app shell work" />
+    <MESSAGE value="feat: enhance app shell with new collections menu and navbar updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance app shell with new collections menu and navbar updates" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

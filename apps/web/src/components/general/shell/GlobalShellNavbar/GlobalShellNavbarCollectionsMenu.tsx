@@ -24,6 +24,8 @@ const GlobalShellNavbarCollectionsMenu = () => {
       }}
       position={"right"}
       offset={12}
+      keepMounted={true}
+      openDelay={350}
     >
       <TargetHoverElement.Target>
         <UnstyledButton

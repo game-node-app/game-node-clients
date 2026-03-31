@@ -169,7 +169,7 @@ const Index = () => {
       <Head>
         <title>Explore - GameNode</title>
       </Head>
-      <Stack className={"w-full lg:w-10/12 "}>
+      <Stack className={"w-full"}>
         <GameView layout={"grid"}>
           <ExploreScreenFilters
             hasLoadedQueryParams={hasLoadedQueryParams}
@@ -179,7 +179,13 @@ const Index = () => {
               trendingGamesQuery.invalidate();
             }}
           />
-          <GameView.Content items={games!}>
+          <GameView.Content
+            items={games!}
+            cols={{
+              base: 4,
+              lg: 8,
+            }}
+          >
             {(isFetching || isLoading) && buildLoadingSkeletons()}
           </GameView.Content>
         </GameView>

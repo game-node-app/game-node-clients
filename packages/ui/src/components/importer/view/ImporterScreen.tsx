@@ -240,7 +240,7 @@ const ImporterScreen = ({ source }: Props) => {
   return (
     <Flex justify={"center"} p={0} wrap={"wrap"}>
       <form
-        className={"w-full flex flex-col lg:w-10/12 p-4"}
+        className={"w-full flex flex-col p-4"}
         onSubmit={handleSubmit((data) => {
           importMutation.mutate(data);
         })}
