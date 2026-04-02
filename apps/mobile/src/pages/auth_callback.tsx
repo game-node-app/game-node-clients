@@ -14,6 +14,7 @@ import { redirectToAuth } from "supertokens-auth-react";
 import { getCapitalizedText } from "@/util/getCapitalizedText";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   provider: string;
@@ -21,6 +22,7 @@ interface Props {
 
 const AuthCallbackPage = ({ provider }: Props) => {
   const router = useIonRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     (async () => {
@@ -64,7 +66,7 @@ const AuthCallbackPage = ({ provider }: Props) => {
   return (
     <AppPage withSearch={false}>
       <Stack className={"mt-20 min-h-screen"}>
-        <CenteredLoading message={"Fetching your credentials..."} />
+        <CenteredLoading message={t("auth.fetchingCredentials")} />
       </Stack>
     </AppPage>
   );

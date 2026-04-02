@@ -442,6 +442,15 @@ export const en = {
       loading: "Loading platforms...",
       description:
         "These platforms will be used automatically when adding new games that support these platforms.",
+      editTitle: "Edit Preferred Platform",
+      addTitle: "Add Preferred Platform",
+      updateSuccess: "Preferred platform has been updated successfully.",
+      addSuccess: "Preferred platform has been added successfully.",
+      platformLabel: "Platform",
+      labelField: "Label",
+      labelDescription:
+        "Optional. This helps you identify this platform. It doesn't affect functionality. Only shown to you.",
+      enabled: "Enabled",
     },
   },
   playtime: {
@@ -678,6 +687,31 @@ export const en = {
     openInApp: "Open in app",
   },
   mobile: {
+    library: {
+      collectionsTitle: "Your collections",
+      collectionsTitleFor: "{{username}}'s collections",
+    },
+    activity: {
+      tip: "Tip: press and hold to show actions.",
+      loadingMore: "Fetching more activities...",
+    },
+    importer: {
+      description:
+        "The importer system helps you bring games from other platforms to GameNode.",
+      noConnections:
+        "It seems like you don't have any connection set up for importing.",
+      clickHere: "Click here",
+      setUpOne: "to set one up.",
+    },
+    awards: {
+      sharePrompt: "These are my GameNode Awards nominees!",
+      shareCreate: "Create yours at https://gamenode.app",
+      resultsTitle: "Awards Results",
+    },
+    recap: {
+      titleOwn: "Your {{year}} Recap",
+      titleFor: "{{year}} Recap for {{username}}",
+    },
     preferences: {
       profile: "Profile",
       editProfile: "Edit profile",
@@ -699,9 +733,6 @@ export const en = {
       placeholder: "Search for users or games",
       noResults: "No results.",
       fetchFailed: "Failed to fetch results.",
-    },
-    awards: {
-      sharePrompt: "These are my GameNode Awards nominees!",
     },
   },
   shell: {

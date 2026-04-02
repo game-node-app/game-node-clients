@@ -2,6 +2,7 @@ import React from "react";
 import { CollectionEntry } from "@repo/wrapper/server";
 import { Tabs } from "@mantine/core";
 import { useOnMobile } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   status: CollectionEntry.status;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   return (
     <Tabs
@@ -18,10 +20,18 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
       radius={"md"}
     >
       <Tabs.List grow={onMobile} className={"flex-nowrap"}>
-        <Tabs.Tab value={CollectionEntry.status.PLAYING}>Playing</Tabs.Tab>
-        <Tabs.Tab value={CollectionEntry.status.FINISHED}>Finished</Tabs.Tab>
-        <Tabs.Tab value={CollectionEntry.status.PLANNED}>Planned</Tabs.Tab>
-        <Tabs.Tab value={CollectionEntry.status.DROPPED}>Dropped</Tabs.Tab>
+        <Tabs.Tab value={CollectionEntry.status.PLAYING}>
+          {t("collectionEntry.statuses.playing")}
+        </Tabs.Tab>
+        <Tabs.Tab value={CollectionEntry.status.FINISHED}>
+          {t("collectionEntry.statuses.finished")}
+        </Tabs.Tab>
+        <Tabs.Tab value={CollectionEntry.status.PLANNED}>
+          {t("collectionEntry.statuses.planned")}
+        </Tabs.Tab>
+        <Tabs.Tab value={CollectionEntry.status.DROPPED}>
+          {t("collectionEntry.statuses.dropped")}
+        </Tabs.Tab>
       </Tabs.List>
     </Tabs>
   );

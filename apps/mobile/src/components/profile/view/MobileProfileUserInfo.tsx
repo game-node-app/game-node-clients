@@ -16,8 +16,10 @@ import { Box, Center, Divider, Group, Stack, Text } from "@mantine/core";
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import dayjs from "dayjs";
 import { MobileProfileFeaturedAchievement } from "@/components/profile/view/MobileProfileFeaturedAchievement.tsx";
+import { useTranslation } from "@repo/locales";
 
 const MobileProfileUserInfo = ({ userId }: ProfileUserInfoProps) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
 
   const memberSinceDate = profileQuery.data?.createdAt
@@ -47,7 +49,9 @@ const MobileProfileUserInfo = ({ userId }: ProfileUserInfoProps) => {
             criteria={FollowInfoRequestDto.criteria.FOLLOWING}
           />
           {memberSinceDate && (
-            <Text className={"text-dimmed"}>Since {memberSinceDate}</Text>
+            <Text className={"text-dimmed"}>
+              {t("profile.memberSince", { date: memberSinceDate })}
+            </Text>
           )}
         </Group>
         <ProfileUserInfoConnections

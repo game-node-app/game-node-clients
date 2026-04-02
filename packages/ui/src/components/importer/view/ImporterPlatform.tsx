@@ -4,12 +4,14 @@ import { Button, Image, Stack, Title } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { Link } from "#@/util";
 import { getConnectionName } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   connection: UserConnectionDto;
 }
 
 const ImporterPlatform = ({ connection }: Props) => {
+  const { t } = useTranslation();
   const connectionName = useMemo(
     () => getConnectionName(connection.type),
     [connection.type],
@@ -28,7 +30,7 @@ const ImporterPlatform = ({ connection }: Props) => {
         href={`/importer/${connection.type.valueOf()}`}
         className={"w-9/12 mt-auto mb-4"}
       >
-        <Button className={"w-full "}>Import</Button>
+        <Button className={"w-full "}>{t("importer.buttons.import")}</Button>
       </Link>
     </Stack>
   );

@@ -7,6 +7,7 @@ import {
   useIsFirstRender,
   useSessionStorage,
 } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 
 const EXCLUDED_ROUTES = ["/", "/about", "/tos", "/privacy"];
 
@@ -15,6 +16,7 @@ const EXCLUDED_ROUTES = ["/", "/about", "/tos", "/privacy"];
  * @constructor
  */
 const OpenInAppDialog = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const onMobile = useOnMobile();
 
@@ -60,7 +62,7 @@ const OpenInAppDialog = () => {
       size="30vh"
       radius="md"
       position={"bottom"}
-      title={"GameNode is (even) better in the app!"}
+      title={t("app.betterInApp")}
     >
       <Stack className={"w-full items-center"}>
         <Anchor
@@ -73,9 +75,13 @@ const OpenInAppDialog = () => {
             setHasBeenClosed(true);
           }}
         >
-          <Button size={"md"}>Open in app</Button>
+          <Button size={"md"}>{t("app.openInApp")}</Button>
         </Anchor>
-        <Divider label={"OR"} orientation={"horizontal"} className={"w-full"} />
+        <Divider
+          label={t("common.or")}
+          orientation={"horizontal"}
+          className={"w-full"}
+        />
         <Anchor
           className={"w-40"}
           href={

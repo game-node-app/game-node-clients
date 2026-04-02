@@ -446,6 +446,15 @@ export const ptBR: TranslationSchema = {
       loading: "Carregando plataformas...",
       description:
         "Estas plataformas serão usadas automaticamente ao adicionar novos jogos que suportam estas plataformas.",
+      editTitle: "Editar Plataforma Preferida",
+      addTitle: "Adicionar Plataforma Preferida",
+      updateSuccess: "Plataforma preferida atualizada com sucesso.",
+      addSuccess: "Plataforma preferida adicionada com sucesso.",
+      platformLabel: "Plataforma",
+      labelField: "Rótulo",
+      labelDescription:
+        "Opcional. Isso ajuda você a identificar esta plataforma. Não afeta a funcionalidade. Visível apenas para você.",
+      enabled: "Ativado",
     },
   },
   playtime: {
@@ -684,6 +693,31 @@ export const ptBR: TranslationSchema = {
     openInApp: "Abrir no app",
   },
   mobile: {
+    library: {
+      collectionsTitle: "Suas colecoes",
+      collectionsTitleFor: "Colecoes de {{username}}",
+    },
+    activity: {
+      tip: "Dica: pressione e segure para ver as acoes.",
+      loadingMore: "Carregando mais atividades...",
+    },
+    importer: {
+      description:
+        "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode.",
+      noConnections:
+        "Parece que voce nao tem nenhuma conexao configurada para importar.",
+      clickHere: "Clique aqui",
+      setUpOne: "para configurar uma.",
+    },
+    awards: {
+      sharePrompt: "Estes são meus indicados do GameNode Awards!",
+      shareCreate: "Crie o seu em https://gamenode.app",
+      resultsTitle: "Resultados do Awards",
+    },
+    recap: {
+      titleOwn: "Seu Recap de {{year}}",
+      titleFor: "Recap de {{year}} para {{username}}",
+    },
     preferences: {
       profile: "Perfil",
       editProfile: "Editar perfil",
@@ -705,9 +739,6 @@ export const ptBR: TranslationSchema = {
       placeholder: "Buscar usuários ou jogos",
       noResults: "Sem resultados.",
       fetchFailed: "Falha ao buscar resultados.",
-    },
-    awards: {
-      sharePrompt: "Estes são meus indicados do GameNode Awards!",
     },
   },
   shell: {

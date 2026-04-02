@@ -3,12 +3,14 @@ import { useJournalOverview } from "#@/components/journal/hooks/useJournalOvervi
 import { Stack } from "@mantine/core";
 import { JournalOverviewYearGroup } from "#@/components/journal/overview/item/JournalOverviewYearGroup.tsx";
 import { BackToTopButton, CenteredLoading } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
 }
 
 const JournalOverviewView = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const { data, isLoading } = useJournalOverview(userId);
 
   const renderedItens = useMemo(() => {
@@ -20,7 +22,7 @@ const JournalOverviewView = ({ userId }: Props) => {
   return (
     <Stack>
       <BackToTopButton />
-      {isLoading && <CenteredLoading message={"Loading Journal..."} />}
+      {isLoading && <CenteredLoading message={t("journal.loading")} />}
       {renderedItens}
     </Stack>
   );

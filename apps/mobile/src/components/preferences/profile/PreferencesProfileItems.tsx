@@ -19,8 +19,10 @@ import useUserId from "@/components/auth/hooks/useUserId";
 import { IconLogout2, IconUser } from "@tabler/icons-react";
 import { signOut } from "supertokens-website";
 import { ProfileEditForm } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesProfileItems = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const router = useIonRouter();
 
@@ -33,9 +35,11 @@ const PreferencesProfileItems = () => {
       <IonModal isOpen={editModalOpened} onDidDismiss={editModalUtils.close}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Edit profile</IonTitle>
+            <IonTitle>{t("mobile.preferences.editProfile")}</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={editModalUtils.close}>Cancel</IonButton>
+              <IonButton onClick={editModalUtils.close}>
+                {t("actions.cancel")}
+              </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -46,13 +50,13 @@ const PreferencesProfileItems = () => {
         </IonContent>
       </IonModal>
       <IonItemDivider>
-        <IonLabel>Profile</IonLabel>
+        <IonLabel>{t("mobile.preferences.profile")}</IonLabel>
       </IonItemDivider>
 
       <IonItem button onClick={editModalUtils.open}>
         <Group className={"gap-2"}>
           <IconUser />
-          <IonLabel>Edit profile details</IonLabel>
+          <IonLabel>{t("mobile.preferences.editProfileDetails")}</IonLabel>
         </Group>
       </IonItem>
     </IonItemGroup>

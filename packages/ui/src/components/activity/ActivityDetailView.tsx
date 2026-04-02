@@ -7,21 +7,25 @@ import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { TextLink } from "#@/components/general/TextLink";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   activityId: string;
 }
 
 const ActivityDetailView = ({ activityId }: Props) => {
+  const { t } = useTranslation();
   const activityQuery = useActivity(activityId);
   const profileQuery = useUserProfile(activityQuery.data?.profileUserId);
 
   if (activityQuery.isLoading || profileQuery.isLoading) {
-    return <CenteredLoading message={"Loading activity..."} />;
+    return <CenteredLoading message={t("common.loading")} />;
   } else if (activityQuery.isError || profileQuery.isError) {
     return (
       <CenteredErrorMessage
-        message={"Failed to fetch activity. Please try again."}
+        message={t("errors.fetchFailed", {
+          resource: t("navigation.activity").toLowerCase(),
+        })}
       />
     );
   } else if (activityQuery.data == undefined) {
@@ -31,7 +35,9 @@ const ActivityDetailView = ({ activityId }: Props) => {
   return (
     <Stack className={"w-full"}>
       <DetailsBox
-        title={`${profileQuery.data?.username}'s Activity`}
+        title={t("profile.titles.activity", {
+          username: profileQuery.data?.username,
+        })}
         stackProps={{
           className: "",
         }}
@@ -39,7 +45,7 @@ const ActivityDetailView = ({ activityId }: Props) => {
         <ActivityList items={[activityQuery.data]} />
       </DetailsBox>
       <Center>
-        <TextLink href={"/activity/all"}>See more </TextLink>
+        <TextLink href={"/activity/all"}>{t("actions.seeMore")} </TextLink>
       </Center>
     </Stack>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { AppPage } from "@/components/general/AppPage";
 import { RecapStatsScreen, useUserId, useUserProfile } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   year: number;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const RecapStatsPage = ({ year, userId }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const profile = useUserProfile(userId);
   const isOwnRecap = ownUserId === userId;
@@ -16,8 +18,11 @@ const RecapStatsPage = ({ year, userId }: Props) => {
     <AppPage
       title={
         isOwnRecap
-          ? `Your ${year} Recap`
-          : `${year} Recap for ${profile.data?.username}`
+          ? t("mobile.recap.titleOwn", { year })
+          : t("mobile.recap.titleFor", {
+              year,
+              username: profile.data?.username ?? "",
+            })
       }
     >
       <RecapStatsScreen userId={userId} targetYear={year} />

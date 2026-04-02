@@ -10,6 +10,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconCalendarWeek } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -20,6 +21,7 @@ export default function GlobalShellHeader({
   sidebarOpened,
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
+  const { t } = useTranslation();
   const { pathname } = useRouter();
   const userId = useUserId();
 
@@ -42,7 +44,7 @@ export default function GlobalShellHeader({
         <Group className="ms-auto">
           {!userId && (
             <Link href={"/auth"}>
-              <Button variant="outline">Sign in</Button>
+              <Button variant="outline">{t("auth.signIn")}</Button>
             </Link>
           )}
           {userId != undefined && (
@@ -52,8 +54,8 @@ export default function GlobalShellHeader({
                 onClose={close}
                 onShare={async (file) => {
                   const toShare: ShareData = {
-                    title: "GameNode Share",
-                    text: `These are my recently played games!`,
+                    title: t("game.share.title"),
+                    text: t("game.share.recentlyPlayed"),
                     files: [file],
                     url: `https://gamenode.app`,
                   };

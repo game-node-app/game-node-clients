@@ -4,6 +4,7 @@ import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
 import { AwardsOverviewTextBadge } from "#@/components/awards/view/AwardsOverviewTextBadge.tsx";
 import dayjs from "dayjs";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   eventId: number;
@@ -16,6 +17,7 @@ const AwardsEventOverview = ({
   withButton = true,
   withBackground = true,
 }: Props) => {
+  const { t } = useTranslation();
   const { data: event } = useAwardEvent({ eventId });
   const { data: eventCategories } = useAwardEventCategories(eventId);
 
@@ -41,24 +43,28 @@ const AwardsEventOverview = ({
           }}
         />
       )}
-      <Title className={"text-7xl text-white"}>AWARDS</Title>
+      <Title className={"text-7xl text-white"}>{t("awards.title")}</Title>
       <Text className={"text-[#DEDEDE] text-wrap lg:w-96"}>
-        The Game Awards and GameNode community&#39;s nominees in one place
+        {t("awards.subtitle")}
       </Text>
       {withButton && (
         <Link href={`/awards/${event?.year}/vote`}>
-          <Button className={"rounded-md w-40"}>Vote now</Button>
+          <Button className={"rounded-md w-40"}>{t("awards.voteNow")}</Button>
         </Link>
       )}
       <Text className={"text-sm text-dimmed"}>
-        Earn 1000XP and a badge for participating!
+        {t("awards.participationReward")}
       </Text>
       <Group className={"w-full flex-nowrap gap-4"}>
         <AwardsOverviewTextBadge>
-          {totalCategories} Categories
+          {t("awards.categoriesCount", { count: totalCategories })}
         </AwardsOverviewTextBadge>
-        <AwardsOverviewTextBadge>Voted by the public</AwardsOverviewTextBadge>
-        <AwardsOverviewTextBadge>Results {resultsDate}</AwardsOverviewTextBadge>
+        <AwardsOverviewTextBadge>
+          {t("awards.votedByPublic")}
+        </AwardsOverviewTextBadge>
+        <AwardsOverviewTextBadge>
+          {t("awards.resultsDate", { date: resultsDate })}
+        </AwardsOverviewTextBadge>
       </Group>
     </Stack>
   );

@@ -9,12 +9,14 @@ import { UserComment } from "#@/components/comment/types";
 import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
 import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
 import { createErrorNotification, Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalProps {
   comment: UserComment;
 }
 
 const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const sourceType = useMemo(() => {
@@ -39,20 +41,24 @@ const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: "Successfully removed your comment!",
+        message: t("comment.messages.removed"),
       });
     },
     onError: createErrorNotification,
   });
 
   return (
-    <Modal title={"Remove comment"} opened={opened} onClose={onClose}>
+    <Modal
+      title={t("comment.titles.removeModal")}
+      opened={opened}
+      onClose={onClose}
+    >
       <SessionAuth>
         <Stack w={"100%"} align={"center"}>
-          <Text>Are you sure you want to remove this comment?</Text>
+          <Text>{t("comment.messages.confirmRemove")}</Text>
           <Group>
             <Button onClick={onClose} color={"blue"}>
-              Go back
+              {t("actions.goBack")}
             </Button>
             <Button
               onClick={() => {
@@ -60,7 +66,7 @@ const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
               }}
               color={"red"}
             >
-              Confirm
+              {t("actions.confirm")}
             </Button>
           </Group>
         </Stack>

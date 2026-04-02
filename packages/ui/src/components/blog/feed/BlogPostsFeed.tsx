@@ -17,8 +17,11 @@ import {
 } from "#@/components";
 import { IconQuestionMark } from "@tabler/icons-react";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const BlogPostsFeed = () => {
+  const { t } = useTranslation();
+
   return (
     <DetailsBox
       title={""}
@@ -34,16 +37,9 @@ const BlogPostsFeed = () => {
           </Popover.Target>
           <Popover.Dropdown>
             <Box className={"w-full max-w-60"}>
-              <Text className={"text-wrap"}>
-                Our blog posts are published by independent contributors as a
-                way to give visibility to the great writers and editors of our
-                community. You too can write for us if interested!
-              </Text>
+              <Text className={"text-wrap"}>{t("blog.disclaimer")}</Text>
               <Text className={"text-sm text-dimmed text-wrap"}>
-                As such, these blog posts may not share or reflect the ideals,
-                vision or opinions of the core GameNode team. Content is of
-                responsibility of the Post author. Please contact our team
-                through Discord if you notice any issues.
+                {t("blog.contentNotice")}
               </Text>
             </Box>
           </Popover.Dropdown>
@@ -54,7 +50,7 @@ const BlogPostsFeed = () => {
       <Divider className={"w-full my-6"} />
       <Group className={"w-full lg:flex-nowrap lg:items-start"}>
         <DetailsBox
-          title={"Recent posts"}
+          title={t("blog.recentPosts")}
           stackProps={{
             className: "lg:!w-2/3",
           }}
@@ -62,12 +58,12 @@ const BlogPostsFeed = () => {
           <RecentBlogPostsList />
           <Center>
             <Link href={"/blog/archive"}>
-              <Button className={"mt-4"}>See more</Button>
+              <Button className={"mt-4"}>{t("blog.buttons.seeMore")}</Button>
             </Link>
           </Center>
         </DetailsBox>
         <DetailsBox
-          title={"Recent reviews"}
+          title={t("blog.recentReviews")}
           stackProps={{
             className: "lg:!w-1/3",
           }}

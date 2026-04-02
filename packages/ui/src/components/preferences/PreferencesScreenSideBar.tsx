@@ -1,37 +1,35 @@
 import React, { useMemo } from "react";
 import { Box, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 export type PreferencesActiveCategory = "connections" | "account" | "library";
-
-interface PreferencesCategory {
-  name: string;
-  activeCategoryName: PreferencesActiveCategory;
-}
 
 interface Props {
   activeItem: PreferencesActiveCategory;
   onChange: (activeCategory: PreferencesActiveCategory) => void;
 }
 
-export const PREFERENCES_SCREEN_CATEGORIES: PreferencesCategory[] = [
-  {
-    name: "Connections",
-    activeCategoryName: "connections",
-  },
-  {
-    name: "Account",
-    activeCategoryName: "account",
-  },
-  {
-    name: "Library",
-    activeCategoryName: "library",
-  },
-];
-
 const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {
+  const { t } = useTranslation();
+
+  const categories = [
+    {
+      label: t("preferences.categories.connections"),
+      activeCategoryName: "connections" as PreferencesActiveCategory,
+    },
+    {
+      label: t("preferences.categories.account"),
+      activeCategoryName: "account" as PreferencesActiveCategory,
+    },
+    {
+      label: t("preferences.categories.library"),
+      activeCategoryName: "library" as PreferencesActiveCategory,
+    },
+  ];
+
   const itemsElements = useMemo(() => {
-    return PREFERENCES_SCREEN_CATEGORIES.map((item) => {
+    return categories.map((item) => {
       const isActiveItem = item.activeCategoryName === activeItem;
       return (
         <Link
@@ -46,13 +44,13 @@ const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {
             className={`w-full flex justify-center items-center h-12 ${isActiveItem ? "bg-brand-5" : undefined}`}
           >
             <Text fz={"1.3rem"} fw={"bold"}>
-              {item.name}
+              {item.label}
             </Text>
           </Box>
         </Link>
       );
     });
-  }, [activeItem, onChange]);
+  }, [activeItem, onChange, categories]);
 
   return (
     <Stack gap={0} className={"w-full h-96 justify-between"}>
@@ -61,10 +59,10 @@ const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {
       </Stack>
       <Stack className={"w-full items-center"}>
         <Link href={"/about"}>
-          <Text c={"dimmed"}>Report a bug </Text>
+          <Text c={"dimmed"}>{t("preferences.links.reportBug")}</Text>
         </Link>
         <Link href={"/auth/logout"}>
-          <Text c={"dimmed"}>Sign out</Text>
+          <Text c={"dimmed"}>{t("preferences.links.signOut")}</Text>
         </Link>
       </Stack>
     </Stack>

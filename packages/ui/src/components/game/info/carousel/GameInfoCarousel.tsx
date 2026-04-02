@@ -5,6 +5,7 @@ import { Flex, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { TGameOrSearchGame } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameInfoCarouselProps extends CarouselProps {
   isLoading: boolean;
@@ -32,21 +33,22 @@ const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
   });
 };
 
-const buildErrorView = () => {
-  return (
-    <Flex>
-      <Text>No entry found.</Text>
-    </Flex>
-  );
-};
-
 const GameInfoCarousel = ({
   games,
   isLoading,
   isError,
   ...others
 }: IGameInfoCarouselProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
+
+  const buildErrorView = () => {
+    return (
+      <Flex>
+        <Text>{t("game.messages.noEntry")}</Text>
+      </Flex>
+    );
+  };
 
   if (isError) {
     return buildErrorView();

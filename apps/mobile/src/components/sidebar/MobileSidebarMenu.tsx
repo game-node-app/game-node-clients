@@ -36,8 +36,10 @@ import {
   IconTrophy,
   IconTrophyFilled,
 } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 const MobileSidebarMenu = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
@@ -80,44 +82,44 @@ const MobileSidebarMenu = () => {
               });
 
               await Share.share({
-                title: "This is my GameNode Wrapped!",
-                dialogTitle: "Share your wrapped with friends!",
+                title: t("mobile.wrapped.sharePrompt"),
+                dialogTitle: t("mobile.wrapped.shareDescription"),
                 url: cachedFileResult.uri,
               });
             }}
           />
           <MobileSidebarButton
-            title={"Collections"}
+            title={t("navigation.collections")}
             Icon={IconLibrary}
             href={`/library/${userId}/collections`}
             onClick={closeMenu}
           />
           <MobileSidebarButton
-            title={"Reviews"}
+            title={t("navigation.reviews")}
             Icon={IconStars}
             onClick={closeMenu}
             href={`/profile/${userId}/reviews`}
           />
           <MobileSidebarButton
-            title={"Journal"}
+            title={t("navigation.journal")}
             Icon={IconNotebook}
             onClick={closeMenu}
             href={`/journal/${userId}`}
           />
           <MobileSidebarButton
-            title={"Posts"}
+            title={t("navigation.posts")}
             Icon={IconMessage}
             onClick={closeMenu}
             href={`/posts`}
           />
           <MobileSidebarButton
-            title={"Stats"}
+            title={t("navigation.stats")}
             Icon={IconDeviceGamepad2}
             onClick={closeMenu}
             href={`/profile/${userId}/stats`}
           />
           <MobileSidebarButton
-            title={"Wrapped"}
+            title={t("mobile.wrapped.title")}
             Icon={IconLayout2Filled}
             href={`/profile/${userId}/stats`}
             onClick={(evt) => {
@@ -128,7 +130,7 @@ const MobileSidebarMenu = () => {
           />
           {isAwardsEventRunning && (
             <MobileSidebarButton
-              title={"Awards"}
+              title={t("awards.title")}
               Icon={IconTrophyFilled}
               href={`/awards/${awardsEventYear}`}
               onClick={closeMenu}
@@ -137,7 +139,7 @@ const MobileSidebarMenu = () => {
           )}
           {isRecapCreated && (
             <MobileSidebarButton
-              title={`${targetYear} Recap`}
+              title={t("mobile.wrapped.recap", { year: targetYear })}
               Icon={IconHistory}
               href={`/recap/${targetYear}/${userId}`}
               onClick={closeMenu}
@@ -145,44 +147,44 @@ const MobileSidebarMenu = () => {
             />
           )}
           <MobileSidebarButton
-            title={"Activity"}
+            title={t("navigation.activity")}
             Icon={IconActivity}
             href={"/activity"}
             onClick={closeMenu}
           />
           <MobileSidebarButton
-            title={"Blog"}
+            title={t("navigation.blog")}
             Icon={IconNews}
             href={"/blog"}
             onClick={closeMenu}
           />
           <MobileSidebarButton
-            title={"Achievements"}
+            title={t("navigation.achievements")}
             Icon={IconTrophy}
             onClick={closeMenu}
             href={`/achievements/${userId}`}
           />
           <MobileSidebarButton
-            title={"Feats"}
+            title={t("navigation.feats")}
             Icon={IconMilitaryAward}
             onClick={closeMenu}
             href={`/feats/${userId}`}
           />
           <MobileSidebarButton
-            title={"Import Games"}
+            title={t("library.buttons.importGames")}
             Icon={IconCloudDownload}
             onClick={closeMenu}
             href={`/importer`}
           />
           <Stack className={"mt-auto gap-0"}>
             <MobileSidebarButton
-              title={"Settings"}
+              title={t("navigation.settings")}
               Icon={IconSettings}
               href={"/preferences"}
               onClick={closeMenu}
             />
             <MobileSidebarButton
-              title={"Logout"}
+              title={t("actions.logout")}
               Icon={IconLogout}
               href={"#"}
               onClick={() => {

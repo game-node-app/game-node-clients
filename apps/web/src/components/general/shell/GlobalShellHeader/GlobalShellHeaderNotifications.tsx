@@ -20,8 +20,10 @@ import {
   useInfiniteAggregatedNotifications,
   useOnMobile,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 const GlobalShellHeaderNotifications = () => {
+  const { t } = useTranslation();
   const [isPopoverOpened, popoverUtils] = useDisclosure();
   const onMobile = useOnMobile();
 
@@ -113,7 +115,7 @@ const GlobalShellHeaderNotifications = () => {
                 ) : (
                   <IconBell size={"1.8rem"} />
                 )}
-                <Title size={"h4"}>Notifications</Title>
+                <Title size={"h4"}>{t("notifications.title")}</Title>
               </Group>
               <ActionIcon
                 variant={"transparent"}
@@ -180,7 +182,7 @@ const GlobalShellHeaderNotifications = () => {
                 />
               );
             })}
-            {isEmpty && <Text>No notifications.</Text>}
+            {isEmpty && <Text>{t("notifications.empty")}</Text>}
             {isFetching && <CenteredLoading className={"my-4"} />}
 
             {hasNextPage && (
@@ -191,7 +193,7 @@ const GlobalShellHeaderNotifications = () => {
                     fetchNextPage();
                   }}
                 >
-                  Show more
+                  {t("actions.showMore")}
                 </Button>
               </Center>
             )}

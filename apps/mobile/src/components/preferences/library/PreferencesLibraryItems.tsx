@@ -4,8 +4,10 @@ import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { PreferredPlatformsViewModal } from "@repo/ui";
 import { IconBrandAppleArcade } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesLibraryItems = () => {
+  const { t } = useTranslation();
   const [preferredPlatformsOpened, preferredPlatformsUtils] = useDisclosure();
   return (
     <IonItemGroup>
@@ -14,12 +16,12 @@ const PreferencesLibraryItems = () => {
         onClose={preferredPlatformsUtils.close}
       />
       <IonItemDivider>
-        <IonLabel>Library</IonLabel>
+        <IonLabel>{t("navigation.library")}</IonLabel>
       </IonItemDivider>
       <IonItem button onClick={preferredPlatformsUtils.open}>
         <Group className={"gap-2"}>
           <IconBrandAppleArcade />
-          <IonLabel>Preferred Platforms</IonLabel>
+          <IonLabel>{t("preferences.labels.preferredPlatforms")}</IonLabel>
         </Group>
       </IonItem>
     </IonItemGroup>

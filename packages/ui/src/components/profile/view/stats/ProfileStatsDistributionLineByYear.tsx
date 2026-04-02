@@ -8,46 +8,14 @@ import {
 import { LineChart, LineChartSeries } from "@mantine/charts";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { ProfileMetricsYearDistributionItem } from "../../../../../../wrapper/src/server";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
 }
 
-const RELEASE_YEAR_SERIES: LineChartSeries[] = [
-  {
-    name: "count",
-    label: "Total",
-    color: "blue",
-  },
-  {
-    name: "reviewedCount",
-    label: "Reviewed",
-    color: "teal",
-  },
-];
-
-const FINISH_YEAR_SERIES: LineChartSeries[] = [
-  {
-    name: "count",
-    label: "Total",
-    color: "blue",
-  },
-  {
-    name: "reviewedCount",
-    label: "Reviewed",
-    color: "teal",
-  },
-];
-
-const PLAYTIME_SERIES: LineChartSeries[] = [
-  {
-    name: "count",
-    label: "Estimated playtime (in hours)*",
-    color: "grape",
-  },
-];
-
 const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const [currentTab, setCurrentTab] =
     useState<ProfileMetricsDistributionYearBy>("finish_year");
 
@@ -57,6 +25,40 @@ const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
     useProfileMetricsDistributionByYear(userId, "finish_year");
   const metricsPlaytimeYearDistributionQuery =
     useProfileMetricsDistributionByYear(userId, "playtime");
+
+  const releaseYearSeries: LineChartSeries[] = [
+    {
+      name: "count",
+      label: t("profile.stats.total"),
+      color: "blue",
+    },
+    {
+      name: "reviewedCount",
+      label: t("profile.stats.reviewed"),
+      color: "teal",
+    },
+  ];
+
+  const finishYearSeries: LineChartSeries[] = [
+    {
+      name: "count",
+      label: t("profile.stats.total"),
+      color: "blue",
+    },
+    {
+      name: "reviewedCount",
+      label: t("profile.stats.reviewed"),
+      color: "teal",
+    },
+  ];
+
+  const playtimeSeries: LineChartSeries[] = [
+    {
+      name: "count",
+      label: t("profile.stats.estimatedPlaytime"),
+      color: "grape",
+    },
+  ];
 
   return (
     <Stack>
@@ -70,9 +72,13 @@ const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
         }}
       >
         <Group className={"w-full justify-end gap-1 mb-2"}>
-          <Tabs.Tab value="finish_year">Finish Year</Tabs.Tab>
-          <Tabs.Tab value="release_year">Release year</Tabs.Tab>
-          <Tabs.Tab value={"playtime"}>Playtime</Tabs.Tab>
+          <Tabs.Tab value="finish_year">
+            {t("profile.stats.finishYear")}
+          </Tabs.Tab>
+          <Tabs.Tab value="release_year">
+            {t("profile.stats.releaseYear")}
+          </Tabs.Tab>
+          <Tabs.Tab value={"playtime"}>{t("profile.stats.playtime")}</Tabs.Tab>
         </Group>
         <Box className={"mt-4 w-full"}>
           <Tabs.Panel value={"finish_year"}>
@@ -84,7 +90,7 @@ const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
                 h={300}
                 dataKey={"year"}
                 data={metricsFinishYearDistributionQuery.data.distribution}
-                series={FINISH_YEAR_SERIES}
+                series={finishYearSeries}
               />
             )}
           </Tabs.Panel>
@@ -97,7 +103,7 @@ const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
                 h={300}
                 dataKey={"year"}
                 data={metricsReleaseYearDistributionQuery.data.distribution}
-                series={RELEASE_YEAR_SERIES}
+                series={releaseYearSeries}
               />
             )}
           </Tabs.Panel>
@@ -118,8 +124,8 @@ const ProfileStatsDistributionLineByYear = ({ userId }: Props) => {
                   },
                 )}
                 dataKey={"year"}
-                series={PLAYTIME_SERIES}
-                xAxisLabel={"Year"}
+                series={playtimeSeries}
+                xAxisLabel={t("profile.stats.year")}
               />
             )}
           </Tabs.Panel>

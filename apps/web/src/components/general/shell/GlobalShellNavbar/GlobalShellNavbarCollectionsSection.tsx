@@ -8,10 +8,12 @@ import {
   useUserLibrary,
 } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 
 const GlobalShellNavbarCollectionsSection = ({
   onClose,
 }: BaseModalChildrenProps) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { data: library } = useUserLibrary(userId);
 
@@ -40,9 +42,11 @@ const GlobalShellNavbarCollectionsSection = ({
           collectionModalUtils.open();
         }}
       >
-        New Collection
+        {t("collection.titles.new")}
       </Button>
-      <Text className={"text-sm text-dimmed"}>Featured Collections</Text>
+      <Text className={"text-sm text-dimmed"}>
+        {t("collection.titles.featured")}
+      </Text>
       <ScrollArea.Autosize mah={200}>
         <Stack className={"flex flex-col gap-1"}>
           {featuredCollections.map((collection) => (
@@ -58,7 +62,9 @@ const GlobalShellNavbarCollectionsSection = ({
           ))}
         </Stack>
       </ScrollArea.Autosize>
-      <Text className={"text-sm text-dimmed"}>All Collections</Text>
+      <Text className={"text-sm text-dimmed"}>
+        {t("collection.titles.all")}
+      </Text>
       <ScrollArea.Autosize mah={200}>
         <Stack className={"flex flex-col gap-1"}>
           {nonFeaturedCollections.map((collection) => (

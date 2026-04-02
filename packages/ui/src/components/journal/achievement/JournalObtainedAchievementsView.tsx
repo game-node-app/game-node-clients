@@ -26,6 +26,7 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "#@/util";
 import { JournalAchievementsDetailedLayoutView } from "#@/components/journal/achievement/JournalAchievementsDetailedLayoutView";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -42,6 +43,7 @@ const JournalObtainedAchievementsView = ({
   userId,
   withUserInfo = false,
 }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const ownUserId = useUserId();
   const isOwnJournal = ownUserId === userId;
@@ -85,25 +87,19 @@ const JournalObtainedAchievementsView = ({
           <Popover.Dropdown>
             <Box className={"w-full max-w-60"}>
               <Text className={"text-wrap"}>
-                This section of the journal is dedicated to showcasing the
-                achievements you&#39;ve obtained in the games you play. It&#39;s
-                a way to celebrate your gaming milestones and share your
-                accomplishments with the community.
+                {t("journal.achievements.description")}
               </Text>
               <Text className={"text-sm text-dimmed text-wrap"}>
-                This information is automatically updated periodically* from the
-                gaming platforms you connect to your GameNode profile, such as
-                Steam, Xbox and PlayStation.
+                {t("journal.achievements.autoUpdate")}
               </Text>
               <Text className={"text-dimmed text-sm"}>
-                *The update frequency may vary based on the platform and its API
-                limitations.
+                {t("journal.achievements.updateNote")}
               </Text>
             </Box>
           </Popover.Dropdown>
         </Popover>
         <Group wrap={"nowrap"} gap={"xs"}>
-          <Tooltip label={"Compact View"} position={"bottom"}>
+          <Tooltip label={t("view.compact")} position={"bottom"}>
             <ActionIcon
               size={"md"}
               onClick={() => setLayout("compact")}
@@ -113,7 +109,7 @@ const JournalObtainedAchievementsView = ({
             </ActionIcon>
           </Tooltip>
           <Divider orientation={"vertical"} />
-          <Tooltip label={"Detailed View"} position={"bottom"}>
+          <Tooltip label={t("view.detailed")} position={"bottom"}>
             <ActionIcon
               size={"md"}
               onClick={() => setLayout("detailed")}
@@ -125,10 +121,16 @@ const JournalObtainedAchievementsView = ({
         </Group>
       </Flex>
       <Text className={"text-start text-sm text-dimmed"}>
-        Tip: {onMobile ? "Tap" : "Hover"} the achievements to show details.
-        Latest achievements are shown first.
+        {t("journal.achievements.tipLabel")}
+        {t("journal.achievements.tipAction", {
+          action: onMobile
+            ? t("journal.achievements.tap")
+            : t("journal.achievements.hover"),
+        })}
       </Text>
-      {isLoading && <CenteredLoading message={"Loading achievements..."} />}
+      {isLoading && (
+        <CenteredLoading message={t("journal.achievements.loading")} />
+      )}
       {renderedLayout}
     </Stack>
   );

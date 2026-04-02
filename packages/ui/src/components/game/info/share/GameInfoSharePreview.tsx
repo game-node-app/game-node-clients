@@ -16,6 +16,7 @@ import {
 } from "#@/components";
 import { UseFormWatch } from "react-hook-form";
 import UserId from "web/src/pages/library/[userId]";
+import { useTranslation } from "@repo/locales";
 
 interface SharePreviewProps {
   gameId: number;
@@ -28,6 +29,7 @@ const GameInfoSharePreview = ({
   gameId,
   watchFormValues,
 }: SharePreviewProps) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
@@ -59,7 +61,7 @@ const GameInfoSharePreview = ({
         {withDivider && <Divider w={"100%"} />}
         {withOwnedPlatforms && (
           <Stack align={"center"} className={"w-full"}>
-            <Text>Played in</Text>
+            <Text>{t("game.labels.playedIn")}</Text>
             <GameInfoOwnedPlatforms
               gameId={gameId}
               iconsProps={{

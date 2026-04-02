@@ -4,14 +4,16 @@ import { IconRefreshDot } from "@tabler/icons-react";
 import { Group } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesMiscItems = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   return (
     <IonItemGroup>
       <IonItemDivider>
-        <IonLabel>Misc</IonLabel>
+        <IonLabel>{t("mobile.preferences.misc")}</IonLabel>
       </IonItemDivider>
       <IonItem button>
         <Group
@@ -20,12 +22,12 @@ const PreferencesMiscItems = () => {
             queryClient.clear();
             notifications.show({
               color: "green",
-              message: "Cache cleared successfully!",
+              message: t("mobile.preferences.cacheClearedSuccess"),
             });
           }}
         >
           <IconRefreshDot />
-          <IonLabel>Clear local cache</IonLabel>
+          <IonLabel>{t("mobile.preferences.clearLocalCache")}</IonLabel>
         </Group>
       </IonItem>
     </IonItemGroup>

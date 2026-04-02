@@ -8,6 +8,7 @@ import { GameView } from "#@/components/game/view/GameView.tsx";
 import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId.ts";
 import { useRouter } from "#@/util";
 import { ProfileReviewListItem } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 const DEFAULT_LIMIT = 7;
 
@@ -16,6 +17,7 @@ interface IUserViewListView {
 }
 
 const ProfileReviewListView = ({ userId }: IUserViewListView) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
 
   const [page, setPage] = useState(1);
@@ -44,18 +46,22 @@ const ProfileReviewListView = ({ userId }: IUserViewListView) => {
   } else if (isError) {
     return (
       <CenteredErrorMessage
-        message={"Failed to fetch reviews. Please try again."}
+        message={t("errors.fetchFailed", {
+          resource: t("profile.tabs.reviews").toLowerCase(),
+        })}
       />
     );
   } else if (isEmpty) {
     if (userId != undefined && userId === ownUserId) {
       return (
         <Text className={"text-center"}>
-          You have no reviews. Make your first one 😉
+          {t("profile.messages.noReviewsOwn")}
         </Text>
       );
     }
-    return <Text className={"text-center"}>User has no reviews.</Text>;
+    return (
+      <Text className={"text-center"}>{t("profile.messages.noReviews")}</Text>
+    );
   }
   return (
     <Stack w={"100%"} justify={"space-between"}>

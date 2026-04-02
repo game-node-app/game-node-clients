@@ -10,8 +10,10 @@ import {
   useInfiniteAggregatedNotifications,
 } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 
 const NotificationsPage = () => {
+  const { t } = useTranslation();
   const { data, isLoading, invalidate, isFetching, fetchNextPage } =
     useInfiniteAggregatedNotifications();
 
@@ -140,7 +142,7 @@ const NotificationsPage = () => {
                 />
               );
             })}
-            {isEmpty && <Text>No notifications.</Text>}
+            {isEmpty && <Text>{t("notifications.empty")}</Text>}
             {isFetching && <CenteredLoading className={"my-4"} />}
 
             {hasNextPage && (
@@ -151,7 +153,7 @@ const NotificationsPage = () => {
                     fetchNextPage();
                   }}
                 >
-                  Show more
+                  {t("actions.showMore")}
                 </Button>
               </Center>
             )}

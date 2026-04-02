@@ -14,8 +14,10 @@ import {
 import { Text } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 
 const ActivityPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [selectedActivityTab, setSelectedActivityTab] =
     useState<ActivityFeedTabValue>("all");
@@ -37,7 +39,7 @@ const ActivityPage = () => {
         <IonRefresherContent />
       </IonRefresher>
       <Text className={"text-sm text-dimmed mb-2"}>
-        Tip: press and hold to show actions.
+        {t("mobile.activity.tip")}
       </Text>
       <ActivityFeedLayout
         currentTab={selectedActivityTab}
@@ -53,7 +55,7 @@ const ActivityPage = () => {
               }}
             >
               <IonInfiniteScrollContent
-                loadingText={"Fetching more activities..."}
+                loadingText={t("mobile.activity.loadingMore")}
               />
             </IonInfiniteScroll>
           )}

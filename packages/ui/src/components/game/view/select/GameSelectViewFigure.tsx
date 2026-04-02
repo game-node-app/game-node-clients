@@ -6,6 +6,7 @@ import {
 import { Box, Center, Overlay, Stack, Text, ThemeIcon } from "@mantine/core";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useTranslation } from "@repo/locales";
 
 export interface GameSelectViewFigureProps extends IGameFigureImageProps {
   /**
@@ -33,6 +34,7 @@ const GameSelectViewFigure = ({
   onExcludedItemClick,
   ...figureProps
 }: GameSelectViewFigureProps) => {
+  const { t } = useTranslation();
   /**
    * Passing 'undefined' disables this query
    */
@@ -94,7 +96,9 @@ const GameSelectViewFigure = ({
         >
           <Stack className={"items-center gap-0.5"}>
             <IconCircleCheckFilled className={"w-8 h-8 z-20 text-brand-5"} />
-            <Text className={"text-center text-sm"}>In your library</Text>
+            <Text className={"text-center text-sm"}>
+              {t("game.labels.inLibrary")}
+            </Text>
           </Stack>
         </Center>
       )}

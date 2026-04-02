@@ -6,12 +6,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalProps {
   reviewId: string;
 }
 
 const ReviewListItemRemoveModal = ({ reviewId, opened, onClose }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const userId = useUserId();
   const reviewRemoveMutation = useMutation({
@@ -25,13 +27,13 @@ const ReviewListItemRemoveModal = ({ reviewId, opened, onClose }: Props) => {
     },
   });
   return (
-    <Modal opened={opened} onClose={onClose} title={"Remove review"}>
+    <Modal opened={opened} onClose={onClose} title={t("review.remove")}>
       <SessionAuth>
         <Stack align={"center"}>
-          <Text fz={"lg"}>Are you sure you want to remove this review?</Text>
+          <Text fz={"lg"}>{t("review.messages.confirmRemove")}</Text>
           <Group wrap={"nowrap"} justify={"center"}>
             <Button onClick={onClose} color={"blue"}>
-              Go back
+              {t("actions.goBack")}
             </Button>
             <Button
               onClick={() => {
@@ -40,7 +42,7 @@ const ReviewListItemRemoveModal = ({ reviewId, opened, onClose }: Props) => {
               }}
               color={"red"}
             >
-              Confirm
+              {t("actions.confirm")}
             </Button>
           </Group>
         </Stack>

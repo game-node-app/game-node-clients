@@ -13,6 +13,7 @@ import { match } from "ts-pattern";
 import { GameAchievementDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "#@/util";
 import { buildPresenterComponent } from "#@/context";
+import { useTranslation } from "@repo/locales";
 
 export interface GameAchievementsListItemProps {
   achievement: GameAchievementWithObtainedInfo;
@@ -21,6 +22,8 @@ export interface GameAchievementsListItemProps {
 const DEFAULT_GameAchievementsListItem = ({
   achievement,
 }: GameAchievementsListItemProps) => {
+  const { t } = useTranslation();
+
   const renderRightSideDetail = useCallback(() => {
     return match(achievement.source)
       .with(GameAchievementDto.source._1, () => {
@@ -32,7 +35,9 @@ const DEFAULT_GameAchievementsListItem = ({
             <Text className={"text-md text-center"}>
               {details.globalPercentage}%
             </Text>
-            <Text className={"text-center text-xs text-dimmed"}>Owned by</Text>
+            <Text className={"text-center text-xs text-dimmed"}>
+              {t("game.achievement.ownedBy")}
+            </Text>
           </Stack>
         );
       })
@@ -65,7 +70,7 @@ const DEFAULT_GameAchievementsListItem = ({
         );
       })
       .otherwise(() => null);
-  }, [achievement]);
+  }, [achievement, t]);
 
   return (
     <Group className={"w-full p-4 bg-paper"}>

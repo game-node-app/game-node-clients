@@ -17,6 +17,7 @@ import { PreferencesConnectionModal } from "#@/components/preferences/handlers/c
 import { IconRefresh } from "@tabler/icons-react";
 import { Modal } from "#@/util";
 import { ConnectionSyncView } from "#@/components/connections/sync/ConnectionSyncView.tsx";
+import { useTranslation } from "@repo/locales";
 import type = UserConnectionDto.type;
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
 }
 
 const PreferencesConnectionItem = ({ type }: Props) => {
+  const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const [modalOpened, modalUtils] = useDisclosure();
   const [syncModalOpened, syncModalUtils] = useDisclosure();
@@ -38,7 +40,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
       }}
     >
       <Modal
-        title={"Sync"}
+        title={t("preferences.titles.sync")}
         opened={syncModalOpened}
         onClose={syncModalUtils.close}
         keepMounted={false}
@@ -52,7 +54,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           onClose={modalUtils.close}
         />
         <Image
-          alt={"Connection icon"}
+          alt={t("preferences.labels.connectionIcon")}
           src={getServerStoredIcon(type.valueOf())}
           w={38}
           h={38}
@@ -61,11 +63,11 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           {userConnection.data ? (
             <>
               <Title size={"h5"}>{userConnection.data.sourceUsername}</Title>
-              <Text c={"dimmed"}>Connected</Text>
+              <Text c={"dimmed"}>{t("preferences.statuses.connected")}</Text>
             </>
           ) : (
             <>
-              <Text>Not connected</Text>
+              <Text>{t("preferences.statuses.notConnected")}</Text>
             </>
           )}
         </Stack>

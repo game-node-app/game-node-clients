@@ -22,13 +22,9 @@ import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
+import { useTranslation } from "@repo/locales";
 
 const PREVIEW_ELEMENT_ID = "awards-share-preview";
-
-const SELECT_LAYOUT_OPTIONS: ComboboxItem[] = [
-  { value: "compact", label: "Compact" },
-  { value: "large", label: "Large" },
-] as const;
 
 const AwardsNomineesShareFormSchema = z.object({
   layout: z.string(),
@@ -44,6 +40,7 @@ interface Props {
 }
 
 const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { handleSubmit, watch, register, setValue } =
     useForm<AwardsNomineesShareFormValues>({
@@ -57,6 +54,11 @@ const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
   const layout = watch("layout");
 
   const layoutCols = layout === "compact" ? 3 : 5;
+
+  const selectLayoutOptions: ComboboxItem[] = [
+    { value: "compact", label: t("awards.layouts.compact") },
+    { value: "large", label: t("awards.layouts.large") },
+  ];
 
   const shareMutation = useMutation({
     mutationFn: async (downloadOnly: boolean = false) => {
@@ -95,9 +97,9 @@ const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
         })}
       >
         <Stack>
-          <Text>Preview</Text>
+          <Text>{t("awards.labels.preview")}</Text>
           <Text className={"text-sm text-dimmed"}>
-            Scroll/swipe to see full image.
+            {t("awards.share.scrollHint")}
           </Text>
           <Box className={"w-full overflow-auto"}>
             <Box
@@ -109,7 +111,7 @@ const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
             >
               <AwardsVoteLayout
                 userId={userId!}
-                title={"Nominees"}
+                title={t("awards.labels.nominees")}
                 eventId={eventId}
               >
                 <AwardsEventCategoriesList
@@ -123,7 +125,7 @@ const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
         </Stack>
         <Group className={"mt-10"}>
           <Select
-            data={SELECT_LAYOUT_OPTIONS}
+            data={selectLayoutOptions}
             {...register("layout")}
             value={layout}
             onChange={(v) => {
@@ -133,13 +135,13 @@ const AwardsNomineesShareForm = ({ eventId, onShare }: Props) => {
             }}
             allowDeselect={false}
             className={"w-fit"}
-            label={"Layout"}
+            label={t("awards.labels.layout")}
           />
         </Group>
 
         <Group className={"mt-10 justify-center"}>
           <Button type={"submit"} loading={shareMutation.isPending}>
-            Share
+            {t("actions.share")}
           </Button>
           <ActionIcon
             size={"lg"}

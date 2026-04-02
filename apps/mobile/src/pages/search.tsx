@@ -17,8 +17,10 @@ import { getErrorMessage } from "@/util/getErrorMessage";
 import { useDebouncedValue } from "@mantine/hooks";
 import { AppPage } from "@/components/general/AppPage";
 import { IconSearch } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 const GameSearchPage = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useUrlState(
     {
       query: "",
@@ -79,7 +81,7 @@ const GameSearchPage = () => {
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
           {!isQueryEnabled ? (
             <Center>
-              <Text>Start typing to see results.</Text>
+              <Text>{t("mobile.search.startTyping")}</Text>
             </Center>
           ) : (
             <>

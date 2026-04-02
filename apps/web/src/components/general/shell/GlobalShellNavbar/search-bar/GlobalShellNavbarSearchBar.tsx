@@ -27,6 +27,7 @@ import {
   useSearchGames,
   useSearchUsers,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 interface IUserGamesSearchBarWithSelectProps extends TextInputProps {
   value: string;
@@ -47,6 +48,7 @@ const GlobalNavbarSearchBar = ({
   onHotkeyPress,
   ...others
 }: IUserGamesSearchBarWithSelectProps) => {
+  const { t } = useTranslation();
   const combobox = useCombobox();
   const [debouncedQuery] = useDebouncedValue(value, 400);
   const isQueryEnabled =
@@ -137,7 +139,7 @@ const GlobalNavbarSearchBar = ({
           <Combobox.Target>
             <TextInput
               {...others}
-              placeholder={"Search for users or games"}
+              placeholder={t("shell.search.placeholder")}
               value={value ?? ""}
               onClick={() => {
                 combobox.openDropdown();
@@ -184,10 +186,10 @@ const GlobalNavbarSearchBar = ({
             <ScrollArea.Autosize h={400}>
               {options}
               {isError && (
-                <Combobox.Empty>Failed to fetch results.</Combobox.Empty>
+                <Combobox.Empty>{t("shell.search.fetchFailed")}</Combobox.Empty>
               )}
               {!isLoading && !isError && isEmpty && (
-                <Combobox.Empty>No results.</Combobox.Empty>
+                <Combobox.Empty>{t("shell.search.noResults")}</Combobox.Empty>
               )}
             </ScrollArea.Autosize>
           </Combobox.Options>

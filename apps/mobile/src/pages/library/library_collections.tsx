@@ -9,12 +9,14 @@ import {
 import { Stack, Text } from "@mantine/core";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
 }
 
 const LibraryCollectionsPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const { data: library } = useUserLibrary(userId);
   const { data: profile } = useUserProfile(userId);
@@ -27,7 +29,11 @@ const LibraryCollectionsPage = ({ userId }: Props) => {
       <LibraryViewRefresher userId={userId} />
       {isOwnLibrary && <LibraryViewFab />}
       <Text className={"text-xl font-bold mb-5"}>
-        {isOwnLibrary ? "Your" : `${profile?.username}'`} collections
+        {isOwnLibrary
+          ? t("mobile.library.collectionsTitle")
+          : t("mobile.library.collectionsTitleFor", {
+              username: profile?.username ?? "",
+            })}
       </Text>
       <Stack>
         {collections.map((collection) => (

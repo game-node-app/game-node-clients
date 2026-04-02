@@ -32,6 +32,7 @@ import {
 } from "#@/components";
 import status = CreateUpdateCollectionEntryDto.status;
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 const ImporterFormSchema = z.object({
   selectedCollectionIds: z.array(z.string()),
@@ -48,6 +49,7 @@ interface Props {
 }
 
 const ImporterScreen = ({ source }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
 
   const {
@@ -135,9 +137,7 @@ const ImporterScreen = ({ source }: Props) => {
       );
 
       if (!externalGame) {
-        throw new Error(
-          "Error while inserting game. Invalid external game ID. Please contact support.",
-        );
+        throw new Error(t("importer.messages.invalidExternalGame"));
       }
 
       await ImporterService.importerControllerChangeStatusV1({
@@ -150,7 +150,7 @@ const ImporterScreen = ({ source }: Props) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: `Successfully excluded item already in your library.`,
+        message: t("importer.messages.itemExcluded"),
       });
     },
     onSettled: () => {
@@ -176,9 +176,7 @@ const ImporterScreen = ({ source }: Props) => {
         });
 
         if (!importerItem || !targetGame) {
-          throw new Error(
-            "Error while inserting game. Invalid external game ID. Please contact support.",
-          );
+          throw new Error(t("importer.messages.invalidExternalGame"));
         }
 
         await CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
@@ -201,7 +199,7 @@ const ImporterScreen = ({ source }: Props) => {
     onMutate: () => {
       return notifications.show({
         loading: true,
-        message: "Applying changes...",
+        message: t("importer.messages.applyingChanges"),
         autoClose: false,
         withCloseButton: false,
       });
@@ -210,8 +208,10 @@ const ImporterScreen = ({ source }: Props) => {
       notifications.update({
         id: notificationId,
         color: "green",
-        message: `Successfully imported ${importedGamesCount} games to your library!`,
-        title: "Changes applied!",
+        message: t("importer.messages.importSuccess", {
+          count: importedGamesCount,
+        }),
+        title: t("notifications.titles.changesApplied"),
         icon: <IconCheck size={18} />,
         loading: false,
         autoClose: 4000,
@@ -227,7 +227,7 @@ const ImporterScreen = ({ source }: Props) => {
       notifications.update({
         id: notificationId,
         color: "red",
-        title: "Failed to sync changes!",
+        title: t("importer.messages.syncFailed"),
         message: getErrorMessage(err),
         loading: false,
         autoClose: 10000,
@@ -249,13 +249,8 @@ const ImporterScreen = ({ source }: Props) => {
           <Group className={"w-full lg:w-6/12 flex-nowrap"}>
             <Image src={getServerStoredIcon(source)} w={48} h={48} />
             <Stack gap={4}>
-              <Title size={"h4"}>
-                GAME <span className={"text-[#F15025]"}>IMPORTER</span>
-              </Title>
-              <Text>
-                Select one or multiple games which you want to bring to your
-                GameNode library.
-              </Text>
+              <Title size={"h4"}>{t("importer.title")}</Title>
+              <Text>{t("importer.description")}</Text>
             </Stack>
           </Group>
           <Stack className={"w-full lg:ms-auto lg:w-4/12"}>
@@ -265,9 +260,7 @@ const ImporterScreen = ({ source }: Props) => {
                 setValue("selectedCollectionIds", values);
               }}
               error={errors.selectedCollectionIds?.message}
-              description={
-                "Optional. Select collections to add the imported games to."
-              }
+              description={t("importer.collectionsHint")}
             />
           </Stack>
           <Center w={"100%"}>
@@ -276,7 +269,7 @@ const ImporterScreen = ({ source }: Props) => {
               loading={importMutation.isPending}
               disabled={isLoading || isError || isEmpty}
             >
-              Import
+              {t("importer.buttons.import")}
             </Button>
           </Center>
           {errors.selectedGameIds != undefined && (
@@ -288,11 +281,7 @@ const ImporterScreen = ({ source }: Props) => {
             <CenteredErrorMessage message={getErrorMessage(error)} />
           )}
           {isEmpty && (
-            <CenteredErrorMessage
-              message={
-                "No items available for importing. Check if your library at the target platform is set to public."
-              }
-            />
+            <CenteredErrorMessage message={t("importer.noItemsAvailable")} />
           )}
           <GameSelectView>
             {!isEmpty && (

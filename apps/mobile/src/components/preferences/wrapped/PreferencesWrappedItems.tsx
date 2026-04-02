@@ -7,8 +7,10 @@ import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { RecentlyPlayedGamesShare } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesWrappedItems = () => {
+  const { t } = useTranslation();
   const [wrappedOpened, setWrappedOpened] = useState(false);
 
   return (
@@ -28,20 +30,20 @@ const PreferencesWrappedItems = () => {
           });
 
           await Share.share({
-            title: "This is my GameNode Wrapped!",
-            dialogTitle: "Share your wrapped with friends!",
+            title: t("mobile.wrapped.sharePrompt"),
+            dialogTitle: t("mobile.wrapped.shareDescription"),
             url: cachedFileResult.uri,
           });
         }}
       />
       <IonItemDivider>
-        <IonLabel>Wrapped</IonLabel>
+        <IonLabel>{t("mobile.wrapped.title")}</IonLabel>
       </IonItemDivider>
 
       <IonItem button onClick={() => setWrappedOpened(true)}>
         <Group className={"gap-2"}>
           <IconCalendarWeek />
-          <IonLabel>Recently played games</IonLabel>
+          <IonLabel>{t("mobile.wrapped.recentlyPlayed")}</IonLabel>
         </Group>
       </IonItem>
     </IonItemGroup>

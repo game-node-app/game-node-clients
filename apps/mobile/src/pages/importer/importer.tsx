@@ -19,12 +19,14 @@ import {
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 
 const ImporterPage = () => {
+  const { t } = useTranslation();
   const { data, isLoading, isError, error } = useOwnUserConnections();
 
   const importerUsableConnections = data?.filter(
-    (connection) => connection.isImporterViable && connection.isImporterEnabled,
+    (connection) => connection.isImporterViable,
   );
 
   const isImportingAvailable =
@@ -36,20 +38,18 @@ const ImporterPage = () => {
       <Stack w={"100%"} justify={"center"} align={"center"} mb={"lg"}>
         <Stack className={"w-full h-full items-center p-2 pb-8"}>
           <Text className={"text-center"}>
-            The importer system helps you bring games from other platforms to
-            GameNode.
+            {t("mobile.importer.description")}
           </Text>
           <Space h={"2rem"} />
           {isLoading && <CenteredLoading className={"mt-8"} />}
           {isError && <CenteredErrorMessage message={error.message} />}
           {!isLoading && !isError && !isImportingAvailable && (
             <Text c={"red"}>
-              It seems like you don&apos;t have any connection set up for
-              importing.{" "}
+              {t("mobile.importer.noConnections")}{" "}
               <Link to={getTabAwareHref("/preferences/connections")}>
-                Click here
+                {t("mobile.importer.clickHere")}
               </Link>{" "}
-              to set one up.
+              {t("mobile.importer.setUpOne")}
             </Text>
           )}
           <Group className={"w-full gap-5 justify-center"}>

@@ -25,6 +25,7 @@ import {
   IconStars,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "@repo/locales";
 
 const TAB_ICONS: GameInfoTabIcons = {
   home: <IconBrandAppleArcade size={20} />,
@@ -38,6 +39,7 @@ interface Props {
 }
 
 const GamePage = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
@@ -117,7 +119,7 @@ const GamePage = ({ gameId }: Props) => {
         <Tabs.Panel value={GameInfoTabValue.reviews}>
           <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
             <GameInfoContentTitle
-              title={"Reviews"}
+              title={t("game.tabs.reviews")}
               onGoBack={onGoBack}
               iconProps={{ display: "none" }}
               titleProps={{
@@ -130,7 +132,7 @@ const GamePage = ({ gameId }: Props) => {
         <Tabs.Panel value={GameInfoTabValue.discussion}>
           <Stack className={"w-full h-full gap-xl mt-4 mb-6"}>
             <GameInfoContentTitle
-              title={"Discussion"}
+              title={t("game.tabs.discussion")}
               onGoBack={onGoBack}
               iconProps={{ display: "none" }}
               titleProps={{
@@ -143,7 +145,7 @@ const GamePage = ({ gameId }: Props) => {
         <Tabs.Panel value={GameInfoTabValue.achievements}>
           <Stack className={"w-full h-full gap-sm mt-4 mb-6"}>
             <GameInfoContentTitle
-              title={"Achievements"}
+              title={t("game.tabs.achievements")}
               onGoBack={onGoBack}
               iconProps={{ display: "none" }}
               titleProps={{

@@ -8,12 +8,14 @@ import { ActionIcon, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import React from "react";
+import { useTranslation } from "@repo/locales";
 
 /**
  * Renders an *optionally* draggable list of preferred platforms.
  * @constructor
  */
 const PreferredPlatformsView = () => {
+  const { t } = useTranslation();
   const { data: preferredPlatforms, isLoading } = usePreferredPlatforms();
   const [editModalOpened, editModalUtils] = useDisclosure();
 
@@ -31,15 +33,18 @@ const PreferredPlatformsView = () => {
       >
         <IconPlus />
       </ActionIcon>
-      {isLoading && <CenteredLoading message={"Loading platforms..."} />}
+      {isLoading && (
+        <CenteredLoading message={t("preferences.platforms.loading")} />
+      )}
       {preferredPlatforms?.length === 0 && (
         <Stack>
-          <Text className={"text-dimmed"}>No preferred platform added.</Text>
+          <Text className={"text-dimmed"}>
+            {t("preferences.messages.noPlatforms")}
+          </Text>
         </Stack>
       )}
       <Text className={"text-sm text-dimmed"}>
-        These platforms will be used to automatically when adding new games that
-        support these platforms.
+        {t("preferences.platforms.description")}
       </Text>
       {preferredPlatforms?.map((item) => (
         <PreferredPlatformItem key={item.id} item={item} />

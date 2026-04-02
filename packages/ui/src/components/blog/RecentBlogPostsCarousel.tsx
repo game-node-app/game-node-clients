@@ -8,6 +8,7 @@ import {
   useBlogPosts,
   useOnMobile,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 const buildSkeletons = () => {
   const skeletons = [];
@@ -23,6 +24,7 @@ const buildSkeletons = () => {
 };
 
 const RecentBlogPostsCarousel = () => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
 
   const { data, isLoading } = useBlogPosts({
@@ -48,7 +50,7 @@ const RecentBlogPostsCarousel = () => {
 
   return (
     <DetailsBox
-      title={"Recent blog posts"}
+      title={t("blog.recentPosts")}
       stackProps={{
         className: "",
       }}
@@ -68,7 +70,7 @@ const RecentBlogPostsCarousel = () => {
       >
         {buildSlides()}
       </Carousel>
-      <TextLink href={"/blog"}>See more</TextLink>
+      <TextLink href={"/blog"}>{t("blog.buttons.seeMore")}</TextLink>
     </DetailsBox>
   );
 };

@@ -4,6 +4,7 @@ import classes from "./RecapYearTitle.module.css";
 import { UserAvatarGroup, useUserId } from "#@/components";
 import { useClipboard } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -18,6 +19,7 @@ const RecapYearTitle = ({
   withShareButton = false,
   withUserAvatar = false,
 }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const isOwnRecap = ownUserId === userId;
   const { copy } = useClipboard();
@@ -31,7 +33,7 @@ const RecapYearTitle = ({
           {targetYear}
         </Text>
         <Text span className={"text-6xl"}>
-          RECAP
+          {t("recap.title")}
         </Text>
       </Group>
       <Group className={"justify-between"}>
@@ -43,15 +45,13 @@ const RecapYearTitle = ({
               copy(url);
               notifications.show({
                 color: "green",
-                title: "Link copied to clipboard",
-                message: isOwnRecap
-                  ? "Share your recap with your friends!"
-                  : "Share this recap with your friends!",
+                title: t("recap.share.linkCopied"),
+                message: t("recap.share.sharePrompt"),
                 autoClose: 5000,
               });
             }}
           >
-            <Text>Share</Text>
+            <Text>{t("actions.share")}</Text>
           </UnstyledButton>
         )}
       </Group>

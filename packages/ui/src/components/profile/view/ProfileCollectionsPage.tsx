@@ -7,12 +7,14 @@ import {
   useUserLibrary,
 } from "#@/components";
 import { Divider, SimpleGrid, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
 }
 
 const ProfileCollectionsPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const { data, isLoading, isError, error } = useUserLibrary(userId);
 
   const featuredCollections =
@@ -23,9 +25,14 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
 
   return (
     <Stack className={"w-full h-full"}>
-      {isLoading && <CenteredLoading message={"Loading collections..."} />}
+      {isLoading && (
+        <CenteredLoading message={t("profile.collections.loading")} />
+      )}
       {isError && <CenteredErrorMessage error={error} />}
-      <DetailsBox title={"Featured"} enabled={featuredCollections.length > 0}>
+      <DetailsBox
+        title={t("profile.collections.featured")}
+        enabled={featuredCollections.length > 0}
+      >
         <SimpleGrid
           cols={{
             base: 1,
@@ -41,7 +48,7 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
         </SimpleGrid>
         <Divider className={"w-full my-4"} />
       </DetailsBox>
-      <DetailsBox title={"Public Collections"} enabled={!isError}>
+      <DetailsBox title={t("profile.collections.public")} enabled={!isError}>
         <SimpleGrid
           cols={{
             base: 1,

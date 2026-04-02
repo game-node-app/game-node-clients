@@ -2,12 +2,14 @@ import React, { useMemo } from "react";
 import { Flex, Stack, Text, Title } from "@mantine/core";
 import { useAwardEvent } from "#@/components";
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   eventId: number;
 }
 
 const AwardsPhaseNotice = ({ eventId }: Props) => {
+  const { t } = useTranslation();
   const { data: event } = useAwardEvent({ eventId });
 
   const votingPhaseText = useMemo(() => {
@@ -16,22 +18,22 @@ const AwardsPhaseNotice = ({ eventId }: Props) => {
     }
     const now = dayjs();
     if (now.isBefore(dayjs(event.votingStartDate))) {
-      return "Starting Soon";
+      return t("awards.phases.startingSoon");
     }
 
     if (
       now.isAfter(dayjs(event.votingEndDate)) &&
       now.isBefore(dayjs(event.resultsDate))
     ) {
-      return "Counting of Votes";
+      return t("awards.phases.countingVotes");
     }
 
     if (now.isAfter(dayjs(event.resultsDate))) {
-      return "Event Ended";
+      return t("awards.phases.eventEnded");
     }
 
-    return "Voting";
-  }, [event]);
+    return t("awards.phases.voting");
+  }, [event, t]);
 
   const phaseTimeText = useMemo(() => {
     if (!event) {
@@ -44,26 +46,34 @@ const AwardsPhaseNotice = ({ eventId }: Props) => {
     const resultsDate = dayjs(event.resultsDate);
 
     if (now.isBefore(votingStartDate)) {
-      return `Voting starts in ${votingStartDate.toNow(true)} (${votingStartDate.format("DD/MM")})`;
+      return t("awards.phaseMessages.votingStartsIn", {
+        time: `${votingStartDate.toNow(true)} (${votingStartDate.format("DD/MM")})`,
+      });
     }
 
     if (now.isAfter(votingEndDate)) {
-      return `Voting ended. Results will be out in ${resultsDate.fromNow(true)} (${resultsDate.format("DD/MM")})`;
+      return t("awards.phaseMessages.votingEnded", {
+        time: `${resultsDate.fromNow(true)} (${resultsDate.format("DD/MM")})`,
+      });
     }
 
     if (now.isAfter(resultsDate)) {
-      return `Results are out!`;
+      return t("awards.phaseMessages.resultsOut");
     }
 
-    return `Voting ends in ${votingEndDate.fromNow(true)} (${votingEndDate.format("DD/MM")})`;
-  }, [event]);
+    return t("awards.phaseMessages.votingEndsIn", {
+      time: `${votingEndDate.fromNow(true)} (${votingEndDate.format("DD/MM")})`,
+    });
+  }, [event, t]);
 
   return (
     <Stack className={"w-full items-center"}>
       <Title className={"text-center text-white text-5xl"}>
         {votingPhaseText}
       </Title>
-      <Text className={"text-center text-dimmed text-md"}>Current Phase</Text>
+      <Text className={"text-center text-dimmed text-md"}>
+        {t("awards.currentPhase")}
+      </Text>
       <Text className={"text-md"}>{phaseTimeText}</Text>
     </Stack>
   );

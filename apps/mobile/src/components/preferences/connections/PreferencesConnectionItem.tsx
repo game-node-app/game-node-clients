@@ -13,12 +13,14 @@ import {
 } from "@repo/ui";
 import type = UserConnectionDto.type;
 import { IconRefresh } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   type: type;
 }
 
 const PreferencesConnectionItem = ({ type }: Props) => {
+  const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const [modalOpened, modalUtils] = useDisclosure();
   const [syncModalOpened, syncModalUtils] = useDisclosure();
@@ -26,7 +28,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
   return (
     <IonItem className={"relative"}>
       <Modal
-        title={"Sync"}
+        title={t("preferences.titles.sync")}
         opened={syncModalOpened}
         onClose={syncModalUtils.close}
         keepMounted={false}
@@ -40,7 +42,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
       />
       <Group className={"gap-2"}>
         <Image
-          alt={"Connection icon"}
+          alt={t("preferences.labels.connectionIcon")}
           src={getServerStoredIcon(type.valueOf())}
           className="object-contain"
           w={28}

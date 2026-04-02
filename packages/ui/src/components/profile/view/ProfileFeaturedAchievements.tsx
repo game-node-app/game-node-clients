@@ -6,6 +6,7 @@ import {
   useAllObtainedAchievements,
 } from "#@/components";
 import { Center, Divider, Group, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   targetUserId: string | undefined;
@@ -16,6 +17,7 @@ const ProfileFeaturedAchievements = ({
   targetUserId,
   withEmptyMessage = false,
 }: Props) => {
+  const { t } = useTranslation();
   const featuredAchievementsQuery = useAllObtainedAchievements(
     targetUserId,
     true,
@@ -38,7 +40,9 @@ const ProfileFeaturedAchievements = ({
   return (
     <Group className={"w-full justify-center"}>
       {withEmptyMessage && featuredAchievements.length === 0 && (
-        <Text className={"text-center"}>No featured achievements found.</Text>
+        <Text className={"text-center"}>
+          {t("profile.messages.noFeaturedAchievements")}
+        </Text>
       )}
       {featuredAchievements.map((featuredAchievement) => {
         return (

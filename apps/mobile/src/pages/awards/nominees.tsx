@@ -4,6 +4,7 @@ import { AwardsNomineesScreen, useAwardEvent } from "@repo/ui";
 import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const AwardsNomineesPage = ({ userId, eventYear }: Props) => {
+  const { t } = useTranslation();
   const eventYearNumber =
     typeof eventYear === "string" ? Number.parseInt(eventYear) : eventYear;
   const { data: event } = useAwardEvent({ eventYear: eventYearNumber });
@@ -33,8 +35,8 @@ const AwardsNomineesPage = ({ userId, eventYear }: Props) => {
           });
 
           await Share.share({
-            title: "These are my GameNode Awards nominees!",
-            dialogTitle: `Create yours at https://gamenode.app`,
+            title: t("mobile.awards.sharePrompt"),
+            dialogTitle: t("mobile.awards.shareCreate"),
             url: cachedFileResult.uri,
           });
         }}

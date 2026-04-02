@@ -7,6 +7,7 @@ import {
 } from "#@/components";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { useRouter } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   eventId: number;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const AwardsNomineesOverview = ({ eventId, userId }: Props) => {
+  const { t } = useTranslation();
   const { isLoading } = useAwardEvent({ eventId });
 
   if (isLoading) {
@@ -48,7 +50,7 @@ const AwardsNomineesOverview = ({ eventId, userId }: Props) => {
         />
       </div>
       <Group>
-        <Text>Indicated by</Text>
+        <Text>{t("awards.indicatedBy")}</Text>
         <Box className={"max-w-96"}>
           <UserAvatarGroup
             userId={userId}

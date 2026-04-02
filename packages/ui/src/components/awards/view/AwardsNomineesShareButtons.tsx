@@ -11,6 +11,7 @@ import {
 import { cn } from "#@/util";
 import { AwardsNomineesShareModal } from "#@/components/awards/share/AwardsNomineesShareModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends StackProps {
   userId: string;
@@ -24,6 +25,7 @@ const AwardsNomineesShareButtons = ({
   onShare,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const { data: event } = useAwardEvent({ eventId });
 
@@ -43,7 +45,7 @@ const AwardsNomineesShareButtons = ({
         onClose={imageModalUtils.close}
         onShare={onShare}
       />
-      <Text className={"text-dimmed text-sm"}>Share your votes!</Text>
+      <Text className={"text-dimmed text-sm"}>{t("awards.share.title")}</Text>
       <Group className={"w-full justify-center gap-6 flex-wrap"}>
         <CopyButton
           value={`https://gamenode.app/awards/${event.year}/nominees/${userId}`}
@@ -56,7 +58,9 @@ const AwardsNomineesShareButtons = ({
               onClick={copy}
               className={"w-52"}
             >
-              {copied ? "Link Copied!" : "Share with Link"}
+              {copied
+                ? t("awards.share.linkCopied")
+                : t("awards.share.shareWithLink")}
             </Button>
           )}
         </CopyButton>
@@ -66,7 +70,7 @@ const AwardsNomineesShareButtons = ({
           onClick={imageModalUtils.open}
           className={"w-52"}
         >
-          Share with Image
+          {t("awards.share.shareWithImage")}
         </Button>
       </Group>
     </Stack>

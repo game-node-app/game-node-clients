@@ -14,12 +14,14 @@ import { IconPlus } from "@tabler/icons-react";
 import { LibraryViewSidebarCollection } from "#@/components/library/view/sidebar/LibraryViewSidebarCollection.tsx";
 import { Link } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 
 interface ILibraryViewSidebarProps {
   userId: string | undefined;
 }
 
 const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const userProfileQuery = useUserProfile(userId);
   const username = userProfileQuery.data?.username;
@@ -41,7 +43,9 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
         <Stack className={"w-full"}>
           <Group className={"justify-between flex-nowrap"}>
             <Link href={`/library/${userId}`}>
-              <Title size={"h5"}>{username}&apos;s library</Title>
+              <Title size={"h5"}>
+                {t("profile.titles.library", { username })}
+              </Title>
             </Link>
             {isOwnLibrary && (
               <ActionIcon
@@ -61,7 +65,9 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
           </Stack>
           {isOwnLibrary && (
             <Link href={"/importer"} className={"w-full"}>
-              <Button className={"w-full"}>Import games</Button>
+              <Button className={"w-full"}>
+                {t("library.buttons.importGames")}
+              </Button>
             </Link>
           )}
         </Stack>

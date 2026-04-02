@@ -5,6 +5,7 @@ import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
 import { useOwnCollectionEntryForGameId } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;
@@ -19,6 +20,7 @@ const CollectionEntryRemoveModal = ({
   onClose,
   opened,
 }: ICollectionEntryRemoveModalProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const collectionEntriesQuery = useOwnCollectionEntryForGameId(gameId);
   const collectionEntryRemoveMutation = useMutation({
@@ -40,21 +42,22 @@ const CollectionEntryRemoveModal = ({
   });
 
   return (
-    <Modal opened={opened} onClose={onClose} title={"Remove game"} centered>
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      title={t("collection.removeGame")}
+      centered
+    >
       <SessionAuth>
         <Stack justify={"center"} w={"100%"} ta={"center"}>
-          <Text fz={"lg"}>
-            You are about to <strong>remove</strong> this game and any related
-            data <strong>(including reviews!)</strong> from your library.
-          </Text>
+          <Text fz={"lg"}>{t("collectionEntry.messages.removeWarning")}</Text>
           <Text c={"dimmed"} fz={"sm"}>
-            If you wish to <strong>move</strong> this game between collections,
-            you can use the Update option instead.
+            {t("collectionEntry.messages.moveHint")}
           </Text>
-          <Text>Are you sure?</Text>
+          <Text>{t("collectionEntry.messages.confirmRemove")}</Text>
           <Group wrap={"nowrap"} justify={"center"}>
             <Button onClick={onClose} color={"blue"}>
-              No
+              {t("actions.no")}
             </Button>
             <Button
               onClick={() => {
@@ -67,7 +70,7 @@ const CollectionEntryRemoveModal = ({
               }}
               color={"red"}
             >
-              Yes
+              {t("actions.yes")}
             </Button>
           </Group>
         </Stack>

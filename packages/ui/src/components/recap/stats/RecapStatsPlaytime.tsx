@@ -3,8 +3,10 @@ import { BaseRecapStatsProps } from "#@/components/recap/stats/types";
 import { useRecap } from "#@/components/recap/hooks/useRecap";
 import { Group, HoverCard, Popover, Stack, Text, Title } from "@mantine/core";
 import { useOnMobile } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 const RecapStatsPlaytime = ({ userId, targetYear }: BaseRecapStatsProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const TooltipWrapper = onMobile ? Popover : HoverCard;
 
@@ -23,27 +25,33 @@ const RecapStatsPlaytime = ({ userId, targetYear }: BaseRecapStatsProps) => {
             <Title className={"text-8xl font-black text-white"}>
               {Math.ceil(totalPlaytimeHours)}
             </Title>
-            <Text>Hours Played</Text>
+            <Text>{t("recap.labels.hoursPlayed")}</Text>
           </Stack>
           <Stack className={"gap-0.5"}>
-            <Title className={"text-lg font-black text-white"}>This is</Title>
+            <Title className={"text-lg font-black text-white"}>
+              {t("recap.stats.thisIs")}
+            </Title>
             <Text className={"text-md"}>
-              {totalPlaytimeMinutes.toFixed(2)} minutes
+              {t("recap.stats.minutes", {
+                count: totalPlaytimeMinutes.toFixed(2),
+              })}
             </Text>
             <Text className={"text-md"}>
-              {totalPlaytimeDays.toFixed(2)} days
+              {t("recap.stats.days", { count: totalPlaytimeDays.toFixed(2) })}
             </Text>
             <Text className={"text-md"}>
-              {totalPlaytimeWeeks.toFixed(2)} weeks
+              {t("recap.stats.weeks", { count: totalPlaytimeWeeks.toFixed(2) })}
             </Text>
             <Text className={"text-md"}>
-              {totalPlaytimeMonths.toFixed(2)} months
+              {t("recap.stats.months", {
+                count: totalPlaytimeMonths.toFixed(2),
+              })}
             </Text>
           </Stack>
         </Group>
       </TooltipWrapper.Target>
       <TooltipWrapper.Dropdown className={"max-w-60 lg:max-w-96"}>
-        <Text>Based on data received from connected platforms.</Text>
+        <Text>{t("recap.stats.dataNotePlatforms")}</Text>
       </TooltipWrapper.Dropdown>
     </TooltipWrapper>
   );

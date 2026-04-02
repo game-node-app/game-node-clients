@@ -3,8 +3,10 @@ import { LandingHeader } from "@/components/general/header/LandingHeader";
 import { useEffect } from "react";
 import { useUserId } from "@repo/ui";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
 
 const Home = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const router = useRouter();
 
@@ -20,11 +22,10 @@ const Home = () => {
       <Box className="w-full h-[85lvh] lg:h-lvh flex flex-col items-center justify-between bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat pt-[180px]">
         <Box>
           <h1 className="text-center font-bold text-3xl lg:text-6xl lg:leading-[4.6rem]">
-            Organize all your games <br /> in one place
+            {t("landing.headlineAlt")}
           </h1>
           <h3 className="text-center text-xl lg:leading-[120px] mt-6 lg:mt-0 font-light mb-12">
-            GameNode is the ideal platform to manage your game collection
-            virtually.
+            {t("landing.subheadline")}
           </h3>
         </Box>
 
@@ -59,7 +60,7 @@ const Home = () => {
                 1
               </Text>
             </Box>
-            <Text>Add games to your library space</Text>
+            <Text>{t("landing.features.addGames")}</Text>
           </Box>
           <img
             src="/img/line_space.png"
@@ -78,7 +79,9 @@ const Home = () => {
                 2
               </Text>
             </Box>
-            <Text className="font-bold text-[16px]">Make Reviews</Text>
+            <Text className="font-bold text-[16px]">
+              {t("landing.features.makeReviews")}
+            </Text>
           </Box>
 
           <img
@@ -98,22 +101,19 @@ const Home = () => {
                 3
               </Text>
             </Box>
-            <Text>Share with the world</Text>
+            <Text>{t("landing.features.shareWorld")}</Text>
           </Box>
         </Box>
       </Box>
 
       <Box className="lg:h-[500px] lg:mt-0 flex flex-col justify-between">
         <h2 className="text-center text-xl lg:text-2xl font-light px-4 lg:px-[22rem] my-20">
-          Update your wishlist, review the titles you&#39;ve already tried, and
-          add the most anticipated releases to your wishlist. Connect with your
-          friends, follow their activity, and keep up with each one&#39;s latest
-          gaming sessions.
+          {t("landing.featureDescription")}
         </h2>
 
         <Box className="flex flex-col items-center px-4 lg:mb-24 lg:mt-24">
           <h3 className="text-center font-medium text-[20px] mb-2">
-            Import games from your platforms to your GameNode account
+            {t("landing.platforms.description")}
           </h3>
 
           <img
@@ -123,7 +123,7 @@ const Home = () => {
           />
 
           <h3 className="text-center font-medium text-[16px] mt-4 mb-2">
-            Soon
+            {t("landing.platforms.soon")}
           </h3>
 
           <img
@@ -135,7 +135,7 @@ const Home = () => {
 
         <Stack className={"w-full items-center justify-center lg:mt-16 mt-12"}>
           <h3 className="text-center font-medium text-[20px]">
-            We&#39;re also on your phone!
+            {t("landing.mobile.titleAlt")}
           </h3>
           <Anchor href="https://play.google.com/store/apps/details?id=app.gamenode">
             <img
@@ -143,7 +143,9 @@ const Home = () => {
               src={"/img/google_play_badge_english.png"}
             />
           </Anchor>
-          <Text className={"text-dimmed text-sm"}>Soon in iOS.</Text>
+          <Text className={"text-dimmed text-sm"}>
+            {t("landing.mobile.soonIOS")}
+          </Text>
         </Stack>
 
         <footer className="mt-20">

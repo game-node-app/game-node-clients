@@ -19,6 +19,7 @@ interface Props {
 }
 
 const GameInfoProgressTimeline = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const [maxActiveIndex, setMaxActiveIndex] = useState<number>(-1);
 
@@ -45,45 +46,45 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      title={"Your progress"}
+      title={t("game.progress.yourProgress")}
       withDimmedTitle
       withPadding
       withBackground
     >
       <Timeline active={maxActiveIndex} bulletSize={30} variant={"default"}>
         <Timeline.Item
-          title={"Added"}
+          title={t("game.progress.added")}
           bullet={<IconLibrary />}
           variant={"default"}
         >
-          <Text c={"dimmed"}>Game added to your collection</Text>
+          <Text c={"dimmed"}>{t("game.timeline.added")}</Text>
           {isInCollection && (
             <Text c={"dimmed"} fz={"xs"}>
-              +30 XP
+              {t("game.progress.xpGained", { xp: 30 })}
             </Text>
           )}
         </Timeline.Item>
         <Timeline.Item
-          title={"Reviewed"}
+          title={t("game.progress.reviewed")}
           bullet={<IconMessage />}
           variant={"default"}
         >
-          <Text c={"dimmed"}>Game reviewed</Text>
+          <Text c={"dimmed"}>{t("game.timeline.reviewed")}</Text>
           {isReviewed && (
             <Text c={"dimmed"} fz={"xs"}>
-              +75 XP
+              {t("game.progress.xpGained", { xp: 75 })}
             </Text>
           )}
         </Timeline.Item>
         <Timeline.Item
-          title={"Finished"}
+          title={t("game.progress.finished")}
           bullet={<IconCheck />}
           variant={"default"}
         >
-          <Text c={"dimmed"}>Game marked as finished</Text>
+          <Text c={"dimmed"}>{t("game.timeline.finished")}</Text>
           {isFinished && (
             <Text c={"dimmed"} fz={"xs"}>
-              +30 XP
+              {t("game.progress.xpGained", { xp: 30 })}
             </Text>
           )}
         </Timeline.Item>

@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { PreferredPlatformService } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 const EditPreferredPlatformFormSchema = z.object({
   platformId: z.number().min(1, "Platform is required"),
@@ -25,6 +26,7 @@ interface Props extends BaseModalChildrenProps {
 }
 
 const EditPreferredPlatformForm = ({ platformId, onClose }: Props) => {
+  const { t } = useTranslation();
   const { invalidate, data: preferredPlatforms } = usePreferredPlatforms();
   const {
     watch,
@@ -55,10 +57,10 @@ const EditPreferredPlatformForm = ({ platformId, onClose }: Props) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        title: "Success",
-        message: `Preferred platform has been ${
-          platformId ? "updated" : "added"
-        } successfully.`,
+        title: t("notifications.titles.success"),
+        message: platformId
+          ? t("preferences.platforms.updateSuccess")
+          : t("preferences.platforms.addSuccess"),
       });
       onClose?.();
     },
@@ -100,24 +102,22 @@ const EditPreferredPlatformForm = ({ platformId, onClose }: Props) => {
           onChange={(v) => {
             setValue("platformId", (v as number) ?? 0);
           }}
-          label={"Platform"}
+          label={t("preferences.platforms.platformLabel")}
           error={errors.platformId?.message}
         />
         <TextInput
           {...register("label")}
-          label={"Label"}
-          description={
-            "Optional. This helps you identify this platform. It doesn't affect functionality. Only shown to you."
-          }
+          label={t("preferences.platforms.labelField")}
+          description={t("preferences.platforms.labelDescription")}
           error={errors.label?.message}
         ></TextInput>
         <Switch
-          label={"Enabled"}
+          label={t("preferences.platforms.enabled")}
           {...register("isEnabled")}
           checked={watch("isEnabled")}
         ></Switch>
         <Button loading={editPlatformMutation.isPending} type={"submit"}>
-          Submit
+          {t("actions.submit")}
         </Button>
       </form>
     </SessionAuth>

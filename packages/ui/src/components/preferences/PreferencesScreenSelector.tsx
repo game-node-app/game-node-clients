@@ -1,9 +1,7 @@
 import React from "react";
 import { ComboboxItem, Select } from "@mantine/core";
-import {
-  PreferencesActiveCategory,
-  PREFERENCES_SCREEN_CATEGORIES,
-} from "#@/components/preferences/PreferencesScreenSideBar";
+import { PreferencesActiveCategory } from "#@/components/preferences/PreferencesScreenSideBar";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   activeCategory: PreferencesActiveCategory;
@@ -11,12 +9,23 @@ interface Props {
 }
 
 const PreferencesScreenSelector = ({ activeCategory, onChange }: Props) => {
-  const data = PREFERENCES_SCREEN_CATEGORIES.map((item): ComboboxItem => {
-    return {
-      label: item.name,
-      value: item.activeCategoryName,
-    };
-  });
+  const { t } = useTranslation();
+
+  const data: ComboboxItem[] = [
+    {
+      label: t("preferences.categories.connections"),
+      value: "connections",
+    },
+    {
+      label: t("preferences.categories.account"),
+      value: "account",
+    },
+    {
+      label: t("preferences.categories.library"),
+      value: "library",
+    },
+  ];
+
   return (
     <Select
       className={"w-full"}

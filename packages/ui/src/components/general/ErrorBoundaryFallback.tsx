@@ -10,12 +10,14 @@ import {
 } from "@mantine/core";
 import { useClipboard, useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   error: Error;
 }
 
 const ErrorBoundaryFallback = ({ error }: Props) => {
+  const { t } = useTranslation();
   const [detailsOpen, detailsOpenUtils] = useDisclosure();
   const { copy } = useClipboard({});
   return (
@@ -24,7 +26,7 @@ const ErrorBoundaryFallback = ({ error }: Props) => {
         withCloseButton={false}
         withBorder
         color="red"
-        title="An unexpected error has occurred while loading this page"
+        title={t("errors.unexpected")}
       >
         {error.message}
       </Notification>
@@ -33,22 +35,27 @@ const ErrorBoundaryFallback = ({ error }: Props) => {
           detailsOpenUtils.open();
           copy(error.stack);
           notifications.show({
-            title: "Error details copied to clipboard",
-            message:
-              "You may now paste the error details when reporting the issue.",
+            title: t("errors.copiedToClipboard"),
+            message: t("errors.pasteInstructions"),
           });
         }}
         variant={"outline"}
       >
-        Show details
+        {t("errors.showDetails")}
       </Button>
       <Collapse in={detailsOpen}>
         <Code>{error.stack}</Code>
       </Collapse>
       <Text className={"leading-6 mt-4 text-center text-sm text-dimmed"}>
-        Please let us know about this error by sending us a message via{" "}
-        <Anchor href={"mailto:support@gamenode.app"}>email</Anchor> or{" "}
-        <Anchor href={"https://discord.gg/tqFpWT3C5N"}>Discord</Anchor>.
+        {t("errors.reportPrompt")}{" "}
+        <Anchor href={"mailto:support@gamenode.app"}>
+          {t("errors.email")}
+        </Anchor>{" "}
+        {t("common.or")}{" "}
+        <Anchor href={"https://discord.gg/tqFpWT3C5N"}>
+          {t("errors.discord")}
+        </Anchor>
+        .
       </Text>
     </Stack>
   );

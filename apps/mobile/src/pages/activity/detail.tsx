@@ -14,12 +14,14 @@ import { Container, Stack } from "@mantine/core";
 import { ActivityDetailView, useActivity, useUserProfile } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   activityId: string;
 }
 
 const ActivityDetailPage = ({ activityId }: Props) => {
+  const { t } = useTranslation();
   const activityQuery = useActivity(activityId);
   const profileQuery = useUserProfile(activityQuery.data?.profileUserId);
 
@@ -28,7 +30,9 @@ const ActivityDetailPage = ({ activityId }: Props) => {
       <Stack className={"w-full h-full mb-8"}>
         {(activityQuery.isError || profileQuery.isError) && (
           <CenteredErrorMessage
-            message={"Failed to fetch activity. Please try again."}
+            message={t("errors.fetchFailed", {
+              resource: t("navigation.activity"),
+            })}
           />
         )}
         <ActivityDetailView activityId={activityId} />

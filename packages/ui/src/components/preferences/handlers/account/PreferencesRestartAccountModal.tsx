@@ -5,11 +5,13 @@ import { useUserId, useUserProfile } from "#@/components";
 import { useMutation } from "@tanstack/react-query";
 import { UserAccountService } from "@repo/wrapper/server";
 import Session from "supertokens-auth-react/recipe/session";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesRestartAccountModal = ({
   opened,
   onClose,
 }: BaseModalProps) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { data: profile } = useUserProfile(userId);
   const [hasConfirmedUsername, setHasConfirmedUsername] = useState(false);
@@ -25,48 +27,36 @@ const PreferencesRestartAccountModal = ({
   });
 
   return (
-    <Modal title={"Restart Account"} onClose={onClose} opened={opened}>
+    <Modal
+      title={t("preferences.titles.restartAccount")}
+      onClose={onClose}
+      opened={opened}
+    >
       <Stack>
         <Text className={"text-lg font-medium"}>
-          Are you sure you want to restart your account?
+          {t("preferences.messages.confirmRestart")}
         </Text>
-        <Text>What this will do</Text>
+        <Text>{t("preferences.labels.whatWillDo")}</Text>
         <List listStyleType={"disc"}>
-          <List.Item>Wipe your profile</List.Item>
-          <List.Item>Wipe your achievements</List.Item>
-          <List.Item>Wipe your connections</List.Item>
-          <List.Item>Wipe your activity</List.Item>
-          <List.Item>Wipe your preferences</List.Item>
-          <List.Item>Wipe your reviews</List.Item>
-          <List.Item>
-            Wipe your library, including collections and added games
-          </List.Item>
-          <List.Item>
-            Wipe all playtime related information, including manual sessions
-          </List.Item>
+          <List.Item>{t("preferences.restartWarnings.profile")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.achievements")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.connections")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.activity")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.preferences")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.reviews")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.libraryFull")}</List.Item>
+          <List.Item>{t("preferences.restartWarnings.playtimeFull")}</List.Item>
         </List>
         <Text className={"text-sm text-dimmed"}>
-          This won&#39;t remove your email and it&#39;s user id association from
-          our databases. Nor will it remove collected analytic data.
+          {t("preferences.messages.restartNote1")}
         </Text>
         <Text className={"text-sm text-dimmed"}>
-          If you want to completely remove this data, please reach out to us
-          through Discord or email (
-          <a href={"mailto:support@gamenode.app"}>support@gamenode.app</a>).
+          {t("preferences.messages.restartNote2")}
         </Text>
-        <Text>
-          This action is{" "}
-          <Text span className={"font-bold"}>
-            irreversible
-          </Text>
-          . We won&#39;t be able to restore your account if you restart it.
-        </Text>
-        <Text>
-          After using this service, you will be logged off, and will be able to
-          log-in again with a brand new account.
-        </Text>
+        <Text>{t("preferences.messages.irreversible")}</Text>
+        <Text>{t("preferences.messages.restartLogout")}</Text>
         <TextInput
-          label={"Confirm with your username"}
+          label={t("preferences.labels.confirmUsername")}
           description={profile?.username}
           placeholder={profile?.username}
           onInput={(evt) => {
@@ -80,7 +70,7 @@ const PreferencesRestartAccountModal = ({
           loading={restartMutation.isPending}
           onClick={() => restartMutation.mutate()}
         >
-          Confirm
+          {t("actions.confirm")}
         </Button>
       </Stack>
     </Modal>

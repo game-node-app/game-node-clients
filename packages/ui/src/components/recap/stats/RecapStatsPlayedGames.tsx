@@ -4,8 +4,10 @@ import { useRecap } from "#@/components/recap/hooks/useRecap";
 import { Group, HoverCard, Popover, Stack, Text, Title } from "@mantine/core";
 import { RecapPlatformCount } from "#@/components/recap/RecapPlatformCount";
 import { useOnMobile } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 const RecapStatsPlayedGames = ({ userId, targetYear }: BaseRecapStatsProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const TooltipWrapper = onMobile ? Popover : HoverCard;
   const { data: recap } = useRecap(userId, targetYear);
@@ -21,7 +23,7 @@ const RecapStatsPlayedGames = ({ userId, targetYear }: BaseRecapStatsProps) => {
             <Title className={"text-8xl font-black text-white"}>
               {totalPlayedGames}
             </Title>
-            <Text>Played Games</Text>
+            <Text>{t("recap.labels.playedGames")}</Text>
           </Stack>
           <Stack className={"gap-1"}>
             {playedByPlatform.map((platform) => (
@@ -31,10 +33,7 @@ const RecapStatsPlayedGames = ({ userId, targetYear }: BaseRecapStatsProps) => {
         </Group>
       </TooltipWrapper.Target>
       <TooltipWrapper.Dropdown className={"max-w-60 lg:max-w-96"}>
-        <Text>
-          Based on data received from connected platforms and
-          played/finished/dropped dates in library items.
-        </Text>
+        <Text>{t("recap.stats.dataNote")}</Text>
       </TooltipWrapper.Dropdown>
     </TooltipWrapper>
   );

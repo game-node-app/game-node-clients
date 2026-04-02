@@ -1,6 +1,7 @@
 import { BaseModalProps } from "@/util/types/modal-props";
 import { IonActionSheet } from "@ionic/react";
 import React from "react";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalProps {
   /**
@@ -18,6 +19,8 @@ const ActionConfirm = ({
   onConfirm,
   isDestructive = true,
 }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <IonActionSheet
       header={title}
@@ -25,7 +28,7 @@ const ActionConfirm = ({
       onDidDismiss={onClose}
       buttons={[
         {
-          text: "Confirm",
+          text: t("actions.confirm"),
           role: isDestructive ? "destructive" : undefined,
           data: {
             action: "confirm",
@@ -35,7 +38,7 @@ const ActionConfirm = ({
           },
         },
         {
-          text: "Cancel",
+          text: t("actions.cancel"),
           role: "cancel",
           data: {
             action: "cancel",

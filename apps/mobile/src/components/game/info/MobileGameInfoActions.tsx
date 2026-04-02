@@ -21,11 +21,13 @@ import {
 import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
+import { useTranslation } from "@repo/locales";
 
 const MobileGameInfoActions = ({
   wrapperProps,
   game,
 }: GameInfoActionsProps) => {
+  const { t } = useTranslation();
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
@@ -65,7 +67,7 @@ const MobileGameInfoActions = ({
           loading={collectionEntryQuery.isLoading}
           className={"w-40 h-10"}
         >
-          Add to library
+          {t("game.buttons.addLibrary")}
         </Button>
       </Group>
     );
@@ -87,7 +89,7 @@ const MobileGameInfoActions = ({
         <Modal
           opened={shareModalOpened}
           onClose={shareModalUtils.close}
-          title={"Share"}
+          title={t("game.labels.share")}
         >
           <GameInfoShare
             gameId={game.id}
@@ -101,8 +103,8 @@ const MobileGameInfoActions = ({
               });
 
               await Share.share({
-                title: "My review of this game",
-                dialogTitle: "Share your review with friends!",
+                title: t("game.share.myReview"),
+                dialogTitle: t("game.share.shareReview"),
                 url: cachedFileResult.uri,
               });
             }}
@@ -114,10 +116,10 @@ const MobileGameInfoActions = ({
           loading={collectionEntryQuery.isLoading}
           className={"w-40 h-10"}
         >
-          Update
+          {t("collectionEntry.buttons.update")}
         </Button>
 
-        <Tooltip label={"Add to your favorites"}>
+        <Tooltip label={t("game.tooltips.addFavorites")}>
           <ActionIcon
             size="xl"
             variant="default"
@@ -134,7 +136,7 @@ const MobileGameInfoActions = ({
           </ActionIcon>
         </Tooltip>
         {hasReview && (
-          <Tooltip label={"Share this game"}>
+          <Tooltip label={t("game.tooltips.share")}>
             <ActionIcon
               size="xl"
               variant="default"
@@ -145,7 +147,7 @@ const MobileGameInfoActions = ({
           </Tooltip>
         )}
         {gameInLibrary && (
-          <Tooltip label={"Remove from your library"}>
+          <Tooltip label={t("game.tooltips.removeLibrary")}>
             <ActionIcon
               variant="default"
               size="xl"
