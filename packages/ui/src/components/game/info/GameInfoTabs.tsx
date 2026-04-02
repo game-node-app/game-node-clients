@@ -6,6 +6,7 @@ import {
   IconTrophyFilled,
   IconVocabulary,
 } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 export interface GameInfoTabIcons {
   home: React.ReactNode;
@@ -41,6 +42,7 @@ const GameInfoTabs = ({
   icons = DEFAULT_TAB_ICONS,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <Tabs
       value={currentTab}
@@ -59,16 +61,16 @@ const GameInfoTabs = ({
     >
       <Tabs.List grow>
         <Tabs.Tab value={"overview"} leftSection={icons?.home}>
-          Overview
+          {t("game.tabs.overview")}
         </Tabs.Tab>
         <Tabs.Tab value={"reviews"} leftSection={icons?.reviews}>
-          Reviews
+          {t("game.tabs.reviews")}
         </Tabs.Tab>
         <Tabs.Tab value={"discussion"} leftSection={icons?.discussion}>
-          Discussion
+          {t("game.tabs.discussion")}
         </Tabs.Tab>
         <Tabs.Tab value={"achievements"} leftSection={icons?.achievements}>
-          Achievements
+          {t("game.tabs.achievements")}
         </Tabs.Tab>
       </Tabs.List>
       {children}

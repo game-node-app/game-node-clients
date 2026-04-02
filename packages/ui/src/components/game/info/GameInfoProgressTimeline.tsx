@@ -12,6 +12,7 @@ import {
   IconMessage,
 } from "@tabler/icons-react";
 import { useAccumulatedPlaytimeForGame } from "#@/components/playtime/hooks/useAccumulatedPlaytimeForGame";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   gameId: number;

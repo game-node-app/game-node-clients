@@ -12,6 +12,7 @@ import {
 import { useDebouncedCallback, useDebouncedValue } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import { useSearchGamesAutocomplete } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<TextInputProps, "onChange"> {
   withButton?: boolean;
@@ -22,6 +23,7 @@ interface Props extends Omit<TextInputProps, "onChange"> {
 }
 
 const GameSearchBar = ({ withButton = true, onChange, ...others }: Props) => {
+  const { t } = useTranslation();
   const combobox = useCombobox();
 
   const [query, setQuery] = useState("");
@@ -46,7 +48,7 @@ const GameSearchBar = ({ withButton = true, onChange, ...others }: Props) => {
         >
           <Combobox.Target>
             <TextInput
-              placeholder="Search for games"
+              placeholder={t("game.searchPlaceholder")}
               value={query}
               onChange={(event) => {
                 setQuery(event.currentTarget.value);

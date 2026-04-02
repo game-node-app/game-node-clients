@@ -15,6 +15,7 @@ import {
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 import { HomeFab } from "@/components/home/HomeFab.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import {
@@ -25,6 +26,7 @@ import ActivityType = Activity.type;
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const contentRef = useRef<HTMLIonContentElement>(null);
 
   const queryClient = useQueryClient();
@@ -86,10 +88,10 @@ const HomePage = () => {
         <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
         <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-          <DetailsCard title={"Recent Activity"}>
+          <DetailsCard title={t("home.recentActivity")}>
             <RecentActivityList limit={10} />
           </DetailsCard>
-          <DetailsCard title={"Last reviews"}>
+          <DetailsCard title={t("home.lastReviews")}>
             <RecentActivityList limit={10} type={ActivityType.REVIEW} />
           </DetailsCard>
         </SimpleGrid>

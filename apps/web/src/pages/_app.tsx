@@ -48,6 +48,7 @@ import {
   setProjectContext,
   UIProvider,
 } from "@repo/ui";
+import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
@@ -108,63 +109,65 @@ export default function App({
           posthogKey={process.env.NEXT_PUBLIC_POSTHOG_KEY!}
           posthogHost={process.env.NEXT_PUBLIC_POSTHOG_HOST!}
         >
-          <MantineProvider
-            theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
-              fontFamily: roboto.style.fontFamily,
-            })}
-            forceColorScheme={"dark"}
-          >
-            <UIProvider
-              presenters={{
-                Link: LinkWrapper,
-              }}
-              hooks={{
-                useRouter: useNextRouterWrapper,
-              }}
+          <I18nProvider>
+            <MantineProvider
+              theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
+                fontFamily: roboto.style.fontFamily,
+              })}
+              forceColorScheme={"dark"}
             >
-              <Head>
-                <title>GameNode</title>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1"
-                />
-                {/* Default Open Graph Meta Tags */}
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://gamenode.app" />
-                <meta property="og:title" content="GameNode" />
-                <meta
-                  property="og:description"
-                  content="GameNode is the ideal platform to manage your game collection virtually."
-                />
-                <meta property="og:image" content="/img/og_image.png" />
-                <meta property="og:site_name" content="GameNode" />
+              <UIProvider
+                presenters={{
+                  Link: LinkWrapper,
+                }}
+                hooks={{
+                  useRouter: useNextRouterWrapper,
+                }}
+              >
+                <Head>
+                  <title>GameNode</title>
+                  <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                  />
+                  {/* Default Open Graph Meta Tags */}
+                  <meta property="og:type" content="website" />
+                  <meta property="og:url" content="https://gamenode.app" />
+                  <meta property="og:title" content="GameNode" />
+                  <meta
+                    property="og:description"
+                    content="GameNode is the ideal platform to manage your game collection virtually."
+                  />
+                  <meta property="og:image" content="/img/og_image.png" />
+                  <meta property="og:site_name" content="GameNode" />
 
-                {/* Default Twitter Meta Tags */}
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content="https://gamenode.app" />
-                <meta property="twitter:title" content="GameNode" />
-                <meta
-                  property="twitter:description"
-                  content="GameNode is the ideal platform to manage your game collection virtually."
-                />
-                <meta property="twitter:image" content="/img/og_image.png" />
-              </Head>
-              <NotificationsManager />
-              <OpenInAppDialog />
-              <HydrationBoundary state={pageProps.dehydratedState}>
-                <GlobalAppShell>
-                  <RouterTransition />
-                  <ErrorBoundary
-                    fallbackRender={({ error }) => (
-                      <ErrorBoundaryFallback error={error as Error} />
-                    )}
-                  >
-                    <Component {...pageProps} />
-                  </ErrorBoundary>
-                </GlobalAppShell>
-              </HydrationBoundary>
-            </UIProvider>
-          </MantineProvider>
+                  {/* Default Twitter Meta Tags */}
+                  <meta property="twitter:card" content="summary_large_image" />
+                  <meta property="twitter:url" content="https://gamenode.app" />
+                  <meta property="twitter:title" content="GameNode" />
+                  <meta
+                    property="twitter:description"
+                    content="GameNode is the ideal platform to manage your game collection virtually."
+                  />
+                  <meta property="twitter:image" content="/img/og_image.png" />
+                </Head>
+                <NotificationsManager />
+                <OpenInAppDialog />
+                <HydrationBoundary state={pageProps.dehydratedState}>
+                  <GlobalAppShell>
+                    <RouterTransition />
+                    <ErrorBoundary
+                      fallbackRender={({ error }) => (
+                        <ErrorBoundaryFallback error={error as Error} />
+                      )}
+                    >
+                      <Component {...pageProps} />
+                    </ErrorBoundary>
+                  </GlobalAppShell>
+                </HydrationBoundary>
+              </UIProvider>
+            </MantineProvider>
+          </I18nProvider>
         </PostHogProvider>
       </SuperTokensProvider>
     </QueryClientProvider>

@@ -13,6 +13,7 @@ import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage
 import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, syncEntityToZodForm } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const CreateCollectionFormSchema = z
   .object({
@@ -42,6 +43,7 @@ const CollectionCreateOrUpdateForm = ({
   onClose,
   collectionId,
 }: ICollectionCreateOrUpdateFormProps) => {
+  const { t } = useTranslation();
   const session = useSessionContext();
   const userId = session.loading ? undefined : session.userId;
   const userLibraryQuery = useUserLibrary(userId);
@@ -76,7 +78,9 @@ const CollectionCreateOrUpdateForm = ({
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: `Successfully ${collectionId != undefined ? "updated" : "created"} collection.`,
+        message: collectionId != undefined 
+          ? t("collection.messages.updateSuccess")
+          : t("collection.messages.createSuccess"),
       });
       if (onClose) {
         onClose();
@@ -110,42 +114,38 @@ const CollectionCreateOrUpdateForm = ({
         )}
         <TextInput
           withAsterisk
-          label={"Collection name"}
-          placeholder={"🎮 Playing now"}
+          label={t("collection.labels.name")}
+          placeholder={t("collection.placeholders.name")}
           error={formState.errors.name?.message}
           defaultValue={existingCollection?.name}
           {...register("name")}
         />
         <TextInput
-          label={"Description"}
-          placeholder={"Games I'm currently playing"}
+          label={t("collection.labels.description")}
+          placeholder={t("collection.placeholders.description")}
           error={formState.errors.description?.message}
           defaultValue={existingCollection?.description}
           {...register("description")}
         />
         <Switch
           error={formState.errors.isPublic?.message}
-          label={"Public collection"}
-          description={"If this collections is visible to other users"}
+          label={t("collection.labels.public")}
+          description={t("collection.descriptions.public")}
           defaultChecked={existingCollection?.isPublic ?? true}
           {...register("isPublic")}
         />
         <Switch
           error={formState.errors.isFeatured?.message}
-          label={"Featured collection"}
-          description={
-            "If this collections should be featured in your profile and library"
-          }
+          label={t("collection.labels.featured")}
+          description={t("collection.descriptions.featured")}
           defaultChecked={existingCollection?.isFeatured}
           {...register("isFeatured")}
         />
-        <Fieldset legend="Automation">
+        <Fieldset legend={t("collection.labels.automation")}>
           <Switch
-            label={"Enable automatic status for games"}
+            label={t("collection.labels.enableAutoStatus")}
             error={formState.errors.defaultEntryStatus?.message}
-            description={
-              "All games in this collection will be filled with the selected status when being added. Only affects new entries."
-            }
+            description={t("collection.descriptions.autoStatus")}
             checked={defaultEntryStatus != null}
             onChange={(evt) => {
               setValue(
@@ -171,7 +171,7 @@ const CollectionCreateOrUpdateForm = ({
           loading={collectionMutation.isPending || collectionQuery.isLoading}
           disabled={collectionQuery.isLoading}
         >
-          {existingCollection ? "Update" : "Create"}
+          {existingCollection ? t("actions.update") : t("actions.create")}
         </Button>
       </Stack>
     </form>

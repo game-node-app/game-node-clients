@@ -2,7 +2,12 @@
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
-  transpilePackages: ["@repo/wrapper", "@repo/ui", "@repo/analytics"],
+  transpilePackages: [
+    "@repo/wrapper",
+    "@repo/ui",
+    "@repo/analytics",
+    "@repo/locales",
+  ],
   experimental: {
     optimizePackageImports: ["@tabler/icons-react"],
     turbopackFileSystemCacheForDev: true,

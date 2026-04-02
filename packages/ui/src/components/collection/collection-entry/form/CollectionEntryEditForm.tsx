@@ -30,6 +30,7 @@ import {
   IconStarsFilled,
 } from "@tabler/icons-react";
 import { createErrorNotification } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const GameAddOrUpdateSchema = z.object({
   collectionIds: z.array(
@@ -78,6 +79,7 @@ const CollectionEntryEditForm = ({
   showGameInfo = true,
   onClose,
 }: IGameAddFormProps) => {
+  const { t } = useTranslation();
   const isMobilePlatform = useOnMobilePlatform();
 
   const form = useForm<TGameAddOrUpdateValues>({
@@ -175,10 +177,10 @@ const CollectionEntryEditForm = ({
     },
     onSuccess: () => {
       notifications.show({
-        title: "Success",
+        title: t("notifications.titles.success"),
         message: isUpdateAction
-          ? "Game updated on your library!"
-          : "Game added to your library!",
+          ? t("collectionEntry.messages.updateSuccess")
+          : t("collectionEntry.messages.addSuccess"),
         color: "green",
       });
 
@@ -189,8 +191,8 @@ const CollectionEntryEditForm = ({
     onError: (err) => {
       console.error(err);
       notifications.show({
-        title: "Error",
-        message: "Something went wrong!",
+        title: t("notifications.titles.error"),
+        message: t("notifications.messages.error"),
         color: "red",
       });
     },

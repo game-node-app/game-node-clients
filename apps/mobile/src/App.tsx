@@ -14,6 +14,7 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import { setProjectContext, UIProvider } from "@repo/ui";
+import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
@@ -135,27 +136,29 @@ const App: React.FC = () => {
       }}
     >
       <IonApp>
-        <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
-          <UIProvider
-            presenters={UI_PRESENTER_REGISTRY}
-            hooks={UI_HOOK_REGISTRY}
-          >
-            <SuperTokensProvider>
-              <PostHogProvider
-                appName={"mobile"}
-                posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
-                posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
-              >
-                <IonReactRouter>
-                  <AppUrlListener />
-                  <AppUpdateListener />
-                  <NotificationsManager />
-                  <Tabs />
-                </IonReactRouter>
-              </PostHogProvider>
-            </SuperTokensProvider>
-          </UIProvider>
-        </MantineProvider>
+        <I18nProvider>
+          <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+            <UIProvider
+              presenters={UI_PRESENTER_REGISTRY}
+              hooks={UI_HOOK_REGISTRY}
+            >
+              <SuperTokensProvider>
+                <PostHogProvider
+                  appName={"mobile"}
+                  posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+                  posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+                >
+                  <IonReactRouter>
+                    <AppUrlListener />
+                    <AppUpdateListener />
+                    <NotificationsManager />
+                    <Tabs />
+                  </IonReactRouter>
+                </PostHogProvider>
+              </SuperTokensProvider>
+            </UIProvider>
+          </MantineProvider>
+        </I18nProvider>
       </IonApp>
     </PersistQueryClientProvider>
   );

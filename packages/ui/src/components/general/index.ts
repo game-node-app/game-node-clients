@@ -13,6 +13,7 @@ export * from "./ErrorBoundaryFallback";
 export * from "./GameNodeLogo";
 export * from "./GradientSeparator";
 export * from "./ImageDropzone";
+export * from "./LanguageSwitcher";
 export * from "./LoginPromptCentered";
 export * from "./MantineModalWrapper";
 export * from "./NotificationsManager";

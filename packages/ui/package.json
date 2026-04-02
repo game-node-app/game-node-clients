@@ -23,6 +23,7 @@
     "barrels:generate": "barrelsby --delete -l all -d ./src"
   },
   "dependencies": {
+    "@repo/locales": "*",
     "@repo/wrapper": "*"
   },
   "peerDependencies": {

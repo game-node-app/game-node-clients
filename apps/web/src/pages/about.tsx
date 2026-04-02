@@ -1,14 +1,17 @@
 import { Box, Button, Paper, Stack } from "@mantine/core";
 import { LandingHeader } from "@/components/general/header/LandingHeader";
+import { useTranslation } from "@repo/locales";
 
 const AboutPage = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <LandingHeader />
       <Box className="w-full flex flex-col items-center bg-[url(../../public/img/bg_landing.jpg)] bg-cover bg-no-repeat">
         <Box className={"h-96 flex justify-center items-center"}>
           <h1 className={"text-5xl font-bold text-center"}>
-            A new way to organize your <br /> entire game collection
+            {t("landing.headline")}
           </h1>
         </Box>
 
@@ -16,45 +19,44 @@ const AboutPage = () => {
           <div className="relative">
             <img
               src="/img/about_us/box_01.png"
-              alt="Coleções Personalizadas"
+              alt={t("landing.features.customCollections")}
               className="block pointer-events-none"
             />
             <p className="absolute left-10 bottom-0 pb-10 font-bold text-4xl">
-              Custom <br />
-              Collections
+              {t("landing.features.customCollections")}
             </p>
           </div>
 
           <div className="relative">
             <img
               src="/img/about_us/box_02.png"
-              alt="Coleções Personalizadas"
+              alt={t("landing.features.review")}
               className={"object-cover"}
             />
             <p className="absolute left-10 bottom-0 pb-10 font-bold text-4xl">
-              Review
+              {t("landing.features.review")}
             </p>
           </div>
 
           <div className="relative">
             <img
               src="/img/about_us/box_03.png"
-              alt="Coleções Personalizadas"
+              alt={t("landing.features.achievements")}
               className={"object-cover"}
             />
             <p className="absolute left-10 bottom-0 pb-10 font-bold text-4xl">
-              Achievements
+              {t("landing.features.achievements")}
             </p>
           </div>
 
           <div className="relative">
             <img
               src="/img/about_us/box_04.png"
-              alt="Coleções Personalizadas"
+              alt={t("landing.features.activities")}
               className={"object-cover"}
             />
             <p className="absolute left-10 bottom-0 pb-10 font-bold text-4xl">
-              Activities
+              {t("landing.features.activities")}
             </p>
           </div>
         </Box>
@@ -75,23 +77,21 @@ const AboutPage = () => {
 
         <div className={"pt-6 sm:pt-0"}>
           <h2 className={"font-bold text-5xl pb-4 text-center sm:text-left"}>
-            Sync with platforms
+            {t("landing.platforms.title")}
           </h2>
           <p
             className={
               "text-[1.25rem] pb-2 font-regular text-center sm:text-left"
             }
           >
-            Import games from your platforms to your <br />
-            GameNode account
+            {t("landing.platforms.description")}
           </p>
           <p className={"text-[1.25rem] font-regular text-center sm:text-left"}>
-            Sync your library, your playtime <br />
-            directly on our website.
+            {t("landing.platforms.syncDescription")}
           </p>
 
           <div className={"flex flex-col items-center pt-10 sm:items-start"}>
-            <p className={"pb-4"}>Soon</p>
+            <p className={"pb-4"}>{t("landing.platforms.soon")}</p>
             <img
               className={"pointer-events-none"}
               src="/img/about_us/soon.svg"
@@ -104,12 +104,10 @@ const AboutPage = () => {
       <Box className={"flex flex-col sm:flex-row items-center px-4 sm:px-9"}>
         <div className={"sm:w-1/2 text-center sm:text-left"}>
           <h2 className={"font-bold text-4xl py-10 sm:py-6"}>
-            Also available for mobile
+            {t("landing.mobile.title")}
           </h2>
           <p className={"font-light text-2xl"}>
-            Access our app and enjoy all the features <br />
-            in the palm of your hand — <br />
-            wherever and whenever you want.
+            {t("landing.mobile.description")}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-5">
@@ -128,7 +126,7 @@ const AboutPage = () => {
                     src="/img/about_us/playstore.svg"
                     alt="PlayStore"
                   />{" "}
-                  Google Play
+                  {t("landing.mobile.googlePlay")}
                 </p>
               </button>
             </a>
@@ -145,7 +143,7 @@ const AboutPage = () => {
                     src="/img/about_us/apple.svg"
                     alt="apple"
                   />{" "}
-                  Soon on App Store
+                  {t("landing.mobile.appStoreSoon")}
                 </p>
               </button>
             </a>
@@ -165,19 +163,16 @@ const AboutPage = () => {
       >
         <div className={"text-center"}>
           <h2 className={"font-bold text-5xl sm:text-6xl pb-6"}>
-            GameNode is maintained <br />
-            <span className={"text-[#f15025]"}>exclusively</span> <br />
-            with community support
+            {t("landing.support.title")}
           </h2>
           <p className={"font-light text-[0.8rem] sm:text-2xl mb-4"}>
-            Collaborate with us to keep our platform <br />
-            100% Free and constantly evolving.
+            {t("landing.support.description")}
           </p>
         </div>
         <button className={"bg-[#ff424d] px-6 py-2 rounded-2xl"}>
           <a href="https://patreon.com/GameNodeApp" target="_blank">
             <p className={"tracking-wider text-2xl font-bold"}>
-              Buy us a coffe
+              {t("landing.support.buyCoffe")}
             </p>
           </a>
         </button>

@@ -17,6 +17,7 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { Modal } from "#@/util";
 import { GameInfoShare, useUpdateFavoriteStatusMutation } from "#@/components";
 import { buildPresenterComponent } from "#@/context";
+import { useTranslation } from "@repo/locales";
 
 export interface GameInfoActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
@@ -32,6 +33,7 @@ const DEFAULT_GameInfoActions = ({
   game,
   wrapperProps,
 }: GameInfoActionsProps) => {
+  const { t } = useTranslation();
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
@@ -74,14 +76,14 @@ const DEFAULT_GameInfoActions = ({
         <Modal
           opened={shareModalOpened}
           onClose={shareModalUtils.close}
-          title={"Share"}
+          title={t("game.labels.share")}
         >
           <GameInfoShare
             gameId={game.id}
             onShare={async (file) => {
               const toShare: ShareData = {
-                title: "GameNode Share",
-                text: `See more at https://gamenode.app/game/${game?.id}`,
+                title: t("game.share.title"),
+                text: t("game.share.seeMoreAt", { gameId: game?.id }),
                 files: [file],
                 url: `https://gamenode.app/game/${game?.id}`,
               };
@@ -95,10 +97,12 @@ const DEFAULT_GameInfoActions = ({
           onClick={addUpdateModalUtils.open}
           loading={collectionEntryQuery.isLoading}
         >
-          {gameInLibrary ? "Update" : "Add to library"}
+          {gameInLibrary
+            ? t("game.buttons.update")
+            : t("game.buttons.addLibrary")}
         </Button>
 
-        <Tooltip label={"Add to your favorites"}>
+        <Tooltip label={t("game.tooltips.addFavorites")}>
           <ActionIcon
             size="lg"
             variant="default"
@@ -116,7 +120,7 @@ const DEFAULT_GameInfoActions = ({
         </Tooltip>
 
         {gameInLibrary && (
-          <Tooltip label={"Remove from your library"}>
+          <Tooltip label={t("game.tooltips.removeLibrary")}>
             <ActionIcon
               variant="default"
               size="lg"
@@ -127,7 +131,7 @@ const DEFAULT_GameInfoActions = ({
           </Tooltip>
         )}
         {hasReview && (
-          <Tooltip label={"Share this game"}>
+          <Tooltip label={t("game.tooltips.share")}>
             <ActionIcon
               size="lg"
               variant="default"

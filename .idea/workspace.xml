@@ -11,22 +11,28 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: update game components for improved layout and navigation">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: enhance game view components with responsive layout and scroll position management">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/general/ScrollableIonContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/general/ScrollableIonContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/registry.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewLoadingSkeletons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewLoadingSkeletons.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/BackToTopButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/BackToTopButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/achievement/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/context/registry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/context/registry.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/CollectionCreateOrUpdateForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/form/modal/CollectionCreateOrUpdateModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/form/modal/CollectionCreateOrUpdateModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoProgressTimeline.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoProgressTimeline.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoScore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoScore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoTabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoTabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/search/search-bar/GameSearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/search/search-bar/GameSearchBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/ActionConfirm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/ActionConfirm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LoginPromptCentered.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LoginPromptCentered.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -414,15 +420,10 @@
       <workItem from="1774820782644" duration="14301000" />
       <workItem from="1774875890471" duration="938000" />
       <workItem from="1774891965923" duration="3428000" />
-      <workItem from="1774948915381" duration="13818000" />
-    </task>
-    <task id="LOCAL-00045" summary="- vibenode">
-      <option name="closed" value="true" />
-      <created>1760883181135</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1760883181135</updated>
+      <workItem from="1774948915381" duration="13860000" />
+      <workItem from="1774997680057" duration="599000" />
+      <workItem from="1775085300009" duration="188000" />
+      <workItem from="1775087481799" duration="6261000" />
     </task>
     <task id="LOCAL-00046" summary="- recent activity component">
       <option name="closed" value="true" />
@@ -808,7 +809,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774950361167</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="feat: enhance game view components with responsive layout and scroll position management">
+      <option name="closed" value="true" />
+      <created>1774971758648</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1774971758649</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -856,7 +865,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="add awards result components and update models for event results" />
     <MESSAGE value="add awards result components and implement event redirection logic" />
     <MESSAGE value="versioning" />
     <MESSAGE value="fix: hide your goty category in result screen" />
@@ -881,7 +889,8 @@
     <MESSAGE value="feat: app shell work" />
     <MESSAGE value="feat: enhance app shell with new collections menu and navbar updates" />
     <MESSAGE value="feat: update game components for improved layout and navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update game components for improved layout and navigation" />
+    <MESSAGE value="feat: enhance game view components with responsive layout and scroll position management" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance game view components with responsive layout and scroll position management" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

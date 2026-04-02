@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { IconStar } from "@tabler/icons-react";
 import { GameRating } from "#@/components/general/input/GameRating";
+import { useTranslation } from "@repo/locales";
 
 interface ScoreDistribution {
   rating: number;
@@ -27,12 +28,11 @@ interface Props {
 }
 
 const GameInfoScore = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const score = useReviewsScore(gameId);
   const scoreDistribution = useMemo(() => {
     if (score.data == undefined || score.data.distribution == undefined)
-      return (
-        <Text fz={"sm"}>We do not have enough reviews for this game.</Text>
-      );
+      return <Text fz={"sm"}>{t("game.messages.notEnoughReviews")}</Text>;
 
     return Object.entries(score.data.distribution)
       .toReversed()
@@ -66,12 +66,12 @@ const GameInfoScore = ({ gameId }: Props) => {
           </Stack>
         );
       });
-  }, [score.data]);
+  }, [score.data, t]);
   return (
     <DetailsBox
       withBorder
       withDimmedTitle
-      title={"User Rating"}
+      title={t("game.labels.userRating")}
       withPadding
       withBackground
       withRipple
