@@ -48,13 +48,29 @@ import {
   setProjectContext,
   UIProvider,
 } from "@repo/ui";
-import { I18nProvider } from "@repo/locales";
+import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { DehydrationResult } from "@/util/types/hydration";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { ErrorBoundary } from "react-error-boundary";
+import { useCallback } from "react";
+import { useEffect } from "react";
+
+function getLocaleFromPath(
+  asPath: string,
+  defaultLocale?: string,
+): SupportedLanguage | undefined {
+  const pathname = asPath.split("?")[0];
+  const firstSegment = pathname.split("/").filter(Boolean)[0];
+
+  if (firstSegment === "pt-BR" || firstSegment === "en") {
+    return firstSegment;
+  }
+
+  return defaultLocale as SupportedLanguage | undefined;
+}
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -80,9 +96,11 @@ setupWrapper({
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 
-type AppPageProps = DehydrationResult;
-
-export default function App({ Component, pageProps }: AppProps<AppPageProps>) {
+export default function WebApp({
+  Component,
+  pageProps,
+  router,
+}: AppProps<DehydrationResult>) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -100,6 +118,45 @@ export default function App({ Component, pageProps }: AppProps<AppPageProps>) {
       }),
   );
 
+  const locale =
+    (router.locale as SupportedLanguage | undefined) ||
+    getLocaleFromPath(router.asPath, router.defaultLocale);
+
+  const handleLanguageChange = useCallback(
+    (lang: SupportedLanguage) => {
+      if (router.locale === lang) return;
+
+      void router.push(
+        {
+          pathname: router.pathname,
+          query: router.query,
+        },
+        undefined,
+        {
+          locale: lang,
+          scroll: false,
+        },
+      );
+    },
+    [router],
+  );
+
+  useEffect(() => {
+    if (!locale || router.locale === locale) return;
+
+    void router.replace(
+      {
+        pathname: router.pathname,
+        query: router.query,
+      },
+      undefined,
+      {
+        locale,
+        scroll: false,
+      },
+    );
+  }, [locale, router]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SuperTokensProvider>
@@ -108,7 +165,10 @@ export default function App({ Component, pageProps }: AppProps<AppPageProps>) {
           posthogKey={process.env.NEXT_PUBLIC_POSTHOG_KEY!}
           posthogHost={process.env.NEXT_PUBLIC_POSTHOG_HOST!}
         >
-          <I18nProvider>
+          <I18nProvider
+            language={locale}
+            onLanguageChange={handleLanguageChange}
+          >
             <MantineProvider
               theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
                 fontFamily: roboto.style.fontFamily,

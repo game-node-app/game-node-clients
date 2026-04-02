@@ -21,6 +21,7 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 
 export interface I18nProviderProps extends I18nConfig {
   children: ReactNode;
+  onLanguageChange?: (lang: SupportedLanguage) => void;
 }
 
 /**
@@ -38,14 +39,22 @@ export interface I18nProviderProps extends I18nConfig {
  * </I18nProvider>
  * ```
  */
-export function I18nProvider({ children, ...config }: I18nProviderProps) {
-  const i18n = useMemo(() => {
-    const initialLanguage = config.language || getInitialLanguage();
-    return createI18nInstance({
-      ...config,
-      language: initialLanguage,
-    });
-  }, [config]);
+export function I18nProvider({
+  children,
+  onLanguageChange,
+  language,
+  defaultNS,
+  debug,
+}: I18nProviderProps) {
+  const i18n = useMemo(
+    () =>
+      createI18nInstance({
+        language: language || getInitialLanguage(),
+        defaultNS,
+        debug,
+      }),
+    [language, defaultNS, debug],
+  );
 
   const contextValue = useMemo<I18nContextValue>(
     () => ({
@@ -54,10 +63,11 @@ export function I18nProvider({ children, ...config }: I18nProviderProps) {
       setLanguage: (lang: SupportedLanguage) => {
         i18n.changeLanguage(lang);
         setStoredLanguage(lang);
+        onLanguageChange?.(lang);
       },
       supportedLanguages: SUPPORTED_LANGUAGES,
     }),
-    [i18n],
+    [i18n, onLanguageChange],
   );
 
   return (

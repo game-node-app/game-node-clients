@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     if (userId) {
-      router.push("/search");
+      router.push("/home");
     }
   }, [router, userId]);
 

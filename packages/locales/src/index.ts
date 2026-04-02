@@ -13,7 +13,6 @@ export {
 export {
   createI18nInstance,
   getInitialLanguage,
-  getInitialLanguageFromRequest,
   getStoredLanguage,
   setStoredLanguage,
   detectBrowserLanguage,

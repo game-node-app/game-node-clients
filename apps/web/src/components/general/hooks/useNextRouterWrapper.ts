@@ -5,13 +5,17 @@ import { useMemo } from "react";
 export function useNextRouterWrapper(): RouterHookProps {
   const nextRouter = useRouter();
 
-  const patchedPush: RouterHookProps["push"] = async (route, options) => {
-    const targetMethod = options?.replace
-      ? nextRouter.replace
-      : nextRouter.push;
+  const pathname = useMemo(() => {
+    const rawPathname = nextRouter.asPath.split("?")[0];
+    const localePrefix = nextRouter.locale ? `/${nextRouter.locale}` : "";
 
-    targetMethod(route, undefined, options).catch((err) => console.error(err));
-  };
+    if (localePrefix && rawPathname.startsWith(localePrefix)) {
+      const normalized = rawPathname.slice(localePrefix.length);
+      return normalized.length > 0 ? normalized : "/";
+    }
+
+    return rawPathname;
+  }, [nextRouter.asPath, nextRouter.locale]);
 
   // Transform NextRouter's `query` object into a `URLSearchParams` instance
   const query = useMemo(() => {
@@ -28,9 +32,18 @@ export function useNextRouterWrapper(): RouterHookProps {
   }, [nextRouter.query]);
 
   return {
-    pathname: nextRouter.asPath.split("?")[0],
+    pathname,
     back: nextRouter.back,
-    push: patchedPush,
+    push: async (route, options) => {
+      const targetMethod = options?.replace
+        ? nextRouter.replace
+        : nextRouter.push;
+
+      targetMethod(route, undefined, {
+        ...options,
+        locale: nextRouter.locale,
+      }).catch((err) => console.error(err));
+    },
     query,
   };
 }

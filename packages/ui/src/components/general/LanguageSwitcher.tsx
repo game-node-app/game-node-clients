@@ -36,7 +36,8 @@ const LanguageSwitcher = ({ label, className }: LanguageSwitcherProps) => {
       value={language}
       onChange={(value) => {
         if (value) {
-          setLanguage(value as SupportedLanguage);
+          const nextLanguage = value as SupportedLanguage;
+          setLanguage(nextLanguage);
         }
       }}
       data={LANGUAGE_OPTIONS}

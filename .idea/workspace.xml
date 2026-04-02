@@ -13,39 +13,15 @@
   <component name="ChangeListManager">
     <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: translation work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/components/achievement/MobileGameAchievementListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/components/achievement/MobileGameAchievementListItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/src/pages/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useNextRouterWrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useNextRouterWrapper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/about.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/explore/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/importer/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/search/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/context/I18nProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/context/I18nProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/locales/src/i18n.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/i18n.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/locales/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/activity/item/ActivityItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsEventResultOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsEventResultOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVoteCTA.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/awards/view/AwardsNomineesVoteCTA.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/blog/card/BlogPostCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/blog/card/BlogPostCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/blog/view/BlogPostDetailView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/blog/view/BlogPostDetailView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/blog/view/BlogPostsListView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/blog/view/BlogPostsListView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/detail/CollectionEntryDetailView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDlcsPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormDlcsPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/view/CollectionViewActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/view/CollectionViewActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/achievement/GameInfoAchievementOverviewItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/achievement/GameInfoAchievementOverviewItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoShare.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/input/ItemDropdown/ItemDropdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/input/ItemDropdown/ItemDropdown.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/journal/playlog/JournalPlaylogCollectionStatus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/journal/playlog/JournalPlaylogCollectionStatus.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/notifications/item/ReportAggregatedNotification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/notifications/item/ReportAggregatedNotification.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditAvatarUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditAvatarUploader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBannerUploader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditBannerUploader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditUsernameUpdate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/edit/ProfileEditUsernameUpdate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/profile/review/ProfileReviewListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/profile/review/ProfileReviewListItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapMiscStats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/recap/stats/RecapStatsScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguageSwitcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguageSwitcher.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,11 +148,11 @@
       <recent name="$PROJECT_DIR$/apps/desktop" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/web/src" />
+      <recent name="$PROJECT_DIR$/apps/web/src/pages" />
       <recent name="$PROJECT_DIR$/apps/mobile/src/pages/journal" />
       <recent name="$PROJECT_DIR$/apps/web/src/components/general" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/preferred-platform/view" />
-      <recent name="$PROJECT_DIR$/apps/desktop/src-tauri/src/db/entity" />
-      <recent name="$PROJECT_DIR$/apps/desktop/src/components/local-game" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
@@ -438,15 +414,7 @@
       <workItem from="1775085300009" duration="188000" />
       <workItem from="1775087481799" duration="6261000" />
       <workItem from="1775121626523" duration="1762000" />
-      <workItem from="1775130011538" duration="1880000" />
-    </task>
-    <task id="LOCAL-00047" summary="- fixed chart issues with @mantine/charts and recharts &gt;3">
-      <option name="closed" value="true" />
-      <created>1761566738581</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1761566738581</updated>
+      <workItem from="1775130011538" duration="4720000" />
     </task>
     <task id="LOCAL-00048" summary="- mobile profile redesign work&#10;- removed matomo references&#10;- improved UserPlaytimeItem for all platforms&#10;- fix for query cache invalidation when updating profile bio&#10;- Refresher logic for profile view">
       <option name="closed" value="true" />
@@ -832,7 +800,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775121837582</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="feat: translation work">
+      <option name="closed" value="true" />
+      <created>1775132332391</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1775132332392</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
