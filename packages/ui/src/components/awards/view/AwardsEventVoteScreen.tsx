@@ -8,6 +8,7 @@ import { AwardsEventCategoriesList } from "#@/components/awards/category/AwardsE
 import { AwardsPhaseNotice } from "#@/components/awards/view/AwardsPhaseNotice.tsx";
 import { Link } from "#@/util";
 import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   eventId: number | undefined;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const AwardsEventVoteScreen = ({ eventYear, eventId }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { data: event } = useAwardEvent({ eventYear, eventId });
 
@@ -33,16 +35,16 @@ const AwardsEventVoteScreen = ({ eventYear, eventId }: Props) => {
           className={"block w-full lg:w-40 mt-3"}
         >
           <Button color={"green"} fullWidth>
-            Share your votes!
+            {t("awards.buttons.shareVotes")}
           </Button>
         </Link>
         <Text className={"text-dimmed mt-2 lg:hidden"}>
-          Tap on a category to expand and vote for your favorite games.
+          {t("awards.messages.tapToVote")}
         </Text>
         <Box className={"mt-6 lg:mt-8 xl:w-full"}>
           <AwardsVoteLayout
             userId={userId!}
-            title={"Your Votes"}
+            title={t("awards.titles.yourVotes")}
             eventId={event.id}
           >
             <AwardsEventCategoriesList

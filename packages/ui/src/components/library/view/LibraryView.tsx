@@ -26,7 +26,7 @@ const LibraryView = ({ libraryUserId }: Props) => {
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
     defaultValue: "grid",
-    getInitialValueInEffect: false,
+    getInitialValueInEffect: true,
   });
 
   const [params, setParams] = useUrlState({

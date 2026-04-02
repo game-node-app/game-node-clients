@@ -32,6 +32,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
         width: 64,
         collapsed: { mobile: !sidebarOpened },
       }}
+      className={"overflow-hidden"}
       classNames={{
         navbar: "max-w-20",
       }}

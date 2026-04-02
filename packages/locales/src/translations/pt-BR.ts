@@ -817,6 +817,18 @@ export const ptBR: TranslationSchema = {
       votingIn:
         "Você está votando na categoria {{category}} para a edição {{edition}}.",
       excludingGames: "Excluindo {{count}} jogos não lançados em {{year}}.",
+      tapToVote:
+        "Toque em uma categoria para expandir e votar nos seus jogos favoritos.",
+      recentVotedIn: "votou em",
+      highlights:
+        "Descubra seus destaques de {{year}}: horas jogadas, jogos favoritos, coleções criadas e conquistas épicas.",
+    },
+    buttons: {
+      shareVotes: "Compartilhe seus votos!",
+    },
+    titles: {
+      yourVotes: "Seus votos",
+      recentVotes: "Votos recentes",
     },
   },
   reports: {
@@ -900,6 +912,14 @@ export const ptBR: TranslationSchema = {
       preview: "Pré-visualização",
       period: "Período",
     },
+    overview: {
+      description:
+        "Confira seus destaques de {{year}}: horas jogadas, jogos favoritos, coleções criadas e conquistas épicas.",
+    },
+    buttons: {
+      create: "Criar minha retrospectiva",
+      availableSoon: "Disponível em breve",
+    },
     periods: {
       week: "Semana",
       month: "Mês",
@@ -930,6 +950,8 @@ export const ptBR: TranslationSchema = {
     },
     messages: {
       dataNote: "Baseado em dados recebidos de plataformas conectadas.",
+      generating:
+        "Sua retrospectiva está sendo gerada. Volte amanhã para conferir!",
     },
   },
   upload: {

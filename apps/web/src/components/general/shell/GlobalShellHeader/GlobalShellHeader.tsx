@@ -1,16 +1,14 @@
-import { ActionIcon, Burger, Button, Container, Group } from "@mantine/core";
+import { Anchor, Burger, Button, Flex, Group, Select } from "@mantine/core";
 import Link from "next/link";
 import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
-import {
-  GameNodeLogo,
-  RecentlyPlayedGamesShare,
-  useOnMobile,
-  useUserId,
-} from "@repo/ui";
+import { GameNodeLogo, RecentlyPlayedGamesShare, useUserId } from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
-import { IconCalendarWeek } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useTranslation } from "@repo/locales";
+import {
+  SupportedLanguage,
+  useI18nContext,
+  useTranslation,
+} from "@repo/locales";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -22,52 +20,48 @@ export default function GlobalShellHeader({
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
   const { t } = useTranslation();
-  const { pathname } = useRouter();
+  const { locale } = useRouter();
   const userId = useUserId();
 
-  const onMobile = useOnMobile();
-
-  const [wrappedOpened, { close, open }] = useDisclosure();
+  const [wrappedOpened, { close }] = useDisclosure();
 
   return (
-    <header className="h-full">
-      <Container fluid className="flex h-full items-center lg:justify-start">
-        <Burger
-          className={"block xs:hidden me-6"}
-          opened={sidebarOpened}
-          onClick={toggleSidebar}
-          size="sm"
-        />
-        <a href={"/search"}>
-          <GameNodeLogo className="w-20 h-auto max-h-full" />
-        </a>
-        <Group className="ms-auto">
-          {!userId && (
-            <Link href={"/auth"}>
-              <Button variant="outline">{t("auth.signIn")}</Button>
-            </Link>
-          )}
-          {userId != undefined && (
-            <Group className={"gap-3"}>
-              <RecentlyPlayedGamesShare
-                opened={wrappedOpened}
-                onClose={close}
-                onShare={async (file) => {
-                  const toShare: ShareData = {
-                    title: t("game.share.title"),
-                    text: t("game.share.recentlyPlayed"),
-                    files: [file],
-                    url: `https://gamenode.app`,
-                  };
+    <Flex className="w-full h-full items-center lg:justify-start px-4">
+      <Burger
+        className={"block xs:hidden me-6"}
+        opened={sidebarOpened}
+        onClick={toggleSidebar}
+        size="sm"
+      />
+      <Anchor href={locale ? `/${locale}/home` : "/home"}>
+        <GameNodeLogo className="w-20 h-auto max-h-full" />
+      </Anchor>
+      <Group className="ms-auto">
+        {!userId && (
+          <Link href={"/auth"}>
+            <Button variant="outline">{t("auth.signIn")}</Button>
+          </Link>
+        )}
+        {userId != undefined && (
+          <Group className={"gap-3"}>
+            <RecentlyPlayedGamesShare
+              opened={wrappedOpened}
+              onClose={close}
+              onShare={async (file) => {
+                const toShare: ShareData = {
+                  title: t("game.share.title"),
+                  text: t("game.share.recentlyPlayed"),
+                  files: [file],
+                  url: `https://gamenode.app`,
+                };
 
-                  await navigator.share(toShare);
-                }}
-              />
-              <GlobalShellHeaderNotifications />
-            </Group>
-          )}
-        </Group>
-      </Container>
-    </header>
+                await navigator.share(toShare);
+              }}
+            />
+            <GlobalShellHeaderNotifications />
+          </Group>
+        )}
+      </Group>
+    </Flex>
   );
 }

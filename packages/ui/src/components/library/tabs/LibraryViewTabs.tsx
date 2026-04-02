@@ -19,7 +19,7 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
       variant={"outline"}
       radius={"md"}
     >
-      <Tabs.List grow={onMobile} className={"flex-nowrap"}>
+      <Tabs.List grow={onMobile} className={"flex-nowrap overflow-x-auto"}>
         <Tabs.Tab value={CollectionEntry.status.PLAYING}>
           {t("collectionEntry.statuses.playing")}
         </Tabs.Tab>

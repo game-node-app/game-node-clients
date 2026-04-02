@@ -3,8 +3,10 @@ import { Button, Stack, Text } from "@mantine/core";
 import { RecapYearTitle, useRecapStatus, useUserId } from "#@/components";
 import { Link } from "#@/util";
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
 const DynamicRecapOverview = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const targetYear = useMemo(() => {
     const now = dayjs();
@@ -29,23 +31,22 @@ const DynamicRecapOverview = () => {
     <Stack className={"w-full items-center"}>
       <RecapYearTitle userId={userId} targetYear={targetYear} />
       <Text className={"font-bold text-2xl text-center max-w-2xl"}>
-        Discover your 2025 highlights: hours played, favorite games, collections
-        created, and epic achievements.
+        {t("recap.overview.description", { year: targetYear })}
       </Text>
       <Stack>
         {recapStatus.isRecapCreated ? (
           <Link href={`/recap/${targetYear}/${userId}`}>
             <Button size={"xl"} className={"lg:w-80 rounded-md"}>
-              Create my Recap
+              {t("recap.buttons.create")}
             </Button>
           </Link>
         ) : (
           <>
             <Button size={"xl"} className={"lg:w-80 rounded-md"} disabled>
-              Available Soon
+              {t("recap.buttons.availableSoon")}
             </Button>
             <Text className={"text-dimmed text-center text-sm"}>
-              Your recap is being generated. Check back tomorrow!
+              {t("recap.messages.generating")}
             </Text>
           </>
         )}

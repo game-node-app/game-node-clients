@@ -810,6 +810,18 @@ export const en = {
       votingIn:
         "You are voting in the {{category}} category for the {{edition}} edition.",
       excludingGames: "Excluding {{count}} games not launched in {{year}}.",
+      tapToVote:
+        "Tap on a category to expand and vote for your favorite games.",
+      recentVotedIn: "voted in",
+      highlights:
+        "Discover your {{year}} highlights: hours played, favorite games, collections created, and epic achievements.",
+    },
+    buttons: {
+      shareVotes: "Share your votes!",
+    },
+    titles: {
+      yourVotes: "Your Votes",
+      recentVotes: "Recent votes",
     },
   },
   reports: {
@@ -898,6 +910,14 @@ export const en = {
       month: "Month",
       year: "Year",
     },
+    overview: {
+      description:
+        "Discover your {{year}} highlights: hours played, favorite games, collections created, and epic achievements.",
+    },
+    buttons: {
+      create: "Create my Recap",
+      availableSoon: "Available Soon",
+    },
     stats: {
       heading: "This year at GameNode you have...",
       graphsTitle: "Graphs and more graphs",
@@ -922,6 +942,7 @@ export const en = {
     },
     messages: {
       dataNote: "Based on data received from connected platforms.",
+      generating: "Your recap is being generated. Check back tomorrow!",
     },
   },
   upload: {

@@ -137,6 +137,11 @@ export default function WebApp({
           scroll: false,
         },
       );
+
+      void cookieStore.set({
+        name: "NEXT_LOCALE",
+        value: lang,
+      });
     },
     [router],
   );

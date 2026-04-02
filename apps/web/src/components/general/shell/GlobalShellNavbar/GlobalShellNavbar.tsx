@@ -1,4 +1,11 @@
-import { Divider, Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import {
+  Box,
+  Center,
+  Divider,
+  Stack,
+  Tooltip,
+  UnstyledButton,
+} from "@mantine/core";
 import {
   IconBolt,
   IconHome,
@@ -12,11 +19,12 @@ import {
 } from "@tabler/icons-react";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { ExoticComponent, PropsWithoutRef, useCallback } from "react";
-import { cn } from "@repo/ui";
+import { cn, UserButton, useUserId } from "@repo/ui";
 import Link from "next/link";
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu";
 import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
+import { GlobalShellNavbarUserMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu";
 
 export interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;
@@ -33,6 +41,7 @@ interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
 export default function GlobalShellNavbar({
   onClose,
 }: IGlobalShellNavbarProps) {
+  const userId = useUserId();
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = router.pathname;
@@ -76,7 +85,9 @@ export default function GlobalShellNavbar({
   );
 
   return (
-    <Stack className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative")}>
+    <Stack
+      className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative h-full")}
+    >
       <GlobalShellNavbarCollectionsMenu />
       {links.map((link) => (
         <>
@@ -97,6 +108,9 @@ export default function GlobalShellNavbar({
           {link.withDivider && <Divider className={"w-full"} />}
         </>
       ))}
+      <Center className={"w-full mt-auto mb-2"}>
+        <GlobalShellNavbarUserMenu />
+      </Center>
     </Stack>
   );
 }

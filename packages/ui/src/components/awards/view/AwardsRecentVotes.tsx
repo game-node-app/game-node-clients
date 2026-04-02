@@ -3,6 +3,7 @@ import { useAwardsRecentVotes } from "#@/components/awards/hooks/useAwardsRecent
 import { Group, Stack, Text } from "@mantine/core";
 import { DetailsBox, UserAvatarGroup } from "#@/components";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   eventId: number;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const AwardsRecentVotes = ({ eventId, limit = 10 }: Props) => {
+  const { t } = useTranslation();
   const recentVotesQuery = useAwardsRecentVotes(eventId);
   const renderedItems = recentVotesQuery.data?.slice(0, limit);
 
@@ -18,7 +20,7 @@ const AwardsRecentVotes = ({ eventId, limit = 10 }: Props) => {
   }
 
   return (
-    <DetailsBox title={"Recent votes"} withDimmedTitle>
+    <DetailsBox title={t("awards.titles.recentVotes")} withDimmedTitle>
       {renderedItems.map((vote) => {
         const category = vote.category;
         return (
@@ -42,7 +44,7 @@ const AwardsRecentVotes = ({ eventId, limit = 10 }: Props) => {
               }}
             />
             <Text span className={"text-sm"}>
-              voted in
+              {t("awards.messages.recentVotedIn")}
             </Text>
             <Text span className={"font-bold text-sm"}>
               {category.name}

@@ -162,7 +162,7 @@ const AboutPage = () => {
         style={{ background: "url(/img/about_us/coffee.gif) left" }}
       >
         <div className={"text-center"}>
-          <h2 className={"font-bold text-5xl sm:text-6xl pb-6"}>
+          <h2 className={"font-bold text-4xl sm:text-6xl pb-6"}>
             {t("landing.support.title")}
           </h2>
           <p className={"font-light text-[0.8rem] sm:text-2xl mb-4"}>

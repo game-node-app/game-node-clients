@@ -1,21 +1,15 @@
 import React from "react";
-import { Select } from "@mantine/core";
+import { Select, SelectProps } from "@mantine/core";
 import {
   useI18nContext,
   useTranslation,
   SupportedLanguage,
 } from "@repo/locales";
 
-interface LanguageSwitcherProps {
-  /**
-   * Optional label for the select. Defaults to translated "Language" label.
-   */
-  label?: string;
-  /**
-   * Optional className for styling.
-   */
-  className?: string;
-}
+type LanguageSwitcherProps = Omit<
+  SelectProps,
+  "label" | "onChange" | "value" | "allowDeselect" | "data"
+>;
 
 const LANGUAGE_OPTIONS: { value: SupportedLanguage; label: string }[] = [
   { value: "en", label: "English" },
@@ -26,13 +20,14 @@ const LANGUAGE_OPTIONS: { value: SupportedLanguage; label: string }[] = [
  * A dropdown component for switching the application language.
  * Uses the I18nProvider context to change and persist the language.
  */
-const LanguageSwitcher = ({ label, className }: LanguageSwitcherProps) => {
+const LanguageSwitcher = (props: LanguageSwitcherProps) => {
   const { t } = useTranslation();
   const { language, setLanguage } = useI18nContext();
 
   return (
     <Select
-      label={label ?? t("language.label")}
+      {...props}
+      label={t("language.label")}
       value={language}
       onChange={(value) => {
         if (value) {
@@ -41,7 +36,6 @@ const LanguageSwitcher = ({ label, className }: LanguageSwitcherProps) => {
         }
       }}
       data={LANGUAGE_OPTIONS}
-      className={className}
       allowDeselect={false}
     />
   );

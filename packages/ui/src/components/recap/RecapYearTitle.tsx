@@ -29,10 +29,10 @@ const RecapYearTitle = ({
       <Group
         className={`gap-0 ${classes.recapYearTitle} w-full justify-center lg:w-fit`}
       >
-        <Text span className={`text-6xl text-brand`}>
+        <Text span className={`text-4xl sm:text-6xl text-brand`}>
           {targetYear}
         </Text>
-        <Text span className={"text-6xl"}>
+        <Text span className={"text-4xl sm:text-6xl"}>
           {t("recap.title")}
         </Text>
       </Group>
