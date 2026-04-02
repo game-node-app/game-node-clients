@@ -9,6 +9,7 @@ import { RecapGamePlaytimeCard } from "#@/components/recap/RecapGamePlaytimeCard
 import { RecapStatsChartsSection } from "#@/components/recap/stats/RecapStatsChartsSection";
 import { RecapMiscStats } from "#@/components/recap/stats/RecapMiscStats";
 import { useUserId } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const RecapStatsScreen = ({ userId, targetYear }: Props) => {
+  const { t } = useTranslation();
   const { data: recap } = useRecap(userId, targetYear);
   const ownUserId = useUserId();
   const isOwnRecap = ownUserId === userId;
@@ -49,9 +51,9 @@ const RecapStatsScreen = ({ userId, targetYear }: Props) => {
       <RecapStatsCard className={"mt-8 p-4"}>
         <Stack className={"gap-3 mb-4 items-center text-center"}>
           <Title className={"text-3xl font-black"}>
-            Graphs and more graphs
+            {t("recap.stats.graphsTitle")}
           </Title>
-          <Text>Most played genres and styles</Text>
+          <Text>{t("recap.labels.topGenresStyles")}</Text>
           <RecapStatsChartsSection userId={userId} targetYear={targetYear} />
         </Stack>
       </RecapStatsCard>
@@ -60,7 +62,7 @@ const RecapStatsScreen = ({ userId, targetYear }: Props) => {
       </RecapStatsCard>
       {isOwnRecap && (
         <Text className={"font-bold text-center"}>
-          Thanks for choosing us this year.
+          {t("recap.stats.thanks")}
         </Text>
       )}
     </Stack>

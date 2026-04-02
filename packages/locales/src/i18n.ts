@@ -80,7 +80,7 @@ export function getStoredLanguage(): SupportedLanguage | null {
   if (stored && SUPPORTED_LANGUAGES.includes(stored as SupportedLanguage)) {
     return stored as SupportedLanguage;
   }
-  return null;
+  return getLanguageFromCookie(document.cookie);
 }
 
 /**
@@ -89,6 +89,65 @@ export function getStoredLanguage(): SupportedLanguage | null {
 export function setStoredLanguage(language: SupportedLanguage): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+  document.cookie = `${LANGUAGE_STORAGE_KEY}=${encodeURIComponent(
+    language,
+  )}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
+function normalizeLanguage(language: string): SupportedLanguage | null {
+  if (SUPPORTED_LANGUAGES.includes(language as SupportedLanguage)) {
+    return language as SupportedLanguage;
+  }
+
+  const langPrefix = language.split("-")[0];
+  const match = SUPPORTED_LANGUAGES.find((lang) =>
+    lang.startsWith(langPrefix + "-"),
+  );
+  if (match) return match;
+
+  if (SUPPORTED_LANGUAGES.includes(langPrefix as SupportedLanguage)) {
+    return langPrefix as SupportedLanguage;
+  }
+
+  return null;
+}
+
+function getLanguageFromCookie(
+  cookieHeader?: string,
+): SupportedLanguage | null {
+  if (!cookieHeader) return null;
+
+  const cookies = cookieHeader.split(";").map((cookie) => cookie.trim());
+  const target = cookies.find((cookie) =>
+    cookie.startsWith(`${LANGUAGE_STORAGE_KEY}=`),
+  );
+  if (!target) return null;
+
+  const value = target.split("=").slice(1).join("=");
+  const decodedValue = decodeURIComponent(value);
+  return normalizeLanguage(decodedValue);
+}
+
+function getLanguageFromAcceptLanguage(
+  acceptLanguage?: string | string[],
+): SupportedLanguage | null {
+  if (!acceptLanguage) return null;
+
+  const headerValue = Array.isArray(acceptLanguage)
+    ? acceptLanguage.join(",")
+    : acceptLanguage;
+
+  const parts = headerValue
+    .split(",")
+    .map((part) => part.trim())
+    .map((part) => part.split(";")[0]);
+
+  for (const part of parts) {
+    const normalized = normalizeLanguage(part);
+    if (normalized) return normalized;
+  }
+
+  return null;
 }
 
 /**
@@ -98,23 +157,7 @@ export function detectBrowserLanguage(): SupportedLanguage {
   if (typeof window === "undefined") return DEFAULT_LANGUAGE;
 
   const browserLang = navigator.language;
-  // Check for exact match first (e.g., "pt-BR")
-  if (SUPPORTED_LANGUAGES.includes(browserLang as SupportedLanguage)) {
-    return browserLang as SupportedLanguage;
-  }
-  // Check for language prefix match (e.g., "pt" -> "pt-BR")
-  const langPrefix = browserLang.split("-")[0];
-  const match = SUPPORTED_LANGUAGES.find((lang) =>
-    lang.startsWith(langPrefix + "-"),
-  );
-  if (match) return match;
-
-  // Check if prefix itself is a supported language
-  if (SUPPORTED_LANGUAGES.includes(langPrefix as SupportedLanguage)) {
-    return langPrefix as SupportedLanguage;
-  }
-
-  return DEFAULT_LANGUAGE;
+  return normalizeLanguage(browserLang) || DEFAULT_LANGUAGE;
 }
 
 /**
@@ -122,4 +165,15 @@ export function detectBrowserLanguage(): SupportedLanguage {
  */
 export function getInitialLanguage(): SupportedLanguage {
   return getStoredLanguage() || detectBrowserLanguage();
+}
+
+export function getInitialLanguageFromRequest(source: {
+  cookie?: string;
+  acceptLanguage?: string | string[];
+}): SupportedLanguage {
+  return (
+    getLanguageFromCookie(source.cookie) ||
+    getLanguageFromAcceptLanguage(source.acceptLanguage) ||
+    DEFAULT_LANGUAGE
+  );
 }

@@ -13,12 +13,14 @@ import { IconCalendarMonth } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { getS3StoredUpload } from "#@/util";
 import { EditorContent, useEditor } from "@tiptap/react";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   postId: string;
 }
 
 const BlogPostDetailView = ({ postId }: Props) => {
+  const { t } = useTranslation();
   const postQuery = useBlogPost(postId);
 
   const post = postQuery.data;
@@ -62,7 +64,7 @@ const BlogPostDetailView = ({ postId }: Props) => {
           <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
         </Group>
         <BlogPostTags tags={post.tags} />
-        {post.isDraft && <Badge color={"red"}>Draft</Badge>}
+        {post.isDraft && <Badge color={"red"}>{t("blog.labels.draft")}</Badge>}
       </Group>
 
       <Box className={"lg:px-3 lg:mt-5 p-2 max-w-full"}>

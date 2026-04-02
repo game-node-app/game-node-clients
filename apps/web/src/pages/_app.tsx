@@ -80,10 +80,9 @@ setupWrapper({
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 
-export default function App({
-  Component,
-  pageProps,
-}: AppProps<DehydrationResult>) {
+type AppPageProps = DehydrationResult;
+
+export default function App({ Component, pageProps }: AppProps<AppPageProps>) {
   const [queryClient] = useState(
     () =>
       new QueryClient({

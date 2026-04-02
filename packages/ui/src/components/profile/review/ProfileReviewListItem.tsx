@@ -11,6 +11,7 @@ import {
 } from "#@/components";
 import { EditorContent, useEditor } from "@tiptap/react";
 import sourceType = FindOneStatisticsDto.sourceType;
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   review: Review;
@@ -21,6 +22,7 @@ interface Props {
  * @constructor
  */
 const ProfileReviewListItem = ({ review }: Props) => {
+  const { t } = useTranslation();
   const gameQuery = useGame(review.gameId, {
     relations: {
       cover: true,
@@ -32,9 +34,9 @@ const ProfileReviewListItem = ({ review }: Props) => {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       editable: false,
       immediatelyRender: false,
-      content: review.content ?? "<p>This review has no content.</p>",
+      content: review.content ?? `<p>${t("review.messages.noContent")}</p>`,
     },
-    [review.content],
+    [review.content, t],
   );
 
   return (
@@ -55,7 +57,7 @@ const ProfileReviewListItem = ({ review }: Props) => {
             href={`/game/${review.gameId}?reviewId=${review.id}`}
             className={"text-dimmed"}
           >
-            Visit
+            {t("actions.viewMore")}
           </TextLink>
           <Group className={"flex-nowrap"}>
             <ItemLikesButton

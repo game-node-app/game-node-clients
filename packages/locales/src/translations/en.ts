@@ -14,6 +14,7 @@ export const en = {
     create: "Create",
     update: "Update",
     submit: "Submit",
+    skip: "Skip",
     close: "Close",
     login: "Log in",
     logout: "Log out",
@@ -32,6 +33,7 @@ export const en = {
     search: "Search",
     searchPlaceholder: "Search...",
     or: "OR",
+    actions: "Actions",
   },
   auth: {
     loginRequired: "This action requires you to be logged in.",
@@ -56,6 +58,7 @@ export const en = {
       gridView: "Grid",
       listView: "List",
       userRating: "User Rating",
+      externalStore: "External Store",
     },
     buttons: {
       update: "Update",
@@ -91,6 +94,9 @@ export const en = {
     achievement: {
       notAvailable: "Not Available",
       ownedBy: "Owned by",
+      trophies: "Trophies",
+      achievements: "Achievements",
+      obtainedAt: "Obtained at {{date}}",
     },
     collectionTypes: {
       upcoming: "Upcoming",
@@ -101,6 +107,15 @@ export const en = {
       recentlyPlayed: "These are my recently played games!",
       myReview: "My review of this game",
       shareReview: "Share your review with friends!",
+      options: {
+        rating: "Rating",
+        ownedPlatforms: "Owned platforms",
+        divider: "Divider",
+        transparentBackground: "Transparent background",
+      },
+      messages: {
+        generateFailed: "Failed to generate final image.",
+      },
     },
   },
   collection: {
@@ -134,6 +149,11 @@ export const en = {
       all: "All Collections",
       new: "New Collection",
     },
+    actions: {
+      updateDetails: "Update title and description",
+      reorderGames: "Reorder games",
+      moveGames: "Move games to another collection",
+    },
     messages: {
       applyingChanges: "Applying changes...",
       orderingUpdated: "Your collection ordering has been updated.",
@@ -160,6 +180,11 @@ export const en = {
       dlcs: "DLCs",
       playlog: "Playlog",
       achievements: "Achievements",
+    },
+    dlcs: {
+      title: "Add related content to this game",
+      description:
+        "These items will be added to your library alongside this game. They will only be visible when visiting your entry's detail page. They will inherit this game's status and platforms, but will not be added to collections. You can always add them to your collections manually later.",
     },
     descriptions: {
       statusDisabled:
@@ -205,6 +230,7 @@ export const en = {
     messages: {
       updated: "Review successfully updated!",
       created: "Review created!",
+      noContent: "This review has no content.",
       saveFailed:
         "We couldn't save your review. If this persists, please contact support.",
       confirmRemove: "Are you sure you want to remove this review?",
@@ -255,6 +281,16 @@ export const en = {
     recentActivity: "Recent Activity",
     lastReviews: "Last reviews",
   },
+  activity: {
+    items: {
+      addedTo: "Added to {{collection}}",
+      reviewed: "Reviewed",
+      postedAbout: "Posted about",
+      followed: "Followed",
+      unknown:
+        "Performed an action which is not yet mapped. This will be updated soon.",
+    },
+  },
   landing: {
     headline: "A new way to organize your entire game collection",
     headlineAlt: "Organize all your games in one place",
@@ -292,6 +328,14 @@ export const en = {
       description:
         "Collaborate with us to keep our platform 100% Free and constantly evolving.",
       buyCoffe: "Buy us a coffee",
+      apoia: "Apoia.se",
+    },
+    header: {
+      aboutUs: "About us",
+      serviceStatus: "Service Status",
+      collaborate: "Collaborate",
+      androidApp: "Android App",
+      joinIn: "Join in",
     },
   },
   notifications: {
@@ -315,6 +359,9 @@ export const en = {
     labels: {
       newUsername: "Select a new username",
       stats: "Stats",
+      previewAvatar: "How your new profile picture will look",
+      previewBanner:
+        "Actual banner size may vary based on device size and model.",
     },
     titles: {
       selectAchievements: "Select featured achievements",
@@ -489,6 +536,8 @@ export const en = {
   },
   importer: {
     title: "GAME IMPORTER",
+    titlePrimary: "GAME",
+    titleAccent: "IMPORTER",
     description:
       "Select one or multiple games which you want to bring to your GameNode library.",
     collectionsHint:
@@ -499,6 +548,12 @@ export const en = {
       import: "Import",
     },
     messages: {
+      overview:
+        "The importer system helps you bring games from other platforms to GameNode.",
+      noConnectionsPrefix:
+        "It seems like you don't have any connection set up for importing.",
+      clickHere: "Click here",
+      noConnectionsSuffix: "to set one up.",
       itemExcluded: "Successfully excluded item already in your library.",
       applyingChanges: "Applying changes...",
       importSuccess: "Successfully imported {{count}} games!",
@@ -574,6 +629,13 @@ export const en = {
       success:
         "Thank you for submitting your report! It will be reviewed by our moderators as soon as possible.",
       contentDeleted: "The reported content may have been deleted.",
+      alert:
+        "One of your posts goes against GameNode's rules of conduct. This includes discriminatory content, direct or personal attacks against fellow users, or any kind of repeated misbehaviour.",
+      suspend:
+        "You have been suspended for 14 days because one of your posts goes against GameNode's rules of conduct. This includes discriminatory content, direct or personal attacks against fellow users, or any kind of repeated misbehaviour. You are thereby prohibited from making or editing posts. You can still access and manage your library.",
+      ban: "You have been permanently banned because one of your posts goes against GameNode's rules of conduct. This includes discriminatory content, direct or personal attacks against fellow users, or any kind of repeated misbehaviour. You are thereby prohibited from making or editing posts. You can still access and manage your library.",
+      appeal:
+        "If you think this is a mistake. Please reach out to us through our Discord.",
     },
   },
   blog: {
@@ -590,6 +652,15 @@ export const en = {
       reviews: "Reviews",
       articles: "Articles",
       gameNode: "GameNode",
+    },
+    labels: {
+      draft: "Draft",
+    },
+    list: {
+      title: "Blog posts",
+      taggedTitle: "Blog posts for {{tag}}",
+      empty:
+        "No posts matching this criteria were found. Please change parameters or",
     },
     buttons: {
       seeMore: "See more",
@@ -618,6 +689,14 @@ export const en = {
       year: "Year",
     },
     stats: {
+      heading: "This year at GameNode you have...",
+      graphsTitle: "Graphs and more graphs",
+      thanks: "Thanks for choosing us this year.",
+      addedGames: "added games",
+      reviewsMade: "reviews made",
+      collectionsCreated: "collections created",
+      followersGained: "followers gained",
+      likesGiven: "likes given",
       dataNote:
         "Based on data received from connected platforms and played/finished/dropped dates in library items.",
       dataNotePlatforms: "Based on data received from connected platforms.",
@@ -639,6 +718,9 @@ export const en = {
     labels: {
       maxFiles: "Max files: {{max}}",
       maxSize: "Max size: {{size}}MB",
+    },
+    messages: {
+      invalidImageSource: "Invalid image source",
     },
     dragPrompt: "Drag images here or click to select files",
   },
@@ -682,7 +764,14 @@ export const en = {
     oops: "Oops!",
     error404: "Error 404",
   },
+  explore: {
+    metaTitle: "Explore - GameNode",
+    fetchError: "Error while trying to fetch games. Please reload this page.",
+  },
   app: {
+    title: "GameNode",
+    metaDescription:
+      "GameNode is the ideal platform to manage your game collection virtually.",
     betterInApp: "GameNode is (even) better in the app!",
     openInApp: "Open in app",
   },

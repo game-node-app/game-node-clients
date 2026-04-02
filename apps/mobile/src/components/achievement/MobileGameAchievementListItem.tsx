@@ -20,10 +20,12 @@ import {
 } from "@repo/ui";
 import { IonRippleEffect } from "@ionic/react";
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
 const MobileGameAchievementListItem = ({
   achievement,
 }: GameAchievementsListItemProps) => {
+  const { t } = useTranslation();
   const renderRightSideDetail = useCallback(() => {
     return match(achievement.source)
       .with(GameAchievementDto.source._1, () => {
@@ -35,7 +37,9 @@ const MobileGameAchievementListItem = ({
             <Text className={"text-md text-center font-semibold"}>
               {details.globalPercentage}%
             </Text>
-            <Text className={"text-center text-xs text-dimmed"}>Owned by</Text>
+            <Text className={"text-center text-xs text-dimmed"}>
+              {t("game.achievement.ownedBy")}
+            </Text>
           </Stack>
         );
       })
@@ -128,7 +132,9 @@ const MobileGameAchievementListItem = ({
           )}
           {achievement.isObtained && (
             <Text className={"text-dimmed text-sm"}>
-              Obtained at {dayjs(achievement.obtainedAt).format("LLL")}
+              {t("game.achievement.obtainedAt", {
+                date: dayjs(achievement.obtainedAt).format("LLL"),
+              })}
             </Text>
           )}
         </Stack>

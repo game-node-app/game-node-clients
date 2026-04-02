@@ -16,6 +16,7 @@ export const ptBR: TranslationSchema = {
     create: "Criar",
     update: "Atualizar",
     submit: "Enviar",
+    skip: "Pular",
     close: "Fechar",
     login: "Entrar",
     logout: "Sair",
@@ -34,6 +35,7 @@ export const ptBR: TranslationSchema = {
     search: "Buscar",
     searchPlaceholder: "Buscar...",
     or: "OU",
+    actions: "Acoes",
   },
   auth: {
     loginRequired: "Esta ação requer que você esteja logado.",
@@ -58,6 +60,7 @@ export const ptBR: TranslationSchema = {
       gridView: "Grade",
       listView: "Lista",
       userRating: "Avaliação dos Usuários",
+      externalStore: "Loja externa",
     },
     buttons: {
       update: "Atualizar",
@@ -93,6 +96,9 @@ export const ptBR: TranslationSchema = {
     achievement: {
       notAvailable: "Não Disponível",
       ownedBy: "Obtida por",
+      trophies: "Trofeus",
+      achievements: "Conquistas",
+      obtainedAt: "Obtida em {{date}}",
     },
     collectionTypes: {
       upcoming: "Em breve",
@@ -103,6 +109,15 @@ export const ptBR: TranslationSchema = {
       recentlyPlayed: "Estes são meus jogos recentes!",
       myReview: "Minha avaliação deste jogo",
       shareReview: "Compartilhe sua avaliação com amigos!",
+      options: {
+        rating: "Nota",
+        ownedPlatforms: "Plataformas possuidas",
+        divider: "Divisor",
+        transparentBackground: "Fundo transparente",
+      },
+      messages: {
+        generateFailed: "Falha ao gerar a imagem final.",
+      },
     },
   },
   collection: {
@@ -136,6 +151,11 @@ export const ptBR: TranslationSchema = {
       all: "Todas as Coleções",
       new: "Nova Coleção",
     },
+    actions: {
+      updateDetails: "Atualizar titulo e descricao",
+      reorderGames: "Reordenar jogos",
+      moveGames: "Mover jogos para outra colecao",
+    },
     messages: {
       applyingChanges: "Aplicando alterações...",
       orderingUpdated: "A ordenação da sua coleção foi atualizada.",
@@ -162,6 +182,11 @@ export const ptBR: TranslationSchema = {
       dlcs: "DLCs",
       playlog: "Registro de Jogo",
       achievements: "Conquistas",
+    },
+    dlcs: {
+      title: "Adicionar conteudo relacionado a este jogo",
+      description:
+        "Esses itens serao adicionados a sua biblioteca junto com este jogo. Eles so ficarao visiveis ao visitar a pagina de detalhes da entrada. Eles vao herdar o status e as plataformas deste jogo, mas nao serao adicionados a colecoes. Voce sempre pode adiciona-los manualmente depois.",
     },
     descriptions: {
       statusDisabled:
@@ -207,6 +232,7 @@ export const ptBR: TranslationSchema = {
     messages: {
       updated: "Avaliação atualizada com sucesso!",
       created: "Avaliação criada!",
+      noContent: "Esta avaliacao nao tem conteudo.",
       saveFailed:
         "Não foi possível salvar sua avaliação. Se isso persistir, entre em contato com o suporte.",
       confirmRemove: "Tem certeza de que deseja remover esta avaliação?",
@@ -257,6 +283,16 @@ export const ptBR: TranslationSchema = {
     recentActivity: "Atividade Recente",
     lastReviews: "Últimas avaliações",
   },
+  activity: {
+    items: {
+      addedTo: "Adicionado a {{collection}}",
+      reviewed: "Avaliou",
+      postedAbout: "Publicou sobre",
+      followed: "Seguiu",
+      unknown:
+        "Realizou uma acao ainda nao mapeada. Isso sera atualizado em breve.",
+    },
+  },
   landing: {
     headline: "Uma nova forma de organizar toda a sua coleção de jogos",
     headlineAlt: "Organize todos os seus jogos em um só lugar",
@@ -294,6 +330,14 @@ export const ptBR: TranslationSchema = {
       description:
         "Colabore conosco para manter nossa plataforma 100% gratuita e em constante evolução.",
       buyCoffe: "Nos pague um café",
+      apoia: "Apoia.se",
+    },
+    header: {
+      aboutUs: "Sobre nos",
+      serviceStatus: "Status do servico",
+      collaborate: "Colaborar",
+      androidApp: "App Android",
+      joinIn: "Participar",
     },
   },
   notifications: {
@@ -317,6 +361,9 @@ export const ptBR: TranslationSchema = {
     labels: {
       newUsername: "Selecione um novo nome de usuário",
       stats: "Estatísticas",
+      previewAvatar: "Como sua nova foto de perfil vai aparecer",
+      previewBanner:
+        "O tamanho real do banner pode variar conforme o dispositivo e modelo.",
     },
     titles: {
       selectAchievements: "Selecionar conquistas em destaque",
@@ -495,6 +542,8 @@ export const ptBR: TranslationSchema = {
     title: "IMPORTADOR DE JOGOS",
     description:
       "Selecione um ou múltiplos jogos que você deseja trazer para sua biblioteca GameNode.",
+    titlePrimary: "IMPORTADOR",
+    titleAccent: "DE JOGOS",
     collectionsHint:
       "Opcional. Selecione coleções para adicionar os jogos importados.",
     noItemsAvailable:
@@ -503,6 +552,12 @@ export const ptBR: TranslationSchema = {
       import: "Importar",
     },
     messages: {
+      overview:
+        "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode.",
+      noConnectionsPrefix:
+        "Parece que voce nao tem nenhuma conexao configurada para importar.",
+      clickHere: "Clique aqui",
+      noConnectionsSuffix: "para configurar uma.",
       itemExcluded: "Item já na sua biblioteca excluído com sucesso.",
       applyingChanges: "Aplicando alterações...",
       importSuccess: "{{count}} jogos importados com sucesso!",
@@ -579,6 +634,13 @@ export const ptBR: TranslationSchema = {
       success:
         "Obrigado por enviar sua denúncia! Ela será revisada por nossos moderadores o mais breve possível.",
       contentDeleted: "O conteúdo denunciado pode ter sido excluído.",
+      alert:
+        "Uma das suas postagens vai contra as regras de conduta do GameNode. Isso inclui conteudo discriminatorio, ataques diretos ou pessoais a outros usuarios, ou qualquer tipo de mau comportamento repetido.",
+      suspend:
+        "Voce foi suspenso por 14 dias porque uma das suas postagens vai contra as regras de conduta do GameNode. Isso inclui conteudo discriminatorio, ataques diretos ou pessoais a outros usuarios, ou qualquer tipo de mau comportamento repetido. Voce esta proibido de criar ou editar postagens. Voce ainda pode acessar e gerenciar sua biblioteca.",
+      ban: "Voce foi banido permanentemente porque uma das suas postagens vai contra as regras de conduta do GameNode. Isso inclui conteudo discriminatorio, ataques diretos ou pessoais a outros usuarios, ou qualquer tipo de mau comportamento repetido. Voce esta proibido de criar ou editar postagens. Voce ainda pode acessar e gerenciar sua biblioteca.",
+      appeal:
+        "Se voce acha que isso e um erro, fale conosco pelo nosso Discord.",
     },
   },
   blog: {
@@ -595,6 +657,15 @@ export const ptBR: TranslationSchema = {
       reviews: "Avaliações",
       articles: "Artigos",
       gameNode: "GameNode",
+    },
+    labels: {
+      draft: "Rascunho",
+    },
+    list: {
+      title: "Postagens do blog",
+      taggedTitle: "Postagens do blog para {{tag}}",
+      empty:
+        "Nenhuma postagem corresponde a este criterio. Altere os parametros ou",
     },
     buttons: {
       seeMore: "Ver mais",
@@ -623,6 +694,14 @@ export const ptBR: TranslationSchema = {
       year: "Ano",
     },
     stats: {
+      heading: "Neste ano no GameNode voce...",
+      graphsTitle: "Graficos e mais graficos",
+      thanks: "Obrigado por escolher a gente este ano.",
+      addedGames: "jogos adicionados",
+      reviewsMade: "reviews feitas",
+      collectionsCreated: "colecoes criadas",
+      followersGained: "seguidores ganhos",
+      likesGiven: "curtidas dadas",
       dataNote:
         "Baseado em dados recebidos de plataformas conectadas e datas de jogado/concluído/abandonado em itens da biblioteca.",
       dataNotePlatforms:
@@ -645,6 +724,9 @@ export const ptBR: TranslationSchema = {
     labels: {
       maxFiles: "Máx. de arquivos: {{max}}",
       maxSize: "Tamanho máx: {{size}}MB",
+    },
+    messages: {
+      invalidImageSource: "Fonte de imagem invalida",
     },
     dragPrompt: "Arraste imagens aqui ou clique para selecionar arquivos",
   },
@@ -688,7 +770,14 @@ export const ptBR: TranslationSchema = {
     oops: "Ops!",
     error404: "Erro 404",
   },
+  explore: {
+    metaTitle: "Explorar - GameNode",
+    fetchError: "Erro ao buscar jogos. Por favor, recarregue esta pagina.",
+  },
   app: {
+    title: "GameNode",
+    metaDescription:
+      "GameNode é a plataforma ideal para gerenciar sua coleção de jogos virtualmente.",
     betterInApp: "GameNode é (ainda) melhor no app!",
     openInApp: "Abrir no app",
   },

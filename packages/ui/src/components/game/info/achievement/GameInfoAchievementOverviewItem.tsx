@@ -8,6 +8,7 @@ import {
   useOnMobilePlatform,
   useUserId,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   source: GameAchievementGroupDto.source;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { data, isLoading, isError } = useGameAchievementsV2(userId, gameId);
   const platformsQuery = useGamesResource("platforms");
@@ -40,8 +42,8 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
     const totalAchievements = targetAchievementGroup.achievements.length;
     const itemName =
       targetAchievementGroup.source === GameAchievementGroupDto.source._36
-        ? "Trophies"
-        : "Achievements";
+        ? t("game.achievement.trophies")
+        : t("game.achievement.achievements");
 
     return (
       <Text>
@@ -51,7 +53,7 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
         {itemName}
       </Text>
     );
-  }, [targetAchievementGroup]);
+  }, [targetAchievementGroup, t]);
 
   return (
     <Link
@@ -66,7 +68,7 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
             <Image
               alt={
                 targetAchievementGroup?.sourceAbbreviatedName ??
-                "External Store"
+                t("game.labels.externalStore")
               }
               src={getServerStoredIcon(targetAchievementGroup?.iconName)}
               className={"h-8 w-8 object-contain"}
@@ -75,7 +77,9 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
         </Box>
         <Stack className={"gap-1"}>
           <Box className={"p-1"}>
-            {renderedAchievementsInfo ?? <Text>Not Available</Text>}
+            {renderedAchievementsInfo ?? (
+              <Text>{t("game.achievement.notAvailable")}</Text>
+            )}
           </Box>
           <Group className={"flex-nowrap gap-1"}>
             {availablePlatforms.map((platform) => (

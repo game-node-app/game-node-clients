@@ -17,12 +17,14 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { ActionChip } from "#@/components/general/input/ActionChip.tsx";
 import { Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   collectionId: string;
 }
 
 const CollectionViewActions = ({ collectionId }: Props) => {
+  const { t } = useTranslation();
   const [createUpdateModalOpened, createUpdateModalUtils] = useDisclosure();
   const [moveModalOpened, moveModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
@@ -51,35 +53,37 @@ const CollectionViewActions = ({ collectionId }: Props) => {
         onClose={reorderModalUtils.close}
       />
       <Menu.Target refProp={"rootRef"}>
-        <ActionChip icon={<IconAdjustments size={16} />}>Edit</ActionChip>
+        <ActionChip icon={<IconAdjustments size={16} />}>
+          {t("actions.edit")}
+        </ActionChip>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item
           leftSection={<IconDots size={16} />}
           onClick={createUpdateModalUtils.open}
         >
-          Update title and description
+          {t("collection.actions.updateDetails")}
         </Menu.Item>
         <Menu.Item
           leftSection={<IconReorder size={16} />}
           onClick={reorderModalUtils.open}
         >
-          Reorder games
+          {t("collection.actions.reorderGames")}
         </Menu.Item>
         <Menu.Item
           leftSection={<IconReplace size={16} />}
           onClick={moveModalUtils.open}
         >
-          Move games to another collection
+          {t("collection.actions.moveGames")}
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Label>Danger Zone</Menu.Label>
+        <Menu.Label>{t("preferences.labels.dangerZone")}</Menu.Label>
         <Menu.Item
           color={"red"}
           leftSection={<IconTrash size={16} />}
           onClick={removeModalUtils.open}
         >
-          Delete collection
+          {t("collection.remove")}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

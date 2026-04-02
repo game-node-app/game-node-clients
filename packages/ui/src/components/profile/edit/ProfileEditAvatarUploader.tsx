@@ -19,10 +19,12 @@ import { ProfileService, UpdateProfileImageDto } from "@repo/wrapper/server";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import type = UpdateProfileImageDto.type;
 import { FileWithPath } from "@mantine/dropzone";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalChildrenProps {}
 
 const ProfileEditAvatarUploader = ({ onClose }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const profile = useUserProfile(userId);
   const [croppingImageSrc, setCroppingImageSrc] = useState<string>();
@@ -62,7 +64,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
   const profileAvatarMutation = useMutation({
     mutationFn: async () => {
       if (!finalImageSrc) {
-        throw new Error("Invalid image source");
+        throw new Error(t("upload.messages.invalidImageSource"));
       }
 
       await ProfileService.profileControllerUpdateImageV1({
@@ -136,9 +138,11 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
             />
             <Group justify={"center"} mb={10}>
               <Button variant={"default"} onClick={() => handleStepClick(0)}>
-                Go back
+                {t("actions.goBack")}
               </Button>
-              <Button onClick={() => handleStepClick(2)}>Confirm</Button>
+              <Button onClick={() => handleStepClick(2)}>
+                {t("actions.confirm")}
+              </Button>
             </Group>
           </>
         );
@@ -146,8 +150,8 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
         return (
           <>
             <DetailsBox
-              title={"Preview"}
-              description={"How your new profile picture will look"}
+              title={t("recap.labels.preview")}
+              description={t("profile.labels.previewAvatar")}
               withBorder
             >
               <Stack className={"items-center"}>
@@ -156,9 +160,11 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
             </DetailsBox>
             <Group justify={"center"} mb={10}>
               <Button variant={"default"} onClick={() => handleStepClick(1)}>
-                Go back
+                {t("actions.goBack")}
               </Button>
-              <Button onClick={() => performImageUpload()}>Confirm</Button>
+              <Button onClick={() => performImageUpload()}>
+                {t("actions.confirm")}
+              </Button>
             </Group>
           </>
         );

@@ -25,6 +25,7 @@ import { getS3StoredUpload, Link } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   post: BlogPost;
@@ -40,6 +41,7 @@ const BlogPostCard = ({
   onEdit,
   withActions = false,
 }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [deleteConfirmOpened, deleteConfirmUtils] = useDisclosure();
 
@@ -50,7 +52,7 @@ const BlogPostCard = ({
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: "Successfully deleted post!",
+        message: t("blog.messages.postDeleted"),
       });
     },
     onSettled: () => {
@@ -115,7 +117,9 @@ const BlogPostCard = ({
           />
         </Box>
         <Group className={"relative items-baseline"}>
-          {post.isDraft && <Badge color={"red"}>Draft</Badge>}
+          {post.isDraft && (
+            <Badge color={"red"}>{t("blog.labels.draft")}</Badge>
+          )}
           <Text>{dayjs(post.createdAt).format("DD/MM/YYYY")}</Text>
 
           {withActions && hasEditPermission && (

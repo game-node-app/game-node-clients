@@ -6,10 +6,12 @@ import { Avatar, Group, Text, ThemeIcon } from "@mantine/core";
 import { Report } from "../../../../../wrapper/src/server";
 import closeHandleAction = Report.closeHandleAction;
 import { IconAlertCircleFilled } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 const ReportAggregatedNotification = ({
   aggregatedNotification,
 }: AggregatedNotificationContentProps) => {
+  const { t } = useTranslation();
   const reportQuery = useReport(aggregatedNotification.sourceId as number);
 
   const alertShortText = useMemo(() => {
@@ -19,32 +21,13 @@ const ReportAggregatedNotification = ({
 
     switch (reportQuery.data.closeHandleAction) {
       case closeHandleAction.ALERT:
-        return (
-          "One of your posts goes against GameNode's rules of conduct. " +
-          "This includes discriminatory content, direct or " +
-          "personal attacks against fellow users, or any kind of " +
-          "repeated misbehaviour."
-        );
+        return t("reports.messages.alert");
       case closeHandleAction.SUSPEND:
-        return (
-          "You have been suspended for 14 days because one of " +
-          "your posts goes against GameNode's rules of conduct. " +
-          "This includes discriminatory content, direct or " +
-          "personal attacks against fellow users, or any kind of " +
-          "repeated misbehaviour. You are thereby prohibited from making or editing posts. " +
-          "You can still access and manage your library."
-        );
+        return t("reports.messages.suspend");
       case closeHandleAction.BAN:
-        return (
-          "You have been permanently banned because one of " +
-          "your posts goes against GameNode's rules of conduct. " +
-          "This includes discriminatory content, direct or " +
-          "personal attacks against fellow users, or any kind of " +
-          "repeated misbehaviour. You are thereby prohibited from making or editing posts. " +
-          "You can still access and manage your library."
-        );
+        return t("reports.messages.ban");
     }
-  }, [reportQuery.data]);
+  }, [reportQuery.data, t]);
 
   if (reportQuery.isLoading) {
     return <NotificationSkeleton />;
@@ -57,11 +40,8 @@ const ReportAggregatedNotification = ({
       </ThemeIcon>
       <div>
         <Text>{alertShortText}</Text>
-        <Text>The reported content may have been deleted.</Text>
-        <Text className={"italic"}>
-          If you think this is a mistake. Please reach out to us through our
-          Discord.
-        </Text>
+        <Text>{t("reports.messages.contentDeleted")}</Text>
+        <Text className={"italic"}>{t("reports.messages.appeal")}</Text>
       </div>
     </Group>
   );

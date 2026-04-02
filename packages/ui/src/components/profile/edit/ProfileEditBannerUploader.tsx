@@ -14,8 +14,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { createErrorNotification } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const profileQuery = useUserProfile(userId);
 
@@ -55,7 +57,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
   const profileBannerMutation = useMutation({
     mutationFn: async () => {
       if (!finalImageSrc) {
-        throw new Error("Invalid image source");
+        throw new Error(t("upload.messages.invalidImageSource"));
       }
 
       await ProfileService.profileControllerUpdateImageV1({
@@ -116,9 +118,11 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
             />
             <Group justify={"center"} mb={10}>
               <Button variant={"default"} onClick={() => handleStepClick(0)}>
-                Go back
+                {t("actions.goBack")}
               </Button>
-              <Button onClick={() => handleStepClick(2)}>Confirm</Button>
+              <Button onClick={() => handleStepClick(2)}>
+                {t("actions.confirm")}
+              </Button>
             </Group>
           </>
         );
@@ -129,23 +133,21 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
         return (
           <>
             <DetailsBox
-              title={"Preview"}
-              description={
-                "Actual banner size may vary based on device size and model."
-              }
+              title={t("recap.labels.preview")}
+              description={t("profile.labels.previewBanner")}
               withBorder
             >
               <ProfileBanner userId={userId} customSource={finalImageSrc} />
             </DetailsBox>
             <Group justify={"center"} mb={10}>
               <Button variant={"default"} onClick={() => handleStepClick(1)}>
-                Go back
+                {t("actions.goBack")}
               </Button>
               <Button
                 onClick={() => handleImageUpload()}
                 loading={profileBannerMutation.isPending}
               >
-                Confirm
+                {t("actions.confirm")}
               </Button>
             </Group>
           </>

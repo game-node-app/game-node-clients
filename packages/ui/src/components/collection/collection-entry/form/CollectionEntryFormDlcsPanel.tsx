@@ -10,10 +10,12 @@ import {
 import { Stack, Text, Title } from "@mantine/core";
 import { Game } from "@repo/wrapper/server";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "@repo/locales";
 
 const CollectionEntryFormDlcsPanel = ({
   gameId,
 }: Pick<IGameAddFormProps, "gameId">) => {
+  const { t } = useTranslation();
   const { watch, setValue } = useFormContext<TGameAddOrUpdateValues>();
 
   const gameQuery = useGame(gameId, DEFAULT_RELATED_GAMES_DTO);
@@ -48,12 +50,9 @@ const CollectionEntryFormDlcsPanel = ({
 
   return (
     <Stack>
-      <Title size={"h4"}>Add related content to this game</Title>
+      <Title size={"h4"}>{t("collectionEntry.dlcs.title")}</Title>
       <Text className={"text-dimmed text-sm"}>
-        These items will be added to your library alongside this game. They will
-        only be visible when visiting your entry&#39;s detail page. They will
-        inherit this game&#39;s status and platforms, but will not be added to
-        collections. You can always add them to your collections manually later.
+        {t("collectionEntry.dlcs.description")}
       </Text>
       <GameSelectView>
         <GameSelectView.Actions

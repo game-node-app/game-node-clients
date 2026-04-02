@@ -23,6 +23,7 @@ import {
   useGames,
   useInfiniteTrendingGames,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;
@@ -78,6 +79,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const Index = () => {
+  const { t } = useTranslation();
   const [scroll, scrollTo] = useWindowScroll();
   const [hasLoadedQueryParams, setHasLoadedQueryParams] =
     useState<boolean>(false);
@@ -126,17 +128,14 @@ const Index = () => {
 
   if (isError) {
     return (
-      <CenteredErrorMessage
-        mt={"2rem"}
-        message={"Error while trying to fetch games. Please reload this page."}
-      />
+      <CenteredErrorMessage mt={"2rem"} message={t("explore.fetchError")} />
     );
   }
 
   return (
     <Stack className={"w-full mb-8"} align={"center"}>
       <Head>
-        <title>Explore - GameNode</title>
+        <title>{t("explore.metaTitle")}</title>
       </Head>
       <Stack className={"w-full"}>
         <GameView

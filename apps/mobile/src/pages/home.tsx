@@ -16,7 +16,6 @@ import {
   TrendingReviewCarousel,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
-import { HomeFab } from "@/components/home/HomeFab.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import {
   Activity,

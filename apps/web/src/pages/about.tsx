@@ -178,7 +178,9 @@ const AboutPage = () => {
         </button>
         <button className={"bg-[#eb4a3b] px-6 py-2 rounded-2xl"}>
           <a href="https://apoia.se/gamenode" target="_blank">
-            <p className={"tracking-wider text-2xl font-bold"}>Apoia.se</p>
+            <p className={"tracking-wider text-2xl font-bold"}>
+              {t("landing.support.apoia")}
+            </p>
           </a>
         </button>
       </Box>

@@ -16,6 +16,7 @@ import {
   getOffsetAsPage,
   getPageAsOffset,
 } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   tag: string | undefined;
@@ -25,6 +26,7 @@ interface Props extends Omit<DetailsBoxProps, "title"> {
 const DEFAULT_LIMIT = 20;
 
 const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
+  const { t } = useTranslation();
   const [offset, setOffset] = useState(0);
 
   const offsetAsPage = getOffsetAsPage(offset, DEFAULT_LIMIT);
@@ -46,7 +48,7 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
   return (
     <DetailsBox
       {...others}
-      title={tag ? `Blog posts for ${tag}` : "Blog posts"}
+      title={tag ? t("blog.list.taggedTitle", { tag }) : t("blog.list.title")}
     >
       {tag && <Badge onClick={onTagDeselect}>{getCapitalizedText(tag)}</Badge>}
       {isLoading && <CenteredLoading />}
@@ -54,8 +56,8 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
       {!isLoading && data != undefined && data.data.length === 0 && (
         <Center>
           <Text className={"text-yellow-400"}>
-            No posts matching this criteria were found. Please change parameters
-            or <TextLink href={"/blog/archive"}>go back</TextLink>.
+            {t("blog.list.empty")}{" "}
+            <TextLink href={"/blog/archive"}>{t("actions.goBack")}</TextLink>.
           </Text>
         </Center>
       )}

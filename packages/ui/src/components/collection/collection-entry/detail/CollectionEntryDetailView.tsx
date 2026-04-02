@@ -36,6 +36,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { getRandomItem, Link } from "#@/util";
 import { IconTrashFilled } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends StackProps {
   userId: string;
@@ -53,6 +54,7 @@ const CollectionEntryDetailView = ({
   backgroundImageSize = ImageSize.SCREENSHOT_HUGE,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
 
   const profileQuery = useUserProfile(userId);
@@ -155,7 +157,9 @@ const CollectionEntryDetailView = ({
                 className={"grow uppercase"}
                 onClick={editOpenedUtils.open}
               >
-                {isInLibrary ? "Edit in library" : "Add to library"}
+                {isInLibrary
+                  ? t("collectionEntry.buttons.editInLibrary")
+                  : t("collectionEntry.buttons.add")}
               </Button>
               {isInLibrary && (
                 <ActionIcon
@@ -168,7 +172,9 @@ const CollectionEntryDetailView = ({
               )}
             </Group>
             <Link href={`/game/${gameId}`} className={"w-full"}>
-              <Button className={"w-full uppercase"}>View Game</Button>
+              <Button className={"w-full uppercase"}>
+                {t("collectionEntry.buttons.viewGame")}
+              </Button>
             </Link>
           </Stack>
           <SimpleGrid
@@ -219,8 +225,12 @@ const CollectionEntryDetailView = ({
         {onMobile && gameId && (
           <Tabs defaultValue={"playlog"} variant={"outline"}>
             <Tabs.List grow>
-              <Tabs.Tab value={"playlog"}>Playlog</Tabs.Tab>
-              <Tabs.Tab value={"achievements"}>Achievements</Tabs.Tab>
+              <Tabs.Tab value={"playlog"}>
+                {t("collectionEntry.tabs.playlog")}
+              </Tabs.Tab>
+              <Tabs.Tab value={"achievements"}>
+                {t("collectionEntry.tabs.achievements")}
+              </Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value={"playlog"}>

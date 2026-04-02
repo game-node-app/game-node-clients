@@ -9,6 +9,7 @@ import { toBlob } from "html-to-image";
 import GameInfoSharePreview from "./GameInfoSharePreview";
 import { IconDownload } from "@tabler/icons-react";
 import { createErrorNotification, downloadFile } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface GameInfoShareProps {
   gameId: number;
@@ -30,6 +31,7 @@ const ShareFormSchema = z.object({
 export type ShareFormValues = z.infer<typeof ShareFormSchema>;
 
 const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
+  const { t } = useTranslation();
   const { watch, setValue, handleSubmit } = useForm<ShareFormValues>({
     mode: "onBlur",
     resolver: zodResolver(ShareFormSchema),
@@ -51,7 +53,7 @@ const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
         },
       });
       if (!blob) {
-        throw new Error("Failed to generate final image.");
+        throw new Error(t("game.share.messages.generateFailed"));
       }
       // The blob always has 'image/jpeg' as mimetype.
       const extension = "jpeg";
@@ -93,17 +95,23 @@ const GameInfoShare = ({ gameId, onShare }: GameInfoShareProps) => {
         <GameInfoSharePreview gameId={gameId} watchFormValues={watch} />
 
         <Group w={"100%"} className={"mt-4 mb-4"}>
-          <Chip {...registerChip("withRating")}>Rating</Chip>
-          <Chip {...registerChip("withOwnedPlatforms")}>Owned platforms</Chip>
-          <Chip {...registerChip("withDivider")}>Divider</Chip>
+          <Chip {...registerChip("withRating")}>
+            {t("game.share.options.rating")}
+          </Chip>
+          <Chip {...registerChip("withOwnedPlatforms")}>
+            {t("game.share.options.ownedPlatforms")}
+          </Chip>
+          <Chip {...registerChip("withDivider")}>
+            {t("game.share.options.divider")}
+          </Chip>
           <Chip {...registerChip("transparentBackground")}>
-            Transparent background
+            {t("game.share.options.transparentBackground")}
           </Chip>
         </Group>
 
         <Group className={"justify-end"} h={"fit-content"} gap={"0.5rem"}>
           <Button loading={shareMutation.isPending} type={"submit"}>
-            Share
+            {t("actions.share")}
           </Button>
           <ActionIcon
             loading={shareMutation.isPending}

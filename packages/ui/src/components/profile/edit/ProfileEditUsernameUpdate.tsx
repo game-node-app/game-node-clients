@@ -26,6 +26,7 @@ import {
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { notifications } from "@mantine/notifications";
 import { IconCircle } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalChildrenProps {
   withSkipButton?: boolean;
@@ -37,6 +38,7 @@ const ProfileEditUsernameUpdate = ({
   onSkip,
   withSkipButton = false,
 }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const profile = useUserProfile(userId);
   const profileMutation = useMutation({
@@ -49,7 +51,7 @@ const ProfileEditUsernameUpdate = ({
       profile.invalidate();
       notifications.show({
         color: "green",
-        message: "Your username has been updated!",
+        message: t("profile.messages.usernameUpdated"),
       });
       if (onClose) onClose();
     },
@@ -76,15 +78,14 @@ const ProfileEditUsernameUpdate = ({
     <form className={"w-full h-full"} onSubmit={handleSubmit}>
       {(!canUpdate || profileMutation.isError) && (
         <Text c={"red"} className={"text-center mb-6"}>
-          You have updated your username in the last 30 days. Please try again
-          later.
+          {t("profile.messages.usernameUpdateCooldown")}
         </Text>
       )}
 
       <Flex className={"w-full justify-center flex-wrap"}>
         <Stack className={"w-full lg:w-9/12"}>
           <TextInput
-            label={"Select a new username"}
+            label={t("profile.labels.newUsername")}
             name={"username"}
             id={"username"}
             required
@@ -95,9 +96,9 @@ const ProfileEditUsernameUpdate = ({
             icon={<ThemeIcon size={8} radius={"xl"}></ThemeIcon>}
             type={"unordered"}
           >
-            <List.Item>Must be unique</List.Item>
-            <List.Item>Must have at least 5 characters</List.Item>
-            <List.Item>You can only change it again after 30 days</List.Item>
+            <List.Item>{t("profile.usernameRules.unique")}</List.Item>
+            <List.Item>{t("profile.usernameRules.minLength")}</List.Item>
+            <List.Item>{t("profile.usernameRules.cooldown")}</List.Item>
           </List>
         </Stack>
         <Stack className={"w-full lg:w-11/12 items-end mt-8"}>
@@ -109,7 +110,7 @@ const ProfileEditUsernameUpdate = ({
                 type={"button"}
                 onClick={onSkip}
               >
-                Skip
+                {t("actions.skip")}
               </Button>
             )}
             <Button
@@ -118,7 +119,7 @@ const ProfileEditUsernameUpdate = ({
               type={"submit"}
               disabled={!canUpdate || profileMutation.isPending}
             >
-              Submit
+              {t("actions.submit")}
             </Button>
           </Group>
         </Stack>

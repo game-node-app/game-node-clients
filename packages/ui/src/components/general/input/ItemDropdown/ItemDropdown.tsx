@@ -5,6 +5,7 @@ import { ItemDropdownEditButton } from "#@/components/general/input/ItemDropdown
 import { ItemDropdownRemoveButton } from "#@/components/general/input/ItemDropdown/ItemDropdownRemoveButton";
 import { ItemDropdownReportButton } from "#@/components/general/input/ItemDropdown/ItemDropdownReportButton";
 import { ItemDropdownShareButton } from "#@/components/general/input/ItemDropdown/ItemDropdownShareButton.tsx";
+import { useTranslation } from "@repo/locales";
 
 /**
  * Common component to build dropdown actions for specific components. <br>
@@ -13,6 +14,7 @@ import { ItemDropdownShareButton } from "#@/components/general/input/ItemDropdow
  * @constructor
  */
 const ItemDropdown = ({ children }: PropsWithChildren) => {
+  const { t } = useTranslation();
   return (
     <Menu shadow={"md"} width={200} position={"left"}>
       <Menu.Target>
@@ -21,7 +23,7 @@ const ItemDropdown = ({ children }: PropsWithChildren) => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Label>Actions</Menu.Label>
+        <Menu.Label>{t("common.actions")}</Menu.Label>
         {children}
       </Menu.Dropdown>
     </Menu>

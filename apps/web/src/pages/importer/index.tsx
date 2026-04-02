@@ -8,8 +8,27 @@ import {
   TextLink,
   useOwnUserConnections,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
+import { NextPageContext } from "next";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { ConnectionsService } from "@repo/wrapper/server";
+
+export const getServerSideProps = async (_context: NextPageContext) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["user", "connections"],
+    queryFn: () => ConnectionsService.connectionsControllerFindOwnV1(),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 const Index = () => {
+  const { t } = useTranslation();
   const { data, isLoading, isError, error } = useOwnUserConnections();
 
   const importerUsableConnections = data?.filter(
@@ -26,24 +45,23 @@ const Index = () => {
         <Paper className={"w-full p-2 pb-8"}>
           <Stack className={"w-full h-full items-center"}>
             <Title size={"h4"}>
-              GAME <span className={"text-[#F15025]"}>IMPORTER</span>
+              {t("importer.titlePrimary")}{" "}
+              <span className={"text-[#F15025]"}>
+                {t("importer.titleAccent")}
+              </span>
             </Title>
 
-            <Text>
-              The importer system helps you bring games from other platforms to
-              GameNode.
-            </Text>
+            <Text>{t("importer.messages.overview")}</Text>
             <Space h={"2rem"} />
             {isLoading && <CenteredLoading className={"mt-8"} />}
             {isError && <CenteredErrorMessage message={error.message} />}
             {!isLoading && !isError && !isImportingAvailable && (
               <Text c={"red"}>
-                It seems like you don't have any connection set up for
-                importing.{" "}
+                {t("importer.messages.noConnectionsPrefix")}{" "}
                 <TextLink href={"/preferences/connections"}>
-                  Click here
+                  {t("importer.messages.clickHere")}
                 </TextLink>{" "}
-                to set one up.
+                {t("importer.messages.noConnectionsSuffix")}
               </Text>
             )}
             <Group className={"w-full gap-5 justify-center"}>

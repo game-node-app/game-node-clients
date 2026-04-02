@@ -18,8 +18,10 @@ import { Activity } from "@repo/wrapper/server";
 import { match } from "ts-pattern";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
+  const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
   const collectionQuery = useCollection(activity.collectionId);
   const reviewQuery = useReview(activity.reviewId);
@@ -38,16 +40,22 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
   const actionText = useMemo(() => {
     return match(activity.type)
       .with(Activity.type.COLLECTION_ENTRY, () => {
-        return <>Added to {collectionQuery.data?.name}</>;
+        return (
+          <>
+            {t("activity.items.addedTo", {
+              collection: collectionQuery.data?.name ?? "",
+            })}
+          </>
+        );
       })
       .with(Activity.type.REVIEW, () => {
-        return <>Reviewed</>;
+        return <>{t("activity.items.reviewed")}</>;
       })
       .with(Activity.type.POST, () => {
-        return <>Posted about</>;
+        return <>{t("activity.items.postedAbout")}</>;
       })
       .with(Activity.type.FOLLOW, () => {
-        return <>Followed</>;
+        return <>{t("activity.items.followed")}</>;
       })
       .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => (
         <ObtainedAchievementActivityContent
@@ -55,7 +63,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
         />
       ))
       .otherwise(() => {
-        return "Performed an action which is not yet mapped. This will be updated soon.";
+        return t("activity.items.unknown");
       });
   }, [
     activity.type,
