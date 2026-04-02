@@ -19,12 +19,14 @@ import { BaseModalChildrenProps, getErrorMessage } from "#@/util";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalChildrenProps {
   collectionId: string;
 }
 
 const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
+  const { t } = useTranslation();
   const [dragLayout, setDragLayout] = useState<GameViewLayoutOption>("grid");
   /**
    * Using the collection entry as ID prevents duplicate or concurrent requests for the same collection entry.
@@ -79,7 +81,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
     onMutate: () => {
       return notifications.show({
         loading: true,
-        message: "Applying changes...",
+        message: t("collection.messages.applyingChanges"),
         autoClose: false,
         withCloseButton: false,
       });
@@ -88,8 +90,8 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
       notifications.update({
         id: notificationId,
         color: "teal",
-        title: "Changes applied!",
-        message: "Your collection ordering has been updated.",
+        title: t("notifications.titles.changesApplied"),
+        message: t("collection.messages.orderingUpdated"),
         icon: <IconCheck size={18} />,
         loading: false,
         autoClose: 2000,
@@ -102,7 +104,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
       notifications.update({
         id: notificationId,
         color: "red",
-        title: "Failed to sync changes!",
+        title: t("collection.messages.syncFailed"),
         message: getErrorMessage(err),
         loading: false,
         autoClose: 10000,
@@ -130,9 +132,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
   return (
     <Stack className={"items-center w-full"}>
       <Text className={"text-sm text-dimmed"}>
-        Drag and drop elements to reorder games in this collection. This
-        ordering will be shown when a visitor selects &#34;User Order&#34;
-        (default) as sorting option.
+        {t("collection.messages.orderingHint")}
       </Text>
       <Button.Group className={"mt-4"}>
         <Button
@@ -145,10 +145,10 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
             renderedGamesHandlers.setState(games ?? []);
           }}
         >
-          Discard
+          {t("collection.actions.discard")}
         </Button>
         <Button.GroupSection variant={"default"} className={"bg-body"}>
-          {pendingMoves.size} changes
+          {t("collection.messages.changesCount", { count: pendingMoves.size })}
         </Button.GroupSection>
         <Button
           disabled={pendingMoves.size === 0}
@@ -156,7 +156,7 @@ const CollectionOrderingUpdateForm = ({ collectionId }: Props) => {
           onClick={() => applyPendingMovesMutation.mutate()}
           loading={applyPendingMovesMutation.isPending}
         >
-          Apply
+          {t("collection.actions.apply")}
         </Button>
       </Button.Group>
       <GameDraggableView

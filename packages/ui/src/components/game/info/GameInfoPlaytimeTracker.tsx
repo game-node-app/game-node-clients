@@ -8,12 +8,14 @@ import { IconPlus } from "@tabler/icons-react";
 import { Modal } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
 import { PlaytimeSubmitForm } from "#@/components/playtime/PlaytimeSubmitForm.tsx";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   gameId: number;
 }
 
 const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
 
   const [playtimeSubmitOpened, playtimeSubmitUtils] = useDisclosure();
@@ -38,7 +40,7 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      title={"Your play sessions"}
+      title={t("playtime.titles.yourPlaySessions")}
       withBackground
       withPadding
       withDimmedTitle
@@ -46,7 +48,7 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
       <Modal
         opened={playtimeSubmitOpened}
         onClose={playtimeSubmitUtils.close}
-        title={"Submit play session"}
+        title={t("playtime.titles.submitPlaySession")}
       >
         <PlaytimeSubmitForm
           gameId={gameId}
@@ -56,13 +58,12 @@ const GameInfoPlaytimeTracker = ({ gameId }: Props) => {
       <Stack className={"w-full"}>
         {(playtimes == undefined || playtimes.length === 0) && (
           <Text className={"text-center text-sm"}>
-            No play sessions found for this game. You can set up a connection or
-            add your playtime info manually.
+            {t("playtime.hints.noPlaySessions")}
           </Text>
         )}
         {items}
         <Button variant={"default"} onClick={playtimeSubmitUtils.open}>
-          Add Session
+          {t("playtime.buttons.addSession")}
         </Button>
       </Stack>
     </DetailsBox>

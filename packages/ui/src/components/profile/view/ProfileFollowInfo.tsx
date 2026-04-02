@@ -4,6 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useInfiniteFollowInfo } from "#@/components/follow/hooks/useInfiniteFollowInfo";
 import { FollowInfoListModal } from "#@/components/follow/modal/FollowInfoListModal";
 import { Anchor, Box, Flex, Stack, Text, UnstyledButton } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   targetUserId: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
+  const { t } = useTranslation();
   const [modalOpened, modalUtils] = useDisclosure();
   const followInfoQuery = useInfiniteFollowInfo({
     criteria,
@@ -18,7 +20,10 @@ const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
   });
   const totalItems = followInfoQuery.data?.pages[0]?.pagination.totalItems ?? 0;
 
-  const criteriaText = criteria === "followers" ? "Followers" : "Following";
+  const criteriaText =
+    criteria === "followers"
+      ? t("follow.titles.followers")
+      : t("follow.titles.following");
 
   return (
     <Box>

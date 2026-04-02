@@ -5,6 +5,7 @@ import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { ActivityItem, ActivityItemProps } from "#@/components";
 import { Activity } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<ActivityItemProps, "activity"> {
   userId?: string;
@@ -20,6 +21,7 @@ const RecentActivityList = ({
   type,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const activitiesQuery = useLatestActivities(userId, offset, limit, type);
   const isEmpty =
     !activitiesQuery.isLoading &&
@@ -39,7 +41,9 @@ const RecentActivityList = ({
         <CenteredErrorMessage error={activitiesQuery.error} />
       )}
       {isEmpty && (
-        <CenteredErrorMessage message={"No recent activity to show."} />
+        <CenteredErrorMessage
+          message={t("activity.messages.noRecentActivity")}
+        />
       )}
     </Stack>
   );

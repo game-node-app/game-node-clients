@@ -16,12 +16,14 @@ import {
   useGame,
   useOnMobile,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   activity: GameObtainedAchievementActivityDto | undefined;
 }
 
 const ObtainedAchievementActivityContent = ({ activity }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
 
   const PopoverElement = onMobile ? Popover : HoverCard;
@@ -42,15 +44,18 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
     const hasPlatinum = activity.hasObtainedPlatinumTrophy || false;
 
     if (hasCompleted && hasPlatinum) {
-      return `Obtained platinum trophy and completed all achievements`;
+      return t("activity.items.obtainedAllAndPlatinum");
     } else if (hasCompleted) {
-      return `Completed all achievements`;
+      return t("activity.items.completedAllAchievements");
     } else if (hasPlatinum) {
-      return `Obtained platinum trophy`;
+      return t("activity.items.obtainedPlatinum");
     } else {
-      return `Obtained ${totalObtained} achievement${totalObtained > 1 ? "s" : ""}`;
+      return t("activity.items.obtainedAchievements", {
+        count: totalObtained,
+        suffix: totalObtained > 1 ? "s" : "",
+      });
     }
-  }, [activity]);
+  }, [activity, t]);
 
   if (!activity) {
     return <></>;
@@ -77,7 +82,7 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
             href={`/profile/${activity.profileUserId}?tab=achievements`}
             className={"mt-2"}
           >
-            See more
+            {t("actions.seeMore")}
           </TextLink>
         </Stack>
       </PopoverElement.Dropdown>

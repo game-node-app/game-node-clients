@@ -6,6 +6,7 @@ import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Editor } from "@tiptap/core";
 import { useUserId, useReviewForUserIdAndGameId } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameInfoReviewEditorProps
   extends Partial<Omit<RichTextEditorProps, "onBlur" | "editor">> {
@@ -15,12 +16,15 @@ interface IGameInfoReviewEditorProps
   stickyOffset?: number;
 }
 
-export const DEFAULT_REVIEW_EDITOR_EXTENSIONS = [
+export const createDefaultReviewEditorExtensions = (placeholder: string) => [
   StarterKit,
   Placeholder.configure({
-    placeholder: "Review content. Leave empty to create a score-only review.",
+    placeholder,
   }),
 ];
+
+export const DEFAULT_REVIEW_EDITOR_EXTENSIONS =
+  createDefaultReviewEditorExtensions("");
 
 const GameInfoReviewEditor = ({
   editorRef,
@@ -29,6 +33,7 @@ const GameInfoReviewEditor = ({
   stickyOffset = 78,
   ...others
 }: IGameInfoReviewEditorProps) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
   const previousContent = useMemo(() => {
@@ -37,7 +42,9 @@ const GameInfoReviewEditor = ({
 
   const editor = useEditor(
     {
-      extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
+      extensions: createDefaultReviewEditorExtensions(
+        t("collectionEntry.placeholders.reviewContent"),
+      ),
       content: previousContent,
       onBlur: (e) => {
         const html = e.editor.getHTML();

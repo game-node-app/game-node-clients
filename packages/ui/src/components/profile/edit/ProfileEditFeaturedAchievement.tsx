@@ -11,8 +11,10 @@ import { createErrorNotification, Modal } from "#@/util";
 import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
 import { AchievementsMultiSelect } from "#@/components/achievement/select/AchievementsMultiSelect.tsx";
 import { DetailsBox } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 const ProfileEditFeaturedAchievement = () => {
+  const { t } = useTranslation();
   const [opened, modalUtils] = useDisclosure(false);
   const [selectedAchievementIds, setSelectedAchievementIds] = useState<
     string[]
@@ -38,7 +40,7 @@ const ProfileEditFeaturedAchievement = () => {
     },
     onSuccess: () => {
       notifications.show({
-        message: "Successfully updated featured achievement!",
+        message: t("profile.messages.achievementsUpdated"),
       });
     },
     onError: createErrorNotification,
@@ -65,7 +67,7 @@ const ProfileEditFeaturedAchievement = () => {
       <Modal
         opened={opened}
         onClose={modalUtils.close}
-        title={"Select featured achievements"}
+        title={t("profile.titles.selectAchievements")}
       >
         {obtainedAchievementsQuery.data ? (
           <Stack className={"w-full"}>
@@ -83,10 +85,10 @@ const ProfileEditFeaturedAchievement = () => {
                 loading={featuredAchievementMutation.isPending}
                 onClick={() => featuredAchievementMutation.mutate()}
               >
-                Save
+                {t("actions.save")}
               </Button>
             </Center>
-            <DetailsBox title={"Featured Achievements"}>
+            <DetailsBox title={t("profile.collections.featured")}>
               {featuredAchievements.map((featuredAchievement) => {
                 return (
                   <AchievementItem
@@ -99,10 +101,7 @@ const ProfileEditFeaturedAchievement = () => {
             </DetailsBox>
           </Stack>
         ) : (
-          <Text>
-            You have not obtained any achievements. Return here later,
-            adventurer!
-          </Text>
+          <Text>{t("profile.messages.noAchievements")}</Text>
         )}
       </Modal>
       <UnstyledButton onClick={modalUtils.open}>

@@ -3,6 +3,7 @@ import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Skeleton } from "@mantine/core";
 import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 interface IProps {
   gameId: number;
@@ -17,6 +18,7 @@ const INVOLVED_COMPANIES_DTO: GameRepositoryFindOneDto = {
 };
 
 const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
+  const { t } = useTranslation();
   const game = useGame(gameId, INVOLVED_COMPANIES_DTO);
   const involvedCompanies = game.data?.involvedCompanies;
   const developers = useMemo(() => {
@@ -43,16 +45,18 @@ const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
     return null;
   }, [involvedCompanies]);
   const developersNames =
-    developers?.map((company) => company.name)?.join(", ") ?? "Not available";
+    developers?.map((company) => company.name)?.join(", ") ??
+    t("game.details.notAvailable");
   const publishersNames =
-    publishers?.map((company) => company.name).join(", ") ?? "Not available";
+    publishers?.map((company) => company.name).join(", ") ??
+    t("game.details.notAvailable");
 
   return (
     <>
       <DetailsBox
         withBorder
         withDimmedTitle
-        title={"Developer(s)"}
+        title={t("game.details.developers")}
         withPadding
         withBackground
         withRipple
@@ -62,7 +66,7 @@ const GameInfoDetailsDeveloperInfo = ({ gameId }: IProps) => {
       <DetailsBox
         withBorder
         withDimmedTitle
-        title={"Publisher(s)"}
+        title={t("game.details.publishers")}
         withPadding
         withBackground
         withRipple

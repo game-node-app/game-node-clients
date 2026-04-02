@@ -6,12 +6,14 @@ import {
 import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 import { ActionIcon, Divider, Group, Tooltip } from "@mantine/core";
 import { ActionChip } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends GameViewLayoutSwitcherProps {
   layout: GameViewLayoutOption;
 }
 
 const GameViewLayoutSwitcherContent = ({ layout, setLayout, mode }: Props) => {
+  const { t } = useTranslation();
   const handleLayoutChange = (changeTo: GameViewLayoutOption) => {
     console.log("Changing layout to", changeTo);
     setLayout(changeTo);
@@ -33,7 +35,7 @@ const GameViewLayoutSwitcherContent = ({ layout, setLayout, mode }: Props) => {
             handleLayoutChange(layout === "grid" ? "list" : "grid")
           }
         >
-          {layout === "grid" ? "Grid" : "List"}
+          {layout === "grid" ? t("view.grid") : t("view.list")}
         </ActionChip>
       </Group>
     );
@@ -41,7 +43,7 @@ const GameViewLayoutSwitcherContent = ({ layout, setLayout, mode }: Props) => {
 
   return (
     <Group wrap={"nowrap"} gap={"xs"}>
-      <Tooltip label={"Grid"} position={"bottom"}>
+      <Tooltip label={t("view.grid")} position={"bottom"}>
         <ActionIcon
           size={"md"}
           onClick={() => handleLayoutChange("grid")}
@@ -51,7 +53,7 @@ const GameViewLayoutSwitcherContent = ({ layout, setLayout, mode }: Props) => {
         </ActionIcon>
       </Tooltip>
       <Divider orientation={"vertical"} />
-      <Tooltip label={"List"} position={"bottom"}>
+      <Tooltip label={t("view.list")} position={"bottom"}>
         <ActionIcon
           size={"md"}
           onClick={() => handleLayoutChange("list")}

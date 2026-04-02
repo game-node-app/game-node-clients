@@ -59,7 +59,7 @@ const GameHoverEditFigure = ({
               className={"h-full w-full flex flex-col max-w-full"}
             >
               {withHoverTitle && (
-                <Text className={"font-bold text-lg mt-auto"}>
+                <Text className={"font-bold text-md mt-auto line-clamp-3"}>
                   {game?.name}
                 </Text>
               )}

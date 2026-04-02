@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ProfileService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const BioForm = z.object({
   bio: z.string().min(1).max(240),
@@ -17,6 +18,7 @@ const BioForm = z.object({
 type TBioForm = z.infer<typeof BioForm>;
 
 const ProfileEditBioForm = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const profile = useUserProfile(userId);
   const { register, handleSubmit, formState } = useForm<TBioForm>({
@@ -32,7 +34,7 @@ const ProfileEditBioForm = () => {
     onError: createErrorNotification,
     onSuccess: () => {
       notifications.show({
-        message: "Successfully updated your bio!",
+        message: t("profile.messages.bioUpdated"),
         color: "green",
       });
       profile.invalidate();
@@ -48,7 +50,7 @@ const ProfileEditBioForm = () => {
         ></Textarea>
         {formState.dirtyFields.bio && (
           <Button type={"submit"} loading={profileMutation.isPending}>
-            Submit
+            {t("actions.submit")}
           </Button>
         )}
       </Stack>

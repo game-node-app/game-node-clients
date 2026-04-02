@@ -2,12 +2,14 @@ import React from "react";
 import { useProfileMetricsOverview } from "#@/components/profile/hooks/useProfileMetricsOverview";
 import { Group, Popover, Stack, Text } from "@mantine/core";
 import { BarChart } from "@mantine/charts";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
 }
 
 const ProfileStatsSimpleOverview = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 
   const playtimeValue = metricsOverviewQuery.data?.totalEstimatedPlaytime ?? 0;
@@ -21,7 +23,7 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
             {metricsOverviewQuery.data?.totalPlayedGames}
           </Text>
           <Text className={"text-sm text-dimmed text-center"}>
-            Total Games Played
+            {t("profile.stats.totalGamesPlayed")}
           </Text>
         </Stack>
         <Stack className={"gap-1"}>
@@ -29,7 +31,7 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
             {metricsOverviewQuery.data?.totalPlayedGamesInYear}
           </Text>
           <Text className={"text-sm text-dimmed text-center"}>
-            Played this year
+            {t("profile.stats.playedThisYear")}
           </Text>
         </Stack>
         <Stack className={"gap-1"}>
@@ -37,15 +39,15 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
           <Popover width="target" position="left" withArrow shadow="md">
             <Popover.Target>
               <Text className={"text-sm text-dimmed text-center"}>
-                Total estimated playtime (in hours)*
+                {t("profile.stats.totalPlaytime")}
               </Text>
             </Popover.Target>
             <Popover.Dropdown>
               <Text className={"break-keep text-sm"}>
-                Based on data from available connections (e.g. Steam, PSN).
+                {t("profile.stats.playtimeNote1")}
               </Text>
               <Text className={"break-keep text-sm"}>
-                Actual playtime may be much greater.
+                {t("profile.stats.playtimeNote2")}
               </Text>
             </Popover.Dropdown>
           </Popover>
@@ -57,7 +59,7 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
             h={80}
             data={[
               {
-                label: "Backlog tracking",
+                label: t("profile.stats.backlogTracking"),
                 totalGames: metricsOverviewQuery.data.totalGames,
                 totalFinishedGames:
                   metricsOverviewQuery.data.totalFinishedGames,
@@ -69,12 +71,12 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
               {
                 name: "totalGames",
                 color: "blue",
-                label: "Total games",
+                label: t("profile.stats.totalGames"),
               },
               {
                 name: "totalFinishedGames",
                 color: "red",
-                label: "Finished games",
+                label: t("profile.stats.finishedGames"),
               },
             ]}
             gridAxis={"y"}

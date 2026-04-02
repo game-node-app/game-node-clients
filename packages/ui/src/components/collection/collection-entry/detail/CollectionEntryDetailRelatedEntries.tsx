@@ -7,6 +7,7 @@ import {
   useGames,
 } from "#@/components";
 import { CarouselProps } from "@mantine/carousel";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   collectionEntryId: string;
@@ -17,6 +18,7 @@ const CollectionEntryDetailRelatedEntries = ({
   collectionEntryId,
   carouselProps,
 }: Props) => {
+  const { t } = useTranslation();
   const relatedCollectionEntriesQuery =
     useRelatedCollectionEntries(collectionEntryId);
 
@@ -60,9 +62,9 @@ const CollectionEntryDetailRelatedEntries = ({
     <DetailsBox
       withPadding
       withBorder
-      title={"Related Content"}
+      title={t("collectionEntry.related.title")}
       enabled={hasRelatedGames}
-      description={"Owned DLCs and expansions"}
+      description={t("collectionEntry.related.description")}
     >
       <GameInfoCarousel
         isLoading={isLoading}

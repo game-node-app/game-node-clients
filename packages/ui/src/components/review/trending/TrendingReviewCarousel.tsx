@@ -6,6 +6,7 @@ import { useTrendingReviews } from "../../statistics/hooks/useTrendingReviews.ts
 import { FindStatisticsTrendingReviewsDto } from "../../../../../wrapper/src/server";
 import { TrendingReviewCard } from "../../general/card/TrendingReviewCard.tsx";
 import { DetailsBox } from "../../general/DetailsBox";
+import { useTranslation } from "@repo/locales";
 import period = FindStatisticsTrendingReviewsDto.period;
 
 const buildSkeletons = () => {
@@ -22,6 +23,7 @@ const buildSkeletons = () => {
 };
 
 const TrendingReviewCarousel = (props: CarouselProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const trendingReviews = useTrendingReviews({
     period: period.MONTH,
@@ -54,7 +56,7 @@ const TrendingReviewCarousel = (props: CarouselProps) => {
   return (
     !isEmpty && (
       <DetailsBox
-        title={"Trending Reviews"}
+        title={t("home.trendingReviews")}
         stackProps={{
           className: "",
         }}

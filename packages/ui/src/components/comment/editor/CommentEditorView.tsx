@@ -19,6 +19,7 @@ import { useComment } from "#@/components/comment/hooks/useComment";
 import { useUserProfile } from "#@/components";
 import { useCommentsContext } from "#@/components/comment/view/context.ts";
 import { createErrorNotification } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   /**
@@ -40,6 +41,7 @@ const CommentEditorView = ({
   sourceId,
   onEditEnd,
 }: Props) => {
+  const { t } = useTranslation();
   const context = useCommentsContext();
   const queryClient = useQueryClient();
   const editorRef = useRef<Editor>(null);
@@ -97,7 +99,7 @@ const CommentEditorView = ({
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: "Successfully submitted your comment!",
+        message: t("comment.messages.submitted"),
       });
       clearEditor();
       if (onEditEnd) onEditEnd();
@@ -133,7 +135,9 @@ const CommentEditorView = ({
       {childOfProfileQuery.data != undefined && (
         <UnstyledButton onClick={clearTargetComment}>
           <Text className={"text-sm text-dimmed text-start underline"}>
-            Replying to {childOfProfileQuery.data.username}&apos; comment
+            {t("comment.labels.replyingTo", {
+              username: childOfProfileQuery.data.username,
+            })}
           </Text>
         </UnstyledButton>
       )}

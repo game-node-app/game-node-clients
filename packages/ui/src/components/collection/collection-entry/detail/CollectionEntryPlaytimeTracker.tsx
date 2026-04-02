@@ -7,6 +7,7 @@ import {
   UserPlaytimeItem,
 } from "#@/components";
 import { Skeleton, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   userId: string;
@@ -18,6 +19,7 @@ const CollectionEntryPlaytimeTracker = ({
   collectionEntryId,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(collectionEntryId);
 
   const playtimeQuery = usePlaytimeForGame(
@@ -42,14 +44,19 @@ const CollectionEntryPlaytimeTracker = ({
   }, [playtimes]);
 
   return (
-    <DetailsBox withPadding withBorder {...others} title={"Play sessions"}>
+    <DetailsBox
+      withPadding
+      withBorder
+      {...others}
+      title={t("playtime.titles.playSessions")}
+    >
       {isLoading &&
         new Array(3)
           .fill(0)
           .map((_, i) => <Skeleton className={"w-full h-10"} key={i} />)}
       {isEmpty && (
         <Text className={"text-center text-sm"}>
-          No play sessions found for this game.
+          {t("playtime.hints.noPlaySessions")}
         </Text>
       )}
       {items}

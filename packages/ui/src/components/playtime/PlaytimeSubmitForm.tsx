@@ -26,64 +26,85 @@ import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import source = UserPlaytime.source;
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
-const PLAYTIME_SOURCE_OPTIONS: ComboboxItem[] = [
+const createPlaytimeSourceOptions = (
+  t: ReturnType<typeof useTranslation>["t"],
+): ComboboxItem[] => [
   {
-    label: "Steam",
+    label: t("playtime.platforms.steam"),
     value: source.STEAM,
   },
   {
-    label: "PSN",
+    label: t("playtime.platforms.psn"),
     value: source.PSN,
   },
   {
-    label: "EpicGames",
+    label: t("playtime.platforms.epicGames"),
     value: source.EPICGAMES,
   },
   {
-    label: "GOG",
+    label: t("playtime.platforms.gog"),
     value: source.GOG,
   },
   {
-    label: "Battle.net",
+    label: t("playtime.platforms.battleNet"),
     value: source.BATTLENET,
   },
   {
-    label: "Nintendo Wii",
+    label: t("playtime.platforms.nintendoWii"),
     value: source.NWII,
   },
   {
-    label: "Nintendo Wii U",
+    label: t("playtime.platforms.nintendoWiiU"),
     value: source.NWIIU,
   },
   {
-    label: "Nintendo Switch",
+    label: t("playtime.platforms.nintendoSwitch"),
     value: source.NSWITCH,
   },
   {
-    label: "Emulator",
+    label: t("playtime.platforms.emulator"),
     value: source.EMULATOR,
   },
-  { label: "Xbox", value: source.XBOX },
+  { label: t("playtime.platforms.xbox"), value: source.XBOX },
 ];
 
-const PlaytimeSubmitFormSchema = z.object({
-  totalPlaytimeHours: z
-    .number({ message: "Total playtime must be a number." })
-    .min(0.1, "Total playtime must be provided."),
-  lastPlayedDate: z.date().optional(),
-  source: z.nativeEnum(UserPlaytime.source),
-  platformId: z.number({ message: "A platform must be selected." }),
-});
+const createPlaytimeSubmitFormSchema = (
+  t: ReturnType<typeof useTranslation>["t"],
+) =>
+  z.object({
+    totalPlaytimeHours: z
+      .number({ message: t("playtime.validation.numberRequired") })
+      .min(0.1, t("playtime.validation.playtimeRequired")),
+    lastPlayedDate: z.date().optional(),
+    source: z.nativeEnum(UserPlaytime.source),
+    platformId: z.number({
+      message: t("playtime.validation.platformRequired"),
+    }),
+  });
 
-type PlaytimeSubmitFormValues = z.infer<typeof PlaytimeSubmitFormSchema>;
+type PlaytimeSubmitFormValues = z.infer<
+  ReturnType<typeof createPlaytimeSubmitFormSchema>
+>;
 
 interface Props extends BaseModalChildrenProps {
   gameId: number;
 }
 
 const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
+
+  const PLAYTIME_SOURCE_OPTIONS = useMemo(
+    () => createPlaytimeSourceOptions(t),
+    [t],
+  );
+
+  const PlaytimeSubmitFormSchema = useMemo(
+    () => createPlaytimeSubmitFormSchema(t),
+    [t],
+  );
 
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
@@ -131,7 +152,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: "Play session recorded successfully",
+        message: t("playtime.messages.sessionRecorded"),
       });
       onClose?.();
     },
@@ -172,14 +193,9 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
   return (
     <SessionAuth>
       <Stack className={"w-full gap-1"}>
-        <Text>
-          Your playtime info helps us build your profile stats, wrapped items,
-          and more.
-        </Text>
+        <Text>{t("playtime.hints.profileStats")}</Text>
         <Text className={"text-sm text-dimmed"}>
-          We highly recommend setting up your connections to automatically
-          import your playtime data. This data may be overwritten if we find
-          playtime data for this game in one of your connections.
+          {t("playtime.hints.autoImport")}
         </Text>
         <form
           className={"mt-4 flex flex-col gap-3 relative"}
@@ -189,7 +205,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
           <Group className={"flex-nowrap w-full"}>
             <Select
               {...register("platformId")}
-              label={"Platform"}
+              label={t("playtime.labels.platform")}
               withAsterisk
               value={`${selectedPlatformId}`}
               onChange={(v) => {
@@ -204,7 +220,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
             <Select
               {...register("source")}
               withAsterisk
-              label={"Source"}
+              label={t("playtime.labels.source")}
               error={errors.source?.message}
               data={PLAYTIME_SOURCE_OPTIONS}
               allowDeselect={true}
@@ -227,15 +243,13 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
             onChange={(v) => {
               setValue("totalPlaytimeHours", v as number);
             }}
-            label={"Total playtime"}
-            description={
-              "In hours. This is the total playtime you have for this game."
-            }
+            label={t("playtime.labels.totalPlaytime")}
+            description={t("playtime.descriptions.totalPlaytime")}
           />
           <DatePickerInput
-            label={"Last played date"}
+            label={t("playtime.labels.lastPlayedDate")}
             error={errors.lastPlayedDate?.message}
-            description={"Optional."}
+            description={t("collectionEntry.labels.optional")}
             defaultValue={new Date()}
             {...register("lastPlayedDate")}
             onChange={(date) => {
@@ -248,7 +262,7 @@ const PlaytimeSubmitForm = ({ gameId, onClose }: Props) => {
           />
 
           <Button type={"submit"} loading={submitMutation.isPending}>
-            Submit
+            {t("actions.submit")}
           </Button>
         </form>
       </Stack>

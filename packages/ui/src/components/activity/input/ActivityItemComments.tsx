@@ -9,19 +9,21 @@ import { CommentEditorView } from "#@/components/comment/editor/CommentEditorVie
 import { Modal } from "#@/util";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
 import sourceType = FindAllCommentsDto.sourceType;
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   activity: Activity;
 }
 
 const ActivityItemComments = ({ activity }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const [commentsModalOpened, commentsModalUtils] = useDisclosure();
 
   return (
     <>
       <Modal
-        title={"Comments in this activity"}
+        title={t("comment.titles.commentsInActivity")}
         opened={commentsModalOpened}
         onClose={commentsModalUtils.close}
         size={"xl"}

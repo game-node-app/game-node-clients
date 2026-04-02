@@ -17,6 +17,7 @@ import {
   useUserId,
   DetailsBox,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 const ReviewFormSchema = z.object({
   rating: z.number().min(0).max(5),
@@ -32,6 +33,7 @@ interface IGameInfoReviewEditorViewProps {
 const GameInfoReviewEditorView = ({
   gameId,
 }: IGameInfoReviewEditorViewProps) => {
+  const { t } = useTranslation();
   const [isEditMode, setIsEditMode] = useState<boolean>(true);
   const hasSetEditMode = useRef<boolean>(false);
 
@@ -59,19 +61,18 @@ const GameInfoReviewEditorView = ({
     onSuccess: () => {
       reviewQuery.invalidate();
       notifications.show({
-        title: "Success",
+        title: t("notifications.titles.success"),
         message:
           reviewQuery.data != undefined
-            ? "Review successfully updated!"
-            : "Review created!",
+            ? t("review.messages.updated")
+            : t("review.messages.created"),
         color: "green",
       });
     },
     onError: () => {
       notifications.show({
-        title: "Failed",
-        message:
-          "We couldn't save your review. If this persists, please contact support.",
+        title: t("notifications.titles.failed"),
+        message: t("review.messages.saveFailed"),
         color: "red",
       });
     },
@@ -144,7 +145,7 @@ const GameInfoReviewEditorView = ({
               size={"lg"}
             />
             {reviewQuery.data != undefined && (
-              <Tooltip label={"Cancel edit"}>
+              <Tooltip label={t("actions.cancel")}>
                 <ActionIcon
                   size={"lg"}
                   variant={"default"}
@@ -156,7 +157,7 @@ const GameInfoReviewEditorView = ({
               </Tooltip>
             )}
             <Button type={"submit"} loading={reviewMutation.isPending}>
-              Submit
+              {t("actions.submit")}
             </Button>
           </Group>
         </Group>
@@ -166,11 +167,9 @@ const GameInfoReviewEditorView = ({
 
   return (
     <DetailsBox
-      title={"Your review"}
+      title={t("review.titles.yourReview")}
       description={
-        isEditMode
-          ? "Write your opinions about this game. Reviews are public to all users."
-          : undefined
+        isEditMode ? t("review.descriptions.writePublic") : undefined
       }
     >
       <Flex wrap={"wrap"} w={"100%"} h={"100%"} justify={"start"}>

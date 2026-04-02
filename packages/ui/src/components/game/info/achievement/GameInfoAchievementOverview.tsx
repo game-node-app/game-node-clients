@@ -6,12 +6,14 @@ import {
   useUserId,
 } from "#@/components";
 import { Skeleton } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   gameId: number;
 }
 
 const GameInfoAchievementOverview = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const { data: achievements, isLoading } = useGameAchievementsV2(
     userId,
@@ -37,7 +39,7 @@ const GameInfoAchievementOverview = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      title={"Achievements"}
+      title={t("game.achievement.overviewTitle")}
       enabled={enabledSources.length > 0 || isLoading}
       withPadding
       withBackground

@@ -1,6 +1,7 @@
 import React from "react";
 import { Chip, Group } from "@mantine/core";
 import { GameView, GameViewLayoutOption } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   includeExtraContent: boolean;
@@ -13,6 +14,7 @@ const GameSearchViewActions = ({
   onExtraContentChange,
   onLayoutChange,
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <Group className={"w-full flex-nowrap gap-sm overflow-x-hidden"}>
       {onLayoutChange && (
@@ -23,7 +25,7 @@ const GameSearchViewActions = ({
         checked={includeExtraContent}
         onChange={onExtraContentChange}
       >
-        Show DLCs/Extras
+        {t("library.labels.showDLCs")}
       </Chip>
     </Group>
   );

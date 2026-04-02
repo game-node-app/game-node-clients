@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Chip, Group, GroupProps } from "@mantine/core";
 import {
   ActionChip,
@@ -10,25 +10,7 @@ import {
 } from "#@/components";
 import { IconDownload } from "@tabler/icons-react";
 import { cn, Link } from "#@/util";
-
-const SORTING_CHIP_DATA = [
-  {
-    value: "addedDate",
-    label: "Added Date",
-  },
-  {
-    value: "releaseDate",
-    label: "Release Date",
-  },
-];
-
-const COLLECTION_SORTING_CHIP_DATA = [
-  {
-    value: "userCustom",
-    label: "User Order",
-  },
-  ...SORTING_CHIP_DATA,
-];
+import { useTranslation } from "@repo/locales";
 
 interface Props extends GroupProps {
   libraryUserId: string;
@@ -50,8 +32,34 @@ const LibraryViewActions = ({
   onExtraContentChange,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const isOwnLibrary = ownUserId != undefined && ownUserId === libraryUserId;
+
+  const SORTING_CHIP_DATA = useMemo(
+    () => [
+      {
+        value: "addedDate",
+        label: t("library.sorts.addedDate"),
+      },
+      {
+        value: "releaseDate",
+        label: t("library.sorts.releaseDate"),
+      },
+    ],
+    [t],
+  );
+
+  const COLLECTION_SORTING_CHIP_DATA = useMemo(
+    () => [
+      {
+        value: "userCustom",
+        label: t("library.sorts.userOrder"),
+      },
+      ...SORTING_CHIP_DATA,
+    ],
+    [t, SORTING_CHIP_DATA],
+  );
 
   return (
     <Group
@@ -69,12 +77,12 @@ const LibraryViewActions = ({
         variant={"outline"}
         onChange={() => onExtraContentChange(!includeExtraContent)}
       >
-        Show DLCs/Extras
+        {t("library.labels.showDLCs")}
       </Chip>
       {isOwnLibrary && (
         <Link href={"/importer"}>
           <ActionChip icon={<IconDownload size={16} />}>
-            Import games
+            {t("library.buttons.importGames")}
           </ActionChip>
         </Link>
       )}

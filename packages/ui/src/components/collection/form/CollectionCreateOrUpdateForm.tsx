@@ -15,25 +15,30 @@ import { notifications } from "@mantine/notifications";
 import { createErrorNotification, syncEntityToZodForm } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
-const CreateCollectionFormSchema = z
-  .object({
-    name: z.string().min(3, "Collection must have a name.").max(50),
-    description: z.string().optional(),
-    isPublic: z.boolean(),
-    isFeatured: z.boolean(),
-    defaultEntryStatus: z.enum(Collection.defaultEntryStatus).nullable(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.isFeatured && !data.isPublic) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["isFeatured"],
-        message: "Featured collections must be public",
-      });
-    }
-  });
+const createCollectionFormSchema = (
+  t: ReturnType<typeof useTranslation>["t"],
+) =>
+  z
+    .object({
+      name: z.string().min(3, t("collection.labels.name")).max(50),
+      description: z.string().optional(),
+      isPublic: z.boolean(),
+      isFeatured: z.boolean(),
+      defaultEntryStatus: z.enum(Collection.defaultEntryStatus).nullable(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.isFeatured && !data.isPublic) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["isFeatured"],
+          message: t("collection.validation.featuredMustBePublic"),
+        });
+      }
+    });
 
-type CreateCollectionFormValues = z.infer<typeof CreateCollectionFormSchema>;
+type CreateCollectionFormValues = z.infer<
+  ReturnType<typeof createCollectionFormSchema>
+>;
 
 interface ICollectionCreateOrUpdateFormProps extends BaseModalChildrenProps {
   collectionId: string | undefined | null;
@@ -52,9 +57,11 @@ const CollectionCreateOrUpdateForm = ({
   const collectionQuery = useCollection(collectionId);
   const existingCollection = collectionQuery.data;
 
+  const schema = React.useMemo(() => createCollectionFormSchema(t), [t]);
+
   const { setValue, handleSubmit, register, formState, watch, reset } =
     useForm<CreateCollectionFormValues>({
-      resolver: zodResolver(CreateCollectionFormSchema),
+      resolver: zodResolver(schema),
       mode: "onChange",
       defaultValues: {
         isPublic: true,
@@ -78,9 +85,10 @@ const CollectionCreateOrUpdateForm = ({
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: collectionId != undefined 
-          ? t("collection.messages.updateSuccess")
-          : t("collection.messages.createSuccess"),
+        message:
+          collectionId != undefined
+            ? t("collection.messages.updateSuccess")
+            : t("collection.messages.createSuccess"),
       });
       if (onClose) {
         onClose();
@@ -95,13 +103,9 @@ const CollectionCreateOrUpdateForm = ({
 
   useEffect(() => {
     if (existingCollection != undefined) {
-      syncEntityToZodForm(
-        existingCollection,
-        CreateCollectionFormSchema,
-        reset,
-      );
+      syncEntityToZodForm(existingCollection, schema, reset);
     }
-  }, [existingCollection, reset]);
+  }, [existingCollection, reset, schema]);
 
   return (
     <form

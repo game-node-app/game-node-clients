@@ -9,19 +9,21 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "#@/util";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
 import sourceType = FindAllCommentsDto.sourceType;
+import { useTranslation } from "@repo/locales";
 
 interface ReviewListItemCommentsProps {
   review: Review;
 }
 
 const ReviewListItemComments = ({ review }: ReviewListItemCommentsProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const [commentsModalOpened, commentsModalUtils] = useDisclosure();
 
   return (
     <>
       <Modal
-        title={"Comments in this review"}
+        title={t("comment.titles.commentsInReview")}
         opened={commentsModalOpened}
         onClose={commentsModalUtils.close}
         size={"xl"}

@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "@repo/locales";
 
 const ReportCreateFormSchema = z.object({
   category: z.enum(CreateReportRequestDto.category),
@@ -36,6 +37,7 @@ const ReportCreateForm = ({
   sourceType,
   onSuccess,
 }: ReportCreateFormProps) => {
+  const { t } = useTranslation();
   const { register, watch, handleSubmit, setValue } =
     useForm<ReportCreateFormValues>({
       mode: "onSubmit",
@@ -73,15 +75,13 @@ const ReportCreateForm = ({
     onError: () => {
       notifications.show({
         color: "red",
-        message:
-          "Error while sending your report. Please try again. If this persists, contact support.",
+        message: t("reports.messages.error"),
       });
     },
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message:
-          "Thank you for submitting your report! It will be reviewed by our moderators as soon as possible.",
+        message: t("reports.messages.success"),
       });
 
       if (onSuccess) onSuccess();
@@ -104,22 +104,20 @@ const ReportCreateForm = ({
           }}
           name={"category"}
           allowDeselect={false}
-          label={"Report category"}
+          label={t("reports.labels.category")}
           data={categorySelectOptions}
           description={selectedCategoryDescription}
         />
         <Textarea
           {...register("reason")}
-          label={"Reason"}
-          description={
-            "Optional. Extra details that may help us decide if this content is harmful."
-          }
+          label={t("reports.labels.reason")}
+          description={t("reports.descriptions.reason")}
         />
         <Text className={"text-dimmed text-sm"}>
-          Don't worry, the reported user will never know you reported them.
+          {t("reports.descriptions.privacy")}
         </Text>
         <Button className={"mt-2"} type={"submit"}>
-          Submit report
+          {t("reports.buttons.submit")}
         </Button>
       </Stack>
     </form>

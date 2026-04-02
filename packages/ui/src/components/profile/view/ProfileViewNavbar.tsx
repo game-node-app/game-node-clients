@@ -9,12 +9,14 @@ import { ProfileFollowInfo } from "#@/components/profile/view/ProfileFollowInfo.
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import criteria = FollowInfoRequestDto.criteria;
 import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends GroupProps {
   userId: string;
 }
 
 const ProfileViewNavbar = ({ userId, ...groupProps }: Props) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
   const collectionEntriesQuery = useCollectionEntriesForUserId({
@@ -33,22 +35,22 @@ const ProfileViewNavbar = ({ userId, ...groupProps }: Props) => {
       className={"lg:gap-16"}
     >
       <ProfileViewNavbarLink
-        title={"Games"}
+        title={t("profile.tabs.games")}
         itemCount={collectionEntriesQuery.data?.pagination.totalItems}
         href={`/library/${userId}`}
       />
       <ProfileViewNavbarLink
-        title={"Reviews"}
+        title={t("profile.tabs.reviews")}
         itemCount={reviewsQuery.data?.pagination.totalItems}
         href={`/profile/${userId}/reviews`}
       />
       <ProfileViewNavbarLink
-        title={"Collections"}
+        title={t("profile.tabs.collections")}
         itemCount={libraryQuery.data?.collections.length}
         href={`/library/${userId}`}
       />
       <ProfileViewNavbarLink
-        title={"Achievements"}
+        title={t("profile.tabs.achievements")}
         href={`/achievements/${userId}`}
         itemCount={obtainedAchievementsQuery.data?.length}
       />

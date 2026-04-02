@@ -1,23 +1,12 @@
-import {
-  Center,
-  Divider,
-  HoverCard,
-  Popover,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from "@mantine/core";
+import { Divider, Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import {
   IconBolt,
-  IconChevronsRight,
   IconHome,
   IconLibrary,
   IconMilitaryAward,
   IconNews,
   IconNotebook,
   IconProps,
-  IconStars,
   IconTrendingUp,
   IconTrophy,
 } from "@tabler/icons-react";
@@ -25,10 +14,9 @@ import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { ExoticComponent, PropsWithoutRef, useCallback } from "react";
 import { cn } from "@repo/ui";
 import Link from "next/link";
-import { useDisclosure } from "@mantine/hooks";
-import { GlobalShellNavbarCollectionsSection } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection";
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
 
 export interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;
@@ -36,29 +24,6 @@ export interface NavbarItem {
   href: string;
   withDivider?: boolean;
 }
-
-const links: NavbarItem[] = [
-  { icon: IconLibrary, label: "Library", href: "/library", withDivider: true },
-  { icon: IconHome, label: "Home", href: "/home" },
-  { icon: IconTrendingUp, label: "Explore", href: "/explore" },
-  { icon: IconBolt, label: "Activity", href: "/activity" },
-  { icon: IconNews, label: "Blog", href: "/blog", withDivider: true },
-  {
-    icon: IconNotebook,
-    label: "Journal",
-    href: "/profile?tab=journal",
-  },
-  {
-    icon: IconTrophy,
-    label: "Achievements",
-    href: "/achievements",
-  },
-  {
-    icon: IconMilitaryAward,
-    label: "Feats",
-    href: "/feats",
-  },
-];
 
 interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
   onOpen: () => void;
@@ -68,8 +33,42 @@ interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
 export default function GlobalShellNavbar({
   onClose,
 }: IGlobalShellNavbarProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = router.pathname;
+
+  const links: NavbarItem[] = [
+    {
+      icon: IconLibrary,
+      label: t("navigation.library"),
+      href: "/library",
+      withDivider: true,
+    },
+    { icon: IconHome, label: t("navigation.home"), href: "/home" },
+    { icon: IconTrendingUp, label: t("navigation.explore"), href: "/explore" },
+    { icon: IconBolt, label: t("navigation.activity"), href: "/activity" },
+    {
+      icon: IconNews,
+      label: t("navigation.blog"),
+      href: "/blog",
+      withDivider: true,
+    },
+    {
+      icon: IconNotebook,
+      label: t("navigation.journal"),
+      href: "/profile?tab=journal",
+    },
+    {
+      icon: IconTrophy,
+      label: t("navigation.achievements"),
+      href: "/achievements",
+    },
+    {
+      icon: IconMilitaryAward,
+      label: t("navigation.feats"),
+      href: "/feats",
+    },
+  ];
 
   const isActive = useCallback(
     (href: string) => pathname.startsWith(href),

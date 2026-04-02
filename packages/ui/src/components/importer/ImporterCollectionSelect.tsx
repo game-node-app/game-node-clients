@@ -8,6 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends MultiSelectProps {
   userId: string | undefined;
@@ -15,6 +16,7 @@ interface Props extends MultiSelectProps {
 }
 
 const ImporterCollectionSelect = ({ userId, onChange, ...others }: Props) => {
+  const { t } = useTranslation();
   const userLibraryQuery = useUserLibrary(userId);
 
   const collectionsSelectOptions = useMemo(() => {
@@ -37,7 +39,7 @@ const ImporterCollectionSelect = ({ userId, onChange, ...others }: Props) => {
   return (
     <MultiSelect
       w={"100%"}
-      label={"Select collections"}
+      label={t("collectionEntry.labels.collections")}
       data={collectionsSelectOptions}
       clearable={false}
       searchable

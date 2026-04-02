@@ -2,12 +2,14 @@ import React, { useMemo } from "react";
 import type { JournalEntryYearGroupDto } from "@repo/wrapper/server";
 import { Divider, Group, Stack, Text, Title } from "@mantine/core";
 import { JournalOverviewMonthGroup } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   yearGroup: JournalEntryYearGroupDto;
 }
 
 const JournalOverviewYearGroup = ({ yearGroup }: Props) => {
+  const { t } = useTranslation();
   const targetYear = yearGroup.year;
 
   const totalGames = useMemo(() => {
@@ -35,7 +37,9 @@ const JournalOverviewYearGroup = ({ yearGroup }: Props) => {
         <Title size={"h4"} fw={"bold"} className={"text-white"}>
           {targetYear}
         </Title>
-        <Text className={"text-sm text-dimmed"}>{totalGames} games</Text>
+        <Text className={"text-sm text-dimmed"}>
+          {t("journal.overview.gamesCount", { count: totalGames })}
+        </Text>
       </Group>
       <Divider className={"w-full mt-2 mb-5"} />
       <Stack className={"gap-3"}>{renderedItens}</Stack>

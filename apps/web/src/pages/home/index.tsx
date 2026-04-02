@@ -31,8 +31,10 @@ import {
 } from "@repo/wrapper/server";
 import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import type = Activity.type;
+import { useTranslation } from "@repo/locales";
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const userId = useUserId();
 
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
@@ -94,9 +96,7 @@ const HomePage = () => {
 
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
           {isEmpty && (
-            <CenteredErrorMessage
-              message={"No results found. Please try again."}
-            />
+            <CenteredErrorMessage message={t("home.noResultsTryAgain")} />
           )}
           <GameView.Content items={data?.data?.items}>
             <GameView.LoadingSkeletons isVisible={isLoading} />
@@ -127,10 +127,10 @@ const HomePage = () => {
             <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
             <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-              <DetailsCard title={"Recent Activity"}>
+              <DetailsCard title={t("home.recentActivity")}>
                 <RecentActivityList limit={10} />
               </DetailsCard>
-              <DetailsCard title={"Last reviews"}>
+              <DetailsCard title={t("home.lastReviews")}>
                 <RecentActivityList limit={10} type={type.REVIEW} />
               </DetailsCard>
             </SimpleGrid>

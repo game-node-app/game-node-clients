@@ -9,6 +9,7 @@ import {
 import { Game } from "@repo/wrapper/server";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useGamesResource } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends MultiSelectProps {
   resourceName: string;
@@ -20,6 +21,7 @@ interface GameResource {
 }
 
 const ExploreScreenResourceSelector = ({ resourceName, ...others }: Props) => {
+  const { t } = useTranslation();
   const resourceQuery = useGamesResource(
     resourceName as keyof Game,
   ) as unknown as UseQueryResult<GameResource[]>;
@@ -35,7 +37,9 @@ const ExploreScreenResourceSelector = ({ resourceName, ...others }: Props) => {
   return (
     <MultiSelect
       pos={"relative"}
-      placeholder={resourceQuery.isLoading ? "Loading..." : undefined}
+      placeholder={
+        resourceQuery.isLoading ? t("explore.placeholders.loading") : undefined
+      }
       data={data}
       searchable
       clearable

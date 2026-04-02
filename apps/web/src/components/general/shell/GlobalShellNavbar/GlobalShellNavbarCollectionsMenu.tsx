@@ -34,7 +34,11 @@ const GlobalShellNavbarCollectionsMenu = () => {
             "w-full hover:bg-paper-8 data-[opened=true]:bg-paper-8 h-8 rounded-md"
           }
           data-opened={collectionMenuExpanded ? "true" : "false"}
-          onClick={collectionMenuUtils.toggle}
+          onClick={() => {
+            if (onMobile) {
+              collectionMenuUtils.toggle();
+            }
+          }}
         >
           <Center>
             <TargetIcon></TargetIcon>

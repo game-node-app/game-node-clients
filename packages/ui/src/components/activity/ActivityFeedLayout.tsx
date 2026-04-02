@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from "react";
 import { Box, Divider, Stack, Tabs } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 export type ActivityFeedTabValue = "following" | "all";
 
@@ -11,6 +12,7 @@ interface Props extends PropsWithChildren {
 }
 
 const ActivityFeedLayout = ({ children, currentTab, onChange }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   return (
     <Stack className={"w-full h-full"}>
@@ -22,7 +24,7 @@ const ActivityFeedLayout = ({ children, currentTab, onChange }: Props) => {
               onChange("all");
             }}
           >
-            All
+            {t("activity.tabs.all")}
           </Tabs.Tab>
           <Tabs.Tab
             value={"following"}
@@ -31,7 +33,7 @@ const ActivityFeedLayout = ({ children, currentTab, onChange }: Props) => {
               onChange("following");
             }}
           >
-            Following
+            {t("activity.tabs.following")}
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>

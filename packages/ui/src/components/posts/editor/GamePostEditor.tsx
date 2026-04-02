@@ -22,6 +22,7 @@ import {
 import { RichTextEditor, RichTextEditorContentProps } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import { IconPhoto } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface GamePostEditorProps {
   /**
@@ -37,6 +38,7 @@ interface GamePostEditorProps {
 }
 
 const GamePostEditor = (props: GamePostEditorProps) => {
+  const { t } = useTranslation();
   const [editorEnabled, editorEnabledUtils] = useDisclosure(
     props.withEnableButton == undefined || !props.withEnableButton,
   );
@@ -133,7 +135,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: "Successfully published post!",
+        message: t("posts.messages.published"),
       });
       postsFeedQuery.invalidate();
       props.onPublish?.();
@@ -150,7 +152,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
   if (!editorEnabled) {
     return (
       <Button variant={"default"} onClick={editorEnabledUtils.open}>
-        Create Post
+        {t("actions.create")}
       </Button>
     );
   }
@@ -234,7 +236,7 @@ const GamePostEditor = (props: GamePostEditorProps) => {
                 publishPostMutation.mutate();
               }}
             >
-              Publish
+              {t("actions.submit")}
             </Button>
           </Group>
         )}

@@ -28,6 +28,7 @@ import { createErrorNotification, Modal } from "#@/util";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   item: Post;
@@ -40,6 +41,7 @@ const PostsListItem = ({
   withUserProfile = true,
   withGameInfo = true,
 }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const onMobile = useOnMobile();
   const queryClient = useQueryClient();
@@ -82,7 +84,7 @@ const PostsListItem = ({
         sourceType={CreateReportRequestDto.sourceType.POST}
       />
       <Modal
-        title={"Comments in this post"}
+        title={t("comment.titles.commentsInPost")}
         opened={commentsOpened}
         onClose={commentsOpenedUtils.close}
         fullScreen={onMobile}
@@ -147,10 +149,8 @@ const PostsListItem = ({
               onConfirm={() => deletePostMutation.mutate()}
               opened={removeModalOpened}
               onClose={removeModalUtils.close}
-              title={"Confirm post removal"}
-              message={
-                "This post will be deleted permanently, and this action cannot be undone. Are you sure?"
-              }
+              title={t("posts.titles.confirmRemove")}
+              message={t("posts.messages.removeWarning")}
             />
             <ItemDropdown>
               <ItemDropdown.ReportButton
@@ -165,8 +165,8 @@ const PostsListItem = ({
         </Group>
         <Divider className={"w-full"} />
         <Spoiler
-          hideLabel={"Show less"}
-          showLabel={"Show more"}
+          hideLabel={t("actions.showLess")}
+          showLabel={t("actions.showMore")}
           maxHeight={300}
         >
           <PostImageLightboxContext>

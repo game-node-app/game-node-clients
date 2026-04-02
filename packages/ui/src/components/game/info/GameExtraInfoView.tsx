@@ -8,12 +8,14 @@ import {
   GameInfoPlaytimeTracker,
   GameInfoProgressTimeline,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameExtraInfoViewProps {
   gameId: number;
 }
 
 const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
+  const { t } = useTranslation();
   return (
     <Stack className={"w-full gap-5"}>
       <SimpleGrid
@@ -28,42 +30,42 @@ const GameExtraInfoView = ({ gameId }: IGameExtraInfoViewProps) => {
       </SimpleGrid>
 
       <GameRelatedGamesCarousel
-        title={"Other versions of this game"}
+        title={t("game.extra.otherVersions")}
         gameId={gameId}
         relationProperty={["remasters", "remakes"]}
       />
       <GameRelatedGamesCarousel
-        title={"Remake of"}
+        title={t("game.extra.remakeOf")}
         gameId={gameId}
         relationProperty={"remakeOf"}
       />
       <GameRelatedGamesCarousel
-        title={"Remaster of"}
+        title={t("game.extra.remasterOf")}
         gameId={gameId}
         relationProperty={"remasterOf"}
       />
       <GameRelatedGamesCarousel
-        title={"Expansion of"}
+        title={t("game.extra.expansionOf")}
         gameId={gameId}
         relationProperty={"expansionOf"}
       />
       <GameRelatedGamesCarousel
-        title={"Expansions"}
+        title={t("game.extra.expansions")}
         gameId={gameId}
         relationProperty={"expansions"}
       />
       <GameRelatedGamesCarousel
-        title={"DLC of"}
+        title={t("game.extra.dlcOf")}
         gameId={gameId}
         relationProperty={"dlcOf"}
       />
       <GameRelatedGamesCarousel
-        title={"DLCs"}
+        title={t("game.extra.dlcs")}
         gameId={gameId}
         relationProperty={"dlcs"}
       />
       <GameRelatedGamesCarousel
-        title={"Similar games"}
+        title={t("game.extra.similarGames")}
         gameId={gameId}
         relationProperty={"similarGames"}
       />

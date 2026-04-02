@@ -35,6 +35,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { IconDownload } from "@tabler/icons-react";
 import { match } from "ts-pattern";
+import { useTranslation } from "@repo/locales";
 import period = FindAllPlaytimeFiltersDto.period;
 
 const CONTAINER_ID = "wrapped-share-preview-container";
@@ -49,21 +50,6 @@ const GRID_OPTIONS = [
   "4x2",
   "4x4",
 ] as const;
-
-const PERIOD_OPTIONS: ComboboxItem[] = [
-  {
-    label: "Week",
-    value: period.WEEK,
-  },
-  {
-    label: "Month",
-    value: period.MONTH,
-  },
-  {
-    label: "Year",
-    value: period.YEAR,
-  },
-];
 
 const WeeklyWrappedFormSchema = z.object({
   period: z.enum([period.WEEK, period.MONTH, period.YEAR]),
@@ -99,7 +85,23 @@ function downloadFile(file: File) {
 }
 
 const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId()!;
+
+  const PERIOD_OPTIONS: ComboboxItem[] = [
+    {
+      label: t("explore.periods.week"),
+      value: period.WEEK,
+    },
+    {
+      label: t("explore.periods.month"),
+      value: period.MONTH,
+    },
+    {
+      label: t("explore.periods.year"),
+      value: period.YEAR,
+    },
+  ];
 
   const onMobile = useOnMobile();
 
@@ -186,11 +188,11 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
 
   const periodText = useMemo(() => {
     return match(selectedPeriod)
-      .with(period.WEEK, () => "Weekly Wrapped")
-      .with(period.MONTH, () => "Monthly Wrapped")
-      .with(period.YEAR, () => "Yearly Wrapped")
+      .with(period.WEEK, () => t("mobile.wrapped.weekly"))
+      .with(period.MONTH, () => t("mobile.wrapped.monthly"))
+      .with(period.YEAR, () => t("mobile.wrapped.yearly"))
       .exhaustive();
-  }, [selectedPeriod]);
+  }, [selectedPeriod, t]);
 
   const excludedGamesOptions = useMemo((): ComboboxItem[] => {
     if (gamesQuery.data == undefined) return [];
@@ -273,7 +275,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Your Wrapped"}
+      title={t("mobile.wrapped.title")}
       size={"lg"}
       fullScreen={onMobile}
       classNames={{
@@ -283,19 +285,17 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
       <Stack className={"flex-grow mb-4"}>
         {playtimeQuery.data?.pagination.totalItems === 0 && (
           <Text c={"red"}>
-            We&apos;ve found no playtime info for the selected period. You may
-            change the period criteria below or{" "}
+            {t("mobile.wrapped.messages.noPlaytime")}{" "}
             <TextLink href={"/preferences/connections"}>
-              set up a connection
+              {t("mobile.importer.clickHere")}
             </TextLink>{" "}
-            to start importing playtime info.
           </Text>
         )}
 
         {isLoading && <CenteredLoading />}
         <DetailsBox
           enabled={!isLoading && gamesQuery.data != undefined}
-          title={"Preview"}
+          title={t("awards.labels.preview")}
         >
           <Box className={"overflow-auto"}>
             <Stack
@@ -333,7 +333,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         <Stack className={"h-full"}>
           <Group className={"mt-3"}>
             <Select
-              label={"Period"}
+              label={t("mobile.wrapped.labels.period")}
               data={PERIOD_OPTIONS}
               value={selectedPeriod}
               allowDeselect={false}
@@ -342,7 +342,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               }}
             />
             <Select
-              label={"Grid style"}
+              label={t("mobile.wrapped.labels.gridStyle")}
               data={GRID_OPTIONS}
               value={watch("grid")}
               onChange={(v) => onGridChange(v as never)}
@@ -351,8 +351,8 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
           <Group className={"my-3"}>
             <MultiSelect
               multiple
-              label={"Excluded games"}
-              description={"These will not appear in the generated image."}
+              label={t("mobile.wrapped.labels.excludedGames")}
+              description={t("mobile.wrapped.labels.excludedGamesHint")}
               data={excludedGamesOptions}
               value={excludedGameIds.map((id) => `${id}`)}
               onChange={(ids) => {
@@ -367,19 +367,19 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               checked={withRecentPlaytime}
               onChange={(v) => setValue("withRecentPlaytime", v)}
             >
-              With recent playtime
+              {t("mobile.wrapped.labels.withRecentPlaytime")}
             </Chip>
             <Chip
               checked={withTotalPlaytime}
               onChange={(v) => setValue("withTotalPlaytime", v)}
             >
-              With total playtime
+              {t("mobile.wrapped.labels.withTotalPlaytime")}
             </Chip>
             <Chip
               checked={withSource}
               onChange={(v) => setValue("withSource", v)}
             >
-              With platform
+              {t("mobile.wrapped.labels.withPlatform")}
             </Chip>
           </Flex>
         </Stack>
@@ -392,7 +392,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
           type={"button"}
           className={"flex-grow"}
         >
-          Generate
+          {t("mobile.wrapped.buttons.generate")}
         </Button>
         <ActionIcon
           loading={shareMutation.isPending}

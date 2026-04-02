@@ -6,12 +6,14 @@ import {
 } from "#@/components";
 import { createErrorNotification, Link } from "#@/util";
 import { Anchor, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   gameId: number;
 }
 
 const GameInfoTimeToBeat = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const { data, isLoading } = useTimeToBeat(gameId);
 
   const renderedSubmissionInfo = useMemo(() => {
@@ -22,14 +24,14 @@ const GameInfoTimeToBeat = ({ gameId }: Props) => {
     if (data == undefined || !data.submitCount) {
       return (
         <Text className={"text-center text-sm text-dimmed"}>
-          Not enough submissions.
+          {t("game.ttb.notEnoughSubmissions")}
         </Text>
       );
     }
 
     return (
       <Text className={"text-center text-sm text-dimmed"}>
-        Based on {data.submitCount} submissions to{" "}
+        {t("game.ttb.basedOnIgdb", { count: data.submitCount })}{" "}
         <Anchor
           target={"_blank"}
           href={"https://igdb.com"}
@@ -44,7 +46,7 @@ const GameInfoTimeToBeat = ({ gameId }: Props) => {
 
   return (
     <DetailsBox
-      title={"Time to beat"}
+      title={t("game.ttb.title")}
       withPadding
       withBorder
       withDimmedTitle
@@ -52,26 +54,22 @@ const GameInfoTimeToBeat = ({ gameId }: Props) => {
       withRipple
     >
       <GameInfoTimeToBeatItem
-        title={"Main Story"}
+        title={t("game.ttb.mainStory")}
         seconds={data?.main ?? 0}
         isLoading={isLoading}
-        description={
-          "Average time to finish the game to its credits without spending notable time on extras such as side quests."
-        }
+        description={t("game.ttb.mainStoryDesc")}
       />
       <GameInfoTimeToBeatItem
-        title={"Main + Extras"}
+        title={t("game.ttb.mainExtras")}
         seconds={data?.mainPlusSides ?? 0}
         isLoading={isLoading}
-        description={
-          "Average time to finish the game while mixing in some extras such as side quests without being overly thorough."
-        }
+        description={t("game.ttb.mainExtrasDesc")}
       />
       <GameInfoTimeToBeatItem
-        title={"100%"}
+        title={t("game.ttb.completionist")}
         seconds={data?.completionist ?? 0}
         isLoading={isLoading}
-        description={"Average time to finish the game to 100% completion."}
+        description={t("game.ttb.completionistDesc")}
       />
       {renderedSubmissionInfo}
     </DetailsBox>

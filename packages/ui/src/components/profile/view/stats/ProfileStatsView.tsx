@@ -16,6 +16,7 @@ import {
   IconStack2,
 } from "@tabler/icons-react";
 import { BarChart } from "@mantine/charts";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
+  const { t } = useTranslation();
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 
   const playtimeInHours = metricsOverviewQuery.data?.totalEstimatedPlaytime
@@ -54,29 +56,29 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
         className={"mt-10 w-full"}
       >
         <ProfileStatsDataIcon
-          description={"Games"}
+          description={t("profile.stats.gamesLabel")}
           icon={IconDeviceGamepad2}
           count={metricsOverviewQuery.data?.totalGames}
         />
         <ProfileStatsDataIcon
-          description={"Collections"}
+          description={t("profile.stats.collectionsLabel")}
           icon={IconStack2}
           count={metricsOverviewQuery.data?.totalCollections}
         />
         <ProfileStatsDataIcon
-          description={"Finished Games"}
+          description={t("profile.stats.finishedGamesLabel")}
           icon={IconListCheck}
           count={metricsOverviewQuery.data?.totalFinishedGames}
         />
         <ProfileStatsDataIcon
-          description={"Estimated Playtime (in hours)*"}
+          description={t("profile.stats.estimatedPlaytime")}
           icon={IconClock}
           count={playtimeInHours}
         />
       </SimpleGrid>
       <DetailsBox
         enabled={metricsOverviewQuery.data != undefined}
-        title={"Backlog"}
+        title={t("profile.stats.backlogTracking")}
         withDimmedTitle
         stackProps={{
           className: "w-full mt-8",
@@ -88,7 +90,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
               h={80}
               data={[
                 {
-                  label: "Backlog tracking",
+                  label: t("profile.stats.backlogTracking"),
                   totalGames: metricsOverviewQuery.data.totalGames,
                   totalFinishedGames:
                     metricsOverviewQuery.data.totalFinishedGames,
@@ -100,12 +102,12 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
                 {
                   name: "totalGames",
                   color: "blue",
-                  label: "Total",
+                  label: t("profile.stats.total"),
                 },
                 {
                   name: "totalFinishedGames",
                   color: "red",
-                  label: "Finished",
+                  label: t("profile.stats.finishedGames"),
                 },
               ]}
               gridAxis={"y"}
@@ -119,7 +121,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
         )}
       </DetailsBox>
       <DetailsBox
-        title={"Games by year"}
+        title={t("profile.stats.gamesByYear")}
         withDimmedTitle
         stackProps={{
           className: "w-full mt-8 p-0",
@@ -128,7 +130,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
         <ProfileStatsDistributionLineByYear userId={userId as string} />
       </DetailsBox>
       <DetailsBox
-        title={"Games by platform"}
+        title={t("profile.stats.gamesByPlatform")}
         withDimmedTitle
         stackProps={{
           className: "w-full mt-12 p-0",
@@ -141,7 +143,7 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
         />
       </DetailsBox>
       <DetailsBox
-        title={"Library distribution"}
+        title={t("profile.stats.libraryDistribution")}
         withDimmedTitle
         stackProps={{
           className: "p-0 mt-12 w-full",

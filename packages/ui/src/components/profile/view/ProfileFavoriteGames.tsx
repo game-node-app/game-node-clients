@@ -7,6 +7,7 @@ import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { DetailsBox, useOnMobilePlatform } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const onMobilePlatform = useOnMobilePlatform();
   const favoriteCollectionEntriesQuery = useFavoriteCollectionEntriesForUserId(
@@ -47,19 +49,15 @@ const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
   } else if (isEmpty) {
     return (
       <CenteredErrorMessage
-        message={"This user has no public favorite games."}
+        message={t("profile.messages.noPublicFavoriteGames")}
       />
     );
   } else if (isError) {
-    return (
-      <CenteredErrorMessage
-        message={"We couldn't fetch this data. Please try again."}
-      />
-    );
+    return <CenteredErrorMessage message={t("profile.messages.fetchFailed")} />;
   }
   return (
     <DetailsBox
-      title={"Favorite Games"}
+      title={t("profile.titles.favoriteGames")}
       withDimmedTitle
       stackProps={{
         className: onMobilePlatform ? "bg-paper-4 p-2" : undefined,

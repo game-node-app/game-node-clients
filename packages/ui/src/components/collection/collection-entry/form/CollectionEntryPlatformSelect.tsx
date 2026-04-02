@@ -14,10 +14,12 @@ import {
 } from "#@/components";
 import { useDisclosure } from "@mantine/hooks";
 import { PreferredPlatformsViewModal } from "#@/components/preferred-platform/view/PreferredPlatformsViewModal";
+import { useTranslation } from "@repo/locales";
 
 const CollectionEntryPlatformSelect = ({
   gameId,
 }: Pick<IGameAddFormProps, "gameId">) => {
+  const { t } = useTranslation();
   const {
     watch,
     register,
@@ -87,16 +89,16 @@ const CollectionEntryPlatformSelect = ({
           setValue("platformsIds", value ?? []);
         }}
         searchable
-        placeholder={"Select platforms"}
-        label={"Platforms"}
+        placeholder={t("collectionEntry.placeholders.platforms")}
+        label={t("collectionEntry.labels.platforms")}
         error={errors.platformsIds?.message}
         withAsterisk
         limit={20}
-        description={"You can search for a platform by typing it's name"}
+        description={t("collectionEntry.descriptions.platformSearch")}
       />
       {!isInLibrary && (
         <Text className={"text-sm text-dimmed"}>
-          Tip:{" "}
+          {t("game.labels.tip")}:{" "}
           <TextLink
             href={"#"}
             onClick={(evt) => {
@@ -104,9 +106,9 @@ const CollectionEntryPlatformSelect = ({
               preferredPlatformsModalUtils.open();
             }}
           >
-            set your preferred platforms
+            {t("preferences.labels.preferredPlatforms")}
           </TextLink>{" "}
-          to fill this field automatically when adding new games.
+          {t("collectionEntry.descriptions.preferredPlatformsHint")}
         </Text>
       )}
     </Stack>

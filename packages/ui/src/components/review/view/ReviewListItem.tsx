@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
+import { createDefaultReviewEditorExtensions } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
 import {
   Box,
   Divider,
@@ -22,6 +22,7 @@ import {
   ReviewListItemDropdownButton,
   TextLink,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IReviewListViewProps {
   review: Review;
@@ -29,12 +30,13 @@ interface IReviewListViewProps {
 }
 
 const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const [isReadMore, setIsReadMore] = useState<boolean>(false);
 
   const editor = useEditor(
     {
-      extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
+      extensions: createDefaultReviewEditorExtensions(""),
       content: review?.content,
       editable: false,
       immediatelyRender: false,
@@ -78,8 +80,8 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
             <GameRating value={review.rating} size={"xl"} mt={"lg"} />
           ) : (
             <Spoiler
-              hideLabel={"Show less"}
-              showLabel={"Show more"}
+              hideLabel={t("actions.showLess")}
+              showLabel={t("actions.showMore")}
               expanded={isReadMore}
               onExpandedChange={setIsReadMore}
               maxHeight={300}

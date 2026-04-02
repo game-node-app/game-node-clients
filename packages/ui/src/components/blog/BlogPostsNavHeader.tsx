@@ -1,41 +1,43 @@
 import React from "react";
 import { Center, Group, ScrollArea, Text } from "@mantine/core";
 import { Link } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 interface NavbarLink {
   label: string;
   href: string;
 }
 
-const LINKS: NavbarLink[] = [
-  {
-    label: "Home",
-    href: "/blog",
-  },
-  {
-    label: "Archive",
-    href: "/blog/archive",
-  },
-  {
-    label: "News",
-    href: "/blog/archive?tag=news",
-  },
-
-  {
-    label: "Reviews",
-    href: "/blog/archive?tag=review",
-  },
-  {
-    label: "Articles",
-    href: "/blog/archive?tag=article",
-  },
-  {
-    label: "GameNode",
-    href: "/blog/archive?tag=gamenode",
-  },
-];
-
 const BlogPostsNavHeader = () => {
+  const { t } = useTranslation();
+
+  const LINKS: NavbarLink[] = [
+    {
+      label: t("blog.nav.home"),
+      href: "/blog",
+    },
+    {
+      label: t("blog.nav.archive"),
+      href: "/blog/archive",
+    },
+    {
+      label: t("blog.nav.news"),
+      href: "/blog/archive?tag=news",
+    },
+    {
+      label: t("blog.nav.reviews"),
+      href: "/blog/archive?tag=review",
+    },
+    {
+      label: t("blog.nav.articles"),
+      href: "/blog/archive?tag=article",
+    },
+    {
+      label: t("blog.nav.gameNode"),
+      href: "/blog/archive?tag=gamenode",
+    },
+  ];
+
   return (
     <Group
       className={

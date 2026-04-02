@@ -4,8 +4,10 @@ import { useAvailableConnections } from "#@/components/connections/hooks/useAvai
 import { PreferencesConnectionItem } from "#@/components/preferences/handlers/connections/PreferencesConnectionItem";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { useTranslation } from "@repo/locales";
 
 const PreferencesConnectionsScreen = () => {
+  const { t } = useTranslation();
   const { isLoading, isError, data } = useAvailableConnections();
 
   const items = useMemo(() => {
@@ -26,9 +28,7 @@ const PreferencesConnectionsScreen = () => {
         {isLoading && <CenteredLoading />}
         {isError && (
           <CenteredErrorMessage
-            message={
-              "Error while fetching available connections. Please refresh this page."
-            }
+            message={t("preferences.messages.availableConnectionsError")}
           />
         )}
         {items}

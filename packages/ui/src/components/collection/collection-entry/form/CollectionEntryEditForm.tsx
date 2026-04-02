@@ -32,37 +32,42 @@ import {
 import { createErrorNotification } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
-const GameAddOrUpdateSchema = z.object({
-  collectionIds: z.array(
-    z.string({
-      error: "Collection must be valid.",
-    }),
-    {
-      error: "Collection must be valid.",
-    },
-  ),
-  platformsIds: z
-    .array(
-      z.number({
-        error: "Select at least one platform.",
+const createGameAddOrUpdateSchema = (
+  t: ReturnType<typeof useTranslation>["t"],
+) =>
+  z.object({
+    collectionIds: z.array(
+      z.string({
+        message: t("collectionEntry.validation.collectionRequired"),
       }),
       {
-        error: "Select at least one platform.",
+        message: t("collectionEntry.validation.collectionRequired"),
       },
-    )
-    .min(1, "Select at least one platform."),
-  finishedAt: z.date().nullable(),
-  status: z.enum(CollectionEntry.status),
-  review: z.object({
-    rating: z
-      .number({ message: "Rating must be a number between 1 and 5." })
-      .nullish(),
-    content: z.string().nullish(),
-  }),
-  relatedGamesIds: z.array(z.number()),
-});
+    ),
+    platformsIds: z
+      .array(
+        z.number({
+          message: t("collectionEntry.validation.platformRequired"),
+        }),
+        {
+          message: t("collectionEntry.validation.platformRequired"),
+        },
+      )
+      .min(1, t("collectionEntry.validation.platformRequired")),
+    finishedAt: z.date().nullable(),
+    status: z.enum(CollectionEntry.status),
+    review: z.object({
+      rating: z
+        .number({ message: t("collectionEntry.validation.ratingInvalid") })
+        .nullish(),
+      content: z.string().nullish(),
+    }),
+    relatedGamesIds: z.array(z.number()),
+  });
 
-export type TGameAddOrUpdateValues = z.infer<typeof GameAddOrUpdateSchema>;
+export type TGameAddOrUpdateValues = z.infer<
+  ReturnType<typeof createGameAddOrUpdateSchema>
+>;
 
 export interface IGameAddFormProps extends BaseModalChildrenProps {
   gameId: number;
@@ -81,6 +86,11 @@ const CollectionEntryEditForm = ({
 }: IGameAddFormProps) => {
   const { t } = useTranslation();
   const isMobilePlatform = useOnMobilePlatform();
+
+  const GameAddOrUpdateSchema = useMemo(
+    () => createGameAddOrUpdateSchema(t),
+    [t],
+  );
 
   const form = useForm<TGameAddOrUpdateValues>({
     mode: "onSubmit",
@@ -207,7 +217,7 @@ const CollectionEntryEditForm = ({
   } else if (gameQuery.isError) {
     return (
       <CenteredErrorMessage
-        message={"Error while fetching game data. Please try again."}
+        message={t("collectionEntry.messages.fetchError")}
       />
     );
   }
@@ -233,20 +243,20 @@ const CollectionEntryEditForm = ({
                 value={"details"}
                 leftSection={<IconFileDescription size={24} />}
               >
-                Details
+                {t("collectionEntry.tabs.details")}
               </Tabs.Tab>
               <Tabs.Tab
                 value={"review"}
                 leftSection={<IconStarsFilled size={24} />}
               >
-                Review
+                {t("collectionEntry.tabs.review")}
               </Tabs.Tab>
               <Tabs.Tab
                 value={"dlcs"}
                 leftSection={<IconAppsFilled size={24} />}
                 disabled={!hasRelatedGames}
               >
-                DLCs
+                {t("collectionEntry.tabs.dlcs")}
               </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value={"details"}>
@@ -267,7 +277,9 @@ const CollectionEntryEditForm = ({
             loading={collectionEntryMutation.isPending}
             className={"w-full mt-4"}
           >
-            {isUpdateAction ? "Update" : "Add"}
+            {isUpdateAction
+              ? t("collectionEntry.buttons.update")
+              : t("collectionEntry.buttons.add")}
           </Button>
         </form>
       </FormProvider>

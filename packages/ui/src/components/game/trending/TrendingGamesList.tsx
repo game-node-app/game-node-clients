@@ -5,6 +5,7 @@ import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
 import { FindStatisticsTrendingGamesDto } from "../../../../../wrapper/src/server";
+import { useTranslation } from "@repo/locales";
 import period = FindStatisticsTrendingGamesDto.period;
 
 export const DEFAULT_SEARCH_TRENDING_GAMES_DTO: FindStatisticsTrendingGamesDto =
@@ -16,6 +17,7 @@ export const DEFAULT_SEARCH_TRENDING_GAMES_DTO: FindStatisticsTrendingGamesDto =
   };
 
 const TrendingGamesList = () => {
+  const { t } = useTranslation();
   const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
 
   const gamesIds = trendingGames.data?.data?.map(
@@ -45,7 +47,7 @@ const TrendingGamesList = () => {
   return (
     <DetailsBox
       enabled={!isEmpty}
-      title={"Trending Games"}
+      title={t("home.trendingGames")}
       stackProps={{
         className: "",
       }}

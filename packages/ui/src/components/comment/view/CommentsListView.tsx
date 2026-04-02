@@ -7,12 +7,14 @@ import { LoadingOverlay, Stack } from "@mantine/core";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
+import { useTranslation } from "@repo/locales";
 
 type Props = Omit<UseCommentsProps, "limit" | "offset">;
 
 const COMMENTS_LIST_VIEW_DEFAULT_LIMIT = 10;
 
 const CommentsListView = ({ ...hookProps }: Props) => {
+  const { t } = useTranslation();
   const [offset, setOffset] = useState(0);
   const offsetAsPage =
     offset >= COMMENTS_LIST_VIEW_DEFAULT_LIMIT
@@ -39,9 +41,7 @@ const CommentsListView = ({ ...hookProps }: Props) => {
   return (
     <Stack className={"w-full h-full relative"}>
       {commentsQuery.isError && (
-        <CenteredErrorMessage
-          message={"Error while fetching comments. Please try again."}
-        />
+        <CenteredErrorMessage message={t("comment.messages.fetchError")} />
       )}
       <LoadingOverlay visible={commentsQuery.isLoading} />
       {items}

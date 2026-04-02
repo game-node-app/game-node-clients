@@ -7,6 +7,7 @@ import {
   useGame,
 } from "#@/components";
 import { Badge, Box, Flex, Skeleton, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
+  const { t } = useTranslation();
   const { data: game, isLoading: isGameLoading } = useGame(gameGroup.gameId, {
     relations: {
       cover: true,
@@ -22,8 +24,11 @@ const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
 
   const flavorText = useMemo(
     () =>
-      `${gameGroup.achievements.length} achievement${gameGroup.achievements.length > 1 ? "s" : ""}`,
-    [gameGroup.achievements.length],
+      t("journal.achievements.count", {
+        count: gameGroup.achievements.length,
+        suffix: gameGroup.achievements.length > 1 ? "s" : "",
+      }),
+    [gameGroup.achievements.length, t],
   );
 
   return (

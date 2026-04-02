@@ -11,34 +11,36 @@ import {
   useGames,
   useInfiniteTrendingGames,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 
 import period = FindStatisticsTrendingGamesDto.period;
-
-const SELECT_PERIOD_DATA = [
-  { label: "Week", value: period.WEEK },
-  { label: "Month", value: period.MONTH },
-  {
-    label: "3 months",
-    value: period.QUARTER,
-  },
-  {
-    label: "6 months",
-    value: period.HALF_YEAR,
-  },
-  {
-    label: "Year",
-    value: period.YEAR,
-  },
-  {
-    label: "All time",
-    value: period.ALL,
-  },
-];
 
 const DEFAULT_LIMIT = 48;
 
 const ExploreGamesPageView = () => {
+  const { t } = useTranslation();
   const [selectedPeriod, setSelectedPeriod] = useState(period.MONTH);
+
+  const SELECT_PERIOD_DATA = [
+    { label: t("explore.periods.week"), value: period.WEEK },
+    { label: t("explore.periods.month"), value: period.MONTH },
+    {
+      label: t("explore.periods.threeMonths"),
+      value: period.QUARTER,
+    },
+    {
+      label: t("explore.periods.sixMonths"),
+      value: period.HALF_YEAR,
+    },
+    {
+      label: t("explore.periods.year"),
+      value: period.YEAR,
+    },
+    {
+      label: t("explore.periods.allTime"),
+      value: period.ALL,
+    },
+  ];
 
   const [trendingQueryDto, setTrendingQueryDto] =
     useState<FindStatisticsTrendingGamesDto>({
@@ -87,9 +89,9 @@ const ExploreGamesPageView = () => {
     <Stack className={"w-full"}>
       <Flex className={"w-full justify-end"}>
         <IonSelect
-          label={"Trending in"}
+          label={t("explore.filters.trendingIn")}
           interface="action-sheet"
-          placeholder="Select period"
+          placeholder={t("explore.placeholders.selectPeriod")}
           onIonChange={(evt) => {
             setSelectedPeriod(evt.detail.value);
             setTrendingQueryDto((prev) => ({

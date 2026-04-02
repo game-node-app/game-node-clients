@@ -8,6 +8,7 @@ import { GameInfoCarousel } from "#@/components/game/info/carousel/GameInfoCarou
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useGamesResource } from "#@/components/game/hooks/useGamesResource";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<ComponentProps<typeof DetailsBox>, "title"> {
   title?: string;
@@ -16,6 +17,7 @@ interface Props extends Omit<ComponentProps<typeof DetailsBox>, "title"> {
 }
 
 const RecommendationCarousel = ({ criteria, limit = 15, ...others }: Props) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const recommendationsQuery = useRecommendations(criteria, limit);
   const gamesQuery = useGames({
@@ -36,7 +38,7 @@ const RecommendationCarousel = ({ criteria, limit = 15, ...others }: Props) => {
 
   const criteriaTitle = useMemo(() => {
     if (["finished", "played"].includes(criteria)) {
-      return "Based on your played games";
+      return t("recommendation.basedOnPlayed");
     }
 
     if (
@@ -50,8 +52,10 @@ const RecommendationCarousel = ({ criteria, limit = 15, ...others }: Props) => {
       (item) => item.id === recommendationsQuery.data.criteriaId,
     );
 
-    return `${matchingCriteria?.name} games you may like`;
-  }, [criteria, recommendationsQuery.data, resourceQuery.data]);
+    return t("recommendation.gamesYouMayLike", {
+      name: matchingCriteria?.name,
+    });
+  }, [criteria, recommendationsQuery.data, resourceQuery.data, t]);
 
   if (isEmpty) {
     return null;

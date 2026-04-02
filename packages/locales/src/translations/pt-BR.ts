@@ -25,6 +25,7 @@ export const ptBR: TranslationSchema = {
     no: "Não",
     share: "Compartilhar",
     showMore: "Mostrar mais",
+    showLess: "Mostrar menos",
     viewMore: "Ver Mais",
     seeMore: "Ver mais",
   },
@@ -52,6 +53,44 @@ export const ptBR: TranslationSchema = {
     selectGame: "Encontrar e selecionar um jogo",
     searchLabel: "Buscar por um jogo",
     removeFromLibrary: "Remover da sua biblioteca",
+    searchTips: {
+      pressHold:
+        "Pressione e segure a capa de um jogo para adicioná-lo rapidamente à sua biblioteca",
+      acronym: "Você também pode buscar pelas siglas dos jogos (ex.: tw3, gow)",
+    },
+    details: {
+      launchDate: "Data de lançamento",
+      whereToPlay: "Onde jogar",
+      whereToBuy: "Onde comprar",
+      summary: "Resumo",
+      notAvailable: "Não disponível",
+      developers: "Desenvolvedora(s)",
+      publishers: "Editora(s)",
+    },
+    extra: {
+      otherVersions: "Outras versões deste jogo",
+      remakeOf: "Remake de",
+      remasterOf: "Remaster de",
+      expansionOf: "Expansão de",
+      expansions: "Expansões",
+      dlcOf: "DLC de",
+      dlcs: "DLCs",
+      similarGames: "Jogos similares",
+    },
+    ttb: {
+      title: "Tempo para zerar",
+      notEnoughSubmissions: "Sem envios suficientes.",
+      basedOnIgdb: "Baseado em {{count}} envios para a",
+      mainStory: "História principal",
+      mainExtras: "Principal + Extras",
+      completionist: "100%",
+      mainStoryDesc:
+        "Tempo médio para terminar o jogo até os créditos sem gastar tempo relevante em extras como missões secundárias.",
+      mainExtrasDesc:
+        "Tempo médio para terminar o jogo incluindo alguns extras como missões secundárias, sem ser totalmente minucioso.",
+      completionistDesc:
+        "Tempo médio para terminar o jogo com 100% de conclusão.",
+    },
     labels: {
       share: "Compartilhar",
       playedIn: "Jogado em",
@@ -94,6 +133,7 @@ export const ptBR: TranslationSchema = {
       noEntry: "Nenhuma entrada encontrada.",
     },
     achievement: {
+      overviewTitle: "Conquistas",
       notAvailable: "Não Disponível",
       ownedBy: "Obtida por",
       trophies: "Trofeus",
@@ -155,12 +195,30 @@ export const ptBR: TranslationSchema = {
       updateDetails: "Atualizar titulo e descricao",
       reorderGames: "Reordenar jogos",
       moveGames: "Mover jogos para outra colecao",
+      discard: "Descartar",
+      apply: "Aplicar",
     },
     messages: {
       applyingChanges: "Aplicando alterações...",
       orderingUpdated: "A ordenação da sua coleção foi atualizada.",
       createSuccess: "Coleção criada com sucesso.",
       updateSuccess: "Coleção atualizada com sucesso.",
+      orderingHint:
+        'Arraste e solte elementos para reordenar jogos nesta coleção. Esta ordenação será mostrada quando um visitante selecionar "Ordem do Usuário" (padrão) como opção de ordenação.',
+      syncFailed: "Falha ao sincronizar alterações!",
+      changesCount: "{{count}} alterações",
+      atLeastOneGame: "Pelo menos um jogo deve ser selecionado.",
+      targetCollectionStringError:
+        "Coleções de destino retornadas como string. Por favor, contate o suporte.",
+      atLeastOneCollection: "Pelo menos uma coleção deve ser selecionada",
+      relevantFilteringFailed:
+        "A filtragem de entradas relevantes da coleção está falhando. Por favor, contate o suporte.",
+      gamesToMove: "Jogos para mover",
+      gamesToMoveHint:
+        "Selecione quais jogos você quer mover. Você pode pesquisar digitando o nome de um jogo.",
+      targetCollections: "Coleções de destino",
+      targetCollectionsHint:
+        "Coleções nas quais você quer inserir esses jogos. Você pode pesquisar pelo nome de uma coleção.",
     },
     sorts: {
       addedDate: "Data de Adição",
@@ -175,6 +233,14 @@ export const ptBR: TranslationSchema = {
     labels: {
       status: "Status",
       platforms: "Plataformas",
+      rating: "Avaliação",
+      collections: "Coleções",
+      optional: "Opcional",
+      finishedDate: "Data de conclusão",
+    },
+    titles: {
+      editGame: "Editar jogo",
+      addGame: "Adicionar jogo",
     },
     tabs: {
       details: "Detalhes",
@@ -191,6 +257,12 @@ export const ptBR: TranslationSchema = {
     descriptions: {
       statusDisabled:
         "Desativado devido ao status padrão das coleções selecionadas.",
+      collectionsOptional:
+        "Opcional. Em quais coleções você quer salvar este jogo?",
+      finishedDateOptional: "Opcional. Deixe vazio se você não lembrar.",
+      platformSearch: "Você pode buscar uma plataforma digitando o nome dela",
+      preferredPlatformsHint:
+        "para preencher este campo automaticamente ao adicionar novos jogos.",
     },
     statuses: {
       playing: "Jogando",
@@ -201,12 +273,20 @@ export const ptBR: TranslationSchema = {
     placeholders: {
       platforms: "Selecione plataformas",
       collections: "Selecione coleções",
+      reviewContent:
+        "Conteúdo da avaliação. Deixe vazio para criar uma avaliação apenas com nota.",
     },
     buttons: {
       update: "Atualizar",
       add: "Adicionar",
       editInLibrary: "Editar na biblioteca",
       viewGame: "Ver Jogo",
+    },
+    validation: {
+      collectionRequired: "A coleção deve ser válida.",
+      platformRequired: "Selecione pelo menos uma plataforma.",
+      ratingInvalid: "A avaliação deve ser um número entre 1 e 5.",
+      ratingInvalidDecimal: "A avaliação deve ter no máximo uma casa decimal.",
     },
     messages: {
       updateSuccess: "Jogo atualizado na sua biblioteca!",
@@ -219,6 +299,16 @@ export const ptBR: TranslationSchema = {
       moveHint:
         "Se você deseja mover este jogo entre coleções, você pode usar a opção Atualizar.",
     },
+    review: {
+      quickLabel: "Deixe uma avaliação rápida",
+      quickDescription: "Você sempre pode editá-la depois.",
+      optionalDescription:
+        "Opcional. Deixe vazio para criar uma avaliação apenas com nota.",
+    },
+    related: {
+      title: "Conteúdo relacionado",
+      description: "DLCs e expansões possuídos",
+    },
     timeline: {
       startedPlaying: "Começou a Jogar",
       markedFinished: "Jogo marcado como concluído",
@@ -229,6 +319,13 @@ export const ptBR: TranslationSchema = {
   },
   review: {
     remove: "Remover avaliação",
+    titles: {
+      yourReview: "Sua avaliação",
+    },
+    descriptions: {
+      writePublic:
+        "Escreva suas opiniões sobre este jogo. As avaliações são públicas para todos os usuários.",
+    },
     messages: {
       updated: "Avaliação atualizada com sucesso!",
       created: "Avaliação criada!",
@@ -242,11 +339,21 @@ export const ptBR: TranslationSchema = {
     remove: "Remover comentário",
     titles: {
       removeModal: "Remover comentário",
+      commentsInPost: "Comentários nesta postagem",
+      commentsInActivity: "Comentários nesta atividade",
+      commentsInReview: "Comentários nesta avaliação",
+    },
+    labels: {
+      replyingTo: "Respondendo ao comentário de {{username}}",
+    },
+    placeholders: {
+      writeComment: "Escreva um comentário sobre isso...",
     },
     messages: {
       submitted: "Comentário enviado com sucesso!",
       confirmRemove: "Tem certeza de que deseja remover este comentário?",
       removed: "Comentário removido com sucesso!",
+      fetchError: "Erro ao buscar comentários. Por favor, tente novamente.",
     },
   },
   view: {
@@ -278,12 +385,22 @@ export const ptBR: TranslationSchema = {
     blog: "Blog",
     achievements: "Conquistas",
     feats: "Feitos",
+    about: "Sobre",
+    privacy: "Privacidade",
+    terms: "Termos",
   },
   home: {
     recentActivity: "Atividade Recente",
     lastReviews: "Últimas avaliações",
+    trendingGames: "Jogos em alta",
+    trendingReviews: "Avaliações em alta",
+    noResultsTryAgain: "Nenhum resultado encontrado. Tente novamente.",
   },
   activity: {
+    tabs: {
+      all: "Todos",
+      following: "Seguindo",
+    },
     items: {
       addedTo: "Adicionado a {{collection}}",
       reviewed: "Avaliou",
@@ -291,7 +408,22 @@ export const ptBR: TranslationSchema = {
       followed: "Seguiu",
       unknown:
         "Realizou uma acao ainda nao mapeada. Isso sera atualizado em breve.",
+      obtainedAllAndPlatinum:
+        "Obteve troféu de platina e completou todas as conquistas",
+      completedAllAchievements: "Completou todas as conquistas",
+      obtainedPlatinum: "Obteve troféu de platina",
+      obtainedAchievements: "Obteve {{count}} conquista{{suffix}}",
     },
+    messages: {
+      noActivities:
+        "Nenhuma atividade para mostrar. Tente um filtro diferente.",
+      fetchError: "Erro ao buscar atividades. Por favor, tente novamente.",
+      noRecentActivity: "Nenhuma atividade recente para mostrar.",
+    },
+  },
+  recommendation: {
+    basedOnPlayed: "Com base nos seus jogos jogados",
+    gamesYouMayLike: "Jogos de {{name}} que você pode gostar",
   },
   landing: {
     headline: "Uma nova forma de organizar toda a sua coleção de jogos",
@@ -369,6 +501,7 @@ export const ptBR: TranslationSchema = {
       selectAchievements: "Selecionar conquistas em destaque",
       activity: "Atividade de {{username}}",
       library: "Biblioteca de {{username}}",
+      favoriteGames: "Jogos favoritos",
     },
     tabs: {
       games: "Jogos",
@@ -395,6 +528,9 @@ export const ptBR: TranslationSchema = {
       noReviews: "O usuário não tem avaliações.",
       noReviewsOwn: "Você não tem avaliações. Faça sua primeira!",
       noFeaturedAchievements: "Nenhuma conquista em destaque encontrada.",
+      noPublicFavoriteGames:
+        "Este usuário não possui jogos favoritos públicos.",
+      fetchFailed: "Não foi possível buscar esses dados. Tente novamente.",
     },
     usernameRules: {
       unique: "Deve ser único",
@@ -418,12 +554,18 @@ export const ptBR: TranslationSchema = {
       finishYear: "Ano de Conclusão",
       releaseYear: "Ano de lançamento",
       playtime: "Tempo de Jogo",
+      gamesByYear: "Jogos por ano",
+      gamesByPlatform: "Jogos por plataforma",
+      libraryDistribution: "Distribuição da biblioteca",
+      gamesLabel: "Jogos",
+      collectionsLabel: "Coleções",
+      finishedGamesLabel: "Jogos concluídos",
     },
     recent: {
       recentlyPlayed: "Jogados Recentemente",
       recentActivity: "Atividade recente",
     },
-    memberSince: "Desde {{date}}",
+    memberSince: "Membro desde {{date}}",
   },
   preferences: {
     categories: {
@@ -443,16 +585,23 @@ export const ptBR: TranslationSchema = {
       confirmUsername: "Confirme com seu nome de usuário",
       dangerZone: "Zona de Perigo",
       preferredPlatforms: "Plataformas Preferidas",
+      steamProfileUrl: "URL pública do seu perfil Steam",
+      psnOnlineId: "Seu ID online da PSN",
+      gamertag: "Seu Gamertag",
     },
     titles: {
       sync: "Sincronizar",
       restartAccount: "Reiniciar Conta",
+      editPreferredPlatforms: "Edite suas plataformas preferidas",
     },
     descriptions: {
       autoImport:
         "Importar automaticamente jogos recém-detectados para sua biblioteca.",
       targetCollection:
         "Os jogos serão adicionados diretamente à sua biblioteca se não especificado.",
+      steamProfileUrlExample: "ex.: https://steamcommunity.com/id/seu-usuario/",
+      psnOnlineId: "Normalmente é o seu nome de usuário.",
+      gamertag: "É o nome que aparece no seu console ou nos apps do Xbox.",
     },
     placeholders: {
       none: "Nenhum",
@@ -474,6 +623,11 @@ export const ptBR: TranslationSchema = {
       restartLogout:
         "Após usar este serviço, você será desconectado e poderá fazer login novamente com uma conta totalmente nova.",
       noPlatforms: "Nenhuma plataforma preferida adicionada.",
+      availableConnectionsError:
+        "Erro ao buscar conexões disponíveis. Por favor, atualize esta página.",
+    },
+    validation: {
+      usernameRequired: "Um nome de usuário deve ser informado.",
     },
     restartWarnings: {
       profile: "Limpar seu perfil",
@@ -505,6 +659,22 @@ export const ptBR: TranslationSchema = {
     },
   },
   playtime: {
+    titles: {
+      playSessions: "Sessões de jogo",
+      yourPlaySessions: "Suas sessões de jogo",
+      submitPlaySession: "Enviar sessão de jogo",
+    },
+    labels: {
+      platform: "Plataforma",
+      source: "Origem",
+      totalPlaytime: "Tempo total de jogo",
+      lastPlayedDate: "Última data jogada",
+    },
+    descriptions: {
+      totalPlaytime: "Tempo total de jogo (em minutos)",
+      lastPlayedDate:
+        "Esta é a última vez que você jogou este jogo. Isso é opcional.",
+    },
     platforms: {
       steam: "Steam",
       psn: "PSN",
@@ -519,10 +689,22 @@ export const ptBR: TranslationSchema = {
     },
     validation: {
       numberRequired: "O tempo total de jogo deve ser um número.",
+      playtimeRequired: "O tempo total de jogo deve ser fornecido.",
       platformRequired: "Uma plataforma deve ser selecionada.",
     },
     messages: {
       sessionRecorded: "Sessão de jogo registrada com sucesso",
+    },
+    hints: {
+      profileStats:
+        "Suas informações de tempo de jogo nos ajudam a montar estatísticas do seu perfil, retrospectiva e mais.",
+      autoImport:
+        "Recomendamos configurar suas conexões para importar automaticamente seus dados de tempo de jogo. Esses dados podem ser sobrescritos se encontrarmos dados deste jogo em uma das suas conexões.",
+      noPlaySessions:
+        "Nenhuma sessão de jogo encontrada para este jogo. Você pode configurar uma conexão ou adicionar manualmente seu tempo de jogo.",
+    },
+    buttons: {
+      addSession: "Adicionar sessão",
     },
   },
   library: {
@@ -536,6 +718,9 @@ export const ptBR: TranslationSchema = {
       addedDate: "Data de Adição",
       releaseDate: "Data de Lançamento",
       userOrder: "Ordem do Usuário",
+    },
+    labels: {
+      showDLCs: "Mostrar DLCs/Extras",
     },
   },
   importer: {
@@ -583,6 +768,9 @@ export const ptBR: TranslationSchema = {
     messages: {
       redeemed: "Código resgatado com sucesso. Aproveite!",
     },
+    validation: {
+      codeRequired: "Um código de conquista deve ser informado!",
+    },
   },
   awards: {
     title: "PRÊMIOS",
@@ -599,6 +787,7 @@ export const ptBR: TranslationSchema = {
       nominees: "Indicados",
       preview: "Pré-visualização",
       layout: "Layout",
+      suggestionsFromEditors: "Sugestões dos nossos editores",
     },
     layouts: {
       compact: "Compacto",
@@ -625,9 +814,25 @@ export const ptBR: TranslationSchema = {
     },
     messages: {
       voteSubmitted: "Seu voto para {{category}} foi enviado!",
+      votingIn:
+        "Você está votando na categoria {{category}} para a edição {{edition}}.",
+      excludingGames: "Excluindo {{count}} jogos não lançados em {{year}}.",
     },
   },
   reports: {
+    labels: {
+      category: "Categoria da denúncia",
+      reason: "Motivo",
+    },
+    descriptions: {
+      reason:
+        "Opcional. Detalhes extras que podem nos ajudar a decidir se este conteúdo é prejudicial.",
+      privacy:
+        "Não se preocupe, o usuário denunciado nunca saberá que você o denunciou.",
+    },
+    buttons: {
+      submit: "Enviar denúncia",
+    },
     messages: {
       error:
         "Erro ao enviar sua denúncia. Por favor, tente novamente. Se isso persistir, contate o suporte.",
@@ -660,6 +865,8 @@ export const ptBR: TranslationSchema = {
     },
     labels: {
       draft: "Rascunho",
+      reviewedGame: "Jogo avaliado",
+      tags: "Tags",
     },
     list: {
       title: "Postagens do blog",
@@ -675,8 +882,13 @@ export const ptBR: TranslationSchema = {
     },
   },
   posts: {
+    titles: {
+      confirmRemove: "Confirmar remoção da postagem",
+    },
     messages: {
       published: "Postagem publicada com sucesso!",
+      removeWarning:
+        "Esta postagem será excluída permanentemente. Você não pode desfazer esta ação.",
     },
   },
   recap: {
@@ -751,6 +963,10 @@ export const ptBR: TranslationSchema = {
         "{{action}} as conquistas para mostrar detalhes. As conquistas mais recentes são mostradas primeiro.",
       tap: "Toque",
       hover: "Passe o mouse sobre",
+      count: "{{count}} conquista{{suffix}}",
+    },
+    overview: {
+      gamesCount: "{{count}} jogos",
     },
   },
   errors: {
@@ -773,6 +989,31 @@ export const ptBR: TranslationSchema = {
   explore: {
     metaTitle: "Explorar - GameNode",
     fetchError: "Erro ao buscar jogos. Por favor, recarregue esta pagina.",
+    periods: {
+      week: "Semana",
+      month: "Mês",
+      threeMonths: "3 meses",
+      sixMonths: "6 meses",
+      year: "Ano",
+      allTime: "Todo o período",
+    },
+    filters: {
+      themes: "Temas",
+      genres: "Gêneros",
+      platforms: "Plataformas",
+      modes: "Modos",
+      trendingIn: "Em alta em",
+    },
+    placeholders: {
+      selectPeriod: "Selecionar período",
+      loading: "Carregando...",
+    },
+  },
+  follow: {
+    titles: {
+      followers: "Seguidores",
+      following: "Seguindo",
+    },
   },
   app: {
     title: "GameNode",
@@ -822,6 +1063,25 @@ export const ptBR: TranslationSchema = {
       shareDescription: "Compartilhe sua retrospectiva com amigos!",
       recentlyPlayed: "Jogos recentes",
       recap: "Retrospectiva {{year}}",
+      weekly: "Wrapped Semanal",
+      monthly: "Wrapped Mensal",
+      yearly: "Wrapped Anual",
+      labels: {
+        period: "Período",
+        gridStyle: "Estilo da grade",
+        excludedGames: "Jogos excluídos",
+        excludedGamesHint: "Eles não aparecerão na imagem gerada.",
+        withRecentPlaytime: "Com tempo de jogo recente",
+        withTotalPlaytime: "Com tempo de jogo total",
+        withPlatform: "Com plataforma",
+      },
+      buttons: {
+        generate: "Gerar",
+      },
+      messages: {
+        noPlaytime:
+          "Não encontramos informações de tempo de jogo para o período selecionado. Você pode alterar o período abaixo ou configurar uma conexão para começar a importar dados.",
+      },
     },
     search: {
       startTyping: "Comece a digitar para ver resultados.",

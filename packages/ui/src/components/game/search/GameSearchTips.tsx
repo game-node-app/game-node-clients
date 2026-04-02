@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, BoxProps, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 function getRandomItem<T>(items: T[]) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-const TIPS = [
-  "Press and hold on a game's cover to quickly add it to your library",
-  "You can also search for games' acronyms (e.g. tw3, gow)",
-];
-
 const GameSearchTips = ({ ...others }: BoxProps) => {
+  const { t } = useTranslation();
+  const TIPS = [t("game.searchTips.pressHold"), t("game.searchTips.acronym")];
   const [randomTip, setRandomTip] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -21,7 +19,9 @@ const GameSearchTips = ({ ...others }: BoxProps) => {
 
   return (
     <Box className={"w-full"} {...others}>
-      <Text className={"text-start text-xs text-dimmed"}>Tip: {randomTip}</Text>
+      <Text className={"text-start text-xs text-dimmed"}>
+        {t("game.labels.tip")}: {randomTip}
+      </Text>
     </Box>
   );
 };

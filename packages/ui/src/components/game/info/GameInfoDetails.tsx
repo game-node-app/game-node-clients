@@ -11,12 +11,14 @@ import { GameInfoExternalStores } from "#@/components/game/info/GameInfoExternal
 import { GameInfoProgressTimeline } from "#@/components/game/info/GameInfoProgressTimeline";
 import { GameInfoPlaytimeTracker } from "#@/components/game/info/GameInfoPlaytimeTracker";
 import { GameInfoAchievementOverview, GameInfoTimeToBeat } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameInfoDetailsProps {
   game: Game | undefined;
 }
 
 const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
+  const { t } = useTranslation();
   if (!game) {
     return null;
   }
@@ -26,20 +28,20 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
       <DetailsBox
         withBorder
         withDimmedTitle
-        title={"Launch date"}
+        title={t("game.details.launchDate")}
         withPadding
         withBackground
         withRipple
       >
         <Text>
           {getLocalizedFirstReleaseDate(game.firstReleaseDate) ??
-            "Not available"}
+            t("game.details.notAvailable")}
         </Text>
       </DetailsBox>
       <GameInfoDetailsDeveloperInfo gameId={game.id} />
       <GameInfoDetailsTags gameId={game.id} />
       <DetailsBox
-        title={"Where to play"}
+        title={t("game.details.whereToPlay")}
         withBorder
         withDimmedTitle
         withPadding
@@ -49,7 +51,7 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
         <GameInfoPlatforms gameId={game.id} className={"my-4 gap-5"} />
       </DetailsBox>
       <DetailsBox
-        title={"Where to buy"}
+        title={t("game.details.whereToBuy")}
         withBorder
         withDimmedTitle
         withPadding
@@ -62,12 +64,12 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
       <DetailsBox
         withBorder
         withDimmedTitle
-        title={"Summary"}
+        title={t("game.details.summary")}
         withPadding
         withBackground
         withRipple
       >
-        {game.summary ?? "Not available"}
+        {game.summary ?? t("game.details.notAvailable")}
       </DetailsBox>
       <GameInfoScore gameId={game.id} />
       <GameInfoTimeToBeat gameId={game.id} />

@@ -4,26 +4,33 @@ import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor } from "@mantine/tiptap";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { BubbleMenu } from "@tiptap/react/menus";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Partial<EditorOptions> {
   onClick?: () => void;
 }
 
-export const COMMENT_EDITOR_EXTENSIONS = [
+const createCommentEditorExtensions = (placeholder: string) => [
   StarterKit,
   Placeholder.configure({
-    placeholder: "Write a comment about this...",
+    placeholder,
   }),
 ];
 
 const CommentEditor = ({ onClick, ...editorOptions }: Props) => {
+  const { t } = useTranslation();
+
+  const COMMENT_EDITOR_EXTENSIONS = createCommentEditorExtensions(
+    t("comment.placeholders.writeComment"),
+  );
+
   const editor = useEditor(
     {
       ...editorOptions,
       extensions: COMMENT_EDITOR_EXTENSIONS,
       immediatelyRender: window != undefined,
     },
-    [editorOptions.content],
+    [editorOptions.content, COMMENT_EDITOR_EXTENSIONS],
   );
 
   if (!editor) return null;
@@ -48,3 +55,4 @@ const CommentEditor = ({ onClick, ...editorOptions }: Props) => {
 };
 
 export { CommentEditor };
+export { createCommentEditorExtensions };

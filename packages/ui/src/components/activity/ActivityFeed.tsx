@@ -7,6 +7,7 @@ import {
   InfiniteLoaderChildren,
   useInfiniteActivities,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   criteria: ActivityFeedTabValue;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ActivityFeed = ({ criteria, children }: Props) => {
+  const { t } = useTranslation();
   const activityQuery = useInfiniteActivities({
     criteria,
     limit: 10,
@@ -43,16 +45,10 @@ const ActivityFeed = ({ criteria, children }: Props) => {
     <Stack className={"w-full h-full gap-xs"}>
       {activityQuery.isLoading && buildSkeletons()}
       {!isLoading && isEmpty && (
-        <CenteredErrorMessage
-          message={"No activities to show. Try a different filter."}
-        />
+        <CenteredErrorMessage message={t("activity.messages.noActivities")} />
       )}
       {isError && (
-        <CenteredErrorMessage
-          message={
-            "Error while fetching activities. Please try again or contact support."
-          }
-        />
+        <CenteredErrorMessage message={t("activity.messages.fetchError")} />
       )}
 
       {items?.map((activity) => (

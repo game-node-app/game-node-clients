@@ -4,8 +4,7 @@ import { AvatarProps, Stack, Text } from "@mantine/core";
 import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { Link } from "#@/util";
-
-const DateFormatter = new Intl.DateTimeFormat();
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -20,7 +19,13 @@ const UserAvatarWithLevelInfo = ({
   enableLink = true,
   avatarProps,
 }: Props) => {
+  const { t, i18n } = useTranslation();
   const profileQuery = useUserProfile(userId);
+
+  const locale = i18n.resolvedLanguage || i18n.language; // e.g. "en" or "pt-BR"
+  const formatter = new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+  });
 
   return (
     <Link
@@ -42,8 +47,9 @@ const UserAvatarWithLevelInfo = ({
         <UserLevelInfo targetUserId={userId} />
         {showJoinDate && profileQuery.data && (
           <Text className={"text-sm text-dimmed"}>
-            Member since{" "}
-            {DateFormatter.format(new Date(profileQuery.data.createdAt))}
+            {t("profile.memberSince", {
+              date: formatter.format(new Date(profileQuery.data.createdAt)),
+            })}
           </Text>
         )}
       </Stack>

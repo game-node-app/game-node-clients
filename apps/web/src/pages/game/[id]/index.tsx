@@ -24,6 +24,7 @@ import {
   useUserView,
   GameInfoReviewScreen,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 import sourceType = FindOneStatisticsDto.sourceType;
 
 export const getServerSideProps = async (context: NextPageContext) => {
@@ -57,6 +58,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const GameInfoPage = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { id, reviewId } = router.query;
   const [, , incrementView] = useUserView(`${id}`, sourceType.GAME);
@@ -118,7 +120,10 @@ const GameInfoPage = () => {
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.reviews}>
             <Stack className={"w-full h-full gap-xl mt-4"}>
-              <GameInfoContentTitle title={"Reviews"} onGoBack={onGoBack} />
+              <GameInfoContentTitle
+                title={t("game.tabs.reviews")}
+                onGoBack={onGoBack}
+              />
               <GameInfoReviewScreen
                 gameId={idAsNumber}
                 targetReviewId={reviewId as string | undefined}
@@ -127,14 +132,17 @@ const GameInfoPage = () => {
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.discussion}>
             <Stack className={"w-full h-full gap-xl mt-4"}>
-              <GameInfoContentTitle title={"Discussion"} onGoBack={onGoBack} />
+              <GameInfoContentTitle
+                title={t("game.tabs.discussion")}
+                onGoBack={onGoBack}
+              />
               <GameInfoPostsScreen gameId={idAsNumber} />
             </Stack>
           </Tabs.Panel>
           <Tabs.Panel value={GameInfoTabValue.achievements}>
             <Stack className={"w-full h-full gap-sm mt-4"}>
               <GameInfoContentTitle
-                title={"Achievements"}
+                title={t("game.tabs.achievements")}
                 onGoBack={onGoBack}
               />
               <GameInfoAchievementsScreen gameId={idAsNumber} />

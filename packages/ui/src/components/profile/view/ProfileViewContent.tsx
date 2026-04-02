@@ -25,6 +25,7 @@ import {
 } from "#@/components";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useObtainedGameAchievements } from "#@/components/game/achievement/hooks/useObtainedGameAchievements";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -34,6 +35,7 @@ interface Props {
  * Component that renders a profile's tabs and it's contents
  */
 const ProfileViewContent = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
   const collectionEntriesQuery = useCollectionEntriesForUserId({
@@ -75,49 +77,49 @@ const ProfileViewContent = ({ userId }: Props) => {
         className={"mb-6"}
       >
         <ProfileViewNavbarItem
-          label={"Games"}
+          label={t("profile.tabs.games")}
           value={"games"}
           count={collectionEntriesQuery.data?.pagination.totalItems ?? 0}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"Reviews"}
+          label={t("profile.tabs.reviews")}
           value={"reviews"}
           count={reviewsQuery.data?.pagination.totalItems ?? 0}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"Collections"}
+          label={t("profile.tabs.collections")}
           value={"collections"}
           count={libraryQuery.data?.collections.length ?? 0}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"Achievements"}
+          label={t("profile.tabs.achievements")}
           value={"achievements"}
           count={obtainedGameAchievementsQuery.data?.pagination.totalItems ?? 0}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"Feats"}
+          label={t("profile.tabs.feats")}
           value={"feats"}
           count={obtainedAchievementsQuery.data?.length ?? 0}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"Journal"}
+          label={t("profile.tabs.journal")}
           activeTab={tab}
           value={"journal"}
           icon={IconNotebook}
         />
         <ProfileViewNavbarItem
-          label={"Posts"}
+          label={t("profile.tabs.posts")}
           value={"posts"}
           icon={IconWriting}
           activeTab={tab}
         />
         <ProfileViewNavbarItem
-          label={"View Stats"}
+          label={t("profile.labels.stats")}
           value={"stats"}
           icon={IconDeviceGamepad2}
           activeTab={tab}

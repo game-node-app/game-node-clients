@@ -23,6 +23,7 @@ export const en = {
     no: "No",
     share: "Share",
     showMore: "Show more",
+    showLess: "Show less",
     viewMore: "View More",
     seeMore: "See more",
   },
@@ -50,6 +51,43 @@ export const en = {
     selectGame: "Find and select a game",
     searchLabel: "Search for a game",
     removeFromLibrary: "Remove from your library",
+    searchTips: {
+      pressHold:
+        "Press and hold on a game's cover to quickly add it to your library",
+      acronym: "You can also search for games' acronyms (e.g. tw3, gow)",
+    },
+    details: {
+      launchDate: "Launch date",
+      whereToPlay: "Where to play",
+      whereToBuy: "Where to buy",
+      summary: "Summary",
+      notAvailable: "Not available",
+      developers: "Developer(s)",
+      publishers: "Publisher(s)",
+    },
+    extra: {
+      otherVersions: "Other versions of this game",
+      remakeOf: "Remake of",
+      remasterOf: "Remaster of",
+      expansionOf: "Expansion of",
+      expansions: "Expansions",
+      dlcOf: "DLC of",
+      dlcs: "DLCs",
+      similarGames: "Similar games",
+    },
+    ttb: {
+      title: "How long to beat",
+      notEnoughSubmissions: "Not enough submissions.",
+      basedOnIgdb: "Based on {{count}} submissions to",
+      mainStory: "Main Story",
+      mainExtras: "Main + Extras",
+      completionist: "100%",
+      mainStoryDesc:
+        "Average time to finish the game to its credits without spending notable time on extras such as side quests.",
+      mainExtrasDesc:
+        "Average time to finish the game while mixing in some extras such as side quests without being overly thorough.",
+      completionistDesc: "Average time to finish the game to 100% completion.",
+    },
     labels: {
       share: "Share",
       playedIn: "Played in",
@@ -92,6 +130,7 @@ export const en = {
       noEntry: "No entry found.",
     },
     achievement: {
+      overviewTitle: "Achievements",
       notAvailable: "Not Available",
       ownedBy: "Owned by",
       trophies: "Trophies",
@@ -153,12 +192,30 @@ export const en = {
       updateDetails: "Update title and description",
       reorderGames: "Reorder games",
       moveGames: "Move games to another collection",
+      discard: "Discard",
+      apply: "Apply",
     },
     messages: {
       applyingChanges: "Applying changes...",
       orderingUpdated: "Your collection ordering has been updated.",
       createSuccess: "Successfully created collection.",
       updateSuccess: "Successfully updated collection.",
+      orderingHint:
+        'Drag and drop elements to reorder games in this collection. This ordering will be shown when a visitor selects "User Order" (default) as sorting option.',
+      syncFailed: "Failed to sync changes!",
+      changesCount: "{{count}} changes",
+      atLeastOneGame: "At least one game must be selected.",
+      targetCollectionStringError:
+        "Target collections returned as string. Please contact support.",
+      atLeastOneCollection: "At least one collection must be selected",
+      relevantFilteringFailed:
+        "Relevant collection entry filtering is failing. Please contact support.",
+      gamesToMove: "Games to move",
+      gamesToMoveHint:
+        "Select which games you want to move. You can search by typing a game's name.",
+      targetCollections: "Target collections",
+      targetCollectionsHint:
+        "Collections in which you want to insert these games. You can search using a collection's name.",
     },
     sorts: {
       addedDate: "Added Date",
@@ -173,6 +230,14 @@ export const en = {
     labels: {
       status: "Status",
       platforms: "Platforms",
+      rating: "Rating",
+      collections: "Collections",
+      optional: "Optional",
+      finishedDate: "Finished date",
+    },
+    titles: {
+      editGame: "Edit game",
+      addGame: "Add game",
     },
     tabs: {
       details: "Details",
@@ -189,6 +254,12 @@ export const en = {
     descriptions: {
       statusDisabled:
         "Disabled because of selected collections' default status.",
+      collectionsOptional:
+        "Optional. Which collections do you want to save it on?",
+      finishedDateOptional: "Optional. Leave empty if you don't remember.",
+      platformSearch: "You can search for a platform by typing it's name",
+      preferredPlatformsHint:
+        "to fill this field automatically when adding new games.",
     },
     statuses: {
       playing: "Playing",
@@ -199,12 +270,20 @@ export const en = {
     placeholders: {
       platforms: "Select platforms",
       collections: "Select collections",
+      reviewContent:
+        "Review content. Leave empty to create a score-only review.",
     },
     buttons: {
       update: "Update",
       add: "Add",
       editInLibrary: "Edit in library",
       viewGame: "View Game",
+    },
+    validation: {
+      collectionRequired: "Collection must be valid.",
+      platformRequired: "Select at least one platform.",
+      ratingInvalid: "Rating must be a number between 1 and 5.",
+      ratingInvalidDecimal: "Rating must have a maximum of one decimal place.",
     },
     messages: {
       updateSuccess: "Game updated on your library!",
@@ -217,6 +296,16 @@ export const en = {
       moveHint:
         "If you wish to move this game between collections, you can use the Update option instead.",
     },
+    review: {
+      quickLabel: "Leave a quick review",
+      quickDescription: "You can always edit it later.",
+      optionalDescription:
+        "Optional. Leave empty to create a score-only review.",
+    },
+    related: {
+      title: "Related Content",
+      description: "Owned DLCs and expansions",
+    },
     timeline: {
       startedPlaying: "Started Playing",
       markedFinished: "Marked game as finished",
@@ -227,6 +316,13 @@ export const en = {
   },
   review: {
     remove: "Remove review",
+    titles: {
+      yourReview: "Your review",
+    },
+    descriptions: {
+      writePublic:
+        "Write your opinions about this game. Reviews are public to all users.",
+    },
     messages: {
       updated: "Review successfully updated!",
       created: "Review created!",
@@ -240,11 +336,21 @@ export const en = {
     remove: "Remove comment",
     titles: {
       removeModal: "Remove comment",
+      commentsInPost: "Comments in this post",
+      commentsInActivity: "Comments in this activity",
+      commentsInReview: "Comments in this review",
+    },
+    labels: {
+      replyingTo: "Replying to {{username}}'s comment",
+    },
+    placeholders: {
+      writeComment: "Write a comment about this...",
     },
     messages: {
       submitted: "Successfully submitted your comment!",
       confirmRemove: "Are you sure you want to remove this comment?",
       removed: "Successfully removed your comment!",
+      fetchError: "Error while fetching comments. Please try again.",
     },
   },
   view: {
@@ -276,12 +382,22 @@ export const en = {
     blog: "Blog",
     achievements: "Achievements",
     feats: "Feats",
+    about: "About",
+    privacy: "Privacy",
+    terms: "Terms",
   },
   home: {
     recentActivity: "Recent Activity",
     lastReviews: "Last reviews",
+    trendingGames: "Trending Games",
+    trendingReviews: "Trending Reviews",
+    noResultsTryAgain: "No results found. Please try again.",
   },
   activity: {
+    tabs: {
+      all: "All",
+      following: "Following",
+    },
     items: {
       addedTo: "Added to {{collection}}",
       reviewed: "Reviewed",
@@ -289,7 +405,21 @@ export const en = {
       followed: "Followed",
       unknown:
         "Performed an action which is not yet mapped. This will be updated soon.",
+      obtainedAllAndPlatinum:
+        "Obtained platinum trophy and completed all achievements",
+      completedAllAchievements: "Completed all achievements",
+      obtainedPlatinum: "Obtained platinum trophy",
+      obtainedAchievements: "Obtained {{count}} achievement{{suffix}}",
     },
+    messages: {
+      noActivities: "No activities to show. Try a different filter.",
+      fetchError: "Error while fetching activities. Please try again.",
+      noRecentActivity: "No recent activity to show.",
+    },
+  },
+  recommendation: {
+    basedOnPlayed: "Based on your played games",
+    gamesYouMayLike: "{{name}} games you may like",
   },
   landing: {
     headline: "A new way to organize your entire game collection",
@@ -367,6 +497,7 @@ export const en = {
       selectAchievements: "Select featured achievements",
       activity: "{{username}}'s Activity",
       library: "{{username}}'s library",
+      favoriteGames: "Favorite Games",
     },
     tabs: {
       games: "Games",
@@ -393,6 +524,8 @@ export const en = {
       noReviews: "User has no reviews.",
       noReviewsOwn: "You have no reviews. Make your first one!",
       noFeaturedAchievements: "No featured achievements found.",
+      noPublicFavoriteGames: "This user has no public favorite games.",
+      fetchFailed: "We couldn't fetch this data. Please try again.",
     },
     usernameRules: {
       unique: "Must be unique",
@@ -416,12 +549,18 @@ export const en = {
       finishYear: "Finish Year",
       releaseYear: "Release year",
       playtime: "Playtime",
+      gamesByYear: "Games by year",
+      gamesByPlatform: "Games by platform",
+      libraryDistribution: "Library distribution",
+      gamesLabel: "Games",
+      collectionsLabel: "Collections",
+      finishedGamesLabel: "Finished Games",
     },
     recent: {
       recentlyPlayed: "Recently Played",
       recentActivity: "Recent activity",
     },
-    memberSince: "Since {{date}}",
+    memberSince: "Member since {{date}}",
   },
   preferences: {
     categories: {
@@ -441,15 +580,23 @@ export const en = {
       confirmUsername: "Confirm with your username",
       dangerZone: "Danger Zone",
       preferredPlatforms: "Preferred Platforms",
+      steamProfileUrl: "Your public Steam profile URL",
+      psnOnlineId: "Your PSN online id",
+      gamertag: "Your Gamertag",
     },
     titles: {
       sync: "Sync",
       restartAccount: "Restart Account",
+      editPreferredPlatforms: "Edit your preferred platforms",
     },
     descriptions: {
       autoImport: "Automatically import newly detected games to your library.",
       targetCollection:
         "Games will be added directly to your library if not specified.",
+      steamProfileUrlExample:
+        "e.g.: https://steamcommunity.com/id/your-username/",
+      psnOnlineId: "Usually, it's your username.",
+      gamertag: "It's the name that appears on your console or Xbox apps.",
     },
     placeholders: {
       none: "None",
@@ -471,6 +618,11 @@ export const en = {
       restartLogout:
         "After using this service, you will be logged off, and will be able to log-in again with a brand new account.",
       noPlatforms: "No preferred platform added.",
+      availableConnectionsError:
+        "Error while fetching available connections. Please refresh this page.",
+    },
+    validation: {
+      usernameRequired: "A username must be provided.",
     },
     restartWarnings: {
       profile: "Wipe your profile",
@@ -501,6 +653,22 @@ export const en = {
     },
   },
   playtime: {
+    titles: {
+      playSessions: "Play sessions",
+      yourPlaySessions: "Your play sessions",
+      submitPlaySession: "Submit play session",
+    },
+    labels: {
+      platform: "Platform",
+      source: "Source",
+      totalPlaytime: "Total playtime",
+      lastPlayedDate: "Last played date",
+    },
+    descriptions: {
+      totalPlaytime: "Total playtime (in minutes)",
+      lastPlayedDate:
+        "This is the last time you played this game. This is optional.",
+    },
     platforms: {
       steam: "Steam",
       psn: "PSN",
@@ -515,10 +683,22 @@ export const en = {
     },
     validation: {
       numberRequired: "Total playtime must be a number.",
+      playtimeRequired: "Total playtime must be provided.",
       platformRequired: "A platform must be selected.",
     },
     messages: {
       sessionRecorded: "Play session recorded successfully",
+    },
+    hints: {
+      profileStats:
+        "Your playtime info helps us build your profile stats, wrapped items, and more.",
+      autoImport:
+        "We highly recommend setting up your connections to automatically import your playtime data. This data may be overwritten if we find playtime data for this game in one of your connections.",
+      noPlaySessions:
+        "No play sessions found for this game. You can set up a connection or add your playtime info manually.",
+    },
+    buttons: {
+      addSession: "Add Session",
     },
   },
   library: {
@@ -532,6 +712,9 @@ export const en = {
       addedDate: "Added Date",
       releaseDate: "Release Date",
       userOrder: "User Order",
+    },
+    labels: {
+      showDLCs: "Show DLCs/Extras",
     },
   },
   importer: {
@@ -579,6 +762,9 @@ export const en = {
     messages: {
       redeemed: "Successfully redeemed your code. Enjoy!",
     },
+    validation: {
+      codeRequired: "An achievement code must be provided!",
+    },
   },
   awards: {
     title: "AWARDS",
@@ -594,6 +780,7 @@ export const en = {
       nominees: "Nominees",
       preview: "Preview",
       layout: "Layout",
+      suggestionsFromEditors: "Suggestions from our editors",
     },
     layouts: {
       compact: "Compact",
@@ -620,9 +807,25 @@ export const en = {
     },
     messages: {
       voteSubmitted: "Your vote for {{category}} has been submitted!",
+      votingIn:
+        "You are voting in the {{category}} category for the {{edition}} edition.",
+      excludingGames: "Excluding {{count}} games not launched in {{year}}.",
     },
   },
   reports: {
+    labels: {
+      category: "Report category",
+      reason: "Reason",
+    },
+    descriptions: {
+      reason:
+        "Optional. Extra details that may help us decide if this content is harmful.",
+      privacy:
+        "Don't worry, the reported user will never know you reported them.",
+    },
+    buttons: {
+      submit: "Submit report",
+    },
     messages: {
       error:
         "Error while sending your report. Please try again. If this persists, contact support.",
@@ -655,6 +858,8 @@ export const en = {
     },
     labels: {
       draft: "Draft",
+      reviewedGame: "Reviewed Game",
+      tags: "Tags",
     },
     list: {
       title: "Blog posts",
@@ -670,8 +875,13 @@ export const en = {
     },
   },
   posts: {
+    titles: {
+      confirmRemove: "Confirm post removal",
+    },
     messages: {
       published: "Successfully published post!",
+      removeWarning:
+        "This post will be deleted permanently. You cannot undo this action.",
     },
   },
   recap: {
@@ -745,6 +955,16 @@ export const en = {
         "{{action}} the achievements to show details. Latest achievements are shown first.",
       tap: "Tap",
       hover: "Hover",
+      count: "{{count}} achievement{{suffix}}",
+    },
+    overview: {
+      gamesCount: "{{count}} games",
+    },
+  },
+  follow: {
+    titles: {
+      followers: "Followers",
+      following: "Following",
     },
   },
   errors: {
@@ -767,6 +987,25 @@ export const en = {
   explore: {
     metaTitle: "Explore - GameNode",
     fetchError: "Error while trying to fetch games. Please reload this page.",
+    periods: {
+      week: "Week",
+      month: "Month",
+      threeMonths: "3 months",
+      sixMonths: "6 months",
+      year: "Year",
+      allTime: "All time",
+    },
+    filters: {
+      themes: "Themes",
+      genres: "Genres",
+      platforms: "Platforms",
+      modes: "Modes",
+      trendingIn: "Trending in",
+    },
+    placeholders: {
+      selectPeriod: "Select period",
+      loading: "Loading...",
+    },
   },
   app: {
     title: "GameNode",
@@ -816,6 +1055,25 @@ export const en = {
       shareDescription: "Share your wrapped with friends!",
       recentlyPlayed: "Recently played games",
       recap: "{{year}} Recap",
+      weekly: "Weekly Wrapped",
+      monthly: "Monthly Wrapped",
+      yearly: "Yearly Wrapped",
+      labels: {
+        period: "Period",
+        gridStyle: "Grid style",
+        excludedGames: "Excluded games",
+        excludedGamesHint: "These will not appear in the generated image.",
+        withRecentPlaytime: "With recent playtime",
+        withTotalPlaytime: "With total playtime",
+        withPlatform: "With platform",
+      },
+      buttons: {
+        generate: "Generate",
+      },
+      messages: {
+        noPlaytime:
+          "We've found no playtime info for the selected period. You may change the period criteria below or set up a connection to start importing playtime info.",
+      },
     },
     search: {
       startTyping: "Start typing to see results.",

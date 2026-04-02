@@ -16,21 +16,27 @@ import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useCollectionEntriesForCollectionId } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
-const CollectionEntriesMoveFormSchema = z.object({
-  gameIds: z.array(z.number()).min(1, "At least one game must be selected."),
-  targetCollectionIds: z.array(
-    z.string({
-      error: "Target collections returned as string. Please contact support.",
-    }),
-    {
-      error: "At least one collection must be selected",
-    },
-  ),
-});
+const createCollectionEntriesMoveFormSchema = (
+  t: ReturnType<typeof useTranslation>["t"],
+) =>
+  z.object({
+    gameIds: z
+      .array(z.number())
+      .min(1, t("collection.messages.atLeastOneGame")),
+    targetCollectionIds: z.array(
+      z.string({
+        error: t("collection.messages.targetCollectionStringError"),
+      }),
+      {
+        error: t("collection.messages.atLeastOneCollection"),
+      },
+    ),
+  });
 
 type CollectionEntriesMoveFormValues = z.infer<
-  typeof CollectionEntriesMoveFormSchema
+  ReturnType<typeof createCollectionEntriesMoveFormSchema>
 >;
 
 interface ICollectionEntriesMoveFormProps extends BaseModalChildrenProps {
@@ -45,10 +51,12 @@ const CollectionEntriesMoveForm = ({
   collectionId,
   onClose,
 }: ICollectionEntriesMoveFormProps) => {
+  const { t } = useTranslation();
+  const schema = useMemo(() => createCollectionEntriesMoveFormSchema(t), [t]);
   const { register, handleSubmit, setValue, formState } =
     useForm<CollectionEntriesMoveFormValues>({
       mode: "onSubmit",
-      resolver: zodResolver(CollectionEntriesMoveFormSchema),
+      resolver: zodResolver(schema),
     });
   const userId = useUserId();
   const libraryQuery = useUserLibrary(userId);
@@ -110,9 +118,7 @@ const CollectionEntriesMoveForm = ({
         relevantCollectionEntries == undefined ||
         relevantCollectionEntries.length === 0
       ) {
-        throw new Error(
-          "Relevant collection entry filtering is failing. Please contact support.",
-        );
+        throw new Error(t("collection.messages.relevantFilteringFailed"));
       }
 
       const promises: Promise<CancelablePromise<never>>[] = [];
@@ -136,7 +142,9 @@ const CollectionEntriesMoveForm = ({
     onSuccess: (data, variables) => {
       const movedItemsLength = variables.gameIds.length;
       notifications.show({
-        message: `Sucessfully moved ${movedItemsLength} games!`,
+        message: t("collectionEntry.messages.moveSuccess", {
+          count: movedItemsLength,
+        }),
         autoClose: 3000,
         color: "green",
       });
@@ -164,10 +172,8 @@ const CollectionEntriesMoveForm = ({
         <MultiSelect
           w={"100%"}
           data={gamesSelectOptions}
-          label={"Games to move"}
-          description={
-            "Select which games you want to move. You can search by typing a game's name."
-          }
+          label={t("collection.messages.gamesToMove")}
+          description={t("collection.messages.gamesToMoveHint")}
           searchable
           limit={20}
           {...register("gameIds")}
@@ -176,26 +182,24 @@ const CollectionEntriesMoveForm = ({
             setValue("gameIds", valuesNumbers);
           }}
           error={formState.errors.gameIds?.message}
-          placeholder={gamesQuery.isLoading ? "Loading..." : undefined}
+          placeholder={gamesQuery.isLoading ? t("common.loading") : undefined}
         />
         <MultiSelect
           mt={"1rem"}
           w={"100%"}
           data={collectionsSelectOptions}
-          label={"Target collections"}
+          label={t("collection.messages.targetCollections")}
           searchable
-          description={
-            "Collections in which you want to insert these games. You can search using a collection's name."
-          }
+          description={t("collection.messages.targetCollectionsHint")}
           error={formState.errors.targetCollectionIds?.message}
           {...register("targetCollectionIds")}
           onChange={(values) => {
             setValue("targetCollectionIds", values);
           }}
-          placeholder={gamesQuery.isLoading ? "Loading..." : undefined}
+          placeholder={gamesQuery.isLoading ? t("common.loading") : undefined}
         />
         <Button type={"submit"} loading={collectionsMutation.isPending}>
-          Submit
+          {t("actions.submit")}
         </Button>
       </Stack>
     </form>

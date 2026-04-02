@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { COMMENT_EDITOR_EXTENSIONS } from "#@/components/comment/editor/CommentEditor";
+import { createCommentEditorExtensions } from "#@/components/comment/editor/CommentEditor";
 import { Collapse, Flex, Group, Spoiler, Stack } from "@mantine/core";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { CommentsListItemActions } from "#@/components/comment/view/CommentsListItemActions";
@@ -8,6 +8,7 @@ import { UserComment } from "../types";
 import { CommentsThreadListView } from "#@/components/comment/view/CommentsThreadListView";
 import { useDisclosure } from "@mantine/hooks";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   comment: UserComment;
@@ -15,11 +16,12 @@ interface Props {
 }
 
 const CommentsListItem = ({ comment, onEditStart }: Props) => {
+  const { t } = useTranslation();
   const [isReadMore, setIsReadMore] = useState(false);
 
   const nonEditableEditor = useEditor(
     {
-      extensions: COMMENT_EDITOR_EXTENSIONS,
+      extensions: createCommentEditorExtensions(""),
       editable: false,
       content: comment?.content,
       immediatelyRender: window != undefined,
@@ -61,8 +63,8 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
 
         <Stack className={"w-full"}>
           <Spoiler
-            hideLabel={"Show less"}
-            showLabel={"Show more"}
+            hideLabel={t("actions.showLess")}
+            showLabel={t("actions.showMore")}
             expanded={isReadMore}
             onExpandedChange={setIsReadMore}
             maxHeight={250}

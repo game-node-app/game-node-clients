@@ -16,6 +16,7 @@ import { match } from "ts-pattern";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { createErrorNotification } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 function parseSteamIdentifier(
   identifier: string,
@@ -33,19 +34,28 @@ function parseSteamIdentifier(
   return `https://steamcommunity.com/id/${identifier}/`;
 }
 
-const ConnectionSetupFormSchema = z.object({
-  userIdentifier: z.string().min(1, "A username must be provided."),
-  isAutoImportEnabled: z.boolean(),
-  autoImportCollectionId: z.string().nullish(),
-});
+const createConnectionSetupFormSchema = (
+  t: ReturnType<typeof useTranslation>["t"],
+) =>
+  z.object({
+    userIdentifier: z
+      .string()
+      .min(1, t("preferences.validation.usernameRequired")),
+    isAutoImportEnabled: z.boolean(),
+    autoImportCollectionId: z.string().nullish(),
+  });
 
-type ConnectionSetupFormValues = z.infer<typeof ConnectionSetupFormSchema>;
+type ConnectionSetupFormValues = z.infer<
+  ReturnType<typeof createConnectionSetupFormSchema>
+>;
 
 export interface Props extends BaseModalChildrenProps {
   type: UserConnectionDto.type;
 }
 
 const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
+  const { t } = useTranslation();
+  const schema = useMemo(() => createConnectionSetupFormSchema(t), [t]);
   const userId = useUserId();
   const {
     register,
@@ -59,7 +69,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       isAutoImportEnabled: false,
       autoImportCollectionId: undefined,
     },
-    resolver: zodResolver(ConnectionSetupFormSchema),
+    resolver: zodResolver(schema),
   });
 
   const userConnection = useOwnUserConnectionByType(type);
@@ -91,7 +101,9 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       });
       notifications.show({
         color: "green",
-        message: `Successfully set up ${getCapitalizedText(type)} connection!`,
+        message: t("preferences.messages.connectionSetup", {
+          type: getCapitalizedText(type),
+        }),
       });
 
       if (onClose) {
@@ -114,7 +126,9 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: `Successfully removed ${getCapitalizedText(type)} connection!`,
+        message: t("preferences.messages.connectionRemoved", {
+          type: getCapitalizedText(type),
+        }),
       });
       if (onClose) {
         onClose();
@@ -146,19 +160,19 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       { label: string; description: string }
     >(type)
       .with(UserConnectionDto.type.STEAM, () => ({
-        label: "Your public Steam profile URL",
-        description: "e.g.: https://steamcommunity.com/id/your-username/",
+        label: t("preferences.labels.steamProfileUrl"),
+        description: t("preferences.descriptions.steamProfileUrlExample"),
       }))
       .with(UserConnectionDto.type.PSN, () => ({
-        label: "Your PSN online id",
-        description: "Usually, it's your username.",
+        label: t("preferences.labels.psnOnlineId"),
+        description: t("preferences.descriptions.psnOnlineId"),
       }))
       .with(UserConnectionDto.type.XBOX, () => ({
-        label: "Your Gamertag",
-        description: "It's the name that appears on your console or Xbox apps.",
+        label: t("preferences.labels.gamertag"),
+        description: t("preferences.descriptions.gamertag"),
       }))
       .exhaustive();
-  }, [type]);
+  }, [t, type]);
 
   const collectionSelectData = useMemo(() => {
     return (
@@ -215,25 +229,21 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
               }}
               className={"w-full"}
               error={errors.isAutoImportEnabled?.message}
-              label={"Enable automatic importing"}
+              label={t("preferences.labels.autoImport")}
               labelPosition={"left"}
               defaultChecked={
                 userConnection.data
                   ? userConnection.data.isAutoImportEnabled
                   : false
               }
-              description={
-                "Automatically import newly detected games to your library."
-              }
+              description={t("preferences.descriptions.autoImport")}
               {...register("isAutoImportEnabled")}
             />
             {watch("isAutoImportEnabled") && (
               <Select
-                label={"Target collection (optional)"}
-                description={
-                  "Games will be added directly to your library if not specified."
-                }
-                placeholder={"None"}
+                label={t("preferences.labels.targetCollection")}
+                description={t("preferences.descriptions.targetCollection")}
+                placeholder={t("preferences.placeholders.none")}
                 clearable
                 data={collectionSelectData}
                 value={watch("autoImportCollectionId")}
@@ -245,7 +255,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         )}
 
         <Button type={"submit"} loading={connectionCreateMutation.isPending}>
-          Submit
+          {t("actions.submit")}
         </Button>
         {userConnection.data != undefined && (
           <Button
@@ -256,7 +266,7 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
               connectionDeleteMutation.mutate();
             }}
           >
-            Disconnect
+            {t("actions.remove")}
           </Button>
         )}
       </Stack>

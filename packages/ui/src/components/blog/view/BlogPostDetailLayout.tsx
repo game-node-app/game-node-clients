@@ -7,12 +7,14 @@ import {
   RecentBlogPostsList,
   useBlogPost,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends PropsWithChildren {
   postId: string;
 }
 
 const BlogPostDetailLayout = ({ children, postId }: Props) => {
+  const { t } = useTranslation();
   const post = useBlogPost(postId);
 
   return (
@@ -26,18 +28,18 @@ const BlogPostDetailLayout = ({ children, postId }: Props) => {
         <Stack className={"lg:w-4/12 lg:gap-5 h-full"}>
           {post.data?.review && (
             <Paper className={"p-2"}>
-              <DetailsBox title={"Reviewed Game"}>
+              <DetailsBox title={t("blog.labels.reviewedGame")}>
                 <BlogPostReviewInfo reviewInfo={post.data.review} />
               </DetailsBox>
             </Paper>
           )}
           <Paper className={"p-2"}>
-            <DetailsBox title={"Recent posts"}>
+            <DetailsBox title={t("blog.recentPosts")}>
               <RecentBlogPostsList />
             </DetailsBox>
           </Paper>
           <Paper className={"p-2"}>
-            <DetailsBox title={"Tags"}>
+            <DetailsBox title={t("blog.labels.tags")}>
               <BlogPostTagBadges />
             </DetailsBox>
           </Paper>

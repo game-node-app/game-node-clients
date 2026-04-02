@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Input, SegmentedControl, SegmentedControlProps } from "@mantine/core";
 import { useUserId, useUserLibrary } from "#@/components";
 import { Collection } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 interface Props
   extends Omit<SegmentedControlProps, "data" | "value" | "onChange"> {
@@ -16,6 +17,7 @@ const CollectionEntryStatusSelect = ({
   onChange,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const userLibraryQuery = useUserLibrary(userId);
   const userCollections = userLibraryQuery.data?.collections;
@@ -44,10 +46,10 @@ const CollectionEntryStatusSelect = ({
 
   return (
     <Input.Wrapper
-      label={"Status"}
+      label={t("collectionEntry.labels.status")}
       description={
         hasMandatoryStatus
-          ? "Disabled because of selected collections' default status."
+          ? t("collectionEntry.descriptions.statusDisabled")
           : null
       }
       className={"w-full"}
@@ -57,19 +59,19 @@ const CollectionEntryStatusSelect = ({
         onChange={onChange}
         data={[
           {
-            label: "Playing",
+            label: t("collectionEntry.statuses.playing"),
             value: Collection.defaultEntryStatus.PLAYING,
           },
           {
-            label: "Finished",
+            label: t("collectionEntry.statuses.finished"),
             value: Collection.defaultEntryStatus.FINISHED,
           },
           {
-            label: "Planned",
+            label: t("collectionEntry.statuses.planned"),
             value: Collection.defaultEntryStatus.PLANNED,
           },
           {
-            label: "Dropped",
+            label: t("collectionEntry.statuses.dropped"),
             value: Collection.defaultEntryStatus.DROPPED,
           },
         ]}

@@ -4,8 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import { AchievementsCodeService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
 import { BaseModalProps, Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 
 const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
+  const { t } = useTranslation();
   const [achievementCode, setAchievementCode] = useState<string | undefined>(
     undefined,
   );
@@ -13,7 +15,7 @@ const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
   const redeemMutation = useMutation({
     mutationFn: async () => {
       if (!achievementCode) {
-        throw new Error("An achievement code must be provided!");
+        throw new Error(t("achievements.validation.codeRequired"));
       }
       await AchievementsCodeService.achievementsCodeControllerConsumeV1(
         achievementCode,
@@ -27,7 +29,7 @@ const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
     },
     onSuccess: () => {
       notifications.show({
-        message: "Successfully redeemed your code. Enjoy!",
+        message: t("achievements.messages.redeemed"),
         color: "green",
       });
       onClose();
@@ -39,14 +41,14 @@ const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Redeem achievement with a code"}
+      title={t("achievements.titles.redeemCode")}
     >
       <Stack>
         <TextInput
           value={achievementCode}
           onChange={(v) => setAchievementCode(v.currentTarget.value)}
-          label={"Your achievement code"}
-          description={"It may contain letters and numbers"}
+          label={t("achievements.labels.code")}
+          description={t("achievements.descriptions.codeFormat")}
         />
         <Button
           disabled={
@@ -56,7 +58,7 @@ const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
             redeemMutation.mutate();
           }}
         >
-          Redeem
+          {t("achievements.buttons.redeem")}
         </Button>
       </Stack>
     </Modal>

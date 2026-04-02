@@ -2,12 +2,14 @@ import React, { useMemo } from "react";
 import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
 import { SimpleGrid, Spoiler } from "@mantine/core";
 import { GameAchievementHoverIcon } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   achievements: GameAchievementWithObtainedInfo[];
 }
 
 const JournalAchievementsIconsList = ({ achievements }: Props) => {
+  const { t } = useTranslation();
   console.log("JournalAchievementsIconsList render", achievements.length);
 
   const renderedContent = useMemo(() => {
@@ -22,8 +24,8 @@ const JournalAchievementsIconsList = ({ achievements }: Props) => {
   return (
     <Spoiler
       maxHeight={56}
-      hideLabel={"Show less"}
-      showLabel={"Show more"}
+      hideLabel={t("actions.showLess")}
+      showLabel={t("actions.showMore")}
       transitionDuration={200}
       classNames={{ control: "mt-2", root: "w-full @container" }}
     >

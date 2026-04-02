@@ -7,6 +7,7 @@ import {
   CollectionEntryEditForm,
   useOwnCollectionEntryForGameId,
 } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameAddModalProps extends BaseModalProps {
   gameId: number;
@@ -17,6 +18,7 @@ const CollectionEntryEditModal = ({
   onClose,
   gameId,
 }: IGameAddModalProps) => {
+  const { t } = useTranslation();
   const supportsBreakpoints = PROJECT_CONTEXT.client === "mobile";
 
   const [currentBreakpoint, setCurrentBreakpoint] = useState(
@@ -31,7 +33,11 @@ const CollectionEntryEditModal = ({
     <Modal
       opened={opened}
       onClose={onClose}
-      title={collectionEntryQuery.data != undefined ? "Edit game" : "Add game"}
+      title={
+        collectionEntryQuery.data != undefined
+          ? t("collectionEntry.titles.editGame")
+          : t("collectionEntry.titles.addGame")
+      }
       fullScreen={onMobile}
       size={"xl"}
       breakpoints={[0.6, 0.8, 1]}

@@ -1,6 +1,7 @@
 import React from "react";
 import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 import { BarChart, BarChartProps } from "@mantine/charts";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<BarChartProps, "data" | "dataKey" | "series"> {
   distribution: Array<ProfileMetricsTypeDistributionItem>;
@@ -10,6 +11,7 @@ const ProfileStatsDistributionByTypeChart = ({
   distribution,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <BarChart
       h={300}
@@ -21,11 +23,11 @@ const ProfileStatsDistributionByTypeChart = ({
       data={distribution}
       dataKey={"criteriaName"}
       series={[
-        { name: "count", color: "blue", label: "Total" },
+        { name: "count", color: "blue", label: t("profile.stats.total") },
         {
           name: "finishedCount",
           color: "red",
-          label: "Finished",
+          label: t("profile.stats.finishedGames"),
         },
       ]}
     />

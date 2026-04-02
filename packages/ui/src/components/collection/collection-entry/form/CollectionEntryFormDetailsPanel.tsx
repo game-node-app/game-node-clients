@@ -26,6 +26,7 @@ import { useFormContext } from "react-hook-form";
 import { DatePickerInput } from "@mantine/dates";
 import { Collection, GamePlatform } from "@repo/wrapper/server";
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
 function buildCollectionOptions(
   collections: Collection[] | undefined,
@@ -64,6 +65,7 @@ const CollectionEntryFormDetailsPanel = ({
   gameId,
   showGameInfo,
 }: Omit<IGameAddFormProps, "onClose">) => {
+  const { t } = useTranslation();
   const {
     watch,
     register,
@@ -150,12 +152,12 @@ const CollectionEntryFormDetailsPanel = ({
           onChange={(value) => {
             setValue("collectionIds", value);
           }}
-          placeholder={"Select collections"}
-          label={"Collections"}
+          placeholder={t("collectionEntry.placeholders.collections")}
+          label={t("collectionEntry.labels.collections")}
           error={errors.collectionIds?.message}
           searchable
           limit={10}
-          description={"Optional. Which collections do you want to save it on?"}
+          description={t("collectionEntry.descriptions.collectionsOptional")}
         />
         <CollectionEntryStatusSelect
           selectedCollectionIds={collectionsIdsValue}
@@ -167,8 +169,8 @@ const CollectionEntryFormDetailsPanel = ({
             {...register("finishedAt")}
             className={"w-full"}
             error={errors.finishedAt?.message}
-            label={"Finished date"}
-            description={"Optional. Leave empty if you don't remember."}
+            label={t("collectionEntry.labels.finishedDate")}
+            description={t("collectionEntry.descriptions.finishedDateOptional")}
             onChange={(date) => {
               setValue("finishedAt", date ? dayjs(date).toDate() : null);
             }}

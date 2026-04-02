@@ -25,6 +25,7 @@ import {
   exploreScreenUrlQueryToDto,
 } from "@/components/explore/utils";
 import { GameResourceFilter } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 import period = FindStatisticsTrendingGamesDto.period;
 
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
@@ -39,51 +40,11 @@ const FilterFormSchema = z.object({
   period: z.string(),
 });
 
-const SELECT_PERIOD_DATA: ComboboxItem[] = [
-  { label: "Week", value: period.WEEK.valueOf() },
-  { label: "Month", value: period.MONTH.valueOf() },
-  {
-    label: "3 months",
-    value: period.QUARTER.valueOf(),
-  },
-  {
-    label: "6 months",
-    value: period.HALF_YEAR.valueOf(),
-  },
-  {
-    label: "Year",
-    value: period.YEAR.valueOf(),
-  },
-  {
-    label: "All time",
-    value: period.ALL.valueOf(),
-  },
-];
-
 type FilterFormValues = z.infer<typeof FilterFormSchema>;
 
 /**
  * PS: DO NOT use this as 'data' for the MultiSelect component. This is only for reference when building the JSX below.
  */
-const resources: GameResourceFilter[] = [
-  {
-    label: "Themes",
-    resource: "themes",
-  },
-  {
-    label: "Genres",
-    resource: "genres",
-  },
-  {
-    label: "Platforms",
-    resource: "platforms",
-  },
-  {
-    label: "Modes",
-    resource: "gameModes",
-  },
-];
-
 interface Props {
   onFilterChange: Dispatch<SetStateAction<FindStatisticsTrendingGamesDto>>;
   hasLoadedQueryParams: boolean;
@@ -93,8 +54,49 @@ const ExploreScreenFilters = ({
   onFilterChange,
   hasLoadedQueryParams,
 }: Props) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [drawerOpened, drawerUtils] = useDisclosure();
+
+  const SELECT_PERIOD_DATA: ComboboxItem[] = [
+    { label: t("explore.periods.week"), value: period.WEEK.valueOf() },
+    { label: t("explore.periods.month"), value: period.MONTH.valueOf() },
+    {
+      label: t("explore.periods.threeMonths"),
+      value: period.QUARTER.valueOf(),
+    },
+    {
+      label: t("explore.periods.sixMonths"),
+      value: period.HALF_YEAR.valueOf(),
+    },
+    {
+      label: t("explore.periods.year"),
+      value: period.YEAR.valueOf(),
+    },
+    {
+      label: t("explore.periods.allTime"),
+      value: period.ALL.valueOf(),
+    },
+  ];
+
+  const resources: GameResourceFilter[] = [
+    {
+      label: t("explore.filters.themes"),
+      resource: "themes",
+    },
+    {
+      label: t("explore.filters.genres"),
+      resource: "genres",
+    },
+    {
+      label: t("explore.filters.platforms"),
+      resource: "platforms",
+    },
+    {
+      label: t("explore.filters.modes"),
+      resource: "gameModes",
+    },
+  ];
 
   const { handleSubmit, register, setValue, watch, formState } =
     useForm<FilterFormValues>({
@@ -151,7 +153,7 @@ const ExploreScreenFilters = ({
       <Drawer
         onClose={drawerUtils.close}
         opened={drawerOpened}
-        title={"Filters"}
+        title={t("common.actions")}
       >
         <form className={"w-full h-full"} onSubmit={handleSubmit(onSubmit)}>
           <SimpleGrid cols={2}>
@@ -172,7 +174,7 @@ const ExploreScreenFilters = ({
           </SimpleGrid>
           <Center className={"mt-8"}>
             <Button type="submit" loading={formState.isSubmitting}>
-              Filter
+              {t("common.search")}
             </Button>
           </Center>
         </form>
@@ -182,7 +184,7 @@ const ExploreScreenFilters = ({
       </ActionIcon>
       <Select
         {...register("period")}
-        description={"Trending in"}
+        description={t("explore.filters.trendingIn")}
         data={SELECT_PERIOD_DATA}
         value={watch("period")}
         allowDeselect={false}

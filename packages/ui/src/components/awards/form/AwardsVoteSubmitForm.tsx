@@ -18,6 +18,7 @@ import { notifications } from "@mantine/notifications";
 import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import dayjs from "dayjs";
+import { useTranslation } from "@repo/locales";
 
 export interface AwardsVoteSubmitFormProps extends BaseModalChildrenProps {
   category: VotableAwardsCategoryDto;
@@ -27,6 +28,7 @@ const AwardsVoteSubmitForm = ({
   category,
   onClose,
 }: AwardsVoteSubmitFormProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const userId = useUserId();
 
@@ -98,7 +100,9 @@ const AwardsVoteSubmitForm = ({
     onSuccess: () => {
       notifications.show({
         color: "green",
-        message: `Your vote for ${category.name} has been submitted!`,
+        message: t("awards.messages.voteSubmitted", {
+          category: category.name,
+        }),
       });
       onClose?.();
     },
@@ -113,7 +117,10 @@ const AwardsVoteSubmitForm = ({
       <Stack className={"w-full relative"}>
         {voteMutation.isPending && <Progress value={100} animated />}
         <Text className={"text-sm text-dimmed"}>
-          You are voting in the &#34;{category.name}&#34; category.
+          {t("awards.messages.votingIn", {
+            category: category.name,
+            edition: event?.year,
+          })}
         </Text>
         <GameSelectView>
           <GameSelectView.SearchBar
@@ -134,8 +141,10 @@ const AwardsVoteSubmitForm = ({
           {searchGamesQuery.isLoading && <CenteredLoading />}
           {totalExcludedItems > 0 && (
             <Text className={"text-sm text-dimmed"}>
-              Excluding {totalExcludedItems} games not launched in {event?.year}{" "}
-              from the results.
+              {t("awards.messages.excludingGames", {
+                count: totalExcludedItems,
+                year: event?.year,
+              })}
             </Text>
           )}
           {filteredGames && (
@@ -147,7 +156,7 @@ const AwardsVoteSubmitForm = ({
             />
           )}
           {showSuggestions && (
-            <DetailsBox title={"Suggestions from our editors"}>
+            <DetailsBox title={t("awards.labels.suggestionsFromEditors")}>
               {suggestedGamesQuery.isLoading && <CenteredLoading />}
               {suggestedGamesQuery.data && (
                 <GameSelectView.Content

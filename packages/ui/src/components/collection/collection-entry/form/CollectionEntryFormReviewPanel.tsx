@@ -12,10 +12,12 @@ import { Input, ScrollArea, Stack } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
+import { useTranslation } from "@repo/locales";
 
 const CollectionEntryFormReviewPanel = ({
   gameId,
 }: Pick<IGameAddFormProps, "gameId">) => {
+  const { t } = useTranslation();
   const {
     watch,
     setValue,
@@ -59,8 +61,8 @@ const CollectionEntryFormReviewPanel = ({
   return (
     <Stack>
       <Input.Wrapper
-        label={"Leave a quick review"}
-        description={"You can always edit it later."}
+        label={t("collectionEntry.review.quickLabel")}
+        description={t("collectionEntry.review.quickDescription")}
         error={errors.review?.message}
       >
         <GameRating
@@ -77,7 +79,7 @@ const CollectionEntryFormReviewPanel = ({
       </Input.Wrapper>
       {rating != undefined && (
         <Input.Wrapper
-          description={"Optional. Leave empty to create a score-only review."}
+          description={t("collectionEntry.review.optionalDescription")}
         >
           <RichTextEditor editor={quickReviewEditor}>
             <RichTextEditor.Content mih={"20vh"} />
