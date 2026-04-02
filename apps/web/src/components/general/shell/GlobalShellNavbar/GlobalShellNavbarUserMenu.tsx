@@ -1,5 +1,5 @@
 import React from "react";
-import { LanguageSwitcher, UserAvatar, useUserId } from "@repo/ui";
+import { LanguageSwitcherMenu, UserAvatar, useUserId } from "@repo/ui";
 import { Avatar, Center, Menu, UnstyledButton } from "@mantine/core";
 
 const GlobalShellNavbarUserMenu = () => {
@@ -10,14 +10,14 @@ const GlobalShellNavbarUserMenu = () => {
   }
 
   return (
-    <Menu position={"top-end"}>
+    <Menu position={"top-end"} keepMounted={true} withinPortal={false}>
       <Menu.Target>
         <UnstyledButton>
           <UserAvatar userId={userId} />
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>
-        <LanguageSwitcher />
+        <LanguageSwitcherMenu />
       </Menu.Dropdown>
     </Menu>
   );

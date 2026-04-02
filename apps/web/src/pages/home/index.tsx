@@ -14,7 +14,7 @@ import {
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
-  LanguageSwitcher,
+  LanguageSwitcherMenu,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -110,7 +110,7 @@ const HomePage = () => {
             ></GameView.Pagination>
           )}
         </GameView>
-        <LanguageSwitcher />
+        <LanguageSwitcherMenu />
         {extraItemsEnabled && (
           <Stack
             w={"100%"}
