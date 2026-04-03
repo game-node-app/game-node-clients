@@ -44,20 +44,6 @@ export default function GlobalShellHeader({
         )}
         {userId != undefined && (
           <Group className={"gap-3"}>
-            <RecentlyPlayedGamesShare
-              opened={wrappedOpened}
-              onClose={close}
-              onShare={async (file) => {
-                const toShare: ShareData = {
-                  title: t("game.share.title"),
-                  text: t("game.share.recentlyPlayed"),
-                  files: [file],
-                  url: `https://gamenode.app`,
-                };
-
-                await navigator.share(toShare);
-              }}
-            />
             <GlobalShellHeaderNotifications />
           </Group>
         )}

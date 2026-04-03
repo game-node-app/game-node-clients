@@ -11,13 +11,25 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: integrate translation functionality and update UI elements">
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.tsx" afterDir="false" />
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: implement LanguageSwitcherMenu component and update navbar integration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/SuperTokensProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/SuperTokensProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/OpenInAppDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/OpenInAppDialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useOnMobile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useOnMobile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/auth/[[...path]].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/auth/[[...path]].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguageSwitcher.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,18 +156,18 @@
       <recent name="$PROJECT_DIR$/apps/desktop" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu" />
       <recent name="$PROJECT_DIR$/apps/web/src" />
       <recent name="$PROJECT_DIR$/apps/web/src/pages" />
       <recent name="$PROJECT_DIR$/apps/mobile/src/pages/journal" />
-      <recent name="$PROJECT_DIR$/apps/web/src/components/general" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\utils\buildPresenterRegistry.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.ui &gt; barrels:generate">
+  <component name="RunManager" selected="npm.dev:web">
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -410,15 +422,8 @@
       <workItem from="1775085300009" duration="188000" />
       <workItem from="1775087481799" duration="6261000" />
       <workItem from="1775121626523" duration="1762000" />
-      <workItem from="1775130011538" duration="17962000" />
-    </task>
-    <task id="LOCAL-00051" summary="- draggable preferred platform view">
-      <option name="closed" value="true" />
-      <created>1762570017907</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1762570017907</updated>
+      <workItem from="1775130011538" duration="18033000" />
+      <workItem from="1775169067589" duration="7312000" />
     </task>
     <task id="LOCAL-00052" summary="- importer system improvements">
       <option name="closed" value="true" />
@@ -804,7 +809,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775157880098</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="feat: implement LanguageSwitcherMenu component and update navbar integration">
+      <option name="closed" value="true" />
+      <created>1775158685923</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1775158685923</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -852,7 +865,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="feat: year recap for mobile" />
     <MESSAGE value="feat: recap sidebar button for mobile" />
     <MESSAGE value="fix: positioning on activity item" />
     <MESSAGE value="feat: obtained achievements in profile view" />
@@ -877,7 +889,8 @@
     <MESSAGE value="feat: next integration with i18n-next" />
     <MESSAGE value="feat: tidying up portuguese translation" />
     <MESSAGE value="feat: integrate translation functionality and update UI elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate translation functionality and update UI elements" />
+    <MESSAGE value="feat: implement LanguageSwitcherMenu component and update navbar integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: implement LanguageSwitcherMenu component and update navbar integration" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

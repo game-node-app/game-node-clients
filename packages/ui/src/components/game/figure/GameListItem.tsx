@@ -8,6 +8,7 @@ import { getGameGenres } from "#@/components/game/util/getGameGenres";
 import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
 import { Link } from "#@/util";
 import { GameFigureWithQuickAdd, GameHoverEditFigure } from "#@/components";
+import { useI18nContext } from "@repo/locales";
 
 interface IGameListFigureProps {
   game: TGameOrSearchGame;
@@ -15,6 +16,13 @@ interface IGameListFigureProps {
 }
 
 const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {
+  const { language } = useI18nContext();
+  const dtf = new Intl.DateTimeFormat(language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   let name = game.name ?? "Unknown";
   const onMobile = useOnMobile();
   if (onMobile) {
@@ -62,9 +70,11 @@ const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {
               {name}
             </Title>
           </Link>
-          <Text size="sm" className="text-gray-500">
-            {getLocalizedFirstReleaseDate(game.firstReleaseDate)}
-          </Text>
+          {game.firstReleaseDate && (
+            <Text size="sm" className="text-dimmed">
+              {dtf.format(new Date(game.firstReleaseDate))}
+            </Text>
+          )}
         </Stack>
         <Flex className={"w-full"}>
           <GameInfoPlatforms

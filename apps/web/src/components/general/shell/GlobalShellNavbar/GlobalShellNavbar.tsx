@@ -9,6 +9,7 @@ import {
 import {
   IconBolt,
   IconHome,
+  IconLayout2Filled,
   IconLibrary,
   IconMilitaryAward,
   IconNews,
@@ -18,19 +19,26 @@ import {
   IconTrophy,
 } from "@tabler/icons-react";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { ExoticComponent, PropsWithoutRef, useCallback } from "react";
-import { cn, UserButton, useUserId } from "@repo/ui";
-import Link from "next/link";
+import React, {
+  ExoticComponent,
+  MouseEventHandler,
+  PropsWithoutRef,
+  useCallback,
+} from "react";
+import { cn, RecentlyPlayedGamesShare, UserButton, useUserId } from "@repo/ui";
+import Link, { LinkProps } from "next/link";
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu";
 import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
-import { GlobalShellNavbarUserMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu";
+import { GlobalShellNavbarUserMenu } from "@/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenu";
+import { useDisclosure } from "@mantine/hooks";
 
 export interface NavbarItem {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;
   label: string;
   href: string;
   withDivider?: boolean;
+  onClick?: LinkProps["onClick"];
 }
 
 interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
@@ -41,6 +49,7 @@ interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
 export default function GlobalShellNavbar({
   onClose,
 }: IGlobalShellNavbarProps) {
+  const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   const userId = useUserId();
   const { t } = useTranslation();
   const router = useRouter();
@@ -77,6 +86,15 @@ export default function GlobalShellNavbar({
       label: t("navigation.feats"),
       href: "/feats",
     },
+    {
+      icon: IconLayout2Filled,
+      label: t("mobile.wrapped.title"),
+      href: "#",
+      onClick: (evt) => {
+        evt.preventDefault();
+        wrappedOpenedUtils.open();
+      },
+    },
   ];
 
   const isActive = useCallback(
@@ -88,6 +106,20 @@ export default function GlobalShellNavbar({
     <Stack
       className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative h-full")}
     >
+      <RecentlyPlayedGamesShare
+        opened={wrappedOpened}
+        onClose={wrappedOpenedUtils.close}
+        onShare={async (file) => {
+          const toShare: ShareData = {
+            title: t("game.share.title"),
+            text: t("game.share.recentlyPlayed"),
+            files: [file],
+            url: `https://gamenode.app`,
+          };
+
+          await navigator.share(toShare);
+        }}
+      />
       <GlobalShellNavbarCollectionsMenu />
       {links.map((link) => (
         <>
@@ -99,7 +131,7 @@ export default function GlobalShellNavbar({
               onClick={onClose}
               data-active={isActive(link.href) ? "true" : "false"}
             >
-              <Link href={link.href}>
+              <Link href={link.href} onClick={link.onClick}>
                 <link.icon className={""}></link.icon>
               </Link>
             </UnstyledButton>

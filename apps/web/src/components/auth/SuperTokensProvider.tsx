@@ -1,7 +1,7 @@
 import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
-import React from "react";
+import React, { useEffect } from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
@@ -9,14 +9,16 @@ import { GameNodeLogo } from "@repo/ui";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
 import posthog from "posthog-js";
 
-export const frontendConfig = (): SuperTokensConfig => {
+export const frontendConfig = (
+  locale?: string | undefined,
+): SuperTokensConfig => {
   return {
     appInfo: {
       appName: "GameNode",
       apiDomain: process.env.NEXT_PUBLIC_DOMAIN_SERVER as string,
       websiteDomain: process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string,
       apiBasePath: "/v1/auth",
-      websiteBasePath: "/auth",
+      websiteBasePath: locale ? `/${locale}/auth` : "/auth",
     },
     style: `
         [data-supertokens~=container] {
@@ -93,11 +95,17 @@ export const frontendConfig = (): SuperTokensConfig => {
 };
 
 if (typeof window !== "undefined") {
-  // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
   SuperTokensReact.init(frontendConfig());
 }
 
 const SuperTokensProvider = ({ children }: { children: React.ReactNode }) => {
+  const { locale } = useRouter();
+
+  useEffect(() => {
+    console.log("Initializing SuperTokens with locale:", locale);
+    SuperTokensReact.init(frontendConfig(locale));
+  }, [locale]);
+
   return (
     <SuperTokensWrapper>
       <AuthRecipeComponentsOverrideContextProvider

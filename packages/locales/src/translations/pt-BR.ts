@@ -142,6 +142,7 @@ export const ptBR: TranslationSchema = {
     },
     collectionTypes: {
       upcoming: "Em breve",
+      recentReleases: "Lançamentos recentes",
     },
     share: {
       title: "GameNode Compartilhar",
@@ -904,7 +905,7 @@ export const ptBR: TranslationSchema = {
     },
   },
   recap: {
-    title: "RETROSPECTIVA",
+    title: "RECAP",
     labels: {
       topGenresStyles: "Gêneros e estilos mais jogados",
       playedGames: "Jogos Jogados",
@@ -1080,11 +1081,11 @@ export const ptBR: TranslationSchema = {
       importerSystem: "Sistema de importação",
     },
     wrapped: {
-      title: "Retrospectiva",
+      title: "Wrapped",
       sharePrompt: "Este é meu GameNode Wrapped!",
       shareDescription: "Compartilhe sua retrospectiva com amigos!",
       recentlyPlayed: "Jogos recentes",
-      recap: "Retrospectiva {{year}}",
+      recap: "Wrapped {{year}}",
       weekly: "Wrapped Semanal",
       monthly: "Wrapped Mensal",
       yearly: "Wrapped Anual",

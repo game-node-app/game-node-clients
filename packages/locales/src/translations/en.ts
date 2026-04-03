@@ -139,6 +139,7 @@ export const en = {
     },
     collectionTypes: {
       upcoming: "Upcoming",
+      recentReleases: "Recent Releases",
     },
     share: {
       title: "GameNode Share",

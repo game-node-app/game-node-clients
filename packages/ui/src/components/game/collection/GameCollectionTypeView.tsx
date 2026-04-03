@@ -9,6 +9,7 @@ import { match } from "ts-pattern";
 import GameCollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import { Stack } from "@mantine/core";
 import { GameCollectionTypeItem } from "#@/components/game/collection/GameCollectionTypeItem";
+import { useTranslation } from "@repo/locales";
 
 interface Props
   extends Omit<FindGamesByCollectionTypeRequestDto, "relations"> {}
@@ -18,6 +19,7 @@ const GameCollectionTypeView = ({
   offset,
   limit = 5,
 }: Props) => {
+  const { t } = useTranslation();
   const { data, isLoading } = useGamesByCollectionType({
     collectionType,
     offset,
@@ -29,10 +31,14 @@ const GameCollectionTypeView = ({
 
   const titleByCollectionType = useMemo(() => {
     return match(collectionType)
-      .with(GameCollectionType.UPCOMING, () => "Upcoming")
-      .with(GameCollectionType.RECENTLY_RELEASED, () => "Recently Released")
+      .with(GameCollectionType.UPCOMING, () =>
+        t("game.collectionTypes.upcoming"),
+      )
+      .with(GameCollectionType.RECENTLY_RELEASED, () =>
+        t("game.collectionTypes.recentReleases"),
+      )
       .exhaustive();
-  }, [collectionType]);
+  }, [collectionType, t]);
 
   if (isLoading) {
     return <CenteredLoading />;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   FindGamesByCollectionTypeRequestDto,
   Game,
@@ -6,12 +6,7 @@ import {
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { GameGridItem, GameRating, useReviewsScore } from "#@/components";
 import dayjs from "dayjs";
-
-const dtf = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+import { useI18nContext, useTranslation } from "@repo/locales";
 
 interface Props {
   collectionType: FindGamesByCollectionTypeRequestDto.collectionType;
@@ -19,6 +14,18 @@ interface Props {
 }
 
 const GameCollectionTypeItem = ({ game, collectionType }: Props) => {
+  const { language } = useI18nContext();
+
+  const dtf = useMemo(
+    () =>
+      new Intl.DateTimeFormat(language, {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
+    [language],
+  );
+
   const releaseDate = dtf.format(dayjs(game.firstReleaseDate).toDate());
   const enabledReviewScore =
     collectionType !==

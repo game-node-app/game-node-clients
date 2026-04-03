@@ -110,7 +110,6 @@ const HomePage = () => {
             ></GameView.Pagination>
           )}
         </GameView>
-        <LanguageSwitcherMenu />
         {extraItemsEnabled && (
           <Stack
             w={"100%"}

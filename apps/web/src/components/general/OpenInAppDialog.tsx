@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { useRouter } from "next/router";
 import { Anchor, Button, Divider, Drawer, Image, Stack } from "@mantine/core";

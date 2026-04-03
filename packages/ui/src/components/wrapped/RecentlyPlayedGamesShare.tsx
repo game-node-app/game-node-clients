@@ -306,26 +306,26 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                 {renderedItems}
               </SimpleGrid>
 
-              <Box
-                className={
-                  "grid grid-cols-[1fr_auto_1fr] items-center px-2 mb-2 mt-auto"
-                }
-              >
-                <Box className={"w-fit"}>
-                  <UserAvatarGroup
-                    userId={userId}
-                    avatarProps={{
-                      size: "md",
-                    }}
-                    textProps={{
-                      size: "md",
-                    }}
-                  />
-                </Box>
+              <SimpleGrid cols={3} className={"items-center px-2 mb-2 mt-auto"}>
+                <UserAvatarGroup
+                  userId={userId}
+                  avatarProps={{
+                    size: "md",
+                  }}
+                  groupProps={{
+                    wrap: "nowrap",
+                    gap: "xs",
+                    className: "max-w-36",
+                  }}
+                  textProps={{
+                    lineClamp: 1,
+                    className: "text-sm text-start",
+                  }}
+                />
 
-                <Text className={"text-sm"}>{periodText}</Text>
+                <Text className={"text-sm text-center"}>{periodText}</Text>
                 <GameNodeLogo className={"w-20 ms-auto"} />
-              </Box>
+              </SimpleGrid>
             </Stack>
           </Box>
         </DetailsBox>

@@ -6,9 +6,8 @@ import { useMantineTheme } from "@mantine/core";
  * WARNING: On by default (for SSR).
  */
 export default function useOnMobile() {
-    const theme = useMantineTheme();
-    return useMediaQuery(
-        `(max-width: ${theme.breakpoints.sm})`,
-        true,
-    ) as boolean;
+  const theme = useMantineTheme();
+  return useMediaQuery(`(max-width: ${theme.breakpoints.sm})`, true, {
+    getInitialValueInEffect: false,
+  }) as boolean;
 }

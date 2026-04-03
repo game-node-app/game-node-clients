@@ -56,7 +56,7 @@ const LandingHeader = () => {
         </Box>
 
         {userId == undefined && (
-          <Link href={"/search"}>
+          <Link href={"/home"}>
             <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
               {t("landing.header.joinIn")}
             </Button>
