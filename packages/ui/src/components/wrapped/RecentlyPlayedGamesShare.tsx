@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   CenteredLoading,
   DetailsBox,
@@ -85,6 +85,7 @@ function downloadFile(file: File) {
 }
 
 const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
+  const resultElementRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const userId = useUserId()!;
 
@@ -151,8 +152,7 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
 
   const shareMutation = useMutation({
     mutationFn: async (downloadOnly: boolean = false) => {
-      const node = document.getElementById(CONTAINER_ID);
-      const blob = await toBlob(node!, {
+      const blob = await toBlob(resultElementRef.current!, {
         fetchRequestInit: {
           method: "GET",
           cache: "no-cache", // <-- Important!
@@ -299,8 +299,11 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
         >
           <Box className={"overflow-auto"}>
             <Stack
-              className={"bg-paper gap-xs w-[480px] pointer-events-none"}
+              className={
+                "bg-paper gap-xs min-w-[480x] w-[480px] pointer-events-none"
+              }
               id={CONTAINER_ID}
+              ref={resultElementRef}
             >
               <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
                 {renderedItems}
@@ -324,7 +327,9 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
                 />
 
                 <Text className={"text-sm text-center"}>{periodText}</Text>
-                <GameNodeLogo className={"w-20 ms-auto"} />
+                <Box className={"flex justify-end w-full"}>
+                  <GameNodeLogo className={"w-20"} />
+                </Box>
               </SimpleGrid>
             </Stack>
           </Box>
