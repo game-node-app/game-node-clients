@@ -38,6 +38,7 @@ const createGameAddOrUpdateSchema = (
   z.object({
     collectionIds: z.array(
       z.string({
+        // @ts-expect-error inference is weird here
         message: t("collectionEntry.validation.collectionRequired"),
       }),
       {
@@ -225,7 +226,7 @@ const CollectionEntryEditForm = ({
   return (
     <SessionAuth>
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className={"mb-6 lg:mb-2"}>
           <Tabs
             defaultValue={"details"}
             allowTabDeactivation={false}
@@ -236,7 +237,9 @@ const CollectionEntryEditForm = ({
             }}
           >
             <Tabs.List
-              className={"bg-body mb-1 lg:me-1 sticky top-sticky-safe z-10"}
+              className={
+                "bg-body mb-1.5 lg:me-1 sticky top-sticky-safe z-10 flex-nowrap overflow-x-auto"
+              }
               data-native={isMobilePlatform ? "true" : "false"}
             >
               <Tabs.Tab

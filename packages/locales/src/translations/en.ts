@@ -260,7 +260,7 @@ export const en = {
       finishedDateOptional: "Optional. Leave empty if you don't remember.",
       platformSearch: "You can search for a platform by typing it's name",
       preferredPlatformsHint:
-        "to fill this field automatically when adding new games.",
+        "will fill this field automatically when adding new games.",
     },
     statuses: {
       playing: "Playing",

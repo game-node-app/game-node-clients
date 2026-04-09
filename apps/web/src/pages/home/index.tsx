@@ -1,5 +1,5 @@
 import React from "react";
-import { SimpleGrid, Stack } from "@mantine/core";
+import { Group, SimpleGrid, Stack } from "@mantine/core";
 import {
   BackToTopButton,
   buildGameCategoryFilters,
@@ -14,7 +14,6 @@ import {
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
-  LanguageSwitcherMenu,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -29,9 +28,9 @@ import {
   Activity,
   FindGamesByCollectionTypeRequestDto,
 } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import type = Activity.type;
-import { useTranslation } from "@repo/locales";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -79,7 +78,7 @@ const HomePage = () => {
     <Stack mih={"100%"} pos={"relative"} className="mt-12 mb-8">
       <BackToTopButton />
       <Stack className={"w-full items-center gap-xs"}>
-        <GameView layout={layout}>
+        <GameView layout={layout} cols={{ base: 4, md: 6, lg: 8 }}>
           <GameSearchBar
             onChange={(query) => {
               setSearchParameters({ query });
@@ -92,7 +91,9 @@ const HomePage = () => {
             }
             onLayoutChange={setLayout}
           />
-          <GameSearchTips className={"w-full"} />
+          <Group className={"justify-between w-full md:flex-nowrap"}>
+            <GameSearchTips className={"w-full"} />
+          </Group>
 
           {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
           {isEmpty && (

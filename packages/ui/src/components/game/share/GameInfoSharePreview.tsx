@@ -1,24 +1,24 @@
 import React from "react";
-import { Divider, Flex, Paper, Stack, Text, Title } from "@mantine/core";
+import { Divider, Flex, Group, Paper, Stack, Text, Title } from "@mantine/core";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameFigureImage,
   GameInfoOwnedPlatforms,
+  GameInfoSharePlaytime,
   GameNodeLogo,
   GameRating,
   ImageSize,
   ShareFormValues,
   useGame,
-  UserAvatar,
   UserAvatarGroup,
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
 import { UseFormWatch } from "react-hook-form";
-import UserId from "web/src/pages/library/[userId]";
 import { useTranslation } from "@repo/locales";
 
 interface SharePreviewProps {
+  ref: React.RefObject<HTMLDivElement | null>;
   gameId: number;
   watchFormValues: UseFormWatch<ShareFormValues>;
 }
@@ -26,6 +26,7 @@ interface SharePreviewProps {
 export const GAME_INFO_SHARE_PREVIEW_ID = "game-info-preview-id";
 
 const GameInfoSharePreview = ({
+  ref,
   gameId,
   watchFormValues,
 }: SharePreviewProps) => {
@@ -41,6 +42,7 @@ const GameInfoSharePreview = ({
   return (
     <Paper
       id={GAME_INFO_SHARE_PREVIEW_ID}
+      ref={ref}
       w={"100%"}
       styles={{
         root: {
@@ -58,6 +60,10 @@ const GameInfoSharePreview = ({
           </Title>
           {withRating && <GameRating value={rating} />}
         </Stack>
+        <Group className={"w-full justify-center flex-nowrap gap-16"}>
+          <div className={"w-20"}></div>
+          <GameInfoSharePlaytime gameId={gameId} />
+        </Group>
         {withDivider && <Divider w={"100%"} />}
         {withOwnedPlatforms && (
           <Stack align={"center"} className={"w-full"}>
@@ -71,6 +77,7 @@ const GameInfoSharePreview = ({
             />
           </Stack>
         )}
+
         <Flex justify={"space-between"} className={"w-full px-4 py-2"}>
           <UserAvatarGroup userId={userId!} />
           <GameNodeLogo className={"w-20 h-auto"} />
@@ -80,4 +87,4 @@ const GameInfoSharePreview = ({
   );
 };
 
-export default GameInfoSharePreview;
+export { GameInfoSharePreview };

@@ -11,25 +11,37 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="feat: implement LanguageSwitcherMenu component and update navbar integration">
+    <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="fix: wrong layout for logo in wrapped generation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/SuperTokensProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/SuperTokensProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/OpenInAppDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/OpenInAppDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/header/LandingHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useOnMobile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/hooks/useOnMobile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellFooter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellFooter.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarUserMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/auth/[[...path]].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/auth/[[...path]].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/search-bar/GameSelectOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/GameSelectOption.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/search-bar/GlobalShellNavbarSearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/GlobalShellSearchBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/search-bar/UserSelectOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/UserSelectOption.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellUserMenuOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellUserMenuOverview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/activity/all.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/activity/all.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/activity/detail/[activityId]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/activity/detail/[activityId]/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/activity/following.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/activity/following.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/home/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/collection/GameCollectionTypeView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/figure/GameListItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu/LanguageSwitcherMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/wrapped/RecentlyPlayedGamesShare.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoPlatforms.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoPlatforms.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoShare.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/share/GameInfoShare.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/GameInfoSharePreview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/share/GameInfoSharePreview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/share/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/share/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/view/GameViewContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/library/view/sidebar/LibraryViewSidebarCollection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/library/view/sidebar/LibraryViewSidebarCollection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,11 +168,11 @@
       <recent name="$PROJECT_DIR$/apps/desktop" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/ui/src/components/game" />
+      <recent name="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader" />
       <recent name="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu" />
       <recent name="$PROJECT_DIR$/packages/ui/src/components/general/LanguagePickerMenu" />
       <recent name="$PROJECT_DIR$/apps/web/src" />
-      <recent name="$PROJECT_DIR$/apps/web/src/pages" />
-      <recent name="$PROJECT_DIR$/apps/mobile/src/pages/journal" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="\\wsl.localhost\Ubuntu-24.04\home\cassio\Projects\game-node-clients\packages\ui\src\presenters\registry.ts" />
@@ -423,23 +435,11 @@
       <workItem from="1775087481799" duration="6261000" />
       <workItem from="1775121626523" duration="1762000" />
       <workItem from="1775130011538" duration="18033000" />
-      <workItem from="1775169067589" duration="7312000" />
-    </task>
-    <task id="LOCAL-00052" summary="- importer system improvements">
-      <option name="closed" value="true" />
-      <created>1762725709184</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1762725709184</updated>
-    </task>
-    <task id="LOCAL-00053" summary="- preferred platforms changes">
-      <option name="closed" value="true" />
-      <created>1763399824337</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1763399824338</updated>
+      <workItem from="1775169067589" duration="20761000" />
+      <workItem from="1775338221980" duration="3376000" />
+      <workItem from="1775575602733" duration="3229000" />
+      <workItem from="1775601851357" duration="1210000" />
+      <workItem from="1775692529759" duration="1200000" />
     </task>
     <task id="LOCAL-00054" summary="- type fixes">
       <option name="closed" value="true" />
@@ -817,7 +817,23 @@
       <option name="project" value="LOCAL" />
       <updated>1775158685923</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="feat: supertokens auth for locale routes in nextjs">
+      <option name="closed" value="true" />
+      <created>1775177199190</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1775177199191</updated>
+    </task>
+    <task id="LOCAL-00102" summary="fix: wrong layout for logo in wrapped generation">
+      <option name="closed" value="true" />
+      <created>1775222160289</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1775222160289</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -865,8 +881,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="feat: recap sidebar button for mobile" />
-    <MESSAGE value="fix: positioning on activity item" />
     <MESSAGE value="feat: obtained achievements in profile view" />
     <MESSAGE value="feat: compact view for achievements list" />
     <MESSAGE value="feat: journal achievements icons expand and collapse" />
@@ -890,7 +904,9 @@
     <MESSAGE value="feat: tidying up portuguese translation" />
     <MESSAGE value="feat: integrate translation functionality and update UI elements" />
     <MESSAGE value="feat: implement LanguageSwitcherMenu component and update navbar integration" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: implement LanguageSwitcherMenu component and update navbar integration" />
+    <MESSAGE value="feat: supertokens auth for locale routes in nextjs" />
+    <MESSAGE value="fix: wrong layout for logo in wrapped generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: wrong layout for logo in wrapped generation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -3,6 +3,7 @@ import { useUserLibrary } from "#@/components";
 import { Accordion, Group, ScrollArea, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
 import classes from "./library-view-sidebar.module.css";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const LibraryViewSidebarCollection = ({ userId, type }: Props) => {
+  const { t } = useTranslation();
   const userLibraryQuery = useUserLibrary(userId);
 
   const collections = useMemo(() => {
@@ -43,7 +45,9 @@ const LibraryViewSidebarCollection = ({ userId, type }: Props) => {
       <Accordion.Control
         disabled={collections == undefined || collections.length === 0}
       >
-        {type === "featured" ? "Featured collections" : "All collections"}
+        {type === "featured"
+          ? t("collection.titles.featured")
+          : t("collection.titles.all")}
       </Accordion.Control>
       <Accordion.Panel>
         <ScrollArea h={200}>

@@ -263,7 +263,7 @@ export const ptBR: TranslationSchema = {
       finishedDateOptional: "Opcional. Deixe vazio se você não lembrar.",
       platformSearch: "Você pode buscar uma plataforma digitando o nome dela",
       preferredPlatformsHint:
-        "para preencher este campo automaticamente ao adicionar novos jogos.",
+        "preenchem este campo automaticamente ao adicionar novos jogos.",
     },
     statuses: {
       playing: "Jogando",

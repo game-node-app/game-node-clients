@@ -18,9 +18,7 @@ import {
   useHotkeys,
 } from "@mantine/hooks";
 import React, { ReactElement, useMemo } from "react";
-import GameSelectOption from "@/components/general/shell/GlobalShellNavbar/search-bar/GameSelectOption";
 import { IconLoader, IconX } from "@tabler/icons-react";
-import UserSelectOption from "@/components/general/shell/GlobalShellNavbar/search-bar/UserSelectOption";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import {
   buildGameSearchRequestDto,
@@ -28,6 +26,8 @@ import {
   useSearchUsers,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
+import GameSelectOption from "./GameSelectOption";
+import UserSelectOption from "./UserSelectOption";
 
 interface IUserGamesSearchBarWithSelectProps extends TextInputProps {
   value: string;
@@ -41,7 +41,7 @@ interface IUserGamesSearchBarWithSelectProps extends TextInputProps {
   onHotkeyPress: () => void;
 }
 
-const GlobalNavbarSearchBar = ({
+const GlobalShellSearchBar = ({
   value,
   onOptionSubmit,
   onClear,
@@ -60,13 +60,13 @@ const GlobalNavbarSearchBar = ({
         includeExtraContent: false,
         includeDlcs: false,
       }),
-      limit: 5,
+      limit: 20,
     },
     isQueryEnabled,
   );
   const searchUsersQuery = useSearchUsers({
     query: debouncedQuery,
-    limit: 5,
+    limit: 20,
   });
 
   const onMobile = useOnMobile();
@@ -198,4 +198,4 @@ const GlobalNavbarSearchBar = ({
     </Group>
   );
 };
-export default GlobalNavbarSearchBar;
+export default GlobalShellSearchBar;

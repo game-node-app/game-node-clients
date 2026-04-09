@@ -9,15 +9,18 @@ import { GameViewContext } from "#@/components/game/view/GameView";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { GameListItem } from "#@/components/game/figure/GameListItem";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { GameFigureProps } from "#@/components";
 
 export interface GameViewContentProps
   extends PropsWithChildren<SimpleGridProps> {
   items: TGameOrSearchGame[] | undefined;
+  figureProps?: GameFigureProps;
 }
 
 const GameViewContent = ({
   items,
   children,
+  figureProps,
   ...others
 }: GameViewContentProps) => {
   const gameViewContext = useContext(GameViewContext);
@@ -32,15 +35,17 @@ const GameViewContent = ({
       if (layout === "list") {
         return (
           <Box w={"100%"} key={item.id}>
-            <GameListItem game={item} />
+            <GameListItem game={item} figureProps={figureProps} />
             <Divider mt={"xs"} variant={"dashed"} />
           </Box>
         );
       }
 
-      return <GameGridItem key={item.id} game={item} />;
+      return (
+        <GameGridItem key={item.id} game={item} figureProps={figureProps} />
+      );
     });
-  }, [items, layout]);
+  }, [figureProps, items, layout]);
 
   useEffect(() => {
     if (gameViewContext == null) {

@@ -10,6 +10,7 @@ export * from "./hooks/index";
 export * from "./info/index";
 export * from "./platform/index";
 export * from "./search/index";
+export * from "./share/index";
 export * from "./trending/index";
 export * from "./ttb/index";
 export * from "./util/index";

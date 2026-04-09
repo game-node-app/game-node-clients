@@ -41,7 +41,7 @@ const GlobalShellFooter = () => {
   return (
     <Flex
       className={
-        "w-full p-2 px-4 justify-between gap-3 lg:gap-8 h-full items-center overflow-x-auto"
+        "w-full p-2 px-4 justify-between lg:justify-end gap-3 lg:gap-5 h-full items-center overflow-x-auto"
       }
     >
       {items}

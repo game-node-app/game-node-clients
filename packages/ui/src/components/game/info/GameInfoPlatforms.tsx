@@ -12,11 +12,9 @@ import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { getGamePlatformInfo } from "#@/components/game/util/getGamePlatformInfo";
 import { useGame } from "#@/components/game/hooks/useGame";
-import { useQuery } from "@tanstack/react-query";
-import { GameRepositoryService } from "../../../../../wrapper/src/server";
-import { sleep } from "#@/util/sleep";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
 import { useGamePlatformIcons } from "#@/components";
+import { useTranslation } from "@repo/locales";
 
 interface IGameInfoPlatformsProps extends GroupProps {
   gameId: number | undefined;
@@ -28,6 +26,7 @@ const GameInfoPlatforms = ({
   iconsProps,
   ...others
 }: IGameInfoPlatformsProps) => {
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const iconsQuery = useGamePlatformIcons(gameId);
@@ -67,11 +66,13 @@ const GameInfoPlatforms = ({
           {...others}
         >
           {iconsQuery.isLoading ? buildIconsSkeletons() : icons}
-          {!iconsQuery.isLoading && isEmpty && "Not available"}
+          {!iconsQuery.isLoading && isEmpty && t("game.details.notAvailable")}
         </Group>
       </Popover.Target>
       <Popover.Dropdown>
-        <Text fz={"sm"}>{platformsNames ?? "Not available"}</Text>
+        <Text fz={"sm"}>
+          {platformsNames ?? t("game.details.notAvailable")}
+        </Text>
       </Popover.Dropdown>
     </Popover>
   );

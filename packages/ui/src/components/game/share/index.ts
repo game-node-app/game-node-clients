@@ -3,4 +3,5 @@
  */
 
 export * from "./GameInfoShare";
+export * from "./GameInfoSharePlaytime";
 export * from "./GameInfoSharePreview";

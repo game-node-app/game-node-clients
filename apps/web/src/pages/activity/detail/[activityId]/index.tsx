@@ -18,7 +18,7 @@ const ActivityDetailPage = () => {
 
   return (
     <Stack mih={"100%"} pos={"relative"} className="items-center">
-      <Box className={"w-full lg:w-8/12"}>
+      <Box className={"w-full"}>
         <ActivityDetailView activityId={activityId as string} />
       </Box>
     </Stack>

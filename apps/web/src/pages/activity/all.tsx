@@ -13,7 +13,7 @@ const All = () => {
 
   return (
     <Stack className={"w-full items-center"}>
-      <Box className={"w-full lg:w-8/12"}>
+      <Box className={"w-full"}>
         <ActivityFeedLayout
           currentTab={"all"}
           onChange={(tab) => {

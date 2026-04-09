@@ -1,7 +1,21 @@
-import { Anchor, Burger, Button, Flex, Group, Select } from "@mantine/core";
+import {
+  ActionIcon,
+  Anchor,
+  Burger,
+  Button,
+  Flex,
+  Group,
+  Select,
+} from "@mantine/core";
 import Link from "next/link";
 import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
-import { GameNodeLogo, RecentlyPlayedGamesShare, useUserId } from "@repo/ui";
+import {
+  GameNodeLogo,
+  GameSearchSelectModal,
+  Modal,
+  RecentlyPlayedGamesShare,
+  useUserId,
+} from "@repo/ui";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import {
@@ -9,6 +23,8 @@ import {
   useI18nContext,
   useTranslation,
 } from "@repo/locales";
+import { IconSearch } from "@tabler/icons-react";
+import { GlobalShellHeaderSearch } from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderSearch";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -20,13 +36,17 @@ export default function GlobalShellHeader({
   toggleSidebar,
 }: IGlobalShellHeaderProps) {
   const { t } = useTranslation();
-  const { locale } = useRouter();
+  const { locale, push } = useRouter();
   const userId = useUserId();
 
-  const [wrappedOpened, { close }] = useDisclosure();
+  const [searchModalOpened, searchModalUtils] = useDisclosure();
 
   return (
     <Flex className="w-full h-full items-center lg:justify-start px-4">
+      <GlobalShellHeaderSearch
+        opened={searchModalOpened}
+        onClose={searchModalUtils.close}
+      />
       <Burger
         className={"block xs:hidden me-6"}
         opened={sidebarOpened}
@@ -44,6 +64,9 @@ export default function GlobalShellHeader({
         )}
         {userId != undefined && (
           <Group className={"gap-3"}>
+            <ActionIcon variant={"transparent"} onClick={searchModalUtils.open}>
+              <IconSearch />
+            </ActionIcon>
             <GlobalShellHeaderNotifications />
           </Group>
         )}
