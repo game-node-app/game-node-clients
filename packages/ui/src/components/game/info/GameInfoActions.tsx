@@ -120,26 +120,26 @@ const DEFAULT_GameInfoActions = ({
         </Tooltip>
 
         {gameInLibrary && (
-          <Tooltip label={t("game.tooltips.removeLibrary")}>
-            <ActionIcon
-              variant="default"
-              size="lg"
-              onClick={removeModalUtils.open}
-            >
-              <IconX color="red" />
-            </ActionIcon>
-          </Tooltip>
-        )}
-        {hasReview && (
-          <Tooltip label={t("game.tooltips.share")}>
-            <ActionIcon
-              size="lg"
-              variant="default"
-              onClick={shareModalUtils.open}
-            >
-              <IconShare size={"1.05rem"} />
-            </ActionIcon>
-          </Tooltip>
+          <>
+            <Tooltip label={t("game.tooltips.removeLibrary")}>
+              <ActionIcon
+                variant="default"
+                size="lg"
+                onClick={removeModalUtils.open}
+              >
+                <IconX color="red" />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={t("game.tooltips.share")}>
+              <ActionIcon
+                size="lg"
+                variant="default"
+                onClick={shareModalUtils.open}
+              >
+                <IconShare size={"1.05rem"} />
+              </ActionIcon>
+            </Tooltip>
+          </>
         )}
       </Group>
     </Stack>

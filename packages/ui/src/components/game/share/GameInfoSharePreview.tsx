@@ -58,7 +58,9 @@ const GameInfoSharePreview = ({
           <Title size={"h4"} className={"text-center mt-4"}>
             {game?.name}
           </Title>
-          {withRating && <GameRating value={rating} />}
+          {withRating && reviewQuery.data?.rating != null && (
+            <GameRating value={rating} />
+          )}
         </Stack>
         <Group className={"w-full justify-center flex-nowrap gap-16"}>
           <div className={"w-20"}></div>

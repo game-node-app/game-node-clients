@@ -9,7 +9,7 @@ import {
   useSearchGames,
   useSearchUsers,
 } from "@repo/ui";
-import { GlobalShellHeaderSearchContent } from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderSearchContent";
+import { GlobalShellHeaderSearchContent } from "@/components/general/shell/header/GlobalShellHeaderSearchContent";
 import { useDebouncedValue } from "@mantine/hooks";
 import { ScrollArea, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -62,7 +62,7 @@ const GlobalShellHeaderSearch = ({ opened, onClose }: Props) => {
             setValue(v);
           }}
           withButton={false}
-        ></GameSearchBar>
+        />
         <GameSearchViewActions
           includeExtraContent={includeExtraContent}
           onExtraContentChange={(v) => {

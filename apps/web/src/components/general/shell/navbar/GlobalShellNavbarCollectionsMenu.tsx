@@ -1,7 +1,7 @@
 import React from "react";
 import { Center, HoverCard, Popover, UnstyledButton } from "@mantine/core";
 import { IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react";
-import { GlobalShellNavbarCollectionsSection } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection";
+import { GlobalShellNavbarCollectionsSection } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsSection";
 import { useDisclosure } from "@mantine/hooks";
 import { useOnMobile } from "@repo/ui";
 

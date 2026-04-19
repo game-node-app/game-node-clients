@@ -1,5 +1,5 @@
 import React from "react";
-import { NavbarItem } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbar";
+import { NavbarItem } from "@/components/general/shell/navbar/GlobalShellNavbar";
 
 interface Props extends NavbarItem {}
 

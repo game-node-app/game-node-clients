@@ -75,6 +75,7 @@ const createPlaytimeSubmitFormSchema = (
 ) =>
   z.object({
     totalPlaytimeHours: z
+      // @ts-expect-error typescript quirk
       .number({ message: t("playtime.validation.numberRequired") })
       .min(0.1, t("playtime.validation.playtimeRequired")),
     lastPlayedDate: z.date().optional(),

@@ -21,26 +21,29 @@ const ExploreGamesPageView = () => {
   const { t } = useTranslation();
   const [selectedPeriod, setSelectedPeriod] = useState(period.MONTH);
 
-  const SELECT_PERIOD_DATA = [
-    { label: t("explore.periods.week"), value: period.WEEK },
-    { label: t("explore.periods.month"), value: period.MONTH },
-    {
-      label: t("explore.periods.threeMonths"),
-      value: period.QUARTER,
-    },
-    {
-      label: t("explore.periods.sixMonths"),
-      value: period.HALF_YEAR,
-    },
-    {
-      label: t("explore.periods.year"),
-      value: period.YEAR,
-    },
-    {
-      label: t("explore.periods.allTime"),
-      value: period.ALL,
-    },
-  ];
+  const SELECT_PERIOD_DATA = useMemo(
+    () => [
+      { label: t("explore.periods.week"), value: period.WEEK },
+      { label: t("explore.periods.month"), value: period.MONTH },
+      {
+        label: t("explore.periods.threeMonths"),
+        value: period.QUARTER,
+      },
+      {
+        label: t("explore.periods.sixMonths"),
+        value: period.HALF_YEAR,
+      },
+      {
+        label: t("explore.periods.year"),
+        value: period.YEAR,
+      },
+      {
+        label: t("explore.periods.allTime"),
+        value: period.ALL,
+      },
+    ],
+    [t],
+  );
 
   const [trendingQueryDto, setTrendingQueryDto] =
     useState<FindStatisticsTrendingGamesDto>({
@@ -80,9 +83,8 @@ const ExploreGamesPageView = () => {
         </IonSelectOption>
       );
     });
-  }, []);
+  }, [SELECT_PERIOD_DATA]);
 
-  const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
   const isFetching = trendingGamesQuery.isFetching || gamesQuery.isFetching;
 
   return (

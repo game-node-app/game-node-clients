@@ -1,9 +1,9 @@
 import React from "react";
 import { AppShell, Container } from "@mantine/core";
-import GlobalShellHeader from "@/components/general/shell/GlobalShellHeader/GlobalShellHeader";
+import GlobalShellHeader from "@/components/general/shell/header/GlobalShellHeader";
 import { useDisclosure } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
-import GlobalShellNavbar from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbar";
+import GlobalShellNavbar from "@/components/general/shell/navbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
 
 const IGNORED_PATHNAMES = ["/", "/about", "/awards"];

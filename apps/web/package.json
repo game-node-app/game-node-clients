@@ -24,6 +24,7 @@
     "@mantine/next": "^6.0.22",
     "@mantine/notifications": "^9.0.1",
     "@mantine/nprogress": "^9.0.1",
+    "@mantine/spotlight": "^9.0.2",
     "@mantine/tiptap": "^9.0.1",
     "@next/bundle-analyzer": "^15.5.4",
     "@repo/analytics": "*",

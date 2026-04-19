@@ -4,7 +4,7 @@ import type { TranslationSchema } from "./en";
  * Portuguese (Brazil) translations for GameNode.
  * This file contains all Portuguese strings used across web and mobile apps.
  */
-export const ptBR: TranslationSchema = {
+export default {
   actions: {
     cancel: "Cancelar",
     confirm: "Confirmar",
@@ -139,6 +139,7 @@ export const ptBR: TranslationSchema = {
       trophies: "Trofeus",
       achievements: "Conquistas",
       obtainedAt: "Obtida em {{date}}",
+      totalCount: "{{totalObtained}} de {{total}}",
     },
     collectionTypes: {
       upcoming: "Em breve",
@@ -152,13 +153,17 @@ export const ptBR: TranslationSchema = {
       shareReview: "Compartilhe sua avaliação com amigos!",
       options: {
         rating: "Nota",
-        ownedPlatforms: "Plataformas possuidas",
+        ownedPlatforms: "Plataformas",
         divider: "Divisor",
         transparentBackground: "Fundo transparente",
       },
       messages: {
         generateFailed: "Falha ao gerar a imagem final.",
       },
+    },
+    quickActions: {
+      menuLabel: "Ações Rápidas",
+      menuActionLabel: "Adicionar como",
     },
   },
   collection: {
@@ -672,7 +677,7 @@ export const ptBR: TranslationSchema = {
       lastPlayedDate: "Última data jogada",
     },
     descriptions: {
-      totalPlaytime: "Tempo total de jogo (em minutos)",
+      totalPlaytime: "Tempo total de jogo (em horas)",
       lastPlayedDate:
         "Esta é a última vez que você jogou este jogo. Isso é opcional.",
     },
@@ -1205,4 +1210,4 @@ export const ptBR: TranslationSchema = {
         "Se você deseja parar de usar nossos serviços e ter seus dados removidos do nosso lado (ou seja, dados que realmente temos acesso e controle), sinta-se à vontade para nos contatar.",
     },
   },
-};
+} satisfies TranslationSchema;

@@ -24,6 +24,7 @@ export const parseSearchGamesDto = (dto: GameSearchRequestDto) => {
 export function useSearchGames(
   searchParameters: GameSearchRequestDto,
   enabled: boolean = true,
+  keepPrevious: boolean = true,
 ) {
   return useQuery<GameSearchResponseDto, ApiError>({
     queryKey: ["game", "search", searchParameters],
@@ -32,7 +33,7 @@ export function useSearchGames(
         parseSearchGamesDto(searchParameters),
       );
     },
-    placeholderData: keepPreviousData,
+    placeholderData: keepPrevious ? keepPreviousData : undefined,
     enabled: enabled,
   });
 }

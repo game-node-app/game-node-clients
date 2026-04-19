@@ -2391,6 +2391,13 @@
   dependencies:
     "@mantine/store" "9.0.1"
 
+"@mantine/spotlight@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@mantine/spotlight/-/spotlight-9.0.2.tgz#0605a2643e66b03aca52b99c18a51d96f5c4dea9"
+  integrity sha512-o72NPwoRBHHOlQiHbYJrgc66eeSy/B+/xLSQ9YtSRiAPv6Z5J3m9CaqJ6/0PDIT5QRWX14B/WqDqELNtBtGXGA==
+  dependencies:
+    "@mantine/store" "9.0.2"
+
 "@mantine/ssr@6.0.22":
   version "6.0.22"
   resolved "https://registry.npmjs.org/@mantine/ssr/-/ssr-6.0.22.tgz"
@@ -2403,6 +2410,11 @@
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@mantine/store/-/store-9.0.1.tgz#2c010c5aff1ce82d82fe34af7cc32a7394ae4e97"
   integrity sha512-7jn/tX6qC71zd8Hcr/m/kQT7wCp87nvUM3p9OoJ2qX13oNCrMEXRtimYwqkOBK5Vx2hNApQY5KF183+arHU6NA==
+
+"@mantine/store@9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@mantine/store/-/store-9.0.2.tgz#4f181b55f6f99863b038f69b15f560abe8acb141"
+  integrity sha512-5bckpj3Up7SUueKCPcpSTno7c8XTB6o2+mjUHH+Bh++X/S+kjPnxJWN+ikdSyCjLUWGChpEZlokRDswYmcpbDw==
 
 "@mantine/styles@6.0.22":
   version "6.0.22"

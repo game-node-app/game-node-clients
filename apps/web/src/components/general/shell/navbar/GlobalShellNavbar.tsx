@@ -27,10 +27,10 @@ import React, {
 } from "react";
 import { cn, RecentlyPlayedGamesShare, UserButton, useUserId } from "@repo/ui";
 import Link, { LinkProps } from "next/link";
-import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu";
+import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu";
 import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
-import { GlobalShellNavbarUserMenu } from "@/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenu";
+import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu";
 import { useDisclosure } from "@mantine/hooks";
 
 export interface NavbarItem {

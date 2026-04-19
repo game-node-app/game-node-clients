@@ -2,23 +2,14 @@ import React, { useMemo } from "react";
 import {
   GameAchievementWithObtainedInfo,
   useGameAchievementsV2,
-  useGamesResource,
   XBOX_STORES,
 } from "#@/components";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
-import {
-  Badge,
-  Box,
-  Flex,
-  Group,
-  Image,
-  Progress,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Flex, Group, Image, Progress, Stack, Text } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
 import { match, P } from "ts-pattern";
 import { IconTrophyFilled } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string | undefined;
@@ -68,12 +59,8 @@ const GameAchievementProgressOverview = ({
   source,
   targetPlatformId,
 }: Props) => {
-  const { data, isLoading, isError, error } = useGameAchievementsV2(
-    userId,
-    gameId,
-  );
-
-  const platformsQuery = useGamesResource("platforms");
+  const { t } = useTranslation();
+  const { data } = useGameAchievementsV2(userId, gameId);
 
   const targetAchievementsGroup = useMemo(() => {
     return data?.find((group) => group.source === source);
@@ -90,33 +77,6 @@ const GameAchievementProgressOverview = ({
       return true;
     });
   }, [targetAchievementsGroup, targetPlatformId]);
-
-  const availablePlatforms = useMemo(() => {
-    if (
-      platformsQuery.data == undefined ||
-      targetAchievementsGroup == undefined
-    )
-      return [];
-
-    const availablePlatformIds = Array.from(
-      new Set(
-        targetAchievements.flatMap((achievement) => achievement.platformIds),
-      ),
-    );
-
-    return platformsQuery.data.filter((platform) => {
-      if (targetPlatformId != undefined) {
-        return platform.id === targetPlatformId;
-      }
-
-      return availablePlatformIds.includes(platform.id);
-    });
-  }, [
-    platformsQuery.data,
-    targetAchievements,
-    targetAchievementsGroup,
-    targetPlatformId,
-  ]);
 
   const renderedAchievementTotal = useMemo(() => {
     return match(source)
@@ -160,7 +120,7 @@ const GameAchievementProgressOverview = ({
         );
 
         return (
-          <Group className={"items-center gap-1"}>
+          <Group className={"items-center justify-center gap-1"}>
             <Image
               src={getServerStoredIcon("xbox_achievement")}
               alt={"Gamerscore icon"}
@@ -213,19 +173,16 @@ const GameAchievementProgressOverview = ({
         );
 
         return (
-          <Text>
-            <Text className={"font-bold"} span>
-              {totalObtainedAchievements}
-            </Text>{" "}
-            of{" "}
-            <Text className={"font-bold"} span>
-              {totalAchievements}
-            </Text>
+          <Text className={"font-bold"}>
+            {t("game.achievement.totalCount", {
+              total: totalAchievements,
+              totalObtained: totalObtainedAchievements,
+            })}
           </Text>
         );
       })
       .otherwise(() => null);
-  }, [source, targetAchievements]);
+  }, [source, t, targetAchievements]);
 
   if (targetAchievementsGroup == undefined) {
     return null;

@@ -2,7 +2,7 @@
  * English translations for GameNode.
  * This file contains all English strings used across web and mobile apps.
  */
-export const en = {
+export default {
   actions: {
     cancel: "Cancel",
     confirm: "Confirm",
@@ -136,6 +136,7 @@ export const en = {
       trophies: "Trophies",
       achievements: "Achievements",
       obtainedAt: "Obtained at {{date}}",
+      totalCount: "{{totalObtained}} of {{total}}",
     },
     collectionTypes: {
       upcoming: "Upcoming",
@@ -156,6 +157,10 @@ export const en = {
       messages: {
         generateFailed: "Failed to generate final image.",
       },
+    },
+    quickActions: {
+      menuLabel: "Quick Actions",
+      menuActionLabel: "Add as",
     },
   },
   collection: {
@@ -666,7 +671,7 @@ export const en = {
       lastPlayedDate: "Last played date",
     },
     descriptions: {
-      totalPlaytime: "Total playtime (in minutes)",
+      totalPlaytime: "Total playtime (in hours)",
       lastPlayedDate:
         "This is the last time you played this game. This is optional.",
     },

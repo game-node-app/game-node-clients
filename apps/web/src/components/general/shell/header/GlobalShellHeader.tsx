@@ -8,7 +8,7 @@ import {
   Select,
 } from "@mantine/core";
 import Link from "next/link";
-import GlobalShellHeaderNotifications from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx";
+import GlobalShellHeaderNotifications from "@/components/general/shell/header/GlobalShellHeaderNotifications.tsx";
 import {
   GameNodeLogo,
   GameSearchSelectModal,
@@ -24,7 +24,9 @@ import {
   useTranslation,
 } from "@repo/locales";
 import { IconSearch } from "@tabler/icons-react";
-import { GlobalShellHeaderSearch } from "@/components/general/shell/GlobalShellHeader/GlobalShellHeaderSearch";
+import { GlobalShellHeaderSearch } from "@/components/general/shell/header/GlobalShellHeaderSearch";
+import { CommandCenter } from "@/components/general/shell/command-center/CommandCenter";
+import { toggleSpotlight } from "@mantine/spotlight";
 
 interface IGlobalShellHeaderProps {
   sidebarOpened: boolean;
@@ -39,14 +41,9 @@ export default function GlobalShellHeader({
   const { locale, push } = useRouter();
   const userId = useUserId();
 
-  const [searchModalOpened, searchModalUtils] = useDisclosure();
-
   return (
     <Flex className="w-full h-full items-center lg:justify-start px-4">
-      <GlobalShellHeaderSearch
-        opened={searchModalOpened}
-        onClose={searchModalUtils.close}
-      />
+      <CommandCenter />
       <Burger
         className={"block xs:hidden me-6"}
         opened={sidebarOpened}
@@ -64,7 +61,7 @@ export default function GlobalShellHeader({
         )}
         {userId != undefined && (
           <Group className={"gap-3"}>
-            <ActionIcon variant={"transparent"} onClick={searchModalUtils.open}>
+            <ActionIcon variant={"transparent"} onClick={toggleSpotlight}>
               <IconSearch />
             </ActionIcon>
             <GlobalShellHeaderNotifications />

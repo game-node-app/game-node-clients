@@ -1,7 +1,7 @@
 import i18n, { InitOptions, i18n as I18nInstance, Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { en } from "#@/translations/en";
-import { ptBR } from "#@/translations/pt-BR";
+import en from "#@/translations/en";
+import ptBR from "#@/translations/pt-BR";
 
 export const DEFAULT_LANGUAGE = "en";
 export const SUPPORTED_LANGUAGES = ["en", "pt-BR"] as const;

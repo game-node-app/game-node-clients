@@ -13,6 +13,7 @@ export * from "./GameInfoOwnedPlatforms";
 export * from "./GameInfoPlatforms";
 export * from "./GameInfoPlaytimeTracker";
 export * from "./GameInfoProgressTimeline";
+export * from "./GameInfoQuickAddMenu";
 export * from "./GameInfoScore";
 export * from "./GameInfoTabs";
 export * from "./GameInfoTitleFigure";

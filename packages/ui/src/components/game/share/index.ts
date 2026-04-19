@@ -3,5 +3,6 @@
  */
 
 export * from "./GameInfoShare";
+export * from "./GameInfoShareAchievementProgress";
 export * from "./GameInfoSharePlaytime";
 export * from "./GameInfoSharePreview";

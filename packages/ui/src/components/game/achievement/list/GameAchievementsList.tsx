@@ -8,6 +8,7 @@ import {
   useGamesResource,
 } from "#@/components";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   source: GameAchievementGroupDto.source;
@@ -24,6 +25,7 @@ interface Props {
  * @constructor
  */
 const GameAchievementsList = ({ source, userId, gameId }: Props) => {
+  const { t } = useTranslation();
   const { data, isLoading, isError, error } = useGameAchievementsV2(
     userId,
     gameId,
@@ -89,7 +91,6 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
         ?.platformIds.at(0);
 
       if (firstWithOwnedAchievement) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedPlatformId(firstWithOwnedAchievement);
         return;
       }
@@ -118,8 +119,8 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
           onChange={(value) => {
             setSelectedPlatformId(Number(value));
           }}
-          description={"Platform"}
-          className={"max-w-fit"}
+          description={t("preferences.platforms.platformLabel")}
+          className={"max-w-fit mt-2"}
           size={"sm"}
         />
       )}
