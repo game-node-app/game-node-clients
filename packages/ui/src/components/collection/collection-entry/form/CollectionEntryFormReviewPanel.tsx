@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import {
   CenteredLoading,
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
@@ -8,11 +7,12 @@ import {
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
-import { Input, ScrollArea, Stack } from "@mantine/core";
-import { useFormContext } from "react-hook-form";
+import { Input, Stack } from "@mantine/core";
 import { RichTextEditor } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
 import { useTranslation } from "@repo/locales";
+import { useEditor } from "@tiptap/react";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
 const CollectionEntryFormReviewPanel = ({
   gameId,
@@ -47,10 +47,18 @@ const CollectionEntryFormReviewPanel = ({
 
   useEffect(() => {
     if (reviewQuery.data) {
-      setValue("review", reviewQuery.data, {
-        shouldTouch: false,
-        shouldDirty: false,
-      });
+      setValue(
+        "review",
+        {
+          rating: reviewQuery.data.rating,
+          content: reviewQuery.data.content,
+        },
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+        },
+      );
+      console.log("Review data loaded into form", reviewQuery.data);
     }
   }, [reviewQuery.data, setValue]);
 

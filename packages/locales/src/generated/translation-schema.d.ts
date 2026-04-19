@@ -163,6 +163,11 @@ export type TranslationSchema = {
       noPreferredPlatformTitle: string;
       noPreferredPlatformMessage: string;
       preferredPlatformSetupSuffix: string;
+      alreadyInStatusTitle: string;
+      alreadyInStatusMessage: string;
+      statusUpdated: string;
+      forcedStatusTitle: string;
+      forcedStatusMessage: string;
     };
   };
   collection: {

@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "incremental": true
   },
   "exclude": ["node_modules"]
 }

@@ -13,35 +13,25 @@
   <component name="ChangeListManager">
     <list default="true" id="c4898507-a664-4573-99ed-7172571f67da" name="Changes" comment="refactor: reorganize search bar components and update related imports">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalAppShell.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/GlobalShellHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeaderNotifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/GlobalShellHeaderNotifications.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeaderSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/GlobalShellHeaderSearch.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/GlobalShellHeaderSearchContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/GlobalShellHeaderSearchContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/GameSelectOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/search-bar/GameSelectOption.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/GlobalShellSearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/search-bar/GlobalShellSearchBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellHeader/search-bar/UserSelectOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/header/search-bar/UserSelectOption.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/GlobalShellNavbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarCollectionsSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/GlobalShellNavbarCollectionsSection.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/GlobalShellNavbarItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/GlobalShellNavbarItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellNavbarUserMenuItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenuItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/GlobalShellNavbar/user-menu/GlobalShellUserMenuOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/navbar/user-menu/GlobalShellUserMenuOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/en.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/pt-BR.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/list/GameAchievementsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/list/GameAchievementsList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/view/GameAchievementProgressOverview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/achievement/view/GameAchievementProgressOverview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/hooks/useSearchGames.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/hooks/useSearchGames.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/changelists.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/changelists.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/admin/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/admin/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/general/shell/command-center/CommandCenter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/general/shell/command-center/CommandCenter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/analytics/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/analytics/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-tailwind/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-tailwind/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-typescript/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-typescript/base.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/config-typescript/react-library.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/config-typescript/react-library.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/generated/translation-schema.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/generated/translation-schema.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/json/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/json/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/locales/src/translations/json/pt-BR.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/locales/src/translations/json/pt-BR.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormReviewPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/collection/collection-entry/form/CollectionEntryFormReviewPanel.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/search/utils/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/search/utils/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/share/GameInfoSharePreview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/share/GameInfoSharePreview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/share/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/share/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/playtime/PlaytimeSubmitForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/playtime/PlaytimeSubmitForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoQuickAddMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/game/info/GameInfoQuickAddMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/context/utils/buildPresenterComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/context/utils/buildPresenterComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +149,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "de.marhali.easyi18n.idea.config.ProjectConfigConfigurable",
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
     "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "/home/cassio/Projects/game-node-clients/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
@@ -466,6 +456,8 @@
       <workItem from="1776535077497" duration="2548000" />
       <workItem from="1776538028252" duration="5935000" />
       <workItem from="1776554344400" duration="554000" />
+      <workItem from="1776611008384" duration="643000" />
+      <workItem from="1776614828918" duration="738000" />
     </task>
     <task id="LOCAL-00055" summary="- web docker worflow">
       <option name="closed" value="true" />

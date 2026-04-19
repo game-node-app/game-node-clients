@@ -32,7 +32,7 @@
     "@repo/ui": "*",
     "@repo/wrapper": "*",
     "@socialgouv/matomo-next": "^1.9.2",
-    "@tabler/icons-react": "^3.35.0",
+    "@tabler/icons-react": "^3.41.1",
     "@tanstack/query-async-storage-persister": "^5.90.2",
     "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-query-persist-client": "^5.90.7",

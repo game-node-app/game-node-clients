@@ -10,9 +10,6 @@ const config: Omit<Config, "content"> = {
   },
   theme: {
     extend: {
-      backgroundColor: {
-        body: "var(--mantine-color-body)",
-      },
       fontFamily: "var(--mantine-font-family)",
       spacing: {
         xs: "var(--mantine-spacing-xs)",
@@ -47,6 +44,7 @@ const config: Omit<Config, "content"> = {
       },
       textColor: "#D9D9D9",
       colors: {
+        body: "var(--mantine-color-body)",
         paper: {
           DEFAULT: "#161616",
           0: "#161616",

@@ -4220,17 +4220,17 @@
   dependencies:
     "@swc/counter" "^0.1.3"
 
-"@tabler/icons-react@^3.35.0":
-  version "3.35.0"
-  resolved "https://registry.npmjs.org/@tabler/icons-react/-/icons-react-3.35.0.tgz"
-  integrity sha512-XG7t2DYf3DyHT5jxFNp5xyLVbL4hMJYJhiSdHADzAjLRYfL7AnjlRfiHDHeXxkb2N103rEIvTsBRazxXtAUz2g==
+"@tabler/icons-react@^3.41.1":
+  version "3.41.1"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.41.1.tgz#e719ff95130eee0685e955a80ad71f5165641f38"
+  integrity sha512-kUgweE+DJtAlMZVIns1FTDdcbpRVnkK7ZpUOXmoxy3JAF0rSHj0TcP4VHF14+gMJGnF+psH2Zt26BLT6owetBA==
   dependencies:
-    "@tabler/icons" "3.35.0"
+    "@tabler/icons" "3.41.1"
 
-"@tabler/icons@3.35.0":
-  version "3.35.0"
-  resolved "https://registry.npmjs.org/@tabler/icons/-/icons-3.35.0.tgz"
-  integrity sha512-yYXe+gJ56xlZFiXwV9zVoe3FWCGuZ/D7/G4ZIlDtGxSx5CGQK110wrnT29gUj52kEZoxqF7oURTk97GQxELOFQ==
+"@tabler/icons@3.41.1":
+  version "3.41.1"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.41.1.tgz#dff9c77af287c73c2fcab4074cfa9f2069f9b7ee"
+  integrity sha512-OaRnVbRmH2nHtFeg+RmMJ/7m2oBIF9XCJAUD5gQnMrpK9f05ydj8MZrAf3NZQqOXyxGN1UBL0D5IKLLEUfr74Q==
 
 "@tailwindcss/container-queries@^0.1.1":
   version "0.1.1"

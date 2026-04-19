@@ -1,7 +1,7 @@
 import { CommandCenterGamesContent } from "@/components/general/shell/command-center/content/CommandCenterGamesContent";
 import { Code, Flex, Text } from "@mantine/core";
 import { Spotlight } from "@mantine/spotlight";
-import { useOnMobile } from "@repo/ui";
+import { useOnMobile, useUserId } from "@repo/ui";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 

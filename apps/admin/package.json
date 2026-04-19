@@ -26,7 +26,7 @@
     "@repo/ui": "*",
     "@repo/wrapper": "*",
     "@socialgouv/matomo-next": "^1.9.2",
-    "@tabler/icons-react": "^3.35.0",
+    "@tabler/icons-react": "^3.41.1",
     "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-table": "^8.21.3",
     "@tiptap/core": "^3.22.2",

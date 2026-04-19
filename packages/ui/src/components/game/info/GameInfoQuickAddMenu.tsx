@@ -3,16 +3,22 @@ import {
   TextLink,
   TGameOrSearchGame,
   useOnMobile,
+  useOwnCollectionEntryForGameId,
   usePreferredPlatforms,
+  useUserId,
 } from "#@/components";
 import { Menu, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
-import { CollectionEntry } from "@repo/wrapper/server";
-import { useMutation } from "@tanstack/react-query";
+import {
+  CollectionEntry,
+  CollectionsEntriesService,
+} from "@repo/wrapper/server";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { PropsWithChildren, useMemo } from "react";
 import CollectionEntryStatus = CollectionEntry.status;
+import { createErrorNotification } from "#@/util/createErrorNotification.ts";
 
 interface QuickAddMenuOption {
   labelKey: string;
@@ -33,6 +39,13 @@ const GameInfoQuickAddMenu = ({
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
+
+  // Only used to invalidate the query after quick add, so we can refetch the collection entry with the updated data.
+  // We don't use the data from here to avoid unnecessary fetches.
+  const ownCollectionEntryQuery = useOwnCollectionEntryForGameId(
+    game.id!,
+    false,
+  );
 
   const [isPreferredPlatformsModalOpened, preferredPlatformsModalUtils] =
     useDisclosure();
@@ -93,6 +106,81 @@ const GameInfoQuickAddMenu = ({
           autoClose: 10000,
         });
         return;
+      }
+
+      let collectionEntry: CollectionEntry | undefined = undefined;
+
+      try {
+        collectionEntry =
+          await CollectionsEntriesService.collectionsEntriesControllerFindOwnEntryByGameIdV1(
+            game.id!,
+          );
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        console.log(
+          "No existing collection entry found for game id. Proceeding to create one.",
+          game.id,
+        );
+      }
+
+      if (collectionEntry && collectionEntry.status === option.status) {
+        notifications.show({
+          title: t("game.quickActions.alreadyInStatusTitle"),
+          message: t("game.quickActions.alreadyInStatusMessage"),
+          color: "blue",
+        });
+        return;
+      }
+
+      const hasCollectionWithForcedStatus = collectionEntry?.collections.some(
+        (c) => c.defaultEntryStatus,
+      );
+
+      if (hasCollectionWithForcedStatus) {
+        notifications.show({
+          title: t("game.quickActions.forcedStatusTitle"),
+          message: t("game.quickActions.forcedStatusMessage"),
+          color: "red",
+        });
+        return;
+      }
+
+      console.log("Existing collection entry:", collectionEntry);
+
+      const collectionIds = collectionEntry?.collections.map((c) => c.id) ?? [];
+
+      const existingPlatforms =
+        collectionEntry?.ownedPlatforms.map((p) => p.id) ?? [];
+
+      const preferredPlatformIds = enabledPreferredPlatforms.map(
+        (p) => p.platformId,
+      );
+
+      const combinedPlatformIds = Array.from(
+        new Set([...existingPlatforms, ...preferredPlatformIds]),
+      );
+
+      await CollectionsEntriesService.collectionsEntriesControllerCreateOrUpdateV1(
+        {
+          gameId: game.id!,
+          platformIds: combinedPlatformIds,
+          status: option.status,
+          collectionIds: collectionIds,
+        },
+      );
+
+      ownCollectionEntryQuery.invalidate();
+
+      return true;
+    },
+    onError: createErrorNotification,
+    onSuccess: (isActionPerformed: boolean | undefined) => {
+      if (isActionPerformed) {
+        notifications.show({
+          title: t("notifications.titles.success"),
+          message: t("game.quickActions.statusUpdated"),
+          color: "green",
+        });
       }
     },
   });

@@ -1,9 +1,12 @@
-import { GameInfoShare, useUpdateFavoriteStatusMutation } from "#@/components";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
+import {
+  GameInfoQuickAddMenu,
+  GameInfoShare,
+  PreferredPlatformsViewModal,
+  useUpdateFavoriteStatusMutation,
+} from "#@/components";
 import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
 import { buildPresenterComponent } from "#@/context";
 import { Modal } from "#@/util";
 import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
@@ -11,6 +14,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { Game } from "@repo/wrapper/server";
 import {
+  IconChevronDown,
+  IconChevronsDown,
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
@@ -36,6 +41,8 @@ const DEFAULT_GameInfoActions = ({
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
+  const [preferredPlatformsModalOpened, preferredPlatformsModalUtils] =
+    useDisclosure();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
 
@@ -67,6 +74,10 @@ const DEFAULT_GameInfoActions = ({
           onClose={removeModalUtils.close}
           gameId={game.id}
         />
+        <PreferredPlatformsViewModal
+          opened={preferredPlatformsModalOpened}
+          onClose={preferredPlatformsModalUtils.close}
+        />
         <Modal
           opened={shareModalOpened}
           onClose={shareModalUtils.close}
@@ -75,6 +86,7 @@ const DEFAULT_GameInfoActions = ({
           <GameInfoShare
             gameId={game.id}
             onShare={async (file) => {
+              // eslint-disable-next-line no-undef
               const toShare: ShareData = {
                 title: t("game.share.title"),
                 text: t("game.share.seeMoreAt", { gameId: game?.id }),
@@ -87,14 +99,29 @@ const DEFAULT_GameInfoActions = ({
           />
         </Modal>
 
-        <Button
-          onClick={addUpdateModalUtils.open}
-          loading={collectionEntryQuery.isLoading}
-        >
-          {gameInLibrary
-            ? t("game.buttons.update")
-            : t("game.buttons.addLibrary")}
-        </Button>
+        <Group className="gap-0">
+          <Button
+            onClick={addUpdateModalUtils.open}
+            loading={collectionEntryQuery.isLoading}
+            className="rounded-tr-none rounded-br-none"
+          >
+            {gameInLibrary
+              ? t("game.buttons.update")
+              : t("game.buttons.addLibrary")}
+          </Button>
+          <GameInfoQuickAddMenu
+            game={game}
+            onPreferredPlatformSetupClick={preferredPlatformsModalUtils.open}
+          >
+            <ActionIcon
+              variant="filled"
+              size={36}
+              className="rounded-tl-none rounded-bl-none border-0 border-l-[1px] border-body"
+            >
+              <IconChevronDown />
+            </ActionIcon>
+          </GameInfoQuickAddMenu>
+        </Group>
 
         <Tooltip label={t("game.tooltips.addFavorites")}>
           <ActionIcon

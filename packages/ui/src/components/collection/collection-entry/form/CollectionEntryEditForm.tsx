@@ -1,36 +1,38 @@
-import React, { useMemo } from "react";
-import { Button, Tabs } from "@mantine/core";
-import { FormProvider, useForm } from "react-hook-form";
+import { useUserId } from "#@/components/auth/index.ts";
+import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useGame } from "#@/components/game/hooks/useGame";
+import {
+  DEFAULT_GAME_INFO_VIEW_DTO,
+  DEFAULT_RELATED_GAMES_DTO,
+} from "#@/components/game/index.ts";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useOnMobilePlatform } from "#@/components/general/index.ts";
+import { useReviewForUserIdAndGameId } from "#@/components/review/index.ts";
+import { createErrorNotification } from "#@/util";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Button, Tabs } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 import {
   CollectionEntry,
   CollectionsEntriesService,
   ReviewsService,
 } from "@repo/wrapper/server";
-import { useGame } from "#@/components/game/hooks/useGame";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BaseModalChildrenProps } from "#@/util/types/modal-props";
-import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import {
-  CollectionEntryFormDetailsPanel,
-  CollectionEntryFormDlcsPanel,
-  CollectionEntryFormReviewPanel,
-  DEFAULT_GAME_INFO_VIEW_DTO,
-  DEFAULT_RELATED_GAMES_DTO,
-  useOnMobilePlatform,
-} from "#@/components";
 import {
   IconAppsFilled,
   IconFileDescription,
   IconStarsFilled,
 } from "@tabler/icons-react";
-import { createErrorNotification } from "#@/util";
-import { useTranslation } from "@repo/locales";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { z } from "zod";
+import { CollectionEntryFormDetailsPanel } from "./CollectionEntryFormDetailsPanel";
+import { CollectionEntryFormDlcsPanel } from "./CollectionEntryFormDlcsPanel";
+import { CollectionEntryFormReviewPanel } from "./CollectionEntryFormReviewPanel";
 
 const createGameAddOrUpdateSchema = (
   t: ReturnType<typeof useTranslation>["t"],
@@ -110,9 +112,13 @@ const CollectionEntryEditForm = ({
     formState: { touchedFields },
   } = form;
 
+  const userId = useUserId();
+
   const queryClient = useQueryClient();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
+
+  const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
 
   /**
    * We re-use the default DTO here because the query is probably already cached for it at this point
@@ -137,6 +143,16 @@ const CollectionEntryEditForm = ({
       if (reviewInfo.rating == null || typeof reviewInfo.rating !== "number") {
         return;
       }
+
+      const previousReview = reviewQuery.data;
+
+      if (
+        previousReview?.rating === reviewInfo.rating &&
+        previousReview?.content === reviewInfo.content
+      ) {
+        return;
+      }
+
       await ReviewsService.reviewsControllerCreateOrUpdateV1({
         rating: reviewInfo.rating,
         gameId,
@@ -231,7 +247,7 @@ const CollectionEntryEditForm = ({
             defaultValue={"details"}
             allowTabDeactivation={false}
             variant={"default"}
-            keepMounted={false}
+            keepMounted={true}
             classNames={{
               root: "w-full h-full relative",
             }}
