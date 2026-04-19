@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "#@/util";
+import { cn, Link } from "#@/util";
 
 interface ITextLinkProps extends React.HTMLProps<HTMLAnchorElement> {
   href: string;
@@ -10,7 +10,7 @@ const TextLink = ({ href, children, ...linkProps }: ITextLinkProps) => {
     <Link
       href={href}
       {...linkProps}
-      className={`underline ${linkProps.className ?? ""}`}
+      className={cn("underline", linkProps.className)}
     >
       {children}
     </Link>

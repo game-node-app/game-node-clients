@@ -1,45 +1,98 @@
-import React, { PropsWithChildren } from "react";
-import { TGameOrSearchGame, usePreferredPlatforms } from "#@/components";
+import React, { PropsWithChildren, useMemo } from "react";
+import {
+  PreferredPlatformsViewModal,
+  TextLink,
+  TGameOrSearchGame,
+  useOnMobile,
+  usePreferredPlatforms,
+} from "#@/components";
 import { Menu, Text } from "@mantine/core";
 import { CollectionEntry } from "@repo/wrapper/server";
 import CollectionEntryStatus = CollectionEntry.status;
-import { useTranslation, TranslationSchema } from "@repo/locales";
+import { en, useTranslation } from "@repo/locales";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import { Link } from "#@/util/link.ts";
+import { useDisclosure } from "@mantine/hooks";
+import { spotlight } from "@mantine/spotlight";
 
 interface QuickAddMenuOption {
-  labelKey: keyof TranslationSchema["collectionEntry"]["statuses"];
+  labelKey: string;
   status: CollectionEntryStatus;
 }
 
-const QUICK_ADD_OPTIONS: QuickAddMenuOption[] = [
-  {
-    labelKey: "playing",
-    status: CollectionEntryStatus.PLAYING,
-  },
-  {
-    labelKey: "finished",
-    status: CollectionEntryStatus.FINISHED,
-  },
-];
-
 interface Props {
   game: TGameOrSearchGame;
+  onPreferredPlatformSetupClick?: () => void;
+  dropdownChildren?: React.ReactNode;
 }
 
-const GameInfoQuickAddMenu = ({ game, children }: PropsWithChildren<Props>) => {
+const GameInfoQuickAddMenu = ({
+  game,
+  onPreferredPlatformSetupClick,
+  children,
+  dropdownChildren,
+}: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
+  const onMobile = useOnMobile();
+
+  const [isPreferredPlatformsModalOpened, preferredPlatformsModalUtils] =
+    useDisclosure();
 
   const preferredPlatformsQuery = usePreferredPlatforms();
 
+  const QUICK_ADD_OPTIONS: QuickAddMenuOption[] = useMemo(
+    () => [
+      {
+        labelKey: t("collectionEntry.statuses.playing"),
+        status: CollectionEntryStatus.PLAYING,
+      },
+      {
+        labelKey: t("collectionEntry.statuses.finished"),
+        status: CollectionEntryStatus.FINISHED,
+      },
+      {
+        labelKey: t("collectionEntry.statuses.planned"),
+        status: CollectionEntryStatus.PLANNED,
+      },
+      {
+        labelKey: t("collectionEntry.statuses.dropped"),
+        status: CollectionEntryStatus.DROPPED,
+      },
+      {
+        labelKey: t("collectionEntry.statuses.ongoing"),
+        status: CollectionEntryStatus.ONGOING,
+      },
+    ],
+    [t],
+  );
+
   const quickAddMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (option: QuickAddMenuOption) => {
       const preferredPlatforms = preferredPlatformsQuery.data ?? [];
-      if (preferredPlatforms.length === 0) {
+      const enabledPreferredPlatforms = preferredPlatforms.filter(
+        (p) => p.enabled,
+      );
+      if (enabledPreferredPlatforms.length === 0) {
         notifications.show({
           title: t("game.quickActions.noPreferredPlatformTitle"),
-          message: t("game.quickActions.noPreferredPlatformMessage"),
+          message: (
+            <Text>
+              {t("game.quickActions.noPreferredPlatformMessage")}{" "}
+              <TextLink
+                href="#"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  onPreferredPlatformSetupClick?.();
+                }}
+              >
+                {onMobile ? t("actions.tapHere") : t("actions.clickHere")}
+              </TextLink>{" "}
+              {t("game.quickActions.preferredPlatformSetupSuffix")}
+            </Text>
+          ),
           color: "red",
+          autoClose: 10000,
         });
         return;
       }
@@ -47,22 +100,32 @@ const GameInfoQuickAddMenu = ({ game, children }: PropsWithChildren<Props>) => {
   });
 
   return (
-    <Menu shadow={"md"} zIndex={99999}>
+    <Menu shadow={"md"} keepMounted withinPortal>
+      <PreferredPlatformsViewModal
+        opened={isPreferredPlatformsModalOpened}
+        onClose={preferredPlatformsModalUtils.close}
+      />
       <Menu.Target>{children}</Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>{t("game.quickActions.menuLabel")}</Menu.Label>
         {QUICK_ADD_OPTIONS.map((option) => {
           return (
-            <Menu.Item key={option.labelKey}>
+            <Menu.Item
+              key={option.labelKey}
+              onClick={() => {
+                quickAddMutation.mutate(option);
+              }}
+            >
               <Text span className={"text-sm"}>
                 {t("game.quickActions.menuActionLabel")}
               </Text>{" "}
               <Text className={"font-bold text-sm"} span>
-                {t(`collectionEntry.statuses.${option.labelKey}` as never)}
+                {t(option.labelKey as never)}
               </Text>
             </Menu.Item>
           );
         })}
+        {dropdownChildren}
       </Menu.Dropdown>
     </Menu>
   );

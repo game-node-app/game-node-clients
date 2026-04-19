@@ -14,7 +14,7 @@ const CommandCenter = () => {
   const onMobile = useOnMobile();
 
   return (
-    <Spotlight.Root keepMounted={true}>
+    <Spotlight.Root keepMounted={true} zIndex={100}>
       <Spotlight.Search
         placeholder="Search for games or users..."
         value={query}

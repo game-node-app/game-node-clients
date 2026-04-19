@@ -13,6 +13,8 @@
     "mismatches:fix": "syncpack fix",
     "mismatches:format": "syncpack format",
     "wrapper:generate": "yarn build -F @repo/wrapper",
+    "locales:generate-types": "yarn workspace @repo/locales translations:types",
+    "locales:watch-types": "yarn workspace @repo/locales translations:types:watch",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

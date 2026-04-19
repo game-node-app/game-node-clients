@@ -19,7 +19,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src/",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "translations:types": "node ./scripts/generate-i18n-types.mjs",
+    "translations:types:watch": "node ./scripts/watch-i18n-types.mjs"
   },
   "dependencies": {
     "i18next": "^26.0.3",

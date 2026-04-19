@@ -10,6 +10,11 @@
     "type-check": {},
     "dev": {
       "cache": false,
+      "persistent": true,
+      "with": ["@repo/locales#translations:types:watch"]
+    },
+    "translations:types:watch": {
+      "cache": false,
       "persistent": true
     },
     "clean": {

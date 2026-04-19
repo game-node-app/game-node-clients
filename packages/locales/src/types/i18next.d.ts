@@ -10,7 +10,7 @@
  */
 
 import "i18next";
-import { en } from "#@/translations";
+import type { TranslationSchema } from "../generated/translation-schema";
 
 declare module "i18next" {
   interface CustomTypeOptions {
@@ -23,7 +23,7 @@ declare module "i18next" {
      * English is the source of truth for all translation keys.
      */
     resources: {
-      common: typeof en;
+      common: TranslationSchema;
     };
     /**
      * Return type is not nullable - we always have a fallback.

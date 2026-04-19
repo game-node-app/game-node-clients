@@ -1,15 +1,14 @@
-import React, { useCallback } from "react";
-import { Spotlight } from "@mantine/spotlight";
+import { CommandCenterGameAction } from "@/components/general/shell/command-center/action/CommandCenterGameAction";
+import { Skeleton, Stack } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
+import { Spotlight } from "@mantine/spotlight";
 import {
   BaseModalChildrenProps,
   buildGameSearchRequestDto,
-  GameView,
   SearchGame,
   useSearchGames,
 } from "@repo/ui";
-import { Skeleton, Stack } from "@mantine/core";
-import { CommandCenterGameAction } from "@/components/general/shell/command-center/action/CommandCenterGameAction";
+import { useCallback } from "react";
 
 interface Props extends BaseModalChildrenProps {
   query: string;

@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Dev: All Apps (turbo)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "yarn dev",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Dev: Web",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "yarn dev:web",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Dev: Mobile",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "yarn dev:mobile",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Dev: Admin",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "yarn dev:admin",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
