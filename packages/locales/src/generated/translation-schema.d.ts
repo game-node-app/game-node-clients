@@ -275,6 +275,7 @@ export type TranslationSchema = {
       add: string;
       editInLibrary: string;
       viewGame: string;
+      removeFromLibrary: string;
     };
     validation: {
       collectionRequired: string;
@@ -682,6 +683,7 @@ export type TranslationSchema = {
     };
     labels: {
       showDLCs: string;
+      management: string;
     };
   };
   importer: {

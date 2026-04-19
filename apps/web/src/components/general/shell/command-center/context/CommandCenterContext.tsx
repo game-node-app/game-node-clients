@@ -9,7 +9,10 @@ import {
   useState,
 } from "react";
 
-type CommandCenterModal = "preferredPlatforms" | "gameAddEditForm";
+type CommandCenterModal =
+  | "preferredPlatforms"
+  | "gameAddEditForm"
+  | "gameRemoveForm";
 
 interface CommandCenterModalState {
   modal: CommandCenterModal | null;
@@ -34,10 +37,12 @@ const CommandCenterContext = createContext<CommandCenterContextValue>({
 export const CommandCenterContextProvider = ({
   children,
 }: PropsWithChildren) => {
-  const [state, setState] = useState<CommandCenterModalState | null>(null);
+  const [modalState, setModalState] = useState<CommandCenterModalState | null>(
+    null,
+  );
 
   const closeModal = useCallback(() => {
-    setState(null);
+    setModalState(null);
   }, []);
 
   const openModal = useCallback(
@@ -46,7 +51,7 @@ export const CommandCenterContextProvider = ({
       spotlight.close();
 
       requestAnimationFrame(() => {
-        setState({ modal, payload });
+        setModalState({ modal, payload });
       });
     },
     [],
@@ -54,12 +59,12 @@ export const CommandCenterContextProvider = ({
 
   const value = useMemo<CommandCenterContextValue>(
     () => ({
-      modal: state?.modal ?? null,
-      payload: state?.payload ?? null,
+      modal: modalState?.modal ?? null,
+      payload: modalState?.payload ?? null,
       openModal,
       closeModal,
     }),
-    [state, openModal, closeModal],
+    [modalState, openModal, closeModal],
   );
 
   return (

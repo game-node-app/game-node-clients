@@ -39,7 +39,8 @@ const HomePage = () => {
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "search-game-view-layout",
     defaultValue: "grid",
-    getInitialValueInEffect: false,
+    // prevents SSR errors
+    getInitialValueInEffect: true,
   });
 
   const [searchParameters, setSearchParameters] = useUrlState({

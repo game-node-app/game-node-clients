@@ -1,33 +1,25 @@
-import React, { useMemo } from "react";
+import { GameRating } from "#@/components/general/input/GameRating";
 import { useReviewsScore } from "#@/components/review/hooks/useReviewsScore";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { DetailsBox } from "#@/components/general/DetailsBox";
 import {
-  Box,
   Center,
   Divider,
-  Flex,
   Group,
+  HoverCard,
   Popover,
-  Rating,
   Stack,
   Text,
-  Tooltip,
 } from "@mantine/core";
-import { IconStar } from "@tabler/icons-react";
-import { GameRating } from "#@/components/general/input/GameRating";
 import { useTranslation } from "@repo/locales";
-
-interface ScoreDistribution {
-  rating: number;
-  percentage: number;
-}
+import { IconStar } from "@tabler/icons-react";
+import { useMemo } from "react";
+import { DetailsCard, useOnMobile } from "#@/components";
 
 interface Props {
   gameId: number;
 }
 
 const GameInfoScore = ({ gameId }: Props) => {
+  const onMobile = useOnMobile();
   const { t } = useTranslation();
   const score = useReviewsScore(gameId);
   const scoreDistribution = useMemo(() => {
@@ -67,26 +59,22 @@ const GameInfoScore = ({ gameId }: Props) => {
         );
       });
   }, [score.data, t]);
+
+  const TargetPopoverElement = onMobile ? Popover : HoverCard;
+
   return (
-    <DetailsBox
-      withBorder
-      withDimmedTitle
-      title={t("game.labels.userRating")}
-      withPadding
-      withBackground
-      withRipple
-    >
-      <Popover>
-        <Popover.Target>
+    <DetailsCard title={t("game.labels.userRating")}>
+      <TargetPopoverElement>
+        <TargetPopoverElement.Target>
           <Center className={"mt-6 mb-6"}>
             <GameRating value={score.data?.median} />
           </Center>
-        </Popover.Target>
-        <Popover.Dropdown>
+        </TargetPopoverElement.Target>
+        <TargetPopoverElement.Dropdown>
           <Stack>{scoreDistribution}</Stack>
-        </Popover.Dropdown>
-      </Popover>
-    </DetailsBox>
+        </TargetPopoverElement.Dropdown>
+      </TargetPopoverElement>
+    </DetailsCard>
   );
 };
 

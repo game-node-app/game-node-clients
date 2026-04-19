@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import {
   Group,
   GroupProps,
+  HoverCard,
   Image,
   ImageProps,
   Popover,
@@ -15,15 +16,18 @@ import { useGame } from "#@/components/game/hooks/useGame";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
 import { useGamePlatformIcons } from "#@/components";
 import { useTranslation } from "@repo/locales";
+import { cn } from "#@/util/cn.ts";
 
 interface IGameInfoPlatformsProps extends GroupProps {
   gameId: number | undefined;
   iconsProps?: ImageProps;
+  withNotAvailableText?: boolean;
 }
 
 const GameInfoPlatforms = ({
   gameId,
   iconsProps,
+  withNotAvailableText = true,
   ...others
 }: IGameInfoPlatformsProps) => {
   const { t } = useTranslation();
@@ -56,25 +60,36 @@ const GameInfoPlatforms = ({
   const isEmpty = icons == undefined || icons.length === 0;
   const platformInfo = getGamePlatformInfo(gameQuery.data);
   const platformsNames = platformInfo.platformsAbbreviations?.join(", ");
+
+  const TargetPopoverElement = onMobile ? Popover : HoverCard;
+
+  if (isEmpty && !withNotAvailableText) {
+    return null;
+  }
+
   return (
-    <Popover shadow={"md"}>
-      <Popover.Target>
+    <TargetPopoverElement shadow={"md"}>
+      <TargetPopoverElement.Target>
         <Group
-          w={"100%"}
-          justify={onMobile ? "center" : "start"}
-          wrap={"wrap"}
           {...others}
+          className={cn(
+            "max-w-fit w-fit flex-wrap justify-start",
+            {
+              "justify-center": onMobile,
+            },
+            others.className,
+          )}
         >
           {iconsQuery.isLoading ? buildIconsSkeletons() : icons}
           {!iconsQuery.isLoading && isEmpty && t("game.details.notAvailable")}
         </Group>
-      </Popover.Target>
-      <Popover.Dropdown>
+      </TargetPopoverElement.Target>
+      <TargetPopoverElement.Dropdown>
         <Text fz={"sm"}>
           {platformsNames ?? t("game.details.notAvailable")}
         </Text>
-      </Popover.Dropdown>
-    </Popover>
+      </TargetPopoverElement.Dropdown>
+    </TargetPopoverElement>
   );
 };
 

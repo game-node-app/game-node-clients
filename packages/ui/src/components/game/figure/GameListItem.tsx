@@ -76,15 +76,14 @@ const GameListItem = ({ game, figureProps }: IGameListFigureProps) => {
             </Text>
           )}
         </Stack>
-        <Flex className={"w-full"}>
-          <GameInfoPlatforms
-            gameId={game.id}
-            justify={"start"}
-            iconsProps={{
-              w: 28,
-            }}
-          />
-        </Flex>
+        <GameInfoPlatforms
+          gameId={game.id}
+          justify={"start"}
+          iconsProps={{
+            w: 20,
+          }}
+          withNotAvailableText={false}
+        />
 
         <Text size="sm" c={"dimmed"}>
           {genreNames}

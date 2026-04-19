@@ -1,23 +1,22 @@
-import React from "react";
+import { GameInfoShare, useUpdateFavoriteStatusMutation } from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
+import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
+import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
+import { buildPresenterComponent } from "#@/context";
+import { Modal } from "#@/util";
 import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
+import { Game } from "@repo/wrapper/server";
 import {
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
-import { useDisclosure } from "@mantine/hooks";
-import { CollectionsEntriesService, Game } from "@repo/wrapper/server";
-import { useMutation } from "@tanstack/react-query";
-import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
-import { useReviewForUserIdAndGameId } from "#@/components/review/hooks/useReviewForUserIdAndGameId";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { Modal } from "#@/util";
-import { GameInfoShare, useUpdateFavoriteStatusMutation } from "#@/components";
-import { buildPresenterComponent } from "#@/context";
-import { useTranslation } from "@repo/locales";
+import React from "react";
 
 export interface GameInfoActionsProps {
   wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
@@ -38,7 +37,6 @@ const DEFAULT_GameInfoActions = ({
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
 
-  const userId = useUserId();
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
 
   const gameInLibrary =
@@ -46,10 +44,6 @@ const DEFAULT_GameInfoActions = ({
 
   const gameInFavorites =
     gameInLibrary && collectionEntryQuery.data!.isFavorite;
-
-  const reviewQuery = useReviewForUserIdAndGameId(userId, game?.id);
-
-  const hasReview = reviewQuery.data != undefined;
 
   const collectionEntryFavoriteMutation = useUpdateFavoriteStatusMutation(
     game?.id,

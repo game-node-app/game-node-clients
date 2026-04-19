@@ -21,7 +21,7 @@ const DetailsCard = ({
 }: PropsWithChildren<DetailsCardProps>) => {
   return (
     <Stack
-      className={cn("w-full gap-2", {
+      className={cn("w-full gap-2 h-fit", {
         "py-2 px-4 bg-paper-3 rounded-md": variant === "card",
       })}
     >

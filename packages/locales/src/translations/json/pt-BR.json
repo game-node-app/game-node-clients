@@ -270,7 +270,8 @@
       "update": "Atualizar",
       "add": "Adicionar",
       "editInLibrary": "Editar na biblioteca",
-      "viewGame": "Ver Jogo"
+      "viewGame": "Ver Jogo",
+      "removeFromLibrary": "Remover da biblioteca"
     },
     "validation": {
       "collectionRequired": "A coleção deve ser válida.",
@@ -677,7 +678,8 @@
       "userOrder": "Ordem do Usuário"
     },
     "labels": {
-      "showDLCs": "Mostrar DLCs/Extras"
+      "showDLCs": "Mostrar DLCs/Extras",
+      "management": "Gerenciamento de Biblioteca"
     }
   },
   "importer": {

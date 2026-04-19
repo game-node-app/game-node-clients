@@ -1,0 +1,28 @@
+{
+  "changelists": [
+    {
+      "name": "Default",
+      "files": [
+        "apps/web/src/components/general/shell/command-center/action/CommandCenterGameActionMenu.tsx",
+        "packages/ui/src/components/game/info/GameInfoQuickAddMenu.tsx",
+        ".vscode/changelists.json",
+        "packages/locales/src/translations/json/en.json",
+        ".vscode/settings.json",
+        "packages/locales/src/translations/json/pt-BR.json",
+        "packages/locales/src/generated/translation-schema.d.ts",
+        "apps/web/src/components/general/shell/command-center/context/CommandCenterContext.tsx",
+        "apps/web/src/components/general/shell/command-center/CommandCenterModalOutlet.tsx",
+        "packages/ui/src/components/game/info/GameInfoActions.tsx",
+        "apps/web/src/components/general/shell/command-center/CommandCenter.tsx",
+        "packages/ui/src/components/game/figure/GameListItem.tsx",
+        "packages/ui/src/components/game/info/GameInfoPlatforms.tsx",
+        "packages/ui/src/components/game/info/GameInfoScore.tsx",
+        "packages/config-eslint/react.js",
+        "apps/web/src/pages/home/index.tsx",
+        "packages/ui/src/components/general/DetailsCard.tsx",
+        "apps/web/src/pages/game/[id]/index.tsx"
+      ]
+    }
+  ],
+  "active": "Default"
+}

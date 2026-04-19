@@ -270,7 +270,8 @@
       "update": "Update",
       "add": "Add",
       "editInLibrary": "Edit in library",
-      "viewGame": "View Game"
+      "viewGame": "View Game",
+      "removeFromLibrary": "Remove from library"
     },
     "validation": {
       "collectionRequired": "Collection must be valid.",
@@ -677,7 +678,8 @@
       "userOrder": "User Order"
     },
     "labels": {
-      "showDLCs": "Show DLCs/Extras"
+      "showDLCs": "Show DLCs/Extras",
+      "management": "Library Management"
     }
   },
   "importer": {

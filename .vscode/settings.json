@@ -1,15 +1,15 @@
 {
-    "i18n-ally.readonly": false,
-    "i18n-ally.enabledFrameworks": [
+    "i18n-ally-next.readonly": false,
+    "i18n-ally-next.enabledFrameworks": [
         "react-i18next"
     ],
-    "i18n-ally.keystyle": "nested",
-    "i18n-ally.localesPaths": [
+    "i18n-ally-next.keystyle": "nested",
+    "i18n-ally-next.localesPaths": [
         "packages/locales/src/translations/json"
     ],
-    "i18n-ally.pathMatcher": "{locale}.{ext}",
-    "i18n-ally.namespace": false,
-    "i18n-ally.ignoreFiles": [
+    "i18n-ally-next.pathMatcher": "{locale}.{ext}",
+    "i18n-ally-next.namespace": false,
+    "i18n-ally-next.ignoreFiles": [
         "index.ts",
         "**/*.js",
         "**/*.js.map",
@@ -17,8 +17,11 @@
         "**/dist/**",
         "**/build/**"
     ],
-    "i18n-ally.enabledParsers": [
+    "i18n-ally-next.enabledParsers": [
         "json"
     ],
-    "i18n-ally.sourceLanguage": "en",
+    "i18n-ally-next.sourceLanguage": "en",
+    "i18n-ally-next.translate.engines": [
+        "editor-llm",
+    ]
 }

@@ -104,7 +104,13 @@ const GameInfoPage = () => {
   const onGoBack = () => onChange(GameInfoTabValue.overview);
 
   return (
-    <Container fluid pos={"relative"} className="mb-12" mih={"100vh"} p={0}>
+    <Container
+      fluid
+      pos={"relative"}
+      className="mb-12 mt-4"
+      mih={"100vh"}
+      p={0}
+    >
       {gameQuery.data != undefined && (
         <Head>
           <title>{`${gameQuery.data.name} - GameNode`}</title>

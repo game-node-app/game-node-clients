@@ -1,4 +1,3 @@
-import React, { PropsWithChildren, useMemo } from "react";
 import {
   PreferredPlatformsViewModal,
   TextLink,
@@ -7,14 +6,13 @@ import {
   usePreferredPlatforms,
 } from "#@/components";
 import { Menu, Text } from "@mantine/core";
-import { CollectionEntry } from "@repo/wrapper/server";
-import CollectionEntryStatus = CollectionEntry.status;
-import { en, useTranslation } from "@repo/locales";
-import { useMutation } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
-import { Link } from "#@/util/link.ts";
 import { useDisclosure } from "@mantine/hooks";
-import { spotlight } from "@mantine/spotlight";
+import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
+import { CollectionEntry } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import React, { PropsWithChildren, useMemo } from "react";
+import CollectionEntryStatus = CollectionEntry.status;
 
 interface QuickAddMenuOption {
   labelKey: string;
@@ -100,7 +98,7 @@ const GameInfoQuickAddMenu = ({
   });
 
   return (
-    <Menu shadow={"md"} keepMounted withinPortal>
+    <Menu shadow={"md"} keepMounted withinPortal zIndex={1000}>
       <PreferredPlatformsViewModal
         opened={isPreferredPlatformsModalOpened}
         onClose={preferredPlatformsModalUtils.close}
