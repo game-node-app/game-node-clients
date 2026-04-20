@@ -3,8 +3,8 @@
     {
       "name": "Default",
       "files": [
-        "apps/web/next.config.js",
         ".vscode/changelists.json",
+        "apps/web/next.config.js",
         "apps/web/package.json"
       ]
     }

@@ -11,9 +11,11 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/*": [
       "../../node_modules/@reduxjs/toolkit/**/*",
+      "../../node_modules/@standard-schema/**/*",
       "../../node_modules/immer/**/*",
       "../../node_modules/react-redux/**/*",
       "../../node_modules/redux/**/*",
+      "../../node_modules/redux-thunk/**/*",
       "../../node_modules/reselect/**/*",
       "../../node_modules/use-sync-external-store/**/*",
       "../../node_modules/recharts/**/*",
