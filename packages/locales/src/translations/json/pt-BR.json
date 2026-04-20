@@ -43,7 +43,9 @@
     "tapHere": "Pressione aqui",
     "update": "Atualizar",
     "viewMore": "Ver Mais",
-    "yes": "Sim"
+    "yes": "Sim",
+    "use": "Use",
+    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento"
   },
   "activity": {
     "items": {
@@ -240,10 +242,11 @@
     },
     "descriptions": {
       "collectionsOptional": "Opcional. Em quais coleções você quer salvar este jogo?",
-      "finishedDateOptional": "Opcional. Deixe vazio se você não lembrar.",
+      "finishedDateOptional": "Opcional. O padrão é a data de hoje.",
       "platformSearch": "Você pode buscar uma plataforma digitando o nome dela",
       "preferredPlatformsHint": "preenchem este campo automaticamente ao adicionar novos jogos.",
-      "statusDisabled": "Desativado devido ao status padrão das coleções selecionadas."
+      "statusDisabled": "Desativado devido ao status padrão das coleções selecionadas.",
+      "statusOngoing": "Para jogos que não possuem um final propriamente dito. "
     },
     "dlcs": {
       "description": "Esses itens serao adicionados a sua biblioteca junto com este jogo. Eles só ficarão visíveis ao visitar a pagina de detalhes do jogo na sua biblioteca. Eles vão herdar o status e as plataformas deste jogo, mas não serão adicionados a coleções. Você sempre pode adicionar-los manualmente depois.",
@@ -272,13 +275,14 @@
       "reviewContent": "Conteúdo da avaliação. Deixe vazio para criar uma avaliação apenas com nota."
     },
     "related": {
-      "description": "DLCs e expansões possuídos",
+      "description": "DLCs e expansões possuídas",
       "title": "Conteúdo relacionado"
     },
     "review": {
       "optionalDescription": "Opcional. Deixe vazio para criar uma avaliação apenas com nota.",
       "quickDescription": "Você sempre pode editá-la depois.",
-      "quickLabel": "Deixe uma avaliação rápida"
+      "quickLabel": "Deixe uma avaliação rápida",
+      "noRewiewFound": "Nenhuma avaliação encontrada para este jogo."
     },
     "statuses": {
       "dropped": "Abandonado",
@@ -310,6 +314,15 @@
       "platformRequired": "Selecione pelo menos uma plataforma.",
       "ratingInvalid": "A avaliação deve ser um número entre 1 e 5.",
       "ratingInvalidDecimal": "A avaliação deve ter no máximo uma casa decimal."
+    },
+    "errors": {
+      "notFound": {
+        "title": "Jogo não encontrado na sua biblioteca.",
+        "message": "Este jogo não foi encontrado na sua biblioteca."
+      }
+    },
+    "achievements": {
+      "noObtained": "Nenhuma conquista obtida encontrada."
     }
   },
   "comment": {
@@ -510,6 +523,10 @@
       "mainStoryDesc": "Tempo médio para terminar o jogo até os créditos sem gastar tempo relevante em extras como missões secundárias.",
       "notEnoughSubmissions": "Sem envios suficientes.",
       "title": "Tempo para zerar"
+    },
+    "search": {
+      "noGamesFound": "Nenhum jogo encontrado.",
+      "startTypingResults": "Comece a digitar para ver resultados"
     }
   },
   "home": {
@@ -987,6 +1004,9 @@
       "cooldown": "Você só pode alterá-lo novamente após 30 dias",
       "minLength": "Deve ter pelo menos 5 caracteres",
       "unique": "Deve ser único"
+    },
+    "search": {
+      "noUsersFound": "Nenhum usuário encontrado."
     }
   },
   "recap": {

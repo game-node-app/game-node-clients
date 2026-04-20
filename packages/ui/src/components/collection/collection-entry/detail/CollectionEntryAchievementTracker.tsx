@@ -7,6 +7,7 @@ import {
 } from "#@/components";
 import { SegmentedControl } from "@mantine/core";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -19,6 +20,7 @@ const CollectionEntryAchievementTracker = ({
   gameId,
   withTitle = true,
 }: Props) => {
+  const { t } = useTranslation();
   const achievementsQuery = useGameAchievementsV2(userId, gameId);
 
   /**
@@ -44,6 +46,7 @@ const CollectionEntryAchievementTracker = ({
     if (availableGroups.length > 0) {
       const firstSource = availableGroups.at(0)?.source;
       if (firstSource) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedSource(firstSource);
       }
     }
@@ -53,7 +56,7 @@ const CollectionEntryAchievementTracker = ({
     <DetailsBox
       withPadding
       withBorder
-      title={withTitle ? "Achievements" : ""}
+      title={withTitle ? t("collectionEntry.tabs.achievements") : ""}
       rightSide={
         <SegmentedControl
           value={selectedSource && String(selectedSource)}
@@ -70,7 +73,7 @@ const CollectionEntryAchievementTracker = ({
     >
       {isEmpty && (
         <CenteredErrorMessage
-          message={"No obtained achievements found for this game."}
+          message={t("collectionEntry.achievements.noObtained")}
         />
       )}
       {selectedSource && !isEmpty && (

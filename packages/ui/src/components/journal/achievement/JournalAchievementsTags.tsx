@@ -18,7 +18,7 @@ const JournalAchievementsTags = ({ group }: Props) => {
     return (
       match(source)
         // Steam blue
-        .with(EGameExternalGameCategory.Steam, () => "#1b74e4")
+        .with(EGameExternalGameCategory.Steam, () => "#171a21")
         // Xbox green
         .with(
           P.union(

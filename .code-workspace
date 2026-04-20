@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../game-node-server"
+		}
+	],
+	"settings": {
+		"i18n-ally-next.readonly": false,
+		"i18n-ally-next.enabledFrameworks": [
+			"react-i18next"
+		],
+		"i18n-ally-next.keystyle": "nested",
+		"i18n-ally-next.pathMatcher": "{locale}.{ext}",
+		"i18n-ally-next.namespace": false,
+		"i18n-ally-next.ignoreFiles": [
+			"index.ts",
+			"**/*.js",
+			"**/*.js.map",
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/build/**"
+		],
+		"i18n-ally-next.enabledParsers": [
+			"json"
+		],
+		"i18n-ally-next.sourceLanguage": "en",
+		"i18n-ally-next.translate.engines": [
+			"editor-llm"
+		],
+		"js/ts.tsdk.path": "node_modules/typescript/lib",
+		"i18n-ally-next.localesPaths": [
+			"packages/locales"
+		],
+	}
+}

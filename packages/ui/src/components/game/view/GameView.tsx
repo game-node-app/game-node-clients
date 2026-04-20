@@ -15,8 +15,8 @@ type IGameViewContext = Pick<IGameViewProps, "layout" | "cols">;
 export const GameViewContext = createContext<IGameViewContext>({
   layout: "grid",
   cols: {
-    base: 3,
-    lg: 5,
+    base: 4,
+    lg: 6,
   },
 });
 
@@ -33,8 +33,8 @@ const GameView = ({
   children,
   layout = "grid",
   cols = {
-    base: 3,
-    lg: 5,
+    base: 4,
+    lg: 6,
   },
 }: Partial<IGameViewProps>) => {
   return (

@@ -133,7 +133,7 @@ const CollectionEntryFormDetailsPanel = ({
   return (
     <Group className={"flex-wrap lg:flex-nowrap lg:items-start w-full h-full "}>
       {showGameInfo && (
-        <Stack className="w-full items-center justify-start lg:w-1/2">
+        <Stack className="w-full items-center justify-start flex-shrink">
           <GameFigureImage game={game!} imageSize={ImageSize.COVER_BIG_2X} />
         </Stack>
       )}
@@ -141,7 +141,7 @@ const CollectionEntryFormDetailsPanel = ({
         orientation={onMobile ? "horizontal" : "vertical"}
         className={"w-full lg:w-fit"}
       />
-      <Stack className={"w-full items-start gap-2 h-full lg:w-1/2"}>
+      <Stack className={"w-full items-start gap-2 h-full lg:flex-grow"}>
         <Title size={"h5"}>{game?.name}</Title>
         <CollectionEntryPlatformSelect gameId={gameId} />
         <MultiSelect

@@ -1,17 +1,18 @@
-import React, { useMemo } from "react";
-import { ActionIcon, Box, Center, Group, Text } from "@mantine/core";
 import {
   CenteredLoading,
   GameFigureImage,
   GameRating,
-  getCollectionEntryStatusName,
+  getLocalizedCollectionEntryStatusName,
   useCollectionEntry,
   useGame,
   useReviewForUserIdAndGameId,
 } from "#@/components";
-import { IconChevronRight } from "@tabler/icons-react";
 import { Link } from "#@/util";
+import { ActionIcon, Box, Center, Group, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { JournalEntryStatusDto } from "@repo/wrapper/server";
+import { IconChevronRight } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 interface Props {
   targetDay: number;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const JournalOverviewItem = ({ item, targetDay }: Props) => {
+  const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(item.collectionEntryId);
   const gameQuery = useGame(item.gameId, {
     relations: {
@@ -69,7 +71,7 @@ const JournalOverviewItem = ({ item, targetDay }: Props) => {
               {platformNames}
             </Text>
             <Text className={"text-sm lg:text-center w-16 lg:w-20 text-wrap"}>
-              {getCollectionEntryStatusName(item.status)}
+              {getLocalizedCollectionEntryStatusName(item.status, t)}
             </Text>
           </Group>
         </Group>

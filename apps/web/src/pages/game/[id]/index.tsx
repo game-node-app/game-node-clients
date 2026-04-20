@@ -23,9 +23,12 @@ import {
   useUrlState,
   useUserView,
   GameInfoReviewScreen,
+  getSizedImageUrl,
+  ImageSize,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
 import sourceType = FindOneStatisticsDto.sourceType;
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -112,9 +115,14 @@ const GameInfoPage = () => {
       p={0}
     >
       {gameQuery.data != undefined && (
-        <Head>
-          <title>{`${gameQuery.data.name} - GameNode`}</title>
-        </Head>
+        <OpenGraph
+          title={`${gameQuery.data.name} - GameNode`}
+          description={gameQuery.data.summary}
+          imageUrl={getSizedImageUrl(
+            gameQuery.data.cover?.url,
+            ImageSize.FULL_HD,
+          )}
+        />
       )}
       <Stack className={"w-full h-full"}>
         <GameInfoView id={idAsNumber} />

@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import {
   DetailsBox,
-  getCollectionEntryStatusName,
+  getLocalizedCollectionEntryStatusName,
   useCollectionEntry,
   usePlaytimeForGame,
 } from "#@/components";
 import { Badge, Group, Skeleton, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const CollectionEntryDetailsBox = ({ collectionEntryId, userId }: Props) => {
+  const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(collectionEntryId as string);
   const platforms = collectionEntryQuery.data?.ownedPlatforms;
   const playtimeQuery = usePlaytimeForGame(
@@ -29,7 +31,11 @@ const CollectionEntryDetailsBox = ({ collectionEntryId, userId }: Props) => {
   }, [playtimeQuery.data]);
 
   return (
-    <DetailsBox withPadding withBorder title={`Details`}>
+    <DetailsBox
+      withPadding
+      withBorder
+      title={t("collectionEntry.tabs.details")}
+    >
       {collectionEntryQuery.isLoading ? (
         <>
           {new Array(3).fill(0).map((_v, i) => (
@@ -40,15 +46,18 @@ const CollectionEntryDetailsBox = ({ collectionEntryId, userId }: Props) => {
         <>
           <Text>
             <Text span className={"font-bold"}>
-              Status:{" "}
+              {t("collectionEntry.labels.status")}:{" "}
             </Text>
             <Badge>
-              {getCollectionEntryStatusName(collectionEntryQuery.data!.status)}
+              {getLocalizedCollectionEntryStatusName(
+                collectionEntryQuery.data!.status,
+                t,
+              )}
             </Badge>
           </Text>
           <Group className={"gap-1"}>
             <Text span className={"font-bold"}>
-              Platforms:{" "}
+              {t("collectionEntry.labels.platforms")}:{" "}
             </Text>
             {platforms?.map((platform) => (
               <Badge key={platform.id} variant={"default"} className={"me-1"}>
@@ -58,7 +67,7 @@ const CollectionEntryDetailsBox = ({ collectionEntryId, userId }: Props) => {
           </Group>
           <Text>
             <Text span className={"font-bold"}>
-              Playtime:{" "}
+              {t("profile.stats.playtime")}:{" "}
             </Text>
             <Text span>{Math.ceil(totalPlaytimeSeconds / 3600)} Hours</Text>
           </Text>

@@ -14,6 +14,7 @@ import { ActionIcon, Stack, Text } from "@mantine/core";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 import { Modal } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   userId: string;
@@ -25,6 +26,7 @@ const CollectionEntryReviewBox = ({
   collectionEntryId,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   const onMobile = useOnMobile();
   const [reviewOpened, reviewOpenedUtils] = useDisclosure();
@@ -38,7 +40,7 @@ const CollectionEntryReviewBox = ({
 
   return (
     <DetailsBox
-      title={"Review"}
+      title={t("collectionEntry.tabs.review")}
       withPadding
       withBorder
       {...others}
@@ -70,7 +72,7 @@ const CollectionEntryReviewBox = ({
         <GameRating value={reviewQuery.data?.rating} size={"lg"} />
         {reviewQuery.data == undefined && (
           <Text className={"text-center text-dimmed text-sm"}>
-            No review found for this game.
+            {t("collectionEntry.review.noRewiewFound")}
           </Text>
         )}
       </Stack>

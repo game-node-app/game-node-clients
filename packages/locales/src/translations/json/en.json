@@ -43,7 +43,9 @@
     "tapHere": "Press here",
     "update": "Update",
     "viewMore": "View More",
-    "yes": "Yes"
+    "yes": "Yes",
+    "use": "Use",
+    "toOpenDialogAnytime": "to open this dialog anytime"
   },
   "activity": {
     "items": {
@@ -240,10 +242,11 @@
     },
     "descriptions": {
       "collectionsOptional": "Optional. Which collections do you want to save it on?",
-      "finishedDateOptional": "Optional. Leave empty if you don't remember.",
+      "finishedDateOptional": "Optional. Defaults to today's date.",
       "platformSearch": "You can search for a platform by typing it's name",
       "preferredPlatformsHint": "will fill this field automatically when adding new games.",
-      "statusDisabled": "Disabled because of selected collections' default status."
+      "statusDisabled": "Disabled because of selected collections' default status.",
+      "statusOngoing": "For games that don't have a proper ending."
     },
     "dlcs": {
       "description": "These items will be added to your library alongside this game. They will only be visible when visiting your entry's detail page. They will inherit this game's status and platforms, but will not be added to collections. You can always add them to your collections manually later.",
@@ -278,7 +281,8 @@
     "review": {
       "optionalDescription": "Optional. Leave empty to create a score-only review.",
       "quickDescription": "You can always edit it later.",
-      "quickLabel": "Leave a quick review"
+      "quickLabel": "Leave a quick review",
+      "noRewiewFound": "No review found for this game."
     },
     "statuses": {
       "dropped": "Dropped",
@@ -310,6 +314,15 @@
       "platformRequired": "Select at least one platform.",
       "ratingInvalid": "Rating must be a number between 1 and 5.",
       "ratingInvalidDecimal": "Rating must have a maximum of one decimal place."
+    },
+    "errors": {
+      "notFound": {
+        "title": "Game not found in your library.",
+        "message": "This game was not found in your library."
+      }
+    },
+    "achievements": {
+      "noObtained": "No obtained achievements found."
     }
   },
   "comment": {
@@ -510,6 +523,10 @@
       "mainStoryDesc": "Average time to finish the game to its credits without spending notable time on extras such as side quests.",
       "notEnoughSubmissions": "Not enough submissions.",
       "title": "How long to beat"
+    },
+    "search": {
+      "startTypingResults": "Start typing to see results",
+      "noGamesFound": "No games found."
     }
   },
   "home": {
@@ -933,7 +950,7 @@
       "achievementsUpdated": "Successfully updated featured achievement!",
       "bioUpdated": "Successfully updated your bio!",
       "fetchFailed": "We couldn't fetch this data. Please try again.",
-      "noAchievements": "You have not obtained any achievements. Return here later, adventurer!",
+      "noAchievements": "You have not obtained any achievements. Come back later, adventurer!",
       "noFeaturedAchievements": "No featured achievements found.",
       "noPublicFavoriteGames": "This user has no public favorite games.",
       "noReviews": "User has no reviews.",
@@ -987,6 +1004,9 @@
       "cooldown": "You can only change it again after 30 days",
       "minLength": "Must have at least 5 characters",
       "unique": "Must be unique"
+    },
+    "search": {
+      "noUsersFound": "No users found."
     }
   },
   "recap": {

@@ -145,8 +145,6 @@ const GameInfoQuickAddMenu = ({
         return;
       }
 
-      console.log("Existing collection entry:", collectionEntry);
-
       const collectionIds = collectionEntry?.collections.map((c) => c.id) ?? [];
 
       const existingPlatforms =
@@ -169,8 +167,6 @@ const GameInfoQuickAddMenu = ({
         },
       );
 
-      ownCollectionEntryQuery.invalidate();
-
       return true;
     },
     onError: createErrorNotification,
@@ -182,6 +178,9 @@ const GameInfoQuickAddMenu = ({
           color: "green",
         });
       }
+    },
+    onSettled: () => {
+      ownCollectionEntryQuery.invalidate();
     },
   });
 

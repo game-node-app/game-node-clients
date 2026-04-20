@@ -4,6 +4,7 @@ import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameFigureImage,
   GameInfoOwnedPlatforms,
+  GameInfoShareAchievementProgress,
   GameInfoSharePlaytime,
   GameNodeLogo,
   GameRating,
@@ -62,8 +63,10 @@ const GameInfoSharePreview = ({
             <GameRating value={rating} />
           )}
         </Stack>
-        <Group className={"w-full justify-center flex-nowrap gap-16"}>
-          <div className={"w-20"}></div>
+        <Group
+          className={"w-full justify-center items-start flex-nowrap gap-16"}
+        >
+          <GameInfoShareAchievementProgress gameId={gameId} />
           <GameInfoSharePlaytime gameId={gameId} />
         </Group>
         {withDivider && <Divider w={"100%"} />}

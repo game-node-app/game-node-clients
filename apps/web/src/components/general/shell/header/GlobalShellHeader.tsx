@@ -46,7 +46,11 @@ export default function GlobalShellHeader({
         )}
         {userId != undefined && (
           <Group className={"gap-3"}>
-            <ActionIcon variant={"transparent"} onClick={toggleSpotlight}>
+            <ActionIcon
+              variant={"transparent"}
+              onClick={toggleSpotlight}
+              c="unset"
+            >
               <IconSearch />
             </ActionIcon>
             <GlobalShellHeaderNotifications />

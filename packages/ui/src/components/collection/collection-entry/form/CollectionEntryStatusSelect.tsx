@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Input, SegmentedControl, SegmentedControlProps } from "@mantine/core";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  Input,
+  Scroller,
+  SegmentedControl,
+  SegmentedControlProps,
+} from "@mantine/core";
 import { useUserId, useUserLibrary } from "#@/components";
 import { Collection } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
@@ -35,6 +40,7 @@ const CollectionEntryStatusSelect = ({
             onChange(userCollection.defaultEntryStatus);
           }
 
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setHasMandatoryStatus(true);
           return;
         }
@@ -44,17 +50,26 @@ const CollectionEntryStatusSelect = ({
     }
   }, [onChange, selectedCollectionIds, userCollections, value]);
 
+  const inputDescription = useMemo(() => {
+    if (hasMandatoryStatus) {
+      return t("collectionEntry.descriptions.statusDisabled");
+    }
+
+    if (value === Collection.defaultEntryStatus.ONGOING) {
+      return t("collectionEntry.descriptions.statusOngoing");
+    }
+
+    return null;
+  }, [hasMandatoryStatus, t, value]);
+
   return (
     <Input.Wrapper
       label={t("collectionEntry.labels.status")}
-      description={
-        hasMandatoryStatus
-          ? t("collectionEntry.descriptions.statusDisabled")
-          : null
-      }
+      description={inputDescription}
       className={"w-full"}
     >
       <SegmentedControl
+        fullWidth
         value={value}
         onChange={onChange}
         data={[
@@ -74,9 +89,12 @@ const CollectionEntryStatusSelect = ({
             label: t("collectionEntry.statuses.dropped"),
             value: Collection.defaultEntryStatus.DROPPED,
           },
+          {
+            label: t("collectionEntry.statuses.ongoing"),
+            value: Collection.defaultEntryStatus.ONGOING,
+          },
         ]}
         readOnly={hasMandatoryStatus}
-        fullWidth
         {...others}
       ></SegmentedControl>
     </Input.Wrapper>

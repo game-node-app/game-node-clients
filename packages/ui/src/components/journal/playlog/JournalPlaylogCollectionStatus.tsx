@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
-import { JournalPlaylogEntryDto } from "@repo/wrapper/server";
-import { getCollectionEntryStatusName } from "#@/components";
-import { match } from "ts-pattern";
 import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { JournalPlaylogEntryDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
+import { match } from "ts-pattern";
 
 interface Props {
   items: JournalPlaylogEntryDto[];

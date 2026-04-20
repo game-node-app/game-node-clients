@@ -3,284 +3,315 @@
 // Do not edit manually.
 
 export type TranslationSchema = {
-  actions: {
-    cancel: string;
-    confirm: string;
-    goBack: string;
-    save: string;
-    delete: string;
-    remove: string;
-    edit: string;
-    create: string;
-    update: string;
-    submit: string;
-    skip: string;
-    close: string;
-    login: string;
-    logout: string;
-    selectAll: string;
-    yes: string;
-    no: string;
-    share: string;
-    showMore: string;
-    showLess: string;
-    viewMore: string;
-    seeMore: string;
-    tapHere: string;
-    clickHere: string;
-  };
-  common: {
-    loading: string;
-    error: string;
-    noResults: string;
-    search: string;
-    searchPlaceholder: string;
-    or: string;
-    actions: string;
-  };
-  auth: {
-    loginRequired: string;
-    loginPrompt: string;
-    signIn: string;
-    fetchingCredentials: string;
-  };
-  confirm: {
-    title: string;
-    message: string;
-  };
-  game: {
-    searchPlaceholder: string;
-    selectGame: string;
-    searchLabel: string;
-    removeFromLibrary: string;
-    searchTips: {
-      pressHold: string;
-      acronym: string;
-    };
-    details: {
-      launchDate: string;
-      whereToPlay: string;
-      whereToBuy: string;
-      summary: string;
-      notAvailable: string;
-      developers: string;
-      publishers: string;
-    };
-    extra: {
-      otherVersions: string;
-      remakeOf: string;
-      remasterOf: string;
-      expansionOf: string;
-      expansions: string;
-      dlcOf: string;
-      dlcs: string;
-      similarGames: string;
-    };
-    ttb: {
-      title: string;
-      notEnoughSubmissions: string;
-      basedOnIgdb: string;
-      mainStory: string;
-      mainExtras: string;
-      completionist: string;
-      mainStoryDesc: string;
-      mainExtrasDesc: string;
-      completionistDesc: string;
-    };
-    labels: {
-      share: string;
-      playedIn: string;
-      tip: string;
-      inLibrary: string;
-      gridView: string;
-      listView: string;
-      userRating: string;
-      externalStore: string;
-    };
+  achievements: {
     buttons: {
-      update: string;
-      addLibrary: string;
-    };
-    tooltips: {
-      addFavorites: string;
-      removeLibrary: string;
-      share: string;
-    };
-    tabs: {
-      overview: string;
-      reviews: string;
-      discussion: string;
-      achievements: string;
-    };
-    timeline: {
-      added: string;
-      reviewed: string;
-      finished: string;
-    };
-    progress: {
-      yourProgress: string;
-      added: string;
-      reviewed: string;
-      finished: string;
-      xpGained: string;
-    };
-    messages: {
-      notEnoughReviews: string;
-      noEntry: string;
-    };
-    achievement: {
-      overviewTitle: string;
-      notAvailable: string;
-      ownedBy: string;
-      trophies: string;
-      achievements: string;
-      obtainedAt: string;
-      totalCount: string;
-    };
-    collectionTypes: {
-      upcoming: string;
-      recentReleases: string;
-    };
-    share: {
-      title: string;
-      seeMoreAt: string;
-      recentlyPlayed: string;
-      myReview: string;
-      shareReview: string;
-      options: {
-        rating: string;
-        ownedPlatforms: string;
-        divider: string;
-        transparentBackground: string;
-      };
-      messages: {
-        generateFailed: string;
-      };
-    };
-    quickActions: {
-      menuLabel: string;
-      menuActionLabel: string;
-      noPreferredPlatformTitle: string;
-      noPreferredPlatformMessage: string;
-      preferredPlatformSetupSuffix: string;
-      alreadyInStatusTitle: string;
-      alreadyInStatusMessage: string;
-      statusUpdated: string;
-      forcedStatusTitle: string;
-      forcedStatusMessage: string;
-    };
-  };
-  collection: {
-    create: string;
-    update: string;
-    remove: string;
-    removeGame: string;
-    labels: {
-      name: string;
-      description: string;
-      public: string;
-      featured: string;
-      automation: string;
-      enableAutoStatus: string;
-    };
-    placeholders: {
-      name: string;
-      description: string;
+      redeem: string;
     };
     descriptions: {
-      public: string;
-      featured: string;
-      autoStatus: string;
+      codeFormat: string;
+    };
+    labels: {
+      code: string;
+    };
+    messages: {
+      redeemed: string;
     };
     titles: {
-      createModal: string;
-      updateModal: string;
-      featured: string;
-      all: string;
-      new: string;
+      redeemCode: string;
     };
+    validation: {
+      codeRequired: string;
+    };
+  };
+  actions: {
+    cancel: string;
+    clickHere: string;
+    close: string;
+    confirm: string;
+    create: string;
+    delete: string;
+    edit: string;
+    goBack: string;
+    login: string;
+    logout: string;
+    no: string;
+    remove: string;
+    save: string;
+    seeMore: string;
+    selectAll: string;
+    share: string;
+    showLess: string;
+    showMore: string;
+    skip: string;
+    submit: string;
+    tapHere: string;
+    update: string;
+    viewMore: string;
+    yes: string;
+    use: string;
+    toOpenDialogAnytime: string;
+  };
+  activity: {
+    items: {
+      addedTo: string;
+      completedAllAchievements: string;
+      followed: string;
+      obtainedAchievements: string;
+      obtainedAllAndPlatinum: string;
+      obtainedPlatinum: string;
+      postedAbout: string;
+      reviewed: string;
+      unknown: string;
+    };
+    messages: {
+      fetchError: string;
+      noActivities: string;
+      noRecentActivity: string;
+    };
+    tabs: {
+      all: string;
+      following: string;
+    };
+  };
+  app: {
+    betterInApp: string;
+    metaDescription: string;
+    openInApp: string;
+    title: string;
+  };
+  auth: {
+    fetchingCredentials: string;
+    loginPrompt: string;
+    loginRequired: string;
+    signIn: string;
+  };
+  awards: {
+    buttons: {
+      shareVotes: string;
+    };
+    categoriesCount: string;
+    currentPhase: string;
+    indicatedBy: string;
+    labels: {
+      layout: string;
+      nominees: string;
+      preview: string;
+      suggestionsFromEditors: string;
+    };
+    layouts: {
+      compact: string;
+      large: string;
+    };
+    messages: {
+      excludingGames: string;
+      highlights: string;
+      recentVotedIn: string;
+      tapToVote: string;
+      voteSubmitted: string;
+      votingIn: string;
+    };
+    participationReward: string;
+    phaseMessages: {
+      resultsOut: string;
+      votingEnded: string;
+      votingEndsIn: string;
+      votingStartsIn: string;
+    };
+    phases: {
+      countingVotes: string;
+      eventEnded: string;
+      startingSoon: string;
+      voting: string;
+    };
+    resultsDate: string;
+    share: {
+      linkCopied: string;
+      scrollHint: string;
+      shareWithImage: string;
+      shareWithLink: string;
+      title: string;
+    };
+    subtitle: string;
+    title: string;
+    titles: {
+      recentVotes: string;
+      yourVotes: string;
+    };
+    voteNow: string;
+    votedByPublic: string;
+  };
+  blog: {
+    buttons: {
+      seeMore: string;
+    };
+    contentNotice: string;
+    disclaimer: string;
+    labels: {
+      draft: string;
+      reviewedGame: string;
+      tags: string;
+    };
+    list: {
+      empty: string;
+      taggedTitle: string;
+      title: string;
+    };
+    messages: {
+      postDeleted: string;
+    };
+    nav: {
+      archive: string;
+      articles: string;
+      gameNode: string;
+      home: string;
+      news: string;
+      reviews: string;
+    };
+    recentPosts: string;
+    recentReviews: string;
+  };
+  buttons: {
+    confirm: string;
+    goBack: string;
+  };
+  collection: {
     actions: {
-      updateDetails: string;
-      reorderGames: string;
-      moveGames: string;
-      discard: string;
       apply: string;
+      discard: string;
+      moveGames: string;
+      reorderGames: string;
+      updateDetails: string;
+    };
+    create: string;
+    descriptions: {
+      autoStatus: string;
+      featured: string;
+      public: string;
+    };
+    labels: {
+      automation: string;
+      description: string;
+      enableAutoStatus: string;
+      featured: string;
+      name: string;
+      public: string;
     };
     messages: {
       applyingChanges: string;
-      orderingUpdated: string;
-      createSuccess: string;
-      updateSuccess: string;
-      orderingHint: string;
-      syncFailed: string;
-      changesCount: string;
-      atLeastOneGame: string;
-      targetCollectionStringError: string;
       atLeastOneCollection: string;
-      relevantFilteringFailed: string;
+      atLeastOneGame: string;
+      changesCount: string;
+      createSuccess: string;
       gamesToMove: string;
       gamesToMoveHint: string;
+      orderingHint: string;
+      orderingUpdated: string;
+      relevantFilteringFailed: string;
+      syncFailed: string;
+      targetCollectionStringError: string;
       targetCollections: string;
       targetCollectionsHint: string;
+      updateSuccess: string;
     };
+    placeholders: {
+      description: string;
+      name: string;
+    };
+    remove: string;
+    removeGame: string;
     sorts: {
       addedDate: string;
       releaseDate: string;
       userOrder: string;
     };
+    titles: {
+      all: string;
+      createModal: string;
+      featured: string;
+      new: string;
+      updateModal: string;
+    };
+    update: string;
     validation: {
       featuredMustBePublic: string;
     };
   };
   collectionEntry: {
-    labels: {
-      status: string;
-      platforms: string;
-      rating: string;
-      collections: string;
-      optional: string;
-      finishedDate: string;
-    };
-    titles: {
-      editGame: string;
-      addGame: string;
-    };
-    tabs: {
-      details: string;
-      review: string;
-      dlcs: string;
-      playlog: string;
-      achievements: string;
-    };
-    dlcs: {
-      title: string;
-      description: string;
+    buttons: {
+      add: string;
+      editInLibrary: string;
+      removeFromLibrary: string;
+      update: string;
+      viewGame: string;
     };
     descriptions: {
-      statusDisabled: string;
       collectionsOptional: string;
       finishedDateOptional: string;
       platformSearch: string;
       preferredPlatformsHint: string;
+      statusDisabled: string;
+      statusOngoing: string;
     };
-    statuses: {
-      playing: string;
-      finished: string;
-      planned: string;
-      dropped: string;
-      ongoing: string;
+    dlcs: {
+      description: string;
+      title: string;
+    };
+    labels: {
+      collections: string;
+      finishedDate: string;
+      optional: string;
+      platforms: string;
+      rating: string;
+      status: string;
+    };
+    messages: {
+      addSuccess: string;
+      confirmRemove: string;
+      fetchError: string;
+      moveHint: string;
+      moveSuccess: string;
+      removeWarning: string;
+      updateSuccess: string;
     };
     placeholders: {
-      platforms: string;
       collections: string;
+      platforms: string;
       reviewContent: string;
     };
-    buttons: {
-      update: string;
-      add: string;
-      editInLibrary: string;
-      viewGame: string;
-      removeFromLibrary: string;
+    related: {
+      description: string;
+      title: string;
+    };
+    review: {
+      optionalDescription: string;
+      quickDescription: string;
+      quickLabel: string;
+      noRewiewFound: string;
+    };
+    statuses: {
+      dropped: string;
+      finished: string;
+      ongoing: string;
+      planned: string;
+      playing: string;
+    };
+    tabs: {
+      achievements: string;
+      details: string;
+      dlcs: string;
+      playlog: string;
+      review: string;
+    };
+    timeline: {
+      addedWishlist: string;
+      droppedGame: string;
+      markedFinished: string;
+      startedPlaying: string;
+      unknown: string;
+    };
+    titles: {
+      addGame: string;
+      editGame: string;
     };
     validation: {
       collectionRequired: string;
@@ -288,395 +319,380 @@ export type TranslationSchema = {
       ratingInvalid: string;
       ratingInvalidDecimal: string;
     };
-    messages: {
-      updateSuccess: string;
-      addSuccess: string;
-      confirmRemove: string;
-      moveSuccess: string;
-      fetchError: string;
-      removeWarning: string;
-      moveHint: string;
+    errors: {
+      notFound: {
+        title: string;
+        message: string;
+      };
     };
-    review: {
-      quickLabel: string;
-      quickDescription: string;
-      optionalDescription: string;
-    };
-    related: {
-      title: string;
-      description: string;
-    };
-    timeline: {
-      startedPlaying: string;
-      markedFinished: string;
-      droppedGame: string;
-      addedWishlist: string;
-      unknown: string;
-    };
-  };
-  review: {
-    remove: string;
-    titles: {
-      yourReview: string;
-    };
-    descriptions: {
-      writePublic: string;
-    };
-    messages: {
-      updated: string;
-      created: string;
-      noContent: string;
-      saveFailed: string;
-      confirmRemove: string;
+    achievements: {
+      noObtained: string;
     };
   };
   comment: {
-    remove: string;
-    titles: {
-      removeModal: string;
-      commentsInPost: string;
-      commentsInActivity: string;
-      commentsInReview: string;
-    };
     labels: {
       replyingTo: string;
+    };
+    messages: {
+      confirmRemove: string;
+      fetchError: string;
+      removed: string;
+      submitted: string;
     };
     placeholders: {
       writeComment: string;
     };
-    messages: {
-      submitted: string;
-      confirmRemove: string;
-      removed: string;
-      fetchError: string;
+    remove: string;
+    titles: {
+      commentsInActivity: string;
+      commentsInPost: string;
+      commentsInReview: string;
+      removeModal: string;
     };
   };
-  view: {
-    grid: string;
-    list: string;
-    compact: string;
-    detailed: string;
+  common: {
+    actions: string;
+    error: string;
+    loading: string;
+    noResults: string;
+    or: string;
+    search: string;
+    searchPlaceholder: string;
   };
-  language: {
-    label: string;
-    english: string;
-    portuguese: string;
+  confirm: {
+    message: string;
+    title: string;
   };
-  navigation: {
-    home: string;
-    explore: string;
-    library: string;
-    profile: string;
-    preferences: string;
-    back: string;
-    menu: string;
-    settings: string;
-    collections: string;
-    reviews: string;
-    journal: string;
-    posts: string;
-    stats: string;
-    activity: string;
-    blog: string;
-    achievements: string;
-    feats: string;
-    about: string;
-    privacy: string;
-    terms: string;
+  errors: {
+    comeBackSoon: string;
+    copiedToClipboard: string;
+    discord: string;
+    email: string;
+    error404: string;
+    fetchFailed: string;
+    inDevelopment: string;
+    oops: string;
+    pageNotFound: string;
+    pasteInstructions: string;
+    reportPrompt: string;
+    showDetails: string;
+    unexpected: string;
   };
-  home: {
-    recentActivity: string;
-    lastReviews: string;
-    trendingGames: string;
-    trendingReviews: string;
-    noResultsTryAgain: string;
+  explore: {
+    fetchError: string;
+    filters: {
+      genres: string;
+      modes: string;
+      platforms: string;
+      themes: string;
+      trendingIn: string;
+    };
+    metaTitle: string;
+    periods: {
+      allTime: string;
+      month: string;
+      sixMonths: string;
+      threeMonths: string;
+      week: string;
+      year: string;
+    };
+    placeholders: {
+      loading: string;
+      selectPeriod: string;
+    };
   };
-  activity: {
-    tabs: {
-      all: string;
+  follow: {
+    titles: {
+      followers: string;
       following: string;
     };
-    items: {
-      addedTo: string;
-      reviewed: string;
-      postedAbout: string;
-      followed: string;
-      unknown: string;
-      obtainedAllAndPlatinum: string;
-      completedAllAchievements: string;
-      obtainedPlatinum: string;
-      obtainedAchievements: string;
+  };
+  game: {
+    achievement: {
+      achievements: string;
+      notAvailable: string;
+      obtainedAt: string;
+      overviewTitle: string;
+      ownedBy: string;
+      totalCount: string;
+      trophies: string;
+    };
+    buttons: {
+      addLibrary: string;
+      update: string;
+    };
+    collectionTypes: {
+      recentReleases: string;
+      upcoming: string;
+    };
+    details: {
+      developers: string;
+      launchDate: string;
+      notAvailable: string;
+      publishers: string;
+      summary: string;
+      whereToBuy: string;
+      whereToPlay: string;
+    };
+    extra: {
+      dlcOf: string;
+      dlcs: string;
+      expansionOf: string;
+      expansions: string;
+      otherVersions: string;
+      remakeOf: string;
+      remasterOf: string;
+      similarGames: string;
+    };
+    labels: {
+      externalStore: string;
+      gridView: string;
+      inLibrary: string;
+      listView: string;
+      playedIn: string;
+      share: string;
+      tip: string;
+      userRating: string;
     };
     messages: {
-      noActivities: string;
-      fetchError: string;
-      noRecentActivity: string;
+      noEntry: string;
+      notEnoughReviews: string;
+    };
+    progress: {
+      added: string;
+      finished: string;
+      reviewed: string;
+      xpGained: string;
+      yourProgress: string;
+    };
+    quickActions: {
+      alreadyInStatusMessage: string;
+      alreadyInStatusTitle: string;
+      forcedStatusMessage: string;
+      forcedStatusTitle: string;
+      menuActionLabel: string;
+      menuLabel: string;
+      noPreferredPlatformMessage: string;
+      noPreferredPlatformTitle: string;
+      preferredPlatformSetupSuffix: string;
+      statusUpdated: string;
+    };
+    removeFromLibrary: string;
+    searchLabel: string;
+    searchPlaceholder: string;
+    searchTips: {
+      acronym: string;
+      pressHold: string;
+    };
+    selectGame: string;
+    share: {
+      messages: {
+        generateFailed: string;
+      };
+      myReview: string;
+      options: {
+        divider: string;
+        ownedPlatforms: string;
+        rating: string;
+        transparentBackground: string;
+      };
+      recentlyPlayed: string;
+      seeMoreAt: string;
+      shareReview: string;
+      title: string;
+    };
+    tabs: {
+      achievements: string;
+      discussion: string;
+      overview: string;
+      reviews: string;
+    };
+    timeline: {
+      added: string;
+      finished: string;
+      reviewed: string;
+    };
+    tooltips: {
+      addFavorites: string;
+      removeLibrary: string;
+      share: string;
+    };
+    ttb: {
+      basedOnIgdb: string;
+      completionist: string;
+      completionistDesc: string;
+      mainExtras: string;
+      mainExtrasDesc: string;
+      mainStory: string;
+      mainStoryDesc: string;
+      notEnoughSubmissions: string;
+      title: string;
+    };
+    search: {
+      startTypingResults: string;
+      noGamesFound: string;
     };
   };
-  recommendation: {
-    basedOnPlayed: string;
-    gamesYouMayLike: string;
+  home: {
+    lastReviews: string;
+    noResultsTryAgain: string;
+    recentActivity: string;
+    trendingGames: string;
+    trendingReviews: string;
+  };
+  importer: {
+    buttons: {
+      import: string;
+    };
+    collectionsHint: string;
+    description: string;
+    messages: {
+      applyingChanges: string;
+      clickHere: string;
+      importSuccess: string;
+      invalidExternalGame: string;
+      itemExcluded: string;
+      noConnectionsPrefix: string;
+      noConnectionsSuffix: string;
+      overview: string;
+      selectAtLeastOne: string;
+      syncFailed: string;
+    };
+    noItemsAvailable: string;
+    title: string;
+    titleAccent: string;
+    titlePrimary: string;
+  };
+  journal: {
+    achievements: {
+      autoUpdate: string;
+      count: string;
+      description: string;
+      hover: string;
+      loading: string;
+      tap: string;
+      tipAction: string;
+      tipLabel: string;
+      updateNote: string;
+    };
+    loading: string;
+    overview: {
+      gamesCount: string;
+    };
   };
   landing: {
-    headline: string;
-    headlineAlt: string;
-    subheadline: string;
+    featureDescription: string;
     features: {
-      customCollections: string;
-      review: string;
       achievements: string;
       activities: string;
       addGames: string;
+      customCollections: string;
       makeReviews: string;
+      review: string;
       shareWorld: string;
-    };
-    featureDescription: string;
-    platforms: {
-      title: string;
-      description: string;
-      syncDescription: string;
-      soon: string;
-    };
-    mobile: {
-      title: string;
-      titleAlt: string;
-      description: string;
-      googlePlay: string;
-      appStoreSoon: string;
-      soonIOS: string;
-    };
-    support: {
-      title: string;
-      description: string;
-      buyCoffe: string;
-      apoia: string;
     };
     header: {
       aboutUs: string;
-      serviceStatus: string;
-      collaborate: string;
       androidApp: string;
+      collaborate: string;
       joinIn: string;
+      serviceStatus: string;
     };
-  };
-  notifications: {
-    title: string;
-    empty: string;
-    titles: {
-      success: string;
-      error: string;
-      failed: string;
-      changesApplied: string;
-    };
-    messages: {
-      error: string;
-    };
-  };
-  buttons: {
-    goBack: string;
-    confirm: string;
-  };
-  profile: {
-    labels: {
-      newUsername: string;
-      stats: string;
-      previewAvatar: string;
-      previewBanner: string;
-    };
-    titles: {
-      selectAchievements: string;
-      activity: string;
-      library: string;
-      favoriteGames: string;
-    };
-    tabs: {
-      games: string;
-      reviews: string;
-      collections: string;
-      achievements: string;
-      feats: string;
-      journal: string;
-      posts: string;
-    };
-    collections: {
-      featured: string;
-      public: string;
-      loading: string;
-    };
-    messages: {
-      usernameUpdateCooldown: string;
-      usernameUpdated: string;
-      bioUpdated: string;
-      achievementsUpdated: string;
-      noAchievements: string;
-      noReviews: string;
-      noReviewsOwn: string;
-      noFeaturedAchievements: string;
-      noPublicFavoriteGames: string;
-      fetchFailed: string;
-    };
-    usernameRules: {
-      unique: string;
-      minLength: string;
-      cooldown: string;
-    };
-    stats: {
-      totalGamesPlayed: string;
-      playedThisYear: string;
-      totalPlaytime: string;
-      playtimeNote1: string;
-      playtimeNote2: string;
-      backlogTracking: string;
-      totalGames: string;
-      finishedGames: string;
-      total: string;
-      reviewed: string;
-      estimatedPlaytime: string;
-      year: string;
-      finishYear: string;
-      releaseYear: string;
-      playtime: string;
-      gamesByYear: string;
-      gamesByPlatform: string;
-      libraryDistribution: string;
-      gamesLabel: string;
-      collectionsLabel: string;
-      finishedGamesLabel: string;
-    };
-    recent: {
-      recentlyPlayed: string;
-      recentActivity: string;
-    };
-    memberSince: string;
-  };
-  preferences: {
-    categories: {
-      connections: string;
-      account: string;
-      library: string;
-    };
-    links: {
-      reportBug: string;
-      signOut: string;
-    };
-    labels: {
-      autoImport: string;
-      targetCollection: string;
-      connectionIcon: string;
-      whatWillDo: string;
-      confirmUsername: string;
-      dangerZone: string;
-      preferredPlatforms: string;
-      steamProfileUrl: string;
-      psnOnlineId: string;
-      gamertag: string;
-    };
-    titles: {
-      sync: string;
-      restartAccount: string;
-      editPreferredPlatforms: string;
-    };
-    descriptions: {
-      autoImport: string;
-      targetCollection: string;
-      steamProfileUrlExample: string;
-      psnOnlineId: string;
-      gamertag: string;
-    };
-    placeholders: {
-      none: string;
-    };
-    statuses: {
-      connected: string;
-      notConnected: string;
-    };
-    messages: {
-      connectionSetup: string;
-      connectionRemoved: string;
-      confirmRestart: string;
-      restartNote1: string;
-      restartNote2: string;
-      irreversible: string;
-      restartLogout: string;
-      noPlatforms: string;
-      availableConnectionsError: string;
-    };
-    validation: {
-      usernameRequired: string;
-    };
-    restartWarnings: {
-      profile: string;
-      achievements: string;
-      connections: string;
-      activity: string;
-      preferences: string;
-      reviews: string;
-      library: string;
-      libraryFull: string;
-      playtime: string;
-      playtimeFull: string;
-    };
-    platforms: {
-      loading: string;
+    headline: string;
+    headlineAlt: string;
+    mobile: {
+      appStoreSoon: string;
       description: string;
-      editTitle: string;
-      addTitle: string;
-      updateSuccess: string;
-      addSuccess: string;
-      platformLabel: string;
-      labelField: string;
-      labelDescription: string;
-      enabled: string;
-    };
-  };
-  playtime: {
-    titles: {
-      playSessions: string;
-      yourPlaySessions: string;
-      submitPlaySession: string;
-    };
-    labels: {
-      platform: string;
-      source: string;
-      totalPlaytime: string;
-      lastPlayedDate: string;
-    };
-    descriptions: {
-      totalPlaytime: string;
-      lastPlayedDate: string;
+      googlePlay: string;
+      soonIOS: string;
+      title: string;
+      titleAlt: string;
     };
     platforms: {
-      steam: string;
-      psn: string;
-      epicGames: string;
-      gog: string;
-      battleNet: string;
-      nintendoWii: string;
-      nintendoWiiU: string;
-      nintendoSwitch: string;
-      emulator: string;
-      xbox: string;
+      description: string;
+      soon: string;
+      syncDescription: string;
+      title: string;
     };
-    validation: {
-      numberRequired: string;
-      playtimeRequired: string;
-      platformRequired: string;
+    subheadline: string;
+    support: {
+      apoia: string;
+      buyCoffe: string;
+      description: string;
+      title: string;
     };
-    messages: {
-      sessionRecorded: string;
+  };
+  language: {
+    english: string;
+    label: string;
+    portuguese: string;
+  };
+  legal: {
+    privacy: {
+      cloudflare: string;
+      cloudflareContent: string;
+      cloudflareIntro: string;
+      cloudflarePrivacy: string;
+      consentContent: string;
+      consentTitle: string;
+      contactEmail: string;
+      contactText: string;
+      contactTitle: string;
+      cookieIntro: string;
+      cookieTitle: string;
+      cookiesWeSetTitle: string;
+      dataRemoval: string;
+      disablingContent: string;
+      disablingTitle: string;
+      here: string;
+      howWeUseContent: string;
+      howWeUseTitle: string;
+      intro: string;
+      matomoNote: string;
+      posthog: string;
+      posthogContent: string;
+      posthogPrivacy: string;
+      thirdPartyContent: string;
+      thirdPartyTitle: string;
+      title: string;
+      weUse: string;
+      whatAreCookiesContent: string;
+      whatAreCookiesTitle: string;
     };
-    hints: {
-      profileStats: string;
-      autoImport: string;
-      noPlaySessions: string;
-    };
-    buttons: {
-      addSession: string;
+    tos: {
+      section1Content: string;
+      section1Title: string;
+      section2Intro: string;
+      section2Item1: string;
+      section2Item2: string;
+      section2Item3: string;
+      section2Item4: string;
+      section2Item5: string;
+      section2Outro: string;
+      section2Title: string;
+      section3Content: string;
+      section3Content2: string;
+      section3Title: string;
+      section4Content: string;
+      section4Title: string;
+      section5Content: string;
+      section5Title: string;
+      section6Content: string;
+      section6Title: string;
+      section7Content: string;
+      section7Title: string;
+      section8Content: string;
+      section8Title: string;
+      title: string;
     };
   };
   library: {
     buttons: {
       importGames: string;
+    };
+    labels: {
+      management: string;
+      showDLCs: string;
     };
     placeholders: {
       selectCollection: string;
@@ -686,218 +702,415 @@ export type TranslationSchema = {
       releaseDate: string;
       userOrder: string;
     };
-    labels: {
-      showDLCs: string;
-      management: string;
-    };
   };
-  importer: {
-    title: string;
-    titlePrimary: string;
-    titleAccent: string;
-    description: string;
-    collectionsHint: string;
-    noItemsAvailable: string;
-    buttons: {
-      import: string;
+  mobile: {
+    activity: {
+      loadingMore: string;
+      tip: string;
     };
-    messages: {
-      overview: string;
-      noConnectionsPrefix: string;
+    awards: {
+      resultsTitle: string;
+      shareCreate: string;
+      sharePrompt: string;
+    };
+    importer: {
       clickHere: string;
-      noConnectionsSuffix: string;
-      itemExcluded: string;
-      applyingChanges: string;
-      importSuccess: string;
-      selectAtLeastOne: string;
-      invalidExternalGame: string;
-      syncFailed: string;
+      description: string;
+      noConnections: string;
+      setUpOne: string;
     };
-  };
-  achievements: {
-    titles: {
-      redeemCode: string;
+    library: {
+      collectionsTitle: string;
+      collectionsTitleFor: string;
     };
-    labels: {
-      code: string;
+    preferences: {
+      cacheClearedSuccess: string;
+      clearLocalCache: string;
+      editProfile: string;
+      editProfileDetails: string;
+      importerSystem: string;
+      misc: string;
+      profile: string;
     };
-    descriptions: {
-      codeFormat: string;
+    recap: {
+      titleFor: string;
+      titleOwn: string;
     };
-    buttons: {
-      redeem: string;
+    search: {
+      fetchFailed: string;
+      noResults: string;
+      placeholder: string;
+      startTyping: string;
     };
-    messages: {
-      redeemed: string;
-    };
-    validation: {
-      codeRequired: string;
-    };
-  };
-  awards: {
-    title: string;
-    subtitle: string;
-    voteNow: string;
-    participationReward: string;
-    categoriesCount: string;
-    votedByPublic: string;
-    resultsDate: string;
-    currentPhase: string;
-    indicatedBy: string;
-    labels: {
-      nominees: string;
-      preview: string;
-      layout: string;
-      suggestionsFromEditors: string;
-    };
-    layouts: {
-      compact: string;
-      large: string;
-    };
-    phases: {
-      startingSoon: string;
-      countingVotes: string;
-      eventEnded: string;
-      voting: string;
-    };
-    phaseMessages: {
-      votingStartsIn: string;
-      votingEnded: string;
-      resultsOut: string;
-      votingEndsIn: string;
-    };
-    share: {
+    wrapped: {
+      buttons: {
+        generate: string;
+      };
+      labels: {
+        excludedGames: string;
+        excludedGamesHint: string;
+        gridStyle: string;
+        period: string;
+        withPlatform: string;
+        withRecentPlaytime: string;
+        withTotalPlaytime: string;
+      };
+      messages: {
+        noPlaytime: string;
+      };
+      monthly: string;
+      recap: string;
+      recentlyPlayed: string;
+      shareDescription: string;
+      sharePrompt: string;
       title: string;
-      linkCopied: string;
-      shareWithLink: string;
-      shareWithImage: string;
-      scrollHint: string;
-    };
-    messages: {
-      voteSubmitted: string;
-      votingIn: string;
-      excludingGames: string;
-      tapToVote: string;
-      recentVotedIn: string;
-      highlights: string;
-    };
-    buttons: {
-      shareVotes: string;
-    };
-    titles: {
-      yourVotes: string;
-      recentVotes: string;
+      weekly: string;
+      yearly: string;
     };
   };
-  reports: {
-    labels: {
-      category: string;
-      reason: string;
-    };
-    descriptions: {
-      reason: string;
-      privacy: string;
-    };
-    buttons: {
-      submit: string;
-    };
+  navigation: {
+    about: string;
+    achievements: string;
+    activity: string;
+    back: string;
+    blog: string;
+    collections: string;
+    explore: string;
+    feats: string;
+    home: string;
+    journal: string;
+    library: string;
+    menu: string;
+    posts: string;
+    preferences: string;
+    privacy: string;
+    profile: string;
+    reviews: string;
+    settings: string;
+    stats: string;
+    terms: string;
+  };
+  notifications: {
+    empty: string;
     messages: {
       error: string;
+    };
+    title: string;
+    titles: {
+      changesApplied: string;
+      error: string;
+      failed: string;
       success: string;
-      contentDeleted: string;
-      alert: string;
-      suspend: string;
-      ban: string;
-      appeal: string;
     };
   };
-  blog: {
-    recentPosts: string;
-    recentReviews: string;
-    disclaimer: string;
-    contentNotice: string;
-    nav: {
-      home: string;
-      archive: string;
-      news: string;
-      reviews: string;
-      articles: string;
-      gameNode: string;
+  playtime: {
+    buttons: {
+      addSession: string;
+    };
+    descriptions: {
+      lastPlayedDate: string;
+      totalPlaytime: string;
+    };
+    hints: {
+      autoImport: string;
+      noPlaySessions: string;
+      profileStats: string;
     };
     labels: {
-      draft: string;
-      reviewedGame: string;
-      tags: string;
-    };
-    list: {
-      title: string;
-      taggedTitle: string;
-      empty: string;
-    };
-    buttons: {
-      seeMore: string;
+      lastPlayedDate: string;
+      platform: string;
+      source: string;
+      totalPlaytime: string;
     };
     messages: {
-      postDeleted: string;
+      sessionRecorded: string;
+    };
+    platforms: {
+      battleNet: string;
+      emulator: string;
+      epicGames: string;
+      gog: string;
+      nintendoSwitch: string;
+      nintendoWii: string;
+      nintendoWiiU: string;
+      psn: string;
+      steam: string;
+      xbox: string;
+    };
+    titles: {
+      playSessions: string;
+      submitPlaySession: string;
+      yourPlaySessions: string;
+    };
+    validation: {
+      numberRequired: string;
+      platformRequired: string;
+      playtimeRequired: string;
     };
   };
   posts: {
-    titles: {
-      confirmRemove: string;
-    };
     messages: {
       published: string;
       removeWarning: string;
     };
+    titles: {
+      confirmRemove: string;
+    };
   };
-  recap: {
-    title: string;
+  preferences: {
+    categories: {
+      account: string;
+      connections: string;
+      library: string;
+    };
+    descriptions: {
+      autoImport: string;
+      gamertag: string;
+      psnOnlineId: string;
+      steamProfileUrlExample: string;
+      targetCollection: string;
+    };
     labels: {
-      topGenresStyles: string;
-      playedGames: string;
-      hoursPlayed: string;
-      preview: string;
-      period: string;
+      autoImport: string;
+      confirmUsername: string;
+      connectionIcon: string;
+      dangerZone: string;
+      gamertag: string;
+      preferredPlatforms: string;
+      psnOnlineId: string;
+      steamProfileUrl: string;
+      targetCollection: string;
+      whatWillDo: string;
     };
-    periods: {
-      week: string;
-      month: string;
-      year: string;
+    links: {
+      reportBug: string;
+      signOut: string;
     };
-    overview: {
+    messages: {
+      availableConnectionsError: string;
+      confirmRestart: string;
+      connectionRemoved: string;
+      connectionSetup: string;
+      irreversible: string;
+      noPlatforms: string;
+      restartLogout: string;
+      restartNote1: string;
+      restartNote2: string;
+    };
+    placeholders: {
+      none: string;
+    };
+    platforms: {
+      addSuccess: string;
+      addTitle: string;
       description: string;
+      editTitle: string;
+      enabled: string;
+      labelDescription: string;
+      labelField: string;
+      loading: string;
+      platformLabel: string;
+      updateSuccess: string;
     };
-    buttons: {
-      create: string;
-      availableSoon: string;
+    restartWarnings: {
+      achievements: string;
+      activity: string;
+      connections: string;
+      library: string;
+      libraryFull: string;
+      playtime: string;
+      playtimeFull: string;
+      preferences: string;
+      profile: string;
+      reviews: string;
+    };
+    statuses: {
+      connected: string;
+      notConnected: string;
+    };
+    titles: {
+      editPreferredPlatforms: string;
+      restartAccount: string;
+      sync: string;
+    };
+    validation: {
+      usernameRequired: string;
+    };
+  };
+  profile: {
+    collections: {
+      featured: string;
+      loading: string;
+      public: string;
+    };
+    labels: {
+      newUsername: string;
+      previewAvatar: string;
+      previewBanner: string;
+      stats: string;
+    };
+    memberSince: string;
+    messages: {
+      achievementsUpdated: string;
+      bioUpdated: string;
+      fetchFailed: string;
+      noAchievements: string;
+      noFeaturedAchievements: string;
+      noPublicFavoriteGames: string;
+      noReviews: string;
+      noReviewsOwn: string;
+      usernameUpdateCooldown: string;
+      usernameUpdated: string;
+    };
+    recent: {
+      recentActivity: string;
+      recentlyPlayed: string;
     };
     stats: {
-      heading: string;
-      graphsTitle: string;
-      thanks: string;
-      addedGames: string;
-      reviewsMade: string;
-      collectionsCreated: string;
-      followersGained: string;
-      likesGiven: string;
-      dataNote: string;
-      dataNotePlatforms: string;
-      thisIs: string;
-      minutes: string;
-      days: string;
-      weeks: string;
-      months: string;
+      backlogTracking: string;
+      collectionsLabel: string;
+      estimatedPlaytime: string;
+      finishYear: string;
+      finishedGames: string;
+      finishedGamesLabel: string;
+      gamesByPlatform: string;
+      gamesByYear: string;
+      gamesLabel: string;
+      libraryDistribution: string;
+      playedThisYear: string;
+      playtime: string;
+      playtimeNote1: string;
+      playtimeNote2: string;
+      releaseYear: string;
+      reviewed: string;
+      total: string;
+      totalGames: string;
+      totalGamesPlayed: string;
+      totalPlaytime: string;
+      year: string;
     };
-    share: {
-      linkCopied: string;
-      sharePrompt: string;
+    tabs: {
+      achievements: string;
+      collections: string;
+      feats: string;
+      games: string;
+      journal: string;
+      posts: string;
+      reviews: string;
+    };
+    titles: {
+      activity: string;
+      favoriteGames: string;
+      library: string;
+      selectAchievements: string;
+    };
+    usernameRules: {
+      cooldown: string;
+      minLength: string;
+      unique: string;
+    };
+    search: {
+      noUsersFound: string;
+    };
+  };
+  recap: {
+    buttons: {
+      availableSoon: string;
+      create: string;
+    };
+    labels: {
+      hoursPlayed: string;
+      period: string;
+      playedGames: string;
+      preview: string;
+      topGenresStyles: string;
     };
     messages: {
       dataNote: string;
       generating: string;
     };
+    overview: {
+      description: string;
+    };
+    periods: {
+      month: string;
+      week: string;
+      year: string;
+    };
+    share: {
+      linkCopied: string;
+      sharePrompt: string;
+    };
+    stats: {
+      addedGames: string;
+      collectionsCreated: string;
+      dataNote: string;
+      dataNotePlatforms: string;
+      days: string;
+      followersGained: string;
+      graphsTitle: string;
+      heading: string;
+      likesGiven: string;
+      minutes: string;
+      months: string;
+      reviewsMade: string;
+      thanks: string;
+      thisIs: string;
+      weeks: string;
+    };
+    title: string;
+  };
+  recommendation: {
+    basedOnPlayed: string;
+    gamesYouMayLike: string;
+  };
+  reports: {
+    buttons: {
+      submit: string;
+    };
+    descriptions: {
+      privacy: string;
+      reason: string;
+    };
+    labels: {
+      category: string;
+      reason: string;
+    };
+    messages: {
+      alert: string;
+      appeal: string;
+      ban: string;
+      contentDeleted: string;
+      error: string;
+      success: string;
+      suspend: string;
+    };
+  };
+  review: {
+    descriptions: {
+      writePublic: string;
+    };
+    messages: {
+      confirmRemove: string;
+      created: string;
+      noContent: string;
+      saveFailed: string;
+      updated: string;
+    };
+    remove: string;
+    titles: {
+      yourReview: string;
+    };
+  };
+  shell: {
+    search: {
+      fetchFailed: string;
+      noResults: string;
+      placeholder: string;
+    };
   };
   upload: {
+    dragPrompt: string;
     labels: {
       maxFiles: string;
       maxSize: string;
@@ -905,7 +1118,6 @@ export type TranslationSchema = {
     messages: {
       invalidImageSource: string;
     };
-    dragPrompt: string;
   };
   user: {
     labels: {
@@ -913,202 +1125,10 @@ export type TranslationSchema = {
       xp: string;
     };
   };
-  journal: {
-    loading: string;
-    achievements: {
-      loading: string;
-      description: string;
-      autoUpdate: string;
-      updateNote: string;
-      tipLabel: string;
-      tipAction: string;
-      tap: string;
-      hover: string;
-      count: string;
-    };
-    overview: {
-      gamesCount: string;
-    };
-  };
-  follow: {
-    titles: {
-      followers: string;
-      following: string;
-    };
-  };
-  errors: {
-    unexpected: string;
-    copiedToClipboard: string;
-    pasteInstructions: string;
-    showDetails: string;
-    reportPrompt: string;
-    email: string;
-    discord: string;
-    fetchFailed: string;
-    pageNotFound: string;
-    inDevelopment: string;
-    comeBackSoon: string;
-    oops: string;
-    error404: string;
-  };
-  explore: {
-    metaTitle: string;
-    fetchError: string;
-    periods: {
-      week: string;
-      month: string;
-      threeMonths: string;
-      sixMonths: string;
-      year: string;
-      allTime: string;
-    };
-    filters: {
-      themes: string;
-      genres: string;
-      platforms: string;
-      modes: string;
-      trendingIn: string;
-    };
-    placeholders: {
-      selectPeriod: string;
-      loading: string;
-    };
-  };
-  app: {
-    title: string;
-    metaDescription: string;
-    betterInApp: string;
-    openInApp: string;
-  };
-  mobile: {
-    library: {
-      collectionsTitle: string;
-      collectionsTitleFor: string;
-    };
-    activity: {
-      tip: string;
-      loadingMore: string;
-    };
-    importer: {
-      description: string;
-      noConnections: string;
-      clickHere: string;
-      setUpOne: string;
-    };
-    awards: {
-      sharePrompt: string;
-      shareCreate: string;
-      resultsTitle: string;
-    };
-    recap: {
-      titleOwn: string;
-      titleFor: string;
-    };
-    preferences: {
-      profile: string;
-      editProfile: string;
-      editProfileDetails: string;
-      misc: string;
-      cacheClearedSuccess: string;
-      clearLocalCache: string;
-      importerSystem: string;
-    };
-    wrapped: {
-      title: string;
-      sharePrompt: string;
-      shareDescription: string;
-      recentlyPlayed: string;
-      recap: string;
-      weekly: string;
-      monthly: string;
-      yearly: string;
-      labels: {
-        period: string;
-        gridStyle: string;
-        excludedGames: string;
-        excludedGamesHint: string;
-        withRecentPlaytime: string;
-        withTotalPlaytime: string;
-        withPlatform: string;
-      };
-      buttons: {
-        generate: string;
-      };
-      messages: {
-        noPlaytime: string;
-      };
-    };
-    search: {
-      startTyping: string;
-      placeholder: string;
-      noResults: string;
-      fetchFailed: string;
-    };
-  };
-  shell: {
-    search: {
-      placeholder: string;
-      noResults: string;
-      fetchFailed: string;
-    };
-  };
-  legal: {
-    tos: {
-      title: string;
-      section1Title: string;
-      section1Content: string;
-      section2Title: string;
-      section2Intro: string;
-      section2Item1: string;
-      section2Item2: string;
-      section2Item3: string;
-      section2Item4: string;
-      section2Item5: string;
-      section2Outro: string;
-      section3Title: string;
-      section3Content: string;
-      section3Content2: string;
-      section4Title: string;
-      section4Content: string;
-      section5Title: string;
-      section5Content: string;
-      section6Title: string;
-      section6Content: string;
-      section7Title: string;
-      section7Content: string;
-      section8Title: string;
-      section8Content: string;
-    };
-    privacy: {
-      title: string;
-      intro: string;
-      contactTitle: string;
-      contactText: string;
-      contactEmail: string;
-      cookieTitle: string;
-      cookieIntro: string;
-      whatAreCookiesTitle: string;
-      whatAreCookiesContent: string;
-      howWeUseTitle: string;
-      howWeUseContent: string;
-      disablingTitle: string;
-      disablingContent: string;
-      thirdPartyTitle: string;
-      thirdPartyContent: string;
-      cloudflareIntro: string;
-      cloudflare: string;
-      cloudflareContent: string;
-      cloudflarePrivacy: string;
-      here: string;
-      cookiesWeSetTitle: string;
-      weUse: string;
-      posthog: string;
-      posthogContent: string;
-      posthogPrivacy: string;
-      matomoNote: string;
-      consentTitle: string;
-      consentContent: string;
-      dataRemoval: string;
-    };
+  view: {
+    compact: string;
+    detailed: string;
+    grid: string;
+    list: string;
   };
 };

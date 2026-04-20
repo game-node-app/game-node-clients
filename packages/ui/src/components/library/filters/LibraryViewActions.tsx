@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Chip, Group, GroupProps } from "@mantine/core";
+import { Chip, Group, GroupProps, Scroller } from "@mantine/core";
 import {
   ActionChip,
   GameViewLayoutOption,
@@ -62,31 +62,33 @@ const LibraryViewActions = ({
   );
 
   return (
-    <Group
-      {...others}
-      className={cn("w-full flex-nowrap gap-xs", others.className)}
-    >
-      <SortingChip
-        data={collectionId ? COLLECTION_SORTING_CHIP_DATA : SORTING_CHIP_DATA}
-        value={sortValue}
-        onChange={onSort}
-      />
-      <GameViewLayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />
-      <Chip
-        checked={includeExtraContent}
-        variant={"outline"}
-        onChange={() => onExtraContentChange(!includeExtraContent)}
+    <Scroller>
+      <Group
+        {...others}
+        className={cn("w-full flex-nowrap gap-xs", others.className)}
       >
-        {t("library.labels.showDLCs")}
-      </Chip>
-      {isOwnLibrary && (
-        <Link href={"/importer"}>
-          <ActionChip icon={<IconDownload size={16} />}>
-            {t("library.buttons.importGames")}
-          </ActionChip>
-        </Link>
-      )}
-    </Group>
+        <SortingChip
+          data={collectionId ? COLLECTION_SORTING_CHIP_DATA : SORTING_CHIP_DATA}
+          value={sortValue}
+          onChange={onSort}
+        />
+        <GameViewLayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />
+        <Chip
+          checked={includeExtraContent}
+          variant={"outline"}
+          onChange={() => onExtraContentChange(!includeExtraContent)}
+        >
+          {t("library.labels.showDLCs")}
+        </Chip>
+        {isOwnLibrary && (
+          <Link href={"/importer"}>
+            <ActionChip icon={<IconDownload size={16} />}>
+              {t("library.buttons.importGames")}
+            </ActionChip>
+          </Link>
+        )}
+      </Group>
+    </Scroller>
   );
 };
 

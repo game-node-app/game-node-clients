@@ -2,6 +2,7 @@ import { CommandCenterGameAction } from "@/components/general/shell/command-cent
 import { Skeleton, Stack } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { Spotlight } from "@mantine/spotlight";
+import { useTranslation } from "@repo/locales";
 import {
   BaseModalChildrenProps,
   buildGameSearchRequestDto,
@@ -12,13 +13,16 @@ import { useCallback } from "react";
 
 interface Props extends BaseModalChildrenProps {
   query: string;
+  isQueryEnabled: boolean;
 }
 
-const CommandCenterGamesContent = ({ query, onClose }: Props) => {
+const CommandCenterGamesContent = ({
+  query,
+  isQueryEnabled,
+  onClose,
+}: Props) => {
+  const { t } = useTranslation();
   const [debouncedQuery] = useDebouncedValue(query, 400);
-
-  const isQueryEnabled =
-    debouncedQuery != undefined && debouncedQuery.length > 2;
 
   const searchGamesQuery = useSearchGames(
     {
@@ -41,6 +45,10 @@ const CommandCenterGamesContent = ({ query, onClose }: Props) => {
       .map((_, i) => <Skeleton key={i} height={60} width={"100%"} />);
   }, []);
 
+  if (!isQueryEnabled) {
+    return null;
+  }
+
   return (
     <Spotlight.ActionsGroup label={"Games"}>
       <Stack className={"px-4 gap-2 mt-2"}>
@@ -49,13 +57,10 @@ const CommandCenterGamesContent = ({ query, onClose }: Props) => {
         ))}
         {searchGamesQuery.isLoading && renderLoadingSkeletons()}
 
-        {!isQueryEnabled && (
-          <Spotlight.Empty>Start typing to see results</Spotlight.Empty>
-        )}
         {isQueryEnabled &&
           !searchGamesQuery.isLoading &&
           games.length === 0 && (
-            <Spotlight.Empty>No games found.</Spotlight.Empty>
+            <Spotlight.Empty>{t("game.search.noGamesFound")}</Spotlight.Empty>
           )}
       </Stack>
     </Spotlight.ActionsGroup>

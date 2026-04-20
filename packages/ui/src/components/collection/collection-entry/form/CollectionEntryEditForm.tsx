@@ -1,16 +1,15 @@
-import { useUserId } from "#@/components/auth/index.ts";
-import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
-import { useGame } from "#@/components/game/hooks/useGame";
+import { useUserId } from "#@/components/auth/hooks/index.ts";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   DEFAULT_RELATED_GAMES_DTO,
+  useGame,
 } from "#@/components/game/index.ts";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { useOnMobilePlatform } from "#@/components/general/index.ts";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage.tsx";
+import { CenteredLoading } from "#@/components/general/CenteredLoading.tsx";
+import { useOnMobilePlatform } from "#@/components/index.ts";
 import { useReviewForUserIdAndGameId } from "#@/components/review/index.ts";
-import { createErrorNotification } from "#@/util";
-import { BaseModalChildrenProps } from "#@/util/types/modal-props";
+import { createErrorNotification } from "#@/util/createErrorNotification.ts";
+import { BaseModalChildrenProps } from "#@/util/index.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Tabs } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -30,6 +29,7 @@ import { useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { z } from "zod";
+import { useOwnCollectionEntryForGameId } from "../hooks";
 import { CollectionEntryFormDetailsPanel } from "./CollectionEntryFormDetailsPanel";
 import { CollectionEntryFormDlcsPanel } from "./CollectionEntryFormDlcsPanel";
 import { CollectionEntryFormReviewPanel } from "./CollectionEntryFormReviewPanel";
@@ -100,17 +100,14 @@ const CollectionEntryEditForm = ({
     resolver: zodResolver(GameAddOrUpdateSchema),
     defaultValues: {
       status: CollectionEntry.status.PLANNED,
-      finishedAt: null,
+      finishedAt: new Date(),
       relatedGamesIds: [],
       collectionIds: [],
       review: {},
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { touchedFields },
-  } = form;
+  const { handleSubmit } = form;
 
   const userId = useUserId();
 
@@ -185,10 +182,7 @@ const CollectionEntryEditForm = ({
         },
       );
 
-      const hasReview =
-        data.review != undefined &&
-        (touchedFields.review?.rating != undefined ||
-          touchedFields.review?.content != undefined);
+      const hasReview = data.review != undefined;
 
       if (hasReview) {
         quickReviewMutation.mutate(data.review);

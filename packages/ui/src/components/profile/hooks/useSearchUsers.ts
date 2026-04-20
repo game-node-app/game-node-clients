@@ -4,7 +4,10 @@ import {
   SearchService,
 } from "@repo/wrapper/search";
 
-export function useSearchUsers(searchParameters: users_UserSearchRequestDto) {
+export function useSearchUsers(
+  searchParameters: users_UserSearchRequestDto,
+  enabled = true,
+) {
   return useQuery({
     queryKey: ["user", "search", searchParameters],
     queryFn: () => {
@@ -15,6 +18,7 @@ export function useSearchUsers(searchParameters: users_UserSearchRequestDto) {
       });
     },
     enabled:
+      enabled &&
       searchParameters != undefined &&
       searchParameters.query != undefined &&
       searchParameters.query.length > 2,
