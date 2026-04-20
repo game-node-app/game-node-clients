@@ -43,7 +43,7 @@ const ErrorBoundaryFallback = ({ error }: Props) => {
       >
         {t("errors.showDetails")}
       </Button>
-      <Collapse in={detailsOpen}>
+      <Collapse expanded={detailsOpen}>
         <Code>{error.stack}</Code>
       </Collapse>
       <Text className={"leading-6 mt-4 text-center text-sm text-dimmed"}>

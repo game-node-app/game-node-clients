@@ -8,7 +8,6 @@ export function getLocalizedCollectionEntryStatusName(
 ): string {
   return match<CollectionEntry.status, string>(status)
     .with(CollectionEntry.status.PLAYING, () =>
-      // @ts-expect-error --- IGNORE ---
       t("collectionEntry.statuses.playing"),
     )
     .with(CollectionEntry.status.FINISHED, () =>

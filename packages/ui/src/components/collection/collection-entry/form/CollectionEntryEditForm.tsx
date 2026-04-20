@@ -40,7 +40,6 @@ const createGameAddOrUpdateSchema = (
   z.object({
     collectionIds: z.array(
       z.string({
-        // @ts-expect-error inference is weird here
         message: t("collectionEntry.validation.collectionRequired"),
       }),
       {

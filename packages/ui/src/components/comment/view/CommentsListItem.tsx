@@ -81,7 +81,7 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
         </Stack>
       </Group>
       <Collapse
-        in={commentThreadOpened}
+        expanded={commentThreadOpened}
         className={"flex w-full justify-end"}
         transitionDuration={100}
       >

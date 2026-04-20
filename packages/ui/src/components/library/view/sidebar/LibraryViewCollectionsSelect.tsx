@@ -9,20 +9,22 @@ import {
 } from "@mantine/core";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 
+type ItemGroup = ComboboxItemGroup<{ label: string; value: string }>;
+
 interface Props extends SelectProps {
   userId: string | undefined;
 }
 
 const LibraryViewCollectionsSelect = ({ userId, ...others }: Props) => {
   const libraryQuery = useUserLibrary(userId);
-  const collectionOptions = useMemo<ComboboxItemGroup[] | undefined>(() => {
+  const collectionOptions = useMemo<ItemGroup[] | undefined>(() => {
     const collections = libraryQuery.data?.collections.filter(
       (collection) => !collection.isFeatured,
     );
     const featuredCollections = libraryQuery.data?.collections.filter(
       (collection) => collection.isFeatured,
     );
-    const options: ComboboxItemGroup[] = [];
+    const options: ItemGroup[] = [];
     if (featuredCollections && featuredCollections.length > 0) {
       options.push({
         group: "Featured",
