@@ -3,8 +3,9 @@
     {
       "name": "Default",
       "files": [
-        "apps/web/src/components/general/shell/command-center/CommandCenter.tsx",
-        ".vscode/changelists.json"
+        "apps/web/next.config.js",
+        ".vscode/changelists.json",
+        "apps/web/package.json"
       ]
     }
   ],
