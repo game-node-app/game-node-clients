@@ -3,14 +3,8 @@
     {
       "name": "Default",
       "files": [
-        "apps/web/package.json",
-        ".vscode/changelists.json",
-        "packages/ui/src/components/collection/collection-entry/form/CollectionEntryEditForm.tsx",
-        "packages/ui/src/components/collection/collection-entry/util/getCollectionEntryStatusName.ts",
-        "packages/ui/src/components/comment/view/CommentsListItem.tsx",
-        "apps/admin/src/components/Navbar/NavLinksGroup.tsx",
-        "packages/ui/src/components/general/ErrorBoundaryFallback.tsx",
-        "packages/ui/src/components/library/view/sidebar/LibraryViewCollectionsSelect.tsx"
+        "apps/web/src/components/general/shell/command-center/CommandCenter.tsx",
+        ".vscode/changelists.json"
       ]
     }
   ],
