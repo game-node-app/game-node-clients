@@ -1,10 +1,13 @@
 import React from "react";
 import {
+  cn,
   CollectionEntryEditModal,
   CollectionEntryRemoveModal,
   GameInfoActionsProps,
+  GameInfoQuickAddMenu,
   GameInfoShare,
   Modal,
+  PreferredPlatformsViewModal,
   useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
   useUpdateFavoriteStatusMutation,
@@ -13,6 +16,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
 import {
+  IconChevronDown,
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
@@ -31,6 +35,8 @@ const MobileGameInfoActions = ({
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
+  const [preferredPlatformsModalOpened, preferredPlatformsModalUtils] =
+    useDisclosure();
 
   const userId = useUserId();
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
@@ -65,7 +71,7 @@ const MobileGameInfoActions = ({
         <Button
           onClick={addUpdateModalUtils.open}
           loading={collectionEntryQuery.isLoading}
-          className={"w-40 h-10"}
+          className={"min-w-40 h-10"}
         >
           {t("game.buttons.addLibrary")}
         </Button>
@@ -75,7 +81,11 @@ const MobileGameInfoActions = ({
 
   return (
     <Stack align={"center"}>
-      <Group gap={"0.725rem"} {...wrapperProps}>
+      <Group
+        gap={"0.725rem"}
+        {...wrapperProps}
+        className={cn("w-full justify-center", wrapperProps?.className)}
+      >
         <CollectionEntryEditModal
           opened={addUpdateModalOpened}
           onClose={addUpdateModalUtils.close}
@@ -110,18 +120,38 @@ const MobileGameInfoActions = ({
             }}
           />
         </Modal>
+        <PreferredPlatformsViewModal
+          opened={preferredPlatformsModalOpened}
+          onClose={preferredPlatformsModalUtils.close}
+        />
 
-        <Button
-          onClick={addUpdateModalUtils.open}
-          loading={collectionEntryQuery.isLoading}
-          className={"w-40 h-10"}
-        >
-          {t("collectionEntry.buttons.update")}
-        </Button>
+        <Group className="gap-0">
+          <Button
+            onClick={addUpdateModalUtils.open}
+            loading={collectionEntryQuery.isLoading}
+            className="rounded-tr-none rounded-br-none h-10 min-w-20"
+          >
+            {gameInLibrary
+              ? t("game.buttons.update")
+              : t("game.buttons.addLibrary")}
+          </Button>
+          <GameInfoQuickAddMenu
+            game={game}
+            onPreferredPlatformSetupClick={preferredPlatformsModalUtils.open}
+          >
+            <ActionIcon
+              variant="filled"
+              size={40}
+              className="rounded-tl-none rounded-bl-none border-0 border-l-[1px] border-body"
+            >
+              <IconChevronDown />
+            </ActionIcon>
+          </GameInfoQuickAddMenu>
+        </Group>
 
         <Tooltip label={t("game.tooltips.addFavorites")}>
           <ActionIcon
-            size="xl"
+            size={40}
             variant="default"
             disabled={!gameInLibrary}
             onClick={() => {
@@ -135,22 +165,20 @@ const MobileGameInfoActions = ({
             )}
           </ActionIcon>
         </Tooltip>
-        {hasReview && (
-          <Tooltip label={t("game.tooltips.share")}>
-            <ActionIcon
-              size="xl"
-              variant="default"
-              onClick={shareModalUtils.open}
-            >
-              <IconShare size={"1.05rem"} />
-            </ActionIcon>
-          </Tooltip>
-        )}
+        <Tooltip label={t("game.tooltips.share")}>
+          <ActionIcon
+            size={40}
+            variant="default"
+            onClick={shareModalUtils.open}
+          >
+            <IconShare size={"1.05rem"} />
+          </ActionIcon>
+        </Tooltip>
         {gameInLibrary && (
           <Tooltip label={t("game.tooltips.removeLibrary")}>
             <ActionIcon
               variant="default"
-              size="xl"
+              size={40}
               onClick={removeModalUtils.open}
             >
               <IconX color="red" />

@@ -1,5 +1,5 @@
-// Type augmentation for react-i18next (must be imported for types to work)
-import "./types/i18next";
+// Type augmentation for react-i18next (type-only so it doesn't become a runtime import)
+import type {} from "./types/i18next";
 
 // Context and hooks
 export {

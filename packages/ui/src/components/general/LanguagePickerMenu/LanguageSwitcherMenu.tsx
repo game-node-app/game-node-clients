@@ -3,7 +3,7 @@ import { Menu, Text, UnstyledButton } from "@mantine/core";
 import { SupportedLanguage, useI18nContext } from "@repo/locales";
 import { IconChevronDown, IconLanguage } from "@tabler/icons-react";
 
-const LANGUAGE_OPTIONS: {
+export const LANGUAGE_OPTIONS: {
   value: SupportedLanguage;
   label: string;
 }[] = [
@@ -36,8 +36,9 @@ const LanguageSwitcherMenu = () => {
       onClose={() => setOpened(false)}
       radius="md"
       width="target"
-      withinPortal={false}
+      withinPortal={true}
       offset={12}
+      zIndex={999}
     >
       <Menu.Target>
         <UnstyledButton

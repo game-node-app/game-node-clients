@@ -58,6 +58,7 @@ import "./theme/variables.css";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
+import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
 
 /**
  * dayjs setup
@@ -102,6 +103,8 @@ const App: React.FC = () => {
     }),
   );
 
+  const [language, onLanguageChange] = useLanguagePreference();
+
   useEffect(() => {
     (async () => {
       const info = await Device.getInfo();
@@ -136,7 +139,12 @@ const App: React.FC = () => {
       }}
     >
       <IonApp>
-        <I18nProvider>
+        <I18nProvider
+          language={language ?? "en"}
+          onLanguageChange={(lang) => {
+            onLanguageChange(lang);
+          }}
+        >
           <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
             <UIProvider
               presenters={UI_PRESENTER_REGISTRY}

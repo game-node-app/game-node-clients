@@ -9,13 +9,19 @@ import { CollectionEntryRemoveModal } from "#@/components/collection/collection-
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { buildPresenterComponent } from "#@/context";
 import { Modal } from "#@/util";
-import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Group,
+  GroupProps,
+  Stack,
+  Tooltip,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { Game } from "@repo/wrapper/server";
 import {
   IconChevronDown,
-  IconChevronsDown,
   IconHeartFilled,
   IconHeartPlus,
   IconShare,
@@ -24,7 +30,7 @@ import {
 import React from "react";
 
 export interface GameInfoActionsProps {
-  wrapperProps?: React.ComponentPropsWithoutRef<typeof Group>;
+  wrapperProps?: GroupProps;
   game: Game | undefined;
 }
 

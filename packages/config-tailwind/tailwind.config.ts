@@ -19,7 +19,8 @@ const config: Omit<Config, "content"> = {
         xl: "var(--mantine-spacing-xl)",
       },
       inset: {
-        "sticky-safe": "calc(var(--ion-safe-area-top, 56px))",
+        "sticky-safe":
+          "calc(var(--ion-safe-area-top, 56px) - var(--padding-top, 0px))",
       },
       borderRadius: {
         xs: "var(--mantine-radius-xs)",

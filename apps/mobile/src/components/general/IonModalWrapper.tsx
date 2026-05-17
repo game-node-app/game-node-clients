@@ -1,4 +1,4 @@
-import { ModalComponentProps } from "@repo/ui";
+import { cn, ModalComponentProps } from "@repo/ui";
 import React from "react";
 import {
   IonButton,
@@ -51,9 +51,7 @@ const IonModalWrapper = ({
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent
-        className={`w-full ion-padding ${classNames?.body ? classNames.body : ""}`}
-      >
+      <IonContent className={cn("w-full ion-padding", classNames?.body)}>
         {children}
       </IonContent>
     </IonModal>

@@ -724,6 +724,7 @@
       "clearLocalCache": "Limpar cache local",
       "editProfile": "Editar perfil",
       "editProfileDetails": "Editar detalhes do perfil",
+      "setAppLanguage": "Definir idioma da aplicação",
       "importerSystem": "Sistema de importação",
       "misc": "Diversos",
       "profile": "Perfil"

@@ -728,6 +728,7 @@ export type TranslationSchema = {
       clearLocalCache: string;
       editProfile: string;
       editProfileDetails: string;
+      setAppLanguage: string;
       importerSystem: string;
       misc: string;
       profile: string;

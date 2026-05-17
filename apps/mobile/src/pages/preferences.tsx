@@ -5,7 +5,6 @@ import { Stack } from "@mantine/core";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
-import { PreferencesWrappedItems } from "@/components/preferences/wrapped/PreferencesWrappedItems.tsx";
 import { AppPage } from "@/components/general/AppPage";
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
@@ -25,7 +24,6 @@ const PreferencesPage = () => {
             <PreferencesLibraryItems />
             <PreferencesConnectionsItems />
             <PreferencesImporterItems />
-            <PreferencesWrappedItems />
             <PreferencesMiscItems />
           </IonList>
         </Stack>

@@ -69,6 +69,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
     activity.type,
     collectionQuery.data?.name,
     gameAchievementActivityQuery.data,
+    t,
   ]);
 
   const gameQuery = useGame(gameId, {
