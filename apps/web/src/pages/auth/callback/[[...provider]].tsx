@@ -16,25 +16,23 @@ const AuthCallbackPage = () => {
         const response = await signInAndUp();
         if (response.status === "OK") {
           router.push("/home");
-        } else if (response.status === "SIGN_IN_UP_NOT_ALLOWED") {
-          // the reason string is a user friendly message
-          // about what went wrong. It can also contain a support code which users
-          // can tell you so you know why their sign in / up was not allowed.
+          return;
+        } else if ("reason" in response) {
           notifications.show({
-            title: "Sign in/up not allowed",
+            title: `Sign in/up failed`,
             message: response.reason,
             color: "red",
           });
         } else {
-          // SuperTokens requires that the third party provider
-          // gives an email for the user. If that's not the case, sign up / in
-          // will fail.
-
-          // As a hack to solve this, you can override the backend functions to create a fake email for the user.
-
-          await redirectToAuth({ redirectBack: false });
+          notifications.show({
+            title: `Sign in/up failed`,
+            message: "An unknown error occurred.",
+            color: "red",
+          });
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+        // Redirect to auth page to retry sign in/up
+        redirectToAuth({ redirectBack: false });
       } catch (e: unknown) {
         notifications.show({
           title: `Sign in/up failed`,
