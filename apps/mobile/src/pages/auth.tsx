@@ -1,10 +1,9 @@
-import React from "react";
+import { AppPage } from "@/components/general/AppPage.tsx";
+import { useIonRouter } from "@ionic/react";
 import { Box } from "@mantine/core";
 import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
 import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
 import { AuthPage } from "supertokens-auth-react/ui";
-import { useIonRouter } from "@ionic/react";
-import { AppPage } from "@/components/general/AppPage.tsx";
 
 const SupertokensAuthPage = () => {
   const router = useIonRouter();

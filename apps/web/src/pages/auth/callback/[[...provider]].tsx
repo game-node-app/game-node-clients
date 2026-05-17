@@ -1,37 +1,16 @@
-import React, { useEffect } from "react";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonRouter,
-} from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
-import { redirectToAuth } from "supertokens-auth-react";
-import { getCapitalizedText } from "@/util/getCapitalizedText";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
-import { AppPage } from "@/components/general/AppPage.tsx";
-import { useTranslation } from "@repo/locales";
 import { notifications } from "@mantine/notifications";
+import { CenteredLoading } from "@repo/ui";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { redirectToAuth } from "supertokens-auth-react";
+import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
 
-interface Props {
-  provider: string;
-}
-
-const AuthCallbackPage = ({ provider }: Props) => {
-  const router = useIonRouter();
-  const { t } = useTranslation();
+const AuthCallbackPage = () => {
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      if (router.routeInfo == undefined) {
-        console.error("routeInfo is undefined!");
-        return;
-      }
-
+      if (!router.isReady) return;
       try {
         const response = await signInAndUp();
         if (response.status === "OK") {
@@ -69,13 +48,7 @@ const AuthCallbackPage = ({ provider }: Props) => {
     })();
   }, [router]);
 
-  return (
-    <AppPage withSearch={false}>
-      <Stack className={"mt-20 min-h-screen"}>
-        <CenteredLoading message={t("auth.fetchingCredentials")} />
-      </Stack>
-    </AppPage>
-  );
+  return <CenteredLoading />;
 };
 
 export default AuthCallbackPage;
