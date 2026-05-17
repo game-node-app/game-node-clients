@@ -64,10 +64,16 @@ const AuthCallbackPage = ({ provider }: Props) => {
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e: unknown) {
+        notifications.show({
+          title: `${getCapitalizedText(provider)} sign in/up failed`,
+          message:
+            e instanceof Error ? e.message : "An unknown error occurred.",
+          color: "red",
+        });
         console.error(e);
       }
     })();
-  }, [router]);
+  }, [provider, router]);
 
   return (
     <AppPage withSearch={false}>

@@ -1,3 +1,4 @@
+import { Stack } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { CenteredLoading } from "@repo/ui";
 import { useRouter } from "next/router";
@@ -14,15 +15,7 @@ const AuthCallbackPage = () => {
       try {
         const response = await signInAndUp();
         if (response.status === "OK") {
-          if (
-            response.createdNewRecipeUser &&
-            response.user.loginMethods.length === 1
-          ) {
-            // sign up successful
-          } else {
-            // sign in successful
-          }
-          router.push("/");
+          router.push("/home");
         } else if (response.status === "SIGN_IN_UP_NOT_ALLOWED") {
           // the reason string is a user friendly message
           // about what went wrong. It can also contain a support code which users
@@ -43,12 +36,22 @@ const AuthCallbackPage = () => {
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e: unknown) {
+        notifications.show({
+          title: `Sign in/up failed`,
+          message:
+            e instanceof Error ? e.message : "An unknown error occurred.",
+          color: "red",
+        });
         console.error(e);
       }
     })();
   }, [router]);
 
-  return <CenteredLoading />;
+  return (
+    <Stack className="w-full h-full">
+      <CenteredLoading />
+    </Stack>
+  );
 };
 
 export default AuthCallbackPage;
