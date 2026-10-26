@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { AppPage } from "@/components/general/AppPage.tsx";
-import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import {
+  IonRefresher,
+  IonRefresherContent,
+  useIonViewWillEnter,
+  useIonViewWillLeave,
+} from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
@@ -17,7 +22,7 @@ import {
   useUrlState,
   useUserView,
 } from "@repo/ui";
-import { FindOneStatisticsDto } from "@repo/wrapper/server";
+import { StatisticsSourceRequestDto } from "@repo/wrapper/server";
 import {
   IconBrandAppleArcade,
   IconMedal2,
@@ -53,19 +58,28 @@ const GamePage = ({ gameId }: Props) => {
 
   const [, , incrementView] = useUserView(
     gameId,
-    FindOneStatisticsDto.sourceType.GAME,
+    StatisticsSourceRequestDto.sourceType.GAME,
   );
 
-  /**
-   * Stores the path parameter "id" of the last registered game view.
-   */
-  const lastRegisteredGameView = useRef<number | undefined>(undefined);
-
+  const active = useRef(false);
+  const visit = useRef<{ id: number; viewId: string } | undefined>(undefined);
+  const recordVisit = () => {
+    if (!Number.isSafeInteger(gameId) || gameId <= 0) return;
+    if (visit.current?.id !== gameId)
+      visit.current = { id: gameId, viewId: crypto.randomUUID() };
+    incrementView(visit.current.viewId);
+  };
+  useIonViewWillEnter(() => {
+    active.current = true;
+    visit.current = undefined;
+    recordVisit();
+  }, [gameId, incrementView]);
+  useIonViewWillLeave(() => {
+    active.current = false;
+    visit.current = undefined;
+  });
   useEffect(() => {
-    if (gameId != undefined && lastRegisteredGameView.current !== gameId) {
-      incrementView();
-      lastRegisteredGameView.current = gameId;
-    }
+    if (active.current) recordVisit();
   }, [gameId, incrementView]);
 
   const onChange = (tab: GameInfoTabValue) => {

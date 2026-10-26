@@ -12,8 +12,9 @@ const ExplorePage = () => {
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {
-          await queryClient.invalidateQueries({
-            queryKey: ["statistics", "trending", "game"],
+          await queryClient.resetQueries({
+            queryKey: ["statistics", "trending", "game", "infinite"],
+            type: "active",
           });
           evt.detail.complete();
         }}

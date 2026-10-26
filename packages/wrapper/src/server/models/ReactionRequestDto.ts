@@ -8,9 +8,9 @@ export type ReactionRequestDto = {
      */
     sourceType: ReactionRequestDto.sourceType;
     /**
-     * Source identifier: UUID for content, positive integer for game
+     * Source identifier: UUID for content, positive integer for game; corrected to the native ID union accepted by the DTO.
      */
-    sourceId: Record<string, any>;
+    sourceId: (string | number);
 };
 export namespace ReactionRequestDto {
     /**

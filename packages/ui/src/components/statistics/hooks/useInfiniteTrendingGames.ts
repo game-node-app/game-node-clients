@@ -1,65 +1,58 @@
 import {
-  FindStatisticsTrendingGamesDto,
-  GameStatisticsPaginatedResponseDto,
+  StatisticsRankingsRequestDto,
+  StatisticsRankingResponseDto,
   StatisticsService,
 } from "@repo/wrapper/server";
-import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseInfiniteQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export type InfiniteQueryTrendingGamesDto = Omit<
-  FindStatisticsTrendingGamesDto,
-  "offset" | "search"
+  StatisticsRankingsRequestDto,
+  "sourceType" | "mode" | "offset"
 >;
+
+export const getInfiniteTrendingGamesRequest = (
+  dto: InfiniteQueryTrendingGamesDto,
+): StatisticsRankingsRequestDto => ({
+  ...dto,
+  limit: dto.limit ?? 20,
+  period: dto.period ?? StatisticsRankingsRequestDto.period.MONTH,
+  sourceType: StatisticsRankingsRequestDto.sourceType.GAME,
+  mode: StatisticsRankingsRequestDto.mode.POPULAR,
+});
+export const getInfiniteTrendingGamesKey = (
+  dto: InfiniteQueryTrendingGamesDto,
+) => [
+  "statistics",
+  "trending",
+  "game",
+  "infinite",
+  getInfiniteTrendingGamesRequest(dto),
+];
 
 export function useInfiniteTrendingGames(
   dto: InfiniteQueryTrendingGamesDto,
   enabled = true,
-): ExtendedUseInfiniteQueryResult<GameStatisticsPaginatedResponseDto> {
-  const limitToUse = dto.limit || 20;
+): ExtendedUseInfiniteQueryResult<StatisticsRankingResponseDto> {
   const queryClient = useQueryClient();
-  const queryKey = [
-    "statistics",
-    "trending",
-    "game",
-    "infinite",
-    limitToUse,
-    dto.period,
-    dto.criteria,
-  ];
+  const request = getInfiniteTrendingGamesRequest(dto);
+  const queryKey = getInfiniteTrendingGamesKey(dto);
   const invalidate = () => {
-    queryClient.invalidateQueries({
-      queryKey,
-    });
-    queryClient.resetQueries({
-      queryKey,
-    });
+    void queryClient.resetQueries({ queryKey });
   };
-
   return {
     ...useInfiniteQuery({
       queryKey,
-      queryFn: async ({ pageParam = 0 }) => {
-        return StatisticsService.statisticsControllerFindTrendingGamesV1({
-          ...dto,
+      queryFn: ({ pageParam }) =>
+        StatisticsService.statisticsControllerFindRankingsV1({
+          ...request,
           offset: pageParam,
-        });
+        }),
+      getNextPageParam: (page) => {
+        const next = page.pagination.offset + page.pagination.limit;
+        return page.pagination.hasNextPage && next <= 10000 ? next : undefined;
       },
-      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-        if (
-          lastPage.pagination != undefined &&
-          lastPage.pagination.hasNextPage
-        ) {
-          return lastPageParam + limitToUse;
-        }
-        return undefined;
-      },
-      placeholderData: keepPreviousData,
       initialPageParam: 0,
-      staleTime: Infinity,
       enabled,
     }),
     queryKey,

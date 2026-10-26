@@ -10,7 +10,7 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
+import { StatisticsSourceRequestDto, Review } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
@@ -110,7 +110,7 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
                 <ReviewListItemComments review={review} />
                 <ItemLikesButton
                   sourceId={review.id}
-                  sourceType={FindOneStatisticsDto.sourceType.REVIEW}
+                  sourceType={StatisticsSourceRequestDto.sourceType.REVIEW}
                 />
               </Group>
 

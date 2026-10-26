@@ -1,8 +1,7 @@
 import {
-  FindOneStatisticsDto,
   ReactionRequestDto,
-  ReactionResponseDto,
   StatisticsService,
+  StatisticsSourceRequestDto,
 } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -13,104 +12,94 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export interface IToggleLikeProps {
   sourceId: string | number;
-  sourceType: FindOneStatisticsDto.sourceType;
+  sourceType: StatisticsSourceRequestDto.sourceType;
 }
 
-/**
- * Gets information about the number of likes on an item, and performs optimistic
- * toggles for likes of the current logged-in user.
- */
 export function useUserLike({ sourceId, sourceType }: IToggleLikeProps) {
   const queryClient = useQueryClient();
   const userId = useUserId();
   const statisticsQuery = useItemStatistics(sourceId, sourceType);
-  const statisticsQueryKey = statisticsQuery.queryKey;
-  const isLiked = statisticsQuery.data?.isLiked || false;
-  const likesCount = statisticsQuery.data?.likesCount || 0;
-
+  const queryKey = statisticsQuery.queryKey;
   const likeMutation = useMutation({
-    mutationFn: async (wasLiked: boolean = isLiked) => {
-      if (!userId) {
-        throw new Error("User is not logged in!");
-      }
-      const formattedSourceId =
-        sourceType === FindOneStatisticsDto.sourceType.GAME
-          ? Number(sourceId)
-          : String(sourceId);
-
+    mutationFn: async (variables: {
+      wasLiked: boolean;
+      key: unknown[];
+      actor: string | undefined;
+      sourceType: StatisticsSourceRequestDto.sourceType;
+    }) => {
+      if (!variables.actor) throw new Error("User is not logged in!");
+      const canonicalId = variables.key[2];
+      if (typeof canonicalId !== "string" && typeof canonicalId !== "number")
+        throw new Error("Invalid statistics source");
       const dto: ReactionRequestDto = {
-        sourceId:
-          formattedSourceId as unknown as ReactionRequestDto["sourceId"],
-        sourceType: sourceType as unknown as ReactionRequestDto.sourceType,
+        sourceId: canonicalId,
+        sourceType:
+          variables.sourceType as unknown as ReactionRequestDto.sourceType,
       };
-
-      if (wasLiked) {
-        return await StatisticsService.statisticsControllerRemoveLikeV1(dto);
-      }
-
-      return await StatisticsService.statisticsControllerAddLikeV1(dto);
+      return variables.wasLiked
+        ? StatisticsService.statisticsControllerRemoveLikeV1(dto)
+        : StatisticsService.statisticsControllerAddLikeV1(dto);
     },
-
-    onMutate: async (wasLiked: boolean = isLiked) => {
-      await queryClient.cancelQueries({
-        queryKey: statisticsQueryKey,
-      });
-
+    onMutate: async ({ key, wasLiked }) => {
+      await queryClient.cancelQueries({ queryKey: key });
       const previousStatistics =
-        queryClient.getQueryData<StatisticsWithStatus>(statisticsQueryKey);
-
-      const fallback: StatisticsWithStatus = {
-        isLiked: wasLiked,
-        likesCount,
-        viewsCount: 0,
-      } as StatisticsWithStatus;
-
-      const current = previousStatistics ? { ...previousStatistics } : fallback;
-      const willBeLiked = !wasLiked;
-      const nextLikesCount = willBeLiked
-        ? current.likesCount + 1
-        : Math.max(0, current.likesCount - 1);
-
-      const newStatistics: StatisticsWithStatus = {
-        ...current,
-        isLiked: willBeLiked,
-        likesCount: nextLikesCount,
-      };
-
-      queryClient.setQueryData(statisticsQueryKey, newStatistics);
-
-      return {
-        previousStatistics,
-      };
+        queryClient.getQueryData<StatisticsWithStatus>(key);
+      if (previousStatistics)
+        queryClient.setQueryData(key, {
+          ...previousStatistics,
+          isLiked: !wasLiked,
+          likesCount: wasLiked
+            ? Math.max(0, previousStatistics.likesCount - 1)
+            : previousStatistics.likesCount + 1,
+        });
+      return { previousStatistics };
     },
-
-    onSuccess: (response: ReactionResponseDto) => {
+    onSuccess: (response, { key }) => {
       queryClient.setQueryData<StatisticsWithStatus>(
-        statisticsQueryKey,
-        (prev) => {
-          if (!prev) {
-            return {
-              isLiked: response.isLiked,
-              likesCount: response.likesCount,
-              viewsCount: 0,
-            } as StatisticsWithStatus;
-          }
-          return {
-            ...prev,
+        key,
+        (previous) =>
+          previous && {
+            ...previous,
             isLiked: response.isLiked,
             likesCount: response.likesCount,
-          };
-        },
+          },
       );
+      if (!queryClient.getQueryData(key))
+        void queryClient.invalidateQueries({ queryKey: key });
     },
-
-    onError: (err, _, context) => {
-      console.error(err);
-      queryClient.setQueryData(statisticsQueryKey, context?.previousStatistics);
+    onError: (error, { key }, context) => {
+      console.error(error);
+      if (context?.previousStatistics)
+        queryClient.setQueryData(key, context.previousStatistics);
     },
   });
-
-  const toggleLike = () => likeMutation.mutate(isLiked);
-
-  return [likesCount, isLiked, toggleLike] as const;
+  const sameSource = likeMutation.variables?.key.every(
+    (value, index) => value === queryKey[index],
+  );
+  const pending = sameSource && likeMutation.isPending;
+  const committed =
+    sameSource && likeMutation.isSuccess ? likeMutation.data : undefined;
+  const isLiked =
+    statisticsQuery.data?.isLiked ??
+    (pending
+      ? !likeMutation.variables!.wasLiked
+      : (committed?.isLiked ?? false));
+  const likesCount =
+    statisticsQuery.data?.likesCount ??
+    (pending
+      ? likeMutation.variables!.wasLiked
+        ? 0
+        : 1
+      : (committed?.likesCount ?? 0));
+  return [
+    likesCount,
+    isLiked,
+    () =>
+      likeMutation.mutate({
+        wasLiked: isLiked,
+        key: queryKey,
+        actor: userId,
+        sourceType,
+      }),
+  ] as const;
 }

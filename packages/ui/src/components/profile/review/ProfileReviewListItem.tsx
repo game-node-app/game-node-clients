@@ -1,5 +1,5 @@
 import React from "react";
-import { FindOneStatisticsDto, Review } from "@repo/wrapper/server";
+import { StatisticsSourceRequestDto, Review } from "@repo/wrapper/server";
 import { Box, Divider, Group, Stack, Title } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
@@ -10,7 +10,7 @@ import {
   useGame,
 } from "#@/components";
 import { EditorContent, useEditor } from "@tiptap/react";
-import sourceType = FindOneStatisticsDto.sourceType;
+import sourceType = StatisticsSourceRequestDto.sourceType;
 import { useTranslation } from "@repo/locales";
 
 interface Props {

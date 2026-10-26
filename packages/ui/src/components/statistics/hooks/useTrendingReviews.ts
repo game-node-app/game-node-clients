@@ -1,14 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  FindStatisticsTrendingReviewsDto,
+  StatisticsRankingsRequestDto,
   StatisticsService,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
-export function useTrendingReviews(dto: FindStatisticsTrendingReviewsDto) {
+export function useTrendingReviews(
+  dto: Omit<StatisticsRankingsRequestDto, "sourceType" | "mode">,
+) {
+  const actor = useUserId();
+  const request = {
+    ...dto,
+    sourceType: StatisticsRankingsRequestDto.sourceType.REVIEW,
+    mode: StatisticsRankingsRequestDto.mode.POPULAR,
+  };
   return useQuery({
-    queryKey: ["statistics", "review", dto],
-    queryFn: () => {
-      return StatisticsService.statisticsControllerFindTrendingReviewsV1(dto);
-    },
+    queryKey: [
+      "statistics",
+      "trending",
+      "review",
+      request,
+      actor ?? "anonymous",
+    ],
+    queryFn: () =>
+      StatisticsService.statisticsControllerFindRankingsV1(request),
   });
 }

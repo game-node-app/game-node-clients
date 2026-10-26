@@ -1,43 +1,63 @@
-import { useMutation } from "@tanstack/react-query";
+import { useCallback, useRef } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  FindOneStatisticsDto,
-  StatisticsActionDto,
-  StatisticsQueueService,
-} from "../../../../../wrapper/src/server";
+  StatisticsService,
+  StatisticsSourceRequestDto,
+  StatisticsViewRequestDto,
+} from "@repo/wrapper/server";
 import { useItemStatistics } from "#@/components/statistics/hooks/useItemStatistics";
-import { useRef } from "react";
 
 export function useUserView(
-  sourceId: string | number,
-  sourceType: FindOneStatisticsDto.sourceType,
+  sourceId: string | number | undefined,
+  sourceType: StatisticsSourceRequestDto.sourceType,
 ) {
   const statisticsQuery = useItemStatistics(sourceId, sourceType);
-  const viewsCount = statisticsQuery.data?.viewsCount || 0;
-  const isViewed = statisticsQuery.data?.isViewed || false;
-  /**
-   * Avoids duplicate requests between re-renders.
-   */
-  const lastRegisteredViewSourceId = useRef<string | undefined>(undefined);
-  const viewMutation = useMutation({
-    mutationFn: async () => {
-      if (
-        lastRegisteredViewSourceId.current &&
-        lastRegisteredViewSourceId.current === sourceId
-      ) {
-        return;
-      }
-      await StatisticsQueueService.statisticsQueueControllerAddViewV1({
-        sourceId: sourceId,
-        sourceType: sourceType as StatisticsActionDto.sourceType,
+  const queryClient = useQueryClient();
+  const identities = useRef(new Map<string, StatisticsViewRequestDto>());
+  const pending = useRef(new Set<string>());
+  const accepted = useRef(new Set<string>());
+  const mutation = useMutation({
+    mutationFn: async (variables: StatisticsViewRequestDto) => {
+      const response =
+        await StatisticsService.statisticsControllerRecordViewV1(variables);
+      if (!response.accepted || response.viewId !== variables.viewId)
+        throw new Error("View was not accepted");
+      return response;
+    },
+    onSuccess: (_, variables) => {
+      accepted.current.add(variables.viewId);
+      void queryClient.invalidateQueries({
+        queryKey: ["statistics", variables.sourceType, variables.sourceId],
       });
-
-      lastRegisteredViewSourceId.current = `${sourceId}`;
+    },
+    onSettled: (_, __, variables) => {
+      pending.current.delete(variables.viewId);
     },
   });
-
-  const incrementView = () => {
-    viewMutation.mutate();
-  };
-
-  return [viewsCount, isViewed, incrementView] as const;
+  const canonicalId = statisticsQuery.queryKey[2];
+  const incrementView = useCallback(
+    (viewId: string) => {
+      if (pending.current.has(viewId) || accepted.current.has(viewId)) return;
+      let variables = identities.current.get(viewId);
+      if (!variables) {
+        if (typeof canonicalId !== "string" && typeof canonicalId !== "number")
+          return;
+        variables = {
+          sourceType:
+            sourceType as unknown as StatisticsViewRequestDto.sourceType,
+          sourceId: canonicalId,
+          viewId,
+        };
+        identities.current.set(viewId, variables);
+      }
+      pending.current.add(viewId);
+      mutation.mutate(variables);
+    },
+    [canonicalId, sourceType, mutation.mutate],
+  );
+  return [
+    statisticsQuery.data?.viewsCount ?? 0,
+    statisticsQuery.data?.isViewed ?? false,
+    incrementView,
+  ] as const;
 }

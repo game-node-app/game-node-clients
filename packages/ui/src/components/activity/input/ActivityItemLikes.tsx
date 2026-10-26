@@ -1,11 +1,10 @@
 import React from "react";
 import {
   Activity,
-  FindOneStatisticsDto,
-  StatisticsActionDto,
+  StatisticsSourceRequestDto,
 } from "../../../../../wrapper/src/server";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
-import sourceType = FindOneStatisticsDto.sourceType;
+import sourceType = StatisticsSourceRequestDto.sourceType;
 
 interface Props {
   activity: Activity;

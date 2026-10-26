@@ -2,12 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type StatisticsActionDto = {
+export type StatisticsViewRequestDto = {
+    sourceType: StatisticsViewRequestDto.sourceType;
     sourceId: (string | number);
-    targetUserId?: string;
-    sourceType: StatisticsActionDto.sourceType;
+    /**
+     * Reuse this identity for retries of one navigation impression.
+     */
+    viewId: string;
 };
-export namespace StatisticsActionDto {
+export namespace StatisticsViewRequestDto {
     export enum sourceType {
         GAME = 'game',
         REVIEW = 'review',

@@ -3,7 +3,7 @@ import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
 import {
   CreateReportRequestDto,
   FindAllCommentsDto,
-  FindOneStatisticsDto,
+  StatisticsSourceRequestDto,
   Post,
   PostsService,
 } from "@repo/wrapper/server";
@@ -189,7 +189,7 @@ const PostsListItem = ({
           />
           <ItemLikesButton
             sourceId={item.id}
-            sourceType={FindOneStatisticsDto.sourceType.POST}
+            sourceType={StatisticsSourceRequestDto.sourceType.POST}
           />
         </Group>
       </Stack>

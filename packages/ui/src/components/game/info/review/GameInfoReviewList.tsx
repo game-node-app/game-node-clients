@@ -3,16 +3,17 @@ import {
   CenteredErrorMessage,
   CenteredLoading,
   ReviewListItem,
-  ReviewListItemModal
+  ReviewListItemModal,
 } from "#@/components";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useReviews } from "#@/components/review/hooks/useReviews";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 import { Group, Pagination, Stack } from "@mantine/core";
-import { FindStatisticsTrendingReviewsDto } from "@repo/wrapper/server";
+import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useMemo, useState } from "react";
-import period = FindStatisticsTrendingReviewsDto.period;
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import period = StatisticsRankingsRequestDto.period;
 
 interface IGameInfoReviewListProps {
   gameId: number;
@@ -23,20 +24,32 @@ interface IGameInfoReviewListProps {
 
 const DEFAULT_LIMIT = 7;
 
-export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO: FindStatisticsTrendingReviewsDto =
-  {
-    period: period.ALL,
-    offset: 0,
-    limit: DEFAULT_LIMIT,
-    excludeOwn: true,
-  };
+export const DEFAULT_GAME_REVIEW_LIST_VIEW_DTO = {
+  period: period.ALL,
+  offset: 0,
+  limit: DEFAULT_LIMIT,
+  excludeOwn: true,
+};
 
 const GameInfoReviewList = ({
   gameId,
   targetReviewId,
 }: IGameInfoReviewListProps) => {
-  const [offset, setOffset] = useState(0);
-  const trendingReviewsDto = useMemo((): FindStatisticsTrendingReviewsDto => {
+  const actor = useUserId();
+  const [selection, setSelection] = useState({
+    gameId,
+    targetReviewId,
+    actor,
+    offset: 0,
+  });
+  const sameSelection =
+    selection.gameId === gameId &&
+    selection.targetReviewId === targetReviewId &&
+    selection.actor === actor;
+  const offset = sameSelection ? selection.offset : 0;
+  if (!sameSelection)
+    setSelection({ gameId, targetReviewId, actor, offset: 0 });
+  const trendingReviewsDto = useMemo(() => {
     return {
       ...DEFAULT_GAME_REVIEW_LIST_VIEW_DTO,
       offset: offset,
@@ -48,8 +61,10 @@ const GameInfoReviewList = ({
   const trendingReviewsQuery = useTrendingReviews(trendingReviewsDto);
   const trendingReviewsPagination = trendingReviewsQuery.data?.pagination;
 
-  const reviewsIds = trendingReviewsQuery.data?.data.map((s) => s.reviewId!);
-  const reviewsQuery = useReviews(reviewsIds);
+  const reviewsIds = trendingReviewsQuery.data?.items
+    .map((s) => s.sourceId)
+    .filter((id): id is string => typeof id === "string");
+  const reviewsQuery = useReviews(reviewsIds?.length ? reviewsIds : undefined);
   const isLoading = trendingReviewsQuery.isLoading || reviewsQuery.isLoading;
   const isError = trendingReviewsQuery.isError || reviewsQuery.isError;
 
@@ -62,27 +77,22 @@ const GameInfoReviewList = ({
   const shouldShowPagination = (hasItems && hasNextPage) || offset > 0;
 
   const handlePagination = (page: number) => {
-    setOffset(getPageAsOffset(page, DEFAULT_LIMIT));
+    setSelection({
+      gameId,
+      targetReviewId,
+      actor,
+      offset: getPageAsOffset(page, DEFAULT_LIMIT),
+    });
   };
 
   const content = useMemo(() => {
-    const reviews = reviewsQuery.data
-      // Give priority to reviews with content
-      ?.toSorted((a, b) => {
-        if (a.content == null) {
-          return 1;
-        } else if (b.content == null) {
-          return -1;
-        }
-
-        return 0;
-      })
-      .map((review) => {
-        return <ReviewListItem key={review.id} review={review} />;
-      });
+    const reviews = reviewsIds
+      ?.map((id) => reviewsQuery.data?.find((review) => review.id === id))
+      .filter((review) => review !== undefined)
+      .map((review) => <ReviewListItem key={review.id} review={review} />);
 
     return reviews;
-  }, [reviewsQuery.data]);
+  }, [reviewsIds, reviewsQuery.data]);
 
   if (isLoading) {
     return <CenteredLoading className={"mt-6 mb-6"} />;
@@ -108,7 +118,17 @@ const GameInfoReviewList = ({
           <Group w={"100%"} justify={"center"}>
             <Pagination
               value={getOffsetAsPage(offset, DEFAULT_LIMIT)}
-              total={trendingReviewsPagination?.totalPages ?? 1}
+              total={
+                trendingReviewsPagination
+                  ? Math.min(
+                      Math.ceil(
+                        trendingReviewsPagination.total /
+                          trendingReviewsPagination.limit,
+                      ),
+                      Math.floor(10000 / trendingReviewsPagination.limit) + 1,
+                    )
+                  : 1
+              }
               onChange={handlePagination}
             />
           </Group>

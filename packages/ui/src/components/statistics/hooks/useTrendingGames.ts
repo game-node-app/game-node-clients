@@ -1,14 +1,20 @@
 import {
-  FindStatisticsTrendingGamesDto,
+  StatisticsRankingsRequestDto,
   StatisticsService,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { useQuery } from "@tanstack/react-query";
 
-export function useTrendingGames(dto: FindStatisticsTrendingGamesDto) {
+export function useTrendingGames(
+  dto: Omit<StatisticsRankingsRequestDto, "sourceType" | "mode">,
+) {
+  const request = {
+    ...dto,
+    sourceType: StatisticsRankingsRequestDto.sourceType.GAME,
+    mode: StatisticsRankingsRequestDto.mode.POPULAR,
+  };
   return useQuery({
-    queryKey: ["statistics", "game", dto.criteria, dto.limit, dto.offset],
-    queryFn: () => {
-      return StatisticsService.statisticsControllerFindTrendingGamesV1(dto);
-    },
+    queryKey: ["statistics", "trending", "game", request],
+    queryFn: () =>
+      StatisticsService.statisticsControllerFindRankingsV1(request),
   });
 }

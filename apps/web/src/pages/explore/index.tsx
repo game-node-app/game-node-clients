@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ActionIcon, Affix, Skeleton, Stack, Transition } from "@mantine/core";
 import { NextPageContext } from "next";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { dehydrate, InfiniteData, QueryClient } from "@tanstack/react-query";
 import {
   GameRepositoryFindAllDto,
   GameRepositoryService,
-  GameStatisticsPaginatedResponseDto,
+  StatisticsRankingResponseDto,
   StatisticsService,
 } from "@repo/wrapper/server";
-import ExploreScreenFilters from "@/components/explore/ExploreScreenFilters";
+import ExploreScreenFilters from "../../components/explore/ExploreScreenFilters";
 import { useIntersection, useWindowScroll } from "@mantine/hooks";
 import { IconArrowUp } from "@tabler/icons-react";
 import {
   DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
   exploreScreenUrlQueryToDto,
-} from "@/components/explore/utils";
+} from "../../components/explore/utils";
 import Head from "next/head";
 import {
   CenteredErrorMessage,
@@ -22,6 +22,8 @@ import {
   SimpleInfiniteLoader,
   useGames,
   useInfiniteTrendingGames,
+  getInfiniteTrendingGamesKey,
+  getInfiniteTrendingGamesRequest,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
 
@@ -29,31 +31,30 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;
   const queryDto = exploreScreenUrlQueryToDto(query);
   const queryClient = new QueryClient();
-  let gameIds: number[] | undefined = undefined;
   await queryClient.prefetchInfiniteQuery({
-    queryKey: [
-      "statistics",
-      "trending",
-      "game",
-      "infinite",
-      queryDto.limit,
-      queryDto.period,
-      queryDto.criteria,
-    ],
-    queryFn: async () => {
+    queryKey: getInfiniteTrendingGamesKey(queryDto),
+    queryFn: async ({ pageParam }) => {
       const response =
-        await StatisticsService.statisticsControllerFindTrendingGamesV1(
-          queryDto,
-        );
-      if (response && response.data) {
-        gameIds = response.data.map((s) => s.gameId!);
-      }
+        await StatisticsService.statisticsControllerFindRankingsV1({
+          ...getInfiniteTrendingGamesRequest(queryDto),
+          offset: pageParam,
+        });
       return response;
     },
     initialPageParam: 0,
   });
 
-  if (gameIds) {
+  const ranking = queryClient.getQueryData<
+    InfiniteData<StatisticsRankingResponseDto>
+  >(getInfiniteTrendingGamesKey(queryDto));
+  const gameIds = [
+    ...new Set(
+      ranking?.pages[0]?.items
+        .map((item) => item.sourceId)
+        .filter((id): id is number => typeof id === "number") ?? [],
+    ),
+  ];
+  if (gameIds.length) {
     const useGamesDto: GameRepositoryFindAllDto = {
       gameIds: gameIds,
       relations: {
@@ -62,7 +63,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     };
 
     await queryClient.prefetchQuery({
-      queryKey: ["game", "all", useGamesDto],
+      queryKey: ["game", "all", useGamesDto.gameIds, useGamesDto.relations],
       queryFn: () => {
         return GameRepositoryService.gameRepositoryControllerFindAllByIdsV1(
           useGamesDto,
@@ -95,13 +96,15 @@ const Index = () => {
   const gamesIds = useMemo(() => {
     if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
       return undefined;
-    return trendingGamesQuery.data?.pages.flatMap(
-      (statisticsPaginatedResponse: GameStatisticsPaginatedResponseDto) => {
-        return statisticsPaginatedResponse.data.map(
-          (statistics) => statistics.gameId!,
-        );
-      },
-    );
+    return [
+      ...new Set(
+        trendingGamesQuery.data.pages.flatMap((page) =>
+          page.items
+            .map((item) => item.sourceId)
+            .filter((id): id is number => typeof id === "number"),
+        ),
+      ),
+    ];
   }, [trendingGamesQuery.data, trendingGamesQuery.isError]);
 
   const gamesQuery = useGames(
@@ -114,7 +117,10 @@ const Index = () => {
     true,
   );
 
-  const games = gamesQuery.data || [];
+  const games =
+    gamesIds
+      ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
+      .filter((game) => game !== undefined) ?? [];
 
   const isFetching =
     trendingGamesQuery.isFetching ||
@@ -150,7 +156,6 @@ const Index = () => {
             onFilterChange={(stateAction) => {
               setTrendingGamesDto(stateAction);
               setHasLoadedQueryParams(true);
-              trendingGamesQuery.invalidate();
             }}
           />
           <GameView.Content items={games}>
@@ -162,10 +167,11 @@ const Index = () => {
         </GameView>
 
         <SimpleInfiniteLoader
+          key={gamesQuery.data?.map((game) => game.id).join(",")}
           fetchNextPage={async () => {
             await trendingGamesQuery.fetchNextPage();
           }}
-          isFetching={trendingGamesQuery.isFetching}
+          isFetching={isFetching}
           hasNextPage={trendingGamesQuery.hasNextPage}
         />
       </Stack>

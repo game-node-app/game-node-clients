@@ -1,9 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { z } from "zod";
-import {
-  FindStatisticsTrendingGamesDto,
-  GameRepositoryFilterDto,
-} from "@repo/wrapper/server";
+import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -16,17 +13,17 @@ import {
   Select,
   SimpleGrid,
 } from "@mantine/core";
-import ExploreScreenResourceSelector from "@/components/explore/ExploreScreenResourceSelector";
+import ExploreScreenResourceSelector from "./ExploreScreenResourceSelector";
 import { useRouter } from "next/router";
 import { IconAdjustments } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import {
   exploreScreenDtoToSearchParams,
   exploreScreenUrlQueryToDto,
-} from "@/components/explore/utils";
-import { GameResourceFilter } from "@repo/ui";
+} from "./utils";
+import { GameResourceFilter, InfiniteQueryTrendingGamesDto } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
-import period = FindStatisticsTrendingGamesDto.period;
+import period = StatisticsRankingsRequestDto.period;
 
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
 
@@ -34,9 +31,9 @@ const FilterFormSchema = z.object({
   themes: z.array(z.string()).optional(),
   genres: z.array(z.string()).optional(),
   platforms: z.array(z.string()).optional(),
-  category: z.string().optional(),
+  category: z.array(z.string()).optional(),
   gameModes: z.array(z.string()).optional(),
-  status: z.string().optional(),
+  status: z.array(z.string()).optional(),
   period: z.string(),
 });
 
@@ -46,7 +43,7 @@ type FilterFormValues = z.infer<typeof FilterFormSchema>;
  * PS: DO NOT use this as 'data' for the MultiSelect component. This is only for reference when building the JSX below.
  */
 interface Props {
-  onFilterChange: Dispatch<SetStateAction<FindStatisticsTrendingGamesDto>>;
+  onFilterChange: Dispatch<SetStateAction<InfiniteQueryTrendingGamesDto>>;
   hasLoadedQueryParams: boolean;
 }
 
@@ -110,19 +107,21 @@ const ExploreScreenFilters = ({
   const onSubmit = async (data: FilterFormValues) => {
     const { period, ...criteria } = data;
     onFilterChange((previousState) => {
-      const updatedState = {
-        ...previousState,
-        period: period as period,
-        criteria: criteria as GameRepositoryFilterDto,
+      const query: Record<string, string> = {
+        period,
+        ...Object.fromEntries(
+          Object.entries(criteria)
+            .filter(([, value]) => value != null)
+            .map(([key, value]) => [key, String(value)]),
+        ),
       };
+      if (previousState.criteria?.ids)
+        query.ids = previousState.criteria.ids.join(",");
+      const updatedState = exploreScreenUrlQueryToDto(query);
       const searchParams = exploreScreenDtoToSearchParams(updatedState);
-      router.replace(
-        {
-          query: searchParams.toString(),
-        },
-        undefined,
-        { shallow: false },
-      );
+      router.replace({ query: searchParams.toString() }, undefined, {
+        shallow: false,
+      });
       return updatedState;
     });
     drawerUtils.close();
@@ -134,10 +133,20 @@ const ExploreScreenFilters = ({
       const dto = exploreScreenUrlQueryToDto(query);
       if (dto.criteria) {
         for (const [k, v] of Object.entries(dto.criteria)) {
-          setValue(k as any, v);
+          if (k !== "ids")
+            setValue(
+              k as
+                | "themes"
+                | "genres"
+                | "platforms"
+                | "gameModes"
+                | "status"
+                | "category",
+              v.map(String),
+            );
         }
       }
-      setValue("period", dto.period);
+      setValue("period", dto.period ?? period.MONTH);
       onFilterChange((prevState) => ({ ...prevState, ...dto }));
     }
   }, [
@@ -191,7 +200,7 @@ const ExploreScreenFilters = ({
         onChange={(v) => {
           const value = v ?? period.MONTH.valueOf();
           setValue("period", value);
-          onSubmit({ period: v as period });
+          onSubmit({ ...watch(), period: value });
         }}
       />
     </Group>

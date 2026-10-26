@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type FindOneStatisticsDto = {
+export type StatisticsSourceRequestDto = {
+    sourceType: StatisticsSourceRequestDto.sourceType;
     sourceId: (string | number);
-    sourceType: FindOneStatisticsDto.sourceType;
 };
-export namespace FindOneStatisticsDto {
+export namespace StatisticsSourceRequestDto {
     export enum sourceType {
         GAME = 'game',
         REVIEW = 'review',

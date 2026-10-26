@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
 import {
-  FindOneStatisticsDto,
+  StatisticsSourceRequestDto,
   Game,
   GameRepositoryFindOneDto,
   GameRepositoryService,
@@ -27,8 +27,8 @@ import {
   ImageSize,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
-import sourceType = FindOneStatisticsDto.sourceType;
-import { OpenGraph } from "@/components/general/OpenGraph";
+import sourceType = StatisticsSourceRequestDto.sourceType;
+import { OpenGraph } from "../../../components/general/OpenGraph";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;
@@ -64,28 +64,28 @@ const GameInfoPage = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { id, reviewId } = router.query;
-  const [, , incrementView] = useUserView(`${id}`, sourceType.GAME);
+  const [, , incrementView] = useUserView(
+    typeof id === "string" ? id : undefined,
+    sourceType.GAME,
+  );
 
   const [params, setParams] = useUrlState({
     tab: GameInfoTabValue.overview,
   });
   const currentTab = params.tab;
 
-  /**
-   * Stores the path parameter "id" of the last registered game view.
-   */
-  const lastRegisteredGameView = useRef<string | undefined>(undefined);
-
+  const visit = useRef<{ id: number; viewId: string } | undefined>(undefined);
   useEffect(() => {
-    if (
-      router.isReady &&
-      id != undefined &&
-      lastRegisteredGameView.current !== id
-    ) {
-      incrementView();
-      lastRegisteredGameView.current = id as string;
+    const gameId =
+      typeof id === "string" && /^\d+$/.test(id) ? Number(id) : NaN;
+    if (!router.isReady || !Number.isSafeInteger(gameId) || gameId <= 0) {
+      visit.current = undefined;
+      return;
     }
-  }, [id, incrementView, router]);
+    if (visit.current?.id !== gameId)
+      visit.current = { id: gameId, viewId: crypto.randomUUID() };
+    incrementView(visit.current.viewId);
+  }, [id, incrementView, router.isReady]);
 
   /**
    * Effect to render /404 if necessary

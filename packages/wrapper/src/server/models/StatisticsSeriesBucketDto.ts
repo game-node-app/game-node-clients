@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type StatisticsStatus = {
-    isLiked: boolean;
-    isViewed: boolean;
+export type StatisticsSeriesBucketDto = {
+    start: string;
+    value: number;
 };
 

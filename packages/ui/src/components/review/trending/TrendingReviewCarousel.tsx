@@ -3,11 +3,11 @@ import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
 import { useOnMobile } from "../../general/hooks/useOnMobile.ts";
 import { useTrendingReviews } from "../../statistics/hooks/useTrendingReviews.ts";
-import { FindStatisticsTrendingReviewsDto } from "../../../../../wrapper/src/server";
+import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import { TrendingReviewCard } from "../../general/card/TrendingReviewCard.tsx";
 import { DetailsBox } from "../../general/DetailsBox";
 import { useTranslation } from "@repo/locales";
-import period = FindStatisticsTrendingReviewsDto.period;
+import period = StatisticsRankingsRequestDto.period;
 
 const buildSkeletons = () => {
   const skeletons: React.ReactNode[] = [];
@@ -31,23 +31,23 @@ const TrendingReviewCarousel = (props: CarouselProps) => {
     limit: 10,
   });
   const isEmpty =
-    trendingReviews.isError || trendingReviews.data?.data.length === 0;
+    trendingReviews.isError || trendingReviews.data?.items.length === 0;
 
   const buildSlides = () => {
     if (trendingReviews.isLoading) {
       return buildSkeletons();
     }
 
-    return trendingReviews.data?.data?.map((reviewStatistics) => {
+    return trendingReviews.data?.items.map((reviewStatistics) => {
       if (
         reviewStatistics == undefined ||
-        reviewStatistics.reviewId == undefined
+        typeof reviewStatistics.sourceId !== "string"
       ) {
         return null;
       }
       return (
-        <Carousel.Slide key={reviewStatistics.id}>
-          <TrendingReviewCard reviewId={reviewStatistics.reviewId!} />
+        <Carousel.Slide key={reviewStatistics.sourceId}>
+          <TrendingReviewCard reviewId={reviewStatistics.sourceId} />
         </Carousel.Slide>
       );
     });

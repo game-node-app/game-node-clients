@@ -4,25 +4,24 @@ import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
-import { FindStatisticsTrendingGamesDto } from "../../../../../wrapper/src/server";
+import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import { useTranslation } from "@repo/locales";
-import period = FindStatisticsTrendingGamesDto.period;
+import period = StatisticsRankingsRequestDto.period;
 
-export const DEFAULT_SEARCH_TRENDING_GAMES_DTO: FindStatisticsTrendingGamesDto =
-  {
-    offset: 0,
-    limit: 6,
-    criteria: {},
-    period: period.MONTH,
-  };
+export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {
+  offset: 0,
+  limit: 6,
+  criteria: {},
+  period: period.MONTH,
+};
 
 const TrendingGamesList = () => {
   const { t } = useTranslation();
   const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
 
-  const gamesIds = trendingGames.data?.data?.map(
-    (statistics) => statistics.gameId as unknown as number,
-  );
+  const gamesIds = trendingGames.data?.items
+    .map((item) => item.sourceId)
+    .filter((id): id is number => typeof id === "number");
   const gamesQuery = useGames({
     gameIds: gamesIds || [],
     relations: {
@@ -54,9 +53,12 @@ const TrendingGamesList = () => {
     >
       <SimpleGrid cols={{ base: 3, lg: 6 }} h={"100%"} w={"100%"}>
         {isLoading && elementsSkeletons}
-        {gamesQuery.data?.map((game) => {
-          return <GameGridItem key={game.id} game={game} />;
-        })}
+        {gamesIds
+          ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
+          .filter((game) => game !== undefined)
+          .map((game) => {
+            return <GameGridItem key={game.id} game={game} />;
+          })}
       </SimpleGrid>
     </DetailsBox>
   );

@@ -1,56 +1,62 @@
 import {
-  FindOneStatisticsDto,
-  GameStatistics,
-  ReviewStatistics,
   StatisticsService,
-  StatisticsStatus,
+  StatisticsSourceRequestDto,
+  StatisticsStatusDto,
+  StatisticsSummaryDto,
 } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
-export type StatisticsWithStatus<
-  T extends GameStatistics | ReviewStatistics = GameStatistics,
-> = T & StatisticsStatus;
+export type StatisticsWithStatus = StatisticsSummaryDto & StatisticsStatusDto;
 
-export function useItemStatistics<
-  T extends GameStatistics | ReviewStatistics = GameStatistics,
->(
-  sourceId: string | number,
-  sourceType: FindOneStatisticsDto.sourceType,
-): ExtendedUseQueryResult<StatisticsWithStatus<T> | null> {
+export function useItemStatistics(
+  sourceId: string | number | undefined,
+  sourceType: StatisticsSourceRequestDto.sourceType,
+): ExtendedUseQueryResult<StatisticsWithStatus> {
   const queryClient = useQueryClient();
-  const queryKey = ["statistics", sourceType, sourceId];
+  const actor = useUserId();
+  const gameId =
+    typeof sourceId === "number" ||
+    (typeof sourceId === "string" && /^\d+$/.test(sourceId))
+      ? Number(sourceId)
+      : NaN;
+  const canonicalId =
+    sourceType === StatisticsSourceRequestDto.sourceType.GAME
+      ? Number.isSafeInteger(gameId) && gameId > 0
+        ? gameId
+        : undefined
+      : typeof sourceId === "string" && sourceId
+        ? sourceId
+        : undefined;
+  const queryKey = [
+    "statistics",
+    sourceType,
+    canonicalId,
+    actor ?? "anonymous",
+  ];
   const invalidate = () => {
-    queryClient
-      .invalidateQueries({ queryKey: queryKey.slice(0, 2) })
-      .then()
-      .catch();
+    void queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 3) });
   };
 
   return {
     ...useQuery({
       queryKey,
-      queryFn: async (): Promise<StatisticsWithStatus<T> | null> => {
-        const statistics =
-          await StatisticsService.statisticsControllerFindOneBySourceIdAndTypeV1(
-            {
-              sourceId: sourceId as string | number,
-              sourceType: sourceType,
-            },
-          );
-        if (statistics) {
-          const statisticsStatus =
-            await StatisticsService.statisticsControllerGetStatusV1(
-              statistics.id,
-              sourceType,
-            );
-          return {
-            ...statistics,
-            ...statisticsStatus,
-          } as StatisticsWithStatus<T>;
-        }
-
-        return null;
+      enabled: canonicalId !== undefined,
+      queryFn: async () => {
+        if (canonicalId === undefined)
+          throw new Error("Invalid statistics source");
+        const [summary, status] = await Promise.all([
+          StatisticsService.statisticsControllerFindSummaryV1({
+            sourceId: canonicalId,
+            sourceType,
+          }),
+          StatisticsService.statisticsControllerGetStatusV1(
+            sourceType,
+            canonicalId,
+          ),
+        ]);
+        return { ...summary, ...status };
       },
     }),
     invalidate,

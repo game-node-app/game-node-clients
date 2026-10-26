@@ -1,19 +1,17 @@
 import React, { useMemo, useState } from "react";
 import { Flex, Stack } from "@mantine/core";
 import { IonSelect, IonSelectOption } from "@ionic/react";
-import {
-  FindStatisticsTrendingGamesDto,
-  GameStatisticsPaginatedResponseDto,
-} from "@repo/wrapper/server";
+import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import {
   GameView,
   SimpleInfiniteLoader,
   useGames,
   useInfiniteTrendingGames,
+  InfiniteQueryTrendingGamesDto,
 } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
 
-import period = FindStatisticsTrendingGamesDto.period;
+import period = StatisticsRankingsRequestDto.period;
 
 const DEFAULT_LIMIT = 48;
 
@@ -46,7 +44,7 @@ const ExploreGamesPageView = () => {
   );
 
   const [trendingQueryDto, setTrendingQueryDto] =
-    useState<FindStatisticsTrendingGamesDto>({
+    useState<InfiniteQueryTrendingGamesDto>({
       period: selectedPeriod,
       limit: DEFAULT_LIMIT,
     });
@@ -56,13 +54,15 @@ const ExploreGamesPageView = () => {
   const gamesIds = useMemo(() => {
     if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
       return undefined;
-    return trendingGamesQuery.data?.pages.flatMap(
-      (statisticsPaginatedResponse: GameStatisticsPaginatedResponseDto) => {
-        return statisticsPaginatedResponse.data.map(
-          (statistics) => statistics.gameId!,
-        );
-      },
-    );
+    return [
+      ...new Set(
+        trendingGamesQuery.data.pages.flatMap((page) =>
+          page.items
+            .map((item) => item.sourceId)
+            .filter((id): id is number => typeof id === "number"),
+        ),
+      ),
+    ];
   }, [trendingGamesQuery.data, trendingGamesQuery.isError]);
 
   const gamesQuery = useGames(
@@ -107,10 +107,15 @@ const ExploreGamesPageView = () => {
         </IonSelect>
       </Flex>
       <GameView layout={"grid"}>
-        <GameView.Content items={gamesQuery.data}>
+        <GameView.Content
+          items={gamesIds
+            ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
+            .filter((game) => game !== undefined)}
+        >
           <GameView.LoadingSkeletons isVisible={isFetching} />
         </GameView.Content>
         <SimpleInfiniteLoader
+          key={gamesQuery.data?.map((game) => game.id).join(",")}
           fetchNextPage={async () => {
             if (isFetching) return;
             await trendingGamesQuery.fetchNextPage();

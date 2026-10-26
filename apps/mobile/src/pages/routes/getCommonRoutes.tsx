@@ -60,7 +60,8 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       path={`${prefix}/game/:id`}
       render={(props) => {
         // eslint-disable-next-line react/prop-types
-        const gameId = Number.parseInt(props.match.params.id);
+        const routeId = props.match.params.id;
+        const gameId = /^\d+$/.test(routeId) ? Number(routeId) : NaN;
 
         return <GamePage gameId={gameId} />;
       }}
