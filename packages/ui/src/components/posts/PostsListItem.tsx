@@ -188,7 +188,6 @@ const PostsListItem = ({
             sourceType={FindAllCommentsDto.sourceType.POST}
           />
           <ItemLikesButton
-            targetUserId={item.profileUserId}
             sourceId={item.id}
             sourceType={FindOneStatisticsDto.sourceType.POST}
           />

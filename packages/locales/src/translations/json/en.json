@@ -865,7 +865,9 @@
       "gamertag": "It's the name that appears on your console or Xbox apps.",
       "psnOnlineId": "Usually, it's your username.",
       "steamProfileUrlExample": "e.g.: https://steamcommunity.com/id/your-username/",
-      "targetCollection": "Games will be added directly to your library if not specified."
+      "targetCollection": "Games will be added directly to your library if not specified.",
+      "redirectConnection": "Sign in to {{type}} to verify and connect your gaming account.",
+      "steamPublicGames": "Steam sign-in verifies account ownership. Your Steam game details must still be public to sync games, playtime, and achievements."
     },
     "labels": {
       "autoImport": "Enable automatic importing",
@@ -892,7 +894,12 @@
       "noPlatforms": "No preferred platform added.",
       "restartLogout": "After using this service, you will be logged off, and will be able to log-in again with a brand new account.",
       "restartNote1": "This won't remove your email and it's user id association from our databases. Nor will it remove collected analytic data.",
-      "restartNote2": "If you want to completely remove this data, please reach out to us through Discord or email (support@gamenode.app)."
+      "restartNote2": "If you want to completely remove this data, please reach out to us through Discord or email (support@gamenode.app).",
+      "connectionUnsupported": "This connection does not support account setup yet.",
+      "reauthRequired": "This connection needs your permission again. Reconnect to resume automatic syncing.",
+      "connectionAuthCancelled": "Sign-in was cancelled or denied. Return to connections to try again.",
+      "connectionAuthInvalid": "The sign-in callback is incomplete or invalid. Return to connections and start again.",
+      "connectionAuthCompleting": "Connecting your gaming account…"
     },
     "placeholders": {
       "none": "None"
@@ -923,15 +930,21 @@
     },
     "statuses": {
       "connected": "Connected",
-      "notConnected": "Not connected"
+      "notConnected": "Not connected",
+      "reauthRequired": "Reconnect required"
     },
     "titles": {
       "editPreferredPlatforms": "Edit your preferred platforms",
       "restartAccount": "Restart Account",
-      "sync": "Sync"
+      "connectionSetup": "Set up connection"
     },
     "validation": {
       "usernameRequired": "A username must be provided."
+    },
+    "actions": {
+      "connect": "Connect with {{type}}",
+      "reconnect": "Reconnect",
+      "backToConnections": "Back to connections"
     }
   },
   "profile": {

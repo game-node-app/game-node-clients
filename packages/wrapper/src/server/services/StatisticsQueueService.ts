@@ -12,36 +12,6 @@ export class StatisticsQueueService {
      * @returns any
      * @throws ApiError
      */
-    public static statisticsQueueControllerAddLikeV1(
-        requestBody: StatisticsActionDto,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/v1/statistics/queue/like',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
-     * @param requestBody
-     * @returns any
-     * @throws ApiError
-     */
-    public static statisticsQueueControllerRemoveLikeV1(
-        requestBody: StatisticsActionDto,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/v1/statistics/queue/like',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
-     * @param requestBody
-     * @returns any
-     * @throws ApiError
-     */
     public static statisticsQueueControllerAddViewV1(
         requestBody: StatisticsActionDto,
     ): CancelablePromise<any> {

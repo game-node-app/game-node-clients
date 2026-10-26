@@ -14,7 +14,6 @@ interface Props {
 const ActivityItemLikes = ({ activity }: Props) => {
   return (
     <ItemLikesButton
-      targetUserId={activity.profileUserId}
       sourceId={activity.id}
       sourceType={sourceType.ACTIVITY}
     />

@@ -5,30 +5,29 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
-  NotificationAggregateDto,
+  NotificationsResponseDto,
   NotificationsService,
-  PaginatedNotificationAggregationDto,
-} from "../../../../../wrapper/src/server";
+} from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useAggregatedNotifications(
-  offset = 0,
+  cursor?: string,
   limit = 20,
-): ExtendedUseQueryResult<PaginatedNotificationAggregationDto> {
+): ExtendedUseQueryResult<NotificationsResponseDto> {
   const userId = useUserId();
   const queryClient = useQueryClient();
-  const queryKey = ["notifications", "aggregated", userId];
+  const queryKey = ["notifications", "aggregated", userId, cursor, limit];
   const invalidate = () => {
     queryClient.invalidateQueries({
-      queryKey,
+      queryKey: ["notifications", "aggregated", userId],
     });
   };
   return {
     ...useQuery({
       queryKey,
       queryFn: () => {
-        return NotificationsService.notificationsControllerFindAllAndAggregateV1(
-          offset,
+        return NotificationsService.notificationsControllerFindAllV1(
+          cursor,
           limit,
         );
       },

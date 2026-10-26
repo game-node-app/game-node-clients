@@ -109,7 +109,6 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
               <Group className={"gap-1"}>
                 <ReviewListItemComments review={review} />
                 <ItemLikesButton
-                  targetUserId={review.profileUserId}
                   sourceId={review.id}
                   sourceType={FindOneStatisticsDto.sourceType.REVIEW}
                 />

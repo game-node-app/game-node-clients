@@ -9,7 +9,13 @@ import {
 } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 
-const EXCLUDED_ROUTES = ["/", "/about", "/tos", "/privacy"];
+const EXCLUDED_ROUTES = [
+  "/",
+  "/about",
+  "/tos",
+  "/privacy",
+  "/connections/callback/[type]",
+];
 
 /**
  * Component that shows an 'open in app' dialog for mobile users.

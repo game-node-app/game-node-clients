@@ -28,6 +28,7 @@ import AwardsResultPage from "@/pages/awards/result";
 import RecapStatsPage from "@/pages/recap/recap_stats";
 import JournalAchievementsPage from "@/pages/journal/journal_achievements";
 import { JournalPage } from "@/pages/journal/journal";
+import ConnectionCallbackPage from "@/pages/connection_callback";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -40,6 +41,14 @@ import { JournalPage } from "@/pages/journal/journal";
  */
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
+    <Route
+      exact
+      key={`${prefix}-connection-callback`}
+      path={`${prefix}/connections/callback/:type`}
+      render={({ match }) => (
+        <ConnectionCallbackPage type={match.params.type} />
+      )}
+    />,
     <Route
       exact
       key={`${prefix}-game-search`}

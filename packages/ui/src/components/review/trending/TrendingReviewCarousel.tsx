@@ -10,7 +10,7 @@ import { useTranslation } from "@repo/locales";
 import period = FindStatisticsTrendingReviewsDto.period;
 
 const buildSkeletons = () => {
-  const skeletons = [];
+  const skeletons: React.ReactNode[] = [];
   for (let i = 0; i < 6; i++) {
     skeletons.push(
       <Carousel.Slide key={i}>

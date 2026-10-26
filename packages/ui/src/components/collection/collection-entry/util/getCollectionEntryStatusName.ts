@@ -4,7 +4,7 @@ import { useTranslation } from "@repo/locales";
 
 export function getLocalizedCollectionEntryStatusName(
   status: CollectionEntry.status,
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ): string {
   return match<CollectionEntry.status, string>(status)
     .with(CollectionEntry.status.PLAYING, () =>

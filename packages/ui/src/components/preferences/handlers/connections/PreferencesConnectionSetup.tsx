@@ -1,46 +1,39 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ConnectionsService, UserConnectionDto } from "@repo/wrapper/server";
+import {
+  ApiError,
+  ConnectionAuthInitDto,
+  ConnectionsService,
+  FindAvailableConnectionsResponseDto,
+  UserConnectionDto,
+} from "@repo/wrapper/server";
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { getErrorMessage } from "#@/util/getErrorMessage";
 import { getCapitalizedText } from "#@/util/getCapitalizedText";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { Button, Select, Stack, Switch, TextInput } from "@mantine/core";
+import { Button, Select, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
-import { match } from "ts-pattern";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { createErrorNotification } from "#@/util";
 import { useTranslation } from "@repo/locales";
-
-function parseSteamIdentifier(
-  identifier: string,
-  existingConnection: UserConnectionDto,
-) {
-  // If the identifier is already a full URL, return as is
-  if (identifier.startsWith("http://") || identifier.startsWith("https://")) {
-    return identifier;
-  }
-
-  if (identifier === existingConnection.sourceUsername) {
-    return `https://steamcommunity.com/profiles/${existingConnection.sourceUserId}/`;
-  }
-
-  return `https://steamcommunity.com/id/${identifier}/`;
-}
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { getConnectionName } from "#@/components/connections/util/getConnectionName";
 
 const createConnectionSetupFormSchema = (
-  t: ReturnType<typeof useTranslation>["t"],
+  usernameRequiredMessage: string,
+  requiresIdentifier: boolean,
 ) =>
   z.object({
     userIdentifier: z
       .string()
-      .min(1, t("preferences.validation.usernameRequired")),
+      .trim()
+      .min(requiresIdentifier ? 1 : 0, usernameRequiredMessage),
     isAutoImportEnabled: z.boolean(),
     autoImportCollectionId: z.string().nullish(),
   });
@@ -51,11 +44,36 @@ type ConnectionSetupFormValues = z.infer<
 
 export interface Props extends BaseModalChildrenProps {
   type: UserConnectionDto.type;
+  // eslint-disable-next-line no-unused-vars
+  onRedirect?: (url: string) => void | Promise<void>;
 }
 
-const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
+const PreferencesConnectionSetup = ({
+  type,
+  onClose,
+  onRedirect = (url) => window.location.assign(url),
+}: Props) => {
   const { t } = useTranslation();
-  const schema = useMemo(() => createConnectionSetupFormSchema(t), [t]);
+  const userConnection = useOwnUserConnectionByType(type);
+  const availableConnections = useAvailableConnections();
+  const provider = availableConnections.data?.find(
+    (item) => item.type === type,
+  );
+  const isRedirect =
+    provider?.authMode ===
+    FindAvailableConnectionsResponseDto.authMode.REDIRECT;
+  const requiresIdentifier =
+    !userConnection.data &&
+    provider?.authMode ===
+      FindAvailableConnectionsResponseDto.authMode.PUBLIC_IDENTIFIER;
+  const schema = useMemo(
+    () =>
+      createConnectionSetupFormSchema(
+        t("preferences.validation.usernameRequired"),
+        requiresIdentifier,
+      ),
+    [t, requiresIdentifier],
+  );
   const userId = useUserId();
   const {
     register,
@@ -66,38 +84,38 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
   } = useForm<ConnectionSetupFormValues>({
     mode: "onBlur",
     defaultValues: {
+      userIdentifier: "",
       isAutoImportEnabled: false,
       autoImportCollectionId: undefined,
     },
     resolver: zodResolver(schema),
   });
 
-  const userConnection = useOwnUserConnectionByType(type);
   const userLibrary = useUserLibrary(userId);
-
-  const availableConnections = useAvailableConnections();
 
   const queryClient = useQueryClient();
 
-  const connectionCreateMutation = useMutation({
+  const connectionSaveMutation = useMutation({
     mutationFn: async (data: ConnectionSetupFormValues) => {
-      if (type === UserConnectionDto.type.STEAM && userConnection.data) {
-        data.userIdentifier = parseSteamIdentifier(
-          data.userIdentifier,
-          userConnection.data,
-        );
-      }
-
-      await ConnectionsService.connectionsControllerCreateOrUpdateV1({
-        type: type,
-        userIdentifier: data.userIdentifier,
+      const settings = {
         isAutoImportEnabled: data.isAutoImportEnabled,
         autoImportCollectionId: data.autoImportCollectionId,
+      };
+      if (userConnection.data) {
+        return ConnectionsService.connectionsControllerUpdateSettingsV1(
+          userConnection.data.id,
+          settings,
+        );
+      }
+      return ConnectionsService.connectionsControllerCreateOrUpdateV1({
+        type,
+        userIdentifier: data.userIdentifier,
+        ...settings,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["connections", "own"],
+        queryKey: ["connections"],
       });
       notifications.show({
         color: "green",
@@ -109,6 +127,19 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
       if (onClose) {
         onClose();
       }
+    },
+    onError: createErrorNotification,
+  });
+
+  const redirectMutation = useMutation({
+    mutationFn: async (data: ConnectionAuthInitDto) => {
+      const { authorizationUrl } =
+        await ConnectionsService.connectionsControllerInitRedirectAuthV1(type, {
+          isAutoImportEnabled: data.isAutoImportEnabled,
+          autoImportCollectionId: data.autoImportCollectionId,
+        });
+      await onRedirect(authorizationUrl);
+      onClose?.();
     },
     onError: createErrorNotification,
   });
@@ -139,40 +170,8 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
         queryKey: ["connections"],
       });
     },
+    onError: createErrorNotification,
   });
-
-  const isImporterViable = useMemo(() => {
-    if (availableConnections.data != undefined) {
-      return availableConnections.data.some((connection) => {
-        return connection.type === type && connection.isImporterViable;
-      });
-    }
-
-    return false;
-  }, [availableConnections.data, type]);
-
-  const identifierInfo = useMemo((): {
-    label: string;
-    description: string;
-  } => {
-    return match<
-      UserConnectionDto.type,
-      { label: string; description: string }
-    >(type)
-      .with(UserConnectionDto.type.STEAM, () => ({
-        label: t("preferences.labels.steamProfileUrl"),
-        description: t("preferences.descriptions.steamProfileUrlExample"),
-      }))
-      .with(UserConnectionDto.type.PSN, () => ({
-        label: t("preferences.labels.psnOnlineId"),
-        description: t("preferences.descriptions.psnOnlineId"),
-      }))
-      .with(UserConnectionDto.type.XBOX, () => ({
-        label: t("preferences.labels.gamertag"),
-        description: t("preferences.descriptions.gamertag"),
-      }))
-      .exhaustive();
-  }, [t, type]);
 
   const collectionSelectData = useMemo(() => {
     return (
@@ -196,17 +195,54 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
     }
   }, [setValue, userConnection.data]);
 
+  if (availableConnections.isLoading || userConnection.isLoading) {
+    return <CenteredLoading />;
+  }
+  if (availableConnections.error) {
+    return <CenteredErrorMessage error={availableConnections.error} />;
+  }
+  if (
+    userConnection.error &&
+    !(
+      userConnection.error instanceof ApiError &&
+      userConnection.error.status === 404
+    )
+  ) {
+    return <CenteredErrorMessage error={userConnection.error} />;
+  }
+  if (
+    !provider ||
+    (!isRedirect &&
+      provider.authMode !==
+        FindAvailableConnectionsResponseDto.authMode.PUBLIC_IDENTIFIER)
+  ) {
+    return (
+      <CenteredErrorMessage
+        message={t("preferences.messages.connectionUnsupported")}
+      />
+    );
+  }
+
+  const isPending =
+    connectionSaveMutation.isPending ||
+    redirectMutation.isPending ||
+    connectionDeleteMutation.isPending;
+
   return (
     <form
       className={"w-full h-full"}
       onSubmit={handleSubmit((data) => {
-        connectionCreateMutation.mutate(data);
+        if (isRedirect && !userConnection.data) {
+          redirectMutation.mutate(data);
+        } else {
+          connectionSaveMutation.mutate(data);
+        }
       })}
     >
       <Stack className={"w-full h-full"}>
-        {connectionCreateMutation.error && (
+        {connectionSaveMutation.error && (
           <CenteredErrorMessage
-            message={getErrorMessage(connectionCreateMutation.error)}
+            message={getErrorMessage(connectionSaveMutation.error)}
           />
         )}
         {connectionDeleteMutation.error && (
@@ -214,14 +250,37 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
             message={getErrorMessage(connectionDeleteMutation.error)}
           />
         )}
-        <TextInput
-          error={errors.userIdentifier?.message}
-          label={identifierInfo.label}
-          description={identifierInfo.description}
-          defaultValue={userConnection.data?.sourceUsername}
-          {...register("userIdentifier")}
-        />
-        {isImporterViable && (
+        {redirectMutation.error && (
+          <CenteredErrorMessage error={redirectMutation.error} />
+        )}
+        {userConnection.data && (
+          <Text>{userConnection.data.sourceUsername}</Text>
+        )}
+        {userConnection.data?.authStatus ===
+          UserConnectionDto.authStatus.REAUTH_REQUIRED && (
+          <Text c="orange">{t("preferences.messages.reauthRequired")}</Text>
+        )}
+        {isRedirect && (
+          <Text>
+            {t("preferences.descriptions.redirectConnection", {
+              type: getConnectionName(type),
+            })}
+          </Text>
+        )}
+        {type === UserConnectionDto.type.STEAM && (
+          <Text c="dimmed">
+            {t("preferences.descriptions.steamPublicGames")}
+          </Text>
+        )}
+        {requiresIdentifier && (
+          <TextInput
+            error={errors.userIdentifier?.message}
+            label={t("preferences.labels.psnOnlineId")}
+            description={t("preferences.descriptions.psnOnlineId")}
+            {...register("userIdentifier")}
+          />
+        )}
+        {provider.isImporterViable && (
           <Stack className={"w-full"}>
             <Switch
               classNames={{
@@ -254,14 +313,36 @@ const PreferencesConnectionSetup = ({ type, onClose }: Props) => {
           </Stack>
         )}
 
-        <Button type={"submit"} loading={connectionCreateMutation.isPending}>
-          {t("actions.submit")}
+        <Button
+          type={"submit"}
+          loading={
+            connectionSaveMutation.isPending ||
+            (!userConnection.data && redirectMutation.isPending)
+          }
+          disabled={isPending}
+        >
+          {isRedirect && !userConnection.data
+            ? t("preferences.actions.connect", {
+                type: getConnectionName(type),
+              })
+            : t("actions.submit")}
         </Button>
+        {isRedirect && userConnection.data && (
+          <Button
+            type="button"
+            loading={redirectMutation.isPending}
+            disabled={isPending}
+            onClick={handleSubmit((data) => redirectMutation.mutate(data))}
+          >
+            {t("preferences.actions.reconnect")}
+          </Button>
+        )}
         {userConnection.data != undefined && (
           <Button
             color={"blue"}
             type={"button"}
             loading={connectionDeleteMutation.isPending}
+            disabled={isPending}
             onClick={() => {
               connectionDeleteMutation.mutate();
             }}

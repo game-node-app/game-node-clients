@@ -59,7 +59,6 @@ const CommentsListItemActions = ({
       <ItemLikesButton
         sourceId={comment.id}
         sourceType={statisticsType}
-        targetUserId={comment.profileUserId}
       />
 
       <ItemDropdown>

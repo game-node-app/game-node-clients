@@ -46,6 +46,7 @@ const GamePage = ({ gameId }: Props) => {
 
   const [params, setParams] = useUrlState({
     tab: GameInfoTabValue.overview,
+    reviewId: undefined as string | undefined,
   });
 
   const currentTab = params.tab;
@@ -126,7 +127,10 @@ const GamePage = ({ gameId }: Props) => {
                 className: "text-md font-medium ps-2",
               }}
             />
-            <GameInfoReviewScreen gameId={gameId} />
+            <GameInfoReviewScreen
+              gameId={gameId}
+              targetReviewId={params.reviewId}
+            />
           </Stack>
         </Tabs.Panel>
         <Tabs.Panel value={GameInfoTabValue.discussion}>

@@ -61,7 +61,6 @@ const ProfileReviewListItem = ({ review }: Props) => {
           </TextLink>
           <Group className={"flex-nowrap"}>
             <ItemLikesButton
-              targetUserId={review.profileUserId}
               sourceId={review.id}
               sourceType={sourceType.REVIEW}
             />

@@ -79,7 +79,6 @@
     "react-router": "5.3.4",
     "react-router-dom": "5.3.4",
     "recharts": "^3.8.1",
-    "socket.io-client": "^4.8.1",
     "supertokens-auth-react": "^0.50.0",
     "supertokens-node": "^23.0.1",
     "supertokens-web-js": "^0.16.0",

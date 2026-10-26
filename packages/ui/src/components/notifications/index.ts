@@ -5,5 +5,3 @@
 export * from "./AggregatedNotification";
 export * from "./NotificationSkeleton";
 export * from "./hooks/index";
-export * from "./item/index";
-export * from "./utils/index";

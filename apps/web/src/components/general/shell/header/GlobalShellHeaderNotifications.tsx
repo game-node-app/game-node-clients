@@ -13,8 +13,9 @@ import {
 import { IconBell, IconBellFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
-import { Notification, NotificationsService } from "@repo/wrapper/server";
+import { NotificationInboxItemDto } from "@repo/wrapper/server";
 import {
+  acknowledgeNotificationsRead,
   AggregatedNotification,
   CenteredLoading,
   useInfiniteAggregatedNotifications,
@@ -27,30 +28,11 @@ const GlobalShellHeaderNotifications = () => {
   const [isPopoverOpened, popoverUtils] = useDisclosure();
   const onMobile = useOnMobile();
 
-  const { data, isLoading, isError, invalidate, isFetching, fetchNextPage } =
+  const { data, isLoading, invalidate, isFetching, fetchNextPage } =
     useInfiniteAggregatedNotifications();
 
   const notificationViewMutation = useMutation({
-    mutationFn: async (notifications: Notification[]) => {
-      if (notifications == undefined || notifications.length === 0)
-        return false;
-
-      const hasUnreadNotifications = notifications.some(
-        (notification) => !notification.isViewed,
-      );
-      if (!hasUnreadNotifications) {
-        return false;
-      }
-
-      const ids = notifications.map((notification) => notification.id);
-
-      await NotificationsService.notificationsControllerUpdateViewedStatusV1({
-        isViewed: true,
-        notificationIds: ids,
-      });
-
-      return true;
-    },
+    mutationFn: acknowledgeNotificationsRead,
     onSuccess: (shouldInvalidate) => {
       if (shouldInvalidate) {
         invalidate();
@@ -58,30 +40,20 @@ const GlobalShellHeaderNotifications = () => {
     },
   });
 
-  const aggregations = useMemo(() => {
-    return data?.pages.flatMap((response) =>
-      response.data.map((aggregation) => aggregation),
-    );
+  const items = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) ?? [];
   }, [data?.pages]);
 
-  const lastElement = data?.pages[data?.pages.length - 1];
-  const hasNextPage =
-    lastElement != undefined && lastElement.pagination.hasNextPage;
+  const lastPage = data?.pages[data?.pages.length - 1];
+  const hasNextPage = lastPage?.pagination.hasMore;
 
-  const isEmpty =
-    !isLoading && (aggregations == undefined || aggregations.length === 0);
+  const isEmpty = !isLoading && items.length === 0;
 
   const hasUnreadNotifications = useMemo((): boolean => {
-    if (aggregations == undefined || aggregations.length === 0) return false;
-
-    for (const aggregation of aggregations) {
-      const unread = aggregation.notifications.some(
-        (notification) => !notification.isViewed,
-      );
-      if (unread) return true;
-    }
-    return false;
-  }, [aggregations]);
+    const unreadCount = data?.pages[0]?.unreadCount ?? 0;
+    if (unreadCount > 0) return true;
+    return items.some((item) => item.readVersion < item.version);
+  }, [data?.pages, items]);
 
   return (
     <Popover
@@ -120,17 +92,10 @@ const GlobalShellHeaderNotifications = () => {
               <ActionIcon
                 variant={"transparent"}
                 onClick={() => {
-                  const unreadNotifications = aggregations
-                    ?.filter((aggregation) => {
-                      return aggregation.notifications.filter(
-                        (notification) => !notification.isViewed,
-                      );
-                    })
-                    .flatMap((aggregate) => aggregate.notifications);
-                  if (unreadNotifications && unreadNotifications.length > 0) {
-                    console.log(
-                      `Marking ${unreadNotifications.length} notifications as read`,
-                    );
+                  const unreadNotifications = items.filter(
+                    (item) => item.readVersion < item.version,
+                  );
+                  if (unreadNotifications.length > 0) {
                     notificationViewMutation.mutate(unreadNotifications);
                   }
                 }}
@@ -154,19 +119,11 @@ const GlobalShellHeaderNotifications = () => {
                 </svg>
               </ActionIcon>
             </Group>
-            {aggregations?.map((aggregatedNotification, index) => {
-              if (aggregatedNotification.notifications.length === 0) {
-                return null;
-              }
-
-              const key = aggregatedNotification.notifications
-                .map((notif) => notif.id)
-                .join(",");
-
+            {items.map((item, index) => {
               return (
                 <AggregatedNotification
-                  key={key}
-                  aggregatedNotification={aggregatedNotification}
+                  key={`${item.id}-${item.version}`}
+                  aggregatedNotification={item}
                   backgroundColor={
                     index === 0 || index % 2 === 0 ? "normal" : "darker"
                   }
@@ -175,9 +132,7 @@ const GlobalShellHeaderNotifications = () => {
                     if (notificationViewMutation.isPending || isFetching) {
                       return;
                     }
-                    notificationViewMutation.mutate(
-                      aggregatedNotification.notifications,
-                    );
+                    notificationViewMutation.mutate([item]);
                   }}
                 />
               );

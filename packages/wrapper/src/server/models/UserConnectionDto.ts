@@ -16,12 +16,17 @@ export type UserConnectionDto = {
     isAutoImportEnabled: boolean;
     autoImportCollection: Collection | null;
     autoImportCollectionId: string | null;
+    authStatus: UserConnectionDto.authStatus;
 };
 export namespace UserConnectionDto {
     export enum type {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+    }
+    export enum authStatus {
+        CONNECTED = 'connected',
+        REAUTH_REQUIRED = 'reauth_required',
     }
 }
 

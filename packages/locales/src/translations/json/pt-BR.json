@@ -865,7 +865,9 @@
       "gamertag": "É o nome que aparece no seu console ou nos apps do Xbox.",
       "psnOnlineId": "Normalmente é o seu nome de usuário.",
       "steamProfileUrlExample": "ex.: https://steamcommunity.com/id/seu-usuario/",
-      "targetCollection": "Os jogos serão adicionados diretamente à sua biblioteca se não especificado."
+      "targetCollection": "Os jogos serão adicionados diretamente à sua biblioteca se não especificado.",
+      "redirectConnection": "Entre em {{type}} para verificar e conectar sua conta de jogos.",
+      "steamPublicGames": "Entrar no Steam verifica que a conta é sua. Seus detalhes de jogos do Steam ainda precisam ser públicos para sincronizar jogos, tempo de jogo e conquistas."
     },
     "labels": {
       "autoImport": "Ativar importação automática",
@@ -892,7 +894,12 @@
       "noPlatforms": "Nenhuma plataforma preferida adicionada.",
       "restartLogout": "Após usar este serviço, você será desconectado e poderá fazer login novamente com uma conta totalmente nova.",
       "restartNote1": "Isso não removerá seu e-mail e a associação de ID de usuário de nossos bancos de dados. Nem removerá dados analíticos coletados.",
-      "restartNote2": "Se você deseja remover completamente esses dados, entre em contato conosco pelo Discord ou e-mail (support@gamenode.app)."
+      "restartNote2": "Se você deseja remover completamente esses dados, entre em contato conosco pelo Discord ou e-mail (support@gamenode.app).",
+      "connectionUnsupported": "Esta conexão ainda não permite configurar uma conta.",
+      "reauthRequired": "Esta conexão precisa da sua permissão novamente. Reconecte para retomar a sincronização automática.",
+      "connectionAuthCancelled": "A entrada foi cancelada ou negada. Volte para conexões para tentar novamente.",
+      "connectionAuthInvalid": "O retorno da autenticação está incompleto ou é inválido. Volte para conexões e comece novamente.",
+      "connectionAuthCompleting": "Conectando sua conta de jogos…"
     },
     "placeholders": {
       "none": "Nenhum"
@@ -923,15 +930,21 @@
     },
     "statuses": {
       "connected": "Conectado",
-      "notConnected": "Não conectado"
+      "notConnected": "Não conectado",
+      "reauthRequired": "É necessário reconectar"
     },
     "titles": {
       "editPreferredPlatforms": "Edite suas plataformas preferidas",
       "restartAccount": "Reiniciar Conta",
-      "sync": "Sincronizar"
+      "connectionSetup": "Configurar conexão"
     },
     "validation": {
       "usernameRequired": "Um nome de usuário deve ser informado."
+    },
+    "actions": {
+      "connect": "Conectar com {{type}}",
+      "reconnect": "Reconectar",
+      "backToConnections": "Voltar para conexões"
     }
   },
   "profile": {

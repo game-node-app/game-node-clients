@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Notification, NotificationsService } from "@repo/wrapper/server";
-import { IonPage, IonRefresher, IonRefresherContent } from "@ionic/react";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { Button, Center, Stack, Text } from "@mantine/core";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import {
+  acknowledgeNotificationsRead,
   AggregatedNotification,
   CenteredLoading,
   useInfiniteAggregatedNotifications,
@@ -20,26 +20,7 @@ const NotificationsPage = () => {
   const queryClient = useQueryClient();
 
   const notificationViewMutation = useMutation({
-    mutationFn: async (notifications: Notification[]) => {
-      if (notifications == undefined || notifications.length === 0)
-        return false;
-
-      const hasUnreadNotifications = notifications.some(
-        (notification) => !notification.isViewed,
-      );
-      if (!hasUnreadNotifications) {
-        return false;
-      }
-
-      const ids = notifications.map((notification) => notification.id);
-
-      await NotificationsService.notificationsControllerUpdateViewedStatusV1({
-        isViewed: true,
-        notificationIds: ids,
-      });
-
-      return true;
-    },
+    mutationFn: acknowledgeNotificationsRead,
     onSuccess: (shouldInvalidate) => {
       if (shouldInvalidate) {
         invalidate();
@@ -47,47 +28,14 @@ const NotificationsPage = () => {
     },
   });
 
-  const aggregations = useMemo(() => {
-    return data?.pages.flatMap((response) =>
-      response.data.map((aggregation) => aggregation),
-    );
+  const items = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) ?? [];
   }, [data?.pages]);
 
-  const lastElement = data?.pages[data?.pages.length - 1];
-  const hasNextPage =
-    lastElement != undefined && lastElement.pagination.hasNextPage;
+  const lastPage = data?.pages[data?.pages.length - 1];
+  const hasNextPage = lastPage?.pagination.hasMore;
 
-  const isEmpty =
-    !isLoading && (aggregations == undefined || aggregations.length === 0);
-
-  const hasUnreadNotifications = useMemo((): boolean => {
-    if (aggregations == undefined || aggregations.length === 0) return false;
-
-    for (const aggregation of aggregations) {
-      const unread = aggregation.notifications.some(
-        (notification) => !notification.isViewed,
-      );
-      if (unread) return true;
-    }
-    return false;
-  }, [aggregations]);
-
-  const markAllAsRead = () => {
-    const unreadNotifications = aggregations
-      ?.filter((aggregation) => {
-        return aggregation.notifications.some(
-          (notification) => !notification.isViewed,
-        );
-      })
-      .flatMap((aggregate) => aggregate.notifications);
-
-    if (unreadNotifications && unreadNotifications.length > 0) {
-      console.log(
-        `Marking ${unreadNotifications.length} notifications as read`,
-      );
-      notificationViewMutation.mutate(unreadNotifications);
-    }
-  };
+  const isEmpty = !isLoading && items.length === 0;
 
   return (
     <AppPage
@@ -115,19 +63,11 @@ const NotificationsPage = () => {
       <SessionAuth>
         <Stack className={"min-h-screen p-0 mb-4"}>
           <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
-            {aggregations?.map((aggregatedNotification, index) => {
-              if (aggregatedNotification.notifications.length === 0) {
-                return null;
-              }
-
-              const key = aggregatedNotification.notifications
-                .map((notif) => notif.id)
-                .join(",");
-
+            {items.map((item, index) => {
               return (
                 <AggregatedNotification
-                  key={key}
-                  aggregatedNotification={aggregatedNotification}
+                  key={`${item.id}-${item.version}`}
+                  aggregatedNotification={item}
                   backgroundColor={
                     index === 0 || index % 2 === 0 ? "normal" : "darker"
                   }
@@ -135,9 +75,7 @@ const NotificationsPage = () => {
                     if (notificationViewMutation.isPending || isFetching) {
                       return;
                     }
-                    notificationViewMutation.mutate(
-                      aggregatedNotification.notifications,
-                    );
+                    notificationViewMutation.mutate([item]);
                   }}
                 />
               );

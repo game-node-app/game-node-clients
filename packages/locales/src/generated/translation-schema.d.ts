@@ -870,6 +870,8 @@ export type TranslationSchema = {
       psnOnlineId: string;
       steamProfileUrlExample: string;
       targetCollection: string;
+      redirectConnection: string;
+      steamPublicGames: string;
     };
     labels: {
       autoImport: string;
@@ -897,6 +899,11 @@ export type TranslationSchema = {
       restartLogout: string;
       restartNote1: string;
       restartNote2: string;
+      connectionUnsupported: string;
+      reauthRequired: string;
+      connectionAuthCancelled: string;
+      connectionAuthInvalid: string;
+      connectionAuthCompleting: string;
     };
     placeholders: {
       none: string;
@@ -928,14 +935,20 @@ export type TranslationSchema = {
     statuses: {
       connected: string;
       notConnected: string;
+      reauthRequired: string;
     };
     titles: {
       editPreferredPlatforms: string;
       restartAccount: string;
-      sync: string;
+      connectionSetup: string;
     };
     validation: {
       usernameRequired: string;
+    };
+    actions: {
+      connect: string;
+      reconnect: string;
+      backToConnections: string;
     };
   };
   profile: {

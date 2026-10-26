@@ -16,7 +16,7 @@ import { createErrorNotification, syncEntityToZodForm } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
 const createCollectionFormSchema = (
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ) =>
   z
     .object({

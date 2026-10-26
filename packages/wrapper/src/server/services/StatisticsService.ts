@@ -6,6 +6,8 @@ import type { FindOneStatisticsDto } from '../models/FindOneStatisticsDto';
 import type { FindStatisticsTrendingGamesDto } from '../models/FindStatisticsTrendingGamesDto';
 import type { FindStatisticsTrendingReviewsDto } from '../models/FindStatisticsTrendingReviewsDto';
 import type { GameStatisticsPaginatedResponseDto } from '../models/GameStatisticsPaginatedResponseDto';
+import type { ReactionRequestDto } from '../models/ReactionRequestDto';
+import type { ReactionResponseDto } from '../models/ReactionResponseDto';
 import type { ReviewStatisticsPaginatedResponseDto } from '../models/ReviewStatisticsPaginatedResponseDto';
 import type { StatisticsStatus } from '../models/StatisticsStatus';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -74,6 +76,36 @@ export class StatisticsService {
                 'statisticsId': statisticsId,
                 'sourceType': sourceType,
             },
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns ReactionResponseDto Applies a like reaction and returns current state and count.
+     * @throws ApiError
+     */
+    public static statisticsControllerAddLikeV1(
+        requestBody: ReactionRequestDto,
+    ): CancelablePromise<ReactionResponseDto> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/v1/statistics/like',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns ReactionResponseDto Removes a like reaction and returns current state and count.
+     * @throws ApiError
+     */
+    public static statisticsControllerRemoveLikeV1(
+        requestBody: ReactionRequestDto,
+    ): CancelablePromise<ReactionResponseDto> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/v1/statistics/like',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

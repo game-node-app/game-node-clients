@@ -10,17 +10,11 @@ import { IconThumbUp, IconThumbUpFilled } from "@tabler/icons-react";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 
-const ItemLikesButton = ({
-  targetUserId,
-  sourceType,
-  sourceId,
-  ...others
-}: Props) => {
+const ItemLikesButton = ({ sourceType, sourceId, ...others }: Props) => {
   const userId = useUserId();
   const [likesCount, isLiked, toggleUserLike] = useUserLike({
     sourceId: sourceId,
     sourceType: sourceType,
-    targetUserId: targetUserId,
   });
 
   return (

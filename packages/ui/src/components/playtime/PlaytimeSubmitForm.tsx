@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   Button,
   ComboboxItem,
@@ -29,7 +29,7 @@ import dayjs from "dayjs";
 import { useTranslation } from "@repo/locales";
 
 const createPlaytimeSourceOptions = (
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ): ComboboxItem[] => [
   {
     label: t("playtime.platforms.steam"),
@@ -71,11 +71,10 @@ const createPlaytimeSourceOptions = (
 ];
 
 const createPlaytimeSubmitFormSchema = (
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ) =>
   z.object({
     totalPlaytimeHours: z
-      // @ts-expect-error typescript quirk
       .number({ message: t("playtime.validation.numberRequired") })
       .min(0.1, t("playtime.validation.playtimeRequired")),
     lastPlayedDate: z.date().optional(),

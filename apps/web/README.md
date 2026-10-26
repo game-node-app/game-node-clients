@@ -21,3 +21,11 @@ If you are developing **exclusively** for the web client, you don't need to host
 
 If you need to make changes to any of the backend systems, please refer to their respective repositories for instructions on how to set them up.   
 Feel free to reach out to us through Discord to get help setting everything up! Alternatively, open an issue and we will try our best to help.  
+
+### Gaming service connections
+
+Steam and Xbox sign-in return to `/connections/callback/steam` and `/connections/callback/xbox`. Configure the server's `DOMAIN_WEBSITE` for the web origin and `XBOX_OAUTH_REDIRECT_URI` for its Xbox callback URL; register that same URL with Microsoft. These connect gaming accounts to an existing GameNode session.
+
+The setup form and callback screen live in `@repo/ui` and are also used by mobile. Native Android opens provider sign-in in the system browser and handles the callback through its existing GameNode app links. Steam game details must be public for synchronization.
+
+Run the shared connection flow tests with `yarn workspace mobile test.unit --run --threads false`.

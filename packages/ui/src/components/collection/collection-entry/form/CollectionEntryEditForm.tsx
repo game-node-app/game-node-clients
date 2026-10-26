@@ -35,7 +35,7 @@ import { CollectionEntryFormDlcsPanel } from "./CollectionEntryFormDlcsPanel";
 import { CollectionEntryFormReviewPanel } from "./CollectionEntryFormReviewPanel";
 
 const createGameAddOrUpdateSchema = (
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ) =>
   z.object({
     collectionIds: z.array(

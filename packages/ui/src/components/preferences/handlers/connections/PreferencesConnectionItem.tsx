@@ -1,9 +1,8 @@
-import React from "react";
 import { UserConnectionDto } from "../../../../../../wrapper/src/server";
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  ActionIcon,
+  Button,
   Group,
   Image,
   Paper,
@@ -14,9 +13,6 @@ import {
 } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { PreferencesConnectionModal } from "#@/components/preferences/handlers/connections/PreferencesConnectionModal";
-import { IconRefresh } from "@tabler/icons-react";
-import { Modal } from "#@/util";
-import { ConnectionSyncView } from "#@/components/connections/sync/ConnectionSyncView.tsx";
 import { useTranslation } from "@repo/locales";
 import type = UserConnectionDto.type;
 
@@ -28,7 +24,9 @@ const PreferencesConnectionItem = ({ type }: Props) => {
   const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const [modalOpened, modalUtils] = useDisclosure();
-  const [syncModalOpened, syncModalUtils] = useDisclosure();
+  const requiresReauth =
+    userConnection.data?.authStatus ===
+    UserConnectionDto.authStatus.REAUTH_REQUIRED;
 
   return (
     <Paper
@@ -39,14 +37,6 @@ const PreferencesConnectionItem = ({ type }: Props) => {
         },
       }}
     >
-      <Modal
-        title={t("preferences.titles.sync")}
-        opened={syncModalOpened}
-        onClose={syncModalUtils.close}
-        keepMounted={false}
-      >
-        <ConnectionSyncView type={type} />
-      </Modal>
       <Group className={"w-full h-full min-h-28 p-2 px-4"}>
         <PreferencesConnectionModal
           type={type}
@@ -63,7 +53,11 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           {userConnection.data ? (
             <>
               <Title size={"h5"}>{userConnection.data.sourceUsername}</Title>
-              <Text c={"dimmed"}>{t("preferences.statuses.connected")}</Text>
+              <Text c={requiresReauth ? "orange" : "dimmed"}>
+                {requiresReauth
+                  ? t("preferences.statuses.reauthRequired")
+                  : t("preferences.statuses.connected")}
+              </Text>
             </>
           ) : (
             <>
@@ -72,12 +66,13 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           )}
         </Stack>
         <Group className={"ms-auto me-4"}>
-          {userConnection.data != undefined && (
-            <ActionIcon variant={"transparent"} onClick={syncModalUtils.open}>
-              <IconRefresh />
-            </ActionIcon>
+          {requiresReauth && (
+            <Button onClick={modalUtils.open}>
+              {t("preferences.actions.reconnect")}
+            </Button>
           )}
           <Switch
+            aria-label={t("preferences.titles.connectionSetup")}
             checked={userConnection.data != undefined}
             onChange={() => {
               modalUtils.open();

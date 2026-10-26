@@ -19,12 +19,18 @@ export type FindAvailableConnectionsResponseDto = {
     isPlaytimeImportViable: boolean;
     isAchievementImportViable: boolean;
     iconName: string;
+    authMode: FindAvailableConnectionsResponseDto.authMode;
 };
 export namespace FindAvailableConnectionsResponseDto {
     export enum type {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+    }
+    export enum authMode {
+        REDIRECT = 'redirect',
+        PUBLIC_IDENTIFIER = 'public_identifier',
+        DELEGATED_CODE = 'delegated_code',
     }
 }
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
-import { useWindowScroll } from "@mantine/hooks";
+import { Browser } from "@capacitor/browser";
 
 const getEquivalentDeepLink = (slug: string) => {
   if (slug.startsWith("/search")) {
@@ -17,17 +17,21 @@ const AppUrlListener = () => {
   const history = useHistory();
 
   useEffect(() => {
-    App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
-      // Example url: https://gamenode.app/profile/xxxxxxx/reviews
-      // slug = /profile/xxxxxxx/reviews
-
-      const slug = event.url.split(".app").pop();
-      if (slug) {
+    const listener = App.addListener(
+      "appUrlOpen",
+      (event: URLOpenListenerEvent) => {
+        const url = new URL(event.url);
+        const slug = `${url.pathname}${url.search}${url.hash}`;
+        if (url.pathname.startsWith("/connections/callback/")) {
+          void Browser.close().catch(console.error);
+        }
         history.push(getEquivalentDeepLink(slug));
-      }
-      // If no match, do nothing - let regular routing
-      // logic take over
-    });
+      },
+    );
+
+    return () => {
+      void listener.then((handle) => handle.remove());
+    };
   }, [history]);
 
   return null;

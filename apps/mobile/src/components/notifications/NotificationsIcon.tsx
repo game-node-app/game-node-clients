@@ -6,23 +6,16 @@ import { useInfiniteAggregatedNotifications } from "@repo/ui";
 const NotificationsIcon = () => {
   const { data } = useInfiniteAggregatedNotifications();
 
-  const aggregations = useMemo(() => {
-    return data?.pages.flatMap((response) =>
-      response.data.map((aggregation) => aggregation),
+  const hasUnreadNotifications = useMemo((): boolean => {
+    const unreadCount = data?.pages[0]?.unreadCount ?? 0;
+    if (unreadCount > 0) return true;
+
+    return (
+      data?.pages.some((page) =>
+        page.data.some((item) => item.readVersion < item.version),
+      ) ?? false
     );
   }, [data?.pages]);
-
-  const hasUnreadNotifications = useMemo((): boolean => {
-    if (aggregations == undefined || aggregations.length === 0) return false;
-
-    for (const aggregation of aggregations) {
-      const unread = aggregation.notifications.some(
-        (notification) => !notification.isViewed,
-      );
-      if (unread) return true;
-    }
-    return false;
-  }, [aggregations]);
 
   return (
     <Indicator

@@ -19,7 +19,7 @@ import { useCollectionEntriesForCollectionId } from "#@/components";
 import { useTranslation } from "@repo/locales";
 
 const createCollectionEntriesMoveFormSchema = (
-  t: ReturnType<typeof useTranslation>["t"],
+  t: ReturnType<typeof useTranslation<"common">>["t"],
 ) =>
   z.object({
     gameIds: z
