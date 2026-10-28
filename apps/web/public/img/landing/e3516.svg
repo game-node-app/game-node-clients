@@ -1,0 +1,48 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1100" height="380" viewBox="0 0 1100 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Animated Beam / Curvas">
+<path id="Vector" d="M150 60C283.333 146.667 416.667 190 550 190" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_2" d="M150 60C283.333 146.667 416.667 190 550 190" stroke-width="2" stroke="url(#paint0_radial_0_24)"/>
+<path id="Vector_3" d="M150 190H550" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_4" d="M150 190H550" stroke-width="2" stroke="url(#paint1_radial_0_24)"/>
+<path id="Vector_5" d="M150 320C283.333 233.333 416.667 190 550 190" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_6" d="M150 320C283.333 233.333 416.667 190 550 190" stroke-width="2" stroke="url(#paint2_radial_0_24)"/>
+<path id="Vector_7" d="M950 60C816.667 146.667 683.333 190 550 190" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_8" d="M950 60C816.667 146.667 683.333 190 550 190" stroke-width="2" stroke="url(#paint3_radial_0_24)"/>
+<path id="Vector_9" d="M950 190H550" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_10" d="M950 190H550" stroke-width="2" stroke="url(#paint4_radial_0_24)"/>
+<path id="Vector_11" d="M950 320C816.667 233.333 683.333 190 550 190" stroke-width="1.5" stroke="#292929"/>
+<path id="Vector_12" d="M950 320C816.667 233.333 683.333 190 550 190" stroke-width="2" stroke="url(#paint5_radial_0_24)"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(350 125) scale(200 65)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint1_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(350 190.5) scale(200 0.5)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint2_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(350 255) scale(200 65)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint3_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(750 125) scale(200 65)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint4_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(750 190.5) scale(200 0.5)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint5_radial_0_24" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(750 255) scale(200 65)">
+<stop stop-color="#F15025" stop-opacity="0.9"/>
+<stop offset="0.55" stop-color="#F15025" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#F15025" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

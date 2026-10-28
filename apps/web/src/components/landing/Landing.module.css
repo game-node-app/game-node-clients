@@ -1,0 +1,291 @@
+.page {
+  background: #0b0b0b;
+  color: #fafafa;
+}
+.page a:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: #161616;
+}
+.headline {
+  max-width: 680px;
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.mockups {
+  position: relative;
+  width: min(100%, 958px);
+  aspect-ratio: 958 / 580;
+  margin: 40px auto 0;
+}
+.desktop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 90.92%;
+  height: 100%;
+  overflow: hidden;
+}
+.desktop img {
+  position: absolute;
+  width: 159.34%;
+  max-width: none;
+  height: 134.55%;
+  left: -30.71%;
+  top: -13.21%;
+}
+.mobile {
+  position: absolute;
+  left: 73.07%;
+  top: 29.14%;
+  width: 26.93%;
+  height: 70.86%;
+  overflow: hidden;
+}
+.mobile img {
+  position: absolute;
+  width: 413.41%;
+  max-width: none;
+  height: 146%;
+  left: -158.06%;
+  top: -9.98%;
+}
+.section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  scroll-margin-top: 24px;
+}
+.section h2,
+.connections h2 {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.eyebrow {
+  color: var(--mantine-color-brand-6);
+  font-size: 13px;
+  font-weight: 700;
+}
+.card {
+  background: #090909;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  padding: 24px 28px;
+  min-height: 370px;
+  text-align: center;
+}
+.card h3 {
+  font-size: 23px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 12px 0;
+}
+.card > p,
+.wideCard > div > p {
+  color: #a6a6a6;
+  line-height: 1.4;
+}
+.visual {
+  height: 184px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.visual img {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.wideCard {
+  min-height: 320px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+}
+.wideCard img {
+  max-width: 100%;
+}
+.connections {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.diagram {
+  position: relative;
+  width: min(100%, 1100px);
+  aspect-ratio: 1100 / 400;
+  margin: 40px auto 0;
+}
+.curves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+}
+.hub {
+  position: absolute;
+  left: 44.55%;
+  top: 32.5%;
+  width: 10.91%;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--mantine-color-brand-6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #171717;
+  box-shadow: 0 0 36px 2px #f1502533;
+}
+.hub img {
+  width: 70.83%;
+  height: auto;
+}
+.platform {
+  position: absolute;
+  width: 7.27%;
+}
+.platformIcon {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid #3b3b3b;
+  background: #161616;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.platformIcon img {
+  width: 42.5%;
+  height: auto;
+}
+.platform p {
+  position: relative;
+  left: -50%;
+  width: 200%;
+  color: #a6a6a6;
+}
+.offer {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  background: #1b1b1b;
+  border: 1.5px solid #f15025bf;
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 590px;
+}
+.price {
+  background: linear-gradient(#2b1712, #1b1b1b);
+  padding: 44px 42px;
+}
+.benefits {
+  list-style: none;
+  padding: 0;
+}
+.footer {
+  padding: 24px 32px;
+}
+.footerPanel {
+  border-radius: 24px;
+  margin-top: -5px;
+  padding: 94px min(9vw, 128px) 50px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 104px,
+      #ffffff17 104px 105px
+    ),
+    linear-gradient(90deg, #f15025, #d42912 56%, #5c0b06);
+}
+.footerPanel a {
+  color: white;
+  font-size: 15px;
+}
+@media (max-width: 62em) {
+  .headline {
+    font-size: 38px;
+  }
+  .offer {
+    grid-template-columns: 1fr;
+  }
+  .wideCard {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: auto;
+  }
+  .section,
+  .connections {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .section h2,
+  .connections h2 {
+    font-size: 30px;
+  }
+}
+@media (max-width: 36em) {
+  .headline {
+    font-size: 34px;
+  }
+  .footer {
+    padding: 24px 16px;
+  }
+  .footerPanel {
+    padding: 36px 24px;
+  }
+  .diagram {
+    aspect-ratio: 1.6;
+  }
+  .curves {
+    top: 20%;
+  }
+  .platform {
+    width: 14%;
+    transform: translateX(-25%);
+  }
+  .hub {
+    width: 20%;
+    left: 40%;
+    top: 40%;
+  }
+  .platform p {
+    font-size: 11px;
+  }
+  .visual img {
+    min-width: 0;
+  }
+}
+.heroBackground {
+  position: absolute;
+  width: max(1440px, 100%);
+  max-width: none;
+  height: 100%;
+  min-height: 1080px;
+  object-fit: cover;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  pointer-events: none;
+}
+.hero > header,
+.hero > div {
+  position: relative;
+}
+.wordmark {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 40px;
+}
+
+@media (min-width: 36em) {
+  .benefits {
+    grid-auto-flow: column;
+    grid-template-rows: repeat(4, auto);
+  }
+}

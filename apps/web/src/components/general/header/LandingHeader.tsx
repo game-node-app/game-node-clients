@@ -1,70 +1,89 @@
-import { Box, Button } from "@mantine/core";
+import { Anchor, Button, Container, Group, Menu } from "@mantine/core";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { cn, useUserId } from "@repo/ui";
-import { useWindowScroll } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 
-/**
- * A "landing page" style header component.
- * @constructor
- */
 const LandingHeader = () => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const userId = useUserId();
-  const [scrollPositions] = useWindowScroll();
-
+  const links = [
+    { href: "/about", label: t("landing.presentation.about") },
+    { href: "/#premium", label: t("landing.presentation.premium") },
+    {
+      href: "https://play.google.com/store/apps/details?id=app.gamenode",
+      label: t("landing.presentation.downloads"),
+    },
+    { href: "/blog", label: t("landing.presentation.blog") },
+  ];
   return (
-    <div>
-      <header
-        className={cn(
-          `w-full h-[80px] flex items-center justify-between fixed px-4 lg:px-20 z-50`,
-          {
-            "backdrop-blur": scrollPositions.y > 10,
-            "bg-transparent": scrollPositions.y <= 10,
-          },
-        )}
-      >
-        <Box className="flex flex-row gap-16 items-center">
-          <Link href={"/"}>
+    <Container component="header" size={1302} py={32}>
+      <Group justify="space-between" wrap="nowrap">
+        <Group gap={48} wrap="nowrap">
+          <Link href="/" aria-label="GameNode">
             <img
-              src="/img/main-logo.png"
-              alt="Game Node Logo"
-              className="max-h-full pointer-events-none"
+              src="/img/landing/41a07.svg"
+              width={85}
+              height={36}
+              alt="GameNode"
             />
           </Link>
-
-          <Link href="/about" className="hidden lg:block">
-            <span>{t("landing.header.aboutUs")}</span>
-          </Link>
-          <a href="https://status.gamenode.app" className="hidden lg:block">
-            <span>{t("landing.header.serviceStatus")}</span>
-          </a>
-          <a
-            href="https://github.com/game-node-app"
-            className="hidden lg:block"
+          <Group
+            component="nav"
+            visibleFrom="md"
+            gap={40}
+            aria-label={t("landing.presentation.menu")}
           >
-            <span>{t("landing.header.collaborate")}</span>
-          </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=app.gamenode"
-            className="hidden lg:block hover:text-green-400"
+            {links.map(({ href, label }) => (
+              <Anchor
+                component={Link}
+                c="white"
+                size="sm"
+                href={href}
+                key={href}
+              >
+                {label}
+              </Anchor>
+            ))}
+          </Group>
+        </Group>
+        <Group gap="sm" wrap="nowrap">
+          <Button
+            component={Link}
+            href="/home"
+            variant="outline"
+            color="gray"
+            size="xs"
+            visibleFrom="sm"
           >
-            <span>{t("landing.header.androidApp")}</span>
-          </a>
-        </Box>
-
-        {userId == undefined && (
-          <Link href={"/home"}>
-            <Button variant="filled" className="w-[100px] h-[40px] rounded-3xl">
-              {t("landing.header.joinIn")}
-            </Button>
-          </Link>
-        )}
-      </header>
-    </div>
+            {t("landing.presentation.signup")}
+          </Button>
+          <Button
+            component={Link}
+            href="/home"
+            variant="outline"
+            color="gray"
+            size="xs"
+          >
+            {t("landing.presentation.login")}
+          </Button>
+          <Menu>
+            <Menu.Target>
+              <Button hiddenFrom="md" variant="subtle" color="gray" size="xs">
+                {t("landing.presentation.menu")}
+              </Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              {links.map(({ href, label }) => (
+                <Menu.Item component={Link} href={href} key={href}>
+                  {label}
+                </Menu.Item>
+              ))}
+              <Menu.Item component={Link} href="/home">
+                {t("landing.presentation.signup")}
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Group>
+      </Group>
+    </Container>
   );
 };
-
 export { LandingHeader };

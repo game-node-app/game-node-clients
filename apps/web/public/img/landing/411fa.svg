@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="248" height="120" viewBox="0 0 248 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Gr&#195;&#161;fico de sess&#195;&#181;es" clip-path="url(#clip0_0_76)">
+<g id="Vector">
+<path d="M0 30H248ZM0 70H248ZM0 110H248Z" fill="black"/>
+<path d="M0 30H248M0 70H248M0 110H248" stroke="#202020"/>
+</g>
+<path id="Vector_2" d="M0 106L17 98L28 102L42 65L54 73L65 59L78 82L90 69L102 77L118 41L129 49L145 32L157 53L171 44L188 58L204 20L218 29L235 8L248 15" stroke-width="2" stroke="#F15025"/>
+<path id="Vector_3" opacity="0.07" d="M0 106L17 98L28 102L42 65L54 73L65 59L78 82L90 69L102 77L118 41L129 49L145 32L157 53L171 44L188 58L204 20L218 29L235 8L248 15V120H0V106Z" fill="#F15025"/>
+</g>
+<defs>
+<clipPath id="clip0_0_76">
+<rect width="248" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>
