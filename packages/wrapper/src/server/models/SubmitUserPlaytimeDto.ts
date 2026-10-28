@@ -3,14 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 export type SubmitUserPlaytimeDto = {
-    lastPlayedDate: string | null;
-    source: SubmitUserPlaytimeDto.source;
+    lastPlayedDate?: string | null;
     gameId: number;
+    platformId: number;
     /**
      * Total playtime for this game, in seconds.
      */
     totalPlaytimeSeconds: number;
-    platformId: number;
+    source: SubmitUserPlaytimeDto.source;
 };
 export namespace SubmitUserPlaytimeDto {
     export enum source {

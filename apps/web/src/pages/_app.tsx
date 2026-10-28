@@ -1,6 +1,6 @@
 import { MantineProvider, mergeMantineTheme } from "@mantine/core";
 
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
 import React, { useState } from "react";
@@ -53,11 +53,16 @@ import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
-import { DehydrationResult } from "@/util/types/hydration";
+import type { DehydrationResult } from "@/util/types/hydration";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { ErrorBoundary } from "react-error-boundary";
 import { useCallback } from "react";
 import { useEffect } from "react";
+
+// TypeScript's DOM library does not declare the Cookie Store API yet.
+declare const cookieStore: {
+  set(options: { name: string; value: string }): Promise<void>;
+};
 
 function getLocaleFromPath(
   asPath: string,

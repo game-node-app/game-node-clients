@@ -4,9 +4,12 @@
 /* eslint-disable */
 import type { Activity } from './Activity';
 import type { Profile } from './Profile';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type ActivityComment = {
     activity: Activity;
     activityId: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     parentOf: Array<ActivityComment> | null;
     childOf: Array<ActivityComment> | null;
     childOfId: string | null;

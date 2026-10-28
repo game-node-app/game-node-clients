@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Collection } from './Collection';
 export type UserConnectionDto = {
+    authStatus: UserConnectionDto.authStatus;
     isImporterViable: boolean;
     isImporterWatchViable: boolean;
     isPlaytimeImportViable: boolean;
@@ -16,17 +17,16 @@ export type UserConnectionDto = {
     isAutoImportEnabled: boolean;
     autoImportCollection: Collection | null;
     autoImportCollectionId: string | null;
-    authStatus: UserConnectionDto.authStatus;
 };
 export namespace UserConnectionDto {
+    export enum authStatus {
+        CONNECTED = 'connected',
+        REAUTH_REQUIRED = 'reauth_required',
+    }
     export enum type {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
-    }
-    export enum authStatus {
-        CONNECTED = 'connected',
-        REAUTH_REQUIRED = 'reauth_required',
     }
 }
 

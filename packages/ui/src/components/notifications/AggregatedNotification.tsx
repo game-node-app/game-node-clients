@@ -122,16 +122,19 @@ const AggregatedNotification = ({
     const skippedCount = preview?.skippedCount ?? 0;
     const failedCount = preview?.failedCount ?? 0;
 
-    const baseMessage = `We've found ${gamesCount} new games ready to be imported from your ${sourceName} connection.`;
+    const baseMessage = t("notifications.discovery.baseMessage", {
+      gamesCount,
+      sourceName,
+    });
     const parts: string[] = [];
     if (importedCount > 0) {
-      parts.push(`${importedCount} automatically imported`);
+      parts.push(t("notifications.discovery.importedPart", { count: importedCount }));
     }
     if (skippedCount > 0) {
-      parts.push(`${skippedCount} already in your library`);
+      parts.push(t("notifications.discovery.skippedPart", { count: skippedCount }));
     }
     if (failedCount > 0) {
-      parts.push(`${failedCount} failed`);
+      parts.push(t("notifications.discovery.failedPart", { count: failedCount }));
     }
     const sample =
       preview?.gameSample && preview.gameSample.length > 0
@@ -149,6 +152,7 @@ const AggregatedNotification = ({
         className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
         withCloseButton={false}
         onClick={handleItemClick}
+        aria-label={t("notifications.discovery.title")}
         radius={0}
         styles={{
           root: {
@@ -159,7 +163,7 @@ const AggregatedNotification = ({
       >
         <Group className={"w-full flex-nowrap justify-center items-center"}>
           <Image
-            alt={"Importer source icon"}
+            alt={t("notifications.discovery.sourceIconAlt", { source: sourceName })}
             src={getServerStoredIcon(provider)}
             w={38}
             h={38}

@@ -1,14 +1,9 @@
 import React from "react";
 import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
-import { Container, Group, Space, Stack, Text } from "@mantine/core";
+import { Group, Space, Stack, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
@@ -17,12 +12,13 @@ import {
   ImporterPlatform,
   useOwnUserConnections,
 } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
 import { useTranslation } from "@repo/locales";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ImporterPage = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useOwnUserConnections();
 
   const importerUsableConnections = data?.filter(
@@ -34,7 +30,18 @@ const ImporterPage = () => {
     importerUsableConnections.length > 0;
 
   return (
-    <AppPage>
+    <AppPage title={t("importer.title")} withSearch={false}>
+      <IonRefresher
+        slot={"fixed"}
+        onIonRefresh={async (evt) => {
+          await queryClient.invalidateQueries({
+            queryKey: ["connections", "own"],
+          });
+          evt.detail.complete();
+        }}
+      >
+        <IonRefresherContent />
+      </IonRefresher>
       <Stack w={"100%"} justify={"center"} align={"center"} mb={"lg"}>
         <Stack className={"w-full h-full items-center p-2 pb-8"}>
           <Text className={"text-center"}>

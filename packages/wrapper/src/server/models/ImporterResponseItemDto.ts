@@ -22,6 +22,7 @@ export type ImporterResponseItemDto = {
     game: Game;
     gameId: number;
     psnExtraMappings: Array<PsnExtraMappings> | null;
+    isInLibrary: boolean;
     /**
      * The preferred platform to use when adding this importer item to a user's collection.
      */

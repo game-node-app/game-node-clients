@@ -69,7 +69,7 @@ export class FollowService {
      */
     public static followControllerRegisterFollowV1(
         requestBody: FollowRegisterDto,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/follow',

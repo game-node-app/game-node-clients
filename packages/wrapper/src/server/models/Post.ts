@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Game } from './Game';
 import type { Profile } from './Profile';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type Post = {
     id: string;
     /**
@@ -14,6 +15,8 @@ export type Post = {
     profileUserId: string;
     game: Game;
     gameId: number;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;

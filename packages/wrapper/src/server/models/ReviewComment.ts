@@ -4,9 +4,12 @@
 /* eslint-disable */
 import type { Profile } from './Profile';
 import type { Review } from './Review';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type ReviewComment = {
     review: Review;
     reviewId: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     parentOf: Array<ReviewComment> | null;
     childOf: Array<ReviewComment> | null;
     childOfId: string | null;

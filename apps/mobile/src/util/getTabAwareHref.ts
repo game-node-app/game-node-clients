@@ -3,8 +3,9 @@
  * @param targetUrl
  */
 export function getTabAwareHref(targetUrl: string): string {
-    const pathname = window.location.pathname;
-    const paths = pathname.split("/");
-    const tab = paths[1];
-    return `/${tab}${targetUrl}`;
+  const pathname = window.location.pathname;
+  const paths = pathname.split("/");
+  const tab = paths[1] || "home";
+  const normalizedTarget = targetUrl.startsWith("/") ? targetUrl : `/${targetUrl}`;
+  return `/${tab}${normalizedTarget}`;
 }

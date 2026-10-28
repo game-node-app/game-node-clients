@@ -1,36 +1,33 @@
 import React from "react";
 import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
-import { ImporterScreen, getCapitalizedText } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { Stack } from "@mantine/core";
+import { ImporterScreen } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   source: string;
 }
 
 const ImporterBySourcePage = ({ source }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   return (
-    <AppPage>
+    <AppPage title={t("importer.title")} withSearch={false}>
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {
           const promises: Promise<unknown>[] = [
             queryClient.invalidateQueries({
-              queryKey: ["importer", "entries", "unprocessed"],
+              queryKey: ["importer", "entries"],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["connections", "own"],
             }),
           ];
 

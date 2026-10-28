@@ -5,6 +5,7 @@
 import type { CollectionEntry } from './CollectionEntry';
 import type { Game } from './Game';
 import type { Profile } from './Profile';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type Review = {
     id: string;
     content: string | null;
@@ -16,5 +17,7 @@ export type Review = {
     collectionEntry: CollectionEntry;
     createdAt: string;
     updatedAt: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
 };
 

@@ -1,6 +1,5 @@
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
-import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
 import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
 import { AuthPage } from "supertokens-auth-react/ui";
 
@@ -18,7 +17,5 @@ export default function Auth() {
 
   if (!isClient) return null;
 
-  return (
-    <AuthPage preBuiltUIList={[ThirdPartyPreBuiltUI, PasswordlessPreBuiltUI]} />
-  );
+  return <AuthPage preBuiltUIList={[ThirdPartyPreBuiltUI]} />;
 }

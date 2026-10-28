@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { StatisticsTarget } from './StatisticsTarget';
 export type ActivityCommentDto = {
     parentOf: Array<ActivityCommentDto> | null;
     id: string;
@@ -16,6 +17,8 @@ export type ActivityCommentDto = {
     createdAt: string;
     updatedAt: string;
     activityId: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     childOfId: string | null;
 };
 

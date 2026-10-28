@@ -1,7 +1,6 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { useIonRouter } from "@ionic/react";
 import { Box } from "@mantine/core";
-import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
 import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
 import { AuthPage } from "supertokens-auth-react/ui";
 
@@ -12,7 +11,7 @@ const SupertokensAuthPage = () => {
     <AppPage withSearch={false}>
       <Box className={"w-full h-full mt-20"}>
         <AuthPage
-          preBuiltUIList={[ThirdPartyPreBuiltUI, PasswordlessPreBuiltUI]}
+          preBuiltUIList={[ThirdPartyPreBuiltUI]}
           navigate={{
             push: router.push,
             goBack: router.goBack,

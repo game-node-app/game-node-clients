@@ -12,6 +12,7 @@ export type ImporterWatchNotification = {
     games: Array<GameExternalGame> | null;
     autoImportedCount: number;
     autoImportSkippedCount: number;
+    autoImportFailedCount: number;
 };
 export namespace ImporterWatchNotification {
     export enum source {

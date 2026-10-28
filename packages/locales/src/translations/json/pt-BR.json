@@ -527,6 +527,10 @@
     "search": {
       "noGamesFound": "Nenhum jogo encontrado.",
       "startTypingResults": "Comece a digitar para ver resultados"
+    },
+    "select": {
+      "selectAll": "Selecionar todos os itens",
+      "deselectAll": "Desmarcar todos os itens"
     }
   },
   "home": {
@@ -538,7 +542,18 @@
   },
   "importer": {
     "buttons": {
-      "import": "Importar"
+      "import": "Importar",
+      "importSelected": "Importar selecionados",
+      "importAll": "Importar todos",
+      "importAllCount": "Importar todos ({{count}})",
+      "ignoreSelected": "Ignorar selecionados",
+      "clearSelection": "Limpar seleção",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "reconnect": "Reconectar",
+      "connect": "Conectar",
+      "configure": "Configurar",
+      "importGames": "Importar jogos"
     },
     "collectionsHint": "Opcional. Selecione coleções para adicionar os jogos importados.",
     "description": "Selecione um ou múltiplos jogos que você deseja trazer para sua biblioteca GameNode.",
@@ -552,12 +567,59 @@
       "noConnectionsSuffix": "para configurar uma.",
       "overview": "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode.",
       "selectAtLeastOne": "Selecione pelo menos um jogo.",
-      "syncFailed": "Falha ao sincronizar alterações!"
+      "syncFailed": "Falha ao sincronizar alterações!",
+      "importBatchSuccess": "{{importedCount}} jogos importados com sucesso!",
+      "importBatchSuccessWithSkipped": "{{importedCount}} jogos importados ({{skippedCount}} já na biblioteca).",
+      "importAllZero": "Todos os jogos disponíveis já estão na sua biblioteca.",
+      "ignoreSuccess": "{{count}} jogos ignorados com sucesso.",
+      "importFailed": "Falha ao importar jogos selecionados.",
+      "ignoreFailed": "Falha ao ignorar jogos selecionados.",
+      "operationInProgress": "Processando operação em lote..."
     },
     "noItemsAvailable": "Nenhum item disponível para importação. Verifique se sua biblioteca na plataforma de destino está configurada como pública.",
     "title": "IMPORTADOR DE JOGOS",
     "titleAccent": "DE JOGOS",
-    "titlePrimary": "IMPORTADOR"
+    "titlePrimary": "IMPORTADOR",
+    "selection": {
+      "selectedCount": "{{count}} selecionados",
+      "selectAll": "Selecionar todos os itens",
+      "deselectAll": "Desmarcar todos os itens",
+      "selectPage": "Selecionar página",
+      "deselectPage": "Desmarcar página",
+      "actionsAriaLabel": "Ações de seleção em lote"
+    },
+    "status": {
+      "initialStatus": "Status inicial",
+      "initialStatusHint": "Status atribuído aos jogos importados na sua biblioteca."
+    },
+    "confirmImportAll": {
+      "title": "Importar todos os jogos",
+      "message": "Isso importará todos os {{count}} jogos de {{source}} para sua biblioteca.",
+      "messageUnknownCount": "Isso importará todos os jogos de {{source}} para sua biblioteca.",
+      "scopeWarning": "Esta ação importa toda a fila desta fonte, independentemente dos filtros de busca ou página ativos.",
+      "statusLabel": "Status inicial:",
+      "collectionsLabel": "Coleções:",
+      "none": "Nenhuma"
+    },
+    "emptyStates": {
+      "searchEmpty": "Nenhum jogo encontrado para a busca.",
+      "firstSync": "A primeira sincronização pode estar em andamento. Os jogos descobertos aparecerão aqui assim que processados.",
+      "allDone": "Todos os jogos encontrados já foram importados ou processados.",
+      "privacyTip": "Verifique se sua biblioteca na plataforma de destino está configurada como pública.",
+      "error": "Falha ao carregar a fila de importação."
+    },
+    "connection": {
+      "availableCount": "{{count}} jogos disponíveis",
+      "allCaughtUp": "Tudo em dia (0 pendentes)",
+      "zeroPending": "0 jogos pendentes",
+      "lastSynced": "Última sincronização: {{time}}",
+      "reauthRequired": "Reconexão necessária",
+      "connectedAs": "Conta: {{username}}",
+      "importGames": "Importar jogos",
+      "reconnect": "Reconectar",
+      "connect": "Conectar",
+      "configure": "Configurar"
+    }
   },
   "journal": {
     "achievements": {
@@ -798,6 +860,14 @@
       "error": "Erro",
       "failed": "Falhou",
       "success": "Sucesso"
+    },
+    "discovery": {
+      "title": "Descoberta concluída",
+      "baseMessage": "Encontramos {{gamesCount}} novos jogos prontos para serem importados da sua conexão com {{sourceName}}.",
+      "importedPart": "{{count}} importados automaticamente",
+      "skippedPart": "{{count}} já na sua biblioteca",
+      "failedPart": "{{count}} com falha",
+      "sourceIconAlt": "Ícone da fonte de importação"
     }
   },
   "playtime": {
@@ -944,7 +1014,10 @@
     "actions": {
       "connect": "Conectar com {{type}}",
       "reconnect": "Reconectar",
-      "backToConnections": "Voltar para conexões"
+      "backToConnections": "Voltar para conexões",
+      "importGames": "Importar jogos",
+      "configure": "Configurar",
+      "connectAccount": "Conectar"
     }
   },
   "profile": {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
 import { Browser } from "@capacitor/browser";
+import { getTabAwareHref } from "@/util/getTabAwareHref";
 
 const getEquivalentDeepLink = (slug: string) => {
   if (slug.startsWith("/search")) {
@@ -10,7 +11,7 @@ const getEquivalentDeepLink = (slug: string) => {
     return slug;
   }
 
-  return `/home${slug}`;
+  return getTabAwareHref(slug);
 };
 
 const AppUrlListener = () => {

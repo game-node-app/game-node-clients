@@ -1,13 +1,13 @@
 import { MantineProvider, mergeMantineTheme } from "@mantine/core";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import React, { useState } from "react";
 import {
-  DehydratedState,
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import type { DehydratedState } from "@tanstack/react-query";
 import Head from "next/head";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
@@ -63,7 +63,7 @@ setupWrapper({
 });
 
 export interface DehydrationResult {
-  dehydratedState: DehydratedState;
+  dehydratedState?: DehydratedState;
 }
 
 export default function App({

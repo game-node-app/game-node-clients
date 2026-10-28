@@ -5,6 +5,7 @@
 export type FindAvailableConnectionsResponseDto = {
     name: string;
     type: FindAvailableConnectionsResponseDto.type;
+    authMode: FindAvailableConnectionsResponseDto.authMode;
     /**
      * If this connection can be used by the importer system to import games
      * e.g.: Steam, PSN
@@ -19,7 +20,6 @@ export type FindAvailableConnectionsResponseDto = {
     isPlaytimeImportViable: boolean;
     isAchievementImportViable: boolean;
     iconName: string;
-    authMode: FindAvailableConnectionsResponseDto.authMode;
 };
 export namespace FindAvailableConnectionsResponseDto {
     export enum type {

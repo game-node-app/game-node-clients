@@ -89,7 +89,7 @@ export class CommentService {
      */
     public static commentControllerCreateV1(
         requestBody: CreateCommentDto,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/comment/create',

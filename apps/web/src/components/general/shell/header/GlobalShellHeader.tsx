@@ -30,7 +30,8 @@ export default function GlobalShellHeader({
         <CommandCenter />
       </CommandCenterContextProvider>
       <Burger
-        className={"block xs:hidden me-6"}
+        className="me-6"
+        hiddenFrom="md"
         opened={sidebarOpened}
         onClick={toggleSidebar}
         size="sm"

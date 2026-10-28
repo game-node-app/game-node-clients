@@ -31,13 +31,13 @@ export class CollectionsService {
     /**
      * @param id
      * @param requestBody
-     * @returns any
+     * @returns Collection
      * @throws ApiError
      */
     public static collectionsControllerUpdateV1(
         id: string,
         requestBody: UpdateCollectionDto,
-    ): CancelablePromise<Record<string, any>> {
+    ): CancelablePromise<Collection> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/v1/collections/{id}',

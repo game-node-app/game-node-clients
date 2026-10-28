@@ -8,6 +8,7 @@ import type { ObtainedGameAchievementActivity } from './ObtainedGameAchievementA
 import type { Post } from './Post';
 import type { Profile } from './Profile';
 import type { Review } from './Review';
+import type { StatisticsTarget } from './StatisticsTarget';
 import type { UserFollow } from './UserFollow';
 export type Activity = {
     id: string;
@@ -31,6 +32,8 @@ export type Activity = {
     obtainedGameAchievementActivityId: number | null;
     createdAt: string;
     updatedAt: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
 };
 export namespace Activity {
     export enum type {

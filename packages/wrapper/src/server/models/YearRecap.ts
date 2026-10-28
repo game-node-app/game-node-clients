@@ -20,6 +20,8 @@ export type YearRecap = {
     totalCollectionsCreated: number;
     totalFollowersGained: number;
     totalLikesPerformed: number;
+    likesHistoryComplete: boolean;
+    likesCompleteSince: string | null;
     playedGames: Array<YearRecapPlayedGame>;
     genres: Array<YearRecapGenre>;
     themes: Array<YearRecapTheme>;

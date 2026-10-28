@@ -527,6 +527,10 @@
     "search": {
       "startTypingResults": "Start typing to see results",
       "noGamesFound": "No games found."
+    },
+    "select": {
+      "selectAll": "Select all items",
+      "deselectAll": "Deselect all items"
     }
   },
   "home": {
@@ -538,7 +542,18 @@
   },
   "importer": {
     "buttons": {
-      "import": "Import"
+      "import": "Import",
+      "importSelected": "Import selected",
+      "importAll": "Import all",
+      "importAllCount": "Import all ({{count}})",
+      "ignoreSelected": "Ignore selected",
+      "clearSelection": "Clear selection",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "reconnect": "Reconnect",
+      "connect": "Connect",
+      "configure": "Configure",
+      "importGames": "Import games"
     },
     "collectionsHint": "Optional. Select collections to add the imported games to.",
     "description": "Select one or multiple games which you want to bring to your GameNode library.",
@@ -552,12 +567,59 @@
       "noConnectionsSuffix": "to set one up.",
       "overview": "The importer system helps you bring games from other platforms to GameNode.",
       "selectAtLeastOne": "Select at least one game.",
-      "syncFailed": "Failed to sync changes!"
+      "syncFailed": "Failed to sync changes!",
+      "importBatchSuccess": "Successfully imported {{importedCount}} games!",
+      "importBatchSuccessWithSkipped": "Imported {{importedCount}} games ({{skippedCount}} already in library).",
+      "importAllZero": "All available games are already in your library.",
+      "ignoreSuccess": "Successfully ignored {{count}} games.",
+      "importFailed": "Failed to import selected games.",
+      "ignoreFailed": "Failed to ignore selected games.",
+      "operationInProgress": "Processing batch operation..."
     },
     "noItemsAvailable": "No items available for importing. Check if your library at the target platform is set to public.",
     "title": "GAME IMPORTER",
     "titleAccent": "IMPORTER",
-    "titlePrimary": "GAME"
+    "titlePrimary": "GAME",
+    "selection": {
+      "selectedCount": "{{count}} selected",
+      "selectAll": "Select all items",
+      "deselectAll": "Deselect all items",
+      "selectPage": "Select page",
+      "deselectPage": "Deselect page",
+      "actionsAriaLabel": "Batch selection actions"
+    },
+    "status": {
+      "initialStatus": "Initial status",
+      "initialStatusHint": "Status assigned to imported games in your library."
+    },
+    "confirmImportAll": {
+      "title": "Import all games",
+      "message": "This will import all {{count}} games from {{source}} into your library.",
+      "messageUnknownCount": "This will import all games from {{source}} into your library.",
+      "scopeWarning": "This imports the entire queue for this source, regardless of active search or page filters.",
+      "statusLabel": "Initial status:",
+      "collectionsLabel": "Collections:",
+      "none": "None"
+    },
+    "emptyStates": {
+      "searchEmpty": "No games found matching your search.",
+      "firstSync": "Your first sync might be in progress. Discovered games will appear here once processed.",
+      "allDone": "All discovered games have been imported or processed.",
+      "privacyTip": "Check if your library at the target platform is set to public.",
+      "error": "Failed to load import queue."
+    },
+    "connection": {
+      "availableCount": "{{count}} games available",
+      "allCaughtUp": "All caught up (0 pending)",
+      "zeroPending": "0 pending games",
+      "lastSynced": "Last synced {{time}}",
+      "reauthRequired": "Reconnection required",
+      "connectedAs": "Account: {{username}}",
+      "importGames": "Import games",
+      "reconnect": "Reconnect",
+      "connect": "Connect",
+      "configure": "Configure"
+    }
   },
   "journal": {
     "achievements": {
@@ -798,6 +860,14 @@
       "error": "Error",
       "failed": "Failed",
       "success": "Success"
+    },
+    "discovery": {
+      "title": "Discovery completed",
+      "baseMessage": "We've found {{gamesCount}} new games ready to be imported from your {{sourceName}} connection.",
+      "importedPart": "{{count}} automatically imported",
+      "skippedPart": "{{count}} already in your library",
+      "failedPart": "{{count}} failed",
+      "sourceIconAlt": "Importer source icon"
     }
   },
   "playtime": {
@@ -944,7 +1014,10 @@
     "actions": {
       "connect": "Connect with {{type}}",
       "reconnect": "Reconnect",
-      "backToConnections": "Back to connections"
+      "backToConnections": "Back to connections",
+      "importGames": "Import games",
+      "configure": "Configure",
+      "connectAccount": "Connect"
     }
   },
   "profile": {

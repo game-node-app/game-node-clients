@@ -17,7 +17,9 @@ import type { GamePlatform } from './GamePlatform';
 import type { GamePlayerPerspective } from './GamePlayerPerspective';
 import type { GameScreenshot } from './GameScreenshot';
 import type { GameTheme } from './GameTheme';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type Game = {
+    cover: GameCover | null;
     /**
      * Should be mapped to the IGDB ID of the game.
      */
@@ -35,6 +37,8 @@ export type Game = {
     firstReleaseDate: string;
     createdAt: string;
     updatedAt: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     dlcs: Array<Game>;
     dlcOf: Array<Game>;
     expansions: Array<Game>;
@@ -47,7 +51,6 @@ export type Game = {
     remakeOf: Array<Game>;
     remasters: Array<Game>;
     remasterOf: Array<Game>;
-    cover: GameCover;
     alternativeNames: Array<GameAlternativeName>;
     artworks: Array<GameArtwork>;
     screenshots: Array<GameScreenshot>;

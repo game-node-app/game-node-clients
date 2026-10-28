@@ -23,6 +23,7 @@ export type ObtainedGameAchievementActivity = {
      * for this specific activity.
      */
     hasObtainedPlatinumTrophy: boolean;
+    pendingDelivery: boolean;
     /**
      * The related external game the achievements were obtained for.
      * All obtained achievements for this activity should be related to this specific external game, but this is not enforced on the database level.

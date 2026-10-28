@@ -13,6 +13,7 @@ interface ActivityPeriodItem {
   reviewCount: number;
   followCount: number;
   postsCount: number;
+  gameAchievementCount: number;
 }
 
 const activitiesToChartData = (activities: Activity[]) => {
@@ -36,6 +37,10 @@ const activitiesToChartData = (activities: Activity[]) => {
       .with(ActivityType.REVIEW, () => "reviewCount")
       .with(ActivityType.FOLLOW, () => "followCount")
       .with(ActivityType.POST, () => "postsCount")
+      .with(
+        ActivityType.OBTAINED_GAME_ACHIEVEMENT,
+        () => "gameAchievementCount",
+      )
       .exhaustive();
 
     const periodValue = periodMap.get(periodString);
@@ -46,6 +51,7 @@ const activitiesToChartData = (activities: Activity[]) => {
         followCount: 0,
         reviewCount: 0,
         postsCount: 0,
+        gameAchievementCount: 0,
         [targetProperty]: 1,
       };
       periodMap.set(periodString, item);
@@ -97,6 +103,11 @@ const ActivitiesByPeriodChart = () => {
           color: "blue.6",
         },
         { name: "followCount", label: "User follow", color: "teal.6" },
+        {
+          name: "gameAchievementCount",
+          label: "Game achievement obtained",
+          color: "orange.6",
+        },
       ]}
       tickLine="y"
     />

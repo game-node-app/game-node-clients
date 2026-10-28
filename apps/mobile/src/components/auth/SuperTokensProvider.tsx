@@ -1,7 +1,6 @@
 import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
 import React from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
-import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { Capacitor } from "@capacitor/core";
@@ -97,14 +96,6 @@ export const frontendConfig = (): SuperTokensConfig => {
               },
             };
           },
-        },
-      }),
-      Passwordless.init({
-        contactMethod: "EMAIL",
-        onHandleEvent: async (context) => {
-          if (context.action === "SUCCESS" && context.createdNewSession) {
-            posthog.identify(context.user.id);
-          }
         },
       }),
       Session.init({

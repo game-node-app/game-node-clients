@@ -16,7 +16,7 @@ import { ConnectionsService } from "@repo/wrapper/server";
 export const getServerSideProps = async (_context: NextPageContext) => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["user", "connections"],
+    queryKey: ["connections", "own"],
     queryFn: () => ConnectionsService.connectionsControllerFindOwnV1(),
   });
 

@@ -20,7 +20,7 @@ import { Button, Select, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { createErrorNotification } from "#@/util";
+import { createErrorNotification, Link } from "#@/util";
 import { useTranslation } from "@repo/locales";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { getConnectionName } from "#@/components/connections/util/getConnectionName";
@@ -228,6 +228,13 @@ const PreferencesConnectionSetup = ({
     redirectMutation.isPending ||
     connectionDeleteMutation.isPending;
 
+  const isEligibleForImport = Boolean(
+    userConnection.data &&
+      userConnection.data.authStatus !==
+        UserConnectionDto.authStatus.REAUTH_REQUIRED &&
+      (provider.isImporterViable || userConnection.data.isImporterViable),
+  );
+
   return (
     <form
       className={"w-full h-full"}
@@ -336,6 +343,19 @@ const PreferencesConnectionSetup = ({
           >
             {t("preferences.actions.reconnect")}
           </Button>
+        )}
+        {isEligibleForImport && (
+          <Link href={`/importer/${type.valueOf()}`} className="w-full">
+            <Button
+              variant="outline"
+              className="w-full"
+              type="button"
+              onClick={onClose}
+              aria-label={t("importer.connection.importGames")}
+            >
+              {t("importer.connection.importGames")}
+            </Button>
+          </Link>
         )}
         {userConnection.data != undefined && (
           <Button

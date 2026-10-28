@@ -222,6 +222,13 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       }}
     />,
     <Route
+      exact
+      key={`${prefix}-preferences-category`}
+      path={`${prefix}/preferences/:category`}
+      render={() => <PreferencesPage />}
+    />,
+    <Route
+      exact
       key={`${prefix}-preferences`}
       path={`${prefix}/preferences`}
       render={() => <PreferencesPage />}

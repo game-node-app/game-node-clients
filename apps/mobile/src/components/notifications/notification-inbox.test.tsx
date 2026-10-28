@@ -41,7 +41,21 @@ vi.mock(
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key: string, options?: Record<string, any>) => {
+      if (key === "notifications.discovery.baseMessage") {
+        return `We\x27ve found ${options?.gamesCount} new games ready to be imported from your ${options?.sourceName} connection.`;
+      }
+      if (key === "notifications.discovery.importedPart") {
+        return `${options?.count} automatically imported`;
+      }
+      if (key === "notifications.discovery.skippedPart") {
+        return `${options?.count} already in your library`;
+      }
+      if (key === "notifications.discovery.failedPart") {
+        return `${options?.count} failed`;
+      }
+      return key;
+    },
   }),
 }));
 

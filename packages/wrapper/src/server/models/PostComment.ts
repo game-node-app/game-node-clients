@@ -4,9 +4,12 @@
 /* eslint-disable */
 import type { Post } from './Post';
 import type { Profile } from './Profile';
+import type { StatisticsTarget } from './StatisticsTarget';
 export type PostComment = {
     post: Post;
     postId: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
     parentOf: Array<PostComment> | null;
     childOf: Array<PostComment> | null;
     childOfId: string | null;

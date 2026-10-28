@@ -5,6 +5,7 @@
 import type { FindObtainedAchievementsResponseDto } from '../models/FindObtainedAchievementsResponseDto';
 import type { GameAchievementDto } from '../models/GameAchievementDto';
 import type { GameAchievementGroupDto } from '../models/GameAchievementGroupDto';
+import type { GameCompletionStatus } from '../models/GameCompletionStatus';
 import type { GameObtainedAchievementActivityDto } from '../models/GameObtainedAchievementActivityDto';
 import type { GameObtainedAchievementDto } from '../models/GameObtainedAchievementDto';
 import type { Object } from '../models/Object';
@@ -12,6 +13,52 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class GameAchievementService {
+    /**
+     * @param userId
+     * @param externalGameId
+     * @returns GameCompletionStatus
+     * @throws ApiError
+     */
+    public static gameAchievementControllerFindStatusByExternalGameIdV1(
+        userId: string,
+        externalGameId: number,
+    ): CancelablePromise<GameCompletionStatus> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/game/achievement/status/{userId}/{externalGameId}',
+            path: {
+                'userId': userId,
+                'externalGameId': externalGameId,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @param onlyCompleted Returns only completed games if true, otherwise returns all games regardless of completion status.
+     * @param completedPeriodStart
+     * @param completedPeriodEnd
+     * @returns GameCompletionStatus
+     * @throws ApiError
+     */
+    public static gameAchievementControllerFindAllStatusByUserIdV1(
+        userId: string,
+        onlyCompleted: boolean = false,
+        completedPeriodStart?: string,
+        completedPeriodEnd?: string,
+    ): CancelablePromise<Array<GameCompletionStatus>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/game/achievement/status/{userId}',
+            path: {
+                'userId': userId,
+            },
+            query: {
+                'onlyCompleted': onlyCompleted,
+                'completedPeriodStart': completedPeriodStart,
+                'completedPeriodEnd': completedPeriodEnd,
+            },
+        });
+    }
     /**
      * @param externalGameId
      * @returns GameAchievementDto

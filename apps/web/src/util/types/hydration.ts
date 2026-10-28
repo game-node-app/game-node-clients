@@ -1,5 +1,5 @@
-import { DehydratedState } from "@tanstack/react-query";
+import type { DehydratedState } from "@tanstack/react-query";
 
 export interface DehydrationResult {
-  dehydratedState: DehydratedState;
+  dehydratedState?: DehydratedState;
 }

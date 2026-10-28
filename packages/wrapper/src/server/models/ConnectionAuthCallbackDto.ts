@@ -4,6 +4,6 @@
 /* eslint-disable */
 export type ConnectionAuthCallbackDto = {
     state: string;
-    callbackParams: Record<string, string>;
+    callbackParams: Record<string, any>;
 };
 

@@ -1,11 +1,18 @@
-import { UserConnectionDto } from "@repo/wrapper/server";
+import {
+  ApiError,
+  OwnUserConnectionDto,
+  UserConnectionDto,
+} from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
-import { Button, Group, Image } from "@mantine/core";
+import { Button, Group, Image, Stack, Text } from "@mantine/core";
 import { Browser } from "@capacitor/browser";
 import { Capacitor } from "@capacitor/core";
-import { IonItem, IonLabel, IonToggle } from "@ionic/react";
+import { IonItem, IonLabel } from "@ionic/react";
+import { Link } from "react-router-dom";
+import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
   getConnectionName,
+  getErrorMessage,
   getServerStoredIcon,
   PreferencesConnectionModal,
   useOwnUserConnectionByType,
@@ -21,9 +28,20 @@ const PreferencesConnectionItem = ({ type }: Props) => {
   const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const [modalOpened, modalUtils] = useDisclosure();
+
+  const isLookupError =
+    userConnection.error &&
+    !(
+      userConnection.error instanceof ApiError &&
+      userConnection.error.status === 404
+    );
+
   const requiresReauth =
     userConnection.data?.authStatus ===
-    UserConnectionDto.authStatus.REAUTH_REQUIRED;
+    OwnUserConnectionDto.authStatus.REAUTH_REQUIRED;
+
+  const isConnected = userConnection.data != null;
+  const isEligible = Boolean(userConnection.data?.isImporterViable);
 
   return (
     <IonItem className={"relative"}>
@@ -39,7 +57,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
             : undefined
         }
       />
-      <Group className={"gap-2"}>
+      <Group className={"gap-3 py-2"}>
         <Image
           alt={t("preferences.labels.connectionIcon")}
           src={getServerStoredIcon(type.valueOf())}
@@ -47,25 +65,68 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           w={28}
           h={28}
         />
-        <IonLabel>
-          {getConnectionName(type)}
-          {requiresReauth && <p>{t("preferences.statuses.reauthRequired")}</p>}
-        </IonLabel>
+        <Stack gap={2}>
+          <IonLabel>{getConnectionName(type)}</IonLabel>
+          {isConnected ? (
+            <>
+              <Text size="sm" fw={500}>{userConnection.data!.sourceUsername}</Text>
+              <Text size="xs" c={requiresReauth ? "orange" : "dimmed"}>
+                {requiresReauth
+                  ? t("preferences.statuses.reauthRequired")
+                  : t("preferences.statuses.connected")}
+              </Text>
+            </>
+          ) : isLookupError ? (
+            <Text size="xs" c="red">{getErrorMessage(userConnection.error as any)}</Text>
+          ) : (
+            <Text size="xs" c="dimmed">{t("preferences.statuses.notConnected")}</Text>
+          )}
+        </Stack>
       </Group>
-      <Group className={"ms-auto"}>
+
+      <Group className={"ms-auto gap-2"}>
         {requiresReauth && (
-          <Button onClick={modalUtils.open}>
-            {t("preferences.actions.reconnect")}
+          <Button
+            size="xs"
+            color="yellow"
+            variant="outline"
+            onClick={modalUtils.open}
+            aria-label={t("importer.connection.reconnect")}
+          >
+            {t("importer.connection.reconnect")}
           </Button>
         )}
-        <IonToggle
-          aria-label={t("preferences.titles.connectionSetup")}
-          checked={userConnection.data != undefined}
-          onClick={(evt) => {
-            evt.preventDefault();
-            modalUtils.open();
-          }}
-        ></IonToggle>
+
+        {isConnected && !requiresReauth && isEligible && (
+          <Link to={getTabAwareHref(`/importer/${type.valueOf()}`)}>
+            <Button
+              size="xs"
+              variant="outline"
+              aria-label={t("importer.connection.importGames")}
+            >
+              {t("importer.connection.importGames")}
+            </Button>
+          </Link>
+        )}
+
+        {isConnected ? (
+          <Button
+            size="xs"
+            variant="default"
+            onClick={modalUtils.open}
+            aria-label={t("importer.connection.configure")}
+          >
+            {t("importer.connection.configure")}
+          </Button>
+        ) : !isLookupError ? (
+          <Button
+            size="xs"
+            onClick={modalUtils.open}
+            aria-label={t("importer.connection.connect")}
+          >
+            {t("importer.connection.connect")}
+          </Button>
+        ) : null}
       </Group>
     </IonItem>
   );

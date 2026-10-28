@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Object } from '../models/Object';
 import type { ReactionRequestDto } from '../models/ReactionRequestDto';
 import type { ReactionResponseDto } from '../models/ReactionResponseDto';
 import type { StatisticsRankingResponseDto } from '../models/StatisticsRankingResponseDto';
@@ -19,7 +20,7 @@ import { request as __request } from '../core/request';
 export class StatisticsService {
     /**
      * @param requestBody
-     * @returns ReactionResponseDto Applies a like reaction and returns current state and count.
+     * @returns ReactionResponseDto
      * @throws ApiError
      */
     public static statisticsControllerAddLikeV1(
@@ -34,7 +35,7 @@ export class StatisticsService {
     }
     /**
      * @param requestBody
-     * @returns ReactionResponseDto Removes a like reaction and returns current state and count.
+     * @returns ReactionResponseDto
      * @throws ApiError
      */
     public static statisticsControllerRemoveLikeV1(
@@ -70,7 +71,7 @@ export class StatisticsService {
      */
     public static statisticsControllerGetStatusV1(
         sourceType: 'game' | 'review' | 'activity' | 'post' | 'review_comment' | 'activity_comment' | 'post_comment',
-        sourceId: (string | number),
+        sourceId: Object,
     ): CancelablePromise<StatisticsStatusDto> {
         return __request(OpenAPI, {
             method: 'GET',

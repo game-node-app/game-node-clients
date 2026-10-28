@@ -8,6 +8,7 @@ import type { ConnectionAuthInitResponseDto } from '../models/ConnectionAuthInit
 import type { ConnectionCreateDto } from '../models/ConnectionCreateDto';
 import type { ConnectionSettingsUpdateDto } from '../models/ConnectionSettingsUpdateDto';
 import type { FindAvailableConnectionsResponseDto } from '../models/FindAvailableConnectionsResponseDto';
+import type { OwnUserConnectionDto } from '../models/OwnUserConnectionDto';
 import type { UserConnectionDto } from '../models/UserConnectionDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -39,10 +40,10 @@ export class ConnectionsService {
         });
     }
     /**
-     * @returns UserConnectionDto
+     * @returns OwnUserConnectionDto
      * @throws ApiError
      */
-    public static connectionsControllerFindOwnV1(): CancelablePromise<Array<UserConnectionDto>> {
+    public static connectionsControllerFindOwnV1(): CancelablePromise<Array<OwnUserConnectionDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/connections/own',
@@ -50,12 +51,12 @@ export class ConnectionsService {
     }
     /**
      * @param type
-     * @returns UserConnectionDto
+     * @returns OwnUserConnectionDto
      * @throws ApiError
      */
     public static connectionsControllerFindOwnByTypeV1(
         type: string,
-    ): CancelablePromise<UserConnectionDto> {
+    ): CancelablePromise<OwnUserConnectionDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/connections/own/{type}',
@@ -100,42 +101,6 @@ export class ConnectionsService {
         });
     }
     /**
-     * @param id
-     * @returns any
-     * @throws ApiError
-     */
-    public static connectionsControllerDeleteV1(
-        id: number,
-    ): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/v1/connections/{id}',
-            path: {
-                'id': id,
-            },
-        });
-    }
-    /**
-     * @param id
-     * @param requestBody
-     * @returns UserConnectionDto
-     * @throws ApiError
-     */
-    public static connectionsControllerUpdateSettingsV1(
-        id: number,
-        requestBody: ConnectionSettingsUpdateDto,
-    ): CancelablePromise<UserConnectionDto> {
-        return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/v1/connections/{id}',
-            path: {
-                'id': id,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
      * @param type
      * @param requestBody
      * @returns ConnectionAuthInitResponseDto
@@ -173,6 +138,42 @@ export class ConnectionsService {
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param id
+     * @param requestBody
+     * @returns UserConnectionDto
+     * @throws ApiError
+     */
+    public static connectionsControllerUpdateSettingsV1(
+        id: number,
+        requestBody: ConnectionSettingsUpdateDto,
+    ): CancelablePromise<UserConnectionDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/v1/connections/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param id
+     * @returns any
+     * @throws ApiError
+     */
+    public static connectionsControllerDeleteV1(
+        id: number,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/v1/connections/{id}',
+            path: {
+                'id': id,
+            },
         });
     }
     /**

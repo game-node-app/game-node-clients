@@ -2,7 +2,6 @@ import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
 import React, { useEffect } from "react";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Router, { useRouter } from "next/router";
-import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
 import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import { GameNodeLogo } from "@repo/ui";
@@ -54,14 +53,6 @@ export const frontendConfig = (
     },
 
     recipeList: [
-      Passwordless.init({
-        contactMethod: "EMAIL",
-        onHandleEvent: async (context) => {
-          if (context.action === "SUCCESS" && context.createdNewSession) {
-            posthog.identify(context.user.id);
-          }
-        },
-      }),
       ThirdParty.init({
         signInAndUpFeature: {
           providers: [

@@ -532,6 +532,10 @@ export type TranslationSchema = {
       startTypingResults: string;
       noGamesFound: string;
     };
+    select: {
+      selectAll: string;
+      deselectAll: string;
+    };
   };
   home: {
     lastReviews: string;
@@ -543,6 +547,17 @@ export type TranslationSchema = {
   importer: {
     buttons: {
       import: string;
+      importSelected: string;
+      importAll: string;
+      importAllCount: string;
+      ignoreSelected: string;
+      clearSelection: string;
+      confirm: string;
+      cancel: string;
+      reconnect: string;
+      connect: string;
+      configure: string;
+      importGames: string;
     };
     collectionsHint: string;
     description: string;
@@ -557,11 +572,58 @@ export type TranslationSchema = {
       overview: string;
       selectAtLeastOne: string;
       syncFailed: string;
+      importBatchSuccess: string;
+      importBatchSuccessWithSkipped: string;
+      importAllZero: string;
+      ignoreSuccess: string;
+      importFailed: string;
+      ignoreFailed: string;
+      operationInProgress: string;
     };
     noItemsAvailable: string;
     title: string;
     titleAccent: string;
     titlePrimary: string;
+    selection: {
+      selectedCount: string;
+      selectAll: string;
+      deselectAll: string;
+      selectPage: string;
+      deselectPage: string;
+      actionsAriaLabel: string;
+    };
+    status: {
+      initialStatus: string;
+      initialStatusHint: string;
+    };
+    confirmImportAll: {
+      title: string;
+      message: string;
+      messageUnknownCount: string;
+      scopeWarning: string;
+      statusLabel: string;
+      collectionsLabel: string;
+      none: string;
+    };
+    emptyStates: {
+      searchEmpty: string;
+      firstSync: string;
+      allDone: string;
+      privacyTip: string;
+      error: string;
+    };
+    connection: {
+      availableCount: string;
+      allCaughtUp: string;
+      zeroPending: string;
+      lastSynced: string;
+      reauthRequired: string;
+      connectedAs: string;
+      importGames: string;
+      reconnect: string;
+      connect: string;
+      configure: string;
+    };
   };
   journal: {
     achievements: {
@@ -803,6 +865,14 @@ export type TranslationSchema = {
       failed: string;
       success: string;
     };
+    discovery: {
+      title: string;
+      baseMessage: string;
+      importedPart: string;
+      skippedPart: string;
+      failedPart: string;
+      sourceIconAlt: string;
+    };
   };
   playtime: {
     buttons: {
@@ -949,6 +1019,9 @@ export type TranslationSchema = {
       connect: string;
       reconnect: string;
       backToConnections: string;
+      importGames: string;
+      configure: string;
+      connectAccount: string;
     };
   };
   profile: {

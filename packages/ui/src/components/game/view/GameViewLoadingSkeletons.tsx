@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { Skeleton } from "@mantine/core";
 import { GameViewContext, useOnMobile } from "#@/components";
 import { cn } from "#@/util/cn.ts";
@@ -43,10 +43,10 @@ const GameViewLoadingSkeletons = ({
     return Array.from({ length: count }).map((_, i) => (
       <Skeleton
         key={i}
-        className={cn("w-full h-24 xs:h-32 md:h-40 lg:h-52", {
-          "col-span-full": layout === "list",
-          "aspect-square": layout === "grid",
+        className={cn("w-full", {
+          "col-span-full h-24 xs:h-32 md:h-40 lg:h-52": layout === "list",
         })}
+        style={layout === "grid" ? { aspectRatio: "264 / 354" } : undefined}
       />
     ));
   }, [count, isVisible, layout]);
