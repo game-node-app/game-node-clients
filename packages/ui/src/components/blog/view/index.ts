@@ -6,3 +6,5 @@ export * from "./BlogPostDetailLayout";
 export * from "./BlogPostDetailView";
 export * from "./BlogPostReviewInfo";
 export * from "./BlogPostsListView";
+
+export * from "./BlogArticleView";

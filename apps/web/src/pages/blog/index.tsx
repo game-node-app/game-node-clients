@@ -6,39 +6,19 @@ import {
   BlogPostsLayout,
 } from "@repo/ui";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { BlogPostService } from "@repo/wrapper/server";
+import { blogPostsOptions } from "@repo/ui";
+import { SupportedLanguage } from "@repo/locales";
 import { NextPageContext } from "next";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryClient = new QueryClient();
 
-  /**
-   * @see useBlogPosts
-   */
-  const queryKey = [
-    "blog",
-    "posts",
-    null,
-    false,
-    BLOG_POSTS_FEED_DEFAULT_LIMIT,
-    null,
-  ];
-
-  await queryClient.prefetchQuery({
-    queryKey: queryKey,
-    queryFn: async () => {
-      try {
-        return await BlogPostService.blogPostControllerFindAllV1(
-          undefined,
-          false,
-          BLOG_POSTS_FEED_DEFAULT_LIMIT,
-          undefined,
-        );
-      } catch (err) {
-        console.error(err);
-      }
-    },
-  });
+  await queryClient.prefetchQuery(
+    blogPostsOptions(
+      { limit: BLOG_POSTS_FEED_DEFAULT_LIMIT },
+      (context.locale ?? "en") as SupportedLanguage,
+    ),
+  );
 
   return {
     props: {

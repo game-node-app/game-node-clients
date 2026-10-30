@@ -8,7 +8,7 @@ export type ReactionRequestDto = {
      */
     sourceType: ReactionRequestDto.sourceType;
     /**
-     * Source identifier: UUID for content, positive integer for game; corrected to the native ID union accepted by the DTO.
+     * Source identifier: UUID for content, positive integer for game
      */
     sourceId: (string | number);
 };

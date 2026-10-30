@@ -10,7 +10,11 @@ const BlogPostTagBadges = () => {
     <Group className={"gap-2"}>
       {isLoading && <CenteredLoading />}
       {data?.map((tag) => (
-        <Link key={tag.id} href={`/blog?tag=${tag.id}`} className={"min-h-min"}>
+        <Link
+          key={tag.id}
+          href={`/blog/archive?tag=${encodeURIComponent(tag.id)}`}
+          className={"min-h-min"}
+        >
           <Badge>{tag.name}</Badge>
         </Link>
       ))}

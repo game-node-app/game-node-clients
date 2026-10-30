@@ -15,7 +15,6 @@ import {
   BlogPostDetailLayout,
   BlogPostDetailView,
   BlogPostsLayout,
-  useBlogPost,
 } from "@repo/ui";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
@@ -25,7 +24,6 @@ interface Props {
 }
 
 const BlogPostDetailPage = ({ postId }: Props) => {
-  const { data, isLoading } = useBlogPost(postId);
 
   return (
     <AppPage>

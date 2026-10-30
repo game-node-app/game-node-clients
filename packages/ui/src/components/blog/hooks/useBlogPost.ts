@@ -1,13 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { BlogPostService } from "@repo/wrapper/server";
-
+import { useI18nContext } from "@repo/locales";
+import { blogPostOptions } from "./queryOptions";
 export function useBlogPost(postId: string | undefined) {
-  return useQuery({
-    queryKey: ["blog", "posts", postId],
-    queryFn: async () => {
-      return BlogPostService.blogPostControllerFindOneByIdV1(postId!);
-    },
-    enabled: !!postId,
-    staleTime: Infinity,
-  });
+  const { language } = useI18nContext();
+  return useQuery({ ...blogPostOptions(postId!, language), enabled: !!postId });
 }

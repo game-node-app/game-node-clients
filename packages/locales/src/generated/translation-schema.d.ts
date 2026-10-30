@@ -150,6 +150,7 @@ export type TranslationSchema = {
       draft: string;
       reviewedGame: string;
       tags: string;
+      published: string;
     };
     list: {
       empty: string;
@@ -169,6 +170,12 @@ export type TranslationSchema = {
     };
     recentPosts: string;
     recentReviews: string;
+    read: {
+      fallback: string;
+      missing: string;
+      error: string;
+      retry: string;
+    };
   };
   buttons: {
     confirm: string;

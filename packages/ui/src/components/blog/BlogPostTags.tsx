@@ -1,11 +1,11 @@
 import { Group, Text } from "@mantine/core";
 import React from "react";
-import { BlogPostTag } from "@repo/wrapper/server";
+import { BlogTagDto } from "@repo/wrapper/server";
 import { IconTags } from "@tabler/icons-react";
 import { getCapitalizedText, Link } from "#@/util";
 
 interface Props {
-  tags: BlogPostTag[];
+  tags: BlogTagDto[];
 }
 
 const BlogPostTags = ({ tags }: Props) => {
@@ -17,7 +17,7 @@ const BlogPostTags = ({ tags }: Props) => {
         return (
           <Link
             key={tag.id}
-            href={`/blog?tag=${tag.id}`}
+            href={`/blog/archive?tag=${encodeURIComponent(tag.id)}`}
             className={"hover:!underline"}
           >
             {tag.name}

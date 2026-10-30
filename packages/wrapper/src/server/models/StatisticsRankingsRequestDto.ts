@@ -14,13 +14,7 @@ export type StatisticsRankingsRequestDto = {
     authorId?: string;
     excludeOwn?: boolean;
     reviewId?: string;
-    /**
-     * Corrected to integer to match DTO validation.
-     */
     limit?: number;
-    /**
-     * Corrected to integer to match DTO validation.
-     */
     offset?: number;
 };
 export namespace StatisticsRankingsRequestDto {

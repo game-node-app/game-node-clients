@@ -145,7 +145,8 @@
     "labels": {
       "draft": "Draft",
       "reviewedGame": "Reviewed Game",
-      "tags": "Tags"
+      "tags": "Tags",
+      "published": "Published"
     },
     "list": {
       "empty": "No posts matching this criteria were found. Please change parameters or",
@@ -164,7 +165,13 @@
       "reviews": "Reviews"
     },
     "recentPosts": "Recent blog posts",
-    "recentReviews": "Recent reviews"
+    "recentReviews": "Recent reviews",
+    "read": {
+      "fallback": "This article is available in English.",
+      "missing": "Article not found.",
+      "error": "Articles are currently unavailable.",
+      "retry": "Try again"
+    }
   },
   "buttons": {
     "confirm": "Confirm",

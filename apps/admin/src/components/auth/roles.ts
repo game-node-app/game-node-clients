@@ -8,6 +8,8 @@ export enum EUserRoles {
 }
 
 export const getRolesForRoute = (pathname: string) => {
+  if (pathname.startsWith("/dashboard/blog/preview/"))
+    return [EUserRoles.ADMIN, EUserRoles.MOD, EUserRoles.EDITOR];
   // Excludes path parameter
   const parsedPathname = pathname.split("/[")[0];
   const matchingRoute = navLinks.find((item) =>

@@ -1,12 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { BlogPostService } from "@repo/wrapper/server";
-
+import { useI18nContext } from "@repo/locales";
+import { blogTagsOptions } from "./queryOptions";
 export function useBlogPostTags() {
-  return useQuery({
-    queryKey: ["blog", "posts", "tags"],
-    queryFn: () => {
-      return BlogPostService.blogPostControllerFindAllTagsV1();
-    },
-    staleTime: Infinity,
-  });
+  const { language } = useI18nContext();
+  return useQuery(blogTagsOptions(language));
 }

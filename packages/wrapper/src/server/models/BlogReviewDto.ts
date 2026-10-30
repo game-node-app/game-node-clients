@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CreateUpdateBlogPostReviewInfoDto = {
+export type BlogReviewDto = {
     gameId: number;
     rating: number;
 };

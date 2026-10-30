@@ -59,21 +59,10 @@ export const navLinks: NavItem[] = [
     ],
   },
   {
-    label: "Blog",
+    label: "Blog CMS",
     icon: IconBrandBlogger,
-    initiallyOpened: false,
     roles: [EUserRoles.ADMIN, EUserRoles.MOD, EUserRoles.EDITOR],
-    link: "/dashboard/blog",
-    links: [
-      {
-        label: "Create post",
-        link: "/dashboard/blog/create",
-      },
-      {
-        label: "Posts",
-        link: "/dashboard/blog",
-      },
-    ],
+    link: process.env.NEXT_PUBLIC_BLOG_CMS_URL ?? "",
   },
   {
     label: "Awards",

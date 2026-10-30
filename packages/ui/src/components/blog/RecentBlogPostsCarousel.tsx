@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Paper, Skeleton } from "@mantine/core";
+import { Button, Text, Paper, Skeleton } from "@mantine/core";
 import {
   BlogPostCard,
   DetailsBox,
@@ -27,9 +27,8 @@ const RecentBlogPostsCarousel = () => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
 
-  const { data, isLoading } = useBlogPosts({
+  const { data, isLoading, error, refetch } = useBlogPosts({
     limit: 6,
-    includeDraft: false,
   });
 
   const buildSlides = useCallback(() => {
@@ -55,6 +54,12 @@ const RecentBlogPostsCarousel = () => {
         className: "",
       }}
     >
+      {error && (
+        <Button onClick={() => refetch()}>
+          {t("blog.read.error")} {t("blog.read.retry")}
+        </Button>
+      )}
+      {data?.data.length === 0 && <Text>{t("blog.list.empty")}</Text>}
       <Carousel
         slideSize={{
           base: "100%",

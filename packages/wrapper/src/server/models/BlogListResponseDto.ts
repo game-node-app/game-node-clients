@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BlogPost } from './BlogPost';
+import type { BlogArticleDto } from './BlogArticleDto';
 import type { PaginationInfo } from './PaginationInfo';
-export type FindAllBlogPostResponseDto = {
-    data: Array<BlogPost>;
+export type BlogListResponseDto = {
+    data: Array<BlogArticleDto>;
     pagination: PaginationInfo;
 };
 

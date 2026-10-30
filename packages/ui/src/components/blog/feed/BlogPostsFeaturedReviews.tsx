@@ -5,10 +5,13 @@ import {
   CenteredLoading,
   useBlogPosts,
 } from "#@/components";
+import { Button, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { Carousel } from "@mantine/carousel";
 
 const BlogPostsFeaturedReviews = () => {
-  const { data, isLoading } = useBlogPosts({
+  const { t } = useTranslation();
+  const { data, isLoading, error, refetch } = useBlogPosts({
     limit: BLOG_POSTS_FEED_DEFAULT_LIMIT,
     tag: "review",
   });
@@ -27,6 +30,13 @@ const BlogPostsFeaturedReviews = () => {
     return <CenteredLoading />;
   }
 
+  if (error)
+    return (
+      <Button onClick={() => refetch()}>
+        {t("blog.read.error")} {t("blog.read.retry")}
+      </Button>
+    );
+  if (data?.data.length === 0) return <Text>{t("blog.list.empty")}</Text>;
   return (
     <Carousel draggable withIndicators={false}>
       {items}

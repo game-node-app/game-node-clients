@@ -1,10 +1,5 @@
-import React, { useMemo } from "react";
-import {
-  BLOG_POST_EDITOR_EXTENSIONS,
-  GameRating,
-  useBlogPosts,
-  useGame,
-} from "#@/components";
+import React from "react";
+import { GameRating, useBlogPosts, useGame } from "#@/components";
 import {
   AspectRatio,
   Box,
@@ -14,12 +9,14 @@ import {
   Spoiler,
   Stack,
   Title,
+  Text,
 } from "@mantine/core";
-import { getS3StoredUpload, Link } from "#@/util";
-import { BlogPost } from "@repo/wrapper/server";
+import { Link } from "#@/util";
+import dayjs from "dayjs";
+import { BlogArticleDto } from "@repo/wrapper/server";
 
 interface Props {
-  post: BlogPost;
+  post: BlogArticleDto;
 }
 
 const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
@@ -31,11 +28,7 @@ const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
     },
   });
 
-  const imageUrl = useMemo(() => {
-    if (!post || !post.image) return null;
-
-    return getS3StoredUpload(`${post.image.filename}.${post.image.extension}`);
-  }, [post]);
+  const imageUrl = post.cover.url;
 
   if (reviewInfo == undefined) return null;
 
@@ -52,6 +45,8 @@ const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
           </Title>
         </Link>
 
+        <Text lineClamp={2}>{post.excerpt}</Text>
+        <Text>{dayjs(post.publishedAt).format("DD/MM/YYYY")}</Text>
         <Divider size={"lg"} className={"border-brand-5 w-full"} />
         <Link href={`/blog/post/${post.id}`} className={"w-full"}>
           <Group className={"w-full justify-between"}>
@@ -63,7 +58,7 @@ const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
       <AspectRatio ratio={3 / 4} className={"relative"}>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0.1)_0%,_rgba(10,10,10,0.6)_54%,_rgba(0,0,0,1)_100%)]"></div>
 
-        <Image src={imageUrl} className={"rounded-sm"} />
+        <Image src={imageUrl} alt={post.cover.alt} className={"rounded-sm"} />
       </AspectRatio>
     </Box>
   );

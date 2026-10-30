@@ -5,11 +5,14 @@ import {
   useBlogPosts,
 } from "#@/components";
 import { getErrorMessage, getRandomItems } from "#@/util";
-import { Box } from "@mantine/core";
+import { Button, Text, Box } from "@mantine/core";
 import { BlogPostFeaturedCard } from "#@/components/blog/card/BlogPostFeaturedCard.tsx";
 
+import { useTranslation } from "@repo/locales";
+
 const BlogPostsFeatured = () => {
-  const { data, isLoading, error } = useBlogPosts({
+  const { t } = useTranslation();
+  const { data, isLoading, error, refetch } = useBlogPosts({
     limit: 50,
   });
 
@@ -42,9 +45,15 @@ const BlogPostsFeatured = () => {
     return <CenteredLoading />;
   }
   if (error) {
-    return <CenteredErrorMessage message={getErrorMessage(error)} />;
+    return (
+      <>
+        <CenteredErrorMessage message={getErrorMessage(error)} />
+        <Button onClick={() => refetch()}>{t("blog.read.retry")}</Button>
+      </>
+    );
   }
 
+  if (data?.data.length === 0) return <Text>{t("blog.list.empty")}</Text>;
   return (
     <Box className={"grid grid-cols-3 gap-4 lg:min-h-96"}>{renderedItems}</Box>
   );

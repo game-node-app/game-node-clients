@@ -1,11 +1,11 @@
 import React from "react";
-import { BlogPostReview } from "@repo/wrapper/server";
+import { BlogReviewDto } from "@repo/wrapper/server";
 import { GameRating, useGame } from "#@/components";
 import { Group, Title } from "@mantine/core";
 import { Link } from "#@/util";
 
 interface Props {
-  reviewInfo: BlogPostReview;
+  reviewInfo: BlogReviewDto;
 }
 
 const BlogPostReviewInfo = ({ reviewInfo }: Props) => {

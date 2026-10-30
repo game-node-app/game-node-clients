@@ -32,7 +32,8 @@ export function Navbar({ data }: Props) {
     }
 
     return data.map((item) => {
-      const rolesForRoute = getRolesForRoute(item.link);
+      if (!item.link) return null;
+      const rolesForRoute = item.roles;
 
       console.log(`Roles for ${item.link}:`, rolesForRoute);
 

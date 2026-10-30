@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UpdateBlogPostImageDto = {
-    image?: Record<string, any>;
+export type BlogTagDto = {
+    id: string;
+    name: string;
 };
 

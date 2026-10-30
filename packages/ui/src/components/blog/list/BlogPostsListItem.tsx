@@ -1,20 +1,16 @@
-import React, { useMemo } from "react";
-import { BlogPost } from "@repo/wrapper/server";
+import React from "react";
+import { BlogArticleDto } from "@repo/wrapper/server";
 import { AspectRatio, Group, Image, Stack, Text } from "@mantine/core";
-import { getS3StoredUpload, Link } from "#@/util";
+import { Link } from "#@/util";
 import dayjs from "dayjs";
 import { UserAvatarGroup } from "#@/components";
 
 interface Props {
-  post: BlogPost;
+  post: BlogArticleDto;
 }
 
 const BlogPostsListItem = ({ post }: Props) => {
-  const imageUrl = useMemo(() => {
-    if (!post.image) return null;
-
-    return getS3StoredUpload(`${post.image.filename}.${post.image.extension}`);
-  }, [post.image]);
+  const imageUrl = post.cover.url;
 
   return (
     <Group
@@ -26,7 +22,7 @@ const BlogPostsListItem = ({ post }: Props) => {
       >
         <Image
           src={imageUrl}
-          alt={post.title}
+          alt={post.cover.alt}
           className={"w-full h-full rounded-tl-lg rounded-bl-lg"}
         />
       </Link>
@@ -40,6 +36,7 @@ const BlogPostsListItem = ({ post }: Props) => {
             {post.title}
           </Text>
         </Link>
+        <Text lineClamp={2}>{post.excerpt}</Text>
         <Group className={"w-full flex-nowrap justify-between"}>
           <UserAvatarGroup
             userId={post.profileUserId}
@@ -48,7 +45,7 @@ const BlogPostsListItem = ({ post }: Props) => {
             }}
           />
           <Text className={"text-sm text-dimmed"}>
-            {dayjs(post.createdAt).format("DD/MM/YYYY")}
+            {dayjs(post.publishedAt).format("DD/MM/YYYY")}
           </Text>
         </Group>
       </Stack>

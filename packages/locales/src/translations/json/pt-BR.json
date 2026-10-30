@@ -145,7 +145,8 @@
     "labels": {
       "draft": "Rascunho",
       "reviewedGame": "Jogo avaliado",
-      "tags": "Tags"
+      "tags": "Tags",
+      "published": "Publicado"
     },
     "list": {
       "empty": "Nenhuma postagem corresponde a este criterio. Altere os parametros ou",
@@ -164,7 +165,13 @@
       "reviews": "Avaliações"
     },
     "recentPosts": "Postagens recentes do blog",
-    "recentReviews": "Avaliações recentes"
+    "recentReviews": "Avaliações recentes",
+    "read": {
+      "fallback": "Este artigo está disponível em inglês.",
+      "missing": "Artigo não encontrado.",
+      "error": "Os artigos estão indisponíveis no momento.",
+      "retry": "Tentar novamente"
+    }
   },
   "buttons": {
     "confirm": "Confirmar",

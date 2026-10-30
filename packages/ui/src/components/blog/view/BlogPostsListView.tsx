@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   BlogPostsListItem,
   CenteredErrorMessage,
@@ -9,14 +9,14 @@ import {
   TextLink,
   useBlogPosts,
 } from "#@/components";
-import { Badge, Center, Chip, Text } from "@mantine/core";
+import { Badge, Button, Center, Chip, Text } from "@mantine/core";
 import {
   getCapitalizedText,
   getErrorMessage,
   getOffsetAsPage,
   getPageAsOffset,
 } from "#@/util";
-import { useTranslation } from "@repo/locales";
+import { useTranslation, useI18nContext } from "@repo/locales";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   tag: string | undefined;
@@ -28,10 +28,12 @@ const DEFAULT_LIMIT = 20;
 const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
   const { t } = useTranslation();
   const [offset, setOffset] = useState(0);
+  const { language } = useI18nContext();
+  useEffect(() => setOffset(0), [tag, language]);
 
   const offsetAsPage = getOffsetAsPage(offset, DEFAULT_LIMIT);
 
-  const { data, isLoading, isError, error } = useBlogPosts({
+  const { data, isLoading, isError, error, refetch } = useBlogPosts({
     offset: offset,
     tag,
     limit: DEFAULT_LIMIT,
@@ -52,7 +54,12 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
     >
       {tag && <Badge onClick={onTagDeselect}>{getCapitalizedText(tag)}</Badge>}
       {isLoading && <CenteredLoading />}
-      {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+      {isError && (
+        <>
+          <CenteredErrorMessage message={getErrorMessage(error)} />
+          <Button onClick={() => refetch()}>{t("blog.read.retry")}</Button>
+        </>
+      )}
       {!isLoading && data != undefined && data.data.length === 0 && (
         <Center>
           <Text className={"text-yellow-400"}>
