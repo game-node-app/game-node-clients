@@ -31,7 +31,6 @@ interface Props {
 }
 
 const useSignInMethods = (relativeCallbacks = false) => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const router = useRouter();
   const [unlinking, setUnlinking] = useState<ProviderId>();
