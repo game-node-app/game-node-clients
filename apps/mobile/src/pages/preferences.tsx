@@ -5,9 +5,8 @@ import PreferencesLibraryItems from "@/components/preferences/library/Preference
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import { IonList } from "@ionic/react";
-import { Stack } from "@mantine/core";
-import { Capacitor } from "@capacitor/core";
-import { SessionAuth, SignInMethodsSection } from "@repo/ui";
+import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
+import { SessionAuth } from "@repo/ui";
 
 const PreferencesPage = () => {
   return (
@@ -18,20 +17,14 @@ const PreferencesPage = () => {
       }}
     >
       <SessionAuth>
-        <Stack className={"mb-4 p-0"}>
-          <IonList className={"pt-0"}>
-            <PreferencesProfileItems />
-            <PreferencesLibraryItems />
-            <PreferencesConnectionsItems />
-            <PreferencesImporterItems />
-            <PreferencesMiscItems />
-          </IonList>
-          <div className={"px-4"}>
-            <SignInMethodsSection
-              relativeCallbacks={Capacitor.isNativePlatform()}
-            />
-          </div>
-        </Stack>
+        <IonList className={"pt-0 mb-4"}>
+          <PreferencesProfileItems />
+          <PreferencesLibraryItems />
+          <PreferencesConnectionsItems />
+          <PreferencesImporterItems />
+          <PreferencesSignInMethodsItems />
+          <PreferencesMiscItems />
+        </IonList>
       </SessionAuth>
     </AppPage>
   );

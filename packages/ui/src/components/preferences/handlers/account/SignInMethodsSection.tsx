@@ -16,12 +16,12 @@ import { getAuthErrorKey } from "#@/components/auth/getAuthErrorKey";
 import { ActionConfirm } from "#@/components/general/ActionConfirm";
 import { createErrorNotification, useRouter } from "#@/util";
 
-const PROVIDERS = [
+export const PROVIDERS = [
   { id: "google", Logo: GoogleLogo },
   { id: "discord", Logo: DiscordLogo },
   { id: "twitter", Logo: XLogo },
 ] as const;
-type ProviderId = (typeof PROVIDERS)[number]["id"];
+export type ProviderId = (typeof PROVIDERS)[number]["id"];
 
 const ACCOUNTS_KEY = ["auth", "accounts"];
 
@@ -30,7 +30,7 @@ interface Props {
   relativeCallbacks?: boolean;
 }
 
-const SignInMethodsSection = ({ relativeCallbacks = false }: Props) => {
+const useSignInMethods = (relativeCallbacks = false) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -77,6 +77,31 @@ const SignInMethodsSection = ({ relativeCallbacks = false }: Props) => {
   });
 
   const errorKey = getAuthErrorKey(errorCode);
+
+  return {
+    linked,
+    errorCode,
+    errorKey,
+    unlinking,
+    setUnlinking,
+    linkMutation,
+    unlinkMutation,
+    isLoadingAccounts: accountsQuery.isPending,
+  };
+};
+
+const SignInMethodsSection = ({ relativeCallbacks = false }: Props) => {
+  const { t } = useTranslation();
+  const {
+    linked,
+    errorCode,
+    errorKey,
+    unlinking,
+    setUnlinking,
+    linkMutation,
+    unlinkMutation,
+    isLoadingAccounts,
+  } = useSignInMethods(relativeCallbacks);
 
   return (
     <Paper withBorder p={"md"} radius={"md"}>
@@ -135,7 +160,7 @@ const SignInMethodsSection = ({ relativeCallbacks = false }: Props) => {
                   loading={
                     linkMutation.isPending && linkMutation.variables === id
                   }
-                  disabled={accountsQuery.isPending}
+                  disabled={isLoadingAccounts}
                   onClick={() => linkMutation.mutate(id)}
                 >
                   {t("auth.methods.link")}
@@ -160,4 +185,4 @@ const SignInMethodsSection = ({ relativeCallbacks = false }: Props) => {
   );
 };
 
-export { SignInMethodsSection };
+export { SignInMethodsSection, useSignInMethods };
