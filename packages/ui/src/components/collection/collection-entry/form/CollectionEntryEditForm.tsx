@@ -40,7 +40,6 @@ const createGameAddOrUpdateSchema = (
   z.object({
     collectionIds: z.array(
       z.string({
-        // @ts-ignore
         message: t("collectionEntry.validation.collectionRequired"),
       }),
       {

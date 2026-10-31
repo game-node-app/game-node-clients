@@ -1,6 +1,3 @@
-import React, { useEffect, useMemo } from "react";
-import { useFormContext } from "react-hook-form";
-import { Stack, Text } from "@mantine/core";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GamePlatformMultiSelect,
@@ -10,11 +7,13 @@ import {
   useActivePreferredPlatforms,
   useGame,
   useOwnCollectionEntryForGameId,
-  usePreferredPlatforms,
 } from "#@/components";
-import { useDisclosure } from "@mantine/hooks";
 import { PreferredPlatformsViewModal } from "#@/components/preferred-platform/view/PreferredPlatformsViewModal";
+import { Stack, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { useEffect, useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 
 const CollectionEntryPlatformSelect = ({
   gameId,

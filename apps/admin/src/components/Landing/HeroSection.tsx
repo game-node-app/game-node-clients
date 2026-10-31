@@ -1,14 +1,10 @@
 "use client";
 
+import MainAppLink from "@/components/general/MainAppLink";
 import { Button, Container, Group, Text, Title } from "@mantine/core";
-import {
-  IconArrowRight,
-  IconExternalLink,
-  IconStar,
-} from "@tabler/icons-react";
+import { IconArrowRight, IconExternalLink } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import classes from "./HeroSection.module.css";
-import MainAppLink from "@/components/general/MainAppLink";
 
 export function HeroSection() {
   const router = useRouter();

@@ -1,13 +1,5 @@
-import React, { useMemo } from "react";
-import {
-  AwardsResultCategory,
-  useAwardCategoryResults,
-  useAwardCategoryVote,
-  useAwardEventCategories,
-  useUserId,
-} from "#@/components";
+import { AwardsResultCategory, useAwardCategoryResults } from "#@/components";
 import { Stack, Text } from "@mantine/core";
-import { AwardsCategoryResult } from "@repo/wrapper/server";
 
 interface Props {
   eventId: number;

@@ -1,19 +1,18 @@
-import React, { PropsWithChildren } from "react";
+import { HeaderSearchButton } from "@/components/general/header/HeaderSearchButton.tsx";
+import { QueryProgressBar } from "@/components/general/QueryProgressBar";
+import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import {
   IonBackButton,
   IonButtons,
-  IonContent,
   IonHeader,
   IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
-import { HeaderSearchButton } from "@/components/general/header/HeaderSearchButton.tsx";
-import { QueryProgressBar } from "@/components/general/QueryProgressBar";
+import { ErrorBoundaryFallback } from "@repo/ui";
+import React, { PropsWithChildren } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { CenteredErrorMessage, ErrorBoundaryFallback } from "@repo/ui";
 
 interface Props extends PropsWithChildren {
   withSearch?: boolean;

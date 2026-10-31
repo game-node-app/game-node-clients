@@ -1,4 +1,3 @@
-import React from "react";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { useQueryClient } from "@tanstack/react-query";
 

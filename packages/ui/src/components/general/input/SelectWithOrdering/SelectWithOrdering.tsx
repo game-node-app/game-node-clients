@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { Group, Select, SelectProps } from "@mantine/core";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface Props
   extends Omit<SelectProps, "onChange" | "value" | "allowDeselect"> {

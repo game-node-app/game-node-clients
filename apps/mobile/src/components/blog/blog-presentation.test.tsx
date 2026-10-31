@@ -1,10 +1,19 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
-import { english, fallback, draft } from "./fixtures";
-const reading = vi.hoisted(() => ({ query: {} as any, setLanguage: vi.fn() }));
+import { afterEach, expect, it, vi } from "vitest";
+import { BlogArticleView } from "../../../../../packages/ui/src/components/blog/view/BlogArticleView";
+import { draft, english, fallback } from "./fixtures";
+const reading = vi.hoisted(() => ({
+  query: {} as {
+    data?: import("@repo/wrapper/server").BlogArticleDto;
+    isLoading?: boolean;
+    isError?: boolean;
+    error?: { status: number };
+    refetch?: () => void;
+  },
+  setLanguage: vi.fn(),
+}));
 const lightbox = vi.hoisted(() => ({
   openLightbox: vi.fn(),
   registerImage: vi.fn(),
@@ -15,7 +24,9 @@ vi.mock("@repo/locales", () => ({
   useI18nContext: () => ({ setLanguage: reading.setLanguage }),
 }));
 vi.mock("@mantine/core", () => {
-  const C = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+  const C = ({ children, ...props }: import("react").ComponentProps<"div">) => (
+    <div {...props}>{children}</div>
+  );
   return {
     Box: C,
     Group: C,
@@ -23,10 +34,13 @@ vi.mock("@mantine/core", () => {
     Text: C,
     Title: C,
     Badge: C,
-    Button: ({ children, onClick }: any) => (
+    Button: ({
+      children,
+      onClick,
+    }: import("react").ComponentProps<"button">) => (
       <button onClick={onClick}>{children}</button>
     ),
-    Image: (props: any) => <img {...props} />,
+    Image: (props: import("react").ComponentProps<"img">) => <img {...props} />,
   };
 });
 vi.mock("../../../../../packages/ui/src/components", () => ({
@@ -34,22 +48,38 @@ vi.mock("../../../../../packages/ui/src/components", () => ({
   CenteredLoading: () => <span>Loading</span>,
   UserAvatarGroup: () => null,
   BlogPostTags: () => null,
-  BlogPostReviewInfo: ({ reviewInfo }: any) => (
+  BlogPostReviewInfo: ({ reviewInfo }: { reviewInfo: { rating: number } }) => (
     <span>Rating {reviewInfo.rating}</span>
   ),
-  PostImageLightboxContext: ({ children }: any) => children,
+  PostImageLightboxContext: ({ children }: import("react").PropsWithChildren) =>
+    children,
   usePostImageLightboxContext: () => lightbox,
 }));
-import { BlogArticleView } from "../../../../../packages/ui/src/components/blog/view/BlogArticleView";
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
 });
 it("includes sanitized article markup in SSR and expands images by keyboard", () => {
-  const html = renderToString(<BlogArticleView post={english as any} />);
+  const html = renderToString(
+    <BlogArticleView
+      post={
+        english as unknown as
+          | import("@repo/wrapper/server").BlogArticleDto
+          | import("@repo/wrapper/server").BlogPreviewDto
+      }
+    />,
+  );
   expect(html).toContain("English body");
   expect(html).toContain('lang="en"');
-  render(<BlogArticleView post={english as any} />);
+  render(
+    <BlogArticleView
+      post={
+        english as unknown as
+          | import("@repo/wrapper/server").BlogArticleDto
+          | import("@repo/wrapper/server").BlogPreviewDto
+      }
+    />,
+  );
   const image = screen.getByAltText("Gameplay");
   expect(image.tabIndex).toBe(0);
   fireEvent.keyDown(image, { key: "Enter" });
@@ -59,7 +89,15 @@ it("includes sanitized article markup in SSR and expands images by keyboard", ()
   expect(screen.getByText("Rating 0")).toBeTruthy();
 });
 it("shows fallback with only published language links and the resolved language", () => {
-  render(<BlogArticleView post={fallback as any} />);
+  render(
+    <BlogArticleView
+      post={
+        fallback as unknown as
+          | import("@repo/wrapper/server").BlogArticleDto
+          | import("@repo/wrapper/server").BlogPreviewDto
+      }
+    />,
+  );
   expect(screen.getByRole("status").textContent).toBe("blog.read.fallback");
   expect(screen.queryByRole("link", { name: "pt-BR" })).toBeNull();
   expect(
@@ -67,7 +105,15 @@ it("shows fallback with only published language links and the resolved language"
   ).toContain(`/blog/post/${english.id}`);
 });
 it("presents an unpublished exact-locale preview with its real draft state", () => {
-  const html = renderToString(<BlogArticleView post={draft as any} />);
+  const html = renderToString(
+    <BlogArticleView
+      post={
+        draft as unknown as
+          | import("@repo/wrapper/server").BlogArticleDto
+          | import("@repo/wrapper/server").BlogPreviewDto
+      }
+    />,
+  );
   expect(html).toContain("Rascunho privado");
   expect(html).toContain("blog.labels.draft");
   expect(html).toContain('lang="pt-BR"');
@@ -96,7 +142,15 @@ it("changes mobile language on the current UUID article", () => {
     serverUrl: "",
     searchUrl: "",
   });
-  render(<BlogArticleView post={english as any} />);
+  render(
+    <BlogArticleView
+      post={
+        english as unknown as
+          | import("@repo/wrapper/server").BlogArticleDto
+          | import("@repo/wrapper/server").BlogPreviewDto
+      }
+    />,
+  );
   fireEvent.click(screen.getByRole("link", { name: "pt-BR" }));
   expect(reading.setLanguage).toHaveBeenCalledWith("pt-BR");
 });

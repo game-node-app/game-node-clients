@@ -1,8 +1,7 @@
-import React from "react";
-import { BaseRecapStatsProps } from "#@/components/recap/stats/types";
-import { useRecap } from "#@/components/recap/hooks/useRecap";
-import { Group, HoverCard, Popover, Stack, Text, Title } from "@mantine/core";
 import { useOnMobile } from "#@/components";
+import { useRecap } from "#@/components/recap/hooks/useRecap";
+import { BaseRecapStatsProps } from "#@/components/recap/stats/types";
+import { Group, HoverCard, Popover, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 const RecapStatsPlaytime = ({ userId, targetYear }: BaseRecapStatsProps) => {

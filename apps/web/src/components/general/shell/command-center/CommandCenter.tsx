@@ -1,12 +1,12 @@
 import { CommandCenterGamesContent } from "@/components/general/shell/command-center/content/CommandCenterGamesContent";
 import { Code, Flex, Text } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import { Spotlight } from "@mantine/spotlight";
-import { useOnMobile, useUserId } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
+import { useOnMobile } from "@repo/ui";
 import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { CommandCenterUsersContent } from "./content/CommandCenterUsersContent";
-import { useDebouncedValue } from "@mantine/hooks";
-import { useTranslation } from "@repo/locales";
 
 const CommandCenter = () => {
   const { t } = useTranslation();

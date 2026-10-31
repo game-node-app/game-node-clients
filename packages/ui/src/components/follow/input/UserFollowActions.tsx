@@ -1,13 +1,8 @@
-import React from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "#@/components/follow/hooks/useFollowStatus";
+import { Button, Group } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
-import {
-  FollowInfoRequestDto,
-  FollowService,
-} from "../../../../../wrapper/src/server";
-import { ActionIcon, Button, Group, Tooltip } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
+import { FollowService } from "../../../../../wrapper/src/server";
 
 interface Props {
   targetUserId: string;

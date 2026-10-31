@@ -1,12 +1,12 @@
-import React, { MutableRefObject, useEffect, useMemo } from "react";
-import { Box, BoxComponentProps, Menu } from "@mantine/core";
+import { useReviewForUserIdAndGameId, useUserId } from "#@/components";
+import { Box } from "@mantine/core";
+import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
+import { useTranslation } from "@repo/locales";
+import { Editor } from "@tiptap/core";
+import { Placeholder } from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { RichTextEditor, RichTextEditorProps } from "@mantine/tiptap";
-import { Placeholder } from "@tiptap/extension-placeholder";
-import { Editor } from "@tiptap/core";
-import { useUserId, useReviewForUserIdAndGameId } from "#@/components";
-import { useTranslation } from "@repo/locales";
+import { MutableRefObject, useEffect, useMemo } from "react";
 
 interface IGameInfoReviewEditorProps
   extends Partial<Omit<RichTextEditorProps, "onBlur" | "editor">> {

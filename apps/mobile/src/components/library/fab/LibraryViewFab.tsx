@@ -2,7 +2,6 @@ import { IonFab, IonFabButton } from "@ionic/react";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionCreateOrUpdateModal } from "@repo/ui";
 import { IconLibraryPlus } from "@tabler/icons-react";
-import React from "react";
 
 /**
  * Must be directly under a 'IonContent' element.

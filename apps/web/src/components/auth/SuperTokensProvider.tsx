@@ -35,7 +35,7 @@ export const frontendConfig = (
             --palette-textGray: 158, 158, 158;
         }
     `,
-    getRedirectionURL: async (context: any) => {
+    getRedirectionURL: async (context) => {
       if (context.action === "SUCCESS" && context.newSessionCreated) {
         if (context.redirectToPath !== undefined) {
           // we are navigating back to where the user was before they authenticated

@@ -1,4 +1,9 @@
-import React from "react";
+import { blobToBase64 } from "@/util/imageUtils.ts";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
+import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import {
   cn,
   CollectionEntryEditModal,
@@ -13,8 +18,6 @@ import {
   useUpdateFavoriteStatusMutation,
   useUserId,
 } from "@repo/ui";
-import { useDisclosure } from "@mantine/hooks";
-import { ActionIcon, Button, Group, Stack, Tooltip } from "@mantine/core";
 import {
   IconChevronDown,
   IconHeartFilled,
@@ -22,10 +25,6 @@ import {
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import { blobToBase64 } from "@/util/imageUtils.ts";
-import { Directory, Filesystem } from "@capacitor/filesystem";
-import { Share } from "@capacitor/share";
-import { useTranslation } from "@repo/locales";
 
 const MobileGameInfoActions = ({
   wrapperProps,
@@ -47,9 +46,7 @@ const MobileGameInfoActions = ({
   const gameInFavorites =
     gameInLibrary && collectionEntryQuery.data!.isFavorite;
 
-  const reviewQuery = useReviewForUserIdAndGameId(userId, game?.id);
-
-  const hasReview = reviewQuery.data != undefined;
+  useReviewForUserIdAndGameId(userId, game?.id);
 
   const collectionEntryFavoriteMutation = useUpdateFavoriteStatusMutation(
     game?.id,

@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
-import { SimpleGrid, Spoiler } from "@mantine/core";
 import { GameAchievementHoverIcon } from "#@/components";
+import { SimpleGrid, Spoiler } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   achievements: GameAchievementWithObtainedInfo[];

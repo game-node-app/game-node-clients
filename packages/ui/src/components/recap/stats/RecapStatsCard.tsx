@@ -1,6 +1,5 @@
-import React from "react";
-import { Stack, StackProps } from "@mantine/core";
 import { cn } from "#@/util";
+import { Stack, StackProps } from "@mantine/core";
 
 const RecapStatsCard = (props: StackProps) => {
   return (

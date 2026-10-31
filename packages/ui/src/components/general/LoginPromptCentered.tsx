@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Center, Stack, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 

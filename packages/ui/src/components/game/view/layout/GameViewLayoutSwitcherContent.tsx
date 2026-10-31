@@ -1,12 +1,11 @@
-import React from "react";
+import { ActionChip } from "#@/components";
 import {
   GameViewLayoutOption,
   GameViewLayoutSwitcherProps,
 } from "#@/components/game/view/layout/GameViewLayoutSwitcher";
-import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 import { ActionIcon, Divider, Group, Tooltip } from "@mantine/core";
-import { ActionChip } from "#@/components";
 import { useTranslation } from "@repo/locales";
+import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
 
 interface Props extends GameViewLayoutSwitcherProps {
   layout: GameViewLayoutOption;

@@ -1,7 +1,6 @@
-import React from "react";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
-import { Review, ReviewsService } from "../../../../../wrapper/src/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Review, ReviewsService } from "../../../../../wrapper/src/server";
 
 const useReviewForUserIdAndGameId = (
   userId: string | undefined,
@@ -26,7 +25,7 @@ const useReviewForUserIdAndGameId = (
             return null;
           }
           return review;
-        } catch (e) {
+        } catch {
           return null;
         }
       },

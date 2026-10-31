@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import {
   IonRefresher,
@@ -7,6 +7,7 @@ import {
   useIonViewWillLeave,
 } from "@ionic/react";
 import { Box, Stack, Tabs } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
@@ -30,7 +31,7 @@ import {
   IconStars,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "@repo/locales";
+import { useEffect, useRef } from "react";
 
 const TAB_ICONS: GameInfoTabIcons = {
   home: <IconBrandAppleArcade size={20} />,
@@ -63,12 +64,12 @@ const GamePage = ({ gameId }: Props) => {
 
   const active = useRef(false);
   const visit = useRef<{ id: number; viewId: string } | undefined>(undefined);
-  const recordVisit = () => {
+  const recordVisit = useCallback(() => {
     if (!Number.isSafeInteger(gameId) || gameId <= 0) return;
     if (visit.current?.id !== gameId)
       visit.current = { id: gameId, viewId: crypto.randomUUID() };
     incrementView(visit.current.viewId);
-  };
+  }, [gameId, incrementView]);
   useIonViewWillEnter(() => {
     active.current = true;
     visit.current = undefined;
@@ -80,7 +81,7 @@ const GamePage = ({ gameId }: Props) => {
   });
   useEffect(() => {
     if (active.current) recordVisit();
-  }, [gameId, incrementView]);
+  }, [gameId, incrementView, recordVisit]);
 
   const onChange = (tab: GameInfoTabValue) => {
     setParams({

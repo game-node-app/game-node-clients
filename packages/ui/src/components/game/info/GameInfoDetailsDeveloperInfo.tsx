@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Skeleton } from "@mantine/core";
-import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
+import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface IProps {
   gameId: number;

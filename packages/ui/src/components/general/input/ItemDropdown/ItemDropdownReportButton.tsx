@@ -1,7 +1,6 @@
-import React from "react";
-import { IconBan } from "@tabler/icons-react";
-import { Menu } from "@mantine/core";
 import { ItemDropdownButtonProps } from "#@/components/general/input/ItemDropdown/types";
+import { Menu } from "@mantine/core";
+import { IconBan } from "@tabler/icons-react";
 
 const ItemDropdownReportButton = ({
   disabled,

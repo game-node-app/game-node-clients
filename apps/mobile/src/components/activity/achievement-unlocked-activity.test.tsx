@@ -1,32 +1,37 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import { Activity } from "@repo/wrapper/server";
-import { ActivityItem } from "../../../../../packages/ui/src/components/activity/item/ActivityItem";
+import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
+import { ActivityItem } from "../../../../../packages/ui/src/components/activity/item/ActivityItem";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
-      let val: any = enTranslations;
-      for (const p of key.split(".")) val = val?.[p];
+    t: (key: string, options?: Record<string, unknown>) => {
+      let val: unknown = enTranslations;
+      for (const p of key.split("."))
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       return typeof val === "string"
-        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? "")
+        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => String(options?.[k] ?? ""))
         : key;
     },
   }),
 }));
 
 vi.mock("../../../../../packages/ui/src/util", () => ({
-  Link: ({ children }: any) => <a>{children}</a>,
+  Link: ({ children }: import("react").PropsWithChildren) => <a>{children}</a>,
 }));
 
 vi.mock("../../../../../packages/ui/src/components", () => {
   const empty = () => ({ data: undefined });
   return {
-    AchievementBadge: ({ tier }: any) => <div data-testid="badge">{tier}</div>,
+    AchievementBadge: ({ tier }: { tier?: number }) => (
+      <div data-testid="badge">{tier}</div>
+    ),
     ActivityItemLikes: () => <div>likes</div>,
     ActivityItemComments: () => <div>comments</div>,
     GameRating: () => null,
@@ -69,7 +74,7 @@ describe("ACHIEVEMENT_UNLOCKED activity", () => {
               profileUserId: "u1",
               obtainedAchievementId: 5,
               obtainedAchievement: { achievementId: "horror-critic", tier: 2 },
-            } as any
+            } as unknown as Activity
           }
         />
       </MantineProvider>,

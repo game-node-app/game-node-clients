@@ -1,6 +1,3 @@
-import React from "react";
-import { StatisticsSourceRequestDto, Review } from "@repo/wrapper/server";
-import { Box, Divider, Group, Stack, Title } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
   GameFigureImage,
@@ -9,9 +6,11 @@ import {
   TextLink,
   useGame,
 } from "#@/components";
+import { Box, Divider, Group, Stack, Title } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
+import { Review, StatisticsSourceRequestDto } from "@repo/wrapper/server";
 import { EditorContent, useEditor } from "@tiptap/react";
 import sourceType = StatisticsSourceRequestDto.sourceType;
-import { useTranslation } from "@repo/locales";
 
 interface Props {
   review: Review;

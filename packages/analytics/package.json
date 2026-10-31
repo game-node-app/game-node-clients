@@ -1,5 +1,6 @@
 {
   "name": "@repo/analytics",
+  "private": true,
   "version": "0.0.0",
   "description": "Centralized package for analytics related functionality.",
   "main": "index.ts",

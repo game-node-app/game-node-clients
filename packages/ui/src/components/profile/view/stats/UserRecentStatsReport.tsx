@@ -1,7 +1,6 @@
-import React from "react";
 import { ProfileStatsForPeriod, useUserId } from "#@/components";
-import dayjs from "dayjs";
 import { Period } from "#@/util";
+import dayjs from "dayjs";
 
 const UserRecentStatsReport = () => {
   const userId = useUserId();

@@ -1,9 +1,6 @@
-import React, { useMemo, useState } from "react";
-import {
-  CenteredLoading,
-  useAwardEvent,
-  useAwardEventCategories,
-} from "@repo/ui";
+import { AwardsCategorySuggestionView } from "@/components/awards/AwardsCategorySuggestionView.tsx";
+import { CreateUpdateAwardsCategoryForm } from "@/components/awards/form/CreateUpdateAwardsCategoryForm.tsx";
+import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import {
   ActionIcon,
   Button,
@@ -13,18 +10,12 @@ import {
   Title,
   Tooltip,
 } from "@mantine/core";
-import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
-import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
-import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
-import {
-  IconDeviceGamepad2,
-  IconDeviceGamepad3Filled,
-  IconEdit,
-  IconSubmarine,
-} from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { AwardsCategorySuggestionView } from "@/components/awards/AwardsCategorySuggestionView.tsx";
-import { CreateUpdateAwardsCategoryForm } from "@/components/awards/form/CreateUpdateAwardsCategoryForm.tsx";
+import { CenteredLoading, useAwardEventCategories } from "@repo/ui";
+import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
+import { IconDeviceGamepad2, IconEdit } from "@tabler/icons-react";
+import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
+import { useMemo, useState } from "react";
 
 const COLUMNS: MRT_ColumnDef<VotableAwardsCategoryDto>[] = [
   {

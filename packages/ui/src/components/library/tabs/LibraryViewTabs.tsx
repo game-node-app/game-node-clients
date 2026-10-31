@@ -1,8 +1,7 @@
-import React from "react";
-import { CollectionEntry } from "@repo/wrapper/server";
-import { Scroller, Tabs } from "@mantine/core";
 import { useOnMobile } from "#@/components";
+import { Scroller, Tabs } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { CollectionEntry } from "@repo/wrapper/server";
 
 interface Props {
   status: CollectionEntry.status;

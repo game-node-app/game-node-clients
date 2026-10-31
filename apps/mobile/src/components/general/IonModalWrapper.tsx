@@ -1,5 +1,3 @@
-import { cn, ModalComponentProps } from "@repo/ui";
-import React from "react";
 import {
   IonButton,
   IonButtons,
@@ -9,6 +7,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import { cn, ModalComponentProps } from "@repo/ui";
 
 const IonModalWrapper = ({
   opened,

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { BaseModalProps, getErrorMessage, Modal } from "#@/util";
-import { Stack } from "@mantine/core";
 import {
+  buildGameSearchRequestDto,
   CenteredErrorMessage,
   CenteredLoading,
   GameSelectView,
   SearchBar,
-  buildGameSearchRequestDto,
   useOnMobile,
   useSearchGames,
   useUserId,
 } from "#@/components";
-import { useDebouncedValue } from "@mantine/hooks";
 import { GameSearchSuggestions } from "#@/components/game/search/modal/GameSearchSuggestions.tsx";
+import { BaseModalProps, getErrorMessage, Modal } from "#@/util";
+import { Stack } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useState } from "react";
 
 interface Props extends BaseModalProps {
   onSelected: (gameId: number) => void;

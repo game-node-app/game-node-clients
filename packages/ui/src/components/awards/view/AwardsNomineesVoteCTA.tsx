@@ -1,7 +1,6 @@
-import React from "react";
-import { Box, BoxProps, Button, Text, Title } from "@mantine/core";
-import { cn, Link } from "#@/util";
 import { useAwardEvent } from "#@/components";
+import { cn, Link } from "#@/util";
+import { Box, BoxProps, Button, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props extends BoxProps {

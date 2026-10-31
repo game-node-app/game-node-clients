@@ -1,20 +1,11 @@
-import React from "react";
-import {
-  ActionIcon,
-  Anchor,
-  AppShell,
-  Container,
-  Flex,
-  Group,
-  Text,
-} from "@mantine/core";
-import Link from "next/link";
+import { ActionIcon, Flex, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   IconBrandDiscord,
   IconBrandGithub,
   IconBrandTwitter,
 } from "@tabler/icons-react";
-import { useTranslation } from "@repo/locales";
+import Link from "next/link";
 
 type IFooterLink = { href: string; label: string; external?: boolean };
 

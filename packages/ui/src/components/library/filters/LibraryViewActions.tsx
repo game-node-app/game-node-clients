@@ -1,5 +1,3 @@
-import React, { useMemo } from "react";
-import { Chip, Group, GroupProps, Scroller } from "@mantine/core";
 import {
   ActionChip,
   GameViewLayoutOption,
@@ -8,9 +6,11 @@ import {
   SortingChipValue,
   useUserId,
 } from "#@/components";
-import { IconDownload } from "@tabler/icons-react";
 import { cn, Link } from "#@/util";
+import { Chip, Group, GroupProps, Scroller } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconDownload } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 interface Props extends GroupProps {
   libraryUserId: string;

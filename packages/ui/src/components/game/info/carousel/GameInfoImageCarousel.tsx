@@ -1,18 +1,18 @@
-import React, { useMemo } from "react";
-import { Carousel, CarouselProps } from "@mantine/carousel";
-import { Box, Image } from "@mantine/core";
+import { useGame } from "#@/components/game/hooks/useGame";
+import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
-import { useGame } from "#@/components/game/hooks/useGame";
-import { Game } from "@repo/wrapper/server";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
-import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import { Carousel, CarouselProps } from "@mantine/carousel";
+import { Box, Image } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Game } from "@repo/wrapper/server";
+import { useMemo } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 interface IGameInfoImageCarouselProps {
   gameId: number | undefined;

@@ -1,9 +1,8 @@
-import React from "react";
-import { GameDraggableItemProps, GameFigureImage } from "#@/components";
-import { useSortable } from "@dnd-kit/sortable";
-import { Box } from "@mantine/core";
-import { CSS } from "@dnd-kit/utilities";
+import { GameDraggableItemProps } from "#@/components";
 import { GameDraggableGridItemContent } from "#@/components/game/view/dnd/item/GameDraggableGridItemContent";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import React from "react";
 
 const GameDraggableGridItem = ({ game }: GameDraggableItemProps) => {
   const {

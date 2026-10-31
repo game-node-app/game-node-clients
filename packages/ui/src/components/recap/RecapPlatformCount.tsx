@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { Group, Image, Text } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
+import { Group, Image, Text } from "@mantine/core";
 import { YearRecapPlatformCountDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 const PLATFORM_ABBREVIATION_TO_BG_COLOR: Record<string, string> = {
   PC: "bg-[#103287]",

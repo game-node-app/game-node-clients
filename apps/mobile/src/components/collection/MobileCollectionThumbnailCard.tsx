@@ -1,4 +1,17 @@
-import React from "react";
+import { getTabAwareHref } from "@/util/getTabAwareHref.ts";
+import { Share } from "@capacitor/share";
+import { IonRippleEffect, useIonRouter } from "@ionic/react";
+import {
+  ActionIcon,
+  Box,
+  Center,
+  Group,
+  Menu,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+import { useClipboard, useDisclosure } from "@mantine/hooks";
 import {
   CollectionCreateOrUpdateModal,
   CollectionRemoveModal,
@@ -10,26 +23,11 @@ import {
   useUserId,
 } from "@repo/ui";
 import {
-  ActionIcon,
-  Box,
-  Center,
-  Group,
-  Menu,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import {
   IconBrandTelegram,
   IconDots,
   IconPencil,
   IconTrash,
 } from "@tabler/icons-react";
-import { IonRippleEffect, useIonRouter } from "@ionic/react";
-import { useClipboard, useDisclosure } from "@mantine/hooks";
-import { getTabAwareHref } from "@/util/getTabAwareHref.ts";
-import { notifications } from "@mantine/notifications";
-import { Share } from "@capacitor/share";
 
 const ITEMS_LIMIT = 9;
 
@@ -42,7 +40,7 @@ const MobileCollectionThumbnailCard = ({
   const [collectionEditOpened, collectionEditUtils] = useDisclosure();
   const [collectionRemoveOpened, collectionRemoveUtils] = useDisclosure();
 
-  const { data: collection, isLoading } = useCollection(collectionId);
+  const { data: collection } = useCollection(collectionId);
   const { data: collectionEntries } = useCollectionEntriesForCollectionId({
     collectionId,
     limit: 20,

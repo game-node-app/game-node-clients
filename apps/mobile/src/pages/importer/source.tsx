@@ -1,13 +1,9 @@
-import React from "react";
-import {
-  IonRefresher,
-  IonRefresherContent,
-} from "@ionic/react";
-import { Stack } from "@mantine/core";
-import { ImporterScreen } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage";
-import { useQueryClient } from "@tanstack/react-query";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { ImporterScreen } from "@repo/ui";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   source: string;

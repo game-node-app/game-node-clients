@@ -6,9 +6,8 @@ import {
 } from "#@/components";
 import { ActionIcon, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconPlus } from "@tabler/icons-react";
-import React from "react";
 import { useTranslation } from "@repo/locales";
+import { IconPlus } from "@tabler/icons-react";
 
 /**
  * Renders an *optionally* draggable list of preferred platforms.

@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
 import { ObtainedAchievementItem, useAllObtainedAchievements } from "@repo/ui";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;

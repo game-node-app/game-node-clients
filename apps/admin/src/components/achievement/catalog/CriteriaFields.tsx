@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
 import { MultiSelect, NumberInput, Stack } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useGamesResource, useSearchGames } from "@repo/ui";
+import { useMemo, useState } from "react";
 
 interface FieldProps {
   value: number[];
@@ -18,15 +18,20 @@ const GameIdsSelect = ({ value, onChange, disabled }: FieldProps) => {
   );
   const [names, setNames] = useState<Record<string, string>>({});
 
-  useEffect(() => {
+  const [previousResults, setPreviousResults] =
+    useState<typeof searchQuery.data>();
+  if (previousResults !== searchQuery.data) {
+    setPreviousResults(searchQuery.data);
     const results = searchQuery.data?.data?.items ?? [];
     if (results.length > 0) {
-      setNames((prev) => ({
-        ...prev,
-        ...Object.fromEntries(results.map((g) => [`${g.id}`, g.name ?? ""])),
+      setNames((previous) => ({
+        ...previous,
+        ...Object.fromEntries(
+          results.map((game) => [`${game.id}`, game.name ?? ""]),
+        ),
       }));
     }
-  }, [searchQuery.data]);
+  }
 
   const data = useMemo(() => {
     const ids = new Set([...Object.keys(names), ...value.map(String)]);

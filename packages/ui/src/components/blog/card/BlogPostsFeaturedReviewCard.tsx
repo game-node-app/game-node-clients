@@ -1,19 +1,17 @@
-import React from "react";
-import { GameRating, useBlogPosts, useGame } from "#@/components";
+import { GameRating, useGame } from "#@/components";
+import { Link } from "#@/util";
 import {
   AspectRatio,
   Box,
   Divider,
   Group,
   Image,
-  Spoiler,
   Stack,
-  Title,
   Text,
+  Title,
 } from "@mantine/core";
-import { Link } from "#@/util";
-import dayjs from "dayjs";
 import { BlogArticleDto } from "@repo/wrapper/server";
+import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;

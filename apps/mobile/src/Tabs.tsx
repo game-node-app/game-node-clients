@@ -1,4 +1,12 @@
-import React from "react";
+import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
+import SupertokensAuthCallbackPage from "@/pages/auth_callback";
+import ExplorePage from "@/pages/explore";
+import HomePage from "@/pages/home";
+import LibraryPage from "@/pages/library/library";
+import NotificationsPage from "@/pages/notifications";
+import ProfilePage from "@/pages/profile/profile";
+import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
+import GameSearchPage from "@/pages/search.tsx";
 import {
   IonMenu,
   IonRouterOutlet,
@@ -6,16 +14,6 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import { Redirect, Route } from "react-router-dom";
-import HomePage from "@/pages/home";
-import GameSearchPage from "@/pages/search.tsx";
-import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
-import ExplorePage from "@/pages/explore";
-import ProfilePage from "@/pages/profile/profile";
-import NotificationsPage from "@/pages/notifications";
-import SupertokensAuthPage from "./pages/auth";
-import SupertokensAuthCallbackPage from "@/pages/auth_callback";
-import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import {
   IconBell,
   IconHome,
@@ -23,7 +21,8 @@ import {
   IconTrendingUp,
   IconUser,
 } from "@tabler/icons-react";
-import LibraryPage from "@/pages/library/library";
+import { Redirect, Route } from "react-router-dom";
+import SupertokensAuthPage from "./pages/auth";
 
 const Tabs = () => {
   return (

@@ -1,24 +1,14 @@
+import { AppPage } from "@/components/general/AppPage.tsx";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
-import {
-  IonBackButton,
-  IonButtons,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonRouter,
-} from "@ionic/react";
-import React from "react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
+import { useIonRouter } from "@ionic/react";
 import {
   LibraryView,
   LibraryViewLayout,
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
-import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
-import { AppPage } from "@/components/general/AppPage.tsx";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface Props {
   userId?: string;
@@ -28,13 +18,9 @@ const LibraryPage = (props: Props) => {
   const ownUserId = useUserId();
   const targetUserId = props.userId ?? ownUserId;
 
-  const {
-    routeInfo: { pathname },
-  } = useIonRouter();
+  useIonRouter();
 
-  const isInTab = pathname.split("/").length === 2;
-
-  const profileQuery = useUserProfile(targetUserId);
+  useUserProfile(targetUserId);
 
   const isOwnLibrary = targetUserId === ownUserId;
 

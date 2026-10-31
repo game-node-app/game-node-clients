@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { IconBell } from "@tabler/icons-react";
 import { Indicator } from "@mantine/core";
 import { useInfiniteAggregatedNotifications } from "@repo/ui";
+import { IconBell } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 const NotificationsIcon = () => {
   const { data } = useInfiniteAggregatedNotifications();

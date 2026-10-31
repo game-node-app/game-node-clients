@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -9,11 +8,12 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { BaseModalProps, useReports } from "@repo/ui";
 import { HandleReportRequestDto, ReportService } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
+import { useMemo, useState } from "react";
 import HandleAction = HandleReportRequestDto.action;
-import { BaseModalProps, useReports } from "@repo/ui";
 
 interface Props extends BaseModalProps {
   reportId: number;
@@ -33,17 +33,6 @@ const ReportHandleConfirmModal = ({ reportId, opened, onClose }: Props) => {
   const [handleAction, setHandleAction] = useState<
     HandleReportRequestDto.action | undefined
   >(undefined);
-
-  /**
-   * Effect to sync handle action with delete action
-   */
-  useEffect(() => {
-    if (handleAction === HandleAction.DISCARD) {
-      setDeleteReportedContent(false);
-    } else {
-      setDeleteReportedContent(true);
-    }
-  }, [handleAction]);
 
   const actionDescription = useMemo(() => {
     switch (handleAction) {
@@ -113,6 +102,7 @@ const ReportHandleConfirmModal = ({ reportId, opened, onClose }: Props) => {
             onChange={(v) => {
               if (v) {
                 setHandleAction(v as HandleReportRequestDto.action);
+                setDeleteReportedContent(v !== HandleAction.DISCARD);
                 return;
               }
             }}

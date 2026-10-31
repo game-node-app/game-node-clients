@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Center, Text } from "@mantine/core";
 
 interface ISimpleCardProps {

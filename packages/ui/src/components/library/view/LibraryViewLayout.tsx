@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from "react";
-import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryViewSidebar";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { Flex, Grid, Stack } from "@mantine/core";
 import { LibraryViewCollectionsSelect } from "#@/components/library/view/sidebar/LibraryViewCollectionsSelect";
+import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryViewSidebar";
 import { useRouter } from "#@/util";
+import { Flex, Grid, Stack } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 interface ILibraryViewProps extends PropsWithChildren {
   userId: string | undefined;

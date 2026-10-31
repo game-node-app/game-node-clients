@@ -1,11 +1,10 @@
-import React from "react";
-import { useLatestActivities } from "#@/components/activity/hooks/useLatestActivities";
-import { Stack } from "@mantine/core";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { ActivityItem, ActivityItemProps } from "#@/components";
-import { Activity } from "@repo/wrapper/server";
+import { useLatestActivities } from "#@/components/activity/hooks/useLatestActivities";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Activity } from "@repo/wrapper/server";
 
 interface Props extends Omit<ActivityItemProps, "activity"> {
   userId?: string;

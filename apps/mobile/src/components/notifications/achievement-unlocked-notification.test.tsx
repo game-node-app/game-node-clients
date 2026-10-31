@@ -1,14 +1,13 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import {
   NotificationAchievementTargetDto,
   NotificationInboxItemDto,
 } from "@repo/wrapper/server";
-import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
+import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
 
 const mockRouter = vi.hoisted(() => ({
   push: vi.fn().mockResolvedValue(undefined),
@@ -18,17 +17,24 @@ vi.mock("../../../../../packages/ui/src/util/link", () => ({
   useRouter: () => mockRouter,
 }));
 
-vi.mock("../../../../../packages/ui/src/components/auth/hooks/useUserId", () => ({
-  useUserId: () => "user-1",
-}));
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({
+    useUserId: () => "user-1",
+  }),
+);
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
-      let val: any = enTranslations;
-      for (const p of key.split(".")) val = val?.[p];
+    t: (key: string, options?: Record<string, unknown>) => {
+      let val: unknown = enTranslations;
+      for (const p of key.split("."))
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       return typeof val === "string"
-        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? "")
+        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => String(options?.[k] ?? ""))
         : key;
     },
   }),
@@ -54,7 +60,10 @@ describe("achievement.unlocked notification", () => {
     actors: [],
     actorCount: 0,
     eventCount: 1,
-    preview: { text: "Horror critic" } as any,
+    preview: { text: "Horror critic" } as unknown as
+      | import("@repo/wrapper/server").NotificationTextPreviewDto
+      | import("@repo/wrapper/server").NotificationImportPreviewDto
+      | null,
     target: {
       type: NotificationAchievementTargetDto.type.ACHIEVEMENT,
       id: "horror-critic",

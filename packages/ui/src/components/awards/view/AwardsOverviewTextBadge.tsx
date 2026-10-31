@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from "react";
 import { Box, Group, Text } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 const AwardsOverviewTextBadge = ({ children }: PropsWithChildren) => {
   return (

@@ -1,10 +1,9 @@
-import React from "react";
-import { CopyButton, Group, Stack, Text, UnstyledButton } from "@mantine/core";
-import classes from "./RecapYearTitle.module.css";
 import { UserAvatarGroup, useUserId } from "#@/components";
+import { Group, Stack, Text, UnstyledButton } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
+import classes from "./RecapYearTitle.module.css";
 
 interface Props {
   userId: string;
@@ -20,8 +19,8 @@ const RecapYearTitle = ({
   withUserAvatar = false,
 }: Props) => {
   const { t } = useTranslation();
-  const ownUserId = useUserId();
-  const isOwnRecap = ownUserId === userId;
+  useUserId();
+
   const { copy } = useClipboard();
 
   return (

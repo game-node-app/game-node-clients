@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { GamePlatformSelect, usePreferredPlatforms } from "#@/components";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { Button, Switch, TextInput } from "@mantine/core";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { Button, Switch, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { PreferredPlatformService } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
+import { PreferredPlatformService } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { z } from "zod";
 
 const EditPreferredPlatformFormSchema = z.object({
   platformId: z.number().min(1, "Platform is required"),

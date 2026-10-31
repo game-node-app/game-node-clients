@@ -1,5 +1,6 @@
-import React, { useCallback } from "react";
 import { GameAchievementWithObtainedInfo } from "#@/components";
+import { buildPresenterComponent } from "#@/context";
+import { getServerStoredIcon } from "#@/util";
 import {
   AspectRatio,
   Box,
@@ -9,11 +10,10 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { match } from "ts-pattern";
-import { GameAchievementDto } from "@repo/wrapper/server";
-import { getServerStoredIcon } from "#@/util";
-import { buildPresenterComponent } from "#@/context";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementDto } from "@repo/wrapper/server";
+import { useCallback } from "react";
+import { match } from "ts-pattern";
 
 export interface GameAchievementsListItemProps {
   achievement: GameAchievementWithObtainedInfo;

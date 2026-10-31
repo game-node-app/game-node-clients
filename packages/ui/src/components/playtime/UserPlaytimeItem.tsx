@@ -1,15 +1,14 @@
-import React from "react";
-import { UserPlaytimeDto } from "@repo/wrapper/server";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useGame } from "#@/components/game/hooks/useGame";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
-import { Box, Group, Image, Overlay, Stack, Text, Title } from "@mantine/core";
-import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { getCapitalizedText } from "#@/util/getCapitalizedText";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { cn, Link } from "#@/util";
+import { getCapitalizedText } from "#@/util/getCapitalizedText";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { Box, Group, Image, Overlay, Text, Title } from "@mantine/core";
+import { UserPlaytimeDto } from "@repo/wrapper/server";
 
 interface Props {
   playtime: UserPlaytimeDto;

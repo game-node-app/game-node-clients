@@ -1,17 +1,6 @@
-import React from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { BlogPostsFeed, BlogPostsLayout } from "@repo/ui";
-import { Container, Stack } from "@mantine/core";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { Stack } from "@mantine/core";
+import { BlogPostsFeed, BlogPostsLayout } from "@repo/ui";
 
 const BlogPostsPage = () => {
   return (

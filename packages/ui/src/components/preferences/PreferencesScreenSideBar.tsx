@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { Box, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
+import { Box, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 export type PreferencesActiveCategory = "connections" | "account" | "library";
 
@@ -13,20 +13,23 @@ interface Props {
 const PreferencesScreenSideBar = ({ activeItem, onChange }: Props) => {
   const { t } = useTranslation();
 
-  const categories = [
-    {
-      label: t("preferences.categories.connections"),
-      activeCategoryName: "connections" as PreferencesActiveCategory,
-    },
-    {
-      label: t("preferences.categories.account"),
-      activeCategoryName: "account" as PreferencesActiveCategory,
-    },
-    {
-      label: t("preferences.categories.library"),
-      activeCategoryName: "library" as PreferencesActiveCategory,
-    },
-  ];
+  const categories = useMemo(
+    () => [
+      {
+        label: t("preferences.categories.connections"),
+        activeCategoryName: "connections" as PreferencesActiveCategory,
+      },
+      {
+        label: t("preferences.categories.account"),
+        activeCategoryName: "account" as PreferencesActiveCategory,
+      },
+      {
+        label: t("preferences.categories.library"),
+        activeCategoryName: "library" as PreferencesActiveCategory,
+      },
+    ],
+    [t],
+  );
 
   const itemsElements = useMemo(() => {
     return categories.map((item) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { useUserLevel } from "#@/components";
 import { Text, TextProps } from "@mantine/core";
 import clsx from "clsx";

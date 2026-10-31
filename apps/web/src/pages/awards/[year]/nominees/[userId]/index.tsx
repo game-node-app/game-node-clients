@@ -1,14 +1,6 @@
-import React from "react";
-import { Box, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
+import { AwardsNomineesScreen, useAwardEvent, useUserProfile } from "@repo/ui";
 import { useRouter } from "next/router";
-import {
-  AwardsNomineesScreen,
-  AwardsNomineesVoteCTA,
-  AwardsNomineesVotes,
-  useAwardEvent,
-  useUserProfile,
-} from "@repo/ui";
-import { AwardsNomineesOverview } from "@repo/ui";
 
 const AwardsUserNomineesPage = () => {
   const router = useRouter();

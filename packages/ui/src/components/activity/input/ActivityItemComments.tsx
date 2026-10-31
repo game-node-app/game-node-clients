@@ -1,15 +1,13 @@
-import React from "react";
-import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
-import { Activity, FindAllCommentsDto } from "@repo/wrapper/server";
-import { useDisclosure } from "@mantine/hooks";
-import { Stack } from "@mantine/core";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
-import { Modal } from "#@/util";
+import { ItemCommentsButton } from "#@/components/comment/input/ItemCommentsButton";
+import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
-import sourceType = FindAllCommentsDto.sourceType;
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { Modal } from "#@/util";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { Activity, FindAllCommentsDto } from "@repo/wrapper/server";
+import sourceType = FindAllCommentsDto.sourceType;
 
 interface Props {
   activity: Activity;

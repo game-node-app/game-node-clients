@@ -1,4 +1,3 @@
-import React, { useMemo, useRef, useState } from "react";
 import {
   CenteredLoading,
   DetailsBox,
@@ -12,7 +11,8 @@ import {
   UserAvatarGroup,
   useUserId,
 } from "#@/components";
-import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
+import { createErrorNotification, getCapitalizedText, Modal } from "#@/util";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ActionIcon,
   Box,
@@ -27,15 +27,15 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { createErrorNotification, getCapitalizedText, Modal } from "#@/util";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "@repo/locales";
+import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
+import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
-import { IconDownload } from "@tabler/icons-react";
+import { useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { match } from "ts-pattern";
-import { useTranslation } from "@repo/locales";
+import { z } from "zod";
 import period = FindAllPlaytimeFiltersDto.period;
 
 const CONTAINER_ID = "wrapped-share-preview-container";

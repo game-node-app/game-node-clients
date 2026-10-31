@@ -10,14 +10,9 @@ import {
     Title,
 } from "@mantine/core";
 import {
-    IconBrandMantine,
-    IconBrandNextjs,
-    IconBrandOauth,
-    IconBrandPlanetscale,
-    IconBrandReact,
     IconCheckbox,
     IconReport,
-    IconUsers,
+    IconUsers
 } from "@tabler/icons-react";
 import classes from "./FeatureSection.module.css";
 

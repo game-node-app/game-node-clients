@@ -1,5 +1,3 @@
-import React from "react";
-import { Box, Divider, Flex, Stack, Text } from "@mantine/core";
 import {
   DetailsBox,
   JournalHeatmap,
@@ -12,9 +10,10 @@ import {
   UserRecentGames,
   useUserId,
 } from "#@/components";
+import { Box, Divider, Flex, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
 import period = FindAllPlaytimeFiltersDto.period;
-import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;

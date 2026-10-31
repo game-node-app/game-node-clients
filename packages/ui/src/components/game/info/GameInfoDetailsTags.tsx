@@ -1,16 +1,10 @@
-import React, { ReactElement, ReactNode, useMemo } from "react";
-import { Game } from "../../../../../wrapper/src/server";
-import { getGameGenres } from "#@/components/game/util/getGameGenres";
-import { getGameThemes } from "#@/components/game/util/getGameThemes";
-import { Badge, Group, Skeleton } from "@mantine/core";
-import { getGameModes } from "#@/components/game/util/getGameModes";
-import { getGamePerspectives } from "#@/components/game/util/getGamePerspectives";
-import { shuffleArray } from "#@/util/shuffleArray";
-import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useGame } from "#@/components/game/hooks/useGame";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { Link } from "#@/util";
 import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { Link } from "#@/util";
+import { Badge, Group, Skeleton } from "@mantine/core";
+import { ReactNode, useMemo } from "react";
+import { Game } from "../../../../../wrapper/src/server";
 
 interface TagBuilderElement {
   id: number;
@@ -20,7 +14,7 @@ interface TagBuilderElement {
 
 const getGameTags = (game?: Game): TagBuilderElement[] => {
   if (!game) return [];
-  const tagsElements: any[] = [];
+  const tagsElements: (TagBuilderElement[] | undefined)[] = [];
 
   const genres = game?.genres;
   const themes = game?.themes;
@@ -64,7 +58,9 @@ const getGameTags = (game?: Game): TagBuilderElement[] => {
     ),
   );
 
-  return tagsElements.flat();
+  return tagsElements
+    .flat()
+    .filter((tag): tag is TagBuilderElement => tag !== undefined);
 };
 
 interface IProps {

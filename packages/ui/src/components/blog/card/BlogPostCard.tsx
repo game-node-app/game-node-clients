@@ -1,4 +1,5 @@
-import React from "react";
+import { UserAvatarGroup } from "#@/components";
+import { Link } from "#@/util";
 import {
   AspectRatio,
   Box,
@@ -9,10 +10,8 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { UserAvatarGroup } from "#@/components";
-import dayjs from "dayjs";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import { Link } from "#@/util";
+import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;

@@ -1,22 +1,16 @@
-import React, { useMemo } from "react";
+import { MobileProfileFeaturedAchievement } from "@/components/profile/view/MobileProfileFeaturedAchievement.tsx";
+import { Group, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   CenteredLoading,
-  ProfileFeaturedAchievements,
-  ProfileFollowActions,
   ProfileFollowInfo,
   ProfileUserInfoConnections,
   ProfileUserInfoProps,
-  TextLink,
-  useAllObtainedAchievements,
   UserLevel,
-  useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { Box, Center, Divider, Group, Stack, Text } from "@mantine/core";
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import dayjs from "dayjs";
-import { MobileProfileFeaturedAchievement } from "@/components/profile/view/MobileProfileFeaturedAchievement.tsx";
-import { useTranslation } from "@repo/locales";
 
 const MobileProfileUserInfo = ({ userId }: ProfileUserInfoProps) => {
   const { t } = useTranslation();

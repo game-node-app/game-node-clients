@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from "react";
-import { GameSelectViewContent } from "./GameSelectViewContent";
+import { PropsWithChildren } from "react";
 import { GameViewPagination } from "../GameViewPagination";
 import { GameSelectActions } from "./GameSelectActions";
 import { GameSelectSearchBar } from "./GameSelectSearchBar";
+import { GameSelectViewContent } from "./GameSelectViewContent";
 
 const GameSelectView = ({ children }: PropsWithChildren) => {
   return <>{children}</>;

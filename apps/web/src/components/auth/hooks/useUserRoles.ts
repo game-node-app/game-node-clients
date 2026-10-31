@@ -1,6 +1,5 @@
-import Session, {
-    useClaimValue,
-    useSessionContext,
+import {
+    useClaimValue
 } from "supertokens-auth-react/recipe/session";
 import { UserRoleClaim } from "supertokens-auth-react/recipe/userroles";
 

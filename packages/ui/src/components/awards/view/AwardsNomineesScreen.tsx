@@ -1,13 +1,12 @@
-import React from "react";
 import {
   AwardsNomineesOverview,
   AwardsNomineesVoteCTA,
   AwardsNomineesVotes,
   useAwardEvent,
 } from "#@/components";
-import { Stack } from "@mantine/core";
 import { AwardsNomineesShareButtons } from "#@/components/awards/view/AwardsNomineesShareButtons.tsx";
 import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
+import { Stack } from "@mantine/core";
 
 interface Props {
   eventId: number;
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const AwardsNomineesScreen = ({ eventId, userId, onShare }: Props) => {
-  const { data: event } = useAwardEvent({ eventId });
+  useAwardEvent({ eventId });
 
   return (
     <Stack className={"mb-10"}>

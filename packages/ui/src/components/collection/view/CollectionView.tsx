@@ -1,5 +1,3 @@
-import React, { useMemo } from "react";
-import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import {
   buildGameCategoryFilters,
   CenteredErrorMessage,
@@ -14,8 +12,10 @@ import {
   useUrlState,
   useUserId,
 } from "#@/components";
-import { useLocalStorage } from "@mantine/hooks";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { useMemo } from "react";
 
 interface ICollectionViewProps {
   libraryUserId: string;

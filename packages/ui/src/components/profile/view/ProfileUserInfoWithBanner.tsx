@@ -1,19 +1,18 @@
-import React, { PropsWithChildren } from "react";
-import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
-import { ActionIcon, Box, Button, Group, Stack, Text } from "@mantine/core";
-import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
-import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
-import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { useDisclosure } from "@mantine/hooks";
-import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { Modal } from "#@/util";
 import {
   ProfileAvatarSectionButtons,
   useOnMobilePlatform,
 } from "#@/components";
-import { IconDots, IconDotsCircleHorizontal } from "@tabler/icons-react";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
+import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
+import { Modal } from "#@/util";
+import { Box, Group, Stack, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { PropsWithChildren } from "react";
 
 interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
@@ -33,8 +32,8 @@ const ProfileUserInfoWithBanner = ({
   userId,
   children,
 }: ProfileUserInfoWithBannerProps) => {
-  const ownUserId = useUserId();
-  const isOwnProfile = ownUserId === userId;
+  useUserId();
+
   const onMobile = useOnMobile();
   const onMobilePlatform = useOnMobilePlatform();
   const profileQuery = useUserProfile(userId);

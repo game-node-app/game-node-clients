@@ -1,13 +1,6 @@
-import React, { useMemo } from "react";
-import { useCollection } from "#@/components/collection/hooks/useCollection";
-import {
-  ComboboxData,
-  ComboboxItem,
-  ComboboxItemGroup,
-  Select,
-  SelectProps,
-} from "@mantine/core";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { ComboboxItemGroup, Select, SelectProps } from "@mantine/core";
+import { useMemo } from "react";
 
 type ItemGroup = ComboboxItemGroup<{ label: string; value: string }>;
 

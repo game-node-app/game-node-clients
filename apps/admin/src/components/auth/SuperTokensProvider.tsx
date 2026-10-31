@@ -1,14 +1,14 @@
 "use client";
 
-import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
+import { GameNodeLogo } from "@repo/ui";
+import Router from "next/router";
 import React from "react";
+import SuperTokensReact, { SuperTokensWrapper } from "supertokens-auth-react";
+import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import ThirdParty from "supertokens-auth-react/recipe/thirdparty";
-import { SuperTokensConfig } from "supertokens-auth-react/lib/build/types";
-import Router from "next/router";
-import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
 import { AuthRecipeComponentsOverrideContextProvider } from "supertokens-auth-react/ui";
-import { GameNodeLogo } from "@repo/ui";
+import { WindowHandlerInterface } from "supertokens-website/lib/build/utils/windowHandler/types";
 
 export const frontendConfig = (): SuperTokensConfig => {
   const websiteDomain = process.env.NEXT_PUBLIC_DOMAIN_WEBSITE as string;

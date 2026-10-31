@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import { AppPage } from "@/components/general/AppPage";
 import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonRefresher,
   IonRefresherContent,
 } from "@ionic/react";
+import { Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   ActivityFeed,
   ActivityFeedLayout,
   ActivityFeedTabValue,
   InfiniteLoaderProps,
 } from "@repo/ui";
-import { Text } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
-import { AppPage } from "@/components/general/AppPage";
-import { useTranslation } from "@repo/locales";
+import { useState } from "react";
 
 const ActivityPage = () => {
   const { t } = useTranslation();

@@ -1,10 +1,9 @@
-import React from "react";
-import { Box, Stack, Text } from "@mantine/core";
 import {
   AwardsEventOverview,
   AwardsResultCategories,
   useAwardEvent,
 } from "#@/components";
+import { Box, Stack, Text } from "@mantine/core";
 
 interface Props {
   eventId: number | undefined;

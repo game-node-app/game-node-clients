@@ -1,8 +1,7 @@
-import React from "react";
-import { Game } from "@repo/wrapper/server";
+import { Break, GameFigureImage, ImageSize } from "#@/components";
 import { buildPresenterComponent } from "#@/context";
 import { Box, Skeleton, Title } from "@mantine/core";
-import { Break, GameFigureImage, ImageSize } from "#@/components";
+import { Game } from "@repo/wrapper/server";
 
 export interface GameInfoTitleFigureProps {
   game: Game;

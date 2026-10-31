@@ -1,6 +1,5 @@
-import React from "react";
-import { BaseModalProps, Modal } from "#@/util";
 import { EditPreferredPlatformForm } from "#@/components";
+import { BaseModalProps, Modal } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalProps {

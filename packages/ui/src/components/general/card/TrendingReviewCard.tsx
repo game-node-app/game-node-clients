@@ -1,26 +1,17 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  Group,
-  Overlay,
-  Paper,
-  Skeleton,
-  Text,
-} from "@mantine/core";
 import { useOnMobile } from "#@/components";
-import { useReview } from "../../review";
+import { buildPresenterComponent } from "#@/context";
+import { Link } from "#@/util";
+import { Box, Button, Group, Overlay, Paper, Skeleton } from "@mantine/core";
+import { EditorContent, useEditor } from "@tiptap/react";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
   getSizedImageUrl,
   ImageSize,
   useGame,
 } from "../../game";
+import { useReview } from "../../review";
 import { UserAvatarGroup } from "../avatar";
 import { GameRating } from "../input";
-import { Link } from "#@/util";
-import { EditorContent, useEditor } from "@tiptap/react";
-import { buildPresenterComponent } from "#@/context";
 
 export interface ReviewCardProps {
   reviewId: string;
@@ -35,7 +26,7 @@ export interface ReviewCardProps {
  * @constructor
  */
 const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
-  const onMobile = useOnMobile();
+  useOnMobile();
   const reviewQuery = useReview(reviewId);
   const gameId = reviewQuery.data?.gameId;
   const gameQuery = useGame(gameId, {

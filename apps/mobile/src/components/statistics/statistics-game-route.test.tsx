@@ -1,13 +1,13 @@
 // @vitest-environment jsdom
-import React, { useEffect } from "react";
-import { expect, it, vi } from "vitest";
-import { cleanup, render, waitFor } from "@testing-library/react";
-import { MemoryRouter, Switch } from "react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   StatisticsService,
   StatisticsSourceRequestDto,
 } from "@repo/wrapper/server";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { cleanup, render, waitFor } from "@testing-library/react";
+import { useEffect } from "react";
+import { MemoryRouter, Switch } from "react-router";
+import { expect, it, vi } from "vitest";
 import { useUserView } from "../../../../../packages/ui/src/components/statistics/hooks/useUserView";
 
 vi.mock(
@@ -18,7 +18,7 @@ vi.mock(
 );
 
 vi.mock("@/pages/game", () => ({
-  default: ({ gameId }: { gameId: number }) => {
+  default: function MockGamePage({ gameId }: { gameId: number }) {
     const [, , incrementView] = useUserView(
       gameId,
       StatisticsSourceRequestDto.sourceType.GAME,
@@ -67,10 +67,14 @@ it("rejects malformed mobile game routes before source reads or views", async ()
   );
   const summary = vi
     .spyOn(StatisticsService, "statisticsControllerFindSummaryV1")
-    .mockResolvedValue({ viewsCount: 0 } as any);
+    .mockResolvedValue({
+      viewsCount: 0,
+    } as unknown as import("@repo/wrapper/server").StatisticsSummaryDto);
   const status = vi
     .spyOn(StatisticsService, "statisticsControllerGetStatusV1")
-    .mockResolvedValue({ isViewed: false } as any);
+    .mockResolvedValue({
+      isViewed: false,
+    } as unknown as import("@repo/wrapper/server").StatisticsStatusDto);
   const view = vi
     .spyOn(StatisticsService, "statisticsControllerRecordViewV1")
     .mockResolvedValue({

@@ -1,11 +1,10 @@
-import React from "react";
-import { TGameOrSearchGame } from "#@/components/game/util/types";
-import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
 import {
   GameFigureProps,
   GameHoverEditFigure,
   useOnMobile,
 } from "#@/components";
+import { GameFigureWithQuickAdd } from "#@/components/game/figure/GameFigureWithQuickAdd";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
 
 interface GameGridItemProps {
   game: TGameOrSearchGame;

@@ -1,17 +1,16 @@
-import React from "react";
 import {
   GameDraggableGridItem,
   GameDraggableListItem,
   TGameOrSearchGame,
   useGameDraggableViewContext,
 } from "#@/components";
+import { cn } from "#@/util";
 import {
   rectSortingStrategy,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Box, Stack } from "@mantine/core";
-import { cn } from "#@/util";
+import { Box } from "@mantine/core";
 
 export interface GameDraggableContentProps {
   /**

@@ -1,6 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
 import {
-  DEFAULT_GAME_INFO_VIEW_DTO,
   DEFAULT_RELATED_GAMES_DTO,
   GameSelectView,
   IGameAddFormProps,
@@ -8,9 +6,10 @@ import {
   useGame,
 } from "#@/components";
 import { Stack, Text, Title } from "@mantine/core";
-import { Game } from "@repo/wrapper/server";
-import { useFormContext } from "react-hook-form";
 import { useTranslation } from "@repo/locales";
+import { Game } from "@repo/wrapper/server";
+import { useCallback, useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 
 const CollectionEntryFormDlcsPanel = ({
   gameId,

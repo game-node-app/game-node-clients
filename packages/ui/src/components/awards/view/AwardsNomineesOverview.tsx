@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AwardsEventLogo,
   CenteredLoading,
@@ -6,7 +5,6 @@ import {
   UserAvatarGroup,
 } from "#@/components";
 import { Box, Group, Stack, Text } from "@mantine/core";
-import { useRouter } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

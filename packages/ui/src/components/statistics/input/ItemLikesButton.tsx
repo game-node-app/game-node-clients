@@ -1,12 +1,11 @@
-import React from "react";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import {
   IToggleLikeProps,
   useUserLike,
 } from "#@/components/statistics/hooks/useUserLike";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ActionIcon, ActionIconProps, Text } from "@mantine/core";
-import { redirectToAuth } from "supertokens-auth-react";
 import { IconThumbUp, IconThumbUpFilled } from "@tabler/icons-react";
+import { redirectToAuth } from "supertokens-auth-react";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 

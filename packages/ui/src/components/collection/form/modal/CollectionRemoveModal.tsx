@@ -1,13 +1,12 @@
-import React from "react";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useCollectionEntriesForCollectionId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
+import { useCollection } from "#@/components/collection/hooks/useCollection";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { Modal } from "#@/util";
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { Button, Group, Stack, Text } from "@mantine/core";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CollectionsService } from "@repo/wrapper/server";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
-import { useCollection } from "#@/components/collection/hooks/useCollection";
-import { useCollectionEntriesForCollectionId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
-import { Modal } from "#@/util";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props extends BaseModalProps {
   collectionId: string;
@@ -15,7 +14,7 @@ interface Props extends BaseModalProps {
 
 const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
   const userId = useUserId();
-  const queryClient = useQueryClient();
+  useQueryClient();
   const libraryQuery = useUserLibrary(userId);
   const collectionQuery = useCollection(collectionId);
   const collectionEntriesQuery = useCollectionEntriesForCollectionId({

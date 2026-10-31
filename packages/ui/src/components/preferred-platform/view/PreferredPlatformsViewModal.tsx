@@ -1,9 +1,8 @@
 import { PreferredPlatformsView, useOnMobile } from "#@/components";
 import { BaseModalProps, Modal } from "#@/util";
-import React from "react";
 import { useTranslation } from "@repo/locales";
 
-interface Props extends BaseModalProps {}
+type Props = BaseModalProps;
 
 const PreferredPlatformsViewModal = ({ opened, onClose }: Props) => {
   const { t } = useTranslation();

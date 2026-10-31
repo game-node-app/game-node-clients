@@ -1,4 +1,3 @@
-import React, { useMemo, useState } from "react";
 import {
   BackToTopButton,
   CenteredLoading,
@@ -8,6 +7,8 @@ import {
   UserAvatarWithLevelInfo,
   useUserId,
 } from "#@/components";
+import { JournalAchievementsDetailedLayoutView } from "#@/components/journal/achievement/JournalAchievementsDetailedLayoutView";
+import { cn } from "#@/util";
 import {
   ActionIcon,
   Box,
@@ -19,14 +20,13 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   IconBaselineDensityMedium,
   IconBaselineDensitySmall,
   IconQuestionMark,
 } from "@tabler/icons-react";
-import { cn } from "#@/util";
-import { JournalAchievementsDetailedLayoutView } from "#@/components/journal/achievement/JournalAchievementsDetailedLayoutView";
-import { useTranslation } from "@repo/locales";
+import { useMemo, useState } from "react";
 
 interface Props {
   userId: string;

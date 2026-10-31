@@ -1,9 +1,9 @@
-import React, { createContext, PropsWithChildren } from "react";
 import { GameViewContent } from "#@/components/game/view/GameViewContent";
-import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { GameViewLoadingSkeletons } from "#@/components/game/view/GameViewLoadingSkeletons";
+import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { GameViewLayoutSwitcher } from "#@/components/game/view/layout/GameViewLayoutSwitcher";
 import type { MantineBreakpoint } from "@mantine/core";
+import { createContext, PropsWithChildren } from "react";
 
 interface IGameViewProps extends PropsWithChildren {
   layout: "grid" | "list";

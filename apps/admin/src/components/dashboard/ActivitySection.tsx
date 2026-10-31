@@ -1,7 +1,6 @@
-import React from "react";
-import { Button, Card, Group, Stack, Text, Title } from "@mantine/core";
-import { IconExternalLink } from "@tabler/icons-react";
 import ActivitiesByPeriodChart from "@/components/charts/ActivitiesByPeriodChart";
+import { Button, Card, Stack, Text, Title } from "@mantine/core";
+import { IconExternalLink } from "@tabler/icons-react";
 
 const sectionStyle = {
     padding: "var(--mantine-spacing-md)",

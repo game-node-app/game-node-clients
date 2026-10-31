@@ -1,5 +1,4 @@
-import { Center, Container, Stack, Text, Title } from "@mantine/core";
-import { IconError404 } from "@tabler/icons-react";
+import { Container, Stack, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 export default function Page() {

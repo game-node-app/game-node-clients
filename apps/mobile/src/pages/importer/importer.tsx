@@ -1,20 +1,16 @@
-import React from "react";
-import {
-  IonRefresher,
-  IonRefresherContent,
-} from "@ionic/react";
-import { Group, Space, Stack, Text } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { AppPage } from "@/components/general/AppPage";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { Group, Space, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   ImporterPlatform,
   useOwnUserConnections,
 } from "@repo/ui";
-import { AppPage } from "@/components/general/AppPage";
-import { useTranslation } from "@repo/locales";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const ImporterPage = () => {
   const { t } = useTranslation();

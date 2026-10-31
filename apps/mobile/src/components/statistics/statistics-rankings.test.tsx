@@ -41,7 +41,7 @@ it("keys periods separately and advances from returned offsets only within the A
           total: 20000,
           hasNextPage: true,
         },
-      })) as any);
+      })) as unknown as typeof StatisticsService.statisticsControllerFindRankingsV1);
   const hook = renderHook(
     ({ period }) => useInfiniteTrendingGames({ period }),
     { initialProps: { period: Ranking.period.MONTH }, wrapper },
@@ -83,7 +83,7 @@ it("separates review rankings by actor and forwards review selectors", async () 
     .mockResolvedValue({
       items: [],
       pagination: { total: 0, offset: 0, limit: 7, hasNextPage: false },
-    } as any);
+    } as unknown as import("@repo/wrapper/server").StatisticsRankingResponseDto);
   const hook = renderHook(
     () =>
       useTrendingReviews({

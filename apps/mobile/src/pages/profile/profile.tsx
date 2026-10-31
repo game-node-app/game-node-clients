@@ -1,6 +1,5 @@
-import { IonRefresher, IonRefresherContent, useIonRouter } from "@ionic/react";
-import React from "react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { AppPage } from "@/components/general/AppPage";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import {
   CenteredLoading,
   ProfileUserInfoWithBanner,
@@ -8,8 +7,8 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { AppPage } from "@/components/general/AppPage";
 import { useQueryClient } from "@tanstack/react-query";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface Props {
   userId?: string;

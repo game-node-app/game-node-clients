@@ -1,7 +1,6 @@
-import React from "react";
-import { Button, Center, Stack } from "@mantine/core";
 import { RecentCollectionEntriesView } from "#@/components";
 import { Link } from "#@/util";
+import { Button, Center, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

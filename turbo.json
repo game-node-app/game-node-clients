@@ -6,8 +6,19 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "@repo/wrapper#build": {
+      "inputs": ["input/**", "generate.js", "package.json"],
+      "outputs": ["src/server/**", "src/search/**"]
+    },
+    "@repo/wrapper#type-check": { "dependsOn": ["build"] },
+    "web#build": { "dependsOn": ["^build", "type-check"] },
+    "admin#build": { "dependsOn": ["^build", "type-check"] },
+    "mobile#build": {
+      "cache": false
+    },
     "lint": {},
-    "type-check": {},
+    "type-check": { "dependsOn": ["^build"] },
+    "test": { "dependsOn": ["^build"] },
     "dev": {
       "cache": false,
       "persistent": true,

@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
+import { GameGridItem, GameRating, useReviewsScore } from "#@/components";
+import { Box, Group, Stack, Text } from "@mantine/core";
+import { useI18nContext } from "@repo/locales";
 import {
   FindGamesByCollectionTypeRequestDto,
   Game,
 } from "@repo/wrapper/server";
-import { Box, Group, Stack, Text } from "@mantine/core";
-import { GameGridItem, GameRating, useReviewsScore } from "#@/components";
 import dayjs from "dayjs";
-import { useI18nContext, useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props {
   collectionType: FindGamesByCollectionTypeRequestDto.collectionType;

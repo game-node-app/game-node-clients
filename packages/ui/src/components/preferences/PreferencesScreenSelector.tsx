@@ -1,6 +1,5 @@
-import React from "react";
-import { ComboboxItem, Select } from "@mantine/core";
 import { PreferencesActiveCategory } from "#@/components/preferences/PreferencesScreenSideBar";
+import { ComboboxItem, Select } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

@@ -1,32 +1,21 @@
-import React, {
-  FormEvent,
-  FormEventHandler,
-  useCallback,
-  useMemo,
-} from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import {
   Button,
   Flex,
   Group,
   List,
-  rem,
   Stack,
   Text,
   TextInput,
   ThemeIcon,
-  Title,
 } from "@mantine/core";
-import { useMutation } from "@tanstack/react-query";
-import {
-  CancelablePromise,
-  ProfileService,
-} from "../../../../../wrapper/src/server";
-import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { notifications } from "@mantine/notifications";
-import { IconCircle } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
+import { useMutation } from "@tanstack/react-query";
+import { FormEvent, useMemo } from "react";
+import { ProfileService } from "../../../../../wrapper/src/server";
 
 interface Props extends BaseModalChildrenProps {
   withSkipButton?: boolean;

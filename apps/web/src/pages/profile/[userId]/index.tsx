@@ -1,17 +1,13 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { GetServerSidePropsContext } from "next";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import {
-  FindAllPlaytimeFiltersDto,
-  ProfileService,
-} from "@repo/wrapper/server";
 import { Box } from "@mantine/core";
 import {
   ProfileUserInfoWithBanner,
   ProfileViewContent,
   useUserProfile,
 } from "@repo/ui";
+import { ProfileService } from "@repo/wrapper/server";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const query = ctx.query;

@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
-import { SimpleGrid, Skeleton } from "@mantine/core";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
-import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useGames } from "#@/components/game/hooks/useGames";
+import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
-import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
+import { SimpleGrid, Skeleton } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
+import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import period = StatisticsRankingsRequestDto.period;
 
 export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {

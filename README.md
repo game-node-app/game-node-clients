@@ -30,6 +30,11 @@ To maintain compatibility, some components and functions are injected at startup
 
 
 ## Contributing
+
+Every PR needs an explicit release decision. Run `yarn changeset` and select only
+the apps ready to ship, or `yarn changeset --empty` to release nothing. See the
+[release guide](docs/releases.md) for CI, deployment setup, versions, and retries.
+
 Each project root directory contains a `README.md` file with instructions on how to set everything up for local development.
 - Have the latest LTS version of `NodeJS`  
 - Install yarn globally  

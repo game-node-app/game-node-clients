@@ -1,33 +1,29 @@
-import React, { useRef, useState } from "react";
+import { AppPage } from "@/components/general/AppPage";
+import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Container, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import {
   InfiniteLoaderProps,
   PostsFeed,
   PostsFeedLayout,
   PostsFeedTabValue,
 } from "@repo/ui";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
-import { AppPage } from "@/components/general/AppPage";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRef, useState } from "react";
 
 const PostsPage = () => {
   const params = useSearchParameters();
   const postId = params.get("postId") as string | undefined;
 
-  const contentRef = useRef<HTMLIonContentElement>(null);
+  const contentRef =
+    useRef<
+      import("react").ComponentRef<typeof import("@ionic/react").IonContent>
+    >(null);
   const [currentTab, setCurrentTab] = useState<PostsFeedTabValue>("all");
 
   const queryClient = useQueryClient();

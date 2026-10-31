@@ -1,9 +1,8 @@
-import React from "react";
-import {
-  Activity,
-  StatisticsSourceRequestDto,
-} from "../../../../../wrapper/src/server";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
+import {
+    Activity,
+    StatisticsSourceRequestDto,
+} from "../../../../../wrapper/src/server";
 import sourceType = StatisticsSourceRequestDto.sourceType;
 
 interface Props {

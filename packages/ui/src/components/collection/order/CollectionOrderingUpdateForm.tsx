@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   COLLECTION_VIEW_DEFAULT_LIMIT,
   findCollectionEntryByGameId,
@@ -8,18 +7,19 @@ import {
   useGames,
   useInfiniteCollectionEntriesForCollectionId,
 } from "#@/components";
+import { BaseModalChildrenProps, getErrorMessage } from "#@/util";
+import { arrayMove } from "@dnd-kit/sortable";
 import { Button, Flex, Stack, Text } from "@mantine/core";
 import { useListState } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 import {
   CollectionEntryUpdateOrderingDto,
   CollectionsEntriesOrderingService,
 } from "@repo/wrapper/server";
-import { BaseModalChildrenProps, getErrorMessage } from "#@/util";
-import { notifications } from "@mantine/notifications";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
-import { arrayMove } from "@dnd-kit/sortable";
-import { useTranslation } from "@repo/locales";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface Props extends BaseModalChildrenProps {
   collectionId: string;

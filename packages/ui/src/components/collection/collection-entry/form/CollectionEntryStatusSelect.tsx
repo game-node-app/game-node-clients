@@ -1,13 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  Input,
-  Scroller,
-  SegmentedControl,
-  SegmentedControlProps,
-} from "@mantine/core";
 import { useUserId, useUserLibrary } from "#@/components";
-import { Collection } from "@repo/wrapper/server";
+import { Input, SegmentedControl, SegmentedControlProps } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Collection } from "@repo/wrapper/server";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props
   extends Omit<SegmentedControlProps, "data" | "value" | "onChange"> {

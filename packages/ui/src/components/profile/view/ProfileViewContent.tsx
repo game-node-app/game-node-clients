@@ -1,10 +1,3 @@
-import React from "react";
-import { SimpleGrid, Tabs } from "@mantine/core";
-import {
-  IconDeviceGamepad2,
-  IconNotebook,
-  IconWriting,
-} from "@tabler/icons-react";
 import {
   AchievementsScreen,
   JournalObtainedAchievementsView,
@@ -23,9 +16,15 @@ import {
   useUserLibrary,
   useUserProfile,
 } from "#@/components";
-import { useDebouncedCallback } from "@mantine/hooks";
 import { useObtainedGameAchievements } from "#@/components/game/achievement/hooks/useObtainedGameAchievements";
+import { SimpleGrid, Tabs } from "@mantine/core";
+import { useDebouncedCallback } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import {
+  IconDeviceGamepad2,
+  IconNotebook,
+  IconWriting,
+} from "@tabler/icons-react";
 
 interface Props {
   userId: string;

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useUserId, useUserProfile } from "#@/components";
 import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
 import { Button, List, Stack, Text, TextInput } from "@mantine/core";
-import { useUserId, useUserProfile } from "#@/components";
-import { useMutation } from "@tanstack/react-query";
-import { UserAccountService } from "@repo/wrapper/server";
-import Session from "supertokens-auth-react/recipe/session";
 import { useTranslation } from "@repo/locales";
+import { UserAccountService } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import Session from "supertokens-auth-react/recipe/session";
 
 const PreferencesRestartAccountModal = ({
   opened,

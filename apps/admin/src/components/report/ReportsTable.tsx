@@ -1,18 +1,18 @@
 "use client";
 
-import React from "react";
-import { type Report } from "@repo/wrapper/server";
-import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table";
-import { Button, Paper, Title, Text, Badge } from "@mantine/core";
-import { PaginationState } from "@tanstack/table-core";
-import { useRouter } from "next/router";
+import { Badge, Paper } from "@mantine/core";
 import {
   reportCategoryToString,
   reportSourceTypeToString,
   UserAvatarGroup,
   useReports,
 } from "@repo/ui";
+import { type Report } from "@repo/wrapper/server";
+import { PaginationState } from "@tanstack/table-core";
+import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
+import { useRouter } from "next/router";
+import React from "react";
 
 const columns: MRT_ColumnDef<Report>[] = [
   {

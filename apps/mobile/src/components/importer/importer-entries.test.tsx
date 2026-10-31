@@ -26,9 +26,11 @@ const createWrapper = () => {
       },
     },
   });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={client}>{children}</QueryClientProvider>
-  );
+  return function QueryWrapper({ children }: { children: React.ReactNode }) {
+    return (
+      <QueryClientProvider client={client}>{children}</QueryClientProvider>
+    );
+  };
 };
 
 describe("useImporterEntries", () => {
@@ -90,13 +92,22 @@ describe("useImporterEntries", () => {
 
   it("normalizes 404 ApiError into an empty paginated response", async () => {
     const apiError = new ApiError(
-      {} as any,
-      { status: 404, statusText: "Not Found", url: "/v1/importer/steam", body: null, ok: false },
+      {} as unknown as ConstructorParameters<
+        typeof import("@repo/wrapper/server").ApiError
+      >[0],
+      {
+        status: 404,
+        statusText: "Not Found",
+        url: "/v1/importer/steam",
+        body: null,
+        ok: false,
+      },
       "Not Found",
     );
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockRejectedValue(
-      apiError,
-    );
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockRejectedValue(apiError);
 
     const hook = renderHook(
       () =>
@@ -113,13 +124,22 @@ describe("useImporterEntries", () => {
 
   it("propagates errors other than 404", async () => {
     const apiError = new ApiError(
-      {} as any,
-      { status: 500, statusText: "Internal Server Error", url: "/v1/importer/steam", body: null, ok: false },
+      {} as unknown as ConstructorParameters<
+        typeof import("@repo/wrapper/server").ApiError
+      >[0],
+      {
+        status: 500,
+        statusText: "Internal Server Error",
+        url: "/v1/importer/steam",
+        body: null,
+        ok: false,
+      },
       "Internal Server Error",
     );
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockRejectedValue(
-      apiError,
-    );
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockRejectedValue(apiError);
 
     const hook = renderHook(
       () =>

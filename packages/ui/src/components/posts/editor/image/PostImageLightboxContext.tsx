@@ -1,16 +1,15 @@
-import React, {
+import { useDisclosure } from "@mantine/hooks";
+import {
   createContext,
   PropsWithChildren,
   useCallback,
   useContext,
   useMemo,
-  useRef,
   useState,
 } from "react";
-import { useDisclosure } from "@mantine/hooks";
 import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 export interface IPostImageLightboxContext {
   openLightbox: (image: string) => void;

@@ -1,16 +1,16 @@
-import React, { RefObject } from "react";
-import { GamePostEditor, Modal } from "@repo/ui";
-import { IonFab, IonFabButton, IonFabList } from "@ionic/react";
-import { IconArrowUp, IconMessage2Share, IconPlus } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
+import { IonFab, IonFabButton } from "@ionic/react";
+import { IconArrowUp } from "@tabler/icons-react";
 import { addIcons } from "ionicons";
 import { readerOutline } from "ionicons/icons";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { RefObject } from "react";
 
 addIcons({ readerOutline });
 
 interface Props {
-  contentRef: RefObject<HTMLIonContentElement | null>;
+  contentRef: RefObject<
+    | import("react").ComponentRef<typeof import("@ionic/react").IonContent>
+    | null
+  >;
 }
 
 const HomeFab = ({ contentRef }: Props) => {

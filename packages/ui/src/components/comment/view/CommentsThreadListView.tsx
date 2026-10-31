@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from "react";
-import { UserComment } from "#@/components/comment/types";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
-import { Pagination, Stack } from "@mantine/core";
+import { UserComment } from "#@/components/comment/types";
 import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
 import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
+import { Pagination, Stack } from "@mantine/core";
+import { useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 10;
 

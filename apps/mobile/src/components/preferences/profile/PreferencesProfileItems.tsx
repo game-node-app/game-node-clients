@@ -1,33 +1,24 @@
-import React from "react";
+import useUserId from "@/components/auth/hooks/useUserId";
+import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
 import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
   IonItem,
   IonItemDivider,
   IonItemGroup,
   IonLabel,
-  IonModal,
   IonSelect,
   IonSelectOption,
-  IonTitle,
-  IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Container, Group } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { IconLanguage, IconLogout2, IconUser } from "@tabler/icons-react";
-import { signOut } from "supertokens-website";
-import { LANGUAGE_OPTIONS, Modal, ProfileEditForm } from "@repo/ui";
 import { SupportedLanguage, useTranslation } from "@repo/locales";
-import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
+import { LANGUAGE_OPTIONS, Modal, ProfileEditForm } from "@repo/ui";
+import { IconLanguage, IconUser } from "@tabler/icons-react";
 
 const PreferencesProfileItems = () => {
   const { t } = useTranslation();
   const userId = useUserId();
-  const router = useIonRouter();
+  useIonRouter();
   const [language, onLanguageChange] = useLanguagePreference();
 
   const [editModalOpened, editModalUtils] = useDisclosure();

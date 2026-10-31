@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, BoxProps } from "@mantine/core";
 
 const GradientSeparator = ({ ...props }: BoxProps) => {

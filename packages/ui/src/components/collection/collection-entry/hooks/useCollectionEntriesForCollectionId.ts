@@ -1,11 +1,10 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 import {
   CollectionEntriesPaginatedResponseDto,
   CollectionsEntriesService,
   type FindCollectionEntriesForCollectionIdDto,
-  FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
-import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UseCollectionEntriesForCollectionIdProps
   extends FindCollectionEntriesForCollectionIdDto {

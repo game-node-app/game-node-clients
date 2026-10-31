@@ -1,14 +1,3 @@
-import React from "react";
-import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
-import {
-  CreateReportRequestDto,
-  FindAllCommentsDto,
-  StatisticsSourceRequestDto,
-  Post,
-  PostsService,
-} from "@repo/wrapper/server";
-import { EditorContent, useEditor } from "@tiptap/react";
-import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
 import {
   CommentEditorView,
   CommentsListView,
@@ -22,13 +11,23 @@ import {
   UserAvatarGroup,
   useUserId,
 } from "#@/components";
-import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
-import { useDisclosure } from "@mantine/hooks";
-import { createErrorNotification, Modal } from "#@/util";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
+import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
+import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
+import { createErrorNotification, Modal } from "#@/util";
+import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import {
+  CreateReportRequestDto,
+  FindAllCommentsDto,
+  Post,
+  PostsService,
+  StatisticsSourceRequestDto,
+} from "@repo/wrapper/server";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 interface Props {
   item: Post;

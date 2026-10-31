@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseModalProps, Modal } from "#@/util";
 import { Button, Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";

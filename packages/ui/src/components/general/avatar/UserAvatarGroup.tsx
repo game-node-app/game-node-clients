@@ -1,9 +1,8 @@
-import { AvatarProps, Group, GroupProps, Text, TextProps } from "@mantine/core";
-import React from "react";
 import { useOnMobile, useUserProfile } from "#@/components";
 import { Link } from "#@/util";
-import { UserAvatar } from "./UserAvatar";
+import { AvatarProps, Group, GroupProps, Text, TextProps } from "@mantine/core";
 import { Break } from "../Break";
+import { UserAvatar } from "./UserAvatar";
 
 interface IProps {
   userId: string;

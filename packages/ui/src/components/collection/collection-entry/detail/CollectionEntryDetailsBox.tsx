@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   DetailsBox,
   getLocalizedCollectionEntryStatusName,
@@ -7,6 +6,7 @@ import {
 } from "#@/components";
 import { Badge, Group, Skeleton, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;

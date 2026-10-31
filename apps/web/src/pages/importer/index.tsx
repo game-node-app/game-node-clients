@@ -1,6 +1,5 @@
-import React from "react";
 import { Group, Paper, Space, Stack, Text, Title } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { useTranslation } from "@repo/locales";
 import {
   CenteredErrorMessage,
   CenteredLoading,
@@ -8,10 +7,10 @@ import {
   TextLink,
   useOwnUserConnections,
 } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
-import { NextPageContext } from "next";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { ConnectionsService } from "@repo/wrapper/server";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { NextPageContext } from "next";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 export const getServerSideProps = async (_context: NextPageContext) => {
   const queryClient = new QueryClient();

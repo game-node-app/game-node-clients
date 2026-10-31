@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def releaseVersion = new groovy.json.JsonSlurper().parse(file('../../package.json')).version
+def releaseProperties = new Properties()
+file('../version.properties').withInputStream { releaseProperties.load(it) }
+
 android {
     namespace "app.gamenode"
     compileSdk rootProject.ext.compileSdkVersion
@@ -7,8 +11,8 @@ android {
         applicationId "app.gamenode"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 61
-        versionName "1.8.12"
+        versionCode Integer.parseInt(releaseProperties.getProperty('VERSION_CODE'))
+        versionName releaseVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

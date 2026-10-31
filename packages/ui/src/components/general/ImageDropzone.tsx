@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, useState } from "react";
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { Group, rem, Stack, Text } from "@mantine/core";
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
+import { PropsWithChildren, useState } from "react";
 import type { FileError } from "react-dropzone";
 
 const ImageDropzone = ({

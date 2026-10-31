@@ -69,7 +69,9 @@ const PreferencesConnectionItem = ({ type }: Props) => {
           <IonLabel>{getConnectionName(type)}</IonLabel>
           {isConnected ? (
             <>
-              <Text size="sm" fw={500}>{userConnection.data!.sourceUsername}</Text>
+              <Text size="sm" fw={500}>
+                {userConnection.data!.sourceUsername}
+              </Text>
               <Text size="xs" c={requiresReauth ? "orange" : "dimmed"}>
                 {requiresReauth
                   ? t("preferences.statuses.reauthRequired")
@@ -77,9 +79,13 @@ const PreferencesConnectionItem = ({ type }: Props) => {
               </Text>
             </>
           ) : isLookupError ? (
-            <Text size="xs" c="red">{getErrorMessage(userConnection.error as any)}</Text>
+            <Text size="xs" c="red">
+              {getErrorMessage(userConnection.error)}
+            </Text>
           ) : (
-            <Text size="xs" c="dimmed">{t("preferences.statuses.notConnected")}</Text>
+            <Text size="xs" c="dimmed">
+              {t("preferences.statuses.notConnected")}
+            </Text>
           )}
         </Stack>
       </Group>

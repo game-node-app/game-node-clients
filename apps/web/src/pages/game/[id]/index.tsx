@@ -1,34 +1,33 @@
-import React, { useEffect, useRef } from "react";
 import { Box, Container, Stack, Tabs } from "@mantine/core";
-import { useRouter } from "next/router";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { NextPageContext } from "next";
-import {
-  StatisticsSourceRequestDto,
-  Game,
-  GameRepositoryFindOneDto,
-  GameRepositoryService,
-} from "@repo/wrapper/server";
-import Head from "next/head";
+import { useTranslation } from "@repo/locales";
 import {
   DEFAULT_GAME_INFO_VIEW_DTO,
   GameExtraInfoView,
   GameInfoAchievementsScreen,
   GameInfoContentTitle,
   GameInfoPostsScreen,
+  GameInfoReviewScreen,
   GameInfoTabs,
   GameInfoTabValue,
   GameInfoView,
+  getSizedImageUrl,
+  ImageSize,
   useGame,
   useUrlState,
   useUserView,
-  GameInfoReviewScreen,
-  getSizedImageUrl,
-  ImageSize,
 } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
-import sourceType = StatisticsSourceRequestDto.sourceType;
+import {
+  Game,
+  GameRepositoryFindOneDto,
+  GameRepositoryService,
+  StatisticsSourceRequestDto,
+} from "@repo/wrapper/server";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { NextPageContext } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import { OpenGraph } from "../../../components/general/OpenGraph";
+import sourceType = StatisticsSourceRequestDto.sourceType;
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryId = context.query.id;

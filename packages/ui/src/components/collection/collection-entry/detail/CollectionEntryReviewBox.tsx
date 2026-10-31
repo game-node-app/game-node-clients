@@ -1,4 +1,3 @@
-import React from "react";
 import {
   CenteredLoading,
   DetailsBox,
@@ -10,11 +9,11 @@ import {
   useReviewForUserIdAndGameId,
   useUserProfile,
 } from "#@/components";
-import { ActionIcon, Stack, Text } from "@mantine/core";
-import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 import { Modal } from "#@/util";
+import { ActionIcon, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   userId: string;

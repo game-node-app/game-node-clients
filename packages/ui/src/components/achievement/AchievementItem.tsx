@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Group,
   Paper,
@@ -9,9 +8,9 @@ import {
   Title,
   UnstyledButton,
 } from "@mantine/core";
-import { IconCheck } from "@tabler/icons-react";
-import { AchievementProgressDto, AchievementV2Dto } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
+import { AchievementProgressDto, AchievementV2Dto } from "@repo/wrapper/server";
+import { IconCheck } from "@tabler/icons-react";
 import { AchievementBadge } from "./AchievementBadge";
 
 interface Props {

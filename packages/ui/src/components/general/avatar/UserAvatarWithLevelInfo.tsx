@@ -1,9 +1,8 @@
-import React from "react";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
-import { AvatarProps, Stack, Text } from "@mantine/core";
-import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
 import { Link } from "#@/util";
+import { AvatarProps, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

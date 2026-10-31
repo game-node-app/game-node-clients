@@ -2,13 +2,12 @@
 
 import { Box, ScrollArea } from "@mantine/core";
 
+import useUserId from "@/components/auth/hooks/useUserId";
 import type { NavItem } from "@/types/nav-item";
+import { EUserRoles, UserAvatarGroup, useUserRoles } from "@repo/ui";
+import { useMemo } from "react";
 import { NavLinksGroup } from "./NavLinksGroup";
 import classes from "./Navbar.module.css";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { EUserRoles, UserAvatarGroup, useUserRoles } from "@repo/ui";
-import { getRolesForRoute } from "@/components/auth/roles.ts";
-import { useMemo } from "react";
 
 interface Props {
   data: NavItem[];

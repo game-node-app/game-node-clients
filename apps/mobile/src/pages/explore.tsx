@@ -1,8 +1,7 @@
-import React from "react";
-import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { ExploreGamesPageView } from "@/components/explore/ExploreGamesPageView";
-import { useQueryClient } from "@tanstack/react-query";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ExplorePage = () => {
   const queryClient = useQueryClient();

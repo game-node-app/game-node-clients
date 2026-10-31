@@ -1,7 +1,6 @@
-import React from "react";
-import { Button, Stack, Text, Title } from "@mantine/core";
-import { Link } from "#@/util";
 import { useAwardEvent } from "#@/components";
+import { Link } from "#@/util";
+import { Button, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

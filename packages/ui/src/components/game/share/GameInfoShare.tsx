@@ -1,14 +1,14 @@
-import React, { useRef } from "react";
-import { ActionIcon, Button, Chip, Group, Stack, Text } from "@mantine/core";
-import { FieldPath, useForm } from "react-hook-form";
-import { z } from "zod";
+import { GameInfoSharePreview } from "#@/components";
+import { createErrorNotification, downloadFile } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ActionIcon, Button, Chip, Group, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
+import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
-import { IconDownload } from "@tabler/icons-react";
-import { createErrorNotification, downloadFile } from "#@/util";
-import { useTranslation } from "@repo/locales";
-import { GameInfoSharePreview } from "#@/components";
+import { useRef } from "react";
+import { FieldPath, useForm } from "react-hook-form";
+import { z } from "zod";
 
 interface GameInfoShareProps {
   gameId: number;

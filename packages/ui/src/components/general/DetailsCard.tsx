@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from "react";
-import { Stack, Title } from "@mantine/core";
 import { cn } from "#@/util";
+import { Stack, Title } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 export type DetailsCardVariant = "card";
 

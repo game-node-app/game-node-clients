@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { GameViewContext } from "#@/components/game/view/GameView";
 import { GameViewLayoutSwitcherContent } from "#@/components";
+import { GameViewContext } from "#@/components/game/view/GameView";
+import { useContext } from "react";
 
 export type GameViewLayoutOption = "grid" | "list";
 

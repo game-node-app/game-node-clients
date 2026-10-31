@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   DetailsBox,
   DetailsBoxProps,
@@ -8,6 +7,7 @@ import {
 } from "#@/components";
 import { Skeleton, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   userId: string;

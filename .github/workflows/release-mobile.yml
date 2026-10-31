@@ -1,0 +1,69 @@
+name: Release Android app
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deliver:
+    name: Build signed APK and AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: production
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: yarn
+      - name: Refuse stale or unselected releases
+        run: |
+          node scripts/prepare-release.cjs --assert-current mobile
+          node -e 'const r = require("./.release.json"); if (!r.mobile) throw Error("Mobile not selected")'
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - run: yarn install --frozen-lockfile --ignore-scripts
+      - run: yarn build -F mobile
+      - name: Decode Android signing key
+        working-directory: apps/mobile
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+        run: |
+          umask 077
+          printf '%s' "$RELEASE_KEYSTORE" | base64 --decode > android/release.decrypted.jks
+      - name: Build signed artifacts
+        working-directory: apps/mobile
+        env:
+          KEYSTORE_PASS: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEYSTORE_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.RELEASE_KEYSTORE_KEY_PASS }}
+        run: |
+          for format in APK AAB; do
+            yarn cap build android --keystorepath release.decrypted.jks \
+              --keystorepass "$KEYSTORE_PASS" --keystorealias "$KEY_ALIAS" \
+              --keystorealiaspass "$KEY_PASS" --androidreleasetype "$format"
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: android-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            apps/mobile/android/app/build/outputs/apk/release/
+            apps/mobile/android/app/build/outputs/bundle/release/
+      - name: Remove signing key
+        if: always()
+        run: rm -f apps/mobile/android/release.decrypted.jks

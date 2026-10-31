@@ -1,7 +1,6 @@
-import React from "react";
-import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 import { BarChart, BarChartProps } from "@mantine/charts";
 import { useTranslation } from "@repo/locales";
+import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 
 interface Props extends Omit<BarChartProps, "data" | "dataKey" | "series"> {
   distribution: Array<ProfileMetricsTypeDistributionItem>;

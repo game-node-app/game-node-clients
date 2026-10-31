@@ -1,4 +1,3 @@
-import React from "react";
 import { Center, Title } from "@mantine/core";
 
 const GameSearchResultErrorMessage = ({ message }: { message: string }) => {

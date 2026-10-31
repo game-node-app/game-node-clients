@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
-import { useHeatmap } from "#@/components/journal/heatmap/hooks/useHeatmap.ts";
 import { CenteredLoading } from "#@/components";
+import { useHeatmap } from "#@/components/journal/heatmap/hooks/useHeatmap.ts";
 import { Heatmap } from "@mantine/charts";
-import { Box, Flex } from "@mantine/core";
+import { Box } from "@mantine/core";
 import dayjs from "dayjs";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;

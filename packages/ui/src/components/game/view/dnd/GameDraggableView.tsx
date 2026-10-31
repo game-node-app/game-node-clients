@@ -1,16 +1,12 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
 import {
   GameSortableItemData,
   GameViewLayoutOption,
   TGameOrSearchGame,
   useOnTouchDevice,
 } from "#@/components";
+import { GameDraggableViewContent } from "#@/components/game/view/dnd/GameDraggableViewContent";
+import { GameDraggableViewLayoutSwitcher } from "#@/components/game/view/dnd/GameDraggableViewLayoutSwitcher";
+import { GameDraggableViewOverlay } from "#@/components/game/view/dnd/GameDraggableViewOverlay";
 import {
   closestCenter,
   DndContext,
@@ -20,9 +16,13 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { GameDraggableViewContent } from "#@/components/game/view/dnd/GameDraggableViewContent";
-import { GameDraggableViewOverlay } from "#@/components/game/view/dnd/GameDraggableViewOverlay";
-import { GameDraggableViewLayoutSwitcher } from "#@/components/game/view/dnd/GameDraggableViewLayoutSwitcher";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export interface GameDraggableViewProps extends PropsWithChildren {
   layout: GameViewLayoutOption;

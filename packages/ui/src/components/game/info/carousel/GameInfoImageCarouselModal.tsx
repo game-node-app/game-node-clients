@@ -1,8 +1,7 @@
-import React from "react";
-import { Image } from "@mantine/core";
-import { BaseModalProps } from "#@/util/types/modal-props";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Modal } from "#@/util";
+import { BaseModalProps } from "#@/util/types/modal-props";
+import { Image } from "@mantine/core";
 
 interface Props extends BaseModalProps {
   imageSrc: string;

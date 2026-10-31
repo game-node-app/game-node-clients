@@ -1,9 +1,8 @@
-import React from "react";
-import { BlogArticleDto } from "@repo/wrapper/server";
-import { AspectRatio, Group, Image, Stack, Text } from "@mantine/core";
-import { Link } from "#@/util";
-import dayjs from "dayjs";
 import { UserAvatarGroup } from "#@/components";
+import { Link } from "#@/util";
+import { Group, Image, Stack, Text } from "@mantine/core";
+import { BlogArticleDto } from "@repo/wrapper/server";
+import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;

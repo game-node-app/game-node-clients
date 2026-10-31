@@ -1,10 +1,10 @@
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { GetPostsPageParam } from "#@/components/posts/hooks/useInfinitePosts";
+import { ExtendedUseInfiniteQueryResult } from "#@/util";
 import {
   type GetPostsPaginatedResponseDto,
   PostsFeedService,
 } from "@repo/wrapper/server";
-import { ExtendedUseInfiniteQueryResult } from "#@/util";
-import { GetPostsPageParam } from "#@/components/posts/hooks/useInfinitePosts";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 export type PostsFeedCriteria = Parameters<
   typeof PostsFeedService.postsFeedControllerBuildFeedV1
@@ -46,7 +46,7 @@ export function useInfinitePostsFeed({
         lastCreatedAt: undefined,
         lastId: undefined,
       } as GetPostsPageParam,
-      getNextPageParam: (lastPage, _, lastPageParam) => {
+      getNextPageParam: (lastPage, _, _lastPageParam) => {
         if (
           lastPage &&
           lastPage.pagination &&

@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   BaseRecapStatsProps,
   ProfileStatsDistributionByTypeChart,
@@ -6,7 +5,8 @@ import {
   useRecap,
   useUrlState,
 } from "#@/components";
-import { Flex, Group, Radio, SimpleGrid, Stack, Switch } from "@mantine/core";
+import { Flex, Radio, SimpleGrid, Stack } from "@mantine/core";
+import { useMemo } from "react";
 
 const RecapStatsChartsSection = ({
   userId,

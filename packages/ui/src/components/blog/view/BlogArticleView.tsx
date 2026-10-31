@@ -1,16 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import { Box, Group, Image, Stack, Text, Title, Badge } from "@mantine/core";
-import { BlogArticleDto, BlogPreviewDto } from "@repo/wrapper/server";
 import {
-  BlogPostTags,
   BlogPostReviewInfo,
-  UserAvatarGroup,
+  BlogPostTags,
   PostImageLightboxContext,
   usePostImageLightboxContext,
+  UserAvatarGroup,
 } from "#@/components";
-import { useTranslation, useI18nContext } from "@repo/locales";
 import { PROJECT_CONTEXT } from "#@/util/projectContext";
+import { Badge, Box, Group, Image, Stack, Text, Title } from "@mantine/core";
+import { useI18nContext, useTranslation } from "@repo/locales";
+import { BlogArticleDto, BlogPreviewDto } from "@repo/wrapper/server";
 import dayjs from "dayjs";
+import { useEffect, useRef } from "react";
 
 function ArticleBody({ content, locale }: { content: string; locale: string }) {
   const ref = useRef<HTMLDivElement>(null);

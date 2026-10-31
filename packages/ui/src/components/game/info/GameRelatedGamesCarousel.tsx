@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
-import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
 import { useGame } from "#@/components/game/hooks/useGame";
-import { DetailsBox } from "#@/components/general/DetailsBox";
 import { GameInfoCarousel } from "#@/components/game/info/carousel/GameInfoCarousel";
+import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Box } from "@mantine/core";
+import { Game, GameRepositoryFindOneDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 export const DEFAULT_RELATED_GAMES_DTO: GameRepositoryFindOneDto = {
   relations: {

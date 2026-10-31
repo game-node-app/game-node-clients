@@ -1,10 +1,9 @@
-import React from "react";
+import { ProfileStatsDistributionRadarByTypeChart } from "#@/components";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
 } from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { ProfileStatsDistributionRadarByTypeChart } from "#@/components";
 
 interface Props {
   userId: string;

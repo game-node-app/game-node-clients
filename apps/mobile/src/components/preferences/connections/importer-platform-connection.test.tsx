@@ -1,3 +1,4 @@
+import { isValidElement } from "react";
 // @vitest-environment jsdom
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -44,7 +45,10 @@ vi.mock("@capacitor/browser", () => ({
   Browser: { close: mocks.closeBrowser },
 }));
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<Record<string, any>>("react-router-dom");
+  const actual =
+    await vi.importActual<typeof import("react-router-dom")>(
+      "react-router-dom",
+    );
   return {
     ...actual,
     useHistory: () => ({ push: mocks.push }),
@@ -53,14 +57,19 @@ vi.mock("react-router-dom", async () => {
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       const parts = key.split(".");
-      let val: any = enTranslations;
+      let val: unknown = enTranslations;
       for (const p of parts) {
-        val = val?.[p];
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       }
       if (typeof val === "string") {
-        return val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? `{{${k}}}`);
+        return val.replace(/\{\{(\w+)\}\}/g, (_, k) =>
+          String(options?.[k] ?? `{{${k}}}`),
+        );
       }
       return key;
     },
@@ -68,7 +77,10 @@ vi.mock("@repo/locales", () => ({
   }),
 }));
 
-const MockLink = ({ children, ...props }: any) => <a {...props}>{children}</a>;
+const MockLink = ({
+  children,
+  ...props
+}: import("react").ComponentProps<"a">) => <a {...props}>{children}</a>;
 
 function createTestQueryClient() {
   return new QueryClient({
@@ -84,7 +96,10 @@ function renderWithProviders(ui: React.ReactElement) {
     <MemoryRouter>
       <QueryClientProvider client={createTestQueryClient()}>
         <MantineProvider>
-          <UIProvider presenters={{ Link: MockLink }} hooks={{} as any}>
+          <UIProvider
+            presenters={{ Link: MockLink }}
+            hooks={{} as unknown as import("@repo/ui").UIHookRegistry}
+          >
             {ui}
           </UIProvider>
         </MantineProvider>
@@ -306,7 +321,13 @@ describe("Task 4.2 & 4.3: PreferencesConnectionItem (Web & Mobile)", () => {
     mocks.ownConnection.data = undefined;
     mocks.ownConnection.error = new ApiError(
       { method: "GET", url: "/v1/connections/own/steam" },
-      { url: "", ok: false, status: 500, statusText: "Internal Server Error", body: { message: "Internal DB error" } },
+      {
+        url: "",
+        ok: false,
+        status: 500,
+        statusText: "Internal Server Error",
+        body: { message: "Internal DB error" },
+      },
       "Internal DB error",
     );
 
@@ -323,10 +344,14 @@ describe("Task 5.1 & 5.2: Navigation and deep linking", () => {
   it("Task 5.1: registers preferences category route before generic preferences route", () => {
     const routes = getCommonRoutes("/home");
     const categoryRoute = routes.find(
-      (r: any) => r.props.path === "/home/preferences/:category",
+      (r) =>
+        isValidElement<{ path?: string }>(r) &&
+        r.props.path === "/home/preferences/:category",
     );
     const genericRoute = routes.find(
-      (r: any) => r.props.path === "/home/preferences",
+      (r) =>
+        isValidElement<{ path?: string }>(r) &&
+        r.props.path === "/home/preferences",
     );
 
     expect(categoryRoute).toBeTruthy();

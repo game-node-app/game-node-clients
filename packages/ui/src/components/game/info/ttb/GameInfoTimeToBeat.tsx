@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo } from "react";
 import {
   DetailsBox,
   GameInfoTimeToBeatItem,
   useTimeToBeat,
 } from "#@/components";
-import { createErrorNotification, Link } from "#@/util";
 import { Anchor, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props {
   gameId: number;
@@ -42,7 +41,7 @@ const GameInfoTimeToBeat = ({ gameId }: Props) => {
         .
       </Text>
     );
-  }, [data, isLoading]);
+  }, [data, isLoading, t]);
 
   return (
     <DetailsBox

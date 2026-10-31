@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
 import WebGamePage from "../../../../web/src/pages/game/[id]/index";
 import MobileGamePage from "../../pages/game";
 
@@ -61,7 +60,9 @@ vi.mock("@repo/ui", () => {
   };
 });
 vi.mock("@tanstack/react-query", async () => {
-  const actual = await vi.importActual<any>("@tanstack/react-query");
+  const actual = await vi.importActual<typeof import("@tanstack/react-query")>(
+    "@tanstack/react-query",
+  );
   return { ...actual, useQueryClient: () => ({ invalidateQueries: vi.fn() }) };
 });
 afterEach(() => {
@@ -74,7 +75,10 @@ afterEach(() => {
 it("web creates a view per valid game navigation but not per tab or render", async () => {
   let count = 0;
   vi.spyOn(crypto, "randomUUID").mockImplementation(
-    () => ("visit-" + ++count) as any,
+    (() =>
+      ("visit-" + ++count) as unknown as
+        | string
+        | Promise<string>) as unknown as typeof crypto.randomUUID,
   );
   state.router.query = { id: "1" };
   const page = render(<WebGamePage />);
@@ -95,7 +99,10 @@ it("web creates a view per valid game navigation but not per tab or render", asy
 it("mobile creates a new view for retained entries and changed IDs", () => {
   let count = 0;
   vi.spyOn(crypto, "randomUUID").mockImplementation(
-    () => ("visit-" + ++count) as any,
+    (() =>
+      ("visit-" + ++count) as unknown as
+        | string
+        | Promise<string>) as unknown as typeof crypto.randomUUID,
   );
   const page = render(<MobileGamePage gameId={1} />);
   act(() => state.enter());

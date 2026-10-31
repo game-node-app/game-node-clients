@@ -1,6 +1,14 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
+import {
+  GameRepositoryService,
+  StatisticsService,
+  StatisticsRankingsRequestDto,
+} from "@repo/wrapper/server";
+import {
+  hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import {
   cleanup,
   fireEvent,
@@ -8,30 +16,27 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import {
-  hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { GameRepositoryService, StatisticsService } from "@repo/wrapper/server";
+import { afterEach, expect, it, vi } from "vitest";
+import { getInfiniteTrendingGamesKey } from "../../../../../packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames";
+import { exploreScreenUrlQueryToDto } from "../../../../web/src/components/explore/utils";
 import ExplorePage, {
   getServerSideProps,
 } from "../../../../web/src/pages/explore/index";
-import { exploreScreenUrlQueryToDto } from "../../../../web/src/components/explore/utils";
-import { getInfiniteTrendingGamesKey } from "../../../../../packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames";
 
 vi.mock("next/head", () => ({ default: () => null }));
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 vi.mock("@mantine/hooks", async () => ({
-  ...(await vi.importActual<any>("@mantine/hooks")),
+  ...(await vi.importActual<typeof import("@mantine/hooks")>("@mantine/hooks")),
   useWindowScroll: () => [{ y: 0 }, vi.fn()],
 }));
 vi.mock("@mantine/core", async () => {
   const React = await import("react");
-  const actual = await vi.importActual<any>("@mantine/core");
-  const C = ({ children }: any) => React.createElement("div", null, children);
+  const actual =
+    await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
+  const C = ({ children }: import("react").PropsWithChildren) =>
+    React.createElement("div", null, children);
   return {
     ...actual,
     ActionIcon: C,
@@ -46,12 +51,17 @@ vi.mock(
   async () => {
     const React = await import("react");
     return {
-      default: ({ hasLoadedQueryParams, onFilterChange }: any) => {
+      default: function MockExploreFilters({
+        hasLoadedQueryParams,
+        onFilterChange,
+      }: import("react").ComponentProps<
+        typeof import("../../../../web/src/components/explore/ExploreScreenFilters").default
+      >) {
         React.useEffect(() => {
           if (!hasLoadedQueryParams)
-            onFilterChange((dto: any) => ({
+            onFilterChange((dto) => ({
               ...dto,
-              period: "week",
+              period: StatisticsRankingsRequestDto.period.WEEK,
               criteria: { genres: [4, 5] },
             }));
         }, [hasLoadedQueryParams, onFilterChange]);
@@ -68,24 +78,38 @@ vi.mock("@repo/ui", async () => {
   const games = await import(
     "../../../../../packages/ui/src/components/game/hooks/useGames"
   );
-  const C: any = ({ children }: any) =>
+  const C = ({ children }: import("react").PropsWithChildren) =>
     React.createElement("div", null, children);
-  C.Content = ({ items, children }: any) =>
-    React.createElement(
+  C.Content = function MockContent({
+    items,
+    children,
+  }: import("react").PropsWithChildren<{
+    items?: import("@repo/wrapper/server").Game[];
+  }>) {
+    return React.createElement(
       "div",
       null,
-      items?.map((game: any) =>
+      items?.map((game: import("@repo/wrapper/server").Game) =>
         React.createElement("span", { key: game.id }, game.name),
       ),
       children,
     );
-  C.LoadingSkeletons = () => null;
+  };
+  C.LoadingSkeletons = function MockLoadingSkeletons() {
+    return null;
+  };
   return {
     ...infinite,
     ...games,
     GameView: C,
     CenteredErrorMessage: C,
-    SimpleInfiniteLoader: ({ fetchNextPage, hasNextPage }: any) =>
+    SimpleInfiniteLoader: ({
+      fetchNextPage,
+      hasNextPage,
+    }: {
+      fetchNextPage: () => void;
+      hasNextPage: boolean;
+    }) =>
       React.createElement(
         "button",
         { onClick: fetchNextPage, disabled: !hasNextPage },
@@ -101,7 +125,9 @@ afterEach(() => {
 it("hydrates matching ranking and content keys and retains first-occurrence order across overlapping pages", async () => {
   const rankings = vi
     .spyOn(StatisticsService, "statisticsControllerFindRankingsV1")
-    .mockImplementation(((dto: any) =>
+    .mockImplementation(((
+      dto: import("@repo/wrapper/server").StatisticsRankingsRequestDto,
+    ) =>
       Promise.resolve({
         items: (dto.offset === 0 ? [2, 1] : [1, 3]).map((sourceId) => ({
           sourceId,
@@ -112,15 +138,19 @@ it("hydrates matching ranking and content keys and retains first-occurrence orde
           offset: dto.offset,
           hasNextPage: dto.offset === 0,
         },
-      })) as any);
+      })) as unknown as typeof StatisticsService.statisticsControllerFindRankingsV1);
   const content = vi
     .spyOn(GameRepositoryService, "gameRepositoryControllerFindAllByIdsV1")
-    .mockImplementation(((dto: any) =>
+    .mockImplementation(((
+      dto: import("@repo/wrapper/server").GameRepositoryFindAllDto,
+    ) =>
       Promise.resolve(
         [...dto.gameIds].reverse().map((id) => ({ id, name: String(id) })),
-      )) as any);
+      )) as unknown as typeof GameRepositoryService.gameRepositoryControllerFindAllByIdsV1);
   const query = { period: "week", genres: "4,5" };
-  const result = await getServerSideProps({ query } as any);
+  const result = await getServerSideProps({
+    query,
+  } as unknown as import("next").NextPageContext);
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false, staleTime: Infinity } },
   });

@@ -1,8 +1,7 @@
-import React from "react";
-import { BaseModalProps } from "#@/util";
-import { useQueryClient } from "@tanstack/react-query";
 import { CollectionOrderingUpdateForm, useOnMobile } from "#@/components";
+import { BaseModalProps } from "#@/util";
 import { Modal } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends BaseModalProps {
   collectionId: string;

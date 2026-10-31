@@ -1,7 +1,4 @@
-import Session, {
-  useClaimValue,
-  useSessionContext,
-} from "supertokens-auth-react/recipe/session";
+import { useClaimValue } from "supertokens-auth-react/recipe/session";
 import { UserRoleClaim } from "supertokens-auth-react/recipe/userroles";
 
 export function useUserRoles(): [string[], boolean] {

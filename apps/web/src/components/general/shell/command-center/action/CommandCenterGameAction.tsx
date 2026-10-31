@@ -1,14 +1,8 @@
-import React from "react";
-import {
-  CollectionEntryEditModal,
-  GameFigureImage,
-  SearchGame,
-  useRouter,
-} from "@repo/ui";
-import { Spotlight } from "@mantine/spotlight";
-import { Box, Flex, Group, Stack, Text, Title } from "@mantine/core";
-import { useI18nContext } from "@repo/locales";
 import { CommandCenterGameActionMenu } from "@/components/general/shell/command-center/action/CommandCenterGameActionMenu";
+import { Box, Flex, Group, Stack, Text, Title } from "@mantine/core";
+import { Spotlight } from "@mantine/spotlight";
+import { useI18nContext } from "@repo/locales";
+import { GameFigureImage, SearchGame, useRouter } from "@repo/ui";
 
 interface Props {
   game: SearchGame;

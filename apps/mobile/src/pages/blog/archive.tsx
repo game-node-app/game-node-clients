@@ -1,18 +1,7 @@
-import React from "react";
-import { BlogPostsLayout, BlogPostsListView } from "@repo/ui";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonRouter,
-} from "@ionic/react";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
+import { useIonRouter } from "@ionic/react";
+import { BlogPostsLayout, BlogPostsListView } from "@repo/ui";
 
 const BlogPostsArchivePage = () => {
   const router = useIonRouter();

@@ -1,14 +1,13 @@
-import React from "react";
-import {
-  GetPostsRequestDto,
-  useInfinitePosts,
-} from "#@/components/posts/hooks/useInfinitePosts.ts";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   PostsList,
   SimpleInfiniteLoader,
 } from "#@/components";
+import {
+  GetPostsRequestDto,
+  useInfinitePosts,
+} from "#@/components/posts/hooks/useInfinitePosts.ts";
 import { Stack } from "@mantine/core";
 
 interface Props extends GetPostsRequestDto {

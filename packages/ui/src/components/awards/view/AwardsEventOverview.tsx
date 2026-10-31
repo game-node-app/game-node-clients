@@ -1,10 +1,9 @@
-import React from "react";
 import { useAwardEvent, useAwardEventCategories } from "#@/components";
-import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
 import { AwardsOverviewTextBadge } from "#@/components/awards/view/AwardsOverviewTextBadge.tsx";
-import dayjs from "dayjs";
 import { Link } from "#@/util";
+import { Button, Group, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import dayjs from "dayjs";
 
 interface Props {
   eventId: number;

@@ -1,17 +1,13 @@
-import React, { useMemo } from "react";
-import { Stack, Title } from "@mantine/core";
-import { useRouter } from "next/router";
+import { Stack } from "@mantine/core";
 import {
   CenteredLoading,
   CollectionEntryDetailView,
-  getRandomItem,
-  getSizedImageUrl,
-  ImageSize,
   useCollectionEntry,
   useGame,
   useUserProfile,
 } from "@repo/ui";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const JournalDetailPage = () => {
   const router = useRouter();

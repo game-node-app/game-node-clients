@@ -1,4 +1,11 @@
 import {
+  BlogPostsFeatured,
+  BlogPostsFeaturedReviews,
+  DetailsBox,
+  RecentBlogPostsList,
+} from "#@/components";
+import { Link } from "#@/util";
+import {
   ActionIcon,
   Box,
   Button,
@@ -8,16 +15,8 @@ import {
   Popover,
   Text,
 } from "@mantine/core";
-import React from "react";
-import {
-  BlogPostsFeatured,
-  BlogPostsFeaturedReviews,
-  DetailsBox,
-  RecentBlogPostsList,
-} from "#@/components";
-import { IconQuestionMark } from "@tabler/icons-react";
-import { Link } from "#@/util";
 import { useTranslation } from "@repo/locales";
+import { IconQuestionMark } from "@tabler/icons-react";
 
 const BlogPostsFeed = () => {
   const { t } = useTranslation();

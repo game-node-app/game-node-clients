@@ -1,5 +1,9 @@
-import React, { useMemo, useState } from "react";
+import { AppPage } from "@/components/general/AppPage";
+import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { getErrorMessage } from "@/util/getErrorMessage";
 import { Center, FocusTrap, Stack, Text } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import {
   buildGameCategoryFilters,
   GameSearchBar,
@@ -12,12 +16,8 @@ import {
   useInfiniteSearchGames,
   useUrlState,
 } from "@repo/ui";
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import { getErrorMessage } from "@/util/getErrorMessage";
-import { useDebouncedValue } from "@mantine/hooks";
-import { AppPage } from "@/components/general/AppPage";
 import { IconSearch } from "@tabler/icons-react";
-import { useTranslation } from "@repo/locales";
+import { useMemo, useState } from "react";
 
 const GameSearchPage = () => {
   const { t } = useTranslation();

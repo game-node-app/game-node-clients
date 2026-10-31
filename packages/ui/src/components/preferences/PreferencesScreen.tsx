@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { Box, Divider, Flex, Group, Paper, Stack } from "@mantine/core";
+import { PreferencesAccountScreen } from "#@/components";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { PreferencesScreenSelector } from "#@/components/preferences/PreferencesScreenSelector";
 import {
   PreferencesActiveCategory,
   PreferencesScreenSideBar,
 } from "#@/components/preferences/PreferencesScreenSideBar";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { PreferencesScreenSelector } from "#@/components/preferences/PreferencesScreenSelector";
 import { PreferencesConnectionsScreen } from "#@/components/preferences/categories/PreferencesConnectionsScreen";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { useRouter } from "#@/util";
-import { PreferencesAccountScreen } from "#@/components";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { PreferencesLibraryScreen } from "#@/components/preferences/categories/PreferencesLibraryScreen";
+import { useRouter } from "#@/util";
+import { Divider, Group, Stack } from "@mantine/core";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface Props {
   category: PreferencesActiveCategory;

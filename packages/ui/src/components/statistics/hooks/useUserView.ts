@@ -35,6 +35,7 @@ export function useUserView(
     },
   });
   const canonicalId = statisticsQuery.queryKey[2];
+  const { mutate } = mutation;
   const incrementView = useCallback(
     (viewId: string) => {
       if (pending.current.has(viewId) || accepted.current.has(viewId)) return;
@@ -51,9 +52,9 @@ export function useUserView(
         identities.current.set(viewId, variables);
       }
       pending.current.add(viewId);
-      mutation.mutate(variables);
+      mutate(variables);
     },
-    [canonicalId, sourceType, mutation.mutate],
+    [canonicalId, sourceType, mutate],
   );
   return [
     statisticsQuery.data?.viewsCount ?? 0,

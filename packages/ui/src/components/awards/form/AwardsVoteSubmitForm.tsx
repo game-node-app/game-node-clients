@@ -1,5 +1,3 @@
-import React, { useMemo, useState } from "react";
-import { Progress, Stack, Text } from "@mantine/core";
 import {
   buildGameCategoryFilters,
   CenteredLoading,
@@ -11,14 +9,16 @@ import {
   useSearchGames,
   useUserId,
 } from "#@/components";
-import { AwardsService, VotableAwardsCategoryDto } from "@repo/wrapper/server";
-import { useDebouncedValue } from "@mantine/hooks";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
 import { BaseModalChildrenProps, createErrorNotification } from "#@/util";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import dayjs from "dayjs";
+import { Progress, Stack, Text } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
+import { AwardsService, VotableAwardsCategoryDto } from "@repo/wrapper/server";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { useMemo, useState } from "react";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 export interface AwardsVoteSubmitFormProps extends BaseModalChildrenProps {
   category: VotableAwardsCategoryDto;
@@ -34,7 +34,10 @@ const AwardsVoteSubmitForm = ({
 
   const { data: event } = useAwardEvent({ eventId: category.eventId });
 
-  const suggestions = category?.suggestions ?? [];
+  const suggestions = useMemo(
+    () => category.suggestions ?? [],
+    [category.suggestions],
+  );
 
   const suggestedGamesQuery = useGames({
     gameIds: suggestions.map((suggestion) => suggestion.gameId),
@@ -64,7 +67,10 @@ const AwardsVoteSubmitForm = ({
     isQueryEnabled,
   );
 
-  const searchedGames = searchGamesQuery.data?.data?.items ?? [];
+  const searchedGames = useMemo(
+    () => searchGamesQuery.data?.data?.items ?? [],
+    [searchGamesQuery.data],
+  );
 
   const filteredGames = useMemo(() => {
     if (searchedGames.length === 0 || event == undefined) {

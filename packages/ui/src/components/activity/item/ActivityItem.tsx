@@ -1,5 +1,3 @@
-import React, { useEffect, useMemo } from "react";
-import { Box, Group, Stack, Text } from "@mantine/core";
 import {
   AchievementBadge,
   ActivityItemComments,
@@ -17,11 +15,13 @@ import {
   useReview,
   useUserProfile,
 } from "#@/components";
-import { Activity } from "@repo/wrapper/server";
-import { match } from "ts-pattern";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Activity } from "@repo/wrapper/server";
+import { useMemo } from "react";
+import { match } from "ts-pattern";
 
 const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
   const { t } = useTranslation();

@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from "react";
-import { Box, Group, Stack, Text, UnstyledButton } from "@mantine/core";
-import { AwardsEventLogo } from "#@/components/awards/view/AwardsEventLogo.tsx";
 import { useAwardEvent, UserAvatarGroup } from "#@/components";
-import { cn, Link } from "#@/util";
+import { AwardsEventLogo } from "#@/components/awards/view/AwardsEventLogo.tsx";
+import { cn } from "#@/util";
+import { Box, Group, Stack, Text } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
   userId: string;
@@ -11,7 +11,7 @@ interface Props extends PropsWithChildren {
 }
 
 const AwardsVoteLayout = ({ userId, title, eventId, children }: Props) => {
-  const { data: event } = useAwardEvent({ eventId });
+  useAwardEvent({ eventId });
 
   return (
     <Stack

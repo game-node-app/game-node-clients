@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
 import { CenteredLoading, InfiniteLoaderProps } from "#@/components";
 import { useIntersection } from "@mantine/hooks";
+import { useEffect, useRef } from "react";
 
 const SimpleInfiniteLoader = ({
   hasNextPage,

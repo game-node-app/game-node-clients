@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { AchievementItem, RedeemAchievementCodeModal } from "#@/components";
 import {
   Button,
   Center,
@@ -10,18 +10,17 @@ import {
   Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { AchievementProgressDto, AchievementV2Dto } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
+import { AchievementProgressDto, AchievementV2Dto } from "@repo/wrapper/server";
+import { useMemo, useState } from "react";
 import { useUserId } from "../auth";
-import { useAchievementProgress, useAchievementsV2 } from "./hooks";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
   UserAvatarWithLevelInfo,
 } from "../general";
-import { RedeemAchievementCodeModal } from "#@/components";
-import { AchievementItem } from "#@/components";
+import { useAchievementProgress, useAchievementsV2 } from "./hooks";
 
 interface Props {
   targetUserId: string;

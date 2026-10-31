@@ -1,22 +1,17 @@
-import React, { useMemo } from "react";
-import { EUserRoles, getRolesForRoute } from "@/components/auth/roles.ts";
+import { getRolesForRoute } from "@/components/auth/roles.ts";
+import { AdminHeader } from "@/components/Headers/AdminHeader.tsx";
+import { navLinks } from "@/components/Navbar/Navbar.config.ts";
+import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import {
   AppShell,
   Burger,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { Navbar } from "@/components/Navbar/Navbar.tsx";
-import { navLinks } from "@/components/Navbar/Navbar.config.ts";
-import { AdminHeader } from "@/components/Headers/AdminHeader.tsx";
 import { useDisclosure } from "@mantine/hooks";
+import { SessionAuthWithRoles, useOnMobile, useUserRoles } from "@repo/ui";
 import { useRouter } from "next/router";
-import {
-  CenteredLoading,
-  SessionAuthWithRoles,
-  useOnMobile,
-  useUserRoles,
-} from "@repo/ui";
+import React from "react";
 
 interface Props {
   children: React.ReactNode;

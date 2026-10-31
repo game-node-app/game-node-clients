@@ -1,7 +1,7 @@
-import React, { ComponentType, MouseEventHandler } from "react";
-import { Box, Menu, Text } from "@mantine/core";
-import { IconProps } from "@tabler/icons-react";
+import { Menu, Text } from "@mantine/core";
 import { Link } from "@repo/ui";
+import { IconProps } from "@tabler/icons-react";
+import { ComponentType, MouseEventHandler } from "react";
 
 interface Props {
   label: string;

@@ -1,5 +1,5 @@
-import { Box, Button, Paper, Stack } from "@mantine/core";
 import { LandingHeader } from "@/components/general/header/LandingHeader";
+import { Box, Paper } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 const AboutPage = () => {

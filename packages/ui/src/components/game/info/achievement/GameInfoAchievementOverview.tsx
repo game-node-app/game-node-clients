@@ -1,4 +1,3 @@
-import React, { useCallback, useMemo } from "react";
 import {
   DetailsBox,
   GameInfoAchievementOverviewItem,
@@ -7,6 +6,7 @@ import {
 } from "#@/components";
 import { Skeleton } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useCallback, useMemo } from "react";
 
 interface Props {
   gameId: number;

@@ -1,6 +1,6 @@
-import React, { ComponentPropsWithoutRef } from "react";
-import { Divider, Stack, Text, Title } from "@mantine/core";
 import { Link } from "#@/util";
+import { Divider, Text } from "@mantine/core";
+import { ComponentPropsWithoutRef } from "react";
 
 interface Props extends ComponentPropsWithoutRef<typeof Link> {
   title: string;

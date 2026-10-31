@@ -1,10 +1,9 @@
-import React from "react";
-import { BaseModalProps, Modal } from "#@/util";
+import { useOnMobile } from "#@/components";
 import {
   AwardsVoteSubmitForm,
   AwardsVoteSubmitFormProps,
 } from "#@/components/awards/form/AwardsVoteSubmitForm.tsx";
-import { useOnMobile } from "#@/components";
+import { BaseModalProps, Modal } from "#@/util";
 
 type Props = AwardsVoteSubmitFormProps & BaseModalProps;
 

@@ -1,11 +1,10 @@
-import React from "react";
 import {
   GameDraggableListItemContent,
   useGameDraggableViewContext,
 } from "#@/components";
+import { GameDraggableGridItemContent } from "#@/components/game/view/dnd/item/GameDraggableGridItemContent";
 import { DragOverlay } from "@dnd-kit/core";
 import { Portal } from "@mantine/core";
-import { GameDraggableGridItemContent } from "#@/components/game/view/dnd/item/GameDraggableGridItemContent";
 
 /**
  * Renders an out-of-bounds version of the current dragged item, which can be moved outside

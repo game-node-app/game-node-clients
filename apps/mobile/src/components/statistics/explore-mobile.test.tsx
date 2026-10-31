@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
 import { ExploreGamesPageView } from "../explore/ExploreGamesPageView";
 const state = vi.hoisted(() => ({ request: vi.fn(), games: vi.fn() }));
 vi.mock("@repo/locales", () => ({
@@ -10,7 +9,11 @@ vi.mock("@repo/locales", () => ({
 vi.mock("@ionic/react", async () => {
   const React = await import("react");
   return {
-    IonSelect: ({ onIonChange }: any) =>
+    IonSelect: ({
+      onIonChange,
+    }: {
+      onIonChange: (event: { detail: { value: string } }) => void;
+    }) =>
       React.createElement(
         "button",
         { onClick: () => onIonChange({ detail: { value: "all" } }) },
@@ -21,28 +24,40 @@ vi.mock("@ionic/react", async () => {
 });
 vi.mock("@mantine/core", async () => {
   const React = await import("react");
-  const actual = await vi.importActual<any>("@mantine/core");
-  const C = ({ children }: any) => React.createElement("div", null, children);
+  const actual =
+    await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
+  const C = ({ children }: import("react").PropsWithChildren) =>
+    React.createElement("div", null, children);
   return { ...actual, Flex: C, Stack: C };
 });
 vi.mock("@repo/ui", async () => {
   const React = await import("react");
-  const C: any = ({ children }: any) =>
+  const C = ({ children }: import("react").PropsWithChildren) =>
     React.createElement("div", null, children);
-  C.Content = ({ items, children }: any) =>
-    React.createElement(
+  C.Content = function MockContent({
+    items,
+    children,
+  }: import("react").PropsWithChildren<{
+    items?: import("@repo/wrapper/server").Game[];
+  }>) {
+    return React.createElement(
       "div",
       null,
-      items?.map((game: any) =>
+      items?.map((game: import("@repo/wrapper/server").Game) =>
         React.createElement("span", { key: game.id }, game.name),
       ),
       children,
     );
-  C.LoadingSkeletons = () => null;
+  };
+  C.LoadingSkeletons = function MockLoadingSkeletons() {
+    return null;
+  };
   return {
     GameView: C,
     SimpleInfiniteLoader: () => null,
-    useInfiniteTrendingGames: (dto: any) => {
+    useInfiniteTrendingGames: (
+      dto: Parameters<typeof import("@repo/ui").useInfiniteTrendingGames>[0],
+    ) => {
       state.request(dto);
       return {
         data: {
@@ -54,7 +69,7 @@ vi.mock("@repo/ui", async () => {
         isFetching: false,
       };
     },
-    useGames: (dto: any) => {
+    useGames: (dto: Parameters<typeof import("@repo/ui").useGames>[0]) => {
       state.games(dto);
       return {
         data: [

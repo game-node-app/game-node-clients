@@ -1,6 +1,5 @@
-import React from "react";
-import { GameFigureImage, GameInfoTitleFigureProps, ImageSize } from "@repo/ui";
 import { Box, Center, Stack, Text } from "@mantine/core";
+import { GameFigureImage, GameInfoTitleFigureProps, ImageSize } from "@repo/ui";
 
 const MobileGameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
   return (

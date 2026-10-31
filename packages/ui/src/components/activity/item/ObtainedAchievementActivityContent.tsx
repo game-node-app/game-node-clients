@@ -1,22 +1,13 @@
-import React, { useCallback, useMemo } from "react";
-import { GameObtainedAchievementActivityDto } from "@repo/wrapper/server";
-import {
-  Box,
-  Group,
-  HoverCard,
-  Popover,
-  SimpleGrid,
-  Stack,
-  Text,
-} from "@mantine/core";
 import {
   GameAchievementHoverIcon,
-  GameAchievementsListItem,
   TextLink,
   useGame,
   useOnMobile,
 } from "#@/components";
+import { HoverCard, Popover, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { GameObtainedAchievementActivityDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   activity: GameObtainedAchievementActivityDto | undefined;
@@ -30,7 +21,7 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
 
   const gameId = activity?.externalGame.gameId;
 
-  const gameQuery = useGame(gameId, {
+  useGame(gameId, {
     relations: {
       cover: true,
     },

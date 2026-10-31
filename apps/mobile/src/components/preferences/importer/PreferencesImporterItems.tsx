@@ -1,9 +1,8 @@
-import React from "react";
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import { Group } from "@mantine/core";
-import { IconDeviceGamepad2 } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
+import { IconDeviceGamepad2 } from "@tabler/icons-react";
 
 const PreferencesImporterItems = () => {
   const { t } = useTranslation();

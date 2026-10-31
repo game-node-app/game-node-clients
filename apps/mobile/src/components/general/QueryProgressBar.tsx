@@ -1,6 +1,5 @@
-import React from "react";
-import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import { IonProgressBar } from "@ionic/react";
+import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 
 /**
  * Renders a Progress bar whenever a query is fetching or a mutation is in progress.

@@ -1,5 +1,13 @@
-import React from "react";
+import {
+  CollectionCreateOrUpdateModal,
+  CollectionEntriesMoveModal,
+  CollectionOrderingUpdateModal,
+  CollectionRemoveModal,
+} from "#@/components";
+import { ActionChip } from "#@/components/general/input/ActionChip.tsx";
 import { Menu } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import {
   IconAdjustments,
   IconDots,
@@ -7,17 +15,6 @@ import {
   IconReplace,
   IconTrash,
 } from "@tabler/icons-react";
-import {
-  CollectionCreateOrUpdateModal,
-  CollectionEntriesMoveModal,
-  CollectionOrderingUpdateForm,
-  CollectionOrderingUpdateModal,
-  CollectionRemoveModal,
-} from "#@/components";
-import { useDisclosure } from "@mantine/hooks";
-import { ActionChip } from "#@/components/general/input/ActionChip.tsx";
-import { Modal } from "#@/util";
-import { useTranslation } from "@repo/locales";
 
 interface Props {
   collectionId: string;

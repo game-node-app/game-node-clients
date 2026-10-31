@@ -1,11 +1,6 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
-import { SuggestionOptions, SuggestionProps } from "@tiptap/suggestion";
 import { List, Paper } from "@mantine/core";
+import { SuggestionOptions, SuggestionProps } from "@tiptap/suggestion";
+import { forwardRef, useImperativeHandle, useState } from "react";
 
 export type SuggestionListRef = {
   // For convenience using this SuggestionList from within the
@@ -49,11 +44,14 @@ const EditorMentionList = forwardRef<
     selectItem(selectedIndex);
   };
 
-  useEffect(() => setSelectedIndex(0), [props.items]);
+  const [previousItems, setPreviousItems] = useState(props.items);
+  if (previousItems !== props.items) {
+    setPreviousItems(props.items);
+    setSelectedIndex(0);
+  }
 
-  // @ts-ignore
   useImperativeHandle(ref, () => ({
-    onKeyDown: ({ event }: any) => {
+    onKeyDown: ({ event }: Parameters<SuggestionListRef["onKeyDown"]>[0]) => {
       if (event.key === "ArrowUp") {
         upHandler();
         return true;

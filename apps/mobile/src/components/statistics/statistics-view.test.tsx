@@ -27,21 +27,30 @@ it("deduplicates pending views and retries the original source after a lost ackn
   vi.spyOn(
     StatisticsService,
     "statisticsControllerFindSummaryV1",
-  ).mockResolvedValue({ viewsCount: 3, likesCount: 0 } as any);
+  ).mockResolvedValue({
+    viewsCount: 3,
+    likesCount: 0,
+  } as unknown as import("@repo/wrapper/server").StatisticsSummaryDto);
   vi.spyOn(
     StatisticsService,
     "statisticsControllerGetStatusV1",
-  ).mockResolvedValue({ isLiked: false, isViewed: true } as any);
+  ).mockResolvedValue({
+    isLiked: false,
+    isViewed: true,
+  } as unknown as import("@repo/wrapper/server").StatisticsStatusDto);
   let reject!: (error: Error) => void;
   const view = vi
     .spyOn(StatisticsService, "statisticsControllerRecordViewV1")
     .mockImplementationOnce(
-      () =>
+      (() =>
         new Promise((_, r) => {
           reject = r;
-        }) as any,
+        })) as unknown as typeof StatisticsService.statisticsControllerRecordViewV1,
     )
-    .mockResolvedValueOnce({ accepted: true, viewId: "visit-a" } as any);
+    .mockResolvedValueOnce({
+      accepted: true,
+      viewId: "visit-a",
+    } as unknown as import("@repo/wrapper/server").StatisticsViewResponseDto);
   const invalidate = vi.spyOn(client, "invalidateQueries");
   const hook = renderHook(
     ({ id }) => useUserView(id, StatisticsSourceRequestDto.sourceType.GAME),
@@ -86,15 +95,25 @@ it("does not accept a mismatched acknowledgement and allows the same view to ret
   vi.spyOn(
     StatisticsService,
     "statisticsControllerFindSummaryV1",
-  ).mockResolvedValue({ viewsCount: 0 } as any);
+  ).mockResolvedValue({
+    viewsCount: 0,
+  } as unknown as import("@repo/wrapper/server").StatisticsSummaryDto);
   vi.spyOn(
     StatisticsService,
     "statisticsControllerGetStatusV1",
-  ).mockResolvedValue({ isViewed: false } as any);
+  ).mockResolvedValue({
+    isViewed: false,
+  } as unknown as import("@repo/wrapper/server").StatisticsStatusDto);
   const view = vi
     .spyOn(StatisticsService, "statisticsControllerRecordViewV1")
-    .mockResolvedValueOnce({ accepted: true, viewId: "wrong" } as any)
-    .mockResolvedValueOnce({ accepted: true, viewId: "visit" } as any);
+    .mockResolvedValueOnce({
+      accepted: true,
+      viewId: "wrong",
+    } as unknown as import("@repo/wrapper/server").StatisticsViewResponseDto)
+    .mockResolvedValueOnce({
+      accepted: true,
+      viewId: "visit",
+    } as unknown as import("@repo/wrapper/server").StatisticsViewResponseDto);
   const hook = renderHook(
     () => useUserView(1, StatisticsSourceRequestDto.sourceType.GAME),
     { wrapper },

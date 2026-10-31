@@ -1,8 +1,7 @@
-import React from "react";
 import { UserComment } from "#@/components";
-import { IconMessageReply } from "@tabler/icons-react";
-import { ActionIcon } from "@mantine/core";
 import { useCommentsContext } from "#@/components/comment/view/context.ts";
+import { ActionIcon } from "@mantine/core";
+import { IconMessageReply } from "@tabler/icons-react";
 
 interface Props {
   comment: UserComment;

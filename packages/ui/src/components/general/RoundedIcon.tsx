@@ -1,10 +1,6 @@
-import React, {
-  ExoticComponent,
-  PropsWithChildren,
-  PropsWithoutRef,
-} from "react";
-import { IconBrandXbox, IconProps } from "@tabler/icons-react";
-import { Box, BoxProps, ThemeIcon, ThemeIconProps } from "@mantine/core";
+import { ThemeIcon, ThemeIconProps } from "@mantine/core";
+import { IconProps } from "@tabler/icons-react";
+import { ExoticComponent, PropsWithoutRef } from "react";
 
 interface RoundedIconProps {
   icon: ExoticComponent<PropsWithoutRef<IconProps>>;

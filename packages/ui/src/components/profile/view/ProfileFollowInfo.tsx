@@ -1,10 +1,9 @@
-import React from "react";
-import { FollowInfoRequestDto } from "@repo/wrapper/server";
-import { useDisclosure } from "@mantine/hooks";
 import { useInfiniteFollowInfo } from "#@/components/follow/hooks/useInfiniteFollowInfo";
 import { FollowInfoListModal } from "#@/components/follow/modal/FollowInfoListModal";
-import { Anchor, Box, Flex, Stack, Text, UnstyledButton } from "@mantine/core";
+import { Box, Text, UnstyledButton } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 
 interface Props {
   targetUserId: string;

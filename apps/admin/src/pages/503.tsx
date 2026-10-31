@@ -1,5 +1,4 @@
-import React from "react";
-import { Center, Container, Stack, Text, Title } from "@mantine/core";
+import { Container, Stack, Text, Title } from "@mantine/core";
 
 const Index = () => {
     return (

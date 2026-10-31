@@ -1,17 +1,5 @@
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { Container } from "@mantine/core";
-import React from "react";
-import { ProfileStatsView } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { ProfileStatsView } from "@repo/ui";
 
 interface Props {
   userId: string;

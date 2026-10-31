@@ -32,7 +32,6 @@ export default function Preview() {
     error?: boolean;
   }>();
   useEffect(() => {
-    setResult(undefined);
     if (!userId || !allowed || !id || !locale) return;
     const controller = new AbortController();
     fetch(

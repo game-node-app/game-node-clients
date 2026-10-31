@@ -1,12 +1,4 @@
-import React from "react";
-import {
-    Center,
-    CenterProps,
-    Loader,
-    Stack,
-    StackProps,
-    Text,
-} from "@mantine/core";
+import { Loader, Stack, StackProps, Text } from "@mantine/core";
 
 interface Props extends StackProps {
     message?: string;

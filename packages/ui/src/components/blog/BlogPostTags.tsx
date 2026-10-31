@@ -1,8 +1,7 @@
-import { Group, Text } from "@mantine/core";
-import React from "react";
+import { Link } from "#@/util";
+import { Group } from "@mantine/core";
 import { BlogTagDto } from "@repo/wrapper/server";
 import { IconTags } from "@tabler/icons-react";
-import { getCapitalizedText, Link } from "#@/util";
 
 interface Props {
   tags: BlogTagDto[];

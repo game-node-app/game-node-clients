@@ -1,5 +1,7 @@
-import React from "react";
+import { CollectionCreateOrUpdateModal, useUserId } from "#@/components";
+import { LibraryViewSidebarCollection } from "#@/components/library/view/sidebar/LibraryViewSidebarCollection.tsx";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { Link } from "#@/util";
 import {
   Accordion,
   ActionIcon,
@@ -9,12 +11,9 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { CollectionCreateOrUpdateModal, useUserId } from "#@/components";
-import { IconPlus } from "@tabler/icons-react";
-import { LibraryViewSidebarCollection } from "#@/components/library/view/sidebar/LibraryViewSidebarCollection.tsx";
-import { Link } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { IconPlus } from "@tabler/icons-react";
 
 interface ILibraryViewSidebarProps {
   userId: string | undefined;

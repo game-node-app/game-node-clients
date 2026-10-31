@@ -1,4 +1,3 @@
-import React from "react";
 import {
   ActionIcon,
   Badge,
@@ -11,8 +10,8 @@ import {
   Timeline,
 } from "@mantine/core";
 import { DEFAULT_MANTINE_THEME } from "@repo/ui";
-import classes from "./theme.module.css";
 import { IconChevronDown } from "@tabler/icons-react";
+import classes from "./theme.module.css";
 
 export const MANTINE_THEME = mergeMantineTheme(DEFAULT_MANTINE_THEME, {
   components: {

@@ -1,9 +1,8 @@
-import React from "react";
 import { AppPage } from "@/components/general/AppPage";
-import { JournalObtainedAchievementsView, useUserId } from "@repo/ui";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { JournalObtainedAchievementsView, useUserId } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface Props {
   userId: string | undefined;

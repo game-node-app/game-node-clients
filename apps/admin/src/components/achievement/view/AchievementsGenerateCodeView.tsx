@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import useUserId from "@/components/auth/hooks/useUserId";
 import {
   Button,
   Checkbox,
@@ -10,11 +10,11 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
-import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { AchievementItem, useAchievements, useAchievementsV2 } from "@repo/ui";
 import { AchievementsCodeService } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 
 const AchievementsGenerateCodeView = () => {
   const userId = useUserId();

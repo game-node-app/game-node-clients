@@ -1,10 +1,9 @@
-import React from "react";
 import { AppPage } from "@/components/general/AppPage.tsx";
-import { AwardsNomineesScreen, useAwardEvent } from "@repo/ui";
 import { blobToBase64 } from "@/util/imageUtils.ts";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { useTranslation } from "@repo/locales";
+import { AwardsNomineesScreen, useAwardEvent } from "@repo/ui";
 
 interface Props {
   userId: string;

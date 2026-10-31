@@ -1,5 +1,5 @@
+import { Badge, Group } from "@mantine/core";
 import React from "react";
-import { Badge, Group, Image } from "@mantine/core";
 
 interface GameNodeLogoProps extends React.ComponentPropsWithoutRef<"img"> {}
 

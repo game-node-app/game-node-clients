@@ -60,8 +60,13 @@ export function useImporterEntries({
           );
         } catch (err: unknown) {
           if (
-            (err instanceof ApiError || (err as any)?.name === "ApiError") &&
-            (err as any)?.status === 404
+            (err instanceof ApiError ||
+              (typeof err === "object" &&
+                err !== null &&
+                "name" in err &&
+                err.name === "ApiError")) &&
+            "status" in err &&
+            err.status === 404
           ) {
             return EMPTY_IMPORTER_ENTRIES_RESPONSE;
           }

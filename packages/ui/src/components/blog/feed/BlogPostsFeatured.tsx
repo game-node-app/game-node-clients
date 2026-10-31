@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   useBlogPosts,
 } from "#@/components";
-import { getErrorMessage, getRandomItems } from "#@/util";
-import { Button, Text, Box } from "@mantine/core";
 import { BlogPostFeaturedCard } from "#@/components/blog/card/BlogPostFeaturedCard.tsx";
+import { getErrorMessage, getRandomItems } from "#@/util";
+import { Box, Button, Text } from "@mantine/core";
+import { useMemo } from "react";
 
 import { useTranslation } from "@repo/locales";
 

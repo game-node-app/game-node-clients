@@ -1,4 +1,7 @@
-import React, { useMemo, useState } from "react";
+import { GlobalShellHeaderSearchContent } from "@/components/general/shell/header/GlobalShellHeaderSearchContent";
+import { ScrollArea, Stack } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import {
   BaseModalProps,
   buildGameSearchRequestDto,
@@ -9,10 +12,7 @@ import {
   useSearchGames,
   useSearchUsers,
 } from "@repo/ui";
-import { GlobalShellHeaderSearchContent } from "@/components/general/shell/header/GlobalShellHeaderSearchContent";
-import { useDebouncedValue } from "@mantine/hooks";
-import { ScrollArea, Stack } from "@mantine/core";
-import { useTranslation } from "@repo/locales";
+import { useState } from "react";
 
 interface Props extends BaseModalProps {}
 

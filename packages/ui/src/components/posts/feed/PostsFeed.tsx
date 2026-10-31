@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
 import { GamePostEditor, InfiniteLoaderChildren } from "#@/components";
-import { Stack } from "@mantine/core";
 import {
   PostsFeedCriteria,
   useInfinitePostsFeed,
 } from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
 import { PostsList } from "#@/components/posts/PostsList.tsx";
+import { Stack } from "@mantine/core";
+import { useMemo } from "react";
 
 interface Props {
   criteria: PostsFeedCriteria;

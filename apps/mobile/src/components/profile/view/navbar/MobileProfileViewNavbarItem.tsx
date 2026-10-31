@@ -1,7 +1,6 @@
-import React from "react";
-import { cn, Link, ProfileViewNavbarItemProps } from "@repo/ui";
-import { Box, Flex, Tabs, Text } from "@mantine/core";
 import { IonRippleEffect } from "@ionic/react";
+import { Flex, Tabs, Text } from "@mantine/core";
+import { cn, Link, ProfileViewNavbarItemProps } from "@repo/ui";
 
 const MobileProfileViewNavbarItem = ({
   label,

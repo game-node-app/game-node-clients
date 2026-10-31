@@ -1,4 +1,3 @@
-import React from "react";
 import { TextInput } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
