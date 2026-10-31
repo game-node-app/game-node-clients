@@ -7,6 +7,7 @@ const LandingHeader = () => {
   const links = [
     { href: "/about", label: t("landing.presentation.about") },
     { href: "/#premium", label: t("landing.presentation.premium") },
+    { href: "/mcp", label: t("mcp.title") },
     {
       href: "https://play.google.com/store/apps/details?id=app.gamenode",
       label: t("landing.presentation.downloads"),

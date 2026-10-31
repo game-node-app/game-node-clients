@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   Accordion,
   Alert,
@@ -8,13 +8,23 @@ import {
   Code,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
+  ThemeIcon,
+  Timeline,
   Title,
+  UnstyledButton,
 } from "@mantine/core";
-import { IconRobot } from "@tabler/icons-react";
+import {
+  IconBookmarkPlus,
+  IconExternalLink,
+  IconPencil,
+  IconSearch,
+  IconSettings,
+  IconTerminal2,
+  IconWorld,
+} from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
 import {
@@ -25,6 +35,13 @@ import {
   McpClient,
 } from "./connection";
 import { McpCopy } from "./McpCopy";
+import classes from "./McpGuide.module.css";
+
+const EXAMPLES = [
+  { key: "readExample", icon: IconSearch },
+  { key: "writeExample", icon: IconBookmarkPlus },
+  { key: "publishExample", icon: IconPencil },
+] as const;
 
 export interface McpGuideScreenProps {
   openExternal?: (url: string) => Promise<void>;
@@ -67,6 +84,21 @@ export function McpGuideScreen({ openExternal }: McpGuideScreenProps) {
     </Stack>
   );
 
+  const tile = (key: McpClient, name: string, icon: ReactNode) => (
+    <UnstyledButton
+      key={key}
+      className={classes.tile}
+      aria-pressed={selected === key}
+      aria-controls="mcp-instructions"
+      onClick={() => setSelected(key)}
+    >
+      <ThemeIcon variant="light" size="lg" radius="md">
+        {icon}
+      </ThemeIcon>
+      {name}
+    </UnstyledButton>
+  );
+
   return (
     <Container
       size="md"
@@ -78,124 +110,174 @@ export function McpGuideScreen({ openExternal }: McpGuideScreenProps) {
         paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
       }}
     >
-      <Stack gap="xl">
-        <Group>
-          <div style={{ width: 48 }}>
-            <GameNodeLogo />
-          </div>
+      <Stack gap={40}>
+        <Stack component="header" gap="md" className={classes.hero}>
+          <Group gap="sm">
+            <div style={{ width: 40 }}>
+              <GameNodeLogo />
+            </div>
+            <Text className={classes.eyebrow}>Model Context Protocol</Text>
+          </Group>
           <Title order={1}>{t("mcp.title")}</Title>
-        </Group>
-        <Text size="lg">{t("mcp.intro")}</Text>
+          <Text size="lg" c="dimmed" maw={560}>
+            {t("mcp.intro")}
+          </Text>
+          <Group mt="sm">
+            <Button
+              size="md"
+              rightSection={<IconExternalLink size={18} />}
+              {...launchProps(MCP_CLIENTS.claude.launch)}
+            >
+              {t("mcp.openClaude")}
+            </Button>
+            <Button
+              size="md"
+              variant="default"
+              rightSection={<IconExternalLink size={18} />}
+              {...launchProps(MCP_CLIENTS.chatgpt.launch)}
+            >
+              {t("mcp.openChatgpt")}
+            </Button>
+          </Group>
+          <Text size="sm" c="dimmed" maw={560}>
+            {t("mcp.hostedHelp")}
+          </Text>
+          {launchError && (
+            <Alert color="red" role="alert">
+              {t("mcp.launchError")}{" "}
+              <Anchor href={launchError} target="_blank" rel="noreferrer">
+                {launchError}
+              </Anchor>
+            </Alert>
+          )}
+        </Stack>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          {(["readExample", "writeExample", "publishExample"] as const).map(
-            (key, i) => (
-              <Paper key={key} withBorder p="md" radius="md">
-                <Badge color={i ? "orange" : "gray"}>
+          {EXAMPLES.map(({ key, icon: Icon }, i) => (
+            <Stack key={key} gap="sm" p="lg" className={classes.card}>
+              <Group justify="space-between">
+                <ThemeIcon variant="light" size="lg" radius="md">
+                  <Icon size={20} />
+                </ThemeIcon>
+                <Badge variant="light" color={i ? "brand" : "gray"}>
                   {t(i ? "mcp.write" : "mcp.read")}
                 </Badge>
-                <Text mt="sm">{t(`mcp.${key}`)}</Text>
-              </Paper>
-            ),
-          )}
-        </SimpleGrid>
-        <Title order={2}>{t("mcp.choose")}</Title>
-        <SimpleGrid cols={{ base: 1, sm: 2 }}>
-          {(
-            Object.entries(MCP_CLIENTS) as [
-              Exclude<McpClient, "manual">,
-              (typeof MCP_CLIENTS)[keyof typeof MCP_CLIENTS],
-            ][]
-          ).map(([key, item]) => (
-            <Button
-              key={key}
-              variant={selected === key ? "filled" : "default"}
-              aria-pressed={selected === key}
-              aria-controls="mcp-instructions"
-              leftSection={<IconRobot size={20} />}
-              onClick={() => setSelected(key)}
-            >
-              {item.name}
-            </Button>
+              </Group>
+              <Text>{t(`mcp.${key}`)}</Text>
+            </Stack>
           ))}
         </SimpleGrid>
-        <Button
-          variant="subtle"
-          aria-pressed={selected === "manual"}
-          aria-controls="mcp-instructions"
-          onClick={() => setSelected("manual")}
-        >
-          {t("mcp.manual")}
-        </Button>
-        <Group grow>
-          <Button {...launchProps(MCP_CLIENTS.claude.launch)}>
-            {t("mcp.openClaude")}
+        <Stack gap="md">
+          <Title order={2}>{t("mcp.choose")}</Title>
+          <SimpleGrid cols={{ base: 2, sm: 4 }}>
+            {(
+              Object.entries(MCP_CLIENTS) as [
+                Exclude<McpClient, "manual">,
+                (typeof MCP_CLIENTS)[keyof typeof MCP_CLIENTS],
+              ][]
+            ).map(([key, item]) =>
+              tile(
+                key,
+                item.name,
+                "launch" in item ? (
+                  <IconWorld size={20} />
+                ) : (
+                  <IconTerminal2 size={20} />
+                ),
+              ),
+            )}
+          </SimpleGrid>
+          <Button
+            variant="subtle"
+            color="gray"
+            leftSection={<IconSettings size={18} />}
+            aria-pressed={selected === "manual"}
+            aria-controls="mcp-instructions"
+            onClick={() => setSelected("manual")}
+            className="self-start"
+          >
+            {t("mcp.manual")}
           </Button>
-          <Button {...launchProps(MCP_CLIENTS.chatgpt.launch)}>
-            {t("mcp.openChatgpt")}
-          </Button>
-        </Group>
-        <Text size="sm" c="dimmed">
-          {t("mcp.hostedHelp")}
-        </Text>
-        {launchError && (
-          <Alert color="red" role="alert">
-            {t("mcp.launchError")}{" "}
-            <Anchor href={launchError} target="_blank" rel="noreferrer">
-              {launchError}
-            </Anchor>
-          </Alert>
-        )}
-        <Paper
+        </Stack>
+        <Stack
           component="section"
           id="mcp-instructions"
           aria-label={client?.name || t("mcp.manual")}
-          withBorder
-          radius="md"
           p="lg"
+          className={classes.card}
           style={{ minWidth: 0 }}
         >
-          <Stack>
-            <Title order={3}>
-              {t("mcp.add")} — {client?.name || t("mcp.manual")}
-            </Title>
-            {selected === "codex" || selected === "claudeCode" ? (
-              <>
-                <Text>{t("mcp.terminalHelp")}</Text>
-                {snippet(connection[selected])}
-              </>
-            ) : (
-              <>
-                <Text>
-                  {selected === "claude"
-                    ? t("mcp.claudeSteps")
-                    : selected === "chatgpt"
-                      ? t("mcp.chatgptSteps")
-                      : t("mcp.oauth")}
-                </Text>
-                {snippet(connection.url)}
-              </>
-            )}
-            <Title order={3}>{t("mcp.authorizeStep")}</Title>
-            <Text>{t("mcp.authorizeHelp")}</Text>
-            <Title order={3}>{t("mcp.verify")}</Title>
-            <Text>{t("mcp.verifyHelp")}</Text>
+          <Timeline active={2} bulletSize={28} lineWidth={2}>
+            <Timeline.Item
+              bullet={1}
+              title={
+                <Title order={3} size="h4">
+                  {t("mcp.add")} — {client?.name || t("mcp.manual")}
+                </Title>
+              }
+            >
+              <Stack gap="sm" mt="xs" style={{ minWidth: 0 }}>
+                {selected === "codex" || selected === "claudeCode" ? (
+                  <>
+                    <Text c="dimmed">{t("mcp.terminalHelp")}</Text>
+                    {snippet(connection[selected])}
+                  </>
+                ) : (
+                  <>
+                    <Text c="dimmed">
+                      {selected === "claude"
+                        ? t("mcp.claudeSteps")
+                        : selected === "chatgpt"
+                          ? t("mcp.chatgptSteps")
+                          : t("mcp.oauth")}
+                    </Text>
+                    {snippet(connection.url)}
+                  </>
+                )}
+              </Stack>
+            </Timeline.Item>
+            <Timeline.Item
+              bullet={2}
+              title={
+                <Title order={3} size="h4">
+                  {t("mcp.authorizeStep")}
+                </Title>
+              }
+            >
+              <Text c="dimmed" mt="xs">
+                {t("mcp.authorizeHelp")}
+              </Text>
+            </Timeline.Item>
+            <Timeline.Item
+              bullet={3}
+              title={
+                <Title order={3} size="h4">
+                  {t("mcp.verify")}
+                </Title>
+              }
+            >
+              <Text c="dimmed" mt="xs">
+                {t("mcp.verifyHelp")}
+              </Text>
+            </Timeline.Item>
+          </Timeline>
+          <Group justify="space-between" mt="md">
             {client && (
               <Anchor href={client.docs} target="_blank" rel="noreferrer">
                 {t("mcp.docs")} — {client.name}
               </Anchor>
             )}
             <McpCopy key={prompt} value={prompt} label={t("mcp.copyPrompt")} />
-            <Accordion>
-              <Accordion.Item value="prompt">
-                <Accordion.Control>{t("mcp.showPrompt")}</Accordion.Control>
-                <Accordion.Panel>
-                  <Text style={{ userSelect: "text" }}>{prompt}</Text>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion>
-          </Stack>
-        </Paper>
-        <Accordion>
+          </Group>
+          <Accordion variant="contained">
+            <Accordion.Item value="prompt">
+              <Accordion.Control>{t("mcp.showPrompt")}</Accordion.Control>
+              <Accordion.Panel>
+                <Text style={{ userSelect: "text" }}>{prompt}</Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        </Stack>
+        <Accordion variant="separated">
           <Accordion.Item value="manual">
             <Accordion.Control>{t("mcp.manual")}</Accordion.Control>
             <Accordion.Panel>

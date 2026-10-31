@@ -812,6 +812,13 @@ export type TranslationSchema = {
       connectionsLabel: string;
       connectionsTitle: string;
       connectionsDescription: string;
+      aiLabel: string;
+      aiTitle: string;
+      aiDescription: string;
+      aiCta: string;
+      aiPrompt: string;
+      aiReply: string;
+      aiPermission: string;
       premiumTitle: string;
       premiumDescription: string;
       monthly: string;

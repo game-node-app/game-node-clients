@@ -1,0 +1,60 @@
+/* Mirrors the sign-in screen tokens (SignIn.module.css) so both MCP surfaces feel the same. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 32px 24px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background:
+    radial-gradient(70% 90% at 100% 0%, rgba(241, 80, 37, 0.22), transparent),
+    #0b0b0b;
+}
+
+@media (min-width: 48em) {
+  .hero {
+    padding: 48px;
+  }
+}
+
+.eyebrow {
+  color: var(--mantine-color-brand-6, #f15025);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card {
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #0f0f0f;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #0f0f0f;
+  font-weight: 600;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+.tile:hover {
+  border-color: #3a3a3a;
+}
+
+.tile[aria-pressed="true"] {
+  border-color: var(--mantine-color-brand-6, #f15025);
+  background: rgba(241, 80, 37, 0.08);
+}
+
+.tile:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}

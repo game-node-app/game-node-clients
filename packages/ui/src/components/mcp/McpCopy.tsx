@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert, Button, Stack, Text, Textarea } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { IconCopy } from "@tabler/icons-react";
 
 export function McpCopy({ value, label }: { value: string; label?: string }) {
   const { t } = useTranslation();
@@ -11,9 +12,10 @@ export function McpCopy({ value, label }: { value: string; label?: string }) {
     if (clipboard.error) setFallback(true);
   }, [clipboard.error]);
   return (
-    <Stack gap="xs" style={{ minWidth: 0 }}>
+    <Stack gap="xs" align="flex-start" style={{ minWidth: 0 }}>
       <Button
         variant="light"
+        leftSection={<IconCopy size={16} />}
         onClick={() => {
           clipboard.reset();
           setFallback(false);
@@ -35,6 +37,7 @@ export function McpCopy({ value, label }: { value: string; label?: string }) {
             {t("mcp.copyError")}
           </Alert>
           <Textarea
+            w="100%"
             label={t("mcp.copyContent")}
             value={value}
             readOnly

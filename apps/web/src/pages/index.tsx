@@ -1,5 +1,6 @@
 import {
   Anchor,
+  Badge,
   Box,
   Button,
   Container,
@@ -259,6 +260,52 @@ const Home = () => {
         </Container>
         <Container
           component="section"
+          id="ai"
+          size={1302}
+          className={styles.section}
+        >
+          <Paper className={styles.ai}>
+            <Stack gap={20} align="flex-start">
+              <Text className={styles.eyebrow}>
+                {t("landing.presentation.aiLabel")}
+              </Text>
+              <Title order={2}>{t("landing.presentation.aiTitle")}</Title>
+              <Text c="dimmed" size="lg">
+                {t("landing.presentation.aiDescription")}
+              </Text>
+              <Group gap={8}>
+                {["Claude", "ChatGPT", "Codex", "Claude Code"].map((name) => (
+                  <Badge key={name} variant="default" radius="sm" size="lg">
+                    {name}
+                  </Badge>
+                ))}
+              </Group>
+              <Button component={Link} href="/mcp" size="lg" radius={8}>
+                {t("landing.presentation.aiCta")}
+              </Button>
+            </Stack>
+            {/* Illustrative conversation, hidden from assistive tech since the copy beside it says the same. */}
+            <Stack className={styles.chat} gap={14} aria-hidden>
+              <Text className={styles.userBubble}>
+                {t("landing.presentation.aiPrompt")}
+              </Text>
+              <Group gap={8} className={styles.tool} wrap="nowrap">
+                <img src={asset("41a07.svg")} width={38} height={16} alt="" />
+                <Text size="xs" ff="monospace" c="dimmed">
+                  search_games · add_game_to_library
+                </Text>
+              </Group>
+              <Text className={styles.assistantBubble}>
+                {t("landing.presentation.aiReply")}
+              </Text>
+              <Text size="xs" c="dimmed" ta="center">
+                {t("landing.presentation.aiPermission")}
+              </Text>
+            </Stack>
+          </Paper>
+        </Container>
+        <Container
+          component="section"
           id="premium"
           size={1302}
           className={styles.section}
@@ -360,6 +407,9 @@ const Home = () => {
                   {t("landing.presentation.features")}
                 </Anchor>
                 <Anchor href="#premium">Premium</Anchor>
+                <Anchor component={Link} href="/mcp">
+                  GameNode + AI
+                </Anchor>
                 <Anchor href="https://play.google.com/store/apps/details?id=app.gamenode">
                   {t("landing.presentation.downloads")}
                 </Anchor>
