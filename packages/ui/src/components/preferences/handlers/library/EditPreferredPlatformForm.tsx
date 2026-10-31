@@ -8,7 +8,7 @@ import { PreferredPlatformService } from "@repo/wrapper/server";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 import { z } from "zod";
 
 const EditPreferredPlatformFormSchema = z.object({

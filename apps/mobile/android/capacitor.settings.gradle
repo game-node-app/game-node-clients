@@ -37,3 +37,6 @@ project(':capawesome-capacitor-android-edge-to-edge-support').projectDir = new F
 
 include ':capawesome-capacitor-app-update'
 project(':capawesome-capacitor-app-update').projectDir = new File('../../../node_modules/@capawesome/capacitor-app-update/android')
+
+include ':better-auth-capacitor'
+project(':better-auth-capacitor').projectDir = new File('../node_modules/better-auth-capacitor/android')

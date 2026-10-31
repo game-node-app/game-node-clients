@@ -21,10 +21,6 @@ vi.mock(
   () => ({ useUserId: () => "user-123" }),
 );
 
-vi.mock("supertokens-auth-react", () => ({
-  redirectToAuth: vi.fn(),
-}));
-
 function createTestQueryClient() {
   return new QueryClient({
     defaultOptions: {

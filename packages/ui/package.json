@@ -55,6 +55,7 @@
     "@tiptap/react": "^3.22.2",
     "@tiptap/starter-kit": "^3.22.2",
     "@tiptap/suggestion": "^3.22.2",
+    "better-auth": "1.7.14",
     "dayjs": "^1.11.18",
     "embla-carousel-autoplay": "^8.6.0",
     "html-to-image": "1.11.13",

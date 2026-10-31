@@ -15,6 +15,7 @@
     "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
+    "@better-auth/core": "1.7.14",
     "@capacitor/android": "7.4.3",
     "@capacitor/app": "7.1.0",
     "@capacitor/browser": "7.0.2",
@@ -64,6 +65,9 @@
     "@tiptap/starter-kit": "^3.22.2",
     "@tiptap/suggestion": "^3.22.2",
     "axios": "1.8.4",
+    "better-auth": "1.7.14",
+    "better-auth-capacitor": "0.4.0",
+    "better-call": "1.4.4",
     "compare-versions": "6.1.1",
     "dayjs": "^1.11.18",
     "embla-carousel-autoplay": "^8.6.0",
@@ -81,10 +85,6 @@
     "react-router": "5.3.4",
     "react-router-dom": "5.3.4",
     "recharts": "^3.8.1",
-    "supertokens-auth-react": "^0.50.0",
-    "supertokens-node": "^23.0.1",
-    "supertokens-web-js": "^0.16.0",
-    "supertokens-website": "^20.1.6",
     "tailwind-merge": "^3.3.1",
     "ts-pattern": "5.8.0",
     "turbo": "^2.8.3",

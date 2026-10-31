@@ -65,3 +65,7 @@ export function usePresenter<K extends keyof UIPresenterRegistry>(key: K) {
   const presenters = usePresenters();
   return presenters[key];
 }
+
+export function useAuthPath() {
+  return useHooks().authPath ?? "/auth";
+}

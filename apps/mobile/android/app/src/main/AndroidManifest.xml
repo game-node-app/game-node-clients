@@ -25,6 +25,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="gamenode.app" />
             </intent-filter>
+
+            <!-- better-auth-capacitor returns native sign-ins to this scheme -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="app.gamenode" />
+            </intent-filter>
         </activity>
 
         <provider

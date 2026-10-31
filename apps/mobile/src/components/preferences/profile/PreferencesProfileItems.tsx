@@ -1,4 +1,4 @@
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@repo/ui";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
 import {
   IonItem,

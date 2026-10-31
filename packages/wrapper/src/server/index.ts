@@ -257,7 +257,6 @@ export { AchievementsAdminService } from './services/AchievementsAdminService';
 export { AchievementsCodeService } from './services/AchievementsCodeService';
 export { ActivitiesService } from './services/ActivitiesService';
 export { ActivitiesFeedService } from './services/ActivitiesFeedService';
-export { AuthService } from './services/AuthService';
 export { AwardsService } from './services/AwardsService';
 export { BlogMediaService } from './services/BlogMediaService';
 export { BlogPostService } from './services/BlogPostService';

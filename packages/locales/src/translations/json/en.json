@@ -93,9 +93,84 @@
     "title": "GameNode"
   },
   "auth": {
+    "accessDenied": {
+      "body": "Your account doesn't have the role this page requires.",
+      "goHome": "Go home",
+      "signOut": "Sign out",
+      "title": "You don't have access to this page"
+    },
+    "errors": {
+      "access_denied": {
+        "body": "You cancelled the sign-in. Choose a provider to try again.",
+        "title": "Sign-in cancelled"
+      },
+      "account_not_linked": {
+        "body": "Sign in with the provider you used before.",
+        "hint": "You can link this provider in Preferences → Account → Sign-in methods.",
+        "title": "This email already belongs to an account"
+      },
+      "default": {
+        "body": "Something went wrong while signing you in. Please try again.",
+        "title": "Sign-in failed"
+      },
+      "email_not_found": {
+        "body": "That provider did not share an email address with GameNode. Try another provider.",
+        "title": "No email address shared"
+      },
+      "expired": {
+        "body": "Your sign-in attempt expired or did not match. Please try again.",
+        "title": "Sign-in expired"
+      },
+      "unable_to_link_account": {
+        "body": "That sign-in method could not be linked to your account. It may belong to another account.",
+        "title": "Could not link this provider"
+      }
+    },
     "fetchingCredentials": "Fetching your credentials...",
+    "lockedOut": {
+      "body": "It has been suspended or banned for breaking the community guidelines. If you think this is a mistake, contact support@gamenode.app.",
+      "contact": "Contact support",
+      "title": "This account can't sign in right now",
+      "useAnother": "Use a different account"
+    },
     "loginPrompt": "Please log in to continue.",
     "loginRequired": "This action requires you to be logged in.",
+    "methods": {
+      "description": "The accounts you can use to sign in to GameNode.",
+      "lastMethod": "At least one sign-in method is required.",
+      "link": "Link",
+      "linked": "Linked",
+      "notLinked": "Not linked",
+      "providerNames": {
+        "discord": "Discord",
+        "google": "Google",
+        "twitter": "X"
+      },
+      "title": "Sign-in methods",
+      "unlink": "Unlink",
+      "unlinkConfirm": "You will no longer be able to sign in with {{provider}}.",
+      "unlinkTitle": "Unlink {{provider}}?"
+    },
+    "providers": {
+      "discord": "Continue with Discord",
+      "google": "Continue with Google",
+      "twitter": "Continue with X"
+    },
+    "redirecting": {
+      "provider": "Taking you to {{provider}}…",
+      "signingIn": "Signing you in…"
+    },
+    "screen": {
+      "adminEyebrow": "Admin",
+      "adminSubtitle": "Sign in with an account that has staff access.",
+      "eyebrow": "Welcome",
+      "headline": "Your games. Your library. Your community.",
+      "legalLink": "Privacy Policy",
+      "legalPrefix": "By continuing you agree to our",
+      "subtitle": "New here? Your account is created the first time you sign in.",
+      "tagline": "Track what you play, share what you think and find what to play next.",
+      "title": "Sign in to GameNode"
+    },
     "signIn": "Sign in"
   },
   "awards": {

@@ -3,6 +3,7 @@ import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
 import { Browser } from "@capacitor/browser";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { getAppUrlTarget } from "@/components/general/getAppUrlTarget";
 
 const getEquivalentDeepLink = (slug: string) => {
   if (slug.startsWith("/search")) {
@@ -21,8 +22,9 @@ const AppUrlListener = () => {
     const listener = App.addListener(
       "appUrlOpen",
       (event: URLOpenListenerEvent) => {
+        const slug = getAppUrlTarget(event.url);
+        if (slug == null) return;
         const url = new URL(event.url);
-        const slug = `${url.pathname}${url.search}${url.hash}`;
         if (url.pathname.startsWith("/connections/callback/")) {
           void Browser.close().catch(console.error);
         }

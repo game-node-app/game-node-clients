@@ -1,18 +1,23 @@
-import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
 import { DashboardLayout } from "@/components/general/DashboardLayout";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { MantineProvider } from "@mantine/core";
+import { I18nProvider } from "@repo/locales";
 import {
   DEFAULT_MANTINE_THEME,
+  getAuthClientOptions,
+  handleAuthError,
   NotificationsManager,
   setProjectContext,
+  setupAuthClient,
   UIProvider,
 } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
 import type { DehydratedState } from "@tanstack/react-query";
 import {
   HydrationBoundary,
+  MutationCache,
+  QueryCache,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
@@ -57,6 +62,7 @@ setProjectContext({
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL!,
   searchUrl: process.env.NEXT_PUBLIC_SEARCH_URL!,
 });
+setupAuthClient(getAuthClientOptions(process.env.NEXT_PUBLIC_SERVER_URL!));
 setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
@@ -73,6 +79,8 @@ export default function App({
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        queryCache: new QueryCache({ onError: handleAuthError }),
+        mutationCache: new MutationCache({ onError: handleAuthError }),
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
@@ -94,14 +102,21 @@ export default function App({
       }}
       hooks={{
         useRouter: useNextRouterWrapper,
+        authPath: "/auth",
       }}
     >
-      <MantineProvider theme={DEFAULT_MANTINE_THEME} forceColorScheme={"dark"}>
-        <Head>
-          <title>GameNode</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
-        <SuperTokensProvider>
+      <I18nProvider language={"en"}>
+        <MantineProvider
+          theme={DEFAULT_MANTINE_THEME}
+          forceColorScheme={"dark"}
+        >
+          <Head>
+            <title>GameNode</title>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+          </Head>
           <QueryClientProvider client={queryClient}>
             <NotificationsManager />
             <DashboardLayout>
@@ -110,8 +125,8 @@ export default function App({
               </HydrationBoundary>
             </DashboardLayout>
           </QueryClientProvider>
-        </SuperTokensProvider>
-      </MantineProvider>
+        </MantineProvider>
+      </I18nProvider>
     </UIProvider>
   );
 }

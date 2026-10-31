@@ -1,5 +1,4 @@
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
-import SupertokensAuthCallbackPage from "@/pages/auth_callback";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
@@ -22,7 +21,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { Redirect, Route } from "react-router-dom";
-import SupertokensAuthPage from "./pages/auth";
+import AuthPage from "./pages/auth";
 
 const Tabs = () => {
   return (
@@ -37,17 +36,7 @@ const Tabs = () => {
         }}
       >
         <Redirect exact from="/" to="/home" />
-        <Route exact path={"/m/auth"} render={() => <SupertokensAuthPage />} />
-        <Route
-          path={"/m/auth/callback/:provider"}
-          render={(match) => {
-            return (
-              <SupertokensAuthCallbackPage
-                provider={match.match.params.provider}
-              />
-            );
-          }}
-        />
+        <Route exact path={"/m/auth"} render={() => <AuthPage />} />
         {/* ---- LIBRARY ROUTES ---- */}
         <Route exact path={"/library"} render={() => <LibraryPage />} />
         {getCommonRoutes("/library")}

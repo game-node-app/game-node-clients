@@ -1,19 +1,23 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import CenteredLoading from "@/components/general/CenteredLoading";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { SessionAuth, useUserId } from "@repo/ui";
 
-const Index = () => {
-    const session = useSessionContext();
+const RedirectToOwnLibrary = () => {
+    const userId = useUserId();
     const router = useRouter();
     useEffect(() => {
-        if (!session.loading && !session.doesSessionExist) {
-            router.push("/auth");
-        } else if (!session.loading && session.doesSessionExist) {
-            router.push("/library/" + session.userId);
+        if (userId) {
+            router.push("/library/" + userId);
         }
-    }, [router, session]);
+    }, [router, userId]);
     return <CenteredLoading />;
 };
+
+const Index = () => (
+    <SessionAuth>
+        <RedirectToOwnLibrary />
+    </SessionAuth>
+);
 
 export default Index;

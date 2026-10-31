@@ -7,7 +7,7 @@ import { AwardsVoteLayout } from "#@/components/awards/view/AwardsVoteLayout.tsx
 import { Link } from "#@/util";
 import { Box, Button, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 
 interface Props {
   eventId: number | undefined;

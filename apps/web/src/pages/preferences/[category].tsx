@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 import { Container } from "@mantine/core";
 import { PreferencesActiveCategory, PreferencesScreen } from "@repo/ui";
 

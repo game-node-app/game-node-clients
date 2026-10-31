@@ -4,7 +4,7 @@ import { Button, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;

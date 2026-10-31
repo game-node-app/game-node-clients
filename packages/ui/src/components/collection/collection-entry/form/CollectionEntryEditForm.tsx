@@ -27,7 +27,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 import { z } from "zod";
 import { useOwnCollectionEntryForGameId } from "../hooks";
 import { CollectionEntryFormDetailsPanel } from "./CollectionEntryFormDetailsPanel";

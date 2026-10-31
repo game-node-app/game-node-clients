@@ -20,7 +20,7 @@ import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { useForm } from "react-hook-form";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 import { z } from "zod";
 
 const PREVIEW_ELEMENT_ID = "awards-share-preview";

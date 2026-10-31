@@ -1,15 +1,12 @@
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { authClient } from "#@/components/auth/authClient";
 
 /**
  * Returns the userId of the currently logged-in user.
  */
 const useUserId = (): string | undefined => {
-  const session = useSessionContext();
-  if (!session.loading && session.doesSessionExist) {
-    return session.userId;
-  }
+  const { data } = authClient.useSession();
 
-  return undefined;
+  return data?.user.id;
 };
 
 export { useUserId };

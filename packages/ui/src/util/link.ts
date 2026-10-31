@@ -5,6 +5,8 @@ interface TransitionOptions {
   scroll?: boolean;
   shallow?: boolean;
   replace?: boolean;
+  /** The route is complete (e.g. a sign-in return target); routers must not add a tab prefix. */
+  absolute?: boolean;
 }
 
 export interface LinkComponentProps
@@ -15,6 +17,8 @@ export interface LinkComponentProps
 
 export interface RouterHookProps {
   pathname: string;
+  /** Full current path as the router sees it (without locale); defaults to `pathname`. */
+  asPath?: string;
   back: () => void;
   push: (route: string, options?: TransitionOptions) => Promise<void>;
   query: URLSearchParams;

@@ -10,7 +10,7 @@ import { PreferencesConnectionsScreen } from "#@/components/preferences/categori
 import { PreferencesLibraryScreen } from "#@/components/preferences/categories/PreferencesLibraryScreen";
 import { useRouter } from "#@/util";
 import { Divider, Group, Stack } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 
 interface Props {
   category: PreferencesActiveCategory;

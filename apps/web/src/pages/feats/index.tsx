@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@repo/ui";
 import { useRouter } from "next/router";
 import CenteredLoading from "@/components/general/CenteredLoading";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 
 const FeatsIndexPage = () => {
   const userId = useUserId();

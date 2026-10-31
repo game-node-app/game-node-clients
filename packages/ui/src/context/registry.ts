@@ -42,4 +42,6 @@ export type UIPresenterRegistry = {
 export type UIHookRegistry = {
   useRouter: () => RouterHookProps;
   useScrollPosition?: () => UseScrollPositionReturn;
+  /** Route of the sign-in screen. Defaults to `/auth`. */
+  authPath?: string;
 };

@@ -5,7 +5,7 @@ import ProfilePage from "@/pages/profile/profile";
 import ProfileStatsPage from "@/pages/profile/stats";
 import ProfileReviewListPage from "@/pages/profile/review_list";
 import AchievementsPage from "@/pages/feats";
-import SupertokensAuthPage from "@/pages/auth";
+import AuthPage from "@/pages/auth";
 import ImporterPage from "@/pages/importer/importer";
 import ImporterByTypePage from "@/pages/importer/source";
 import ActivityPage from "@/pages/activity";
@@ -179,7 +179,7 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       exact
       key={`${prefix}-auth`}
       path={`${prefix}/auth`}
-      render={() => <SupertokensAuthPage />}
+      render={() => <AuthPage />}
     />,
     <Route
       exact

@@ -5,12 +5,13 @@ import {
 } from "#@/components/statistics/hooks/useUserLike";
 import { ActionIcon, ActionIconProps, Text } from "@mantine/core";
 import { IconThumbUp, IconThumbUpFilled } from "@tabler/icons-react";
-import { redirectToAuth } from "supertokens-auth-react";
+import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 
 const ItemLikesButton = ({ sourceType, sourceId, ...others }: Props) => {
   const userId = useUserId();
+  const redirectToAuth = useRedirectToAuth();
   const [likesCount, isLiked, toggleUserLike] = useUserLike({
     sourceId: sourceId,
     sourceType: sourceType,
@@ -20,7 +21,7 @@ const ItemLikesButton = ({ sourceType, sourceId, ...others }: Props) => {
     <ActionIcon
       onClick={async () => {
         if (!userId) {
-          redirectToAuth();
+          void redirectToAuth();
           return;
         }
         toggleUserLike();

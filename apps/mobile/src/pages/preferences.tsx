@@ -6,7 +6,8 @@ import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesM
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import { IonList } from "@ionic/react";
 import { Stack } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { Capacitor } from "@capacitor/core";
+import { SessionAuth, SignInMethodsSection } from "@repo/ui";
 
 const PreferencesPage = () => {
   return (
@@ -25,6 +26,11 @@ const PreferencesPage = () => {
             <PreferencesImporterItems />
             <PreferencesMiscItems />
           </IonList>
+          <div className={"px-4"}>
+            <SignInMethodsSection
+              relativeCallbacks={Capacitor.isNativePlatform()}
+            />
+          </div>
         </Stack>
       </SessionAuth>
     </AppPage>

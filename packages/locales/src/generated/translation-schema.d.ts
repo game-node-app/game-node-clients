@@ -97,9 +97,84 @@ export type TranslationSchema = {
     title: string;
   };
   auth: {
+    accessDenied: {
+      body: string;
+      goHome: string;
+      signOut: string;
+      title: string;
+    };
+    errors: {
+      access_denied: {
+        body: string;
+        title: string;
+      };
+      account_not_linked: {
+        body: string;
+        hint: string;
+        title: string;
+      };
+      default: {
+        body: string;
+        title: string;
+      };
+      email_not_found: {
+        body: string;
+        title: string;
+      };
+      expired: {
+        body: string;
+        title: string;
+      };
+      unable_to_link_account: {
+        body: string;
+        title: string;
+      };
+    };
     fetchingCredentials: string;
+    lockedOut: {
+      body: string;
+      contact: string;
+      title: string;
+      useAnother: string;
+    };
     loginPrompt: string;
     loginRequired: string;
+    methods: {
+      description: string;
+      lastMethod: string;
+      link: string;
+      linked: string;
+      notLinked: string;
+      providerNames: {
+        discord: string;
+        google: string;
+        twitter: string;
+      };
+      title: string;
+      unlink: string;
+      unlinkConfirm: string;
+      unlinkTitle: string;
+    };
+    providers: {
+      discord: string;
+      google: string;
+      twitter: string;
+    };
+    redirecting: {
+      provider: string;
+      signingIn: string;
+    };
+    screen: {
+      adminEyebrow: string;
+      adminSubtitle: string;
+      eyebrow: string;
+      headline: string;
+      legalLink: string;
+      legalPrefix: string;
+      subtitle: string;
+      tagline: string;
+      title: string;
+    };
     signIn: string;
   };
   awards: {

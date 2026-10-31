@@ -1,5 +1,5 @@
 import { ConnectionAuthCallback } from "@repo/ui";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage";
 
 export default function ConnectionCallbackPage({ type }: { type: string }) {

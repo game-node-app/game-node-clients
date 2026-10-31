@@ -9,7 +9,7 @@ import { useTranslation } from "@repo/locales";
 import { CommentService } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 
 interface Props extends BaseModalProps {
   comment: UserComment;

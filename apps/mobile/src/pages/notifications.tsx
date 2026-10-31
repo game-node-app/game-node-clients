@@ -10,7 +10,7 @@ import {
 } from "@repo/ui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 
 const NotificationsPage = () => {
   const { t } = useTranslation();

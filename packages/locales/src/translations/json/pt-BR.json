@@ -93,9 +93,84 @@
     "title": "GameNode"
   },
   "auth": {
+    "accessDenied": {
+      "body": "Sua conta não tem o cargo que esta página exige.",
+      "goHome": "Ir para o início",
+      "signOut": "Sair",
+      "title": "Você não tem acesso a esta página"
+    },
+    "errors": {
+      "access_denied": {
+        "body": "Você cancelou o login. Escolha um provedor para tentar de novo.",
+        "title": "Login cancelado"
+      },
+      "account_not_linked": {
+        "body": "Entre com o provedor que você usou antes.",
+        "hint": "Você pode vincular este provedor em Preferências → Conta → Métodos de login.",
+        "title": "Este email já pertence a uma conta"
+      },
+      "default": {
+        "body": "Algo deu errado ao entrar. Tente novamente.",
+        "title": "Falha no login"
+      },
+      "email_not_found": {
+        "body": "Esse provedor não compartilhou um email com o GameNode. Tente outro provedor.",
+        "title": "Nenhum email compartilhado"
+      },
+      "expired": {
+        "body": "Sua tentativa de login expirou ou não correspondeu. Tente novamente.",
+        "title": "Login expirado"
+      },
+      "unable_to_link_account": {
+        "body": "Esse método de login não pôde ser vinculado à sua conta. Ele pode pertencer a outra conta.",
+        "title": "Não foi possível vincular este provedor"
+      }
+    },
     "fetchingCredentials": "Buscando suas credenciais...",
+    "lockedOut": {
+      "body": "Ela foi suspensa ou banida por violar as diretrizes da comunidade. Se acha que é um engano, fale com support@gamenode.app.",
+      "contact": "Falar com o suporte",
+      "title": "Esta conta não pode entrar agora",
+      "useAnother": "Usar outra conta"
+    },
     "loginPrompt": "Por favor, faça login para continuar.",
     "loginRequired": "Esta ação requer que você esteja logado.",
+    "methods": {
+      "description": "As contas que você pode usar para entrar no GameNode.",
+      "lastMethod": "É necessário ao menos um método de login.",
+      "link": "Vincular",
+      "linked": "Vinculado",
+      "notLinked": "Não vinculado",
+      "providerNames": {
+        "discord": "Discord",
+        "google": "Google",
+        "twitter": "X"
+      },
+      "title": "Métodos de login",
+      "unlink": "Desvincular",
+      "unlinkConfirm": "Você não poderá mais entrar com {{provider}}.",
+      "unlinkTitle": "Desvincular {{provider}}?"
+    },
+    "providers": {
+      "discord": "Continuar com Discord",
+      "google": "Continuar com Google",
+      "twitter": "Continuar com X"
+    },
+    "redirecting": {
+      "provider": "Levando você ao {{provider}}…",
+      "signingIn": "Entrando…"
+    },
+    "screen": {
+      "adminEyebrow": "Admin",
+      "adminSubtitle": "Entre com uma conta que tenha acesso da equipe.",
+      "eyebrow": "Bem-vindo",
+      "headline": "Seus jogos. Sua biblioteca. Sua comunidade.",
+      "legalLink": "Política de Privacidade",
+      "legalPrefix": "Ao continuar, você concorda com nossa",
+      "subtitle": "Novo por aqui? Sua conta é criada no primeiro acesso.",
+      "tagline": "Acompanhe o que você joga, compartilhe o que pensa e descubra o que jogar em seguida.",
+      "title": "Entrar no GameNode"
+    },
     "signIn": "Entrar"
   },
   "awards": {

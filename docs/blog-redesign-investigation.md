@@ -46,7 +46,7 @@ Its Docker distribution supports MySQL and SQLite, S3-compatible storage, and a 
 
 ## Proposed ownership and content model
 
-Editors use a dedicated self-hosted CMS origin. Public web/mobile clients continue to call NestJS. NestJS queries the CMS over the private service network using a read-only, published-content policy and returns a small GameNode response. No CMS admin token reaches a client. Keep separate staff CMS accounts initially; public GameNode authentication stays in SuperTokens. Custom SSO is outside the initial scope.
+Editors use a dedicated self-hosted CMS origin. Public web/mobile clients continue to call NestJS. NestJS queries the CMS over the private service network using a read-only, published-content policy and returns a small GameNode response. No CMS admin token reaches a client. Keep separate staff CMS accounts initially; public GameNode authentication stays in Better Auth. Custom SSO is outside the initial scope.
 
 CMS-owned article data:
 
@@ -66,7 +66,7 @@ Draft previews use a separate authenticated, non-cacheable path. CMS permissions
 
 ## Infrastructure fit and limits of the evidence
 
-[Production Compose](/home/cassi/projects/game-node-server/docker-compose.prod.yml:1) declares two API replicas, two MySQL services, cache Redis, queue Redis, SuperTokens, and Manticore. The Redis ceilings are 2 GB and 20 GB; ceilings are not reserved or observed RAM. No reliable available-memory inventory is checked in. An OpenSpec design mentions a future 4-vCPU/8-GB machine, explicitly not an available server; it is not evidence of current headroom.
+[Production Compose](/home/cassi/projects/game-node-server/docker-compose.prod.yml:1) declares two API replicas, two MySQL services, cache Redis, queue Redis, and Manticore. The Redis ceilings are 2 GB and 20 GB; ceilings are not reserved or observed RAM. No reliable available-memory inventory is checked in. An OpenSpec design mentions a future 4-vCPU/8-GB machine, explicitly not an available server; it is not evidence of current headroom.
 
 The checked-in database image is MySQL 8.3, while Directus documents LTS database support. Confirm compatibility against the pinned CMS version. Use a dedicated CMS database/user on a supported existing MySQL server only if compatible. Otherwise trial a persistent SQLite volume for this single-instance editorial service; do not upgrade the application's MySQL just to make the CMS trial work. Back up the content database and assets together and test restoration.
 

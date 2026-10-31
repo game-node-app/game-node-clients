@@ -37,8 +37,13 @@
   },
   "name": "game-node-clients",
   "packageManager": "yarn@1.22.22",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/better-auth-capacitor"
+    ]
+  }
 }
