@@ -1388,9 +1388,6 @@ export type TranslationSchema = {
     publishExample: string;
     read: string;
     write: string;
-    identity: string;
-    offline: string;
-    unknown: string;
     choose: string;
     add: string;
     authorizeStep: string;
@@ -1426,12 +1423,6 @@ export type TranslationSchema = {
     copyContent: string;
     consent: {
       title: string;
-      account: string;
-      client: string;
-      identifier: string;
-      domain: string;
-      website: string;
-      permissions: string;
       approve: string;
       deny: string;
       loading: string;
@@ -1444,6 +1435,17 @@ export type TranslationSchema = {
       login: string;
       continuing: string;
       disclaimer: string;
+      verified: string;
+      unverified: string;
+      unverifiedWarning: string;
+      signedInAs: string;
+      switchAccount: string;
+      choose: string;
+      groups: {
+        read: string;
+        write: string;
+        other: string;
+      };
     };
     scopeDescriptions: {
       games_read: string;

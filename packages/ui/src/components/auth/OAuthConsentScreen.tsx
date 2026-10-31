@@ -4,7 +4,8 @@ import {
   Anchor,
   Badge,
   Button,
-  Container,
+  Center,
+  Checkbox,
   Group,
   Loader,
   Paper,
@@ -13,6 +14,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconAlertTriangle, IconPlugConnected } from "@tabler/icons-react";
 import { authClient } from "./authClient";
 import {
   followOAuthDestination,
@@ -21,6 +23,8 @@ import {
 } from "./oauthRequest";
 import { useRouter } from "#@/util/link";
 import { MCP_SCOPES } from "#@/components/mcp/connection";
+import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 
 interface PublicClient {
   client_name?: string;
@@ -52,6 +56,7 @@ export function OAuthConsentScreen() {
   const [needsLogin, setNeedsLogin] = useState(false);
   const [retry, setRetry] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
   const busy = useRef(false);
   const errorRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +99,7 @@ export function OAuthConsentScreen() {
           method: "POST",
           body: {
             accept,
-            ...(accept ? { scope: request.scope } : {}),
+            ...(accept ? { scope: scopes.filter(isChecked).join(" ") } : {}),
             oauth_query: request.oauthQuery,
           },
         },
@@ -109,20 +114,46 @@ export function OAuthConsentScreen() {
     }
   };
 
-  const website = safeHttps(client?.client_uri);
-  const metadataDomain = safeHttps(clientId)?.origin;
+  const metadataDomain = safeHttps(clientId)?.host;
+  const domain =
+    metadataDomain ?? safeHttps(client?.client_uri)?.host ?? clientId;
+  const name = client?.client_name || clientId || "";
   const loginPath = `/auth?${oauthQuery}`;
+  const scopes = [...new Set(request?.scope.split(/\s+/).filter(Boolean))];
+  const isChecked = (scope: string) => checked[scope] ?? true;
+  const groups = [
+    ["read", scopes.filter((scope) => scope.endsWith(":read"))],
+    ["write", scopes.filter((scope) => scope.endsWith(":write"))],
+    ["other", scopes.filter((scope) => !/:(read|write)$/.test(scope))],
+  ] as const;
+
+  const switchAccount = async () => {
+    await authClient.signOut();
+    window.location.assign(loginPath);
+  };
 
   return (
-    <Container
-      size="sm"
-      py="xl"
+    <Stack
       className="oauth-private"
-      style={{ width: "100%", minWidth: 0, overflowWrap: "anywhere" }}
+      align="center"
+      gap={40}
+      px={16}
+      py={{ base: 12, sm: 40 }}
+      style={{ minWidth: 0, overflowWrap: "anywhere" }}
     >
-      <Paper withBorder p="lg" radius="md">
-        <Stack>
-          <Title order={1}>{t("mcp.consent.title")}</Title>
+      <Group w="100%" maw={1360}>
+        <GameNodeLogo style={{ height: 28, width: "auto" }} />
+      </Group>
+      <Paper
+        withBorder
+        radius={16}
+        w="100%"
+        maw={480}
+        px={{ base: 20, sm: 28 }}
+        pt={{ base: 22, sm: 28 }}
+        pb={24}
+      >
+        <Stack gap={20}>
           {!request ? (
             <Alert color="red" role="alert">
               {t("mcp.consent.invalid")}
@@ -133,144 +164,199 @@ export function OAuthConsentScreen() {
             <Button component="a" href={loginPath}>
               {t("mcp.consent.login")}
             </Button>
+          ) : loadError ? (
+            <>
+              <Alert ref={errorRef} tabIndex={-1} color="red" role="alert">
+                {t("mcp.consent.metadataError")}
+              </Alert>
+              <Button onClick={() => setRetry((value) => value + 1)}>
+                {t("mcp.consent.retry")}
+              </Button>
+            </>
+          ) : !client ? (
+            <Group role="status">
+              <Loader size="sm" />
+              <Text>{t("mcp.consent.loading")}</Text>
+            </Group>
           ) : (
             <>
-              <Text fw={600}>
-                {t("mcp.consent.account")}: {session.user.name} (
-                {session.user.email})
-              </Text>
-              {loadError ? (
-                <>
-                  <Alert ref={errorRef} tabIndex={-1} color="red" role="alert">
-                    {t("mcp.consent.metadataError")}
-                  </Alert>
-                  <Button onClick={() => setRetry((value) => value + 1)}>
-                    {t("mcp.consent.retry")}
-                  </Button>
-                </>
-              ) : !client ? (
-                <Group role="status">
-                  <Loader size="sm" />
-                  <Text>{t("mcp.consent.loading")}</Text>
+              <Group gap={10} aria-hidden>
+                <Center w={44} h={44} bg="dark.6" style={{ borderRadius: 10 }}>
+                  <Text fz={18} fw={600}>
+                    {name.charAt(0).toUpperCase()}
+                  </Text>
+                </Center>
+                <IconPlugConnected
+                  size={16}
+                  color="var(--mantine-color-dimmed)"
+                />
+                <Center w={44} h={44} bg="brand" style={{ borderRadius: 10 }}>
+                  <Text fz={20} fw={700} c="white">
+                    G
+                  </Text>
+                </Center>
+              </Group>
+              <Stack gap={8}>
+                <Title order={1} fz={32} fw={500} lh="normal">
+                  {t("mcp.consent.title", { client: name })}
+                </Title>
+                <Group gap={8}>
+                  <Text ff="monospace" fz={12} c="dimmed">
+                    {domain}
+                  </Text>
+                  <Badge
+                    variant="light"
+                    color={metadataDomain ? "green" : "yellow"}
+                    radius="xl"
+                    tt="none"
+                    fw={500}
+                  >
+                    {t(
+                      metadataDomain
+                        ? "mcp.consent.verified"
+                        : "mcp.consent.unverified",
+                    )}
+                  </Badge>
                 </Group>
-              ) : (
-                <>
-                  <div>
-                    <Text size="sm" c="dimmed">
-                      {t("mcp.consent.client")}
-                    </Text>
-                    <Text fw={700}>{client.client_name || clientId}</Text>
-                  </div>
-                  <div>
-                    <Text size="sm" c="dimmed">
-                      {t("mcp.consent.identifier")}
-                    </Text>
-                    <Text>{clientId}</Text>
-                  </div>
-                  {metadataDomain && (
-                    <Text>
-                      {t("mcp.consent.domain")}: {metadataDomain}
-                    </Text>
-                  )}
-                  {client.client_uri && (
-                    <div>
-                      <Text size="sm" c="dimmed">
-                        {t("mcp.consent.website")}
-                      </Text>
-                      {website ? (
-                        <Anchor
-                          href={website.href}
-                          rel="noreferrer"
-                          target="_blank"
+              </Stack>
+              {!metadataDomain && (
+                <Alert
+                  variant="light"
+                  color="yellow"
+                  icon={<IconAlertTriangle size={16} />}
+                  style={{ border: "1px solid var(--mantine-color-yellow-6)" }}
+                >
+                  <Text fz={13} lh="18px" c="dimmed">
+                    {t("mcp.consent.unverifiedWarning")}
+                  </Text>
+                </Alert>
+              )}
+              <Group
+                gap={10}
+                px={12}
+                py={10}
+                bg="dark.8"
+                wrap="nowrap"
+                style={{ borderRadius: 8 }}
+              >
+                <UserAvatar userId={session.user.id} size={28} />
+                <Text fz={13} lh="18px" c="dimmed" flex={1}>
+                  {t("mcp.consent.signedInAs", { name: session.user.name })} (
+                  {session.user.email})
+                </Text>
+                <Anchor
+                  component="button"
+                  type="button"
+                  fz={13}
+                  onClick={() => void switchAccount()}
+                >
+                  {t("mcp.consent.switchAccount")}
+                </Anchor>
+              </Group>
+              <Stack gap={14}>
+                <Text fz={14} fw={600}>
+                  {t("mcp.consent.choose", { client: name })}
+                </Text>
+                {groups.map(
+                  ([group, items]) =>
+                    items.length > 0 && (
+                      <div key={group}>
+                        <Text
+                          fz={11}
+                          fw={600}
+                          c="dimmed"
+                          tt="uppercase"
+                          lts={0.6}
                         >
-                          {client.client_uri}
-                        </Anchor>
-                      ) : (
-                        <Text>{client.client_uri}</Text>
-                      )}
-                    </div>
-                  )}
-                  <Text size="sm">{t("mcp.consent.disclaimer")}</Text>
-                  <Title order={2} size="h3">
-                    {t("mcp.consent.permissions")}
-                  </Title>
-                  <Stack component="ul" pl="md">
-                    {request.scope
-                      .split(/\s+/)
-                      .filter(Boolean)
-                      .map((scope, index) => {
-                        const category = scope.endsWith(":write")
-                          ? "write"
-                          : scope === "offline_access"
-                            ? "offline"
-                            : scope === "openid" || scope === "profile"
-                              ? "identity"
-                              : scope.endsWith(":read")
-                                ? "read"
-                                : "unknown";
-                        const known = MCP_SCOPES.find((item) => item === scope);
-                        const key = known?.replace(":", "_") as
-                          | "games_read"
-                          | "library_read"
-                          | "library_write"
-                          | "reviews_write"
-                          | "posts_write"
-                          | "openid"
-                          | "profile"
-                          | "offline_access"
-                          | undefined;
-                        return (
-                          <li key={`${scope}-${index}`}>
-                            <Badge
-                              color={category === "write" ? "orange" : "gray"}
-                            >
-                              {t(`mcp.${category}`)}
-                            </Badge>
-                            <Text fw={500}>{scope}</Text>
-                            <Text>
-                              {key
-                                ? t(`mcp.scopeDescriptions.${key}`)
-                                : t("mcp.scopeDescriptions.unknown", { scope })}
-                            </Text>
-                          </li>
-                        );
-                      })}
-                  </Stack>
-                  {decisionError && (
-                    <Alert
-                      ref={errorRef}
-                      tabIndex={-1}
-                      color="red"
-                      role="alert"
-                    >
-                      {t("mcp.consent.error")}
-                    </Alert>
-                  )}
-                  <Group grow>
-                    <Button
-                      disabled={submitting}
-                      onClick={() => void decide(true)}
-                    >
-                      {t("mcp.consent.approve")}
-                    </Button>
-                    <Button
-                      variant="default"
-                      disabled={submitting}
-                      onClick={() => void decide(false)}
-                    >
-                      {t("mcp.consent.deny")}
-                    </Button>
-                  </Group>
-                  {submitting && (
-                    <Text role="status">{t("mcp.consent.submitting")}</Text>
-                  )}
-                </>
+                          {t(`mcp.consent.groups.${group}`)}
+                        </Text>
+                        <Stack
+                          component="ul"
+                          gap={0}
+                          p={0}
+                          m={0}
+                          style={{ listStyle: "none" }}
+                        >
+                          {items.map((scope) => {
+                            const known = MCP_SCOPES.find(
+                              (item) => item === scope,
+                            );
+                            return (
+                              <Group
+                                component="li"
+                                key={scope}
+                                py={10}
+                                gap={12}
+                                wrap="nowrap"
+                              >
+                                <Checkbox
+                                  size="xs"
+                                  radius={4}
+                                  checked={isChecked(scope)}
+                                  onChange={(event) =>
+                                    setChecked({
+                                      ...checked,
+                                      [scope]: event.currentTarget.checked,
+                                    })
+                                  }
+                                  label={
+                                    known
+                                      ? t(
+                                          `mcp.scopeDescriptions.${known.replace(":", "_") as "games_read"}`,
+                                        )
+                                      : t("mcp.scopeDescriptions.unknown", {
+                                          scope,
+                                        })
+                                  }
+                                  styles={{ label: { fontSize: 14 } }}
+                                  style={{ flex: 1 }}
+                                />
+                                <Text ff="monospace" fz={11} c="dimmed">
+                                  {scope}
+                                </Text>
+                              </Group>
+                            );
+                          })}
+                        </Stack>
+                      </div>
+                    ),
+                )}
+              </Stack>
+              <Text fz={13} lh="18px" c="dimmed">
+                {t("mcp.consent.disclaimer")}
+              </Text>
+              {decisionError && (
+                <Alert ref={errorRef} tabIndex={-1} color="red" role="alert">
+                  {t("mcp.consent.error")}
+                </Alert>
+              )}
+              <Group grow gap={10}>
+                <Button
+                  variant="default"
+                  radius={8}
+                  disabled={submitting}
+                  onClick={() => void decide(false)}
+                >
+                  {t("mcp.consent.deny")}
+                </Button>
+                <Button
+                  radius={8}
+                  disabled={submitting || !scopes.some(isChecked)}
+                  onClick={() => void decide(true)}
+                >
+                  {t("mcp.consent.approve")}
+                </Button>
+              </Group>
+              {submitting && (
+                <Text role="status">{t("mcp.consent.submitting")}</Text>
               )}
             </>
           )}
-          <Anchor href="/mcp">{t("mcp.consent.guide")}</Anchor>
+          <Anchor href="/mcp" fz={12} c="dimmed" ta="center">
+            {t("mcp.consent.guide")}
+          </Anchor>
         </Stack>
       </Paper>
-    </Container>
+    </Stack>
   );
 }

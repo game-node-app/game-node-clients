@@ -1384,9 +1384,6 @@
     "publishExample": "Ajude a escrever uma análise ou publicação. Publique apenas quando eu pedir.",
     "read": "Acesso de leitura",
     "write": "Alterações na sua conta",
-    "identity": "Identidade do perfil",
-    "offline": "Acesso contínuo",
-    "unknown": "Outra permissão",
     "choose": "Escolha seu assistente",
     "add": "Adicione o GameNode",
     "authorizeStep": "Entre e autorize",
@@ -1421,15 +1418,9 @@
     "copyError": "Área de transferência indisponível ou acesso negado. Selecione e copie o texto abaixo.",
     "copyContent": "Conteúdo para copiar",
     "consent": {
-      "title": "Autorizar um aplicativo",
-      "account": "Conta GameNode",
-      "client": "Aplicativo solicitante",
-      "identifier": "Identificador do cliente",
-      "domain": "Domínio do documento de metadados",
-      "website": "Site do aplicativo (autodeclarado)",
-      "permissions": "Permissões solicitadas",
-      "approve": "Autorizar",
-      "deny": "Negar",
+      "title": "{{client}} quer acessar sua conta GameNode",
+      "approve": "Permitir",
+      "deny": "Recusar",
       "loading": "Carregando solicitação de autorização…",
       "submitting": "Enviando sua decisão…",
       "invalid": "Esta solicitação de autorização está ausente, inválida ou expirada. Reinicie a conexão pelo assistente.",
@@ -1439,7 +1430,18 @@
       "guide": "Abrir guia de configuração",
       "login": "Entrar para continuar",
       "continuing": "Continuando autorização…",
-      "disclaimer": "Autorize apenas aplicativos que você reconhece. Um nome ou domínio de metadados não significa endosso do GameNode."
+      "disclaimer": "Autorize apenas aplicativos que você reconhece. Um nome ou domínio de metadados não significa endosso do GameNode.",
+      "verified": "Domínio verificado",
+      "unverified": "Domínio não verificado",
+      "unverifiedWarning": "Este app não tem domínio verificado. Só continue se foi você que iniciou a conexão.",
+      "signedInAs": "Entrando como {{name}}",
+      "switchAccount": "Trocar conta",
+      "choose": "Escolha o que {{client}} pode fazer:",
+      "groups": {
+        "read": "Ler",
+        "write": "Escrever no seu nome",
+        "other": "Outros"
+      }
     },
     "scopeDescriptions": {
       "games_read": "Buscar jogos e ler detalhes dos jogos.",

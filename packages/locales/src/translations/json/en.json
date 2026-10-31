@@ -1384,9 +1384,6 @@
     "publishExample": "Help me draft a review or post. Publish only when I ask.",
     "read": "Read access",
     "write": "Changes to your account",
-    "identity": "Profile identity",
-    "offline": "Continued access",
-    "unknown": "Other permission",
     "choose": "Choose your assistant",
     "add": "Add GameNode",
     "authorizeStep": "Sign in and authorize",
@@ -1421,14 +1418,8 @@
     "copyError": "Clipboard unavailable or denied. Select and copy the text below.",
     "copyContent": "Content to copy",
     "consent": {
-      "title": "Authorize an application",
-      "account": "GameNode account",
-      "client": "Requesting application",
-      "identifier": "Client identifier",
-      "domain": "Metadata document domain",
-      "website": "Application website (self-declared)",
-      "permissions": "Requested permissions",
-      "approve": "Authorize",
+      "title": "{{client}} wants to access your GameNode account",
+      "approve": "Allow",
       "deny": "Deny",
       "loading": "Loading authorization request…",
       "submitting": "Submitting your decision…",
@@ -1439,7 +1430,18 @@
       "guide": "Open setup guide",
       "login": "Sign in to continue",
       "continuing": "Continuing authorization…",
-      "disclaimer": "Only authorize an application you recognize. A name or metadata domain does not mean GameNode endorses it."
+      "disclaimer": "Only authorize an application you recognize. A name or metadata domain does not mean GameNode endorses it.",
+      "verified": "Verified domain",
+      "unverified": "Unverified domain",
+      "unverifiedWarning": "This app does not have a verified domain. Only continue if you started this connection.",
+      "signedInAs": "Signing in as {{name}}",
+      "switchAccount": "Switch account",
+      "choose": "Choose what {{client}} can do:",
+      "groups": {
+        "read": "Read",
+        "write": "Write on your behalf",
+        "other": "Other"
+      }
     },
     "scopeDescriptions": {
       "games_read": "Search games and read game details.",

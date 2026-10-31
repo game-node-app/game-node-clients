@@ -18,6 +18,10 @@ vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
     $fetch: mocks.fetch,
   },
 }));
+vi.mock(
+  "../../../../../packages/ui/src/components/general/avatar/UserAvatar",
+  () => ({ UserAvatar: () => null }),
+);
 function renderConsent() {
   return renderMcp(
     <UIProvider
@@ -67,30 +71,27 @@ afterEach(() => {
   });
 });
 describe("server-backed consent", () => {
-  it("identifies account, CIMD domain and self-declared website separately", async () => {
+  it("identifies account and the CIMD domain as verified", async () => {
     renderConsent();
-    await screen.findByText("Assistant");
+    await screen.findByRole("heading", {
+      name: "Assistant wants to access your GameNode account",
+    });
     expect(mocks.fetch).toHaveBeenCalledWith("/oauth2/public-client", {
       query: { client_id: mocks.query.get("client_id") },
     });
     expect(screen.getByText(/Gamer.*gamer@example.com/)).toBeTruthy();
-    expect(
-      screen.getByText("Metadata document domain: https://client.example"),
-    ).toBeTruthy();
-    expect(
-      screen
-        .getByRole("link", { name: "https://self-declared.example" })
-        .getAttribute("rel"),
-    ).toBe("noreferrer");
-    expect(screen.queryByText(/verified by/i)).toBeNull();
+    expect(screen.getByText("client.example")).toBeTruthy();
+    expect(screen.getByText("Verified domain")).toBeTruthy();
+    expect(screen.queryByText("self-declared.example")).toBeNull();
   });
-  it("falls back to opaque identifiers without a domain claim", async () => {
+  it("marks clients without a metadata domain as unverified", async () => {
     mocks.query.set("client_id", "opaque-client");
     mocks.fetch.mockResolvedValue({ data: {} });
     renderConsent();
-    await screen.findByRole("button", { name: "Authorize" });
-    expect(screen.getAllByText("opaque-client")).toHaveLength(2);
-    expect(screen.queryByText(/Metadata document domain:/)).toBeNull();
+    await screen.findByRole("button", { name: "Allow" });
+    expect(screen.getByText("opaque-client")).toBeTruthy();
+    expect(screen.getByText("Unverified domain")).toBeTruthy();
+    expect(screen.getByText(/does not have a verified domain/)).toBeTruthy();
   });
   it("escapes HTML-like metadata and never links unsafe URIs", async () => {
     mocks.fetch.mockResolvedValue({
@@ -100,8 +101,10 @@ describe("server-backed consent", () => {
       },
     });
     const view = renderConsent();
-    await screen.findByText('<img src=x onerror="alert(1)">');
-    expect(view.container.querySelector("img")).toBeNull();
+    await screen.findByRole("heading", {
+      name: '<img src=x onerror="alert(1)"> wants to access your GameNode account',
+    });
+    expect(view.container.querySelector("img[onerror]")).toBeNull();
     expect(
       screen.queryByRole("link", { name: "javascript:alert(1)" }),
     ).toBeNull();
@@ -110,23 +113,23 @@ describe("server-backed consent", () => {
     mocks.fetch.mockResolvedValueOnce({ error: { status: 404 } });
     renderConsent();
     await screen.findByRole("alert");
-    expect(screen.queryByRole("button", { name: "Authorize" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Allow" })).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Retry" }));
-    await screen.findByRole("button", { name: "Authorize" });
+    await screen.findByRole("button", { name: "Allow" });
   });
   it("shows only read permissions for a read request", async () => {
     renderConsent();
-    await screen.findByRole("button", { name: "Authorize" });
+    await screen.findByRole("button", { name: "Allow" });
     expect(
       screen.getByText("Read your library entries and list your collections."),
     ).toBeTruthy();
-    expect(screen.queryByText("Changes to your account")).toBeNull();
+    expect(screen.queryByText("Write on your behalf")).toBeNull();
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
   });
-  it("explains all supported scopes and unknown permissions without adding grants", async () => {
+  it("explains all scopes and only grants the checked ones", async () => {
     mocks.query.set("scope", [...MCP_SCOPES, "future:scope"].join(" "));
     renderConsent();
-    await screen.findByRole("button", { name: "Authorize" });
+    await screen.findByRole("button", { name: "Allow" });
     for (const scope of MCP_SCOPES)
       expect(screen.getByText(scope)).toBeTruthy();
     expect(
@@ -135,10 +138,16 @@ describe("server-backed consent", () => {
       ),
     ).toBeTruthy();
     expect(screen.getAllByRole("listitem")).toHaveLength(9);
-    fireEvent.click(screen.getByRole("button", { name: "Authorize" }));
+    // Every scope starts checked; unchecking one drops it from the grant.
+    fireEvent.click(
+      screen.getByRole("checkbox", {
+        name: "Add and update entries in your library.",
+      }),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Allow" }));
     await waitFor(() => expect(mocks.navigate).toHaveBeenCalled());
     expect(mocks.fetch.mock.calls[1][1].body.scope).toBe(
-      mocks.query.get("scope"),
+      "games:read library:read reviews:write posts:write openid profile offline_access future:scope",
     );
   });
   it.each([true, false])(
@@ -149,7 +158,7 @@ describe("server-backed consent", () => {
       renderConsent();
       fireEvent.click(
         await screen.findByRole("button", {
-          name: accept ? "Authorize" : "Deny",
+          name: accept ? "Allow" : "Deny",
         }),
       );
       await waitFor(() =>
@@ -180,7 +189,7 @@ describe("server-backed consent", () => {
           }),
       );
     renderConsent();
-    const authorize = await screen.findByRole("button", { name: "Authorize" });
+    const authorize = await screen.findByRole("button", { name: "Allow" });
     fireEvent.click(authorize);
     fireEvent.click(authorize);
     expect((authorize as HTMLButtonElement).disabled).toBe(true);
@@ -210,11 +219,11 @@ describe("server-backed consent", () => {
           return { error: { status: 400 } };
         });
       renderConsent();
-      fireEvent.click(await screen.findByRole("button", { name: "Authorize" }));
+      fireEvent.click(await screen.findByRole("button", { name: "Allow" }));
       const alert = await screen.findByRole("alert");
       expect(mocks.navigate).not.toHaveBeenCalled();
       expect(document.activeElement).toBe(alert);
-      fireEvent.click(screen.getByRole("button", { name: "Authorize" }));
+      fireEvent.click(screen.getByRole("button", { name: "Allow" }));
       await waitFor(() => expect(mocks.navigate).toHaveBeenCalled());
     },
   );
@@ -226,7 +235,7 @@ describe("server-backed consent", () => {
     renderConsent();
     expect(screen.getByRole("alert").textContent).toContain("invalid");
     expect(mocks.fetch).not.toHaveBeenCalled();
-    expect(screen.queryByRole("button", { name: "Authorize" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Allow" })).toBeNull();
   });
   it("preserves the request when a session is missing", () => {
     mocks.session = null;
@@ -245,7 +254,7 @@ describe("server-backed consent", () => {
       }))
       .mockResolvedValueOnce({ error: { status: 401 } });
     renderConsent();
-    fireEvent.click(await screen.findByRole("button", { name: "Authorize" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Allow" }));
     expect(
       (
         await screen.findByRole("link", { name: "Sign in to continue" })
