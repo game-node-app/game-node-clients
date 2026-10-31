@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Button, Loader, Text } from "@mantine/core";
 import { IconLock } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
@@ -8,6 +8,12 @@ import {
   isLockedOutError,
 } from "#@/components/auth/getAuthErrorKey";
 import { getSafeRedirectPath } from "#@/components/auth/getSafeRedirectPath";
+import {
+  continueOAuth,
+  followOAuthDestination,
+  getOAuthRequest,
+  hasOAuthRequest,
+} from "../oauthRequest";
 import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
 import { useAuthPath } from "#@/context";
 import { useRouter } from "#@/util/link";
@@ -35,13 +41,37 @@ const SignInScreen = ({
   const { t } = useTranslation();
   const router = useRouter();
   const authPath = useAuthPath();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending: sessionPending } = authClient.useSession();
   const [pending, setPending] = useState<AuthProvider | undefined>();
   const [failed, setFailed] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [showProviders, setShowProviders] = useState(false);
 
+  const [oauthFailed, setOauthFailed] = useState(false);
+  const [reauthenticate, setReauthenticate] = useState(false);
   const { query, push } = router;
+  const oauth = getOAuthRequest(query);
+  const pendingOAuth = hasOAuthRequest(query);
+  const oauthQuery = oauth?.oauthQuery;
+  const oauthPath = oauthQuery ? `${authPath}?${oauthQuery}` : authPath;
+  const resumeOAuth = useCallback(async () => {
+    if (!oauthQuery) return;
+    setOauthFailed(false);
+    try {
+      const data = await continueOAuth(oauthQuery);
+      const destination = new URL(data.url, window.location.origin);
+      if (
+        destination.origin === window.location.origin &&
+        /\/auth\/?$/.test(destination.pathname)
+      ) {
+        setReauthenticate(true);
+      } else {
+        followOAuthDestination(data);
+      }
+    } catch {
+      setOauthFailed(true);
+    }
+  }, [oauthQuery]);
   const redirectTo = query.get("redirectTo");
   const errorCode = failed ? "default" : dismissed ? null : query.get("error");
   const lockedOut = isLockedOutError(errorCode) && !showProviders;
@@ -50,11 +80,23 @@ const SignInScreen = ({
   // Once: router hooks return a new `push` every render.
   const redirected = useRef(false);
   useEffect(() => {
-    if (session && !redirected.current) {
+    if (!sessionPending && session && !redirected.current) {
       redirected.current = true;
-      void push(target, { replace: true, absolute: true });
+      if (pendingOAuth) {
+        if (oauthQuery) void resumeOAuth();
+      } else {
+        void push(target, { replace: true, absolute: true });
+      }
     }
-  }, [session, push, target]);
+  }, [
+    session,
+    sessionPending,
+    push,
+    target,
+    pendingOAuth,
+    oauthQuery,
+    resumeOAuth,
+  ]);
 
   // The native auth session hides the WebView and `signIn.social` may never resolve, so reset on return.
   useEffect(() => {
@@ -72,40 +114,75 @@ const SignInScreen = ({
     // A fresh attempt supersedes the error from the URL.
     setDismissed(true);
     const base = relativeCallbacks ? "" : window.location.origin;
-    const errorPath = redirectTo
-      ? `${authPath}?redirectTo=${encodeURIComponent(target)}`
-      : authPath;
+    const errorPath = pendingOAuth
+      ? oauthPath
+      : redirectTo
+        ? `${authPath}?redirectTo=${encodeURIComponent(target)}`
+        : authPath;
     const request = authClient.signIn.social({
       provider,
-      callbackURL: base + target,
+      callbackURL: base + (pendingOAuth ? oauthPath : target),
       errorCallbackURL: base + errorPath,
-      newUserCallbackURL: newUserPath ? base + newUserPath : undefined,
+      newUserCallbackURL: pendingOAuth
+        ? base + oauthPath
+        : newUserPath
+          ? base + newUserPath
+          : undefined,
     });
     // Native: the library resolves this only after the auth session ends, and the session atom drives navigation.
     if (relativeCallbacks) return;
-    void request.then(({ error }) => {
-      if (error) {
+    void request
+      .then(({ error }) => {
+        if (error) {
+          setPending(undefined);
+          setFailed(true);
+        }
+      })
+      .catch(() => {
         setPending(undefined);
         setFailed(true);
-      }
-    });
+      });
   };
 
   const dismissError = () => {
     setDismissed(true);
     void push(
-      redirectTo
-        ? `${authPath}?redirectTo=${encodeURIComponent(target)}`
-        : authPath,
+      pendingOAuth
+        ? oauthPath
+        : redirectTo
+          ? `${authPath}?redirectTo=${encodeURIComponent(target)}`
+          : authPath,
       { replace: true, absolute: true },
     );
   };
 
-  if (session) {
+  if (pendingOAuth && (!oauth || oauthFailed)) {
+    return (
+      <main className={classes.panel}>
+        <Alert color="red" role="alert">
+          {t(oauth ? "mcp.consent.error" : "mcp.consent.invalid")}
+        </Alert>
+        {oauth && (
+          <Button onClick={() => void resumeOAuth()}>
+            {t("mcp.consent.retry")}
+          </Button>
+        )}
+        <a href="/mcp">{t("mcp.consent.guide")}</a>
+      </main>
+    );
+  }
+
+  if (sessionPending || (session && !reauthenticate)) {
     return (
       <div className={classes.redirecting}>
         <Loader color={"brand"} />
-        <Text>{t("auth.redirecting.signingIn")}</Text>
+        <Text>
+          {t(
+            pendingOAuth
+              ? "mcp.consent.continuing"
+              : "auth.redirecting.signingIn",
+          )}
+        </Text>
       </div>
     );
   }
@@ -146,6 +223,7 @@ const SignInScreen = ({
               color={isNotice ? "gray" : "red"}
               variant={"light"}
               title={t(`auth.errors.${errorKey}.title`)}
+              closeButtonLabel={t("actions.close")}
               withCloseButton
               onClose={dismissError}
             >

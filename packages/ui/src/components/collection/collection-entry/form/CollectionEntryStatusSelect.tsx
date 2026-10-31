@@ -35,7 +35,6 @@ const CollectionEntryStatusSelect = ({
             onChange(userCollection.defaultEntryStatus);
           }
 
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setHasMandatoryStatus(true);
           return;
         }

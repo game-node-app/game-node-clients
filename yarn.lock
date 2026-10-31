@@ -1114,6 +1114,14 @@
   resolved "https://registry.yarnpkg.com/@better-auth/mongo-adapter/-/mongo-adapter-1.7.14.tgz#ce6346b9cb5dff1cb690393bf0db4075ac2f4c1a"
   integrity sha512-6IA0RSPZFMdRwwnLZ9oWnDIiD0y0o0azTHUfa01BNU2AFJgMDkeiASUV3bKcJBskzQoyQrff74eFYTsTSeeVUQ==
 
+"@better-auth/oauth-provider@1.7.14":
+  version "1.7.14"
+  resolved "https://registry.yarnpkg.com/@better-auth/oauth-provider/-/oauth-provider-1.7.14.tgz#90d6ac4497a2d61cb2a0ac0d22cfd89e205aba12"
+  integrity sha512-ey5PmiL4HcJ8CI65xZ3B9LSmRMziF+CNBuzAXx8oJujrItQ7UrEuDr6EAa+nKLQflexRL0AJMXqT7EYObWZxhg==
+  dependencies:
+    jose "^6.2.3"
+    zod "^4.5.4"
+
 "@better-auth/prisma-adapter@1.7.14":
   version "1.7.14"
   resolved "https://registry.yarnpkg.com/@better-auth/prisma-adapter/-/prisma-adapter-1.7.14.tgz#b3dec50dc520867d74be44ae16be9ec54fa5c1cc"
@@ -7072,15 +7080,10 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   resolved "https://registry.npmjs.org/camelcase/-/camelcase-6.3.0.tgz"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@^1.0.30001579:
-  version "1.0.30001748"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001748.tgz"
-  integrity sha512-5P5UgAr0+aBmNiplks08JLw+AW/XG/SurlgZLgB1dDLfAw7EfRGxIwzPHxdSCGY/BTKDqIVyJL87cCN6s0ZR0w==
-
-caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001746:
-  version "1.0.30001751"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001751.tgz"
-  integrity sha512-A0QJhug0Ly64Ii3eIqHu5X51ebln3k4yTUkY1j8drqpWHVreg/VLijN48cZ1bYPiqOQuqpkIKnzr/Ul8V+p6Cw==
+caniuse-lite@^1.0.30001579, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001746:
+  version "1.0.30001820"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001820.tgz"
+  integrity sha512-gfWD6MxqVCqAOwmODfZf7DchWvlrA+SRdNX7ceLfg3xRqe5ssjjpF7EgslC/0tiLiNTajdaNN/q8c/5u/7Gz8w==
 
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"

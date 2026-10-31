@@ -1,0 +1,36 @@
+# Tasks
+
+## 1. Shared connection data and setup content
+
+- [x] 1.1 Add shared MCP connection data and client-specific command/configuration/prompt templates under `packages/ui/src/components/mcp/`, deriving the resource URL only from `PROJECT_CONTEXT.serverUrl`; add focused Vitest tests in the existing mobile harness covering trailing slashes, staging/base-path URLs, all four clients/manual setup, valid TOML/HTTP JSON shapes and absence of session/OAuth-request data.
+- [x] 1.2 Add English and pt-BR guide, prompt, scope, consent and error copy in `@repo/locales`, including the official client guides from design D3; run `yarn locales:generate-types` and verify both languages resolve the new keys with no hard-coded production endpoint in templates.
+- [x] 1.3 Add exact `@better-auth/oauth-provider@1.7.14` to `@repo/ui`, update the lockfile, and register its client plugin in the existing explicitly typed shared auth options; verify installation and UI/web/mobile/admin type checks preserve `adminClient()` methods and native `withCapacitor` compatibility without new admin configuration.
+
+## 2. OAuth login continuation and privacy
+
+- [x] 2.1 Extend shared `SignInScreen` to preserve signed OAuth context through social sign-in, error/dismiss/retry callbacks and first-user sign-in, with OAuth taking precedence over normal home/onboarding paths; add tests using signed-query fixtures with repeated `resource` and `ba_param` values, added error parameters and exact request-context preservation.
+- [x] 2.2 Resume pending OAuth for an existing session through the provider continuation endpoint with its required discriminator, handle server-directed reauthentication without a loop, and follow only successful server-returned destinations; add tests for existing sessions, fresh-login requests, expired/tampered context, transient failure and no fallback to home after a rejected OAuth request.
+- [x] 2.3 Preserve ordinary `redirectTo`, onboarding and mobile/admin auth behavior; extend the existing `apps/mobile/src/components/auth/auth.test.tsx` regression coverage for ordinary same-origin paths, external/protocol-relative rejection and native callback options, and verify the web auth caller still uses onboarding outside OAuth.
+- [x] 2.4 Add no-referrer handling to web auth/consent and protect signed OAuth URLs at the existing PostHog boundary before initial/SPA capture, including sensitive referrers on later pages and consent recording/autocapture; add tests with OAuth URL fixtures proving no signed parameters or tokens reach captured events while ordinary pages remain trackable.
+
+## 3. Shared consent experience and canonical web route
+
+- [x] 3.1 Build the shared consent page and mount `/oauth/consent` in the web Pages Router; fetch `/oauth2/public-client`, show the active account, escaped client name/identifier, safe client URI and metadata-document domain without an endorsement badge; add interaction tests for CIMD/opaque clients, missing names, unsafe URI/HTML-like metadata and metadata load failures.
+- [x] 3.2 Render localized requested-scope explanations with reads, writes, identity and offline access distinguished; add tests covering every current scope, a read-only request, a write/offline request, unknown-scope fallback and no extra scopes in the displayed or submitted grant.
+- [x] 3.3 Submit explicit authorize/deny decisions with the original signed context, disable both actions during submission and follow only the successful provider response; add tests asserting exact scope/context payloads, denial, pending duplicate prevention, loopback/native callbacks, network retry and no redirect on API rejection.
+- [x] 3.4 Handle lost sessions, malformed/missing/expired context and restart guidance while preserving context through browser sign-in; add tests for direct invalid visits, sign-in return and expired requests, and verify the consent page's keyboard focus, error announcements and narrow-screen layout.
+
+## 4. Shared guide, clipboard and app entry points
+
+- [x] 4.1 Build and export `McpGuideScreen` using the existing theme, components and icons: capability/examples overview, four client cards, one selected instruction panel, agent prompt action, manual setup and troubleshooting; add shared rendering tests proving each client exposes its correct instructions, endpoint and official documentation in both languages without requiring sign-in.
+- [x] 4.2 Implement copy actions for prompts, URLs, commands and snippets with success only after an actual write, accessible feedback and a selectable-content fallback; add tests for successful/denied/unavailable clipboard paths, switching clients and hosted-client prompts that guide graphical setup, with no writes authorized as a connection check.
+- [x] 4.3 Add the web `/mcp` wrapper, a public shell-navigation entry and a guide link in existing connections preferences; verify anonymous direct access and both navigation entry points, with the shared page rendered inside the normal shell and no new preferences category or admin entry.
+- [x] 4.4 Add the mobile `/mcp` wrapper to `getCommonRoutes`, a preferences entry and an external-opening adapter using installed Capacitor Browser; add routing/adapter tests for current-tab navigation/back, both hosted-provider URLs and browser-launch failure with visible manual instructions, reusing the shared guide/content.
+- [x] 4.5 Recheck the official client instructions/launch URLs against design D3 and update user-facing steps where provider labels differ; verify that both hosted-assistant buttons remain visible/discoverable, explain the remaining setup steps and never claim that opening a service connected it.
+- [x] 4.6 Exclude OAuth login/consent from the web `OpenInAppDialog` and handle canonical HTTPS authorization URLs at `AppUrlListener` by reopening the original URL in Capacitor Browser; extend `getAppUrlTarget`/listener tests to verify preserved signed queries, no native tab navigation, and unchanged ordinary content links and native social-login callbacks.
+
+## 5. Integration and release verification
+
+- [ ] 5.1 Run the focused MCP/auth/privacy tests with the existing mobile Vitest runner, then lint/type checks for affected UI, locales, analytics, web and mobile workspaces plus the admin auth type regression check; verify all required checks pass and the diff contains no server/API-wrapper regeneration or admin feature/configuration changes.
+- [ ] 5.2 On a running HTTPS stack with the server MCP change, complete connection with Codex and Claude Code, then Claude.ai and ChatGPT using accounts that support custom MCP; verify signed-out/existing/new-user login, denial then retry, consent identity/scopes, tool listing and one read-only query, and record actual provider restrictions or any blocked check in the change's verification notes.
+- [ ] 5.3 Check the web guide and canonical consent at desktop/phone widths and with keyboard navigation, then an Android build for guide routing/back, Browser opening, intercepted OAuth App Links with the app installed, and clipboard success/fallback; verify en/pt-BR content, no page-level horizontal overflow, no secret-bearing telemetry/referrers, and record results and remaining device/provider limitations before release.

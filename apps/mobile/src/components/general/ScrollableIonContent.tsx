@@ -30,7 +30,6 @@ const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
 
   // Merge localRef with forwarded ref
   useImperativeHandle(
-    // eslint-disable-next-line react-hooks/refs
     props.ref,
     () =>
       localRef.current as import("react").ComponentRef<
@@ -102,7 +101,6 @@ const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
 
   return (
     <IonContent
-      // eslint-disable-next-line react-hooks/refs
       {...props}
       ref={localRef}
       scrollEvents={true}

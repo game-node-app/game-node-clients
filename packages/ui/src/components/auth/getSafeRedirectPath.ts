@@ -1,7 +1,15 @@
-/** Only same-origin relative paths are valid return targets (blocks `//host` and absolute URLs). */
+/** Only same-origin relative paths are valid return targets. */
 export function getSafeRedirectPath(
   redirectTo: string | null | undefined,
   fallback: string,
 ) {
-  return redirectTo && /^\/(?![/\\])/.test(redirectTo) ? redirectTo : fallback;
+  if (!redirectTo || !/^\/(?![/\\])/.test(redirectTo)) return fallback;
+  try {
+    return new URL(redirectTo, "https://redirect.invalid").origin ===
+      "https://redirect.invalid"
+      ? redirectTo
+      : fallback;
+  } catch {
+    return fallback;
+  }
 }

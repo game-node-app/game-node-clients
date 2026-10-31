@@ -25,7 +25,6 @@ const CommandCenter = () => {
         ? "⌘" // command key
         : "Ctrl"; // control key
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setModifierKey(modifierKey);
   }, []);
   return (

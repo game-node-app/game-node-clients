@@ -23,6 +23,7 @@
     "barrels:generate": "barrelsby --delete -l all -d ./src"
   },
   "dependencies": {
+    "@better-auth/oauth-provider": "1.7.14",
     "@repo/locales": "*",
     "@repo/wrapper": "*"
   },

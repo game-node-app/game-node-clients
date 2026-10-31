@@ -45,5 +45,6 @@
     "nohoist": [
       "**/better-auth-capacitor"
     ]
-  }
+  },
+  "dependencies": {}
 }

@@ -2,7 +2,8 @@ import { useAvailableConnections } from "#@/components/connections/hooks/useAvai
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { PreferencesConnectionItem } from "#@/components/preferences/handlers/connections/PreferencesConnectionItem";
-import { Stack } from "@mantine/core";
+import { Link } from "#@/util/link";
+import { Anchor, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useMemo } from "react";
 
@@ -32,6 +33,9 @@ const PreferencesConnectionsScreen = () => {
           />
         )}
         {items}
+        <Anchor component={Link} href="/mcp">
+          {t("mcp.title")}
+        </Anchor>
       </Stack>
     </Stack>
   );
