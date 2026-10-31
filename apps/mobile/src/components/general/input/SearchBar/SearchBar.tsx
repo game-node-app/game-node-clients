@@ -1,7 +1,7 @@
 import {
     FloatingLabelInput,
     IFloatingLabelInputProps,
-} from "@/components/general/input/FloatingLabelInput/FloatingLabelInput";
+} from "@repo/ui";
 import { Button, Group } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 

@@ -102,6 +102,23 @@ test("shared changes only release explicitly selected mobile", (t) => {
   assert.ok(plan.filters[0].startsWith("--filter=...["));
 });
 
+test("release refs reject options, whitespace, and shell syntax", (t) => {
+  const { cwd, base } = fixture(t);
+  declaration(cwd, "ref-validation", { web: "patch" });
+  commit(cwd);
+  assert.deepEqual(releasePlan(base, "HEAD", cwd).apps, ["web"]);
+  for (const ref of [
+    "--help",
+    "HEAD\n",
+    "HEAD;touch marker",
+    "$(touch marker)",
+    "HEAD:path",
+  ]) {
+    assert.throws(() => releasePlan(ref, "HEAD", cwd), /Release refs/);
+    assert.throws(() => releasePlan(base, ref, cwd), /Release refs/);
+  }
+});
+
 test("empty changesets pass without selecting delivery jobs", (t) => {
   const { cwd, base } = fixture(t);
   declaration(cwd, "no-release", {}, "");

@@ -6,11 +6,21 @@ const apps = ["web", "admin", "mobile"];
 const bumpTypes = ["patch", "minor", "major"];
 
 function git(cwd, ...args) {
-  return execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
+  // shortcut: release tooling targets Unix CI, add Git discovery if Windows support is needed.
+  return execFileSync("/usr/bin/git", args, { cwd, encoding: "utf8" }).trim();
 }
 
 function releasePlan(base, head = "HEAD", cwd = process.cwd()) {
   if (!base) throw new Error("Usage: yarn release:plan <base-ref> [head-ref]");
+  for (const ref of [base, head]) {
+    if (
+      typeof ref !== "string" ||
+      !/^[a-zA-Z0-9][a-zA-Z0-9/_.@~^-]*$/.test(ref)
+    )
+      throw new Error(
+        "Release refs must be ASCII Git names or ancestry expressions.",
+      );
+  }
   base = git(
     cwd,
     "rev-parse",

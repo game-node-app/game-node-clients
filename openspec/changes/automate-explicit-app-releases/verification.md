@@ -127,12 +127,28 @@ review and protection settings were preserved.
 The Sonar review prompted commit-pinned Actions, lifecycle-script-free installs,
 and tighter Coolify URL/redirect handling. HTTP health probes use the two known
 public domains, rather than API-returned URLs. Deployment UUIDs are encoded for
-API paths and escaped in logs. Added regression coverage rejects unsafe origins,
+API paths; API-supplied values are not logged. Added regression coverage rejects unsafe origins,
 path/log injection, and API-controlled health destinations. The release/config
-suite now has 17 passing tests.
+suite now has 18 passing tests.
 
-The Git process helper uses argument arrays with no shell. External refs are
-resolved using `rev-parse --verify --end-of-options` before use in other commands;
-its PATH and argument-injection scanner findings need review in that context.
-The production runtime and external source control still require their normal
-review; the release is not yet live.
+The Git process helper uses `/usr/bin/git` and argument arrays with no shell.
+External refs accept ASCII Git names and ancestry expressions, reject option and
+command syntax, and are resolved using `rev-parse --verify --end-of-options`.
+A regression checks both base and head against unsafe arguments. Local release
+tooling consequently requires Unix with Git at that path.
+
+The duplicate mobile floating-label input and its identical CSS were removed;
+its caller now uses the existing shared UI component. A focused render test
+verifies object and callback class overrides.
+
+A fresh pruned admin Docker build exposed UI peer dependencies that had been
+supplied accidentally by sibling apps in full-workspace installs. Their existing
+versions are now declared in UI peer requirements and supplied by admin. A fresh
+web image builds with lifecycle scripts disabled and serves HTTP 200 as a non-root
+user. Final admin Docker verification and hosted checks are still pending.
+The release is not yet live.
+
+Final cleanup rerun: all 18 affected lint/type/test/build tasks pass, including
+104 mobile tests in 31 files, 7 admin tests, both Next production builds, and
+mobile build/sync. All 18 release/config regressions pass. The input render test
+passes with both object and callback class overrides.

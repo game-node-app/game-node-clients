@@ -128,7 +128,8 @@ yarn turbo run lint type-check test build --affected
 For PR replay, compare the PR's merge base with its head, or a merged PR's first
 parent with its merge commit. For main pushes, the workflow uses the push's exact
 `before` and `after` commits so a multi-commit push includes all new declarations.
-Planning does not publish, tag, sign, or deploy anything. Snapshot preparation is
+Local release tooling uses `/usr/bin/git` on Unix; refs accept ASCII Git names
+and ancestry expressions. Planning does not publish, tag, sign, or deploy anything. Snapshot preparation is
 a write operation intended for a clean CI checkout; it detaches HEAD and creates
 tags. Its regression tests run in disposable local repositories.
 

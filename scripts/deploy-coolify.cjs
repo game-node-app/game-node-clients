@@ -62,7 +62,6 @@ async function deployApplication(
   const deployment = result.deployments?.[0]?.deployment_uuid;
   if (typeof deployment !== "string" || !/^[a-zA-Z0-9]+$/.test(deployment))
     throw new Error("Coolify did not return a deployment UUID.");
-  console.log("Coolify deployment:", JSON.stringify(deployment));
   for (let attempt = 0; attempt < 120; attempt++) {
     const { status } = await api(
       `/deployments/${encodeURIComponent(deployment)}`,
