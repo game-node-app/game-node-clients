@@ -1,6 +1,9 @@
+const path = require("node:path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  outputFileTracingRoot: path.join(__dirname, "../../"),
   reactStrictMode: true,
   transpilePackages: ["@repo/wrapper", "@repo/ui", "@repo/analytics"],
   experimental: {

@@ -18,7 +18,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
     "barrels:generate": "barrelsby --delete -l all -d ./src"
   },

@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
@@ -12,9 +12,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn global add turbo
-
-RUN ls -la /app
+RUN yarn global add turbo@2.8.3
 
 RUN turbo prune admin --docker
 
@@ -29,13 +27,9 @@ RUN yarn install --frozen-lockfile
 FROM base AS builder
 WORKDIR /app
 COPY --from=installer /app/ ./
-COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
 
 COPY apps/admin/.env.production ./apps/admin/.env.production
-
-RUN ls -la /app
-RUN ls -la /app/apps/admin
 
 RUN yarn turbo run build --filter=admin
 
@@ -55,4 +49,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 ENV NODE_ENV=production
 
-CMD node apps/admin/server.js
+CMD ["node", "apps/admin/server.js"]

@@ -8,8 +8,9 @@
     "./server": "./src/server/index.ts"
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
-    "check-types": "tsc --noEmit",
+    "lint": "eslint index.ts --max-warnings 0",
+    "check-types": "yarn type-check",
+    "type-check": "tsc --noEmit",
     "build": "yarn wrapper:generate",
     "wrapper:generate": "node generate.js"
   },

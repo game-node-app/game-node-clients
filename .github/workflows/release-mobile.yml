@@ -1,0 +1,69 @@
+name: Release Android app
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deliver:
+    name: Build signed APK and AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: production
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - name: Refuse stale or unselected releases
+        run: |
+          node scripts/prepare-release.cjs --assert-current mobile
+          node -e 'const r = require("./.release.json"); if (!r.mobile) throw Error("Mobile not selected")'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - run: yarn install --frozen-lockfile
+      - run: yarn build -F mobile
+      - name: Decode Android signing key
+        working-directory: apps/mobile
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+        run: |
+          umask 077
+          printf '%s' "$RELEASE_KEYSTORE" | base64 --decode > android/release.decrypted.jks
+      - name: Build signed artifacts
+        working-directory: apps/mobile
+        env:
+          KEYSTORE_PASS: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEYSTORE_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.RELEASE_KEYSTORE_KEY_PASS }}
+        run: |
+          for format in APK AAB; do
+            yarn cap build android --keystorepath release.decrypted.jks \
+              --keystorepass "$KEYSTORE_PASS" --keystorealias "$KEY_ALIAS" \
+              --keystorealiaspass "$KEY_PASS" --androidreleasetype "$format"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            apps/mobile/android/app/build/outputs/apk/release/
+            apps/mobile/android/app/build/outputs/bundle/release/
+      - name: Remove signing key
+        if: always()
+        run: rm -f apps/mobile/android/release.decrypted.jks

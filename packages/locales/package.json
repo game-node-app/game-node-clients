@@ -18,7 +18,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
     "translations:types": "node ./scripts/generate-i18n-types.mjs",
     "translations:types:watch": "node ./scripts/watch-i18n-types.mjs"

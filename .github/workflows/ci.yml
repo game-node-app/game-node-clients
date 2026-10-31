@@ -1,0 +1,119 @@
+name: CI and release
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Preserve queued release decisions instead of replacing a pending main run.
+concurrency:
+  group: clients-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CI: "true"
+      TURBO_TELEMETRY_DISABLED: "1"
+    outputs:
+      apps: ${{ steps.plan.outputs.apps }}
+      docker: ${{ steps.plan.outputs.docker }}
+      mobile: ${{ steps.plan.outputs.mobile }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - name: Validate explicit release decision
+        id: plan
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            BASE=$(git merge-base "$BASE" "$HEAD")
+          fi
+          node scripts/release-plan.cjs "$BASE" "$HEAD"
+          echo "TURBO_SCM_BASE=$BASE" >> "$GITHUB_ENV"
+          echo "TURBO_SCM_HEAD=$HEAD" >> "$GITHUB_ENV"
+      - run: yarn test:releases
+      - uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ github.sha }}
+          restore-keys: turbo-${{ runner.os }}-
+      - name: Check affected packages and consumers
+        env:
+          CI_FILTERS: ${{ steps.plan.outputs.filters }}
+        run: node -e 'require("node:child_process").execFileSync("yarn", ["turbo", "run", "lint", "type-check", "test", "build", ...JSON.parse(process.env.CI_FILTERS)], {stdio:"inherit"})'
+
+  prepare:
+    name: Reserve immutable release
+    needs: checks
+    if: github.event_name == 'push' && needs.checks.outputs.apps != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      ref: ${{ steps.release.outputs.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - name: Require configuration for every selected target
+        env:
+          RELEASE_APPS: ${{ needs.checks.outputs.apps }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+          COOLIFY_WEB_APP_UUID: ${{ vars.COOLIFY_WEB_APP_UUID }}
+          COOLIFY_ADMIN_APP_UUID: ${{ vars.COOLIFY_ADMIN_APP_UUID }}
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          RELEASE_KEYSTORE_PASS: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+          RELEASE_KEYSTORE_KEY_ALIAS: ${{ secrets.RELEASE_KEYSTORE_KEY_ALIAS }}
+          RELEASE_KEYSTORE_KEY_PASS: ${{ secrets.RELEASE_KEYSTORE_KEY_PASS }}
+        run: node scripts/release-plan.cjs --check-env
+      - name: Version selected apps and reserve retryable snapshot
+        id: release
+        env:
+          BASE: ${{ github.event.before }}
+        run: node scripts/prepare-release.cjs "$BASE" --publish
+
+  docker:
+    name: Docker delivery
+    needs: [checks, prepare]
+    if: needs.checks.outputs.docker != '[]'
+    uses: ./.github/workflows/release-docker.yml
+    with:
+      apps: ${{ needs.checks.outputs.docker }}
+      ref: ${{ needs.prepare.outputs.ref }}
+    secrets: inherit
+
+  mobile:
+    name: Android delivery
+    needs: [checks, prepare]
+    if: needs.checks.outputs.mobile == 'true'
+    uses: ./.github/workflows/release-mobile.yml
+    with:
+      ref: ${{ needs.prepare.outputs.ref }}
+    secrets: inherit

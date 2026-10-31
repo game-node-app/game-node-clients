@@ -8,7 +8,8 @@
     "dev": "next dev -p 3001 --turbopack",
     "start": "next start",
     "build": "next build",
-    "lint": "next lint",
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "next typegen && tsc --noEmit",
     "test": "jest"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "@mantine/notifications": "^9.0.1",
     "@mantine/nprogress": "^9.0.1",
     "@mantine/tiptap": "^9.0.1",
+    "@repo/locales": "*",
     "@repo/ui": "*",
     "@repo/wrapper": "*",
     "@socialgouv/matomo-next": "^1.9.2",
