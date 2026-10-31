@@ -1,7 +1,6 @@
-import React from "react";
 import { CenteredLoading, useBlogPostTags } from "#@/components";
-import { Badge, Group } from "@mantine/core";
 import { Link } from "#@/util";
+import { Badge, Group } from "@mantine/core";
 
 const BlogPostTagBadges = () => {
   const { data, isLoading } = useBlogPostTags();

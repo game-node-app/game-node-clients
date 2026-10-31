@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import {
+  AwardsEventCategoriesList,
+  AwardsVoteLayout,
+  useUserId,
+} from "#@/components";
+import { cn, createErrorNotification, downloadFile } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ActionIcon,
@@ -12,17 +15,13 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { cn, createErrorNotification, downloadFile } from "#@/util";
-import {
-  AwardsEventCategoriesList,
-  AwardsVoteLayout,
-  useUserId,
-} from "#@/components";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { useTranslation } from "@repo/locales";
 import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
-import { useTranslation } from "@repo/locales";
+import { useForm } from "react-hook-form";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { z } from "zod";
 
 const PREVIEW_ELEMENT_ID = "awards-share-preview";
 

@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import { OwnUserConnectionDto } from "@repo/wrapper/server";
-import { Badge, Button, Image, Stack, Text, Title } from "@mantine/core";
-import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { Link } from "#@/util";
 import { getConnectionName } from "#@/components";
+import { Link } from "#@/util";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
+import { Badge, Button, Image, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { OwnUserConnectionDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   connection: OwnUserConnectionDto;
@@ -13,7 +13,10 @@ interface Props {
 const ImporterPlatform = ({ connection }: Props) => {
   const { t, i18n } = useTranslation();
   const connectionName = useMemo(
-    () => getConnectionName(connection.type as any),
+    () =>
+      getConnectionName(
+        connection.type as import("@repo/wrapper/server").UserConnectionDto.type,
+      ),
     [connection.type],
   );
 
@@ -35,7 +38,11 @@ const ImporterPlatform = ({ connection }: Props) => {
   }, [connection.lastSyncedAt, i18n.language]);
 
   return (
-    <Stack className={"h-auto min-h-64 w-60 items-center bg-[#141414] p-4 rounded-md justify-between"}>
+    <Stack
+      className={
+        "h-auto min-h-64 w-60 items-center bg-[#141414] p-4 rounded-md justify-between"
+      }
+    >
       <Stack className="items-center" gap="xs">
         <Image
           alt={"Importer source icon"}
@@ -53,7 +60,9 @@ const ImporterPlatform = ({ connection }: Props) => {
         ) : connection.unprocessedCount != null ? (
           connection.unprocessedCount > 0 ? (
             <Badge color="blue" variant="filled" size="sm">
-              {t("importer.connection.availableCount", { count: connection.unprocessedCount })}
+              {t("importer.connection.availableCount", {
+                count: connection.unprocessedCount,
+              })}
             </Badge>
           ) : (
             <Badge color="teal" variant="light" size="sm">

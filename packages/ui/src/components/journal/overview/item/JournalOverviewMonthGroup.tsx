@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import { JournalOverviewItem } from "#@/components";
+import { Stack, Title } from "@mantine/core";
 import type { JournalEntryMonthGroupDto } from "@repo/wrapper/server";
 import dayjs from "dayjs";
-import { Divider, Stack, Title } from "@mantine/core";
-import { JournalOverviewItem } from "#@/components";
+import { useMemo } from "react";
 
 interface Props {
   year: number;

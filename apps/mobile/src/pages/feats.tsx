@@ -1,13 +1,12 @@
-import React from "react";
-import { AchievementsScreen, useUserProfile } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { AchievementsScreen, useUserProfile } from "@repo/ui";
 
 interface Props {
   userId: string;
 }
 
 const AchievementsPage = ({ userId }: Props) => {
-  const profileQuery = useUserProfile(userId);
+  useUserProfile(userId);
   return (
     <AppPage withSearch>
       <AchievementsScreen targetUserId={userId} />

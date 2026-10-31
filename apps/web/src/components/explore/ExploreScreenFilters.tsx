@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { z } from "zod";
 import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ActionIcon,
@@ -76,7 +76,9 @@ const ExploreScreenFilters = ({
     },
   ];
 
-  const resources: GameResourceFilter[] = [
+  const resources: (GameResourceFilter & {
+    resource: Exclude<keyof FilterFormValues, "period">;
+  })[] = [
     {
       label: t("explore.filters.themes"),
       resource: "themes",
@@ -95,7 +97,7 @@ const ExploreScreenFilters = ({
     },
   ];
 
-  const { handleSubmit, register, setValue, watch, formState } =
+  const { handleSubmit, register, setValue, control, getValues, formState } =
     useForm<FilterFormValues>({
       resolver: zodResolver(FilterFormSchema),
       mode: "onBlur",
@@ -103,6 +105,8 @@ const ExploreScreenFilters = ({
         period: DEFAULT_EXPLORE_SCREEN_PERIOD,
       },
     });
+
+  const watchedValues = useWatch({ control });
 
   const onSubmit = async (data: FilterFormValues) => {
     const { period, ...criteria } = data;
@@ -167,13 +171,13 @@ const ExploreScreenFilters = ({
         <form className={"w-full h-full"} onSubmit={handleSubmit(onSubmit)}>
           <SimpleGrid cols={2}>
             {resources.map((resourceReference) => {
-              const valueName = resourceReference.resource as any;
+              const valueName = resourceReference.resource;
               return (
                 <ExploreScreenResourceSelector
                   label={resourceReference.label}
                   key={valueName}
                   resourceName={valueName}
-                  value={watch(valueName)}
+                  value={watchedValues[valueName]}
                   onChange={(value) => {
                     setValue(valueName, value);
                   }}
@@ -195,12 +199,12 @@ const ExploreScreenFilters = ({
         {...register("period")}
         description={t("explore.filters.trendingIn")}
         data={SELECT_PERIOD_DATA}
-        value={watch("period")}
+        value={watchedValues.period}
         allowDeselect={false}
         onChange={(v) => {
           const value = v ?? period.MONTH.valueOf();
           setValue("period", value);
-          onSubmit({ ...watch(), period: value });
+          onSubmit({ ...getValues(), period: value });
         }}
       />
     </Group>

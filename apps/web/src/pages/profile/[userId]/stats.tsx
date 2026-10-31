@@ -1,22 +1,4 @@
-import React from "react";
-import {
-  DetailsBox,
-  ProfileStatsDataIcon,
-  ProfileStatsDistributionBarByType,
-  ProfileStatsDistributionLineByYear,
-  ProfileStatsDistributionRadarByType,
-  ProfileStatsView,
-  useProfileMetricsOverview,
-  UserAvatarWithLevelInfo,
-} from "@repo/ui";
-import { Box, Container, Group, Paper, SimpleGrid } from "@mantine/core";
-import {
-  IconClock,
-  IconDeviceGamepad2,
-  IconListCheck,
-  IconStack2,
-} from "@tabler/icons-react";
-import { BarChart } from "@mantine/charts";
+import { ProfileStatsView } from "@repo/ui";
 import { useRouter } from "next/router";
 
 const ProfileStatsPage = () => {

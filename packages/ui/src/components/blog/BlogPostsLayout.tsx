@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from "react";
-import { Stack } from "@mantine/core";
 import { BlogPostsNavHeader } from "#@/components";
+import { Stack } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 const BlogPostsLayout = ({ children }: PropsWithChildren) => {
   return (

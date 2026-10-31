@@ -1,9 +1,8 @@
-import React from "react";
-import { AwardsCategoryResultWinner, Game } from "@repo/wrapper/server";
 import { GameFigureImage, useOnMobile } from "#@/components";
-import { Box, Flex, HoverCard, Popover, Stack, Text } from "@mantine/core";
-import { IconTrophyFilled } from "@tabler/icons-react";
 import { cn } from "#@/util";
+import { Box, Flex, HoverCard, Popover, Stack, Text } from "@mantine/core";
+import { Game } from "@repo/wrapper/server";
+import { IconTrophyFilled } from "@tabler/icons-react";
 
 interface Props {
   game: Game;
@@ -21,11 +20,6 @@ const AwardsResultGameFigure = ({
     1: "text-yellow-400",
     2: "text-gray-400",
     3: "text-yellow-800",
-  };
-  const scaleClasses = {
-    1: "scale-115",
-    2: "scale-105",
-    3: "scale-100",
   };
 
   const color =

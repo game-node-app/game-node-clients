@@ -1,10 +1,7 @@
 import {
   GameAchievementGroupDto,
-  GameExternalGame,
   GameExternalStoreDto,
 } from "@repo/wrapper/server";
-import { P } from "ts-pattern";
-import { Chainable } from "ts-pattern/types";
 
 /**
  * Checks is an string is a valid Xbox productId.

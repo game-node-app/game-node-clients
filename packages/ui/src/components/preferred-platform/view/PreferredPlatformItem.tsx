@@ -2,7 +2,7 @@ import {
   EditPreferredPlatformModal,
   usePreferredPlatforms,
 } from "#@/components";
-import { getServerStoredIcon, sleep } from "#@/util";
+import { getServerStoredIcon } from "#@/util";
 import {
   ActionIcon,
   Flex,
@@ -19,7 +19,6 @@ import {
 } from "@repo/wrapper/server";
 import { IconEdit } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 
 interface Props {
   item: PreferredPlatformDto;

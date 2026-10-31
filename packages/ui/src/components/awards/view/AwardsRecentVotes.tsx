@@ -1,8 +1,7 @@
-import React from "react";
-import { useAwardsRecentVotes } from "#@/components/awards/hooks/useAwardsRecentVotes";
-import { Group, Stack, Text } from "@mantine/core";
 import { DetailsBox, UserAvatarGroup } from "#@/components";
+import { useAwardsRecentVotes } from "#@/components/awards/hooks/useAwardsRecentVotes";
 import { Link } from "#@/util";
+import { Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

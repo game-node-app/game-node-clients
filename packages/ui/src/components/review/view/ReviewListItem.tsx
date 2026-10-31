@@ -1,28 +1,14 @@
-import React, { useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { GameRating, ReviewListItemDropdownButton } from "#@/components";
 import { createDefaultReviewEditorExtensions } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
-import {
-  Box,
-  Divider,
-  Flex,
-  Group,
-  Spoiler,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { StatisticsSourceRequestDto, Review } from "@repo/wrapper/server";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
-import {
-  GameFigureImage,
-  GameRating,
-  GameTitleWithFigure,
-  ReviewListItemDropdownButton,
-  TextLink,
-} from "#@/components";
+import { Box, Divider, Flex, Group, Spoiler, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Review, StatisticsSourceRequestDto } from "@repo/wrapper/server";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { useState } from "react";
 
 interface IReviewListViewProps {
   review: Review;

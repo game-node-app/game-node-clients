@@ -19,7 +19,7 @@ interface Props extends BaseModalChildrenProps {
 const CommandCenterGamesContent = ({
   query,
   isQueryEnabled,
-  onClose,
+  onClose: _onClose,
 }: Props) => {
   const { t } = useTranslation();
   const [debouncedQuery] = useDebouncedValue(query, 400);

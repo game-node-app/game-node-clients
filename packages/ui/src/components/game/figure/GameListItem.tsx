@@ -1,13 +1,11 @@
-import React from "react";
-import { Box, Flex, Group, Stack, Text, Title } from "@mantine/core";
-import { IGameFigureImageProps } from "#@/components/game/figure/GameFigureImage";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
-import { TGameOrSearchGame } from "#@/components/game/util/types";
-import { getGameGenres } from "#@/components/game/util/getGameGenres";
-import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
-import { Link } from "#@/util";
 import { GameFigureWithQuickAdd, GameHoverEditFigure } from "#@/components";
+import { IGameFigureImageProps } from "#@/components/game/figure/GameFigureImage";
+import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
+import { getGameGenres } from "#@/components/game/util/getGameGenres";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { Link } from "#@/util";
+import { Box, Group, Stack, Text, Title } from "@mantine/core";
 import { useI18nContext } from "@repo/locales";
 
 interface IGameListFigureProps {

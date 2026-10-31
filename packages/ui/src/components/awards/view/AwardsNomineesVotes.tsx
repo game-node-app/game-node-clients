@@ -1,4 +1,3 @@
-import React from "react";
 import { AwardsEventCategoriesList, AwardsVoteLayout } from "#@/components";
 import { Box } from "@mantine/core";
 

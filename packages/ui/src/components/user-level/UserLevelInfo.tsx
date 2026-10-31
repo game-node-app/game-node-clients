@@ -1,4 +1,3 @@
-import React from "react";
 import { useUserLevel } from "#@/components/user-level/hooks/useUserLevel";
 import { Group, Progress, Stack, Text } from "@mantine/core";
 

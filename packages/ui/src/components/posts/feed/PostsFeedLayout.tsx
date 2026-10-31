@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from "react";
 import { Box, Stack, Tabs } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 export type PostsFeedTabValue = "following" | "all";
 

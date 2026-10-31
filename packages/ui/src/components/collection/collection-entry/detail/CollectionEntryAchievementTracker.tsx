@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo, useState } from "react";
 import {
   CenteredErrorMessage,
   DetailsBox,
@@ -6,8 +5,9 @@ import {
   useGameAchievementsV2,
 } from "#@/components";
 import { SegmentedControl } from "@mantine/core";
-import { GameAchievementGroupDto } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   userId: string;

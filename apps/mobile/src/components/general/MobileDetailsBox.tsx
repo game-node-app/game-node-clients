@@ -1,7 +1,6 @@
-import { Stack, Text } from "@mantine/core";
-import React from "react";
-import { cn, DetailsBoxProps } from "@repo/ui";
 import { IonRippleEffect } from "@ionic/react";
+import { Stack, Text } from "@mantine/core";
+import { cn, DetailsBoxProps } from "@repo/ui";
 
 export const MobileDetailsBox = ({
   enabled = true,

@@ -1,20 +1,8 @@
-import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
-import React from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonProgressBar,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
-import { ActivityDetailView, useActivity, useUserProfile } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import CenteredErrorMessage from "@/components/general/CenteredErrorMessage";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { ActivityDetailView, useActivity, useUserProfile } from "@repo/ui";
 
 interface Props {
   activityId: string;

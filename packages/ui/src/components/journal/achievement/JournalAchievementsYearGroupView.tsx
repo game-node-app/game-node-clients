@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { JournalAchievementsYearGroup } from "@repo/wrapper/server";
-import { Divider, Group, Stack, Text, Title } from "@mantine/core";
 import { JournalAchievementsMonthGroupView } from "#@/components/journal/achievement/JournalAchievementsMonthGroupView";
+import { Divider, Group, Stack, Text, Title } from "@mantine/core";
+import { JournalAchievementsYearGroup } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;

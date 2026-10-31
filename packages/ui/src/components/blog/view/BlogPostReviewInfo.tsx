@@ -1,8 +1,7 @@
-import React from "react";
-import { BlogReviewDto } from "@repo/wrapper/server";
 import { GameRating, useGame } from "#@/components";
-import { Group, Title } from "@mantine/core";
 import { Link } from "#@/util";
+import { Group, Title } from "@mantine/core";
+import { BlogReviewDto } from "@repo/wrapper/server";
 
 interface Props {
   reviewInfo: BlogReviewDto;

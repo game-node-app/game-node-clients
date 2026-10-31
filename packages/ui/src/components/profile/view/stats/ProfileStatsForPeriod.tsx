@@ -1,5 +1,3 @@
-import React from "react";
-import { Period } from "#@/util";
 import {
   CenteredLoading,
   DetailsBox,
@@ -8,8 +6,8 @@ import {
   useProfileMetricsReport,
   useUserId,
 } from "#@/components";
-import { match } from "ts-pattern";
-import { Group, SimpleGrid, Text } from "@mantine/core";
+import { Period } from "#@/util";
+import { SimpleGrid, Text } from "@mantine/core";
 import {
   IconClock,
   IconDeviceGamepad2,
@@ -17,6 +15,7 @@ import {
   IconMessage,
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { match } from "ts-pattern";
 
 interface Props {
   userId: string;

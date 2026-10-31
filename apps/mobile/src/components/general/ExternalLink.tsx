@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from "react";
 import { Browser } from "@capacitor/browser";
+import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
     href: string | undefined;

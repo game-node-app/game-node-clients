@@ -1,5 +1,3 @@
-import React, { PropsWithChildren } from "react";
-import { Flex, Paper, Stack } from "@mantine/core";
 import {
   BlogPostReviewInfo,
   BlogPostTagBadges,
@@ -7,7 +5,9 @@ import {
   RecentBlogPostsList,
   useBlogPost,
 } from "#@/components";
+import { Flex, Paper, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
   postId: string;

@@ -1,4 +1,3 @@
-import React from "react";
 import { GameDraggableItemContentProps, GameFigureImage } from "#@/components";
 import { cn } from "#@/util";
 import { Group } from "@mantine/core";

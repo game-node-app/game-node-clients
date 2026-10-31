@@ -1,17 +1,14 @@
-import React from "react";
-import { SimpleGrid, Stack, Text } from "@mantine/core";
-import { Game } from "@repo/wrapper/server";
-import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
-import { DetailsBox } from "#@/components/general/DetailsBox";
-import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
+import { GameInfoTimeToBeat } from "#@/components";
 import { GameInfoDetailsDeveloperInfo } from "#@/components/game/info/GameInfoDetailsDeveloperInfo";
 import { GameInfoDetailsTags } from "#@/components/game/info/GameInfoDetailsTags";
-import { GameInfoScore } from "#@/components/game/info/GameInfoScore";
 import { GameInfoExternalStores } from "#@/components/game/info/GameInfoExternalStores";
-import { GameInfoProgressTimeline } from "#@/components/game/info/GameInfoProgressTimeline";
-import { GameInfoPlaytimeTracker } from "#@/components/game/info/GameInfoPlaytimeTracker";
-import { GameInfoAchievementOverview, GameInfoTimeToBeat } from "#@/components";
+import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
+import { GameInfoScore } from "#@/components/game/info/GameInfoScore";
+import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
+import { DetailsBox } from "#@/components/general/DetailsBox";
+import { SimpleGrid, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Game } from "@repo/wrapper/server";
 
 interface IGameInfoDetailsProps {
   game: Game | undefined;

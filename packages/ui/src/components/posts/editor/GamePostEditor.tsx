@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   GameSearchSelectModal,
   POST_EDITOR_EXTENSIONS,
@@ -6,11 +5,7 @@ import {
   PostImageLightboxContext,
   useInfinitePostsFeed,
 } from "#@/components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { PostsService } from "@repo/wrapper/server";
-import { notifications } from "@mantine/notifications";
 import { createErrorNotification, getS3StoredUpload } from "#@/util";
-import { useDisclosure } from "@mantine/hooks";
 import {
   ActionIcon,
   Button,
@@ -19,10 +14,15 @@ import {
   LoadingOverlay,
   Stack,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { RichTextEditor, RichTextEditorContentProps } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
-import { IconPhoto } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
+import { PostsService } from "@repo/wrapper/server";
+import { IconPhoto } from "@tabler/icons-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEditor } from "@tiptap/react";
+import { useState } from "react";
 
 interface GamePostEditorProps {
   /**

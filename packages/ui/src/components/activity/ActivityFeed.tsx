@@ -1,5 +1,3 @@
-import React, { useCallback, useMemo } from "react";
-import { Skeleton, Stack } from "@mantine/core";
 import {
   ActivityFeedTabValue,
   ActivityItem,
@@ -7,7 +5,9 @@ import {
   InfiniteLoaderChildren,
   useInfiniteActivities,
 } from "#@/components";
+import { Skeleton, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useCallback, useMemo } from "react";
 
 interface Props {
   criteria: ActivityFeedTabValue;

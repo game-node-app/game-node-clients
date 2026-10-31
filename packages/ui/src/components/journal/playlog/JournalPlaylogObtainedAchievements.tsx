@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
-import { JournalPlaylogEntryDto } from "@repo/wrapper/server";
 import { GameAchievementHoverIcon } from "#@/components";
-import { Group, Image } from "@mantine/core";
+import { Group } from "@mantine/core";
+import { JournalPlaylogEntryDto } from "@repo/wrapper/server";
 
 interface Props {
   items: JournalPlaylogEntryDto[];

@@ -1,15 +1,13 @@
-import React from "react";
-import { Box, Flex, Grid, Paper, Skeleton, Stack, Title } from "@mantine/core";
-import { GameFigureImage } from "#@/components/game/figure/GameFigureImage";
-import { GameInfoDetails } from "#@/components/game/info/GameInfoDetails";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { GameInfoActions } from "#@/components/game/info/GameInfoActions";
-import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
-import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
-import { GameInfoImageCarousel } from "#@/components/game/info/carousel/GameInfoImageCarousel";
-import { Break } from "#@/components/general/Break";
-import { useGame } from "#@/components/game/hooks/useGame";
 import { CenteredLoading, GameInfoTitleFigure } from "#@/components";
+import { useGame } from "#@/components/game/hooks/useGame";
+import { GameInfoImageCarousel } from "#@/components/game/info/carousel/GameInfoImageCarousel";
+import { GameInfoActions } from "#@/components/game/info/GameInfoActions";
+import { GameInfoDetails } from "#@/components/game/info/GameInfoDetails";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
+import { Break } from "#@/components/general/Break";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { Flex, Grid, Stack } from "@mantine/core";
+import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
 
 export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
   relations: {

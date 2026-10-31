@@ -1,10 +1,10 @@
-import React from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   ReviewListItem,
   ReviewListItemModal,
 } from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useReviews } from "#@/components/review/hooks/useReviews";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
@@ -12,7 +12,6 @@ import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 import { Group, Pagination, Stack } from "@mantine/core";
 import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useMemo, useState } from "react";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
 import period = StatisticsRankingsRequestDto.period;
 
 interface IGameInfoReviewListProps {

@@ -1,8 +1,8 @@
-import React, { PropsWithChildren, useState } from "react";
 import {
   CommentContextProps,
   CommentsContext,
 } from "#@/components/comment/view/context.ts";
+import { PropsWithChildren, useState } from "react";
 
 /**
  * Wrapper component that provides context used by comments components.

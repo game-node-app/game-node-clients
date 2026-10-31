@@ -1,8 +1,8 @@
-import React, { ExoticComponent, PropsWithoutRef } from "react";
+import { buildPresenterComponent } from "#@/context";
+import { Link } from "#@/util";
 import { Stack, Tabs, TabsTabProps, Text } from "@mantine/core";
 import { IconProps } from "@tabler/icons-react";
-import { Link } from "#@/util";
-import { buildPresenterComponent } from "#@/context";
+import { ExoticComponent, PropsWithoutRef } from "react";
 
 export interface ProfileViewNavbarItemProps extends TabsTabProps {
   label: string;

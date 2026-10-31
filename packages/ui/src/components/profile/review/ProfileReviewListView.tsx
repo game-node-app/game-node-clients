@@ -1,14 +1,12 @@
-import React, { useMemo, useRef, useState } from "react";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile.ts";
-import { useUserId } from "#@/components/auth/hooks/useUserId.tsx";
-import { Stack, Text } from "@mantine/core";
-import { CenteredLoading } from "#@/components/general/CenteredLoading.tsx";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage.tsx";
-import { GameView } from "#@/components/game/view/GameView.tsx";
-import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId.ts";
-import { useRouter } from "#@/util";
 import { ProfileReviewListItem } from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId.tsx";
+import { GameView } from "#@/components/game/view/GameView.tsx";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage.tsx";
+import { CenteredLoading } from "#@/components/general/CenteredLoading.tsx";
+import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId.ts";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 7;
 

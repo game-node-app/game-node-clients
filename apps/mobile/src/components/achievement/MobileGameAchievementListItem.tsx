@@ -1,7 +1,6 @@
-import React, { useCallback } from "react";
+import { IonRippleEffect } from "@ionic/react";
 import {
   AspectRatio,
-  Box,
   Flex,
   Group,
   Image,
@@ -11,16 +10,16 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { match } from "ts-pattern";
-import { GameAchievementDto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 import {
   cn,
   GameAchievementsListItemProps,
   getServerStoredIcon,
 } from "@repo/ui";
-import { IonRippleEffect } from "@ionic/react";
+import { GameAchievementDto } from "@repo/wrapper/server";
 import dayjs from "dayjs";
-import { useTranslation } from "@repo/locales";
+import { useCallback } from "react";
+import { match } from "ts-pattern";
 
 const MobileGameAchievementListItem = ({
   achievement,
@@ -72,7 +71,7 @@ const MobileGameAchievementListItem = ({
         );
       })
       .otherwise(() => null);
-  }, [achievement]);
+  }, [achievement, t]);
   return (
     <Popover>
       <Popover.Target>

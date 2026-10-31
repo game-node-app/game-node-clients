@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
 import { useUserLibrary } from "#@/components";
-import { Accordion, Group, ScrollArea, Stack, Text } from "@mantine/core";
 import { Link } from "#@/util";
-import classes from "./library-view-sidebar.module.css";
+import { Accordion, Group, ScrollArea, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
+import classes from "./library-view-sidebar.module.css";
 
 interface Props {
   userId: string;

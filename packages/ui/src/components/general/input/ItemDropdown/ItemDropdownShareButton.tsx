@@ -1,7 +1,6 @@
-import React from "react";
-import { IconShare } from "@tabler/icons-react";
-import { Menu } from "@mantine/core";
 import { ItemDropdownButtonProps } from "#@/components";
+import { Menu } from "@mantine/core";
+import { IconShare } from "@tabler/icons-react";
 
 const ItemDropdownShareButton = ({
   onClick,

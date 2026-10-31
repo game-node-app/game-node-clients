@@ -1,13 +1,10 @@
-import React from "react";
-import { Flex, Paper, SimpleGrid, Stack } from "@mantine/core";
-import { Break } from "#@/components/general/Break";
-import { GameRelatedGamesCarousel } from "#@/components/game/info/GameRelatedGamesCarousel";
 import {
-  DetailsBox,
   GameInfoAchievementOverview,
   GameInfoPlaytimeTracker,
   GameInfoProgressTimeline,
 } from "#@/components";
+import { GameRelatedGamesCarousel } from "#@/components/game/info/GameRelatedGamesCarousel";
+import { SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface IGameExtraInfoViewProps {

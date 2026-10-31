@@ -1,11 +1,10 @@
-import React from "react";
-import { Button, Group, Stack, Text } from "@mantine/core";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CollectionsEntriesService } from "@repo/wrapper/server";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
 import { useOwnCollectionEntryForGameId } from "#@/components";
+import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { CollectionsEntriesService } from "@repo/wrapper/server";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface ICollectionEntryRemoveModalProps extends BaseModalProps {
   gameId: number;

@@ -1,14 +1,13 @@
-import React, { useMemo } from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { ActionIcon, Button, Stack, Text } from "@mantine/core";
 import { usePlaytimeForGame } from "#@/components/playtime/hooks/usePlaytimeForGame";
-import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
-import { IconPlus } from "@tabler/icons-react";
-import { Modal } from "#@/util";
-import { useDisclosure } from "@mantine/hooks";
 import { PlaytimeSubmitForm } from "#@/components/playtime/PlaytimeSubmitForm.tsx";
+import { UserPlaytimeItem } from "#@/components/playtime/UserPlaytimeItem";
+import { Modal } from "#@/util";
+import { Button, Stack, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props {
   gameId: number;

@@ -1,7 +1,6 @@
-import React from "react";
 import { useAwardEventCategories } from "#@/components";
-import { SimpleGrid, SimpleGridProps } from "@mantine/core";
 import { AwardsEventCategory } from "#@/components/awards/category/AwardsEventCategory.tsx";
+import { SimpleGrid, SimpleGridProps } from "@mantine/core";
 
 interface Props {
   eventId: number;

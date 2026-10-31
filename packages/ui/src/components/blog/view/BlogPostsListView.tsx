@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo, useState } from "react";
 import {
   BlogPostsListItem,
   CenteredErrorMessage,
@@ -9,14 +8,15 @@ import {
   TextLink,
   useBlogPosts,
 } from "#@/components";
-import { Badge, Button, Center, Chip, Text } from "@mantine/core";
 import {
   getCapitalizedText,
   getErrorMessage,
   getOffsetAsPage,
   getPageAsOffset,
 } from "#@/util";
-import { useTranslation, useI18nContext } from "@repo/locales";
+import { Badge, Button, Center, Text } from "@mantine/core";
+import { useI18nContext, useTranslation } from "@repo/locales";
+import { useMemo, useState } from "react";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
   tag: string | undefined;
@@ -29,7 +29,11 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
   const { t } = useTranslation();
   const [offset, setOffset] = useState(0);
   const { language } = useI18nContext();
-  useEffect(() => setOffset(0), [tag, language]);
+  const [filter, setFilter] = useState({ tag, language });
+  if (filter.tag !== tag || filter.language !== language) {
+    setFilter({ tag, language });
+    setOffset(0);
+  }
 
   const offsetAsPage = getOffsetAsPage(offset, DEFAULT_LIMIT);
 

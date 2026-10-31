@@ -1,6 +1,6 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from "react";
 
-interface IBreakProps extends ComponentPropsWithoutRef<"div"> {}
+type IBreakProps = ComponentPropsWithoutRef<"div">;
 
 const Break = ({ ...props }: IBreakProps) => {
   return <div className="basis-full" {...props}></div>;

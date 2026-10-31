@@ -1,22 +1,20 @@
-import React, { useMemo } from "react";
-import { z } from "zod";
+import { useCollectionEntriesForCollectionId } from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useGames } from "#@/components/game/hooks/useGames";
+import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { BaseModalChildrenProps } from "#@/util/types/modal-props";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, ComboboxItem, MultiSelect, Stack } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
 import {
   CancelablePromise,
   CollectionsEntriesService,
-  Game,
-  GamePlatform,
 } from "@repo/wrapper/server";
-import { Button, ComboboxItem, MultiSelect, Stack } from "@mantine/core";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
-import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { useMutation } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
-import { useGames } from "#@/components/game/hooks/useGames";
-import { useCollectionEntriesForCollectionId } from "#@/components";
-import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const createCollectionEntriesMoveFormSchema = (
   t: ReturnType<typeof useTranslation<"common">>["t"],

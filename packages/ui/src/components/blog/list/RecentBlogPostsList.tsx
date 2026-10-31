@@ -1,12 +1,11 @@
-import React from "react";
 import {
   BLOG_POSTS_FEED_DEFAULT_LIMIT,
-  CenteredLoading,
   CenteredErrorMessage,
+  CenteredLoading,
   useBlogPosts,
 } from "#@/components";
-import { Button, Text, Stack } from "@mantine/core";
 import { BlogPostsListItem } from "#@/components/blog/list/BlogPostsListItem.tsx";
+import { Button, Stack, Text } from "@mantine/core";
 
 interface Props {
   limit?: number;

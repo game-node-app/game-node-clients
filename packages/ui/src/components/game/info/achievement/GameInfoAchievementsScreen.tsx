@@ -1,20 +1,14 @@
-import React, { useCallback, useMemo } from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   GameAchievementsList,
-  getAchievementsEnabledStores,
   useGameAchievementsV2,
-  useGameExternalStores,
   useOnMobile,
-  useOnMobilePlatform,
   useUserId,
-  XBOX_STORES,
 } from "#@/components";
-import { Group, Image, Tabs } from "@mantine/core";
-import { GameExternalGame } from "@repo/wrapper/server";
-import { match, P } from "ts-pattern";
-import { cn, getServerStoredIcon } from "#@/util";
+import { getServerStoredIcon } from "#@/util";
+import { Image, Tabs } from "@mantine/core";
+import { useCallback } from "react";
 
 interface Props {
   gameId: number;
@@ -22,7 +16,7 @@ interface Props {
 
 const GameInfoAchievementsScreen = ({ gameId }: Props) => {
   const userId = useUserId();
-  const onMobile = useOnMobile();
+  useOnMobile();
   const { data, isLoading, isError, error } = useGameAchievementsV2(
     userId,
     gameId,

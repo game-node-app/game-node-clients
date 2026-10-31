@@ -5,8 +5,8 @@ import {
   useOnMobile,
   useOwnCollectionEntryForGameId,
   usePreferredPlatforms,
-  useUserId,
 } from "#@/components";
+import { createErrorNotification } from "#@/util/createErrorNotification.ts";
 import { Menu, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -15,10 +15,9 @@ import {
   CollectionEntry,
   CollectionsEntriesService,
 } from "@repo/wrapper/server";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import React, { PropsWithChildren, useMemo } from "react";
 import CollectionEntryStatus = CollectionEntry.status;
-import { createErrorNotification } from "#@/util/createErrorNotification.ts";
 
 interface QuickAddMenuOption {
   labelKey: string;

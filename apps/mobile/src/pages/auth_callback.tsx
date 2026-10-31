@@ -1,21 +1,13 @@
-import React, { useEffect } from "react";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonRouter,
-} from "@ionic/react";
-import { Container, Stack } from "@mantine/core";
-import CenteredLoading from "@/components/general/CenteredLoading";
-import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
-import { redirectToAuth } from "supertokens-auth-react";
-import { getCapitalizedText } from "@/util/getCapitalizedText";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
-import { useTranslation } from "@repo/locales";
+import CenteredLoading from "@/components/general/CenteredLoading";
+import { getCapitalizedText } from "@/util/getCapitalizedText";
+import { useIonRouter } from "@ionic/react";
+import { Stack } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
+import { useEffect } from "react";
+import { redirectToAuth } from "supertokens-auth-react";
+import { signInAndUp } from "supertokens-auth-react/recipe/thirdparty";
 
 interface Props {
   provider: string;

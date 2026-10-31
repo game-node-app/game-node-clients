@@ -1,15 +1,14 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { createErrorNotification } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Stack, Textarea } from "@mantine/core";
-import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { useMutation } from "@tanstack/react-query";
-import { ProfileService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { createErrorNotification } from "#@/util";
 import { useTranslation } from "@repo/locales";
+import { ProfileService } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const BioForm = z.object({
   bio: z.string().min(1).max(240),

@@ -1,7 +1,6 @@
-import React from "react";
 import { AppPage } from "@/components/general/AppPage";
-import { RecapStatsScreen, useUserId, useUserProfile } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
+import { RecapStatsScreen, useUserId, useUserProfile } from "@repo/ui";
 
 interface Props {
   year: number;

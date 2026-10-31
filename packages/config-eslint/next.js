@@ -42,7 +42,7 @@ module.exports = {
     "@typescript-eslint/no-require-imports": "off",
     "react/jsx-no-target-blank": "off",
     "@typescript-eslint/no-empty-object-type": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": ["off", { endOfLine: "auto" }],
   },

@@ -1,4 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useUserProfile } from "#@/components";
+import { CommentEditor } from "#@/components/comment/editor/CommentEditor";
+import { useComment } from "#@/components/comment/hooks/useComment";
+import { useCommentsContext } from "#@/components/comment/view/context.ts";
+import { createErrorNotification } from "#@/util";
 import {
   ActionIcon,
   Box,
@@ -9,17 +13,13 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
-import { CommentEditor } from "#@/components/comment/editor/CommentEditor";
-import { IconArrowRight } from "@tabler/icons-react";
-import { Editor } from "@tiptap/core";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import { useComment } from "#@/components/comment/hooks/useComment";
-import { useUserProfile } from "#@/components";
-import { useCommentsContext } from "#@/components/comment/view/context.ts";
-import { createErrorNotification } from "#@/util";
 import { useTranslation } from "@repo/locales";
+import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
+import { IconArrowRight } from "@tabler/icons-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Editor } from "@tiptap/core";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   /**
@@ -55,9 +55,7 @@ const CommentEditorView = ({
 
   const isLoading = commentQuery.isLoading || childOfProfileQuery.isLoading;
 
-  const [previousContent, setPreviousContent] = useState<string | undefined>(
-    undefined,
-  );
+  const previousContent = commentId ? commentQuery.data?.content : undefined;
 
   const [content, setContent] = useState("");
 
@@ -109,16 +107,6 @@ const CommentEditorView = ({
       createErrorNotification(err);
     },
   });
-
-  useEffect(() => {
-    if (commentId == undefined && previousContent != undefined) {
-      setPreviousContent(undefined);
-    }
-
-    if (commentId != undefined && commentQuery.data != undefined) {
-      setPreviousContent(commentQuery.data.content);
-    }
-  }, [commentId, commentQuery.data, previousContent]);
 
   /**
    * Essentially focuses the editor when the reply button is pressed

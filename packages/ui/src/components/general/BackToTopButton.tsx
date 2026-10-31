@@ -1,7 +1,6 @@
-import React from "react";
+import { useOnMobilePlatform, useScrollPosition } from "#@/components";
 import { ActionIcon, Affix, Transition } from "@mantine/core";
 import { IconArrowUp } from "@tabler/icons-react";
-import { useOnMobilePlatform, useScrollPosition } from "#@/components";
 
 const BackToTopButton = () => {
   const onMobilePlatform = useOnMobilePlatform();

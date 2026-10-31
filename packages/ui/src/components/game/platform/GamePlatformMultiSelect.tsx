@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
-import { MultiSelect, MultiSelectProps } from "@mantine/core";
 import {
   buildGamePlatformSelectOptions,
   useGamesResource,
 } from "#@/components";
+import { MultiSelect, MultiSelectProps } from "@mantine/core";
+import { useMemo } from "react";
 
 interface Props
   extends Omit<

@@ -1,4 +1,3 @@
-import React from "react";
 import { CenteredLoading, GameSelectView } from "#@/components";
 import { useUserRecentGames } from "#@/components/game/hooks/useUserRecentGames.ts";
 

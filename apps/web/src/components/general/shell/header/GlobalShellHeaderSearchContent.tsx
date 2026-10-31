@@ -1,6 +1,5 @@
-import React from "react";
+import { Box, Divider, Stack } from "@mantine/core";
 import {
-  GameFigureImage,
   GameListItem,
   GameView,
   getGamePlatformInfo,
@@ -8,7 +7,6 @@ import {
   UserAvatarGroup,
 } from "@repo/ui";
 import type { users_UserDto } from "@repo/wrapper/search";
-import { Box, Divider, Group, Stack, Text } from "@mantine/core";
 import Link from "next/link";
 
 interface Props {
@@ -23,8 +21,7 @@ const GlobalShellHeaderSearchContent = ({
   users,
 }: Props) => {
   const renderedGames = games.map((game) => {
-    const platforms = getGamePlatformInfo(game);
-    const platformsAbbreviations = platforms.platformsAbbreviations;
+    getGamePlatformInfo(game);
 
     return (
       <Box className={"w-full h-full"} key={game.id}>

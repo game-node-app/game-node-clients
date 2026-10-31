@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { Box, Group, Stack, Tabs, Text } from "@mantine/core";
-import { DetailsBox } from "#@/components/general/DetailsBox";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import {
   ProfileMetricsDistributionYearBy,
   useProfileMetricsDistributionByYear,
 } from "#@/components/profile/hooks/useProfileMetricsDistributionByYear";
 import { LineChart, LineChartSeries } from "@mantine/charts";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { ProfileMetricsYearDistributionItem } from "../../../../../../wrapper/src/server";
+import { Box, Group, Stack, Tabs } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useState } from "react";
 
 interface Props {
   userId: string;

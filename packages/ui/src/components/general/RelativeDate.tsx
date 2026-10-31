@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
 import dayjs from "dayjs";
+import { useMemo } from "react";
 // Imports the extended DayJS interface
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import "dayjs/plugin/relativeTime";
 import { Text, TextProps } from "@mantine/core";
+import "dayjs/plugin/relativeTime";
 
 interface Props extends TextProps {
   date: string;

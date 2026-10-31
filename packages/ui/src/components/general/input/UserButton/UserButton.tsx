@@ -1,10 +1,9 @@
-import React from "react";
-import { AvatarProps, Group, GroupProps, Text } from "@mantine/core";
+import { useUserLevel } from "#@/components";
+import { useCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { useCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useCollectionEntriesForUserId";
-import { useUserLevel } from "#@/components";
 import { cn } from "#@/util";
+import { AvatarProps, Group, GroupProps, Text } from "@mantine/core";
 
 interface UserButtonProps extends GroupProps {
   userId: string;

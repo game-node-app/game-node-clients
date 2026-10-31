@@ -1,8 +1,6 @@
 // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-expressions
 // prettier-ignore
 "use no memo";
-import React from "react";
-import { signOut } from "supertokens-website";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
 import { blobToBase64 } from "@/util/imageUtils";
 import { Directory, Filesystem } from "@capacitor/filesystem";
@@ -11,32 +9,33 @@ import { menuController } from "@ionic/core/components";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import {
-  Link,
-  RecentlyPlayedGamesShare,
-  useCurrentRecapStatus,
-  UserButton,
-  useRunningAwardEvent,
-  useUserId,
+    Link,
+    RecentlyPlayedGamesShare,
+    useCurrentRecapStatus,
+    UserButton,
+    useRunningAwardEvent,
+    useUserId,
 } from "@repo/ui";
 import {
-  IconActivity,
-  IconCloudDownload,
-  IconDeviceGamepad2,
-  IconHistory,
-  IconLayout2Filled,
-  IconLibrary,
-  IconLogout,
-  IconMessage,
-  IconMilitaryAward,
-  IconNews,
-  IconNotebook,
-  IconSettings,
-  IconStars,
-  IconTrophy,
-  IconTrophyFilled,
+    IconActivity,
+    IconCloudDownload,
+    IconDeviceGamepad2,
+    IconHistory,
+    IconLayout2Filled,
+    IconLibrary,
+    IconLogout,
+    IconMessage,
+    IconMilitaryAward,
+    IconNews,
+    IconNotebook,
+    IconSettings,
+    IconStars,
+    IconTrophy,
+    IconTrophyFilled,
 } from "@tabler/icons-react";
-import { useTranslation } from "@repo/locales";
+import { signOut } from "supertokens-website";
 
 const MobileSidebarMenu = () => {
   const { t } = useTranslation();

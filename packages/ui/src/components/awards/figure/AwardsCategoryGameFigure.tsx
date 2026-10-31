@@ -1,11 +1,10 @@
-import React from "react";
 import {
   GameFigureImage,
   IGameFigureImageProps,
   useOnMobile,
 } from "#@/components";
 import { ActionIcon, Box, Flex, Overlay, Stack } from "@mantine/core";
-import { IconDots, IconEdit } from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
 
 interface AwardsCategoryGameFigureProps extends IGameFigureImageProps {
   onEditClick: () => void;

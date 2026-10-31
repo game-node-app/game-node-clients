@@ -1,23 +1,10 @@
-import React from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonLoading,
-  IonPage,
-  IonProgressBar,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { Box, Container } from "@mantine/core";
-import {
-  BlogPostDetailLayout,
-  BlogPostDetailView,
-  BlogPostsLayout,
-} from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage";
+import { Box } from "@mantine/core";
+import {
+    BlogPostDetailLayout,
+    BlogPostDetailView,
+    BlogPostsLayout,
+} from "@repo/ui";
 
 interface Props {
   postId: string;

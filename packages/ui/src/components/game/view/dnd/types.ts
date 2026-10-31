@@ -1,7 +1,7 @@
 import { TGameOrSearchGame } from "#@/components";
 import { SortableData } from "@dnd-kit/sortable";
 import { GroupProps } from "@mantine/core";
-import { RefCallback, RefObject } from "react";
+import { RefCallback } from "react";
 
 export interface GameSortableItemData extends SortableData {
   game: TGameOrSearchGame;

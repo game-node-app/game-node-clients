@@ -1,18 +1,17 @@
-import React, { useMemo } from "react";
-import { FindGamesByCollectionTypeRequestDto } from "@repo/wrapper/server";
 import {
   CenteredLoading,
   DetailsCard,
   useGamesByCollectionType,
 } from "#@/components";
+import { GameCollectionTypeItem } from "#@/components/game/collection/GameCollectionTypeItem";
+import { Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
+import { FindGamesByCollectionTypeRequestDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 import { match } from "ts-pattern";
 import GameCollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
-import { Stack } from "@mantine/core";
-import { GameCollectionTypeItem } from "#@/components/game/collection/GameCollectionTypeItem";
-import { useTranslation } from "@repo/locales";
 
-interface Props
-  extends Omit<FindGamesByCollectionTypeRequestDto, "relations"> {}
+type Props = Omit<FindGamesByCollectionTypeRequestDto, "relations">;
 
 const GameCollectionTypeView = ({
   collectionType,

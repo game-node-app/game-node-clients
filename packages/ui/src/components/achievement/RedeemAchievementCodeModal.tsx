@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Button, Stack, TextInput } from "@mantine/core";
-import { useMutation } from "@tanstack/react-query";
-import { AchievementsCodeService } from "@repo/wrapper/server";
-import { notifications } from "@mantine/notifications";
 import { BaseModalProps, Modal } from "#@/util";
+import { Button, Stack, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
+import { AchievementsCodeService } from "@repo/wrapper/server";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 const RedeemAchievementCodeModal = ({ opened, onClose }: BaseModalProps) => {
   const { t } = useTranslation();

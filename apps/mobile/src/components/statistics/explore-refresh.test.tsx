@@ -24,13 +24,19 @@ vi.mock("../../components/explore/ExploreGamesPageView", () => ({
 vi.mock("../../components/general/AppPage.tsx", async () => {
   const React = await import("react");
   return {
-    AppPage: ({ children }: any) => React.createElement("div", null, children),
+    AppPage: ({ children }: import("react").PropsWithChildren) =>
+      React.createElement("div", null, children),
   };
 });
 vi.mock("@ionic/react", async () => {
   const React = await import("react");
   return {
-    IonRefresher: ({ children, onIonRefresh }: any) =>
+    IonRefresher: ({
+      children,
+      onIonRefresh,
+    }: import("react").PropsWithChildren<{
+      onIonRefresh: (event: { detail: { complete: () => void } }) => void;
+    }>) =>
       React.createElement(
         "button",
         { onClick: () => onIonRefresh({ detail: { complete: completed } }) },
@@ -64,7 +70,7 @@ it("refreshes the active period from page one after loading more pages", async (
           total: 100,
           hasNextPage: true,
         },
-      })) as any);
+      })) as unknown as typeof StatisticsService.statisticsControllerFindRankingsV1);
   const hook = renderHook(
     ({ period }) => useInfiniteTrendingGames({ period, limit: 48 }),
     { initialProps: { period: Ranking.period.WEEK }, wrapper },

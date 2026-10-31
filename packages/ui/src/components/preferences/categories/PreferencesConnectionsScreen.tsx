@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import { Group, Stack } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
-import { PreferencesConnectionItem } from "#@/components/preferences/handlers/connections/PreferencesConnectionItem";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { PreferencesConnectionItem } from "#@/components/preferences/handlers/connections/PreferencesConnectionItem";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 const PreferencesConnectionsScreen = () => {
   const { t } = useTranslation();

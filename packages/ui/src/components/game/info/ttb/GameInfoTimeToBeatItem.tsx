@@ -1,8 +1,7 @@
-import React from "react";
-import { Box, Group, HoverCard, Popover, Skeleton, Text } from "@mantine/core";
 import { useOnMobile, useOnMobilePlatform } from "#@/components";
-import { IconInfoCircle } from "@tabler/icons-react";
 import { cn } from "#@/util";
+import { Box, Group, HoverCard, Popover, Skeleton, Text } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 interface Props {
   title: string;

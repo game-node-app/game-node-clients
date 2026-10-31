@@ -1,4 +1,13 @@
 import {
+  CenteredErrorMessage,
+  GameSelectView,
+  ImporterCollectionSelect,
+  useImporterEntries,
+  useOwnUserConnectionByType,
+  useUserId,
+} from "#@/components";
+import { getErrorMessage, getPageAsOffset, getServerStoredIcon } from "#@/util";
+import {
   Box,
   Button,
   Flex,
@@ -11,26 +20,17 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { getErrorMessage, getPageAsOffset, getServerStoredIcon } from "#@/util";
+import { useTranslation } from "@repo/locales";
 import {
   Game,
   ImporterBatchImportRequestDto,
   ImporterBatchStatusRequestDto,
   ImporterService,
 } from "@repo/wrapper/server";
-import {
-  CenteredErrorMessage,
-  GameSelectView,
-  ImporterCollectionSelect,
-  useImporterEntries,
-  useOwnUserConnectionByType,
-  useUserId,
-} from "#@/components";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
-import { useTranslation } from "@repo/locales";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 20;
 
@@ -49,15 +49,20 @@ const ImporterScreen = ({ source }: Props) => {
   // Normalize / validate source
   const isValidSource = VALID_SOURCES.includes(source as ImporterSource);
   const normalizedSource = source as ImporterSource;
-  const sourceName = source ? source.charAt(0).toUpperCase() + source.slice(1) : "";
+  const sourceName = source
+    ? source.charAt(0).toUpperCase() + source.slice(1)
+    : "";
 
   // Local state
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
-  const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
-  const [initialStatus, setInitialStatus] = useState<ImporterBatchImportRequestDto.status>(
-    ImporterBatchImportRequestDto.status.PLANNED,
+  const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>(
+    [],
   );
+  const [initialStatus, setInitialStatus] =
+    useState<ImporterBatchImportRequestDto.status>(
+      ImporterBatchImportRequestDto.status.PLANNED,
+    );
   // Map of externalGameId -> gameId
   const [selectedMap, setSelectedMap] = useState<Record<number, number>>({});
   const [isConfirmImportAllOpen, setIsConfirmImportAllOpen] = useState(false);
@@ -82,7 +87,9 @@ const ImporterScreen = ({ source }: Props) => {
     search: searchQuery,
   });
 
-  const connectionQuery = useOwnUserConnectionByType(normalizedSource as any);
+  const connectionQuery = useOwnUserConnectionByType(
+    normalizedSource as import("@repo/wrapper/server").ConnectionCreateDto.type,
+  );
 
   // Visible games deduplicated by game.id
   const visibleGames = useMemo(() => {
@@ -99,11 +106,17 @@ const ImporterScreen = ({ source }: Props) => {
   }, [importerEntriesQuery.data?.data]);
 
   const currentEntries = importerEntriesQuery.data?.data || [];
-  const visibleExternalIds = useMemo(() => currentEntries.map((e) => e.id), [currentEntries]);
+  const visibleExternalIds = useMemo(
+    () => importerEntriesQuery.data?.data.map((entry) => entry.id) ?? [],
+    [importerEntriesQuery.data?.data],
+  );
 
   // Total count for Import All
   const totalUnfiltered = useMemo(() => {
-    if (!searchQuery && importerEntriesQuery.data?.pagination?.totalItems != null) {
+    if (
+      !searchQuery &&
+      importerEntriesQuery.data?.pagination?.totalItems != null
+    ) {
       return importerEntriesQuery.data.pagination.totalItems;
     }
     return connectionQuery.data?.unprocessedCount;
@@ -182,9 +195,9 @@ const ImporterScreen = ({ source }: Props) => {
   };
 
   const buildLoadingSkeletons = useCallback(() => {
-    return new Array(10).fill(0).map((_, i) => (
-      <Skeleton key={i} className={"w-full h-48 mt-4"} />
-    ));
+    return new Array(10)
+      .fill(0)
+      .map((_, i) => <Skeleton key={i} className={"w-full h-48 mt-4"} />);
   }, []);
 
   const invalidateCaches = () => {
@@ -247,7 +260,7 @@ const ImporterScreen = ({ source }: Props) => {
         id: notifId,
         color: "red",
         title: t("importer.messages.syncFailed"),
-        message: getErrorMessage(err as any) || t("importer.messages.importFailed"),
+        message: getErrorMessage(err) || t("importer.messages.importFailed"),
         loading: false,
         autoClose: 10000,
         withCloseButton: true,
@@ -311,7 +324,7 @@ const ImporterScreen = ({ source }: Props) => {
         id: notifId,
         color: "red",
         title: t("importer.messages.syncFailed"),
-        message: getErrorMessage(err as any) || t("importer.messages.importFailed"),
+        message: getErrorMessage(err) || t("importer.messages.importFailed"),
         loading: false,
         autoClose: 10000,
         withCloseButton: true,
@@ -336,7 +349,7 @@ const ImporterScreen = ({ source }: Props) => {
 
     try {
       await ImporterService.importerControllerChangeStatusBatchV1({
-        source: normalizedSource as any,
+        source: normalizedSource as ImporterBatchStatusRequestDto.source,
         externalGameIds,
         status: ImporterBatchStatusRequestDto.status.IGNORED,
       });
@@ -362,7 +375,7 @@ const ImporterScreen = ({ source }: Props) => {
         id: notifId,
         color: "red",
         title: t("importer.messages.syncFailed"),
-        message: getErrorMessage(err as any) || t("importer.messages.ignoreFailed"),
+        message: getErrorMessage(err) || t("importer.messages.ignoreFailed"),
         loading: false,
         autoClose: 10000,
         withCloseButton: true,
@@ -375,11 +388,26 @@ const ImporterScreen = ({ source }: Props) => {
 
   // Status options for Select
   const statusOptions = [
-    { value: ImporterBatchImportRequestDto.status.PLANNED, label: t("collectionEntry.statuses.planned") },
-    { value: ImporterBatchImportRequestDto.status.PLAYING, label: t("collectionEntry.statuses.playing") },
-    { value: ImporterBatchImportRequestDto.status.FINISHED, label: t("collectionEntry.statuses.finished") },
-    { value: ImporterBatchImportRequestDto.status.ONGOING, label: t("collectionEntry.statuses.ongoing") },
-    { value: ImporterBatchImportRequestDto.status.DROPPED, label: t("collectionEntry.statuses.dropped") },
+    {
+      value: ImporterBatchImportRequestDto.status.PLANNED,
+      label: t("collectionEntry.statuses.planned"),
+    },
+    {
+      value: ImporterBatchImportRequestDto.status.PLAYING,
+      label: t("collectionEntry.statuses.playing"),
+    },
+    {
+      value: ImporterBatchImportRequestDto.status.FINISHED,
+      label: t("collectionEntry.statuses.finished"),
+    },
+    {
+      value: ImporterBatchImportRequestDto.status.ONGOING,
+      label: t("collectionEntry.statuses.ongoing"),
+    },
+    {
+      value: ImporterBatchImportRequestDto.status.DROPPED,
+      label: t("collectionEntry.statuses.dropped"),
+    },
   ];
 
   if (!isValidSource) {
@@ -416,7 +444,8 @@ const ImporterScreen = ({ source }: Props) => {
               data={statusOptions}
               value={initialStatus}
               onChange={(val) => {
-                if (val) setInitialStatus(val as ImporterBatchImportRequestDto.status);
+                if (val)
+                  setInitialStatus(val as ImporterBatchImportRequestDto.status);
               }}
               disabled={isProcessing}
             />
@@ -445,12 +474,16 @@ const ImporterScreen = ({ source }: Props) => {
               onClick={() => setIsConfirmImportAllOpen(true)}
               aria-label={
                 totalUnfiltered != null
-                  ? t("importer.buttons.importAllCount", { count: totalUnfiltered })
+                  ? t("importer.buttons.importAllCount", {
+                      count: totalUnfiltered,
+                    })
                   : t("importer.buttons.importAll")
               }
             >
               {totalUnfiltered != null
-                ? t("importer.buttons.importAllCount", { count: totalUnfiltered })
+                ? t("importer.buttons.importAllCount", {
+                    count: totalUnfiltered,
+                  })
                 : t("importer.buttons.importAll")}
             </Button>
           </Group>
@@ -458,10 +491,14 @@ const ImporterScreen = ({ source }: Props) => {
 
         <Stack className={"mt-4 w-full grow"}>
           {isEntriesError && (
-            <CenteredErrorMessage message={getErrorMessage(importerEntriesQuery.error)} />
+            <CenteredErrorMessage
+              message={getErrorMessage(importerEntriesQuery.error)}
+            />
           )}
           {isConnectionError && (
-            <CenteredErrorMessage message={getErrorMessage(connectionQuery.error)} />
+            <CenteredErrorMessage
+              message={getErrorMessage(connectionQuery.error)}
+            />
           )}
 
           {/* Search bar is ALWAYS accessible */}
@@ -485,17 +522,23 @@ const ImporterScreen = ({ source }: Props) => {
           {isEmpty && (
             <Stack align="center" justify="center" py="xl">
               {searchQuery ? (
-                <CenteredErrorMessage message={t("importer.emptyStates.searchEmpty")} />
+                <CenteredErrorMessage
+                  message={t("importer.emptyStates.searchEmpty")}
+                />
               ) : connectionQuery.data?.lastSyncedAt ? (
                 <>
-                  <CenteredErrorMessage message={t("importer.emptyStates.allDone")} />
+                  <CenteredErrorMessage
+                    message={t("importer.emptyStates.allDone")}
+                  />
                   <Text c="dimmed" size="sm" ta="center">
                     {t("importer.emptyStates.privacyTip")}
                   </Text>
                 </>
               ) : (
                 <>
-                  <CenteredErrorMessage message={t("importer.emptyStates.firstSync")} />
+                  <CenteredErrorMessage
+                    message={t("importer.emptyStates.firstSync")}
+                  />
                   <Text c="dimmed" size="sm" ta="center">
                     {t("importer.emptyStates.privacyTip")}
                   </Text>
@@ -539,7 +582,9 @@ const ImporterScreen = ({ source }: Props) => {
           >
             <Group justify="space-between" align="center" wrap="wrap" gap="sm">
               <Text fw={500} aria-live="polite">
-                {t("importer.selection.selectedCount", { count: selectedCount })}
+                {t("importer.selection.selectedCount", {
+                  count: selectedCount,
+                })}
               </Text>
               <Group gap="xs">
                 <Button
@@ -602,7 +647,9 @@ const ImporterScreen = ({ source }: Props) => {
               </Text>
             </Group>
             <Group gap="xs">
-              <Text fw={500}>{t("importer.confirmImportAll.collectionsLabel")}</Text>
+              <Text fw={500}>
+                {t("importer.confirmImportAll.collectionsLabel")}
+              </Text>
               <Text>
                 {selectedCollectionIds.length > 0
                   ? `${selectedCollectionIds.length} selected`

@@ -1,7 +1,6 @@
-import React, { forwardRef } from "react";
 import { GameDraggableItemContentProps, GameFigureImage } from "#@/components";
-import { Box, Group, GroupProps, Text } from "@mantine/core";
 import { cn } from "#@/util";
+import { Box, Group, Text } from "@mantine/core";
 import { IconGripHorizontal } from "@tabler/icons-react";
 
 const GameDraggableListItemContent = ({

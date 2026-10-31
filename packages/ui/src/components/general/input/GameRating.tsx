@@ -1,5 +1,4 @@
 import { Rating, RatingProps } from "@mantine/core";
-import React from "react";
 
 /**
  * Common rating component <br>

@@ -1,7 +1,6 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { Flex, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { RecapStatsScreen } from "@repo/ui";
+import { useRouter } from "next/router";
 
 const RecapStatsPage = () => {
   const router = useRouter();

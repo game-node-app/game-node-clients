@@ -1,10 +1,9 @@
-import React from "react";
 import {
   AchievementLogo,
   CenteredLoading,
   useAllObtainedAchievements,
 } from "#@/components";
-import { Center, Divider, Group, Stack, Text } from "@mantine/core";
+import { Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

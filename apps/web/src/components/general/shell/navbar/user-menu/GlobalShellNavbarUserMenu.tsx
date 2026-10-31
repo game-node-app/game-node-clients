@@ -1,15 +1,9 @@
-import React from "react";
-import {
-  LanguageSwitcherMenu,
-  UserAvatar,
-  UserAvatarWithLevelInfo,
-  useUserId,
-} from "@repo/ui";
-import { Avatar, Center, Menu, Stack, UnstyledButton } from "@mantine/core";
 import { GlobalShellNavbarUserMenuItem } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenuItem";
-import { IconBug, IconLogout, IconSettings } from "@tabler/icons-react";
 import { GlobalShellUserMenuOverview } from "@/components/general/shell/navbar/user-menu/GlobalShellUserMenuOverview";
+import { Avatar, Menu, UnstyledButton } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { LanguageSwitcherMenu, UserAvatar, useUserId } from "@repo/ui";
+import { IconBug, IconLogout, IconSettings } from "@tabler/icons-react";
 
 const GlobalShellNavbarUserMenu = () => {
   const { t } = useTranslation();

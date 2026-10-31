@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import { ReviewListItem, useOnMobile, useReview } from "#@/components";
 import { Modal } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
-import { ReviewListItem, useOnMobile, useReview } from "#@/components";
+import { useEffect, useRef } from "react";
 
 interface Props {
   reviewId: string | undefined;

@@ -1,10 +1,9 @@
-import React from "react";
 import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { IconRefreshDot } from "@tabler/icons-react";
 import { Group } from "@mantine/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
+import { IconRefreshDot } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PreferencesMiscItems = () => {
   const { t } = useTranslation();

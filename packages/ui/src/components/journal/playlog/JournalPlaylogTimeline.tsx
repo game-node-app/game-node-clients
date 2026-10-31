@@ -1,23 +1,13 @@
-import React, { useCallback, useMemo } from "react";
-import {
-  JournalPlaylogEntryDto,
-  JournalPlaylogGroupDto,
-} from "@repo/wrapper/server";
 import {
   CenteredErrorMessage,
-  DetailsBox,
   JournalPlaylogObtainedAchievements,
-  useGameAchievementsV2,
 } from "#@/components";
-import { Group, Stack, Text, Timeline, Title } from "@mantine/core";
-import { match } from "ts-pattern";
-import dayjs from "dayjs";
-import {
-  IconMilitaryAward,
-  IconProgress,
-  IconProgressCheck,
-} from "@tabler/icons-react";
 import { JournalPlaylogCollectionStatus } from "#@/components/journal/playlog/JournalPlaylogCollectionStatus.tsx";
+import { Stack, Timeline } from "@mantine/core";
+import { JournalPlaylogGroupDto } from "@repo/wrapper/server";
+import { IconMilitaryAward, IconProgressCheck } from "@tabler/icons-react";
+import dayjs from "dayjs";
+import { useMemo } from "react";
 
 interface Props {
   targetPlatformId: number;

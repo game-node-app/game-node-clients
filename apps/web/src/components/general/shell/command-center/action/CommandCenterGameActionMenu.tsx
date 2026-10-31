@@ -1,12 +1,11 @@
 import { ActionIcon, Menu } from "@mantine/core";
-import { useTranslation } from "@repo/locales";
-import { GameInfoQuickAddMenu, SearchGame, useUserId } from "@repo/ui";
-import { IconMenu2 } from "@tabler/icons-react";
-import { useCommandCenterContext } from "../context/CommandCenterContext";
-import { useCallback } from "react";
-import { CollectionsEntriesService } from "@repo/wrapper/server";
 import { notifications } from "@mantine/notifications";
-import ca from "zod/v4/locales/ca.cjs";
+import { useTranslation } from "@repo/locales";
+import { GameInfoQuickAddMenu, SearchGame } from "@repo/ui";
+import { CollectionsEntriesService } from "@repo/wrapper/server";
+import { IconMenu2 } from "@tabler/icons-react";
+import { useCallback } from "react";
+import { useCommandCenterContext } from "../context/CommandCenterContext";
 
 interface Props {
   game: SearchGame;

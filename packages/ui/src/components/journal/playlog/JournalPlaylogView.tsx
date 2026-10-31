@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
 import {
   CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
-  useGameAchievementsV2,
   useGamesResource,
   useOnMobile,
 } from "#@/components";
 import { useJournalPlaylog } from "#@/components/journal/hooks/useJournalPlaylog.ts";
 import { JournalPlaylogTimeline } from "#@/components/journal/playlog/JournalPlaylogTimeline.tsx";
 import { SegmentedControl } from "@mantine/core";
+import { useMemo, useState } from "react";
 
 interface Props {
   userId: string;
@@ -38,11 +37,13 @@ const JournalPlaylogView = ({ userId, gameId, withTitle = true }: Props) => {
 
   const isEmpty = playlogQuery.isSuccess && playlogQuery.data.length === 0;
 
-  useEffect(() => {
-    if (availablePlatforms.length > 0) {
+  const [previousPlatforms, setPreviousPlatforms] =
+    useState<typeof availablePlatforms>();
+  if (previousPlatforms !== availablePlatforms) {
+    setPreviousPlatforms(availablePlatforms);
+    if (availablePlatforms.length > 0)
       setSelectedPlatformid(availablePlatforms[0].id);
-    }
-  }, [availablePlatforms]);
+  }
 
   return (
     <DetailsBox

@@ -1,14 +1,13 @@
-import React, { useMemo } from "react";
-import { GameAchievementGroupDto } from "@repo/wrapper/server";
-import { Badge, Box, Group, Image, Stack, Text } from "@mantine/core";
-import { getServerStoredIcon, Link } from "#@/util";
 import {
   useGameAchievementsV2,
   useGamesResource,
-  useOnMobilePlatform,
   useUserId,
 } from "#@/components";
+import { getServerStoredIcon, Link } from "#@/util";
+import { Badge, Box, Group, Image, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   source: GameAchievementGroupDto.source;
@@ -18,7 +17,7 @@ interface Props {
 const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
   const { t } = useTranslation();
   const userId = useUserId();
-  const { data, isLoading, isError } = useGameAchievementsV2(userId, gameId);
+  const { data } = useGameAchievementsV2(userId, gameId);
   const platformsQuery = useGamesResource("platforms");
 
   const targetAchievementGroup = useMemo(() => {

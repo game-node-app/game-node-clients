@@ -1,6 +1,6 @@
-import React, { ExoticComponent, PropsWithoutRef } from "react";
-import { IconProps } from "@tabler/icons-react";
 import { ThemeIcon, ThemeIconProps } from "@mantine/core";
+import { IconProps } from "@tabler/icons-react";
+import { ExoticComponent, PropsWithoutRef } from "react";
 
 interface RoundedIconProps {
     icon: ExoticComponent<PropsWithoutRef<IconProps>>;

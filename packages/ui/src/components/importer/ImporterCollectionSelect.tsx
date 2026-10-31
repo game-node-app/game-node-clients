@@ -1,14 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ComboboxItem,
-  Group,
-  MultiSelect,
-  MultiSelectProps,
-  Select,
-  Text,
-} from "@mantine/core";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { ComboboxItem, MultiSelect, MultiSelectProps } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props extends MultiSelectProps {
   userId: string | undefined;

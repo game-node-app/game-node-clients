@@ -1,7 +1,6 @@
-import React from "react";
-import { AwardsResultScreen } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage";
 import { useTranslation } from "@repo/locales";
+import { AwardsResultScreen } from "@repo/ui";
 
 interface Props {
   eventYear: string | number;

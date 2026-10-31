@@ -1,10 +1,9 @@
-import React from "react";
 import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import { PreferredPlatformsViewModal } from "@repo/ui";
 import { IconBrandAppleArcade } from "@tabler/icons-react";
-import { useTranslation } from "@repo/locales";
 
 const PreferencesLibraryItems = () => {
   const { t } = useTranslation();

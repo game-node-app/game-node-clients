@@ -1,15 +1,9 @@
-import React, { useMemo } from "react";
-import {
-  ComboboxItem,
-  LoadingOverlay,
-  MultiSelect,
-  MultiSelectProps,
-  SelectProps,
-} from "@mantine/core";
+import { ComboboxItem, MultiSelect, MultiSelectProps } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
+import { useGamesResource } from "@repo/ui";
 import { Game } from "@repo/wrapper/server";
 import { UseQueryResult } from "@tanstack/react-query";
-import { useGamesResource } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props extends MultiSelectProps {
   resourceName: string;

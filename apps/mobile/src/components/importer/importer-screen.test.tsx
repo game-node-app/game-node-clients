@@ -42,14 +42,19 @@ vi.mock(
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       const parts = key.split(".");
-      let val: any = enTranslations;
+      let val: unknown = enTranslations;
       for (const p of parts) {
-        val = val?.[p];
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       }
       if (typeof val === "string") {
-        return val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? `{{${k}}}`);
+        return val.replace(/\{\{(\w+)\}\}/g, (_, k) =>
+          String(options?.[k] ?? `{{${k}}}`),
+        );
       }
       return key;
     },
@@ -57,23 +62,28 @@ vi.mock("@repo/locales", () => ({
 }));
 
 // Mock ImporterCollectionSelect to simplify collection selection
-vi.mock(
-  "#@/components/importer/ImporterCollectionSelect",
-  () => ({
-    ImporterCollectionSelect: ({ onChange }: { onChange: (vals: string[]) => void }) => (
-      <button
-        data-testid="mock-collection-select"
-        onClick={() => onChange(["col-1", "col-2"])}
-      >
-        Select Collections
-      </button>
-    ),
-  }),
-);
+vi.mock("#@/components/importer/ImporterCollectionSelect", () => ({
+  ImporterCollectionSelect: ({
+    onChange,
+  }: {
+    onChange: (vals: string[]) => void;
+  }) => (
+    <button
+      data-testid="mock-collection-select"
+      onClick={() => onChange(["col-1", "col-2"])}
+    >
+      Select Collections
+    </button>
+  ),
+}));
 vi.mock(
   "../../../../../packages/ui/src/components/importer/ImporterCollectionSelect",
   () => ({
-    ImporterCollectionSelect: ({ onChange }: { onChange: (vals: string[]) => void }) => (
+    ImporterCollectionSelect: ({
+      onChange,
+    }: {
+      onChange: (vals: string[]) => void;
+    }) => (
       <button
         data-testid="mock-collection-select"
         onClick={() => onChange(["col-1", "col-2"])}
@@ -84,7 +94,10 @@ vi.mock(
   }),
 );
 
-const MockLink = ({ children, ...props }: any) => <a {...props}>{children}</a>;
+const MockLink = ({
+  children,
+  ...props
+}: import("react").ComponentProps<"a">) => <a {...props}>{children}</a>;
 
 function createTestQueryClient() {
   return new QueryClient({
@@ -99,7 +112,10 @@ function renderUI(ui: React.ReactElement, client = createTestQueryClient()) {
   return render(
     <QueryClientProvider client={client}>
       <MantineProvider>
-        <UIProvider presenters={{ Link: MockLink }} hooks={{} as any}>
+        <UIProvider
+          presenters={{ Link: MockLink }}
+          hooks={{} as unknown as import("@repo/ui").UIHookRegistry}
+        >
           {ui}
         </UIProvider>
       </MantineProvider>
@@ -139,8 +155,13 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         game: {
           id: 1,
           name: "Hades",
-          cover: { id: 10, url: "https://example.com/hades.jpg" } as any,
-        } as any,
+          cover: {
+            id: 10,
+            url: "https://example.com/hades.jpg",
+          } as unknown as NonNullable<
+            import("@repo/wrapper/server").Game["cover"]
+          >,
+        } as unknown as import("@repo/wrapper/server").Game,
       },
       {
         id: 102,
@@ -155,8 +176,13 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         game: {
           id: 1,
           name: "Hades",
-          cover: { id: 10, url: "https://example.com/hades.jpg" } as any,
-        } as any,
+          cover: {
+            id: 10,
+            url: "https://example.com/hades.jpg",
+          } as unknown as NonNullable<
+            import("@repo/wrapper/server").Game["cover"]
+          >,
+        } as unknown as import("@repo/wrapper/server").Game,
       },
       {
         id: 103,
@@ -172,7 +198,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
           id: 2,
           name: "Celeste",
           cover: null, // No cover!
-        } as any,
+        } as unknown as import("@repo/wrapper/server").Game,
       },
     ],
     pagination: { totalItems: 4, totalPages: 2, hasNextPage: true },
@@ -193,8 +219,13 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         game: {
           id: 3,
           name: "Dead Cells",
-          cover: { id: 30, url: "https://example.com/deadcells.jpg" } as any,
-        } as any,
+          cover: {
+            id: 30,
+            url: "https://example.com/deadcells.jpg",
+          } as unknown as NonNullable<
+            import("@repo/wrapper/server").Game["cover"]
+          >,
+        } as unknown as import("@repo/wrapper/server").Game,
       },
     ],
     pagination: { totalItems: 4, totalPages: 2, hasNextPage: false },
@@ -204,9 +235,12 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     const findEntriesSpy = vi
       .spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1")
       .mockResolvedValue(sampleEntriesPage1);
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -231,25 +265,51 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     // Zero N+1 calls
     expect(gameRepoFindOneSpy).not.toHaveBeenCalled();
     expect(collectionEntrySpy).not.toHaveBeenCalled();
-    expect(findEntriesSpy).toHaveBeenCalledWith("steam", true, 20, 0, undefined);
+    expect(findEntriesSpy).toHaveBeenCalledWith(
+      "steam",
+      true,
+      20,
+      0,
+      undefined,
+    );
   });
 
   it("Task 2.3 & 3.6: preserves selection across pages, handles aliases, page union/subtraction, sticky bar actions, and resets on source change", async () => {
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockImplementation(
-      (source, excludeInLibrary, limit, offset): any => {
-        if (offset === 0) return Promise.resolve(sampleEntriesPage1);
-        return Promise.resolve(sampleEntriesPage2);
-      },
-    );
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockImplementation(((
+      source: Parameters<
+        typeof ImporterService.importerControllerFindUnprocessedEntriesV1
+      >[0],
+      excludeInLibrary: Parameters<
+        typeof ImporterService.importerControllerFindUnprocessedEntriesV1
+      >[1],
+      limit: Parameters<
+        typeof ImporterService.importerControllerFindUnprocessedEntriesV1
+      >[2],
+      offset: Parameters<
+        typeof ImporterService.importerControllerFindUnprocessedEntriesV1
+      >[3],
+    ) => {
+      if (offset === 0) return Promise.resolve(sampleEntriesPage1);
+      return Promise.resolve(sampleEntriesPage2);
+    }) as unknown as typeof ImporterService.importerControllerFindUnprocessedEntriesV1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
 
     const queryClient = createTestQueryClient();
-    const { rerender } = renderUI(<ImporterScreen source="steam" />, queryClient);
+    const { rerender } = renderUI(
+      <ImporterScreen source="steam" />,
+      queryClient,
+    );
 
     await waitFor(() => {
       expect(screen.getByAltText("Hades")).toBeTruthy();
@@ -277,7 +337,9 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     });
 
     // Select page action (GameSelectActions)
-    const selectAllActionBtn = screen.getByRole("button", { name: "Select all items" });
+    const selectAllActionBtn = screen.getByRole("button", {
+      name: "Select all items",
+    });
     fireEvent.click(selectAllActionBtn);
 
     // Visible on page 1: 101, 102, 103 -> 3 selected
@@ -306,7 +368,10 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     rerender(
       <QueryClientProvider client={queryClient}>
         <MantineProvider>
-          <UIProvider presenters={{ Link: MockLink }} hooks={{} as any}>
+          <UIProvider
+            presenters={{ Link: MockLink }}
+            hooks={{} as unknown as import("@repo/ui").UIHookRegistry}
+          >
             <ImporterScreen source="xbox" />
           </UIProvider>
         </MantineProvider>
@@ -320,13 +385,19 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
 
   it("Task 2.4: distinguishes search empty, first sync, all done, and connection error", async () => {
     // 1. Search without results
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockResolvedValue({
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue({
       data: [],
       pagination: { totalItems: 0, totalPages: 0, hasNextPage: false },
     });
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 0,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -337,10 +408,14 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     // Initial with lastSyncedAt and no search: allDone message
     await waitFor(() => {
       expect(
-        screen.getByText("All discovered games have been imported or processed."),
+        screen.getByText(
+          "All discovered games have been imported or processed.",
+        ),
       ).toBeTruthy();
       expect(
-        screen.getByText("Check if your library at the target platform is set to public."),
+        screen.getByText(
+          "Check if your library at the target platform is set to public.",
+        ),
       ).toBeTruthy();
     });
 
@@ -351,9 +426,12 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
 
     // 2. First sync in progress (lastSyncedAt is null/undefined)
     cleanup();
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 0,
       lastSyncedAt: null,
     } as OwnUserConnectionDto);
@@ -371,9 +449,10 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
 
     // 3. Connection error
     cleanup();
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockRejectedValue(
-      new Error("Connection server timeout"),
-    );
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockRejectedValue(new Error("Connection server timeout"));
 
     const client3 = createTestQueryClient();
     renderUI(<ImporterScreen source="steam" />, client3);
@@ -387,12 +466,16 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
   });
 
   it("Task 3.1 & 3.4 & 3.5: imports selected with initial status, collections, and single batch request, handling skippedCount", async () => {
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockResolvedValue(
-      sampleEntriesPage1,
-    );
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue(sampleEntriesPage1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -416,7 +499,9 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     });
 
     // Select collections
-    const collectionSelect = await screen.findByTestId("mock-collection-select");
+    const collectionSelect = await screen.findByTestId(
+      "mock-collection-select",
+    );
     fireEvent.click(collectionSelect);
 
     // Select Hades (IDs 101, 102) and Celeste (ID 103)
@@ -424,7 +509,9 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     fireEvent.click(screen.getByAltText("Celeste"));
 
     // Click Import selected (use first one or sticky bar)
-    const importSelectedBtns = screen.getAllByRole("button", { name: "Import selected" });
+    const importSelectedBtns = screen.getAllByRole("button", {
+      name: "Import selected",
+    });
     fireEvent.click(importSelectedBtns[0]);
 
     await waitFor(() => {
@@ -448,12 +535,16 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
   });
 
   it("Task 3.2: imports all with confirmation modal, handles cancel and confirm with importAll=true", async () => {
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockResolvedValue(
-      sampleEntriesPage1,
-    );
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue(sampleEntriesPage1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -479,7 +570,9 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     await waitFor(() => {
       expect(screen.getByText("Import all games")).toBeTruthy();
       expect(
-        screen.getByText("This will import all 4 games from Steam into your library."),
+        screen.getByText(
+          "This will import all 4 games from Steam into your library.",
+        ),
       ).toBeTruthy();
     });
 
@@ -515,12 +608,16 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
   });
 
   it("Task 3.3: ignores selected games via importerControllerChangeStatusBatchV1 and preserves on failure", async () => {
-    vi.spyOn(ImporterService, "importerControllerFindUnprocessedEntriesV1").mockResolvedValue(
-      sampleEntriesPage1,
-    );
-    vi.spyOn(ConnectionsService, "connectionsControllerFindOwnByTypeV1").mockResolvedValue({
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue(sampleEntriesPage1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
       id: 1,
-      type: "steam" as any,
+      type: "steam" as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -528,7 +625,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     const changeStatusSpy = vi
       .spyOn(ImporterService, "importerControllerChangeStatusBatchV1")
       .mockRejectedValueOnce(new Error("Database error"))
-      .mockResolvedValueOnce({} as any);
+      .mockResolvedValueOnce(undefined);
 
     renderUI(<ImporterScreen source="steam" />);
 

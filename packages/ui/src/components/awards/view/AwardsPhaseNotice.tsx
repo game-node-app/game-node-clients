@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { Flex, Stack, Text, Title } from "@mantine/core";
 import { useAwardEvent } from "#@/components";
-import dayjs from "dayjs";
+import { Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import dayjs from "dayjs";
+import { useMemo } from "react";
 
 interface Props {
   eventId: number;

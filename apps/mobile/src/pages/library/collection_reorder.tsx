@@ -1,7 +1,6 @@
-import React from "react";
 import { AppPage } from "@/components/general/AppPage";
-import { CollectionOrderingUpdateForm } from "@repo/ui";
 import { Box } from "@mantine/core";
+import { CollectionOrderingUpdateForm } from "@repo/ui";
 
 interface Props {
   collectionId: string;

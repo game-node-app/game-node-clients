@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
 import {
   Group,
-  Select,
   SegmentedControl,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -12,6 +11,7 @@ import {
 import { useDebouncedValue } from "@mantine/hooks";
 import { ACHIEVEMENT_GLYPHS, AchievementBadge, useSearchGames } from "@repo/ui";
 import { AchievementIconDto } from "@repo/wrapper/server";
+import { useMemo, useState } from "react";
 
 interface Props {
   value: { kind: string; name?: string; gameId?: number };
@@ -38,15 +38,20 @@ const GameCoverSelect = ({
   );
   const [names, setNames] = useState<Record<string, string>>({});
 
-  useEffect(() => {
+  const [previousResults, setPreviousResults] =
+    useState<typeof searchQuery.data>();
+  if (previousResults !== searchQuery.data) {
+    setPreviousResults(searchQuery.data);
     const results = searchQuery.data?.data?.items ?? [];
     if (results.length > 0) {
-      setNames((prev) => ({
-        ...prev,
-        ...Object.fromEntries(results.map((g) => [`${g.id}`, g.name ?? ""])),
+      setNames((previous) => ({
+        ...previous,
+        ...Object.fromEntries(
+          results.map((game) => [`${game.id}`, game.name ?? ""]),
+        ),
       }));
     }
-  }, [searchQuery.data]);
+  }
 
   const data = useMemo(() => {
     const ids = new Set(Object.keys(names));

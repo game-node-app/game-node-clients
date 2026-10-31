@@ -1,18 +1,16 @@
-import React, { ExoticComponent, PropsWithoutRef } from "react";
-import { IconProps } from "@tabler/icons-react";
+import { RoundedIcon } from "#@/components/general/RoundedIcon";
+import { cn } from "#@/util";
 import {
   Flex,
   FlexProps,
-  Group,
-  GroupProps,
   Stack,
   Text,
   TextProps,
   Title,
   TitleProps,
 } from "@mantine/core";
-import { RoundedIcon } from "#@/components/general/RoundedIcon";
-import { cn } from "#@/util";
+import { IconProps } from "@tabler/icons-react";
+import { ExoticComponent, PropsWithoutRef } from "react";
 
 export interface ProfileStatsDataIconProps {
   description: string;

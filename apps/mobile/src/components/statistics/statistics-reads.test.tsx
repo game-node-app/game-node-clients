@@ -33,12 +33,13 @@ it("uses native IDs, zero counters and actor-specific status without requesting 
       viewsCount: 0,
       likesCount: 0,
       projectionLagSeconds: 4,
-    } as any);
+    } as unknown as import("@repo/wrapper/server").StatisticsSummaryDto);
   const status = vi
     .spyOn(StatisticsService, "statisticsControllerGetStatusV1")
-    .mockImplementation(
-      async () => ({ isLiked: !!session.id, isViewed: false }) as any,
-    );
+    .mockImplementation((async () => ({
+      isLiked: !!session.id,
+      isViewed: false,
+    })) as unknown as typeof StatisticsService.statisticsControllerGetStatusV1);
   const hook = renderHook(({ id, type }) => useItemStatistics(id, type), {
     initialProps: {
       id: undefined as string | undefined,
@@ -87,7 +88,10 @@ it("reports failed reads instead of inventing statistics", async () => {
   vi.spyOn(
     StatisticsService,
     "statisticsControllerGetStatusV1",
-  ).mockResolvedValue({ isLiked: false, isViewed: false } as any);
+  ).mockResolvedValue({
+    isLiked: false,
+    isViewed: false,
+  } as unknown as import("@repo/wrapper/server").StatisticsStatusDto);
   const hook = renderHook(
     () => useItemStatistics(42, StatisticsSourceRequestDto.sourceType.GAME),
     { wrapper },

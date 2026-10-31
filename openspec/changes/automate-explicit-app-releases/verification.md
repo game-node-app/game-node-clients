@@ -36,7 +36,7 @@ These are policy replays, not a retroactive authorization to deploy PR #78.
   [GitHub Actions concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
   That single field has documentation/YAML validation rather than actionlint coverage.
 
-## Existing lint blockers
+## Initial lint blockers (resolved below)
 
 The new affected lint run fails on existing source violations. They are not
 suppressed or accepted as successful checks:
@@ -85,6 +85,33 @@ been identified. Existing signing secrets were verified by name only.
   documented above. Snapshot reservation and delivery did not run.
 
 Neither project has been deployed through the new pipeline. The requested live
-release remains incomplete, pending the application lint cleanup scope decision
-and successful checks. No check was bypassed, no production image tag was changed,
+release remains incomplete, pending successful hosted checks and delivery. No check was bypassed, no production image tag was changed,
 and main was not merged or rewritten.
+
+## Authorized application cleanup
+
+The user approved clearing the lint backlog before real delivery. The shared
+ESLint config now leaves unused-variable checks to the TypeScript rule instead of
+also running the JavaScript rule on TS signatures. Unused variables still fail
+validation, with a regression check for that behavior. Required unused callback
+positions use the conventional underscore prefix.
+
+TypeScript organized unused imports; production casts now use actual SDK/React
+contracts, and test mocks use the contracts they emulate. Redundant effects were
+replaced with derived values, guarded state synchronization, or event updates.
+The report-discard payload guard, async cancellation, editor focus behavior, and
+server-rendering safeguards were preserved. Admin transpilation now includes its
+locales dependency instead of an unused analytics package.
+
+Local verification now passes:
+
+- Complete `turbo run lint type-check test build --affected --continue`: all 18 actual tasks succeed.
+- 15 release/config regression tests pass.
+- 103 mobile tests, including four focused error-message, mention-keyboard, and
+  report-discard cases, pass; all 7 admin tests pass.
+- Web's zero-warning lint policy passes; other workspaces retain non-blocking
+  style/advisory warnings under their existing policies.
+- Production Next builds for web/admin and Vite/Capacitor build/sync for mobile pass.
+
+The real release task remains open until hosted CI succeeds and the published
+web/admin images are verified in Coolify.

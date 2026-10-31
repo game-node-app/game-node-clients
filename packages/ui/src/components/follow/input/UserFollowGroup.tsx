@@ -1,8 +1,6 @@
-import React from "react";
-import { Group, GroupProps } from "@mantine/core";
-import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
-import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
 import { UserFollowActions } from "#@/components/follow/input/UserFollowActions";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
+import { Group, GroupProps } from "@mantine/core";
 
 interface Props extends GroupProps {
   userId: string;

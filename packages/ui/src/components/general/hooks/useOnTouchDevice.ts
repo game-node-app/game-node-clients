@@ -3,6 +3,7 @@ export function useOnTouchDevice() {
     typeof window !== "undefined" &&
     ("ontouchstart" in window ||
       navigator.maxTouchPoints > 0 ||
-      (navigator as any).msMaxTouchPoints > 0)
+      ((navigator as Navigator & { msMaxTouchPoints?: number })
+        .msMaxTouchPoints ?? 0) > 0)
   );
 }

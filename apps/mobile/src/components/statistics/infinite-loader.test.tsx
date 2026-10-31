@@ -1,11 +1,24 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
-import { cleanup, render } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
 import { SimpleInfiniteLoader } from "../../../../../packages/ui/src/components/feed/SimpleInfiniteLoader";
 
-const observer = vi.hoisted(() => ({ entry: null as any }));
+const observer = vi.hoisted(() => ({
+  entry: null as {
+    isIntersecting: boolean;
+    time: number;
+    rootBounds: { top: number; bottom: number; left: number; right: number };
+    target: {
+      getBoundingClientRect: () => {
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
+      };
+    };
+  } | null,
+}));
 vi.mock("@mantine/hooks", () => ({
   useIntersection: () => ({ ref: vi.fn(), entry: observer.entry }),
 }));

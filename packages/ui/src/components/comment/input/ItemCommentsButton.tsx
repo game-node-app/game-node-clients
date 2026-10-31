@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
 import {
   useComments,
   UseCommentsProps,
 } from "#@/components/comment/hooks/useComments";
-import { IconMessageCircle, IconMessages } from "@tabler/icons-react";
 import { ActionIcon, Text } from "@mantine/core";
+import { IconMessageCircle } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 interface Props extends Omit<UseCommentsProps, "enabled"> {
   onClick: () => void;

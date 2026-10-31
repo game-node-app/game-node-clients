@@ -14,11 +14,15 @@ import enTranslations from "../../../../../packages/locales/src/translations/jso
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
-      let val: any = enTranslations;
-      for (const p of key.split(".")) val = val?.[p];
+    t: (key: string, options?: Record<string, unknown>) => {
+      let val: unknown = enTranslations;
+      for (const p of key.split("."))
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       return typeof val === "string"
-        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? "")
+        ? val.replace(/\{\{(\w+)\}\}/g, (_, k) => String(options?.[k] ?? ""))
         : key;
     },
   }),
@@ -95,7 +99,7 @@ describe("AchievementBadge", () => {
 describe("AchievementItem", () => {
   const achievement: AchievementV2Dto = {
     id: "reviewer",
-    category: 0 as any,
+    category: 0 as unknown as AchievementV2Dto.category,
     criteria: null,
     isHidden: false,
     name: "Reviewer",

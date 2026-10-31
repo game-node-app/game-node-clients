@@ -1,15 +1,14 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import {
   NotificationImporterTargetDto,
   NotificationInboxItemDto,
 } from "@repo/wrapper/server";
-import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
 import ptTranslations from "../../../../../packages/locales/src/translations/json/pt-BR.json";
+import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
 
 const mockRouter = vi.hoisted(() => ({
   push: vi.fn().mockResolvedValue(undefined),
@@ -19,23 +18,32 @@ vi.mock("../../../../../packages/ui/src/util/link", () => ({
   useRouter: () => mockRouter,
 }));
 
-vi.mock("../../../../../packages/ui/src/components/auth/hooks/useUserId", () => ({
-  useUserId: () => "user-1",
-}));
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({
+    useUserId: () => "user-1",
+  }),
+);
 
 let currentLang = "en";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
-      const translations: any = currentLang === "pt-BR" ? ptTranslations : enTranslations;
+    t: (key: string, options?: Record<string, unknown>) => {
+      const translations =
+        currentLang === "pt-BR" ? ptTranslations : enTranslations;
       const parts = key.split(".");
-      let val: any = translations;
+      let val: unknown = translations;
       for (const p of parts) {
-        val = val?.[p];
+        val =
+          typeof val === "object" && val !== null
+            ? (val as Record<string, unknown>)[p]
+            : undefined;
       }
       if (typeof val === "string") {
-        return val.replace(/\{\{(\w+)\}\}/g, (_, k) => options?.[k] ?? `{{${k}}}`);
+        return val.replace(/\{\{(\w+)\}\}/g, (_, k) =>
+          String(options?.[k] ?? `{{${k}}}`),
+        );
       }
       return key;
     },
@@ -66,7 +74,8 @@ describe("import.discovery-completed notification localization", () => {
     actorCount: 0,
     eventCount: 1,
     preview: {
-      provider: "steam" as any,
+      provider:
+        "steam" as unknown as import("@repo/wrapper/server").NotificationImportPreviewDto.provider,
       gameCount: 20,
       importedCount: 10,
       skippedCount: 5,
@@ -79,7 +88,7 @@ describe("import.discovery-completed notification localization", () => {
     target: {
       type: NotificationImporterTargetDto.type.IMPORTER,
       id: "imp-steam",
-      provider: "steam" as any,
+      provider: "steam" as unknown as NotificationImporterTargetDto.provider,
     },
     lastEventAt: "2026-10-25T12:00:00Z",
     version: 1,
@@ -101,7 +110,9 @@ describe("import.discovery-completed notification localization", () => {
     );
 
     expect(
-      screen.getByText(/We've found 20 new games ready to be imported from your Steam connection/i),
+      screen.getByText(
+        /We've found 20 new games ready to be imported from your Steam connection/i,
+      ),
     ).toBeTruthy();
     expect(screen.getByText(/10 automatically imported/i)).toBeTruthy();
     expect(screen.getByText(/5 already in your library/i)).toBeTruthy();

@@ -1,7 +1,6 @@
-import React from "react";
-import { JournalAchievementsYearGroup } from "@repo/wrapper/server";
-import { Stack } from "@mantine/core";
 import { JournalAchievementsYearGroupView } from "#@/components";
+import { Stack } from "@mantine/core";
+import { JournalAchievementsYearGroup } from "@repo/wrapper/server";
 
 interface Props {
   userId: string;

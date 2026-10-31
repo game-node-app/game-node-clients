@@ -1,14 +1,4 @@
-import React from "react";
-import {
-  Box,
-  Container,
-  Flex,
-  Image,
-  Paper,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Container, Flex, Paper, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 const Privacy = () => {

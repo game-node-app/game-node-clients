@@ -1,9 +1,8 @@
-import { TGameOrSearchGame } from "#@/components/game/util/types";
 import {
   isGameObject,
   isGameSearchObject,
 } from "#@/components/game/util/isGameObject";
-import { Game } from "../../../../../wrapper/src/server";
+import { TGameOrSearchGame } from "#@/components/game/util/types";
 
 export interface IGamePlatformInfo {
   platformsIds: number[] | undefined;

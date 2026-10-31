@@ -1,6 +1,5 @@
-import React from "react";
-import { Stack } from "@mantine/core";
 import { DetailsBox, PreferredPlatformsView } from "#@/components";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 const PreferencesLibraryScreen = () => {

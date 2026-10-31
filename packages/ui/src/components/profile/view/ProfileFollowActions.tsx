@@ -1,17 +1,7 @@
-import React, { useMemo } from "react";
-import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "#@/components/follow/hooks/useFollowStatus";
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Group,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
 import { UserFollowActions } from "#@/components/follow/input/UserFollowActions";
+import { Stack, Text } from "@mantine/core";
 
 interface Props {
   targetUserId: string;
@@ -20,7 +10,7 @@ interface Props {
 
 const ProfileFollowActions = ({
   targetUserId,
-  withUnfollowButton = true,
+  withUnfollowButton: _withUnfollowButton = true,
 }: Props) => {
   const ownUserId = useUserId();
   /*

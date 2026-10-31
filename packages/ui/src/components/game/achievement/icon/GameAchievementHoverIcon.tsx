@@ -1,6 +1,5 @@
-import React from "react";
-import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
 import { useOnMobile } from "#@/components";
+import { cn } from "#@/util";
 import {
   HoverCard,
   Image,
@@ -10,8 +9,8 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { GameAchievementWithObtainedInfo } from "@repo/wrapper/server";
 import dayjs from "dayjs";
-import { cn } from "#@/util";
 
 interface Props extends Omit<ImageProps, "src" | "alt"> {
   achievement: GameAchievementWithObtainedInfo;

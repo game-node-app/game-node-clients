@@ -1,11 +1,7 @@
-import React from "react";
-import { Box, Group, Image, Stack, Text } from "@mantine/core";
-import {
-  YearRecapPlayedGame,
-  YearRecapPlayedGameDto,
-} from "@repo/wrapper/server";
 import { getSizedImageUrl, ImageSize, useGame } from "#@/components";
 import { getServerStoredIcon } from "#@/util";
+import { Group, Image, Stack, Text } from "@mantine/core";
+import { YearRecapPlayedGameDto } from "@repo/wrapper/server";
 
 interface Props {
   playedGame: YearRecapPlayedGameDto;

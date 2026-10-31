@@ -1,4 +1,3 @@
-import React, { useMemo, useRef } from "react";
 import {
   getCoverUrl,
   getSizedImageUrl,
@@ -7,11 +6,12 @@ import {
   useCollectionEntriesForCollectionId,
   useGames,
 } from "#@/components";
-import { Card, Image, Stack, Title, Text } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
-import { Link } from "#@/util";
-import Autoplay from "embla-carousel-autoplay";
 import { buildPresenterComponent } from "#@/context";
+import { Link } from "#@/util";
+import { Carousel } from "@mantine/carousel";
+import { Card, Image, Stack, Text, Title } from "@mantine/core";
+import Autoplay from "embla-carousel-autoplay";
+import { useMemo, useRef } from "react";
 
 export interface CollectionThumbnailCardProps {
   collectionId: string;

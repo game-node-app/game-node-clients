@@ -1,11 +1,10 @@
-import React from "react";
+import { TPaginationInfoDto } from "#@/util/types/pagination";
 import {
   Center,
   CenterProps,
   Pagination,
   PaginationProps,
 } from "@mantine/core";
-import { TPaginationInfoDto } from "#@/util/types/pagination";
 
 export interface IGameViewPaginationProps
   extends Omit<PaginationProps, "value" | "total" | "onChange" | "results"> {

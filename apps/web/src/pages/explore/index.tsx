@@ -1,31 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActionIcon, Affix, Skeleton, Stack, Transition } from "@mantine/core";
-import { NextPageContext } from "next";
-import { dehydrate, InfiniteData, QueryClient } from "@tanstack/react-query";
+import { ActionIcon, Affix, Stack, Transition } from "@mantine/core";
+import { useWindowScroll } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
+import {
+  CenteredErrorMessage,
+  GameView,
+  getInfiniteTrendingGamesKey,
+  getInfiniteTrendingGamesRequest,
+  SimpleInfiniteLoader,
+  useGames,
+  useInfiniteTrendingGames,
+} from "@repo/ui";
 import {
   GameRepositoryFindAllDto,
   GameRepositoryService,
   StatisticsRankingResponseDto,
   StatisticsService,
 } from "@repo/wrapper/server";
-import ExploreScreenFilters from "../../components/explore/ExploreScreenFilters";
-import { useIntersection, useWindowScroll } from "@mantine/hooks";
 import { IconArrowUp } from "@tabler/icons-react";
+import { dehydrate, InfiniteData, QueryClient } from "@tanstack/react-query";
+import { NextPageContext } from "next";
+import Head from "next/head";
+import { useMemo, useState } from "react";
+import ExploreScreenFilters from "../../components/explore/ExploreScreenFilters";
 import {
   DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
   exploreScreenUrlQueryToDto,
 } from "../../components/explore/utils";
-import Head from "next/head";
-import {
-  CenteredErrorMessage,
-  GameView,
-  SimpleInfiniteLoader,
-  useGames,
-  useInfiniteTrendingGames,
-  getInfiniteTrendingGamesKey,
-  getInfiniteTrendingGamesRequest,
-} from "@repo/ui";
-import { useTranslation } from "@repo/locales";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;

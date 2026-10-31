@@ -1,10 +1,9 @@
-import React from "react";
-import { EditorOptions, useEditor } from "@tiptap/react";
-import { StarterKit } from "@tiptap/starter-kit";
 import { RichTextEditor } from "@mantine/tiptap";
-import { Placeholder } from "@tiptap/extension-placeholder";
-import { BubbleMenu } from "@tiptap/react/menus";
 import { useTranslation } from "@repo/locales";
+import { Placeholder } from "@tiptap/extension-placeholder";
+import { EditorOptions, useEditor } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
+import { StarterKit } from "@tiptap/starter-kit";
 
 interface Props extends Partial<EditorOptions> {
   onClick?: () => void;
@@ -54,5 +53,4 @@ const CommentEditor = ({ onClick, ...editorOptions }: Props) => {
   );
 };
 
-export { CommentEditor };
-export { createCommentEditorExtensions };
+export { CommentEditor, createCommentEditorExtensions };

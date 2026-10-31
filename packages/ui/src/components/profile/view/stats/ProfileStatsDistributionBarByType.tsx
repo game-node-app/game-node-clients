@@ -1,11 +1,10 @@
-import React from "react";
+import { ProfileStatsDistributionByTypeChart } from "#@/components";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import {
   ProfileMetricsDistributionTypeBy,
   useProfileMetricsDistributionByType,
 } from "#@/components/profile/hooks/useProfileMetricsDistributionByType";
 import { BarChartProps } from "@mantine/charts";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { ProfileStatsDistributionByTypeChart } from "#@/components";
 
 interface Props extends Omit<BarChartProps, "data" | "dataKey" | "series"> {
   userId: string;

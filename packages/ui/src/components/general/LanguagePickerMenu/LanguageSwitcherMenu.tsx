@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import { Menu, Text, UnstyledButton } from "@mantine/core";
 import { SupportedLanguage, useI18nContext } from "@repo/locales";
 import { IconChevronDown, IconLanguage } from "@tabler/icons-react";
+import { useState } from "react";
 
 export const LANGUAGE_OPTIONS: {
   value: SupportedLanguage;

@@ -1,5 +1,5 @@
 import { UIPresenterRegistry, usePresenter } from "#@/context";
-import { ComponentProps, ComponentType } from "react";
+import { ComponentProps, ComponentType, createElement } from "react";
 
 /**
  * Returns a presenter component that renders a fallback if the presenter is not found. <br>
@@ -15,7 +15,7 @@ export function buildPresenterComponent<K extends keyof UIPresenterRegistry>(
   const PresenterFallback = (props: ComponentProps<UIPresenterRegistry[K]>) => {
     const Presenter = usePresenter(name);
     // @ts-expect-error - Presenter is optional
-    return Presenter ? <Presenter {...props} /> : <Fallback {...props} />;
+    return createElement(Presenter ?? Fallback, props);
   };
 
   PresenterFallback.displayName = `Presenter(${name})`;

@@ -1,15 +1,15 @@
-import React, { useMemo, useState } from "react";
-import { Flex, Stack } from "@mantine/core";
 import { IonSelect, IonSelectOption } from "@ionic/react";
-import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
+import { Flex, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   GameView,
+  InfiniteQueryTrendingGamesDto,
   SimpleInfiniteLoader,
   useGames,
   useInfiniteTrendingGames,
-  InfiniteQueryTrendingGamesDto,
 } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
+import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
+import { useMemo, useState } from "react";
 
 import period = StatisticsRankingsRequestDto.period;
 

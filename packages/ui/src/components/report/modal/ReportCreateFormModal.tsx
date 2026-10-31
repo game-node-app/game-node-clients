@@ -1,10 +1,9 @@
-import React from "react";
-import { BaseModalProps } from "#@/util/types/modal-props";
 import {
-  ReportCreateFormProps,
   ReportCreateForm,
+  ReportCreateFormProps,
 } from "#@/components/report/form/ReportCreateForm";
 import { Modal } from "#@/util";
+import { BaseModalProps } from "#@/util/types/modal-props";
 
 type Props = BaseModalProps & ReportCreateFormProps;
 

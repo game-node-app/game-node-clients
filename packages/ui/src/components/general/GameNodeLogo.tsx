@@ -1,5 +1,4 @@
 import React from "react";
-import { Group } from "@mantine/core";
 
 type GameNodeLogoProps = React.ComponentPropsWithoutRef<"img">;
 

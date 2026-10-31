@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useSearchGamesAutocomplete } from "#@/components";
 import {
   Button,
   Combobox,
@@ -10,9 +10,9 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { useDebouncedCallback, useDebouncedValue } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
-import { useSearchGamesAutocomplete } from "#@/components";
 import { useTranslation } from "@repo/locales";
+import { IconSearch } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface Props extends Omit<TextInputProps, "onChange"> {
   withButton?: boolean;

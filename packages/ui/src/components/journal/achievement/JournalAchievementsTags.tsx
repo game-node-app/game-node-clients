@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import { EGameExternalGameCategory } from "#@/components";
-import { Badge, Group } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
+import { Badge, Group } from "@mantine/core";
+import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
+import { useMemo } from "react";
 import { match, P } from "ts-pattern";
 
 interface Props {

@@ -1,9 +1,8 @@
-import React from "react";
+import { IonRippleEffect } from "@ionic/react";
 import { Box, Group, Skeleton, Stack, Text } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
   GameFigureImage,
-  GameGridItem,
   GameRating,
   Link,
   useGame,
@@ -11,7 +10,6 @@ import {
   useReview,
 } from "@repo/ui";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { IonRippleEffect } from "@ionic/react";
 
 interface Props {
   reviewId: string;

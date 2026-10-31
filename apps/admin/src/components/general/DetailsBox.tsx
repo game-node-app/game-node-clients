@@ -1,5 +1,5 @@
-import { Box, Stack, StackProps, Text } from "@mantine/core";
-import React, { PropsWithChildren } from "react";
+import { Stack, StackProps, Text } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 interface IDetailsBoxProps extends PropsWithChildren {
     enabled?: boolean;

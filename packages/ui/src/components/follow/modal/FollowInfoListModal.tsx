@@ -1,10 +1,9 @@
-import React from "react";
-import { ScrollArea } from "@mantine/core";
-import { BaseModalProps } from "#@/util/types/modal-props";
 import { FollowInfoList } from "#@/components/follow/list/FollowInfoList";
-import { FollowInfoRequestDto } from "@repo/wrapper/server";
 import { Modal } from "#@/util";
+import { BaseModalProps } from "#@/util/types/modal-props";
+import { ScrollArea } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 
 interface Props extends BaseModalProps {
   targetUserId: string;

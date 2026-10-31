@@ -1,4 +1,4 @@
-import { ConnectionCreateDto, ConnectionsService } from "@repo/wrapper/server";
+import { ConnectionsService } from "@repo/wrapper/server";
 import { useQuery } from "@tanstack/react-query";
 
 export function useUserConnections(userId: string) {

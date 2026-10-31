@@ -5,6 +5,7 @@ import {
   cleanup,
   fireEvent,
   render,
+  renderHook,
   screen,
   waitFor,
 } from "@testing-library/react";
@@ -41,7 +42,7 @@ vi.mock(
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       if (key === "notifications.discovery.baseMessage") {
         return `We\x27ve found ${options?.gamesCount} new games ready to be imported from your ${options?.sourceName} connection.`;
       }
@@ -108,7 +109,11 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       id: 1,
       type: "content.liked",
       actors: [
-        { userId: "u1", username: "alice", avatar: { id: 10, filename: "alice_avatar" } },
+        {
+          userId: "u1",
+          username: "alice",
+          avatar: { id: 10, filename: "alice_avatar" },
+        },
         { userId: "u2", username: "bob" },
       ],
       actorCount: 4,
@@ -164,7 +169,9 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
     );
 
     expect(screen.getByText(/alice/i)).toBeTruthy();
-    expect(screen.getByText(/liked your activity of Chrono Trigger/i)).toBeTruthy();
+    expect(
+      screen.getByText(/liked your activity of Chrono Trigger/i),
+    ).toBeTruthy();
   });
 
   it("renders comment.created directly from materialized preview and target", () => {
@@ -190,7 +197,9 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
     );
 
     expect(screen.getByText(/alice/i)).toBeTruthy();
-    expect(screen.getByText(/commented on your review: "Great review!"/i)).toBeTruthy();
+    expect(
+      screen.getByText(/commented on your review: "Great review!"/i),
+    ).toBeTruthy();
   });
 
   it("renders comment.replied directly from materialized preview", () => {
@@ -216,7 +225,9 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
     );
 
     expect(screen.getByText(/bob/i)).toBeTruthy();
-    expect(screen.getByText(/replied to your comment: "I agree with this"/i)).toBeTruthy();
+    expect(
+      screen.getByText(/replied to your comment: "I agree with this"/i),
+    ).toBeTruthy();
   });
 
   it("renders profile.followed directly from materialized actors", () => {
@@ -253,7 +264,8 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       actorCount: 0,
       eventCount: 1,
       preview: {
-        provider: "steam" as any,
+        provider:
+          "steam" as unknown as import("@repo/wrapper/server").NotificationImportPreviewDto.provider,
         gameCount: 15,
         importedCount: 5,
         skippedCount: 8,
@@ -266,7 +278,7 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       target: {
         type: NotificationImporterTargetDto.type.IMPORTER,
         id: "imp-1",
-        provider: "steam" as any,
+        provider: "steam" as unknown as NotificationImporterTargetDto.provider,
       },
       lastEventAt: "2026-10-25T12:00:00Z",
       version: 1,
@@ -281,7 +293,11 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       />,
     );
 
-    expect(screen.getByText(/15 new games ready to be imported from your Steam connection/i)).toBeTruthy();
+    expect(
+      screen.getByText(
+        /15 new games ready to be imported from your Steam connection/i,
+      ),
+    ).toBeTruthy();
     expect(screen.getByText(/5 automatically imported/i)).toBeTruthy();
     expect(screen.getByText(/8 already in your library/i)).toBeTruthy();
     expect(screen.getByText(/2 failed/i)).toBeTruthy();
@@ -297,7 +313,9 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       eventCount: 1,
       preview: {
         text: "",
-        action: "suspension" as any,
+        action: "suspension" as unknown as
+          | import("@repo/wrapper/server").NotificationTextPreviewDto.action
+          | undefined,
         reason: "Inappropriate review text",
       },
       target: null,
@@ -324,9 +342,17 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
 describe("Notification Inbox - Target navigation", () => {
   it.each([
     ["post", "/posts?postId=post-456", { type: "post", id: "post-456" }],
-    ["activity", "/activity/detail/act-789", { type: "activity", id: "act-789" }],
+    [
+      "activity",
+      "/activity/detail/act-789",
+      { type: "activity", id: "act-789" },
+    ],
     ["profile", "/profile/user-101", { type: "profile", id: "user-101" }],
-    ["importer", "/importer/steam", { type: "importer", id: "imp-1", provider: "steam" }],
+    [
+      "importer",
+      "/importer/steam",
+      { type: "importer", id: "imp-1", provider: "steam" },
+    ],
   ])("navigates directly for %s target", async (_, expectedRoute, target) => {
     const onClick = vi.fn();
     const item: NotificationInboxItemDto = {
@@ -336,7 +362,13 @@ describe("Notification Inbox - Target navigation", () => {
       actorCount: 1,
       eventCount: 1,
       preview: { text: "Liked" },
-      target: target as any,
+      target: target as unknown as
+        | NotificationContentTargetDto
+        | NotificationActivityTargetDto
+        | NotificationProfileTargetDto
+        | NotificationImporterTargetDto
+        | import("@repo/wrapper/server").NotificationAchievementTargetDto
+        | null,
       lastEventAt: "2026-10-25T12:00:00Z",
       version: 1,
       readVersion: 1,
@@ -359,10 +391,13 @@ describe("Notification Inbox - Target navigation", () => {
 
   it("resolves review target on click to /game/<gameId>?tab=reviews&reviewId=<id>", async () => {
     const onClick = vi.fn();
-    vi.spyOn(ReviewsService, "reviewsControllerFindOneByIdV1").mockResolvedValue({
+    vi.spyOn(
+      ReviewsService,
+      "reviewsControllerFindOneByIdV1",
+    ).mockResolvedValue({
       id: "rev-333",
       gameId: 777,
-    } as any);
+    } as unknown as import("@repo/wrapper/server").Review);
 
     const item: NotificationInboxItemDto = {
       id: 11,
@@ -388,8 +423,12 @@ describe("Notification Inbox - Target navigation", () => {
     fireEvent.click(screen.getByText(/alice/i));
     expect(onClick).toHaveBeenCalledTimes(1);
     await waitFor(() => {
-      expect(ReviewsService.reviewsControllerFindOneByIdV1).toHaveBeenCalledWith("rev-333");
-      expect(mockRouter.push).toHaveBeenCalledWith("/game/777?tab=reviews&reviewId=rev-333");
+      expect(
+        ReviewsService.reviewsControllerFindOneByIdV1,
+      ).toHaveBeenCalledWith("rev-333");
+      expect(mockRouter.push).toHaveBeenCalledWith(
+        "/game/777?tab=reviews&reviewId=rev-333",
+      );
     });
   });
 });
@@ -437,36 +476,46 @@ describe("Notification Inbox - Cursor pagination", () => {
     const findSpy = vi
       .spyOn(NotificationsService, "notificationsControllerFindAllV1")
       .mockImplementation(((cursor?: string) => {
-        if (!cursor) return Promise.resolve(firstPage) as any;
-        if (cursor === "cursor_page_2") return Promise.resolve(secondPage) as any;
-        return Promise.resolve({ data: [], pagination: { nextCursor: null, hasMore: false }, unreadCount: 0 }) as any;
-      }) as any);
+        if (!cursor) return Promise.resolve(firstPage);
+        if (cursor === "cursor_page_2") return Promise.resolve(secondPage);
+        return Promise.resolve({
+          data: [],
+          pagination: { nextCursor: null, hasMore: false },
+          unreadCount: 0,
+        });
+      }) as unknown as typeof NotificationsService.notificationsControllerFindAllV1);
 
-    let hookResult!: ReturnType<typeof useInfiniteAggregatedNotifications>;
-    function TestPaginationComponent() {
-      hookResult = useInfiniteAggregatedNotifications(10);
-      return <div>Loaded {hookResult.data?.pages.length ?? 0} pages</div>;
-    }
-
-    renderUI(<TestPaginationComponent />);
+    const client = createTestQueryClient();
+    const { result: hookResult } = renderHook(
+      () => useInfiniteAggregatedNotifications(10),
+      {
+        wrapper: function Wrapper({ children }: React.PropsWithChildren) {
+          return (
+            <QueryClientProvider client={client}>
+              {children}
+            </QueryClientProvider>
+          );
+        },
+      },
+    );
 
     await waitFor(() => {
-      expect(hookResult.data?.pages.length).toBe(1);
+      expect(hookResult.current.data?.pages.length).toBe(1);
     });
 
     expect(findSpy).toHaveBeenCalledWith(undefined, 10);
-    expect(hookResult.hasNextPage).toBe(true);
+    expect(hookResult.current.hasNextPage).toBe(true);
 
     // Fetch next page
-    hookResult.fetchNextPage();
+    hookResult.current.fetchNextPage();
 
     await waitFor(() => {
-      expect(hookResult.data?.pages.length).toBe(2);
+      expect(hookResult.current.data?.pages.length).toBe(2);
     });
 
     expect(findSpy).toHaveBeenCalledWith("cursor_page_2", 10);
     // On second page, hasMore is false, so hasNextPage must be false
-    expect(hookResult.hasNextPage).toBe(false);
+    expect(hookResult.current.hasNextPage).toBe(false);
   });
 });
 
@@ -475,31 +524,42 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
     const queryClient = createTestQueryClient();
 
     // unreadCount > 0
-    queryClient.setQueryData(["notifications", "aggregated", "infinite", "test-user-id"], {
-      pages: [
-        {
-          data: [{ id: 1, version: 1, readVersion: 1 }],
-          pagination: { nextCursor: null, hasMore: false },
-          unreadCount: 3,
-        },
-      ],
-      pageParams: [undefined],
-    });
+    queryClient.setQueryData(
+      ["notifications", "aggregated", "infinite", "test-user-id"],
+      {
+        pages: [
+          {
+            data: [{ id: 1, version: 1, readVersion: 1 }],
+            pagination: { nextCursor: null, hasMore: false },
+            unreadCount: 3,
+          },
+        ],
+        pageParams: [undefined],
+      },
+    );
 
-    const { container, rerender } = renderUI(<NotificationsIcon />, queryClient);
-    expect(container.querySelector(".mantine-Indicator-indicator")).toBeTruthy();
+    const { container, rerender } = renderUI(
+      <NotificationsIcon />,
+      queryClient,
+    );
+    expect(
+      container.querySelector(".mantine-Indicator-indicator"),
+    ).toBeTruthy();
 
     // unreadCount = 0 but item readVersion < version
-    queryClient.setQueryData(["notifications", "aggregated", "infinite", "test-user-id"], {
-      pages: [
-        {
-          data: [{ id: 1, version: 2, readVersion: 1 }],
-          pagination: { nextCursor: null, hasMore: false },
-          unreadCount: 0,
-        },
-      ],
-      pageParams: [undefined],
-    });
+    queryClient.setQueryData(
+      ["notifications", "aggregated", "infinite", "test-user-id"],
+      {
+        pages: [
+          {
+            data: [{ id: 1, version: 2, readVersion: 1 }],
+            pagination: { nextCursor: null, hasMore: false },
+            unreadCount: 0,
+          },
+        ],
+        pageParams: [undefined],
+      },
+    );
 
     rerender(
       <QueryClientProvider client={queryClient}>
@@ -508,19 +568,24 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
         </MantineProvider>
       </QueryClientProvider>,
     );
-    expect(container.querySelector(".mantine-Indicator-indicator")).toBeTruthy();
+    expect(
+      container.querySelector(".mantine-Indicator-indicator"),
+    ).toBeTruthy();
 
     // unreadCount = 0 and all items read (readVersion >= version)
-    queryClient.setQueryData(["notifications", "aggregated", "infinite", "test-user-id"], {
-      pages: [
-        {
-          data: [{ id: 1, version: 2, readVersion: 2 }],
-          pagination: { nextCursor: null, hasMore: false },
-          unreadCount: 0,
-        },
-      ],
-      pageParams: [undefined],
-    });
+    queryClient.setQueryData(
+      ["notifications", "aggregated", "infinite", "test-user-id"],
+      {
+        pages: [
+          {
+            data: [{ id: 1, version: 2, readVersion: 2 }],
+            pagination: { nextCursor: null, hasMore: false },
+            unreadCount: 0,
+          },
+        ],
+        pageParams: [undefined],
+      },
+    );
 
     rerender(
       <QueryClientProvider client={queryClient}>
@@ -535,7 +600,7 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
   it("acknowledges unread items in batches of at most 100 items and skips already-read items", async () => {
     const acknowledgeSpy = vi
       .spyOn(NotificationsService, "notificationsControllerAcknowledgeReadV1")
-      .mockResolvedValue({} as any);
+      .mockResolvedValue(undefined);
 
     // Already-read item does not trigger a request
     const alreadyReadResult = await acknowledgeNotificationsRead([
@@ -556,18 +621,21 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
     expect(acknowledgeSpy).not.toHaveBeenCalled();
 
     // Generate 150 items with 120 unread
-    const items: NotificationInboxItemDto[] = Array.from({ length: 150 }, (_, i) => ({
-      id: i + 1,
-      type: "content.liked",
-      actors: [{ userId: `u${i}`, username: `user_${i}` }],
-      actorCount: 1,
-      eventCount: 1,
-      preview: { text: "liked" },
-      target: null,
-      lastEventAt: "2026-10-25T12:00:00Z",
-      version: 2,
-      readVersion: i < 120 ? 1 : 2, // 120 items are unread (readVersion < version)
-    }));
+    const items: NotificationInboxItemDto[] = Array.from(
+      { length: 150 },
+      (_, i) => ({
+        id: i + 1,
+        type: "content.liked",
+        actors: [{ userId: `u${i}`, username: `user_${i}` }],
+        actorCount: 1,
+        eventCount: 1,
+        preview: { text: "liked" },
+        target: null,
+        lastEventAt: "2026-10-25T12:00:00Z",
+        version: 2,
+        readVersion: i < 120 ? 1 : 2, // 120 items are unread (readVersion < version)
+      }),
+    );
 
     const result = await acknowledgeNotificationsRead(items);
     expect(result).toBe(true);

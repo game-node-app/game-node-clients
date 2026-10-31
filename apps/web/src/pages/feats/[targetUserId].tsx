@@ -1,6 +1,5 @@
-import { useRouter } from "next/router";
-import { Box, Center } from "@mantine/core";
 import { AchievementsScreen } from "@repo/ui";
+import { useRouter } from "next/router";
 
 export default function FeatsPage() {
   const router = useRouter();

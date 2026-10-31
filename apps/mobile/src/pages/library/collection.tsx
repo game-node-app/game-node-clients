@@ -1,4 +1,6 @@
-import React from "react";
+import { AppPage } from "@/components/general/AppPage.tsx";
+import LibraryViewFab from "@/components/library/fab/LibraryViewFab.tsx";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 import {
   CollectionView,
   LibraryViewLayout,
@@ -6,10 +8,7 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import LibraryViewFab from "@/components/library/fab/LibraryViewFab.tsx";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
-import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
-import { AppPage } from "@/components/general/AppPage.tsx";
 
 interface Props {
   userId: string;

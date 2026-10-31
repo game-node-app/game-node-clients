@@ -5,15 +5,7 @@ import {
 } from "@repo/wrapper/server";
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  Button,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Button, Group, Image, Paper, Stack, Text, Title } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { Link } from "#@/util";
 import { PreferencesConnectionModal } from "#@/components/preferences/handlers/connections/PreferencesConnectionModal";
@@ -77,7 +69,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
                 </Text>
               </>
             ) : isLookupError ? (
-              <Text c="red">{getErrorMessage(userConnection.error as any)}</Text>
+              <Text c="red">{getErrorMessage(userConnection.error)}</Text>
             ) : (
               <Text c="dimmed">{t("preferences.statuses.notConnected")}</Text>
             )}

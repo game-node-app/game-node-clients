@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
-import { AwardsCategoryResult } from "@repo/wrapper/server";
 import { useGames, useOnMobile } from "#@/components";
-import { Box, Flex, Stack, Title } from "@mantine/core";
 import { AwardsResultGameFigure } from "#@/components/awards/result/AwardsResultGameFigure";
+import { Flex, Stack, Title } from "@mantine/core";
+import { AwardsCategoryResult } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   result: AwardsCategoryResult;

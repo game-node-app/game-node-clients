@@ -1,5 +1,3 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Select, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import {
   CenteredErrorMessage,
   GameAchievementProgressOverview,
@@ -7,8 +5,10 @@ import {
   useGameAchievementsV2,
   useGamesResource,
 } from "#@/components";
-import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { Select, Skeleton, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { useCallback, useMemo, useState } from "react";
 
 interface Props {
   source: GameAchievementGroupDto.source;
@@ -84,26 +84,17 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
   /**
    * Automatically selects the first available platform for rendering.
    */
-  useEffect(() => {
-    if (targetAchievementsGroup) {
-      const firstWithOwnedAchievement = targetAchievementsGroup.achievements
+  const [previousGroup, setPreviousGroup] =
+    useState<typeof targetAchievementsGroup>();
+  if (previousGroup !== targetAchievementsGroup) {
+    setPreviousGroup(targetAchievementsGroup);
+    const firstPlatform =
+      targetAchievementsGroup?.achievements
         .find((achievement) => achievement.isObtained)
-        ?.platformIds.at(0);
-
-      if (firstWithOwnedAchievement) {
-        setSelectedPlatformId(firstWithOwnedAchievement);
-        return;
-      }
-
-      const firstAvailablePlatform = targetAchievementsGroup.achievements
-        .at(0)
-        ?.platformIds.at(0);
-
-      if (firstAvailablePlatform) {
-        setSelectedPlatformId(firstAvailablePlatform);
-      }
-    }
-  }, [targetAchievementsGroup]);
+        ?.platformIds.at(0) ??
+      targetAchievementsGroup?.achievements.at(0)?.platformIds.at(0);
+    if (firstPlatform) setSelectedPlatformId(firstPlatform);
+  }
 
   return (
     <Stack className={"w-full flex flex-col gap-3"}>

@@ -1,6 +1,5 @@
-import React from "react";
-import { Chip, Group } from "@mantine/core";
 import { GameView, GameViewLayoutOption } from "#@/components";
+import { Chip, Group } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {

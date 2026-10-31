@@ -1,8 +1,7 @@
-import React from "react";
 import { AwardsEventOverview, useRunningAwardEvent } from "#@/components";
-import { Stack, Text } from "@mantine/core";
-import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
 import { AwardsEventResultOverview } from "#@/components/awards/view/AwardsEventResultOverview";
+import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 /**

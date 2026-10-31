@@ -1,15 +1,15 @@
-import React, { useMemo } from "react";
 import {
   GameAchievementWithObtainedInfo,
   useGameAchievementsV2,
   XBOX_STORES,
 } from "#@/components";
-import { GameAchievementGroupDto } from "@repo/wrapper/server";
-import { Flex, Group, Image, Progress, Stack, Text } from "@mantine/core";
 import { getServerStoredIcon } from "#@/util";
-import { match, P } from "ts-pattern";
-import { IconTrophyFilled } from "@tabler/icons-react";
+import { Flex, Group, Image, Progress, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { GameAchievementGroupDto } from "@repo/wrapper/server";
+import { IconTrophyFilled } from "@tabler/icons-react";
+import { useMemo } from "react";
+import { match, P } from "ts-pattern";
 
 interface Props {
   userId: string | undefined;

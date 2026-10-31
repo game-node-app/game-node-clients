@@ -1,6 +1,5 @@
-import React from "react";
-import { Center, Group, ScrollArea, Text } from "@mantine/core";
 import { Link } from "#@/util";
+import { Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface NavbarLink {

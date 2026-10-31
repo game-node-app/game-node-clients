@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   buildGameCategoryFilters,
   CenteredErrorMessage,
@@ -11,10 +10,11 @@ import {
   useGames,
   useUrlState,
 } from "#@/components";
-import { CollectionEntry } from "@repo/wrapper/server";
-import { Group, Stack } from "@mantine/core";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { Group, Stack } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
+import { CollectionEntry } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 const DEFAULT_LIMIT = 24;
 

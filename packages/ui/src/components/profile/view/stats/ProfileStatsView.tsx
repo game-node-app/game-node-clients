@@ -1,4 +1,6 @@
-import React from "react";
+import { BarChart } from "@mantine/charts";
+import { Box, Group, Paper, SimpleGrid, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   DetailsBox,
   ProfileStatsDataIcon,
@@ -8,15 +10,12 @@ import {
   useProfileMetricsOverview,
   UserAvatarWithLevelInfo,
 } from "@repo/ui";
-import { Box, Group, Paper, SimpleGrid, Stack } from "@mantine/core";
 import {
   IconClock,
   IconDeviceGamepad2,
   IconListCheck,
   IconStack2,
 } from "@tabler/icons-react";
-import { BarChart } from "@mantine/charts";
-import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;

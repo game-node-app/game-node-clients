@@ -1,17 +1,15 @@
-import React from "react";
-import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
-import { Box, Group, Stack, Text } from "@mantine/core";
 import {
   AwardsCategoryGameFigure,
   CenteredLoading,
   useGame,
   useUserId,
 } from "#@/components";
-import { useAwardCategoryVote } from "#@/components/awards/hooks/useAwardCategoryVote.ts";
-import { IconStarFilled } from "@tabler/icons-react";
 import { AwardsVoteSubmitFormModal } from "#@/components/awards/form/AwardsVoteSubmitFormModal.tsx";
+import { useAwardCategoryVote } from "#@/components/awards/hooks/useAwardCategoryVote.ts";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
+import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
+import { IconStarFilled } from "@tabler/icons-react";
 
 export interface AwardsEventCategoryProps {
   userId: string;

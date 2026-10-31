@@ -1,38 +1,38 @@
-import { MantineProvider, mergeMantineTheme } from "@mantine/core";
-import type { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
-import React, { useState } from "react";
-import {
-  HydrationBoundary,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import type { DehydratedState } from "@tanstack/react-query";
-import Head from "next/head";
-import dayjs from "dayjs";
-import RelativeTime from "dayjs/plugin/relativeTime";
+import { DashboardLayout } from "@/components/general/DashboardLayout";
+import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
+import { LinkWrapper } from "@/components/general/LinkWrapper";
+import { MantineProvider } from "@mantine/core";
 import {
   DEFAULT_MANTINE_THEME,
   NotificationsManager,
   setProjectContext,
   UIProvider,
 } from "@repo/ui";
-import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { setupWrapper } from "@repo/wrapper";
+import type { DehydratedState } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime";
+import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
-import { DashboardLayout } from "@/components/general/DashboardLayout";
-import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
+import Head from "next/head";
+import { useState } from "react";
 
 /**
  * Should always be imported BEFORE tailwind.
  */
-import "@mantine/core/styles.css";
-import "@mantine/notifications/styles.css";
-import "@mantine/dropzone/styles.css";
 import "@mantine/carousel/styles.css";
-import "@mantine/dates/styles.css";
-import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/dropzone/styles.css";
+import "@mantine/notifications/styles.css";
+import "@mantine/tiptap/styles.css";
 import "mantine-react-table/styles.css";
 
 /**

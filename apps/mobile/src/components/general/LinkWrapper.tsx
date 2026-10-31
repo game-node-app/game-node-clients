@@ -1,7 +1,6 @@
 "use no memo";
-import React, { HTMLProps } from "react";
-import { Link, LinkProps } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { Link, LinkProps } from "react-router-dom";
 
 interface Props extends Omit<LinkProps, "to"> {
   href: string;

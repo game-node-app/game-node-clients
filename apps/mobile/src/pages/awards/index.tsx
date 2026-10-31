@@ -1,4 +1,3 @@
-import React from "react";
 import { CenteredLoading, useAwardEventRedirect } from "@repo/ui";
 
 interface Props {

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
 import {
   useComments,
   UseCommentsProps,
 } from "#@/components/comment/hooks/useComments";
-import { LoadingOverlay, Stack } from "@mantine/core";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
+import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
+import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { LoadingOverlay, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useState } from "react";
 
 type Props = Omit<UseCommentsProps, "limit" | "offset">;
 

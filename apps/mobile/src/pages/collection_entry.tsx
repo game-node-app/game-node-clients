@@ -1,16 +1,5 @@
-import React from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { CollectionEntryDetailView, ImageSize, useUserProfile } from "@repo/ui";
-import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { CollectionEntryDetailView, ImageSize, useUserProfile } from "@repo/ui";
 
 interface Props {
   userId: string;
@@ -18,7 +7,7 @@ interface Props {
 }
 
 const CollectionEntryDetailPage = ({ userId, collectionEntryId }: Props) => {
-  const profileQuery = useUserProfile(userId);
+  useUserProfile(userId);
 
   return (
     <AppPage withSearch>

@@ -1,21 +1,18 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { Container, Stack } from "@mantine/core";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
+import { Stack } from "@mantine/core";
 import {
-  LibraryViewLayout,
-  RecentCollectionEntriesView,
-  useUserProfile,
-  DetailsBox,
-  LibraryView,
   CenteredLoading,
+  LibraryView,
+  LibraryViewLayout,
+  useUserProfile,
 } from "@repo/ui";
+import { useRouter } from "next/router";
 
 const Index = () => {
-  const onMobile = useOnMobile();
+  useOnMobile();
   const router = useRouter();
   const { userId } = router.query;
-  const userProfileQuery = useUserProfile(userId as string);
+  useUserProfile(userId as string);
 
   if (!userId) return <CenteredLoading />;
 

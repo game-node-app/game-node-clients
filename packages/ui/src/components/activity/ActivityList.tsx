@@ -1,6 +1,5 @@
-import React from "react";
-import { Activity } from "@repo/wrapper/server";
 import { ActivityItem, ActivityItemProps } from "#@/components";
+import { Activity } from "@repo/wrapper/server";
 
 interface Props extends Omit<ActivityItemProps, "activity"> {
   items: Activity[] | undefined;

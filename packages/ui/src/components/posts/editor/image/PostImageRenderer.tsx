@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from "react";
-import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
 import { usePostImageLightboxContext } from "#@/components";
+import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
+import { useEffect, useMemo } from "react";
 
 const PostImageRenderer = ({
   node,

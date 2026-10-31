@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo } from "react";
 import {
   CollectionEntryPlatformSelect,
   CollectionEntryStatusSelect,
@@ -22,11 +21,12 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { useFormContext } from "react-hook-form";
 import { DatePickerInput } from "@mantine/dates";
+import { useTranslation } from "@repo/locales";
 import { Collection, GamePlatform } from "@repo/wrapper/server";
 import dayjs from "dayjs";
-import { useTranslation } from "@repo/locales";
+import { useEffect, useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 
 function buildCollectionOptions(
   collections: Collection[] | undefined,

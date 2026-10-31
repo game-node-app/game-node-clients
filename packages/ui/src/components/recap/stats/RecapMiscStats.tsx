@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseRecapStatsProps, useRecap } from "#@/components";
 import { Group, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";

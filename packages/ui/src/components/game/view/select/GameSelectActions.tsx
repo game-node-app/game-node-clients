@@ -1,7 +1,6 @@
-import React from "react";
 import { ActionIcon, Group, Tooltip } from "@mantine/core";
-import { IconSquareCheck, IconSquareCheckFilled } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
+import { IconSquareCheck, IconSquareCheckFilled } from "@tabler/icons-react";
 
 export interface GameSelectActionsProps {
   isAllGamesSelected: boolean;

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
 import { createCommentEditorExtensions } from "#@/components/comment/editor/CommentEditor";
-import { Collapse, Flex, Group, Spoiler, Stack } from "@mantine/core";
-import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { CommentsListItemActions } from "#@/components/comment/view/CommentsListItemActions";
-import { UserComment } from "../types";
 import { CommentsThreadListView } from "#@/components/comment/view/CommentsThreadListView";
-import { useDisclosure } from "@mantine/hooks";
+import { UserAvatarGroup } from "#@/components/general/avatar/UserAvatarGroup";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
+import { Collapse, Flex, Group, Spoiler, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { useState } from "react";
+import { UserComment } from "../types";
 
 interface Props {
   comment: UserComment;

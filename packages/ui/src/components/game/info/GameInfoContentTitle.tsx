@@ -1,4 +1,3 @@
-import React, { PropsWithChildren } from "react";
 import {
   ActionIcon,
   ActionIconProps,
@@ -7,6 +6,7 @@ import {
   TitleProps,
 } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
+import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
   title: string;

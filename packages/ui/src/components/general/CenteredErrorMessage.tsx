@@ -1,6 +1,5 @@
-import React from "react";
-import { Center, CenterProps, Title } from "@mantine/core";
 import { getErrorMessage } from "#@/util";
+import { Center, CenterProps, Title } from "@mantine/core";
 
 interface Props extends CenterProps {
   message?: string;

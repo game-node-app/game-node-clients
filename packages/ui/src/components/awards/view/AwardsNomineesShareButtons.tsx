@@ -1,5 +1,6 @@
-import React from "react";
 import { useAwardEvent, useUserId } from "#@/components";
+import { AwardsNomineesShareModal } from "#@/components/awards/share/AwardsNomineesShareModal.tsx";
+import { cn } from "#@/util";
 import {
   Button,
   CopyButton,
@@ -8,8 +9,6 @@ import {
   StackProps,
   Text,
 } from "@mantine/core";
-import { cn } from "#@/util";
-import { AwardsNomineesShareModal } from "#@/components/awards/share/AwardsNomineesShareModal.tsx";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 

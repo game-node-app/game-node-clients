@@ -1,7 +1,6 @@
-import React from "react";
+import { PreferencesRestartAccountModal } from "#@/components/preferences/handlers/account/PreferencesRestartAccountModal";
 import { Button, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { PreferencesRestartAccountModal } from "#@/components/preferences/handlers/account/PreferencesRestartAccountModal";
 import { useTranslation } from "@repo/locales";
 
 const PreferencesAccountScreen = () => {

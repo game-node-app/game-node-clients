@@ -1,13 +1,12 @@
-import React from "react";
-import { ActionIcon, Box, Flex, Overlay, Stack, Text } from "@mantine/core";
 import {
   CollectionEntryEditModal,
   GameFigureImage,
   IGameFigureImageProps,
 } from "#@/components";
 import { Link } from "#@/util";
-import { IconDots } from "@tabler/icons-react";
+import { ActionIcon, Box, Flex, Overlay, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconDots } from "@tabler/icons-react";
 
 export interface GameHoverEditFigureProps extends IGameFigureImageProps {
   withHoverTitle: boolean;

@@ -1,7 +1,6 @@
-import React from "react";
 import { ItemDropdownButtonProps } from "#@/components/general/input/ItemDropdown/types";
-import { IconTrashOff } from "@tabler/icons-react";
 import { Menu } from "@mantine/core";
+import { IconTrashOff } from "@tabler/icons-react";
 
 export type ItemDropdownRemoveButtonProps = ItemDropdownButtonProps;
 

@@ -1,6 +1,5 @@
-import React from "react";
-import { Button, Stack, Text } from "@mantine/core";
 import { CenteredLoading, useBlogPost } from "#@/components";
+import { Button, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { BlogArticleView } from "./BlogArticleView";
 export function BlogPostDetailView({ postId }: { postId: string }) {

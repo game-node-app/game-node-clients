@@ -1,7 +1,6 @@
-import React from "react";
-import { BaseModalProps, Modal } from "#@/util";
-import { AwardsNomineesShareForm } from "#@/components/awards/share/AwardsNomineesShareForm.tsx";
 import { useOnMobile } from "#@/components";
+import { AwardsNomineesShareForm } from "#@/components/awards/share/AwardsNomineesShareForm.tsx";
+import { BaseModalProps, Modal } from "#@/util";
 
 interface Props extends BaseModalProps {
   eventId: number;

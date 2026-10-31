@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
-import { useRelatedCollectionEntries } from "#@/components/collection/collection-entry/hooks/useRelatedCollectionEntries.ts";
 import {
   DetailsBox,
   GameInfoCarousel,
   TGameOrSearchGame,
   useGames,
 } from "#@/components";
+import { useRelatedCollectionEntries } from "#@/components/collection/collection-entry/hooks/useRelatedCollectionEntries.ts";
 import { CarouselProps } from "@mantine/carousel";
 import { useTranslation } from "@repo/locales";
+import { useMemo } from "react";
 
 interface Props {
   collectionEntryId: string;

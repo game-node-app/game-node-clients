@@ -1,16 +1,16 @@
-import React, { useMemo } from "react";
-import { UserComment } from "#@/components/comment/types";
-import { Group } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ItemDropdown } from "#@/components/general/input/ItemDropdown/ItemDropdown";
+import { CommentsReplyButton } from "#@/components/comment/input/CommentsReplyButton.tsx";
+import { CommentsThreadButton } from "#@/components/comment/input/CommentsThreadButton";
+import { UserComment } from "#@/components/comment/types";
+import { getCommentReportType } from "#@/components/comment/util/getCommentReportType.ts";
+import { getCommentStatisticsType } from "#@/components/comment/util/getCommentStatisticsType.ts";
 import { CommentsRemoveModal } from "#@/components/comment/view/CommentsRemoveModal";
-import { useDisclosure } from "@mantine/hooks";
+import { ItemDropdown } from "#@/components/general/input/ItemDropdown/ItemDropdown";
 import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
-import { CommentsThreadButton } from "#@/components/comment/input/CommentsThreadButton";
-import { getCommentStatisticsType } from "#@/components/comment/util/getCommentStatisticsType.ts";
-import { getCommentReportType } from "#@/components/comment/util/getCommentReportType.ts";
-import { CommentsReplyButton } from "#@/components/comment/input/CommentsReplyButton.tsx";
+import { Group } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useMemo } from "react";
 
 interface Props {
   comment: UserComment;

@@ -81,14 +81,18 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       projectionLagSeconds: 17,
     });
 
-    let resolveAddLike!: (value: any) => void;
+    let resolveAddLike!: (value: unknown) => void;
     const addLikePromise = new Promise((resolve) => {
       resolveAddLike = resolve;
     });
 
     const addLikeSpy = vi
       .spyOn(StatisticsService, "statisticsControllerAddLikeV1")
-      .mockReturnValue(addLikePromise as any);
+      .mockReturnValue(
+        addLikePromise as unknown as import("@repo/wrapper/server").CancelablePromise<
+          import("@repo/wrapper/server").ReactionResponseDto
+        >,
+      );
 
     renderComponent(
       <ItemLikesButton sourceId={sourceId} sourceType={sourceType} />,
@@ -104,14 +108,11 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
     await waitFor(() => {
       expect(screen.getByText("6")).toBeTruthy();
     });
-    const cachedDuringMutation = queryClient.getQueryData<any>([
-      "statistics",
-      sourceType,
-      sourceId,
-      "user-123",
-    ]);
-    expect(cachedDuringMutation.isLiked).toBe(true);
-    expect(cachedDuringMutation.likesCount).toBe(6);
+    const cachedDuringMutation = queryClient.getQueryData<
+      import("@repo/ui").StatisticsWithStatus
+    >(["statistics", sourceType, sourceId, "user-123"]);
+    expect(cachedDuringMutation?.isLiked).toBe(true);
+    expect(cachedDuringMutation?.likesCount).toBe(6);
 
     // Verify request payload has sourceType and sourceId, and NO targetUserId
     expect(addLikeSpy).toHaveBeenCalledTimes(1);
@@ -119,7 +120,7 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       sourceId: "123e4567-e89b-12d3-a456-426614174000",
       sourceType: "review",
     });
-    expect((addLikeSpy.mock.calls[0][0] as any).targetUserId).toBeUndefined();
+    expect(addLikeSpy.mock.calls[0][0]).not.toHaveProperty("targetUserId");
 
     // Reconcile with committed server response
     resolveAddLike({
@@ -131,17 +132,14 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       expect(screen.getByText("10")).toBeTruthy();
     });
 
-    const cachedAfterSuccess = queryClient.getQueryData<any>([
-      "statistics",
-      sourceType,
-      sourceId,
-      "user-123",
-    ]);
-    expect(cachedAfterSuccess.isLiked).toBe(true);
-    expect(cachedAfterSuccess.likesCount).toBe(10);
-    expect(cachedAfterSuccess.viewsCount).toBe(10);
-    expect(cachedAfterSuccess.isViewed).toBe(true);
-    expect(cachedAfterSuccess.projectionLagSeconds).toBe(17);
+    const cachedAfterSuccess = queryClient.getQueryData<
+      import("@repo/ui").StatisticsWithStatus
+    >(["statistics", sourceType, sourceId, "user-123"]);
+    expect(cachedAfterSuccess?.isLiked).toBe(true);
+    expect(cachedAfterSuccess?.likesCount).toBe(10);
+    expect(cachedAfterSuccess?.viewsCount).toBe(10);
+    expect(cachedAfterSuccess?.isViewed).toBe(true);
+    expect(cachedAfterSuccess?.projectionLagSeconds).toBe(17);
   });
 
   it("submits unlike request without targetUserId, performs optimistic decrement, and reconciles on success", async () => {
@@ -155,14 +153,18 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       viewsCount: 20,
     });
 
-    let resolveRemoveLike!: (value: any) => void;
+    let resolveRemoveLike!: (value: unknown) => void;
     const removeLikePromise = new Promise((resolve) => {
       resolveRemoveLike = resolve;
     });
 
     const removeLikeSpy = vi
       .spyOn(StatisticsService, "statisticsControllerRemoveLikeV1")
-      .mockReturnValue(removeLikePromise as any);
+      .mockReturnValue(
+        removeLikePromise as unknown as import("@repo/wrapper/server").CancelablePromise<
+          import("@repo/wrapper/server").ReactionResponseDto
+        >,
+      );
 
     renderComponent(
       <ItemLikesButton sourceId={sourceId} sourceType={sourceType} />,
@@ -178,14 +180,11 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
     await waitFor(() => {
       expect(screen.getByText("2")).toBeTruthy();
     });
-    const cachedDuringMutation = queryClient.getQueryData<any>([
-      "statistics",
-      sourceType,
-      sourceId,
-      "user-123",
-    ]);
-    expect(cachedDuringMutation.isLiked).toBe(false);
-    expect(cachedDuringMutation.likesCount).toBe(2);
+    const cachedDuringMutation = queryClient.getQueryData<
+      import("@repo/ui").StatisticsWithStatus
+    >(["statistics", sourceType, sourceId, "user-123"]);
+    expect(cachedDuringMutation?.isLiked).toBe(false);
+    expect(cachedDuringMutation?.likesCount).toBe(2);
 
     // Verify request payload formats game sourceId as number and has no targetUserId
     expect(removeLikeSpy).toHaveBeenCalledTimes(1);
@@ -193,9 +192,7 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       sourceId: 42,
       sourceType: "game",
     });
-    expect(
-      (removeLikeSpy.mock.calls[0][0] as any).targetUserId,
-    ).toBeUndefined();
+    expect(removeLikeSpy.mock.calls[0][0]).not.toHaveProperty("targetUserId");
 
     // Server responds with committed state
     resolveRemoveLike({
@@ -207,20 +204,17 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
       expect(screen.getByText("1")).toBeTruthy();
     });
 
-    const cachedAfterSuccess = queryClient.getQueryData<any>([
-      "statistics",
-      sourceType,
-      sourceId,
-      "user-123",
-    ]);
-    expect(cachedAfterSuccess.isLiked).toBe(false);
-    expect(cachedAfterSuccess.likesCount).toBe(1);
+    const cachedAfterSuccess = queryClient.getQueryData<
+      import("@repo/ui").StatisticsWithStatus
+    >(["statistics", sourceType, sourceId, "user-123"]);
+    expect(cachedAfterSuccess?.isLiked).toBe(false);
+    expect(cachedAfterSuccess?.likesCount).toBe(1);
   });
 
   it("rolls back optimistic state to previous cached values when the request fails", async () => {
     const consoleErrorSpy = vi
       .spyOn(console, "error")
-      .mockImplementation(() => {});
+      .mockImplementation((() => {}) as unknown as typeof console.error);
     const queryClient = createTestQueryClient();
     const sourceId = "123e4567-e89b-12d3-a456-426614174001";
     const sourceType = StatisticsSourceRequestDto.sourceType.POST;
@@ -250,17 +244,14 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
 
     // Rolled back after failure
     await waitFor(() => {
-      const cached = queryClient.getQueryData<any>([
-        "statistics",
-        sourceType,
-        sourceId,
-        "user-123",
-      ]);
-      expect(cached.isLiked).toBe(false);
-      expect(cached.likesCount).toBe(7);
-      expect(cached.viewsCount).toBe(15);
-      expect(cached.isViewed).toBe(true);
-      expect(cached.projectionLagSeconds).toBe(17);
+      const cached = queryClient.getQueryData<
+        import("@repo/ui").StatisticsWithStatus
+      >(["statistics", sourceType, sourceId, "user-123"]);
+      expect(cached?.isLiked).toBe(false);
+      expect(cached?.likesCount).toBe(7);
+      expect(cached?.viewsCount).toBe(15);
+      expect(cached?.isViewed).toBe(true);
+      expect(cached?.projectionLagSeconds).toBe(17);
       expect(screen.getByText("7")).toBeTruthy();
     });
 
@@ -273,19 +264,29 @@ describe("content reactions (useUserLike & ItemLikesButton)", () => {
     vi.spyOn(
       StatisticsService,
       "statisticsControllerFindSummaryV1",
-    ).mockReturnValue(pendingRead as any);
+    ).mockReturnValue(
+      pendingRead as unknown as import("@repo/wrapper/server").CancelablePromise<
+        import("@repo/wrapper/server").StatisticsSummaryDto
+      >,
+    );
     vi.spyOn(
       StatisticsService,
       "statisticsControllerGetStatusV1",
-    ).mockReturnValue(pendingRead as any);
-    let resolveLike!: (response: any) => void;
+    ).mockReturnValue(
+      pendingRead as unknown as import("@repo/wrapper/server").CancelablePromise<
+        import("@repo/wrapper/server").StatisticsStatusDto
+      >,
+    );
+    let resolveLike!: (response: unknown) => void;
     vi.spyOn(
       StatisticsService,
       "statisticsControllerAddLikeV1",
     ).mockReturnValue(
       new Promise((resolve) => {
         resolveLike = resolve;
-      }) as any,
+      }) as unknown as import("@repo/wrapper/server").CancelablePromise<
+        import("@repo/wrapper/server").ReactionResponseDto
+      >,
     );
     renderComponent(
       <ItemLikesButton

@@ -1,8 +1,6 @@
-import React from "react";
-import { GameView } from "#@/components/game/view/GameView";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { GameViewContentProps } from "#@/components";
 import { useUserRecentGames } from "#@/components/game/hooks/useUserRecentGames.ts";
+import { GameView } from "#@/components/game/view/GameView";
 
 interface Props extends Omit<GameViewContentProps, "items"> {
   userId: string;

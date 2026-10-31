@@ -1,7 +1,6 @@
-import React from "react";
 import { AchievementItem } from "#@/components/achievement/AchievementItem";
-import { useAchievementsV2 } from "#@/components/achievement/hooks/useAchievementsV2";
 import { useAchievementProgress } from "#@/components/achievement/hooks/useAchievementProgress";
+import { useAchievementsV2 } from "#@/components/achievement/hooks/useAchievementsV2";
 
 interface Props {
   targetUserId: string;

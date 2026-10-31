@@ -1,6 +1,5 @@
-import React from "react";
-import { Stack } from "@mantine/core";
 import { GamePostEditor, PostsListView } from "#@/components";
+import { Stack } from "@mantine/core";
 
 interface Props {
   gameId: number;

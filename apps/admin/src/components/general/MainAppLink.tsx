@@ -1,6 +1,6 @@
-import React, { ComponentProps } from "react";
-import Link from "next/link";
 import { getMainAppHref } from "@/util/getMainAppHref";
+import Link from "next/link";
+import { ComponentProps } from "react";
 
 const WEBSITE_DOMAIN = process.env.NEXT_PUBLIC_DOMAIN_MAIN_WEBSITE as string;
 

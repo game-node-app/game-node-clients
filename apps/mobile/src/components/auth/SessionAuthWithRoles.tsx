@@ -1,11 +1,11 @@
-import React, { PropsWithChildren } from "react";
 import { useUserRoles } from "@/components/auth/hooks/useUserRoles";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { EUserRoles } from "@/components/auth/roles";
-import { UserRoleClaim } from "supertokens-auth-react/recipe/userroles";
 import CenteredLoading from "@/components/general/CenteredLoading";
 import { Stack } from "@mantine/core";
+import { PropsWithChildren } from "react";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { AccessDeniedScreen } from "supertokens-auth-react/recipe/session/prebuiltui";
+import { UserRoleClaim } from "supertokens-auth-react/recipe/userroles";
 
 interface Props extends PropsWithChildren {
     roles: EUserRoles[];

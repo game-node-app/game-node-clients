@@ -1,14 +1,12 @@
-import React from "react";
-import { useExternalGames } from "@/components/external_game/hook/useExternalGames";
-import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
-import { GameExternalGame, UnmappedExternalGame } from "@repo/wrapper/server";
-import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
-import { ActionIcon, Button, Stack, Text } from "@mantine/core";
+import { EGameExternalGameCategory } from "@/components/external_game/constants.ts";
 import { useUnmappedExternalGames } from "@/components/external_game/hook/useUnmappedExternalGames.ts";
 import { getExternalSourceName } from "@/components/external_game/utils/getExternalSourceName.ts";
+import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
+import { ActionIcon, Button, Stack } from "@mantine/core";
+import { UnmappedExternalGame } from "@repo/wrapper/server";
 import { IconExternalLink } from "@tabler/icons-react";
+import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { match } from "ts-pattern";
-import { EGameExternalGameCategory } from "@/components/external_game/constants.ts";
 
 const onVisitClick = (item: UnmappedExternalGame) => {
   const url = match<EGameExternalGameCategory>(

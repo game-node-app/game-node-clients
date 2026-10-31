@@ -1,10 +1,9 @@
 // @vitest-environment jsdom
-import React from "react";
-import { afterEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, expect, it, vi } from "vitest";
+import { GameInfoReviewList } from "../../../../../packages/ui/src/components/game/info/review/GameInfoReviewList";
 import { TrendingGamesList } from "../../../../../packages/ui/src/components/game/trending/TrendingGamesList";
 import { TrendingReviewCarousel } from "../../../../../packages/ui/src/components/review/trending/TrendingReviewCarousel";
-import { GameInfoReviewList } from "../../../../../packages/ui/src/components/game/info/review/GameInfoReviewList";
 
 const state = vi.hoisted(() => ({
   gameItems: [2, 1] as number[],
@@ -18,15 +17,23 @@ vi.mock("@repo/locales", () => ({
 }));
 vi.mock("@mantine/core", async () => {
   const React = await import("react");
-  const actual = await vi.importActual<any>("@mantine/core");
-  const C = ({ children }: any) => React.createElement("div", null, children);
+  const actual =
+    await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
+  const C = ({ children }: import("react").PropsWithChildren) =>
+    React.createElement("div", null, children);
   return {
     ...actual,
     SimpleGrid: C,
     Skeleton: C,
     Group: C,
     Stack: C,
-    Pagination: ({ total, onChange }: any) =>
+    Pagination: ({
+      total,
+      onChange,
+    }: {
+      total: number;
+      onChange: (page: number) => void;
+    }) =>
       React.createElement(
         "button",
         { onClick: () => onChange(2) },
@@ -36,7 +43,7 @@ vi.mock("@mantine/core", async () => {
 });
 vi.mock("@mantine/carousel", async () => {
   const React = await import("react");
-  const C: any = ({ children }: any) =>
+  const C = ({ children }: import("react").PropsWithChildren) =>
     React.createElement("div", null, children);
   C.Slide = C;
   return { Carousel: C };
@@ -46,7 +53,10 @@ vi.mock(
   async () => {
     const React = await import("react");
     return {
-      DetailsBox: ({ children, enabled = true }: any) =>
+      DetailsBox: ({
+        children,
+        enabled = true,
+      }: import("react").PropsWithChildren<{ enabled?: boolean }>) =>
         enabled ? React.createElement("div", null, children) : null,
     };
   },
@@ -56,7 +66,7 @@ vi.mock(
   async () => {
     const React = await import("react");
     return {
-      GameGridItem: ({ game }: any) =>
+      GameGridItem: ({ game }: { game: import("@repo/wrapper/server").Game }) =>
         React.createElement("span", null, game.name),
     };
   },
@@ -66,7 +76,7 @@ vi.mock(
   async () => {
     const React = await import("react");
     return {
-      TrendingReviewCard: ({ reviewId }: any) =>
+      TrendingReviewCard: ({ reviewId }: { reviewId: string }) =>
         React.createElement("span", null, reviewId),
     };
   },
@@ -91,7 +101,9 @@ vi.mock(
 vi.mock(
   "../../../../../packages/ui/src/components/statistics/hooks/useTrendingReviews",
   () => ({
-    useTrendingReviews: (dto: any) => {
+    useTrendingReviews: (
+      dto: Parameters<typeof import("@repo/ui").useTrendingReviews>[0],
+    ) => {
       state.rankingArgs(dto);
       return {
         data: {
@@ -111,10 +123,10 @@ vi.mock(
 vi.mock(
   "../../../../../packages/ui/src/components/game/hooks/useGames",
   () => ({
-    useGames: (dto: any) => {
+    useGames: (dto: Parameters<typeof import("@repo/ui").useGames>[0]) => {
       state.gameArgs(dto);
       return {
-        data: dto.gameIds.length
+        data: dto.gameIds?.length
           ? [
               { id: 1, name: "first" },
               { id: 2, name: "second" },
@@ -128,7 +140,7 @@ vi.mock(
 vi.mock(
   "../../../../../packages/ui/src/components/review/hooks/useReviews",
   () => ({
-    useReviews: (ids: any) => {
+    useReviews: (ids: Parameters<typeof import("@repo/ui").useReviews>[0]) => {
       state.reviewsArgs(ids);
       return {
         data: ids ? [{ id: "other" }, { id: "pinned" }] : [],
@@ -140,11 +152,14 @@ vi.mock(
 vi.mock("../../../../../packages/ui/src/components/index", async () => {
   const React = await import("react");
   return {
-    CenteredErrorMessage: ({ message }: any) =>
+    CenteredErrorMessage: ({ message }: { message: string }) =>
       React.createElement("span", null, message),
     CenteredLoading: () => null,
-    ReviewListItem: ({ review }: any) =>
-      React.createElement("span", null, review.id),
+    ReviewListItem: ({
+      review,
+    }: {
+      review: import("@repo/wrapper/server").Review;
+    }) => React.createElement("span", null, review.id),
     ReviewListItemModal: () => null,
   };
 });

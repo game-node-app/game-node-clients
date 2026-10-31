@@ -1,8 +1,8 @@
-import { IonRefresher, IonRefresherContent } from "@ionic/react";
-import React, { useRef } from "react";
-import { SimpleGrid, Stack } from "@mantine/core";
 import useUserId from "@/components/auth/hooks/useUserId";
-import { useQueryClient } from "@tanstack/react-query";
+import { AppPage } from "@/components/general/AppPage.tsx";
+import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { SimpleGrid, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
   DetailsCard,
@@ -16,18 +16,21 @@ import {
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
-import { AppPage } from "@/components/general/AppPage.tsx";
 import {
   Activity,
   FindGamesByCollectionTypeRequestDto,
 } from "@repo/wrapper/server";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRef } from "react";
 import ActivityType = Activity.type;
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const { t } = useTranslation();
-  const contentRef = useRef<HTMLIonContentElement>(null);
+  const contentRef =
+    useRef<
+      import("react").ComponentRef<typeof import("@ionic/react").IonContent>
+    >(null);
 
   const queryClient = useQueryClient();
 

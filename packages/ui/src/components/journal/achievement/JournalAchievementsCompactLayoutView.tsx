@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import { JournalAchievementsGameGroupView } from "#@/components";
+import { Stack } from "@mantine/core";
 import {
   JournalAchievementsGameGroup,
   JournalAchievementsYearGroup,
 } from "@repo/wrapper/server";
-import { Stack } from "@mantine/core";
-import { JournalAchievementsGameGroupView } from "#@/components";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;

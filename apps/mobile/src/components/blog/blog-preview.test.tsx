@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
-import React from "react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import Preview, {
+  getServerSideProps,
+} from "../../../../admin/src/pages/dashboard/blog/preview/[postId]";
 import { draft } from "./fixtures";
 const state = vi.hoisted(() => ({
   userId: "editor" as string | undefined,
@@ -11,22 +13,25 @@ const state = vi.hoisted(() => ({
 vi.mock("next/router", () => ({ useRouter: () => ({ query: state.query }) }));
 vi.mock("next/head", () => ({ default: () => null }));
 vi.mock("@mantine/core", () => ({
-  Text: ({ children }: any) => <span>{children}</span>,
+  Text: ({ children }: import("react").PropsWithChildren) => (
+    <span>{children}</span>
+  ),
 }));
 vi.mock("../../../../admin/src/components/auth/hooks/useUserId", () => ({
   default: () => state.userId,
 }));
 vi.mock("@repo/locales", () => ({
-  I18nProvider: ({ children }: any) => children,
+  I18nProvider: ({ children }: import("react").PropsWithChildren) => children,
 }));
 vi.mock("@repo/ui", () => ({
   useUserRoles: () => state.roles,
   EUserRoles: { ADMIN: "admin", MOD: "mod", EDITOR: "editor" },
-  BlogArticleView: ({ post }: any) => <article>{post.title}</article>,
+  BlogArticleView: ({
+    post,
+  }: {
+    post: import("@repo/wrapper/server").BlogPreviewDto;
+  }) => <article>{post.title}</article>,
 }));
-import Preview, {
-  getServerSideProps,
-} from "../../../../admin/src/pages/dashboard/blog/preview/[postId]";
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
@@ -36,7 +41,11 @@ afterEach(() => {
 });
 it("excludes drafts from SSR props and forbids storage and indexing", () => {
   const setHeader = vi.fn();
-  expect(getServerSideProps({ res: { setHeader } } as any)).toEqual({
+  expect(
+    getServerSideProps({
+      res: { setHeader },
+    } as unknown as import("next").GetServerSidePropsContext),
+  ).toEqual({
     props: {},
   });
   expect(setHeader).toHaveBeenCalledWith("Cache-Control", "private, no-store");

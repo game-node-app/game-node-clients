@@ -1,6 +1,5 @@
 import { BaseModalProps } from "@/util/types/modal-props";
 import { IonActionSheet } from "@ionic/react";
-import React from "react";
 import { useTranslation } from "@repo/locales";
 
 interface Props extends BaseModalProps {

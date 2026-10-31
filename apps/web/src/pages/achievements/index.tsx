@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
 import { Stack } from "@mantine/core";
-import { CenteredLoading, useUserId } from "@repo/ui";
+import { CenteredLoading } from "@repo/ui";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { redirectToAuth } from "supertokens-auth-react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { useRouter } from "next/router";
 
 const JournalAchievementsIndexPage = () => {
   const router = useRouter();

@@ -1,6 +1,4 @@
 // @vitest-environment jsdom
-import React, { useState } from "react";
-import { afterEach, expect, it, vi } from "vitest";
 import {
   cleanup,
   fireEvent,
@@ -8,6 +6,8 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import { useState } from "react";
+import { afterEach, expect, it, vi } from "vitest";
 import ExploreScreenFilters from "../../../../web/src/components/explore/ExploreScreenFilters";
 import { DEFAULT_EXPLORE_TRENDING_GAMES_DTO } from "../../../../web/src/components/explore/utils";
 const state = vi.hoisted(() => ({
@@ -32,13 +32,15 @@ vi.mock(
   () => ({ default: () => null }),
 );
 vi.mock("@mantine/hooks", async () => ({
-  ...(await vi.importActual<any>("@mantine/hooks")),
+  ...(await vi.importActual<typeof import("@mantine/hooks")>("@mantine/hooks")),
   useDisclosure: () => [false, { open: vi.fn(), close: vi.fn() }],
 }));
 vi.mock("@mantine/core", async () => {
   const React = await import("react");
-  const actual = await vi.importActual<any>("@mantine/core");
-  const C = ({ children }: any) => React.createElement("div", null, children);
+  const actual =
+    await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
+  const C = ({ children }: import("react").PropsWithChildren) =>
+    React.createElement("div", null, children);
   return {
     ...actual,
     ActionIcon: C,
@@ -47,7 +49,7 @@ vi.mock("@mantine/core", async () => {
     Drawer: C,
     Group: C,
     SimpleGrid: C,
-    Select: ({ onChange }: any) =>
+    Select: ({ onChange }: { onChange: (value: string) => void }) =>
       React.createElement(
         "button",
         { onClick: () => onChange("all") },

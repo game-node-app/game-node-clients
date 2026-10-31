@@ -1,18 +1,13 @@
-import React, {
-  ComponentProps,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react";
-import { IonContent, useIonRouter } from "@ionic/react";
 import {
   clearScrollPosition,
   setScrollPosition,
   useScrollPositionForPathname,
   useScrollToForPathname,
 } from "@/components/general/hooks/useIonScrollPosition";
+import { IonContent, useIonRouter } from "@ionic/react";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { ScrollPosition } from "@repo/ui";
+import { ComponentProps, useEffect, useImperativeHandle, useRef } from "react";
 
 /**
  * A {@link IonContent} wrapper that automatically persists and restores scroll position when navigating.
@@ -21,7 +16,10 @@ import { ScrollPosition } from "@repo/ui";
  */
 const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
   const ionRouter = useIonRouter();
-  const localRef = useRef<HTMLIonContentElement>(null);
+  const localRef =
+    useRef<
+      import("react").ComponentRef<typeof import("@ionic/react").IonContent>
+    >(null);
   const pathname = ionRouter.routeInfo.pathname;
 
   const storedScrollPosition = useScrollPositionForPathname(pathname);
@@ -34,7 +32,10 @@ const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
   useImperativeHandle(
     // eslint-disable-next-line react-hooks/refs
     props.ref,
-    () => localRef.current as HTMLIonContentElement,
+    () =>
+      localRef.current as import("react").ComponentRef<
+        typeof import("@ionic/react").IonContent
+      >,
     [],
   );
 

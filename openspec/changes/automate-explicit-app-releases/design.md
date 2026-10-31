@@ -8,7 +8,7 @@ See proposal.md. This is a Yarn 1/Turbo monorepo with manual Docker Hub and Andr
 
 Goals: mandatory release decisions, independent app versions, affected-consumer CI, deterministic retries, and exact-source deployment.
 
-Non-goals: npm publication, automatic Play Store submission, and refactoring unrelated application errors exposed by CI. The follow-up request authorizes copying existing Coolify credentials and testing actual web/admin delivery; an admin target must be identified before deployment.
+Non-goals: npm publication and automatic Play Store submission. Follow-up requests authorize copying existing Coolify credentials, creating admin alongside web, clearing the application lint backlog without bypassing checks, and testing actual web/admin delivery.
 
 ## Decisions
 

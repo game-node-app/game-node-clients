@@ -21,7 +21,7 @@ import type = UpdateProfileImageDto.type;
 import { FileWithPath } from "@mantine/dropzone";
 import { useTranslation } from "@repo/locales";
 
-interface Props extends BaseModalChildrenProps {}
+type Props = BaseModalChildrenProps;
 
 const ProfileEditAvatarUploader = ({ onClose }: Props) => {
   const { t } = useTranslation();

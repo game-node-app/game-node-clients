@@ -1,9 +1,8 @@
-import React from "react";
-import { Group, Text } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
 import { IonRippleEffect } from "@ionic/react";
-import { Link } from "@repo/ui";
+import { Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { Link } from "@repo/ui";
+import { IconSearch } from "@tabler/icons-react";
 
 const HeaderSearchButton = () => {
   const { t } = useTranslation();

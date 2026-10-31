@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo } from "react";
+import { useGamePlatformIcons } from "#@/components";
+import { useGame } from "#@/components/game/hooks/useGame";
+import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
+import { getGamePlatformInfo } from "#@/components/game/util/getGamePlatformInfo";
+import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { cn } from "#@/util/cn.ts";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import {
   Group,
   GroupProps,
@@ -9,14 +15,8 @@ import {
   Skeleton,
   Text,
 } from "@mantine/core";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { getGamePlatformInfo } from "#@/components/game/util/getGamePlatformInfo";
-import { useGame } from "#@/components/game/hooks/useGame";
-import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView";
-import { useGamePlatformIcons } from "#@/components";
 import { useTranslation } from "@repo/locales";
-import { cn } from "#@/util/cn.ts";
+import { useCallback, useMemo } from "react";
 
 interface IGameInfoPlatformsProps extends GroupProps {
   gameId: number | undefined;

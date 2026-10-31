@@ -1,22 +1,9 @@
-import React, { useMemo } from "react";
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Group,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  StackProps,
-  Tabs,
-  Title,
-} from "@mantine/core";
 import {
   BackToTopButton,
-  Break,
   CollectionEntryAchievementTracker,
-  CollectionEntryEditModal,
+  CollectionEntryDetailRelatedEntries,
   CollectionEntryDetailsBox,
+  CollectionEntryEditModal,
   CollectionEntryPlaytimeTracker,
   CollectionEntryRemoveModal,
   CollectionEntryReviewBox,
@@ -30,13 +17,24 @@ import {
   useOnMobile,
   useOwnCollectionEntryForGameId,
   useUserProfile,
-  CollectionEntryDetailRelatedEntries,
-  useRelatedCollectionEntries,
 } from "#@/components";
-import { useDisclosure } from "@mantine/hooks";
 import { getRandomItem, Link } from "#@/util";
-import { IconTrashFilled } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Group,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  StackProps,
+  Tabs,
+  Title,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { IconTrashFilled } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 interface Props extends StackProps {
   userId: string;

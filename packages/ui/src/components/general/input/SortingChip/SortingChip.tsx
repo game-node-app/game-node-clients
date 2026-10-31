@@ -1,6 +1,5 @@
-import React from "react";
+import { ActionChip } from "#@/components";
 import {
-  Button,
   Combobox,
   ComboboxItem,
   Group,
@@ -8,7 +7,6 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
-import { ActionChip } from "#@/components";
 
 export type SortingChipValue = {
   value: string;

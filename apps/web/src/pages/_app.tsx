@@ -1,33 +1,33 @@
 import { MantineProvider, mergeMantineTheme } from "@mantine/core";
 
-import type { AppProps } from "next/app";
 import SuperTokensProvider from "@/components/auth/SuperTokensProvider";
-import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
-import React, { useState } from "react";
 import { RouterTransition } from "@/components/general/RouterTransition";
+import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
 import { PostHogProvider } from "@repo/analytics";
 import {
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import Head from "next/head";
 import dayjs from "dayjs";
-import RelativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import RelativeTime from "dayjs/plugin/relativeTime";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useState } from "react";
 
 /**
  * Should always be imported BEFORE tailwind.
  */
-import "@mantine/core/styles.css";
-import "@mantine/notifications/styles.css";
-import "@mantine/dropzone/styles.css";
 import "@mantine/carousel/styles.css";
-import "@mantine/dates/styles.css";
-import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/dropzone/styles.css";
+import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 import "@mantine/spotlight/styles.css";
+import "@mantine/tiptap/styles.css";
 
 /**
  * Includes tailwind styles
@@ -37,27 +37,25 @@ import "@/components/globals.css";
 /*
  * YARL
  */
-import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import "yet-another-react-lightbox/styles.css";
 
+import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
+import { LinkWrapper } from "@/components/general/LinkWrapper";
 import NotificationsManager from "@/components/general/NotificationsManager";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
+import type { DehydrationResult } from "@/util/types/hydration";
+import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import {
-  CenteredErrorMessage,
   DEFAULT_MANTINE_THEME,
   ErrorBoundaryFallback,
   setProjectContext,
   UIProvider,
 } from "@repo/ui";
-import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { Roboto } from "next/font/google";
-import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
-import type { DehydrationResult } from "@/util/types/hydration";
-import { LinkWrapper } from "@/components/general/LinkWrapper";
+import { useCallback, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useCallback } from "react";
-import { useEffect } from "react";
 
 // TypeScript's DOM library does not declare the Cookie Store API yet.
 declare const cookieStore: {

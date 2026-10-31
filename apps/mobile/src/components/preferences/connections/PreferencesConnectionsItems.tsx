@@ -1,8 +1,7 @@
-import React from "react";
-import { IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import PreferencesConnectionItem from "@/components/preferences/connections/PreferencesConnectionItem";
-import { UserConnectionDto } from "@repo/wrapper/server";
+import { IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import { useTranslation } from "@repo/locales";
+import { UserConnectionDto } from "@repo/wrapper/server";
 
 const PreferencesConnectionsItems = () => {
   const { t } = useTranslation();

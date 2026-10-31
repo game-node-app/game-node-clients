@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
 import {
   BLOG_POSTS_FEED_DEFAULT_LIMIT,
   BlogPostsFeaturedReviewCard,
   CenteredLoading,
   useBlogPosts,
 } from "#@/components";
+import { Carousel } from "@mantine/carousel";
 import { Button, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { Carousel } from "@mantine/carousel";
+import { useMemo } from "react";
 
 const BlogPostsFeaturedReviews = () => {
   const { t } = useTranslation();

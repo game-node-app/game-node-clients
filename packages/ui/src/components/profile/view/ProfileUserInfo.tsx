@@ -1,19 +1,17 @@
-import React, { useMemo } from "react";
-import { Box, Center, Divider, Flex, Group, Stack, Text } from "@mantine/core";
-import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
-import { TextLink } from "#@/components/general/TextLink";
 import {
   ProfileFollowInfo,
   ProfileUserInfoConnections,
   UserLevel,
 } from "#@/components";
-import { FollowInfoRequestDto } from "@repo/wrapper/server";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { TextLink } from "#@/components/general/TextLink";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
+import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
 import { buildPresenterComponent } from "#@/context";
+import { Box, Center, Divider, Group, Stack, Text } from "@mantine/core";
+import { FollowInfoRequestDto } from "@repo/wrapper/server";
 
 export interface ProfileUserInfoProps {
   userId: string;

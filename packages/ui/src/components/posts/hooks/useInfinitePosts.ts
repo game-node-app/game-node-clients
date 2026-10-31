@@ -1,9 +1,9 @@
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { ExtendedUseInfiniteQueryResult } from "#@/util";
 import {
   GetPostsPaginatedResponseDto,
   PostsService,
 } from "@repo/wrapper/server";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface GetPostsRequestDto {
   postId?: string;
@@ -49,7 +49,7 @@ export function useInfinitePosts({
         lastCreatedAt: undefined,
         lastId: undefined,
       } as GetPostsPageParam,
-      getNextPageParam: (lastPage, _, lastPageParam) => {
+      getNextPageParam: (lastPage, _, _lastPageParam) => {
         if (
           lastPage &&
           lastPage.pagination &&

@@ -1,15 +1,14 @@
-import React from "react";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher";
+import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
+import { Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   CollectionThumbnailCard,
   useUserId,
   useUserLibrary,
   useUserProfile,
 } from "@repo/ui";
-import { Stack, Text } from "@mantine/core";
-import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher";
-import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
-import { useTranslation } from "@repo/locales";
 
 interface Props {
   userId: string;

@@ -1,7 +1,6 @@
-import React from "react";
 import { AchievementBadge } from "./AchievementBadge";
-import { useAchievementsV2 } from "./hooks/useAchievementsV2";
 import { useAchievementProgress } from "./hooks/useAchievementProgress";
+import { useAchievementsV2 } from "./hooks/useAchievementsV2";
 
 interface Props {
   achievementId: string;

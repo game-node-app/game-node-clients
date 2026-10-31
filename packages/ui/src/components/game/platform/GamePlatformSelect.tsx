@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
 import { useGamesResource } from "#@/components";
 import { ComboboxItem, Select, SelectProps } from "@mantine/core";
 import { GamePlatform } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 export const buildGamePlatformSelectOptions = (
   platforms: GamePlatform[],

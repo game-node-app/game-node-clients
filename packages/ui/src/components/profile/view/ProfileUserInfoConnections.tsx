@@ -1,5 +1,5 @@
-import React from "react";
 import { getConnectionProfileURL, useUserConnections } from "#@/components";
+import { cn, getServerStoredIcon } from "#@/util";
 import {
   Anchor,
   AnchorProps,
@@ -8,7 +8,6 @@ import {
   Image,
   ImageProps,
 } from "@mantine/core";
-import { cn, getServerStoredIcon } from "#@/util";
 
 interface Props extends GroupProps {
   userId: string;
@@ -22,7 +21,7 @@ const ProfileUserInfoConnections = ({
   imageProps,
   ...others
 }: Props) => {
-  const { data, isLoading, isError, error } = useUserConnections(userId);
+  const { data, isError } = useUserConnections(userId);
 
   if (isError || data == undefined) {
     return null;

@@ -1,10 +1,9 @@
-import React from "react";
-import { Carousel, CarouselProps } from "@mantine/carousel";
+import { TGameOrSearchGame } from "#@/components";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
-import { Flex, Text } from "@mantine/core";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { TGameOrSearchGame } from "#@/components";
+import { Carousel, CarouselProps } from "@mantine/carousel";
+import { Flex, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface IGameInfoCarouselProps extends CarouselProps {

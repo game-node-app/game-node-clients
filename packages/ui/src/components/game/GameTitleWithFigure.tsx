@@ -1,12 +1,12 @@
-import React, { ComponentPropsWithoutRef } from "react";
 import {
   getCoverUrl,
   getSizedImageUrl,
   ImageSize,
   useGame,
 } from "#@/components";
-import { Avatar, Group, Skeleton, Title } from "@mantine/core";
 import { Link } from "#@/util";
+import { Avatar, Group, Skeleton, Title } from "@mantine/core";
+import { ComponentPropsWithoutRef } from "react";
 
 interface Props extends Omit<ComponentPropsWithoutRef<typeof Link>, "href"> {
   gameId: number;

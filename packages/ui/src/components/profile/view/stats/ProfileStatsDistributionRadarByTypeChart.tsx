@@ -1,6 +1,5 @@
-import React from "react";
-import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 import { RadarChart } from "@mantine/charts";
+import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
 
 /**
  * Converted distribution item - necessary because RadarChart doesn't have a 'valueFormatter' or a 'label' prop on

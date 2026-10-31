@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   ActionIcon,
   Button,
@@ -10,10 +9,8 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconBell, IconBellFilled } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
-import { NotificationInboxItemDto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
 import {
   acknowledgeNotificationsRead,
   AggregatedNotification,
@@ -21,7 +18,9 @@ import {
   useInfiniteAggregatedNotifications,
   useOnMobile,
 } from "@repo/ui";
-import { useTranslation } from "@repo/locales";
+import { IconBell, IconBellFilled } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 const GlobalShellHeaderNotifications = () => {
   const { t } = useTranslation();

@@ -27,7 +27,6 @@ import {
   IconShare,
   IconX,
 } from "@tabler/icons-react";
-import React from "react";
 
 export interface GameInfoActionsProps {
   wrapperProps?: GroupProps;

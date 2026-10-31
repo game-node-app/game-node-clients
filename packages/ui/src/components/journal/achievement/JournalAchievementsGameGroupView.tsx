@@ -1,20 +1,23 @@
-import React, { useMemo } from "react";
-import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import {
   GameFigureImage,
   JournalAchievementsIconsList,
   JournalAchievementsTags,
   useGame,
 } from "#@/components";
-import { Badge, Box, Flex, Skeleton, Stack, Text } from "@mantine/core";
+import { Box, Flex, Skeleton, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
+import { useMemo } from "react";
 
 interface Props {
   userId: string;
   gameGroup: JournalAchievementsGameGroup;
 }
 
-const JournalAchievementsGameGroupView = ({ userId, gameGroup }: Props) => {
+const JournalAchievementsGameGroupView = ({
+  userId: _userId,
+  gameGroup,
+}: Props) => {
   const { t } = useTranslation();
   const { data: game, isLoading: isGameLoading } = useGame(gameGroup.gameId, {
     relations: {

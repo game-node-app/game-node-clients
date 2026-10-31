@@ -1,12 +1,21 @@
-import { afterEach, expect, it, vi } from "vitest";
-import React from "react";
-import { renderToString } from "react-dom/server";
+import process from "node:process";
 import { BlogPostService } from "@repo/wrapper/server";
-import { english, portuguese, fallback } from "./fixtures";
-const selected = vi.hoisted(() => ({ post: undefined as any }));
+import { renderToString } from "react-dom/server";
+import { afterEach, expect, it, vi } from "vitest";
+import Page, {
+  getServerSideProps,
+} from "../../../../web/src/pages/blog/post/[postId]/index";
+import { english, fallback, portuguese } from "./fixtures";
+const selected = vi.hoisted(() => ({
+  post: undefined as import("@repo/wrapper/server").BlogArticleDto | undefined,
+}));
 vi.mock("@mantine/core", () => ({
-  Stack: ({ children }: any) => <div>{children}</div>,
-  Text: ({ children }: any) => <span>{children}</span>,
+  Stack: ({ children }: import("react").PropsWithChildren) => (
+    <div>{children}</div>
+  ),
+  Text: ({ children }: import("react").PropsWithChildren) => (
+    <span>{children}</span>
+  ),
 }));
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -21,26 +30,25 @@ vi.mock("@repo/ui", async () => ({
   BlogPostsLayout: () => null,
 }));
 vi.mock("next/head", () => ({
-  default: ({ children }: any) => <>{children}</>,
+  default: ({ children }: import("react").PropsWithChildren) => <>{children}</>,
 }));
 vi.mock("next/router", () => ({
   useRouter: () => ({ query: { postId: "article" } }),
 }));
-import Page, {
-  getServerSideProps,
-} from "../../../../web/src/pages/blog/post/[postId]/index";
 afterEach(() => {
   vi.restoreAllMocks();
 });
 it("prefetches the route locale with published data for hydration", async () => {
   const one = vi
     .spyOn(BlogPostService, "blogPostControllerOneV1")
-    .mockResolvedValue(portuguese as any);
+    .mockResolvedValue(
+      portuguese as unknown as import("@repo/wrapper/server").BlogArticleDto,
+    );
   const result = await getServerSideProps({
     params: { postId: english.id },
     locale: "pt-BR",
     res: {},
-  } as any);
+  } as unknown as import("next").GetServerSidePropsContext);
   expect(one).toHaveBeenCalledWith(english.id, "pt-BR");
   expect(result.props?.dehydratedState?.queries[0].state.data).toEqual(
     portuguese,
@@ -57,7 +65,7 @@ it.each([404, 503])(
       params: { postId: english.id },
       locale: "en",
       res,
-    } as any);
+    } as unknown as import("next").GetServerSidePropsContext);
     if (status === 404) expect(result).toEqual({ notFound: true });
     else {
       expect(res.statusCode).toBe(503);
@@ -68,14 +76,14 @@ it.each([404, 503])(
 
 it("renders localized metadata and published-only alternates without JavaScript", () => {
   process.env.NEXT_PUBLIC_DOMAIN_WEBSITE = "https://gamenode.app";
-  selected.post = portuguese;
+  selected.post = portuguese as unknown as NonNullable<typeof selected.post>;
   let html = renderToString(<Page />);
   expect(html).toContain(portuguese.excerpt);
   expect(html).toContain(
     'rel="canonical" href="https://gamenode.app/pt-BR/blog/post/article"',
   );
   expect(html).toContain('hrefLang="pt-BR"');
-  selected.post = fallback;
+  selected.post = fallback as unknown as NonNullable<typeof selected.post>;
   html = renderToString(<Page />);
   expect(html).toContain(
     'rel="canonical" href="https://gamenode.app/blog/post/article"',

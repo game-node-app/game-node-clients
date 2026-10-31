@@ -1,14 +1,13 @@
-import React from "react";
 import { useAwardEvent, useUserId } from "#@/components";
-import { AwardsEventOverview } from "#@/components/awards/view/AwardsEventOverview.tsx";
-import { Box, Button, Stack, Text } from "@mantine/core";
-import { AwardsVoteLayout } from "#@/components/awards/view/AwardsVoteLayout.tsx";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { AwardsEventCategoriesList } from "#@/components/awards/category/AwardsEventCategoriesList.tsx";
+import { AwardsEventOverview } from "#@/components/awards/view/AwardsEventOverview.tsx";
 import { AwardsPhaseNotice } from "#@/components/awards/view/AwardsPhaseNotice.tsx";
-import { Link } from "#@/util";
 import { AwardsRecentVotes } from "#@/components/awards/view/AwardsRecentVotes";
+import { AwardsVoteLayout } from "#@/components/awards/view/AwardsVoteLayout.tsx";
+import { Link } from "#@/util";
+import { Box, Button, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 interface Props {
   eventId: number | undefined;

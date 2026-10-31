@@ -1,9 +1,9 @@
 "use client";
 
-import { Flex, Grid, GridCol } from "@mantine/core";
 import ActiveUsersSection from "@/components/dashboard/ActiveUsersSection";
-import UserJoinSection from "@/components/dashboard/UserJoinSection";
 import ActivitySection from "@/components/dashboard/ActivitySection";
+import UserJoinSection from "@/components/dashboard/UserJoinSection";
+import { Grid, GridCol } from "@mantine/core";
 
 export function DashboardContent() {
     return (
