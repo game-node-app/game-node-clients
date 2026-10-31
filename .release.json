@@ -1,0 +1,29 @@
+{
+  "source": "29a4afc69781aa127d8bdec626f00b6f01212626",
+  "changesets": [
+    ".changeset/explicit-app-releases.md"
+  ],
+  "apps": [
+    "web",
+    "admin"
+  ],
+  "filters": [
+    "--filter=...[41da685357592640844f340f7bfaba2ea014deac...29a4afc69781aa127d8bdec626f00b6f01212626]",
+    "--filter=web...",
+    "--filter=admin..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "admin": "patch"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": false,
+  "ref": "releases/29a4afc69781aa127d8bdec626f00b6f01212626",
+  "versions": {
+    "web": "1.7.28",
+    "admin": "1.6.4"
+  }
+}
