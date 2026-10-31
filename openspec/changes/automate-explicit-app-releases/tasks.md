@@ -16,6 +16,6 @@
 
 ## 4. Requested live release test
 
-- [ ] 4.1 Copy Coolify credentials from the server repository without exposing plaintext and verify destination secret names and authenticated access.
-- [ ] 4.2 Configure web/admin delivery targets; verify both application identities and expected images before deployment.
+- [x] 4.1 Copy Coolify credentials from the server repository without exposing plaintext and verify destination secret names and authenticated access.
+- [x] 4.2 Configure web/admin delivery targets; verify both application identities and expected images before deployment.
 - [ ] 4.3 Run the real explicit web/admin release through successful checks, verify registry images and live deployment health, and record the results without bypassing failed checks.

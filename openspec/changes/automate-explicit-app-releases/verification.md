@@ -51,7 +51,7 @@ The run initially exposed a wrapper generation/type-check race; task dependencie
 were corrected and the full workspace type-check rerun passes. Lint failures
 still block main release delivery. Broad lint cleanup is outside this change.
 
-## Rollout prerequisites and limits
+## Initial rollout prerequisites and limits
 
 The workflows have not run on GitHub yet. Docker images and signed native APK/AAB
 builds were not exercised. Configure Docker/Coolify credentials, app UUID variables,
@@ -59,3 +59,32 @@ required `Checks` branch protection, and release-tag protection as described in
 [the release guide](../../../docs/releases.md). Verify Android's checked-in
 baseline against Play Console before releasing. An admin Coolify target has not
 been identified. Existing signing secrets were verified by name only.
+
+## Live setup and attempted release, 2026-10-31
+
+- Copied `COOLIFY_URL` and `COOLIFY_TOKEN` from the server repository to clients
+  using destination-key sealed-box encryption inside a temporary server Actions
+  workflow. No plaintext was returned to the agent/session. The transfer artifact
+  and temporary source branch were deleted; server main was unchanged.
+- Configured `COOLIFY_WEB_APP_UUID=zscnp9ddbyuhkh4krgeyqh4i`.
+- At the user's request, created `gamenode-admin` in the same production project
+  and server, using the default Coolify destination, `lamarcke/game-node-admin`,
+  container port `3000`, and `https://admin.gamenode.app`. Configured
+  `COOLIFY_ADMIN_APP_UUID=xlhlnqt4dn7zxtxqppogzpej`. Instant deployment was disabled;
+  the new application has not started a container.
+- [Client deployment access verification](https://github.com/game-node-app/game-node-clients/actions/runs/41199978189)
+  succeeded: Docker Hub login and authenticated Coolify reads verified both app
+  identities and their expected images. Docker credentials are inherited and did
+  not need copying. The temporary diagnostic branch was deleted.
+- [PR #79](https://github.com/game-node-app/game-node-clients/pull/79) contains the
+  implementation and an explicit web/admin patch-release changeset. The real
+  [CI run](https://github.com/game-node-app/game-node-clients/actions/runs/41200009448)
+  passed dependency installation, changeset validation, and all 14 release
+  regression tests. Affected-code checks failed first on existing locales lint
+  errors (`no-unused-vars` on type-signature parameters). Remaining lint debt is
+  documented above. Snapshot reservation and delivery did not run.
+
+Neither project has been deployed through the new pipeline. The requested live
+release remains incomplete, pending the application lint cleanup scope decision
+and successful checks. No check was bypassed, no production image tag was changed,
+and main was not merged or rewritten.

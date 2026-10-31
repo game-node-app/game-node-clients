@@ -92,11 +92,12 @@ Configure repository variables:
 
 - `COOLIFY_WEB_APP_UUID`: the existing web application is
   `zscnp9ddbyuhkh4krgeyqh4i`.
-- `COOLIFY_ADMIN_APP_UUID`: the administrator-provided admin target. No admin
-  application was found in the connected GameNode Coolify project during discovery.
+- `COOLIFY_ADMIN_APP_UUID`: the admin application is
+  `xlhlnqt4dn7zxtxqppogzpej`, created alongside web in GameNode production for
+  `https://admin.gamenode.app`.
 
 Each target must use Coolify's Docker image build pack and the expected Docker
-Hub image. Web currently meets that requirement. The server's Compose image-env
+Hub image. Both configured targets meet that requirement. The server's Compose image-env
 update mechanism is different and is not used here. Configure registry pull
 credentials in Coolify if the images are private.
 
@@ -104,6 +105,12 @@ Mobile uses the existing `RELEASE_KEYSTORE`, `RELEASE_KEYSTORE_PASS`,
 `RELEASE_KEYSTORE_KEY_ALIAS`, and `RELEASE_KEYSTORE_KEY_PASS` secrets. The `production`
 environment is shared by the delivery jobs; any environment approvals also apply.
 Configuration for every selected target is checked before reserving versions.
+
+Coolify credentials were copied from `game-node-server` using a temporary workflow
+that encrypted the values with this repository's GitHub public key. Their plaintext
+was never returned to the local session. The transfer artifact and source branch
+were deleted. A separate Actions access check verified Docker Hub login and
+authenticated reads of both configured Coolify applications.
 
 ## Local verification
 

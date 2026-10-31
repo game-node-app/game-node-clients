@@ -23,7 +23,7 @@ Non-goals: npm publication, automatic Play Store submission, and refactoring unr
 - Source manifests are bootstrap versions; published versions/changelogs live in release tags. Document this clearly and preserve tags.
 - Explicit no-release merges remain in main and enter a later selected app's artifact. Selection does not isolate commits.
 - Existing lint/type/build failures can block CI. Report failures without weakening validation or broad unrelated fixes.
-- No Docker/Coolify credentials or admin target are configured here. Document exact prerequisites and fail selected releases early; never silently skip an explicitly selected target.
+- Coolify credentials and both target UUIDs are now configured and authenticated reads/registry login have been verified. Keep configuration validation before version reservation; never silently skip an explicitly selected target.
 - GitHub concurrency queues are bounded and ordering follows queue entry. Refuse stale app releases rather than allowing a rollback.
 
 ## Migration Plan
