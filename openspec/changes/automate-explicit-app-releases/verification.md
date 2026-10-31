@@ -145,7 +145,8 @@ A fresh pruned admin Docker build exposed UI peer dependencies that had been
 supplied accidentally by sibling apps in full-workspace installs. Their existing
 versions are now declared in UI peer requirements and supplied by admin. A fresh
 web image builds with lifecycle scripts disabled and serves HTTP 200 as a non-root
-user. Final admin Docker verification and hosted checks are still pending.
+user. The fresh admin image also builds and serves HTTP 200 as a non-root user.
+Hosted checks and the required PR approval remain pending.
 The release is not yet live.
 
 Final cleanup rerun: all 18 affected lint/type/test/build tasks pass, including

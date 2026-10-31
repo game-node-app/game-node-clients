@@ -12,7 +12,7 @@ function git(cwd, ...args) {
 
 function releasePlan(base, head = "HEAD", cwd = process.cwd()) {
   if (!base) throw new Error("Usage: yarn release:plan <base-ref> [head-ref]");
-  for (const ref of [base, head]) {
+  [base, head] = [base, head].map((ref) => {
     if (
       typeof ref !== "string" ||
       !/^[a-zA-Z0-9][a-zA-Z0-9/_.@~^-]*$/.test(ref)
@@ -20,21 +20,14 @@ function releasePlan(base, head = "HEAD", cwd = process.cwd()) {
       throw new Error(
         "Release refs must be ASCII Git names or ancestry expressions.",
       );
-  }
-  base = git(
-    cwd,
-    "rev-parse",
-    "--verify",
-    "--end-of-options",
-    `${base}^{commit}`,
-  );
-  head = git(
-    cwd,
-    "rev-parse",
-    "--verify",
-    "--end-of-options",
-    `${head}^{commit}`,
-  );
+    return git(
+      cwd,
+      "rev-parse",
+      "--verify",
+      "--end-of-options",
+      `${ref}^{commit}`,
+    );
+  });
   const files = git(
     cwd,
     "diff",
