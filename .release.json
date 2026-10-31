@@ -1,0 +1,29 @@
+{
+  "source": "ee7eac982ae8797c1d4f643f2c8798d0b06efc5f",
+  "changesets": [
+    ".changeset/better-auth-clients.md"
+  ],
+  "apps": [
+    "web",
+    "admin"
+  ],
+  "filters": [
+    "--filter=...[7b96ac02f96480a8fc94ce4f3e6e7f61b1120064...ee7eac982ae8797c1d4f643f2c8798d0b06efc5f]",
+    "--filter=web...",
+    "--filter=admin..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "admin": "minor"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": false,
+  "ref": "releases/ee7eac982ae8797c1d4f643f2c8798d0b06efc5f",
+  "versions": {
+    "web": "1.8.0",
+    "admin": "1.7.0"
+  }
+}
