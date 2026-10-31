@@ -27,7 +27,7 @@
     "@mantine/nprogress": "^9.0.1",
     "@mantine/spotlight": "^9.0.2",
     "@mantine/tiptap": "^9.0.1",
-    "@next/bundle-analyzer": "^15.5.4",
+    "@next/bundle-analyzer": "^16.4.3",
     "@reduxjs/toolkit": "^2.11.2",
     "@repo/analytics": "*",
     "@repo/locales": "*",
@@ -61,10 +61,10 @@
     "html-to-image": "1.11.13",
     "i18next": "^26.0.3",
     "i18next-browser-languagedetector": "^8.2.1",
-    "next": "^16.1.7",
+    "next": "^16.4.3",
     "posthog-js": "^1.275.1",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "react-easy-crop": "^5.5.3",
     "react-error-boundary": "^6.1.1",
     "react-hook-form": "^8.0.0-alpha.5",
@@ -79,9 +79,9 @@
     "zod": "4.1.12"
   },
   "devDependencies": {
-    "@babel/generator": "^7.28.3",
-    "@babel/parser": "^7.28.4",
-    "@babel/traverse": "^7.28.4",
+    "@babel/generator": "^7.29.12",
+    "@babel/parser": "^7.29.12",
+    "@babel/traverse": "^7.29.12",
     "@lamarcke/openapi-typescript-codegen": "^0.29.1",
     "@repo/eslint-config": "0.0.0",
     "@repo/tailwind-config": "0.0.0",
@@ -89,8 +89,8 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/bad-words": "^3.0.3",
     "@types/node": "20.12.5",
-    "@types/react": "19.1.14",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.5.4",
@@ -106,7 +106,7 @@
   },
   "resolutions": {
     "prosemirror-model": "1.25.1",
-    "@types/react": "19.1.14",
-    "@types/react-dom": "19.1.9"
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
   }
 }
