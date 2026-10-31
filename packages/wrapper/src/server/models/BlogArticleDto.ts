@@ -29,3 +29,4 @@ export namespace BlogArticleDto {
         PT_BR = 'pt-BR',
     }
 }
+

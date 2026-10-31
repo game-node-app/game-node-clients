@@ -17,9 +17,14 @@ import { IconCheck } from "@tabler/icons-react";
 
 interface Props extends Omit<MultiSelectProps, "data" | "renderOption"> {
   achievements: AchievementDto[];
+  targetUserId: string | undefined;
 }
 
-const AchievementsMultiSelect = ({ achievements, ...others }: Props) => {
+const AchievementsMultiSelect = ({
+  achievements,
+  targetUserId,
+  ...others
+}: Props) => {
   const options = achievements.map(
     (achievement): ComboboxItem => ({
       label: achievement.name,
@@ -36,7 +41,10 @@ const AchievementsMultiSelect = ({ achievements, ...others }: Props) => {
         )!;
         return (
           <Group className={`w-full h-20 flex-nowrap gap-2`}>
-            <AchievementLogo achievementId={relatedAchievement.id} />
+            <AchievementLogo
+              achievementId={relatedAchievement.id}
+              targetUserId={targetUserId}
+            />
             <Stack className={"flex-grow justify-center items-start gap-2"}>
               <Title fz={"1rem"}>{relatedAchievement.name}</Title>
               <Text fz={"0.85rem"} className={"break-words"}>

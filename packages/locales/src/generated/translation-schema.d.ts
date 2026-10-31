@@ -6,12 +6,22 @@ export type TranslationSchema = {
   achievements: {
     buttons: {
       redeem: string;
+      redeemCode: string;
     };
     descriptions: {
       codeFormat: string;
     };
     labels: {
       code: string;
+      complete: string;
+      secret: string;
+      secretDescription: string;
+      progress: string;
+      nextReward: string;
+      eventEnds: string;
+      tier: string;
+      tierRow: string;
+      tiers: string;
     };
     messages: {
       redeemed: string;
@@ -21,6 +31,12 @@ export type TranslationSchema = {
     };
     validation: {
       codeRequired: string;
+    };
+    sections: {
+      obtained: string;
+      notObtained: string;
+      activeEvents: string;
+      pastEvents: string;
     };
   };
   actions: {
@@ -62,6 +78,7 @@ export type TranslationSchema = {
       postedAbout: string;
       reviewed: string;
       unknown: string;
+      achievementUnlocked: string;
     };
     messages: {
       fetchError: string;
@@ -935,6 +952,7 @@ export type TranslationSchema = {
       failedPart: string;
       sourceIconAlt: string;
     };
+    achievementUnlocked: string;
   };
   playtime: {
     buttons: {

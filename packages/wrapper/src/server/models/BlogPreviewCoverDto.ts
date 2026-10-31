@@ -6,3 +6,4 @@ export type BlogPreviewCoverDto = {
     url: string;
     alt: string | null;
 };
+

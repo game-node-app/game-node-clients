@@ -13,7 +13,7 @@ import {
 import useUserId from "@/components/auth/hooks/useUserId";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { AchievementItem, useAchievements } from "@repo/ui";
+import { AchievementItem, useAchievements, useAchievementsV2 } from "@repo/ui";
 import { AchievementsCodeService } from "@repo/wrapper/server";
 
 const AchievementsGenerateCodeView = () => {
@@ -30,6 +30,10 @@ const AchievementsGenerateCodeView = () => {
   const [isSingleUse, setIsSingleUse] = useState(true);
 
   const achievementsQuery = useAchievements({ limit: 9999999 });
+  const achievementsV2Query = useAchievementsV2(userId);
+  const selectedAchievementV2 = achievementsV2Query.data?.find(
+    (achievement) => achievement.id === selectedAchievementId,
+  );
 
   const buildAchievementsOptions = useCallback((): ComboboxItem[] => {
     if (!achievementsQuery.data) return [];
@@ -41,14 +45,6 @@ const AchievementsGenerateCodeView = () => {
       };
     });
   }, [achievementsQuery.data]);
-
-  const getSelectedAchievement = useCallback(() => {
-    if (!achievementsQuery.data || !selectedAchievementId) return undefined;
-
-    return achievementsQuery.data?.data.find(
-      (achievement) => achievement.id === selectedAchievementId,
-    );
-  }, [achievementsQuery.data, selectedAchievementId]);
 
   const generateCodeMutation = useMutation({
     mutationFn: async () => {
@@ -106,11 +102,8 @@ const AchievementsGenerateCodeView = () => {
           clearable={false}
           withCheckIcon
         />
-        {userId && getSelectedAchievement() && (
-          <AchievementItem
-            targetUserId={userId}
-            achievement={getSelectedAchievement()}
-          />
+        {selectedAchievementV2 && (
+          <AchievementItem achievement={selectedAchievementV2} />
         )}
         <Checkbox
           label={"Single use"}

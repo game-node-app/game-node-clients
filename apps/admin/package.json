@@ -8,7 +8,8 @@
     "dev": "next dev -p 3001 --turbopack",
     "start": "next start",
     "build": "next build",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

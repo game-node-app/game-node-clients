@@ -8,7 +8,7 @@ export type ObtainedAchievementDto = {
     achievement: AchievementDto;
     id: number;
     /**
-     * Achievement id specified in entries for achievements.data.ts
+     * Id (slug) of the related AchievementDefinition
      */
     achievementId: string;
     profile: Profile;

@@ -19,6 +19,10 @@ vi.mock("../../../../../packages/ui/src/util/link", () => ({
   useRouter: () => mockRouter,
 }));
 
+vi.mock("../../../../../packages/ui/src/components/auth/hooks/useUserId", () => ({
+  useUserId: () => "user-1",
+}));
+
 let currentLang = "en";
 
 vi.mock("@repo/locales", () => ({

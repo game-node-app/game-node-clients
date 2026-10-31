@@ -1,24 +1,26 @@
 import React from "react";
-import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { Box, Flex, Image, ImageProps } from "@mantine/core";
+import { AchievementBadge } from "./AchievementBadge";
+import { useAchievementsV2 } from "./hooks/useAchievementsV2";
+import { useAchievementProgress } from "./hooks/useAchievementProgress";
 
-interface Props extends ImageProps {
+interface Props {
   achievementId: string;
+  targetUserId: string | undefined;
+  size?: number;
 }
 
-const AchievementLogo = ({ achievementId, ...others }: Props) => {
-  return (
-    <Flex className={"w-14 min-w-14 justify-center"}>
-      <Image
-        className="w-[48px] h-[48px] object-contain"
-        src={getServerStoredIcon(achievementId)}
-        alt={achievementId}
-        height={48}
-        width={48}
-        {...others}
-      />
-    </Flex>
+/** Badge of an achievement at the highest tier `targetUserId` holds. */
+const AchievementLogo = ({ achievementId, targetUserId, size }: Props) => {
+  const achievementsQuery = useAchievementsV2(targetUserId);
+  const progressQuery = useAchievementProgress(targetUserId);
+  const achievement = achievementsQuery.data?.find(
+    (a) => a.id === achievementId,
   );
+  const tier =
+    progressQuery.data?.find((p) => p.achievementId === achievementId)?.tier ??
+    0;
+
+  return <AchievementBadge icon={achievement?.icon} tier={tier} size={size} />;
 };
 
 export { AchievementLogo };

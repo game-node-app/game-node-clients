@@ -14,6 +14,7 @@ export namespace NotificationActivityContentDto {
         COLLECTION = 'collection',
         FOLLOW = 'follow',
         ACHIEVEMENT = 'achievement',
+        PLATFORM_ACHIEVEMENT = 'platform_achievement',
     }
 }
 

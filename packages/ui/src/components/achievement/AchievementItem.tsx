@@ -1,29 +1,34 @@
 import React from "react";
-import { Group, Paper, Stack, Text, Title } from "@mantine/core";
-import { AchievementDto } from "@repo/wrapper/server";
-import { getServerStoredIcon } from "#@/util";
-import { AchievementLogo } from "#@/components";
-import { useObtainedAchievement } from "./hooks";
+import {
+  Group,
+  Paper,
+  Popover,
+  Progress,
+  Stack,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
+import { IconCheck } from "@tabler/icons-react";
+import { AchievementProgressDto, AchievementV2Dto } from "@repo/wrapper/server";
+import { useTranslation } from "@repo/locales";
+import { AchievementBadge } from "./AchievementBadge";
 
 interface Props {
-  targetUserId: string;
-  achievement: AchievementDto | undefined;
+  achievement: AchievementV2Dto;
+  progress?: AchievementProgressDto;
 }
 
-const AchievementItem = ({ targetUserId, achievement }: Props) => {
-  const obtainedAchievementQuery = useObtainedAchievement(
-    targetUserId,
-    achievement?.id,
-  );
-  if (!achievement) {
-    return null;
-  }
-  const obtainedAchievement = obtainedAchievementQuery.data;
-  const achievementNotYetObtained = obtainedAchievement == undefined;
-
-  const obtainedText = achievementNotYetObtained
-    ? "Not yet obtained"
-    : `Obtained at ${new Date(obtainedAchievement?.createdAt).toLocaleDateString()}`;
+const AchievementItem = ({ achievement, progress }: Props) => {
+  const { t } = useTranslation();
+  const tier = progress?.tier ?? 0;
+  const value = progress?.value ?? 0;
+  const isSecret = achievement.name == null;
+  const nextThreshold = progress
+    ? progress.nextThreshold
+    : (achievement.tiers[0]?.threshold ?? null);
+  const isComplete = nextThreshold == null && tier > 0;
+  const nextTier = achievement.tiers.find((it) => it.level === tier + 1);
 
   return (
     <Paper
@@ -32,35 +37,70 @@ const AchievementItem = ({ targetUserId, achievement }: Props) => {
       }
       w={"100%"}
       withBorder
-      pos={"relative"}
-      data-obtained={obtainedAchievement ? "true" : "false"}
+      data-obtained={tier > 0 ? "true" : "false"}
     >
-      <Group
-        wrap={"nowrap"}
-        w={"100%"}
-        h={"100%"}
-        px={"1rem"}
-        py={"1.5rem"}
-        opacity={achievementNotYetObtained ? "0.80" : "1"}
-      >
-        <AchievementLogo achievementId={achievement.id} />
-        <Stack gap={"0.5rem"}>
-          <Title fz={"1rem"}>{achievement.name}</Title>
-          <Text fz={"0.85rem"} className={"break-words"}>
-            {achievement.description}
-          </Text>
-        </Stack>
-        <Stack
-          ml={"auto"}
-          gap={0}
-          justify={"center"}
-          align={"center"}
-          className={"w-24 min-w-24"}
-        >
-          <Title fz={"1.5rem"} className={"break-keep text-center"}>
-            {achievement.expGainAmount} XP
+      <Group wrap={"nowrap"} w={"100%"} px={"1rem"} py={"1.5rem"}>
+        <AchievementBadge icon={achievement.icon} tier={tier} />
+        <Stack gap={"0.5rem"} className={"grow"}>
+          <Title fz={"1rem"}>
+            {isSecret ? t("achievements.labels.secret") : achievement.name}
           </Title>
-          <Text className={"text-center text-xs"}>{obtainedText}</Text>
+          <Text fz={"0.85rem"} className={"break-words"}>
+            {isSecret
+              ? t("achievements.labels.secretDescription")
+              : achievement.description}
+          </Text>
+          {!isSecret &&
+            (isComplete ? (
+              <Group gap={4}>
+                <IconCheck size={16} />
+                <Text fz={"0.85rem"}>{t("achievements.labels.complete")}</Text>
+              </Group>
+            ) : (
+              nextThreshold != null && (
+                <Stack gap={2}>
+                  <Progress value={(value / nextThreshold) * 100} />
+                  <Text fz={"0.75rem"}>
+                    {t("achievements.labels.progress", {
+                      value,
+                      threshold: nextThreshold,
+                    })}
+                    {nextTier &&
+                      ` · ${t("achievements.labels.nextReward", { xp: nextTier.expReward })}`}
+                  </Text>
+                </Stack>
+              )
+            ))}
+          {!isSecret && (
+            <Popover withArrow>
+              <Popover.Target>
+                <UnstyledButton className={"text-xs underline w-fit"}>
+                  {t("achievements.labels.tiers")}
+                </UnstyledButton>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <Stack gap={4}>
+                  {achievement.tiers.map((it) => (
+                    <Group key={it.level} gap={6} wrap={"nowrap"}>
+                      <IconCheck
+                        size={14}
+                        opacity={it.level <= tier ? 1 : 0.15}
+                      />
+                      <Text fz={"0.8rem"}>
+                        {t("achievements.labels.tier", { level: it.level })}
+                        {" · "}
+                        {t("achievements.labels.tierRow", {
+                          threshold: it.threshold,
+                          xp: it.expReward,
+                          rarity: (it.rarity * 100).toFixed(1),
+                        })}
+                      </Text>
+                    </Group>
+                  ))}
+                </Stack>
+              </Popover.Dropdown>
+            </Popover>
+          )}
         </Stack>
       </Group>
     </Paper>

@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { NotificationAchievementTargetDto } from './NotificationAchievementTargetDto';
 import type { NotificationActivityTargetDto } from './NotificationActivityTargetDto';
 import type { NotificationActorDto } from './NotificationActorDto';
 import type { NotificationContentTargetDto } from './NotificationContentTargetDto';
@@ -14,7 +15,7 @@ export type NotificationInboxItemDto = {
     type: string;
     actors: Array<NotificationActorDto>;
     preview: (NotificationTextPreviewDto | NotificationImportPreviewDto) | null;
-    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto) | null;
+    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto | NotificationAchievementTargetDto) | null;
     eventCount: number;
     actorCount: number;
     lastEventAt: string;

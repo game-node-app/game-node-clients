@@ -1,13 +1,23 @@
 {
   "achievements": {
     "buttons": {
-      "redeem": "Redeem"
+      "redeem": "Redeem",
+      "redeemCode": "Redeem a code"
     },
     "descriptions": {
       "codeFormat": "It may contain letters and numbers"
     },
     "labels": {
-      "code": "Your achievement code"
+      "code": "Your achievement code",
+      "complete": "Complete",
+      "secret": "Secret achievement",
+      "secretDescription": "Keep playing to discover this achievement.",
+      "progress": "{{value}} / {{threshold}}",
+      "nextReward": "Next tier: {{xp}} XP",
+      "eventEnds": "Ends {{date}}",
+      "tier": "Tier {{level}}",
+      "tierRow": "{{threshold}} · {{xp}} XP · {{rarity}}%",
+      "tiers": "Tiers"
     },
     "messages": {
       "redeemed": "Successfully redeemed your code. Enjoy!"
@@ -17,6 +27,12 @@
     },
     "validation": {
       "codeRequired": "An achievement code must be provided!"
+    },
+    "sections": {
+      "obtained": "Obtained",
+      "notObtained": "Not yet obtained",
+      "activeEvents": "Active events",
+      "pastEvents": "Past events"
     }
   },
   "actions": {
@@ -57,7 +73,8 @@
       "obtainedPlatinum": "Obtained platinum trophy",
       "postedAbout": "Posted about",
       "reviewed": "Reviewed",
-      "unknown": "Performed an action which is not yet mapped. This will be updated soon."
+      "unknown": "Performed an action which is not yet mapped. This will be updated soon.",
+      "achievementUnlocked": "Unlocked {{name}} tier {{tier}}"
     },
     "messages": {
       "fetchError": "Error while fetching activities. Please try again.",
@@ -930,7 +947,8 @@
       "skippedPart": "{{count}} already in your library",
       "failedPart": "{{count}} failed",
       "sourceIconAlt": "Importer source icon"
-    }
+    },
+    "achievementUnlocked": "Unlocked {{name}} (tier {{tier}})"
   },
   "playtime": {
     "buttons": {

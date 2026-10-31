@@ -26,11 +26,13 @@ const activitiesToChartData = (activities: Activity[]) => {
   });
 
   for (const activity of sortedActivities) {
+    // Platform unlocks have no chart series.
+    if (activity.type === ActivityType.ACHIEVEMENT_UNLOCKED) continue;
     const createdAt = new Date(activity.createdAt);
     const createdAtMonth = `${createdAt.getMonth() + 1}`.padStart(2, "0");
     const periodString = `${createdAtMonth}/${createdAt.getFullYear()}`;
     const targetProperty: keyof ActivityPeriodItem = match<
-      ActivityType,
+      Exclude<ActivityType, ActivityType.ACHIEVEMENT_UNLOCKED>,
       keyof ActivityPeriodItem
     >(activity.type)
       .with(ActivityType.COLLECTION_ENTRY, () => "collectionEntryCount")

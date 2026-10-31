@@ -1,13 +1,23 @@
 {
   "achievements": {
     "buttons": {
-      "redeem": "Resgatar"
+      "redeem": "Resgatar",
+      "redeemCode": "Resgatar um código"
     },
     "descriptions": {
       "codeFormat": "Pode conter letras e números"
     },
     "labels": {
-      "code": "Seu código de conquista"
+      "code": "Seu código de conquista",
+      "complete": "Completa",
+      "secret": "Conquista secreta",
+      "secretDescription": "Continue jogando para descobrir esta conquista.",
+      "progress": "{{value}} / {{threshold}}",
+      "nextReward": "Próximo nível: {{xp}} XP",
+      "eventEnds": "Termina em {{date}}",
+      "tier": "Nível {{level}}",
+      "tierRow": "{{threshold}} · {{xp}} XP · {{rarity}}%",
+      "tiers": "Níveis"
     },
     "messages": {
       "redeemed": "Código resgatado com sucesso. Aproveite!"
@@ -17,6 +27,12 @@
     },
     "validation": {
       "codeRequired": "Um código de conquista deve ser informado!"
+    },
+    "sections": {
+      "obtained": "Obtidas",
+      "notObtained": "Ainda não obtidas",
+      "activeEvents": "Eventos ativos",
+      "pastEvents": "Eventos passados"
     }
   },
   "actions": {
@@ -57,7 +73,8 @@
       "obtainedPlatinum": "Obteve troféu de platina",
       "postedAbout": "Publicou sobre",
       "reviewed": "Avaliou",
-      "unknown": "Realizou uma acao ainda nao mapeada. Isso sera atualizado em breve."
+      "unknown": "Realizou uma acao ainda nao mapeada. Isso sera atualizado em breve.",
+      "achievementUnlocked": "Desbloqueou {{name}} nível {{tier}}"
     },
     "messages": {
       "fetchError": "Erro ao buscar atividades. Por favor, tente novamente.",
@@ -930,7 +947,8 @@
       "skippedPart": "{{count}} já na sua biblioteca",
       "failedPart": "{{count}} com falha",
       "sourceIconAlt": "Ícone da fonte de importação"
-    }
+    },
+    "achievementUnlocked": "Desbloqueou {{name}} (nível {{tier}})"
   },
   "playtime": {
     "buttons": {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Button, Center, Stack, Text, UnstyledButton } from "@mantine/core";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { AchievementItem } from "#@/components/achievement/AchievementItem";
+import { ObtainedAchievementItem } from "#@/components/achievement/ObtainedAchievementItem";
 import { useAllObtainedAchievements } from "#@/components/achievement/hooks/useAllObtainedAchievements";
 import { useMutation } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
@@ -75,6 +75,7 @@ const ProfileEditFeaturedAchievement = () => {
               achievements={obtainedAchievementsQuery.data.map(
                 (oa) => oa.achievement,
               )}
+              targetUserId={userId}
               value={selectedAchievementIds}
               onChange={(ids) => {
                 setSelectedAchievementIds(ids);
@@ -91,10 +92,10 @@ const ProfileEditFeaturedAchievement = () => {
             <DetailsBox title={t("profile.collections.featured")}>
               {featuredAchievements.map((featuredAchievement) => {
                 return (
-                  <AchievementItem
+                  <ObtainedAchievementItem
                     key={`featured-${featuredAchievement.achievementId}`}
                     targetUserId={userId}
-                    achievement={featuredAchievement.achievement}
+                    achievementId={featuredAchievement.achievementId}
                   />
                 );
               })}

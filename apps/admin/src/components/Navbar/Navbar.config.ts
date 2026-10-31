@@ -1,6 +1,7 @@
 import {
   IconBrandBlogger,
   IconCheckbox,
+  IconListDetails,
   IconDashboard,
   IconDeviceGamepad2,
   IconReport,
@@ -55,6 +56,23 @@ export const navLinks: NavItem[] = [
       {
         label: "Grant",
         link: "/dashboard/achievement/grant",
+      },
+    ],
+  },
+  {
+    label: "Achievement catalog",
+    icon: IconListDetails,
+    initiallyOpened: false,
+    roles: [EUserRoles.ADMIN, EUserRoles.EDITOR],
+    link: "/dashboard/achievement/definitions",
+    links: [
+      {
+        label: "Definitions",
+        link: "/dashboard/achievement/definitions",
+      },
+      {
+        label: "Events",
+        link: "/dashboard/achievement/events",
       },
     ],
   },

@@ -15,6 +15,7 @@ import {
   AchievementItem,
   getErrorMessage,
   useAchievements,
+  useAchievementsV2,
   useUserId,
   useUserProfiles,
 } from "@repo/ui";
@@ -30,6 +31,7 @@ const AchievementsGrantView = () => {
     string | undefined
   >(undefined);
   const achievementsQuery = useAchievements({});
+  const achievementsV2Query = useAchievementsV2(userId);
 
   const buildAchievementsOptions = useCallback((): ComboboxItem[] => {
     if (!achievementsQuery.data) return [];
@@ -49,6 +51,10 @@ const AchievementsGrantView = () => {
       (achievement) => achievement.id === selectedAchievementId,
     );
   }, [achievementsQuery.data, selectedAchievementId]);
+
+  const selectedAchievementV2 = achievementsV2Query.data?.find(
+    (achievement) => achievement.id === selectedAchievementId,
+  );
 
   const buildUserOptions = useCallback(() => {
     if (!profilesQuery.data) return [];
@@ -121,11 +127,8 @@ const AchievementsGrantView = () => {
           clearable={false}
           withCheckIcon
         />
-        {userId && getSelectedAchievement() && (
-          <AchievementItem
-            targetUserId={userId}
-            achievement={getSelectedAchievement()}
-          />
+        {selectedAchievementV2 && (
+          <AchievementItem achievement={selectedAchievementV2} />
         )}
         <Button
           className={"my-4"}

@@ -34,3 +34,4 @@ export namespace BlogPreviewDto {
         PUBLISHED = 'published',
     }
 }
+
