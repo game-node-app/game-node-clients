@@ -1,25 +1,16 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
-import { useIonRouter } from "@ionic/react";
-import { Box } from "@mantine/core";
-import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
-import { AuthPage } from "supertokens-auth-react/ui";
+import { Capacitor } from "@capacitor/core";
+import { SignInScreen } from "@repo/ui";
 
-const SupertokensAuthPage = () => {
-  const router = useIonRouter();
-
+const AuthPage = () => {
   return (
     <AppPage withSearch={false}>
-      <Box className={"w-full h-full mt-20"}>
-        <AuthPage
-          preBuiltUIList={[ThirdPartyPreBuiltUI]}
-          navigate={{
-            push: router.push,
-            goBack: router.goBack,
-          }}
-        />
-      </Box>
+      <SignInScreen
+        homePath={"/home"}
+        relativeCallbacks={Capacitor.isNativePlatform()}
+      />
     </AppPage>
   );
 };
 
-export default SupertokensAuthPage;
+export default AuthPage;

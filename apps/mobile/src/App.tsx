@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { onlineManager, QueryClient } from "@tanstack/react-query";
+import {
+  MutationCache,
+  onlineManager,
+  QueryCache,
+  QueryClient,
+} from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
-import SuperTokensProvider from "./components/auth/SuperTokensProvider";
 import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
-import { setProjectContext, UIProvider } from "@repo/ui";
+import {
+  getAuthClientOptions,
+  handleAuthError,
+  setProjectContext,
+  setupAuthClient,
+  UIProvider,
+} from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
 import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 import { Device } from "@capacitor/device";
+import { Capacitor } from "@capacitor/core";
+import { Preferences } from "@capacitor/preferences";
+import {
+  getCapacitorAuthToken,
+  withCapacitor,
+} from "better-auth-capacitor/client";
 import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
 import { UI_HOOK_REGISTRY, UI_PRESENTER_REGISTRY } from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
@@ -72,9 +88,33 @@ setProjectContext({
   serverUrl: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchUrl: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
 });
+
+// Native: cookies don't reach the API from the WebView origin, so the session travels as a bearer token.
+const CAPACITOR_AUTH_STORAGE = {
+  storagePrefix: "gamenode",
+  cookiePrefix: "better-auth",
+};
+const isNative = Capacitor.isNativePlatform();
+const authClientOptions = getAuthClientOptions(
+  import.meta.env.VITE_PUBLIC_SERVER_URL!,
+);
+setupAuthClient(
+  isNative
+    ? (withCapacitor(authClientOptions, {
+        scheme: "app.gamenode",
+        ...CAPACITOR_AUTH_STORAGE,
+      }) as typeof authClientOptions)
+    : authClientOptions,
+);
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
+  getToken: isNative
+    ? () =>
+        getCapacitorAuthToken(CAPACITOR_AUTH_STORAGE).then(
+          (t) => t ?? undefined,
+        )
+    : undefined,
 });
 
 setupIonicReact({
@@ -85,6 +125,8 @@ const App: React.FC = () => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        queryCache: new QueryCache({ onError: handleAuthError }),
+        mutationCache: new MutationCache({ onError: handleAuthError }),
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
@@ -104,6 +146,11 @@ const App: React.FC = () => {
   );
 
   const [language, onLanguageChange] = useLanguagePreference();
+
+  useEffect(() => {
+    // Stale key from the previous auth provider; harmless, but no reason to keep it.
+    Preferences.remove({ key: "frontendCookies" }).catch(console.error);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -150,20 +197,18 @@ const App: React.FC = () => {
               presenters={UI_PRESENTER_REGISTRY}
               hooks={UI_HOOK_REGISTRY}
             >
-              <SuperTokensProvider>
-                <PostHogProvider
-                  appName={"mobile"}
-                  posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
-                  posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
-                >
-                  <IonReactRouter>
-                    <AppUrlListener />
-                    <AppUpdateListener />
-                    <NotificationsManager />
-                    <Tabs />
-                  </IonReactRouter>
-                </PostHogProvider>
-              </SuperTokensProvider>
+              <PostHogProvider
+                appName={"mobile"}
+                posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+                posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+              >
+                <IonReactRouter>
+                  <AppUrlListener />
+                  <AppUpdateListener />
+                  <NotificationsManager />
+                  <Tabs />
+                </IonReactRouter>
+              </PostHogProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

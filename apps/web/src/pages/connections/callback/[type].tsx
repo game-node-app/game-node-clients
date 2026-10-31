@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 import { ConnectionAuthCallback } from "@repo/ui";
 
 export default function ConnectionCallbackPage() {

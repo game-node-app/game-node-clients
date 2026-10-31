@@ -8,7 +8,7 @@ export type Profile = {
     /**
      * Shareable string ID
      *
-     * Same as SuperTokens' userId.
+     * Same as the Better Auth user id.
      */
     userId: string;
     username: string;

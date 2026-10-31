@@ -3,15 +3,16 @@ import { BaseModalProps, createErrorNotification, Modal } from "#@/util";
 import { Button, List, Stack, Text, TextInput } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { UserAccountService } from "@repo/wrapper/server";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import Session from "supertokens-auth-react/recipe/session";
+import { signOut } from "#@/components/auth/signOut";
 
 const PreferencesRestartAccountModal = ({
   opened,
   onClose,
 }: BaseModalProps) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const userId = useUserId();
   const { data: profile } = useUserProfile(userId);
   const [hasConfirmedUsername, setHasConfirmedUsername] = useState(false);
@@ -22,7 +23,7 @@ const PreferencesRestartAccountModal = ({
     },
     onError: createErrorNotification,
     onSuccess: async () => {
-      await Session.signOut();
+      await signOut(queryClient);
     },
   });
 

@@ -8,7 +8,7 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 
 interface Props {
   userId: string;

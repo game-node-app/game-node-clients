@@ -4,9 +4,13 @@ import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { I18nProvider } from "@repo/locales";
 import { BlogPreviewDto } from "@repo/wrapper/server";
-import { BlogArticleView, EUserRoles, useUserRoles } from "@repo/ui";
+import {
+  BlogArticleView,
+  EUserRoles,
+  useUserId,
+  useUserRoles,
+} from "@repo/ui";
 import { Text } from "@mantine/core";
-import useUserId from "@/components/auth/hooks/useUserId";
 
 export function getServerSideProps({ res }: GetServerSidePropsContext) {
   res.setHeader("Cache-Control", "private, no-store");

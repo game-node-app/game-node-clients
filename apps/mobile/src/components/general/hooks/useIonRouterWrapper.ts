@@ -13,7 +13,7 @@ export function useIonRouterWrapper(): RouterHookProps {
 
   const patchedPush: RouterHookProps["push"] = async (url, options) => {
     ionRouter.push(
-      getTabAwareHref(url),
+      options?.absolute ? url : getTabAwareHref(url),
       undefined,
       options?.replace ? "replace" : undefined,
     );
@@ -22,6 +22,7 @@ export function useIonRouterWrapper(): RouterHookProps {
   const pathWithoutTab = pathname.replace(`/${tabname}`, "");
 
   return {
+    asPath: `${ionRouter.routeInfo.pathname}${ionRouter.routeInfo.search}`,
     back: ionRouter.goBack,
     /**
      * Pathname is returned without tab to avoid issues when building a URL that includes the router.pathname. (e.g. duplicate tabs in URL)

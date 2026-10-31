@@ -1,3 +1,4 @@
+import { SignInMethodsSection } from "#@/components/preferences/handlers/account/SignInMethodsSection";
 import { PreferencesRestartAccountModal } from "#@/components/preferences/handlers/account/PreferencesRestartAccountModal";
 import { Button, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -9,6 +10,7 @@ const PreferencesAccountScreen = () => {
 
   return (
     <Stack>
+      <SignInMethodsSection />
       <Stack>
         <PreferencesRestartAccountModal
           opened={restartModalOpened}

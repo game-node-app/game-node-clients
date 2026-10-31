@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Stack } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 import {
   ActivityFeed,
   ActivityFeedLayout,

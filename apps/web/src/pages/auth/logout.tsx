@@ -1,8 +1,8 @@
 import CenteredLoading from "@/components/general/CenteredLoading";
+import { signOut } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { signOut } from "supertokens-auth-react/recipe/session";
 
 const Logout = () => {
     const queryClient = useQueryClient();
@@ -12,8 +12,7 @@ const Logout = () => {
         let ignore = false;
         (async () => {
             if (ignore) return;
-            await signOut();
-            queryClient.clear();
+            await signOut(queryClient);
             router.push("/search");
         })();
         return () => {

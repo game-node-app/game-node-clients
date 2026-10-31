@@ -1,4 +1,4 @@
-import useUserId from "@/components/auth/hooks/useUserId";
+import { useUserId } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { SimpleGrid, Stack } from "@mantine/core";

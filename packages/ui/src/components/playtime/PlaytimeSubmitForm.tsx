@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 import { z } from "zod";
 import { PlaytimeService, UserPlaytime } from "@repo/wrapper/server";
 import { useForm } from "react-hook-form";

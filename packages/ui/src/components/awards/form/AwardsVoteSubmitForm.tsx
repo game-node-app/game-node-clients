@@ -18,7 +18,7 @@ import { AwardsService, VotableAwardsCategoryDto } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "#@/components/auth/SessionAuth";
 
 export interface AwardsVoteSubmitFormProps extends BaseModalChildrenProps {
   category: VotableAwardsCategoryDto;

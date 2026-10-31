@@ -17,13 +17,11 @@ vi.mock("@mantine/core", () => ({
     <span>{children}</span>
   ),
 }));
-vi.mock("../../../../admin/src/components/auth/hooks/useUserId", () => ({
-  default: () => state.userId,
-}));
 vi.mock("@repo/locales", () => ({
   I18nProvider: ({ children }: import("react").PropsWithChildren) => children,
 }));
 vi.mock("@repo/ui", () => ({
+  useUserId: () => state.userId,
   useUserRoles: () => state.roles,
   EUserRoles: { ADMIN: "admin", MOD: "mod", EDITOR: "editor" },
   BlogArticleView: ({

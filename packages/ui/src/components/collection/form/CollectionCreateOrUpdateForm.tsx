@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Fieldset, Stack, Switch, TextInput } from "@mantine/core";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { Collection, CollectionsService } from "@repo/wrapper/server";
@@ -49,8 +49,7 @@ const CollectionCreateOrUpdateForm = ({
   collectionId,
 }: ICollectionCreateOrUpdateFormProps) => {
   const { t } = useTranslation();
-  const session = useSessionContext();
-  const userId = session.loading ? undefined : session.userId;
+  const userId = useUserId();
   const userLibraryQuery = useUserLibrary(userId);
   const onMobile = useOnMobile();
 

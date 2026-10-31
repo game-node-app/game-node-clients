@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Flex, Paper } from "@mantine/core";
 import { ImporterScreen } from "@repo/ui";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 
 function TypePage() {
   const router = useRouter();

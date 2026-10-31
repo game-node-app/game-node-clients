@@ -17,6 +17,7 @@ import {
     UserButton,
     useRunningAwardEvent,
     useUserId,
+  signOut,
 } from "@repo/ui";
 import {
     IconActivity,
@@ -35,11 +36,12 @@ import {
     IconTrophy,
     IconTrophyFilled,
 } from "@tabler/icons-react";
-import { signOut } from "supertokens-website";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MobileSidebarMenu = () => {
   const { t } = useTranslation();
   const userId = useUserId();
+  const queryClient = useQueryClient();
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
     useRunningAwardEvent();
@@ -187,7 +189,7 @@ const MobileSidebarMenu = () => {
               Icon={IconLogout}
               href={"#"}
               onClick={() => {
-                signOut().then(() => {
+                signOut(queryClient).then(() => {
                   closeMenu();
                 });
               }}

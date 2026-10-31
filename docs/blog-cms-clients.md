@@ -56,7 +56,7 @@ inline image.
   locales, web, mobile and admin, and production builds of web, mobile and admin
   all pass. The earlier admin Turbopack font failure did not recur.
 
-Not verified: the browser-rendered admin preview with a live SuperTokens
+Not verified: the browser-rendered admin preview with a live Better Auth
 browser session and the mobile app on a device; the licensed custom-policy
 configuration was not re-activated (no key available), the existing policies
 worked unchanged.

@@ -1,21 +1,5 @@
-import { useDisclosure } from "@mantine/hooks";
-import { useEffect } from "react";
-import { ThirdPartyPreBuiltUI } from "supertokens-auth-react/recipe/thirdparty/prebuiltui";
-import { AuthPage } from "supertokens-auth-react/ui";
+import { SignInScreen } from "@repo/ui";
 
 export default function Auth() {
-  const [isClient, isClientUtils] = useDisclosure();
-
-  // if the user visits a page that is not handled by us (like /auth/random), then we redirect them back to the auth page.
-  useEffect(() => {
-    if (isClient) {
-      return;
-    }
-
-    isClientUtils.open();
-  }, [isClient, isClientUtils]);
-
-  if (!isClient) return null;
-
-  return <AuthPage preBuiltUIList={[ThirdPartyPreBuiltUI]} />;
+  return <SignInScreen homePath={"/home"} newUserPath={"/wizard/init"} />;
 }

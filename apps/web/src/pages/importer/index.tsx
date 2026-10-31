@@ -10,7 +10,7 @@ import {
 import { ConnectionsService } from "@repo/wrapper/server";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "@repo/ui";
 
 export const getServerSideProps = async (_context: NextPageContext) => {
   const queryClient = new QueryClient();
