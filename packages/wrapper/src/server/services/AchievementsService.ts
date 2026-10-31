@@ -2,10 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AchievementEventsResponseDto } from '../models/AchievementEventsResponseDto';
 import type { AchievementGrantRequestDto } from '../models/AchievementGrantRequestDto';
+import type { AchievementProgressDto } from '../models/AchievementProgressDto';
 import type { Object } from '../models/Object';
 import type { ObtainedAchievementDto } from '../models/ObtainedAchievementDto';
 import type { PaginatedAchievementsResponseDto } from '../models/PaginatedAchievementsResponseDto';
+import type { PaginatedAchievementsV2ResponseDto } from '../models/PaginatedAchievementsV2ResponseDto';
 import type { UpdateFeaturedObtainedAchievementDto } from '../models/UpdateFeaturedObtainedAchievementDto';
 import type { UpdateFeaturedObtainedAchievementV2Dto } from '../models/UpdateFeaturedObtainedAchievementV2Dto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -113,6 +116,54 @@ export class AchievementsService {
             url: '/v1/achievements/grant',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param offset
+     * @param limit
+     * @param targetUserId Reveals hidden achievements this user has obtained
+     * @returns PaginatedAchievementsV2ResponseDto
+     * @throws ApiError
+     */
+    public static achievementsV2ControllerGetAchievementsV2(
+        offset?: number,
+        limit: number = 20,
+        targetUserId?: string,
+    ): CancelablePromise<PaginatedAchievementsV2ResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/achievements',
+            query: {
+                'offset': offset,
+                'limit': limit,
+                'targetUserId': targetUserId,
+            },
+        });
+    }
+    /**
+     * @param userId
+     * @returns AchievementProgressDto
+     * @throws ApiError
+     */
+    public static achievementsV2ControllerGetProgressV2(
+        userId: string,
+    ): CancelablePromise<Array<AchievementProgressDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/achievements/progress/{userId}',
+            path: {
+                'userId': userId,
+            },
+        });
+    }
+    /**
+     * @returns AchievementEventsResponseDto
+     * @throws ApiError
+     */
+    public static achievementsV2ControllerGetEventsV2(): CancelablePromise<AchievementEventsResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v2/achievements/events',
         });
     }
     /**

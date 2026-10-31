@@ -18,7 +18,7 @@ export class ActivitiesService {
      */
     public static activitiesRepositoryControllerFindLatestV1(
         userId?: string,
-        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT',
+        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT' | 'ACHIEVEMENT_UNLOCKED',
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<ActivitiesPaginatedResponseDto> {
@@ -59,7 +59,7 @@ export class ActivitiesService {
      */
     public static activitiesRepositoryV2ControllerFindLatestV2(
         userId?: string,
-        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT',
+        type?: 'REVIEW' | 'FOLLOW' | 'COLLECTION_ENTRY' | 'POST' | 'OBTAINED_GAME_ACHIEVEMENT' | 'ACHIEVEMENT_UNLOCKED',
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<ActivitiesPaginatedResponseDto> {

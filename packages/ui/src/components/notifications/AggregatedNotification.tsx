@@ -14,13 +14,14 @@ import {
   Text,
   ThemeIcon,
 } from "@mantine/core";
-import { IconAlertCircleFilled } from "@tabler/icons-react";
+import { IconAlertCircleFilled, IconTrophy } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import {
   getS3StoredUpload,
   getServerStoredIcon,
 } from "#@/util/getServerStoredImages";
 import { useRouter } from "#@/util/link";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export interface AggregatedNotificationProps {
   aggregatedNotification: NotificationInboxItemDto;
@@ -39,6 +40,7 @@ const AggregatedNotification = ({
 }: AggregatedNotificationProps) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const userId = useUserId();
 
   const handleItemClick = async () => {
     onClick?.();
@@ -70,6 +72,8 @@ const AggregatedNotification = ({
       await router.push(`/profile/${target.id}`);
     } else if (target.type === "importer") {
       await router.push(`/importer/${target.provider}`);
+    } else if (target.type === "achievement" && userId) {
+      await router.push(`/feats/${userId}`);
     }
   };
 
@@ -112,6 +116,41 @@ const AggregatedNotification = ({
     );
   }
 
+  if (aggregatedNotification.type === "achievement.unlocked") {
+    const preview =
+      aggregatedNotification.preview as NotificationTextPreviewDto | null;
+    const tier =
+      (aggregatedNotification.target as { tier?: number })?.tier ?? 1;
+
+    return (
+      <Notification
+        color="rgba(255, 255, 255, 0)"
+        className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+        withCloseButton={false}
+        onClick={handleItemClick}
+        radius={0}
+        styles={{
+          root: {
+            paddingLeft: 10,
+            paddingRight: 10,
+          },
+        }}
+      >
+        <Group className={"w-full flex-nowrap items-center"}>
+          <ThemeIcon variant={"transparent"} c={"yellow"} size={"lg"}>
+            <IconTrophy className={"w-full h-auto"} />
+          </ThemeIcon>
+          <Text>
+            {t("notifications.achievementUnlocked", {
+              name: preview?.text ?? "",
+              tier,
+            })}
+          </Text>
+        </Group>
+      </Notification>
+    );
+  }
+
   if (aggregatedNotification.type === "import.discovery-completed") {
     const preview =
       aggregatedNotification.preview as NotificationImportPreviewDto | null;
@@ -128,13 +167,19 @@ const AggregatedNotification = ({
     });
     const parts: string[] = [];
     if (importedCount > 0) {
-      parts.push(t("notifications.discovery.importedPart", { count: importedCount }));
+      parts.push(
+        t("notifications.discovery.importedPart", { count: importedCount }),
+      );
     }
     if (skippedCount > 0) {
-      parts.push(t("notifications.discovery.skippedPart", { count: skippedCount }));
+      parts.push(
+        t("notifications.discovery.skippedPart", { count: skippedCount }),
+      );
     }
     if (failedCount > 0) {
-      parts.push(t("notifications.discovery.failedPart", { count: failedCount }));
+      parts.push(
+        t("notifications.discovery.failedPart", { count: failedCount }),
+      );
     }
     const sample =
       preview?.gameSample && preview.gameSample.length > 0
@@ -163,7 +208,9 @@ const AggregatedNotification = ({
       >
         <Group className={"w-full flex-nowrap justify-center items-center"}>
           <Image
-            alt={t("notifications.discovery.sourceIconAlt", { source: sourceName })}
+            alt={t("notifications.discovery.sourceIconAlt", {
+              source: sourceName,
+            })}
             src={getServerStoredIcon(provider)}
             w={38}
             h={38}

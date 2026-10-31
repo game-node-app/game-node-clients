@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Collection } from './Collection';
 import type { CollectionEntry } from './CollectionEntry';
+import type { ObtainedAchievement } from './ObtainedAchievement';
 import type { ObtainedGameAchievementActivity } from './ObtainedGameAchievementActivity';
 import type { Post } from './Post';
 import type { Profile } from './Profile';
@@ -30,6 +31,8 @@ export type Activity = {
     postId: string | null;
     obtainedGameAchievementActivity: ObtainedGameAchievementActivity | null;
     obtainedGameAchievementActivityId: number | null;
+    obtainedAchievement: ObtainedAchievement | null;
+    obtainedAchievementId: number | null;
     createdAt: string;
     updatedAt: string;
     statisticsTarget: StatisticsTarget | null;
@@ -42,6 +45,7 @@ export namespace Activity {
         COLLECTION_ENTRY = 'COLLECTION_ENTRY',
         POST = 'POST',
         OBTAINED_GAME_ACHIEVEMENT = 'OBTAINED_GAME_ACHIEVEMENT',
+        ACHIEVEMENT_UNLOCKED = 'ACHIEVEMENT_UNLOCKED',
     }
 }
 

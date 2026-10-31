@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  AchievementItem,
   AchievementLogo,
   CenteredLoading,
   useAllObtainedAchievements,
@@ -49,6 +48,7 @@ const ProfileFeaturedAchievements = ({
           <AchievementLogo
             key={`featured-${featuredAchievement.achievementId}`}
             achievementId={featuredAchievement.achievementId}
+            targetUserId={targetUserId}
           />
         );
       })}

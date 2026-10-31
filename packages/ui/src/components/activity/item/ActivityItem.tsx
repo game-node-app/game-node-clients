@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo } from "react";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import {
+  AchievementBadge,
+  ActivityItemComments,
   ActivityItemLikes,
   ActivityItemProps,
   GameRating,
   ObtainedAchievementActivityContent,
+  useAchievementsV2,
   useCollection,
   useCollectionEntry,
   useGame,
@@ -29,6 +32,12 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
   const profileQuery = useUserProfile(activity.profileUserId);
   const gameAchievementActivityQuery = useObtainedGameAchievementActivity(
     activity.obtainedGameAchievementActivityId,
+  );
+
+  const unlockedTier = activity.obtainedAchievement?.tier ?? 0;
+  const achievementsQuery = useAchievementsV2(activity.profileUserId);
+  const unlockedAchievement = achievementsQuery.data?.find(
+    (a) => a.id === activity.obtainedAchievement?.achievementId,
   );
 
   const gameId =
@@ -62,6 +71,14 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
           activity={gameAchievementActivityQuery.data}
         />
       ))
+      .with(Activity.type.ACHIEVEMENT_UNLOCKED, () =>
+        unlockedAchievement
+          ? t("activity.items.achievementUnlocked", {
+              name: unlockedAchievement.name ?? "",
+              tier: unlockedTier,
+            })
+          : t("activity.items.unknown"),
+      )
       .otherwise(() => {
         return t("activity.items.unknown");
       });
@@ -69,6 +86,8 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
     activity.type,
     collectionQuery.data?.name,
     gameAchievementActivityQuery.data,
+    unlockedAchievement,
+    unlockedTier,
     t,
   ]);
 
@@ -97,23 +116,37 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
             <Text className={"text-xs font-bold"}>{actionText}</Text>
           </Stack>
         </Box>
-        <Link
-          href={
-            reviewQuery.data
-              ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
-              : `/game/${gameId}`
-          }
-          className={"flex flex-col w-fit items-center ms-auto"}
-        >
-          <Text className={"font-bold text-sm text-center max-w-20 text-wrap"}>
-            {gameQuery.data?.name}
-          </Text>
-          {reviewQuery.data && (
-            <GameRating size={"sm"} value={reviewQuery.data.rating} />
-          )}
-        </Link>
+        {activity.type === Activity.type.ACHIEVEMENT_UNLOCKED ? (
+          <Box className={"ms-auto"}>
+            <AchievementBadge
+              icon={unlockedAchievement?.icon}
+              tier={unlockedTier}
+            />
+          </Box>
+        ) : (
+          <Link
+            href={
+              reviewQuery.data
+                ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
+                : `/game/${gameId}`
+            }
+            className={"flex flex-col w-fit items-center ms-auto"}
+          >
+            <Text
+              className={"font-bold text-sm text-center max-w-20 text-wrap"}
+            >
+              {gameQuery.data?.name}
+            </Text>
+            {reviewQuery.data && (
+              <GameRating size={"sm"} value={reviewQuery.data.rating} />
+            )}
+          </Link>
+        )}
 
         <Group className={"flex-nowrap gap-1 items-start"}>
+          {activity.type === Activity.type.ACHIEVEMENT_UNLOCKED && (
+            <ActivityItemComments activity={activity} />
+          )}
           <ActivityItemLikes activity={activity} />
         </Group>
       </Group>

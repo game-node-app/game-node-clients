@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { AchievementItem, useAllObtainedAchievements } from "@repo/ui";
+import { ObtainedAchievementItem, useAllObtainedAchievements } from "@repo/ui";
 
 interface Props {
   userId: string;
@@ -20,10 +20,10 @@ const MobileProfileFeaturedAchievement = ({ userId }: Props) => {
   }
 
   return (
-    <AchievementItem
-      achievement={featuredAchievement.achievement}
+    <ObtainedAchievementItem
+      achievementId={featuredAchievement.achievementId}
       targetUserId={userId}
-    ></AchievementItem>
+    />
   );
 };
 

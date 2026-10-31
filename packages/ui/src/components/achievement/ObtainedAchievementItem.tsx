@@ -1,6 +1,7 @@
 import React from "react";
 import { AchievementItem } from "#@/components/achievement/AchievementItem";
-import { useAchievements } from "#@/components/achievement/hooks/useAchievements";
+import { useAchievementsV2 } from "#@/components/achievement/hooks/useAchievementsV2";
+import { useAchievementProgress } from "#@/components/achievement/hooks/useAchievementProgress";
 
 interface Props {
   targetUserId: string;
@@ -8,14 +9,18 @@ interface Props {
 }
 
 const ObtainedAchievementItem = ({ achievementId, targetUserId }: Props) => {
-  const achievementsQuery = useAchievements({});
-  const achievementEntity = achievementsQuery.data?.data.find(
-    (achievement) => achievement.id === achievementId,
+  const achievementsQuery = useAchievementsV2(targetUserId);
+  const progressQuery = useAchievementProgress(targetUserId);
+  const achievement = achievementsQuery.data?.find(
+    (a) => a.id === achievementId,
   );
+  if (!achievement) return null;
   return (
     <AchievementItem
-      targetUserId={targetUserId}
-      achievement={achievementEntity}
+      achievement={achievement}
+      progress={progressQuery.data?.find(
+        (p) => p.achievementId === achievementId,
+      )}
     />
   );
 };
