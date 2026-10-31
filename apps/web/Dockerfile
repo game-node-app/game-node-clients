@@ -12,7 +12,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn global add turbo@2.8.3
+RUN yarn global add turbo@2.8.3 --ignore-scripts
 
 RUN turbo prune web --docker
 
@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/yarn.lock ./yarn.lock
 
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 FROM base AS builder
 WORKDIR /app

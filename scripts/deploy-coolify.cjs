@@ -13,11 +13,25 @@ async function deployApplication(
   )
     throw new Error("Missing or invalid Coolify deployment configuration.");
   const base = new URL(url);
-  if (!["http:", "https:"].includes(base.protocol))
+  if (
+    base.protocol !== "https:" ||
+    base.username ||
+    base.password ||
+    base.search ||
+    base.hash ||
+    base.pathname !== "/"
+  )
     throw new Error("Invalid Coolify URL.");
+  const healthUrls = new Map([
+    ["lamarcke/game-node-web", "https://gamenode.app"],
+    ["lamarcke/game-node-admin", "https://admin.gamenode.app"],
+  ]);
+  const healthUrl = healthUrls.get(image);
+  if (!healthUrl) throw new Error("Unknown release image.");
   async function api(path, method = "GET", body) {
-    const response = await request(`${url.replace(/\/$/, "")}/api/v1${path}`, {
+    const response = await request(`${base.origin}/api/v1${path}`, {
       method,
+      redirect: "error",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -31,7 +45,8 @@ async function deployApplication(
       );
     return response.json();
   }
-  const application = await api(`/applications/${uuid}`);
+  const applicationPath = `/applications/${encodeURIComponent(uuid)}`;
+  const application = await api(applicationPath);
   if (
     application.build_pack !== "dockerimage" ||
     application.docker_registry_image_name !== image
@@ -40,33 +55,33 @@ async function deployApplication(
       "Coolify target must be a Docker image application using the expected image.",
     );
   }
-  await api(`/applications/${uuid}`, "PATCH", {
+  await api(applicationPath, "PATCH", {
     docker_registry_image_tag: tag,
   });
-  const result = await api(`/deploy?uuid=${uuid}`, "POST");
+  const result = await api(`/deploy?uuid=${encodeURIComponent(uuid)}`, "POST");
   const deployment = result.deployments?.[0]?.deployment_uuid;
-  if (!/^[a-zA-Z0-9]+$/.test(deployment || ""))
+  if (typeof deployment !== "string" || !/^[a-zA-Z0-9]+$/.test(deployment))
     throw new Error("Coolify did not return a deployment UUID.");
-  console.log(`Coolify deployment: ${deployment}`);
+  console.log("Coolify deployment:", JSON.stringify(deployment));
   for (let attempt = 0; attempt < 120; attempt++) {
-    const { status } = await api(`/deployments/${deployment}`);
+    const { status } = await api(
+      `/deployments/${encodeURIComponent(deployment)}`,
+    );
     if (typeof status !== "string")
       throw new Error("Coolify returned an invalid deployment status.");
     if (status === "finished") {
-      const healthUrl = application.fqdn?.split(",")[0];
-      if (healthUrl) {
-        const response = await request(healthUrl, {
-          signal: AbortSignal.timeout(30000),
-        });
-        if (!response.ok)
-          throw new Error(
-            `Application HTTP health check failed: HTTP ${response.status}`,
-          );
-      }
+      const response = await request(healthUrl, {
+        redirect: "error",
+        signal: AbortSignal.timeout(30000),
+      });
+      if (!response.ok)
+        throw new Error(
+          `Application HTTP health check failed: HTTP ${response.status}`,
+        );
       return deployment;
     }
     if (status === "failed" || status.startsWith("cancelled"))
-      throw new Error(`Coolify deployment ${status}.`);
+      throw new Error("Coolify deployment failed or was cancelled.");
     await wait(10000);
   }
   throw new Error("Timed out waiting for Coolify deployment.");

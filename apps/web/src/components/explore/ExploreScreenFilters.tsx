@@ -108,7 +108,7 @@ const ExploreScreenFilters = ({
 
   const watchedValues = useWatch({ control });
 
-  const onSubmit = async (data: FilterFormValues) => {
+  const onSubmit = (data: FilterFormValues) => {
     const { period, ...criteria } = data;
     onFilterChange((previousState) => {
       const query: Record<string, string> = {

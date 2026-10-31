@@ -1,7 +1,8 @@
 # Verification
 
-Verified locally on 2026-10-31. No production deployment, registry push, Play
-submission, repository-setting update, or remote release-tag publication occurred.
+Verification started locally on 2026-10-31; later sections record hosted checks
+and live setup. No production deployment, registry push, Play submission, or
+remote release-tag publication has occurred yet.
 
 ## Latest merged PR replay
 
@@ -115,3 +116,23 @@ Local verification now passes:
 
 The real release task remains open until hosted CI succeeds and the published
 web/admin images are verified in Coolify.
+
+## Hosted cleanup verification and release security
+
+[Hosted Checks on the lint-cleanup commit](https://github.com/game-node-app/game-node-clients/actions/runs/41203619411)
+passed all affected lint, type, test, and build tasks. Main branch protection now
+requires the GitHub Actions `Checks` context and an up-to-date branch; existing
+review and protection settings were preserved.
+
+The Sonar review prompted commit-pinned Actions, lifecycle-script-free installs,
+and tighter Coolify URL/redirect handling. HTTP health probes use the two known
+public domains, rather than API-returned URLs. Deployment UUIDs are encoded for
+API paths and escaped in logs. Added regression coverage rejects unsafe origins,
+path/log injection, and API-controlled health destinations. The release/config
+suite now has 17 passing tests.
+
+The Git process helper uses argument arrays with no shell. External refs are
+resolved using `rev-parse --verify --end-of-options` before use in other commands;
+its PATH and argument-injection scanner findings need review in that context.
+The production runtime and external source control still require their normal
+review; the release is not yet live.

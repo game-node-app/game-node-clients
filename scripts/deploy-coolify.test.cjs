@@ -16,6 +16,7 @@ function mockRequest({
   deployment = "deployment1",
   image = config.image,
   healthStatus = 200,
+  fqdn = "https://gamenode.app",
 } = {}) {
   const calls = [];
   const request = async (url, options = {}) => {
@@ -24,14 +25,14 @@ function mockRequest({
       return Response.json({
         build_pack: "dockerimage",
         docker_registry_image_name: image,
-        fqdn: "https://app.example.test",
+        fqdn,
       });
     if (options.method === "PATCH")
       return Response.json({}, { status: patchStatus });
     if (url.includes("/deploy?"))
       return Response.json({ deployments: [{ deployment_uuid: deployment }] });
     if (url.includes("/deployments/")) return Response.json({ status });
-    if (url === "https://app.example.test")
+    if (url === "https://gamenode.app")
       return new Response("", { status: healthStatus });
     throw new Error(`Unexpected request ${url}`);
   };
@@ -52,7 +53,8 @@ test("deploys the exact image tag and waits for completion and HTTP health", asy
     calls.find((call) => call.url.includes("/deploy?")).method,
     "POST",
   );
-  assert.equal(calls.at(-1).url, "https://app.example.test");
+  assert.equal(calls.at(-1).url, "https://gamenode.app");
+  assert.ok(calls.every((call) => call.redirect === "error"));
 });
 
 test("rejects HTTP errors, failed/cancelled deployments, malformed responses, wrong targets, and unhealthy apps", async () => {
@@ -62,12 +64,37 @@ test("rejects HTTP errors, failed/cancelled deployments, malformed responses, wr
     { status: "cancelled-by-user" },
     { status: null },
     { deployment: null },
+    { deployment: "../deploy?uuid=other" },
+    { deployment: "injected\nlog" },
     { image: "wrong/image" },
     { healthStatus: 503 },
   ]) {
     await assert.rejects(
       deployApplication(config, mockRequest(scenario).request, async () => {}),
     );
+  }
+});
+
+test("health checks cannot be redirected to an API-controlled domain", async () => {
+  const { calls, request } = mockRequest({ fqdn: "http://169.254.169.254/" });
+  await deployApplication(config, request, async () => {});
+  assert.equal(calls.at(-1).url, "https://gamenode.app");
+  assert.equal(calls.at(-1).headers, undefined);
+});
+
+test("rejects unsafe configuration before making any request", async () => {
+  for (const invalid of [
+    { url: "http://coolify.example.test" },
+    { url: "https://user:pass@coolify.example.test" },
+    { url: "https://coolify.example.test/extra" },
+    { url: "https://coolify.example.test?other=1" },
+    { url: "https://coolify.example.test#fragment" },
+    { uuid: "webapp/../../deploy" },
+    { image: "other/image" },
+  ]) {
+    const { calls, request } = mockRequest();
+    await assert.rejects(deployApplication({ ...config, ...invalid }, request));
+    assert.equal(calls.length, 0);
   }
 });
 

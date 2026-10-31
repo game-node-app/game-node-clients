@@ -28,14 +28,14 @@ jobs:
       docker: ${{ steps.plan.outputs.docker }}
       mobile: ${{ steps.plan.outputs.mobile }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile --ignore-scripts
       - name: Validate explicit release decision
         id: plan
         env:
@@ -50,7 +50,7 @@ jobs:
           echo "TURBO_SCM_BASE=$BASE" >> "$GITHUB_ENV"
           echo "TURBO_SCM_HEAD=$HEAD" >> "$GITHUB_ENV"
       - run: yarn test:releases
-      - uses: actions/cache@v4
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.sha }}
@@ -71,14 +71,14 @@ jobs:
     outputs:
       ref: ${{ steps.release.outputs.ref }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile --ignore-scripts
       - name: Require configuration for every selected target
         env:
           RELEASE_APPS: ${{ needs.checks.outputs.apps }}

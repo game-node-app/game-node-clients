@@ -35,12 +35,16 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
 
 - Web/admin: build selected Docker images, publish commit-SHA and app-version tags,
   update the selected Coolify Docker-image application to that exact SHA tag, wait
-  for deployment completion, and check its public URL when one is configured.
+  for deployment completion, and check its fixed public HTTPS URL (gamenode.app or admin.gamenode.app).
   Preserve `latest` as a compatibility alias for the existing Compose examples;
   automated Coolify deployments always select the immutable SHA tag.
 - Mobile: build signed APK/AAB artifacts using the app's semantic version and an
   increasing Android build code. Download the artifacts from the workflow run;
   Play Store submission remains manual.
+
+Actions are pinned to exact commit SHAs. Dependency installs skip package
+lifecycle scripts; builds and native synchronization run explicitly. Coolify API
+requests refuse redirects, and public health checks never use API-provided URLs.
 
 There are no ungated manual publish workflows. A release can be retried using
 GitHub's rerun controls for its original workflow run. Main runs are serialized
@@ -77,15 +81,16 @@ into the highest requested bump in that push.
 
 ## Repository setup
 
-Make `Checks` required in the repository's main-branch protection/ruleset. The
-workflow itself cannot enforce merge protection. Protect release tags from manual
+`Checks` is required by main-branch protection, with an up-to-date branch required.
+The existing approval requirement is preserved. The workflow itself cannot enforce
+merge protection. Protect release tags from manual
 updates/deletion and allow the workflow token to create them (`contents: write`).
 
 Configure these repository secrets before selecting web or admin:
 
 - `DOCKER_USERNAME`, `DOCKER_PASSWORD`: push access to the existing
   `lamarcke/game-node-web` and `lamarcke/game-node-admin` Docker Hub repositories.
-- `COOLIFY_URL`: Coolify base URL, without `/api/v1`.
+- `COOLIFY_URL`: HTTPS Coolify origin, without a path, credentials, or query string.
 - `COOLIFY_TOKEN`: access to read/update/deploy the selected applications.
 
 Configure repository variables:
