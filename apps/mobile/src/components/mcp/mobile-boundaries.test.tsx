@@ -51,6 +51,8 @@ vi.mock("@repo/ui", () => ({
 }));
 beforeEach(() => {
   vi.clearAllMocks();
+  // Single-process test run: reset the pathname other files leave behind, since getTabAwareHref reads it.
+  window.history.replaceState({}, "", "/");
   mocks.addListener.mockResolvedValue({ remove: mocks.remove });
   mocks.open.mockResolvedValue(undefined);
   mocks.close.mockResolvedValue(undefined);
