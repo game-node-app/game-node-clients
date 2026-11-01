@@ -1,6 +1,7 @@
 import { HeaderSearchButton } from "@/components/general/header/HeaderSearchButton.tsx";
 import { QueryProgressBar } from "@/components/general/QueryProgressBar";
 import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.tsx";
+import { IonViewActiveProvider } from "@/components/general/hooks/useIonViewActive";
 import {
   IonBackButton,
   IonButtons,
@@ -63,7 +64,7 @@ const AppPage = ({
             <ErrorBoundaryFallback error={error as Error} />
           )}
         >
-          {children}
+          <IonViewActiveProvider>{children}</IonViewActiveProvider>
         </ErrorBoundary>
       </ScrollableIonContent>
     </IonPage>

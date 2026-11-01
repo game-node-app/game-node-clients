@@ -77,10 +77,13 @@ const SignInScreen = ({
   const lockedOut = isLockedOutError(errorCode) && !showProviders;
   const target = getSafeRedirectPath(redirectTo, homePath, authPath);
 
-  // Once: router hooks return a new `push` every render.
+  // Once per signed-in spell: router hooks return a new `push` every render, and Ionic keeps this page
+  // mounted, so a stale session seen right after sign-out must not use up the redirect for the next sign-in.
   const redirected = useRef(false);
   useEffect(() => {
-    if (!sessionPending && session && !redirected.current) {
+    if (!session) {
+      redirected.current = false;
+    } else if (!sessionPending && !redirected.current) {
       redirected.current = true;
       if (pendingOAuth) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot resume guarded by `redirected`
