@@ -18,13 +18,14 @@ vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
   authClient: { useSession: () => mocks.session },
 }));
 
-function renderGuarded(requireAuth?: boolean) {
+function renderGuarded(requireAuth?: boolean, asPath = "/library") {
   return render(
     <UIProvider
       hooks={{
         authPath: "/m/auth",
         useRouter: () => ({
           pathname: "/library",
+          asPath,
           back: vi.fn(),
           push: mocks.push,
           query: new URLSearchParams(),
@@ -54,6 +55,15 @@ describe("getSafeRedirectPath", () => {
     undefined,
   ])("falls back for %s", (value) => {
     expect(getSafeRedirectPath(value, "/home")).toBe("/home");
+  });
+
+  it("never returns to the sign-in page itself", () => {
+    expect(
+      getSafeRedirectPath("/m/auth?redirectTo=%2Flibrary", "/home", "/m/auth"),
+    ).toBe("/home");
+    expect(getSafeRedirectPath("/m/authors", "/home", "/m/auth")).toBe(
+      "/m/authors",
+    );
   });
 });
 
@@ -91,6 +101,12 @@ describe("SessionAuth", () => {
     expect(mocks.push).toHaveBeenCalledWith("/m/auth?redirectTo=%2Flibrary", {
       absolute: true,
     });
+  });
+
+  it("does not nest the sign-in page into redirectTo when already on it", () => {
+    mocks.session = { data: null, isPending: false };
+    renderGuarded(true, "/m/auth?redirectTo=%2Flibrary");
+    expect(mocks.push).not.toHaveBeenCalled();
   });
 
   it("renders children when signed in", () => {
