@@ -42,6 +42,8 @@ export type UIPresenterRegistry = {
 export type UIHookRegistry = {
   useRouter: () => RouterHookProps;
   useScrollPosition?: () => UseScrollPositionReturn;
+  /** Whether a cached page is active. Defaults to true. */
+  useIsViewActive?: () => boolean;
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
 };

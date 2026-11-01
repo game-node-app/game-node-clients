@@ -14,13 +14,16 @@
 
 ## 3. Release publishing
 
-- [ ] 3.1 Add the R2 secrets to the mobile list in `release-plan.cjs --check-env`, and update `releases.test.cjs`. Verify: `yarn test:releases` passes.
-- [ ] 3.2 In `release-mobile.yml`, after the build: zip `dist`, compute the sha256, upload the zip with the immutable cache header, then upload `latest.json` with `no-cache`. Use the AWS CLI with the R2 endpoint. Verify: a dry run against a test bucket/prefix produces the expected keys, and the public URLs serve them.
-- [ ] 3.3 Document the R2 setup, the secrets and the manual rollback (overwrite or delete `latest.json`) in the mobile/release docs. Verify: the documented rollback command works against the test prefix.
+All publishing runs in GitHub Actions as part of the existing release flow: `ci.yml` calls `release-mobile.yml` only when the release plan selects `mobile` from a changeset. Nothing is published or configured from a developer machine.
+
+- [ ] 3.1 Add the R2 values to the mobile list in `release-plan.cjs` `validateDelivery`, and map them into the env of the `--check-env` step in `ci.yml` (`prepare` job), so a mobile release fails before building if they're missing. Update `releases.test.cjs`. Verify: `yarn test:releases` passes.
+- [ ] 3.2 Add steps to `release-mobile.yml` after `yarn build -F mobile`, reading the repository secrets and vars: zip `dist`, compute the sha256, upload the zip with the immutable cache header, then upload `latest.json` with `no-cache`. Use the AWS CLI already on the runner with the R2 endpoint. Verify: `actionlint` passes on the workflow.
+- [ ] 3.3 Document the R2 bucket, the GitHub secrets and vars and rollback (overwrite or delete `latest.json`) in the release docs. Verify: the docs name every secret that `validateDelivery` checks.
 
 ## 4. Integration
 
-- [ ] 4.1 Run an end-to-end check: install a build that includes the plugin, run a JS-only mobile release to the test prefix, and confirm the device picks it up. Then change a plugin version and confirm the device does not.
+- [ ] 4.1 After merging, check the first mobile release's Actions run: the zip and `latest.json` exist under `ota/<fingerprint>/` and the public URLs serve them. This first release is safe to publish live, because adding the plugin changes the fingerprint, so no installed app reads that path yet.
+- [ ] 4.2 With that store build installed, merge a JS-only mobile changeset and confirm the device picks it up on the next launch. A release that changes a plugin version must not reach the device.
 
 ## Workflow follow-up
 

@@ -1,6 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
+import { DefaultIonLifeCycleContext, IonLifeCycleContext } from "@ionic/react";
+import {
+  IonViewActiveProvider,
+  useIonViewActive,
+} from "../general/hooks/useIonViewActive";
 import { SessionAuth } from "../../../../../packages/ui/src/components/auth/SessionAuth";
 import { getSafeRedirectPath } from "../../../../../packages/ui/src/components/auth/getSafeRedirectPath";
 import {
@@ -11,33 +16,51 @@ import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 
 const mocks = vi.hoisted(() => ({
   session: { data: null as unknown, isPending: false },
-  push: vi.fn(async () => {}),
+  push: vi.fn(async (_url: string, _options?: unknown) => {}),
 }));
 
 vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
   authClient: { useSession: () => mocks.session },
 }));
 
-function renderGuarded(requireAuth?: boolean, asPath = "/library") {
-  return render(
+function guardedView(
+  requireAuth?: boolean,
+  asPath = "/library",
+  lifecycle?: InstanceType<typeof DefaultIonLifeCycleContext>,
+  showGuard = true,
+) {
+  const guard = (
     <UIProvider
       hooks={{
         authPath: "/m/auth",
+        useIsViewActive: lifecycle ? useIonViewActive : undefined,
         useRouter: () => ({
           pathname: "/library",
           asPath,
           back: vi.fn(),
-          push: mocks.push,
+          push: async (...args) => mocks.push(...args),
           query: new URLSearchParams(),
         }),
       }}
     >
-      <SessionAuth requireAuth={requireAuth}>
-        <p>secret</p>
-      </SessionAuth>
-    </UIProvider>,
+      {showGuard && (
+        <SessionAuth requireAuth={requireAuth}>
+          <p>secret</p>
+        </SessionAuth>
+      )}
+    </UIProvider>
+  );
+  return lifecycle ? (
+    <IonLifeCycleContext.Provider value={lifecycle}>
+      <IonViewActiveProvider>{guard}</IonViewActiveProvider>
+    </IonLifeCycleContext.Provider>
+  ) : (
+    guard
   );
 }
+
+const renderGuarded = (requireAuth?: boolean, asPath = "/library") =>
+  render(guardedView(requireAuth, asPath));
 
 describe("getSafeRedirectPath", () => {
   it("keeps relative paths", () => {
@@ -109,6 +132,24 @@ describe("SessionAuth", () => {
     expect(mocks.push).not.toHaveBeenCalled();
   });
 
+  it("does not consume the redirect while Ionic still reports the previous auth URL", () => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const page = render(
+      guardedView(true, "/m/auth?redirectTo=%2Flibrary", lifecycle),
+    );
+    act(() => lifecycle.ionViewDidEnter());
+    expect(mocks.push).not.toHaveBeenCalled();
+
+    page.rerender(guardedView(true, "/notifications", lifecycle));
+    act(() => lifecycle.ionViewDidEnter());
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+    expect(mocks.push).toHaveBeenCalledWith(
+      "/m/auth?redirectTo=%2Fnotifications",
+      { absolute: true },
+    );
+  });
+
   it("renders children when signed in", () => {
     mocks.session = { data: { user: { id: "u1" } }, isPending: false };
     renderGuarded();
@@ -128,5 +169,103 @@ describe("SessionAuth", () => {
     renderGuarded(false);
     expect(screen.getByText("secret")).toBeTruthy();
     expect(mocks.push).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    "/library",
+    "/profile",
+    "/home/preferences",
+    "/home/connections/callback/steam",
+    "/notifications",
+  ])("redirects again on returning to the cached page %s", (path) => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const page = render(guardedView(true, path, lifecycle));
+    expect(mocks.push).not.toHaveBeenCalled();
+    act(() => lifecycle.ionViewDidEnter());
+    page.rerender(guardedView(true, path, lifecycle));
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+
+    act(() => lifecycle.ionViewWillLeave());
+    page.rerender(
+      guardedView(true, "/m/auth?redirectTo=%2Flibrary", lifecycle),
+    );
+    page.rerender(guardedView(true, path, lifecycle));
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+
+    act(() => lifecycle.ionViewDidEnter());
+    page.rerender(guardedView(true, path, lifecycle));
+    expect(mocks.push).toHaveBeenCalledTimes(2);
+    expect(mocks.push).toHaveBeenLastCalledWith(
+      `/m/auth?redirectTo=${encodeURIComponent(path)}`,
+      { absolute: true },
+    );
+    expect(screen.queryByText("secret")).toBeNull();
+  });
+
+  it("does not redirect when returning through a pending session to a signed-in page", () => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const view = () => guardedView(true, "/library", lifecycle);
+    const page = render(view());
+    act(() => lifecycle.ionViewDidEnter());
+    act(() => lifecycle.ionViewWillLeave());
+
+    mocks.session = { data: null, isPending: true };
+    page.rerender(view());
+    act(() => lifecycle.ionViewDidEnter());
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+
+    mocks.session = { data: { user: { id: "u1" } }, isPending: false };
+    page.rerender(view());
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("secret")).toBeTruthy();
+  });
+
+  it("waits for a pending session to settle before redirecting on re-entry", () => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const view = () => guardedView(true, "/library", lifecycle);
+    const page = render(view());
+    act(() => lifecycle.ionViewDidEnter());
+    act(() => lifecycle.ionViewWillLeave());
+    mocks.session = { data: null, isPending: true };
+    page.rerender(view());
+    act(() => lifecycle.ionViewDidEnter());
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+
+    mocks.session = { data: null, isPending: false };
+    page.rerender(view());
+    expect(mocks.push).toHaveBeenCalledTimes(2);
+  });
+
+  it("leaves hidden cached guards idle when the session changes", () => {
+    mocks.session = { data: { user: { id: "u1" } }, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const view = () => guardedView(true, "/home", lifecycle);
+    const page = render(view());
+    act(() => lifecycle.ionViewWillLeave());
+    mocks.session = { data: null, isPending: false };
+    page.rerender(view());
+    expect(mocks.push).not.toHaveBeenCalled();
+  });
+
+  it("keeps public pages accessible across mobile page entries", () => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    render(guardedView(false, "/profile/u1", lifecycle));
+    act(() => lifecycle.ionViewWillLeave());
+    act(() => lifecycle.ionViewDidEnter());
+    expect(mocks.push).not.toHaveBeenCalled();
+    expect(screen.getByText("secret")).toBeTruthy();
+  });
+
+  it("redirects guards mounted after their page has already entered", () => {
+    mocks.session = { data: null, isPending: false };
+    const lifecycle = new DefaultIonLifeCycleContext();
+    const page = render(guardedView(true, "/library", lifecycle, false));
+    act(() => lifecycle.ionViewDidEnter());
+    page.rerender(guardedView(true, "/library", lifecycle));
+    expect(mocks.push).toHaveBeenCalledTimes(1);
   });
 });

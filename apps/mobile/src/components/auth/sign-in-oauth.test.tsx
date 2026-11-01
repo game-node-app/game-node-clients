@@ -1,9 +1,17 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { SignInScreen } from "../../../../../packages/ui/src/components/auth/sign-in/SignInScreen";
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import { getOAuthRequest } from "../../../../../packages/ui/src/components/auth/oauthRequest";
+import { MantineProvider } from "@mantine/core";
+import { I18nProvider } from "@repo/locales";
 import { renderMcp, setupDom, signedQuery } from "../mcp/testUtils";
 const originalLocation = window.location;
 const mocks = vi.hoisted(() => ({
@@ -94,6 +102,78 @@ describe("OAuth sign-in", () => {
       replace: true,
       absolute: true,
     });
+  });
+  it("redirects again after a session drops and a new sign-in completes", () => {
+    mocks.query = new URLSearchParams("redirectTo=%2Flibrary");
+    mocks.session = { user: { id: "u1" } };
+    const view = renderSignIn(true);
+    const rerender = () =>
+      view.rerender(
+        <I18nProvider language="en">
+          <MantineProvider>
+            <UIProvider
+              hooks={{
+                useRouter: () => ({
+                  pathname: "/auth",
+                  query: mocks.query,
+                  push: mocks.push,
+                  back: vi.fn(),
+                }),
+              }}
+            >
+              <SignInScreen newUserPath="/wizard/init" relativeCallbacks />
+            </UIProvider>
+          </MantineProvider>
+        </I18nProvider>,
+      );
+    expect(mocks.push).toHaveBeenCalledTimes(1);
+    mocks.session = null;
+    rerender();
+    mocks.session = { user: { id: "u1" } };
+    rerender();
+    expect(mocks.push).toHaveBeenCalledTimes(2);
+    expect(mocks.push).toHaveBeenLastCalledWith("/library", {
+      replace: true,
+      absolute: true,
+    });
+  });
+  it("hands the safe target to onSignedIn once per sign-in, never the auth page", () => {
+    const onSignedIn = vi.fn();
+    const view = (redirectTo: string) => {
+      mocks.query = new URLSearchParams({ redirectTo });
+      return (
+        <I18nProvider language="en">
+          <MantineProvider>
+            <UIProvider
+              hooks={{
+                useRouter: () => ({
+                  pathname: "/auth",
+                  query: mocks.query,
+                  push: mocks.push,
+                  back: vi.fn(),
+                }),
+              }}
+            >
+              <SignInScreen onSignedIn={onSignedIn} />
+            </UIProvider>
+          </MantineProvider>
+        </I18nProvider>
+      );
+    };
+    mocks.session = { user: { id: "u1" } };
+    const page = render(view("/library"));
+    page.rerender(view("/library"));
+    expect(onSignedIn).toHaveBeenCalledTimes(1);
+    expect(onSignedIn).toHaveBeenLastCalledWith("/library");
+
+    // Ionic keeps the page mounted: sign out, then sign in again with a bad target.
+    mocks.session = null;
+    page.rerender(view("/auth?redirectTo=%2Flibrary"));
+    mocks.session = { user: { id: "u1" } };
+    page.rerender(view("/auth?redirectTo=%2Flibrary"));
+    expect(onSignedIn).toHaveBeenCalledTimes(2);
+    expect(onSignedIn).toHaveBeenLastCalledWith("/home");
+    expect(mocks.push).not.toHaveBeenCalled();
   });
   it("continues existing sessions exactly once", async () => {
     mocks.session = { user: { id: "u1" } };

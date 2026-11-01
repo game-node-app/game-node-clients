@@ -30,6 +30,8 @@ export interface SignInScreenProps {
   newUserPath?: string;
   /** Native: pass relative paths so better-auth-capacitor rewrites them to the app scheme. */
   relativeCallbacks?: boolean;
+  /** Leaves the screen once signed in. Defaults to replacing it with the safe `redirectTo` target. */
+  onSignedIn?: (target: string) => void;
 }
 
 const SignInScreen = ({
@@ -37,6 +39,7 @@ const SignInScreen = ({
   homePath = "/home",
   newUserPath,
   relativeCallbacks = false,
+  onSignedIn,
 }: SignInScreenProps) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -77,14 +80,19 @@ const SignInScreen = ({
   const lockedOut = isLockedOutError(errorCode) && !showProviders;
   const target = getSafeRedirectPath(redirectTo, homePath, authPath);
 
-  // Once: router hooks return a new `push` every render.
+  // Once per signed-in spell: router hooks return a new `push` every render, and Ionic keeps this page
+  // mounted, so a stale session seen right after sign-out must not use up the redirect for the next sign-in.
   const redirected = useRef(false);
   useEffect(() => {
-    if (!sessionPending && session && !redirected.current) {
+    if (!session) {
+      redirected.current = false;
+    } else if (!sessionPending && !redirected.current) {
       redirected.current = true;
       if (pendingOAuth) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot resume guarded by `redirected`
         if (oauthQuery) void resumeOAuth();
+      } else if (onSignedIn) {
+        onSignedIn(target);
       } else {
         void push(target, { replace: true, absolute: true });
       }
@@ -97,6 +105,7 @@ const SignInScreen = ({
     pendingOAuth,
     oauthQuery,
     resumeOAuth,
+    onSignedIn,
   ]);
 
   // The native auth session hides the WebView and `signIn.social` may never resolve, so reset on return.

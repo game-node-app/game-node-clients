@@ -11,6 +11,7 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { MobileProfileUserInfo } from "@/components/profile/view/MobileProfileUserInfo.tsx";
 import { MobileProfileViewNavbarItem } from "@/components/profile/view/navbar/MobileProfileViewNavbarItem.tsx";
 import { useIonScrollPosition } from "@/components/general/hooks/useIonScrollPosition";
+import { useIonViewActive } from "@/components/general/hooks/useIonViewActive";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
@@ -29,4 +30,5 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
   useRouter: useIonRouterWrapper,
   authPath: "/m/auth",
   useScrollPosition: useIonScrollPosition,
+  useIsViewActive: useIonViewActive,
 };
