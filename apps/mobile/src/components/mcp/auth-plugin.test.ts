@@ -35,5 +35,7 @@ it("registers the pinned OAuth plugin beside admin and injects the provider-filt
     callbackURL: "https://gamenode.app/auth",
   });
   expect(JSON.parse(fetch.mock.calls[0][1].body).oauth_query).toBe(original);
-  expect(typeof client.admin.banUser).toBe("function");
+  expect(
+    typeof (client as unknown as { admin: { banUser: unknown } }).admin.banUser,
+  ).toBe("function");
 });
