@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, Button, Stack, Text, Textarea } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -8,9 +8,6 @@ export function McpCopy({ value, label }: { value: string; label?: string }) {
   const { t } = useTranslation();
   const clipboard = useClipboard();
   const [fallback, setFallback] = useState(false);
-  useEffect(() => {
-    if (clipboard.error) setFallback(true);
-  }, [clipboard.error]);
   return (
     <Stack gap="xs" align="flex-start" style={{ minWidth: 0 }}>
       <Button
@@ -31,7 +28,7 @@ export function McpCopy({ value, label }: { value: string; label?: string }) {
       <Text role="status" size="sm">
         {clipboard.copied && !clipboard.error ? t("mcp.copied") : ""}
       </Text>
-      {fallback && (
+      {(fallback || clipboard.error) && (
         <>
           <Alert color="red" role="alert">
             {t("mcp.copyError")}

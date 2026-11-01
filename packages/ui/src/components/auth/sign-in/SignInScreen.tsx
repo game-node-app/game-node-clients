@@ -83,6 +83,7 @@ const SignInScreen = ({
     if (!sessionPending && session && !redirected.current) {
       redirected.current = true;
       if (pendingOAuth) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot resume guarded by `redirected`
         if (oauthQuery) void resumeOAuth();
       } else {
         void push(target, { replace: true, absolute: true });
