@@ -1,0 +1,24 @@
+{
+  "source": "7b4f53fc67f3c1383029db80d830d12e0c03f59a",
+  "changesets": [
+    ".changeset/blog-prose-colors-web.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[fd72d18d99e566d5331797a1255d9b5aec09279c...7b4f53fc67f3c1383029db80d830d12e0c03f59a]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/7b4f53fc67f3c1383029db80d830d12e0c03f59a",
+  "versions": {
+    "web": "1.9.1"
+  }
+}
