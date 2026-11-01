@@ -29,7 +29,7 @@ function ArticleBody({ content, locale }: { content: string; locale: string }) {
     <div
       ref={ref}
       lang={locale}
-      className="tiptap prose max-w-full break-words [&_img]:max-w-full [&_img]:h-auto [&_img]:cursor-zoom-in"
+      className="tiptap prose prose-invert max-w-full break-words [&_img]:max-w-full [&_img]:h-auto [&_img]:cursor-zoom-in"
       onClick={(event) => {
         if (event.target instanceof HTMLImageElement)
           openLightbox(event.target.src);
