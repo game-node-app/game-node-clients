@@ -75,7 +75,7 @@ const SignInScreen = ({
   const redirectTo = query.get("redirectTo");
   const errorCode = failed ? "default" : dismissed ? null : query.get("error");
   const lockedOut = isLockedOutError(errorCode) && !showProviders;
-  const target = getSafeRedirectPath(redirectTo, homePath);
+  const target = getSafeRedirectPath(redirectTo, homePath, authPath);
 
   // Once: router hooks return a new `push` every render.
   const redirected = useRef(false);
