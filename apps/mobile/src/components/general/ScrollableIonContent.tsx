@@ -14,7 +14,10 @@ import { ComponentProps, useEffect, useImperativeHandle, useRef } from "react";
  * This is necessary due to a bug in Ionic's part:
  * https://github.com/ionic-team/ionic-framework/issues/29578
  */
-const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
+const ScrollableIonContent = ({
+  ref,
+  ...props
+}: ComponentProps<typeof IonContent>) => {
   const ionRouter = useIonRouter();
   const localRef =
     useRef<
@@ -30,7 +33,7 @@ const ScrollableIonContent = (props: ComponentProps<typeof IonContent>) => {
 
   // Merge localRef with forwarded ref
   useImperativeHandle(
-    props.ref,
+    ref,
     () =>
       localRef.current as import("react").ComponentRef<
         typeof import("@ionic/react").IonContent
