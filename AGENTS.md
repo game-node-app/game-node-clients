@@ -30,3 +30,9 @@ Take the first option that fully works:
 Never cut: validation at trust boundaries, error handling that prevents data loss, security, accessibility, the calibration real hardware needs, anything the user asked for.
 
 (Yes, this file also applies to agents working on the ponytail repo itself. Especially to them.)
+
+## UI colors (web, admin, mobile)
+
+- Mantine's `brand`, `secondary` and `tertiary` are flat `colorsTuple` palettes in `packages/ui/src/util/theme.ts`: every shade is the same color. Do not add per-app Mantine themes or palettes; all apps use `DEFAULT_MANTINE_THEME`.
+- `variant="light"` on brand colors is handled by `variantColorResolver` in that file. Don't override badge/theme-icon colors with ad-hoc `bg-*`/`c=` props or CSS to "fix" contrast; fix the resolver once.
+- Prefer `variant="light"` with the default/brand color, or a stock Mantine color (`gray`, `teal`, …). Don't pass shaded brand colors (`brand.4`) expecting a lighter tone: they are all `#F15025`. For lighter brand tones use the Tailwind `brand-0..9` scale.
