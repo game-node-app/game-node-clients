@@ -6,6 +6,7 @@ import {
   useOwnUserConnectionByType,
   useUserId,
 } from "#@/components";
+import { getConnectionName } from "#@/components/connections/util/getConnectionName";
 import { getErrorMessage, getPageAsOffset, getServerStoredIcon } from "#@/util";
 import {
   Box,
@@ -27,6 +28,7 @@ import {
   ImporterBatchImportRequestDto,
   ImporterBatchStatusRequestDto,
   ImporterService,
+  UserConnectionDto,
 } from "@repo/wrapper/server";
 import { IconCheck, IconExclamationCircle } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -34,7 +36,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 20;
 
-const VALID_SOURCES = ["steam", "psn", "xbox"] as const;
+const VALID_SOURCES = ["steam", "psn", "xbox", "epicgames"] as const;
 type ImporterSource = (typeof VALID_SOURCES)[number];
 
 interface Props {
@@ -49,9 +51,9 @@ const ImporterScreen = ({ source }: Props) => {
   // Normalize / validate source
   const isValidSource = VALID_SOURCES.includes(source as ImporterSource);
   const normalizedSource = source as ImporterSource;
-  const sourceName = source
-    ? source.charAt(0).toUpperCase() + source.slice(1)
-    : "";
+  const sourceName = isValidSource
+    ? getConnectionName(source as UserConnectionDto.type)
+    : source.charAt(0).toUpperCase() + source.slice(1);
 
   // Local state
   const [page, setPage] = useState<number>(1);

@@ -19,6 +19,7 @@ export namespace ImporterWatchNotification {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+        EPICGAMES = 'epicgames',
     }
 }
 

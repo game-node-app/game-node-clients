@@ -1092,6 +1092,19 @@
       "connections": "Conexões",
       "library": "Biblioteca"
     },
+    "delegatedCode": {
+      "continue": "Continuar",
+      "signInStep": "Entre em {{type}}",
+      "pasteStep": "Cole seu código",
+      "signInButton": "Abrir login do {{type}}",
+      "copyHint": "Depois de entrar, {{type}} mostra uma página como esta. Copie o código destacado, ou copie a página inteira.",
+      "pasteLabel": "Código de autorização",
+      "pastePlaceholder": "Cole o código ou a página inteira",
+      "invalidCode": "Não encontramos um código no que você colou. Copie o código da página do {{type}} e tente novamente.",
+      "expiryHint": "Este login expira em 10 minutos.",
+      "startOver": "Recomeçar",
+      "pasteFromClipboard": "Colar da área de transferência"
+    },
     "descriptions": {
       "autoImport": "Importar automaticamente jogos recém-detectados para sua biblioteca.",
       "gamertag": "É o nome que aparece no seu console ou nos apps do Xbox.",

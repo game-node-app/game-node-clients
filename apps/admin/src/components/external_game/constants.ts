@@ -19,4 +19,5 @@ export enum EGameExternalGameCategory {
   FocusEntertainment = 37,
   XboxGamePassUltimateCloud = 54,
   Gamejolt = 55,
+  EpicGamesNamespace = 1001,
 }

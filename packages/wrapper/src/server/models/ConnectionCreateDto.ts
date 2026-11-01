@@ -17,6 +17,7 @@ export namespace ConnectionCreateDto {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+        EPICGAMES = 'epicgames',
     }
 }
 

@@ -1,27 +1,13 @@
-import { EGameExternalGameCategory } from "@/components/external_game/constants.ts";
+import { MatchExternalGameModal } from "@/components/external_game/MatchExternalGameModal.tsx";
+import { getExternalLookupUrl } from "@/components/external_game/utils/getExternalLookupUrl.ts";
 import { useUnmappedExternalGames } from "@/components/external_game/hook/useUnmappedExternalGames.ts";
 import { getExternalSourceName } from "@/components/external_game/utils/getExternalSourceName.ts";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { ActionIcon, Button, Stack } from "@mantine/core";
+import { useState } from "react";
 import { UnmappedExternalGame } from "@repo/wrapper/server";
 import { IconExternalLink } from "@tabler/icons-react";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
-import { match } from "ts-pattern";
-
-const onVisitClick = (item: UnmappedExternalGame) => {
-  const url = match<EGameExternalGameCategory>(
-    item.category as unknown as EGameExternalGameCategory,
-  )
-    .with(
-      EGameExternalGameCategory.Steam,
-      () => `https://steamdb.info/app/${item.sourceUid}`,
-    )
-    .otherwise(() => {
-      alert("Automatic linking to this source is not yet implemented.");
-    });
-
-  if (url) window.open(url, "_blank");
-};
 
 const COLUMNS: MRT_ColumnDef<UnmappedExternalGame>[] = [
   {
@@ -35,10 +21,16 @@ const COLUMNS: MRT_ColumnDef<UnmappedExternalGame>[] = [
   {
     header: "Visit",
     Cell: ({ row }) => {
+      const url = getExternalLookupUrl(row.original);
       return (
         <ActionIcon
           variant={"subtle"}
-          onClick={() => onVisitClick(row.original)}
+          component="a"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          disabled={!url}
+          aria-label="Open external lookup"
         >
           <IconExternalLink />
         </ActionIcon>
@@ -51,6 +43,7 @@ const UnmappedExternalGamesTable = () => {
   const { data, isLoading, isError, isFetching } = useUnmappedExternalGames();
 
   const items = data ?? [];
+  const [matching, setMatching] = useState<UnmappedExternalGame>();
 
   const table = useCustomTable<UnmappedExternalGame>({
     data: items,
@@ -67,14 +60,22 @@ const UnmappedExternalGamesTable = () => {
       },
     },
     enableRowActions: true,
-    renderRowActions: (props) => {
-      return <Button>Match</Button>;
+    renderRowActions: ({ row }) => {
+      return <Button onClick={() => setMatching(row.original)}>Match</Button>;
     },
   });
 
   return (
     <Stack>
       <MantineReactTable table={table} />
+      {matching && (
+        <MatchExternalGameModal
+          key={matching.id}
+          item={matching}
+          opened
+          onClose={() => setMatching(undefined)}
+        />
+      )}
     </Stack>
   );
 };

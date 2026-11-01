@@ -1,6 +1,7 @@
 import React from "react";
 import { PageContainer } from "@/components/PageContainer/PageContainer.tsx";
 import { Text } from "@mantine/core";
+import { EpicNamespaceFillPanel } from "@/components/external_game/EpicNamespaceFillPanel.tsx";
 import { UnmappedExternalGamesTable } from "@/components/external_game/UnmappedExternalGamesTable.tsx";
 
 const UnmappedExternalGamesTablePage = () => {
@@ -13,6 +14,7 @@ const UnmappedExternalGamesTablePage = () => {
         them. You may manually add a match from one of the items below, or at
         any time by clicking the submit button.
       </Text>
+      <EpicNamespaceFillPanel />
       <UnmappedExternalGamesTable />
     </PageContainer>
   );

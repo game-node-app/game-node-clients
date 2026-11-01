@@ -12,6 +12,7 @@ export namespace ImporterBatchStatusRequestDto {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+        EPICGAMES = 'epicgames',
     }
     export enum status {
         PROCESSED = 'processed',

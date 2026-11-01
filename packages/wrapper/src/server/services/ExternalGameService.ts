@@ -53,4 +53,16 @@ export class ExternalGameService {
             url: '/v1/game/external/unmapped',
         });
     }
+    /**
+     * Starts the Epic namespace bulk fill. The fixed jobId makes BullMQ ignore a second
+     * trigger while a run is queued or active, and the finished job is removed so the next run can start.
+     * @returns any
+     * @throws ApiError
+     */
+    public static externalGameControllerFillEpicNamespacesV1(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/game/external/fill/epic',
+        });
+    }
 }

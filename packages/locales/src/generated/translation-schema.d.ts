@@ -1096,6 +1096,19 @@ export type TranslationSchema = {
       connections: string;
       library: string;
     };
+    delegatedCode: {
+      continue: string;
+      signInStep: string;
+      pasteStep: string;
+      signInButton: string;
+      copyHint: string;
+      pasteLabel: string;
+      pastePlaceholder: string;
+      invalidCode: string;
+      expiryHint: string;
+      startOver: string;
+      pasteFromClipboard: string;
+    };
     descriptions: {
       autoImport: string;
       gamertag: string;
