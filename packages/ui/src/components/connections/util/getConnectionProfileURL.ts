@@ -17,5 +17,9 @@ export function getConnectionProfileURL(connection: UserConnectionDto) {
       () =>
         `https://www.trueachievements.com/gamer/${connection.sourceUsername}`,
     )
+    .with(
+      type.EPICGAMES,
+      () => `https://store.epicgames.com/u/${connection.sourceUserId}`,
+    )
     .exhaustive();
 }

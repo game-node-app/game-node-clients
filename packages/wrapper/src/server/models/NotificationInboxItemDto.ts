@@ -5,6 +5,7 @@
 import type { NotificationAchievementTargetDto } from './NotificationAchievementTargetDto';
 import type { NotificationActivityTargetDto } from './NotificationActivityTargetDto';
 import type { NotificationActorDto } from './NotificationActorDto';
+import type { NotificationConnectionTargetDto } from './NotificationConnectionTargetDto';
 import type { NotificationContentTargetDto } from './NotificationContentTargetDto';
 import type { NotificationImporterTargetDto } from './NotificationImporterTargetDto';
 import type { NotificationImportPreviewDto } from './NotificationImportPreviewDto';
@@ -15,7 +16,7 @@ export type NotificationInboxItemDto = {
     type: string;
     actors: Array<NotificationActorDto>;
     preview: (NotificationTextPreviewDto | NotificationImportPreviewDto) | null;
-    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto | NotificationAchievementTargetDto) | null;
+    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto | NotificationAchievementTargetDto | NotificationConnectionTargetDto) | null;
     eventCount: number;
     actorCount: number;
     lastEventAt: string;

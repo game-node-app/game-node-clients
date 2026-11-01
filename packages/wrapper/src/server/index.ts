@@ -150,6 +150,7 @@ export { NotificationActivityContentDto } from './models/NotificationActivityCon
 export { NotificationActivityTargetDto } from './models/NotificationActivityTargetDto';
 export type { NotificationActorDto } from './models/NotificationActorDto';
 export type { NotificationAvatarDto } from './models/NotificationAvatarDto';
+export { NotificationConnectionTargetDto } from './models/NotificationConnectionTargetDto';
 export { NotificationContentTargetDto } from './models/NotificationContentTargetDto';
 export type { NotificationGameContextDto } from './models/NotificationGameContextDto';
 export { NotificationImporterTargetDto } from './models/NotificationImporterTargetDto';

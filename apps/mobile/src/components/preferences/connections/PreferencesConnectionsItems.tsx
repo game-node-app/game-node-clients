@@ -16,6 +16,7 @@ const PreferencesConnectionsItems = () => {
       <PreferencesConnectionItem type={UserConnectionDto.type.STEAM} />
       <PreferencesConnectionItem type={UserConnectionDto.type.PSN} />
       <PreferencesConnectionItem type={UserConnectionDto.type.XBOX} />
+      <PreferencesConnectionItem type={UserConnectionDto.type.EPICGAMES} />
       <IonItem routerLink={getTabAwareHref("/mcp")} button detail>
         <IonLabel>{t("mcp.title")}</IonLabel>
       </IonItem>

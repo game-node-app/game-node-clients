@@ -21,6 +21,10 @@ export type GameExternalStoreDto = {
     name?: string;
     url?: string;
     year?: number;
+    /**
+     * Who owns this row: the IGDB catalog sync, a bulk fill job or a moderator.
+     */
+    origin: Record<string, any>;
     createdAt: string;
     updatedAt: string;
     gameId: number;
@@ -50,6 +54,7 @@ export namespace GameExternalStoreDto {
         '_54' = 54,
         '_55' = 55,
         '_121' = 121,
+        '_1001' = 1001,
     }
     export enum media {
         '_1' = 1,

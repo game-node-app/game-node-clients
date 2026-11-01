@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,6 @@ import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useO
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { getErrorMessage } from "#@/util/getErrorMessage";
-import { getCapitalizedText } from "#@/util/getCapitalizedText";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { Button, Select, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { useAvailableConnections } from "#@/components/connections/hooks/useAvailableConnections";
@@ -24,6 +23,7 @@ import { createErrorNotification, Link } from "#@/util";
 import { useTranslation } from "@repo/locales";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { getConnectionName } from "#@/components/connections/util/getConnectionName";
+import { PreferencesConnectionDelegatedCode } from "#@/components/preferences/handlers/connections/PreferencesConnectionDelegatedCode";
 
 const createConnectionSetupFormSchema = (
   usernameRequiredMessage: string,
@@ -48,11 +48,7 @@ export interface Props extends BaseModalChildrenProps {
   onRedirect?: (url: string) => void | Promise<void>;
 }
 
-const PreferencesConnectionSetup = ({
-  type,
-  onClose,
-  onRedirect = (url) => window.location.assign(url),
-}: Props) => {
+const PreferencesConnectionSetup = ({ type, onClose, onRedirect }: Props) => {
   const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const availableConnections = useAvailableConnections();
@@ -62,6 +58,13 @@ const PreferencesConnectionSetup = ({
   const isRedirect =
     provider?.authMode ===
     FindAvailableConnectionsResponseDto.authMode.REDIRECT;
+  const isDelegated =
+    provider?.authMode ===
+    FindAvailableConnectionsResponseDto.authMode.DELEGATED_CODE;
+  const [pendingAuth, setPendingAuth] = useState<{
+    state: string;
+    authorizationUrl: string;
+  }>();
   const requiresIdentifier =
     !userConnection.data &&
     provider?.authMode ===
@@ -120,7 +123,7 @@ const PreferencesConnectionSetup = ({
       notifications.show({
         color: "green",
         message: t("preferences.messages.connectionSetup", {
-          type: getCapitalizedText(type),
+          type: getConnectionName(type),
         }),
       });
 
@@ -133,12 +136,19 @@ const PreferencesConnectionSetup = ({
 
   const redirectMutation = useMutation({
     mutationFn: async (data: ConnectionAuthInitDto) => {
-      const { authorizationUrl } =
+      const { authorizationUrl, state } =
         await ConnectionsService.connectionsControllerInitRedirectAuthV1(type, {
           isAutoImportEnabled: data.isAutoImportEnabled,
           autoImportCollectionId: data.autoImportCollectionId,
         });
-      await onRedirect(authorizationUrl);
+      if (isDelegated) {
+        // The sign-in URL opens on its own click, so popup blockers stay quiet.
+        setPendingAuth({ state, authorizationUrl });
+        return;
+      }
+      await (onRedirect ?? ((url) => window.location.assign(url)))(
+        authorizationUrl,
+      );
       onClose?.();
     },
     onError: createErrorNotification,
@@ -158,7 +168,7 @@ const PreferencesConnectionSetup = ({
       notifications.show({
         color: "green",
         message: t("preferences.messages.connectionRemoved", {
-          type: getCapitalizedText(type),
+          type: getConnectionName(type),
         }),
       });
       if (onClose) {
@@ -213,12 +223,29 @@ const PreferencesConnectionSetup = ({
   if (
     !provider ||
     (!isRedirect &&
+      !isDelegated &&
       provider.authMode !==
         FindAvailableConnectionsResponseDto.authMode.PUBLIC_IDENTIFIER)
   ) {
     return (
       <CenteredErrorMessage
         message={t("preferences.messages.connectionUnsupported")}
+      />
+    );
+  }
+
+  if (pendingAuth) {
+    return (
+      <PreferencesConnectionDelegatedCode
+        type={type}
+        state={pendingAuth.state}
+        authorizationUrl={pendingAuth.authorizationUrl}
+        onOpen={
+          onRedirect ??
+          ((url) => void window.open(url, "_blank", "noopener,noreferrer"))
+        }
+        onStartOver={() => setPendingAuth(undefined)}
+        onClose={onClose}
       />
     );
   }
@@ -239,7 +266,7 @@ const PreferencesConnectionSetup = ({
     <form
       className={"w-full h-full"}
       onSubmit={handleSubmit((data) => {
-        if (isRedirect && !userConnection.data) {
+        if ((isRedirect || isDelegated) && !userConnection.data) {
           redirectMutation.mutate(data);
         } else {
           connectionSaveMutation.mutate(data);
@@ -332,9 +359,11 @@ const PreferencesConnectionSetup = ({
             ? t("preferences.actions.connect", {
                 type: getConnectionName(type),
               })
-            : t("actions.submit")}
+            : isDelegated && !userConnection.data
+              ? t("preferences.delegatedCode.continue")
+              : t("actions.submit")}
         </Button>
-        {isRedirect && userConnection.data && (
+        {(isRedirect || isDelegated) && userConnection.data && (
           <Button
             type="button"
             loading={redirectMutation.isPending}

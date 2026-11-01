@@ -152,6 +152,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         createdAt: "2026-01-01",
         updatedAt: "2026-01-01",
         psnExtraMappings: null,
+        origin: {},
         game: {
           id: 1,
           name: "Hades",
@@ -173,6 +174,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         createdAt: "2026-01-01",
         updatedAt: "2026-01-01",
         psnExtraMappings: null,
+        origin: {},
         game: {
           id: 1,
           name: "Hades",
@@ -194,6 +196,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         createdAt: "2026-01-01",
         updatedAt: "2026-01-01",
         psnExtraMappings: null,
+        origin: {},
         game: {
           id: 2,
           name: "Celeste",
@@ -216,6 +219,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         createdAt: "2026-01-01",
         updatedAt: "2026-01-01",
         psnExtraMappings: null,
+        origin: {},
         game: {
           id: 3,
           name: "Dead Cells",
@@ -604,6 +608,31 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         color: "green",
         message: "Successfully imported 4 games!",
       }),
+    );
+  });
+
+  it("names epicgames as Epic Games", async () => {
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue(sampleEntriesPage1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
+      id: 1,
+      type: "epicgames" as unknown as OwnUserConnectionDto.type,
+      unprocessedCount: 4,
+      lastSyncedAt: "2026-10-25T12:00:00Z",
+    } as OwnUserConnectionDto);
+
+    renderUI(<ImporterScreen source="epicgames" />);
+
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Import all (4)" }),
+    );
+    await screen.findByText(
+      "This will import all 4 games from Epic Games into your library.",
     );
   });
 

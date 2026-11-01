@@ -1030,6 +1030,7 @@
       "failedPart": "{{count}} failed",
       "sourceIconAlt": "Importer source icon"
     },
+    "connectionReauthRequired": "Your {{provider}} connection needs to be reconnected.",
     "achievementUnlocked": "Unlocked {{name}} (tier {{tier}})"
   },
   "playtime": {
@@ -1091,6 +1092,19 @@
       "account": "Account",
       "connections": "Connections",
       "library": "Library"
+    },
+    "delegatedCode": {
+      "continue": "Continue",
+      "signInStep": "Sign in to {{type}}",
+      "pasteStep": "Paste your code",
+      "signInButton": "Open {{type}} sign-in",
+      "copyHint": "After signing in, {{type}} shows a page like this. Copy the highlighted code, or copy the whole page.",
+      "pasteLabel": "Authorization code",
+      "pastePlaceholder": "Paste the code or the whole page",
+      "invalidCode": "We couldn't find a code in what you pasted. Copy the code from the {{type}} page and try again.",
+      "expiryHint": "This sign-in expires in 10 minutes.",
+      "startOver": "Start over",
+      "pasteFromClipboard": "Paste from clipboard"
     },
     "descriptions": {
       "autoImport": "Automatically import newly detected games to your library.",

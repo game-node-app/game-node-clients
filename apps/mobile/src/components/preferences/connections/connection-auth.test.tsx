@@ -30,6 +30,7 @@ const mocks = vi.hoisted(() => ({
       { type: "steam", authMode: "redirect", isImporterViable: true },
       { type: "xbox", authMode: "redirect", isImporterViable: true },
       { type: "psn", authMode: "public_identifier", isImporterViable: true },
+      { type: "epicgames", authMode: "delegated_code", isImporterViable: true },
     ],
     error: null as Error | null,
     isLoading: false,
@@ -290,6 +291,141 @@ describe("shared connection setup", () => {
     expect(
       screen.getByRole("button", { name: "preferences.actions.connect" }),
     ).toBeTruthy();
+  });
+});
+
+describe("delegated code connection setup", () => {
+  const CODE = "0123456789abcdef0123456789abcdef";
+  const complete = () =>
+    ConnectionsService.connectionsControllerCompleteRedirectAuthV1;
+
+  async function startFlow(redirect = vi.fn(), close = vi.fn()) {
+    renderUI(
+      <PreferencesConnectionSetup
+        type={UserConnectionDto.type.EPICGAMES}
+        onRedirect={redirect}
+        onClose={close}
+      />,
+    );
+    fireEvent.click(screen.getByRole("switch"));
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "preferences.delegatedCode.continue",
+      }),
+    );
+    const signIn = await screen.findByRole("button", {
+      name: "preferences.delegatedCode.signInButton",
+    });
+    return { redirect, close, signIn };
+  }
+
+  async function openPasteStep(redirect = vi.fn(), close = vi.fn()) {
+    const flow = await startFlow(redirect, close);
+    fireEvent.click(flow.signIn);
+    const input = await screen.findByRole("textbox");
+    return { ...flow, input };
+  }
+
+  const submit = () =>
+    fireEvent.click(screen.getByRole("button", { name: "actions.submit" }));
+
+  it("inits once with the settings and opens the URL only on its own click", async () => {
+    const { redirect, signIn } = await startFlow();
+    expect(
+      ConnectionsService.connectionsControllerInitRedirectAuthV1,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      ConnectionsService.connectionsControllerInitRedirectAuthV1,
+    ).toHaveBeenCalledWith("epicgames", {
+      isAutoImportEnabled: true,
+      autoImportCollectionId: undefined,
+    });
+    expect(redirect).not.toHaveBeenCalled();
+    fireEvent.click(signIn);
+    await waitFor(() =>
+      expect(redirect).toHaveBeenCalledWith("https://provider.example/signin"),
+    );
+  });
+
+  it.each([
+    ["a raw code", ` ${CODE} `, CODE],
+    [
+      "the whole page",
+      `{"authorizationCode":"${CODE}","sid":null}`,
+      `{"authorizationCode":"${CODE}","sid":null}`,
+    ],
+  ])("sends %s as the trimmed callback code", async (_name, pasted, sent) => {
+    const { close, input } = await openPasteStep();
+    fireEvent.change(input, { target: { value: pasted } });
+    submit();
+    await waitFor(() =>
+      expect(complete()).toHaveBeenCalledWith("epicgames", {
+        state: "state",
+        callbackParams: { code: sent },
+      }),
+    );
+    await waitFor(() => expect(close).toHaveBeenCalledTimes(1));
+  });
+
+  it("sends nothing when the paste has no code", async () => {
+    const { input } = await openPasteStep();
+    fireEvent.change(input, { target: { value: '{"sid":null}' } });
+    submit();
+    await screen.findByText("preferences.delegatedCode.invalidCode");
+    expect(complete()).not.toHaveBeenCalled();
+  });
+
+  it("locks the step after a rejected callback until the user starts over", async () => {
+    vi.mocked(complete()).mockRejectedValue(new Error("State expired"));
+    const { input } = await openPasteStep();
+    fireEvent.change(input, { target: { value: CODE } });
+    submit();
+    await screen.findByText("State expired");
+    expect((screen.getByRole("textbox") as HTMLInputElement).disabled).toBe(
+      true,
+    );
+    expect(screen.queryByRole("button", { name: "actions.submit" })).toBeNull();
+    expect(complete()).toHaveBeenCalledTimes(1);
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "preferences.delegatedCode.startOver",
+      }),
+    );
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "preferences.delegatedCode.continue",
+      }),
+    );
+    await waitFor(() =>
+      expect(
+        ConnectionsService.connectionsControllerInitRedirectAuthV1,
+      ).toHaveBeenCalledTimes(2),
+    );
+  });
+
+  it("starts the flow from Reconnect on a reauth_required connection", async () => {
+    mocks.own.data = {
+      id: 9,
+      sourceUsername: "EpicPlayer",
+      isAutoImportEnabled: false,
+      autoImportCollectionId: null,
+      authStatus: UserConnectionDto.authStatus.REAUTH_REQUIRED,
+    } as UserConnectionDto;
+    renderUI(
+      <PreferencesConnectionSetup type={UserConnectionDto.type.EPICGAMES} />,
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "preferences.actions.reconnect" }),
+    );
+    await screen.findByRole("button", {
+      name: "preferences.delegatedCode.signInButton",
+    });
+    expect(
+      ConnectionsService.connectionsControllerInitRedirectAuthV1,
+    ).toHaveBeenCalledWith("epicgames", {
+      isAutoImportEnabled: false,
+      autoImportCollectionId: null,
+    });
   });
 });
 

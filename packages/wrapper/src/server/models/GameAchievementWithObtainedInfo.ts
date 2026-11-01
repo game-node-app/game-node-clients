@@ -48,6 +48,7 @@ export namespace GameAchievementWithObtainedInfo {
         '_54' = 54,
         '_55' = 55,
         '_121' = 121,
+        '_1001' = 1001,
     }
 }
 

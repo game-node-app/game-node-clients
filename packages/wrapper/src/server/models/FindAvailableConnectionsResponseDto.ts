@@ -26,6 +26,7 @@ export namespace FindAvailableConnectionsResponseDto {
         STEAM = 'steam',
         PSN = 'psn',
         XBOX = 'xbox',
+        EPICGAMES = 'epicgames',
     }
     export enum authMode {
         REDIRECT = 'redirect',
