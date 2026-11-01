@@ -31,6 +31,7 @@ import {
     IconMilitaryAward,
     IconNews,
     IconNotebook,
+    IconRobot,
     IconSettings,
     IconStars,
     IconTrophy,
@@ -170,6 +171,13 @@ const MobileSidebarMenu = () => {
             Icon={IconMilitaryAward}
             onClick={closeMenu}
             href={`/feats/${userId}`}
+          />
+          <MobileSidebarButton
+            title={t("mcp.title")}
+            Icon={IconRobot}
+            onClick={closeMenu}
+            href={"/mcp"}
+            withBadge
           />
           <MobileSidebarButton
             title={t("library.buttons.importGames")}

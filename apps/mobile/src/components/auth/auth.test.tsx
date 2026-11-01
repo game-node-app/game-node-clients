@@ -14,10 +14,9 @@ const mocks = vi.hoisted(() => ({
   push: vi.fn(async () => {}),
 }));
 
-vi.mock(
-  "../../../../../packages/ui/src/components/auth/authClient",
-  () => ({ authClient: { useSession: () => mocks.session } }),
-);
+vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
+  authClient: { useSession: () => mocks.session },
+}));
 
 function renderGuarded(requireAuth?: boolean) {
   return render(
@@ -44,12 +43,18 @@ describe("getSafeRedirectPath", () => {
     expect(getSafeRedirectPath("/library?x=1", "/home")).toBe("/library?x=1");
   });
 
-  it.each(["//evil.example", "https://evil.example", "/\\evil", "", null, undefined])(
-    "falls back for %s",
-    (value) => {
-      expect(getSafeRedirectPath(value, "/home")).toBe("/home");
-    },
-  );
+  it.each([
+    "//evil.example",
+    "https://evil.example",
+    "/\\evil",
+    "/\n/evil.example",
+    "/\t/evil.example",
+    "",
+    null,
+    undefined,
+  ])("falls back for %s", (value) => {
+    expect(getSafeRedirectPath(value, "/home")).toBe("/home");
+  });
 });
 
 describe("getAuthErrorKey", () => {

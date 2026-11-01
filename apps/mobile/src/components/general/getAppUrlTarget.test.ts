@@ -22,3 +22,16 @@ describe("getAppUrlTarget", () => {
     );
   });
 });
+
+describe("OAuth app links", () => {
+  it.each([
+    "https://gamenode.app/auth?client_id=client&sig=signed&resource=a&resource=b&ba_param=resource&ba_param=state",
+    "https://gamenode.app/oauth/consent?sig=signed",
+    "https://gamenode.app/pt-BR/oauth/consent?sig=signed",
+  ])("never maps canonical authorization into a tab: %s", (url) => {
+    expect(getAppUrlTarget(url)).toBeNull();
+  });
+  it("keeps ordinary sign-in routing", () => {
+    expect(getAppUrlTarget("https://gamenode.app/auth")).toBe("/auth");
+  });
+});

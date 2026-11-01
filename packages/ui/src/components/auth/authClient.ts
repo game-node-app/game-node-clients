@@ -1,11 +1,15 @@
 import { createAuthClient } from "better-auth/react";
+import { oauthProviderClient } from "@better-auth/oauth-provider/client";
 import { adminClient } from "better-auth/client/plugins";
 
 // Explicit types: inferred ones reference better-auth's nested zod, which apps with `declaration` can't name (TS2742).
 export interface AuthClientOptions {
   baseURL: string;
   basePath: string;
-  plugins: ReturnType<typeof adminClient>[];
+  plugins: (
+    | ReturnType<typeof adminClient>
+    | ReturnType<typeof oauthProviderClient>
+  )[];
   fetchOptions: { credentials: "include" };
 }
 export type AuthClient = ReturnType<typeof createAuthClient<AuthClientOptions>>;
@@ -14,7 +18,7 @@ export type AuthClient = ReturnType<typeof createAuthClient<AuthClientOptions>>;
 export const getAuthClientOptions = (baseURL: string): AuthClientOptions => ({
   baseURL,
   basePath: "/v1/auth",
-  plugins: [adminClient()],
+  plugins: [adminClient(), oauthProviderClient()],
   fetchOptions: { credentials: "include" },
 });
 

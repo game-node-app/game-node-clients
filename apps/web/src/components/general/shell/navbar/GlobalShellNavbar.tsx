@@ -1,12 +1,13 @@
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu";
 import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { Center, Divider, Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import { Center, Divider, Indicator, Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { cn, RecentlyPlayedGamesShare, useUserId } from "@repo/ui";
 import {
   IconBolt,
+  IconRobot,
   IconHome,
   IconLayout2Filled,
   IconLibrary,
@@ -27,6 +28,7 @@ export interface NavbarItem {
   href: string;
   withDivider?: boolean;
   onClick?: LinkProps["onClick"];
+  isNew?: boolean;
 }
 
 interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
@@ -50,6 +52,7 @@ export default function GlobalShellNavbar({
       href: "/library",
       withDivider: true,
     },
+    { icon: IconRobot, label: t("mcp.title"), href: "/mcp", isNew: true },
     { icon: IconHome, label: t("navigation.home"), href: "/home" },
     { icon: IconTrendingUp, label: t("navigation.explore"), href: "/explore" },
     { icon: IconBolt, label: t("navigation.activity"), href: "/activity" },
@@ -87,7 +90,7 @@ export default function GlobalShellNavbar({
 
   const isActive = useCallback(
     (href: string) => pathname.startsWith(href),
-    [pathname],
+    [pathname]
   );
 
   return (
@@ -119,8 +122,14 @@ export default function GlobalShellNavbar({
               onClick={onClose}
               data-active={isActive(link.href) ? "true" : "false"}
             >
-              <Link href={link.href} onClick={link.onClick}>
-                <link.icon className={""}></link.icon>
+              <Link
+                href={link.href}
+                onClick={link.onClick}
+                aria-label={link.label}
+              >
+                <Indicator size={8} disabled={!link.isNew}>
+                  <link.icon className={""}></link.icon>
+                </Indicator>
               </Link>
             </UnstyledButton>
           </Tooltip>

@@ -13,3 +13,5 @@ export * from "./roles";
 export * from "./signOut";
 export * from "./sign-in/index";
 export * from "./hooks/index";
+
+export * from "./OAuthConsentScreen";

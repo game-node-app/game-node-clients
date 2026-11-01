@@ -46,7 +46,7 @@ const CollectionEntryAchievementTracker = ({
     if (availableGroups.length > 0) {
       const firstSource = availableGroups.at(0)?.source;
       if (firstSource) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- preselects the first source once groups load
         setSelectedSource(firstSource);
       }
     }

@@ -3,7 +3,10 @@ import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
 import { Browser } from "@capacitor/browser";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
-import { getAppUrlTarget } from "@/components/general/getAppUrlTarget";
+import {
+  getAppUrlTarget,
+  isBrowserOAuthUrl,
+} from "@/components/general/getAppUrlTarget";
 
 const getEquivalentDeepLink = (slug: string) => {
   if (slug.startsWith("/search")) {
@@ -15,13 +18,26 @@ const getEquivalentDeepLink = (slug: string) => {
   return getTabAwareHref(slug);
 };
 
+import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
+
 const AppUrlListener = () => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   useEffect(() => {
     const listener = App.addListener(
       "appUrlOpen",
       (event: URLOpenListenerEvent) => {
+        if (isBrowserOAuthUrl(event.url)) {
+          void Browser.open({ url: event.url }).catch(() => {
+            notifications.show({
+              color: "red",
+              message: t("mcp.oauthBrowserError"),
+            });
+          });
+          return;
+        }
         const slug = getAppUrlTarget(event.url);
         if (slug == null) return;
         const url = new URL(event.url);
@@ -35,7 +51,7 @@ const AppUrlListener = () => {
     return () => {
       void listener.then((handle) => handle.remove());
     };
-  }, [history]);
+  }, [history, t]);
 
   return null;
 };

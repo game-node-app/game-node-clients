@@ -17,19 +17,10 @@ export function useNextRouterWrapper(): RouterHookProps {
     return rawPathname;
   }, [nextRouter.asPath, nextRouter.locale]);
 
-  // Transform NextRouter's `query` object into a `URLSearchParams` instance
-  const query = useMemo(() => {
-    const searchParams = new URLSearchParams();
-    for (const key in nextRouter.query) {
-      const value = nextRouter.query[key];
-      if (Array.isArray(value)) {
-        value.forEach((v) => searchParams.append(key, v));
-      } else if (value !== undefined) {
-        searchParams.append(key, value as string);
-      }
-    }
-    return searchParams;
-  }, [nextRouter.query]);
+  const query = useMemo(
+    () => new URLSearchParams(nextRouter.asPath.split("?")[1]?.split("#")[0]),
+    [nextRouter.asPath]
+  );
 
   return {
     pathname,

@@ -25,6 +25,7 @@ const CommandCenter = () => {
         ? "⌘" // command key
         : "Ctrl"; // control key
 
+    // Client-only detection: reading navigator during render would cause a hydration mismatch.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setModifierKey(modifierKey);
   }, []);

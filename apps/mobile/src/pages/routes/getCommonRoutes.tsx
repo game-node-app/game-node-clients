@@ -1,4 +1,5 @@
 import React from "react";
+import McpPage from "@/pages/mcp";
 import { Route } from "react-router";
 import GamePage from "@/pages/game";
 import ProfilePage from "@/pages/profile/profile";
@@ -41,6 +42,12 @@ import ConnectionCallbackPage from "@/pages/connection_callback";
  */
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
+    <Route
+      exact
+      key={`${prefix}-mcp`}
+      path={`${prefix}/mcp`}
+      render={() => <McpPage />}
+    />,
     <Route
       exact
       key={`${prefix}-connection-callback`}

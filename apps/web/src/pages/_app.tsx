@@ -2,7 +2,7 @@ import { MantineProvider, mergeMantineTheme } from "@mantine/core";
 
 import { RouterTransition } from "@/components/general/RouterTransition";
 import GlobalAppShell from "@/components/general/shell/GlobalAppShell";
-import { PostHogProvider } from "@repo/analytics";
+import { PostHogProvider, protectOAuthPage } from "@repo/analytics";
 import {
   HydrationBoundary,
   MutationCache,
@@ -68,7 +68,7 @@ declare const cookieStore: {
 
 function getLocaleFromPath(
   asPath: string,
-  defaultLocale?: string,
+  defaultLocale?: string
 ): SupportedLanguage | undefined {
   const pathname = asPath.split("?")[0];
   const firstSegment = pathname.split("/").filter(Boolean)[0];
@@ -110,6 +110,19 @@ export default function WebApp({
   pageProps,
   router,
 }: AppProps<DehydrationResult>) {
+  useEffect(() => {
+    router.events.on("routeChangeStart", protectOAuthPage);
+    router.events.on("routeChangeComplete", protectOAuthPage);
+    router.events.on("routeChangeError", restorePrivacy);
+    function restorePrivacy() {
+      protectOAuthPage(window.location.href);
+    }
+    return () => {
+      router.events.off("routeChangeStart", protectOAuthPage);
+      router.events.off("routeChangeComplete", protectOAuthPage);
+      router.events.off("routeChangeError", restorePrivacy);
+    };
+  }, [router.events]);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -126,7 +139,7 @@ export default function WebApp({
             retry: 2,
           },
         },
-      }),
+      })
   );
 
   const locale =
@@ -146,7 +159,7 @@ export default function WebApp({
         {
           locale: lang,
           scroll: false,
-        },
+        }
       );
 
       void cookieStore.set({
@@ -154,7 +167,7 @@ export default function WebApp({
         value: lang,
       });
     },
-    [router],
+    [router]
   );
 
   useEffect(() => {
@@ -169,7 +182,7 @@ export default function WebApp({
       {
         locale,
         scroll: false,
-      },
+      }
     );
   }, [locale, router]);
 

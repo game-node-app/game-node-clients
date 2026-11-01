@@ -60,6 +60,7 @@ it("rejects malformed mobile game routes before source reads or views", async ()
     "journal/journal_achievements",
     "journal/journal",
     "connection_callback",
+    "mcp",
   ])
     vi.doMock(`@/pages/${page}`, () => ({ default: () => null }));
   const { getCommonRoutes } = await import(

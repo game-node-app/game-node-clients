@@ -14,6 +14,8 @@ const EXCLUDED_ROUTES = [
   "/about",
   "/tos",
   "/privacy",
+  "/auth",
+  "/oauth/consent",
   "/connections/callback/[type]",
 ];
 

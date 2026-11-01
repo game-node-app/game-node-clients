@@ -76,8 +76,8 @@
     "ionicons": "7.4.0",
     "posthog-js": "^1.275.1",
     "prettier": "3.5.3",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "react-easy-crop": "^5.5.3",
     "react-error-boundary": "^6.1.1",
     "react-hook-form": "^8.0.0-alpha.5",
@@ -104,8 +104,8 @@
     "@testing-library/jest-dom": "6.4.1",
     "@testing-library/react": "14.2.1",
     "@testing-library/user-event": "14.5.2",
-    "@types/react": "19.1.14",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "@types/react-router": "5.1.20",
     "@types/react-router-dom": "5.3.3",
     "@vitejs/plugin-legacy": "7.2.1",
@@ -125,7 +125,7 @@
   "description": "GameNode's hybrid PWA/mobile app",
   "resolutions": {
     "prosemirror-model": "1.25.1",
-    "@types/react": "19.1.14",
-    "@types/react-dom": "19.1.9"
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
   }
 }
