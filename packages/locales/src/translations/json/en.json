@@ -1030,6 +1030,7 @@
       "failedPart": "{{count}} failed",
       "sourceIconAlt": "Importer source icon"
     },
+    "connectionReauthRequired": "Your {{provider}} connection needs to be reconnected.",
     "achievementUnlocked": "Unlocked {{name}} (tier {{tier}})"
   },
   "playtime": {

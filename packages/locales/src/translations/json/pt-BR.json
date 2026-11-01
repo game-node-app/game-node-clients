@@ -1030,6 +1030,7 @@
       "failedPart": "{{count}} com falha",
       "sourceIconAlt": "Ícone da fonte de importação"
     },
+    "connectionReauthRequired": "Sua conexão com {{provider}} precisa ser reconectada.",
     "achievementUnlocked": "Desbloqueou {{name}} (nível {{tier}})"
   },
   "playtime": {

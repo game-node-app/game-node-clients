@@ -1034,6 +1034,7 @@ export type TranslationSchema = {
       failedPart: string;
       sourceIconAlt: string;
     };
+    connectionReauthRequired: string;
     achievementUnlocked: string;
   };
   playtime: {
