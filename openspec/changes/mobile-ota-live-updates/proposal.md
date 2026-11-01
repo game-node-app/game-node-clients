@@ -26,6 +26,6 @@ None. `app-releases` is still an in-flight change (`automate-explicit-app-releas
 
 - `apps/mobile`: new dependency `@capawesome/capacitor-live-update` (v7, matching Capacitor 7). New update listener mounted beside `AppUpdateListener`. New `VITE_PUBLIC_LIVE_UPDATE_URL` env var. Native sync is required, so the first build that includes the plugin ships through the Play Store.
 - `scripts/`: native fingerprint script with a test. R2 secrets added to the `--check-env` validation for mobile.
-- `.github/workflows/release-mobile.yml`: zip, upload and publish-manifest steps.
-- Infra: R2 bucket with a custom public domain. GitHub `production` environment secrets for an R2 API token.
+- `.github/workflows/release-mobile.yml`: zip, upload and publish-manifest steps. `.github/workflows/ci.yml`: R2 values passed to the `--check-env` step.
+- Infra: R2 bucket with a custom public domain. An R2 API token stored as GitHub repository secrets, used only by the CI mobile delivery job.
 - Out of scope: iOS (there is no iOS project), staged rollouts/channels, update telemetry, bundle signing beyond HTTPS plus a checksum.

@@ -1,7 +1,8 @@
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { authClient } from "#@/components/auth/authClient";
 import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
-import { useHooks } from "#@/context";
+import { isAuthPath } from "#@/components/auth/getSafeRedirectPath";
+import { useAuthPath, useHooks } from "#@/context";
 import { useRouter } from "#@/util/link";
 
 interface Props extends PropsWithChildren {
@@ -13,21 +14,24 @@ const SessionAuth = ({ requireAuth = true, children }: Props) => {
   const { data, isPending } = authClient.useSession();
   const redirectToAuth = useRedirectToAuth();
   const { asPath, pathname } = useRouter();
-  const current = asPath ?? pathname;
+  const authPath = useAuthPath();
   const { useIsViewActive } = useHooks();
   const isViewActive = useIsViewActive?.() ?? true;
-  const mustRedirect = isViewActive && requireAuth && !isPending && !data;
+  // Ionic can still report the auth URL when a cached page re-enters; wait for the page's own URL.
+  const onAuthPage = isAuthPath(asPath ?? pathname, authPath);
+  const mustRedirect =
+    isViewActive && requireAuth && !isPending && !data && !onAuthPage;
 
-  // Deduplicate unstable router callbacks per URL and visit; Ionic keeps pages mounted.
-  const redirected = useRef<string | null>(null);
+  // Once per active signed-out visit: router hooks return a new `push` every render and Ionic keeps pages mounted.
+  const redirected = useRef(false);
   useEffect(() => {
     if (!mustRedirect) {
-      redirected.current = null;
-    } else if (redirected.current !== current) {
-      redirected.current = current;
+      redirected.current = false;
+    } else if (!redirected.current) {
+      redirected.current = true;
       void redirectToAuth();
     }
-  }, [mustRedirect, redirectToAuth, current]);
+  }, [mustRedirect, redirectToAuth]);
 
   if (requireAuth && (isPending || !data)) {
     return null;

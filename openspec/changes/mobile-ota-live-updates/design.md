@@ -50,9 +50,9 @@ Config in `capacitor.config.ts`: `LiveUpdate: { readyTimeout: 10000, autoDeleteB
 
 Alternative considered: Capgo. Its self-hosted auto mode needs its update API or its Supabase backend, which is more to run for no gain at this scale.
 
-### Publish inside `release-mobile.yml`
+### Publish from CI, inside `release-mobile.yml`
 
-After `yarn build -F mobile`, zip `apps/mobile/dist`, compute its SHA-256, and upload the zip. Upload `latest.json` only after that. The delivery runs only when a changeset explicitly selects mobile, so the release-decision rules apply unchanged. Every mobile release publishes OTA; installs on a different fingerprint simply never see it.
+Publishing is fully automated and tied to the changeset flow: `ci.yml` calls `release-mobile.yml` only when `needs.checks.outputs.mobile == 'true'`, i.e. a changeset selected mobile, checks passed, and the push is on main. The R2 credentials follow the keystore pattern: repository secrets (and repository vars for non-secret values, like the Coolify UUIDs), so the `prepare` job's `--check-env` step can see them and fail before any build. After `yarn build -F mobile`, zip `apps/mobile/dist`, compute its SHA-256, and upload the zip. Upload `latest.json` only after that. The delivery runs only when a changeset explicitly selects mobile, so the release-decision rules apply unchanged. Every mobile release publishes OTA; installs on a different fingerprint simply never see it.
 
 ## Risks / Trade-offs
 
@@ -64,7 +64,7 @@ After `yarn build -F mobile`, zip `apps/mobile/dist`, compute its SHA-256, and u
 
 ## Migration Plan
 
-1. Create the R2 bucket and custom domain. Add `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` and `LIVE_UPDATE_PUBLIC_URL` to the `production` environment.
+1. Create the R2 bucket and custom domain. Add `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` as GitHub repository secrets, and `R2_ACCOUNT_ID`, `R2_BUCKET` and `LIVE_UPDATE_PUBLIC_URL` as repository vars. This is a one-time setup in the repo settings; nothing is stored locally.
 2. Ship a mobile release that includes the plugin through the Play Store.
 3. Later mobile releases are delivered OTA to matching installs.
 

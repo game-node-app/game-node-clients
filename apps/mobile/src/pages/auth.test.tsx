@@ -7,8 +7,8 @@ import { setupDom } from "@/components/mcp/testUtils";
 import AuthPage from "./auth";
 
 const mocks = vi.hoisted(() => ({
-  session: null as unknown,
   search: "",
+  onSignedIn: (_target: string) => {},
   canGoBack: true,
   goBack: vi.fn(),
   push: vi.fn(),
@@ -27,14 +27,11 @@ vi.mock("@/components/general/hooks/useSearchParameters", () => ({
 vi.mock("@/components/general/AppPage.tsx", () => ({
   AppPage: ({ children }: { children: ReactNode }) => <>{children}</>,
 }));
-vi.mock("@repo/ui", async () => ({
-  ...(await vi.importActual<object>(
-    "../../../../packages/ui/src/components/auth/getSafeRedirectPath",
-  )),
-  authClient: {
-    useSession: () => ({ data: mocks.session, isPending: false }),
+vi.mock("@repo/ui", () => ({
+  SignInScreen: (props: { onSignedIn: (target: string) => void }) => {
+    mocks.onSignedIn = props.onSignedIn;
+    return <div>sign-in-screen</div>;
   },
-  SignInScreen: () => <div>sign-in-screen</div>,
 }));
 
 const renderPage = () =>
@@ -47,14 +44,13 @@ const renderPage = () =>
 beforeEach(() => {
   setupDom();
   vi.clearAllMocks();
-  mocks.session = null;
   mocks.search = "?redirectTo=%2Flibrary";
   mocks.canGoBack = true;
 });
 afterEach(cleanup);
 
 describe("mobile AuthPage", () => {
-  it("shows the sign-in screen while signed out", () => {
+  it("shows the sign-in screen without navigating", () => {
     renderPage();
     expect(screen.getByText("sign-in-screen")).toBeTruthy();
     expect(mocks.goBack).not.toHaveBeenCalled();
@@ -62,24 +58,24 @@ describe("mobile AuthPage", () => {
   });
 
   it("pops back to the page that asked for sign-in once signed in", () => {
-    mocks.session = { user: {} };
     renderPage();
+    mocks.onSignedIn("/library");
     expect(mocks.goBack).toHaveBeenCalledTimes(1);
     expect(mocks.push).not.toHaveBeenCalled();
   });
 
   it("replaces itself with the safe target when there is nothing to go back to", () => {
-    mocks.session = { user: {} };
     mocks.canGoBack = false;
     renderPage();
+    mocks.onSignedIn("/library");
     expect(mocks.push).toHaveBeenCalledWith("/library", "root", "replace");
   });
 
-  it("never returns to the auth page itself", () => {
-    mocks.session = { user: {} };
-    mocks.canGoBack = false;
-    mocks.search = "?redirectTo=%2Fm%2Fauth";
+  it("goes to the target when sign-in was not requested by a page", () => {
+    mocks.search = "";
     renderPage();
+    mocks.onSignedIn("/home");
+    expect(mocks.goBack).not.toHaveBeenCalled();
     expect(mocks.push).toHaveBeenCalledWith("/home", "root", "replace");
   });
 });

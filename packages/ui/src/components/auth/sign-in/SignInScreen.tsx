@@ -30,6 +30,8 @@ export interface SignInScreenProps {
   newUserPath?: string;
   /** Native: pass relative paths so better-auth-capacitor rewrites them to the app scheme. */
   relativeCallbacks?: boolean;
+  /** Leaves the screen once signed in. Defaults to replacing it with the safe `redirectTo` target. */
+  onSignedIn?: (target: string) => void;
 }
 
 const SignInScreen = ({
@@ -37,6 +39,7 @@ const SignInScreen = ({
   homePath = "/home",
   newUserPath,
   relativeCallbacks = false,
+  onSignedIn,
 }: SignInScreenProps) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -88,6 +91,8 @@ const SignInScreen = ({
       if (pendingOAuth) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot resume guarded by `redirected`
         if (oauthQuery) void resumeOAuth();
+      } else if (onSignedIn) {
+        onSignedIn(target);
       } else {
         void push(target, { replace: true, absolute: true });
       }
@@ -100,6 +105,7 @@ const SignInScreen = ({
     pendingOAuth,
     oauthQuery,
     resumeOAuth,
+    onSignedIn,
   ]);
 
   // The native auth session hides the WebView and `signIn.social` may never resolve, so reset on return.
