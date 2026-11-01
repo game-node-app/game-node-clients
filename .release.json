@@ -1,0 +1,29 @@
+{
+  "source": "1b2791f55e150b9c61825e1b1a43a80ee87d0ade",
+  "changesets": [
+    ".changeset/epic-games-connection.md"
+  ],
+  "apps": [
+    "web",
+    "admin"
+  ],
+  "filters": [
+    "--filter=...[dcfa2afbafe2774548a1f8ff44bb6d38b87c3e97...1b2791f55e150b9c61825e1b1a43a80ee87d0ade]",
+    "--filter=web...",
+    "--filter=admin..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "admin": "minor"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": false,
+  "ref": "releases/1b2791f55e150b9c61825e1b1a43a80ee87d0ade",
+  "versions": {
+    "web": "1.10.0",
+    "admin": "1.8.0"
+  }
+}
