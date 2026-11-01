@@ -1,0 +1,24 @@
+{
+  "source": "74c5d36ad2aeabf2f15c3bcb95c4c2270f2bf8bf",
+  "changesets": [
+    ".changeset/mcp-oauth-web.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[ee7eac982ae8797c1d4f643f2c8798d0b06efc5f...74c5d36ad2aeabf2f15c3bcb95c4c2270f2bf8bf]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/74c5d36ad2aeabf2f15c3bcb95c4c2270f2bf8bf",
+  "versions": {
+    "web": "1.9.0"
+  }
+}
