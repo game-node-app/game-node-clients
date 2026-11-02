@@ -1,0 +1,24 @@
+{
+  "source": "715cda8c2cb650c610476dd0081283a13e32f0a0",
+  "changesets": [
+    ".changeset/web-auth-fullscreen.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[110569b8aa822bdca53b4dbc3f0d3ed2cd2405ae...715cda8c2cb650c610476dd0081283a13e32f0a0]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/715cda8c2cb650c610476dd0081283a13e32f0a0",
+  "versions": {
+    "web": "1.10.2"
+  }
+}
