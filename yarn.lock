@@ -1318,6 +1318,11 @@
   resolved "https://registry.npmjs.org/@capawesome/capacitor-app-update/-/capacitor-app-update-7.0.1.tgz"
   integrity sha512-VEzAa8vdG8BvW8pjjinmUeiEfzDlZ2XBfAIBE0o0Gib63+FTZg8d0tAu0nUoV/s/1oIOM7Fk+PokN5GpQrY8sQ==
 
+"@capawesome/capacitor-live-update@7.5.2":
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/@capawesome/capacitor-live-update/-/capacitor-live-update-7.5.2.tgz#52d0bf4b4b69fbaa7b3270575c1bc00fdd931768"
+  integrity sha512-Y5LR8o1ZNmIpX1Av2t3nZ4NfC4k8gPaZX2Fn0FacScfJBMPnrG6RNuFg403J5mOoxC6cg9fiY+QDqPkx0jBQGA==
+
 "@changesets/apply-release-plan@^7.0.14":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@changesets/apply-release-plan/-/apply-release-plan-7.1.1.tgz#198c3d4dd9eafd0b3fa402a5d212eabe89db134e"

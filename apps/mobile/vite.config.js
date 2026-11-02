@@ -2,10 +2,18 @@ import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { createRequire } from "node:module";
+
+const { nativeFingerprint } = createRequire(import.meta.url)(
+  "../../scripts/native-fingerprint.cjs",
+);
 
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
+  define: {
+    __NATIVE_FINGERPRINT__: JSON.stringify(nativeFingerprint()),
+  },
   plugins: [
     react({
       babel: {

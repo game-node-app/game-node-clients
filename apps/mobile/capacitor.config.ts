@@ -6,6 +6,10 @@ const config: CapacitorConfig = {
   appName: "GameNode",
   webDir: "dist",
   plugins: {
+    LiveUpdate: {
+      readyTimeout: 10000,
+      autoDeleteBundles: true,
+    },
     Keyboard: {
       resizeOnFullScreen: false, // Prevents bad resizing
     },

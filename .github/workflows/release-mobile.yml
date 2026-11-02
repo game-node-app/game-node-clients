@@ -38,6 +38,35 @@ jobs:
           cache: gradle
       - run: yarn install --frozen-lockfile --ignore-scripts
       - run: yarn build -F mobile
+        env:
+          VITE_PUBLIC_LIVE_UPDATE_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
+      - name: Publish compatible live update
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          LIVE_UPDATE_PUBLIC_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
+        run: |
+          fingerprint=$(node scripts/native-fingerprint.cjs)
+          version=$(node -p 'require("./apps/mobile/package.json").version')
+          bundle_id="$version-$(git rev-parse --short=12 HEAD)"
+          archive="$RUNNER_TEMP/$bundle_id.zip"
+          (cd apps/mobile/dist && zip -qr "$archive" .)
+          checksum=$(sha256sum "$archive" | cut -d ' ' -f 1)
+          prefix="ota/$fingerprint"
+          jq -n --arg bundleId "$bundle_id" \
+            --arg url "${LIVE_UPDATE_PUBLIC_URL%/}/$prefix/$bundle_id.zip" \
+            --arg checksum "$checksum" \
+            '{bundleId: $bundleId, url: $url, checksum: $checksum}' > "$RUNNER_TEMP/latest.json"
+          endpoint="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+          aws s3 cp "$archive" "s3://$R2_BUCKET/$prefix/$bundle_id.zip" \
+            --endpoint-url "$endpoint" --no-progress --content-type application/zip \
+            --cache-control 'public, max-age=31536000, immutable'
+          aws s3 cp "$RUNNER_TEMP/latest.json" "s3://$R2_BUCKET/$prefix/latest.json" \
+            --endpoint-url "$endpoint" --no-progress --content-type application/json \
+            --cache-control no-cache
       - name: Decode Android signing key
         working-directory: apps/mobile
         env:

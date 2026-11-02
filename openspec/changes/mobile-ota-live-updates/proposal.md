@@ -8,7 +8,7 @@ Every mobile fix, even a JS-only one, waits on a Play Store build and review, an
 
 - The Android app checks for a newer web bundle when it starts and when it resumes. It downloads the bundle in the background and applies it on the next launch.
 - A bundle is offered only to installs whose native shell it is compatible with. Compatibility comes from a fingerprint of the native inputs, so nobody has to bump it by hand.
-- A bundle that fails to start is rolled back to the previous working bundle.
+- A bundle that fails to start is rolled back to the bundle shipped with the installed app.
 - Each explicit `mobile` release also publishes its web bundle and a manifest to a public Cloudflare R2 bucket. The signed APK/AAB pipeline stays as it is.
 - Hosting decision: R2, not Coolify. The files are static, R2 has no egress fees and is served from Cloudflare's edge, and there is no server to run. Updates stay available when the VPS is down or being redeployed.
 

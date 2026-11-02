@@ -110,6 +110,11 @@ function validateDelivery(selected, env = process.env) {
       "RELEASE_KEYSTORE_PASS",
       "RELEASE_KEYSTORE_KEY_ALIAS",
       "RELEASE_KEYSTORE_KEY_PASS",
+      "R2_ACCESS_KEY_ID",
+      "R2_SECRET_ACCESS_KEY",
+      "R2_ACCOUNT_ID",
+      "R2_BUCKET",
+      "LIVE_UPDATE_PUBLIC_URL",
     );
   const missing = required.filter((key) => !env[key]?.trim());
   if (missing.length)
