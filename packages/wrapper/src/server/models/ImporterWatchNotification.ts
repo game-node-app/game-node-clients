@@ -20,6 +20,7 @@ export namespace ImporterWatchNotification {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
 

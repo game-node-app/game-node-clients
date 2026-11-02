@@ -108,6 +108,12 @@ describe("connection.reauth-required notification", () => {
       "epicgames",
     ],
     [
+      NotificationConnectionTargetDto.provider.NINTENDO,
+      "Your Nintendo connection needs to be reconnected.",
+      "Sua conexão com Nintendo precisa ser reconectada.",
+      "nintendo",
+    ],
+    [
       NotificationConnectionTargetDto.provider.XBOX,
       "Your Xbox Live connection needs to be reconnected.",
       "Sua conexão com Xbox Live precisa ser reconectada.",
@@ -186,6 +192,19 @@ describe("import.discovery-completed provider names", () => {
 
     fireEvent.click(screen.getByRole("alert"));
     expect(mockRouter.push).toHaveBeenCalledWith("/importer/epicgames");
+  });
+
+  it("shows 'Nintendo' for Nintendo imports and navigates to the importer", () => {
+    renderItem(importItem("nintendo"));
+
+    expect(
+      screen.getByText(
+        /3 new games ready to be imported from your Nintendo connection/i,
+      ),
+    ).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("alert"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/importer/nintendo");
   });
 
   it("does not crash when the import target is missing", () => {

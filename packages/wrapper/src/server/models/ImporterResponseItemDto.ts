@@ -18,7 +18,7 @@ export type ImporterResponseItemDto = {
     url?: string;
     year?: number;
     /**
-     * Who owns this row: the IGDB catalog sync, a bulk fill job or a moderator.
+     * Who owns this row: the IGDB catalog sync, a bulk fill job, a moderator or an admin's MCP agent.
      */
     origin: Record<string, any>;
     createdAt: string;
@@ -57,6 +57,7 @@ export namespace ImporterResponseItemDto {
         '_55' = 55,
         '_121' = 121,
         '_1001' = 1001,
+        '_1002' = 1002,
     }
     export enum media {
         '_1' = 1,

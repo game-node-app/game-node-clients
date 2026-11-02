@@ -7,5 +7,6 @@ export const getConnectionName = (type: UserConnectionDto.type) => {
     .with(UserConnectionDto.type.PSN, () => "Playstation Network")
     .with(UserConnectionDto.type.XBOX, () => "Xbox Live")
     .with(UserConnectionDto.type.EPICGAMES, () => "Epic Games")
+    .with(UserConnectionDto.type.NINTENDO, () => "Nintendo")
     .exhaustive();
 };

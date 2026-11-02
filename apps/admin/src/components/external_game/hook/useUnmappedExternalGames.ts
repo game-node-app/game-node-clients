@@ -4,8 +4,13 @@ import { ExternalGameService } from "@repo/wrapper/server";
 export function useUnmappedExternalGames() {
   return useQuery({
     queryKey: ["game", "external", "unmapped"],
-    queryFn: () => {
-      return ExternalGameService.externalGameControllerFindUnmappedEntriesV1();
-    },
+    // shortcut: one large page instead of server pagination, move to server paging when the queue outgrows it.
+    queryFn: async () =>
+      (
+        await ExternalGameService.externalGameControllerFindUnmappedEntriesV1(
+          undefined,
+          500,
+        )
+      ).data,
   });
 }

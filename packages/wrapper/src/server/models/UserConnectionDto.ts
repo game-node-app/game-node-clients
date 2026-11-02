@@ -28,6 +28,7 @@ export namespace UserConnectionDto {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
 

@@ -1109,6 +1109,16 @@ export type TranslationSchema = {
       expiryHint: string;
       startOver: string;
       pasteFromClipboard: string;
+      nintendo: {
+        copyHint: string;
+        pasteLabel: string;
+        pastePlaceholder: string;
+        invalidLink: string;
+        otherAttempt: string;
+        coverage: string;
+        revoke: string;
+        phoneHint: string;
+      };
     };
     descriptions: {
       autoImport: string;

@@ -2,13 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UnmappedExternalGame = {
+export type UnmappedExternalGameDto = {
     id: number;
     sourceUid: string;
-    category: UnmappedExternalGame.category;
-    isActive: boolean;
+    category: UnmappedExternalGameDto.category;
+    name: string | null;
+    ownerCount: number;
 };
-export namespace UnmappedExternalGame {
+export namespace UnmappedExternalGameDto {
     export enum category {
         '_1' = 1,
         '_3' = 3,
@@ -33,6 +34,7 @@ export namespace UnmappedExternalGame {
         '_55' = 55,
         '_121' = 121,
         '_1001' = 1001,
+        '_1002' = 1002,
     }
 }
 

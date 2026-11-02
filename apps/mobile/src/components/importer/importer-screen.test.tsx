@@ -636,6 +636,31 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     );
   });
 
+  it("names nintendo as Nintendo", async () => {
+    vi.spyOn(
+      ImporterService,
+      "importerControllerFindUnprocessedEntriesV1",
+    ).mockResolvedValue(sampleEntriesPage1);
+    vi.spyOn(
+      ConnectionsService,
+      "connectionsControllerFindOwnByTypeV1",
+    ).mockResolvedValue({
+      id: 1,
+      type: "nintendo" as unknown as OwnUserConnectionDto.type,
+      unprocessedCount: 4,
+      lastSyncedAt: "2026-10-25T12:00:00Z",
+    } as OwnUserConnectionDto);
+
+    renderUI(<ImporterScreen source="nintendo" />);
+
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Import all (4)" }),
+    );
+    await screen.findByText(
+      "This will import all 4 games from Nintendo into your library.",
+    );
+  });
+
   it("Task 3.3: ignores selected games via importerControllerChangeStatusBatchV1 and preserves on failure", async () => {
     vi.spyOn(
       ImporterService,

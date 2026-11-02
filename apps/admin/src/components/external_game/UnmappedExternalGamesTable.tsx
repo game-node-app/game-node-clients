@@ -5,11 +5,11 @@ import { getExternalSourceName } from "@/components/external_game/utils/getExter
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { ActionIcon, Button, Stack } from "@mantine/core";
 import { useState } from "react";
-import { UnmappedExternalGame } from "@repo/wrapper/server";
+import { UnmappedExternalGameDto } from "@repo/wrapper/server";
 import { IconExternalLink } from "@tabler/icons-react";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 
-const COLUMNS: MRT_ColumnDef<UnmappedExternalGame>[] = [
+const COLUMNS: MRT_ColumnDef<UnmappedExternalGameDto>[] = [
   {
     header: "Source",
     accessorFn: (row) => getExternalSourceName(row.category),
@@ -43,9 +43,9 @@ const UnmappedExternalGamesTable = () => {
   const { data, isLoading, isError, isFetching } = useUnmappedExternalGames();
 
   const items = data ?? [];
-  const [matching, setMatching] = useState<UnmappedExternalGame>();
+  const [matching, setMatching] = useState<UnmappedExternalGameDto>();
 
-  const table = useCustomTable<UnmappedExternalGame>({
+  const table = useCustomTable<UnmappedExternalGameDto>({
     data: items,
     columns: COLUMNS,
     state: {

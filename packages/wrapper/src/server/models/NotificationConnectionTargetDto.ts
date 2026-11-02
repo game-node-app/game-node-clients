@@ -16,5 +16,7 @@ export namespace NotificationConnectionTargetDto {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
+

@@ -16,6 +16,7 @@ export namespace NotificationImporterTargetDto {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
 
