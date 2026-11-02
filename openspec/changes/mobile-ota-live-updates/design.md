@@ -16,7 +16,7 @@
 
 ### Host on Cloudflare R2, not Coolify
 
-R2 serves the static zip and JSON from Cloudflare's edge with no egress fees, and CI uploads with Wrangler's R2 CLI using a bucket-scoped Cloudflare API token. The Coolify option would mean another container serving static files over VPS bandwidth, and updates would fail whenever the VPS is down or redeploying. R2's free tier (10 GB storage, 10M reads/month) covers this load.
+R2 serves the static zip and JSON from Cloudflare's edge with no egress fees, and CI uploads to it with the AWS CLI that is already on GitHub runners (`--endpoint-url`). The Coolify option would mean another container serving static files over VPS bandwidth, and updates would fail whenever the VPS is down or redeploying. R2's free tier (10 GB storage, 10M reads/month) covers this load.
 
 Layout under the public custom domain:
 
@@ -52,7 +52,7 @@ Alternative considered: Capgo. Its self-hosted auto mode needs its update API or
 
 ### Publish from CI, inside `release-mobile.yml`
 
-Publishing is fully automated and tied to the changeset flow: `ci.yml` calls `release-mobile.yml` only when `needs.checks.outputs.mobile == 'true'`, i.e. a changeset selected mobile, checks passed, and the push is on main. The Cloudflare account API token follows the keystore pattern: a repository secret, so the `prepare` job's `--check-env` step can see it and fail before any build. After `yarn build -F mobile`, zip `apps/mobile/dist`, compute its SHA-256, and upload the zip. Upload `latest.json` only after that. The delivery runs only when a changeset explicitly selects mobile, so the release-decision rules apply unchanged. Every mobile release publishes OTA; installs on a different fingerprint simply never see it.
+Publishing is fully automated and tied to the changeset flow: `ci.yml` calls `release-mobile.yml` only when `needs.checks.outputs.mobile == 'true'`, i.e. a changeset selected mobile, checks passed, and the push is on main. The R2 credentials follow the keystore pattern: repository secrets, so the `prepare` job's `--check-env` step can see them and fail before any build. After `yarn build -F mobile`, zip `apps/mobile/dist`, compute its SHA-256, and upload the zip. Upload `latest.json` only after that. The delivery runs only when a changeset explicitly selects mobile, so the release-decision rules apply unchanged. Every mobile release publishes OTA; installs on a different fingerprint simply never see it.
 
 ## Risks / Trade-offs
 
@@ -64,7 +64,7 @@ Publishing is fully automated and tied to the changeset flow: `ci.yml` calls `re
 
 ## Migration Plan
 
-1. Create the R2 bucket and custom domain. Add `CLOUDFLARE_API_TOKEN`, `R2_ACCOUNT_ID`, `R2_BUCKET` and `LIVE_UPDATE_PUBLIC_URL` as GitHub repository secrets. This is a one-time setup in the repo settings; nothing is stored locally.
+1. Create the R2 bucket and custom domain. Add `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ACCOUNT_ID`, `R2_BUCKET` and `LIVE_UPDATE_PUBLIC_URL` as GitHub repository secrets. This is a one-time setup in the repo settings; nothing is stored locally.
 2. Ship a mobile release that includes the plugin through the Play Store.
 3. Later mobile releases are delivered OTA to matching installs.
 
