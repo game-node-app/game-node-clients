@@ -98,6 +98,11 @@ setProjectContext({
   s3BucketUrl: process.env.NEXT_PUBLIC_S3_BUCKET_URL!,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL!,
   searchUrl: process.env.NEXT_PUBLIC_SEARCH_URL!,
+  // `next dev` only; production builds inline "production" here and drop it
+  debugUserId:
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_DEBUG_USER_ID || undefined
+      : undefined,
 });
 setupAuthClient(getAuthClientOptions(process.env.NEXT_PUBLIC_SERVER_URL!));
 setupWrapper({
