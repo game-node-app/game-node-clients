@@ -54,9 +54,9 @@ without cancelling active deliveries; the pending queue holds up to 100 runs.
 ## Published versions and retries
 
 **Release tags are the version history.** Main's package versions are bootstrap
-baselines, not necessarily the versions currently deployed. The mobile baseline
-is aligned with the existing Gradle version `1.8.12` and build code `61`; verify
-these against Play Console before the first live mobile release.
+baselines, not necessarily the versions currently deployed. The mobile source
+baseline keeps version `1.8.12` and Android build code `65`; release snapshots
+derive the next version and code from the latest mobile release tag.
 
 The workflow applies the standard Changesets version command in a detached
 snapshot. It reads each selected app's previous version and changelog from its
