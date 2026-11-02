@@ -1,0 +1,22 @@
+{
+  "source": "f1b8fccdfd372ef82a489d393e2c9395c27f3299",
+  "changesets": [
+    ".changeset/mobile-min-sdk-24.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[c1a41df5ca3f4a197721625d7b5f6cb3a3d767f5...f1b8fccdfd372ef82a489d393e2c9395c27f3299]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/f1b8fccdfd372ef82a489d393e2c9395c27f3299",
+  "versions": {
+    "mobile": "1.9.4"
+  }
+}

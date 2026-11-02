@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "private": true,
-  "version": "1.8.12",
+  "version": "1.9.4",
   "type": "module",
   "scripts": {
     "dev": "vite --port 3002 --force",
