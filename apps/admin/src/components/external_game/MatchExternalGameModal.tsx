@@ -16,7 +16,7 @@ import {
   ApiError,
   ExternalGameService,
   SubmitExternalGameDto,
-  UnmappedExternalGame,
+  UnmappedExternalGameDto,
 } from "@repo/wrapper/server";
 import {
   createErrorNotification,
@@ -28,7 +28,7 @@ import { getExternalLookupUrl } from "@/components/external_game/utils/getExtern
 import { getExternalSourceName } from "@/components/external_game/utils/getExternalSourceName";
 
 interface Props {
-  item: UnmappedExternalGame;
+  item: UnmappedExternalGameDto;
   opened: boolean;
   onClose: () => void;
 }

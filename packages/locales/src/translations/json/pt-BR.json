@@ -1104,7 +1104,17 @@
       "invalidCode": "Não encontramos um código no que você colou. Copie o código da página do {{type}} e tente novamente.",
       "expiryHint": "Este login expira em 10 minutos.",
       "startOver": "Recomeçar",
-      "pasteFromClipboard": "Colar da área de transferência"
+      "pasteFromClipboard": "Colar da área de transferência",
+      "nintendo": {
+        "copyHint": "Depois de entrar, a Nintendo mostra um botão \"Select this account\". Não clique nele. Clique com o botão direito (ou toque e segure no celular), escolha \"Copiar endereço do link\" e cole o link abaixo.",
+        "pasteLabel": "Link da conta",
+        "pastePlaceholder": "npf5c38e31cd085304b://auth#…",
+        "invalidLink": "Não encontramos um link de conta Nintendo no que você colou. Copie o endereço do link de \"Select this account\" e tente novamente.",
+        "otherAttempt": "Este link é de um login anterior. Copie o link do login aberto nesta tentativa.",
+        "coverage": "Só são importados jogos jogados no Switch ou Switch 2 depois que sua Conta Nintendo foi vinculada a um console. Jogos ocultos no app da Nintendo e jogos que você tem mas nunca jogou não são importados. O tempo de jogo e as datas do primeiro e do último jogo vêm da Nintendo.",
+        "revoke": "Para revogar o acesso, remova a conexão com a Nintendo no GameNode. Isso apaga as credenciais da Nintendo que guardamos.",
+        "phoneHint": "Copiar o link pode não funcionar no celular. Se não funcionar, vincule sua conta por um computador."
+      }
     },
     "descriptions": {
       "autoImport": "Importar automaticamente jogos recém-detectados para sua biblioteca.",

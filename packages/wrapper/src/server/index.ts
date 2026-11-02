@@ -81,6 +81,7 @@ export type { FindGamesByCollectionTypeResponseDto } from './models/FindGamesByC
 export type { FindObtainedAchievementsResponseDto } from './models/FindObtainedAchievementsResponseDto';
 export type { FindRelatedCollectionEntriesResponseDto } from './models/FindRelatedCollectionEntriesResponseDto';
 export type { FindReviewPaginatedDto } from './models/FindReviewPaginatedDto';
+export type { FindUnmappedExternalGamesResponseDto } from './models/FindUnmappedExternalGamesResponseDto';
 export { FollowInfoRequestDto } from './models/FollowInfoRequestDto';
 export type { FollowInfoResponseDto } from './models/FollowInfoResponseDto';
 export type { FollowRegisterDto } from './models/FollowRegisterDto';
@@ -221,7 +222,7 @@ export type { StatisticsViewResponseDto } from './models/StatisticsViewResponseD
 export type { SteamAchievementDetails } from './models/SteamAchievementDetails';
 export { SubmitExternalGameDto } from './models/SubmitExternalGameDto';
 export { SubmitUserPlaytimeDto } from './models/SubmitUserPlaytimeDto';
-export { UnmappedExternalGame } from './models/UnmappedExternalGame';
+export { UnmappedExternalGameDto } from './models/UnmappedExternalGameDto';
 export { UpdateAchievementDefinitionDto } from './models/UpdateAchievementDefinitionDto';
 export type { UpdateAchievementEventDto } from './models/UpdateAchievementEventDto';
 export type { UpdateCollectionDto } from './models/UpdateCollectionDto';

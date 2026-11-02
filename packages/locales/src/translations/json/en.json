@@ -1104,7 +1104,17 @@
       "invalidCode": "We couldn't find a code in what you pasted. Copy the code from the {{type}} page and try again.",
       "expiryHint": "This sign-in expires in 10 minutes.",
       "startOver": "Start over",
-      "pasteFromClipboard": "Paste from clipboard"
+      "pasteFromClipboard": "Paste from clipboard",
+      "nintendo": {
+        "copyHint": "After signing in, Nintendo shows a \"Select this account\" button. Don't click it. Right-click it (or long-press on a phone), choose \"Copy link address\", and paste the link below.",
+        "pasteLabel": "Account link",
+        "pastePlaceholder": "npf5c38e31cd085304b://auth#…",
+        "invalidLink": "We couldn't find a Nintendo account link in what you pasted. Copy the link address of \"Select this account\" and try again.",
+        "otherAttempt": "This link is from an earlier sign-in. Copy the link from the sign-in opened by this attempt.",
+        "coverage": "Only games played on Switch or Switch 2 since your Nintendo Account was linked to a console are imported. Games hidden in Nintendo's app and games you own but never played are not. Playtime and first and last played dates come from Nintendo.",
+        "revoke": "To revoke access, remove the Nintendo connection in GameNode. This deletes the Nintendo credentials we store.",
+        "phoneHint": "Copying the link may not work on a phone. If it doesn't, link your account from a computer."
+      }
     },
     "descriptions": {
       "autoImport": "Automatically import newly detected games to your library.",

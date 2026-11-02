@@ -28,8 +28,7 @@ test("mobile delivery requires signing and R2 configuration before release reser
     "RELEASE_KEYSTORE_PASS",
     "RELEASE_KEYSTORE_KEY_ALIAS",
     "RELEASE_KEYSTORE_KEY_PASS",
-    "R2_ACCESS_KEY_ID",
-    "R2_SECRET_ACCESS_KEY",
+    "CLOUDFLARE_API_TOKEN",
     "R2_ACCOUNT_ID",
     "R2_BUCKET",
     "LIVE_UPDATE_PUBLIC_URL",
@@ -75,15 +74,15 @@ test("OTA workflow packages root assets and never publishes a manifest after a f
   write(cwd, "apps/mobile/dist/assets/app.js", "// App\n");
   write(
     cwd,
-    "bin/aws",
+    "bin/yarn",
     `#!/usr/bin/env node
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 fs.appendFileSync(process.env.OTA_TEST_LOG, JSON.stringify(args) + "\\n");
-if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
+if (process.env.OTA_TEST_FAIL && args[4].endsWith(".zip")) process.exit(1);
 `,
   );
-  chmodSync(join(cwd, "bin/aws"), 0o755);
+  chmodSync(join(cwd, "bin/yarn"), 0o755);
   const temporary = join(cwd, "temporary");
   mkdirSync(temporary);
   const log = join(cwd, "uploads.jsonl");
@@ -107,7 +106,7 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
   const manifest = JSON.parse(
     readFileSync(join(temporary, "latest.json"), "utf8"),
   );
-  const zip = calls[0][2];
+  const zip = calls[0][7];
   assert.equal(
     manifest.checksum,
     require("node:crypto")
@@ -115,17 +114,27 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
       .update(readFileSync(zip))
       .digest("hex"),
   );
-  assert.match(calls[0][3], /\/ota\/[a-f0-9]{16}\/1\.8\.12-[a-f0-9]+\.zip$/);
+  assert.match(
+    calls[0][4],
+    /^bucket\/ota\/[a-f0-9]{16}\/1\.8\.12-[a-f0-9]+\.zip$/,
+  );
+  assert.equal(calls[0][5], "--remote");
+  assert.equal(calls[0][6], "--file");
+  assert.equal(calls[0][8], "--content-type");
+  assert.equal(calls[0][9], "application/zip");
   assert.equal(
     manifest.url,
-    calls[0][3].replace("s3://bucket", "https://updates.example.test"),
+    calls[0][4].replace(/^bucket\//, "https://updates.example.test/"),
   );
   assert.equal(
-    calls[1][3],
-    calls[0][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
+    calls[1][4],
+    calls[0][4].replace(`${manifest.bundleId}.zip`, "latest.json"),
   );
   assert.equal(calls[0].at(-1), "public, max-age=31536000, immutable");
   assert.equal(calls[1].at(-1), "no-cache");
+  assert.ok(
+    calls.every((call) => call.slice(0, 4).join(" ") === "wrangler r2 object put"),
+  );
   assert.ok(
     execFileSync("unzip", ["-Z1", zip], { encoding: "utf8" })
       .split("\n")

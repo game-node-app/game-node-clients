@@ -20,4 +20,5 @@ export enum EGameExternalGameCategory {
   XboxGamePassUltimateCloud = 54,
   Gamejolt = 55,
   EpicGamesNamespace = 1001,
+  NintendoTitleId = 1002,
 }

@@ -17,6 +17,7 @@ export namespace NotificationImportPreviewDto {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
 

@@ -31,6 +31,7 @@ const mocks = vi.hoisted(() => ({
       { type: "xbox", authMode: "redirect", isImporterViable: true },
       { type: "psn", authMode: "public_identifier", isImporterViable: true },
       { type: "epicgames", authMode: "delegated_code", isImporterViable: true },
+      { type: "nintendo", authMode: "delegated_code", isImporterViable: true },
     ],
     error: null as Error | null,
     isLoading: false,
@@ -299,10 +300,14 @@ describe("delegated code connection setup", () => {
   const complete = () =>
     ConnectionsService.connectionsControllerCompleteRedirectAuthV1;
 
-  async function startFlow(redirect = vi.fn(), close = vi.fn()) {
+  async function startFlow(
+    redirect = vi.fn(),
+    close = vi.fn(),
+    type = UserConnectionDto.type.EPICGAMES,
+  ) {
     renderUI(
       <PreferencesConnectionSetup
-        type={UserConnectionDto.type.EPICGAMES}
+        type={type}
         onRedirect={redirect}
         onClose={close}
       />,
@@ -319,8 +324,12 @@ describe("delegated code connection setup", () => {
     return { redirect, close, signIn };
   }
 
-  async function openPasteStep(redirect = vi.fn(), close = vi.fn()) {
-    const flow = await startFlow(redirect, close);
+  async function openPasteStep(
+    redirect = vi.fn(),
+    close = vi.fn(),
+    type = UserConnectionDto.type.EPICGAMES,
+  ) {
+    const flow = await startFlow(redirect, close, type);
     fireEvent.click(flow.signIn);
     const input = await screen.findByRole("textbox");
     return { ...flow, input };
@@ -401,6 +410,65 @@ describe("delegated code connection setup", () => {
         ConnectionsService.connectionsControllerInitRedirectAuthV1,
       ).toHaveBeenCalledTimes(2),
     );
+  });
+
+  describe("nintendo", () => {
+    const LINK = "npf5c38e31cd085304b://auth#session_token_code=x&state=state";
+    const openNintendo = (redirect = vi.fn()) =>
+      openPasteStep(redirect, vi.fn(), UserConnectionDto.type.NINTENDO);
+
+    it("opens the URL only on its own click and shows the coverage notice", async () => {
+      const redirect = vi.fn();
+      const { signIn } = await startFlow(
+        redirect,
+        vi.fn(),
+        UserConnectionDto.type.NINTENDO,
+      );
+      expect(redirect).not.toHaveBeenCalled();
+      expect(
+        screen.getByText("preferences.delegatedCode.nintendo.coverage"),
+      ).toBeTruthy();
+      fireEvent.click(signIn);
+      await waitFor(() =>
+        expect(redirect).toHaveBeenCalledWith(
+          "https://provider.example/signin",
+        ),
+      );
+    });
+
+    it("sends the trimmed account link with the state", async () => {
+      const { input } = await openNintendo();
+      fireEvent.change(input, { target: { value: `  ${LINK}  ` } });
+      submit();
+      await waitFor(() =>
+        expect(complete()).toHaveBeenCalledWith("nintendo", {
+          state: "state",
+          callbackParams: { code: LINK },
+        }),
+      );
+    });
+
+    it("sends nothing when the paste is not an account link", async () => {
+      const { input } = await openNintendo();
+      fireEvent.change(input, {
+        target: { value: "https://accounts.nintendo.com/" },
+      });
+      submit();
+      await screen.findByText("preferences.delegatedCode.nintendo.invalidLink");
+      expect(complete()).not.toHaveBeenCalled();
+    });
+
+    it("sends nothing when the link is from another attempt", async () => {
+      const { input } = await openNintendo();
+      fireEvent.change(input, {
+        target: { value: LINK.replace("state=state", "state=old") },
+      });
+      submit();
+      await screen.findByText(
+        "preferences.delegatedCode.nintendo.otherAttempt",
+      );
+      expect(complete()).not.toHaveBeenCalled();
+    });
   });
 
   it("starts the flow from Reconnect on a reauth_required connection", async () => {

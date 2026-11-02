@@ -30,6 +30,7 @@ export namespace OwnUserConnectionDto {
         PSN = 'psn',
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
+        NINTENDO = 'nintendo',
     }
 }
 

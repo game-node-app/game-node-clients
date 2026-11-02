@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FindExternalGamesResponseDto } from '../models/FindExternalGamesResponseDto';
+import type { FindUnmappedExternalGamesResponseDto } from '../models/FindUnmappedExternalGamesResponseDto';
 import type { SubmitExternalGameDto } from '../models/SubmitExternalGameDto';
-import type { UnmappedExternalGame } from '../models/UnmappedExternalGame';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -44,13 +44,41 @@ export class ExternalGameService {
         });
     }
     /**
-     * @returns UnmappedExternalGame
+     * @param category
+     * @param limit
+     * @param offset
+     * @returns FindUnmappedExternalGamesResponseDto
      * @throws ApiError
      */
-    public static externalGameControllerFindUnmappedEntriesV1(): CancelablePromise<Array<UnmappedExternalGame>> {
+    public static externalGameControllerFindUnmappedEntriesV1(
+        category?: 1 | 3 | 5 | 10 | 11 | 13 | 14 | 15 | 20 | 22 | 23 | 26 | 28 | 29 | 30 | 31 | 32 | 36 | 37 | 54 | 55 | 121 | 1001 | 1002,
+        limit: number = 20,
+        offset?: number,
+    ): CancelablePromise<FindUnmappedExternalGamesResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/game/external/unmapped',
+            query: {
+                'category': category,
+                'limit': limit,
+                'offset': offset,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns any
+     * @throws ApiError
+     */
+    public static externalGameControllerDismissUnmappedEntryV1(
+        id: number,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/game/external/unmapped/{id}/dismiss',
+            path: {
+                'id': id,
+            },
         });
     }
     /**

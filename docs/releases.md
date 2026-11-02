@@ -120,10 +120,13 @@ authenticated reads of both configured Coolify applications.
 
 ## Mobile live updates
 
-Create an R2 bucket dedicated to public mobile bundles, attach an HTTPS custom
-domain, and create an R2 API token with Object Read & Write access scoped to that
-bucket. See Cloudflare's [token setup](https://developers.cloudflare.com/r2/api/tokens/)
-and [CORS configuration](https://developers.cloudflare.com/r2/buckets/cors/).
+Create an R2 bucket dedicated to public mobile bundles and attach an HTTPS custom
+domain. Create a Cloudflare account API token with object write access scoped to
+that bucket (`Workers R2 Storage Bucket Item Write`). The release workflow uses
+Wrangler's R2 CLI, not S3 credentials. See Cloudflare's [API token permissions](https://developers.cloudflare.com/workers/authorization/),
+[R2 permission groups](https://developers.cloudflare.com/r2/api/tokens/),
+[R2 CLI guide](https://developers.cloudflare.com/r2/get-started/cli/), and
+[CORS configuration](https://developers.cloudflare.com/r2/buckets/cors/).
 Allow public `GET` and `HEAD` requests with this bucket CORS policy (the Android
 WebView fetches the manifest from `https://localhost`):
 
@@ -138,23 +141,21 @@ WebView fetches the manifest from `https://localhost`):
 
 Configure repository secrets, alongside the four Android signing secrets above:
 
-- `R2_ACCESS_KEY_ID`: the scoped token's S3 access key ID.
-- `R2_SECRET_ACCESS_KEY`: the token's S3 secret access key.
+- `CLOUDFLARE_API_TOKEN`: the Cloudflare API token for Wrangler. Keep it repository
+  scoped so the `prepare` job can validate it before reserving a release.
 
 Configure these additional repository secrets:
 
-- `R2_ACCOUNT_ID`: the Cloudflare account ID for the S3 endpoint
-  `https://<account-id>.r2.cloudflarestorage.com`.
+- `R2_ACCOUNT_ID`: the Cloudflare account ID used by Wrangler.
 - `R2_BUCKET`: the bucket name.
 - `LIVE_UPDATE_PUBLIC_URL`: the public HTTPS custom-domain origin, such as
   `https://updates.example.com`, with no path or query. The delivery build passes
   this into `VITE_PUBLIC_LIVE_UPDATE_URL`; `.env.production` leaves it empty for
   local builds unless explicitly supplied. An empty URL disables update checks.
 
-These values must be repository scoped so the `prepare` job can validate them
-before reserving a release. Configure the bucket and credentials in Cloudflare
-and GitHub settings; publishing runs only in Actions when a new changeset selects
-`mobile`. No developer-machine upload is part of the release flow.
+Configure the bucket and token in Cloudflare and GitHub settings; publishing runs
+only in Actions when a new changeset selects `mobile`. No developer-machine
+upload is part of the release flow.
 
 The delivery job zips the contents of `apps/mobile/dist` with `index.html` at the
 archive root. It uploads `ota/<fingerprint>/<version>-<short-sha>.zip` with
