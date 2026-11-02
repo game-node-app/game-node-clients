@@ -46,9 +46,16 @@ export interface Props extends BaseModalChildrenProps {
   type: UserConnectionDto.type;
   // eslint-disable-next-line no-unused-vars
   onRedirect?: (url: string) => void | Promise<void>;
+  // Origin Microsoft returns to; native shells must pass their public https origin, not the webview's.
+  redirectOrigin?: string;
 }
 
-const PreferencesConnectionSetup = ({ type, onClose, onRedirect }: Props) => {
+const PreferencesConnectionSetup = ({
+  type,
+  onClose,
+  onRedirect,
+  redirectOrigin,
+}: Props) => {
   const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
   const availableConnections = useAvailableConnections();
@@ -138,6 +145,11 @@ const PreferencesConnectionSetup = ({ type, onClose, onRedirect }: Props) => {
     mutationFn: async (data: ConnectionAuthInitDto) => {
       const { authorizationUrl, state } =
         await ConnectionsService.connectionsControllerInitRedirectAuthV1(type, {
+          // Only Xbox takes the return URL from the client; Steam keeps the server default.
+          redirectUri:
+            type === UserConnectionDto.type.XBOX
+              ? `${redirectOrigin ?? window.location.origin}/connections/callback/${type}`
+              : undefined,
           isAutoImportEnabled: data.isAutoImportEnabled,
           autoImportCollectionId: data.autoImportCollectionId,
         });

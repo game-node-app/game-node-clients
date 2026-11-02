@@ -177,6 +177,10 @@ describe("shared connection setup", () => {
       expect(
         ConnectionsService.connectionsControllerInitRedirectAuthV1,
       ).toHaveBeenCalledWith(type, {
+        redirectUri:
+          type === "xbox"
+            ? `${window.location.origin}/connections/callback/xbox`
+            : undefined,
         isAutoImportEnabled: true,
         autoImportCollectionId: undefined,
       });
@@ -266,6 +270,7 @@ describe("shared connection setup", () => {
     expect(
       ConnectionsService.connectionsControllerInitRedirectAuthV1,
     ).toHaveBeenCalledWith("xbox", {
+      redirectUri: `${window.location.origin}/connections/callback/xbox`,
       isAutoImportEnabled: true,
       autoImportCollectionId: "collection-id",
     });

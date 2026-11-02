@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ConnectionAuthInitDto = {
+    redirectUri?: string;
     isAutoImportEnabled?: boolean;
     autoImportCollectionId?: string | null;
 };

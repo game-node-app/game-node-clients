@@ -49,6 +49,9 @@ const PreferencesConnectionItem = ({ type }: Props) => {
         type={type}
         opened={modalOpened}
         onClose={modalUtils.close}
+        redirectOrigin={
+          Capacitor.isNativePlatform() ? "https://gamenode.app" : undefined
+        }
         onRedirect={
           Capacitor.isNativePlatform()
             ? async (url) => {

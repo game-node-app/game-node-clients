@@ -8,6 +8,7 @@ interface Props extends BaseModalProps {
   type: UserConnectionDto.type;
   // eslint-disable-next-line no-unused-vars
   onRedirect?: (url: string) => void | Promise<void>;
+  redirectOrigin?: string;
 }
 
 const PreferencesConnectionModal = ({
@@ -15,6 +16,7 @@ const PreferencesConnectionModal = ({
   onClose,
   type,
   onRedirect,
+  redirectOrigin,
 }: Props) => {
   const { t } = useTranslation();
   return (
@@ -27,6 +29,7 @@ const PreferencesConnectionModal = ({
         type={type}
         onClose={onClose}
         onRedirect={onRedirect}
+        redirectOrigin={redirectOrigin}
       />
     </Modal>
   );
