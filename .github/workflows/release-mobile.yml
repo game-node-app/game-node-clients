@@ -42,10 +42,8 @@ jobs:
           VITE_PUBLIC_LIVE_UPDATE_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
       - name: Publish compatible live update
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           LIVE_UPDATE_PUBLIC_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
         run: |
@@ -60,12 +58,11 @@ jobs:
             --arg url "${LIVE_UPDATE_PUBLIC_URL%/}/$prefix/$bundle_id.zip" \
             --arg checksum "$checksum" \
             '{bundleId: $bundleId, url: $url, checksum: $checksum}' > "$RUNNER_TEMP/latest.json"
-          endpoint="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
-          aws s3 cp "$archive" "s3://$R2_BUCKET/$prefix/$bundle_id.zip" \
-            --endpoint-url "$endpoint" --no-progress --content-type application/zip \
+          yarn wrangler r2 object put "$R2_BUCKET/$prefix/$bundle_id.zip" \
+            --remote --file "$archive" --content-type application/zip \
             --cache-control 'public, max-age=31536000, immutable'
-          aws s3 cp "$RUNNER_TEMP/latest.json" "s3://$R2_BUCKET/$prefix/latest.json" \
-            --endpoint-url "$endpoint" --no-progress --content-type application/json \
+          yarn wrangler r2 object put "$R2_BUCKET/$prefix/latest.json" \
+            --remote --file "$RUNNER_TEMP/latest.json" --content-type application/json \
             --cache-control no-cache
       - name: Decode Android signing key
         working-directory: apps/mobile
