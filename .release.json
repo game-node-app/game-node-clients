@@ -1,0 +1,22 @@
+{
+  "source": "4bcd093b463324d65fddbfd5aa9bfebe0910499b",
+  "changesets": [
+    ".changeset/mobile-r2-aws-cli.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[1eed28f1eb38c320ae8fbf05a3e24e905458cb5f...4bcd093b463324d65fddbfd5aa9bfebe0910499b]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/4bcd093b463324d65fddbfd5aa9bfebe0910499b",
+  "versions": {
+    "mobile": "1.9.2"
+  }
+}
