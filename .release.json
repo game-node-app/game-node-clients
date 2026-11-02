@@ -1,0 +1,22 @@
+{
+  "source": "14f916c0c108cb9a71aafbadee273cea21026255",
+  "changesets": [
+    ".changeset/quick-animals-fall.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[5c23225544e2df6b6fddb75025d60e6c20397838...14f916c0c108cb9a71aafbadee273cea21026255]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/14f916c0c108cb9a71aafbadee273cea21026255",
+  "versions": {
+    "mobile": "1.9.7"
+  }
+}
