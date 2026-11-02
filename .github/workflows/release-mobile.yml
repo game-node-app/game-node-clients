@@ -81,7 +81,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.RELEASE_KEYSTORE_KEY_ALIAS }}
           KEY_PASS: ${{ secrets.RELEASE_KEYSTORE_KEY_PASS }}
         run: |
-          # Capacitor signs APKs with jarsigner by default (v1 only), which targetSdk 35 installs reject.
+          # Capacitor signs APKs with jarsigner by default (v1 only), which targetSdk 35+ installs reject.
           # shortcut: pins the runner's preinstalled build-tools 36.0.0 for apksigner/zipalign, bump if the image drops it
           export PATH="$ANDROID_HOME/build-tools/36.0.0:$PATH"
           for format in APK AAB; do
@@ -93,7 +93,7 @@ jobs:
               --signing-type "$signing"
           done
           apk=android/app/build/outputs/apk/release/app-release-signed.apk
-          apksigner verify --min-sdk-version 35 "$apk"
+          apksigner verify --min-sdk-version 36 "$apk"
           zipalign -c 4 "$apk"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

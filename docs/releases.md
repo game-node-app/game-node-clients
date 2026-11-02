@@ -24,6 +24,9 @@ release. Use a new CLI-generated changeset for each PR.
 
 ## Checks and delivery
 
+Mobile builds require Node.js 22+, Java 21, and Android SDK 36. For IDE builds,
+use Android Studio Otter (2025.2.1) or newer. CI uses Node.js 24 and Java 21.
+
 The `Checks` job validates release intent, runs the release regression suite, and
 uses Turbo to lint, type-check, test, and build affected packages and consumers.
 The workflow combines a Git-range filter with explicit selected-app filters, so
