@@ -24,10 +24,11 @@ const config: CapacitorConfig = {
       // Should be the same as StatusBar#backgroundColor!
       backgroundColor: "#1f1f1f",
     },
-  },
-  android: {
-    // Already done by @capawesome/capacitor-android-edge-to-edge-support
-    adjustMarginsForEdgeToEdge: "auto",
+    SystemBars: {
+      style: "DARK",
+      // Insets are handled by @capawesome/capacitor-android-edge-to-edge-support.
+      insetsHandling: "disable",
+    },
   },
 };
 

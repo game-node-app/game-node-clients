@@ -55,7 +55,6 @@ const LiveUpdateListener = () => {
           return;
         const downloaded = await LiveUpdate.getDownloadedBundles();
         if (!downloaded.bundleIds.includes(manifest.bundleId)) {
-          // Android v7.5.2 verifies hex checksums despite the TypeScript docs saying base64.
           await LiveUpdate.downloadBundle(manifest);
         }
         if (!cancelled)
