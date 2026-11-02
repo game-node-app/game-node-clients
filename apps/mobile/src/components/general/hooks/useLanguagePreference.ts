@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { SupportedLanguage } from "@repo/locales";
+import { getInitialLanguage, SupportedLanguage } from "@repo/locales";
 import { Preferences } from "@capacitor/preferences";
 
 const LANGUAGE_PREF_KEY = "gamenode-language";
@@ -10,8 +10,11 @@ type UseLanguagePreferenceResult = [
 ];
 
 export function useLanguagePreference(): UseLanguagePreferenceResult {
-  const [language, setInternalLanguage] = useState<SupportedLanguage>("en");
+  const [language, setInternalLanguage] = useState<SupportedLanguage>(
+    getInitialLanguage,
+  );
 
+  // Async Preferences value covers installs that predate the localStorage mirror.
   useEffect(() => {
     (async () => {
       const languagePreference = await Preferences.get({
