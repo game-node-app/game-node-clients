@@ -22,6 +22,40 @@ const { prepareRelease, assertCurrent } = require("./prepare-release.cjs");
 
 const root = resolve(__dirname, "..");
 
+test("release preparation reuses the checks dependency cache and installs on a miss", () => {
+  const { jobs } = require("yaml").parse(
+    readFileSync(join(root, ".github/workflows/ci.yml"), "utf8"),
+  );
+  const caches = [jobs.checks, jobs.prepare].map(({ steps }) => {
+    const cache = steps.find((step) => step.id === "dependencies");
+    const install = steps.find((step) => step.run?.startsWith("yarn install"));
+    assert.ok(steps.indexOf(cache) < steps.indexOf(install));
+    assert.equal(install.if, "steps.dependencies.outputs.cache-hit != 'true'");
+    assert.match(install.run, /--frozen-lockfile --ignore-scripts/);
+    assert.equal(cache.with["restore-keys"], undefined);
+    for (const input of [
+      "runner.os",
+      "runner.arch",
+      "steps.node.outputs.node-version",
+      "yarn.lock",
+      "package.json",
+      "apps/*/package.json",
+      "packages/*/package.json",
+      ".yarnrc",
+      ".npmrc",
+    ])
+      assert.ok(cache.with.key.includes(input), input);
+    for (const workspace of [
+      "node_modules",
+      "apps/*/node_modules",
+      "packages/*/node_modules",
+    ])
+      assert.ok(cache.with.path.split("\n").includes(workspace), workspace);
+    return cache.with;
+  });
+  assert.deepEqual(caches[0], caches[1]);
+});
+
 test("mobile delivery requires signing and R2 configuration before release reservation", () => {
   const keys = [
     "RELEASE_KEYSTORE",

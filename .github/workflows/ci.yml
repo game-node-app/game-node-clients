@@ -32,10 +32,21 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        id: node
         with:
           node-version: 24
           cache: yarn
+      - name: Restore installed dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        id: dependencies
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}
       - run: yarn install --frozen-lockfile --ignore-scripts
+        if: steps.dependencies.outputs.cache-hit != 'true'
       - name: Validate explicit release decision
         id: plan
         env:
@@ -75,10 +86,21 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        id: node
         with:
           node-version: 24
           cache: yarn
+      - name: Restore installed dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        id: dependencies
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}
       - run: yarn install --frozen-lockfile --ignore-scripts
+        if: steps.dependencies.outputs.cache-hit != 'true'
       - name: Require configuration for every selected target
         env:
           RELEASE_APPS: ${{ needs.checks.outputs.apps }}

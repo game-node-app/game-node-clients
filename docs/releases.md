@@ -44,8 +44,14 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
   remains manual.
 
 Actions are pinned to exact commit SHAs. Dependency installs skip package
-lifecycle scripts; builds and native synchronization run explicitly. Coolify API
-requests refuse redirects, and public health checks never use API-provided URLs.
+lifecycle scripts; builds and native synchronization run explicitly. Checks and
+release preparation reuse installed dependencies on an exact cache match for the
+runner OS, architecture, Node version, lockfile, workspace manifests, and
+package-manager configuration. A miss runs the frozen install. The Yarn download
+cache remains available on misses. Docker installs remain separate for Alpine,
+with per-app BuildKit layer caches; Android delivery installs from its versioned
+release snapshot. Coolify API requests refuse redirects, and public health checks
+never use API-provided URLs.
 
 There are no ungated manual publish workflows. A release can be retried using
 GitHub's rerun controls for its original workflow run. Main runs are serialized
