@@ -6,7 +6,7 @@ import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/navbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
 
-const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/oauth/consent"];
+const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/auth", "/oauth/consent"];
 
 /**
  * https://mantine.dev/core/app-shell/
