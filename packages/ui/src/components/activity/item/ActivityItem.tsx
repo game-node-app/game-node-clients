@@ -15,6 +15,12 @@ import {
   useReview,
   useUserProfile,
 } from "#@/components";
+import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
+import {
+  getSizedImageUrl,
+  ImageSize,
+} from "#@/components/game/util/getSizedImageUrl";
+import { useAppTheme } from "#@/components/theme/useAppTheme";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
@@ -97,6 +103,71 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
     },
   });
 
+  const [theme] = useAppTheme();
+  const gameHref = reviewQuery.data
+    ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
+    : `/game/${gameId}`;
+
+  // Xbox: a console feed row (cover, one-line title, who/what underneath); styled in themes.css
+  if (theme === "xbox") {
+    const isAchievement = activity.type === Activity.type.ACHIEVEMENT_UNLOCKED;
+    const gameName = gameId ? gameQuery.data?.name : undefined;
+    return (
+      <div className={"gn-activity"}>
+        <span className={"gn-activity-cover"}>
+          {isAchievement ? (
+            <AchievementBadge
+              icon={unlockedAchievement?.icon}
+              tier={unlockedTier}
+              size={44}
+            />
+          ) : gameId ? (
+            <img
+              src={
+                getSizedImageUrl(
+                  getCoverUrl(gameQuery.data),
+                  ImageSize.COVER_SMALL_2X,
+                ) ?? "/img/game_placeholder.jpeg"
+              }
+              alt={""}
+              loading={"lazy"}
+            />
+          ) : (
+            <UserAvatar userId={activity.profileUserId} size={44} />
+          )}
+        </span>
+        <div className={"gn-activity-body"}>
+          {gameName ? (
+            <Link href={gameHref} className={"gn-activity-title"}>
+              {gameName}
+            </Link>
+          ) : (
+            <span className={"gn-activity-title"}>{actionText}</span>
+          )}
+          <div className={"gn-activity-meta"}>
+            <UserAvatar userId={activity.profileUserId} size={18} />
+            <Link
+              href={`/profile/${activity.profileUserId}`}
+              className={"gn-activity-user"}
+            >
+              {profileQuery.data?.username}
+            </Link>
+            {gameName && (
+              <span className={"gn-activity-action"}>{actionText}</span>
+            )}
+          </div>
+        </div>
+        {reviewQuery.data && (
+          <GameRating size={"xs"} value={reviewQuery.data.rating} />
+        )}
+        <Group className={"gn-activity-actions"}>
+          {isAchievement && <ActivityItemComments activity={activity} />}
+          <ActivityItemLikes activity={activity} />
+        </Group>
+      </div>
+    );
+  }
+
   return (
     <Box className={"w-full"}>
       <Group
@@ -108,7 +179,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
           <UserAvatar userId={activity.profileUserId} size={"md"} />
           <Stack className={"gap-1"}>
             <Link href={`/profile/${activity.profileUserId}`}>
-              <Text className={"text-xs text-[#808080] line-clamp-2"}>
+              <Text className={"text-xs text-dimmed line-clamp-2"}>
                 {profileQuery.data?.username}
               </Text>
             </Link>
@@ -125,11 +196,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
           </Box>
         ) : (
           <Link
-            href={
-              reviewQuery.data
-                ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
-                : `/game/${gameId}`
-            }
+            href={gameHref}
             className={"flex flex-col w-fit items-center ms-auto"}
           >
             <Text

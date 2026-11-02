@@ -4,6 +4,7 @@ import {
   createTheme,
   DEFAULT_THEME,
   defaultVariantColorsResolver,
+  Drawer,
   mergeMantineTheme,
   parseThemeColor,
   VariantColorsResolver,
@@ -32,12 +33,16 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
 const themeOverride = createTheme({
   fontFamily: "Roboto, Roboto Fallback",
   colors: {
-    brand: colorsTuple("#F15025"),
-    secondary: colorsTuple("#1A1A1A"),
-    tertiary: colorsTuple("#872C13"),
+    brand: colorsTuple("var(--gn-brand)"),
+    secondary: colorsTuple("var(--gn-secondary)"),
+    tertiary: colorsTuple("var(--gn-tertiary)"),
   },
   primaryColor: "brand",
   variantColorResolver,
+  components: {
+    // same frosted backdrop as the Spotlight command center (Mantine's Spotlight default)
+    Drawer: Drawer.extend({ defaultProps: { overlayProps: { blur: 7 } } }),
+  },
 });
 
 export const DEFAULT_MANTINE_THEME = mergeMantineTheme(

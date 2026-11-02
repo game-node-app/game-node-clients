@@ -50,6 +50,7 @@ import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
+import "@repo/ui/themes.css";
 
 /**
  * Includes tailwind styles
@@ -76,6 +77,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
+import { useThemePreference } from "@/components/general/hooks/useThemePreference";
 
 /**
  * dayjs setup
@@ -147,6 +149,7 @@ const App: React.FC = () => {
   );
 
   const [language, onLanguageChange] = useLanguagePreference();
+  useThemePreference();
 
   useEffect(() => {
     // Stale key from the previous auth provider; harmless, but no reason to keep it.
@@ -159,6 +162,7 @@ const App: React.FC = () => {
       if (info.platform === "android" && Number(info.osVersion) >= 14) {
         await EdgeToEdge.enable();
         await EdgeToEdge.setBackgroundColor({
+          // shortcut: fixed color, not themed; tokenize if it looks off in other themes
           color: "#1f1f1f",
         });
       } else {

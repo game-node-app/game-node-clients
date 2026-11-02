@@ -35,7 +35,7 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
   const isScoreOnlyReview = review.content == null;
 
   return (
-    <Group className={"w-full p-2 bg-[#262525] @container"}>
+    <Group className={"w-full p-2 bg-paper-1 @container"}>
       <Group className={"w-full flex-wrap lg:flex-nowrap items-start gap-0"}>
         <Stack
           className={

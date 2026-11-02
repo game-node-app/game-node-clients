@@ -33,7 +33,7 @@ const GameInfoTimeToBeatItem = ({
         <TargetDescriptionElement.Target>
           <Box
             className={
-              "border-[#1F1F1F] border rounded-tl-md rounded-bl-md w-1/2 p-2 "
+              "border-paper-2 border rounded-tl-md rounded-bl-md w-1/2 p-2 "
             }
           >
             <Group className={"gap-1 flex-nowrap w-full justify-center"}>
@@ -52,7 +52,7 @@ const GameInfoTimeToBeatItem = ({
       ) : (
         <Box
           className={cn(
-            "border-[#1F1F1F] border rounded-tr-md rounded-br-md bg-brand w-1/2 p-2",
+            "border-paper-2 border rounded-tr-md rounded-br-md bg-brand w-1/2 p-2",
             {
               "bg-tertiary": isMobilePlatform,
             },

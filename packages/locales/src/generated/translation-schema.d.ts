@@ -66,6 +66,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    clear: string;
   };
   activity: {
     items: {
@@ -95,6 +96,16 @@ export type TranslationSchema = {
     metaDescription: string;
     openInApp: string;
     title: string;
+  };
+  appTheme: {
+    label: string;
+    options: {
+      gamenode: string;
+      playstation: string;
+      xbox: string;
+      switch: string;
+      bigpicture: string;
+    };
   };
   auth: {
     accessDenied: {
@@ -968,6 +979,7 @@ export type TranslationSchema = {
     };
     wrapped: {
       buttons: {
+        download: string;
         generate: string;
       };
       labels: {

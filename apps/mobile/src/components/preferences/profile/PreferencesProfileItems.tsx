@@ -15,8 +15,15 @@ import {
   useI18nContext,
   useTranslation,
 } from "@repo/locales";
-import { LANGUAGE_OPTIONS, Modal, ProfileEditForm } from "@repo/ui";
-import { IconLanguage, IconUser } from "@tabler/icons-react";
+import {
+  APP_THEMES,
+  AppTheme,
+  LANGUAGE_OPTIONS,
+  Modal,
+  ProfileEditForm,
+  useAppTheme,
+} from "@repo/ui";
+import { IconLanguage, IconPalette, IconUser } from "@tabler/icons-react";
 
 const PreferencesProfileItems = () => {
   const { t } = useTranslation();
@@ -24,6 +31,7 @@ const PreferencesProfileItems = () => {
   useIonRouter();
   // Must go through the provider: a separate preference hook instance never reaches it.
   const { language, setLanguage } = useI18nContext();
+  const [theme, setTheme] = useAppTheme();
 
   const [editModalOpened, editModalUtils] = useDisclosure();
 
@@ -60,6 +68,22 @@ const PreferencesProfileItems = () => {
             {LANGUAGE_OPTIONS.map((option) => (
               <IonSelectOption key={option.value} value={option.value}>
                 {option.label}
+              </IonSelectOption>
+            ))}
+          </IonSelect>
+        </Group>
+      </IonItem>
+      <IonItem button>
+        <Group className={"gap-2"}>
+          <IconPalette />
+          <IonSelect
+            label={t("appTheme.label")}
+            value={theme}
+            onIonChange={(evt) => setTheme(evt.detail.value as AppTheme)}
+          >
+            {APP_THEMES.map((option) => (
+              <IonSelectOption key={option} value={option}>
+                {t(`appTheme.options.${option}`)}
               </IonSelectOption>
             ))}
           </IonSelect>

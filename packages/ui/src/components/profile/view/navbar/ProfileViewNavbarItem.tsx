@@ -33,13 +33,13 @@ const DEFAULT_ProfileViewNavbarItem = ({
       >
         <Stack
           className={
-            "items-center gap-1 text-[#868686] data-[active=true]:text-white"
+            "items-center gap-1 text-dimmed data-[active=true]:text-white"
           }
         >
           {others.icon != undefined && (
             <others.icon
               className={
-                "font-bold text-[#868686] data-[active=true]:text-white"
+                "font-bold text-dimmed data-[active=true]:text-white"
               }
               size={"2rem"}
               data-active={activeTab === value ? "true" : "false"}
@@ -48,7 +48,7 @@ const DEFAULT_ProfileViewNavbarItem = ({
           {count != undefined && (
             <Text
               className={
-                "font-bold text-lg text-[#868686] data-[active=true]:text-white"
+                "font-bold text-lg text-dimmed data-[active=true]:text-white"
               }
               data-active={activeTab === value ? "true" : "false"}
             >
@@ -56,7 +56,7 @@ const DEFAULT_ProfileViewNavbarItem = ({
             </Text>
           )}
           <Text
-            className={"font-bold text-[#868686] data-[active=true]:text-white"}
+            className={"font-bold text-dimmed data-[active=true]:text-white"}
             data-active={activeTab === value ? "true" : "false"}
           >
             {label}

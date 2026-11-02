@@ -61,7 +61,8 @@
     "viewMore": "View More",
     "yes": "Yes",
     "use": "Use",
-    "toOpenDialogAnytime": "to open this dialog anytime"
+    "toOpenDialogAnytime": "to open this dialog anytime",
+    "clear": "Clear"
   },
   "activity": {
     "items": {
@@ -91,6 +92,16 @@
     "metaDescription": "GameNode is the ideal platform to manage your game collection virtually.",
     "openInApp": "Open in app",
     "title": "GameNode"
+  },
+  "appTheme": {
+    "label": "Theme",
+    "options": {
+      "gamenode": "GameNode",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "bigpicture": "Steam Big Picture"
+    }
   },
   "auth": {
     "accessDenied": {
@@ -964,6 +975,7 @@
     },
     "wrapped": {
       "buttons": {
+        "download": "Download",
         "generate": "Generate"
       },
       "labels": {

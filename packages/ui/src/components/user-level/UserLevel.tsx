@@ -16,7 +16,7 @@ const UserLevel = ({ userId, ...others }: Props) => {
 
   return (
     <Text
-      className={clsx("text-[#AAA5A5] font-semibold", others.className)}
+      className={clsx("text-dimmed font-semibold", others.className)}
       {...others}
     >
       Level {userLevel?.currentLevel ?? 1}

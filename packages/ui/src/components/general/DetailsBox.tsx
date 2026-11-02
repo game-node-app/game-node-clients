@@ -40,7 +40,7 @@ const DEFAULT_DetailsBox = ({
           {
             "bg-paper-3": withBackground,
             "p-3": withPadding,
-            "border-2 border-[#1F1F1F] rounded-xs": withBorder,
+            "border-2 border-paper-2 rounded-xs": withBorder,
           },
           stackProps?.className,
         )}
@@ -50,7 +50,9 @@ const DEFAULT_DetailsBox = ({
             {leftSide}
             <Text
               className={
-                withDimmedTitle ? "text-dimmed text-sm" : "font-bold text-md"
+                withDimmedTitle
+                  ? "text-dimmed text-sm"
+                  : "gn-section-title font-bold text-md"
               }
             >
               {title}

@@ -7,6 +7,7 @@ import {
   Group,
   Image,
   ImageProps,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
@@ -26,39 +27,61 @@ const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
     <Card
       shadow="sm"
       radius="md"
-      className="hover:shadow-xl transition-shadow duration-200 bg-paper w-full h-full"
+      padding={"md"}
+      className="gn-blog-card group bg-paper w-full h-full transition-shadow duration-200 hover:shadow-xl"
     >
-      <Card.Section>
+      <Card.Section className={"overflow-hidden"}>
         <AspectRatio ratio={37 / 28}>
-          <Image src={imageUrl} alt={post.cover.alt} />
+          <Image
+            src={imageUrl}
+            alt={post.cover.alt}
+            className={
+              "transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+            }
+          />
         </AspectRatio>
       </Card.Section>
-      <Card.Section className={"px-3 my-3"}>
-        <Link href={`${blogRoutePrefix}/post/${post.id}`} className={"w-full"}>
-          <Title lineClamp={2} size={"h3"} className={"text-center text-white"}>
+      <Stack className={"gap-1.5 mt-md mb-md"}>
+        {/* stretched link: its ::after covers the card, so the whole card opens the post */}
+        <Link
+          href={`${blogRoutePrefix}/post/${post.id}`}
+          className={
+            "gn-blog-card-link after:absolute after:inset-0 after:content-['']"
+          }
+        >
+          <Title
+            order={3}
+            size={"h4"}
+            fw={600}
+            lh={1.3}
+            c={"white"}
+            lineClamp={2}
+          >
             {post.title}
           </Title>
         </Link>
-      </Card.Section>
-      <Text lineClamp={3}>{post.excerpt}</Text>
-      <Card.Section
-        className={"flex justify-between flex-nowrap gap-5 px-3 my-2 mt-auto"}
-      >
-        <Box className={"max-w-40 lg:max-w-48"}>
+        <Text size={"sm"} c={"dimmed"} lineClamp={3}>
+          {post.excerpt}
+        </Text>
+      </Stack>
+      <Group className={"mt-auto justify-between flex-nowrap gap-5"}>
+        {/* above the stretched link, so the author still opens their profile */}
+        <Box className={"relative z-[1] max-w-40 lg:max-w-48"}>
           <UserAvatarGroup
             avatarProps={{
               size: "sm",
             }}
             groupProps={{
-              gap: 3,
+              gap: 6,
             }}
+            textProps={{ size: "sm" }}
             userId={post.profileUserId}
           />
         </Box>
-        <Group className={"relative items-baseline"}>
-          <Text>{dayjs(post.publishedAt).format("DD/MM/YYYY")}</Text>
-        </Group>
-      </Card.Section>
+        <Text size={"sm"} c={"dimmed"} className={"tabular-nums"}>
+          {dayjs(post.publishedAt).format("DD/MM/YYYY")}
+        </Text>
+      </Group>
     </Card>
   );
 };

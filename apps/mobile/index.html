@@ -22,6 +22,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Ionic App" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- Applies the stored app theme before first paint; keep in sync with APP_THEME_SCRIPT in @repo/ui. -->
+    <script>
+      try {
+        var t = localStorage.getItem("gamenode-theme");
+        if (["playstation", "xbox", "switch", "bigpicture"].indexOf(t) > -1)
+          document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root" class="app-mobile"></div>

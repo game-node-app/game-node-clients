@@ -63,7 +63,7 @@ const DEFAULT_CollectionThumbnailCard = ({
   }, [collectionId, gamesQuery.data]);
 
   return (
-    <Card shadow="sm" padding="md" radius="md" bg={"#161616"}>
+    <Card shadow="sm" padding="md" radius="md" bg={"var(--gn-paper-0)"}>
       <Card.Section>
         <Carousel
           plugins={[autoplay.current]}

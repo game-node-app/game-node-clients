@@ -12,13 +12,13 @@
 
 .input {
     &[data-variant='default']{
-        @apply border-0 outline-1 outline-[#424242]
+        @apply border-0 outline-1 outline-[color:var(--mantine-color-dark-4)]
     }
 }
 
 .button {
     &[data-variant='default']{
-        @apply bg-secondary border border-[#373737] rounded-xs
+        @apply bg-secondary border border-border rounded-xs
     }
 }
 

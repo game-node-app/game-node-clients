@@ -61,7 +61,8 @@
     "viewMore": "Ver Mais",
     "yes": "Sim",
     "use": "Use",
-    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento"
+    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento",
+    "clear": "Limpar"
   },
   "activity": {
     "items": {
@@ -91,6 +92,16 @@
     "metaDescription": "GameNode é a plataforma ideal para gerenciar sua coleção de jogos virtualmente.",
     "openInApp": "Abrir no app",
     "title": "GameNode"
+  },
+  "appTheme": {
+    "label": "Tema",
+    "options": {
+      "gamenode": "GameNode",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "bigpicture": "Steam Big Picture"
+    }
   },
   "auth": {
     "accessDenied": {
@@ -964,6 +975,7 @@
     },
     "wrapped": {
       "buttons": {
+        "download": "Baixar imagem",
         "generate": "Gerar"
       },
       "labels": {

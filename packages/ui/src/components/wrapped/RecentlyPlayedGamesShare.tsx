@@ -1,6 +1,4 @@
 import {
-  CenteredLoading,
-  DetailsBox,
   GameFigureImage,
   GameNodeLogo,
   ImageSize,
@@ -15,30 +13,35 @@ import { createErrorNotification, getCapitalizedText, Modal } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ActionIcon,
+  Alert,
   Box,
   Button,
   Chip,
   ComboboxItem,
-  Flex,
   Group,
   MultiSelect,
   Select,
   SimpleGrid,
+  Skeleton,
   Stack,
   Text,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconInfoCircle } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob } from "html-to-image";
 import { useMemo, useRef, useState } from "react";
+import { useElementSize, useMergedRef, useViewportSize } from "@mantine/hooks";
 import { useForm } from "react-hook-form";
 import { match } from "ts-pattern";
 import { z } from "zod";
 import period = FindAllPlaytimeFiltersDto.period;
 
 const CONTAINER_ID = "wrapped-share-preview-container";
+const CARD_WIDTH = 480;
+// modal chrome around the preview on desktop: 5dvh margins, header, label and stage padding
+const DESKTOP_CHROME_HEIGHT = 150;
 
 const GRID_OPTIONS = [
   "2x3",
@@ -271,72 +274,117 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
     withTotalPlaytime,
   ]);
 
+  const slotCount = gridStyle.cols * gridStyle.rows;
+  const hasItems = (renderedItems?.length ?? 0) > 0;
+
+  // the preview is scaled down to fit (no modal scroll); the exported card stays at CARD_WIDTH
+  const stage = useElementSize();
+  const card = useElementSize();
+  const cardRef = useMergedRef(resultElementRef, card.ref);
+  const { height: viewportHeight } = useViewportSize();
+  const maxCardHeight = onMobile
+    ? Infinity
+    : viewportHeight * 0.9 - DESKTOP_CHROME_HEIGHT;
+  const scale =
+    stage.width && card.height
+      ? Math.min(1, stage.width / CARD_WIDTH, maxCardHeight / card.height)
+      : 1;
+
   return (
     <Modal
       opened={opened}
       onClose={onClose}
       title={t("mobile.wrapped.title")}
-      size={"lg"}
+      size={1000}
       fullScreen={onMobile}
       classNames={{
-        body: "flex flex-col min-h-[92vh] lg:min-h-[30vh]",
+        content: "gn-wrapped",
+        body: "flex flex-col min-h-[92vh] lg:min-h-0",
       }}
     >
-      <Stack className={"flex-grow mb-4"}>
-        {playtimeQuery.data?.pagination.totalItems === 0 && (
-          <Text c={"red"}>
-            {t("mobile.wrapped.messages.noPlaytime")}{" "}
-            <TextLink href={"/preferences/connections"}>
-              {t("mobile.importer.clickHere")}
-            </TextLink>{" "}
+      <Box className={"gn-wrapped-layout flex-grow"}>
+        <Stack className={"gap-xs min-w-0"}>
+          <Text className={"text-sm font-semibold"}>
+            {t("awards.labels.preview")}
           </Text>
-        )}
-
-        {isLoading && <CenteredLoading />}
-        <DetailsBox
-          enabled={!isLoading && gamesQuery.data != undefined}
-          title={t("awards.labels.preview")}
-        >
-          <Box className={"overflow-auto"}>
-            <Stack
-              className={
-                "bg-paper gap-xs min-w-[480x] w-[480px] pointer-events-none"
-              }
-              id={CONTAINER_ID}
-              ref={resultElementRef}
+          <Box ref={stage.ref} className={"gn-wrapped-stage"}>
+            <Box
+              style={{
+                width: CARD_WIDTH * scale,
+                height: card.height * scale || undefined,
+              }}
             >
-              <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
-                {renderedItems}
-              </SimpleGrid>
+              {/* scaled here, not on the card: the card is what gets exported */}
+              <Box
+                style={{ transform: `scale(${scale})`, transformOrigin: "0 0" }}
+              >
+                <Stack
+                  className={"bg-paper gap-xs w-[480px] pointer-events-none"}
+                  id={CONTAINER_ID}
+                  ref={cardRef}
+                >
+                  <SimpleGrid cols={gridStyle.cols} className={"gap-0 p-4"}>
+                    {hasItems
+                      ? renderedItems
+                      : Array.from({ length: slotCount }, (_, i) =>
+                          isLoading ? (
+                            <Skeleton
+                              key={i}
+                              radius={0}
+                              className={"gn-wrapped-slot"}
+                            />
+                          ) : (
+                            <Box key={i} className={"gn-wrapped-slot"} />
+                          ),
+                        )}
+                  </SimpleGrid>
 
-              <SimpleGrid cols={3} className={"items-center px-2 mb-2 mt-auto"}>
-                <UserAvatarGroup
-                  userId={userId}
-                  avatarProps={{
-                    size: "md",
-                  }}
-                  groupProps={{
-                    wrap: "nowrap",
-                    gap: "xs",
-                    className: "max-w-36",
-                  }}
-                  textProps={{
-                    lineClamp: 1,
-                    className: "text-sm text-start",
-                  }}
-                />
+                  <SimpleGrid
+                    cols={3}
+                    className={"items-center px-2 mb-2 mt-auto"}
+                  >
+                    <UserAvatarGroup
+                      userId={userId}
+                      avatarProps={{
+                        size: "md",
+                      }}
+                      groupProps={{
+                        wrap: "nowrap",
+                        gap: "xs",
+                        className: "max-w-36",
+                      }}
+                      textProps={{
+                        lineClamp: 1,
+                        className: "text-sm text-start",
+                      }}
+                    />
 
-                <Text className={"text-sm text-center"}>{periodText}</Text>
-                <Box className={"flex justify-end w-full"}>
-                  <GameNodeLogo className={"w-20"} />
-                </Box>
-              </SimpleGrid>
-            </Stack>
+                    <Text className={"text-sm text-center"}>{periodText}</Text>
+                    <Box className={"flex justify-end w-full"}>
+                      <GameNodeLogo className={"w-20"} />
+                    </Box>
+                  </SimpleGrid>
+                </Stack>
+              </Box>
+            </Box>
           </Box>
-        </DetailsBox>
+        </Stack>
 
-        <Stack className={"h-full"}>
-          <Group className={"mt-3"}>
+        <Stack className={"gap-md min-w-0"}>
+          {playtimeQuery.data?.pagination.totalItems === 0 && (
+            <Alert
+              variant={"light"}
+              color={"gray"}
+              icon={<IconInfoCircle size={18} />}
+            >
+              {t("mobile.wrapped.messages.noPlaytime")}{" "}
+              <TextLink href={"/preferences/connections"}>
+                {t("mobile.importer.clickHere")}
+              </TextLink>
+            </Alert>
+          )}
+
+          <SimpleGrid cols={{ base: 1, xs: 2 }} className={"gap-sm"}>
             <Select
               label={t("mobile.wrapped.labels.period")}
               data={PERIOD_OPTIONS}
@@ -350,24 +398,22 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
               label={t("mobile.wrapped.labels.gridStyle")}
               data={GRID_OPTIONS}
               value={watch("grid")}
+              allowDeselect={false}
               onChange={(v) => onGridChange(v as never)}
             />
-          </Group>
-          <Group className={"my-3"}>
-            <MultiSelect
-              multiple
-              label={t("mobile.wrapped.labels.excludedGames")}
-              description={t("mobile.wrapped.labels.excludedGamesHint")}
-              data={excludedGamesOptions}
-              value={excludedGameIds.map((id) => `${id}`)}
-              onChange={(ids) => {
-                const convertedValue = ids.map((id) => Number.parseInt(id));
-                setValue("excludedGameIds", convertedValue);
-              }}
-              className={"min-w-60"}
-            />
-          </Group>
-          <Flex className={"flex-col lg:flex-row gap-4"}>
+          </SimpleGrid>
+          <MultiSelect
+            label={t("mobile.wrapped.labels.excludedGames")}
+            description={t("mobile.wrapped.labels.excludedGamesHint")}
+            data={excludedGamesOptions}
+            value={excludedGameIds.map((id) => `${id}`)}
+            onChange={(ids) => {
+              const convertedValue = ids.map((id) => Number.parseInt(id));
+              setValue("excludedGameIds", convertedValue);
+            }}
+            disabled={excludedGamesOptions.length === 0}
+          />
+          <Group className={"gap-xs"}>
             <Chip
               checked={withRecentPlaytime}
               onChange={(v) => setValue("withRecentPlaytime", v)}
@@ -386,29 +432,34 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
             >
               {t("mobile.wrapped.labels.withPlatform")}
             </Chip>
-          </Flex>
-        </Stack>
-      </Stack>
+          </Group>
 
-      <Group className="w-full gap-xs mt-auto lg:mt-6">
-        <Button
-          onClick={() => shareMutation.mutate(false)}
-          loading={shareMutation.isPending}
-          type={"button"}
-          className={"flex-grow"}
-        >
-          {t("mobile.wrapped.buttons.generate")}
-        </Button>
-        <ActionIcon
-          loading={shareMutation.isPending}
-          onClick={() => {
-            shareMutation.mutate(true);
-          }}
-          size={"lg"}
-        >
-          <IconDownload></IconDownload>
-        </ActionIcon>
-      </Group>
+          <Group className="w-full gap-xs mt-auto pt-2 flex-nowrap">
+            <Button
+              onClick={() => shareMutation.mutate(false)}
+              loading={shareMutation.isPending}
+              disabled={!hasItems}
+              type={"button"}
+              size={"md"}
+              className={"flex-grow"}
+            >
+              {t("mobile.wrapped.buttons.generate")}
+            </Button>
+            <ActionIcon
+              loading={shareMutation.isPending}
+              disabled={!hasItems}
+              onClick={() => {
+                shareMutation.mutate(true);
+              }}
+              size={42}
+              variant={"default"}
+              aria-label={t("mobile.wrapped.buttons.download")}
+            >
+              <IconDownload size={20} />
+            </ActionIcon>
+          </Group>
+        </Stack>
+      </Box>
     </Modal>
   );
 };

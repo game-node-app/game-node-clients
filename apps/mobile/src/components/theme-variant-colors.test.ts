@@ -10,9 +10,10 @@ const resolve = (color: string) =>
 
 describe("light variant colors", () => {
   it("tints flat brand palette instead of orange-on-brown", () => {
+    // brand is a theme token (themes.css), so the tint must stay a CSS expression
     expect(resolve("brand")).toMatchObject({
-      background: "rgba(241, 80, 37, 0.15)",
-      color: "#F15025",
+      background: "color-mix(in srgb, var(--gn-brand), transparent 85%)",
+      color: "var(--gn-brand)",
     });
   });
 

@@ -29,6 +29,7 @@ import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
+import "@repo/ui/themes.css";
 
 /**
  * Includes tailwind styles
@@ -57,7 +58,7 @@ import {
   UIProvider,
 } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
-import { Roboto } from "next/font/google";
+import { Inter, Nunito, Roboto } from "next/font/google";
 import { useCallback, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -86,6 +87,10 @@ const roboto = Roboto({
   style: ["normal", "italic"],
   weight: ["300", "500", "700"],
 });
+
+// Only used by some app themes (themes.css), so they are not preloaded.
+const inter = Inter({ subsets: ["latin"], preload: false });
+const nunito = Nunito({ subsets: ["latin"], preload: false });
 
 /**
  * dayjs setup
@@ -240,6 +245,7 @@ export default function WebApp({
                   content="GameNode is the ideal platform to manage your game collection virtually."
                 />
                 <meta property="twitter:image" content="/img/og_image.png" />
+                <style>{`:root{--gn-font-inter:${inter.style.fontFamily};--gn-font-nunito:${nunito.style.fontFamily}}`}</style>
               </Head>
               <NotificationsManager />
               <OpenInAppDialog />

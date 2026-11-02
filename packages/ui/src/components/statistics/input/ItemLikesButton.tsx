@@ -28,7 +28,7 @@ const ItemLikesButton = ({ sourceType, sourceId, ...others }: Props) => {
       }}
       variant={"subtle"}
       size={"xl"}
-      color={isLiked ? "brand.4" : "white"}
+      color={isLiked ? "brand" : "white"}
       data-disabled={!userId}
       {...others}
     >

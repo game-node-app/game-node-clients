@@ -32,7 +32,7 @@ const AchievementItem = ({ achievement, progress }: Props) => {
   return (
     <Paper
       className={
-        "border-[#282828] bg-paper data-[obtained=true]:bg-[#222222] border-2 rounded-md"
+        "border-border bg-paper data-[obtained=true]:bg-paper-6 border-2 rounded-md"
       }
       w={"100%"}
       withBorder

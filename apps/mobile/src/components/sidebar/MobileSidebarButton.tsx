@@ -41,14 +41,14 @@ const MobileSidebarButton = ({
       <IonRippleEffect />
       <Group
         className={cn(
-          "w-full bg-[#1A1A1A] h-14 px-8 py-4 border-paper-4 border-b",
+          "w-full bg-paper-8 h-14 px-8 py-4 border-paper-4 border-b",
           others.className,
         )}
       >
         <Icon
           size={24}
           {...iconProps}
-          className={cn("text-[#E3E3E3]", iconProps?.className)}
+          className={cn("text-[var(--gn-text)]", iconProps?.className)}
         />
         <Text span {...textProps}>
           {title}

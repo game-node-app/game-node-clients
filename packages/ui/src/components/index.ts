@@ -28,6 +28,7 @@ export * from "./recommendation/index";
 export * from "./report/index";
 export * from "./review/index";
 export * from "./statistics/index";
+export * from "./theme/index";
 export * from "./user-level/index";
 export * from "./wrapped/index";
 

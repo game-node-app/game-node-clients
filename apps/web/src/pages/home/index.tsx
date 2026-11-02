@@ -4,6 +4,8 @@ import {
   BackToTopButton,
   buildGameCategoryFilters,
   CenteredErrorMessage,
+  ConsoleHome,
+  ConsoleReleases,
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
@@ -19,6 +21,7 @@ import {
   RecommendationCarousel,
   TrendingGamesList,
   TrendingReviewCarousel,
+  useAppTheme,
   useSearchGames,
   useUrlState,
   useUserId,
@@ -35,6 +38,8 @@ import type = Activity.type;
 const HomePage = () => {
   const { t } = useTranslation();
   const userId = useUserId();
+  const [theme] = useAppTheme();
+  const isConsole = theme !== "gamenode";
 
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "search-game-view-layout",
@@ -78,6 +83,7 @@ const HomePage = () => {
   return (
     <Stack mih={"100%"} pos={"relative"} className="mt-12 mb-8">
       <BackToTopButton />
+      {isConsole && <ConsoleHome />}
       <Stack className={"w-full items-center gap-xs"}>
         <GameView layout={layout} cols={{ base: 4, md: 6, lg: 8 }}>
           <GameSearchBar
@@ -121,9 +127,13 @@ const HomePage = () => {
             mt={"1rem"}
             gap={40}
           >
-            <TrendingGamesList />
-            {userId && <RecommendationCarousel criteria="played" />}
-            <TrendingReviewCarousel />
+            {/* console themes show these as ConsoleHome rows */}
+            {!isConsole && <TrendingGamesList />}
+            {!isConsole && userId && (
+              <RecommendationCarousel criteria="played" />
+            )}
+            {/* console themes show these as ConsoleReviewRow */}
+            {!isConsole && <TrendingReviewCarousel />}
             <DynamicAwardsOverview />
             <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
@@ -135,14 +145,18 @@ const HomePage = () => {
                 <RecentActivityList limit={10} type={type.REVIEW} />
               </DetailsCard>
             </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-              <GameCollectionTypeView
-                collectionType={collectionType.UPCOMING}
-              />
-              <GameCollectionTypeView
-                collectionType={collectionType.RECENTLY_RELEASED}
-              />
-            </SimpleGrid>
+            {theme === "xbox" ? (
+              <ConsoleReleases />
+            ) : (
+              <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
+                <GameCollectionTypeView
+                  collectionType={collectionType.UPCOMING}
+                />
+                <GameCollectionTypeView
+                  collectionType={collectionType.RECENTLY_RELEASED}
+                />
+              </SimpleGrid>
+            )}
           </Stack>
         )}
       </Stack>

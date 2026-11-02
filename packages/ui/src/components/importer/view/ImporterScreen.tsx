@@ -430,7 +430,7 @@ const ImporterScreen = ({ source }: Props) => {
   return (
     <Flex justify={"center"} p={0} wrap={"wrap"}>
       <Box className={"w-full flex flex-col p-4"}>
-        <Group className={"w-full border-[#302D2D] border-2 py-2 px-4"}>
+        <Group className={"w-full border-border border-2 py-2 px-4"}>
           <Group className={"w-full lg:w-6/12 flex-nowrap"}>
             <Image src={getServerStoredIcon(source)} w={48} h={48} />
             <Stack gap={4}>
@@ -579,7 +579,7 @@ const ImporterScreen = ({ source }: Props) => {
             role="region"
             aria-label={t("importer.selection.actionsAriaLabel")}
             className={
-              "sticky bottom-0 z-10 w-full bg-[#1A1A1A] border-t border-[#302D2D] p-3 shadow-lg pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]"
+              "sticky bottom-0 z-10 w-full bg-paper-8 border-t border-border p-3 shadow-lg pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]"
             }
           >
             <Group justify="space-between" align="center" wrap="wrap" gap="sm">

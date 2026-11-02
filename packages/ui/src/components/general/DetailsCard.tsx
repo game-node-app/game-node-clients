@@ -21,11 +21,14 @@ const DetailsCard = ({
 }: PropsWithChildren<DetailsCardProps>) => {
   return (
     <Stack
-      className={cn("w-full gap-2 h-fit", {
+      className={cn("gn-details-card w-full gap-2 h-fit", {
         "py-2 px-4 bg-paper-3 rounded-md": variant === "card",
       })}
     >
-      <Title order={5} className={"font-bold text-xs text-dimmed"}>
+      <Title
+        order={5}
+        className={"gn-details-card-title font-bold text-xs text-dimmed"}
+      >
         {title}
       </Title>
       {children}

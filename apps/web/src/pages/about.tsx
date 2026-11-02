@@ -64,7 +64,7 @@ const AboutPage = () => {
 
       <Box
         className={
-          "flex bg-[#171717] flex-col sm:flex-row gap-0 sm:gap-32 px-4 sm:px-60 pt-20 pb-20"
+          "flex bg-paper-0 flex-col sm:flex-row gap-0 sm:gap-32 px-4 sm:px-60 pt-20 pb-20"
         }
       >
         <div className={"block"}>
@@ -135,7 +135,7 @@ const AboutPage = () => {
               <button disabled={true} className={"min-w-[200px]"}>
                 <p
                   className={
-                    "bg-[#171717] p-2 rounded-[8px] gap-2 border-2 border-white flex justify-center"
+                    "bg-paper-0 p-2 rounded-[8px] gap-2 border-2 border-white flex justify-center"
                   }
                 >
                   <img
@@ -157,7 +157,7 @@ const AboutPage = () => {
 
       <Box
         className={
-          "flex flex-col justify-center items-center py-32 gap-4 bg-[#101010]"
+          "flex flex-col justify-center items-center py-32 gap-4 bg-paper-7"
         }
         style={{ background: "url(/img/about_us/coffee.gif) left" }}
       >
@@ -186,7 +186,7 @@ const AboutPage = () => {
       </Box>
 
       <footer>
-        <Paper className="bg-[#191919] h-20">
+        <Paper className="bg-paper-3 h-20">
           <Box className="h-full flex justify-between items-center lg:px-20">
             <img
               src="/img/main-logo.png"

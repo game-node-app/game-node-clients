@@ -16,7 +16,6 @@ import {
   useInfiniteSearchGames,
   useUrlState,
 } from "@repo/ui";
-import { IconSearch } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 const GameSearchPage = () => {
@@ -66,8 +65,6 @@ const GameSearchPage = () => {
           <FocusTrap>
             <GameSearchBar
               onChange={(query) => setSearchParams({ query })}
-              withButton={false}
-              leftSection={<IconSearch size={21} />}
             />
           </FocusTrap>
           <GameSearchViewActions

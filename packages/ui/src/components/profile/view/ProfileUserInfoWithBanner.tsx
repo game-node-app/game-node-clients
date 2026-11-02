@@ -60,7 +60,7 @@ const ProfileUserInfoWithBanner = ({
       >
         <Stack
           className={
-            "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-[#151515]"
+            "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-paper-0"
           }
         >
           <Group
@@ -74,7 +74,7 @@ const ProfileUserInfoWithBanner = ({
               <Box className={"w-fit h-8 mobile:h-3 mobile:ps-2"}>
                 <Box className={"relative w-fit h-fit -translate-y-3/4"}>
                   <UserAvatar
-                    className={"relative border-[#161616] border-4"}
+                    className={"relative border-paper-0 border-4"}
                     userId={userId}
                     size={onMobilePlatform ? "8rem" : "10rem"}
                   />

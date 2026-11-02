@@ -38,6 +38,8 @@ import "@mantine/dates/styles.css";
 import "@mantine/dropzone/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/tiptap/styles.css";
+// Admin always uses the default theme; tailwind/mantine colors read its tokens.
+import "@repo/ui/themes.css";
 import "mantine-react-table/styles.css";
 
 /**

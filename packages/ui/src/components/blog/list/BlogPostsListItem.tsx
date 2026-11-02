@@ -13,7 +13,7 @@ const BlogPostsListItem = ({ post }: Props) => {
 
   return (
     <Group
-      className={"w-full flex-nowrap rounded-lg border-[#222222] border-2"}
+      className={"w-full flex-nowrap rounded-lg border-paper-6 border-2"}
     >
       <Link
         href={`/blog/post/${post.id}`}

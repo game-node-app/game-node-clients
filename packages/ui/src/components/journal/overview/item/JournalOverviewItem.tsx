@@ -44,12 +44,12 @@ const JournalOverviewItem = ({ item, targetDay }: Props) => {
   return (
     <Group
       className={
-        "w-full flex-nowrap items-center bg-[#212121] border-[#2B2A2A] rounded-md border p-3"
+        "w-full flex-nowrap items-center bg-paper-6 border-border rounded-md border p-3"
       }
     >
       <Group className={"flex-nowrap h-full"}>
         <Center className={"w-4 lg:w-6"}>
-          <Text className={"text-lg text-[#A2A2A2] font-bold"}>
+          <Text className={"text-lg text-dimmed font-bold"}>
             {targetDay}
           </Text>
         </Center>

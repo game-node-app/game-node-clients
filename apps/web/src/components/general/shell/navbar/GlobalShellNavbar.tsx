@@ -1,10 +1,15 @@
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu";
 import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { Center, Divider, Indicator, Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import { Center, Divider, Flex, Indicator, Tooltip, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
-import { cn, RecentlyPlayedGamesShare, useUserId } from "@repo/ui";
+import {
+  cn,
+  RecentlyPlayedGamesShare,
+  ThemeSwitcherMenu,
+  useUserId,
+} from "@repo/ui";
 import {
   IconBolt,
   IconRobot,
@@ -31,13 +36,19 @@ export interface NavbarItem {
   isNew?: boolean;
 }
 
+const NAVBAR_ITEM_CLASSNAME =
+  "w-full hover:bg-paper-8 hover:opacity-90 data-[active=true]:bg-paper-8 h-8 rounded-md flex items-center justify-center gap-1";
+
 interface IGlobalShellNavbarProps extends BaseModalChildrenProps {
   onOpen: () => void;
   isOpen: boolean;
+  /** Console app themes render the navbar as a row inside the header. */
+  horizontal?: boolean;
 }
 
 export default function GlobalShellNavbar({
   onClose,
+  horizontal = false,
 }: IGlobalShellNavbarProps) {
   const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   useUserId();
@@ -93,9 +104,17 @@ export default function GlobalShellNavbar({
     [pathname]
   );
 
+  const itemClassName = cn(NAVBAR_ITEM_CLASSNAME, horizontal && "w-9 shrink-0");
+
   return (
-    <Stack
-      className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative h-full")}
+    <Flex
+      direction={horizontal ? "row" : "column"}
+      className={cn(
+        "gap-4 items-center relative h-full",
+        horizontal
+          ? "min-w-0 overflow-x-auto px-2"
+          : "pt-4 px-2 bg-paper-7",
+      )}
     >
       <RecentlyPlayedGamesShare
         opened={wrappedOpened}
@@ -111,14 +130,12 @@ export default function GlobalShellNavbar({
           await navigator.share(toShare);
         }}
       />
-      <GlobalShellNavbarCollectionsMenu />
+      <GlobalShellNavbarCollectionsMenu asAside={horizontal} />
       {links.map((link) => (
         <>
           <Tooltip label={link.label}>
             <UnstyledButton
-              className={
-                "w-full hover:bg-paper-8 hover:opacity-90 data-[active=true]:bg-paper-8 h-8 rounded-md flex items-center justify-center gap-1"
-              }
+              className={itemClassName}
               onClick={onClose}
               data-active={isActive(link.href) ? "true" : "false"}
             >
@@ -134,12 +151,24 @@ export default function GlobalShellNavbar({
             </UnstyledButton>
           </Tooltip>
 
-          {link.withDivider && <Divider className={"w-full"} />}
+          {link.withDivider && (
+            <Divider
+              orientation={horizontal ? "vertical" : "horizontal"}
+              className={horizontal ? "h-6 self-center" : "w-full"}
+            />
+          )}
         </>
       ))}
-      <Center className={"w-full mt-auto mb-2"}>
-        <GlobalShellNavbarUserMenu />
-      </Center>
-    </Stack>
+      <ThemeSwitcherMenu
+        className={itemClassName}
+        position={horizontal ? "bottom" : "right-start"}
+      />
+      {/* the console header shows the user menu on its left instead */}
+      {!horizontal && (
+        <Center className={"w-full mt-auto mb-2"}>
+          <GlobalShellNavbarUserMenu />
+        </Center>
+      )}
+    </Flex>
   );
 }
