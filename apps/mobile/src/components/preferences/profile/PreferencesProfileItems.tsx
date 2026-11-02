@@ -1,5 +1,4 @@
 import { useUserId } from "@repo/ui";
-import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
 import {
   IonItem,
   IonItemDivider,
@@ -11,7 +10,11 @@ import {
 } from "@ionic/react";
 import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { SupportedLanguage, useTranslation } from "@repo/locales";
+import {
+  SupportedLanguage,
+  useI18nContext,
+  useTranslation,
+} from "@repo/locales";
 import { LANGUAGE_OPTIONS, Modal, ProfileEditForm } from "@repo/ui";
 import { IconLanguage, IconUser } from "@tabler/icons-react";
 
@@ -19,7 +22,8 @@ const PreferencesProfileItems = () => {
   const { t } = useTranslation();
   const userId = useUserId();
   useIonRouter();
-  const [language, onLanguageChange] = useLanguagePreference();
+  // Must go through the provider: a separate preference hook instance never reaches it.
+  const { language, setLanguage } = useI18nContext();
 
   const [editModalOpened, editModalUtils] = useDisclosure();
 
@@ -50,8 +54,7 @@ const PreferencesProfileItems = () => {
             label={t("mobile.preferences.setAppLanguage")}
             value={language}
             onIonChange={(evt) => {
-              console.log("Language changed to:", evt.detail.value);
-              onLanguageChange(evt.detail.value as SupportedLanguage);
+              setLanguage(evt.detail.value as SupportedLanguage);
             }}
           >
             {LANGUAGE_OPTIONS.map((option) => (

@@ -9,7 +9,6 @@ import {
   DynamicAwardsOverview,
   DynamicRecapOverview,
   GameCollectionTypeView,
-  LanguageSwitcherMenu,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -87,7 +86,6 @@ const HomePage = () => {
           withIndicators={false}
           withControls={false}
         />
-        <LanguageSwitcherMenu />
         <DynamicAwardsOverview />
         <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
