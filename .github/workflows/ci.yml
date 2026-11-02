@@ -27,6 +27,7 @@ jobs:
       apps: ${{ steps.plan.outputs.apps }}
       docker: ${{ steps.plan.outputs.docker }}
       mobile: ${{ steps.plan.outputs.mobile }}
+      dependency-hash: ${{ steps.plan.outputs.dependency-hash }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -58,6 +59,7 @@ jobs:
             BASE=$(git merge-base "$BASE" "$HEAD")
           fi
           node scripts/release-plan.cjs "$BASE" "$HEAD"
+          echo "dependency-hash=${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}" >> "$GITHUB_OUTPUT"
           echo "TURBO_SCM_BASE=$BASE" >> "$GITHUB_ENV"
           echo "TURBO_SCM_HEAD=$HEAD" >> "$GITHUB_ENV"
       - run: yarn test:releases
@@ -142,5 +144,6 @@ jobs:
     if: needs.checks.outputs.mobile == 'true'
     uses: ./.github/workflows/release-mobile.yml
     with:
+      dependency-hash: ${{ needs.checks.outputs.dependency-hash }}
       ref: ${{ needs.prepare.outputs.ref }}
     secrets: inherit

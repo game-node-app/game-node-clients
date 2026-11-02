@@ -3,6 +3,9 @@ name: Release Android app
 on:
   workflow_call:
     inputs:
+      dependency-hash:
+        required: true
+        type: string
       ref:
         required: true
         type: string
@@ -24,6 +27,7 @@ jobs:
           ref: ${{ inputs.ref }}
           fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        id: node
         with:
           node-version: 24
           cache: yarn
@@ -36,7 +40,18 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: gradle
+      # Version-only release manifest changes reuse the checked source's dependencies.
+      - name: Restore installed dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        id: dependencies
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ inputs.dependency-hash }}
       - run: yarn install --frozen-lockfile --ignore-scripts
+        if: steps.dependencies.outputs.cache-hit != 'true'
       - run: yarn build -F mobile
         env:
           VITE_PUBLIC_LIVE_UPDATE_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}

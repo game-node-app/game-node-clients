@@ -22,17 +22,44 @@ const { prepareRelease, assertCurrent } = require("./prepare-release.cjs");
 
 const root = resolve(__dirname, "..");
 
-test("release preparation reuses the checks dependency cache and installs on a miss", () => {
+test("release jobs reuse the checks dependency cache and install on a miss", () => {
   const { jobs } = require("yaml").parse(
     readFileSync(join(root, ".github/workflows/ci.yml"), "utf8"),
   );
-  const caches = [jobs.checks, jobs.prepare].map(({ steps }) => {
+  const mobile = require("yaml").parse(
+    readFileSync(join(root, ".github/workflows/release-mobile.yml"), "utf8"),
+  );
+  const sourceHash =
+    "${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}";
+  assert.ok(
+    jobs.checks.steps
+      .find((step) => step.id === "plan")
+      .run.includes(`echo "dependency-hash=${sourceHash}" >> "$GITHUB_OUTPUT"`),
+  );
+  assert.equal(
+    jobs.checks.outputs["dependency-hash"],
+    "${{ steps.plan.outputs.dependency-hash }}",
+  );
+  assert.equal(
+    jobs.mobile.with["dependency-hash"],
+    "${{ needs.checks.outputs.dependency-hash }}",
+  );
+  assert.equal(
+    mobile.on.workflow_call.inputs["dependency-hash"].required,
+    true,
+  );
+  const cacheJobs = [jobs.checks, jobs.prepare, mobile.jobs.deliver];
+  const caches = cacheJobs.map(({ steps }) => {
     const cache = steps.find((step) => step.id === "dependencies");
     const install = steps.find((step) => step.run?.startsWith("yarn install"));
     assert.ok(steps.indexOf(cache) < steps.indexOf(install));
     assert.equal(install.if, "steps.dependencies.outputs.cache-hit != 'true'");
     assert.match(install.run, /--frozen-lockfile --ignore-scripts/);
     assert.equal(cache.with["restore-keys"], undefined);
+    const key = cache.with.key.replace(
+      "${{ inputs.dependency-hash }}",
+      sourceHash,
+    );
     for (const input of [
       "runner.os",
       "runner.arch",
@@ -44,16 +71,17 @@ test("release preparation reuses the checks dependency cache and installs on a m
       ".yarnrc",
       ".npmrc",
     ])
-      assert.ok(cache.with.key.includes(input), input);
+      assert.ok(key.includes(input), input);
     for (const workspace of [
       "node_modules",
       "apps/*/node_modules",
       "packages/*/node_modules",
     ])
       assert.ok(cache.with.path.split("\n").includes(workspace), workspace);
-    return cache.with;
+    return { ...cache.with, key };
   });
   assert.deepEqual(caches[0], caches[1]);
+  assert.deepEqual(caches[0], caches[2]);
 });
 
 test("mobile delivery requires signing and R2 configuration before release reservation", () => {
@@ -321,6 +349,17 @@ test("real Changesets snapshots retain independent versions, retry identity, and
   const firstSource = commit(cwd);
   const firstPlan = releasePlan(base, firstSource, cwd);
   const first = prepareRelease(firstPlan, cwd);
+  const sourceManifest = JSON.parse(
+    git(cwd, "show", `${firstSource}:apps/mobile/package.json`),
+  );
+  const releaseManifest = JSON.parse(
+    readFileSync(join(cwd, "apps/mobile/package.json")),
+  );
+  // Cache reuse relies on release preparation changing versions without changing dependencies.
+  assert.deepEqual(
+    { ...releaseManifest, version: sourceManifest.version },
+    sourceManifest,
+  );
   const snapshot = git(cwd, "rev-parse", first.ref);
   assert.deepEqual(first.versions, { mobile: "1.8.13" });
   assert.equal(
