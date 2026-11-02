@@ -122,6 +122,7 @@ export type { GameSearchRequestDto } from './models/GameSearchRequestDto';
 export type { GameSearchResponseDataDto } from './models/GameSearchResponseDataDto';
 export type { GameSearchResponseDto } from './models/GameSearchResponseDto';
 export type { GameTheme } from './models/GameTheme';
+export type { GameVideo } from './models/GameVideo';
 export type { GameTimeToBeatDto } from './models/GameTimeToBeatDto';
 export type { GetJournalHeatmapResponseDto } from './models/GetJournalHeatmapResponseDto';
 export type { GetObtainedAchievementsJournalResponseDto } from './models/GetObtainedAchievementsJournalResponseDto';
