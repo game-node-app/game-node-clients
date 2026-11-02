@@ -55,6 +55,7 @@ vi.mock("@repo/ui", () => {
     useGame: () => ({}),
     useUrlState: () => [{ tab: "overview" }, vi.fn()],
     useUserView: () => [0, false, state.increment],
+    createUuid: () => crypto.randomUUID(),
     getSizedImageUrl: vi.fn(),
     ImageSize: {},
   };

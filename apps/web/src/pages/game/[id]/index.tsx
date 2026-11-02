@@ -15,6 +15,7 @@ import {
   useGame,
   useUrlState,
   useUserView,
+  createUuid,
 } from "@repo/ui";
 import {
   Game,
@@ -82,7 +83,7 @@ const GameInfoPage = () => {
       return;
     }
     if (visit.current?.id !== gameId)
-      visit.current = { id: gameId, viewId: crypto.randomUUID() };
+      visit.current = { id: gameId, viewId: createUuid() };
     incrementView(visit.current.viewId);
   }, [id, incrementView, router.isReady]);
 

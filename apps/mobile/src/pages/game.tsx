@@ -22,6 +22,7 @@ import {
   useGame,
   useUrlState,
   useUserView,
+  createUuid,
 } from "@repo/ui";
 import { StatisticsSourceRequestDto } from "@repo/wrapper/server";
 import {
@@ -67,7 +68,7 @@ const GamePage = ({ gameId }: Props) => {
   const recordVisit = useCallback(() => {
     if (!Number.isSafeInteger(gameId) || gameId <= 0) return;
     if (visit.current?.id !== gameId)
-      visit.current = { id: gameId, viewId: crypto.randomUUID() };
+      visit.current = { id: gameId, viewId: createUuid() };
     incrementView(visit.current.viewId);
   }, [gameId, incrementView]);
   useIonViewWillEnter(() => {
