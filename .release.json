@@ -1,0 +1,22 @@
+{
+  "source": "7d479275dcff231ba5d616317867e8757dad060d",
+  "changesets": [
+    ".changeset/empty-lilies-make.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[1b2791f55e150b9c61825e1b1a43a80ee87d0ade...7d479275dcff231ba5d616317867e8757dad060d]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "minor"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/7d479275dcff231ba5d616317867e8757dad060d",
+  "versions": {
+    "mobile": "1.9.0"
+  }
+}
