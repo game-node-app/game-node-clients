@@ -1,0 +1,22 @@
+{
+  "source": "914da996e10097c8af2c8b1e2cd77fb4ccd535bf",
+  "changesets": [
+    ".changeset/mobile-capacitor-8-device-check.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[0a3475d53bb2d5849b5d53c8ee311e8101478b5f...914da996e10097c8af2c8b1e2cd77fb4ccd535bf]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/914da996e10097c8af2c8b1e2cd77fb4ccd535bf",
+  "versions": {
+    "mobile": "1.9.8"
+  }
+}
