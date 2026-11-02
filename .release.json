@@ -1,0 +1,22 @@
+{
+  "source": "c1a41df5ca3f4a197721625d7b5f6cb3a3d767f5",
+  "changesets": [
+    ".changeset/mobile-apk-install.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[4bcd093b463324d65fddbfd5aa9bfebe0910499b...c1a41df5ca3f4a197721625d7b5f6cb3a3d767f5]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/c1a41df5ca3f4a197721625d7b5f6cb3a3d767f5",
+  "versions": {
+    "mobile": "1.9.3"
+  }
+}
