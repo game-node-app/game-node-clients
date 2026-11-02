@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const { execFileSync } = require("node:child_process");
+const { execFileSync, spawnSync } = require("node:child_process");
 const {
   mkdtempSync,
   mkdirSync,
@@ -7,14 +7,134 @@ const {
   writeFileSync,
   rmSync,
   symlinkSync,
+  chmodSync,
 } = require("node:fs");
 const { tmpdir } = require("node:os");
 const { dirname, join, resolve } = require("node:path");
 const { test } = require("node:test");
-const { apps, git, releasePlan } = require("./release-plan.cjs");
+const {
+  apps,
+  git,
+  releasePlan,
+  validateDelivery,
+} = require("./release-plan.cjs");
 const { prepareRelease, assertCurrent } = require("./prepare-release.cjs");
 
 const root = resolve(__dirname, "..");
+
+test("mobile delivery requires signing and R2 configuration before release reservation", () => {
+  const keys = [
+    "RELEASE_KEYSTORE",
+    "RELEASE_KEYSTORE_PASS",
+    "RELEASE_KEYSTORE_KEY_ALIAS",
+    "RELEASE_KEYSTORE_KEY_PASS",
+    "R2_ACCESS_KEY_ID",
+    "R2_SECRET_ACCESS_KEY",
+    "R2_ACCOUNT_ID",
+    "R2_BUCKET",
+    "LIVE_UPDATE_PUBLIC_URL",
+  ];
+  const env = Object.fromEntries(keys.map((key) => [key, "configured"]));
+  validateDelivery(["mobile"], env);
+  validateDelivery([], {});
+  for (const key of keys) {
+    assert.throws(
+      () => validateDelivery(["mobile"], { ...env, [key]: " " }),
+      new RegExp(key),
+    );
+  }
+  const workflow = readFileSync(join(root, ".github/workflows/ci.yml"), "utf8");
+  for (const key of keys) {
+    assert.ok(workflow.includes(`${key}: \${{ secrets.${key} }}`), key);
+    assert.ok(
+      readFileSync(join(root, "docs/releases.md"), "utf8").includes(key),
+      key,
+    );
+  }
+});
+
+test("OTA workflow packages root assets and never publishes a manifest after a failed bundle upload", (t) => {
+  for (const tool of ["zip", "unzip", "jq"]) {
+    if (spawnSync(tool, ["--version"]).error?.code === "ENOENT")
+      return t.skip(`Requires ${tool}; the GitHub runner includes it`);
+  }
+  const { cwd } = fixture(t);
+  const workflow = require("yaml").parse(
+    readFileSync(join(root, ".github/workflows/release-mobile.yml"), "utf8"),
+  );
+  const step = workflow.jobs.deliver.steps.find(
+    (step) => step.name === "Publish compatible live update",
+  );
+  write(
+    cwd,
+    "scripts/native-fingerprint.cjs",
+    readFileSync(join(root, "scripts/native-fingerprint.cjs"), "utf8"),
+  );
+  write(cwd, "apps/mobile/capacitor.config.ts", "export default {};\n");
+  write(cwd, "apps/mobile/dist/index.html", "<html>App</html>");
+  write(cwd, "apps/mobile/dist/assets/app.js", "// App\n");
+  write(
+    cwd,
+    "bin/aws",
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+const args = process.argv.slice(2);
+fs.appendFileSync(process.env.OTA_TEST_LOG, JSON.stringify(args) + "\\n");
+if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
+`,
+  );
+  chmodSync(join(cwd, "bin/aws"), 0o755);
+  const temporary = join(cwd, "temporary");
+  mkdirSync(temporary);
+  const log = join(cwd, "uploads.jsonl");
+  const env = {
+    ...process.env,
+    PATH: `${join(cwd, "bin")}:${process.env.PATH}`,
+    RUNNER_TEMP: temporary,
+    OTA_TEST_LOG: log,
+    R2_ACCOUNT_ID: "account",
+    R2_BUCKET: "bucket",
+    LIVE_UPDATE_PUBLIC_URL: "https://updates.example.test/",
+  };
+  const run = (env) =>
+    execFileSync("bash", ["-e", "-o", "pipefail", "-c", step.run], {
+      cwd,
+      env,
+    });
+  run(env);
+  const calls = readFileSync(log, "utf8").trim().split("\n").map(JSON.parse);
+  assert.equal(calls.length, 2);
+  const manifest = JSON.parse(
+    readFileSync(join(temporary, "latest.json"), "utf8"),
+  );
+  const zip = calls[0][2];
+  assert.equal(
+    manifest.checksum,
+    require("node:crypto")
+      .createHash("sha256")
+      .update(readFileSync(zip))
+      .digest("hex"),
+  );
+  assert.match(calls[0][3], /\/ota\/[a-f0-9]{16}\/1\.8\.12-[a-f0-9]+\.zip$/);
+  assert.equal(
+    manifest.url,
+    calls[0][3].replace("s3://bucket", "https://updates.example.test"),
+  );
+  assert.equal(
+    calls[1][3],
+    calls[0][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
+  );
+  assert.equal(calls[0].at(-1), "public, max-age=31536000, immutable");
+  assert.equal(calls[1].at(-1), "no-cache");
+  assert.ok(
+    execFileSync("unzip", ["-Z1", zip], { encoding: "utf8" })
+      .split("\n")
+      .includes("index.html"),
+  );
+  writeFileSync(log, "");
+  assert.throws(() => run({ ...env, OTA_TEST_FAIL: "1" }));
+  assert.equal(readFileSync(log, "utf8").trim().split("\n").length, 1);
+});
 function write(cwd, path, value) {
   mkdirSync(dirname(join(cwd, path)), { recursive: true });
   writeFileSync(

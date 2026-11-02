@@ -14,6 +14,7 @@
     "web#build": { "dependsOn": ["^build", "type-check"] },
     "admin#build": { "dependsOn": ["^build", "type-check"] },
     "mobile#build": {
+      "env": ["VITE_PUBLIC_LIVE_UPDATE_URL"],
       "cache": false
     },
     "lint": {},

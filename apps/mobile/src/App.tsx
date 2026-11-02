@@ -17,6 +17,7 @@ import NotificationsManager from "./components/general/NotificationsManager";
 import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
+import LiveUpdateListener from "@/components/general/LiveUpdateListener";
 import {
   getAuthClientOptions,
   handleAuthError,
@@ -205,6 +206,7 @@ const App: React.FC = () => {
                 <IonReactRouter>
                   <AppUrlListener />
                   <AppUpdateListener />
+                  <LiveUpdateListener />
                   <NotificationsManager />
                   <Tabs />
                 </IonReactRouter>

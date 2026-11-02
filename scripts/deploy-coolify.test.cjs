@@ -116,6 +116,11 @@ test("selected targets require their own configuration before release reservatio
     RELEASE_KEYSTORE_PASS: "x",
     RELEASE_KEYSTORE_KEY_ALIAS: "x",
     RELEASE_KEYSTORE_KEY_PASS: "x",
+    R2_ACCESS_KEY_ID: "x",
+    R2_SECRET_ACCESS_KEY: "x",
+    R2_ACCOUNT_ID: "x",
+    R2_BUCKET: "x",
+    LIVE_UPDATE_PUBLIC_URL: "https://updates.example.test",
   };
   validateDelivery(["mobile"], signing);
   assert.throws(() => validateDelivery(["web"], signing), /DOCKER_USERNAME/);

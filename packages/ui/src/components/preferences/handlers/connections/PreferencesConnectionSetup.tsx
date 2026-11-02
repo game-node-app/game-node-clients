@@ -294,7 +294,7 @@ const PreferencesConnectionSetup = ({ type, onClose, onRedirect }: Props) => {
           UserConnectionDto.authStatus.REAUTH_REQUIRED && (
           <Text c="orange">{t("preferences.messages.reauthRequired")}</Text>
         )}
-        {isRedirect && (
+        {(isRedirect || isDelegated) && (
           <Text>
             {t("preferences.descriptions.redirectConnection", {
               type: getConnectionName(type),

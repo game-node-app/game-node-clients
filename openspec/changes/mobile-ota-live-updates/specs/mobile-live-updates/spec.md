@@ -60,12 +60,12 @@ The app SHALL check for an update on launch and on resume. It SHALL download a n
 
 ### Requirement: Automatic rollback
 
-A newly applied bundle SHALL signal that it started successfully. If it does not do so within the ready timeout, the app SHALL revert to the previous bundle.
+A newly applied bundle SHALL signal that it started successfully. If it does not do so within the ready timeout, the app SHALL revert to the bundle shipped with the installed app.
 
 #### Scenario: Broken bundle
 
 - **WHEN** an applied bundle crashes before signaling readiness
-- **THEN** the next launch runs the previous bundle
+- **THEN** the next launch runs the bundle shipped with the installed app
 
 ### Requirement: Store update resets bundle
 
