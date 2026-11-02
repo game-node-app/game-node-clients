@@ -1,0 +1,22 @@
+{
+  "source": "df82020ecd3dbc7bd702cad63d3f0e99c21ed56f",
+  "changesets": [
+    ".changeset/mobile-deploy-2026-11-02.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[f1b8fccdfd372ef82a489d393e2c9395c27f3299...df82020ecd3dbc7bd702cad63d3f0e99c21ed56f]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/df82020ecd3dbc7bd702cad63d3f0e99c21ed56f",
+  "versions": {
+    "mobile": "1.9.5"
+  }
+}
