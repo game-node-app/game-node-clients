@@ -1,0 +1,22 @@
+{
+  "source": "017ab11975bc04b2a2997fa9aa226259a7c7e040",
+  "changesets": [
+    ".changeset/mobile-r2-wrangler.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[7d479275dcff231ba5d616317867e8757dad060d...017ab11975bc04b2a2997fa9aa226259a7c7e040]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/017ab11975bc04b2a2997fa9aa226259a7c7e040",
+  "versions": {
+    "mobile": "1.9.1"
+  }
+}
