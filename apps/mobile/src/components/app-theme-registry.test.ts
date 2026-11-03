@@ -17,6 +17,10 @@ describe("app theme registry", () => {
       "HomeReleases",
       "ExploreTrendingGames",
       "GameInfoView",
+      "ProfileUserInfoWithBanner",
+      "ProfileViewNavbarItem",
+      "ProfileStatsSimpleOverview",
+      "ProfileStatsView",
     ]);
   });
 });

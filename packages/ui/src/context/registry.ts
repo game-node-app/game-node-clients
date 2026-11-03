@@ -9,6 +9,9 @@ import {
   GameInfoTitleFigureProps,
   GameInfoViewProps,
   ProfileUserInfoProps,
+  ProfileUserInfoWithBannerProps,
+  ProfileStatsSimpleOverviewProps,
+  ProfileStatsViewProps,
   ProfileViewNavbarItemProps,
   ReviewCardProps,
 } from "#@/components";
@@ -35,6 +38,9 @@ export type UIPresenterRegistry = {
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
   ProfileUserInfo: React.ComponentType<ProfileUserInfoProps>;
+  ProfileUserInfoWithBanner: React.ComponentType<ProfileUserInfoWithBannerProps>;
+  ProfileStatsSimpleOverview: React.ComponentType<ProfileStatsSimpleOverviewProps>;
+  ProfileStatsView: React.ComponentType<ProfileStatsViewProps>;
   RecentBlogPostsCarousel: React.ComponentType<Record<string, never>>;
   HomeReleases: React.ComponentType<Record<string, never>>;
   ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;

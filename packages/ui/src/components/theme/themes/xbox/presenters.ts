@@ -4,6 +4,10 @@ import { ConsoleExplore } from "#@/components/theme/console/ConsoleExplore";
 import { ConsoleReleases } from "#@/components/theme/console/ConsoleReleases";
 import { XboxActivityItem } from "./XboxActivityItem";
 import { XboxGameInfoView } from "./XboxGameInfoView";
+import { XboxProfileStats } from "./XboxProfileStats";
+import { XboxProfileStatsView } from "./XboxProfileStatsView";
+import { XboxProfileView } from "./XboxProfileView";
+import { XboxProfileViewNavbarItem } from "./XboxProfileViewNavbarItem";
 import { XboxRecentBlogPostsCarousel } from "./XboxRecentBlogPostsCarousel";
 
 export const xboxPresenters: Partial<UIPresenterRegistry> = {
@@ -12,4 +16,8 @@ export const xboxPresenters: Partial<UIPresenterRegistry> = {
   HomeReleases: ConsoleReleases,
   ExploreTrendingGames: ConsoleExplore,
   GameInfoView: XboxGameInfoView,
+  ProfileUserInfoWithBanner: XboxProfileView,
+  ProfileViewNavbarItem: XboxProfileViewNavbarItem,
+  ProfileStatsSimpleOverview: XboxProfileStats,
+  ProfileStatsView: XboxProfileStatsView,
 };

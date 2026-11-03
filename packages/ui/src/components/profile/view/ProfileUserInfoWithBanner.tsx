@@ -9,12 +9,13 @@ import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
+import { buildPresenterComponent } from "#@/context";
 import { Modal } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { PropsWithChildren } from "react";
 
-interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
+export interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
 }
 
@@ -28,7 +29,7 @@ interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
  * and BELOW it for mobile.
  */
 
-const ProfileUserInfoWithBanner = ({
+const DEFAULT_ProfileUserInfoWithBanner = ({
   userId,
   children,
 }: ProfileUserInfoWithBannerProps) => {
@@ -114,5 +115,10 @@ const ProfileUserInfoWithBanner = ({
     </Stack>
   );
 };
+
+const ProfileUserInfoWithBanner = buildPresenterComponent(
+  "ProfileUserInfoWithBanner",
+  DEFAULT_ProfileUserInfoWithBanner,
+);
 
 export { ProfileUserInfoWithBanner };
