@@ -21,7 +21,7 @@ export function getConnectionProfileURL(connection: UserConnectionDto) {
       type.EPICGAMES,
       () => `https://store.epicgames.com/u/${connection.sourceUserId}`,
     )
-    // Nintendo has no public profile page.
-    .with(type.NINTENDO, () => undefined)
+    // These providers have no public profile page.
+    .with(type.NINTENDO, type.GOG, () => undefined)
     .exhaustive();
 }

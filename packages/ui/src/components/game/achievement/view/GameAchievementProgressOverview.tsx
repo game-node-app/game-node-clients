@@ -2,9 +2,18 @@ import {
   GameAchievementWithObtainedInfo,
   useGameAchievementsV2,
   XBOX_STORES,
+  CenteredErrorMessage,
 } from "#@/components";
 import { getServerStoredIcon } from "#@/util";
-import { Flex, Group, Image, Progress, Stack, Text } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  Group,
+  Image,
+  Progress,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
 import { IconTrophyFilled } from "@tabler/icons-react";
@@ -60,7 +69,10 @@ const GameAchievementProgressOverview = ({
   targetPlatformId,
 }: Props) => {
   const { t } = useTranslation();
-  const { data } = useGameAchievementsV2(userId, gameId);
+  const { data, isError, error, refetch } = useGameAchievementsV2(
+    userId,
+    gameId,
+  );
 
   const targetAchievementsGroup = useMemo(() => {
     return data?.find((group) => group.source === source);
@@ -80,25 +92,35 @@ const GameAchievementProgressOverview = ({
 
   const renderedAchievementTotal = useMemo(() => {
     return match(source)
-      .with(P.union(GameAchievementGroupDto.source._1), () => {
-        const totalAchievements = targetAchievements.length;
-        const totalObtainedAchievements = targetAchievements.reduce(
-          (acc, curr) => {
-            if (curr.isObtained) return acc + 1;
+      .with(
+        P.union(
+          GameAchievementGroupDto.source._1,
+          GameAchievementGroupDto.source._5,
+        ),
+        () => {
+          const totalAchievements = targetAchievements.length;
+          const totalObtainedAchievements = targetAchievements.reduce(
+            (acc, curr) => {
+              if (curr.isObtained) return acc + 1;
 
-            return acc;
-          },
-          0,
-        );
+              return acc;
+            },
+            0,
+          );
 
-        return (
-          <Progress
-            size={"lg"}
-            value={(totalObtainedAchievements / totalAchievements) * 100}
-            className={"relative"}
-          />
-        );
-      })
+          return (
+            <Progress
+              size={"lg"}
+              value={
+                totalAchievements > 0
+                  ? (totalObtainedAchievements / totalAchievements) * 100
+                  : 0
+              }
+              className={"relative"}
+            />
+          );
+        },
+      )
       .with(P.union(...XBOX_STORES), () => {
         const totalGamerscore = targetAchievements.reduce((acc, curr) => {
           if (curr.xboxDetails != undefined) {
@@ -161,29 +183,41 @@ const GameAchievementProgressOverview = ({
 
   const renderedAchievementCount = useMemo(() => {
     return match(source)
-      .with(GameAchievementGroupDto.source._1, () => {
-        const totalAchievements = targetAchievements.length;
-        const totalObtainedAchievements = targetAchievements.reduce(
-          (acc, curr) => {
-            if (curr.isObtained) return acc + 1;
+      .with(
+        GameAchievementGroupDto.source._1,
+        GameAchievementGroupDto.source._5,
+        () => {
+          const totalAchievements = targetAchievements.length;
+          const totalObtainedAchievements = targetAchievements.reduce(
+            (acc, curr) => {
+              if (curr.isObtained) return acc + 1;
 
-            return acc;
-          },
-          0,
-        );
+              return acc;
+            },
+            0,
+          );
 
-        return (
-          <Text className={"font-bold"}>
-            {t("game.achievement.totalCount", {
-              total: totalAchievements,
-              totalObtained: totalObtainedAchievements,
-            })}
-          </Text>
-        );
-      })
+          return (
+            <Text className={"font-bold"}>
+              {t("game.achievement.totalCount", {
+                total: totalAchievements,
+                totalObtained: totalObtainedAchievements,
+              })}
+            </Text>
+          );
+        },
+      )
       .otherwise(() => null);
   }, [source, t, targetAchievements]);
 
+  if (isError) {
+    return (
+      <Stack>
+        <CenteredErrorMessage error={error} />
+        <Button onClick={() => void refetch()}>{t("actions.retry")}</Button>
+      </Stack>
+    );
+  }
   if (targetAchievementsGroup == undefined) {
     return null;
   }

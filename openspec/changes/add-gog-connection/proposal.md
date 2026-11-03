@@ -11,7 +11,7 @@ The server adds GOG account linking, library imports, playtime and achievements 
 - Extend the shared delegated-code setup with localized GOG instructions: retain init's GameNode state and authorization URL, open sign-in, then paste the full final `https://embed.gog.com/on_login_success?origin=client&code=...` URL. Submit that URL unchanged apart from surrounding whitespace as `callbackParams.code`; protect it from telemetry and logs. Never request tokens or fetch the pasted URL.
 - Reuse reconnect, settings, deletion, import selection and collection ownership behavior. Failed callbacks require fresh init; `reauth_required` and GOG reconnect notifications lead back through this flow.
 - Accept GOG library queues, including unplayed owned games on PC platform `6`, and explain that playtime covers only GOG-recorded cumulative activity. Other stores linked through Galaxy are excluded.
-- Display server-returned GOG achievements (`source: 5`, PC `6`) using existing reads and identity matching, without platinum metadata or invented hidden text. Keep failed or unavailable catalogue/progress reads distinguishable from confirmed absence, and retain server authority over refreshes.
+- Display server-returned GOG achievements (`source: 5`, PC `6`) using existing reads and identity matching, preserving returned names/descriptions without masking hidden achievement text or inventing metadata. Keep failed or unavailable catalogue/progress reads distinguishable from confirmed absence, and retain server authority over refreshes.
 
 ## Capabilities
 

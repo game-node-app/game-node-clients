@@ -102,6 +102,12 @@ const reauthItem = (
 describe("connection.reauth-required notification", () => {
   it.each([
     [
+      NotificationConnectionTargetDto.provider.GOG,
+      "Your GOG connection needs to be reconnected.",
+      "Sua conexão com GOG precisa ser reconectada.",
+      "gog",
+    ],
+    [
       NotificationConnectionTargetDto.provider.EPICGAMES,
       "Your Epic Games connection needs to be reconnected.",
       "Sua conexão com Epic Games precisa ser reconectada.",
@@ -205,6 +211,21 @@ describe("import.discovery-completed provider names", () => {
 
     fireEvent.click(screen.getByRole("alert"));
     expect(mockRouter.push).toHaveBeenCalledWith("/importer/nintendo");
+  });
+
+  it("shows GOG counts, icon and importer destination", () => {
+    const { container } = renderItem(importItem("gog"));
+    expect(
+      screen.getByText(
+        /3 new games ready to be imported from your GOG connection/i,
+      ),
+    ).toBeTruthy();
+    expect(screen.getByText(/2 automatically imported/i)).toBeTruthy();
+    expect(container.querySelector("img")?.getAttribute("src")).toContain(
+      "/gog.png",
+    );
+    fireEvent.click(screen.getByRole("alert"));
+    expect(mockRouter.push).toHaveBeenCalledWith("/importer/gog");
   });
 
   it("does not crash when the import target is missing", () => {

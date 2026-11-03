@@ -6,6 +6,7 @@ export function isPrivateAuthUrl(value: string) {
     const url = new URL(value, "https://local.invalid");
     return (
       /\/(?:auth|oauth\/consent)\/?$/.test(url.pathname) ||
+      /\/connections\/[^/]+\/auth\/(?:init|callback)\/?$/.test(url.pathname) ||
       [
         "sig",
         "oauth_query",

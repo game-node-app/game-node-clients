@@ -5,7 +5,7 @@ import {
   useGameAchievementsV2,
   useGamesResource,
 } from "#@/components";
-import { Select, Skeleton, Stack } from "@mantine/core";
+import { Button, Select, Skeleton, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
 import { useCallback, useMemo, useState } from "react";
@@ -26,7 +26,7 @@ interface Props {
  */
 const GameAchievementsList = ({ source, userId, gameId }: Props) => {
   const { t } = useTranslation();
-  const { data, isLoading, isError, error } = useGameAchievementsV2(
+  const { data, isLoading, isError, error, refetch } = useGameAchievementsV2(
     userId,
     gameId,
   );
@@ -98,7 +98,13 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
 
   return (
     <Stack className={"w-full flex flex-col gap-3"}>
-      {isError && <CenteredErrorMessage error={error} />}
+      {isError && (
+        <>
+          <CenteredErrorMessage error={error} />
+          <Button onClick={() => void refetch()}>{t("actions.retry")}</Button>
+          {data && <Text>{t("game.achievement.previousProgress")}</Text>}
+        </>
+      )}
       {isLoading && buildLoadingSkeletons()}
       {availablePlatforms.length > 1 && (
         <Select
@@ -116,12 +122,14 @@ const GameAchievementsList = ({ source, userId, gameId }: Props) => {
         />
       )}
       <Stack className={"gap-2"}>
-        <GameAchievementProgressOverview
-          source={source}
-          gameId={gameId}
-          userId={userId}
-          targetPlatformId={selectedPlatformId}
-        />
+        {!isError && (
+          <GameAchievementProgressOverview
+            source={source}
+            gameId={gameId}
+            userId={userId}
+            targetPlatformId={selectedPlatformId}
+          />
+        )}
         {renderedAchievements.map((achievement) => (
           <GameAchievementsListItem
             key={`${achievement.externalGameId}-${achievement.externalId}`}

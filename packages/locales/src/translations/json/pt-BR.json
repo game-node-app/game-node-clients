@@ -61,7 +61,8 @@
     "viewMore": "Ver Mais",
     "yes": "Sim",
     "use": "Use",
-    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento"
+    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento",
+    "retry": "Tentar novamente"
   },
   "activity": {
     "items": {
@@ -510,7 +511,8 @@
       "overviewTitle": "Conquistas",
       "ownedBy": "Obtida por",
       "totalCount": "{{totalObtained}} de {{total}}",
-      "trophies": "Trofeus"
+      "trophies": "Trofeus",
+      "previousProgress": "Progresso carregado anteriormente. A atualização falhou; tente novamente."
     },
     "buttons": {
       "addLibrary": "Adicionar à biblioteca",
@@ -1118,6 +1120,18 @@
         "coverage": "Só são importados jogos jogados no Switch ou Switch 2 depois que sua Conta Nintendo foi vinculada a um console. Jogos ocultos no app da Nintendo e jogos que você tem mas nunca jogou não são importados. O tempo de jogo e as datas do primeiro e do último jogo vêm da Nintendo.",
         "revoke": "Para revogar o acesso, remova a conexão com a Nintendo no GameNode. Isso apaga as credenciais da Nintendo que guardamos.",
         "phoneHint": "Copiar o link pode não funcionar no celular. Se não funcionar, vincule sua conta por um computador."
+      },
+      "gog": {
+        "signInHint": "Entre na GOG pelo navegador. Após entrar, copie a URL final inteira pela barra de endereço (ou pelo menu de compartilhamento do navegador no celular), volte ao GameNode e cole na próxima etapa.",
+        "coverage": "Importe jogos comprados na GOG, incluindo títulos nunca jogados, no PC. Jogos de outras lojas vinculadas ao Galaxy não são incluídos. O tempo de jogo inclui apenas a atividade cumulativa registrada pela GOG; partidas offline que a GOG nunca registrou não podem ser importadas.",
+        "expiryHint": "Esta tentativa expira em dez minutos e só pode ser usada uma vez. Após qualquer falha na troca, ou se o aplicativo perder a tentativa, comece novamente.",
+        "signInUrl": "URL de login",
+        "desktopFallback": "Copie esta URL de login para um navegador no computador se não conseguir copiar a URL final no celular. Mantenha este aplicativo aberto e cole o resultado aqui na mesma tentativa de dez minutos.",
+        "copyHint": "Copie a URL final inteira da GOG, incluindo origin=client e code. Use a barra de endereço ou o menu de compartilhamento do navegador e volte aqui. Não cole um token de acesso ou de renovação.",
+        "pasteLabel": "URL final da GOG",
+        "pastePlaceholder": "https://embed.gog.com/on_login_success?origin=client&code=…",
+        "invalidLink": "Cole a URL HTTPS completa de embed.gog.com/on_login_success com origin=client e um code não vazio.",
+        "callbackFailed": "Não foi possível concluir o login na GOG. Comece novamente para criar uma nova tentativa."
       }
     },
     "descriptions": {

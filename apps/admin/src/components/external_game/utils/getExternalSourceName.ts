@@ -1,6 +1,7 @@
 import { EGameExternalGameCategory } from "@/components/external_game/constants";
 
 export function getExternalSourceName(category: number) {
+  if (category === EGameExternalGameCategory.Gog) return "GOG";
   const key = EGameExternalGameCategory[category as never];
   if (!key) return "Unknown Store";
 

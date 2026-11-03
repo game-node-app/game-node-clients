@@ -21,6 +21,7 @@ export namespace ImporterWatchNotification {
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         NINTENDO = 'nintendo',
+        GOG = 'gog',
     }
 }
 

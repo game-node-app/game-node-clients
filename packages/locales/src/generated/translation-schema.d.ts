@@ -66,6 +66,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    retry: string;
   };
   activity: {
     items: {
@@ -515,6 +516,7 @@ export type TranslationSchema = {
       ownedBy: string;
       totalCount: string;
       trophies: string;
+      previousProgress: string;
     };
     buttons: {
       addLibrary: string;
@@ -1122,6 +1124,18 @@ export type TranslationSchema = {
         coverage: string;
         revoke: string;
         phoneHint: string;
+      };
+      gog: {
+        signInHint: string;
+        coverage: string;
+        expiryHint: string;
+        signInUrl: string;
+        desktopFallback: string;
+        copyHint: string;
+        pasteLabel: string;
+        pastePlaceholder: string;
+        invalidLink: string;
+        callbackFailed: string;
       };
     };
     descriptions: {

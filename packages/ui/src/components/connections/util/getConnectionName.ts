@@ -8,5 +8,6 @@ export const getConnectionName = (type: UserConnectionDto.type) => {
     .with(UserConnectionDto.type.XBOX, () => "Xbox Live")
     .with(UserConnectionDto.type.EPICGAMES, () => "Epic Games")
     .with(UserConnectionDto.type.NINTENDO, () => "Nintendo")
+    .with(UserConnectionDto.type.GOG, () => "GOG")
     .exhaustive();
 };

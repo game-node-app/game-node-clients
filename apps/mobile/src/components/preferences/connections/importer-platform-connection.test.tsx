@@ -264,58 +264,60 @@ describe("Task 4.2 & 4.3: PreferencesConnectionItem (Web & Mobile)", () => {
     expect(screen.getByRole("button", { name: "Import games" })).toBeTruthy();
   });
 
-  it("Mobile: displays username, status, Configure button, and Import games CTA for eligible connected account", () => {
-    mocks.ownConnection.data = {
-      id: 2,
-      type: OwnUserConnectionDto.type.XBOX,
-      sourceUserId: "xbox-1",
-      sourceUsername: "XboxChampion",
-      authStatus: OwnUserConnectionDto.authStatus.CONNECTED,
-      isImporterViable: true,
-      isImporterWatchViable: false,
-      isPlaytimeImportViable: true,
-      isAchievementImportViable: true,
-      isAutoImportEnabled: false,
-      autoImportCollection: null,
-      autoImportCollectionId: null,
-      profileUserId: "u1",
-    };
+  it.each([UserConnectionDto.type.XBOX, UserConnectionDto.type.GOG])(
+    "Mobile: displays username, status, Configure button, and Import games CTA for eligible connected account",
+    (type) => {
+      mocks.ownConnection.data = {
+        id: 2,
+        type: type as unknown as OwnUserConnectionDto.type,
+        sourceUserId: "xbox-1",
+        sourceUsername: "XboxChampion",
+        authStatus: OwnUserConnectionDto.authStatus.CONNECTED,
+        isImporterViable: true,
+        isImporterWatchViable: false,
+        isPlaytimeImportViable: true,
+        isAchievementImportViable: true,
+        isAutoImportEnabled: false,
+        autoImportCollection: null,
+        autoImportCollectionId: null,
+        profileUserId: "u1",
+      };
 
-    renderWithProviders(
-      <MobilePreferencesConnectionItem type={UserConnectionDto.type.XBOX} />,
-    );
+      renderWithProviders(<MobilePreferencesConnectionItem type={type} />);
 
-    expect(screen.getByText("XboxChampion")).toBeTruthy();
-    expect(screen.getByText("Connected")).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Configure" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Import games" })).toBeTruthy();
-  });
+      expect(screen.getByText("XboxChampion")).toBeTruthy();
+      expect(screen.getByText("Connected")).toBeTruthy();
+      expect(screen.getByRole("button", { name: "Configure" })).toBeTruthy();
+      expect(screen.getByRole("button", { name: "Import games" })).toBeTruthy();
+    },
+  );
 
-  it("shows Reconnect button and no Import games CTA when REAUTH_REQUIRED", () => {
-    mocks.ownConnection.data = {
-      id: 3,
-      type: OwnUserConnectionDto.type.STEAM,
-      sourceUserId: "steam-3",
-      sourceUsername: "NeedsAuth",
-      authStatus: OwnUserConnectionDto.authStatus.REAUTH_REQUIRED,
-      isImporterViable: true,
-      isImporterWatchViable: false,
-      isPlaytimeImportViable: true,
-      isAchievementImportViable: true,
-      isAutoImportEnabled: false,
-      autoImportCollection: null,
-      autoImportCollectionId: null,
-      profileUserId: "u1",
-    };
+  it.each([UserConnectionDto.type.STEAM, UserConnectionDto.type.GOG])(
+    "shows Reconnect button and no Import games CTA when REAUTH_REQUIRED",
+    (type) => {
+      mocks.ownConnection.data = {
+        id: 3,
+        type: type as unknown as OwnUserConnectionDto.type,
+        sourceUserId: "steam-3",
+        sourceUsername: "NeedsAuth",
+        authStatus: OwnUserConnectionDto.authStatus.REAUTH_REQUIRED,
+        isImporterViable: true,
+        isImporterWatchViable: false,
+        isPlaytimeImportViable: true,
+        isAchievementImportViable: true,
+        isAutoImportEnabled: false,
+        autoImportCollection: null,
+        autoImportCollectionId: null,
+        profileUserId: "u1",
+      };
 
-    renderWithProviders(
-      <MobilePreferencesConnectionItem type={UserConnectionDto.type.STEAM} />,
-    );
+      renderWithProviders(<MobilePreferencesConnectionItem type={type} />);
 
-    expect(screen.getByText("Reconnect required")).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Reconnect" })).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "Import games" })).toBeNull();
-  });
+      expect(screen.getByText("Reconnect required")).toBeTruthy();
+      expect(screen.getByRole("button", { name: "Reconnect" })).toBeTruthy();
+      expect(screen.queryByRole("button", { name: "Import games" })).toBeNull();
+    },
+  );
 
   it("shows lookup error message and does not confirm disconnection when query fails with 500", () => {
     mocks.ownConnection.data = undefined;

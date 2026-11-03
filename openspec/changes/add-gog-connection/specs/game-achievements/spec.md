@@ -18,10 +18,14 @@ The client SHALL display existing achievement reads for `source: 5` using `sourc
 - **WHEN** the game achievement reads return a GOG group
 - **THEN** web and mobile show the GOG tab, icon, PC achievements and a count-based completion summary without requiring a new endpoint
 
-### Requirement: Preserve GOG hidden text and provider metadata
-GOG achievements SHALL preserve empty hidden names/descriptions and absent optional dates. The UI SHALL NOT invent titles, descriptions, platinum trophies, trophy tiers, gamerscore or rarity metadata absent from the returned GOG data.
+### Requirement: Preserve GOG text and provider metadata
+GOG achievements SHALL display names and descriptions as returned by the server, without masking hidden achievement text, and preserve absent optional dates. The UI SHALL NOT invent titles, descriptions, platinum trophies, trophy tiers, gamerscore or rarity metadata absent from the returned GOG data.
 
-#### Scenario: Hidden GOG definition
+#### Scenario: Hidden GOG definition with provider text
+- **WHEN** the server returns a name and description for a GOG achievement that the provider marks hidden
+- **THEN** the UI displays the returned name and description normally
+
+#### Scenario: Missing GOG text
 - **WHEN** the GOG definition has an empty name/description and no Steam, PSN or Xbox details
 - **THEN** rendering succeeds without a guessed title/description or provider-specific trophy, gamerscore or rarity decoration
 

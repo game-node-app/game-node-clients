@@ -17,6 +17,7 @@ export namespace NotificationConnectionTargetDto {
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         NINTENDO = 'nintendo',
+        GOG = 'gog',
     }
 }
 

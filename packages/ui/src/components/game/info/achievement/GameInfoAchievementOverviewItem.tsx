@@ -17,7 +17,7 @@ interface Props {
 const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
   const { t } = useTranslation();
   const userId = useUserId();
-  const { data } = useGameAchievementsV2(userId, gameId);
+  const { data, isError } = useGameAchievementsV2(userId, gameId);
   const platformsQuery = useGamesResource("platforms");
 
   const targetAchievementGroup = useMemo(() => {
@@ -54,6 +54,7 @@ const GameInfoAchievementOverviewItem = ({ gameId, source }: Props) => {
     );
   }, [targetAchievementGroup, t]);
 
+  if (isError) return null;
   return (
     <Link
       href={`/game/${gameId}?tab=achievements`}

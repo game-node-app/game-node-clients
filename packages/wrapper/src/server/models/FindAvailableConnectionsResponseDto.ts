@@ -28,6 +28,7 @@ export namespace FindAvailableConnectionsResponseDto {
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         NINTENDO = 'nintendo',
+        GOG = 'gog',
     }
     export enum authMode {
         REDIRECT = 'redirect',
