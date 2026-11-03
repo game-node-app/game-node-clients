@@ -40,10 +40,11 @@ const HomePage = () => {
   const [feedTabRefs, setFeedTabRefs] = useState<
     Record<string, HTMLButtonElement | null>
   >({});
+  // Mantine's FloatingIndicator pattern: mutate the same object, so the per-render ref callbacks
+  // (called with null, then the node) never clear the target mid-switch and the slide animates
   const setFeedTabRef = (value: string) => (node: HTMLButtonElement | null) => {
-    if (feedTabRefs[value] !== node) {
-      setFeedTabRefs((refs) => ({ ...refs, [value]: node }));
-    }
+    feedTabRefs[value] = node;
+    setFeedTabRefs(feedTabRefs);
   };
 
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
@@ -171,7 +172,10 @@ const HomePage = () => {
                   target={feedTab ? feedTabRefs[feedTab] : null}
                   parent={feedTabsList}
                   transitionDuration={250}
+                  // above the hovered tab, whose background and gray hover border otherwise cover the line
                   style={{
+                    zIndex: 2,
+                    pointerEvents: "none",
                     borderBottom:
                       "2px solid var(--mantine-primary-color-filled)",
                   }}
