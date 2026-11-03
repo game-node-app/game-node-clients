@@ -289,17 +289,19 @@
     pointer-events: none;
 }
 
-/* Wrapped modal (RecentlyPlayedGamesShare): the exported card sits on a dark stage, empty cells read as cover slots. */
+/* Wrapped panel (RecentlyPlayedGamesShare): the exported card sits on a dark stage, empty cells read as cover slots. */
 .gn-wrapped-layout {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: var(--mantine-spacing-lg);
 }
 
-/* desktop: preview on the left, controls on the right; fixed column widths so the preview scale never feeds back */
-@media (min-width: 62em) {
-    .gn-wrapped-layout {
-        grid-template-columns: minmax(0, 1fr) 22rem;
-    }
+/* right-side panel: the stage takes the height the controls leave (basis 0, so the preview scale never feeds back) */
+.gn-wrapped .gn-wrapped-stage {
+    flex: 1 1 0;
+    min-height: 18rem;
+    align-items: center;
+    overflow: hidden;
 }
 
 .gn-wrapped-stage {
@@ -315,23 +317,6 @@
     aspect-ratio: 264 / 374;
     background: rgba(255, 255, 255, 0.03);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-/* console themes: frosted panel over the hero art, like the home's tiles and shortcuts */
-:root[data-theme]:not([data-theme="gamenode"]) .gn-wrapped {
-    background: color-mix(in srgb, var(--gn-surface) 80%, transparent);
-    backdrop-filter: blur(24px) saturate(1.2);
-    border: 1px solid color-mix(in srgb, var(--gn-text) 10%, transparent);
-    border-radius: calc(var(--gn-radius) * 2);
-}
-
-:root[data-theme]:not([data-theme="gamenode"]) .gn-wrapped .mantine-Modal-header {
-    background: transparent;
-}
-
-:root[data-theme]:not([data-theme="gamenode"]) .gn-wrapped .mantine-Modal-title {
-    font-size: 1.15rem;
-    font-weight: 600;
 }
 
 /* Console review cards (ConsoleReviewRow): a clean screenshot on top, the review on a glass strip below. */
@@ -489,7 +474,7 @@
     color: var(--gn-brand);
 }
 
-/* Console aside (collections drawer in the horizontal header): the same frosted panel as the Wrapped modal */
+/* Console aside (collections drawer in the horizontal header, Wrapped and new post panels): frosted over the hero art */
 :root[data-theme]:not([data-theme="gamenode"]) .gn-console-aside {
     background: color-mix(in srgb, var(--gn-surface) 80%, transparent);
     backdrop-filter: blur(24px) saturate(1.2);
@@ -503,6 +488,12 @@
 :root[data-theme]:not([data-theme="gamenode"]) .gn-console-aside .mantine-Drawer-title {
     font-size: 1.15rem;
     font-weight: 600;
+}
+
+/* a console aside opening from the right (Wrapped, new post) keeps its edge on the left */
+:root[data-theme]:not([data-theme="gamenode"]) .gn-console-aside.gn-console-aside-end {
+    border-right: 0;
+    border-left: 1px solid color-mix(in srgb, var(--gn-text) 10%, transparent);
 }
 
 /* Game search: a filled field that takes a soft ring of the theme color on focus; console themes keep their own radius. */
