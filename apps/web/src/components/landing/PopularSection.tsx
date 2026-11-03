@@ -8,7 +8,6 @@ import {
   ImageSize,
   UserAvatarGroup,
   useGame,
-  useGames,
   useReview,
   useTrendingGames,
   useTrendingReviews,
