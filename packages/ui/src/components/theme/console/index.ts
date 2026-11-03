@@ -3,7 +3,6 @@
  */
 
 export * from "./ConsoleBlogSection";
-export * from "./ConsoleClock";
 export * from "./ConsoleExplore";
 export * from "./ConsoleGameRow";
 export * from "./ConsoleHome";

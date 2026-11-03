@@ -4,7 +4,7 @@ import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/use
 import { ActionIcon, Box, Button, Group } from "@mantine/core";
 import { toggleSpotlight } from "@mantine/spotlight";
 import { useTranslation } from "@repo/locales";
-import { ConsoleClock, useUserId } from "@repo/ui";
+import { GameNodeLogo, useUserId } from "@repo/ui";
 import { IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 /**
- * Header for console app themes: profile on the left, navigation centered, status on the right.
+ * Header for console app themes: profile on the left, navigation centered, actions and logo on the right.
  * Narrow screens follow the Xbox app instead: profile and status on top, navigation in a bottom bar.
  */
 export default function GlobalShellConsoleHeader({ navigation }: Props) {
@@ -56,7 +56,9 @@ export default function GlobalShellConsoleHeader({ navigation }: Props) {
           </>
         )}
         <Box visibleFrom="md">
-          <ConsoleClock />
+          <Link href={"/home"} aria-label={"GameNode"}>
+            <GameNodeLogo className="gn-console-logo" />
+          </Link>
         </Box>
       </Group>
     </div>

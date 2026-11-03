@@ -94,10 +94,10 @@
     gap: var(--mantine-spacing-lg);
 }
 
-.gn-console-clock {
-    color: var(--gn-text);
-    font-size: 1.1rem;
-    font-variant-numeric: tabular-nums;
+.gn-console-logo {
+    display: block;
+    width: auto;
+    height: 28px;
 }
 
 .gn-console-backdrop {
