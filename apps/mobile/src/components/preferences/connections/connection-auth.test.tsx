@@ -404,6 +404,11 @@ describe("delegated code connection setup", () => {
       }),
     ).toBeNull();
     expect(
+      screen.queryByRole("img", {
+        name: "preferences.delegatedCode.gog.guideAlt",
+      }),
+    ).toBeNull();
+    expect(
       ConnectionsService.connectionsControllerInitRedirectAuthV1,
     ).toHaveBeenCalledTimes(1);
     expect(
@@ -635,52 +640,59 @@ describe("delegated code connection setup", () => {
     );
   });
 
-  describe("nintendo", () => {
-    const LINK = "npf5c38e31cd085304b://auth#session_token_code=x&state=state";
-    const openNintendo = (redirect = vi.fn()) =>
-      openPasteStep(redirect, vi.fn(), UserConnectionDto.type.NINTENDO);
-
-    it("opens the URL only on its own click and shows the coverage notice", async () => {
+  it.each([UserConnectionDto.type.NINTENDO, UserConnectionDto.type.GOG])(
+    "shows the %s guide before sign-in with play/pause controls and coverage",
+    async (type) => {
       const redirect = vi.fn();
-      const { signIn } = await startFlow(
-        redirect,
-        vi.fn(),
-        UserConnectionDto.type.NINTENDO,
-      );
+      const { signIn } = await startFlow(redirect, vi.fn(), type);
       expect(redirect).not.toHaveBeenCalled();
       expect(
-        screen.getByText("preferences.delegatedCode.nintendo.coverage"),
+        screen.getByText(`preferences.delegatedCode.${type}.coverage`),
       ).toBeTruthy();
       expect(
         screen
-          .getByText("preferences.delegatedCode.nintendo.signInHint")
+          .getByText(`preferences.delegatedCode.${type}.signInHint`)
           .compareDocumentPosition(signIn) & Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();
       const guide = screen.getByRole("img", {
-        name: "preferences.delegatedCode.nintendo.guideAlt",
+        name: `preferences.delegatedCode.${type}.guideAlt`,
       });
-      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.gif");
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
+      expect(
+        guide.compareDocumentPosition(signIn) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(
+        screen.queryByRole("img", {
+          name: `preferences.delegatedCode.${type === "gog" ? "nintendo" : "gog"}.guideAlt`,
+        }),
+      ).toBeNull();
       fireEvent.click(
         screen.getByRole("button", {
-          name: "preferences.delegatedCode.nintendo.pauseGuide",
+          name: `preferences.delegatedCode.${type}.pauseGuide`,
+          pressed: true,
         }),
       );
-      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.png");
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.png`);
       fireEvent.click(
         screen.getByRole("button", {
-          name: "preferences.delegatedCode.nintendo.playGuide",
+          name: `preferences.delegatedCode.${type}.playGuide`,
+          pressed: false,
         }),
       );
-      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.gif");
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
       fireEvent.click(signIn);
       await waitFor(() =>
         expect(redirect).toHaveBeenCalledWith(
           "https://provider.example/signin",
         ),
       );
-    });
+    },
+  );
 
-    it("starts with a still guide when reduced motion is requested", async () => {
+  it.each([UserConnectionDto.type.NINTENDO, UserConnectionDto.type.GOG])(
+    "starts the %s guide still for reduced motion and allows explicit playback",
+    async (type) => {
       vi.mocked(window.matchMedia).mockImplementation((query) => ({
         matches: query === "(prefers-reduced-motion: reduce)",
         media: query,
@@ -691,20 +703,25 @@ describe("delegated code connection setup", () => {
         removeListener: vi.fn(),
         dispatchEvent: vi.fn(),
       }));
-      await startFlow(vi.fn(), vi.fn(), UserConnectionDto.type.NINTENDO);
-      expect(
-        screen
-          .getByRole("img", {
-            name: "preferences.delegatedCode.nintendo.guideAlt",
-          })
-          .getAttribute("src"),
-      ).toBe("/img/nintendo-link-guide.png");
-      expect(
+      await startFlow(vi.fn(), vi.fn(), type);
+      const guide = screen.getByRole("img", {
+        name: `preferences.delegatedCode.${type}.guideAlt`,
+      });
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.png`);
+      fireEvent.click(
         screen.getByRole("button", {
-          name: "preferences.delegatedCode.nintendo.playGuide",
+          name: `preferences.delegatedCode.${type}.playGuide`,
+          pressed: false,
         }),
-      ).toBeTruthy();
-    });
+      );
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
+    },
+  );
+
+  describe("nintendo", () => {
+    const LINK = "npf5c38e31cd085304b://auth#session_token_code=x&state=state";
+    const openNintendo = (redirect = vi.fn()) =>
+      openPasteStep(redirect, vi.fn(), UserConnectionDto.type.NINTENDO);
 
     it("sends the trimmed account link with the state", async () => {
       const { input } = await openNintendo();

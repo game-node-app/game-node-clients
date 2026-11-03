@@ -38,6 +38,19 @@ Starting or reconnecting GOG SHALL send an authenticated `POST /v1/connections/g
 - **AND** the authorization URL can be copied for completing sign-in in a desktop browser within the same attempt
 - **AND** if the app loses the attempt, the player starts init again
 
+### Requirement: GOG animated sign-in guide
+The GOG sign-in step SHALL show an animated guide on web and mobile following Nintendo's pattern, using fictitious values only. It SHALL include English/Brazilian Portuguese alternative text and play/pause controls, respect reduced motion with a static fallback, and supplement mobile address/share instructions.
+
+#### Scenario: Viewing and pausing the guide
+- **WHEN** the player opens GOG sign-in without requesting reduced motion
+- **THEN** the GOG guide animates before the sign-in button and can be paused to a static image and played again
+- **AND** it demonstrates sign-in, copying the entire final browser URL and returning to GameNode to paste and submit it
+- **AND** Nintendo keeps its own guide and other providers do not show the GOG guide
+
+#### Scenario: Reduced motion
+- **WHEN** the player opens GOG sign-in with reduced motion enabled
+- **THEN** the guide starts with the static image and offers an explicit play control
+
 ### Requirement: Full GOG final URL submission
 The GOG paste step SHALL accept the full HTTPS `embed.gog.com/on_login_success` URL with `origin=client` and a nonempty `code`. It SHALL send the trimmed original text as `callbackParams.code` with init's GameNode `state` to `POST /v1/connections/gog/auth/callback`. It SHALL NOT extract just the code, fetch the pasted URL or request access/refresh tokens.
 

@@ -10,6 +10,13 @@
 
 Covered behavior includes the full callback payload and encoding, local URL rejection, single-use recovery after server/network failures, reconnect preferences, existing settings/deletion APIs and visible ownership errors, safe errors/cache dehydration/network recording, generated provider coverage, noninteractive profile icons, unplayed PC imports, batch results/cache invalidation, localized discovery samples/counts, cumulative playtime without invented metadata, GOG achievement matching within source, hidden text/missing dates, count summaries and retryable read failures with retained cached progress. Steam, PSN, Xbox, Epic and Nintendo regression cases remain covered.
 
+## Animated guide follow-up
+
+- Added an illustrative GOG sign-in → full browser URL copy → GameNode paste/submit animation using fictitious values, following Nintendo's GIF/PNG pattern. Both apps ship byte-identical 720×440 assets: a 67-frame looping GIF (98,613 bytes) and a static PNG (42,895 bytes). Inspected representative frames for sign-in, URL selection, copying, return, paste and completion; these are illustrations, not recordings of a real account.
+- `yarn workspace mobile test src/components/preferences/connections/connection-auth.test.tsx` — **48 tests passed**, including guide selection, placement before sign-in, play/pause state and explicit playback under reduced motion for GOG/Nintendo, plus existing authentication/privacy/regression cases.
+- Regenerated translation types. English/Brazilian Portuguese guide copy, asset dimensions/frame count/loop and matching web/mobile files passed assert-based checks. Type checks passed for UI, locales, mobile and web; ESLint passed for the changed component and test. Strict OpenSpec validation and `git diff --check` passed.
+- Task 2.5 is complete. Tasks 5.2 and 5.3 remain open; the guide does not replace real-account or device/browser validation.
+
 ## Pre-existing checks
 
 Analytics has no type-check script. Running `yarn workspace @repo/analytics exec tsc --noEmit` reports six TS2307 errors for shared UI CSS module declarations: SignIn (two imports), FloatingLabelInput, LibraryViewSidebarCollection, McpGuideScreen and RecapYearTitle. A TypeScript compiler-host comparison using HEAD versions of the changed sources in memory produced the same six diagnostics for the baseline and current sources, with no new diagnostics. No unrelated configuration change was made.

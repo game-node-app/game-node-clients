@@ -85,11 +85,10 @@ const PreferencesConnectionDelegatedCode = ({
   );
   const isNintendo = type === UserConnectionDto.type.NINTENDO;
   const isGog = type === UserConnectionDto.type.GOG;
-  const k = isNintendo
+  const guideKey = isNintendo
     ? "preferences.delegatedCode.nintendo"
-    : isGog
-      ? "preferences.delegatedCode.gog"
-      : "preferences.delegatedCode";
+    : "preferences.delegatedCode.gog";
+  const k = isNintendo || isGog ? guideKey : "preferences.delegatedCode";
 
   const callbackMutation = useMutation({
     retry: false,
@@ -144,34 +143,12 @@ const PreferencesConnectionDelegatedCode = ({
         <Stepper.Step
           label={t("preferences.delegatedCode.signInStep", { type: name })}
         >
-          {isGog && (
+          {(isNintendo || isGog) && (
             <Stack mt="md" gap="xs">
-              <Text size="sm">
-                {t("preferences.delegatedCode.gog.signInHint")}
-              </Text>
-              <Text size="sm">
-                {t("preferences.delegatedCode.gog.coverage")}
-              </Text>
-              <Text size="xs" c="dimmed">
-                {t("preferences.delegatedCode.gog.expiryHint")}
-              </Text>
-              <TextInput
-                readOnly
-                label={t("preferences.delegatedCode.gog.signInUrl")}
-                description={t("preferences.delegatedCode.gog.desktopFallback")}
-                value={authorizationUrl}
-                onFocus={(event) => event.currentTarget.select()}
-              />
-            </Stack>
-          )}
-          {isNintendo && (
-            <Stack mt="md" gap="xs">
-              <Text size="sm">
-                {t("preferences.delegatedCode.nintendo.signInHint")}
-              </Text>
+              <Text size="sm">{t(`${guideKey}.signInHint`)}</Text>
               <Image
-                src={`/img/nintendo-link-guide.${isGuidePlaying ? "gif" : "png"}`}
-                alt={t("preferences.delegatedCode.nintendo.guideAlt")}
+                src={`/img/${type}-link-guide.${isGuidePlaying ? "gif" : "png"}`}
+                alt={t(`${guideKey}.guideAlt`)}
                 width={720}
                 height={440}
                 w="100%"
@@ -187,11 +164,26 @@ const PreferencesConnectionDelegatedCode = ({
                 onClick={() => setGuidePlaying(!isGuidePlaying)}
               >
                 {t(
-                  isGuidePlaying
-                    ? "preferences.delegatedCode.nintendo.pauseGuide"
-                    : "preferences.delegatedCode.nintendo.playGuide",
+                  `${guideKey}.${isGuidePlaying ? "pauseGuide" : "playGuide"}`,
                 )}
               </Button>
+            </Stack>
+          )}
+          {isGog && (
+            <Stack mt="md" gap="xs">
+              <Text size="sm">
+                {t("preferences.delegatedCode.gog.coverage")}
+              </Text>
+              <Text size="xs" c="dimmed">
+                {t("preferences.delegatedCode.gog.expiryHint")}
+              </Text>
+              <TextInput
+                readOnly
+                label={t("preferences.delegatedCode.gog.signInUrl")}
+                description={t("preferences.delegatedCode.gog.desktopFallback")}
+                value={authorizationUrl}
+                onFocus={(event) => event.currentTarget.select()}
+              />
             </Stack>
           )}
           <Button
