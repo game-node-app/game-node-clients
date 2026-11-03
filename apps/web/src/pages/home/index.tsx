@@ -17,6 +17,7 @@ import {
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
+  ReleaseStrip,
   TrendingGamesList,
   TrendingReviewCarousel,
   useSearchGames,
@@ -135,6 +136,7 @@ const HomePage = () => {
                 <RecentActivityList limit={10} type={type.REVIEW} />
               </DetailsCard>
             </SimpleGrid>
+            <ReleaseStrip />
             <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
               <GameCollectionTypeView
                 collectionType={collectionType.UPCOMING}

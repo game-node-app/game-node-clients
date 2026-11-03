@@ -520,6 +520,18 @@
       "recentReleases": "Lançamentos recentes",
       "upcoming": "Em breve"
     },
+    "releaseCalendar": {
+      "gamesCount": "{{count}} jogos",
+      "title": "Calendário de lançamentos",
+      "inLibrary": "Na sua lista",
+      "more": "+{{count}}",
+      "noReleases": "Sem lançamentos",
+      "showCalendar": "Ver calendário",
+      "hideCalendar": "Ocultar calendário",
+      "today": "Hoje",
+      "previousGame": "Jogo anterior",
+      "nextGame": "Próximo jogo"
+    },
     "details": {
       "developers": "Desenvolvedora(s)",
       "launchDate": "Data de lançamento",
