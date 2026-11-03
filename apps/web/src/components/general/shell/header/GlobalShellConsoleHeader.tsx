@@ -16,12 +16,20 @@ interface Props {
 }
 
 /**
- * Header for console app themes: profile on the left, navigation centered, actions and logo on the right.
+ * Header for console app themes: logo on the left, navigation centered, actions and profile on the right.
  * Narrow screens follow the Xbox app instead: profile and status on top, navigation in a bottom bar.
  */
 export default function GlobalShellConsoleHeader({ navigation }: Props) {
   const { t } = useTranslation();
   const userId = useUserId();
+
+  const profile = userId ? (
+    <GlobalShellNavbarUserMenu withDetails />
+  ) : (
+    <Link href={"/auth"}>
+      <Button>{t("auth.signIn")}</Button>
+    </Link>
+  );
 
   return (
     <div className="gn-console-header-row">
@@ -30,13 +38,15 @@ export default function GlobalShellConsoleHeader({ navigation }: Props) {
         <CommandCenter />
       </CommandCenterContextProvider>
       <Group className="gn-console-header-side">
-        {userId ? (
-          <GlobalShellNavbarUserMenu withDetails />
-        ) : (
-          <Link href={"/auth"}>
-            <Button>{t("auth.signIn")}</Button>
+        <Box visibleFrom="md">
+          <Link href={"/home"} aria-label={"GameNode"}>
+            <GameNodeLogo className="gn-console-logo" />
           </Link>
-        )}
+        </Box>
+        {/* below md the logo hides, so the profile keeps the left side */}
+        <Box hiddenFrom="md" className="min-w-0">
+          {profile}
+        </Box>
       </Group>
       {/* below md the navigation moves to the bottom bar (GlobalAppShell) */}
       <Box visibleFrom="md" className="min-w-0">
@@ -55,10 +65,8 @@ export default function GlobalShellConsoleHeader({ navigation }: Props) {
             <GlobalShellHeaderNotifications />
           </>
         )}
-        <Box visibleFrom="md">
-          <Link href={"/home"} aria-label={"GameNode"}>
-            <GameNodeLogo className="gn-console-logo" />
-          </Link>
+        <Box visibleFrom="md" className="min-w-0">
+          {profile}
         </Box>
       </Group>
     </div>
