@@ -1,0 +1,28 @@
+{
+  "source": "b046012b37a90c6145b1bf3170d47a7e9e087701",
+  "changesets": [
+    ".changeset/home-release-calendar.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[99b923633bc8ace0f10cc7f0ff0a5bd91e8c752a...b046012b37a90c6145b1bf3170d47a7e9e087701]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/b046012b37a90c6145b1bf3170d47a7e9e087701",
+  "versions": {
+    "web": "1.11.0",
+    "mobile": "1.10.0"
+  }
+}
