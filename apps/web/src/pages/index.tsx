@@ -18,6 +18,8 @@ import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
 import Link from "next/link";
 import styles from "@/components/landing/Landing.module.css";
+import { PopularSection } from "@/components/landing/PopularSection";
+import { SupporterSection } from "@/components/landing/SupporterSection";
 
 const asset = (file: string) => `/img/landing/${file}`;
 const Home = () => {
@@ -202,6 +204,7 @@ const Home = () => {
             </Paper>
           </SimpleGrid>
         </Container>
+        <PopularSection />
         <Container
           component="section"
           size={1302}
@@ -304,75 +307,7 @@ const Home = () => {
             </Stack>
           </Paper>
         </Container>
-        <Container
-          component="section"
-          id="premium"
-          size={1302}
-          className={styles.section}
-        >
-          <Text className={styles.eyebrow}>GAMENODE PREMIUM</Text>
-          <Title order={2} mt={12}>
-            {t("landing.presentation.premiumTitle")}
-          </Title>
-          <Text c="dimmed" size="lg" mt={12}>
-            {t("landing.presentation.premiumDescription")}
-          </Text>
-          <Paper className={styles.offer} mt={36}>
-            <Stack className={styles.price} gap={20}>
-              <Text className={styles.eyebrow}>SUPPORTER PREMIUM</Text>
-              <Text fz={52} fw={700} lh={1}>
-                R$ 9,90
-              </Text>
-              <Text c="dimmed" size="sm">
-                {t("landing.presentation.monthly")}
-              </Text>
-              <Text mt={20}>
-                {t("landing.presentation.supportDescription")}
-              </Text>
-              <Button
-                component="a"
-                href="https://patreon.com/GameNodeApp"
-                mt={40}
-              >
-                {t("landing.presentation.subscribe")}
-              </Button>
-            </Stack>
-            <Box p={{ base: 28, md: 44 }}>
-              <Title order={3} fz={27}>
-                {t("landing.presentation.benefitsTitle")}
-              </Title>
-              <Text c="dimmed" mt={28}>
-                {t("landing.presentation.benefitsDescription")}
-              </Text>
-              <SimpleGrid
-                component="ul"
-                cols={{ base: 1, sm: 2 }}
-                spacing={20}
-                mt={28}
-                className={styles.benefits}
-              >
-                {(
-                  [
-                    "benefit1",
-                    "benefit2",
-                    "benefit3",
-                    "benefit4",
-                    "benefit5",
-                    "benefit6",
-                    "benefit7",
-                  ] as const
-                ).map((key) => (
-                  <li key={key}>
-                    <Text component="span" c="brand" mr={8}>
-                      ✓
-                    </Text>
-                    {t(`landing.presentation.${key}`)}
-                  </li>
-                ))}
-              </SimpleGrid>
-            </Box>
-          </Paper>
-        </Container>
+        <SupporterSection />
       </Box>
       <Box component="footer" className={styles.footer}>
         <img
