@@ -462,6 +462,99 @@ export type TranslationSchema = {
     message: string;
     title: string;
   };
+  daily: {
+    subtitle: string;
+    fetchError: string;
+    noPuzzle: string;
+    play: string;
+    nextPuzzleIn: string;
+    attempts: string;
+    modes: {
+      cover: {
+        name: string;
+        description: string;
+      };
+      artwork: {
+        name: string;
+        description: string;
+      };
+      keywords: {
+        name: string;
+        description: string;
+      };
+      specs: {
+        name: string;
+        description: string;
+      };
+    };
+    status: {
+      notPlayed: string;
+      inProgress: string;
+      won: string;
+      lost: string;
+    };
+    guess: {
+      placeholder: string;
+      nothingFound: string;
+      commonGenres: string;
+      commonPlatforms: string;
+    };
+    results: {
+      correct: string;
+      franchise: string;
+      wrong: string;
+      skipped: string;
+    };
+    hint: {
+      imageLevel: string;
+    };
+    specs: {
+      columns: {
+        game: string;
+        platforms: string;
+        genres: string;
+        themes: string;
+        gameModes: string;
+        gameEngines: string;
+        companies: string;
+        perspectives: string;
+        franchise: string;
+        releaseYear: string;
+      };
+      franchise: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      yearRange: string;
+      reveal: string;
+      hint: string;
+      hintConfirm: string;
+    };
+    result: {
+      won: string;
+      lost: string;
+      answer: string;
+      community: string;
+    };
+    share: {
+      all: string;
+      copied: string;
+    };
+    stats: {
+      title: string;
+      played: string;
+      winRate: string;
+      currentStreak: string;
+      maxStreak: string;
+      distribution: string;
+    };
+    archive: {
+      link: string;
+      title: string;
+      empty: string;
+    };
+  };
   errors: {
     comeBackSoon: string;
     copiedToClipboard: string;
@@ -999,6 +1092,7 @@ export type TranslationSchema = {
     back: string;
     blog: string;
     collections: string;
+    daily: string;
     explore: string;
     feats: string;
     home: string;

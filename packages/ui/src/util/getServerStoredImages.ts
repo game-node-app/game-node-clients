@@ -13,3 +13,7 @@ export function getS3StoredUpload(filenameWithExtension: string) {
 export function getServerStoredIcon(iconName: string) {
   return `${ServerOpenAPI.BASE}/v1/public/icons/${iconName}.png`;
 }
+
+export function getDailyImageUrl(token: string) {
+  return `${ServerOpenAPI.BASE}/v1/daily/images/${token}`;
+}

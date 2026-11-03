@@ -458,6 +458,99 @@
     "message": "Tem certeza de que deseja fazer isso?",
     "title": "Confirmar ação"
   },
+  "daily": {
+    "subtitle": "Adivinhe o jogo a partir de uma dica que fica mais clara a cada erro. Novos desafios todos os dias.",
+    "fetchError": "Não foi possível carregar os desafios do dia.",
+    "noPuzzle": "Não há desafio para este modo hoje.",
+    "play": "Jogar",
+    "nextPuzzleIn": "Novos desafios em {{time}}",
+    "attempts": "{{attempts}} de {{max}} tentativas usadas",
+    "modes": {
+      "cover": {
+        "name": "Capa",
+        "description": "Adivinhe o jogo pela capa, que fica mais nítida a cada tentativa."
+      },
+      "artwork": {
+        "name": "Artwork",
+        "description": "Adivinhe o jogo por uma arte que fica mais nítida a cada tentativa."
+      },
+      "keywords": {
+        "name": "Palavras-chave",
+        "description": "Adivinhe o jogo pelas palavras-chave. Novas pistas aparecem a cada tentativa."
+      },
+      "specs": {
+        "name": "Especificações",
+        "description": "Chute qualquer jogo e compare plataformas, gêneros, empresas e mais com a resposta."
+      }
+    },
+    "status": {
+      "notPlayed": "Não jogado",
+      "inProgress": "Em andamento",
+      "won": "Acertou em {{attempts}}",
+      "lost": "Não acertou"
+    },
+    "guess": {
+      "placeholder": "Busque um jogo",
+      "nothingFound": "Nenhum jogo encontrado",
+      "commonGenres": "Gêneros em comum",
+      "commonPlatforms": "Plataformas em comum"
+    },
+    "results": {
+      "correct": "Correto",
+      "franchise": "Mesma franquia",
+      "wrong": "Errado",
+      "skipped": "Pulado"
+    },
+    "hint": {
+      "imageLevel": "Nível {{level}}"
+    },
+    "specs": {
+      "columns": {
+        "game": "Jogo",
+        "platforms": "Plataformas",
+        "genres": "Gêneros",
+        "themes": "Temas",
+        "gameModes": "Modos",
+        "gameEngines": "Motor",
+        "companies": "Empresas",
+        "perspectives": "Perspectiva",
+        "franchise": "Franquia",
+        "releaseYear": "Ano"
+      },
+      "franchise": {
+        "match": "Mesma",
+        "partial": "Relacionada",
+        "none": "Diferente"
+      },
+      "yearRange": "Lançado entre {{min}} e {{max}}",
+      "reveal": "Dica, {{column}}: {{values}}",
+      "hint": "Revelar uma coluna",
+      "hintConfirm": "Revelar uma das colunas da resposta custa uma tentativa."
+    },
+    "result": {
+      "won": "Acertou em {{attempts}}!",
+      "lost": "Acabaram as tentativas",
+      "answer": "A resposta era",
+      "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas"
+    },
+    "share": {
+      "all": "Compartilhar todos de hoje",
+      "copied": "Copiado para a área de transferência"
+    },
+    "stats": {
+      "title": "Suas estatísticas",
+      "played": "Jogados",
+      "winRate": "% de acertos",
+      "currentStreak": "Sequência atual",
+      "maxStreak": "Melhor sequência",
+      "distribution": "Distribuição de tentativas"
+    },
+    "archive": {
+      "link": "Arquivo",
+      "title": "Arquivo: {{mode}}",
+      "empty": "Ainda não há desafios anteriores."
+    }
+  },
   "errors": {
     "comeBackSoon": "Volte em breve!",
     "copiedToClipboard": "Detalhes do erro copiados para a área de transferência",
@@ -995,6 +1088,7 @@
     "back": "Voltar",
     "blog": "Blog",
     "collections": "Coleções",
+    "daily": "Daily",
     "explore": "Explorar",
     "feats": "Feitos",
     "home": "Início",
