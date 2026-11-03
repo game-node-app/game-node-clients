@@ -13,6 +13,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useReducedMotion } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { IconArrowsLeftRight, IconClipboard } from "@tabler/icons-react";
 import { ConnectionsService, UserConnectionDto } from "@repo/wrapper/server";
@@ -57,6 +58,9 @@ const PreferencesConnectionDelegatedCode = ({
   const queryClient = useQueryClient();
   const name = getConnectionName(type);
   const [active, setActive] = useState(0);
+  const reducedMotion = useReducedMotion(true);
+  const [guidePlaying, setGuidePlaying] = useState<boolean>();
+  const isGuidePlaying = guidePlaying ?? !reducedMotion;
   const [value, setValue] = useState("");
   const [invalid, setInvalid] = useState<"invalid" | "otherAttempt" | false>(
     false,
@@ -104,6 +108,36 @@ const PreferencesConnectionDelegatedCode = ({
         <Stepper.Step
           label={t("preferences.delegatedCode.signInStep", { type: name })}
         >
+          {isNintendo && (
+            <Stack mt="md" gap="xs">
+              <Text size="sm">
+                {t("preferences.delegatedCode.nintendo.signInHint")}
+              </Text>
+              <Image
+                src={`/img/nintendo-link-guide.${isGuidePlaying ? "gif" : "png"}`}
+                alt={t("preferences.delegatedCode.nintendo.guideAlt")}
+                width={720}
+                height={440}
+                w="100%"
+                h="auto"
+                radius="sm"
+              />
+              <Button
+                type="button"
+                variant="subtle"
+                size="compact-xs"
+                style={{ alignSelf: "flex-end" }}
+                aria-pressed={isGuidePlaying}
+                onClick={() => setGuidePlaying(!isGuidePlaying)}
+              >
+                {t(
+                  isGuidePlaying
+                    ? "preferences.delegatedCode.nintendo.pauseGuide"
+                    : "preferences.delegatedCode.nintendo.playGuide",
+                )}
+              </Button>
+            </Stack>
+          )}
           <Button
             mt="md"
             fullWidth

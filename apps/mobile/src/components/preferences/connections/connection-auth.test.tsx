@@ -341,6 +341,11 @@ describe("delegated code connection setup", () => {
   it("inits once with the settings and opens the URL only on its own click", async () => {
     const { redirect, signIn } = await startFlow();
     expect(
+      screen.queryByRole("img", {
+        name: "preferences.delegatedCode.nintendo.guideAlt",
+      }),
+    ).toBeNull();
+    expect(
       ConnectionsService.connectionsControllerInitRedirectAuthV1,
     ).toHaveBeenCalledTimes(1);
     expect(
@@ -428,12 +433,59 @@ describe("delegated code connection setup", () => {
       expect(
         screen.getByText("preferences.delegatedCode.nintendo.coverage"),
       ).toBeTruthy();
+      expect(
+        screen
+          .getByText("preferences.delegatedCode.nintendo.signInHint")
+          .compareDocumentPosition(signIn) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      const guide = screen.getByRole("img", {
+        name: "preferences.delegatedCode.nintendo.guideAlt",
+      });
+      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.gif");
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "preferences.delegatedCode.nintendo.pauseGuide",
+        }),
+      );
+      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.png");
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "preferences.delegatedCode.nintendo.playGuide",
+        }),
+      );
+      expect(guide.getAttribute("src")).toBe("/img/nintendo-link-guide.gif");
       fireEvent.click(signIn);
       await waitFor(() =>
         expect(redirect).toHaveBeenCalledWith(
           "https://provider.example/signin",
         ),
       );
+    });
+
+    it("starts with a still guide when reduced motion is requested", async () => {
+      vi.mocked(window.matchMedia).mockImplementation((query) => ({
+        matches: query === "(prefers-reduced-motion: reduce)",
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }));
+      await startFlow(vi.fn(), vi.fn(), UserConnectionDto.type.NINTENDO);
+      expect(
+        screen
+          .getByRole("img", {
+            name: "preferences.delegatedCode.nintendo.guideAlt",
+          })
+          .getAttribute("src"),
+      ).toBe("/img/nintendo-link-guide.png");
+      expect(
+        screen.getByRole("button", {
+          name: "preferences.delegatedCode.nintendo.playGuide",
+        }),
+      ).toBeTruthy();
     });
 
     it("sends the trimmed account link with the state", async () => {

@@ -1106,6 +1106,10 @@
       "startOver": "Recomeçar",
       "pasteFromClipboard": "Colar da área de transferência",
       "nintendo": {
+        "signInHint": "Depois de entrar, não clique em \"Select this account\" na página da Nintendo. Clique com o botão direito (ou toque e segure no celular), escolha \"Copiar endereço do link\" e volte ao GameNode para colar o link.",
+        "guideAlt": "Exemplo: clique com o botão direito em \"Select this account\" na Nintendo, escolha \"Copiar endereço do link\" e cole no campo Link da conta do GameNode.",
+        "pauseGuide": "Pausar guia",
+        "playGuide": "Reproduzir guia",
         "copyHint": "Depois de entrar, a Nintendo mostra um botão \"Select this account\". Não clique nele. Clique com o botão direito (ou toque e segure no celular), escolha \"Copiar endereço do link\" e cole o link abaixo.",
         "pasteLabel": "Link da conta",
         "pastePlaceholder": "npf5c38e31cd085304b://auth#…",
