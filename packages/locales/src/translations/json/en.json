@@ -459,6 +459,99 @@
     "message": "Are you sure you want to do this?",
     "title": "Confirm action"
   },
+  "daily": {
+    "subtitle": "Guess the game from a hint that gets clearer with every wrong guess. New puzzles every day.",
+    "fetchError": "Couldn't load the daily puzzles.",
+    "noPuzzle": "There's no puzzle for this mode today.",
+    "play": "Play",
+    "nextPuzzleIn": "New puzzles in {{time}}",
+    "attempts": "{{attempts}} of {{max}} attempts used",
+    "modes": {
+      "cover": {
+        "name": "Cover",
+        "description": "Guess the game from its cover, which gets clearer with each try."
+      },
+      "artwork": {
+        "name": "Artwork",
+        "description": "Guess the game from an artwork that gets clearer with each try."
+      },
+      "keywords": {
+        "name": "Keywords",
+        "description": "Guess the game from its keywords. More clues show up with each try."
+      },
+      "specs": {
+        "name": "Specs",
+        "description": "Guess any game and compare its platforms, genres, companies and more with the answer."
+      }
+    },
+    "status": {
+      "notPlayed": "Not played",
+      "inProgress": "In progress",
+      "won": "Solved in {{attempts}}",
+      "lost": "Not solved"
+    },
+    "guess": {
+      "placeholder": "Search for a game",
+      "nothingFound": "No games found",
+      "commonGenres": "Genres in common",
+      "commonPlatforms": "Platforms in common"
+    },
+    "results": {
+      "correct": "Correct",
+      "franchise": "Same franchise",
+      "wrong": "Wrong",
+      "skipped": "Skipped"
+    },
+    "hint": {
+      "imageLevel": "Level {{level}}"
+    },
+    "specs": {
+      "columns": {
+        "game": "Game",
+        "platforms": "Platforms",
+        "genres": "Genres",
+        "themes": "Themes",
+        "gameModes": "Modes",
+        "gameEngines": "Engine",
+        "companies": "Companies",
+        "perspectives": "Perspective",
+        "franchise": "Franchise",
+        "releaseYear": "Year"
+      },
+      "franchise": {
+        "match": "Same",
+        "partial": "Related",
+        "none": "Different"
+      },
+      "yearRange": "Released between {{min}} and {{max}}",
+      "reveal": "Hint, {{column}}: {{values}}",
+      "hint": "Reveal a column",
+      "hintConfirm": "Revealing one of the answer's columns costs one attempt."
+    },
+    "result": {
+      "won": "Solved in {{attempts}}!",
+      "lost": "Out of attempts",
+      "answer": "The answer was",
+      "community": "{{players}} players solved it, in {{average}} attempts on average"
+    },
+    "share": {
+      "all": "Share all from today",
+      "copied": "Copied to clipboard"
+    },
+    "stats": {
+      "title": "Your stats",
+      "played": "Played",
+      "winRate": "Win %",
+      "currentStreak": "Current streak",
+      "maxStreak": "Best streak",
+      "distribution": "Attempts distribution"
+    },
+    "archive": {
+      "link": "Archive",
+      "title": "{{mode}} archive",
+      "empty": "No past puzzles yet."
+    }
+  },
   "errors": {
     "comeBackSoon": "Come back soon!",
     "copiedToClipboard": "Error details copied to clipboard",
@@ -1058,6 +1151,7 @@
     "back": "Back",
     "blog": "Blog",
     "collections": "Collections",
+    "daily": "Daily",
     "explore": "Explore",
     "feats": "Feats",
     "home": "Home",
