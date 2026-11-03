@@ -66,6 +66,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    retry: string;
   };
   activity: {
     items: {
@@ -515,6 +516,7 @@ export type TranslationSchema = {
       ownedBy: string;
       totalCount: string;
       trophies: string;
+      previousProgress: string;
     };
     buttons: {
       addLibrary: string;
@@ -821,6 +823,11 @@ export type TranslationSchema = {
       communityDescription: string;
       activity: string;
       hours: string;
+      communityLabel: string;
+      communitySectionTitle: string;
+      communitySectionDescription: string;
+      popularGames: string;
+      popularReviews: string;
       connectionsLabel: string;
       connectionsTitle: string;
       connectionsDescription: string;
@@ -831,20 +838,64 @@ export type TranslationSchema = {
       aiPrompt: string;
       aiReply: string;
       aiPermission: string;
-      premiumTitle: string;
-      premiumDescription: string;
-      monthly: string;
-      supportDescription: string;
-      subscribe: string;
-      benefitsTitle: string;
-      benefitsDescription: string;
-      benefit1: string;
-      benefit2: string;
-      benefit3: string;
-      benefit4: string;
-      benefit5: string;
-      benefit6: string;
-      benefit7: string;
+      supporter: {
+        label: string;
+        title: string;
+        description: string;
+        billing: string;
+        monthly: string;
+        yearly: string;
+        yearlyBadge: string;
+        included: string;
+        notIncluded: string;
+        free: {
+          name: string;
+          price: string;
+          period: string;
+          description: string;
+          cta: string;
+          limit: string;
+        };
+        plan: {
+          name: string;
+          badge: string;
+          description: string;
+          cta: string;
+          monthlyPrice: string;
+          monthlyPeriod: string;
+          yearlyPrice: string;
+          yearlyPeriod: string;
+          limit: string;
+        };
+        groups: {
+          always: string;
+          profile: string;
+          library: string;
+          live: string;
+          show: string;
+        };
+        features: {
+          library: string;
+          import: string;
+          achievements: string;
+          videoCover: string;
+          animatedBorder: string;
+          theme: string;
+          collections: string;
+          customCovers: string;
+          live: string;
+          badge: string;
+          wall: string;
+        };
+        trust: {
+          cancel: string;
+          benefits: string;
+          downgrade: string;
+          servers: string;
+          openSource: string;
+          footer: string;
+        };
+      };
       footerTitle: string;
       copyright: string;
       product: string;
@@ -1134,6 +1185,21 @@ export type TranslationSchema = {
         coverage: string;
         revoke: string;
         phoneHint: string;
+      };
+      gog: {
+        signInHint: string;
+        guideAlt: string;
+        pauseGuide: string;
+        playGuide: string;
+        coverage: string;
+        expiryHint: string;
+        signInUrl: string;
+        desktopFallback: string;
+        copyHint: string;
+        pasteLabel: string;
+        pastePlaceholder: string;
+        invalidLink: string;
+        callbackFailed: string;
       };
     };
     descriptions: {

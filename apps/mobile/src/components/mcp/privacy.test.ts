@@ -12,6 +12,8 @@ vi.mock("posthog-js", () => ({
 describe("OAuth telemetry boundary", () => {
   it.each([
     "/auth?sig=secret",
+    "/v1/connections/gog/auth/init",
+    "/v1/connections/gog/auth/callback",
     "/pt-BR/oauth/consent?state=secret",
     "/home?oauth_query=secret",
     "/auth?error=failed",
@@ -55,4 +57,20 @@ describe("OAuth telemetry boundary", () => {
       disable_session_recording: false,
     });
   });
+});
+
+it("scrubs GOG URLs and nested callback codes from captures", () => {
+  const url =
+    "https://embed.gog.com/on_login_success?origin=client&code=fake-gog-secret";
+  expect(isPrivateAuthUrl(url)).toBe(true);
+  const result = beforeOAuthCapture({
+    event: "error",
+    properties: {
+      $current_url: "/preferences/connections",
+      href: url,
+      request: { callbackParams: { code: url }, state: "fake-state" },
+    },
+  } as never);
+  expect(JSON.stringify(result)).not.toContain("fake-gog-secret");
+  expect(JSON.stringify(result)).not.toContain("fake-state");
 });

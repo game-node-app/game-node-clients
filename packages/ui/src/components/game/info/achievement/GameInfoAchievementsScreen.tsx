@@ -7,7 +7,8 @@ import {
   useUserId,
 } from "#@/components";
 import { getServerStoredIcon } from "#@/util";
-import { Image, Tabs } from "@mantine/core";
+import { Button, Image, Stack, Tabs } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { useCallback } from "react";
 
 interface Props {
@@ -15,9 +16,10 @@ interface Props {
 }
 
 const GameInfoAchievementsScreen = ({ gameId }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   useOnMobile();
-  const { data, isLoading, isError, error } = useGameAchievementsV2(
+  const { data, isLoading, isError, error, refetch } = useGameAchievementsV2(
     userId,
     gameId,
   );
@@ -68,6 +70,14 @@ const GameInfoAchievementsScreen = ({ gameId }: Props) => {
   if (isLoading) {
     return <CenteredLoading />;
   }
+  if (isError && !data) {
+    return (
+      <Stack>
+        <CenteredErrorMessage error={error} />
+        <Button onClick={() => void refetch()}>{t("actions.retry")}</Button>
+      </Stack>
+    );
+  }
 
   return (
     <Tabs
@@ -81,7 +91,6 @@ const GameInfoAchievementsScreen = ({ gameId }: Props) => {
         list: "w-fit",
       }}
     >
-      {isError && <CenteredErrorMessage error={error} />}
       <Tabs.List>{buildTabs()}</Tabs.List>
       {buildPanels()}
     </Tabs>

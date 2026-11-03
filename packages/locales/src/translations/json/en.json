@@ -61,7 +61,8 @@
     "viewMore": "View More",
     "yes": "Yes",
     "use": "Use",
-    "toOpenDialogAnytime": "to open this dialog anytime"
+    "toOpenDialogAnytime": "to open this dialog anytime",
+    "retry": "Try again"
   },
   "activity": {
     "items": {
@@ -510,7 +511,8 @@
       "overviewTitle": "Achievements",
       "ownedBy": "Owned by",
       "totalCount": "{{totalObtained}} of {{total}}",
-      "trophies": "Trophies"
+      "trophies": "Trophies",
+      "previousProgress": "Previously loaded progress. Refresh failed; try again."
     },
     "buttons": {
       "addLibrary": "Add to library",
@@ -817,6 +819,11 @@
       "communityDescription": "Follow friends, discover what they are playing and share your achievements.",
       "activity": "THIS WEEK’S ACTIVITY",
       "hours": "24h played",
+      "communityLabel": "COMMUNITY",
+      "communitySectionTitle": "See what the community is playing.",
+      "communitySectionDescription": "The games and reviews gathering the most attention among GameNode players right now.",
+      "popularGames": "Most popular games this month",
+      "popularReviews": "Reviews players are talking about",
       "connectionsLabel": "CONNECTIONS",
       "connectionsTitle": "Your platforms. One GameNode.",
       "connectionsDescription": "A connected library to bring together your journey on every platform.",
@@ -827,20 +834,64 @@
       "aiPrompt": "Find a co-op game I haven't played yet and add it to my backlog.",
       "aiReply": "It Takes Two is a highly rated co-op game that isn't in your library yet. I added it to your backlog.",
       "aiPermission": "You choose what your assistant can read and change.",
-      "premiumTitle": "Elevate your profile. Support GameNode.",
-      "premiumDescription": "More customization, more presence and benefits for those who live every game.",
-      "monthly": "per month • cancel anytime",
-      "supportDescription": "All Premium benefits to make your profile stand out and support the future of GameNode.",
-      "subscribe": "Subscribe to Premium",
-      "benefitsTitle": "Everything that changes with Premium",
-      "benefitsDescription": "Customize your presence, expand your collections and connect your community to your profile.",
-      "benefit1": "Customize your game covers",
-      "benefit2": "Create more than 5 collections",
-      "benefit3": "Use a video as your profile cover",
-      "benefit4": "Apply an exclusive supporter theme",
-      "benefit5": "Connect Twitch or Kick and show your stream on your profile",
-      "benefit6": "Use an animated avatar border",
-      "benefit7": "Receive the exclusive Supporter title",
+      "supporter": {
+        "label": "BECOME A SUPPORTER",
+        "title": "Help keep GameNode online.",
+        "description": "Everything you use today stays free. The Supporter plan adds extras for your profile and keeps the project alive.",
+        "billing": "Billing period",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "yearlyBadge": "2 months free",
+        "included": "Included:",
+        "notIncluded": "Not included:",
+        "free": {
+          "name": "Free",
+          "price": "R$ 0",
+          "period": "forever",
+          "description": "Everything you need to organize your games. Stays free.",
+          "cta": "Start for free",
+          "limit": "Up to 5"
+        },
+        "plan": {
+          "name": "Supporter",
+          "badge": "Keeps GameNode online",
+          "description": "Everything in Free, plus a profile that's yours and more room in your library.",
+          "cta": "Support GameNode",
+          "monthlyPrice": "R$ 9.90",
+          "monthlyPeriod": "/month · or R$ 99/year",
+          "yearlyPrice": "R$ 99",
+          "yearlyPeriod": "/year · or R$ 9.90/month",
+          "limit": "More than 5"
+        },
+        "groups": {
+          "always": "Always free",
+          "profile": "Your profile, your way",
+          "library": "Your library, no limits",
+          "live": "Live on your profile",
+          "show": "Show you support us"
+        },
+        "features": {
+          "library": "Library, reviews and game journal",
+          "import": "Steam, PSN and Xbox import",
+          "achievements": "Achievements and yearly recap",
+          "videoCover": "Video profile cover",
+          "animatedBorder": "Animated avatar border",
+          "theme": "Exclusive supporter theme",
+          "collections": "Collections",
+          "customCovers": "Custom game covers",
+          "live": "Twitch or Kick live on your profile",
+          "badge": "Supporter badge next to your name",
+          "wall": "Your name on the supporters wall"
+        },
+        "trust": {
+          "cancel": "Cancel anytime, right in the app",
+          "benefits": "Benefits until the end of the paid period",
+          "downgrade": "Back to free without losing your library",
+          "servers": "Pays for servers and development",
+          "openSource": "Open source on GitHub",
+          "footer": "Nothing that's free today will become paid."
+        }
+      },
       "footerTitle": "Organize your games. Share your journey.",
       "copyright": "© 2026 GameNode. All rights reserved.",
       "product": "Product",
@@ -1130,6 +1181,21 @@
         "coverage": "Only games played on Switch or Switch 2 since your Nintendo Account was linked to a console are imported. Games hidden in Nintendo's app and games you own but never played are not. Playtime and first and last played dates come from Nintendo.",
         "revoke": "To revoke access, remove the Nintendo connection in GameNode. This deletes the Nintendo credentials we store.",
         "phoneHint": "Copying the link may not work on a phone. If it doesn't, link your account from a computer."
+      },
+      "gog": {
+        "signInHint": "Sign in to GOG in your browser. After sign-in, copy the entire final URL from the address bar (or the browser share menu on mobile), return to GameNode and paste it in the next step.",
+        "guideAlt": "Example: sign in to GOG, copy the entire final embed.gog.com/on_login_success URL from the browser address bar, return to GameNode, paste it into Final GOG URL and submit. On mobile, use the browser address bar or share menu to copy the URL.",
+        "pauseGuide": "Pause guide",
+        "playGuide": "Play guide",
+        "coverage": "Import owned GOG games, including unplayed titles, on PC. Games from other stores linked through Galaxy are excluded. Playtime includes only cumulative activity recorded by GOG; offline play that GOG never recorded cannot be imported.",
+        "expiryHint": "This attempt expires after ten minutes and can be used once. After any failed exchange, or if the app loses the attempt, start over.",
+        "signInUrl": "Sign-in URL",
+        "desktopFallback": "Copy this sign-in URL to a desktop browser if your mobile browser cannot copy the final URL. Keep this app open and paste the result here within the same ten-minute attempt.",
+        "copyHint": "Copy the full final GOG URL, including origin=client and code. Use the address bar or browser share menu, then return here. Do not paste an access or refresh token.",
+        "pasteLabel": "Final GOG URL",
+        "pastePlaceholder": "https://embed.gog.com/on_login_success?origin=client&code=…",
+        "invalidLink": "Paste the full HTTPS embed.gog.com/on_login_success URL with origin=client and a nonempty code.",
+        "callbackFailed": "GOG sign-in could not be completed. Start over to create a new attempt."
       }
     },
     "descriptions": {

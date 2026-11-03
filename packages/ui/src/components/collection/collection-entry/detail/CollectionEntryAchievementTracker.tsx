@@ -4,7 +4,7 @@ import {
   GameAchievementsList,
   useGameAchievementsV2,
 } from "#@/components";
-import { SegmentedControl } from "@mantine/core";
+import { Button, SegmentedControl } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { GameAchievementGroupDto } from "@repo/wrapper/server";
 import { useEffect, useMemo, useState } from "react";
@@ -40,7 +40,10 @@ const CollectionEntryAchievementTracker = ({
     GameAchievementGroupDto.source | undefined
   >(undefined);
 
-  const isEmpty = !achievementsQuery.isLoading && availableGroups.length === 0;
+  const isEmpty =
+    !achievementsQuery.isLoading &&
+    !achievementsQuery.isError &&
+    availableGroups.length === 0;
 
   useEffect(() => {
     if (availableGroups.length > 0) {
@@ -71,6 +74,14 @@ const CollectionEntryAchievementTracker = ({
         />
       }
     >
+      {achievementsQuery.isError && (
+        <>
+          <CenteredErrorMessage error={achievementsQuery.error} />
+          <Button onClick={() => void achievementsQuery.refetch()}>
+            {t("actions.retry")}
+          </Button>
+        </>
+      )}
       {isEmpty && (
         <CenteredErrorMessage
           message={t("collectionEntry.achievements.noObtained")}

@@ -245,7 +245,10 @@ const PreferencesConnectionSetup = ({ type, onClose, onRedirect }: Props) => {
           ((url) => void window.open(url, "_blank", "noopener,noreferrer"))
         }
         onStartOver={() => setPendingAuth(undefined)}
-        onClose={onClose}
+        onClose={() => {
+          setPendingAuth(undefined);
+          onClose?.();
+        }}
       />
     );
   }

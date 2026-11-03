@@ -129,7 +129,7 @@ const MobileGameAchievementListItem = ({
           {achievement.description && (
             <Text className={"text-dimmed"}>{achievement.description}</Text>
           )}
-          {achievement.isObtained && (
+          {achievement.isObtained && achievement.obtainedAt && (
             <Text className={"text-dimmed text-sm"}>
               {t("game.achievement.obtainedAt", {
                 date: dayjs(achievement.obtainedAt).format("LLL"),

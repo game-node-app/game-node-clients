@@ -36,7 +36,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 20;
 
-const VALID_SOURCES = ["steam", "psn", "xbox", "epicgames", "nintendo"] as const;
+const VALID_SOURCES = [
+  "steam",
+  "psn",
+  "xbox",
+  "epicgames",
+  "nintendo",
+  "gog",
+] as const;
 type ImporterSource = (typeof VALID_SOURCES)[number];
 
 interface Props {

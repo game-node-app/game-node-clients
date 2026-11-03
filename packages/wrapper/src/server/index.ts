@@ -123,6 +123,7 @@ export type { GameSearchResponseDataDto } from './models/GameSearchResponseDataD
 export type { GameSearchResponseDto } from './models/GameSearchResponseDto';
 export type { GameTheme } from './models/GameTheme';
 export type { GameTimeToBeatDto } from './models/GameTimeToBeatDto';
+export type { GameVideo } from './models/GameVideo';
 export type { GetJournalHeatmapResponseDto } from './models/GetJournalHeatmapResponseDto';
 export type { GetObtainedAchievementsJournalResponseDto } from './models/GetObtainedAchievementsJournalResponseDto';
 export type { GetPostsPaginatedResponseDto } from './models/GetPostsPaginatedResponseDto';

@@ -36,6 +36,24 @@ function checkNintendoLink(value: string, state: string) {
   return params.get("state") === state ? "ok" : "otherAttempt";
 }
 
+function checkGogUrl(value: string) {
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === "https:" &&
+      url.hostname === "embed.gog.com" &&
+      !url.port &&
+      !url.username &&
+      !url.password &&
+      url.pathname === "/on_login_success" &&
+      url.searchParams.get("origin") === "client" &&
+      Boolean(url.searchParams.get("code")?.trim())
+      ? "ok"
+      : "invalid";
+  } catch {
+    return "invalid";
+  }
+}
+
 interface Props {
   type: UserConnectionDto.type;
   state: string;
@@ -66,17 +84,34 @@ const PreferencesConnectionDelegatedCode = ({
     false,
   );
   const isNintendo = type === UserConnectionDto.type.NINTENDO;
-  const k = isNintendo
+  const isGog = type === UserConnectionDto.type.GOG;
+  const guideKey = isNintendo
     ? "preferences.delegatedCode.nintendo"
-    : "preferences.delegatedCode";
+    : "preferences.delegatedCode.gog";
+  const k = isNintendo || isGog ? guideKey : "preferences.delegatedCode";
 
   const callbackMutation = useMutation({
     retry: false,
-    mutationFn: () =>
-      ConnectionsService.connectionsControllerCompleteRedirectAuthV1(type, {
-        state,
-        callbackParams: { code: value.trim() },
-      }),
+    gcTime: 0,
+    throwOnError: false,
+    mutationFn: async () => {
+      try {
+        return await ConnectionsService.connectionsControllerCompleteRedirectAuthV1(
+          type,
+          {
+            state,
+            callbackParams: { code: value.trim() },
+          },
+        );
+      } catch (error) {
+        // ApiError retains the callback body; keep it out of mutation caches and reporters.
+        throw isGog
+          ? new Error(t("preferences.delegatedCode.gog.callbackFailed"))
+          : error;
+      } finally {
+        setValue("");
+      }
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["connections"] });
       notifications.show({
@@ -91,7 +126,7 @@ const PreferencesConnectionDelegatedCode = ({
   const failed = callbackMutation.isError;
 
   return (
-    <Stack>
+    <Stack className="oauth-private ph-no-capture">
       <Group justify="center" wrap="nowrap">
         <div className="w-12">
           <GameNodeLogo />
@@ -108,14 +143,12 @@ const PreferencesConnectionDelegatedCode = ({
         <Stepper.Step
           label={t("preferences.delegatedCode.signInStep", { type: name })}
         >
-          {isNintendo && (
+          {(isNintendo || isGog) && (
             <Stack mt="md" gap="xs">
-              <Text size="sm">
-                {t("preferences.delegatedCode.nintendo.signInHint")}
-              </Text>
+              <Text size="sm">{t(`${guideKey}.signInHint`)}</Text>
               <Image
-                src={`/img/nintendo-link-guide.${isGuidePlaying ? "gif" : "png"}`}
-                alt={t("preferences.delegatedCode.nintendo.guideAlt")}
+                src={`/img/${type}-link-guide.${isGuidePlaying ? "gif" : "png"}`}
+                alt={t(`${guideKey}.guideAlt`)}
                 width={720}
                 height={440}
                 w="100%"
@@ -131,11 +164,26 @@ const PreferencesConnectionDelegatedCode = ({
                 onClick={() => setGuidePlaying(!isGuidePlaying)}
               >
                 {t(
-                  isGuidePlaying
-                    ? "preferences.delegatedCode.nintendo.pauseGuide"
-                    : "preferences.delegatedCode.nintendo.playGuide",
+                  `${guideKey}.${isGuidePlaying ? "pauseGuide" : "playGuide"}`,
                 )}
               </Button>
+            </Stack>
+          )}
+          {isGog && (
+            <Stack mt="md" gap="xs">
+              <Text size="sm">
+                {t("preferences.delegatedCode.gog.coverage")}
+              </Text>
+              <Text size="xs" c="dimmed">
+                {t("preferences.delegatedCode.gog.expiryHint")}
+              </Text>
+              <TextInput
+                readOnly
+                label={t("preferences.delegatedCode.gog.signInUrl")}
+                description={t("preferences.delegatedCode.gog.desktopFallback")}
+                value={authorizationUrl}
+                onFocus={(event) => event.currentTarget.select()}
+              />
             </Stack>
           )}
           <Button
@@ -175,7 +223,11 @@ const PreferencesConnectionDelegatedCode = ({
           <Stack mt="md">
             <Text size="sm">{t(`${k}.copyHint`, { type: name })}</Text>
             <Code block>
-              {isNintendo ? (
+              {isGog ? (
+                <Mark color="brand">
+                  https://embed.gog.com/on_login_success?origin=client&amp;code=…
+                </Mark>
+              ) : isNintendo ? (
                 <Mark color="brand">
                   npf5c38e31cd085304b://auth#session_token_code=…&state=…
                 </Mark>
@@ -195,13 +247,17 @@ const PreferencesConnectionDelegatedCode = ({
               disabled={failed || callbackMutation.isPending}
               error={
                 invalid
-                  ? isNintendo
-                    ? t(
-                        invalid === "otherAttempt"
-                          ? "preferences.delegatedCode.nintendo.otherAttempt"
-                          : "preferences.delegatedCode.nintendo.invalidLink",
-                      )
-                    : t("preferences.delegatedCode.invalidCode", { type: name })
+                  ? isGog
+                    ? t("preferences.delegatedCode.gog.invalidLink")
+                    : isNintendo
+                      ? t(
+                          invalid === "otherAttempt"
+                            ? "preferences.delegatedCode.nintendo.otherAttempt"
+                            : "preferences.delegatedCode.nintendo.invalidLink",
+                        )
+                      : t("preferences.delegatedCode.invalidCode", {
+                          type: name,
+                        })
                   : undefined
               }
               onChange={(e) => {
@@ -228,11 +284,17 @@ const PreferencesConnectionDelegatedCode = ({
               }
             />
             <Text size="xs" c="dimmed">
-              {t("preferences.delegatedCode.expiryHint")}
+              {t(
+                isGog
+                  ? "preferences.delegatedCode.gog.expiryHint"
+                  : "preferences.delegatedCode.expiryHint",
+              )}
             </Text>
             {failed && (
               <Alert color="red">
-                {getErrorMessage(callbackMutation.error)}
+                {isGog
+                  ? t("preferences.delegatedCode.gog.callbackFailed")
+                  : getErrorMessage(callbackMutation.error)}
               </Alert>
             )}
             {failed ? (
@@ -244,11 +306,13 @@ const PreferencesConnectionDelegatedCode = ({
                 type="button"
                 loading={callbackMutation.isPending}
                 onClick={() => {
-                  const result = isNintendo
-                    ? checkNintendoLink(value, state)
-                    : CODE_PATTERN.test(value)
-                      ? "ok"
-                      : "invalid";
+                  const result = isGog
+                    ? checkGogUrl(value)
+                    : isNintendo
+                      ? checkNintendoLink(value, state)
+                      : CODE_PATTERN.test(value)
+                        ? "ok"
+                        : "invalid";
                   if (result !== "ok") {
                     setInvalid(result);
                     return;

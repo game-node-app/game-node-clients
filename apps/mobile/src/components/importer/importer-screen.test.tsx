@@ -469,17 +469,24 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     );
   });
 
-  it("Task 3.1 & 3.4 & 3.5: imports selected with initial status, collections, and single batch request, handling skippedCount", async () => {
+  it.each(["steam", "gog"])("%s imports selections", async (source) => {
     vi.spyOn(
       ImporterService,
       "importerControllerFindUnprocessedEntriesV1",
-    ).mockResolvedValue(sampleEntriesPage1);
+    ).mockResolvedValue({
+      ...sampleEntriesPage1,
+      data: sampleEntriesPage1.data.map((entry) => ({
+        ...entry,
+        preferredPlatformId: source === "gog" ? 6 : 1,
+        origin: {},
+      })),
+    });
     vi.spyOn(
       ConnectionsService,
       "connectionsControllerFindOwnByTypeV1",
     ).mockResolvedValue({
       id: 1,
-      type: "steam" as unknown as OwnUserConnectionDto.type,
+      type: source as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -496,7 +503,9 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
       "collectionsEntriesControllerCreateOrUpdateV1",
     );
 
-    renderUI(<ImporterScreen source="steam" />);
+    const client = createTestQueryClient();
+    const invalidate = vi.spyOn(client, "invalidateQueries");
+    renderUI(<ImporterScreen source={source} />, client);
 
     await waitFor(() => {
       expect(screen.getByAltText("Hades")).toBeTruthy();
@@ -519,12 +528,19 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     fireEvent.click(importSelectedBtns[0]);
 
     await waitFor(() => {
-      expect(importBatchSpy).toHaveBeenCalledWith("steam", {
+      expect(importBatchSpy).toHaveBeenCalledWith(source, {
         externalGameIds: expect.arrayContaining([101, 102, 103]),
         status: "planned",
         collectionIds: ["col-1", "col-2"],
       });
     });
+
+    for (const queryKey of [
+      ["importer", "entries"],
+      ["connections", "own"],
+      ["collection-entries"],
+    ])
+      expect(invalidate).toHaveBeenCalledWith({ queryKey });
 
     // No single create calls
     expect(singleCreateSpy).not.toHaveBeenCalled();
@@ -538,17 +554,24 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     );
   });
 
-  it("Task 3.2: imports all with confirmation modal, handles cancel and confirm with importAll=true", async () => {
+  it.each(["steam", "gog"])("%s imports all", async (source) => {
     vi.spyOn(
       ImporterService,
       "importerControllerFindUnprocessedEntriesV1",
-    ).mockResolvedValue(sampleEntriesPage1);
+    ).mockResolvedValue({
+      ...sampleEntriesPage1,
+      data: sampleEntriesPage1.data.map((entry) => ({
+        ...entry,
+        preferredPlatformId: source === "gog" ? 6 : 1,
+        origin: {},
+      })),
+    });
     vi.spyOn(
       ConnectionsService,
       "connectionsControllerFindOwnByTypeV1",
     ).mockResolvedValue({
       id: 1,
-      type: "steam" as unknown as OwnUserConnectionDto.type,
+      type: source as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -560,14 +583,16 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
         skippedCount: 0,
       });
 
-    renderUI(<ImporterScreen source="steam" />);
+    renderUI(<ImporterScreen source={source} />);
 
     await waitFor(() => {
       expect(screen.getByAltText("Hades")).toBeTruthy();
     });
 
     // Click Import all (4)
-    const importAllBtn = screen.getByRole("button", { name: "Import all (4)" });
+    const importAllBtn = screen.getByRole("button", {
+      name: "Import all (4)",
+    });
     fireEvent.click(importAllBtn);
 
     // Modal opens
@@ -575,7 +600,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
       expect(screen.getByText("Import all games")).toBeTruthy();
       expect(
         screen.getByText(
-          "This will import all 4 games from Steam into your library.",
+          `This will import all 4 games from ${source === "gog" ? "GOG" : "Steam"} into your library.`,
         ),
       ).toBeTruthy();
     });
@@ -596,7 +621,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     fireEvent.click(confirmBtn);
 
     await waitFor(() => {
-      expect(importBatchSpy).toHaveBeenCalledWith("steam", {
+      expect(importBatchSpy).toHaveBeenCalledWith(source, {
         importAll: true,
         status: "planned",
         collectionIds: [],
@@ -636,7 +661,10 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     );
   });
 
-  it("names nintendo as Nintendo", async () => {
+  it.each([
+    ["nintendo", "Nintendo"],
+    ["gog", "GOG"],
+  ])("names %s as %s", async (source, name) => {
     vi.spyOn(
       ImporterService,
       "importerControllerFindUnprocessedEntriesV1",
@@ -646,32 +674,39 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
       "connectionsControllerFindOwnByTypeV1",
     ).mockResolvedValue({
       id: 1,
-      type: "nintendo" as unknown as OwnUserConnectionDto.type,
+      type: source as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
 
-    renderUI(<ImporterScreen source="nintendo" />);
+    renderUI(<ImporterScreen source={source} />);
 
     fireEvent.click(
       await screen.findByRole("button", { name: "Import all (4)" }),
     );
     await screen.findByText(
-      "This will import all 4 games from Nintendo into your library.",
+      `This will import all 4 games from ${name} into your library.`,
     );
   });
 
-  it("Task 3.3: ignores selected games via importerControllerChangeStatusBatchV1 and preserves on failure", async () => {
+  it.each(["steam", "gog"])("%s ignores selections", async (source) => {
     vi.spyOn(
       ImporterService,
       "importerControllerFindUnprocessedEntriesV1",
-    ).mockResolvedValue(sampleEntriesPage1);
+    ).mockResolvedValue({
+      ...sampleEntriesPage1,
+      data: sampleEntriesPage1.data.map((entry) => ({
+        ...entry,
+        preferredPlatformId: source === "gog" ? 6 : 1,
+        origin: {},
+      })),
+    });
     vi.spyOn(
       ConnectionsService,
       "connectionsControllerFindOwnByTypeV1",
     ).mockResolvedValue({
       id: 1,
-      type: "steam" as unknown as OwnUserConnectionDto.type,
+      type: source as unknown as OwnUserConnectionDto.type,
       unprocessedCount: 4,
       lastSyncedAt: "2026-10-25T12:00:00Z",
     } as OwnUserConnectionDto);
@@ -681,7 +716,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
       .mockRejectedValueOnce(new Error("Database error"))
       .mockResolvedValueOnce(undefined);
 
-    renderUI(<ImporterScreen source="steam" />);
+    renderUI(<ImporterScreen source={source} />);
 
     await waitFor(() => {
       expect(screen.getByAltText("Hades")).toBeTruthy();
@@ -699,7 +734,7 @@ describe("ImporterScreen - Tasks 2.2 to 3.6", () => {
     // First attempt fails: selection is preserved!
     await waitFor(() => {
       expect(changeStatusSpy).toHaveBeenCalledWith({
-        source: "steam",
+        source,
         externalGameIds: [103],
         status: ImporterBatchStatusRequestDto.status.IGNORED,
       });

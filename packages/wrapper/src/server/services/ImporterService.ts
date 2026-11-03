@@ -78,7 +78,7 @@ export class ImporterService {
      * @throws ApiError
      */
     public static importerControllerImportBatchV1(
-        source: 'steam' | 'psn' | 'xbox' | 'epicgames' | 'nintendo',
+        source: 'steam' | 'psn' | 'xbox' | 'epicgames' | 'nintendo' | 'gog',
         requestBody: ImporterBatchImportRequestDto,
     ): CancelablePromise<ImporterBatchImportResponseDto> {
         return __request(OpenAPI, {

@@ -36,20 +36,33 @@ const ProfileUserInfoConnections = ({
       {...others}
     >
       {data?.map((connection) => {
+        const href = getConnectionProfileURL(connection);
+        const icon = (
+          <Image
+            alt={"Importer source icon"}
+            src={getServerStoredIcon(connection.type.valueOf())}
+            w={40}
+            h={40}
+            {...imageProps}
+          />
+        );
+        if (!href) {
+          return (
+            <span
+              key={`connection-${connection.profileUserId}-${connection.type}`}
+            >
+              {icon}
+            </span>
+          );
+        }
         return (
           <Anchor
-            href={getConnectionProfileURL(connection)}
+            href={href}
             target={"_blank"}
             key={`connection-${connection.profileUserId}-${connection.type}`}
             {...anchorProps}
           >
-            <Image
-              alt={"Importer source icon"}
-              src={getServerStoredIcon(connection.type.valueOf())}
-              w={40}
-              h={40}
-              {...imageProps}
-            />
+            {icon}
           </Anchor>
         );
       })}

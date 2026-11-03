@@ -1,6 +1,10 @@
-import { useGameAchievementsV2, useUserId } from "#@/components";
+import {
+  CenteredErrorMessage,
+  useGameAchievementsV2,
+  useUserId,
+} from "#@/components";
 import { getServerStoredIcon } from "#@/util";
-import { Group, Stack, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useMemo } from "react";
 
@@ -49,6 +53,16 @@ const GameInfoShareAchievementProgress = ({ gameId }: Props) => {
     [eligibleAchievementGroups],
   );
 
+  if (achievementsQuery.isError) {
+    return (
+      <Stack>
+        <CenteredErrorMessage error={achievementsQuery.error} />
+        <Button onClick={() => void achievementsQuery.refetch()}>
+          {t("actions.retry")}
+        </Button>
+      </Stack>
+    );
+  }
   if (achievementProgressBySource.length === 0) {
     return null;
   }
