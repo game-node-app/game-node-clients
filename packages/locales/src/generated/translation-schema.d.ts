@@ -524,6 +524,18 @@ export type TranslationSchema = {
       recentReleases: string;
       upcoming: string;
     };
+    releaseCalendar: {
+      gamesCount: string;
+      title: string;
+      inLibrary: string;
+      more: string;
+      noReleases: string;
+      showCalendar: string;
+      hideCalendar: string;
+      today: string;
+      previousGame: string;
+      nextGame: string;
+    };
     details: {
       developers: string;
       launchDate: string;

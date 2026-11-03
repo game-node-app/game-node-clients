@@ -12,6 +12,7 @@ import {
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
+  ReleaseStrip,
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
@@ -48,6 +49,9 @@ const HomePage = () => {
         slot={"fixed"}
         onIonRefresh={async (evt) => {
           const promises: Promise<unknown>[] = [
+            queryClient.invalidateQueries({
+              queryKey: ["game", "all", "collectionType"],
+            }),
             queryClient.invalidateQueries({
               queryKey: ["recommendation"],
             }),
@@ -97,6 +101,7 @@ const HomePage = () => {
             <RecentActivityList limit={10} type={ActivityType.REVIEW} />
           </DetailsCard>
         </SimpleGrid>
+        <ReleaseStrip />
         <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
           <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
           <GameCollectionTypeView

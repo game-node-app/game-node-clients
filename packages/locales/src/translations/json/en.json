@@ -520,6 +520,18 @@
       "recentReleases": "Recent Releases",
       "upcoming": "Upcoming"
     },
+    "releaseCalendar": {
+      "gamesCount": "{{count}} games",
+      "title": "Release calendar",
+      "inLibrary": "In your library",
+      "more": "+{{count}}",
+      "noReleases": "No releases",
+      "showCalendar": "View calendar",
+      "hideCalendar": "Hide calendar",
+      "today": "Today",
+      "previousGame": "Previous game",
+      "nextGame": "Next game"
+    },
     "details": {
       "developers": "Developer(s)",
       "launchDate": "Launch date",

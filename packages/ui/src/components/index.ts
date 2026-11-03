@@ -14,6 +14,7 @@ export * from "./feed/index";
 export * from "./follow/index";
 export * from "./game/index";
 export * from "./general/index";
+export * from "./home/index";
 export * from "./importer/index";
 export * from "./journal/index";
 export * from "./library/index";
