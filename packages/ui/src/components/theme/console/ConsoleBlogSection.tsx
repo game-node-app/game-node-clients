@@ -27,13 +27,49 @@ const Author = ({ userId }: { userId: string }) => {
   );
 };
 
+/** Compact blog card: cover on the left, title and date beside it (also the Xbox feed's side column). */
+const ConsoleBlogItem = ({ post }: { post: BlogArticleDto }) => (
+  <Link href={`/blog/post/${post.id}`} className={"gn-blog-item"}>
+    <img
+      className={"gn-blog-item-cover"}
+      src={post.cover.url}
+      alt={""}
+      loading={"lazy"}
+    />
+    <span className={"gn-blog-item-body"}>
+      <span className={"gn-blog-item-title"}>{post.title}</span>
+      <span className={"gn-blog-date"}>{formatDate(post.publishedAt)}</span>
+    </span>
+  </Link>
+);
+
+/** Home blog tile: the cover uncropped on top (covers are text graphics), then title, excerpt and author. */
+const BlogTile = ({ post }: { post: BlogArticleDto }) => (
+  <Link href={`/blog/post/${post.id}`} className={"gn-blog-tile"}>
+    <img
+      className={"gn-blog-tile-cover"}
+      src={post.cover.url}
+      alt={""}
+      loading={"lazy"}
+    />
+    <span className={"gn-blog-tile-body"}>
+      <span className={"gn-blog-tile-title"}>{post.title}</span>
+      <span className={"gn-blog-excerpt"}>{post.excerpt}</span>
+      <span className={"gn-blog-meta"}>
+        <Author userId={post.profileUserId} />
+        <span className={"gn-blog-date"}>{formatDate(post.publishedAt)}</span>
+      </span>
+    </span>
+  </Link>
+);
+
 /**
- * Xbox "what's new": the latest post as a large card, the next three as a compact list.
+ * Xbox "what's new": up to four posts as same-size tiles, so the row stays balanced with any count.
  * Replaces the blog carousel on the Xbox theme (see RecentBlogPostsCarousel).
  */
 const ConsoleBlogSection = ({ posts, isLoading, isError, onRetry }: Props) => {
   const { t } = useTranslation();
-  const [featured, ...others] = posts ?? [];
+  const visible = posts?.slice(0, 4) ?? [];
 
   return (
     <section className={"gn-blog-section"}>
@@ -54,66 +90,20 @@ const ConsoleBlogSection = ({ posts, isLoading, isError, onRetry }: Props) => {
         <Text c={"dimmed"}>{t("blog.list.empty")}</Text>
       )}
 
-      {(isLoading || featured) && (
+      {(isLoading || visible.length > 0) && (
         <div className={"gn-blog-grid"}>
-          {isLoading ? (
-            <>
-              <Skeleton className={"gn-blog-feature"} />
-              {Array.from({ length: 3 }, (_, i) => (
-                <Skeleton key={i} className={"gn-blog-item"} />
-              ))}
-            </>
-          ) : (
-            <>
-              <Link
-                href={`/blog/post/${featured.id}`}
-                className={"gn-blog-feature"}
-              >
-                <img
-                  className={"gn-blog-feature-cover"}
-                  src={featured.cover.url}
-                  alt={""}
-                  loading={"lazy"}
+          {isLoading
+            ? Array.from({ length: 4 }, (_, i) => (
+                <Skeleton
+                  key={i}
+                  className={"gn-blog-tile gn-blog-tile-skeleton"}
                 />
-                <span className={"gn-blog-feature-body"}>
-                  <span className={"gn-blog-feature-title"}>
-                    {featured.title}
-                  </span>
-                  <span className={"gn-blog-excerpt"}>{featured.excerpt}</span>
-                  <span className={"gn-blog-meta"}>
-                    <Author userId={featured.profileUserId} />
-                    <span className={"gn-blog-date"}>
-                      {formatDate(featured.publishedAt)}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-              {others.slice(0, 3).map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/post/${post.id}`}
-                  className={"gn-blog-item"}
-                >
-                  <img
-                    className={"gn-blog-item-cover"}
-                    src={post.cover.url}
-                    alt={""}
-                    loading={"lazy"}
-                  />
-                  <span className={"gn-blog-item-body"}>
-                    <span className={"gn-blog-item-title"}>{post.title}</span>
-                    <span className={"gn-blog-date"}>
-                      {formatDate(post.publishedAt)}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </>
-          )}
+              ))
+            : visible.map((post) => <BlogTile key={post.id} post={post} />)}
         </div>
       )}
     </section>
   );
 };
 
-export { ConsoleBlogSection };
+export { ConsoleBlogItem, ConsoleBlogSection };

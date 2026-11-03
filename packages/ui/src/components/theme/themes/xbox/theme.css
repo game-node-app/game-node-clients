@@ -388,7 +388,7 @@ a.gn-activity-title::after {
     flex: none;
 }
 
-/* Xbox blog section (ConsoleBlogSection): latest post as a large card, the next three as a compact list beside it. */
+/* Xbox blog section (ConsoleBlogSection): the latest posts as a row of same-size tiles. */
 .gn-blog-section {
     display: flex;
     flex-direction: column;
@@ -420,23 +420,79 @@ a.gn-activity-title::after {
     background: var(--gn-paper-4);
 }
 
+/* phones/tablets: a swipeable row like the other console rows; desktop: the tiles share the width */
 .gn-blog-grid {
     display: grid;
-    gap: 12px;
+    grid-auto-flow: column;
+    grid-auto-columns: min(80%, 300px);
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
 }
 
 @media (min-width: 62em) {
     .gn-blog-grid {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-        grid-template-rows: repeat(3, minmax(0, 1fr));
-    }
-
-    .gn-blog-feature {
-        grid-row: 1 / span 3;
+        grid-auto-columns: minmax(0, 1fr);
+        overflow: visible;
     }
 }
 
-.gn-blog-feature,
+.gn-blog-tile {
+    display: flex;
+    flex-direction: column;
+    /* a lone post doesn't stretch across the whole page */
+    max-width: 720px;
+    overflow: hidden;
+    border-radius: var(--gn-radius, 4px);
+    background: var(--gn-paper-2);
+    color: var(--gn-text);
+    outline: none;
+    scroll-snap-align: start;
+    transition: background 150ms ease;
+}
+
+/* the selected-tile ring, drawn inside so the row's scroll clip can't cut it */
+.gn-blog-tile:hover,
+.gn-blog-tile:focus-visible {
+    background: var(--gn-paper-4);
+    outline: 2px solid rgba(120, 225, 120, 0.95);
+    outline-offset: -2px;
+}
+
+.gn-blog-tile-skeleton {
+    aspect-ratio: 4 / 3;
+}
+
+.gn-blog-tile-cover {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--gn-border);
+}
+
+.gn-blog-tile-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px 16px;
+}
+
+.gn-blog-tile-title {
+    /* always two lines tall, so the excerpts of a row line up */
+    min-height: 2.6em;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* compact card (ConsoleBlogItem, the Xbox feed's side column) */
 .gn-blog-item {
     position: relative;
     display: flex;
@@ -449,42 +505,10 @@ a.gn-activity-title::after {
 }
 
 /* the selected-tile ring, drawn as a shadow so the clipped corners stay round */
-.gn-blog-feature:hover,
-.gn-blog-feature:focus-visible,
 .gn-blog-item:hover,
 .gn-blog-item:focus-visible {
     background: var(--gn-paper-4);
     box-shadow: 0 0 0 2px rgba(120, 225, 120, 0.85), 0 0 12px 2px rgba(63, 185, 80, 0.35);
-}
-
-.gn-blog-feature {
-    flex-direction: column;
-    min-height: 320px;
-}
-
-.gn-blog-feature-cover {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    flex: none;
-}
-
-.gn-blog-feature-body {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 14px 16px 16px;
-    margin-top: auto;
-}
-
-.gn-blog-feature-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .gn-blog-excerpt {
@@ -497,11 +521,13 @@ a.gn-activity-title::after {
     overflow: hidden;
 }
 
+/* pinned to the tile's bottom, so a row's author lines align */
 .gn-blog-meta {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 4px;
+    margin-top: auto;
+    padding-top: 6px;
     min-width: 0;
     font-size: 0.75rem;
 }
@@ -556,7 +582,7 @@ a.gn-activity-title::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .gn-blog-feature,
+    .gn-blog-tile,
     .gn-blog-item,
     .gn-blog-section-more {
         transition: none;
