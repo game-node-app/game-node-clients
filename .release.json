@@ -1,0 +1,22 @@
+{
+  "source": "99b923633bc8ace0f10cc7f0ff0a5bd91e8c752a",
+  "changesets": [
+    ".changeset/mobile-ota-url-release.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[71260a2c80bbf3e70403ca82c3d9ba2464a97c46...99b923633bc8ace0f10cc7f0ff0a5bd91e8c752a]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/99b923633bc8ace0f10cc7f0ff0a5bd91e8c752a",
+  "versions": {
+    "mobile": "1.9.10"
+  }
+}
