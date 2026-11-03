@@ -1,7 +1,8 @@
 import { Button, Group, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
+import { IconPuzzleOff } from "@tabler/icons-react";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { ErrorState } from "#@/components/general/ErrorState";
 import { DailyGuessInput } from "#@/components/daily/guess/DailyGuessInput";
 import { DailyGuessRow } from "#@/components/daily/guess/DailyGuessRow";
 import { DailySpecsTable } from "#@/components/daily/guess/DailySpecsTable";
@@ -13,6 +14,7 @@ import { useDailyPlay } from "#@/components/daily/hooks/useDailyPlay";
 import { useDailyToday } from "#@/components/daily/hooks/useDailyToday";
 import { DailyResultPanel } from "#@/components/daily/result/DailyResultPanel";
 import { DailyCountdown } from "#@/components/daily/view/DailyCountdown";
+import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
 import type { DailyMode } from "#@/components/daily/util/dailyModes";
 import { Link } from "#@/util/link";
 
@@ -34,10 +36,29 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
 
   const missingPuzzle = puzzleId == undefined && todayQuery.isSuccess && !id;
   if (play.isError || (puzzleId == undefined && todayQuery.isError)) {
-    return <CenteredErrorMessage mt={"2rem"} message={t("daily.fetchError")} />;
+    return (
+      <DailyErrorState
+        // The play query is disabled until today's puzzle is known, so retry the failing one.
+        onRetry={() => (todayQuery.isError ? todayQuery.refetch() : play.refetch())}
+        retrying={todayQuery.isFetching || play.isFetching}
+        backHref={"/daily"}
+        backLabel={t("actions.goBack")}
+      />
+    );
   }
   if (missingPuzzle) {
-    return <CenteredErrorMessage mt={"2rem"} message={t("daily.noPuzzle")} />;
+    return (
+      <ErrorState
+        icon={IconPuzzleOff}
+        color={"gray"}
+        title={t("daily.noPuzzle")}
+        actions={
+          <Button component={Link} href={"/daily"} variant={"default"}>
+            {t("actions.goBack")}
+          </Button>
+        }
+      />
+    );
   }
   if (!data) return <CenteredLoading className={"mt-8"} />;
 

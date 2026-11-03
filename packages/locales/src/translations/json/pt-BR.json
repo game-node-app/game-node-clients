@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Voltar ao início",
     "cancel": "Cancelar",
     "clickHere": "Clique aqui",
     "close": "Fechar",
@@ -48,6 +49,7 @@
     "logout": "Sair",
     "no": "Não",
     "remove": "Remover",
+    "retry": "Tentar novamente",
     "save": "Salvar",
     "seeMore": "Ver mais",
     "selectAll": "Selecionar todos os itens",
@@ -472,6 +474,7 @@
   "daily": {
     "subtitle": "Adivinhe o jogo a partir de uma dica que fica mais clara a cada erro. Novos desafios todos os dias.",
     "fetchError": "Não foi possível carregar os desafios do dia.",
+    "fetchErrorDescription": "Verifique sua conexão e tente de novo. Se continuar, volte em alguns minutos.",
     "noPuzzle": "Não há desafio para este modo hoje.",
     "play": "Jogar",
     "nextPuzzleIn": "Novos desafios em {{time}}",
@@ -567,11 +570,10 @@
     "copiedToClipboard": "Detalhes do erro copiados para a área de transferência",
     "discord": "Discord",
     "email": "e-mail",
-    "error404": "Erro 404",
     "fetchFailed": "Falha ao buscar {{resource}}. Por favor, tente novamente.",
     "inDevelopment": "Esta página ainda está em desenvolvimento.",
-    "oops": "Ops!",
-    "pageNotFound": "A página que você está procurando não existe.",
+    "pageNotFound": "O link pode estar quebrado, ou a página pode ter sido movida ou removida.",
+    "pageNotFoundTitle": "Página não encontrada",
     "pasteInstructions": "Agora você pode colar os detalhes do erro ao reportar o problema.",
     "reportPrompt": "Por favor, nos informe sobre este erro enviando uma mensagem via",
     "showDetails": "Mostrar detalhes",

@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Back to home",
     "cancel": "Cancel",
     "clickHere": "Click here",
     "close": "Close",
@@ -48,6 +49,7 @@
     "logout": "Log out",
     "no": "No",
     "remove": "Remove",
+    "retry": "Try again",
     "save": "Save",
     "seeMore": "See more",
     "selectAll": "Select all items",
@@ -472,6 +474,7 @@
   "daily": {
     "subtitle": "Guess the game from a hint that gets clearer with every wrong guess. New puzzles every day.",
     "fetchError": "Couldn't load the daily puzzles.",
+    "fetchErrorDescription": "Check your connection and try again. If it keeps happening, come back in a few minutes.",
     "noPuzzle": "There's no puzzle for this mode today.",
     "play": "Play",
     "nextPuzzleIn": "New puzzles in {{time}}",
@@ -567,11 +570,10 @@
     "copiedToClipboard": "Error details copied to clipboard",
     "discord": "Discord",
     "email": "email",
-    "error404": "Error 404",
     "fetchFailed": "Failed to fetch {{resource}}. Please try again.",
     "inDevelopment": "This page is still in development.",
-    "oops": "Oops!",
-    "pageNotFound": "The page you are looking for doesn't exist.",
+    "pageNotFound": "The link may be broken, or the page may have been moved or removed.",
+    "pageNotFoundTitle": "Page not found",
     "pasteInstructions": "You may now paste the error details when reporting the issue.",
     "reportPrompt": "Please let us know about this error by sending us a message via",
     "showDetails": "Show details",

@@ -40,6 +40,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    backHome: string;
     cancel: string;
     clickHere: string;
     close: string;
@@ -52,6 +53,7 @@ export type TranslationSchema = {
     logout: string;
     no: string;
     remove: string;
+    retry: string;
     save: string;
     seeMore: string;
     selectAll: string;
@@ -476,6 +478,7 @@ export type TranslationSchema = {
   daily: {
     subtitle: string;
     fetchError: string;
+    fetchErrorDescription: string;
     noPuzzle: string;
     play: string;
     nextPuzzleIn: string;
@@ -571,11 +574,10 @@ export type TranslationSchema = {
     copiedToClipboard: string;
     discord: string;
     email: string;
-    error404: string;
     fetchFailed: string;
     inDevelopment: string;
-    oops: string;
     pageNotFound: string;
+    pageNotFoundTitle: string;
     pasteInstructions: string;
     reportPrompt: string;
     showDetails: string;
