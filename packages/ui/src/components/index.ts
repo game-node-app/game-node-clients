@@ -10,6 +10,7 @@ export * from "./blog/index";
 export * from "./collection/index";
 export * from "./comment/index";
 export * from "./connections/index";
+export * from "./daily/index";
 export * from "./explore/index";
 export * from "./feed/index";
 export * from "./follow/index";
