@@ -97,44 +97,48 @@ const HomePage = () => {
    */
   const extraItemsEnabled = !isLoading && !isError && data == undefined;
 
+  const searchView = (
+    <GameView layout={layout} cols={{ base: 4, md: 6, lg: 8 }}>
+      <GameSearchBar
+        onChange={(query) => {
+          setSearchParameters({ query });
+        }}
+      />
+      <GameSearchViewActions
+        includeExtraContent={searchParameters.includeExtraContent}
+        onExtraContentChange={(value) =>
+          setSearchParameters({ includeExtraContent: value })
+        }
+        onLayoutChange={setLayout}
+      />
+      <Group className={"justify-between w-full md:flex-nowrap"}>
+        <GameSearchTips className={"w-full"} />
+      </Group>
+
+      {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+      {isEmpty && (
+        <CenteredErrorMessage message={t("home.noResultsTryAgain")} />
+      )}
+      <GameView.Content items={data?.data?.items}>
+        <GameView.LoadingSkeletons isVisible={isLoading} />
+      </GameView.Content>
+      {enablePagination && (
+        <GameView.Pagination
+          className={"mt-4"}
+          page={searchParameters.page}
+          paginationInfo={data?.pagination}
+          onPaginationChange={(page) => setSearchParameters({ page })}
+        ></GameView.Pagination>
+      )}
+    </GameView>
+  );
+
   return (
     <Stack mih={"100%"} pos={"relative"} className="mt-12 mb-8">
       <BackToTopButton />
-      {isConsole && <ConsoleHome />}
+      {isConsole && <ConsoleHome search={searchView} />}
       <Stack className={"w-full items-center gap-xs"}>
-        <GameView layout={layout} cols={{ base: 4, md: 6, lg: 8 }}>
-          <GameSearchBar
-            onChange={(query) => {
-              setSearchParameters({ query });
-            }}
-          />
-          <GameSearchViewActions
-            includeExtraContent={searchParameters.includeExtraContent}
-            onExtraContentChange={(value) =>
-              setSearchParameters({ includeExtraContent: value })
-            }
-            onLayoutChange={setLayout}
-          />
-          <Group className={"justify-between w-full md:flex-nowrap"}>
-            <GameSearchTips className={"w-full"} />
-          </Group>
-
-          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
-          {isEmpty && (
-            <CenteredErrorMessage message={t("home.noResultsTryAgain")} />
-          )}
-          <GameView.Content items={data?.data?.items}>
-            <GameView.LoadingSkeletons isVisible={isLoading} />
-          </GameView.Content>
-          {enablePagination && (
-            <GameView.Pagination
-              className={"mt-4"}
-              page={searchParameters.page}
-              paginationInfo={data?.pagination}
-              onPaginationChange={(page) => setSearchParameters({ page })}
-            ></GameView.Pagination>
-          )}
-        </GameView>
+        {!isConsole && searchView}
         {extraItemsEnabled && (
           <Stack
             w={"100%"}

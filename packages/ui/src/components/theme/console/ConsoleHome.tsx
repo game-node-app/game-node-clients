@@ -66,8 +66,9 @@ const RecommendedRow = (props: RowProps) => {
 /**
  * Console-style home used by every non-default app theme: the focused game's art fills the
  * hero behind horizontal rows of tiles. Look per theme lives in themes.css.
+ * `search` sits under the hero row, so searching starts in the first viewport; reviews come last.
  */
-const ConsoleHome = () => {
+const ConsoleHome = ({ search }: { search?: React.ReactNode }) => {
   const { t } = useTranslation();
   const userId = useUserId();
   const [focused, setFocused] = useState<Game>();
@@ -148,11 +149,11 @@ const ConsoleHome = () => {
         ) : (
           trendingRow(isCompact)
         )}
-        {!isCompact && <ConsoleReviewRow />}
+        {search}
       </div>
-      {isCompact && <ConsoleReviewRow />}
       {userId && trendingRow()}
       {userId && <RecommendedRow onFocusGame={onFocusGame} />}
+      <ConsoleReviewRow />
     </Stack>
   );
 };
