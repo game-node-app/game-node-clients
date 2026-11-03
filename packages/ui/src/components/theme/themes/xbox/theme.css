@@ -1947,3 +1947,83 @@ a.gn-activity-title::after {
         justify-content: center;
     }
 }
+
+/* Xbox notifications (GlobalShellHeaderNotifications): the guide's dark panel, a plain heading,
+   rows as rounded tiles with the selected-tile ring drawn inside (the scroll area clips outside it) */
+:root[data-theme="xbox"] .gn-notifications {
+    /* the arrow reads the same variable, so it keeps the panel's edge */
+    --popover-border-color: rgba(255, 255, 255, 0.1);
+    background: var(--gn-surface);
+    border-radius: 8px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="xbox"] .gn-notifications-body {
+    gap: 4px;
+    padding-bottom: 8px;
+}
+
+:root[data-theme="xbox"] .gn-notifications-header {
+    margin: 0;
+    padding: 12px 8px 8px 16px;
+    background: none;
+}
+
+:root[data-theme="xbox"] .gn-notifications-header .mantine-Title-root {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* mark all as read: a round console button, the check in the theme's green */
+:root[data-theme="xbox"] .gn-notifications-read-all {
+    --ai-size: 40px;
+    border-radius: 50%;
+    transition: background-color 150ms ease;
+}
+
+:root[data-theme="xbox"] .gn-notifications-read-all:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="xbox"] .gn-notifications-read-all:focus-visible {
+    outline: 2px solid var(--gn-calendar-ring);
+    outline-offset: 0;
+}
+
+:root[data-theme="xbox"] .gn-notifications-read-all path:last-child {
+    stroke: var(--gn-brand);
+}
+
+/* one tone for every row (the default theme alternates them) */
+:root[data-theme="xbox"] .gn-notifications .mantine-Notification-root {
+    width: calc(100% - 16px);
+    margin-inline: 8px;
+    border-radius: var(--gn-radius);
+    background: var(--gn-paper-1);
+    box-shadow: inset 0 0 0 2px transparent;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+
+:root[data-theme="xbox"] .gn-notifications .mantine-Notification-root:hover {
+    background: var(--mantine-color-dark-5);
+    box-shadow: inset 0 0 0 2px var(--gn-calendar-ring);
+}
+
+/* empty: the same quiet card as empty favorites, instead of floating text */
+:root[data-theme="xbox"] .gn-notifications-empty {
+    width: calc(100% - 16px);
+    margin-inline: 8px;
+    padding: 24px 16px;
+    border: 1px dashed rgba(255, 255, 255, 0.14);
+    border-radius: var(--gn-radius);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--gn-dimmed);
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root[data-theme="xbox"] .gn-notifications-read-all,
+    :root[data-theme="xbox"] .gn-notifications .mantine-Notification-root {
+        transition: none;
+    }
+}
