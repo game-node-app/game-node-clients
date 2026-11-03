@@ -1,0 +1,28 @@
+{
+  "source": "71260a2c80bbf3e70403ca82c3d9ba2464a97c46",
+  "changesets": [
+    ".changeset/happy-items-cut.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[715cda8c2cb650c610476dd0081283a13e32f0a0...71260a2c80bbf3e70403ca82c3d9ba2464a97c46]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/71260a2c80bbf3e70403ca82c3d9ba2464a97c46",
+  "versions": {
+    "web": "1.10.3",
+    "mobile": "1.9.9"
+  }
+}
