@@ -18,6 +18,7 @@ export interface GameNodeBridge {
   signOut(): Promise<void>;
   onSessionChanged(callback: (session: SessionChange) => void): () => void;
   openExternal(url: string): Promise<void>;
+  showAppMenu(x: number, y: number): Promise<void>;
   showGameContextMenu(gameIds: string[]): Promise<void>;
   onMenuAction(
     callback: (action: MenuAction, gameIds?: string[]) => void,

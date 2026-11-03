@@ -87,6 +87,9 @@ function createWindow() {
   window = new BrowserWindow({
     minWidth: 800,
     minHeight: 600,
+    backgroundColor: "#161616",
+    titleBarStyle: "hidden",
+    titleBarOverlay: { color: "#262525", symbolColor: "#D9D9D9", height: 48 },
     ...(state
       ? { x: state.x, y: state.y, width: state.width, height: state.height }
       : { width: 1280, height: 800, center: true }),
@@ -208,6 +211,15 @@ else {
         )
           throw new Error("Invalid game selection");
         Menu.buildFromTemplate(libraryMenu(ids)).popup({ window });
+      });
+      handle("app:menu", (x: number, y: number) => {
+        if (!Number.isFinite(x) || !Number.isFinite(y))
+          throw new Error("Invalid menu position");
+        Menu.getApplicationMenu()?.popup({
+          window,
+          x: Math.round(x),
+          y: Math.round(y),
+        });
       });
       Menu.setApplicationMenu(
         Menu.buildFromTemplate([

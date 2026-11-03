@@ -1,0 +1,51 @@
+@layer tailwind {
+  @tailwind base;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Roboto;
+  src: url("/font/Roboto-Variable.ttf");
+}
+
+:root {
+  --text-color: #d9d9d9;
+  --bg-color: #161616;
+
+  @mixin dark-root {
+    --mantine-color-text: var(--text-color);
+    --mantine-color-body: var(--bg-color);
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.app-drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262525;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #808080;
+}

@@ -8,25 +8,34 @@ import {
   type KeyboardEvent,
 } from "react";
 import {
-  Alert,
-  Badge,
   Button,
-  Group,
-  Image,
   Loader,
   Modal,
   MultiSelect,
   Stack,
-  Text,
-  TextInput,
-  Title,
+  Alert,
 } from "@mantine/core";
+import {
+  IconBuildingStore,
+  IconChevronDown,
+  IconChevronUp,
+  IconCloudOff,
+  IconMoodEmpty,
+} from "@tabler/icons-react";
 import { useLocalStorage, useResizeObserver } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ImporterService } from "@repo/wrapper/server";
 import { useUserLibrary } from "@repo/ui/library";
 import type { MenuAction } from "../../shared/bridge";
+import { TopBar, type TopBarUser } from "../components/TopBar";
+import { StateMessage } from "../components/StateMessage";
+import { DetailPane } from "./DetailPane";
+import { GameCard } from "./GameCard";
+import { GameRow, LIST_COLUMNS } from "./GameRow";
+import { Sidebar } from "./Sidebar";
+import { StatusBar } from "./StatusBar";
+import { Toolbar } from "./Toolbar";
 import { defaultLayout, readLayout } from "./layout";
 import { useOwnedLibrary } from "./useOwnedLibrary";
 import {
@@ -34,17 +43,20 @@ import {
   filterAndSort,
   filterCounts,
   gameName,
-  gameYear,
-  gameCover,
   importOwnedGames,
   initialSelection,
   selectionReducer,
   type OwnedGame,
   type SortColumn,
-  type Filter,
 } from "./model";
 
-export function Library({ userId }: { userId: string }) {
+export function Library({
+  userId,
+  user,
+}: {
+  userId: string;
+  user: TopBarUser;
+}) {
   const library = useOwnedLibrary();
   const client = useQueryClient();
   const [layout, setLayout] = useLocalStorage({
@@ -71,11 +83,16 @@ export function Library({ userId }: { userId: string }) {
   const [viewportRef, rect] = useResizeObserver();
   const scrollRef = useRef<HTMLDivElement>(null);
   const columns =
-    layout.view === "grid" ? Math.max(1, Math.floor(rect.width / 160)) : 1;
+    layout.view === "grid"
+      ? Math.max(1, Math.floor((rect.width - 16) / 168))
+      : 1;
+  // Cover ratio 264:354 plus name and store lines, so rows never clip at any width.
+  const cardWidth = (rect.width - 16 - (columns - 1) * 8) / columns;
+  const gridRow = Math.ceil((cardWidth - 16) * (354 / 264) + 65 + 8);
   const virtual = useVirtualizer({
     count: Math.ceil(visible.length / columns),
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => (layout.view === "grid" ? 290 : 48),
+    estimateSize: () => (layout.view === "grid" ? gridRow : 48),
     overscan: 4,
   });
   const detail = library.games.find((game) => game.key === detailKey);
@@ -88,7 +105,7 @@ export function Library({ userId }: { userId: string }) {
   }, [ids]);
   useEffect(() => {
     virtual.measure();
-  }, [virtual, columns, layout.view]);
+  }, [virtual, columns, layout.view, gridRow]);
   const importing = useMutation({
     mutationFn: ({
       games,
@@ -255,14 +272,6 @@ export function Library({ userId }: { userId: string }) {
     !library.offline &&
     !importing.isPending &&
     selectedGames.some((game) => !game.isInLibrary);
-  const filters: [Filter, string][] = [
-    ["all", "All games"],
-    ...library.sources.map(
-      (source) => [source, STORE_NAMES[source]] as [Filter, string],
-    ),
-    ["in-library", "In GameNode"],
-    ["not-imported", "Not imported yet"],
-  ];
   function sort(column: SortColumn) {
     setLayout({
       ...layout,
@@ -275,138 +284,40 @@ export function Library({ userId }: { userId: string }) {
       },
     });
   }
+  const openConnections = () =>
+    void window.gamenode
+      .openExternal("https://gamenode.app/preferences/connections")
+      .catch(() => setActionError("Could not open connections"));
   return (
-    <div className="library">
-      <header className="toolbar">
-        <Text fw={700} c="brand">
-          GameNode
-        </Text>
-        <Title order={1} size="h3">
-          Owned library
-        </Title>
-        <Text size="sm" c="dimmed">
-          {selectedGames.length} selected
-        </Text>
-        <Group ml="auto" gap="xs">
-          <Button
-            variant="light"
-            disabled={!canImport}
-            loading={importing.isPending}
-            onClick={() => runAction("import")}
-          >
-            Import
-          </Button>
-          <Button
-            variant="default"
-            aria-pressed={layout.view === "grid"}
-            onClick={() => runAction("grid")}
-          >
-            Grid
-          </Button>
-          <Button
-            variant="default"
-            aria-pressed={layout.view === "list"}
-            onClick={() => runAction("list")}
-          >
-            List
-          </Button>
-          <Button
-            variant="subtle"
-            color="gray"
-            onClick={() =>
-              void window.gamenode
-                .signOut()
-                .catch(() => setActionError("Could not clear saved session"))
-            }
-          >
-            Sign out
-          </Button>
-        </Group>
-      </header>
-      {library.offline && (
-        <Alert color="yellow" title="Offline · read-only">
-          Last synced:{" "}
-          {library.lastSynced
-            ? new Date(library.lastSynced).toLocaleString()
-            : "No cached games"}
-        </Alert>
-      )}
-      {(importing.error || actionError) && (
-        <Alert color="red" title="Action failed">
-          {actionError ||
-            (importing.error instanceof Error
-              ? importing.error.message
-              : "Could not import games")}
-        </Alert>
-      )}
-      {message && (
-        <Alert withCloseButton onClose={() => setMessage(undefined)}>
-          {message}
-        </Alert>
-      )}
-      <div className="panes">
-        <aside
-          className="sidebar"
-          style={{ width: layout.sidebar }}
-          aria-label="Library filters"
-        >
-          <Text c="dimmed" size="xs" fw={700} mb="sm">
-            YOUR LIBRARY
-          </Text>
-          {filters.map(([filter, label]) => {
-            const index = library.sources.indexOf(
-              filter as (typeof library.sources)[number],
-            );
-            const query = library.queries[index];
-            return (
-              <div key={filter}>
-                <Button
-                  fullWidth
-                  justify="space-between"
-                  variant={layout.filter === filter ? "light" : "subtle"}
-                  color={layout.filter === filter ? undefined : "gray"}
-                  onClick={() => {
-                    setLayout({ ...layout, filter });
-                  }}
-                  rightSection={
-                    <Badge size="sm" variant="light" color="gray">
-                      {counts[filter]}
-                    </Badge>
-                  }
-                >
-                  {label}
-                </Button>
-                {query?.isError && (
-                  <Button
-                    size="compact-xs"
-                    color="red"
-                    variant="subtle"
-                    onClick={() => void query.refetch()}
-                  >
-                    Load failed · Retry
-                  </Button>
-                )}
-                {query?.isFetching && (
-                  <Text size="xs" c="dimmed">
-                    Syncing…
-                  </Text>
-                )}
-              </div>
-            );
-          })}
-          <Button
-            mt="lg"
-            fullWidth
-            variant="default"
-            onClick={() =>
-              void window.gamenode
-                .openExternal("https://gamenode.app/preferences/connections")
-                .catch(() => setActionError("Could not open connections"))
-            }
-          >
-            Manage stores
-          </Button>
-        </aside>
+    <div className="flex h-full flex-col">
+      <TopBar user={user} onError={setActionError} />
+      <StatusBar
+        offline={library.offline}
+        lastSynced={library.lastSynced}
+        error={
+          actionError ||
+          (importing.error instanceof Error
+            ? importing.error.message
+            : importing.error
+              ? "Could not import games"
+              : undefined)
+        }
+        message={message}
+        onDismiss={() => {
+          setActionError(undefined);
+          setMessage(undefined);
+          importing.reset();
+        }}
+      />
+      <div className="flex min-h-0 flex-1">
+        <Sidebar
+          width={layout.sidebar}
+          filter={layout.filter}
+          sources={library.sources}
+          queries={library.queries}
+          counts={counts}
+          onFilter={(filter) => setLayout({ ...layout, filter })}
+        />
         <Splitter
           label="Sidebar width"
           value={layout.sidebar}
@@ -414,65 +325,42 @@ export function Library({ userId }: { userId: string }) {
           max={300}
           onChange={(sidebar) => setLayout({ ...layout, sidebar })}
         />
-        <main className="game-area" ref={viewportRef}>
-          <TextInput
-            m="sm"
-            aria-label="Filter games by name"
-            placeholder="Type to filter games…"
-            value={text}
-            onChange={(event) => setText(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
-                setText("");
-                scrollRef.current?.focus();
-              }
-            }}
-            rightSection={
-              text ? (
-                <button
-                  className="clear-search"
-                  aria-label="Clear filter"
-                  onClick={() => setText("")}
-                >
-                  ×
-                </button>
-              ) : undefined
-            }
+        <main className="flex min-w-[160px] flex-1 flex-col" ref={viewportRef}>
+          <Toolbar
+            text={text}
+            selectedCount={selectedGames.length}
+            view={layout.view}
+            canImport={canImport}
+            importing={importing.isPending}
+            onText={setText}
+            onEscape={() => scrollRef.current?.focus()}
+            onView={runAction}
+            onImport={() => runAction("import")}
           />
           {library.connections.isPending ? (
-            <Stack p="xl" align="center">
-              <Loader />
-              <Text>Loading linked stores…</Text>
-            </Stack>
+            <StateMessage loading title="Loading linked stores…" />
           ) : library.connections.isError && !library.connections.data ? (
-            <Alert color="red" title="Could not load stores">
-              <Button onClick={() => void library.connections.refetch()}>
-                Retry
-              </Button>
-            </Alert>
+            <StateMessage
+              icon={IconCloudOff}
+              title="Could not load stores"
+              text="Check your connection and try again."
+              action={{
+                label: "Retry",
+                onClick: () => void library.connections.refetch(),
+              }}
+            />
           ) : !library.sources.length ? (
-            <Stack p="xl" align="center">
-              <Title order={2}>Link your stores</Title>
-              <Text c="dimmed">
-                Connect a store on GameNode to see the games you own here.
-              </Text>
-              <Button
-                onClick={() =>
-                  void window.gamenode
-                    .openExternal(
-                      "https://gamenode.app/preferences/connections",
-                    )
-                    .catch(() => setActionError("Could not open connections"))
-                }
-              >
-                Link a store
-              </Button>
-            </Stack>
+            <StateMessage
+              icon={IconBuildingStore}
+              title="Link your stores"
+              text="Connect a store on GameNode to see the games you own here."
+              action={{ label: "Link a store", onClick: openConnections }}
+            />
           ) : (
             <>
               {layout.view === "list" && (
                 <div
-                  className="list-columns"
+                  className={`list-columns grid h-10 shrink-0 items-center gap-sm border-b border-paper-4 pl-md pr-[26px] ${LIST_COLUMNS}`}
                   role="group"
                   aria-label="Sort games"
                 >
@@ -483,26 +371,31 @@ export function Library({ userId }: { userId: string }) {
                       ["year", "Year"],
                       ["in-library", "In GameNode"],
                     ] as [SortColumn, string][]
-                  ).map(([column, label]) => (
-                    <div key={column}>
-                      <button
-                        aria-label={`Sort by ${label}${layout.sort.column === column ? `, ${layout.sort.direction === "asc" ? "ascending" : "descending"}` : ""}`}
-                        aria-pressed={layout.sort.column === column}
-                        onClick={() => sort(column)}
-                      >
-                        {label}
-                        {layout.sort.column === column
-                          ? layout.sort.direction === "asc"
-                            ? " ↑"
-                            : " ↓"
-                          : ""}
-                      </button>
-                    </div>
-                  ))}
+                  ).map(([column, label]) => {
+                    const active = layout.sort.column === column;
+                    const Chevron =
+                      layout.sort.direction === "asc"
+                        ? IconChevronUp
+                        : IconChevronDown;
+                    return (
+                      <div key={column}>
+                        <button
+                          type="button"
+                          aria-label={`Sort by ${label}${active ? `, ${layout.sort.direction === "asc" ? "ascending" : "descending"}` : ""}`}
+                          aria-pressed={active}
+                          className={`flex items-center gap-1 text-xs font-bold uppercase text-dimmed-1 hover:text-[#D9D9D9] ${column === "name" ? "pl-11" : ""}`}
+                          onClick={() => sort(column)}
+                        >
+                          {label}
+                          {active && <Chevron size={14} />}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
               <div
-                className="game-scroll"
+                className="min-h-0 flex-1 overflow-auto outline-none"
                 ref={scrollRef}
                 role="listbox"
                 aria-label="Owned games"
@@ -517,13 +410,16 @@ export function Library({ userId }: { userId: string }) {
                 }}
                 onKeyDown={keyboard}
               >
-                {!visible.length && (
-                  <Text p="xl" c="dimmed">
-                    {library.queries.some((query) => query.isFetching)
-                      ? "Loading owned games…"
-                      : "No games match this filter."}
-                  </Text>
-                )}
+                {!visible.length &&
+                  (library.queries.some((query) => query.isFetching) ? (
+                    <StateMessage loading title="Loading owned games…" />
+                  ) : (
+                    <StateMessage
+                      icon={IconMoodEmpty}
+                      title="No games match this filter"
+                      text="Try another filter or clear the search."
+                    />
+                  ))}
                 <div
                   style={{
                     height: virtual.getTotalSize(),
@@ -534,7 +430,7 @@ export function Library({ userId }: { userId: string }) {
                     <div
                       key={row.key}
                       className={
-                        layout.view === "grid" ? "cover-row" : undefined
+                        layout.view === "grid" ? "grid gap-x-2 px-2" : undefined
                       }
                       style={{
                         position: "absolute",
@@ -546,93 +442,64 @@ export function Library({ userId }: { userId: string }) {
                         ...(layout.view === "grid"
                           ? {
                               gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+                              alignContent: "start",
                             }
                           : {}),
                       }}
                     >
                       {visible
                         .slice(row.index * columns, (row.index + 1) * columns)
-                        .map((game, index) => (
-                          <div
-                            key={game.key}
-                            id={`game-${game.key}`}
-                            role="option"
-                            aria-posinset={row.index * columns + index + 1}
-                            aria-setsize={visible.length}
-                            aria-selected={selection.selected.has(game.key)}
-                            aria-label={`${gameName(game)}, ${STORE_NAMES[game.source]}, ${game.isInLibrary ? "in GameNode" : "not imported"}`}
-                            className={`game ${layout.view} ${selection.focused === game.key ? "focused" : ""}`}
-                            onClick={(event) => choose(game, event)}
-                            onDoubleClick={() => setDetailKey(game.key)}
-                            onContextMenu={(event) => {
-                              event.preventDefault();
-                              scrollRef.current?.focus();
-                              const selected = selection.selected.has(game.key)
-                                ? [...selection.selected]
-                                : [game.key];
-                              if (!selection.selected.has(game.key))
-                                dispatch({ type: "select", id: game.key, ids });
-                              setDetailKey(game.key);
-                              void window.gamenode
-                                .showGameContextMenu(selected)
-                                .catch(() =>
-                                  setActionError("Could not show game menu"),
-                                );
-                            }}
-                          >
-                            {layout.view === "grid" ? (
-                              <>
-                                <Image
-                                  src={gameCover(game)}
-                                  alt=""
-                                  h={210}
-                                  fit="contain"
-                                  fallbackSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='210'%3E%3Crect width='160' height='210' fill='%232a2a2a'/%3E%3C/svg%3E"
-                                />
-                                <Text truncate size="sm" fw={600}>
-                                  {gameName(game)}
-                                </Text>
-                                <Group justify="space-between" gap={2}>
-                                  <Text size="xs" c="dimmed">
-                                    {STORE_NAMES[game.source]}
-                                  </Text>
-                                  <Badge
-                                    variant="light"
-                                    color={game.isInLibrary ? "teal" : "gray"}
-                                    size="xs"
-                                  >
-                                    {game.isInLibrary
-                                      ? "In GameNode"
-                                      : "Not imported"}
-                                  </Badge>
-                                </Group>
-                              </>
-                            ) : (
-                              <>
-                                <Text truncate size="sm">
-                                  {gameName(game)}
-                                </Text>
-                                <Text size="sm">
-                                  {STORE_NAMES[game.source]}
-                                </Text>
-                                <Text size="sm">{gameYear(game) || "—"}</Text>
-                                <Text size="sm">
-                                  {game.isInLibrary ? "Yes" : "No"}
-                                </Text>
-                              </>
-                            )}
-                          </div>
-                        ))}
+                        .map((game, index) => {
+                          const Item =
+                            layout.view === "grid" ? GameCard : GameRow;
+                          return (
+                            <Item
+                              key={game.key}
+                              game={game}
+                              selected={selection.selected.has(game.key)}
+                              focused={selection.focused === game.key}
+                              id={`game-${game.key}`}
+                              role="option"
+                              aria-posinset={row.index * columns + index + 1}
+                              aria-setsize={visible.length}
+                              aria-selected={selection.selected.has(game.key)}
+                              aria-label={`${gameName(game)}, ${STORE_NAMES[game.source]}, ${game.isInLibrary ? "in GameNode" : "not imported"}`}
+                              onClick={(event) => choose(game, event)}
+                              onDoubleClick={() => setDetailKey(game.key)}
+                              onContextMenu={(event) => {
+                                event.preventDefault();
+                                scrollRef.current?.focus();
+                                const selected = selection.selected.has(
+                                  game.key,
+                                )
+                                  ? [...selection.selected]
+                                  : [game.key];
+                                if (!selection.selected.has(game.key))
+                                  dispatch({
+                                    type: "select",
+                                    id: game.key,
+                                    ids,
+                                  });
+                                setDetailKey(game.key);
+                                void window.gamenode
+                                  .showGameContextMenu(selected)
+                                  .catch(() =>
+                                    setActionError("Could not show game menu"),
+                                  );
+                              }}
+                            />
+                          );
+                        })}
                     </div>
                   ))}
                 </div>
               </div>
-              <Text size="xs" c="dimmed" p="xs">
+              <div className="truncate px-md py-xs text-xs text-dimmed-1">
                 {visible.length} games
                 {library.lastSynced
                   ? ` · Last synced ${new Date(library.lastSynced).toLocaleString()}`
                   : ""}
-              </Text>
+              </div>
             </>
           )}
         </main>
@@ -646,59 +513,16 @@ export function Library({ userId }: { userId: string }) {
               reverse
               onChange={(width) => setLayout({ ...layout, detail: width })}
             />
-            <aside
-              className="detail"
-              style={{ width: layout.detail }}
-              aria-label="Game details"
-            >
-              <Stack>
-                <Button
-                  size="compact-xs"
-                  variant="subtle"
-                  color="gray"
-                  onClick={() => setDetailKey(undefined)}
-                >
-                  Close details
-                </Button>
-                {gameCover(detail) && (
-                  <Image
-                    src={gameCover(detail)}
-                    alt={`${gameName(detail)} cover`}
-                    mah={300}
-                    fit="contain"
-                  />
-                )}
-                <Title order={2} size="h3">
-                  {gameName(detail)}
-                </Title>
-                <Text>
-                  {STORE_NAMES[detail.source]} ·{" "}
-                  {gameYear(detail) || "Year unknown"}
-                </Text>
-                <Text size="sm">
-                  Matched GameNode game:{" "}
-                  {detail.game?.name ||
-                    (detail.gameId ? `#${detail.gameId}` : "No match yet")}
-                </Text>
-                <Badge
-                  variant="light"
-                  color={detail.isInLibrary ? "teal" : "gray"}
-                >
-                  {detail.isInLibrary ? "In GameNode library" : "Not imported"}
-                </Badge>
-                {!detail.isInLibrary && (
-                  <Button
-                    disabled={library.offline}
-                    loading={importing.isPending}
-                    onClick={() =>
-                      importing.mutate({ games: [detail], collectionIds: [] })
-                    }
-                  >
-                    Import
-                  </Button>
-                )}
-              </Stack>
-            </aside>
+            <DetailPane
+              game={detail}
+              width={layout.detail}
+              offline={library.offline}
+              importing={importing.isPending}
+              onImport={() =>
+                importing.mutate({ games: [detail], collectionIds: [] })
+              }
+              onClose={() => setDetailKey(undefined)}
+            />
           </>
         )}
       </div>
@@ -770,7 +594,7 @@ function Splitter({
     onChange(Math.max(min, Math.min(max, width)));
   return (
     <div
-      className="splitter"
+      className="w-2 shrink-0 cursor-col-resize touch-none bg-paper-4 bg-clip-content px-[3.5px] outline-none hover:bg-brand focus-visible:bg-brand"
       role="separator"
       tabIndex={0}
       aria-label={label}

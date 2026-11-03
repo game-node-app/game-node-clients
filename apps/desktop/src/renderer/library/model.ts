@@ -1,3 +1,4 @@
+import { getSizedImageUrl, type ImageSize } from "@repo/ui/image";
 import type {
   ImporterResponseItemDto,
   ImporterPaginatedResponseDto,
@@ -37,8 +38,11 @@ export const gameYear = (game: OwnedGame) =>
   (game.game?.firstReleaseDate
     ? new Date(game.game.firstReleaseDate).getUTCFullYear()
     : 0);
-export const gameCover = (game: OwnedGame) =>
-  game.game?.cover?.url?.replace(/^\/\//, "https://");
+export const gameCover = (game: OwnedGame, size: ImageSize) => {
+  const url = getSizedImageUrl(game.game?.cover?.url, size);
+  // getSizedImageUrl returns an error string for non-IGDB URLs
+  return url?.startsWith("https://") ? url : undefined;
+};
 
 export async function loadOwnedSource(
   source: Source,

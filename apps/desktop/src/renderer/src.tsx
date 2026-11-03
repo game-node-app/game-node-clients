@@ -7,7 +7,7 @@ import { setProjectContext } from "@repo/ui/project-context";
 import { setupWrapper } from "@repo/wrapper";
 import { App } from "./App";
 import "@mantine/core/styles.css";
-import "./style.css";
+import "./globals.css";
 
 const serverUrl =
   import.meta.env.VITE_PUBLIC_SERVER_URL || "https://server.gamenode.app";

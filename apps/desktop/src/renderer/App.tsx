@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Button, Text, Title } from "@mantine/core";
 import {
-  Alert,
-  Button,
-  Center,
-  Loader,
-  Paper,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+  IconBrandDiscord,
+  IconBrandGoogle,
+  IconBrandX,
+  IconCloudOff,
+} from "@tabler/icons-react";
 import { authClient } from "@repo/ui/auth";
 import { handleAuthError } from "@repo/ui/auth-errors";
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
@@ -17,10 +14,19 @@ import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persi
 import { PROVIDERS, type Provider } from "../shared/bridge";
 import { Library } from "./library/Library";
 import { CACHE_PREFIX, accountStorage } from "./cache";
+import { TopBar } from "./components/TopBar";
+import { StateMessage } from "./components/StateMessage";
+
+const PROVIDER_ICONS = {
+  google: IconBrandGoogle,
+  discord: IconBrandDiscord,
+  twitter: IconBrandX,
+};
 
 export function App() {
   const [signedIn, setSignedIn] = useState<boolean>();
   const [userId, setUserId] = useState<string>();
+  const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
   const [pending, setPending] = useState<Provider>();
   useEffect(() => {
@@ -42,7 +48,11 @@ export function App() {
           byte.toString(16).padStart(2, "0"),
         ).join("");
         if (attempt !== version) return;
-        let cached: { fingerprint?: string; userId?: string } | null = null;
+        let cached: {
+          fingerprint?: string;
+          userId?: string;
+          name?: string;
+        } | null = null;
         try {
           cached = JSON.parse(
             localStorage.getItem("gamenode-identity") || "null",
@@ -54,6 +64,11 @@ export function App() {
           cached?.fingerprint === fingerprint &&
             typeof cached.userId === "string"
             ? cached.userId
+            : undefined,
+        );
+        setName(
+          cached?.fingerprint === fingerprint && typeof cached.name === "string"
+            ? cached.name
             : undefined,
         );
         setSignedIn(true);
@@ -71,9 +86,14 @@ export function App() {
         }
         localStorage.setItem(
           "gamenode-identity",
-          JSON.stringify({ fingerprint, userId: session.data.user.id }),
+          JSON.stringify({
+            fingerprint,
+            userId: session.data.user.id,
+            name: session.data.user.name,
+          }),
         );
         setUserId(session.data.user.id);
+        setName(session.data.user.name);
       } catch {
         if (attempt === version)
           setError("Could not restore session. Retry when connected.");
@@ -86,6 +106,7 @@ export function App() {
         ++version;
         setSignedIn(false);
         setUserId(undefined);
+        setName(undefined);
         localStorage.removeItem("gamenode-identity");
         for (const key of Object.keys(localStorage))
           if (key.startsWith(CACHE_PREFIX)) localStorage.removeItem(key);
@@ -107,81 +128,104 @@ export function App() {
   }, []);
   if (signedIn === undefined)
     return (
-      <Center h="100vh">
-        <Loader />
-      </Center>
+      <Screen>
+        <StateMessage loading title="Starting GameNode…" />
+      </Screen>
     );
   if (signedIn) {
-    if (userId) return <UserLibrary key={userId} userId={userId} />;
+    if (userId)
+      return (
+        <UserLibrary key={userId} userId={userId} name={name || "Account"} />
+      );
     return (
-      <Center h="100vh">
-        <Stack align="center">
-          <Loader />
-          <Text>{error || "Restoring session…"}</Text>
-          <Button
-            onClick={() =>
-              window.dispatchEvent(new Event("gamenode:retry-session"))
-            }
-          >
-            Retry
-          </Button>
-          <Button
-            variant="subtle"
-            onClick={() => void window.gamenode.signOut()}
-          >
-            Sign out
-          </Button>
-        </Stack>
-      </Center>
+      <Screen>
+        <StateMessage
+          loading={!error}
+          icon={IconCloudOff}
+          title={error || "Restoring session…"}
+          action={{
+            label: "Retry",
+            onClick: () =>
+              window.dispatchEvent(new Event("gamenode:retry-session")),
+          }}
+        />
+        <Button
+          variant="subtle"
+          color="gray"
+          className="mx-auto mb-xl"
+          onClick={() => void window.gamenode.signOut()}
+        >
+          Sign out
+        </Button>
+      </Screen>
     );
   }
   return (
-    <Center h="100vh">
-      <Paper p="xl" withBorder w={420}>
-        <Stack>
-          <Text c="brand" fw={700} size="xl">
-            GameNode
-          </Text>
-          <Title order={1}>Your games, together.</Title>
-          <Text c="dimmed">
+    <Screen>
+      <div className="flex flex-1 items-center justify-center">
+        <div className="flex w-[400px] flex-col gap-md rounded-md bg-paper-1 p-xl">
+          <img
+            src="/img/main-logo.png"
+            alt="GameNode"
+            className="h-8 self-start"
+          />
+          <Title order={1} size="h2">
+            Your games, together.
+          </Title>
+          <Text size="sm" className="text-dimmed-1">
             Sign in to browse the games you own across your linked stores.
           </Text>
           {error && (
-            <Alert color="red" title="Sign-in failed">
+            <Text size="sm" role="alert" className="text-danger">
               {error}
-            </Alert>
+            </Text>
           )}
-          {PROVIDERS.map((provider) => (
-            <Button
-              key={provider}
-              variant="light"
-              loading={pending === provider}
-              disabled={!!pending && pending !== provider}
-              onClick={() => {
-                setPending(provider);
-                setError(undefined);
-                void window.gamenode.signIn(provider).catch(() => {
-                  setPending(undefined);
-                  setError("Could not open sign-in. Try again.");
-                });
-              }}
-            >
-              Continue with{" "}
-              {provider === "twitter"
-                ? "X / Twitter"
-                : provider[0].toUpperCase() + provider.slice(1)}
-            </Button>
-          ))}
-          <Text size="xs" c="dimmed">
+          {PROVIDERS.map((provider) => {
+            const ProviderIcon = PROVIDER_ICONS[provider];
+            return (
+              <Button
+                key={provider}
+                fullWidth
+                variant="default"
+                leftSection={<ProviderIcon size={18} />}
+                loading={pending === provider}
+                disabled={!!pending && pending !== provider}
+                onClick={() => {
+                  setPending(provider);
+                  setError(undefined);
+                  void window.gamenode.signIn(provider).catch(() => {
+                    setPending(undefined);
+                    setError("Could not open sign-in. Try again.");
+                  });
+                }}
+              >
+                Continue with{" "}
+                {provider === "twitter"
+                  ? "X / Twitter"
+                  : provider[0].toUpperCase() + provider.slice(1)}
+              </Button>
+            );
+          })}
+          <Text size="xs" className="text-dimmed-1">
             Sign-in opens in your browser. Return here to cancel.
           </Text>
-        </Stack>
-      </Paper>
-    </Center>
+        </div>
+      </div>
+    </Screen>
   );
 }
 
-function UserLibrary({ userId }: { userId: string }) {
+// Title-bar-only top bar plus content, for screens shown before the library.
+function Screen({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex h-full flex-col">
+      <TopBar />
+      {children}
+    </div>
+  );
+}
+
+function UserLibrary({ userId, name }: { userId: string; name: string }) {
   const [client] = useState(() => {
     const onError = (error: unknown) => {
       handleAuthError(error);
@@ -231,7 +275,7 @@ function UserLibrary({ userId }: { userId: string }) {
         },
       }}
     >
-      <Library userId={userId} />
+      <Library userId={userId} user={{ name }} />
     </PersistQueryClientProvider>
   );
 }

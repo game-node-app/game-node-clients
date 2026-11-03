@@ -19,7 +19,8 @@
     "./theme": "./src/util/theme.ts",
     "./project-context": "./src/util/projectContext.ts",
     "./connections": "./src/components/connections/hooks/useOwnUserConnections.ts",
-    "./library": "./src/components/library/hooks/useUserLibrary.ts"
+    "./library": "./src/components/library/hooks/useUserLibrary.ts",
+    "./image": "./src/components/game/util/getSizedImageUrl.ts"
   },
   "private": true,
   "license": "MIT",

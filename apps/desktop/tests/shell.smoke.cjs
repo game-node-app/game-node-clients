@@ -38,6 +38,7 @@ app.once("browser-window-created", (_event, window) => {
           "onMenuAction",
           "onSessionChanged",
           "openExternal",
+          "showAppMenu",
           "showGameContextMenu",
           "signIn",
           "signOut",

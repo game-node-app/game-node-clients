@@ -162,7 +162,7 @@ app.once("browser-window-created", (_event, window) => {
       assert.ok(
         await js("document.querySelectorAll('[role=option]').length < 150"),
       );
-      await waitFor("document.body.innerText.includes('Load failed')");
+      await waitFor("document.querySelector('[aria-label=\"Load failed · Retry\"]')");
       Menu.getApplicationMenu()
         .items.find((item) => item.label === "View")
         .submenu.items.find((item) => item.label === "Detailed list")

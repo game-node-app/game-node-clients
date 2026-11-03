@@ -8,10 +8,12 @@ import {
   loadOwnedSource,
   mergeOwnedSources,
   importOwnedGames,
+  gameCover,
   type OwnedGame,
   type SortColumn,
   type Source,
 } from "./model";
+import { ImageSize } from "@repo/ui/image";
 import { readLayout, defaultLayout } from "./layout";
 
 function game(
@@ -218,5 +220,31 @@ it("restores layout and falls back safely for invalid storage", () => {
     filter: "psn",
     sidebar: 300,
     detail: 220,
+  });
+});
+
+describe("game covers", () => {
+  const withCover = (url?: string) =>
+    ({ game: { cover: { url } } }) as unknown as OwnedGame;
+  const igdb = "images.igdb.com/igdb/image/upload/t_thumb/co1abc.jpg";
+
+  it("requests the sized IGDB cover", () => {
+    expect(gameCover(withCover(`https://${igdb}`), ImageSize.COVER_BIG)).toBe(
+      "https://images.igdb.com/igdb/image/upload/t_cover_big/co1abc.jpg",
+    );
+  });
+  it("accepts protocol-relative URLs", () => {
+    expect(gameCover(withCover(`//${igdb}`), ImageSize.COVER_BIG_2X)).toBe(
+      "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1abc.jpg",
+    );
+  });
+  it("returns nothing for non-IGDB or missing covers", () => {
+    expect(
+      gameCover(withCover("https://example.com/a.jpg"), ImageSize.COVER_BIG),
+    ).toBeUndefined();
+    expect(gameCover(withCover(), ImageSize.COVER_BIG)).toBeUndefined();
+    expect(
+      gameCover({ key: "x" } as OwnedGame, ImageSize.COVER_BIG),
+    ).toBeUndefined();
   });
 });

@@ -10,6 +10,7 @@ const bridge: GameNodeBridge = {
   getToken: () => ipcRenderer.invoke("auth:token"),
   signOut: () => ipcRenderer.invoke("auth:sign-out"),
   openExternal: (url) => ipcRenderer.invoke("external:open", url),
+  showAppMenu: (x, y) => ipcRenderer.invoke("app:menu", x, y),
   showGameContextMenu: (ids) => ipcRenderer.invoke("library:context-menu", ids),
   onSessionChanged(callback) {
     const listener = (_event: IpcRendererEvent, session: SessionChange) =>
