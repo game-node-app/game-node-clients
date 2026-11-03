@@ -745,49 +745,69 @@ a.gn-activity-title::after {
     }
 }
 
-/* Xbox game page (XboxGameInfoView): store-style hero over the game's art, then description + fact sheet */
+/* Xbox game page (XboxGameInfoView): a tall store hero over the game's art, a screenshot strip,
+   then description + fact sheet. */
 .gn-game-view {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 40px;
     width: 100%;
 }
 
 .gn-game-hero {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
     align-items: end;
-    gap: 32px;
-    min-height: 380px;
-    padding: 32px;
-    border-radius: calc(var(--gn-radius) * 2);
-    border: 1px solid var(--gn-border);
-    overflow: hidden;
-    background: var(--gn-surface);
+    gap: 40px;
+    /* most of the first viewport, under the header and the page's top margin */
+    min-height: clamp(420px, calc(78vh - var(--app-shell-header-height, 0px) - 3rem), 640px);
+    padding: 48px 0 8px;
     isolation: isolate;
 }
 
+/* full-bleed past the page container and up behind the see-through header; the content stays on the body's grid */
 .gn-game-hero-art {
+    --gn-hero-pull: calc(var(--app-shell-header-height, 0px) + 3rem);
     position: absolute;
-    inset: 0;
+    top: calc(-1 * var(--gn-hero-pull));
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
     z-index: -1;
-    background: center / cover no-repeat;
+    background: var(--gn-surface) center 25% / cover no-repeat;
+    animation: gn-game-hero-in 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* keeps the title and buttons readable over any art */
+/* left side dark for the title, and the bottom melts into the page instead of ending on a hard edge */
 .gn-game-hero-art::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.6) 55%, rgba(10, 10, 10, 0.25) 100%),
-        linear-gradient(0deg, rgba(10, 10, 10, 0.85) 0%, transparent 60%);
+        linear-gradient(90deg, rgba(15, 15, 15, 0.9) 0%, rgba(15, 15, 15, 0.55) 45%, rgba(15, 15, 15, 0) 80%),
+        linear-gradient(0deg, var(--gn-body) 0%, rgba(15, 15, 15, 0.7) 22%, rgba(15, 15, 15, 0) 55%);
+}
+
+@keyframes gn-game-hero-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-game-hero-art {
+        animation: none;
+    }
 }
 
 .gn-game-hero-cover {
     border-radius: var(--gn-radius);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 24px 48px rgba(0, 0, 0, 0.65);
 }
 
 .gn-game-hero-cover img {
@@ -798,26 +818,66 @@ a.gn-activity-title::after {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
     min-width: 0;
+    padding-bottom: 4px;
+}
+
+.gn-game-hero-genres {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gn-calendar-ring);
 }
 
 .gn-game-title {
-    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    max-width: 18ch;
+    font-size: clamp(2rem, 1.2rem + 3vw, 3.75rem);
     font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     color: #FFFFFF;
+    text-wrap: balance;
     overflow-wrap: anywhere;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
+/* release date | score | platforms, split by thin rules */
 .gn-game-hero-meta {
-    color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.95rem;
 }
 
+.gn-game-hero-meta > * + * {
+    padding-left: 16px;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.gn-game-hero-score {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+}
+
+.gn-game-hero-score svg {
+    color: #ffc83d;
+}
+
+.gn-game-hero-platforms {
+    gap: 10px;
+    opacity: 0.9;
+}
+
 .gn-game-hero-actions {
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 /* GameInfoActions centers itself for the default layout */
@@ -825,54 +885,168 @@ a.gn-activity-title::after {
     align-items: flex-start;
 }
 
+/* screenshot strip: the carousel box becomes a plain row with a section heading */
+.gn-game-media .gn-details-box {
+    padding: 0;
+    gap: 12px;
+    background: none;
+}
+
+.gn-game-media .gn-details-box-title,
+.gn-game-main .gn-details-box-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gn-text);
+}
+
+.gn-game-media .mantine-Carousel-slide {
+    cursor: zoom-in;
+}
+
+.gn-game-media .mantine-Carousel-slide img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--gn-radius);
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    transition: outline-color 150ms ease;
+}
+
+/* the Xbox selection ring */
+.gn-game-media .mantine-Carousel-slide:hover img {
+    outline-color: var(--gn-calendar-ring);
+}
+
 .gn-game-body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
     align-items: start;
-    gap: 32px;
+    gap: 48px;
 }
 
 .gn-game-main {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 36px;
     min-width: 0;
 }
 
 .gn-game-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
 .gn-game-summary {
-    max-width: 72ch;
-    font-size: 1rem;
-    line-height: 1.6;
+    max-width: 68ch;
+    font-size: 1.0625rem;
+    line-height: 1.65;
     color: rgba(255, 255, 255, 0.85);
 }
 
 /* main column boxes become plain sections, with their labels as section headings */
 .gn-game-main .gn-details-box {
+    gap: 12px;
     padding: 0;
     border: 0;
     background: none;
 }
 
-.gn-game-main .gn-details-box-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--gn-text);
+/* tags: quiet console chips with the green ring on hover, instead of saturated pills */
+.gn-game-main .mantine-Badge-root {
+    height: auto;
+    padding: 7px 12px;
+    border-radius: var(--gn-radius);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    box-shadow: inset 0 0 0 1px transparent;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
 }
 
-/* the fact sheet: one panel, a dimmed label over each value, rows split by hairlines */
+.gn-game-main a:hover .mantine-Badge-root,
+.gn-game-main a:focus-visible .mantine-Badge-root {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 2px var(--gn-calendar-ring);
+}
+
+/* time to beat: three stat tiles (big hours over the label) instead of a two-column table */
+.gn-game-ttb .gn-details-box {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.gn-game-ttb .gn-details-box > :first-child,
+.gn-game-ttb .gn-details-box > p {
+    grid-column: 1 / -1;
+}
+
+.gn-game-ttb .gn-details-box > :first-child {
+    margin-bottom: 4px;
+}
+
+.gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 2px;
+    padding: 16px 18px;
+    border-radius: var(--gn-radius);
+    border-top: 2px solid var(--gn-brand);
+    background: var(--gn-surface);
+}
+
+.gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) > * {
+    width: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+}
+
+/* the hours */
+.gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) > :last-child p {
+    text-align: left;
+    font-size: 1.625rem;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+/* the label, with its info icon */
+.gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) > :first-child .mantine-Group-root {
+    justify-content: flex-start;
+    color: var(--gn-dimmed);
+}
+
+.gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) > :first-child p {
+    text-align: left;
+    font-size: 0.875rem;
+    color: var(--gn-dimmed);
+}
+
+.gn-game-ttb .gn-details-box > p {
+    margin-top: 4px;
+    text-align: left;
+}
+
+/* the fact sheet: a raised dark panel like the store's info pane,
+   a dimmed label over each value, rows split by hairlines */
 .gn-game-facts {
+    position: sticky;
+    top: calc(var(--app-shell-header-height, 0px) + 16px);
     display: flex;
     flex-direction: column;
     padding: 4px 20px;
-    border-radius: calc(var(--gn-radius) * 2);
     border: 1px solid var(--gn-border);
-    background: var(--gn-surface);
+    border-top: 3px solid var(--gn-brand);
+    border-radius: calc(var(--gn-radius) * 2);
+    background: linear-gradient(180deg, #1c1c1c 0%, var(--gn-surface) 100%);
+    color: var(--gn-text);
 }
 
 .gn-game-facts .gn-details-box {
@@ -888,7 +1062,8 @@ a.gn-activity-title::after {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    color: var(--gn-dimmed);
 }
 
 /* user rating (DetailsCard) closes the sheet */
@@ -905,36 +1080,376 @@ a.gn-activity-title::after {
     color: var(--gn-dimmed);
 }
 
+/* the last row needs no hairline under it */
+.gn-game-facts > :last-child {
+    border-bottom: 0;
+}
+
+/* user rating (XboxGameScore): the median beside its stars, then one bar per star */
+.gn-score {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.gn-score-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gn-score-median {
+    min-width: 2ch;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* histogram: columns share a baseline; the most voted star is the solid one */
+.gn-score-bars {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.gn-score-bar {
+    display: grid;
+    grid-template-rows: auto 88px auto;
+    justify-items: center;
+    gap: 6px;
+    font-variant-numeric: tabular-nums;
+}
+
+.gn-score-bar-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gn-dimmed);
+}
+
+.gn-score-bar[data-top] .gn-score-bar-value {
+    color: var(--gn-text);
+}
+
+.gn-score-bar-track {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 36px;
+    border-bottom: 2px solid var(--gn-border);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px 4px 0 0;
+}
+
+.gn-score-bar-track > span {
+    display: block;
+    width: 100%;
+    /* a stub keeps 0% columns visible on the baseline */
+    min-height: 2px;
+    border-radius: 4px 4px 0 0;
+    background: rgba(var(--gn-brand-rgb), 0.45);
+    transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gn-score-bar[data-top] .gn-score-bar-track > span {
+    background: var(--gn-brand);
+}
+
+.gn-score-bars[data-empty] .gn-score-bar-track {
+    background: transparent;
+}
+
+.gn-score-bar-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--gn-dimmed);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-score-bar-track > span {
+        transition: none;
+    }
+}
+
+/* developers/publishers: a row of logos; companies without one fall back to their name */
+.gn-game-facts .gn-company-list {
+    gap: 12px 20px;
+    align-items: center;
+}
+
+/* a fixed height keeps wide wordmarks readable; they may grow up to the card's width */
+/* logos are made for light grounds: each sits on its own white plate */
+.gn-game-facts .gn-company-logo {
+    box-sizing: content-box;
+    width: auto;
+    height: 28px;
+    max-width: calc(100% - 20px);
+    padding: 6px 10px;
+    object-fit: contain;
+    border-radius: var(--gn-radius);
+    background: #FFFFFF;
+}
+
 @media (max-width: 61.99em) {
     .gn-game-body {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gn-game-facts {
+        position: static;
     }
 }
 
 /* phones: cover and title stack centered over the art */
 @media (max-width: 47.99em) {
+    .gn-game-view {
+        gap: 32px;
+    }
+
     .gn-game-hero {
         grid-template-columns: minmax(0, 1fr);
         justify-items: center;
         gap: 20px;
         min-height: 0;
-        padding: 24px 16px;
+        padding: 24px 0 0;
         text-align: center;
     }
 
     .gn-game-hero-art::after {
-        background: linear-gradient(0deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.55) 100%);
+        background: linear-gradient(0deg, var(--gn-body) 0%, rgba(15, 15, 15, 0.7) 45%, rgba(15, 15, 15, 0.35) 100%);
     }
 
     .gn-game-hero-cover {
         width: 160px;
     }
 
-    .gn-game-hero-info {
+    .gn-game-hero-info,
+    .gn-game-hero-actions > .mantine-Stack-root {
         align-items: center;
     }
 
-    .gn-game-hero-actions > .mantine-Stack-root {
-        align-items: center;
+    .gn-game-title {
+        margin-inline: auto;
+    }
+
+    .gn-game-hero-meta {
+        justify-content: center;
+    }
+
+    .gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) {
+        padding: 12px;
+    }
+
+    .gn-game-ttb .gn-details-box > .mantine-Group-root:not(:first-child) > :last-child p {
+        font-size: 1.25rem;
+    }
+}
+
+/* Xbox: user reviews (ReviewListItem) read top-down, like the store:
+   author row, the review, then rating + actions on a hairline footer */
+:root[data-theme="xbox"] .gn-review-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 20px 24px;
+    border: 1px solid var(--gn-border);
+    border-radius: calc(var(--gn-radius) * 2);
+    background: #1a1a1a;
+    transition: border-color 150ms ease;
+}
+
+:root[data-theme="xbox"] .gn-review-item:hover {
+    border-color: #3a3a3a;
+}
+
+:root[data-theme="xbox"] .gn-review-item-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+:root[data-theme="xbox"] .gn-review-item-author,
+:root[data-theme="xbox"] .gn-review-item-author > div,
+:root[data-theme="xbox"] .gn-review-item-body,
+:root[data-theme="xbox"] .gn-review-item-footer > div {
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* avatar and name side by side, not stacked */
+:root[data-theme="xbox"] .gn-review-item-author .mantine-Group-root {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    /* the shared card sets it inline */
+    padding-top: 0 !important;
+}
+
+:root[data-theme="xbox"] .gn-review-item-author .basis-full {
+    display: none;
+}
+
+:root[data-theme="xbox"] .gn-review-item-author .mantine-Avatar-root {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+}
+
+:root[data-theme="xbox"] .gn-review-item-author .mantine-Text-root {
+    font-weight: 600;
+}
+
+:root[data-theme="xbox"] .gn-review-item-body .tiptap {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+:root[data-theme="xbox"] .gn-review-item-footer .mantine-Divider-root {
+    display: none;
+}
+
+:root[data-theme="xbox"] .gn-review-item-footer > div {
+    padding-top: 12px;
+    border-top: 1px solid var(--gn-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root[data-theme="xbox"] .gn-review-item {
+        transition: none;
+    }
+}
+
+/* Xbox recent releases (ConsoleReleases): one hero banner, the selected game's art behind cover + info, paged by dots */
+.gn-recent-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    width: 100%;
+    min-height: clamp(320px, 42vw, 460px);
+    padding: 40px;
+    border-radius: var(--gn-radius);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.gn-recent-hero .gn-upcoming-art::after {
+    background:
+        radial-gradient(ellipse 50% 80% at 0% 100%, rgba(var(--gn-brand-rgb), 0.45), transparent 70%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.1) 80%),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 45%);
+}
+
+.gn-recent-hero-cover {
+    flex: none;
+    width: clamp(120px, 14vw, 190px);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: var(--gn-radius);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.gn-recent-hero-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+    max-width: 60ch;
+    /* clear of the pager in the bottom-right corner */
+    padding-bottom: 8px;
+}
+
+.gn-recent-hero-title {
+    font-size: clamp(1.75rem, 1.1rem + 2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+
+.gn-recent-hero-summary {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gn-recent-hero-pager {
+    position: absolute;
+    right: 24px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 24px hit area around an 8px dot */
+.gn-recent-hero-dot {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.gn-recent-hero-dot::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: auto;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.4);
+    transition: width 200ms ease, background-color 200ms ease;
+}
+
+.gn-recent-hero-dot[data-active]::before {
+    width: 20px;
+    background: #FFFFFF;
+}
+
+.gn-recent-hero-dot:focus-visible {
+    outline: 2px solid var(--gn-calendar-ring);
+    outline-offset: -2px;
+    border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-recent-hero-dot::before {
+        transition: none;
+    }
+}
+
+/* phones: the cover moves above the text, the pager gets its own line */
+@media (max-width: 47.99em) {
+    .gn-recent-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 20px 56px;
+    }
+
+    .gn-recent-hero-cover {
+        width: 96px;
+    }
+
+    .gn-recent-hero-pager {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        justify-content: center;
     }
 }

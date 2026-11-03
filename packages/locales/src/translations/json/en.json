@@ -533,14 +533,24 @@
     },
     "releaseCalendar": {
       "gamesCount": "{{count}} games",
-      "title": "Release calendar"
+      "title": "Release calendar",
+      "inLibrary": "In your library",
+      "more": "+{{count}}",
+      "noReleases": "No releases",
+      "showCalendar": "View calendar",
+      "hideCalendar": "Hide calendar",
+      "today": "Today",
+      "previousGame": "Previous game",
+      "nextGame": "Next game"
     },
     "details": {
       "developers": "Developer(s)",
+      "images": "Images",
       "launchDate": "Launch date",
       "notAvailable": "Not available",
       "publishers": "Publisher(s)",
       "summary": "Summary",
+      "tags": "Tags",
       "whereToBuy": "Where to buy",
       "whereToPlay": "Where to play"
     },
@@ -560,6 +570,9 @@
       "inLibrary": "In your library",
       "listView": "List",
       "playedIn": "Played in",
+      "reviewsCount_zero": "No reviews",
+      "reviewsCount_one": "{{count}} review",
+      "reviewsCount_other": "{{count}} reviews",
       "share": "Share",
       "tip": "Tip",
       "userRating": "User Rating"
@@ -629,6 +642,8 @@
     },
     "ttb": {
       "basedOnIgdb": "Based on {{count}} submissions to",
+      "hours_one": "{{count}} hour",
+      "hours_other": "{{count}} hours",
       "completionist": "100%",
       "completionistDesc": "Average time to finish the game to 100% completion.",
       "mainExtras": "Main + Extras",

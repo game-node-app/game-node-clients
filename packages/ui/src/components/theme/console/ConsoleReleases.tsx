@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { Button, Text, Title } from "@mantine/core";
+import { ActionIcon, Button, Skeleton, Text, Title } from "@mantine/core";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import {
@@ -7,14 +8,20 @@ import {
   Game,
 } from "@repo/wrapper/server";
 import { Link } from "#@/util";
+import { useGames } from "#@/components/game/hooks/useGames";
 import { useGamesByCollectionType } from "#@/components/game/hooks/useGamesByCollectionType";
 import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
+import { getReleaseDay } from "#@/components/game/util/getLocalizedFirstReleaseDate";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
-import { ConsoleGameRow, getGameArtUrl } from "./ConsoleGameRow";
-import { ConsoleReleaseCalendar } from "./ConsoleReleaseCalendar";
+import {
+  CONSOLE_GAME_RELATIONS,
+  ConsoleGameRow,
+  getGameArtUrl,
+} from "./ConsoleGameRow";
+import { ConsoleReleaseStrip } from "./ConsoleReleaseStrip";
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 // the desktop row shares the hero's right column, more covers would shrink below thumbnail size
@@ -54,7 +61,7 @@ const ConsoleUpcomingHero = () => {
     (getGameArtUrl(focused, ImageSize.FULL_HD) ??
       getSizedImageUrl(getCoverUrl(focused), ImageSize.FULL_HD));
   const releaseDate = focused?.firstReleaseDate
-    ? dayjs(focused.firstReleaseDate)
+    ? getReleaseDay(focused.firstReleaseDate)
     : undefined;
 
   return (
@@ -104,16 +111,118 @@ const ConsoleUpcomingHero = () => {
   );
 };
 
-const RecentReleasesRow = () => {
+// enough to page through without the dots turning into a progress bar
+const RECENT_LIMIT = 6;
+
+/** Recently released games as one hero banner: the selected game's art behind its cover, date, name and summary, paged with arrows and dots. */
+const RecentReleasesHero = () => {
   const { t } = useTranslation();
-  const gameIds = useCollectionGameIds(CollectionType.RECENTLY_RELEASED, 12);
+  const { language } = useI18nContext();
+  const [index, setIndex] = useState(0);
+  const gameIds = useCollectionGameIds(
+    CollectionType.RECENTLY_RELEASED,
+    RECENT_LIMIT,
+  );
+  const gamesQuery = useGames({ gameIds, relations: CONSOLE_GAME_RELATIONS });
+  // keeps the collection's order, which the API doesn't
+  const games = (gameIds ?? [])
+    .map((id) => gamesQuery.data?.find((game) => game.id === id))
+    .filter((game): game is Game => game != undefined);
+  const isLoading = gameIds == undefined || gamesQuery.isLoading;
+  const title = t("game.collectionTypes.recentReleases");
+
+  if (isLoading) return <Skeleton className={"gn-recent-hero"} />;
+  if (games.length === 0) return null;
+
+  const game = games[Math.min(index, games.length - 1)];
+  const art =
+    getGameArtUrl(game, ImageSize.FULL_HD) ??
+    getSizedImageUrl(getCoverUrl(game), ImageSize.FULL_HD);
+  const releaseDate = game.firstReleaseDate
+    ? getReleaseDay(game.firstReleaseDate)
+    : undefined;
+  const go = (step: number) =>
+    setIndex((current) => (current + step + games.length) % games.length);
 
   return (
-    <ConsoleGameRow
-      title={t("game.collectionTypes.recentReleases")}
-      gameIds={gameIds}
-      onFocusGame={() => {}}
-    />
+    <section
+      className={"gn-recent-hero"}
+      aria-label={title}
+      aria-roledescription={"carousel"}
+    >
+      {/* keyed so each game's art fades in instead of swapping abruptly */}
+      <div
+        key={art}
+        className={"gn-upcoming-art"}
+        style={{ backgroundImage: art && `url(${art})` }}
+        aria-hidden
+      />
+      <img
+        className={"gn-recent-hero-cover"}
+        src={
+          getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG) ??
+          "/img/game_placeholder.jpeg"
+        }
+        alt={""}
+      />
+      <div className={"gn-recent-hero-info"} aria-live={"polite"}>
+        <span className={"gn-upcoming-eyebrow"}>{title}</span>
+        <Title order={2} className={"gn-recent-hero-title"}>
+          {game.name}
+        </Title>
+        {releaseDate && (
+          <time
+            className={"gn-release-card-date"}
+            dateTime={releaseDate.format("YYYY-MM-DD")}
+          >
+            {releaseDate
+              .toDate()
+              .toLocaleDateString(language, { dateStyle: "long" })}
+          </time>
+        )}
+        {game.summary && (
+          <Text className={"gn-recent-hero-summary"}>{game.summary}</Text>
+        )}
+        <Button
+          component={Link}
+          href={`/game/${game.id}`}
+          className={"gn-upcoming-cta"}
+        >
+          {t("collectionEntry.buttons.viewGame")}
+        </Button>
+      </div>
+      {games.length > 1 && (
+        <div className={"gn-recent-hero-pager"}>
+          <ActionIcon
+            variant={"subtle"}
+            color={"gray"}
+            aria-label={t("game.releaseCalendar.previousGame")}
+            onClick={() => go(-1)}
+          >
+            <IconChevronLeft />
+          </ActionIcon>
+          {games.map((item, i) => (
+            <button
+              key={item.id}
+              type={"button"}
+              className={"gn-recent-hero-dot"}
+              data-active={i === index || undefined}
+              aria-label={item.name}
+              aria-current={i === index || undefined}
+              onClick={() => setIndex(i)}
+            />
+          ))}
+          <ActionIcon
+            variant={"subtle"}
+            color={"gray"}
+            aria-label={t("game.releaseCalendar.nextGame")}
+            onClick={() => go(1)}
+          >
+            <IconChevronRight />
+          </ActionIcon>
+        </div>
+      )}
+    </section>
   );
 };
 
@@ -121,8 +230,8 @@ const RecentReleasesRow = () => {
 const ConsoleReleases = () => (
   <>
     <ConsoleUpcomingHero />
-    <ConsoleReleaseCalendar />
-    <RecentReleasesRow />
+    <ConsoleReleaseStrip />
+    <RecentReleasesHero />
   </>
 );
 

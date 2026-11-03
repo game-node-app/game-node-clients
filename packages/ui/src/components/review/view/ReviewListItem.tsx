@@ -35,11 +35,15 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
   const isScoreOnlyReview = review.content == null;
 
   return (
-    <Group className={"w-full p-2 bg-paper-1 @container"}>
-      <Group className={"w-full flex-wrap lg:flex-nowrap items-start gap-0"}>
+    <Group className={"gn-review-item w-full p-2 bg-paper-1 @container"}>
+      <Group
+        className={
+          "gn-review-item-main w-full flex-wrap lg:flex-nowrap items-start gap-0"
+        }
+      >
         <Stack
           className={
-            "w-full lg:w-2/12 items-start lg:items-center justify-start"
+            "gn-review-item-author w-full lg:w-2/12 items-start lg:items-center justify-start"
           }
         >
           <Box className={"w-full lg:w-11/12"}>
@@ -59,7 +63,7 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
           </Box>
         </Stack>
         <Stack
-          className={"w-full lg:w-10/12 gap-2"}
+          className={"gn-review-item-body w-full lg:w-10/12 gap-2"}
           data-score-only={isScoreOnlyReview ? "true" : "false"}
         >
           {isScoreOnlyReview ? (
@@ -77,7 +81,7 @@ const ReviewListItem = ({ review, onEditStart }: IReviewListViewProps) => {
           )}
         </Stack>
       </Group>
-      <Flex className={"justify-end w-full"}>
+      <Flex className={"gn-review-item-footer justify-end w-full"}>
         <Stack className={"w-full lg:w-10/12"}>
           <Divider className={"w-full mt-auto"} />
           <Group

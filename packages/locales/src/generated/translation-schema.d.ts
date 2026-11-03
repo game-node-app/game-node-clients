@@ -538,13 +538,23 @@ export type TranslationSchema = {
     releaseCalendar: {
       gamesCount: string;
       title: string;
+      inLibrary: string;
+      more: string;
+      noReleases: string;
+      showCalendar: string;
+      hideCalendar: string;
+      today: string;
+      previousGame: string;
+      nextGame: string;
     };
     details: {
       developers: string;
+      images: string;
       launchDate: string;
       notAvailable: string;
       publishers: string;
       summary: string;
+      tags: string;
       whereToBuy: string;
       whereToPlay: string;
     };
@@ -564,6 +574,9 @@ export type TranslationSchema = {
       inLibrary: string;
       listView: string;
       playedIn: string;
+      reviewsCount_zero: string;
+      reviewsCount_one: string;
+      reviewsCount_other: string;
       share: string;
       tip: string;
       userRating: string;
@@ -633,6 +646,8 @@ export type TranslationSchema = {
     };
     ttb: {
       basedOnIgdb: string;
+      hours_one: string;
+      hours_other: string;
       completionist: string;
       completionistDesc: string;
       mainExtras: string;

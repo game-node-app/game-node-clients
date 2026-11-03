@@ -533,14 +533,24 @@
     },
     "releaseCalendar": {
       "gamesCount": "{{count}} jogos",
-      "title": "Calendário de lançamentos"
+      "title": "Calendário de lançamentos",
+      "inLibrary": "Na sua lista",
+      "more": "+{{count}}",
+      "noReleases": "Sem lançamentos",
+      "showCalendar": "Ver calendário",
+      "hideCalendar": "Ocultar calendário",
+      "today": "Hoje",
+      "previousGame": "Jogo anterior",
+      "nextGame": "Próximo jogo"
     },
     "details": {
       "developers": "Desenvolvedora(s)",
+      "images": "Imagens",
       "launchDate": "Data de lançamento",
       "notAvailable": "Não disponível",
       "publishers": "Editora(s)",
       "summary": "Resumo",
+      "tags": "Tags",
       "whereToBuy": "Onde comprar",
       "whereToPlay": "Onde jogar"
     },
@@ -560,6 +570,9 @@
       "inLibrary": "Na sua biblioteca",
       "listView": "Lista",
       "playedIn": "Jogado em",
+      "reviewsCount_zero": "Nenhuma avaliação",
+      "reviewsCount_one": "{{count}} avaliação",
+      "reviewsCount_other": "{{count}} avaliações",
       "share": "Compartilhar",
       "tip": "Dica",
       "userRating": "Avaliação dos Usuários"
@@ -629,6 +642,8 @@
     },
     "ttb": {
       "basedOnIgdb": "Baseado em {{count}} envios para a",
+      "hours_one": "{{count}} hora",
+      "hours_other": "{{count}} horas",
       "completionist": "100%",
       "completionistDesc": "Tempo médio para terminar o jogo com 100% de conclusão.",
       "mainExtras": "Principal + Extras",

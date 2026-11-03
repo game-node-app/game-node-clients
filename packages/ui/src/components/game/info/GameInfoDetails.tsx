@@ -15,7 +15,7 @@ interface IGameInfoDetailsProps {
 }
 
 const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (!game) {
     return null;
   }
@@ -31,7 +31,10 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
         withRipple
       >
         <Text>
-          {getLocalizedFirstReleaseDate(game.firstReleaseDate) ??
+          {getLocalizedFirstReleaseDate(
+            game.firstReleaseDate,
+            i18n.language,
+          ) ??
             t("game.details.notAvailable")}
         </Text>
       </DetailsBox>

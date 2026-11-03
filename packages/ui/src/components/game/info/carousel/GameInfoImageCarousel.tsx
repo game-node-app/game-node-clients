@@ -10,6 +10,7 @@ import { Box, Image } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Game } from "@repo/wrapper/server";
 import { useMemo } from "react";
+import { useTranslation } from "@repo/locales";
 import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -42,6 +43,7 @@ const GameInfoImageCarousel = ({
   carouselProps,
   imageSize,
 }: IGameInfoImageCarouselProps) => {
+  const { t } = useTranslation();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const [lightboxOpened, lightboxUtils] = useDisclosure();
 
@@ -77,7 +79,7 @@ const GameInfoImageCarousel = ({
   return (
     <Box w={"100%"}>
       <DetailsBox
-        title={"Images"}
+        title={t("game.details.images")}
         enabled={hasImages}
         stackProps={{
           className: "p-2",

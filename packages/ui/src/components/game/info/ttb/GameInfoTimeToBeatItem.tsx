@@ -2,6 +2,7 @@ import { useOnMobile, useOnMobilePlatform } from "#@/components";
 import { cn } from "#@/util";
 import { Box, Group, HoverCard, Popover, Skeleton, Text } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   title: string;
@@ -20,10 +21,13 @@ const GameInfoTimeToBeatItem = ({
   description,
   isLoading,
 }: Props) => {
+  const { t } = useTranslation();
   const isMobilePlatform = useOnMobilePlatform();
   const onMobile = useOnMobile();
   const renderedValue =
-    seconds === 0 ? "N/A" : `${Math.ceil(seconds / 3600)} Hours`;
+    seconds === 0
+      ? "N/A"
+      : t("game.ttb.hours", { count: Math.ceil(seconds / 3600) });
 
   const TargetDescriptionElement = onMobile ? Popover : HoverCard;
 

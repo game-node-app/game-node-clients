@@ -15,6 +15,13 @@ import {
   CollectionEntry,
   CollectionsEntriesService,
 } from "@repo/wrapper/server";
+import {
+  IconBookmark,
+  IconCircleCheck,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconRepeat,
+} from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import React, { PropsWithChildren, useMemo } from "react";
 import CollectionEntryStatus = CollectionEntry.status;
@@ -22,6 +29,7 @@ import CollectionEntryStatus = CollectionEntry.status;
 interface QuickAddMenuOption {
   labelKey: string;
   status: CollectionEntryStatus;
+  icon: React.ElementType;
 }
 
 interface Props {
@@ -56,22 +64,27 @@ const GameInfoQuickAddMenu = ({
       {
         labelKey: t("collectionEntry.statuses.playing"),
         status: CollectionEntryStatus.PLAYING,
+        icon: IconPlayerPlay,
       },
       {
         labelKey: t("collectionEntry.statuses.finished"),
         status: CollectionEntryStatus.FINISHED,
+        icon: IconCircleCheck,
       },
       {
         labelKey: t("collectionEntry.statuses.planned"),
         status: CollectionEntryStatus.PLANNED,
+        icon: IconBookmark,
       },
       {
         labelKey: t("collectionEntry.statuses.dropped"),
         status: CollectionEntryStatus.DROPPED,
+        icon: IconPlayerPause,
       },
       {
         labelKey: t("collectionEntry.statuses.ongoing"),
         status: CollectionEntryStatus.ONGOING,
+        icon: IconRepeat,
       },
     ],
     [t],
@@ -184,31 +197,33 @@ const GameInfoQuickAddMenu = ({
   });
 
   return (
-    <Menu shadow={"md"} keepMounted withinPortal zIndex={1000}>
+    <Menu
+      shadow={"md"}
+      keepMounted
+      withinPortal
+      zIndex={1000}
+      width={220}
+      position={"bottom-start"}
+      radius={"md"}
+    >
       <PreferredPlatformsViewModal
         opened={isPreferredPlatformsModalOpened}
         onClose={preferredPlatformsModalUtils.close}
       />
       <Menu.Target>{children}</Menu.Target>
       <Menu.Dropdown>
-        <Menu.Label>{t("game.quickActions.menuLabel")}</Menu.Label>
-        {QUICK_ADD_OPTIONS.map((option) => {
-          return (
-            <Menu.Item
-              key={option.labelKey}
-              onClick={() => {
-                quickAddMutation.mutate(option);
-              }}
-            >
-              <Text span className={"text-sm"}>
-                {t("game.quickActions.menuActionLabel")}
-              </Text>{" "}
-              <Text className={"font-bold text-sm"} span>
-                {t(option.labelKey as never)}
-              </Text>
-            </Menu.Item>
-          );
-        })}
+        <Menu.Label>{t("game.quickActions.menuActionLabel")}</Menu.Label>
+        {QUICK_ADD_OPTIONS.map((option) => (
+          <Menu.Item
+            key={option.labelKey}
+            leftSection={<option.icon size={18} stroke={1.75} />}
+            disabled={quickAddMutation.isPending}
+            onClick={() => quickAddMutation.mutate(option)}
+            className={"font-medium"}
+          >
+            {t(option.labelKey as never)}
+          </Menu.Item>
+        ))}
         {dropdownChildren}
       </Menu.Dropdown>
     </Menu>

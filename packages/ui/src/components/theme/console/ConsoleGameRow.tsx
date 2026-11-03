@@ -126,7 +126,8 @@ const ConsoleGameRow = ({ title, gameIds, onFocusGame, autoplay }: Props) => {
           >
             <img
               src={
-                getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG) ??
+                // 2x: the focused tile grows past COVER_BIG's 264px on HiDPI screens
+                getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG_2X) ??
                 "/img/game_placeholder.jpeg"
               }
               alt={game.name}

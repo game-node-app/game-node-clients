@@ -4,7 +4,7 @@ import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Link } from "#@/util";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
-import { GameRating } from "#@/components/general/input";
+import { GameRating } from "#@/components/general/input/GameRating";
 import { useGame } from "#@/components/game/hooks/useGame";
 import { DEFAULT_REVIEW_EDITOR_EXTENSIONS } from "#@/components/game/info/review/editor/GameInfoReviewEditor";
 import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
@@ -56,25 +56,25 @@ const ConsoleReviewCard = ({ reviewId }: { reviewId: string }) => {
           loading={"lazy"}
         />
       )}
+      <span className={"gn-review-card-head"}>
+        {/* not UserAvatarGroup: it is a profile link, and links can't nest inside the card */}
+        <UserAvatar userId={review.profileUserId} size={32} />
+        <span className={"gn-review-card-author"}>
+          {profileQuery.data?.username}
+        </span>
+        <GameRating value={review.rating} size={"sm"} />
+      </span>
       <span className={"gn-review-card-body"}>
         <span className={"gn-review-card-game"}>{game.name}</span>
         {editor && !editor.isEmpty && (
           <EditorContent className={"gn-review-card-text"} editor={editor} />
         )}
-        <span className={"gn-review-card-meta"}>
-          {/* not UserAvatarGroup: it is a profile link, and links can't nest inside the card */}
-          <UserAvatar userId={review.profileUserId} size={20} />
-          <span className={"gn-review-card-author"}>
-            {profileQuery.data?.username}
-          </span>
-          <GameRating value={review.rating} size={"xs"} />
-        </span>
       </span>
     </Link>
   );
 };
 
-/** Trending reviews as console cards: a screenshot of the game with the review on a glass strip. */
+/** Trending reviews as console cards: a screenshot of the game, author and stars on top, the game and review over a bottom scrim. */
 const ConsoleReviewRow = () => {
   const { t } = useTranslation();
   const trendingReviews = useTrendingReviews({
