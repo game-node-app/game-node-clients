@@ -5,7 +5,9 @@ import { useGames } from "#@/components/game/hooks/useGames";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { SimpleGrid } from "@mantine/core";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { SimpleGrid, Stack, Text } from "@mantine/core";
+import { IconHeart } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 
 interface Props {
@@ -17,6 +19,7 @@ const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
   const onMobilePlatform = useOnMobilePlatform();
+  const isOwnProfile = useUserId() === userId;
   const favoriteCollectionEntriesQuery = useFavoriteCollectionEntriesForUserId(
     userId,
     0,
@@ -45,14 +48,23 @@ const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
 
   if (isLoading) {
     return <CenteredLoading />;
-  } else if (isEmpty) {
-    return (
-      <CenteredErrorMessage
-        message={t("profile.messages.noPublicFavoriteGames")}
-      />
-    );
   } else if (isError) {
     return <CenteredErrorMessage message={t("profile.messages.fetchFailed")} />;
+  } else if (isEmpty) {
+    // an empty list is not an error: neutral copy, and a hint on how to fill it on your own profile
+    return (
+      <Stack className={"gn-favorites-empty w-full items-center gap-1 py-6 text-center"}>
+        <IconHeart size={28} className={"text-dimmed"} aria-hidden />
+        <Text className={"font-semibold"}>
+          {t("profile.messages.noFavoriteGamesTitle")}
+        </Text>
+        <Text className={"text-sm text-dimmed"}>
+          {isOwnProfile
+            ? t("profile.messages.noFavoriteGamesOwn")
+            : t("profile.messages.noPublicFavoriteGames")}
+        </Text>
+      </Stack>
+    );
   }
   return (
     <DetailsBox

@@ -1260,6 +1260,8 @@ export type TranslationSchema = {
       fetchFailed: string;
       noAchievements: string;
       noFeaturedAchievements: string;
+      noFavoriteGamesOwn: string;
+      noFavoriteGamesTitle: string;
       noPublicFavoriteGames: string;
       noReviews: string;
       noReviewsOwn: string;
