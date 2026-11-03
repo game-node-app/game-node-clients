@@ -36,7 +36,7 @@ const DEFAULT_DetailsBox = ({
       <Stack
         {...stackProps}
         className={cn(
-          "w-full h-fit gap-2",
+          "gn-details-box w-full h-fit gap-2",
           {
             "bg-paper-3": withBackground,
             "p-3": withPadding,
@@ -49,11 +49,12 @@ const DEFAULT_DetailsBox = ({
           <Group>
             {leftSide}
             <Text
-              className={
+              className={cn(
+                "gn-details-box-title",
                 withDimmedTitle
                   ? "text-dimmed text-sm"
-                  : "gn-section-title font-bold text-md"
-              }
+                  : "gn-section-title font-bold text-md",
+              )}
             >
               {title}
             </Text>

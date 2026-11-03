@@ -1,4 +1,4 @@
-import { useAppTheme, useUserId } from "@repo/ui";
+import { THEMES, useAppTheme, useUserId } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { SimpleGrid, Stack } from "@mantine/core";
@@ -6,25 +6,20 @@ import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
   ConsoleHome,
-  ConsoleReleases,
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
+  HomeReleases,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import ActivityType = Activity.type;
-import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -37,7 +32,7 @@ const HomePage = () => {
 
   const userId = useUserId();
   const [theme] = useAppTheme();
-  const isConsole = theme !== "gamenode";
+  const isConsole = THEMES[theme].layout === "console";
 
   return (
     <AppPage
@@ -108,16 +103,7 @@ const HomePage = () => {
             <RecentActivityList limit={10} type={ActivityType.REVIEW} />
           </DetailsCard>
         </SimpleGrid>
-        {theme === "xbox" ? (
-          <ConsoleReleases />
-        ) : (
-          <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-            <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
-            <GameCollectionTypeView
-              collectionType={CollectionType.RECENTLY_RELEASED}
-            />
-          </SimpleGrid>
-        )}
+        <HomeReleases />
       </Stack>
     </AppPage>
   );

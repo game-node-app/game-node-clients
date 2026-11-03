@@ -9,7 +9,8 @@ const BackToTopButton = () => {
   return (
     <Affix
       position={{
-        bottom: onMobilePlatform ? 70 : 20,
+        // web: clears the 60px static AppShell footer
+        bottom: onMobilePlatform ? 70 : 80,
         right: 20,
       }}
     >

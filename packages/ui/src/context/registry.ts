@@ -3,9 +3,11 @@ import {
   ActivityItemProps,
   CollectionThumbnailCardProps,
   DetailsBoxProps,
+  ExploreTrendingGamesProps,
   GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  GameInfoViewProps,
   ProfileUserInfoProps,
   ProfileViewNavbarItemProps,
   ReviewCardProps,
@@ -19,7 +21,7 @@ import { UseScrollPositionReturn } from "#@/components/general/hooks/useScrollPo
 
 /**
  * The registry of components that can be replaced at runtime
- * by the apps consuming this library.
+ * by the apps consuming this library, or by the active app theme (THEMES in components/theme/registry.ts).
  */
 export type UIPresenterRegistry = {
   DetailsBox: React.ComponentType<DetailsBoxProps>;
@@ -33,6 +35,10 @@ export type UIPresenterRegistry = {
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
   ProfileUserInfo: React.ComponentType<ProfileUserInfoProps>;
+  RecentBlogPostsCarousel: React.ComponentType<Record<string, never>>;
+  HomeReleases: React.ComponentType<Record<string, never>>;
+  ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;
+  GameInfoView: React.ComponentType<GameInfoViewProps>;
 };
 
 /**

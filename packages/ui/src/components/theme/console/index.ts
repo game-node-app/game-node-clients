@@ -4,8 +4,10 @@
 
 export * from "./ConsoleBlogSection";
 export * from "./ConsoleClock";
+export * from "./ConsoleExplore";
 export * from "./ConsoleGameRow";
 export * from "./ConsoleHome";
+export * from "./ConsoleReleaseCalendar";
 export * from "./ConsoleReleases";
 export * from "./ConsoleReviewRow";
 export * from "./consoleRowNavigation";

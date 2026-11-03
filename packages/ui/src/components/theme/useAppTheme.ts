@@ -1,15 +1,7 @@
 import { useCallback } from "react";
 import { useLocalStorage } from "@mantine/hooks";
-
-export const APP_THEMES = [
-  "gamenode",
-  "playstation",
-  "xbox",
-  "switch",
-  "bigpicture",
-] as const;
-
-export type AppTheme = (typeof APP_THEMES)[number];
+import { PROJECT_CONTEXT } from "#@/util/projectContext";
+import { APP_THEMES, AppTheme } from "./registry";
 
 export const APP_THEME_STORAGE_KEY = "gamenode-theme";
 
@@ -32,8 +24,8 @@ export function useAppTheme() {
   const [theme, setStoredTheme] = useLocalStorage<AppTheme>({
     key: APP_THEME_STORAGE_KEY,
     defaultValue: "gamenode",
-    // prevents SSR hydration mismatches
-    getInitialValueInEffect: true,
+    // prevents SSR hydration mismatches; mobile has no SSR and restores the theme before the first render (main.tsx)
+    getInitialValueInEffect: PROJECT_CONTEXT?.client !== "mobile",
     // plain string, so the head script and native Preferences can read it
     serialize: (value) => value,
     deserialize: (value) => (isAppTheme(value) ? value : "gamenode"),

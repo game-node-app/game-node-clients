@@ -1,0 +1,17 @@
+:root[data-theme="playstation"] {
+    --gn-body: #060c1f;
+    --gn-surface: #0b1230;
+    --gn-text: #FFFFFF;
+    --gn-dimmed: #9aa4b8;
+    --gn-border: #1c2647;
+    --gn-focus: #FFFFFF;
+    --gn-brand: #0070d1;
+    --gn-brand-rgb: 0,112,209;
+    --gn-radius: 8px;
+    --gn-font: var(--gn-font-inter, Inter), Roboto, sans-serif;
+}
+
+:root[data-theme="playstation"] {
+    --gn-tile-width: 120px;
+    --gn-tile-focus-scale: 1.18;
+}

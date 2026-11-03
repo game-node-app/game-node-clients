@@ -3,5 +3,8 @@
  */
 
 export * from "./console/index";
+export * from "./registry";
 export * from "./ThemeSwitcherMenu";
+export * from "./themes/index";
 export * from "./useAppTheme";
+export * from "./useThemePresenters";

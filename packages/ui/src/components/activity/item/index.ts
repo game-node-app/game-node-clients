@@ -3,4 +3,5 @@
  */
 
 export * from "./ActivityItem";
+export * from "./useActivityItemData";
 export * from "./ObtainedAchievementActivityContent";

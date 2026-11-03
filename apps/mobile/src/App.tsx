@@ -24,6 +24,7 @@ import {
   setProjectContext,
   setupAuthClient,
   UIProvider,
+  useThemePresenters,
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
@@ -77,7 +78,6 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
-import { useThemePreference } from "@/components/general/hooks/useThemePreference";
 
 /**
  * dayjs setup
@@ -125,6 +125,7 @@ setupIonicReact({
 });
 
 const App: React.FC = () => {
+  const presenters = useThemePresenters(UI_PRESENTER_REGISTRY);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -149,7 +150,6 @@ const App: React.FC = () => {
   );
 
   const [language, onLanguageChange] = useLanguagePreference();
-  useThemePreference();
 
   useEffect(() => {
     // Stale key from the previous auth provider; harmless, but no reason to keep it.
@@ -199,7 +199,7 @@ const App: React.FC = () => {
         >
           <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
             <UIProvider
-              presenters={UI_PRESENTER_REGISTRY}
+              presenters={presenters}
               hooks={UI_HOOK_REGISTRY}
             >
               <PostHogProvider

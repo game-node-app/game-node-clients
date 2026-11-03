@@ -1,25 +1,24 @@
-import React from "react";
-import { Group, SimpleGrid, Stack } from "@mantine/core";
+import React, { useState } from "react";
+import { FloatingIndicator, Group, Stack, Tabs } from "@mantine/core";
 import {
   BackToTopButton,
   buildGameCategoryFilters,
   CenteredErrorMessage,
   ConsoleHome,
-  ConsoleReleases,
-  DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
+  HomeReleases,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   TrendingGamesList,
+  THEMES,
   TrendingReviewCarousel,
   useAppTheme,
   useSearchGames,
@@ -27,19 +26,25 @@ import {
   useUserId,
 } from "@repo/ui";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
-import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import type = Activity.type;
 
 const HomePage = () => {
   const { t } = useTranslation();
   const userId = useUserId();
   const [theme] = useAppTheme();
-  const isConsole = theme !== "gamenode";
+  const isConsole = THEMES[theme].layout === "console";
+  const [feedTab, setFeedTab] = useState<string | null>("all");
+  const [feedTabsList, setFeedTabsList] = useState<HTMLDivElement | null>(null);
+  const [feedTabRefs, setFeedTabRefs] = useState<
+    Record<string, HTMLButtonElement | null>
+  >({});
+  const setFeedTabRef = (value: string) => (node: HTMLButtonElement | null) => {
+    if (feedTabRefs[value] !== node) {
+      setFeedTabRefs((refs) => ({ ...refs, [value]: node }));
+    }
+  };
 
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "search-game-view-layout",
@@ -56,10 +61,11 @@ const HomePage = () => {
 
   const [debouncedQuery] = useDebouncedValue(searchParameters.query, 500);
 
+  // both: the raw query drops results as soon as the input is cleared, the debounced one stops an empty search firing while it catches up
   const isQueryEnabled =
-    searchParameters.query != undefined && searchParameters.query.length > 2;
+    (searchParameters.query?.length ?? 0) > 2 && debouncedQuery.length > 2;
 
-  const { data, isLoading, isSuccess, isError, error } = useSearchGames(
+  const searchQuery = useSearchGames(
     {
       query: debouncedQuery,
       category: buildGameCategoryFilters({
@@ -70,6 +76,16 @@ const HomePage = () => {
     },
     isQueryEnabled,
   );
+  // keepPreviousData would otherwise keep the last results on screen after the input is cleared
+  const { data, isLoading, isSuccess, isError, error } = isQueryEnabled
+    ? searchQuery
+    : {
+        data: undefined,
+        isLoading: false,
+        isSuccess: false,
+        isError: false,
+        error: null,
+      };
 
   const isEmpty = isSuccess && data?.data?.items?.length === 0;
 
@@ -137,26 +153,42 @@ const HomePage = () => {
             <DynamicAwardsOverview />
             <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
-            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-              <DetailsCard title={t("home.recentActivity")}>
-                <RecentActivityList limit={10} />
-              </DetailsCard>
-              <DetailsCard title={t("home.lastReviews")}>
-                <RecentActivityList limit={10} type={type.REVIEW} />
-              </DetailsCard>
-            </SimpleGrid>
-            {theme === "xbox" ? (
-              <ConsoleReleases />
-            ) : (
-              <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-                <GameCollectionTypeView
-                  collectionType={collectionType.UPCOMING}
+            {/* transparent tab color hides the static underline; the FloatingIndicator slides instead */}
+            <Tabs
+              value={feedTab}
+              onChange={setFeedTab}
+              color={"transparent"}
+              className={"w-full"}
+            >
+              <Tabs.List ref={setFeedTabsList} pos={"relative"}>
+                <Tabs.Tab value={"all"} ref={setFeedTabRef("all")}>
+                  {t("home.recentActivity")}
+                </Tabs.Tab>
+                <Tabs.Tab value={"reviews"} ref={setFeedTabRef("reviews")}>
+                  {t("home.lastReviews")}
+                </Tabs.Tab>
+                <FloatingIndicator
+                  target={feedTab ? feedTabRefs[feedTab] : null}
+                  parent={feedTabsList}
+                  transitionDuration={250}
+                  style={{
+                    borderBottom:
+                      "2px solid var(--mantine-primary-color-filled)",
+                  }}
                 />
-                <GameCollectionTypeView
-                  collectionType={collectionType.RECENTLY_RELEASED}
+              </Tabs.List>
+              <Tabs.Panel value={"all"} pt={"md"}>
+                <RecentActivityList limit={6} cols={{ base: 1, md: 2 }} />
+              </Tabs.Panel>
+              <Tabs.Panel value={"reviews"} pt={"md"}>
+                <RecentActivityList
+                  limit={6}
+                  type={type.REVIEW}
+                  cols={{ base: 1, md: 2 }}
                 />
-              </SimpleGrid>
-            )}
+              </Tabs.Panel>
+            </Tabs>
+            <HomeReleases />
           </Stack>
         )}
       </Stack>

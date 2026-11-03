@@ -15,7 +15,9 @@ import {
   useI18nContext,
   useTranslation,
 } from "@repo/locales";
+import { Preferences } from "@capacitor/preferences";
 import {
+  APP_THEME_STORAGE_KEY,
   APP_THEMES,
   AppTheme,
   LANGUAGE_OPTIONS,
@@ -79,7 +81,14 @@ const PreferencesProfileItems = () => {
           <IonSelect
             label={t("appTheme.label")}
             value={theme}
-            onIonChange={(evt) => setTheme(evt.detail.value as AppTheme)}
+            onIonChange={(evt) => {
+              const value = evt.detail.value as AppTheme;
+              setTheme(value);
+              // native Preferences survive WebView storage eviction; main.tsx restores from here
+              Preferences.set({ key: APP_THEME_STORAGE_KEY, value }).catch(
+                console.error,
+              );
+            }}
           >
             {APP_THEMES.map((option) => (
               <IonSelectOption key={option} value={option}>

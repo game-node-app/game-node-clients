@@ -1,0 +1,940 @@
+:root[data-theme="xbox"] {
+    --gn-body: #0f0f0f;
+    --gn-surface: #141414;
+    --gn-text: #FFFFFF;
+    --gn-dimmed: #9a9a9a;
+    --gn-border: #2a2a2a;
+    --gn-focus: #2ea043;
+    --gn-brand: #107c10;
+    --gn-brand-rgb: 16,124,16;
+    --gn-radius: 4px;
+    --gn-calendar-ring: rgba(120, 225, 120, 0.95);
+    /* Segoe is a local system font on Windows; never bundled. */
+    --gn-font: "Segoe UI Variable", "Segoe UI", var(--gn-font-inter, Inter), Roboto, sans-serif;
+}
+
+/* Xbox: the selected tile's green ring, drawn inside for the same reason */
+:root[data-theme="xbox"] .gn-blog-card:hover,
+:root[data-theme="xbox"] .gn-blog-card:has(.gn-blog-card-link:focus-visible) {
+    outline: 2px solid rgba(120, 225, 120, 0.95);
+    outline-offset: -2px;
+}
+
+/* Xbox: the home art shows through the header until the page scrolls */
+:root[data-theme="xbox"] .gn-console-header:not([data-scrolled]) {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, transparent 100%);
+    /* a transparent border would repeat the gradient's dark top as a 1px line */
+    border-bottom: 0;
+}
+
+/* Xbox: section headings (console rows, DetailsBox) lead their content */
+:root[data-theme="xbox"] .gn-console-row-title,
+:root[data-theme="xbox"] .gn-section-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--gn-text);
+}
+
+:root[data-theme="xbox"] {
+    --gn-tile-width: 150px;
+    /* cover proportions, so covers are never cropped */
+    --gn-tile-aspect: 264 / 354;
+    --gn-tile-focus-scale: 1.08;
+}
+
+/* Xbox home: art fills the screen, a big labelled first tile, review cards underneath. */
+@media (max-width: 61.99em) {
+    /* web mobile: fill the visible viewport down to the fixed bottom nav (svh ignores the browser's collapsing bars) */
+    :root[data-theme="xbox"] .app-web .gn-console-hero {
+        min-height: calc(100svh - var(--app-shell-header-height, 0px) - 3rem - 60px - env(safe-area-inset-bottom, 0px));
+        justify-content: flex-end;
+        padding-bottom: var(--mantine-spacing-md);
+    }
+}
+
+@media (min-width: 62em) {
+    :root[data-theme="xbox"] .gn-console-hero {
+        /* viewport minus header and the page's top margin */
+        min-height: calc(100vh - var(--app-shell-header-height, 0px) - 3rem);
+        justify-content: flex-end;
+        padding-bottom: var(--mantine-spacing-md);
+    }
+}
+
+:root[data-theme="xbox"] .gn-console-hero .gn-console-focused-title,
+:root[data-theme="xbox"] .gn-console-hero .gn-console-row-title {
+    display: none;
+}
+
+:root[data-theme="xbox"] .gn-console-row {
+    align-items: flex-end;
+}
+
+:root[data-theme="xbox"] .gn-console-hero .gn-tile {
+    /* the selected tile grows into the big card instead of scaling */
+    --gn-tile-focus-scale: 1;
+    transition: flex-grow 200ms ease, width 200ms ease;
+}
+
+:root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active] {
+    width: calc(var(--gn-tile-width) * 1.7);
+}
+
+/* room for the hover scale and the offset focus ring */
+:root[data-theme="xbox"] .gn-console-row {
+    padding: 20px 12px;
+}
+
+/* phones: the big card plus a couple of covers fit, instead of one card filling the screen */
+@media (max-width: 61.99em) {
+    :root[data-theme="xbox"] .gn-console-hero {
+        --gn-tile-width: 104px;
+    }
+}
+
+@media (min-width: 62em) {
+    /* desktop hero row: the tiles that fit share the width, so none ends up cut at the edge */
+    :root[data-theme="xbox"] .gn-console-hero .gn-console-row {
+        overflow: visible;
+    }
+
+    :root[data-theme="xbox"] .gn-console-hero .gn-tile {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+    }
+
+    /* growing the hovered tile shrinks the previous one by the same amount, so it stays under the cursor */
+    :root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active] {
+        flex-grow: 1.7;
+        width: auto;
+    }
+
+    /* shortcut: fixed at 9 tiles; make it width-aware if very wide screens look sparse */
+    :root[data-theme="xbox"] .gn-console-hero .gn-tile:nth-child(n + 10) {
+        display: none;
+    }
+}
+
+:root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active] .gn-tile-label {
+    display: block;
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 0 0 var(--gn-radius) var(--gn-radius);
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 61.99em) {
+    :root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active] .gn-tile-label {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/*
+ * Xbox selection ring: the border itself is a fade, a thin bright line that softens inwards and outwards,
+ * flush with the cover. Tiles drop their own clipping (the image is rounded instead) so it can sit outside.
+ */
+:root[data-theme="xbox"] .gn-tile {
+    overflow: visible;
+}
+
+:root[data-theme="xbox"] .gn-tile img {
+    border-radius: var(--gn-radius);
+}
+
+/* real tiles only: loading Skeletons animate their own ::after, which would show the ring */
+:root[data-theme="xbox"] [data-console-tile]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--gn-radius);
+    box-shadow:
+        0 0 0 2px rgba(120, 225, 120, 0.95),
+        0 0 10px 3px rgba(63, 185, 80, 0.55),
+        inset 0 0 8px 2px rgba(63, 185, 80, 0.6);
+    opacity: 0;
+    transition: opacity 150ms ease;
+    pointer-events: none;
+}
+
+:root[data-theme="xbox"] .gn-tile:hover,
+:root[data-theme="xbox"] .gn-tile:focus-visible,
+:root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active] {
+    box-shadow: none;
+    /* above its neighbours while scaled */
+    z-index: 1;
+}
+
+:root[data-theme="xbox"] .gn-tile:hover::after,
+:root[data-theme="xbox"] .gn-tile:focus-visible::after,
+:root[data-theme="xbox"] .gn-console-hero .gn-tile[data-active]::after {
+    opacity: 1;
+}
+
+/* shortcut cards clip their art, so the same faded ring is built from an outline and shadows */
+:root[data-theme="xbox"] .gn-shortcut:hover,
+:root[data-theme="xbox"] .gn-shortcut:focus-visible {
+    outline: 2px solid rgba(120, 225, 120, 0.95);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgba(63, 185, 80, 0.25), 0 0 16px 6px rgba(63, 185, 80, 0.4);
+}
+
+/* Xbox: checked options and focus get the same faded green ring as the selected tile */
+:root[data-theme="xbox"] .gn-wrapped .mantine-Chip-label[data-checked],
+:root[data-theme="xbox"] .gn-wrapped button:focus-visible,
+:root[data-theme="xbox"] .gn-wrapped .mantine-Chip-input:focus-visible + .mantine-Chip-label {
+    outline: 2px solid rgba(120, 225, 120, 0.95);
+    outline-offset: 2px;
+    box-shadow: 0 0 10px 3px rgba(63, 185, 80, 0.45);
+}
+
+/* the Xbox desktop hero lets tile rows overflow (they fit the width); reviews keep scrolling */
+:root[data-theme="xbox"] .gn-console-hero .gn-review-row {
+    overflow-x: auto;
+}
+
+/*
+ * Xbox rows below the hero: same idea as the review row, a whole number of tiles fills the width
+ * (snapping page by page) so none is cut at the edge; phones peek at the next tile instead.
+ * The padding is the room for the hover scale and glow inside the scroll clip, pulled back to stay aligned.
+ */
+:root[data-theme="xbox"] .gn-console-row:not(.gn-console-hero .gn-console-row, .gn-review-row) {
+    --gn-row-cols: 2.4;
+    display: grid;
+    grid-auto-flow: column;
+    /* gap == side padding: a bigger padding would show a sliver of the next tile inside it */
+    gap: 20px;
+    grid-auto-columns: calc((100% - (var(--gn-row-cols) - 1) * 20px) / var(--gn-row-cols));
+    padding: 20px;
+    margin-inline: -8px;
+    scroll-padding-inline: 20px;
+    mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+}
+
+:root[data-theme="xbox"] .gn-console-row:not(.gn-console-hero .gn-console-row, .gn-review-row) > .gn-tile {
+    width: auto;
+}
+
+@media (min-width: 48em) {
+    :root[data-theme="xbox"] .gn-console-row:not(.gn-console-hero .gn-console-row, .gn-review-row) {
+        --gn-row-cols: 5;
+        scroll-snap-type: x mandatory;
+        mask-image: none;
+    }
+}
+
+@media (min-width: 62em) {
+    :root[data-theme="xbox"] .gn-console-row:not(.gn-console-hero .gn-console-row, .gn-review-row) {
+        --gn-row-cols: 7;
+    }
+}
+
+@media (min-width: 75em) {
+    :root[data-theme="xbox"] .gn-console-row:not(.gn-console-hero .gn-console-row, .gn-review-row) {
+        --gn-row-cols: 8;
+    }
+}
+
+/* Xbox mobile hero row (the autoplay carousel): room for the active tile's glow at the left edge, fade the peeking tile on the right */
+@media (max-width: 61.99em) {
+    :root[data-theme="xbox"] .gn-console-hero .gn-console-row:not(.gn-review-row) {
+        padding-inline: 24px;
+        margin-inline: -12px;
+        scroll-padding-inline: 24px;
+        mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+    }
+}
+
+/* Xbox section cards (DetailsCard): no boxed panel, a row-style heading over the items. */
+:root[data-theme="xbox"] .gn-details-card {
+    padding: 0;
+    gap: 12px;
+    background: none;
+}
+
+:root[data-theme="xbox"] .gn-details-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gn-text);
+}
+
+/* Xbox feed lists: rows sit close together like the dashboard's activity column */
+:root[data-theme="xbox"] .gn-activity-list {
+    row-gap: 6px;
+}
+
+/* Xbox activity feed rows (ActivityItem's xbox branch): cover, one-line title with who/what under it, rating and likes. */
+.gn-activity {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 64px;
+    padding: 8px 12px;
+    border-radius: var(--gn-radius, 4px);
+    background: var(--gn-paper-2);
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.gn-activity:hover,
+.gn-activity:focus-within {
+    background: var(--gn-paper-4);
+    /* the selected-tile ring, toned down for a list row */
+    box-shadow: 0 0 0 2px rgba(120, 225, 120, 0.85), 0 0 10px 2px rgba(63, 185, 80, 0.35);
+}
+
+.gn-activity-cover {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+}
+
+/* game covers keep their portrait shape inside the square slot */
+.gn-activity-cover img {
+    width: 36px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.gn-activity-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.gn-activity-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gn-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* stretch the title link over the whole row, so clicking a review row opens the review */
+a.gn-activity-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+/* keep the profile link and like/comment buttons clickable above the stretched link */
+.gn-activity-user,
+.gn-activity-actions {
+    position: relative;
+    z-index: 1;
+}
+
+.gn-activity-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    font-size: 0.75rem;
+    color: var(--gn-dimmed);
+    white-space: nowrap;
+}
+
+.gn-activity-user {
+    flex: none;
+    max-width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--gn-text);
+}
+
+.gn-activity-user:hover {
+    text-decoration: underline;
+}
+
+.gn-activity-action {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* achievement activities render their own bold text (ObtainedAchievementActivityContent); keep the meta line uniform */
+.gn-activity-action * {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.gn-activity-action::before {
+    content: "·";
+    margin-inline-end: 6px;
+}
+
+.gn-activity-actions {
+    flex: none;
+    flex-wrap: nowrap;
+    gap: 4px;
+}
+
+.gn-activity .mantine-Rating-root {
+    flex: none;
+}
+
+/* Xbox blog section (ConsoleBlogSection): latest post as a large card, the next three as a compact list beside it. */
+.gn-blog-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.gn-blog-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.gn-blog-section-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    min-height: 32px;
+    padding-inline: 10px;
+    border-radius: var(--gn-radius, 4px);
+    font-size: 0.875rem;
+    color: var(--gn-text);
+    transition: background 150ms ease;
+}
+
+.gn-blog-section-more:hover,
+.gn-blog-section-more:focus-visible {
+    background: var(--gn-paper-4);
+}
+
+.gn-blog-grid {
+    display: grid;
+    gap: 12px;
+}
+
+@media (min-width: 62em) {
+    .gn-blog-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+    }
+
+    .gn-blog-feature {
+        grid-row: 1 / span 3;
+    }
+}
+
+.gn-blog-feature,
+.gn-blog-item {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    border-radius: var(--gn-radius, 4px);
+    background: var(--gn-paper-2);
+    color: var(--gn-text);
+    outline: none;
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+/* the selected-tile ring, drawn as a shadow so the clipped corners stay round */
+.gn-blog-feature:hover,
+.gn-blog-feature:focus-visible,
+.gn-blog-item:hover,
+.gn-blog-item:focus-visible {
+    background: var(--gn-paper-4);
+    box-shadow: 0 0 0 2px rgba(120, 225, 120, 0.85), 0 0 12px 2px rgba(63, 185, 80, 0.35);
+}
+
+.gn-blog-feature {
+    flex-direction: column;
+    min-height: 320px;
+}
+
+.gn-blog-feature-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    flex: none;
+}
+
+.gn-blog-feature-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px 16px;
+    margin-top: auto;
+}
+
+.gn-blog-feature-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gn-blog-excerpt {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--gn-dimmed);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gn-blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    min-width: 0;
+    font-size: 0.75rem;
+}
+
+.gn-blog-author {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gn-blog-date {
+    font-size: 0.75rem;
+    color: var(--gn-dimmed);
+    font-variant-numeric: tabular-nums;
+}
+
+.gn-blog-meta .gn-blog-date {
+    margin-inline-start: auto;
+}
+
+.gn-blog-item {
+    align-items: stretch;
+    min-height: 96px;
+}
+
+.gn-blog-item-cover {
+    flex: none;
+    width: 40%;
+    max-width: 200px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.gn-blog-item-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 10px 14px;
+}
+
+.gn-blog-item-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-blog-feature,
+    .gn-blog-item,
+    .gn-blog-section-more {
+        transition: none;
+    }
+}
+
+/*
+ * Xbox "coming soon" spotlight (ConsoleUpcomingHero): a banner of the selected game's art, its name, date and CTA,
+ * over the cover row. Also .gn-console-hero, so the row gets the Xbox hero tiles (big labelled active cover, ring).
+ */
+:root[data-theme="xbox"] .gn-console-hero.gn-upcoming-hero {
+    /* the home's centered Stack would otherwise size it to the cover row's full scroll width */
+    width: 100%;
+    min-height: 0;
+    justify-content: flex-end;
+    gap: var(--mantine-spacing-md);
+    padding: 24px 20px 8px;
+    border-radius: calc(var(--gn-radius) * 2);
+    border: 1px solid var(--gn-border);
+    background: var(--gn-surface);
+}
+
+.gn-upcoming-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: center 25% / cover no-repeat;
+    animation: gn-console-trailer-in 400ms ease both;
+}
+
+/* dark side for the text, plus the Xbox green glow rising from the bottom-left corner */
+.gn-upcoming-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        radial-gradient(ellipse 60% 70% at 0% 100%, rgba(var(--gn-brand-rgb), 0.45), transparent 70%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.6) 45%, rgba(10, 10, 10, 0.92) 100%);
+}
+
+.gn-upcoming-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 220px;
+    justify-content: flex-end;
+}
+
+.gn-upcoming-eyebrow {
+    padding: 3px 10px;
+    border-radius: 2px;
+    background: var(--gn-brand);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gn-upcoming-title {
+    color: #FFFFFF;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gn-upcoming-date {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* same bright green as the selection ring, readable on the dark art */
+.gn-upcoming-countdown {
+    color: rgba(120, 225, 120, 0.95);
+    font-weight: 600;
+}
+
+.gn-upcoming-countdown::before {
+    content: "·";
+    margin-right: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.gn-upcoming-cta {
+    margin-top: 6px;
+}
+
+/* desktop: info on the left, the cover row on the right, both sitting on the banner's bottom edge */
+@media (min-width: 62em) {
+    :root[data-theme="xbox"] .gn-console-hero.gn-upcoming-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        align-items: end;
+        gap: 40px;
+        min-height: 460px;
+        padding: 40px 32px 20px 44px;
+    }
+
+    .gn-upcoming-art::after {
+        background:
+            radial-gradient(ellipse 50% 80% at 0% 100%, rgba(var(--gn-brand-rgb), 0.45), transparent 70%),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 40%, rgba(0, 0, 0, 0.1) 75%),
+            linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0%, transparent 45%);
+    }
+
+    .gn-upcoming-info {
+        padding-bottom: 28px;
+    }
+
+    .gn-upcoming-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-upcoming-art {
+        animation: none;
+    }
+}
+
+/* Xbox game grids (explore, search): covers become console tiles, same size, zoom and faded green ring on hover/focus */
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure {
+    transition: transform 150ms ease;
+}
+
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure > a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--gn-radius);
+    background: var(--gn-paper-2);
+}
+
+/* odd-sized covers are cropped to the tile instead of breaking the row */
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure > a img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+}
+
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    border-radius: var(--gn-radius);
+    box-shadow:
+        0 0 0 2px rgba(120, 225, 120, 0.95),
+        0 0 10px 3px rgba(63, 185, 80, 0.55),
+        inset 0 0 8px 2px rgba(63, 185, 80, 0.6);
+    opacity: 0;
+    transition: opacity 150ms ease;
+    pointer-events: none;
+}
+
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:hover,
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:focus-within {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:hover::after,
+:root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:focus-within::after {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:hover,
+    :root[data-theme="xbox"] [data-layout="grid"] .gn-game-figure:focus-within {
+        transform: none;
+    }
+}
+
+/* Xbox game page (XboxGameInfoView): store-style hero over the game's art, then description + fact sheet */
+.gn-game-view {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+}
+
+.gn-game-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    align-items: end;
+    gap: 32px;
+    min-height: 380px;
+    padding: 32px;
+    border-radius: calc(var(--gn-radius) * 2);
+    border: 1px solid var(--gn-border);
+    overflow: hidden;
+    background: var(--gn-surface);
+    isolation: isolate;
+}
+
+.gn-game-hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: center / cover no-repeat;
+}
+
+/* keeps the title and buttons readable over any art */
+.gn-game-hero-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.6) 55%, rgba(10, 10, 10, 0.25) 100%),
+        linear-gradient(0deg, rgba(10, 10, 10, 0.85) 0%, transparent 60%);
+}
+
+.gn-game-hero-cover {
+    border-radius: var(--gn-radius);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.gn-game-hero-cover img {
+    border-radius: var(--gn-radius);
+}
+
+.gn-game-hero-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.gn-game-title {
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+    overflow-wrap: anywhere;
+}
+
+.gn-game-hero-meta {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+}
+
+.gn-game-hero-actions {
+    margin-top: 8px;
+}
+
+/* GameInfoActions centers itself for the default layout */
+.gn-game-hero-actions > .mantine-Stack-root {
+    align-items: flex-start;
+}
+
+.gn-game-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    align-items: start;
+    gap: 32px;
+}
+
+.gn-game-main {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-width: 0;
+}
+
+.gn-game-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.gn-game-summary {
+    max-width: 72ch;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* main column boxes become plain sections, with their labels as section headings */
+.gn-game-main .gn-details-box {
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+.gn-game-main .gn-details-box-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gn-text);
+}
+
+/* the fact sheet: one panel, a dimmed label over each value, rows split by hairlines */
+.gn-game-facts {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 20px;
+    border-radius: calc(var(--gn-radius) * 2);
+    border: 1px solid var(--gn-border);
+    background: var(--gn-surface);
+}
+
+.gn-game-facts .gn-details-box {
+    gap: 6px;
+    padding: 14px 0;
+    border: 0;
+    border-bottom: 1px solid var(--gn-border);
+    border-radius: 0;
+    background: none;
+}
+
+.gn-game-facts .gn-details-box-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* user rating (DetailsCard) closes the sheet */
+.gn-game-facts .gn-details-card {
+    padding: 14px 0 6px;
+    background: none;
+}
+
+.gn-game-facts .gn-details-card-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gn-dimmed);
+}
+
+@media (max-width: 61.99em) {
+    .gn-game-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* phones: cover and title stack centered over the art */
+@media (max-width: 47.99em) {
+    .gn-game-hero {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 20px;
+        min-height: 0;
+        padding: 24px 16px;
+        text-align: center;
+    }
+
+    .gn-game-hero-art::after {
+        background: linear-gradient(0deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.55) 100%);
+    }
+
+    .gn-game-hero-cover {
+        width: 160px;
+    }
+
+    .gn-game-hero-info {
+        align-items: center;
+    }
+
+    .gn-game-hero-actions > .mantine-Stack-root {
+        align-items: center;
+    }
+}

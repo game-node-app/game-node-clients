@@ -7,15 +7,8 @@ import {
   IconPalette,
 } from "@tabler/icons-react";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { APP_THEMES, AppTheme, useAppTheme } from "./useAppTheme";
-
-// the server's white platform icons; GameNode has no mark that reads at this size
-const PLATFORM_ICONS: Record<Exclude<AppTheme, "gamenode">, string> = {
-  playstation: "playstation",
-  xbox: "xbox",
-  switch: "nintendo",
-  bigpicture: "steam",
-};
+import { APP_THEMES, THEMES } from "./registry";
+import { useAppTheme } from "./useAppTheme";
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   position?: FloatingPosition;
@@ -50,16 +43,17 @@ const ThemeSwitcherMenu = ({
             key={option}
             onClick={() => setTheme(option)}
             leftSection={
-              option === "gamenode" ? (
-                <IconDeviceGamepad2 size={16} />
-              ) : (
+              THEMES[option].icon ? (
                 <img
-                  src={getServerStoredIcon(PLATFORM_ICONS[option])}
+                  src={getServerStoredIcon(THEMES[option].icon)}
                   alt={""}
                   width={16}
                   height={16}
                   className={"object-contain"}
                 />
+              ) : (
+                // GameNode has no mark that reads at this size
+                <IconDeviceGamepad2 size={16} />
               )
             }
             rightSection={option === theme ? <IconCheck size={16} /> : null}

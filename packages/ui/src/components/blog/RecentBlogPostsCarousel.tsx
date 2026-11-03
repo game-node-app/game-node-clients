@@ -9,8 +9,7 @@ import {
   useOnMobile,
 } from "#@/components";
 import { useTranslation } from "@repo/locales";
-import { useAppTheme } from "#@/components/theme/useAppTheme";
-import { ConsoleBlogSection } from "#@/components/theme/console/ConsoleBlogSection";
+import { buildPresenterComponent } from "#@/context";
 
 const buildSkeletons = () => {
   const skeletons: React.ReactNode[] = [];
@@ -25,11 +24,10 @@ const buildSkeletons = () => {
   return skeletons;
 };
 
-const RecentBlogPostsCarousel = () => {
+const DEFAULT_RecentBlogPostsCarousel = () => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
 
-  const [theme] = useAppTheme();
   const { data, isLoading, error, refetch } = useBlogPosts({
     limit: 6,
   });
@@ -47,17 +45,6 @@ const RecentBlogPostsCarousel = () => {
       );
     });
   }, [data?.data, isLoading]);
-
-  if (theme === "xbox") {
-    return (
-      <ConsoleBlogSection
-        posts={data?.data}
-        isLoading={isLoading}
-        isError={error != undefined}
-        onRetry={refetch}
-      />
-    );
-  }
 
   return (
     <DetailsBox
@@ -91,5 +78,10 @@ const RecentBlogPostsCarousel = () => {
     </DetailsBox>
   );
 };
+
+const RecentBlogPostsCarousel = buildPresenterComponent(
+  "RecentBlogPostsCarousel",
+  DEFAULT_RecentBlogPostsCarousel,
+);
 
 export { RecentBlogPostsCarousel };

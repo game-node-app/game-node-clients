@@ -56,6 +56,8 @@ import {
   setProjectContext,
   setupAuthClient,
   UIProvider,
+  UIPresenterRegistry,
+  useThemePresenters,
 } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
 import { Inter, Nunito, Roboto } from "next/font/google";
@@ -115,6 +117,10 @@ setupWrapper({
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 
+const WEB_PRESENTERS: Partial<UIPresenterRegistry> = {
+  Link: LinkWrapper,
+};
+
 export default function WebApp({
   Component,
   pageProps,
@@ -133,6 +139,7 @@ export default function WebApp({
       router.events.off("routeChangeError", restorePrivacy);
     };
   }, [router.events]);
+  const presenters = useThemePresenters(WEB_PRESENTERS);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -211,9 +218,7 @@ export default function WebApp({
             forceColorScheme={"dark"}
           >
             <UIProvider
-              presenters={{
-                Link: LinkWrapper,
-              }}
+              presenters={presenters}
               hooks={{
                 useRouter: useNextRouterWrapper,
                 authPath: "/auth",

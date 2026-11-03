@@ -6,7 +6,7 @@ import GlobalShellConsoleHeader from "@/components/general/shell/header/GlobalSh
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/navbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
-import { useAppTheme } from "@repo/ui";
+import { THEMES, useAppTheme } from "@repo/ui";
 
 const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/auth", "/oauth/consent"];
 
@@ -19,7 +19,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   const [sidebarOpened, sidebarOpenedUtils] = useDisclosure(false);
   const [theme] = useAppTheme();
-  const isConsole = theme !== "gamenode";
+  const isConsole = THEMES[theme].layout === "console";
   // console headers can be see-through over the home art until the page scrolls
   const [scroll] = useWindowScroll();
 

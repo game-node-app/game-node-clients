@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 import { useI18nContext, useTranslation } from "@repo/locales";
@@ -14,6 +14,7 @@ import {
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
 import { ConsoleGameRow, getGameArtUrl } from "./ConsoleGameRow";
+import { ConsoleReleaseCalendar } from "./ConsoleReleaseCalendar";
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 // the desktop row shares the hero's right column, more covers would shrink below thumbnail size
@@ -120,6 +121,7 @@ const RecentReleasesRow = () => {
 const ConsoleReleases = () => (
   <>
     <ConsoleUpcomingHero />
+    <ConsoleReleaseCalendar />
     <RecentReleasesRow />
   </>
 );

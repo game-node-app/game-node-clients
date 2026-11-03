@@ -50,8 +50,7 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
       <Combobox.Target>
         <TextInput
           type={"search"}
-          size={"md"}
-          radius={"md"}
+          size={"lg"}
           placeholder={t("game.searchPlaceholder")}
           aria-label={t("game.searchPlaceholder")}
           value={query}
@@ -72,7 +71,7 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
           onClick={() => combobox.openDropdown()}
           onFocus={() => combobox.openDropdown()}
           onBlur={() => combobox.closeDropdown()}
-          leftSection={<IconSearch size={18} />}
+          leftSection={<IconSearch size={20} stroke={1.75} />}
           rightSection={
             autoCompleteQuery.isLoading ? (
               <Loader size={16} />
@@ -91,8 +90,10 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
             )
           }
           classNames={{
-            root: "w-full",
-            input: "[&::-webkit-search-cancel-button]:appearance-none",
+            root: "gn-search w-full",
+            input:
+              "gn-search-input text-base [&::-webkit-search-cancel-button]:appearance-none",
+            section: "gn-search-section",
           }}
           {...others}
         />

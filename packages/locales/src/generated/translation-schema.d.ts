@@ -535,6 +535,10 @@ export type TranslationSchema = {
       recentReleases: string;
       upcoming: string;
     };
+    releaseCalendar: {
+      gamesCount: string;
+      title: string;
+    };
     details: {
       developers: string;
       launchDate: string;

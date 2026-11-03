@@ -6,6 +6,7 @@ import { GameInfoDetails } from "#@/components/game/info/GameInfoDetails";
 import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { Break } from "#@/components/general/Break";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { buildPresenterComponent } from "#@/context";
 import { Flex, Grid, Stack } from "@mantine/core";
 import { GameRepositoryFindOneDto } from "@repo/wrapper/server";
 
@@ -21,11 +22,11 @@ export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
   },
 };
 
-interface IGameInfoViewProps {
+export interface GameInfoViewProps {
   id: number;
 }
 
-const GameInfoView = ({ id }: IGameInfoViewProps) => {
+const DEFAULT_GameInfoView = ({ id }: GameInfoViewProps) => {
   const gameQuery = useGame(id, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
 
@@ -71,5 +72,10 @@ const GameInfoView = ({ id }: IGameInfoViewProps) => {
     </Stack>
   );
 };
+
+const GameInfoView = buildPresenterComponent(
+  "GameInfoView",
+  DEFAULT_GameInfoView,
+);
 
 export { GameInfoView };
