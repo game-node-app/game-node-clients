@@ -1,0 +1,33 @@
+{
+  "source": "fd041cee4e4f3e53211191af09bd45c0f2560377",
+  "changesets": [
+    ".changeset/ci-lint-test-release-fixes.md"
+  ],
+  "apps": [
+    "web",
+    "admin",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[f49b386ce3137378ecff108c0d5cc9560208b635...fd041cee4e4f3e53211191af09bd45c0f2560377]",
+    "--filter=web...",
+    "--filter=admin...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "admin": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": true,
+  "ref": "releases/fd041cee4e4f3e53211191af09bd45c0f2560377",
+  "versions": {
+    "web": "1.11.1",
+    "admin": "1.8.2",
+    "mobile": "1.10.1"
+  }
+}
