@@ -13,6 +13,8 @@ import {
   ProfileStatsSimpleOverviewProps,
   ProfileStatsViewProps,
   ProfileViewNavbarItemProps,
+  PostsFeedViewProps,
+  PostsListItemProps,
   ReviewCardProps,
 } from "#@/components";
 import {
@@ -45,6 +47,8 @@ export type UIPresenterRegistry = {
   HomeReleases: React.ComponentType<Record<string, never>>;
   ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;
   GameInfoView: React.ComponentType<GameInfoViewProps>;
+  PostsListItem: React.ComponentType<PostsListItemProps>;
+  PostsFeedView: React.ComponentType<PostsFeedViewProps>;
 };
 
 /**

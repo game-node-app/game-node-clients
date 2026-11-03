@@ -21,6 +21,8 @@ describe("app theme registry", () => {
       "ProfileViewNavbarItem",
       "ProfileStatsSimpleOverview",
       "ProfileStatsView",
+      "PostsListItem",
+      "PostsFeedView",
     ]);
   });
 });

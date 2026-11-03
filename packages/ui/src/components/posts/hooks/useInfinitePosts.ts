@@ -10,6 +10,7 @@ export interface GetPostsRequestDto {
   gameId?: number;
   profileUserId?: string;
   limit?: number;
+  enabled?: boolean;
 }
 
 export interface GetPostsPageParam {
@@ -22,6 +23,7 @@ export function useInfinitePosts({
   gameId,
   profileUserId,
   limit = 20,
+  enabled = true,
 }: GetPostsRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = ["posts", "infinite", postId, gameId, profileUserId, limit];
@@ -35,6 +37,7 @@ export function useInfinitePosts({
   return {
     ...useInfiniteQuery({
       queryKey,
+      enabled,
       queryFn: async ({ pageParam }) => {
         return PostsService.postsControllerFindAllWithPaginationV1(
           postId,

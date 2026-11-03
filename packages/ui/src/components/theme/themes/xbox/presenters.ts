@@ -4,6 +4,8 @@ import { ConsoleExplore } from "#@/components/theme/console/ConsoleExplore";
 import { ConsoleReleases } from "#@/components/theme/console/ConsoleReleases";
 import { XboxActivityItem } from "./XboxActivityItem";
 import { XboxGameInfoView } from "./XboxGameInfoView";
+import { XboxPostsFeedView } from "./XboxPostsFeedView";
+import { XboxPostsListItem } from "./XboxPostsListItem";
 import { XboxProfileStats } from "./XboxProfileStats";
 import { XboxProfileStatsView } from "./XboxProfileStatsView";
 import { XboxProfileView } from "./XboxProfileView";
@@ -20,4 +22,6 @@ export const xboxPresenters: Partial<UIPresenterRegistry> = {
   ProfileViewNavbarItem: XboxProfileViewNavbarItem,
   ProfileStatsSimpleOverview: XboxProfileStats,
   ProfileStatsView: XboxProfileStatsView,
+  PostsListItem: XboxPostsListItem,
+  PostsFeedView: XboxPostsFeedView,
 };

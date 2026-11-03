@@ -1128,6 +1128,7 @@ export type TranslationSchema = {
     daily: string;
     explore: string;
     feats: string;
+    feed: string;
     home: string;
     journal: string;
     library: string;
@@ -1210,12 +1211,22 @@ export type TranslationSchema = {
     };
   };
   posts: {
+    labels: {
+      postedAbout: string;
+      sharedImage: string;
+    };
     messages: {
+      empty: string;
+      linkCopied: string;
       published: string;
       removeWarning: string;
     };
+    tabs: {
+      mine: string;
+    };
     titles: {
       confirmRemove: string;
+      create: string;
     };
   };
   preferences: {

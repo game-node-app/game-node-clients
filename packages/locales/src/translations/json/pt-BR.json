@@ -1124,6 +1124,7 @@
     "daily": "Daily",
     "explore": "Explorar",
     "feats": "Feitos",
+    "feed": "Feed",
     "home": "Início",
     "journal": "Diário",
     "library": "Biblioteca",
@@ -1206,12 +1207,22 @@
     }
   },
   "posts": {
+    "labels": {
+      "postedAbout": "postou sobre",
+      "sharedImage": "compartilhou uma imagem de"
+    },
     "messages": {
+      "empty": "Nenhuma postagem por aqui ainda.",
+      "linkCopied": "Link copiado!",
       "published": "Postagem publicada com sucesso!",
       "removeWarning": "Esta postagem será excluída permanentemente. Você não pode desfazer esta ação."
     },
+    "tabs": {
+      "mine": "Minha atividade"
+    },
     "titles": {
-      "confirmRemove": "Confirmar remoção da postagem"
+      "confirmRemove": "Confirmar remoção da postagem",
+      "create": "Nova postagem"
     }
   },
   "preferences": {

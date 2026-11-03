@@ -16,6 +16,7 @@ import {
   IconHome,
   IconLayout2Filled,
   IconLibrary,
+  IconMessage,
   IconMilitaryAward,
   IconNews,
   IconNotebook,
@@ -74,6 +75,7 @@ export default function GlobalShellNavbar({
       isNew: true,
     },
     { icon: IconBolt, label: t("navigation.activity"), href: "/activity" },
+    { icon: IconMessage, label: t("navigation.feed"), href: "/posts" },
     {
       icon: IconNews,
       label: t("navigation.blog"),

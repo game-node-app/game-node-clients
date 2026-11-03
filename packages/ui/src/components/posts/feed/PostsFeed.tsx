@@ -1,14 +1,17 @@
-import { GamePostEditor, InfiniteLoaderChildren } from "#@/components";
 import {
-  PostsFeedCriteria,
-  useInfinitePostsFeed,
-} from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
+  GamePostEditor,
+  InfiniteLoaderChildren,
+  useUserId,
+} from "#@/components";
+import type { PostsFeedTabValue } from "#@/components/posts/feed/PostsFeedLayout.tsx";
+import { useInfinitePosts } from "#@/components/posts/hooks/useInfinitePosts.ts";
+import { useInfinitePostsFeed } from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
 import { PostsList } from "#@/components/posts/PostsList.tsx";
 import { Stack } from "@mantine/core";
 import { useMemo } from "react";
 
 interface Props {
-  criteria: PostsFeedCriteria;
+  criteria: PostsFeedTabValue;
   children: InfiniteLoaderChildren;
   /**
    * This post will appear on top
@@ -20,6 +23,7 @@ interface Props {
    * Pagination will be disabled if this is set.
    */
   hardLimit?: number;
+  withEditor?: boolean;
 }
 
 const PostsFeed = ({
@@ -27,13 +31,25 @@ const PostsFeed = ({
   targetedPostId,
   limit = 20,
   hardLimit,
+  withEditor = true,
   children,
 }: Props) => {
-  const postsFeedQuery = useInfinitePostsFeed({
-    criteria,
+  const userId = useUserId();
+  const isOwn = criteria === "mine";
+
+  const feedQuery = useInfinitePostsFeed({
+    criteria: isOwn ? "all" : criteria,
     limit: hardLimit ?? limit,
     postId: targetedPostId,
+    enabled: !isOwn,
   });
+  const ownQuery = useInfinitePosts({
+    profileUserId: userId,
+    limit: hardLimit ?? limit,
+    enabled: isOwn && userId != undefined,
+  });
+  const postsFeedQuery = isOwn ? ownQuery : feedQuery;
+
   const items = useMemo(() => {
     if (postsFeedQuery.data == undefined) {
       return [];
@@ -43,7 +59,7 @@ const PostsFeed = ({
 
   return (
     <Stack>
-      <GamePostEditor withEnableButton />
+      {withEditor && <GamePostEditor withEnableButton />}
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {

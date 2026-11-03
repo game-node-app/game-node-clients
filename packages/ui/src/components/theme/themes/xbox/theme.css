@@ -2053,3 +2053,184 @@ a.gn-activity-title::after {
         transition: none;
     }
 }
+
+/* Xbox feed (XboxPostsFeedView, XboxPostsListItem): post panels beside a side column, the profile's pill tabs */
+.gn-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.gn-feed-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+}
+
+/* same split as the game page body: posts, then a 340px side column */
+.gn-feed-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    align-items: start;
+    gap: 48px;
+}
+
+.gn-feed-aside,
+.gn-feed-aside-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.gn-feed-aside {
+    gap: 32px;
+}
+
+.gn-feed-post {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: var(--gn-radius);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.gn-feed-post-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.gn-feed-post-avatar {
+    flex: none;
+    border-radius: 999px;
+}
+
+.gn-feed-post-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.gn-feed-post-user,
+.gn-feed-post-game-name {
+    overflow: hidden;
+    font-weight: 700;
+    color: var(--gn-text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gn-feed-post-user:hover,
+.gn-feed-post-game:hover .gn-feed-post-game-name {
+    text-decoration: underline;
+}
+
+.gn-feed-post-level {
+    flex: none;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(var(--gn-brand-rgb), 0.25);
+    color: rgba(120, 225, 120, 0.95);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.gn-feed-post-date {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--gn-dimmed);
+    white-space: nowrap;
+}
+
+.gn-feed-post-game {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: inherit;
+}
+
+.gn-feed-post-game img {
+    flex: none;
+    width: 40px;
+    aspect-ratio: 264 / 374;
+    object-fit: cover;
+    border-radius: var(--gn-radius);
+}
+
+.gn-feed-post-game-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.gn-feed-post-action {
+    font-size: 0.8rem;
+    color: var(--gn-dimmed);
+}
+
+/* shared screenshots fill the column */
+.gn-feed-post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--gn-radius);
+}
+
+.gn-feed-post-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 10px;
+    border-top: 1px solid var(--gn-border);
+}
+
+/* new post: a round button in the corner, under the bottom nav (z 200) and drawers */
+.gn-feed-fab {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 150;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--gn-brand);
+    color: #FFFFFF;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.gn-feed-fab:hover {
+    transform: scale(1.06);
+}
+
+.gn-feed-fab:focus-visible {
+    outline: 3px solid rgba(120, 225, 120, 0.95);
+    outline-offset: 3px;
+}
+
+@media (max-width: 61.99em) {
+    .gn-feed-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* clears the bottom navigation bar */
+    .gn-feed-fab {
+        right: 16px;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-feed-fab {
+        transition: none;
+    }
+}

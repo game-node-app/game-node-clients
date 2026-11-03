@@ -3,7 +3,6 @@ import {
   POST_EDITOR_EXTENSIONS,
   POST_EDITOR_PUBLISH_MUTATION_KEY,
   PostImageLightboxContext,
-  useInfinitePostsFeed,
 } from "#@/components";
 import { createErrorNotification, getS3StoredUpload } from "#@/util";
 import {
@@ -83,12 +82,8 @@ const GamePostEditor = (props: GamePostEditorProps) => {
 
   const [showActions, setShowActions] = useState(false);
   const [content, setContent] = useState("");
-  const [selectedGameId, setSelectedGameId] = useState<number | undefined>(
-    props.gameId,
-  );
 
   const [gameSelectModalOpened, gameSelectModalUtils] = useDisclosure();
-  const postsFeedQuery = useInfinitePostsFeed({});
 
   const resetEditor = () => {
     editor?.commands.clearContent();
@@ -122,13 +117,10 @@ const GamePostEditor = (props: GamePostEditorProps) => {
 
   const publishPostMutation = useMutation({
     mutationKey: POST_EDITOR_PUBLISH_MUTATION_KEY,
-    mutationFn: async () => {
-      if (selectedGameId == undefined) {
-        throw new Error("An associated game must be set.");
-      }
-
+    // the game is a variable, not state: mutate() right after picking it would still see the old state
+    mutationFn: async (gameId: number) => {
       return PostsService.postsControllerCreateV1({
-        gameId: selectedGameId,
+        gameId,
         content,
       });
     },
@@ -137,7 +129,6 @@ const GamePostEditor = (props: GamePostEditorProps) => {
         color: "green",
         message: t("posts.messages.published"),
       });
-      postsFeedQuery.invalidate();
       props.onPublish?.();
       resetEditor();
     },
@@ -162,9 +153,8 @@ const GamePostEditor = (props: GamePostEditorProps) => {
       <Stack>
         <GameSearchSelectModal
           onSelected={(gameId) => {
-            setSelectedGameId(gameId);
             gameSelectModalUtils.close();
-            publishPostMutation.mutate();
+            publishPostMutation.mutate(gameId);
           }}
           opened={gameSelectModalOpened}
           onClose={gameSelectModalUtils.close}
@@ -228,12 +218,12 @@ const GamePostEditor = (props: GamePostEditorProps) => {
               className={"ms-auto"}
               type={"button"}
               onClick={() => {
-                if (selectedGameId == undefined) {
+                if (props.gameId == undefined) {
                   gameSelectModalUtils.open();
                   return;
                 }
 
-                publishPostMutation.mutate();
+                publishPostMutation.mutate(props.gameId);
               }}
             >
               {t("actions.submit")}
