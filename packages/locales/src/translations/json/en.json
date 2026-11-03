@@ -1106,6 +1106,10 @@
       "startOver": "Start over",
       "pasteFromClipboard": "Paste from clipboard",
       "nintendo": {
+        "signInHint": "After signing in, don't click \"Select this account\" on Nintendo's page. Right-click it (or touch and hold on a phone), choose \"Copy link address\", then return to GameNode to paste the link.",
+        "guideAlt": "Example: right-click Nintendo's \"Select this account\" button, choose \"Copy link address\", then paste into GameNode's Account link field.",
+        "pauseGuide": "Pause guide",
+        "playGuide": "Play guide",
         "copyHint": "After signing in, Nintendo shows a \"Select this account\" button. Don't click it. Right-click it (or long-press on a phone), choose \"Copy link address\", and paste the link below.",
         "pasteLabel": "Account link",
         "pastePlaceholder": "npf5c38e31cd085304b://auth#…",

@@ -1110,6 +1110,10 @@ export type TranslationSchema = {
       startOver: string;
       pasteFromClipboard: string;
       nintendo: {
+        signInHint: string;
+        guideAlt: string;
+        pauseGuide: string;
+        playGuide: string;
         copyHint: string;
         pasteLabel: string;
         pastePlaceholder: string;
