@@ -1,0 +1,21 @@
+appId: app.gamenode.desktop
+productName: GameNode
+directories:
+  output: dist
+files:
+  - out/**
+  - "!node_modules/**"
+protocols:
+  - name: GameNode sign-in
+    schemes: [app.gamenode]
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+linux:
+  target: AppImage
+  category: Game
+  desktop:
+    entry:
+      MimeType: x-scheme-handler/app.gamenode;

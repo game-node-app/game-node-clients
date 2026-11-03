@@ -1,5 +1,5 @@
 interface ProjectContext {
-  client: "web" | "mobile" | "admin";
+  client: "web" | "mobile" | "admin" | "desktop";
   s3BucketUrl: string;
   serverUrl: string;
   searchUrl: string;

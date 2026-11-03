@@ -1,0 +1,105 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  overflow: hidden;
+}
+.library {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.toolbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--mantine-color-dark-4);
+  flex-wrap: wrap;
+}
+.panes {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.sidebar,
+.detail {
+  flex-shrink: 0;
+  overflow: auto;
+  padding: 16px;
+}
+.detail {
+  max-width: 40vw;
+}
+.splitter {
+  width: 6px;
+  cursor: col-resize;
+  background: var(--mantine-color-dark-6);
+  flex-shrink: 0;
+  touch-action: none;
+}
+.splitter:hover,
+.splitter:focus-visible {
+  background: var(--mantine-color-brand-6);
+}
+.game-area {
+  min-width: 160px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.game-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  outline-offset: -2px;
+}
+.cover-row {
+  display: grid;
+  gap: 8px;
+  padding: 4px 8px;
+}
+.game {
+  cursor: default;
+  user-select: none;
+  border: 1px solid transparent;
+}
+.game.grid {
+  padding: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.game[aria-selected="true"] {
+  background: var(--mantine-color-brand-light);
+}
+.game.focused {
+  border-color: var(--mantine-color-brand-6);
+}
+.game:hover {
+  background: var(--mantine-color-dark-5);
+}
+.game.list,
+.list-columns {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 120px 70px 110px;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
+  height: 48px;
+}
+.list-columns {
+  border-bottom: 1px solid var(--mantine-color-dark-4);
+  height: 40px;
+}
+.list-columns button,
+.clear-search {
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}

@@ -13,7 +13,13 @@
     ]
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./auth": "./src/components/auth/authClient.ts",
+    "./auth-errors": "./src/components/auth/handleAuthError.ts",
+    "./theme": "./src/util/theme.ts",
+    "./project-context": "./src/util/projectContext.ts",
+    "./connections": "./src/components/connections/hooks/useOwnUserConnections.ts",
+    "./library": "./src/components/library/hooks/useUserLibrary.ts"
   },
   "private": true,
   "license": "MIT",

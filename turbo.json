@@ -13,6 +13,10 @@
     "@repo/wrapper#type-check": { "dependsOn": ["build"] },
     "web#build": { "dependsOn": ["^build", "type-check"] },
     "admin#build": { "dependsOn": ["^build", "type-check"] },
+    "desktop#build": {
+      "outputs": ["dist/**", "out/**"],
+      "env": ["VITE_PUBLIC_SERVER_URL", "VITE_PUBLIC_SEARCH_URL", "VITE_PUBLIC_S3_BUCKET_URL"]
+    },
     "mobile#build": {
       "env": ["VITE_PUBLIC_LIVE_UPDATE_URL"],
       "cache": false

@@ -27,6 +27,7 @@ jobs:
       apps: ${{ steps.plan.outputs.apps }}
       docker: ${{ steps.plan.outputs.docker }}
       mobile: ${{ steps.plan.outputs.mobile }}
+      desktop: ${{ steps.desktop.outputs.changed }}
       dependency-hash: ${{ steps.plan.outputs.dependency-hash }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -63,6 +64,14 @@ jobs:
           echo "TURBO_SCM_BASE=$BASE" >> "$GITHUB_ENV"
           echo "TURBO_SCM_HEAD=$HEAD" >> "$GITHUB_ENV"
       - run: yarn test:releases
+      - name: Detect desktop or workspace changes
+        id: desktop
+        run: |
+          if git diff --quiet "$TURBO_SCM_BASE" "$TURBO_SCM_HEAD" -- apps/desktop packages package.json yarn.lock turbo.json .npmrc .yarnrc .github/workflows/ci.yml; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
@@ -72,6 +81,48 @@ jobs:
         env:
           CI_FILTERS: ${{ steps.plan.outputs.filters }}
         run: node -e 'require("node:child_process").execFileSync("yarn", ["turbo", "run", "lint", "type-check", "test", "build", ...JSON.parse(process.env.CI_FILTERS)], {stdio:"inherit"})'
+
+  desktop:
+    name: Desktop (${{ matrix.os }})
+    needs: checks
+    if: needs.checks.outputs.desktop == 'true'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      CI: "true"
+      TURBO_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        id: node
+        with:
+          node-version: 24
+          cache: yarn
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        id: dependencies
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ needs.checks.outputs.dependency-hash }}
+      - run: yarn install --frozen-lockfile --ignore-scripts
+        if: steps.dependencies.outputs.cache-hit != 'true'
+      - run: yarn build -F desktop
+      - run: yarn workspace desktop package
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: gamenode-desktop-${{ matrix.os }}
+          path: |
+            apps/desktop/dist/*.exe
+            apps/desktop/dist/*.AppImage
+          if-no-files-found: error
 
   prepare:
     name: Reserve immutable release
