@@ -20,6 +20,7 @@ import { useDailyImportOnLogin } from "#@/components/daily/hooks/useDailyImportO
 import { useDailyPlay } from "#@/components/daily/hooks/useDailyPlay";
 import { useDailyToday } from "#@/components/daily/hooks/useDailyToday";
 import { DailyAttemptsTrack } from "#@/components/daily/result/DailyAttemptsTrack";
+import { DailyStatsPanel } from "#@/components/daily/result/DailyStatsPanel";
 import { DailyResultPanel } from "#@/components/daily/result/DailyResultPanel";
 import { DailyCountdown } from "#@/components/daily/view/DailyCountdown";
 import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
@@ -129,7 +130,15 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
       disabled={play.isSubmitting}
     />
   ) : (
-    <DailyResultPanel play={data} />
+    <DailyResultPanel play={data} nextResetAt={todayQuery.data?.nextResetAt} />
+  );
+
+  const stats = !inProgress && (
+    <DailyStatsPanel
+      mode={data.mode}
+      maxAttempts={data.maxAttempts}
+      highlight={data.status === "won" ? data.attempts : undefined}
+    />
   );
 
   const hint =
@@ -170,6 +179,7 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
         <Stack>
           {hint}
           {input}
+          {stats}
           <DailySpecsTable feedback={newestFirst} />
         </Stack>
       ) : (
@@ -178,13 +188,14 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
           <Grid.Col span={{ base: 12, lg: 5 }}>
             <Stack>
               {input}
+              {stats}
               <DailyGuessList feedback={newestFirst} />
             </Stack>
           </Grid.Col>
         </Grid>
       )}
 
-      {todayQuery.data && (
+      {inProgress && todayQuery.data && (
         <DailyCountdown
           nextResetAt={todayQuery.data.nextResetAt}
           className={"self-center"}

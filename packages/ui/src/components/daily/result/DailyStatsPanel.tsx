@@ -1,7 +1,16 @@
-import { Group, Progress, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import {
+  Group,
+  Paper,
+  Progress,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import type { DailyMode } from "#@/components/daily/util/dailyModes";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { DailyInfoTile } from "#@/components/daily/view/DailyInfoTile";
 import { useDailyLocalResults } from "#@/components/daily/hooks/useDailyLocalResults";
 import { useDailyResults } from "#@/components/daily/hooks/useDailyResults";
 import {
@@ -12,9 +21,11 @@ import {
 interface Props {
   mode: DailyMode;
   maxAttempts: number;
+  /** Attempts of the puzzle just solved, highlighted in the distribution. */
+  highlight?: number;
 }
 
-const DailyStatsPanel = ({ mode, maxAttempts }: Props) => {
+const DailyStatsPanel = ({ mode, maxAttempts, highlight }: Props) => {
   const { t } = useTranslation();
   const userId = useUserId();
   const resultsQuery = useDailyResults(mode);
@@ -40,41 +51,36 @@ const DailyStatsPanel = ({ mode, maxAttempts }: Props) => {
   ] as const;
 
   return (
-    <Stack className={"w-full gap-3"}>
-      <Title order={4}>{t("daily.stats.title")}</Title>
-      <SimpleGrid cols={4}>
-        {numbers.map(([label, value]) => (
-          <Stack key={label} className={"items-center gap-0"}>
-            <Text fz={"xl"} fw={700}>
-              {value}
+    <Paper withBorder p={"md"} className={"w-full"}>
+      <Stack className={"gap-3"}>
+        <Title order={4}>{t("daily.stats.title")}</Title>
+        <SimpleGrid type={"container"} cols={{ base: 2, "28rem": 4 }}>
+          {numbers.map(([label, value]) => (
+            <DailyInfoTile key={label} label={label} value={value} />
+          ))}
+        </SimpleGrid>
+        <Text size={"sm"} fw={600}>
+          {t("daily.stats.distribution")}
+        </Text>
+        {stats.distribution.map((count, index) => (
+          <Group key={index} className={"flex-nowrap gap-2"}>
+            <Text size={"sm"} w={20}>
+              {index + 1}
             </Text>
-            <Text size={"xs"} c={"dimmed"} className={"text-center"}>
-              {label}
+            <Progress
+              className={"flex-grow"}
+              value={(count / highest) * 100}
+              color={index + 1 === highlight ? "brand" : "gray"}
+              size={"lg"}
+              aria-label={`${index + 1}: ${count}`}
+            />
+            <Text size={"sm"} w={24} className={"text-right"}>
+              {count}
             </Text>
-          </Stack>
+          </Group>
         ))}
-      </SimpleGrid>
-      <Text size={"sm"} fw={600}>
-        {t("daily.stats.distribution")}
-      </Text>
-      {stats.distribution.map((count, index) => (
-        <Group key={index} className={"flex-nowrap gap-2"}>
-          <Text size={"sm"} w={20}>
-            {index + 1}
-          </Text>
-          <Progress
-            className={"flex-grow"}
-            value={(count / highest) * 100}
-            color={"teal"}
-            size={"lg"}
-            aria-label={`${index + 1}: ${count}`}
-          />
-          <Text size={"sm"} w={24} className={"text-right"}>
-            {count}
-          </Text>
-        </Group>
-      ))}
-    </Stack>
+      </Stack>
+    </Paper>
   );
 };
 

@@ -1,56 +1,83 @@
-import { Group, Image, Paper, Stack, Text, Title } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Image,
+  Paper,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconExternalLink } from "@tabler/icons-react";
 import { DailyPlayResponseDto } from "@repo/wrapper/server";
 import {
   getSizedImageUrl,
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
 import { DailyShareButton } from "#@/components/daily/result/DailyShareButton";
-import { DailyStatsPanel } from "#@/components/daily/result/DailyStatsPanel";
+import { DAILY_RESULT_STYLES } from "#@/components/daily/util/dailyModes";
+import { DailyCountdown } from "#@/components/daily/view/DailyCountdown";
 import { Link } from "#@/util/link";
 
 interface Props {
   play: DailyPlayResponseDto;
+  /** Shows the time until the next puzzles. */
+  nextResetAt?: string;
 }
 
-const DailyResultPanel = ({ play }: Props) => {
+const DailyResultPanel = ({ play, nextResetAt }: Props) => {
   const { t } = useTranslation();
   const { answer, community } = play;
   const won = play.status === "won";
+  const { color, icon: StatusIcon } =
+    DAILY_RESULT_STYLES[won ? "correct" : "wrong"];
 
   return (
     <Paper withBorder p={"md"} className={"w-full"}>
       <Stack>
-        <Title order={3} c={won ? "teal" : "red"}>
-          {won
-            ? t("daily.result.won", { attempts: play.attempts })
-            : t("daily.result.lost")}
-        </Title>
+        <Group role={"status"} className={"flex-nowrap"}>
+          <ThemeIcon variant={"light"} color={color} radius={"xl"} size={"lg"}>
+            <StatusIcon size={20} />
+          </ThemeIcon>
+          <Title order={3} c={color}>
+            {won
+              ? t("daily.result.won", { attempts: play.attempts })
+              : t("daily.result.lost")}
+          </Title>
+        </Group>
         {answer && (
-          <Link href={`/game/${answer.id}`}>
-            <Group className={"flex-nowrap"}>
-              <Image
-                src={
-                  getSizedImageUrl(
-                    answer.coverUrl ?? undefined,
-                    ImageSize.COVER_BIG,
-                  ) ?? "/img/game_placeholder.jpeg"
-                }
-                alt={answer.name}
-                w={96}
-                radius={"sm"}
-              />
-              <Stack className={"gap-0"}>
-                <Text size={"sm"} c={"dimmed"}>
-                  {t("daily.result.answer")}
-                </Text>
-                <Text fw={700} fz={"lg"} className={"underline"}>
-                  {answer.name}
-                </Text>
-                {answer.year && <Text c={"dimmed"}>{answer.year}</Text>}
-              </Stack>
-            </Group>
-          </Link>
+          <Group className={"flex-nowrap items-start"}>
+            <Image
+              src={
+                getSizedImageUrl(
+                  answer.coverUrl ?? undefined,
+                  ImageSize.COVER_BIG,
+                ) ?? "/img/game_placeholder.jpeg"
+              }
+              alt={""}
+              w={96}
+              radius={"sm"}
+            />
+            <Stack className={"gap-1 items-start"}>
+              <Text size={"sm"} c={"dimmed"}>
+                {t("daily.result.answer")}
+              </Text>
+              <Text fw={700} fz={"lg"}>
+                {answer.name}
+              </Text>
+              {answer.year && <Text c={"dimmed"}>{answer.year}</Text>}
+              <Button
+                component={Link}
+                href={`/game/${answer.id}`}
+                variant={"default"}
+                size={"compact-sm"}
+                rightSection={<IconExternalLink size={14} />}
+              >
+                {t("daily.result.openGame")}
+              </Button>
+            </Stack>
+          </Group>
         )}
         {community && (
           <Text size={"sm"} c={"dimmed"}>
@@ -72,8 +99,8 @@ const DailyResultPanel = ({ play }: Props) => {
               },
             ]}
           />
+          {nextResetAt && <DailyCountdown nextResetAt={nextResetAt} />}
         </Group>
-        <DailyStatsPanel mode={play.mode} maxAttempts={play.maxAttempts} />
       </Stack>
     </Paper>
   );

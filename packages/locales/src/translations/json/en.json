@@ -542,7 +542,8 @@
       "won": "Solved in {{attempts}}!",
       "lost": "Out of attempts",
       "answer": "The answer was",
-      "community": "{{players}} players solved it, in {{average}} attempts on average"
+      "community": "{{players}} players solved it, in {{average}} attempts on average",
+      "openGame": "Open game page"
     },
     "share": {
       "copied": "Copied to clipboard",

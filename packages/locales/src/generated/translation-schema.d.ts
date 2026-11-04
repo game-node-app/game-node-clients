@@ -547,6 +547,7 @@ export type TranslationSchema = {
       lost: string;
       answer: string;
       community: string;
+      openGame: string;
     };
     share: {
       copied: string;

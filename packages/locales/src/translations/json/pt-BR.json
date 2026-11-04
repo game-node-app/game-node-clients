@@ -542,7 +542,8 @@
       "won": "Acertou em {{attempts}}!",
       "lost": "Acabaram as tentativas",
       "answer": "A resposta era",
-      "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas"
+      "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas",
+      "openGame": "Abrir página do jogo"
     },
     "share": {
       "copied": "Copiado para a área de transferência",
