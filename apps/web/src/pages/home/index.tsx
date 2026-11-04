@@ -7,7 +7,6 @@ import {
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
@@ -25,12 +24,8 @@ import {
   useUserId,
 } from "@repo/ui";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
-import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import type = Activity.type;
 
 const HomePage = () => {
@@ -137,14 +132,6 @@ const HomePage = () => {
               </DetailsCard>
             </SimpleGrid>
             <ReleaseStrip />
-            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-              <GameCollectionTypeView
-                collectionType={collectionType.UPCOMING}
-              />
-              <GameCollectionTypeView
-                collectionType={collectionType.RECENTLY_RELEASED}
-              />
-            </SimpleGrid>
           </Stack>
         )}
       </Stack>

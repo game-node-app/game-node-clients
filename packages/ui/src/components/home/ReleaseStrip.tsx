@@ -22,7 +22,9 @@ import {
 
 // games listed per day column before collapsing into "+N"
 const GAMES_PER_DAY = 3;
-const WEEK_LENGTH = 7;
+// the strip scrolls sideways; 7 columns are visible at once on desktop
+const STRIP_DAYS = 30;
+const VISIBLE_DAYS = 7;
 
 const StripGame = ({ game }: { game: Game }) => {
   const { t } = useTranslation();
@@ -62,7 +64,7 @@ const StripGame = ({ game }: { game: Game }) => {
   );
 };
 
-/** This week's releases, with the month calendar available on demand. */
+/** The next 30 days of releases, with the month calendar available on demand. */
 const ReleaseStrip = () => {
   const { t } = useTranslation();
   const { language } = useI18nContext();
@@ -80,7 +82,7 @@ const ReleaseStrip = () => {
   const today = dayjs();
   const todayKey = today.format(DAY_KEY);
   // every day of the week shows, even without releases, so the timeline stays continuous
-  const days = Array.from({ length: WEEK_LENGTH }, (_, i) =>
+  const days = Array.from({ length: STRIP_DAYS }, (_, i) =>
     today.add(i, "day").format(DAY_KEY),
   );
   const title = t("game.collectionTypes.upcoming");
@@ -106,7 +108,7 @@ const ReleaseStrip = () => {
         </div>
         <div className={classes.stripDays}>
           {query.isLoading &&
-            Array.from({ length: WEEK_LENGTH }, (_, i) => (
+            Array.from({ length: VISIBLE_DAYS }, (_, i) => (
               <Skeleton key={i} className={classes.stripDay} h={180} />
             ))}
           {!query.isLoading &&

@@ -8,7 +8,6 @@ import {
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -16,14 +15,10 @@ import {
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import ActivityType = Activity.type;
-import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -102,12 +97,6 @@ const HomePage = () => {
           </DetailsCard>
         </SimpleGrid>
         <ReleaseStrip />
-        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-          <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
-          <GameCollectionTypeView
-            collectionType={CollectionType.RECENTLY_RELEASED}
-          />
-        </SimpleGrid>
       </Stack>
     </AppPage>
   );
