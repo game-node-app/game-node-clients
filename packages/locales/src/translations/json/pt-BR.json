@@ -496,7 +496,8 @@
       "placeholder": "Busque um jogo",
       "nothingFound": "Nenhum jogo encontrado",
       "commonGenres": "Gêneros em comum",
-      "commonPlatforms": "Plataformas em comum"
+      "commonPlatforms": "Plataformas em comum",
+      "skipHint": "Pular usa uma tentativa"
     },
     "results": {
       "correct": "Correto",
@@ -525,8 +526,8 @@
         "partial": "Relacionada",
         "none": "Diferente"
       },
-      "yearRange": "Lançado entre {{min}} e {{max}}",
-      "reveal": "Dica, {{column}}: {{values}}",
+      "yearRange": "Anos de lançamento",
+      "reveal": "Revelado: {{column}}",
       "hint": "Revelar uma coluna",
       "hintConfirm": "Revelar uma das colunas da resposta custa uma tentativa."
     },
@@ -555,7 +556,11 @@
     },
     "continue": "Continuar",
     "seeResult": "Ver resultado",
-    "todayProgress": "{{solved}} de {{total}} resolvidos hoje"
+    "todayProgress": "{{solved}} de {{total}} resolvidos hoje",
+    "announce": {
+      "guess": "{{name}}: {{result}}",
+      "skipped": "Palpite pulado"
+    }
   },
   "errors": {
     "comeBackSoon": "Volte em breve!",

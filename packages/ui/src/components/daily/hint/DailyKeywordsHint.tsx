@@ -8,8 +8,8 @@ interface Props {
 
 const DailyKeywordsHint = ({ keywords, imageTokens }: Props) => {
   return (
-    <Stack className={"w-full items-center"}>
-      <Group className={"justify-center gap-2"}>
+    <Stack className={"w-full"}>
+      <Group className={"gap-2"}>
         {keywords.map((keyword) => (
           <Badge key={keyword} variant={"light"} color={"gray"} size={"lg"}>
             {keyword}

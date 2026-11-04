@@ -501,6 +501,7 @@ export type TranslationSchema = {
       nothingFound: string;
       commonGenres: string;
       commonPlatforms: string;
+      skipHint: string;
     };
     results: {
       correct: string;
@@ -560,6 +561,10 @@ export type TranslationSchema = {
     continue: string;
     seeResult: string;
     todayProgress: string;
+    announce: {
+      guess: string;
+      skipped: string;
+    };
   };
   errors: {
     comeBackSoon: string;

@@ -1,7 +1,16 @@
-import { useState } from "react";
-import { Button, Group, Image, Select, Text } from "@mantine/core";
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Group,
+  Image,
+  Loader,
+  Select,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { IconSearch } from "@tabler/icons-react";
 import { useSearchGames } from "#@/components/game/hooks/useSearchGames";
 import {
   getSizedImageUrl,
@@ -24,6 +33,15 @@ const DailyGuessInput = ({ guessedIds, onGuess, onSkip, disabled }: Props) => {
     { query: debounced, limit: 10, category: [0] },
     enabled,
   );
+  const inputRef = useRef<HTMLInputElement>(null);
+  const wasDisabled = useRef(false);
+
+  // Submitting disables the input, which drops focus; give it back for the next guess.
+  useEffect(() => {
+    if (wasDisabled.current && !disabled) inputRef.current?.focus();
+    wasDisabled.current = !!disabled;
+  }, [disabled]);
+
   const games = enabled
     ? (searchQuery.data?.data?.items ?? []).filter(
         (game) => game.id != undefined && !guessedIds.includes(game.id),
@@ -33,7 +51,11 @@ const DailyGuessInput = ({ guessedIds, onGuess, onSkip, disabled }: Props) => {
   return (
     <Group className={"w-full flex-nowrap items-end"}>
       <Select
+        ref={inputRef}
+        size={"md"}
         className={"flex-grow"}
+        leftSection={<IconSearch size={18} />}
+        rightSection={disabled ? <Loader size={"xs"} /> : undefined}
         aria-label={t("daily.guess.placeholder")}
         placeholder={t("daily.guess.placeholder")}
         searchable
@@ -83,9 +105,16 @@ const DailyGuessInput = ({ guessedIds, onGuess, onSkip, disabled }: Props) => {
         }}
         disabled={disabled}
       />
-      <Button variant={"default"} onClick={onSkip} disabled={disabled}>
-        {t("actions.skip")}
-      </Button>
+      <Tooltip label={t("daily.guess.skipHint")}>
+        <Button
+          variant={"default"}
+          size={"md"}
+          onClick={onSkip}
+          disabled={disabled}
+        >
+          {t("actions.skip")}
+        </Button>
+      </Tooltip>
     </Group>
   );
 };

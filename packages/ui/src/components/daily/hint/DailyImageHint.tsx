@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Group, Image, Stack, UnstyledButton } from "@mantine/core";
+import {
+  AspectRatio,
+  Group,
+  Image,
+  Skeleton,
+  Stack,
+  UnstyledButton,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { getDailyImageUrl } from "#@/util/getServerStoredImages";
 import { cn } from "#@/util/cn";
@@ -7,39 +14,50 @@ import { cn } from "#@/util/cn";
 interface Props {
   /** From the most pixelated level up; the last one is the current level. */
   tokens: string[];
+  /** Fixed, so the panel keeps its height between levels. */
+  ratio?: number;
 }
 
 /**
  * Remount it with `key={tokens.length}` so a new level is shown when it arrives.
  */
-const DailyImageHint = ({ tokens }: Props) => {
+const DailyImageHint = ({ tokens, ratio = 3 / 4 }: Props) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(tokens.length - 1);
+  const [loaded, setLoaded] = useState<string>();
   if (tokens.length === 0) return null;
+  const token = tokens[selected];
 
   return (
-    <Stack className={"w-full items-center"}>
-      <Image
-        src={getDailyImageUrl(tokens[selected])}
-        alt={t("daily.hint.imageLevel", { level: selected + 1 })}
-        fit={"contain"}
-        mah={420}
-        radius={"sm"}
-      />
+    <Stack className={"w-full items-center p-3 rounded-md bg-paper-2"}>
+      <AspectRatio
+        ratio={ratio}
+        className={"w-full"}
+        maw={ratio < 1 ? 360 : undefined}
+      >
+        <Image
+          src={getDailyImageUrl(token)}
+          alt={t("daily.hint.imageLevel", { level: selected + 1 })}
+          fit={"contain"}
+          radius={"sm"}
+          onLoad={() => setLoaded(token)}
+        />
+        {loaded !== token && <Skeleton className={"!absolute inset-0"} />}
+      </AspectRatio>
       {tokens.length > 1 && (
         <Group className={"justify-center gap-2"}>
-          {tokens.map((token, index) => (
+          {tokens.map((item, index) => (
             <UnstyledButton
-              key={token}
+              key={item}
               onClick={() => setSelected(index)}
               aria-label={t("daily.hint.imageLevel", { level: index + 1 })}
               aria-pressed={index === selected}
               className={cn("rounded-sm border-2 border-transparent", {
-                "border-white": index === selected,
+                "border-brand-5": index === selected,
               })}
             >
               <Image
-                src={getDailyImageUrl(token)}
+                src={getDailyImageUrl(item)}
                 alt={""}
                 w={48}
                 h={48}

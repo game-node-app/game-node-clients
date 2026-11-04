@@ -1,7 +1,8 @@
-import { Button, Group, Stack, Text } from "@mantine/core";
+import { Button, Group, SimpleGrid, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { DailyPlayResponseDto } from "@repo/wrapper/server";
+import { DailyInfoTile } from "#@/components/daily/view/DailyInfoTile";
 import { ActionConfirm } from "#@/components/general/ActionConfirm";
 
 interface Props {
@@ -18,21 +19,23 @@ const DailySpecsSummary = ({ play, onUseHint, disabled }: Props) => {
 
   return (
     <Stack className={"w-full gap-2"}>
-      {yearRange && (
-        <Text>
-          {t("daily.specs.yearRange", {
-            min: yearRange.min,
-            max: yearRange.max,
-          })}
-        </Text>
-      )}
-      {reveal && (
-        <Text>
-          {t("daily.specs.reveal", {
-            column: t(`daily.specs.columns.${reveal.column}`),
-            values: reveal.values.join(", ") || "—",
-          })}
-        </Text>
+      {(yearRange || reveal) && (
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+          {yearRange && (
+            <DailyInfoTile
+              label={t("daily.specs.yearRange")}
+              value={`${yearRange.min} – ${yearRange.max}`}
+            />
+          )}
+          {reveal && (
+            <DailyInfoTile
+              label={t("daily.specs.reveal", {
+                column: t(`daily.specs.columns.${reveal.column}`),
+              })}
+              value={reveal.values.join(", ") || "—"}
+            />
+          )}
+        </SimpleGrid>
       )}
       {canUseHint && (
         <Group>

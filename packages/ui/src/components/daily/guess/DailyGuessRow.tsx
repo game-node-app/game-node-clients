@@ -1,4 +1,4 @@
-import { Badge, Group, Paper, Stack, Text } from "@mantine/core";
+import { Group, Stack, Text, ThemeIcon } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { DailyGuessFeedbackDto } from "@repo/wrapper/server";
 import { DAILY_RESULT_STYLES } from "#@/components/daily/util/dailyModes";
@@ -9,33 +9,38 @@ interface Props {
 
 const DailyGuessRow = ({ feedback }: Props) => {
   const { t } = useTranslation();
+  const {
+    color,
+    icon: ResultIcon,
+    labelKey,
+  } = DAILY_RESULT_STYLES[feedback.result];
   const common = [
     [t("daily.guess.commonGenres"), feedback.commonGenres],
     [t("daily.guess.commonPlatforms"), feedback.commonPlatforms],
   ] as const;
 
   return (
-    <Paper withBorder p={"sm"} className={"w-full"}>
-      <Stack className={"gap-1"}>
-        <Group className={"justify-between flex-nowrap"}>
+    <Group className={"flex-nowrap items-start gap-3 p-3"}>
+      <ThemeIcon variant={"light"} color={color} radius={"xl"} aria-hidden>
+        <ResultIcon size={16} />
+      </ThemeIcon>
+      <Stack className={"gap-0.5 min-w-0"}>
+        <Group className={"gap-2"}>
           <Text fw={600}>{feedback.name ?? t("daily.results.skipped")}</Text>
-          <Badge
-            variant={"light"}
-            color={DAILY_RESULT_STYLES[feedback.result].color}
-          >
-            {t(`daily.results.${feedback.result}`)}
-          </Badge>
+          <Text size={"xs"} fw={600} c={color}>
+            {t(labelKey)}
+          </Text>
         </Group>
         {common.map(
           ([label, values]) =>
             values.length > 0 && (
-              <Text key={label} size={"sm"} c={"dimmed"}>
+              <Text key={label} size={"xs"} c={"dimmed"}>
                 {`${label}: ${values.join(", ")}`}
               </Text>
             ),
         )}
       </Stack>
-    </Paper>
+    </Group>
   );
 };
 

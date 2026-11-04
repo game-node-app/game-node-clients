@@ -496,7 +496,8 @@
       "placeholder": "Search for a game",
       "nothingFound": "No games found",
       "commonGenres": "Genres in common",
-      "commonPlatforms": "Platforms in common"
+      "commonPlatforms": "Platforms in common",
+      "skipHint": "Skipping uses an attempt"
     },
     "results": {
       "correct": "Correct",
@@ -525,8 +526,8 @@
         "partial": "Related",
         "none": "Different"
       },
-      "yearRange": "Released between {{min}} and {{max}}",
-      "reveal": "Hint, {{column}}: {{values}}",
+      "yearRange": "Release years",
+      "reveal": "Revealed: {{column}}",
       "hint": "Reveal a column",
       "hintConfirm": "Revealing one of the answer's columns costs one attempt."
     },
@@ -555,7 +556,11 @@
     },
     "continue": "Continue",
     "seeResult": "See result",
-    "todayProgress": "{{solved}} of {{total}} solved today"
+    "todayProgress": "{{solved}} of {{total}} solved today",
+    "announce": {
+      "guess": "{{name}}: {{result}}",
+      "skipped": "Guess skipped"
+    }
   },
   "errors": {
     "comeBackSoon": "Come back soon!",
