@@ -26,7 +26,7 @@ const DailyGuessRow = ({ feedback }: Props) => {
       </ThemeIcon>
       <Stack className={"gap-0.5 min-w-0"}>
         <Group className={"gap-2"}>
-          <Text fw={600}>{feedback.name ?? t("daily.results.skipped")}</Text>
+          {feedback.name && <Text fw={600}>{feedback.name}</Text>}
           <Text size={"xs"} fw={600} c={color}>
             {t(labelKey)}
           </Text>
