@@ -40,6 +40,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    backHome: string;
     cancel: string;
     clickHere: string;
     close: string;
@@ -462,6 +463,116 @@ export type TranslationSchema = {
   confirm: {
     message: string;
     title: string;
+  };
+  daily: {
+    subtitle: string;
+    fetchError: string;
+    fetchErrorDescription: string;
+    noPuzzle: string;
+    play: string;
+    nextPuzzleIn: string;
+    attempts: string;
+    modes: {
+      cover: {
+        name: string;
+        description: string;
+      };
+      artwork: {
+        name: string;
+        description: string;
+      };
+      keywords: {
+        name: string;
+        description: string;
+      };
+      specs: {
+        name: string;
+        description: string;
+      };
+    };
+    status: {
+      notPlayed: string;
+      inProgress: string;
+      won: string;
+      lost: string;
+    };
+    guess: {
+      placeholder: string;
+      nothingFound: string;
+      commonGenres: string;
+      commonPlatforms: string;
+      skipHint: string;
+    };
+    results: {
+      correct: string;
+      franchise: string;
+      wrong: string;
+      skipped: string;
+    };
+    hint: {
+      imageLevel: string;
+    };
+    specs: {
+      columns: {
+        game: string;
+        platforms: string;
+        genres: string;
+        themes: string;
+        gameModes: string;
+        gameEngines: string;
+        companies: string;
+        perspectives: string;
+        franchise: string;
+        releaseYear: string;
+      };
+      franchise: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      yearRange: string;
+      reveal: string;
+      hint: string;
+      hintConfirm: string;
+      legend: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      newer: string;
+      older: string;
+    };
+    result: {
+      won: string;
+      lost: string;
+      answer: string;
+      community: string;
+      openGame: string;
+    };
+    share: {
+      copied: string;
+      today: string;
+    };
+    stats: {
+      title: string;
+      played: string;
+      winRate: string;
+      currentStreak: string;
+      maxStreak: string;
+      distribution: string;
+    };
+    archive: {
+      link: string;
+      title: string;
+      empty: string;
+    };
+    continue: string;
+    seeResult: string;
+    todayProgress: string;
+    announce: {
+      guess: string;
+      skipped: string;
+    };
   };
   errors: {
     comeBackSoon: string;
@@ -1062,6 +1173,7 @@ export type TranslationSchema = {
     back: string;
     blog: string;
     collections: string;
+    daily: string;
     explore: string;
     feats: string;
     home: string;
