@@ -11,8 +11,8 @@ import { useQueries } from "@tanstack/react-query";
 import { useTranslation } from "@repo/locales";
 import { DailyPuzzleDto, DailyService } from "@repo/wrapper/server";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
 import { useDailyImportOnLogin } from "#@/components/daily/hooks/useDailyImportOnLogin";
 import { useDailyLocalResults } from "#@/components/daily/hooks/useDailyLocalResults";
 import { useDailyToday } from "#@/components/daily/hooks/useDailyToday";
@@ -65,7 +65,14 @@ const DailyHomeView = () => {
 
   if (todayQuery.isLoading) return <CenteredLoading className={"mt-8"} />;
   if (todayQuery.isError || !todayQuery.data) {
-    return <CenteredErrorMessage mt={"2rem"} message={t("daily.fetchError")} />;
+    return (
+      <DailyErrorState
+        onRetry={() => todayQuery.refetch()}
+        retrying={todayQuery.isFetching}
+        backHref={"/home"}
+        backLabel={t("actions.backHome")}
+      />
+    );
   }
 
   return (

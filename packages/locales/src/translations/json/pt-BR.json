@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Voltar ao início",
     "cancel": "Cancelar",
     "clickHere": "Clique aqui",
     "close": "Fechar",
@@ -462,6 +463,7 @@
   "daily": {
     "subtitle": "Adivinhe o jogo a partir de uma dica que fica mais clara a cada erro. Novos desafios todos os dias.",
     "fetchError": "Não foi possível carregar os desafios do dia.",
+    "fetchErrorDescription": "Verifique sua conexão e tente de novo. Se continuar, volte em alguns minutos.",
     "noPuzzle": "Não há desafio para este modo hoje.",
     "play": "Jogar",
     "nextPuzzleIn": "Novos desafios em {{time}}",

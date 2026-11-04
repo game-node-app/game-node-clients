@@ -4,5 +4,6 @@
 
 export * from "./DailyArchiveView";
 export * from "./DailyCountdown";
+export * from "./DailyErrorState";
 export * from "./DailyHomeView";
 export * from "./DailyPlayView";

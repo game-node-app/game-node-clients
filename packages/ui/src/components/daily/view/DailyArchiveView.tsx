@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Group, Paper, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
 import { GameViewPagination } from "#@/components/game/view/GameViewPagination";
 import { useDailyArchive } from "#@/components/daily/hooks/useDailyArchive";
 import { useDailyImportOnLogin } from "#@/components/daily/hooks/useDailyImportOnLogin";
@@ -37,7 +37,12 @@ const DailyArchiveView = ({ mode }: Props) => {
       </Title>
       {archiveQuery.isLoading && <CenteredLoading className={"mt-8"} />}
       {archiveQuery.isError && (
-        <CenteredErrorMessage mt={"2rem"} message={t("daily.fetchError")} />
+        <DailyErrorState
+          onRetry={() => archiveQuery.refetch()}
+          retrying={archiveQuery.isFetching}
+          backHref={"/daily"}
+          backLabel={t("actions.goBack")}
+        />
       )}
       {archiveQuery.isSuccess && puzzles.length === 0 && (
         <Text c={"dimmed"}>{t("daily.archive.empty")}</Text>

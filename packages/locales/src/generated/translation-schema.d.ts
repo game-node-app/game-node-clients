@@ -40,6 +40,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    backHome: string;
     cancel: string;
     clickHere: string;
     close: string;
@@ -52,6 +53,7 @@ export type TranslationSchema = {
     logout: string;
     no: string;
     remove: string;
+    retry: string;
     save: string;
     seeMore: string;
     selectAll: string;
@@ -66,7 +68,6 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
-    retry: string;
   };
   activity: {
     items: {
@@ -466,6 +467,7 @@ export type TranslationSchema = {
   daily: {
     subtitle: string;
     fetchError: string;
+    fetchErrorDescription: string;
     noPuzzle: string;
     play: string;
     nextPuzzleIn: string;

@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Back to home",
     "cancel": "Cancel",
     "clickHere": "Click here",
     "close": "Close",
@@ -462,6 +463,7 @@
   "daily": {
     "subtitle": "Guess the game from a hint that gets clearer with every wrong guess. New puzzles every day.",
     "fetchError": "Couldn't load the daily puzzles.",
+    "fetchErrorDescription": "Check your connection and try again. If it keeps happening, come back in a few minutes.",
     "noPuzzle": "There's no puzzle for this mode today.",
     "play": "Play",
     "nextPuzzleIn": "New puzzles in {{time}}",
