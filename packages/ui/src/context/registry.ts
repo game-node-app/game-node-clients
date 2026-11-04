@@ -46,4 +46,10 @@ export type UIHookRegistry = {
   useIsViewActive?: () => boolean;
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
+  /**
+   * Opens the native share sheet for a text. Resolves to `false` when the user
+   * dismissed it and rejects when sharing isn't available, so callers can fall back.
+   * Defaults to the Web Share API.
+   */
+  shareText?: (text: string) => Promise<boolean>;
 };

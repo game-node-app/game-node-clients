@@ -30,6 +30,9 @@ import RecapStatsPage from "@/pages/recap/recap_stats";
 import JournalAchievementsPage from "@/pages/journal/journal_achievements";
 import { JournalPage } from "@/pages/journal/journal";
 import ConnectionCallbackPage from "@/pages/connection_callback";
+import DailyPage from "@/pages/daily";
+import DailyPlayPage from "@/pages/daily/play";
+import DailyArchivePage from "@/pages/daily/archive";
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -42,6 +45,24 @@ import ConnectionCallbackPage from "@/pages/connection_callback";
  */
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
+    <Route
+      exact
+      key={`${prefix}-daily`}
+      path={`${prefix}/daily`}
+      render={() => <DailyPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-daily-play`}
+      path={`${prefix}/daily/:mode`}
+      render={({ match }) => <DailyPlayPage mode={match.params.mode} />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-daily-archive`}
+      path={`${prefix}/daily/:mode/archive`}
+      render={({ match }) => <DailyArchivePage mode={match.params.mode} />}
+    />,
     <Route
       exact
       key={`${prefix}-mcp`}

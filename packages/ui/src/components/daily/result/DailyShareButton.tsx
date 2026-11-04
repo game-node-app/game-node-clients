@@ -7,6 +7,7 @@ import {
   DailyShareEntry,
 } from "#@/components/daily/util/buildDailyShareText";
 import { createErrorNotification } from "#@/util/createErrorNotification";
+import { useShareText } from "#@/context/UIProvider";
 
 interface Props extends Pick<ButtonProps, "variant"> {
   entries: DailyShareEntry[];
@@ -15,14 +16,14 @@ interface Props extends Pick<ButtonProps, "variant"> {
 
 const DailyShareButton = ({ entries, label, variant }: Props) => {
   const { t } = useTranslation();
+  const shareText = useShareText();
 
   const share = async () => {
     const text = buildDailyShareText(entries, "https://gamenode.app/daily");
     try {
-      if (navigator.share) return await navigator.share({ text });
-    } catch (error) {
-      // the user closed the share sheet; other failures fall back to the clipboard
-      if ((error as Error).name === "AbortError") return;
+      return await shareText(text);
+    } catch {
+      // sharing isn't available here; fall back to the clipboard
     }
     try {
       await navigator.clipboard.writeText(text);

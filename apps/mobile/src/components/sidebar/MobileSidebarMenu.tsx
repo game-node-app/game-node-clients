@@ -31,6 +31,7 @@ import {
     IconMilitaryAward,
     IconNews,
     IconNotebook,
+    IconPuzzle,
     IconRobot,
     IconSettings,
     IconStars,
@@ -148,6 +149,13 @@ const MobileSidebarMenu = () => {
               withBadge
             />
           )}
+          <MobileSidebarButton
+            title={t("navigation.daily")}
+            Icon={IconPuzzle}
+            onClick={closeMenu}
+            href={"/daily"}
+            withBadge
+          />
           <MobileSidebarButton
             title={t("navigation.activity")}
             Icon={IconActivity}
