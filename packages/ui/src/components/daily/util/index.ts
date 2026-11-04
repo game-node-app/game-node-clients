@@ -5,4 +5,5 @@
 export * from "./buildDailyShareText";
 export * from "./computeDailyStats";
 export * from "./dailyModes";
+export * from "./toDailyAttemptSlots";
 export * from "./toDailyLocalResult";

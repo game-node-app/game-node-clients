@@ -1,13 +1,7 @@
 import { Badge, Group, Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { DailyGuessFeedbackDto } from "@repo/wrapper/server";
-
-const DAILY_RESULT_COLORS: Record<DailyGuessFeedbackDto.result, string> = {
-  correct: "teal",
-  franchise: "yellow",
-  wrong: "red",
-  skipped: "gray",
-};
+import { DAILY_RESULT_STYLES } from "#@/components/daily/util/dailyModes";
 
 interface Props {
   feedback: DailyGuessFeedbackDto;
@@ -25,7 +19,7 @@ const DailyGuessRow = ({ feedback }: Props) => {
       <Stack className={"gap-1"}>
         <Group className={"justify-between flex-nowrap"}>
           <Text fw={600}>{feedback.name ?? t("daily.results.skipped")}</Text>
-          <Badge variant={"light"} color={DAILY_RESULT_COLORS[feedback.result]}>
+          <Badge variant={"light"} color={DAILY_RESULT_STYLES[feedback.result].color}>
             {t(`daily.results.${feedback.result}`)}
           </Badge>
         </Group>

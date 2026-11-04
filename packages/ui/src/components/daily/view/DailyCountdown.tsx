@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Text, TextProps } from "@mantine/core";
+import { Badge, BadgeProps } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "@repo/locales";
+import { IconClock } from "@tabler/icons-react";
 
-interface Props extends TextProps {
+interface Props extends BadgeProps {
   nextResetAt: string;
 }
 
@@ -39,11 +40,17 @@ const DailyCountdown = ({ nextResetAt, ...others }: Props) => {
   const seconds = remaining / 1000;
 
   return (
-    <Text c={"dimmed"} {...others}>
+    <Badge
+      variant={"default"}
+      size={"lg"}
+      tt={"none"}
+      leftSection={<IconClock size={14} />}
+      {...others}
+    >
       {t("daily.nextPuzzleIn", {
         time: `${pad(seconds / 3600)}:${pad((seconds % 3600) / 60)}:${pad(seconds % 60)}`,
       })}
-    </Text>
+    </Badge>
   );
 };
 
