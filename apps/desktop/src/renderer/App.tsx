@@ -7,13 +7,8 @@ import {
   IconCloudOff,
 } from "@tabler/icons-react";
 import { authClient } from "@repo/ui/auth";
-import { handleAuthError } from "@repo/ui/auth-errors";
-import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { PROVIDERS, type Provider } from "../shared/bridge";
 import { Library } from "./library/Library";
-import { CACHE_PREFIX, accountStorage } from "./cache";
 import { TopBar } from "./components/TopBar";
 import { StateMessage } from "./components/StateMessage";
 
@@ -109,7 +104,7 @@ export function App() {
         setName(undefined);
         localStorage.removeItem("gamenode-identity");
         for (const key of Object.keys(localStorage))
-          if (key.startsWith(CACHE_PREFIX)) localStorage.removeItem(key);
+          if (key.startsWith("gamenode-library:")) localStorage.removeItem(key);
       } else void restore();
     });
     void restore();
@@ -133,10 +128,7 @@ export function App() {
       </Screen>
     );
   if (signedIn) {
-    if (userId)
-      return (
-        <UserLibrary key={userId} userId={userId} name={name || "Account"} />
-      );
+    if (userId) return <UserLibrary key={userId} name={name || "Account"} />;
     return (
       <Screen>
         <StateMessage
@@ -173,7 +165,7 @@ export function App() {
             Your games, together.
           </Title>
           <Text size="sm" className="text-dimmed-1">
-            Sign in to browse the games you own across your linked stores.
+            Sign in to see the games installed on this PC.
           </Text>
           {error && (
             <Text size="sm" role="alert" className="text-danger">
@@ -225,57 +217,6 @@ function Screen({ children }: { children: ReactNode }) {
   );
 }
 
-function UserLibrary({ userId, name }: { userId: string; name: string }) {
-  const [client] = useState(() => {
-    const onError = (error: unknown) => {
-      handleAuthError(error);
-      if ((error as { status?: number })?.status === 401)
-        void window.gamenode.signOut();
-    };
-    return new QueryClient({
-      queryCache: new QueryCache({ onError }),
-      mutationCache: new MutationCache({ onError }),
-      defaultOptions: {
-        queries: {
-          gcTime: Infinity,
-          retry: 1,
-          refetchOnWindowFocus: true,
-        },
-      },
-    });
-  });
-  const [persister] = useState(() =>
-    createAsyncStoragePersister({
-      storage: accountStorage(localStorage, userId),
-      key: CACHE_PREFIX + userId,
-    }),
-  );
-  useEffect(
-    () =>
-      window.gamenode.onSessionChanged((change) => {
-        if (!change.signedIn) {
-          void client.cancelQueries();
-          client.clear();
-        }
-      }),
-    [client],
-  );
-  return (
-    <PersistQueryClientProvider
-      client={client}
-      persistOptions={{
-        persister,
-        maxAge: 30 * 86400000,
-        dehydrateOptions: {
-          shouldDehydrateQuery: (query) =>
-            query.state.data !== undefined &&
-            (query.queryKey[0] === "owned-library" ||
-              (query.queryKey[0] === "connections" &&
-                query.queryKey[1] === "own")),
-        },
-      }}
-    >
-      <Library userId={userId} user={{ name }} />
-    </PersistQueryClientProvider>
-  );
+function UserLibrary({ name }: { name: string }) {
+  return <Library games={[]} user={{ name }} />;
 }

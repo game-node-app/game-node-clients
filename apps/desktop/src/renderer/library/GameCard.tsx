@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from "react";
-import { Badge, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { Cover } from "../components/Cover";
-import { STORE_NAMES, gameName, type OwnedGame } from "./model";
+import { gameName, type LibraryGame } from "./model";
 
 export function GameCard({
   game,
@@ -9,7 +9,7 @@ export function GameCard({
   focused,
   ...props
 }: HTMLAttributes<HTMLDivElement> & {
-  game: OwnedGame;
+  game: LibraryGame;
   selected: boolean;
   focused: boolean;
 }) {
@@ -23,17 +23,12 @@ export function GameCard({
           game={game}
           className={`rounded-sm ${selected ? "outline outline-2 outline-brand" : ""}`}
         />
-        {game.isInLibrary && (
-          <Badge size="xs" className="absolute left-1 top-1">
-            In GameNode
-          </Badge>
-        )}
       </div>
       <Text truncate size="sm" fw={500}>
         {gameName(game)}
       </Text>
       <Text truncate size="xs" className="text-dimmed-1">
-        {STORE_NAMES[game.source]}
+        {game.source}
       </Text>
     </div>
   );

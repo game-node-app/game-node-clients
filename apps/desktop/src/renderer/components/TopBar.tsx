@@ -1,5 +1,5 @@
 import { Avatar, Menu, UnstyledButton } from "@mantine/core";
-import { IconLogout, IconMenu2, IconPlug } from "@tabler/icons-react";
+import { IconLogout, IconMenu2 } from "@tabler/icons-react";
 
 export interface TopBarUser {
   name: string;
@@ -54,18 +54,6 @@ export function TopBar({
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Label>{user.name}</Menu.Label>
-                <Menu.Item
-                  leftSection={<IconPlug size={16} />}
-                  onClick={() =>
-                    void window.gamenode
-                      .openExternal(
-                        "https://gamenode.app/preferences/connections",
-                      )
-                      .catch(() => onError?.("Could not open connections"))
-                  }
-                >
-                  Manage stores
-                </Menu.Item>
                 <Menu.Item
                   leftSection={<IconLogout size={16} />}
                   onClick={() =>

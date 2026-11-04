@@ -2,8 +2,8 @@
 
 ## Context
 
-- The desktop app exists only as uncommitted work in worktree `t3-c4395aeb` (branch `feature/desktop-client-mvp`),
-  implementing `desktop-shell-owned-library`. Renderer: `App.tsx` (sign-in + session), `library/Library.tsx`
+- The desktop app lives on branch `feat/desktop-client-mvp`, built by `desktop-shell-owned-library` (archived
+  2026-11-04). Renderer: `App.tsx` (sign-in + session), `library/Library.tsx`
   (810 lines: toolbar, sidebar, virtualized grid/list, detail pane, modal), `style.css` (hand-written, uses
   `--mantine-color-dark-*`). Pure logic lives in `library/model.ts`, `layout.ts`, `useOwnedLibrary.ts` with tests.
 - Causes of "ugly", found in code:
@@ -52,8 +52,8 @@
    `srcSet` = `cover_big 1x, cover_big_2x 2x`, `fallbackSrc` = placeholder, `loading="lazy"`. Used by grid cards
    (fixed column width ~ 168 px) and the detail pane. Grid row height is computed from the column width instead of
    the constant 290 so rows never clip.
-   Alternative: reuse `GameFigureImage` — rejected, it wraps a web `Link` and takes the GameNode game object, not the
-   importer item.
+   Alternative: reuse `GameFigureImage` — rejected, it wraps a web `Link` and takes the GameNode game object, not a
+   desktop library item.
 
 4. **App frame: hidden title bar with native overlay controls.** Main window gets `titleBarStyle: "hidden"`,
    `titleBarOverlay: { color: "#262525", symbolColor: "#D9D9D9", height: 48 }`, `backgroundColor: "#161616"`
@@ -61,7 +61,7 @@
    reserved for the OS controls via `env(titlebar-area-width)`. Contents: menu button (Tabler `IconMenu2`) →
    new preload task `showAppMenu()` → main pops the existing application menu at the button
    (`Menu.getApplicationMenu().popup`); logo; "Library" nav item (active underline in brand); avatar `Menu`
-   (Mantine) with username, Manage stores, Sign out. Avatar uses Mantine `Avatar` with initials.
+   (Mantine) with username and Sign out (Manage stores removed by decision 8). Avatar uses Mantine `Avatar` with initials.
    Alternatives: keep the native frame and menu bar above our top bar — rejected, the Figma Desktop frame has no
    menu bar and two stacked bars waste height; fully custom window buttons — rejected, more code and loses Windows
    snap layouts.
@@ -97,6 +97,28 @@
    provider buttons full width `variant="default"` with `IconBrandGoogle` / `IconBrandDiscord` / `IconBrandX`,
    error as danger text inside the card. Session-restoring and retry states use `StateMessage`.
 
+8. **Desktop data only (roadmap step 1, 2026-11-03).** The library keeps every UI piece above but loses its data
+   source; it supersedes the import, store and offline parts of decisions 4 and 6.
+   - Data: `model.ts` defines `LibraryGame = { key, source, name, coverUrl?, year?, gameId? }` (key
+     `<source>:<id>`, as the roadmap's providers use). `Library` takes `games: LibraryGame[]`; in this change
+     `UserLibrary` passes `[]`. Step 2 fills it from `scanLibrary()`. `Filter` becomes `"all" | string` (a source
+     id); `layout.ts` keeps any stored string and the library shows "all" when that source has no games.
+   - Removed: `useOwnedLibrary.ts`; `loadOwnedSource`, `mergeOwnedSources`, `importOwnedGames`, `SOURCES`,
+     `STORE_NAMES` and the importer DTO types in `model.ts` with their tests; the collection modal; Import buttons
+     (toolbar, detail pane); the "In GameNode" badge and in-library/not-imported filters; the menu items Import and
+     Import into collection, `CmdOrCtrl+I`, and the `import`/`import-collection` `MenuAction` values; per-store
+     loader/error/Retry in the sidebar; the no-linked-stores and stores-error states; "Manage stores";
+     `PersistQueryClientProvider`, `cache.ts`/`cache.test.ts` and the two persister dependencies; the
+     `@repo/ui/connections` export (and `@repo/ui/library` if nothing else imports it).
+   - Kept: sign-out still deletes `gamenode-library:*` keys, so caches from earlier tester builds don't linger with
+     another user's game list.
+   - Empty state: `StateMessage` with a Tabler icon, "No games yet", "Games installed on this PC will appear here."
+     No button.
+   - Offline bar: driven by `navigator.onLine` only, text "Offline", no last-synced time.
+   - Sidebar section label "Stores" becomes "Sources", listing one item per source present in `games`.
+   - Alternative: keep the importer path until step 2 ships — rejected, it is the second source of "your games" the
+     roadmap removes, and testers would get used to it.
+
 ## Risks / Trade-offs
 
 - [`titleBarOverlay` on Linux depends on the window manager; some Wayland compositors draw it poorly] → verify on
@@ -111,5 +133,5 @@
 
 ## Migration Plan
 
-Apply in the `feature/desktop-client-mvp` worktree after `desktop-shell-owned-library` is complete. Purely
-presentational; rollback = revert the commit.
+Apply on `feat/desktop-client-mvp`. Decisions 1–7 are presentational. Decision 8 drops data no one outside tester
+builds has (the local importer cache, cleared on sign-out); rollback = revert the commit.

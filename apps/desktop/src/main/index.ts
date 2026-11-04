@@ -43,15 +43,6 @@ function action(action: MenuAction, ids?: string[]) {
 }
 function libraryMenu(ids?: string[]): MenuItemConstructorOptions[] {
   return [
-    {
-      label: "Import",
-      accelerator: "CmdOrCtrl+I",
-      click: () => action("import", ids),
-    },
-    {
-      label: "Import into collection…",
-      click: () => action("import-collection", ids),
-    },
     { label: "Open on GameNode", click: () => action("open", ids) },
     { label: "Copy name", click: () => action("copy", ids) },
     { type: "separator" },

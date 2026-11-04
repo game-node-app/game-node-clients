@@ -1,6 +1,6 @@
 import { AspectRatio, Image } from "@mantine/core";
 import { ImageSize } from "@repo/ui/image";
-import { gameCover, type OwnedGame } from "../library/model";
+import { gameCover, type LibraryGame } from "../library/model";
 
 const PLACEHOLDER = "/img/game_placeholder.jpeg";
 
@@ -11,7 +11,7 @@ export function Cover({
   small,
   className,
 }: {
-  game: OwnedGame;
+  game: LibraryGame;
   alt?: string;
   small?: boolean;
   className?: string;

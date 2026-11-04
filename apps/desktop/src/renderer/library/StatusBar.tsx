@@ -1,35 +1,25 @@
 import { CloseButton } from "@mantine/core";
-import {
-  IconAlertTriangle,
-  IconCheck,
-  IconCloudOff,
-} from "@tabler/icons-react";
+import { IconAlertTriangle, IconCloudOff } from "@tabler/icons-react";
 
 // Single 32 px slot under the top bar, so showing or hiding it only moves the content top.
 export function StatusBar({
   offline,
-  lastSynced,
   error,
-  message,
   onDismiss,
 }: {
   offline: boolean;
-  lastSynced?: number;
   error?: string;
-  message?: string;
   onDismiss: () => void;
 }) {
   const content = error
     ? { icon: IconAlertTriangle, text: error, className: "text-danger" }
-    : message
-      ? { icon: IconCheck, text: message, className: "" }
-      : offline
-        ? {
-            icon: IconCloudOff,
-            text: `Offline · read-only · Last synced: ${lastSynced ? new Date(lastSynced).toLocaleString() : "No cached games"}`,
-            className: "text-dimmed-1",
-          }
-        : undefined;
+    : offline
+      ? {
+          icon: IconCloudOff,
+          text: "Offline",
+          className: "text-dimmed-1",
+        }
+      : undefined;
   if (!content) return null;
   return (
     <div
@@ -38,7 +28,7 @@ export function StatusBar({
     >
       <content.icon size={16} />
       <span className="flex-1 truncate text-sm">{content.text}</span>
-      {(error || message) && (
+      {error && (
         <CloseButton size="sm" aria-label="Dismiss" onClick={onDismiss} />
       )}
     </div>

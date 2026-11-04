@@ -1,9 +1,9 @@
 import type { HTMLAttributes } from "react";
 import { Text } from "@mantine/core";
 import { Cover } from "../components/Cover";
-import { STORE_NAMES, gameName, gameYear, type OwnedGame } from "./model";
+import { gameName, gameYear, type LibraryGame } from "./model";
 
-export const LIST_COLUMNS = "grid-cols-[minmax(100px,1fr)_120px_70px_110px]";
+export const LIST_COLUMNS = "grid-cols-[minmax(100px,1fr)_120px_70px]";
 
 export function GameRow({
   game,
@@ -11,7 +11,7 @@ export function GameRow({
   focused,
   ...props
 }: HTMLAttributes<HTMLDivElement> & {
-  game: OwnedGame;
+  game: LibraryGame;
   selected: boolean;
   focused: boolean;
 }) {
@@ -26,11 +26,8 @@ export function GameRow({
           {gameName(game)}
         </Text>
       </div>
-      <Text size="sm">{STORE_NAMES[game.source]}</Text>
+      <Text size="sm">{game.source}</Text>
       <Text size="sm">{gameYear(game) || "—"}</Text>
-      <Text size="sm" className={game.isInLibrary ? "" : "text-dimmed-1"}>
-        {game.isInLibrary ? "Yes" : "No"}
-      </Text>
     </div>
   );
 }

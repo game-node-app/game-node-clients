@@ -1,21 +1,15 @@
-import { ActionIcon, Badge, Button, Text, Title } from "@mantine/core";
+import { ActionIcon, Text, Title } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { Cover } from "../components/Cover";
-import { STORE_NAMES, gameName, gameYear, type OwnedGame } from "./model";
+import { gameName, gameYear, type LibraryGame } from "./model";
 
 export function DetailPane({
   game,
   width,
-  offline,
-  importing,
-  onImport,
   onClose,
 }: {
-  game: OwnedGame;
+  game: LibraryGame;
   width: number;
-  offline: boolean;
-  importing: boolean;
-  onImport: () => void;
   onClose: () => void;
 }) {
   return (
@@ -38,23 +32,12 @@ export function DetailPane({
         {gameName(game)}
       </Title>
       <Text size="sm" className="text-dimmed-1">
-        {STORE_NAMES[game.source]} · {gameYear(game) || "Year unknown"}
+        {game.source} · {gameYear(game) || "Year unknown"}
       </Text>
       <Text size="sm">
         Matched GameNode game:{" "}
-        {game.game?.name || (game.gameId ? `#${game.gameId}` : "No match yet")}
+        {game.gameId ? `#${game.gameId}` : "No match yet"}
       </Text>
-      <Badge
-        className="self-start"
-        variant={game.isInLibrary ? "filled" : "default"}
-      >
-        {game.isInLibrary ? "In GameNode library" : "Not imported"}
-      </Badge>
-      {!game.isInLibrary && (
-        <Button disabled={offline} loading={importing} onClick={onImport}>
-          Import
-        </Button>
-      )}
     </aside>
   );
 }

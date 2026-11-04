@@ -1,4 +1,4 @@
-import { SOURCES, type Filter, type Sort } from "./model";
+import { type Filter, type Sort } from "./model";
 export interface Layout {
   view: "grid" | "list";
   sort: Sort;
@@ -19,18 +19,12 @@ export function readLayout(value: string | undefined): Layout {
     return {
       view: layout.view === "list" ? "list" : "grid",
       sort: {
-        column: ["name", "store", "year", "in-library"].includes(
-          layout.sort?.column,
-        )
+        column: ["name", "store", "year"].includes(layout.sort?.column)
           ? layout.sort.column
           : "name",
         direction: layout.sort?.direction === "desc" ? "desc" : "asc",
       },
-      filter: ["all", "in-library", "not-imported", ...SOURCES].includes(
-        layout.filter,
-      )
-        ? layout.filter
-        : "all",
+      filter: typeof layout.filter === "string" ? layout.filter : "all",
       sidebar: Number.isFinite(layout.sidebar)
         ? Math.max(150, Math.min(300, layout.sidebar))
         : defaultLayout.sidebar,

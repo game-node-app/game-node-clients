@@ -1,30 +1,20 @@
-import type { ReactNode } from "react";
-import { Loader, Text, Tooltip } from "@mantine/core";
-import { IconAlertTriangle } from "@tabler/icons-react";
-import { STORE_NAMES, type Filter, type Source } from "./model";
-
-interface StoreQuery {
-  isError: boolean;
-  isFetching: boolean;
-  refetch: () => unknown;
-}
+import { Text } from "@mantine/core";
+import type { Filter } from "./model";
 
 export function Sidebar({
   width,
   filter,
   sources,
-  queries,
   counts,
   onFilter,
 }: {
   width: number;
   filter: Filter;
-  sources: readonly Source[];
-  queries: StoreQuery[];
+  sources: readonly string[];
   counts: Record<Filter, number>;
   onFilter: (filter: Filter) => void;
 }) {
-  const item = (value: Filter, label: string, status?: ReactNode) => (
+  const item = (value: Filter, label: string) => (
     <div key={value} className="flex items-center gap-xs">
       <button
         type="button"
@@ -35,7 +25,6 @@ export function Sidebar({
         <span className="truncate">{label}</span>
         <span className="text-xs text-dimmed-1">{counts[value]}</span>
       </button>
-      {status}
     </div>
   );
   return (
@@ -48,32 +37,10 @@ export function Sidebar({
         Library
       </Text>
       {item("all", "All games")}
-      {item("in-library", "In GameNode")}
-      {item("not-imported", "Not imported yet")}
       <Text size="xs" fw={700} className="mt-md px-sm uppercase text-dimmed-1">
-        Stores
+        Sources
       </Text>
-      {sources.map((source, index) => {
-        const query = queries[index];
-        return item(
-          source,
-          STORE_NAMES[source],
-          query?.isError ? (
-            <Tooltip label="Load failed · Retry">
-              <button
-                type="button"
-                aria-label="Load failed · Retry"
-                className="flex size-6 shrink-0 items-center justify-center rounded-sm text-danger hover:bg-paper-4"
-                onClick={() => void query.refetch()}
-              >
-                <IconAlertTriangle size={16} />
-              </button>
-            </Tooltip>
-          ) : query?.isFetching ? (
-            <Loader size={14} aria-label="Syncing" />
-          ) : undefined,
-        );
-      })}
+      {sources.map((source) => item(source, source))}
     </aside>
   );
 }

@@ -4,29 +4,17 @@ import {
   useReducer,
   useRef,
   useState,
+  useSyncExternalStore,
   type MouseEvent,
   type KeyboardEvent,
 } from "react";
 import {
-  Button,
-  Loader,
-  Modal,
-  MultiSelect,
-  Stack,
-  Alert,
-} from "@mantine/core";
-import {
-  IconBuildingStore,
   IconChevronDown,
   IconChevronUp,
-  IconCloudOff,
   IconMoodEmpty,
 } from "@tabler/icons-react";
 import { useLocalStorage, useResizeObserver } from "@mantine/hooks";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { ImporterService } from "@repo/wrapper/server";
-import { useUserLibrary } from "@repo/ui/library";
 import type { MenuAction } from "../../shared/bridge";
 import { TopBar, type TopBarUser } from "../components/TopBar";
 import { StateMessage } from "../components/StateMessage";
@@ -37,28 +25,24 @@ import { Sidebar } from "./Sidebar";
 import { StatusBar } from "./StatusBar";
 import { Toolbar } from "./Toolbar";
 import { defaultLayout, readLayout } from "./layout";
-import { useOwnedLibrary } from "./useOwnedLibrary";
 import {
-  STORE_NAMES,
   filterAndSort,
   filterCounts,
   gameName,
-  importOwnedGames,
   initialSelection,
   selectionReducer,
-  type OwnedGame,
+  type LibraryGame,
   type SortColumn,
 } from "./model";
 
 export function Library({
-  userId,
+  games,
   user,
 }: {
-  userId: string;
+  games: LibraryGame[];
   user: TopBarUser;
 }) {
-  const library = useOwnedLibrary();
-  const client = useQueryClient();
+  const online = useSyncExternalStore(subscribeNetwork, () => navigator.onLine);
   const [layout, setLayout] = useLocalStorage({
     key: "gamenode-layout",
     defaultValue: defaultLayout,
@@ -67,19 +51,20 @@ export function Library({
   const [text, setText] = useState("");
   const [selection, dispatch] = useReducer(selectionReducer, initialSelection);
   const [detailKey, setDetailKey] = useState<string>();
-  const [collectionGames, setCollectionGames] = useState<OwnedGame[] | null>(
-    null,
-  );
-  const [collectionIds, setCollectionIds] = useState<string[]>([]);
-  const [message, setMessage] = useState<string>();
   const [actionError, setActionError] = useState<string>();
-  const collections = useUserLibrary(collectionGames ? userId : undefined);
+  const filter = games.some((game) => game.source === layout.filter)
+    ? layout.filter
+    : "all";
+  const sources = useMemo(
+    () => [...new Set(games.map((game) => game.source))],
+    [games],
+  );
   const visible = useMemo(
-    () => filterAndSort(library.games, layout.filter, text, layout.sort),
-    [library.games, layout.filter, layout.sort, text],
+    () => filterAndSort(games, filter, text, layout.sort),
+    [games, filter, layout.sort, text],
   );
   const ids = useMemo(() => visible.map((game) => game.key), [visible]);
-  const counts = useMemo(() => filterCounts(library.games), [library.games]);
+  const counts = useMemo(() => filterCounts(games), [games]);
   const [viewportRef, rect] = useResizeObserver();
   const scrollRef = useRef<HTMLDivElement>(null);
   const columns =
@@ -95,7 +80,7 @@ export function Library({
     estimateSize: () => (layout.view === "grid" ? gridRow : 48),
     overscan: 4,
   });
-  const detail = library.games.find((game) => game.key === detailKey);
+  const detail = games.find((game) => game.key === detailKey);
   const selectedGames = visible.filter((game) =>
     selection.selected.has(game.key),
   );
@@ -106,43 +91,6 @@ export function Library({
   useEffect(() => {
     virtual.measure();
   }, [virtual, columns, layout.view, gridRow]);
-  const importing = useMutation({
-    mutationFn: ({
-      games,
-      collectionIds,
-    }: {
-      games: OwnedGame[];
-      collectionIds: string[];
-    }) => {
-      if (library.offline) throw new Error("Imports are unavailable offline");
-      return importOwnedGames(
-        games,
-        collectionIds,
-        (source, body) =>
-          ImporterService.importerControllerImportBatchV1(source, body),
-        (source) => {
-          void client.invalidateQueries({
-            queryKey: ["owned-library", source],
-          });
-          void client.invalidateQueries({ queryKey: ["connections", "own"] });
-          void client.invalidateQueries({ queryKey: ["library", userId] });
-          void client.invalidateQueries({ queryKey: ["collection-entries"] });
-        },
-      );
-    },
-    onSuccess(count) {
-      setCollectionGames(null);
-      const message = `${count} game${count === 1 ? "" : "s"} imported into GameNode`;
-      setMessage(message);
-      if (Notification.permission === "granted")
-        new Notification("GameNode", { body: message });
-      else
-        void Notification.requestPermission().then((permission) => {
-          if (permission === "granted")
-            new Notification("GameNode", { body: message });
-        });
-    },
-  });
   function runAction(action: MenuAction, gameIds?: string[]) {
     setActionError(undefined);
     const games = gameIds
@@ -155,32 +103,15 @@ export function Library({
       setDetailKey(selection.focused || ids[0]);
       scrollRef.current?.focus();
     }
-    if (
-      action === "import" &&
-      !library.offline &&
-      !importing.isPending &&
-      games.some((game) => !game.isInLibrary)
-    )
-      importing.mutate({ games, collectionIds: [] });
-    if (
-      action === "import-collection" &&
-      !library.offline &&
-      games.some((game) => !game.isInLibrary)
-    ) {
-      setCollectionIds([]);
-      setCollectionGames(games);
-    }
     if (action === "copy" && games.length)
       void navigator.clipboard
         .writeText(games.map(gameName).join("\n"))
         .catch(() => setActionError("Could not copy game names"));
     if (action === "open")
       for (const game of games)
-        if (game.gameId || game.game?.id)
+        if (game.gameId)
           void window.gamenode
-            .openExternal(
-              `https://gamenode.app/game/${game.gameId || game.game.id}`,
-            )
+            .openExternal(`https://gamenode.app/game/${game.gameId}`)
             .catch(() => setActionError("Could not open game page"));
   }
   useEffect(() =>
@@ -196,7 +127,7 @@ export function Library({
       runAction(action, gameIds);
     }),
   );
-  function choose(game: OwnedGame, event: MouseEvent) {
+  function choose(game: LibraryGame, event: MouseEvent) {
     dispatch({
       type: event.shiftKey
         ? "range"
@@ -240,17 +171,11 @@ export function Library({
       setDetailKey(ids[current]);
     } else if (
       (event.ctrlKey || event.metaKey) &&
-      ["a", "i", "1", "2"].includes(event.key.toLowerCase())
+      ["a", "1", "2"].includes(event.key.toLowerCase())
     ) {
       event.preventDefault();
       runAction(
-        event.key === "1"
-          ? "grid"
-          : event.key === "2"
-            ? "list"
-            : event.key.toLowerCase() === "a"
-              ? "select-all"
-              : "import",
+        event.key === "1" ? "grid" : event.key === "2" ? "list" : "select-all",
       );
     } else if (event.key === "Escape") {
       event.preventDefault();
@@ -268,10 +193,6 @@ export function Library({
       setText(text + event.key);
     }
   }
-  const canImport =
-    !library.offline &&
-    !importing.isPending &&
-    selectedGames.some((game) => !game.isInLibrary);
   function sort(column: SortColumn) {
     setLayout({
       ...layout,
@@ -284,37 +205,19 @@ export function Library({
       },
     });
   }
-  const openConnections = () =>
-    void window.gamenode
-      .openExternal("https://gamenode.app/preferences/connections")
-      .catch(() => setActionError("Could not open connections"));
   return (
     <div className="flex h-full flex-col">
       <TopBar user={user} onError={setActionError} />
       <StatusBar
-        offline={library.offline}
-        lastSynced={library.lastSynced}
-        error={
-          actionError ||
-          (importing.error instanceof Error
-            ? importing.error.message
-            : importing.error
-              ? "Could not import games"
-              : undefined)
-        }
-        message={message}
-        onDismiss={() => {
-          setActionError(undefined);
-          setMessage(undefined);
-          importing.reset();
-        }}
+        offline={!online}
+        error={actionError}
+        onDismiss={() => setActionError(undefined)}
       />
       <div className="flex min-h-0 flex-1">
         <Sidebar
           width={layout.sidebar}
-          filter={layout.filter}
-          sources={library.sources}
-          queries={library.queries}
+          filter={filter}
+          sources={sources}
           counts={counts}
           onFilter={(filter) => setLayout({ ...layout, filter })}
         />
@@ -330,31 +233,15 @@ export function Library({
             text={text}
             selectedCount={selectedGames.length}
             view={layout.view}
-            canImport={canImport}
-            importing={importing.isPending}
             onText={setText}
             onEscape={() => scrollRef.current?.focus()}
             onView={runAction}
-            onImport={() => runAction("import")}
           />
-          {library.connections.isPending ? (
-            <StateMessage loading title="Loading linked stores…" />
-          ) : library.connections.isError && !library.connections.data ? (
+          {!games.length ? (
             <StateMessage
-              icon={IconCloudOff}
-              title="Could not load stores"
-              text="Check your connection and try again."
-              action={{
-                label: "Retry",
-                onClick: () => void library.connections.refetch(),
-              }}
-            />
-          ) : !library.sources.length ? (
-            <StateMessage
-              icon={IconBuildingStore}
-              title="Link your stores"
-              text="Connect a store on GameNode to see the games you own here."
-              action={{ label: "Link a store", onClick: openConnections }}
+              icon={IconMoodEmpty}
+              title="No games yet"
+              text="Games installed on this PC will appear here."
             />
           ) : (
             <>
@@ -367,9 +254,8 @@ export function Library({
                   {(
                     [
                       ["name", "Name"],
-                      ["store", "Store"],
+                      ["store", "Source"],
                       ["year", "Year"],
-                      ["in-library", "In GameNode"],
                     ] as [SortColumn, string][]
                   ).map(([column, label]) => {
                     const active = layout.sort.column === column;
@@ -398,7 +284,7 @@ export function Library({
                 className="min-h-0 flex-1 overflow-auto outline-none"
                 ref={scrollRef}
                 role="listbox"
-                aria-label="Owned games"
+                aria-label="Games"
                 aria-multiselectable="true"
                 aria-activedescendant={
                   selection.focused ? `game-${selection.focused}` : undefined
@@ -410,16 +296,13 @@ export function Library({
                 }}
                 onKeyDown={keyboard}
               >
-                {!visible.length &&
-                  (library.queries.some((query) => query.isFetching) ? (
-                    <StateMessage loading title="Loading owned games…" />
-                  ) : (
-                    <StateMessage
-                      icon={IconMoodEmpty}
-                      title="No games match this filter"
-                      text="Try another filter or clear the search."
-                    />
-                  ))}
+                {!visible.length && (
+                  <StateMessage
+                    icon={IconMoodEmpty}
+                    title="No games match this filter"
+                    text="Try another filter or clear the search."
+                  />
+                )}
                 <div
                   style={{
                     height: virtual.getTotalSize(),
@@ -463,7 +346,7 @@ export function Library({
                               aria-posinset={row.index * columns + index + 1}
                               aria-setsize={visible.length}
                               aria-selected={selection.selected.has(game.key)}
-                              aria-label={`${gameName(game)}, ${STORE_NAMES[game.source]}, ${game.isInLibrary ? "in GameNode" : "not imported"}`}
+                              aria-label={`${gameName(game)}, ${game.source}`}
                               onClick={(event) => choose(game, event)}
                               onDoubleClick={() => setDetailKey(game.key)}
                               onContextMenu={(event) => {
@@ -496,9 +379,6 @@ export function Library({
               </div>
               <div className="truncate px-md py-xs text-xs text-dimmed-1">
                 {visible.length} games
-                {library.lastSynced
-                  ? ` · Last synced ${new Date(library.lastSynced).toLocaleString()}`
-                  : ""}
               </div>
             </>
           )}
@@ -516,60 +396,11 @@ export function Library({
             <DetailPane
               game={detail}
               width={layout.detail}
-              offline={library.offline}
-              importing={importing.isPending}
-              onImport={() =>
-                importing.mutate({ games: [detail], collectionIds: [] })
-              }
               onClose={() => setDetailKey(undefined)}
             />
           </>
         )}
       </div>
-      <Modal
-        opened={!!collectionGames}
-        onClose={() => {
-          if (!importing.isPending) setCollectionGames(null);
-        }}
-        title="Import into collections"
-      >
-        <Stack>
-          {collections.isPending ? (
-            <Loader />
-          ) : collections.isError ? (
-            <Alert color="red">
-              Could not load collections.{" "}
-              <Button onClick={() => void collections.refetch()}>Retry</Button>
-            </Alert>
-          ) : (
-            <MultiSelect
-              label="Collections"
-              data={
-                collections.data?.collections.map((collection) => ({
-                  value: collection.id,
-                  label: collection.name,
-                })) || []
-              }
-              value={collectionIds}
-              onChange={setCollectionIds}
-              searchable
-            />
-          )}
-          {importing.error && (
-            <Alert color="red">Import failed. Please try again.</Alert>
-          )}
-          <Button
-            disabled={!collectionIds.length || library.offline}
-            loading={importing.isPending}
-            onClick={() => {
-              if (collectionGames)
-                importing.mutate({ games: collectionGames, collectionIds });
-            }}
-          >
-            Import selected games
-          </Button>
-        </Stack>
-      </Modal>
     </div>
   );
 }
@@ -631,4 +462,13 @@ function Splitter({
       }}
     />
   );
+}
+
+function subscribeNetwork(listener: () => void) {
+  window.addEventListener("online", listener);
+  window.addEventListener("offline", listener);
+  return () => {
+    window.removeEventListener("online", listener);
+    window.removeEventListener("offline", listener);
+  };
 }

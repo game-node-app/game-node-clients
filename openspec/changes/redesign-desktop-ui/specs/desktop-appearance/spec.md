@@ -31,7 +31,7 @@ The window SHALL show a top bar with the GameNode logo, a Library nav item marke
 
 #### Scenario: User menu
 - **WHEN** the user opens the avatar menu
-- **THEN** it shows their username, "Manage stores" (opens the GameNode connections page in the system browser) and "Sign out"
+- **THEN** it shows their username and "Sign out"
 
 ### Requirement: Game covers keep their proportions
 Game covers SHALL be shown at the GameNode cover ratio (264:354), filling their frame by cropping, never by stretching or letterboxing. The app SHALL request an IGDB cover size large enough for the displayed size on the current screen density. Games without a cover SHALL show the GameNode placeholder cover.
@@ -45,14 +45,14 @@ Game covers SHALL be shown at the GameNode cover ratio (264:354), filling their 
 - **THEN** its card shows the GameNode placeholder cover at the same size as other cards
 
 ### Requirement: Game card states
-Grid cards SHALL show the cover, the game name (one line, truncated) and the source store. Hover SHALL lighten the card, selection SHALL outline the cover in the accent color, keyboard focus SHALL show a visible focus ring, and games already in GameNode SHALL carry an "In GameNode" badge on the cover.
+Grid cards SHALL show the cover, the game name (one line, truncated) and the game source. Hover SHALL lighten the card, selection SHALL outline the cover in the accent color, and keyboard focus SHALL show a visible focus ring.
 
-#### Scenario: Selected and in-library
-- **WHEN** the user selects a game that is already in their GameNode library
-- **THEN** its cover is outlined in `#F15025` and shows the "In GameNode" badge
+#### Scenario: Selected
+- **WHEN** the user selects a game
+- **THEN** its cover is outlined in `#F15025`
 
 ### Requirement: Library sidebar follows the design system
-The library filter sidebar SHALL follow the design-system expanded sidebar: uppercase dimmed section labels ("Library", "Stores"), one menu item per filter with its count right-aligned, the active item highlighted on a raised paper surface, and per-store sync or error state shown inline on the store's item.
+The library filter sidebar SHALL follow the design-system expanded sidebar: uppercase dimmed section labels ("Library", "Sources"), one menu item per filter with its count right-aligned, and the active item highlighted on a raised paper surface.
 
 #### Scenario: Active filter
 - **WHEN** the user picks the Steam filter
@@ -61,13 +61,13 @@ The library filter sidebar SHALL follow the design-system expanded sidebar: uppe
 ### Requirement: Screen states follow the design system
 Loading, empty, error and offline states SHALL be centered on the content area with a Tabler icon, a short title, dimmed explanation and at most one primary action button. Errors SHALL use the design-system danger style, and the offline notice SHALL be a single slim bar under the top bar.
 
-#### Scenario: No linked stores
-- **WHEN** a signed-in user with no linked stores opens the library
-- **THEN** the content area shows an icon, a title, a dimmed explanation and one primary "Link a store" button
+#### Scenario: Empty library
+- **WHEN** a signed-in user opens the library and no game has been found
+- **THEN** the content area shows an icon, a title and a dimmed explanation that installed games will appear here
 
 #### Scenario: Offline
-- **WHEN** the app shows cached data without network
-- **THEN** a slim bar under the top bar says the library is offline and read-only with the last sync time, and no other layout shifts
+- **WHEN** the device goes offline while the library is open
+- **THEN** a slim bar under the top bar says the app is offline, and no other layout shifts
 
 ### Requirement: Sign-in screen follows the design system
 The sign-in screen SHALL show the GameNode logo, a heading, a dimmed explanation and one full-width button per provider with the provider's icon, centered on a paper card over the app background. Errors SHALL appear inside the card above the buttons.

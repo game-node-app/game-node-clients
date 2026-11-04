@@ -1,6 +1,6 @@
 # GameNode Desktop
 
-Owned games from linked Steam, PlayStation, Xbox, Epic Games and Nintendo accounts.
+A desktop launcher for games installed on this PC. The library is empty until local game scanning is implemented.
 Desktop owns its screens; the shared packages provide the theme, auth client and API data.
 
 ## Development
@@ -30,9 +30,8 @@ Electron invocation. AppImage users may need desktop integration for protocol li
 
 Sessions use Electron safeStorage in `userData/session.enc`. On Linux, use an OS
 keyring; the `basic_text` fallback logs a warning and provides weak protection.
-Library caches are scoped to the verified account and removed on sign-out.
-Offline access shows cached games read-only with the last sync time. Sign-in and
-initial synchronization require a connection.
+The verified account name is available offline. Sign-out also clears library caches
+left by older tester builds. Initial sign-in requires a connection.
 
 ## Checks and packaging
 
@@ -50,7 +49,7 @@ brand theme, then closes it. Build outputs are `out/`; unsigned NSIS installers
 and AppImages go into `dist/`. CI builds both platforms as workflow artifacts;
 desktop does not publish releases yet. Windows testers may see SmartScreen.
 
-For the isolated 5,001-game fixture test (no real account required):
+For the isolated empty-library fixture test (no real account required):
 
 ```sh
 VITE_PUBLIC_SERVER_URL=http://127.0.0.1:5199 yarn workspace desktop build

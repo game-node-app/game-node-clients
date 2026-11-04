@@ -1,114 +1,37 @@
 import { getSizedImageUrl, type ImageSize } from "@repo/ui/image";
-import type {
-  ImporterResponseItemDto,
-  ImporterPaginatedResponseDto,
-  ImporterBatchImportRequestDto,
-  ImporterBatchImportResponseDto,
-} from "@repo/wrapper/server";
 
-export const SOURCES = [
-  "steam",
-  "psn",
-  "xbox",
-  "epicgames",
-  "nintendo",
-] as const;
-export type Source = (typeof SOURCES)[number];
-export const STORE_NAMES: Record<Source, string> = {
-  steam: "Steam",
-  psn: "PlayStation",
-  xbox: "Xbox",
-  epicgames: "Epic Games",
-  nintendo: "Nintendo",
-};
-export type OwnedGame = ImporterResponseItemDto & {
+export interface LibraryGame {
   key: string;
-  source: Source;
-};
-export type Filter = "all" | "in-library" | "not-imported" | Source;
-export type SortColumn = "name" | "store" | "year" | "in-library";
+  source: string;
+  name: string;
+  coverUrl?: string;
+  year?: number;
+  gameId?: number;
+}
+export type Filter = "all" | string;
+export type SortColumn = "name" | "store" | "year";
 export interface Sort {
   column: SortColumn;
   direction: "asc" | "desc";
 }
-export const gameName = (game: OwnedGame) =>
-  game.name || game.game?.name || game.uid;
-export const gameYear = (game: OwnedGame) =>
-  game.year ||
-  (game.game?.firstReleaseDate
-    ? new Date(game.game.firstReleaseDate).getUTCFullYear()
-    : 0);
-export const gameCover = (game: OwnedGame, size: ImageSize) => {
-  const url = getSizedImageUrl(game.game?.cover?.url, size);
-  // getSizedImageUrl returns an error string for non-IGDB URLs
+export const gameName = (game: LibraryGame) => game.name;
+export const gameYear = (game: LibraryGame) => game.year || 0;
+export const gameCover = (game: LibraryGame, size: ImageSize) => {
+  const url = getSizedImageUrl(game.coverUrl, size);
+  // getSizedImageUrl returns an error string for non-IGDB URLs.
   return url?.startsWith("https://") ? url : undefined;
 };
-
-export async function loadOwnedSource(
-  source: Source,
-  page: (
-    source: Source,
-    exclude: boolean,
-    limit: number,
-    offset: number,
-  ) => Promise<ImporterPaginatedResponseDto>,
-  signal?: AbortSignal,
-) {
-  const games = new Map<string, OwnedGame>();
-  let offset = 0;
-  let hasNextPage = true;
-  while (hasNextPage) {
-    signal?.throwIfAborted();
-    const result = await page(source, false, 500, offset);
-    signal?.throwIfAborted();
-    for (const game of result.data) {
-      const key = `${source}:${game.id}`;
-      games.set(key, { ...game, key, source });
-    }
-    hasNextPage = result.pagination.hasNextPage;
-    if (!hasNextPage) break;
-    if (!result.data.length)
-      throw new Error("Store returned an empty page with more games pending");
-    offset += result.data.length;
-  }
-  return [...games.values()];
+export function matchesFilter(game: LibraryGame, filter: Filter) {
+  return filter === "all" || game.source === filter;
 }
-export function mergeOwnedSources(sources: (OwnedGame[] | undefined)[]) {
-  return [
-    ...new Map(
-      sources.flatMap((games) => games || []).map((game) => [game.key, game]),
-    ).values(),
-  ];
-}
-export function matchesFilter(game: OwnedGame, filter: Filter) {
-  return (
-    filter === "all" ||
-    (filter === "in-library"
-      ? game.isInLibrary
-      : filter === "not-imported"
-        ? !game.isInLibrary
-        : game.source === filter)
-  );
-}
-export function filterCounts(games: OwnedGame[]) {
-  const counts: Record<Filter, number> = {
-    all: games.length,
-    "in-library": 0,
-    "not-imported": 0,
-    steam: 0,
-    psn: 0,
-    xbox: 0,
-    epicgames: 0,
-    nintendo: 0,
-  };
-  for (const game of games) {
-    counts[game.source]++;
-    counts[game.isInLibrary ? "in-library" : "not-imported"]++;
-  }
+export function filterCounts(games: LibraryGame[]) {
+  const counts: Record<string, number> = { all: games.length };
+  for (const game of games)
+    counts[game.source] = (counts[game.source] || 0) + 1;
   return counts;
 }
 export function filterAndSort(
-  games: OwnedGame[],
+  games: LibraryGame[],
   filter: Filter,
   text: string,
   sort: Sort,
@@ -127,15 +50,10 @@ export function filterAndSort(
           comparison = gameName(a).localeCompare(gameName(b));
           break;
         case "store":
-          comparison = STORE_NAMES[a.source].localeCompare(
-            STORE_NAMES[b.source],
-          );
+          comparison = a.source.localeCompare(b.source);
           break;
         case "year":
           comparison = gameYear(a) - gameYear(b);
-          break;
-        case "in-library":
-          comparison = Number(a.isInLibrary) - Number(b.isInLibrary);
           break;
       }
       return (
@@ -195,30 +113,4 @@ export function selectionReducer(
     selected.delete(action.id);
   else selected.add(action.id);
   return { focused: action.id, anchor: action.id, selected };
-}
-
-export async function importOwnedGames(
-  games: OwnedGame[],
-  collectionIds: string[],
-  send: (
-    source: Source,
-    body: ImporterBatchImportRequestDto,
-  ) => Promise<ImporterBatchImportResponseDto>,
-  completed: (source: Source) => void,
-) {
-  let imported = 0;
-  for (const source of SOURCES) {
-    const externalGameIds = [
-      ...new Set(
-        games
-          .filter((game) => game.source === source && !game.isInLibrary)
-          .map((game) => game.id),
-      ),
-    ];
-    if (!externalGameIds.length) continue;
-    const result = await send(source, { externalGameIds, collectionIds });
-    imported += result.importedCount;
-    completed(source);
-  }
-  return imported;
 }

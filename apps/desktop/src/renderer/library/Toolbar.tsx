@@ -5,22 +5,16 @@ export function Toolbar({
   text,
   selectedCount,
   view,
-  canImport,
-  importing,
   onText,
   onEscape,
   onView,
-  onImport,
 }: {
   text: string;
   selectedCount: number;
   view: "grid" | "list";
-  canImport: boolean;
-  importing: boolean;
   onText: (text: string) => void;
   onEscape: () => void;
   onView: (view: "grid" | "list") => void;
-  onImport: () => void;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-sm p-sm">
@@ -63,9 +57,6 @@ export function Toolbar({
             {value === "grid" ? "Grid" : "List"}
           </Button>
         ))}
-        <Button disabled={!canImport} loading={importing} onClick={onImport}>
-          Import
-        </Button>
       </div>
     </div>
   );
