@@ -69,6 +69,7 @@ export type { DailyArchiveResponseDto } from './models/DailyArchiveResponseDto';
 export type { DailyCommunityDto } from './models/DailyCommunityDto';
 export { DailyFranchiseColumnDto } from './models/DailyFranchiseColumnDto';
 export { DailyGuessFeedbackDto } from './models/DailyGuessFeedbackDto';
+export type { DailyGuessTraitsDto } from './models/DailyGuessTraitsDto';
 export type { DailyHintsDto } from './models/DailyHintsDto';
 export type { DailyImportResultItemDto } from './models/DailyImportResultItemDto';
 export type { DailyImportResultsRequestDto } from './models/DailyImportResultsRequestDto';
