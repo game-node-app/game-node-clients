@@ -18,8 +18,8 @@ import {
 } from "#@/components/game/util/getSizedImageUrl";
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
-// shortcut: only the next 100 upcoming games are placed; page the request if this month's later days look empty
-const CALENDAR_LIMIT = 100;
+// shortcut: only the next 1000 upcoming games are placed; page the request if this month's later days look empty
+const CALENDAR_LIMIT = 1000;
 export const DAY_KEY = "YYYY-MM-DD";
 
 /** Every day shown for `month`: whole weeks, Sunday first, so the grid starts and ends on full rows. */
