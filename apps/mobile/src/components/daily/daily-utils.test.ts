@@ -1,7 +1,9 @@
 import { expect, it } from "vitest";
-import { computeDailyStats } from "../../../../../packages/ui/src/components/daily/util/computeDailyStats";
+import {
+  computeDailyPlayStreak,
+  computeDailyStats,
+} from "../../../../../packages/ui/src/components/daily/util/computeDailyStats";
 import { buildDailyShareText } from "../../../../../packages/ui/src/components/daily/util/buildDailyShareText";
-import { toDailyAttemptSlots } from "../../../../../packages/ui/src/components/daily/util/toDailyAttemptSlots";
 import { toDailyLocalResult } from "../../../../../packages/ui/src/components/daily/util/toDailyLocalResult";
 import type { DailyPlayResponseDto } from "../../../../../packages/wrapper/src/server";
 
@@ -121,19 +123,52 @@ it("keeps a guest's first finish time when a finished puzzle is replayed", () =>
   expect(replayed.finishedAt).toBe("2026-11-03T12:00:00Z");
 });
 
-it("lays out the attempts like the share text: guesses, then the hint, then unused", () => {
-  expect(toDailyAttemptSlots([], 3)).toEqual(["empty", "empty", "empty"]);
-  expect(toDailyAttemptSlots(["skipped", "franchise", "correct"], 6)).toEqual([
-    "skipped",
-    "franchise",
-    "correct",
-    "empty",
-    "empty",
-    "empty",
-  ]);
-  expect(toDailyAttemptSlots(["wrong"], 3, true)).toEqual([
-    "wrong",
-    "hint",
-    "empty",
-  ]);
+it("counts the days in a row with any mode finished on its day", () => {
+  const finished = (date: string, status = "lost") => ({
+    date,
+    status,
+    attempts: 6,
+    finishedAt: `${date}T15:00:00Z`,
+  });
+  // Several modes on one day count once; a loss still counts as playing.
+  expect(
+    computeDailyPlayStreak(
+      [
+        finished("2026-11-02"),
+        finished("2026-11-03", "won"),
+        finished("2026-11-03"),
+      ],
+      "2026-11-04",
+    ),
+  ).toBe(2);
+  // Today still open doesn't break it, a missed day does.
+  expect(
+    computeDailyPlayStreak(
+      [
+        finished("2026-11-01"),
+        finished("2026-11-03"),
+        {
+          date: "2026-11-04",
+          status: "in_progress",
+          attempts: 1,
+          finishedAt: null,
+        },
+      ],
+      "2026-11-04",
+    ),
+  ).toBe(1);
+  // Archive plays finished on a later day don't count.
+  expect(
+    computeDailyPlayStreak(
+      [
+        {
+          date: "2026-11-03",
+          status: "won",
+          attempts: 1,
+          finishedAt: "2026-11-05T15:00:00Z",
+        },
+      ],
+      "2026-11-04",
+    ),
+  ).toBe(0);
 });

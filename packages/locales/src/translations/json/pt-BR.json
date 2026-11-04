@@ -461,29 +461,27 @@
     "title": "Confirmar ação"
   },
   "daily": {
-    "subtitle": "Adivinhe o jogo a partir de uma dica que fica mais clara a cada erro. Novos desafios todos os dias.",
+    "subtitle": "Quatro jogos novos todo dia. Mesmo puzzle para todo mundo.",
     "fetchError": "Não foi possível carregar os desafios do dia.",
     "fetchErrorDescription": "Verifique sua conexão e tente de novo. Se continuar, volte em alguns minutos.",
     "noPuzzle": "Não há desafio para este modo hoje.",
-    "play": "Jogar",
-    "nextPuzzleIn": "Novos desafios em {{time}}",
-    "attempts": "{{attempts}} de {{max}} tentativas usadas",
+    "nextPuzzleIn": "Próximo em {{time}}",
     "modes": {
       "cover": {
         "name": "Capa",
-        "description": "Adivinhe o jogo pela capa, que fica mais nítida a cada tentativa."
+        "description": "Adivinhe o jogo pela capa pixelada"
       },
       "artwork": {
         "name": "Artwork",
-        "description": "Adivinhe o jogo por uma arte que fica mais nítida a cada tentativa."
+        "description": "Adivinhe pela arte oficial, sem o logo"
       },
       "keywords": {
         "name": "Palavras-chave",
-        "description": "Adivinhe o jogo pelas palavras-chave. Novas pistas aparecem a cada tentativa."
+        "description": "Palavras-chave que aparecem a cada erro"
       },
       "specs": {
         "name": "Especificações",
-        "description": "Chute qualquer jogo e compare plataformas, gêneros, empresas e mais com a resposta."
+        "description": "Compare gênero, ano, plataforma e mais"
       }
     },
     "status": {
@@ -493,11 +491,10 @@
       "lost": "Não acertou"
     },
     "guess": {
-      "placeholder": "Busque um jogo",
+      "placeholder": "Digite o nome de um jogo…",
       "nothingFound": "Nenhum jogo encontrado",
-      "commonGenres": "Gêneros em comum",
-      "commonPlatforms": "Plataformas em comum",
-      "skipHint": "Pular usa uma tentativa"
+      "skip": "Pular · custa 1 vida",
+      "submit": "Chutar"
     },
     "results": {
       "correct": "Correto",
@@ -506,7 +503,10 @@
       "skipped": "Pulado"
     },
     "hint": {
-      "imageLevel": "Nível {{level}}"
+      "imageLevel": "Nível {{level}}",
+      "titleHidden": "TÍTULO OCULTO",
+      "level": "Nível de pixelização",
+      "levelOf": "{{level}} de {{total}}"
     },
     "specs": {
       "columns": {
@@ -539,35 +539,88 @@
       "older": "A resposta é mais antiga"
     },
     "result": {
-      "won": "Acertou em {{attempts}}!",
       "lost": "Acabaram as tentativas",
-      "answer": "A resposta era",
-      "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas",
-      "openGame": "Abrir página do jogo"
+      "openGame": "Ver no GameNode",
+      "wonOf": "Acertou em {{attempts}} de {{max}}",
+      "addToCollection": "Adicionar à coleção",
+      "nextMode": "Próximo modo: {{mode}}",
+      "backToHub": "Voltar ao Daily"
     },
     "share": {
       "copied": "Copiado para a área de transferência",
-      "today": "Compartilhar hoje"
+      "title": "Seu resultado",
+      "copy": "Copiar resultado"
     },
     "stats": {
-      "title": "Suas estatísticas",
       "played": "Jogados",
-      "winRate": "% de acertos",
-      "currentStreak": "Sequência atual",
-      "maxStreak": "Melhor sequência",
-      "distribution": "Distribuição de tentativas"
+      "winRate": "Acertos",
+      "currentStreak": "Sequência",
+      "maxStreak": "Melhor",
+      "distribution": "Distribuição de tentativas",
+      "titleMode": "Estatísticas · {{mode}}",
+      "lostNote": "X = não acertou ({{lost}} de {{played}} jogos)"
     },
     "archive": {
       "link": "Arquivo",
       "title": "Arquivo: {{mode}}",
       "empty": "Ainda não há desafios anteriores."
     },
-    "continue": "Continuar",
-    "seeResult": "Ver resultado",
-    "todayProgress": "{{solved}} de {{total}} resolvidos hoje",
     "announce": {
       "guess": "{{name}}: {{result}}",
       "skipped": "Palpite pulado"
+    },
+    "dailyNumber": "Diário #{{number}}",
+    "lives": "{{count}} vidas restantes",
+    "livesOne": "{{count}} vida restante",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "franchise": {
+      "match": "Mesma saga",
+      "partial": "Mesma franquia, outra saga",
+      "none": "Franquia diferente"
+    },
+    "hub": {
+      "attempts": "{{max}} tentativas",
+      "won": "Acertou em {{attempts}} · ver resultado",
+      "lost": "Não acertou · ver resultado",
+      "inProgress": "Em andamento · {{attempts}} de {{max}}",
+      "streak": "Sequência de {{count}} dias · {{finished}} de {{total}} hoje",
+      "streakOne": "Sequência de {{count}} dia · {{finished}} de {{total}} hoje",
+      "today": "{{finished}} de {{total}} hoje"
+    },
+    "howToPlay": {
+      "button": "Como jogar",
+      "title": "Como jogar",
+      "intro": "Descubra o jogo do dia. A cada erro ou Pular, a dica fica mais clara e você perde uma vida.",
+      "franchiseTitle": "Franquia do seu palpite",
+      "franchise": {
+        "none": "Nada a ver com a resposta",
+        "partial": "Mesma franquia, jogo de outra saga",
+        "match": "Mesma saga, você está perto"
+      },
+      "traitsTitle": "Gênero, tema e plataforma",
+      "livesTitle": "Vidas",
+      "footer": "Specs tem 10 vidas. Um novo puzzle às 00:00 (BRT).",
+      "confirm": "Entendi, jogar"
+    },
+    "nextIn": "Próximo em",
+    "stepper": {
+      "won": "Acertou",
+      "playing": "Jogando",
+      "toPlay": "A jogar"
+    },
+    "statsLine": {
+      "solved": "{{count}} acertaram",
+      "average": "média {{average}} tentativas"
+    },
+    "keywords": {
+      "clue": "Pista {{number}}",
+      "newClue": "Nova pista · erro {{attempt}}",
+      "locked": "Mais {{count}} pistas, uma a cada erro",
+      "filtered": "Palavras com o nome da franquia são filtradas"
     }
   },
   "errors": {

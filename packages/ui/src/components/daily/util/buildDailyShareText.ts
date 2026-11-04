@@ -23,6 +23,8 @@ const toLine = ({
 };
 
 /** One line per mode, so the same text works for one mode or the whole day. */
+export const DAILY_SHARE_URL = "https://gamenode.app/daily";
+
 export function buildDailyShareText(entries: DailyShareEntry[], url: string) {
   return ["🕹️ GameNode Daily", ...entries.map(toLine), url].join("\n");
 }

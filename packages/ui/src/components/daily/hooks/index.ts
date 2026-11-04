@@ -8,3 +8,4 @@ export * from "./useDailyLocalResults";
 export * from "./useDailyPlay";
 export * from "./useDailyResults";
 export * from "./useDailyToday";
+export * from "./useDailyTodayResults";

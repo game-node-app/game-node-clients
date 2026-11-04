@@ -1,11 +1,11 @@
 import {
   type Icon,
+  IconAdjustments,
   IconCheck,
-  IconListDetails,
   IconMinus,
   IconPalette,
   IconPhoto,
-  IconTags,
+  IconTag,
   IconTilde,
   IconX,
 } from "@tabler/icons-react";
@@ -22,8 +22,24 @@ export const isDailyMode = (value: unknown): value is DailyMode =>
 export const DAILY_MODE_ICONS: Record<DailyMode, typeof IconPhoto> = {
   cover: IconPhoto,
   artwork: IconPalette,
-  keywords: IconTags,
-  specs: IconListDetails,
+  keywords: IconTag,
+  specs: IconAdjustments,
+};
+
+export type DailyDifficulty = "easy" | "medium" | "hard";
+
+/** Fixed per mode by design, not computed from the day's results. */
+export const DAILY_MODE_DIFFICULTY: Record<DailyMode, DailyDifficulty> = {
+  cover: "easy",
+  artwork: "medium",
+  keywords: "medium",
+  specs: "hard",
+};
+
+export const DAILY_DIFFICULTY_COLORS: Record<DailyDifficulty, string> = {
+  easy: "teal",
+  medium: "yellow",
+  hard: "red",
 };
 
 /** The one color/icon/label source for guess results, spec matches and puzzle statuses. */

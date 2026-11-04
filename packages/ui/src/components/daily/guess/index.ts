@@ -5,4 +5,5 @@
 export * from "./DailyGuessInput";
 export * from "./DailyGuessList";
 export * from "./DailyGuessRow";
+export * from "./DailyMatchTag";
 export * from "./DailySpecsTable";
