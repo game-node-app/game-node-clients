@@ -534,6 +534,13 @@ export type TranslationSchema = {
       reveal: string;
       hint: string;
       hintConfirm: string;
+      legend: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      newer: string;
+      older: string;
     };
     result: {
       won: string;

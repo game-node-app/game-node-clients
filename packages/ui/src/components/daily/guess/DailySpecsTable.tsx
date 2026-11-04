@@ -1,9 +1,14 @@
-import { Table, Text } from "@mantine/core";
+import { Group, Paper, SimpleGrid, Table, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 import {
   DailyGuessFeedbackDto,
   DailySpecsColumnsDto,
 } from "@repo/wrapper/server";
+import {
+  DAILY_MATCH_KIND,
+  DAILY_RESULT_STYLES,
+} from "#@/components/daily/util/dailyModes";
 
 const SET_COLUMNS = [
   "platforms",
@@ -15,74 +20,183 @@ const SET_COLUMNS = [
   "perspectives",
 ] as const;
 
-const MATCH_COLORS = { match: "teal", partial: "yellow", none: "red" };
-const YEAR_ARROWS = { higher: " ↑", lower: " ↓" };
+type Match = keyof typeof DAILY_MATCH_KIND;
 
-const matchStyle = (match: keyof typeof MATCH_COLORS) => ({
-  backgroundColor: `var(--mantine-color-${MATCH_COLORS[match]}-light)`,
-  color: `var(--mantine-color-${MATCH_COLORS[match]}-light-color)`,
-});
+interface Cell {
+  key: string;
+  label: string;
+  text: string;
+  match: Match;
+  /** Year only: where the answer is compared to the guess. */
+  direction?: "higher" | "lower";
+}
+
+const matchStyle = (match: Match) => {
+  const { color } = DAILY_RESULT_STYLES[DAILY_MATCH_KIND[match]];
+  return {
+    backgroundColor: `var(--mantine-color-${color}-light)`,
+    color: `var(--mantine-color-${color}-light-color)`,
+  };
+};
+
+const stickyStyle = {
+  position: "sticky",
+  left: 0,
+  zIndex: 1,
+  backgroundColor: "var(--mantine-color-body)",
+} as const;
+
+interface MatchContentProps {
+  cell: Cell;
+}
+
+/** Icon plus text, so the result doesn't rely on the cell color alone. */
+const MatchContent = ({ cell }: MatchContentProps) => {
+  const { t } = useTranslation();
+  const { icon: MatchIcon } = DAILY_RESULT_STYLES[DAILY_MATCH_KIND[cell.match]];
+  const Arrow = cell.direction === "higher" ? IconArrowUp : IconArrowDown;
+
+  return (
+    <Group className={"gap-1.5 flex-nowrap"}>
+      <MatchIcon size={14} className={"shrink-0"} aria-hidden />
+      <span className={"sr-only"}>{t(`daily.specs.legend.${cell.match}`)}</span>
+      <Text span size={"sm"}>
+        {cell.text}
+      </Text>
+      {cell.direction && (
+        <Arrow
+          size={14}
+          className={"shrink-0"}
+          role={"img"}
+          aria-label={t(
+            cell.direction === "higher"
+              ? "daily.specs.newer"
+              : "daily.specs.older",
+          )}
+        />
+      )}
+    </Group>
+  );
+};
 
 interface Props {
+  /** Newest first. */
   feedback: DailyGuessFeedbackDto[];
 }
 
 const DailySpecsTable = ({ feedback }: Props) => {
   const { t } = useTranslation();
 
-  const renderCells = (columns: DailySpecsColumnsDto) => {
-    const year = columns.releaseYear;
-    const arrow = year.direction ? YEAR_ARROWS[year.direction] : "";
-    return (
-      <>
-        {SET_COLUMNS.map((column) => (
-          <Table.Td key={column} style={matchStyle(columns[column].match)}>
-            {columns[column].values.join(", ") || "—"}
-          </Table.Td>
-        ))}
-        <Table.Td style={matchStyle(columns.franchise.match)}>
-          {t(`daily.specs.franchise.${columns.franchise.match}`)}
-        </Table.Td>
-        <Table.Td style={matchStyle(year.match)}>
-          {`${year.value ?? "—"}${arrow}`}
-        </Table.Td>
-      </>
-    );
-  };
+  const toCells = (columns: DailySpecsColumnsDto): Cell[] => [
+    ...SET_COLUMNS.map((column) => ({
+      key: column,
+      label: t(`daily.specs.columns.${column}`),
+      text: columns[column].values.join(", ") || "—",
+      match: columns[column].match as Match,
+    })),
+    {
+      key: "franchise",
+      label: t("daily.specs.columns.franchise"),
+      text: t(`daily.specs.franchise.${columns.franchise.match}`),
+      match: columns.franchise.match as Match,
+    },
+    {
+      key: "releaseYear",
+      label: t("daily.specs.columns.releaseYear"),
+      text: `${columns.releaseYear.value ?? "—"}`,
+      match: columns.releaseYear.match as Match,
+      direction: columns.releaseYear.direction ?? undefined,
+    },
+  ];
+
+  const name = (item: DailyGuessFeedbackDto) =>
+    item.name ?? t("daily.results.skipped");
 
   return (
-    <Table.ScrollContainer minWidth={960}>
-      <Table withTableBorder withColumnBorders verticalSpacing={"xs"}>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>{t("daily.specs.columns.game")}</Table.Th>
-            {SET_COLUMNS.map((column) => (
-              <Table.Th key={column}>
-                {t(`daily.specs.columns.${column}`)}
+    <>
+      <Group className={"gap-4"}>
+        {(Object.keys(DAILY_MATCH_KIND) as Match[]).map((match) => {
+          const { color, icon: LegendIcon } =
+            DAILY_RESULT_STYLES[DAILY_MATCH_KIND[match]];
+          return (
+            <Group key={match} className={"gap-1.5"}>
+              <LegendIcon
+                size={14}
+                color={`var(--mantine-color-${color}-filled)`}
+              />
+              <Text size={"xs"} c={"dimmed"}>
+                {t(`daily.specs.legend.${match}`)}
+              </Text>
+            </Group>
+          );
+        })}
+      </Group>
+
+      <Table.ScrollContainer minWidth={960} className={"hidden sm:block"}>
+        <Table withTableBorder withColumnBorders verticalSpacing={"xs"}>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th style={stickyStyle}>
+                {t("daily.specs.columns.game")}
               </Table.Th>
-            ))}
-            <Table.Th>{t("daily.specs.columns.franchise")}</Table.Th>
-            <Table.Th>{t("daily.specs.columns.releaseYear")}</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {feedback.map((item, index) => (
-            <Table.Tr key={index}>
-              <Table.Td>
-                <Text size={"sm"} fw={600}>
-                  {item.name ?? t("daily.results.skipped")}
-                </Text>
-              </Table.Td>
-              {item.columns ? (
-                renderCells(item.columns)
-              ) : (
-                <Table.Td colSpan={SET_COLUMNS.length + 2} />
-              )}
+              {SET_COLUMNS.map((column) => (
+                <Table.Th key={column}>
+                  {t(`daily.specs.columns.${column}`)}
+                </Table.Th>
+              ))}
+              <Table.Th>{t("daily.specs.columns.franchise")}</Table.Th>
+              <Table.Th>{t("daily.specs.columns.releaseYear")}</Table.Th>
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>
+          </Table.Thead>
+          <Table.Tbody>
+            {feedback.map((item, index) => (
+              <Table.Tr key={index}>
+                <Table.Td style={stickyStyle}>
+                  <Text size={"sm"} fw={600}>
+                    {name(item)}
+                  </Text>
+                </Table.Td>
+                {item.columns ? (
+                  toCells(item.columns).map((cell) => (
+                    <Table.Td key={cell.key} style={matchStyle(cell.match)}>
+                      <MatchContent cell={cell} />
+                    </Table.Td>
+                  ))
+                ) : (
+                  <Table.Td colSpan={SET_COLUMNS.length + 2} />
+                )}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </Table.ScrollContainer>
+
+      <div className={"flex flex-col gap-3 sm:hidden"}>
+        {feedback.map((item, index) => (
+          <Paper key={index} withBorder p={"sm"}>
+            <Text fw={600} mb={item.columns ? "xs" : 0}>
+              {name(item)}
+            </Text>
+            {item.columns && (
+              <SimpleGrid cols={2} spacing={"xs"}>
+                {toCells(item.columns).map((cell) => (
+                  <div
+                    key={cell.key}
+                    className={"rounded-sm p-2 min-w-0"}
+                    style={matchStyle(cell.match)}
+                  >
+                    <Text size={"xs"} className={"opacity-80"}>
+                      {cell.label}
+                    </Text>
+                    <MatchContent cell={cell} />
+                  </div>
+                ))}
+              </SimpleGrid>
+            )}
+          </Paper>
+        ))}
+      </div>
+    </>
   );
 };
 

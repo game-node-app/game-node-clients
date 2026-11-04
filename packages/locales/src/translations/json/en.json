@@ -529,7 +529,14 @@
       "yearRange": "Release years",
       "reveal": "Revealed: {{column}}",
       "hint": "Reveal a column",
-      "hintConfirm": "Revealing one of the answer's columns costs one attempt."
+      "hintConfirm": "Revealing one of the answer's columns costs one attempt.",
+      "legend": {
+        "match": "Match",
+        "partial": "Partial",
+        "none": "No match"
+      },
+      "newer": "Answer is newer",
+      "older": "Answer is older"
     },
     "result": {
       "won": "Solved in {{attempts}}!",

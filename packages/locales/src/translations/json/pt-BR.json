@@ -529,7 +529,14 @@
       "yearRange": "Anos de lançamento",
       "reveal": "Revelado: {{column}}",
       "hint": "Revelar uma coluna",
-      "hintConfirm": "Revelar uma das colunas da resposta custa uma tentativa."
+      "hintConfirm": "Revelar uma das colunas da resposta custa uma tentativa.",
+      "legend": {
+        "match": "Igual",
+        "partial": "Parcial",
+        "none": "Diferente"
+      },
+      "newer": "A resposta é mais nova",
+      "older": "A resposta é mais antiga"
     },
     "result": {
       "won": "Acertou em {{attempts}}!",
