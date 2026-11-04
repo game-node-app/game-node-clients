@@ -57,8 +57,8 @@ const MatchContent = ({ cell }: MatchContentProps) => {
   const Arrow = cell.direction === "higher" ? IconArrowUp : IconArrowDown;
 
   return (
-    <Group className={"gap-1.5 flex-nowrap"}>
-      <MatchIcon size={14} className={"shrink-0"} aria-hidden />
+    <Group className={"gap-1.5 flex-nowrap items-start"}>
+      <MatchIcon size={14} className={"shrink-0 mt-1"} aria-hidden />
       <span className={"sr-only"}>{t(`daily.specs.legend.${cell.match}`)}</span>
       <Text span size={"sm"}>
         {cell.text}
@@ -66,7 +66,7 @@ const MatchContent = ({ cell }: MatchContentProps) => {
       {cell.direction && (
         <Arrow
           size={14}
-          className={"shrink-0"}
+          className={"shrink-0 mt-1"}
           role={"img"}
           aria-label={t(
             cell.direction === "higher"
@@ -132,7 +132,7 @@ const DailySpecsTable = ({ feedback }: Props) => {
         })}
       </Group>
 
-      <Table.ScrollContainer minWidth={960} className={"hidden sm:block"}>
+      <Table.ScrollContainer minWidth={960} className={"hidden md:block"}>
         <Table withTableBorder withColumnBorders verticalSpacing={"xs"}>
           <Table.Thead>
             <Table.Tr>
@@ -171,7 +171,7 @@ const DailySpecsTable = ({ feedback }: Props) => {
         </Table>
       </Table.ScrollContainer>
 
-      <div className={"flex flex-col gap-3 sm:hidden"}>
+      <div className={"flex flex-col gap-3 md:hidden"}>
         {feedback.map((item, index) => (
           <Paper key={index} withBorder p={"sm"}>
             <Text fw={600} mb={item.columns ? "xs" : 0}>

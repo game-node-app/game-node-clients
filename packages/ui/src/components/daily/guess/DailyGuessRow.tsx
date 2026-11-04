@@ -24,7 +24,7 @@ const DailyGuessRow = ({ feedback }: Props) => {
       <ThemeIcon variant={"light"} color={color} radius={"xl"} aria-hidden>
         <ResultIcon size={16} />
       </ThemeIcon>
-      <Stack className={"gap-0.5 min-w-0"}>
+      <Stack className={"gap-0.5 min-w-0 min-h-7 justify-center"}>
         <Group className={"gap-2"}>
           {feedback.name && <Text fw={600}>{feedback.name}</Text>}
           <Text size={"xs"} fw={600} c={color}>

@@ -21,6 +21,7 @@ import { DailyAttemptsTrack } from "#@/components/daily/result/DailyAttemptsTrac
 import { DailyShareButton } from "#@/components/daily/result/DailyShareButton";
 import { DailyStatusBadge } from "#@/components/daily/result/DailyStatusBadge";
 import { DailyCountdown } from "#@/components/daily/view/DailyCountdown";
+import { startedDailyResult } from "#@/components/daily/util/startedDailyResult";
 import { DAILY_MODE_ICONS } from "#@/components/daily/util/dailyModes";
 import { cn } from "#@/util/cn";
 import { Link } from "#@/util/link";
@@ -36,7 +37,7 @@ const DailyHomeView = () => {
 
   const puzzles = todayQuery.data?.puzzles ?? [];
   const resultOf = (puzzle: DailyPuzzleDto) =>
-    puzzle.result ?? local[puzzle.id];
+    startedDailyResult(puzzle.result ?? local[puzzle.id]);
   const started = puzzles.filter((puzzle) => resultOf(puzzle) != undefined);
   const finished = started.filter(
     (puzzle) => resultOf(puzzle)?.status !== "in_progress",

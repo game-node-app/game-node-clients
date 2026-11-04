@@ -1,5 +1,6 @@
 import { Badge } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconPlayerPlay } from "@tabler/icons-react";
 import {
   DAILY_RESULT_STYLES,
   DAILY_STATUS_KIND,
@@ -11,10 +12,12 @@ interface Props {
 
 const DailyStatusBadge = ({ result }: Props) => {
   const { t } = useTranslation();
-  const { color, icon: StatusIcon } =
+  const { color, icon: ResultIcon } =
     DAILY_RESULT_STYLES[
       (result && DAILY_STATUS_KIND[result.status]) || "skipped"
     ];
+  const StatusIcon =
+    result?.status === "in_progress" ? IconPlayerPlay : ResultIcon;
   const label = !result
     ? t("daily.status.notPlayed")
     : result.status === "won"
@@ -27,7 +30,7 @@ const DailyStatusBadge = ({ result }: Props) => {
     <Badge
       variant={"light"}
       color={color}
-      leftSection={result && <StatusIcon size={12} />}
+      leftSection={<StatusIcon size={12} />}
     >
       {label}
     </Badge>

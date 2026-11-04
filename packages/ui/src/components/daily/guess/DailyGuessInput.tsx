@@ -109,6 +109,7 @@ const DailyGuessInput = ({ guessedIds, onGuess, onSkip, disabled }: Props) => {
         <Button
           variant={"default"}
           size={"md"}
+          className={"shrink-0"}
           onClick={onSkip}
           disabled={disabled}
         >

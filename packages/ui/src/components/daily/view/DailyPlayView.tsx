@@ -109,6 +109,7 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
           component={Link}
           href={`/daily/${data.mode}/archive`}
           variant={"subtle"}
+          size={"compact-sm"}
         >
           {t("daily.archive.link")}
         </Button>
@@ -184,8 +185,17 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
         </Stack>
       ) : (
         <Grid gap={"lg"}>
-          <Grid.Col span={{ base: 12, lg: 7 }}>{hint}</Grid.Col>
-          <Grid.Col span={{ base: 12, lg: 5 }}>
+          {/* Once finished, the result goes above the (large) hint on small screens. */}
+          <Grid.Col
+            span={{ base: 12, lg: 7 }}
+            order={{ base: inProgress ? 1 : 2, lg: 1 }}
+          >
+            {hint}
+          </Grid.Col>
+          <Grid.Col
+            span={{ base: 12, lg: 5 }}
+            order={{ base: inProgress ? 2 : 1, lg: 2 }}
+          >
             <Stack>
               {input}
               {stats}

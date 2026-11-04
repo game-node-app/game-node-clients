@@ -52,8 +52,8 @@ const DailyImageHint = ({ tokens, ratio = 3 / 4 }: Props) => {
               onClick={() => setSelected(index)}
               aria-label={t("daily.hint.imageLevel", { level: index + 1 })}
               aria-pressed={index === selected}
-              className={cn("rounded-sm border-2 border-transparent", {
-                "border-brand-5": index === selected,
+              className={cn("rounded-sm opacity-60", {
+                "ring-2 ring-brand-5 opacity-100": index === selected,
               })}
             >
               <Image
