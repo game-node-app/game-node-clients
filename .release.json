@@ -1,0 +1,28 @@
+{
+  "source": "e937b25296adb2db6e52ef3096d41e80193bb476",
+  "changesets": [
+    ".changeset/release-strip-30-days.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6e5734858dbe5a53d6708a19bfce59817a9b1bf7...e937b25296adb2db6e52ef3096d41e80193bb476]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/e937b25296adb2db6e52ef3096d41e80193bb476",
+  "versions": {
+    "web": "1.11.2",
+    "mobile": "1.10.2"
+  }
+}
