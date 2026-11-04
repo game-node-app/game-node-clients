@@ -3,7 +3,6 @@ import {
   AspectRatio,
   Group,
   Image,
-  Skeleton,
   Stack,
   UnstyledButton,
 } from "@mantine/core";
@@ -24,7 +23,6 @@ interface Props {
 const DailyImageHint = ({ tokens, ratio = 3 / 4 }: Props) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(tokens.length - 1);
-  const [loaded, setLoaded] = useState<string>();
   if (tokens.length === 0) return null;
   const token = tokens[selected];
 
@@ -40,9 +38,7 @@ const DailyImageHint = ({ tokens, ratio = 3 / 4 }: Props) => {
           alt={t("daily.hint.imageLevel", { level: selected + 1 })}
           fit={"contain"}
           radius={"sm"}
-          onLoad={() => setLoaded(token)}
         />
-        {loaded !== token && <Skeleton className={"!absolute inset-0"} />}
       </AspectRatio>
       {tokens.length > 1 && (
         <Group className={"justify-center gap-2"}>
