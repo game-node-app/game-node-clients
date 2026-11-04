@@ -1,6 +1,7 @@
 import { expect, it } from "vitest";
 import { computeDailyStats } from "../../../../../packages/ui/src/components/daily/util/computeDailyStats";
 import { buildDailyShareText } from "../../../../../packages/ui/src/components/daily/util/buildDailyShareText";
+import { toDailyAttemptSlots } from "../../../../../packages/ui/src/components/daily/util/toDailyAttemptSlots";
 import { toDailyLocalResult } from "../../../../../packages/ui/src/components/daily/util/toDailyLocalResult";
 import type { DailyPlayResponseDto } from "../../../../../packages/wrapper/src/server";
 
@@ -118,4 +119,21 @@ it("keeps a guest's first finish time when a finished puzzle is replayed", () =>
     finishedAt: "2026-11-03T12:00:00Z",
   });
   expect(replayed.finishedAt).toBe("2026-11-03T12:00:00Z");
+});
+
+it("lays out the attempts like the share text: guesses, then the hint, then unused", () => {
+  expect(toDailyAttemptSlots([], 3)).toEqual(["empty", "empty", "empty"]);
+  expect(toDailyAttemptSlots(["skipped", "franchise", "correct"], 6)).toEqual([
+    "skipped",
+    "franchise",
+    "correct",
+    "empty",
+    "empty",
+    "empty",
+  ]);
+  expect(toDailyAttemptSlots(["wrong"], 3, true)).toEqual([
+    "wrong",
+    "hint",
+    "empty",
+  ]);
 });
