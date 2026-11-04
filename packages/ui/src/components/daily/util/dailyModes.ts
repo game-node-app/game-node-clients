@@ -19,7 +19,7 @@ export const DAILY_MODES: DailyMode[] = Object.values(DailyPuzzleDto.mode);
 export const isDailyMode = (value: unknown): value is DailyMode =>
   DAILY_MODES.includes(value as DailyMode);
 
-export const DAILY_MODE_ICONS: Record<DailyMode, Icon> = {
+export const DAILY_MODE_ICONS: Record<DailyMode, typeof IconPhoto> = {
   cover: IconPhoto,
   artwork: IconPalette,
   keywords: IconTags,
@@ -33,14 +33,22 @@ export const DAILY_RESULT_STYLES: Record<
   DailyResultKind,
   { color: string; icon: Icon; labelKey: `daily.results.${DailyResultKind}` }
 > = {
-  correct: { color: "teal", icon: IconCheck, labelKey: "daily.results.correct" },
+  correct: {
+    color: "teal",
+    icon: IconCheck,
+    labelKey: "daily.results.correct",
+  },
   franchise: {
     color: "yellow",
     icon: IconTilde,
     labelKey: "daily.results.franchise",
   },
   wrong: { color: "red", icon: IconX, labelKey: "daily.results.wrong" },
-  skipped: { color: "gray", icon: IconMinus, labelKey: "daily.results.skipped" },
+  skipped: {
+    color: "gray",
+    icon: IconMinus,
+    labelKey: "daily.results.skipped",
+  },
 };
 
 /** Specs column matches reuse the guess result styles. */

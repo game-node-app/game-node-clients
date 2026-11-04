@@ -21,6 +21,8 @@ export function toDailyAttemptSlots(
       : "wrong",
   );
   if (hintUsed) used.push("hint");
-  const unused = Array<DailyAttemptSlot>(Math.max(maxAttempts - used.length, 0));
+  const unused = Array<DailyAttemptSlot>(
+    Math.max(maxAttempts - used.length, 0),
+  );
   return [...used, ...unused.fill("empty")];
 }

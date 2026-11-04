@@ -537,8 +537,8 @@
       "community": "{{players}} players solved it, in {{average}} attempts on average"
     },
     "share": {
-      "all": "Share all from today",
-      "copied": "Copied to clipboard"
+      "copied": "Copied to clipboard",
+      "today": "Share today"
     },
     "stats": {
       "title": "Your stats",
@@ -552,7 +552,10 @@
       "link": "Archive",
       "title": "{{mode}} archive",
       "empty": "No past puzzles yet."
-    }
+    },
+    "continue": "Continue",
+    "seeResult": "See result",
+    "todayProgress": "{{solved}} of {{total}} solved today"
   },
   "errors": {
     "comeBackSoon": "Come back soon!",

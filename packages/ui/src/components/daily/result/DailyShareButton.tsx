@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, ButtonProps } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
@@ -8,12 +8,12 @@ import {
 } from "#@/components/daily/util/buildDailyShareText";
 import { createErrorNotification } from "#@/util/createErrorNotification";
 
-interface Props {
+interface Props extends Pick<ButtonProps, "variant"> {
   entries: DailyShareEntry[];
   label?: string;
 }
 
-const DailyShareButton = ({ entries, label }: Props) => {
+const DailyShareButton = ({ entries, label, variant }: Props) => {
   const { t } = useTranslation();
 
   const share = async () => {
@@ -33,7 +33,11 @@ const DailyShareButton = ({ entries, label }: Props) => {
   };
 
   return (
-    <Button leftSection={<IconShare size={18} />} onClick={share}>
+    <Button
+      variant={variant}
+      leftSection={<IconShare size={18} />}
+      onClick={share}
+    >
       {label ?? t("actions.share")}
     </Button>
   );

@@ -19,7 +19,10 @@ const DailyGuessRow = ({ feedback }: Props) => {
       <Stack className={"gap-1"}>
         <Group className={"justify-between flex-nowrap"}>
           <Text fw={600}>{feedback.name ?? t("daily.results.skipped")}</Text>
-          <Badge variant={"light"} color={DAILY_RESULT_STYLES[feedback.result].color}>
+          <Badge
+            variant={"light"}
+            color={DAILY_RESULT_STYLES[feedback.result].color}
+          >
             {t(`daily.results.${feedback.result}`)}
           </Badge>
         </Group>

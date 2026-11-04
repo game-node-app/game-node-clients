@@ -53,7 +53,6 @@ export type TranslationSchema = {
     logout: string;
     no: string;
     remove: string;
-    retry: string;
     save: string;
     seeMore: string;
     selectAll: string;
@@ -68,6 +67,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    retry: string;
   };
   activity: {
     items: {
@@ -541,8 +541,8 @@ export type TranslationSchema = {
       community: string;
     };
     share: {
-      all: string;
       copied: string;
+      today: string;
     };
     stats: {
       title: string;
@@ -557,6 +557,9 @@ export type TranslationSchema = {
       title: string;
       empty: string;
     };
+    continue: string;
+    seeResult: string;
+    todayProgress: string;
   };
   errors: {
     comeBackSoon: string;

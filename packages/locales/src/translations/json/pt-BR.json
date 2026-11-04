@@ -537,8 +537,8 @@
       "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas"
     },
     "share": {
-      "all": "Compartilhar todos de hoje",
-      "copied": "Copiado para a área de transferência"
+      "copied": "Copiado para a área de transferência",
+      "today": "Compartilhar hoje"
     },
     "stats": {
       "title": "Suas estatísticas",
@@ -552,7 +552,10 @@
       "link": "Arquivo",
       "title": "Arquivo: {{mode}}",
       "empty": "Ainda não há desafios anteriores."
-    }
+    },
+    "continue": "Continuar",
+    "seeResult": "Ver resultado",
+    "todayProgress": "{{solved}} de {{total}} resolvidos hoje"
   },
   "errors": {
     "comeBackSoon": "Volte em breve!",
