@@ -36,6 +36,8 @@ const matchStyle = (match: Match) => {
   return {
     backgroundColor: `var(--mantine-color-${color}-light)`,
     color: `var(--mantine-color-${color}-light-color)`,
+    border: `1px solid var(--mantine-color-${color}-filled)`,
+    borderRadius: 6,
   };
 };
 
@@ -43,7 +45,8 @@ const stickyStyle = {
   position: "sticky",
   left: 0,
   zIndex: 1,
-  backgroundColor: "var(--mantine-color-body)",
+  backgroundColor: "var(--mantine-color-dark-6)",
+  borderRadius: 6,
 } as const;
 
 interface MatchContentProps {
@@ -133,7 +136,15 @@ const DailySpecsTable = ({ feedback }: Props) => {
       </Group>
 
       <Table.ScrollContainer minWidth={960} className={"hidden md:block"}>
-        <Table withTableBorder withColumnBorders verticalSpacing={"xs"}>
+        {/* Separate, rounded cells like the comparison grid in the design. */}
+        <Table
+          verticalSpacing={"xs"}
+          withRowBorders={false}
+          style={{ borderCollapse: "separate", borderSpacing: 6 }}
+          className={
+            "rounded-[12px] border border-[var(--mantine-color-default-border)] !bg-paper-8"
+          }
+        >
           <Table.Thead>
             <Table.Tr>
               <Table.Th style={stickyStyle}>

@@ -3,6 +3,7 @@ import { Badge, BadgeProps } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "@repo/locales";
 import { IconClock } from "@tabler/icons-react";
+import { cn } from "#@/util/cn";
 
 interface Props extends BadgeProps {
   nextResetAt: string;
@@ -10,8 +11,11 @@ interface Props extends BadgeProps {
 
 const pad = (value: number) => `${Math.floor(value)}`.padStart(2, "0");
 
-const DailyCountdown = ({ nextResetAt, ...others }: Props) => {
-  const { t } = useTranslation();
+/**
+ * "HH:MM:SS" until the reset, ticking every second; undefined until mounted.
+ * Refreshes the Daily queries once the time is up.
+ */
+export function useDailyCountdown(nextResetAt: string) {
   const queryClient = useQueryClient();
   const [now, setNow] = useState<number>();
 
@@ -36,20 +40,27 @@ const DailyCountdown = ({ nextResetAt, ...others }: Props) => {
     return () => clearInterval(interval);
   }, [expired, queryClient]);
 
-  if (remaining == undefined) return null;
+  if (remaining == undefined) return undefined;
   const seconds = remaining / 1000;
+  return `${pad(seconds / 3600)}:${pad((seconds % 3600) / 60)}:${pad(seconds % 60)}`;
+}
+
+const DailyCountdown = ({ nextResetAt, className, ...others }: Props) => {
+  const { t } = useTranslation();
+  const time = useDailyCountdown(nextResetAt);
+  if (time == undefined) return null;
 
   return (
     <Badge
       variant={"default"}
       size={"lg"}
       tt={"none"}
+      // Fixed-width digits keep the badge from jittering every second.
+      className={cn("tabular-nums", className)}
       leftSection={<IconClock size={14} />}
       {...others}
     >
-      {t("daily.nextPuzzleIn", {
-        time: `${pad(seconds / 3600)}:${pad((seconds % 3600) / 60)}:${pad(seconds % 60)}`,
-      })}
+      {t("daily.nextPuzzleIn", { time })}
     </Badge>
   );
 };

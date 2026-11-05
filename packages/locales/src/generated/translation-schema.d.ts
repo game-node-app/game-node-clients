@@ -469,9 +469,7 @@ export type TranslationSchema = {
     fetchError: string;
     fetchErrorDescription: string;
     noPuzzle: string;
-    play: string;
     nextPuzzleIn: string;
-    attempts: string;
     modes: {
       cover: {
         name: string;
@@ -499,6 +497,8 @@ export type TranslationSchema = {
     guess: {
       placeholder: string;
       nothingFound: string;
+      skip: string;
+      submit: string;
       commonGenres: string;
       commonPlatforms: string;
       skipHint: string;
@@ -511,6 +511,9 @@ export type TranslationSchema = {
     };
     hint: {
       imageLevel: string;
+      titleHidden: string;
+      level: string;
+      levelOf: string;
     };
     specs: {
       columns: {
@@ -543,36 +546,99 @@ export type TranslationSchema = {
       older: string;
     };
     result: {
-      won: string;
       lost: string;
+      openGame: string;
+      wonOf: string;
+      addToCollection: string;
+      nextMode: string;
+      backToHub: string;
+      won: string;
       answer: string;
       community: string;
-      openGame: string;
     };
     share: {
       copied: string;
+      title: string;
+      copy: string;
       today: string;
     };
     stats: {
-      title: string;
       played: string;
       winRate: string;
       currentStreak: string;
       maxStreak: string;
       distribution: string;
+      titleMode: string;
+      lostNote: string;
+      title: string;
     };
     archive: {
       link: string;
       title: string;
       empty: string;
     };
-    continue: string;
-    seeResult: string;
-    todayProgress: string;
     announce: {
       guess: string;
       skipped: string;
     };
+    dailyNumber: string;
+    lives: string;
+    livesOne: string;
+    difficulty: {
+      easy: string;
+      medium: string;
+      hard: string;
+    };
+    franchise: {
+      match: string;
+      partial: string;
+      none: string;
+    };
+    hub: {
+      attempts: string;
+      won: string;
+      lost: string;
+      inProgress: string;
+      streak: string;
+      streakOne: string;
+      today: string;
+    };
+    howToPlay: {
+      button: string;
+      title: string;
+      intro: string;
+      franchiseTitle: string;
+      franchise: {
+        none: string;
+        partial: string;
+        match: string;
+      };
+      traitsTitle: string;
+      livesTitle: string;
+      footer: string;
+      confirm: string;
+    };
+    nextIn: string;
+    stepper: {
+      won: string;
+      playing: string;
+      toPlay: string;
+    };
+    statsLine: {
+      solved: string;
+      average: string;
+    };
+    keywords: {
+      clue: string;
+      newClue: string;
+      locked: string;
+      filtered: string;
+    };
+    play: string;
+    attempts: string;
+    continue: string;
+    seeResult: string;
+    todayProgress: string;
   };
   errors: {
     comeBackSoon: string;

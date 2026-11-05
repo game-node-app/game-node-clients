@@ -4,8 +4,8 @@
 
 export * from "./McpAppTile";
 export * from "./McpCodeField";
-export * from "./McpConnectedApps";
 export * from "./McpConnectTabs";
+export * from "./McpConnectedApps";
 export * from "./McpCopyButton";
-export * from "./mcpPermissions";
 export * from "./McpRevokeDialog";
+export * from "./mcpPermissions";

@@ -6,5 +6,8 @@ export * from "./DailyArchiveView";
 export * from "./DailyCountdown";
 export * from "./DailyErrorState";
 export * from "./DailyHomeView";
+export * from "./DailyHowToPlayModal";
 export * from "./DailyInfoTile";
+export * from "./DailyModeStepper";
+export * from "./DailyPlayHeader";
 export * from "./DailyPlayView";

@@ -4,22 +4,23 @@ import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
 import {
   buildDailyShareText,
+  DAILY_SHARE_URL,
   DailyShareEntry,
 } from "#@/components/daily/util/buildDailyShareText";
 import { createErrorNotification } from "#@/util/createErrorNotification";
 import { useShareText } from "#@/context/UIProvider";
 
-interface Props extends Pick<ButtonProps, "variant"> {
+interface Props extends Pick<ButtonProps, "variant" | "fullWidth"> {
   entries: DailyShareEntry[];
   label?: string;
 }
 
-const DailyShareButton = ({ entries, label, variant }: Props) => {
+const DailyShareButton = ({ entries, label, variant, fullWidth }: Props) => {
   const { t } = useTranslation();
   const shareText = useShareText();
 
   const share = async () => {
-    const text = buildDailyShareText(entries, "https://gamenode.app/daily");
+    const text = buildDailyShareText(entries, DAILY_SHARE_URL);
     try {
       return await shareText(text);
     } catch {
@@ -36,6 +37,7 @@ const DailyShareButton = ({ entries, label, variant }: Props) => {
   return (
     <Button
       variant={variant}
+      fullWidth={fullWidth}
       leftSection={<IconShare size={18} />}
       onClick={share}
     >

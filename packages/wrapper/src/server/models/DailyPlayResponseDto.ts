@@ -26,7 +26,7 @@ export type DailyPlayResponseDto = {
      */
     answer?: DailyAnswerDto;
     /**
-     * Only once the puzzle is finished.
+     * Also sent while the puzzle is in progress.
      */
     community?: DailyCommunityDto;
 };

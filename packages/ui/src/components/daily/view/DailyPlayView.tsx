@@ -1,14 +1,7 @@
-import {
-  Button,
-  Grid,
-  Group,
-  Skeleton,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Button, Skeleton, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
-import { IconChevronLeft, IconPuzzleOff } from "@tabler/icons-react";
+import { IconArrowRight, IconPuzzleOff } from "@tabler/icons-react";
 import { ErrorState } from "#@/components/general/ErrorState";
 import { DailyGuessInput } from "#@/components/daily/guess/DailyGuessInput";
 import { DailyGuessList } from "#@/components/daily/guess/DailyGuessList";
@@ -18,14 +11,19 @@ import { DailyKeywordsHint } from "#@/components/daily/hint/DailyKeywordsHint";
 import { DailySpecsSummary } from "#@/components/daily/hint/DailySpecsSummary";
 import { useDailyImportOnLogin } from "#@/components/daily/hooks/useDailyImportOnLogin";
 import { useDailyPlay } from "#@/components/daily/hooks/useDailyPlay";
-import { useDailyToday } from "#@/components/daily/hooks/useDailyToday";
-import { DailyAttemptsTrack } from "#@/components/daily/result/DailyAttemptsTrack";
+import { useDailyTodayResults } from "#@/components/daily/hooks/useDailyTodayResults";
+import { DailyLives } from "#@/components/daily/result/DailyLives";
+import { DailyStatsLine } from "#@/components/daily/result/DailyStatsLine";
 import { DailyStatsPanel } from "#@/components/daily/result/DailyStatsPanel";
-import { DailyResultPanel } from "#@/components/daily/result/DailyResultPanel";
-import { DailyCountdown } from "#@/components/daily/view/DailyCountdown";
+import {
+  DailyResultPanel,
+  DailySharePanel,
+} from "#@/components/daily/result/DailyResultPanel";
 import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
+import { DailyHowToPlayModal } from "#@/components/daily/view/DailyHowToPlayModal";
+import { DailyModeStepper } from "#@/components/daily/view/DailyModeStepper";
+import { DailyPlayHeader } from "#@/components/daily/view/DailyPlayHeader";
 import type { DailyMode } from "#@/components/daily/util/dailyModes";
-import { formatDailyDate } from "#@/components/daily/util/formatDailyDate";
 import { Link } from "#@/util/link";
 
 interface Props {
@@ -35,9 +33,10 @@ interface Props {
 }
 
 const DailyPlayView = ({ mode, puzzleId }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   useDailyImportOnLogin();
-  const todayQuery = useDailyToday();
+  const { todayQuery, entries } = useDailyTodayResults();
+  const [howToPlayOpened, howToPlay] = useDisclosure(false);
   const id =
     puzzleId ??
     todayQuery.data?.puzzles.find((puzzle) => puzzle.mode === mode)?.id;
@@ -74,10 +73,10 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
   }
   if (!data) {
     return (
-      <Stack className={"w-full mb-8"}>
-        <Skeleton h={72} maw={320} />
-        <Skeleton h={8} />
-        <Skeleton h={360} />
+      <Stack className={"w-full max-w-[640px] mx-auto mb-8 items-center"}>
+        <Skeleton h={48} />
+        <Skeleton h={72} maw={400} />
+        <Skeleton h={400} maw={300} />
       </Stack>
     );
   }
@@ -86,85 +85,56 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
   const inProgress = data.status === "in_progress";
   const newestFirst = [...data.feedback].reverse();
   const latest = newestFirst[0];
+  const specs = data.mode === "specs";
+  const isToday = puzzleId == undefined;
 
-  const header = (
-    <Stack className={"gap-3"}>
-      <Group className={"justify-between flex-nowrap items-start"}>
-        <Stack className={"gap-1 items-start"}>
-          <Button
-            component={Link}
-            href={"/daily"}
-            variant={"subtle"}
-            size={"compact-sm"}
-            leftSection={<IconChevronLeft size={16} />}
-          >
-            GameNode Daily
-          </Button>
-          <Title order={2}>
-            {`${t(`daily.modes.${data.mode}.name`)} #${data.number}`}
-          </Title>
-          <Text c={"dimmed"}>{formatDailyDate(data.date, i18n.language)}</Text>
-        </Stack>
-        <Button
-          component={Link}
-          href={`/daily/${data.mode}/archive`}
-          variant={"subtle"}
-          size={"compact-sm"}
-        >
-          {t("daily.archive.link")}
-        </Button>
-      </Group>
-      <DailyAttemptsTrack
-        results={data.feedback.map((feedback) => feedback.result)}
-        maxAttempts={data.maxAttempts}
-        hintUsed={data.hintAt != null}
-        inProgress={inProgress}
-      />
-    </Stack>
+  // The next of today's modes still to finish, after this one.
+  const position = entries.findIndex(({ puzzle }) => puzzle.mode === mode);
+  const next = [
+    ...entries.slice(position + 1),
+    ...entries.slice(0, position),
+  ].find(
+    ({ result }) => result == undefined || result.status === "in_progress",
   );
 
-  const input = inProgress ? (
-    <DailyGuessInput
-      guessedIds={data.feedback.map((feedback) => feedback.gameId)}
-      onGuess={play.guess}
-      onSkip={play.skip}
+  const hint = specs ? (
+    <DailySpecsSummary
+      play={data}
+      onUseHint={play.useHint}
       disabled={play.isSubmitting}
     />
-  ) : (
-    <DailyResultPanel play={data} nextResetAt={todayQuery.data?.nextResetAt} />
-  );
-
-  const stats = !inProgress && (
-    <DailyStatsPanel
-      mode={data.mode}
+  ) : data.mode === "keywords" ? (
+    <DailyKeywordsHint
+      keywords={hints.keywords}
+      imageTokens={hints.imageTokens}
+      attempts={data.attempts}
       maxAttempts={data.maxAttempts}
-      highlight={data.status === "won" ? data.attempts : undefined}
+    />
+  ) : (
+    <DailyImageHint
+      key={hints.imageTokens.length}
+      tokens={hints.imageTokens}
+      ratio={data.mode === "artwork" ? 16 / 9 : 3 / 4}
+      maskTitle={data.mode === "cover"}
     />
   );
-
-  const hint =
-    data.mode === "specs" ? (
-      <DailySpecsSummary
-        play={data}
-        onUseHint={play.useHint}
-        disabled={play.isSubmitting}
-      />
-    ) : data.mode === "keywords" ? (
-      <DailyKeywordsHint
-        keywords={hints.keywords}
-        imageTokens={hints.imageTokens}
-      />
-    ) : (
-      <DailyImageHint
-        key={hints.imageTokens.length}
-        tokens={hints.imageTokens}
-        ratio={data.mode === "artwork" ? 16 / 9 : 3 / 4}
-      />
-    );
+  const guesses = specs ? (
+    <DailySpecsTable feedback={newestFirst} />
+  ) : (
+    <DailyGuessList feedback={newestFirst} />
+  );
 
   return (
-    <Stack className={"w-full mb-8 gap-5"}>
-      {header}
+    <Stack
+      className={"w-full mx-auto mb-8 pt-2 sm:pt-6 items-center gap-6"}
+      maw={specs ? 1080 : 760}
+    >
+      <DailyPlayHeader
+        mode={data.mode}
+        nextResetAt={todayQuery.data?.nextResetAt}
+        onHowToPlay={howToPlay.open}
+      />
+      {isToday && <DailyModeStepper current={data.mode} />}
       {/* Announces each new guess to screen readers. */}
       <div aria-live={"polite"} className={"sr-only"}>
         {latest &&
@@ -176,41 +146,54 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
             : t("daily.announce.skipped"))}
       </div>
 
-      {data.mode === "specs" ? (
-        <Stack>
-          {hint}
-          {input}
-          {stats}
-          <DailySpecsTable feedback={newestFirst} />
-        </Stack>
-      ) : (
-        <Grid gap={"lg"}>
-          {/* Once finished, the result goes above the (large) hint on small screens. */}
-          <Grid.Col
-            span={{ base: 12, lg: 7 }}
-            order={{ base: inProgress ? 1 : 2, lg: 1 }}
-          >
+      <Stack className={"w-full gap-5"} maw={specs ? undefined : 640}>
+        <DailyStatsLine number={data.number} community={data.community} />
+        {inProgress ? (
+          <>
             {hint}
-          </Grid.Col>
-          <Grid.Col
-            span={{ base: 12, lg: 5 }}
-            order={{ base: inProgress ? 2 : 1, lg: 2 }}
-          >
-            <Stack>
-              {input}
-              {stats}
-              <DailyGuessList feedback={newestFirst} />
-            </Stack>
-          </Grid.Col>
-        </Grid>
-      )}
-
-      {inProgress && todayQuery.data && (
-        <DailyCountdown
-          nextResetAt={todayQuery.data.nextResetAt}
-          className={"self-center"}
-        />
-      )}
+            <DailyGuessInput
+              guessedIds={data.feedback.map((feedback) => feedback.gameId)}
+              onGuess={play.guess}
+              onSkip={play.skip}
+              disabled={play.isSubmitting}
+            />
+            <DailyLives
+              remaining={data.maxAttempts - data.attempts}
+              max={data.maxAttempts}
+              className={"justify-center"}
+            />
+            {guesses}
+          </>
+        ) : (
+          <>
+            <DailyResultPanel play={data} />
+            {guesses}
+            <DailySharePanel play={data} />
+            <DailyStatsPanel
+              mode={data.mode}
+              maxAttempts={data.maxAttempts}
+              highlight={data.status === "won" ? data.attempts : "lost"}
+            />
+            {isToday && (
+              <Button
+                component={Link}
+                href={next ? `/daily/${next.puzzle.mode}` : "/daily"}
+                size={"lg"}
+                fz={14}
+                fullWidth
+                rightSection={<IconArrowRight size={16} />}
+              >
+                {next
+                  ? t("daily.result.nextMode", {
+                      mode: t(`daily.modes.${next.puzzle.mode}.name`),
+                    })
+                  : t("daily.result.backToHub")}
+              </Button>
+            )}
+          </>
+        )}
+      </Stack>
+      <DailyHowToPlayModal opened={howToPlayOpened} onClose={howToPlay.close} />
     </Stack>
   );
 };

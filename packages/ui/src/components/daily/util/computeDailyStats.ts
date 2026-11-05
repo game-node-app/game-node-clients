@@ -73,3 +73,17 @@ export function computeDailyStats(
     distribution,
   };
 }
+
+/**
+ * Days in a row with at least one mode finished on its day, won or lost.
+ * Reuses the per-mode streak by counting each such day as one win.
+ */
+export function computeDailyPlayStreak(
+  results: DailyStatsResult[],
+  today: string,
+) {
+  const playedDays = results
+    .filter((r) => r.status !== "in_progress")
+    .map((r) => ({ ...r, status: "won", attempts: 1 }));
+  return computeDailyStats(playedDays, 1, today).currentStreak;
+}

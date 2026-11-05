@@ -19,6 +19,7 @@ export * from "./home/index";
 export * from "./importer/index";
 export * from "./journal/index";
 export * from "./library/index";
+export * from "./mcp/index";
 export * from "./notifications/index";
 export * from "./playtime/index";
 export * from "./posts/index";
@@ -29,9 +30,7 @@ export * from "./recap/index";
 export * from "./recommendation/index";
 export * from "./report/index";
 export * from "./review/index";
+export * from "./settings/index";
 export * from "./statistics/index";
 export * from "./user-level/index";
 export * from "./wrapped/index";
-
-export * from "./mcp/index";
-export * from "./settings/index";

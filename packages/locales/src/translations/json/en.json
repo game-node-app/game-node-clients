@@ -461,29 +461,27 @@
     "title": "Confirm action"
   },
   "daily": {
-    "subtitle": "Guess the game from a hint that gets clearer with every wrong guess. New puzzles every day.",
+    "subtitle": "Four new games every day. The same puzzle for everyone.",
     "fetchError": "Couldn't load the daily puzzles.",
     "fetchErrorDescription": "Check your connection and try again. If it keeps happening, come back in a few minutes.",
     "noPuzzle": "There's no puzzle for this mode today.",
-    "play": "Play",
-    "nextPuzzleIn": "New puzzles in {{time}}",
-    "attempts": "{{attempts}} of {{max}} attempts used",
+    "nextPuzzleIn": "Next in {{time}}",
     "modes": {
       "cover": {
         "name": "Cover",
-        "description": "Guess the game from its cover, which gets clearer with each try."
+        "description": "Guess the game from its pixelated cover"
       },
       "artwork": {
         "name": "Artwork",
-        "description": "Guess the game from an artwork that gets clearer with each try."
+        "description": "Guess from the official art, without the logo"
       },
       "keywords": {
         "name": "Keywords",
-        "description": "Guess the game from its keywords. More clues show up with each try."
+        "description": "Keywords that show up with every miss"
       },
       "specs": {
         "name": "Specs",
-        "description": "Guess any game and compare its platforms, genres, companies and more with the answer."
+        "description": "Compare genre, year, platform and more"
       }
     },
     "status": {
@@ -493,8 +491,10 @@
       "lost": "Not solved"
     },
     "guess": {
-      "placeholder": "Search for a game",
+      "placeholder": "Type a game's name…",
       "nothingFound": "No games found",
+      "skip": "Skip · costs 1 life",
+      "submit": "Guess",
       "commonGenres": "Genres in common",
       "commonPlatforms": "Platforms in common",
       "skipHint": "Skipping uses an attempt"
@@ -506,7 +506,10 @@
       "skipped": "Skipped"
     },
     "hint": {
-      "imageLevel": "Level {{level}}"
+      "imageLevel": "Level {{level}}",
+      "titleHidden": "TITLE HIDDEN",
+      "level": "Pixelation level",
+      "levelOf": "{{level}} of {{total}}"
     },
     "specs": {
       "columns": {
@@ -539,36 +542,99 @@
       "older": "Answer is older"
     },
     "result": {
-      "won": "Solved in {{attempts}}!",
       "lost": "Out of attempts",
+      "openGame": "View on GameNode",
+      "wonOf": "Solved in {{attempts}} of {{max}}",
+      "addToCollection": "Add to collection",
+      "nextMode": "Next mode: {{mode}}",
+      "backToHub": "Back to Daily",
+      "won": "Solved in {{attempts}}!",
       "answer": "The answer was",
-      "community": "{{players}} players solved it, in {{average}} attempts on average",
-      "openGame": "Open game page"
+      "community": "{{players}} players solved it, in {{average}} attempts on average"
     },
     "share": {
       "copied": "Copied to clipboard",
+      "title": "Your result",
+      "copy": "Copy result",
       "today": "Share today"
     },
     "stats": {
-      "title": "Your stats",
       "played": "Played",
-      "winRate": "Win %",
-      "currentStreak": "Current streak",
-      "maxStreak": "Best streak",
-      "distribution": "Attempts distribution"
+      "winRate": "Wins",
+      "currentStreak": "Streak",
+      "maxStreak": "Best",
+      "distribution": "Attempts distribution",
+      "titleMode": "Stats · {{mode}}",
+      "lostNote": "X = not solved ({{lost}} of {{played}} games)",
+      "title": "Your stats"
     },
     "archive": {
       "link": "Archive",
       "title": "{{mode}} archive",
       "empty": "No past puzzles yet."
     },
-    "continue": "Continue",
-    "seeResult": "See result",
-    "todayProgress": "{{solved}} of {{total}} solved today",
     "announce": {
       "guess": "{{name}}: {{result}}",
       "skipped": "Guess skipped"
-    }
+    },
+    "dailyNumber": "Daily #{{number}}",
+    "lives": "{{count}} lives left",
+    "livesOne": "{{count}} life left",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "franchise": {
+      "match": "Same series",
+      "partial": "Same franchise, other series",
+      "none": "Different franchise"
+    },
+    "hub": {
+      "attempts": "{{max}} attempts",
+      "won": "Solved in {{attempts}} · see result",
+      "lost": "Not solved · see result",
+      "inProgress": "In progress · {{attempts}} of {{max}}",
+      "streak": "{{count}}-day streak · {{finished}} of {{total}} today",
+      "streakOne": "{{count}}-day streak · {{finished}} of {{total}} today",
+      "today": "{{finished}} of {{total}} today"
+    },
+    "howToPlay": {
+      "button": "How to play",
+      "title": "How to play",
+      "intro": "Find the game of the day. Every miss or skip makes the hint clearer and costs you a life.",
+      "franchiseTitle": "Your guess's franchise",
+      "franchise": {
+        "none": "Nothing to do with the answer",
+        "partial": "Same franchise, a game from another series",
+        "match": "Same series, you're close"
+      },
+      "traitsTitle": "Genre, theme and platform",
+      "livesTitle": "Lives",
+      "footer": "Specs has 10 lives. A new puzzle at 00:00 (BRT).",
+      "confirm": "Got it, play"
+    },
+    "nextIn": "Next in",
+    "stepper": {
+      "won": "Solved",
+      "playing": "Playing",
+      "toPlay": "To play"
+    },
+    "statsLine": {
+      "solved": "{{count}} solved",
+      "average": "{{average}} attempts on average"
+    },
+    "keywords": {
+      "clue": "Clue {{number}}",
+      "newClue": "New clue · miss {{attempt}}",
+      "locked": "{{count}} more clues, one per miss",
+      "filtered": "Words with the franchise's name are filtered out"
+    },
+    "play": "Play",
+    "attempts": "{{attempts}} of {{max}} attempts used",
+    "continue": "Continue",
+    "seeResult": "See result",
+    "todayProgress": "{{solved}} of {{total}} solved today"
   },
   "errors": {
     "comeBackSoon": "Come back soon!",
