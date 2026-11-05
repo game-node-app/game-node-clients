@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Box,
+  Button,
   Group,
   Kbd,
   ScrollArea,
@@ -91,16 +92,16 @@ export function SettingsPanel({
         }
       >
         {onBack && (
-          <ActionIcon
+          <Button
             variant={"subtle"}
             color={"gray"}
-            size={32}
+            size={"compact-sm"}
+            leftSection={<IconChevronLeft size={18} />}
             onClick={onBack}
-            aria-label={t("navigation.back")}
             className={"-me-3"}
           >
-            <IconChevronLeft size={18} />
-          </ActionIcon>
+            {t("settings.title")}
+          </Button>
         )}
         <Stack gap={4} className={"min-w-0 flex-1"}>
           {/* Mantine focuses `data-autofocus` on open: the title, not the first sidebar button. */}

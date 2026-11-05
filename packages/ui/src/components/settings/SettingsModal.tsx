@@ -1,6 +1,7 @@
-import { Box, Group } from "@mantine/core";
+import { ActionIcon, Box, Group } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useEffect, useRef, useState } from "react";
+import { IconX } from "@tabler/icons-react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { useSettingsModalState } from "#@/components/settings/hooks/useSettingsModalState";
@@ -69,8 +70,21 @@ function SettingsModalContent({
     >
       {showSidebar && (
         <Box
-          className={onMobile ? "h-full w-full" : "h-full w-[216px] shrink-0"}
+          className={
+            onMobile ? "relative h-full w-full" : "h-full w-[216px] shrink-0"
+          }
         >
+          {onMobile && (
+            <ActionIcon
+              aria-label={t("settings.close")}
+              onClick={close}
+              variant="subtle"
+              color="gray"
+              className="absolute right-4 top-4 z-10"
+            >
+              <IconX size={18} />
+            </ActionIcon>
+          )}
           <SettingsSidebar
             activeTab={onMobile ? null : tab}
             activeSection={activeSection}

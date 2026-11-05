@@ -71,7 +71,7 @@ const MobileSidebarMenu = () => {
         </IonHeader>
       )}
       <IonContent>
-        <Stack className={"w-full h-full gap-0"}>
+        <Stack className={"w-full min-h-full gap-0"}>
           <RecentlyPlayedGamesShare
             opened={wrappedOpened}
             onClose={wrappedOpenedUtils.close}
