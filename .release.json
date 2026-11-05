@@ -1,0 +1,24 @@
+{
+  "source": "b866fea113f9b4292edd59fc17d62e6bb2301652",
+  "changesets": [
+    ".changeset/mobile-settings-list-first.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[5f5f706c9d4c8e14ad0bebd171af75c25382dbe9...b866fea113f9b4292edd59fc17d62e6bb2301652]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/b866fea113f9b4292edd59fc17d62e6bb2301652",
+  "versions": {
+    "web": "1.12.2"
+  }
+}
