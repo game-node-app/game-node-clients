@@ -166,3 +166,6 @@
 [2026-11-05T14:17:50.669Z] [CodeGraph MCP] Query pool: up to 11 worker thread(s) for concurrent reads.
 [2026-11-05T14:21:07.510Z] [CodeGraph MCP] Auto-synced 1 file(s) in 441ms
 [2026-11-05T14:57:16.294Z] [CodeGraph daemon] Shutting down (idle timeout; clients=0).
+[2026-11-05T19:04:30.152Z] [CodeGraph daemon] Listening on /home/cassi/projects/game-node-clients/.codegraph/daemon.sock (pid 2214343, v1.6.2). Idle timeout 300000ms.
+[2026-11-05T19:04:30.307Z] [CodeGraph MCP] File watcher active for /home/cassi/projects/game-node-clients — graph will auto-sync on changes
+[2026-11-05T19:04:30.309Z] [CodeGraph MCP] Query pool: up to 11 worker thread(s) for concurrent reads.
