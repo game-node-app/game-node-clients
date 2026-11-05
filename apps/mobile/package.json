@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "private": true,
-  "version": "1.8.12",
+  "version": "1.10.3",
   "type": "module",
   "engines": {
     "node": ">=22"

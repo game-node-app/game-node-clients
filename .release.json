@@ -1,0 +1,28 @@
+{
+  "source": "f12d14bbc880622bb30da314659c2d22ad46f6e2",
+  "changesets": [
+    ".changeset/quiet-menus-scroll.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[379842861eeb9681090cdbc0d59c6832c33a9f43...f12d14bbc880622bb30da314659c2d22ad46f6e2]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/f12d14bbc880622bb30da314659c2d22ad46f6e2",
+  "versions": {
+    "web": "1.12.1",
+    "mobile": "1.10.3"
+  }
+}
