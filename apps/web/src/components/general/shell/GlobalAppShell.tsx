@@ -5,6 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import GlobalShellNavbar from "@/components/general/shell/navbar/GlobalShellNavbar";
 import { useRouter } from "next/router";
+import { SettingsModal } from "@repo/ui";
 
 const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/auth", "/oauth/consent"];
 
@@ -32,7 +33,6 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
         width: 64,
         collapsed: { mobile: !sidebarOpened },
       }}
-      className={"overflow-hidden"}
       classNames={{
         navbar: "max-w-20",
       }}
@@ -58,6 +58,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
       <AppShell.Footer pos={"static"}>
         <GlobalShellFooter />
       </AppShell.Footer>
+      <SettingsModal />
     </AppShell>
   );
 };

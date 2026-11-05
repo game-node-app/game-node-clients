@@ -40,5 +40,8 @@ dist/
 *.tsbuildinfo
 .release.json
 
+# CodeGraph data is local to each machine.
+.codegraph/
+
 # intellij
 .idea/

@@ -370,6 +370,11 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  /* room for the today ring (a 4px box-shadow) inside the scroll box: a negative margin would
+     push the ring outside, where parent containers clip it; scroll-padding keeps snapping
+     from scrolling that room away */
+  padding: 4px;
+  scroll-padding: 4px;
 }
 
 .stripDay {

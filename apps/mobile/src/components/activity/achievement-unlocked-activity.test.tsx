@@ -33,7 +33,6 @@ vi.mock("../../../../../packages/ui/src/components", () => {
       <div data-testid="badge">{tier}</div>
     ),
     ActivityItemLikes: () => <div>likes</div>,
-    ActivityItemComments: () => <div>comments</div>,
     GameRating: () => null,
     ObtainedAchievementActivityContent: () => null,
     UserAvatar: () => null,
@@ -63,7 +62,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("ACHIEVEMENT_UNLOCKED activity", () => {
-  it("shows the unlock text with the tier badge and keeps like and comment controls", () => {
+  it("shows the unlock text with the tier badge and the like control", () => {
     render(
       <MantineProvider>
         <ActivityItem
@@ -82,6 +81,5 @@ describe("ACHIEVEMENT_UNLOCKED activity", () => {
     expect(screen.getByText("Unlocked Horror critic tier 2")).toBeTruthy();
     expect(screen.getByTestId("badge").textContent).toBe("2");
     expect(screen.getByText("likes")).toBeTruthy();
-    expect(screen.getByText("comments")).toBeTruthy();
   });
 });

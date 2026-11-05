@@ -499,6 +499,9 @@ export type TranslationSchema = {
       nothingFound: string;
       skip: string;
       submit: string;
+      commonGenres: string;
+      commonPlatforms: string;
+      skipHint: string;
     };
     results: {
       correct: string;
@@ -549,11 +552,15 @@ export type TranslationSchema = {
       addToCollection: string;
       nextMode: string;
       backToHub: string;
+      won: string;
+      answer: string;
+      community: string;
     };
     share: {
       copied: string;
       title: string;
       copy: string;
+      today: string;
     };
     stats: {
       played: string;
@@ -563,6 +570,7 @@ export type TranslationSchema = {
       distribution: string;
       titleMode: string;
       lostNote: string;
+      title: string;
     };
     archive: {
       link: string;
@@ -626,6 +634,11 @@ export type TranslationSchema = {
       locked: string;
       filtered: string;
     };
+    play: string;
+    attempts: string;
+    continue: string;
+    seeResult: string;
+    todayProgress: string;
   };
   errors: {
     comeBackSoon: string;
@@ -1730,5 +1743,460 @@ export type TranslationSchema = {
       unknown: string;
     };
     oauthBrowserError: string;
+  };
+  settings: {
+    title: string;
+    sectionLabel: string;
+    close: string;
+    reportBug: string;
+    badges: {
+      new: string;
+      comingSoon: string;
+      current: string;
+    };
+    tabs: {
+      premium: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      profile: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      connections: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      library: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      notifications: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      privacy: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      appearance: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+      mcp: {
+        label: string;
+        title: string;
+        subtitle: string;
+      };
+    };
+    privacy: {
+      sections: {
+        privacy: string;
+        interactions: string;
+        blocked: string;
+        sessions: string;
+        danger: string;
+      };
+      options: {
+        public: string;
+        everyone: string;
+      };
+      visibility: {
+        description: string;
+        profile: {
+          title: string;
+          description: string;
+        };
+        library: {
+          title: string;
+          description: string;
+        };
+        activity: {
+          title: string;
+          description: string;
+        };
+        connections: {
+          title: string;
+          description: string;
+          manage: string;
+        };
+      };
+      interactions: {
+        description: string;
+        follow: {
+          title: string;
+          description: string;
+        };
+        comment: {
+          title: string;
+          description: string;
+        };
+        mention: {
+          title: string;
+          description: string;
+        };
+      };
+      blocked: {
+        description: string;
+        tabs: {
+          blocked: string;
+          muted: string;
+        };
+        empty: {
+          title: string;
+          description: string;
+        };
+      };
+      signIn: {
+        description: string;
+        emailCode: {
+          title: string;
+          description: string;
+          descriptionWithEmail: string;
+        };
+        changeEmail: string;
+        note: string;
+      };
+      sessions: {
+        current: string;
+        activeNow: string;
+        lastActiveRelative: string;
+        lastActiveDate: string;
+        revoke: string;
+        revokeTitle: string;
+        revokeConfirm: string;
+        revokeSuccess: string;
+        error: string;
+        device: {
+          browserOnOs: string;
+          osOnly: string;
+          appOnOs: string;
+          app: string;
+          unknown: string;
+        };
+        notFresh: {
+          title: string;
+          description: string;
+          action: string;
+        };
+        revokeOthers: {
+          title: string;
+          description: string;
+          action: string;
+          confirmTitle: string;
+          confirmMessage: string;
+          success: string;
+        };
+      };
+      danger: {
+        export: {
+          title: string;
+          description: string;
+          action: string;
+        };
+        restart: {
+          title: string;
+          description: string;
+          action: string;
+        };
+        delete: {
+          title: string;
+          description: string;
+          action: string;
+        };
+      };
+    };
+    userMenu: {
+      settings: string;
+      downloads: string;
+      logout: string;
+    };
+    premium: {
+      hero: {
+        title: string;
+        description: string;
+        cta: string;
+      };
+      appearance: {
+        title: string;
+        description: string;
+        lockedNote: string;
+      };
+      features: {
+        profileTheme: {
+          label: string;
+          description: string;
+        };
+        badge: {
+          label: string;
+          description: string;
+        };
+        title: {
+          label: string;
+          description: string;
+        };
+        list: {
+          label: string;
+          description: string;
+        };
+      };
+      preview: {
+        label: string;
+        badge: string;
+        since: string;
+        followers_one: string;
+        followers_other: string;
+        following: string;
+        favorites: string;
+        notListed: string;
+      };
+      billingHelp: string;
+    };
+    notifications: {
+      channels: {
+        title: string;
+        description: string;
+        inApp: {
+          title: string;
+          description: string;
+          alwaysOn: string;
+        };
+        push: {
+          title: string;
+          description: string;
+        };
+        email: {
+          title: string;
+          description: string;
+        };
+      };
+      types: {
+        title: string;
+        description: string;
+        columns: {
+          type: string;
+          inApp: string;
+          push: string;
+          email: string;
+        };
+        always: string;
+        unavailable: string;
+        items: {
+          followers: {
+            title: string;
+            description: string;
+          };
+          likes: {
+            title: string;
+            description: string;
+          };
+          comments: {
+            title: string;
+            description: string;
+          };
+          mentions: {
+            title: string;
+            description: string;
+          };
+          games: {
+            title: string;
+            description: string;
+          };
+          imports: {
+            title: string;
+            description: string;
+          };
+          news: {
+            title: string;
+            description: string;
+          };
+          account: {
+            title: string;
+            description: string;
+          };
+          premium: {
+            title: string;
+            description: string;
+          };
+        };
+      };
+    };
+    appearance: {
+      language: {
+        title: string;
+        description: string;
+      };
+      theme: {
+        title: string;
+        description: string;
+        dark: string;
+        light: string;
+        system: string;
+        systemDescription: string;
+      };
+      specialThemes: {
+        title: string;
+        description: string;
+        disclaimer: string;
+        steam: string;
+        xbox: string;
+        playstation: string;
+        nintendo: string;
+      };
+    };
+    profile: {
+      images: {
+        title: string;
+        description: string;
+        changeBanner: string;
+        bannerHelp: string;
+        avatarTitle: string;
+        avatarDescription: string;
+        changeAvatar: string;
+        removeAvatar: string;
+      };
+      info: {
+        title: string;
+      };
+      displayName: {
+        label: string;
+        help: string;
+      };
+      username: {
+        label: string;
+        rulesTitle: string;
+        rulesCurrent: string;
+        submit: string;
+        cooldown: string;
+        errors: {
+          maxLength: string;
+          updateFailed: string;
+        };
+      };
+      bio: {
+        label: string;
+        help: string;
+        errors: {
+          required: string;
+          maxLength: string;
+        };
+      };
+      favorites: {
+        title: string;
+        description: string;
+        countOne: string;
+        countOther: string;
+        showingFirst: string;
+        empty: string;
+        add: string;
+        addHint: string;
+        remove: string;
+      };
+      actions: {
+        unsaved: string;
+        discard: string;
+        save: string;
+        saved: string;
+      };
+    };
+    connections: {
+      platforms: {
+        title: string;
+        description: string;
+        empty: string;
+      };
+      mcp: {
+        title: string;
+        description: string;
+        rowDescription: string;
+        action: string;
+      };
+    };
+    library: {
+      preferredPlatforms: {
+        title: string;
+        description: string;
+      };
+    };
+    mcp: {
+      intro: {
+        title: string;
+        description: string;
+      };
+      apps: {
+        title: string;
+        empty: string;
+        emptyHint: string;
+        loadError: string;
+        connectedAt: string;
+        dateFormat: string;
+        revoke: string;
+        revoked: string;
+      };
+      revoke: {
+        title: string;
+        description: string;
+      };
+      server: {
+        title: string;
+        noPassword: string;
+      };
+      connect: {
+        title: string;
+        others: string;
+        othersSteps: string;
+        cursorSteps: string;
+        cursorJson: string;
+        untested: string;
+        untestedLegend: string;
+      };
+      examples: {
+        title: string;
+      };
+      permissions: {
+        title: string;
+        description: string;
+        read: string;
+        write: string;
+      };
+      scopes: {
+        games_read: {
+          title: string;
+          short: string;
+        };
+        library_read: {
+          title: string;
+          short: string;
+        };
+        library_write: {
+          title: string;
+          short: string;
+        };
+        reviews_write: {
+          title: string;
+          short: string;
+        };
+        posts_write: {
+          title: string;
+          short: string;
+        };
+      };
+      notice: {
+        title: string;
+        description: string;
+      };
+      mobile: {
+        title: string;
+        description: string;
+        open: string;
+      };
+    };
   };
 };

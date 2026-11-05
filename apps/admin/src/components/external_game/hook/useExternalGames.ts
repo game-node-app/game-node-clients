@@ -5,7 +5,12 @@ export function useExternalGames(offset = 0, limit = 20) {
   return useQuery({
     queryKey: ["game", "external", offset, limit],
     queryFn: () => {
-      return ExternalGameService.externalGameControllerFindAllV1(limit, offset);
+      return ExternalGameService.externalGameControllerFindAllV1(
+        undefined,
+        undefined,
+        limit,
+        offset,
+      );
     },
   });
 }

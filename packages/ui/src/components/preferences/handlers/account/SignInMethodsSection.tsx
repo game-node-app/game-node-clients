@@ -48,8 +48,12 @@ const useSignInMethods = (relativeCallbacks = false) => {
 
   const linkMutation = useMutation({
     mutationFn: async (provider: ProviderId) => {
-      // Back to the page the user is on, so the result (and any ?error) shows up here.
-      const path = window.location.pathname;
+      // Back to the page the user is on (query included, e.g. `?settings=privacy`),
+      // so the result (and any ?error) shows up here. A stale ?error is dropped.
+      const query = new URLSearchParams(window.location.search);
+      query.delete("error");
+      const search = query.toString();
+      const path = window.location.pathname + (search ? `?${search}` : "");
       const url = relativeCallbacks ? path : window.location.origin + path;
       const { error } = await authClient.linkSocial({
         provider,

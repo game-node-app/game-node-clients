@@ -1,7 +1,14 @@
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu";
-import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu";
+import { GlobalShellNavbarSettingsMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarSettingsMenu";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
-import { Center, Divider, Indicator, Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import {
+  Center,
+  Divider,
+  Indicator,
+  Stack,
+  Tooltip,
+  UnstyledButton,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { cn, RecentlyPlayedGamesShare, useUserId } from "@repo/ui";
@@ -97,12 +104,14 @@ export default function GlobalShellNavbar({
 
   const isActive = useCallback(
     (href: string) => pathname.startsWith(href),
-    [pathname]
+    [pathname],
   );
 
   return (
     <Stack
-      className={cn("pt-4 px-2 gap-4 bg-paper-7 items-center relative h-full")}
+      className={cn(
+        "pt-4 px-2 gap-4 bg-paper-7 items-center relative h-full overflow-y-auto",
+      )}
     >
       <RecentlyPlayedGamesShare
         opened={wrappedOpened}
@@ -144,8 +153,8 @@ export default function GlobalShellNavbar({
           {link.withDivider && <Divider className={"w-full"} />}
         </>
       ))}
-      <Center className={"w-full mt-auto mb-2"}>
-        <GlobalShellNavbarUserMenu />
+      <Center className={"w-full mt-auto mb-2 shrink-0"}>
+        <GlobalShellNavbarSettingsMenu />
       </Center>
     </Stack>
   );
