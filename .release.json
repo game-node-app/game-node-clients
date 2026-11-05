@@ -1,0 +1,24 @@
+{
+  "source": "379842861eeb9681090cdbc0d59c6832c33a9f43",
+  "changesets": [
+    ".changeset/settings-modal-web.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[e937b25296adb2db6e52ef3096d41e80193bb476...379842861eeb9681090cdbc0d59c6832c33a9f43]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/379842861eeb9681090cdbc0d59c6832c33a9f43",
+  "versions": {
+    "web": "1.12.0"
+  }
+}
