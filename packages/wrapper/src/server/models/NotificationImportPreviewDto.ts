@@ -18,6 +18,7 @@ export namespace NotificationImportPreviewDto {
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         NINTENDO = 'nintendo',
+        GOG = 'gog',
     }
 }
 

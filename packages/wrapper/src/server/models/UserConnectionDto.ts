@@ -29,6 +29,7 @@ export namespace UserConnectionDto {
         XBOX = 'xbox',
         EPICGAMES = 'epicgames',
         NINTENDO = 'nintendo',
+        GOG = 'gog',
     }
 }
 

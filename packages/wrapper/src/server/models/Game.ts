@@ -17,6 +17,7 @@ import type { GamePlatform } from './GamePlatform';
 import type { GamePlayerPerspective } from './GamePlayerPerspective';
 import type { GameScreenshot } from './GameScreenshot';
 import type { GameTheme } from './GameTheme';
+import type { GameVideo } from './GameVideo';
 import type { StatisticsTarget } from './StatisticsTarget';
 export type Game = {
     cover: GameCover | null;
@@ -37,6 +38,7 @@ export type Game = {
     firstReleaseDate: string;
     createdAt: string;
     updatedAt: string;
+    igdbUpdatedAt: string | null;
     statisticsTarget: StatisticsTarget | null;
     statisticsTargetId: number | null;
     dlcs: Array<Game>;
@@ -54,6 +56,7 @@ export type Game = {
     alternativeNames: Array<GameAlternativeName>;
     artworks: Array<GameArtwork>;
     screenshots: Array<GameScreenshot>;
+    videos: Array<GameVideo>;
     gameLocalizations: Array<GameLocalization>;
     gameModes: Array<GameMode>;
     genres: Array<GameGenre>;

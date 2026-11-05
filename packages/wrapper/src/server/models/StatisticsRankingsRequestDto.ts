@@ -9,6 +9,9 @@ export type StatisticsRankingsRequestDto = {
     period?: StatisticsRankingsRequestDto.period;
     from?: string;
     to?: string;
+    /**
+     * Game rankings require a positive score, at least one external critic review (or an upcoming release date), and default to main games, remakes and remasters when category is omitted or empty.
+     */
     criteria?: GameRankingCriteriaDto;
     gameId?: number;
     authorId?: string;
