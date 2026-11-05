@@ -1,5 +1,5 @@
 import { GlobalShellNavbarCollectionsMenu } from "@/components/general/shell/navbar/GlobalShellNavbarCollectionsMenu";
-import { GlobalShellNavbarUserMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarUserMenu";
+import { GlobalShellNavbarSettingsMenu } from "@/components/general/shell/navbar/user-menu/GlobalShellNavbarSettingsMenu";
 import { BaseModalChildrenProps } from "@/util/types/modal-props";
 import { Center, Divider, Indicator, Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -138,7 +138,7 @@ export default function GlobalShellNavbar({
         </>
       ))}
       <Center className={"w-full mt-auto mb-2"}>
-        <GlobalShellNavbarUserMenu />
+        <GlobalShellNavbarSettingsMenu />
       </Center>
     </Stack>
   );

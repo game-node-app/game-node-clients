@@ -17,17 +17,20 @@ interface Props {
   type: type;
 }
 
-const PreferencesConnectionItem = ({ type }: Props) => {
-  const { t } = useTranslation();
+/**
+ * Connection state shown by a connection item: a 404 means "not connected",
+ * any other lookup error is surfaced.
+ */
+const usePreferencesConnectionStatus = (type: type) => {
   const userConnection = useOwnUserConnectionByType(type);
-  const [modalOpened, modalUtils] = useDisclosure();
 
-  const isLookupError =
+  const isLookupError = Boolean(
     userConnection.error &&
-    !(
-      userConnection.error instanceof ApiError &&
-      userConnection.error.status === 404
-    );
+      !(
+        userConnection.error instanceof ApiError &&
+        userConnection.error.status === 404
+      ),
+  );
 
   const requiresReauth =
     userConnection.data?.authStatus ===
@@ -35,6 +38,26 @@ const PreferencesConnectionItem = ({ type }: Props) => {
 
   const isConnected = userConnection.data != null;
   const isEligible = Boolean(userConnection.data?.isImporterViable);
+
+  return {
+    userConnection,
+    isLookupError,
+    requiresReauth,
+    isConnected,
+    isEligible,
+  };
+};
+
+const PreferencesConnectionItem = ({ type }: Props) => {
+  const { t } = useTranslation();
+  const {
+    userConnection,
+    isLookupError,
+    requiresReauth,
+    isConnected,
+    isEligible,
+  } = usePreferencesConnectionStatus(type);
+  const [modalOpened, modalUtils] = useDisclosure();
 
   return (
     <Paper
@@ -121,4 +144,4 @@ const PreferencesConnectionItem = ({ type }: Props) => {
   );
 };
 
-export { PreferencesConnectionItem };
+export { PreferencesConnectionItem, usePreferencesConnectionStatus };
