@@ -40,6 +40,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    backHome: string;
     cancel: string;
     clickHere: string;
     close: string;
@@ -66,6 +67,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    retry: string;
   };
   activity: {
     items: {
@@ -462,6 +464,116 @@ export type TranslationSchema = {
     message: string;
     title: string;
   };
+  daily: {
+    subtitle: string;
+    fetchError: string;
+    fetchErrorDescription: string;
+    noPuzzle: string;
+    play: string;
+    nextPuzzleIn: string;
+    attempts: string;
+    modes: {
+      cover: {
+        name: string;
+        description: string;
+      };
+      artwork: {
+        name: string;
+        description: string;
+      };
+      keywords: {
+        name: string;
+        description: string;
+      };
+      specs: {
+        name: string;
+        description: string;
+      };
+    };
+    status: {
+      notPlayed: string;
+      inProgress: string;
+      won: string;
+      lost: string;
+    };
+    guess: {
+      placeholder: string;
+      nothingFound: string;
+      commonGenres: string;
+      commonPlatforms: string;
+      skipHint: string;
+    };
+    results: {
+      correct: string;
+      franchise: string;
+      wrong: string;
+      skipped: string;
+    };
+    hint: {
+      imageLevel: string;
+    };
+    specs: {
+      columns: {
+        game: string;
+        platforms: string;
+        genres: string;
+        themes: string;
+        gameModes: string;
+        gameEngines: string;
+        companies: string;
+        perspectives: string;
+        franchise: string;
+        releaseYear: string;
+      };
+      franchise: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      yearRange: string;
+      reveal: string;
+      hint: string;
+      hintConfirm: string;
+      legend: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      newer: string;
+      older: string;
+    };
+    result: {
+      won: string;
+      lost: string;
+      answer: string;
+      community: string;
+      openGame: string;
+    };
+    share: {
+      copied: string;
+      today: string;
+    };
+    stats: {
+      title: string;
+      played: string;
+      winRate: string;
+      currentStreak: string;
+      maxStreak: string;
+      distribution: string;
+    };
+    archive: {
+      link: string;
+      title: string;
+      empty: string;
+    };
+    continue: string;
+    seeResult: string;
+    todayProgress: string;
+    announce: {
+      guess: string;
+      skipped: string;
+    };
+  };
   errors: {
     comeBackSoon: string;
     copiedToClipboard: string;
@@ -515,6 +627,7 @@ export type TranslationSchema = {
       ownedBy: string;
       totalCount: string;
       trophies: string;
+      previousProgress: string;
     };
     buttons: {
       addLibrary: string;
@@ -523,6 +636,18 @@ export type TranslationSchema = {
     collectionTypes: {
       recentReleases: string;
       upcoming: string;
+    };
+    releaseCalendar: {
+      gamesCount: string;
+      title: string;
+      inLibrary: string;
+      more: string;
+      noReleases: string;
+      showCalendar: string;
+      hideCalendar: string;
+      today: string;
+      previousGame: string;
+      nextGame: string;
     };
     details: {
       developers: string;
@@ -809,6 +934,11 @@ export type TranslationSchema = {
       communityDescription: string;
       activity: string;
       hours: string;
+      communityLabel: string;
+      communitySectionTitle: string;
+      communitySectionDescription: string;
+      popularGames: string;
+      popularReviews: string;
       connectionsLabel: string;
       connectionsTitle: string;
       connectionsDescription: string;
@@ -819,20 +949,64 @@ export type TranslationSchema = {
       aiPrompt: string;
       aiReply: string;
       aiPermission: string;
-      premiumTitle: string;
-      premiumDescription: string;
-      monthly: string;
-      supportDescription: string;
-      subscribe: string;
-      benefitsTitle: string;
-      benefitsDescription: string;
-      benefit1: string;
-      benefit2: string;
-      benefit3: string;
-      benefit4: string;
-      benefit5: string;
-      benefit6: string;
-      benefit7: string;
+      supporter: {
+        label: string;
+        title: string;
+        description: string;
+        billing: string;
+        monthly: string;
+        yearly: string;
+        yearlyBadge: string;
+        included: string;
+        notIncluded: string;
+        free: {
+          name: string;
+          price: string;
+          period: string;
+          description: string;
+          cta: string;
+          limit: string;
+        };
+        plan: {
+          name: string;
+          badge: string;
+          description: string;
+          cta: string;
+          monthlyPrice: string;
+          monthlyPeriod: string;
+          yearlyPrice: string;
+          yearlyPeriod: string;
+          limit: string;
+        };
+        groups: {
+          always: string;
+          profile: string;
+          library: string;
+          live: string;
+          show: string;
+        };
+        features: {
+          library: string;
+          import: string;
+          achievements: string;
+          videoCover: string;
+          animatedBorder: string;
+          theme: string;
+          collections: string;
+          customCovers: string;
+          live: string;
+          badge: string;
+          wall: string;
+        };
+        trust: {
+          cancel: string;
+          benefits: string;
+          downgrade: string;
+          servers: string;
+          openSource: string;
+          footer: string;
+        };
+      };
       footerTitle: string;
       copyright: string;
       product: string;
@@ -999,6 +1173,7 @@ export type TranslationSchema = {
     back: string;
     blog: string;
     collections: string;
+    daily: string;
     explore: string;
     feats: string;
     home: string;
@@ -1110,6 +1285,10 @@ export type TranslationSchema = {
       startOver: string;
       pasteFromClipboard: string;
       nintendo: {
+        signInHint: string;
+        guideAlt: string;
+        pauseGuide: string;
+        playGuide: string;
         copyHint: string;
         pasteLabel: string;
         pastePlaceholder: string;
@@ -1118,6 +1297,21 @@ export type TranslationSchema = {
         coverage: string;
         revoke: string;
         phoneHint: string;
+      };
+      gog: {
+        signInHint: string;
+        guideAlt: string;
+        pauseGuide: string;
+        playGuide: string;
+        coverage: string;
+        expiryHint: string;
+        signInUrl: string;
+        desktopFallback: string;
+        copyHint: string;
+        pasteLabel: string;
+        pastePlaceholder: string;
+        invalidLink: string;
+        callbackFailed: string;
       };
     };
     descriptions: {

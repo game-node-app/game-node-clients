@@ -95,49 +95,71 @@ describe("import.discovery-completed notification localization", () => {
     readVersion: 1,
   };
 
-  it("renders with English translations, accessible name, counts and navigates to target", async () => {
-    currentLang = "en";
-    const onClick = vi.fn();
+  it.each([
+    ["steam", "Steam"],
+    ["gog", "GOG"],
+  ])(
+    "renders %s with English translations, counts and target",
+    async (provider, name) => {
+      const providerItem = {
+        ...item,
+        target: { ...item.target, provider },
+        preview: { ...item.preview, provider },
+      } as NotificationInboxItemDto;
+      currentLang = "en";
+      const onClick = vi.fn();
 
-    render(
-      <MantineProvider>
-        <AggregatedNotification
-          aggregatedNotification={item}
-          backgroundColor="normal"
-          onClick={onClick}
-        />
-      </MantineProvider>,
-    );
+      render(
+        <MantineProvider>
+          <AggregatedNotification
+            aggregatedNotification={providerItem}
+            backgroundColor="normal"
+            onClick={onClick}
+          />
+        </MantineProvider>,
+      );
 
-    expect(
-      screen.getByText(
-        /We've found 20 new games ready to be imported from your Steam connection/i,
-      ),
-    ).toBeTruthy();
-    expect(screen.getByText(/10 automatically imported/i)).toBeTruthy();
-    expect(screen.getByText(/5 already in your library/i)).toBeTruthy();
-    expect(screen.getByText(/1 failed/i)).toBeTruthy();
-    expect(screen.getByText(/Hades, Celeste/i)).toBeTruthy();
+      expect(
+        screen.getByText(
+          new RegExp(
+            `We've found 20 new games ready to be imported from your ${name} connection`,
+            "i",
+          ),
+        ),
+      ).toBeTruthy();
+      expect(screen.getByText(/10 automatically imported/i)).toBeTruthy();
+      expect(screen.getByText(/5 already in your library/i)).toBeTruthy();
+      expect(screen.getByText(/1 failed/i)).toBeTruthy();
+      expect(screen.getByText(/Hades, Celeste/i)).toBeTruthy();
 
-    const alert = screen.getByRole("alert");
-    expect(alert.getAttribute("aria-label")).toBe("Discovery completed");
+      const alert = screen.getByRole("alert");
+      expect(alert.getAttribute("aria-label")).toBe("Discovery completed");
 
-    const img = screen.getByAltText("Importer source icon");
-    expect(img).toBeTruthy();
+      const img = screen.getByAltText("Importer source icon");
+      expect(img).toBeTruthy();
 
-    fireEvent.click(alert);
-    expect(onClick).toHaveBeenCalledTimes(1);
-    expect(mockRouter.push).toHaveBeenCalledWith("/importer/steam");
-  });
+      fireEvent.click(alert);
+      expect(onClick).toHaveBeenCalledTimes(1);
+      expect(mockRouter.push).toHaveBeenCalledWith(`/importer/${provider}`);
+    },
+  );
 
-  it("renders with Portuguese (pt-BR) translations and accessible name", async () => {
+  it.each([
+    ["steam", "Steam"],
+    ["gog", "GOG"],
+  ])("renders %s with Portuguese translations", async (provider, name) => {
+    const providerItem = {
+      ...item,
+      target: { ...item.target, provider },
+      preview: { ...item.preview, provider },
+    } as NotificationInboxItemDto;
     currentLang = "pt-BR";
     const onClick = vi.fn();
 
     render(
       <MantineProvider>
         <AggregatedNotification
-          aggregatedNotification={item}
+          aggregatedNotification={providerItem}
           backgroundColor="normal"
           onClick={onClick}
         />
@@ -146,7 +168,10 @@ describe("import.discovery-completed notification localization", () => {
 
     expect(
       screen.getByText(
-        /Encontramos 20 novos jogos prontos para serem importados da sua conexão com Steam/i,
+        new RegExp(
+          `Encontramos 20 novos jogos prontos para serem importados da sua conexão com ${name}`,
+          "i",
+        ),
       ),
     ).toBeTruthy();
     expect(screen.getByText(/10 importados automaticamente/i)).toBeTruthy();

@@ -69,3 +69,21 @@ export function usePresenter<K extends keyof UIPresenterRegistry>(key: K) {
 export function useAuthPath() {
   return useHooks().authPath ?? "/auth";
 }
+
+/** Opens the share sheet; the app can replace the Web Share API with a native one. */
+export function useShareText() {
+  const { shareText } = useHooks();
+  return (
+    shareText ??
+    (async (text: string) => {
+      if (!navigator.share) throw new Error("Sharing is not supported");
+      try {
+        await navigator.share({ text });
+        return true;
+      } catch (error) {
+        if ((error as Error).name === "AbortError") return false;
+        throw error;
+      }
+    })
+  );
+}

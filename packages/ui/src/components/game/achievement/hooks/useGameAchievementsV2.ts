@@ -23,10 +23,6 @@ export function useGameAchievementsV2(
           gameId,
         );
 
-      if (availableAchievements.length === 0) {
-        throw new Error("No achievements available for this title.");
-      }
-
       let obtainedAchievements: GameObtainedAchievementDto[] = [];
       if (userId && withObtained) {
         obtainedAchievements =

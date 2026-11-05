@@ -15,6 +15,7 @@ import {
   IconNews,
   IconNotebook,
   IconProps,
+  IconPuzzle,
   IconTrendingUp,
   IconTrophy,
 } from "@tabler/icons-react";
@@ -55,6 +56,12 @@ export default function GlobalShellNavbar({
     { icon: IconRobot, label: t("mcp.title"), href: "/mcp", isNew: true },
     { icon: IconHome, label: t("navigation.home"), href: "/home" },
     { icon: IconTrendingUp, label: t("navigation.explore"), href: "/explore" },
+    {
+      icon: IconPuzzle,
+      label: t("navigation.daily"),
+      href: "/daily",
+      isNew: true,
+    },
     { icon: IconBolt, label: t("navigation.activity"), href: "/activity" },
     {
       icon: IconNews,

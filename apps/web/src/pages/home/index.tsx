@@ -7,7 +7,6 @@ import {
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
@@ -17,6 +16,7 @@ import {
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
+  ReleaseStrip,
   TrendingGamesList,
   TrendingReviewCarousel,
   useSearchGames,
@@ -24,12 +24,8 @@ import {
   useUserId,
 } from "@repo/ui";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
-import collectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 import type = Activity.type;
 
 const HomePage = () => {
@@ -135,14 +131,7 @@ const HomePage = () => {
                 <RecentActivityList limit={10} type={type.REVIEW} />
               </DetailsCard>
             </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-              <GameCollectionTypeView
-                collectionType={collectionType.UPCOMING}
-              />
-              <GameCollectionTypeView
-                collectionType={collectionType.RECENTLY_RELEASED}
-              />
-            </SimpleGrid>
+            <ReleaseStrip />
           </Stack>
         )}
       </Stack>

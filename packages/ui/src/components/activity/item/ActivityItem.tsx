@@ -1,6 +1,5 @@
 import {
   AchievementBadge,
-  ActivityItemComments,
   ActivityItemLikes,
   ActivityItemProps,
   GameRating,
@@ -144,9 +143,6 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
         )}
 
         <Group className={"flex-nowrap gap-1 items-start"}>
-          {activity.type === Activity.type.ACHIEVEMENT_UNLOCKED && (
-            <ActivityItemComments activity={activity} />
-          )}
           <ActivityItemLikes activity={activity} />
         </Group>
       </Group>

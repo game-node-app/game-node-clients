@@ -9,7 +9,11 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  dehydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import {
   ApiError,
   ConnectionsService,
@@ -32,6 +36,7 @@ const mocks = vi.hoisted(() => ({
       { type: "psn", authMode: "public_identifier", isImporterViable: true },
       { type: "epicgames", authMode: "delegated_code", isImporterViable: true },
       { type: "nintendo", authMode: "delegated_code", isImporterViable: true },
+      { type: "gog", authMode: "delegated_code", isImporterViable: true },
     ],
     error: null as Error | null,
     isLoading: false,
@@ -71,6 +76,9 @@ vi.mock(
 );
 vi.mock("../../../../../../packages/ui/src/util/index.ts", () => ({
   createErrorNotification: vi.fn(),
+  Link: ({ children, ...props }: React.ComponentProps<"a">) => (
+    <a {...props}>{children}</a>
+  ),
   getErrorMessage: (error: Error) => error.message,
 }));
 vi.mock("../../../../../../packages/ui/src/util/link", () => ({
@@ -96,7 +104,7 @@ function renderUI(children: React.ReactNode) {
       </QueryClientProvider>
     </StrictMode>,
   );
-  return { invalidate };
+  return { invalidate, client };
 }
 
 beforeEach(() => {
@@ -271,6 +279,51 @@ describe("shared connection setup", () => {
     });
   });
 
+  it("saves and deletes GOG through existing APIs with visible ownership errors", async () => {
+    mocks.own.data = {
+      id: 17,
+      type: "gog",
+      sourceUsername: "GogPlayer",
+      isAutoImportEnabled: true,
+      autoImportCollectionId: "collection-id",
+      authStatus: UserConnectionDto.authStatus.CONNECTED,
+    } as UserConnectionDto;
+    vi.mocked(
+      ConnectionsService.connectionsControllerUpdateSettingsV1,
+    ).mockRejectedValueOnce(new Error("Collection is not owned"));
+    const deletion = vi
+      .spyOn(ConnectionsService, "connectionsControllerDeleteV1")
+      .mockRejectedValueOnce(new Error("Connection is not owned"))
+      .mockResolvedValueOnce({});
+    const close = vi.fn();
+    const { invalidate } = renderUI(
+      <PreferencesConnectionSetup
+        type={UserConnectionDto.type.GOG}
+        onClose={close}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "actions.submit" }));
+    await screen.findByText("Collection is not owned");
+    expect(
+      ConnectionsService.connectionsControllerUpdateSettingsV1,
+    ).toHaveBeenCalledWith(17, {
+      isAutoImportEnabled: true,
+      autoImportCollectionId: "collection-id",
+    });
+    fireEvent.click(screen.getByRole("button", { name: "actions.submit" }));
+    await waitFor(() =>
+      expect(invalidate).toHaveBeenCalledWith({ queryKey: ["connections"] }),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "actions.remove" }));
+    await screen.findByText("Connection is not owned");
+    expect(deletion).toHaveBeenCalledWith(17);
+    fireEvent.click(screen.getByRole("button", { name: "actions.remove" }));
+    await waitFor(() => expect(deletion).toHaveBeenCalledTimes(2));
+    expect(
+      ConnectionsService.connectionsControllerCreateOrUpdateV1,
+    ).not.toHaveBeenCalled();
+  });
+
   it("shows lookup failures instead of treating an existing account as missing", () => {
     mocks.own.error = new Error("Could not load connection");
     renderUI(
@@ -305,7 +358,7 @@ describe("delegated code connection setup", () => {
     close = vi.fn(),
     type = UserConnectionDto.type.EPICGAMES,
   ) {
-    renderUI(
+    const { client, invalidate } = renderUI(
       <PreferencesConnectionSetup
         type={type}
         onRedirect={redirect}
@@ -321,7 +374,7 @@ describe("delegated code connection setup", () => {
     const signIn = await screen.findByRole("button", {
       name: "preferences.delegatedCode.signInButton",
     });
-    return { redirect, close, signIn };
+    return { redirect, close, signIn, client, invalidate };
   }
 
   async function openPasteStep(
@@ -331,7 +384,12 @@ describe("delegated code connection setup", () => {
   ) {
     const flow = await startFlow(redirect, close, type);
     fireEvent.click(flow.signIn);
-    const input = await screen.findByRole("textbox");
+    const input = await screen.findByRole(
+      "textbox",
+      type === UserConnectionDto.type.GOG
+        ? { name: "preferences.delegatedCode.gog.pasteLabel" }
+        : undefined,
+    );
     return { ...flow, input };
   }
 
@@ -340,6 +398,16 @@ describe("delegated code connection setup", () => {
 
   it("inits once with the settings and opens the URL only on its own click", async () => {
     const { redirect, signIn } = await startFlow();
+    expect(
+      screen.queryByRole("img", {
+        name: "preferences.delegatedCode.nintendo.guideAlt",
+      }),
+    ).toBeNull();
+    expect(
+      screen.queryByRole("img", {
+        name: "preferences.delegatedCode.gog.guideAlt",
+      }),
+    ).toBeNull();
     expect(
       ConnectionsService.connectionsControllerInitRedirectAuthV1,
     ).toHaveBeenCalledTimes(1);
@@ -412,29 +480,248 @@ describe("delegated code connection setup", () => {
     );
   });
 
-  describe("nintendo", () => {
-    const LINK = "npf5c38e31cd085304b://auth#session_token_code=x&state=state";
-    const openNintendo = (redirect = vi.fn()) =>
-      openPasteStep(redirect, vi.fn(), UserConnectionDto.type.NINTENDO);
+  describe("gog", () => {
+    const URL_TEXT =
+      "https://embed.gog.com/on_login_success?origin=client&code=fake%2Bone%2Fuse&extra=a%20b";
+    const openGog = () =>
+      openPasteStep(vi.fn(), vi.fn(), UserConnectionDto.type.GOG);
 
-    it("opens the URL only on its own click and shows the coverage notice", async () => {
-      const redirect = vi.fn();
-      const { signIn } = await startFlow(
-        redirect,
+    it("keeps sign-in selectable, protects the handoff and sends the full unchanged URL", async () => {
+      const flow = await startFlow(
         vi.fn(),
-        UserConnectionDto.type.NINTENDO,
+        vi.fn(),
+        UserConnectionDto.type.GOG,
       );
+      const signInUrl = screen.getByRole("textbox", {
+        name: "preferences.delegatedCode.gog.signInUrl",
+      }) as HTMLInputElement;
+      expect(signInUrl.value).toBe("https://provider.example/signin");
+      expect(signInUrl.readOnly).toBe(true);
+      expect(signInUrl.closest(".oauth-private.ph-no-capture")).toBeTruthy();
+      expect(
+        screen.getByText("preferences.delegatedCode.gog.coverage"),
+      ).toBeTruthy();
+      expect(
+        ConnectionsService.connectionsControllerInitRedirectAuthV1,
+      ).toHaveBeenCalledWith("gog", {
+        isAutoImportEnabled: true,
+        autoImportCollectionId: undefined,
+      });
+      fireEvent.click(flow.signIn);
+      const input = await screen.findByRole("textbox", {
+        name: "preferences.delegatedCode.gog.pasteLabel",
+      });
+      const fetch = vi.spyOn(window, "fetch");
+      fireEvent.change(input, { target: { value: `  ${URL_TEXT}  ` } });
+      submit();
+      await waitFor(() =>
+        expect(complete()).toHaveBeenCalledWith("gog", {
+          state: "state",
+          callbackParams: { code: URL_TEXT },
+        }),
+      );
+      await waitFor(() => expect(flow.close).toHaveBeenCalledTimes(1));
+      expect(flow.invalidate).toHaveBeenCalledWith({
+        queryKey: ["connections"],
+      });
+      expect(fetch).not.toHaveBeenCalled();
+      expect(
+        ConnectionsService.connectionsControllerCreateOrUpdateV1,
+      ).not.toHaveBeenCalled();
+      expect(document.body.textContent).not.toContain("fake%2B");
+    });
+
+    it.each([
+      "bare-code",
+      "not a URL",
+      "http://embed.gog.com/on_login_success?origin=client&code=x",
+      "https://evil.example/on_login_success?origin=client&code=x",
+      "https://embed.gog.com.evil.example/on_login_success?origin=client&code=x",
+      "https://embed.gog.com/wrong?origin=client&code=x",
+      "https://embed.gog.com/on_login_success?code=x",
+      "https://embed.gog.com/on_login_success?origin=web&code=x",
+      "https://embed.gog.com/on_login_success?origin=client&code=",
+      "https://embed.gog.com/on_login_success?origin=client&code=%20",
+      "https://embed.gog.com/on_login_success?origin=client",
+      "https://user@embed.gog.com/on_login_success?origin=client&code=x",
+      "https://embed.gog.com:444/on_login_success?origin=client&code=x",
+    ])("rejects invalid input %s locally", async (value) => {
+      const { input } = await openGog();
+      fireEvent.change(input, { target: { value } });
+      submit();
+      expect(
+        await screen.findByText("preferences.delegatedCode.gog.invalidLink"),
+      ).toBeTruthy();
+      expect(complete()).not.toHaveBeenCalled();
+    });
+
+    it.each(["expired", "rejected", "network failed"])(
+      "requires fresh init after %s and never caches the sensitive error",
+      async (reason) => {
+        vi.mocked(complete()).mockRejectedValue(
+          reason === "network failed"
+            ? new TypeError(URL_TEXT)
+            : new ApiError(
+                {
+                  method: "POST",
+                  url: "/v1/connections/gog/auth/callback",
+                  body: { callbackParams: { code: URL_TEXT } },
+                },
+                {
+                  url: "",
+                  ok: false,
+                  status: 400,
+                  statusText: reason,
+                  body: { message: URL_TEXT },
+                },
+                URL_TEXT,
+              ),
+        );
+        const log = vi.spyOn(console, "error");
+        const { input, client } = await openGog();
+        fireEvent.change(input, { target: { value: URL_TEXT } });
+        submit();
+        await screen.findByText("preferences.delegatedCode.gog.callbackFailed");
+        expect(document.body.textContent).not.toContain("fake%2B");
+        expect(JSON.stringify(log.mock.calls)).not.toContain("fake%2B");
+        expect(
+          JSON.stringify(
+            dehydrate(client, { shouldDehydrateMutation: () => true }),
+          ),
+        ).not.toContain("fake%2B");
+        expect(
+          client.getMutationCache().getAll().at(-1)?.state.error?.message,
+        ).toBe("preferences.delegatedCode.gog.callbackFailed");
+        expect(complete()).toHaveBeenCalledTimes(1);
+        expect(
+          screen.queryByRole("button", { name: "actions.submit" }),
+        ).toBeNull();
+        vi.mocked(
+          ConnectionsService.connectionsControllerInitRedirectAuthV1,
+        ).mockResolvedValueOnce({
+          state: "fresh-state",
+          authorizationUrl: "https://provider.example/new-attempt",
+        });
+        fireEvent.click(
+          screen.getByRole("button", {
+            name: "preferences.delegatedCode.startOver",
+          }),
+        );
+        fireEvent.click(
+          screen.getByRole("button", {
+            name: "preferences.delegatedCode.continue",
+          }),
+        );
+        await waitFor(() =>
+          expect(
+            ConnectionsService.connectionsControllerInitRedirectAuthV1,
+          ).toHaveBeenCalledTimes(2),
+        );
+        vi.mocked(complete()).mockResolvedValueOnce({
+          type: UserConnectionDto.type.GOG,
+        } as UserConnectionDto);
+        fireEvent.click(
+          await screen.findByRole("button", {
+            name: "preferences.delegatedCode.signInButton",
+          }),
+        );
+        const freshInput = await screen.findByRole("textbox", {
+          name: "preferences.delegatedCode.gog.pasteLabel",
+        });
+        fireEvent.change(freshInput, { target: { value: URL_TEXT } });
+        submit();
+        await waitFor(() =>
+          expect(complete()).toHaveBeenLastCalledWith("gog", {
+            state: "fresh-state",
+            callbackParams: { code: URL_TEXT },
+          }),
+        );
+      },
+    );
+  });
+
+  it.each([UserConnectionDto.type.NINTENDO, UserConnectionDto.type.GOG])(
+    "shows the %s guide before sign-in with play/pause controls and coverage",
+    async (type) => {
+      const redirect = vi.fn();
+      const { signIn } = await startFlow(redirect, vi.fn(), type);
       expect(redirect).not.toHaveBeenCalled();
       expect(
-        screen.getByText("preferences.delegatedCode.nintendo.coverage"),
+        screen.getByText(`preferences.delegatedCode.${type}.coverage`),
       ).toBeTruthy();
+      expect(
+        screen
+          .getByText(`preferences.delegatedCode.${type}.signInHint`)
+          .compareDocumentPosition(signIn) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      const guide = screen.getByRole("img", {
+        name: `preferences.delegatedCode.${type}.guideAlt`,
+      });
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
+      expect(
+        guide.compareDocumentPosition(signIn) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(
+        screen.queryByRole("img", {
+          name: `preferences.delegatedCode.${type === "gog" ? "nintendo" : "gog"}.guideAlt`,
+        }),
+      ).toBeNull();
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: `preferences.delegatedCode.${type}.pauseGuide`,
+          pressed: true,
+        }),
+      );
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.png`);
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: `preferences.delegatedCode.${type}.playGuide`,
+          pressed: false,
+        }),
+      );
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
       fireEvent.click(signIn);
       await waitFor(() =>
         expect(redirect).toHaveBeenCalledWith(
           "https://provider.example/signin",
         ),
       );
-    });
+    },
+  );
+
+  it.each([UserConnectionDto.type.NINTENDO, UserConnectionDto.type.GOG])(
+    "starts the %s guide still for reduced motion and allows explicit playback",
+    async (type) => {
+      vi.mocked(window.matchMedia).mockImplementation((query) => ({
+        matches: query === "(prefers-reduced-motion: reduce)",
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }));
+      await startFlow(vi.fn(), vi.fn(), type);
+      const guide = screen.getByRole("img", {
+        name: `preferences.delegatedCode.${type}.guideAlt`,
+      });
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.png`);
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: `preferences.delegatedCode.${type}.playGuide`,
+          pressed: false,
+        }),
+      );
+      expect(guide.getAttribute("src")).toBe(`/img/${type}-link-guide.gif`);
+    },
+  );
+
+  describe("nintendo", () => {
+    const LINK = "npf5c38e31cd085304b://auth#session_token_code=x&state=state";
+    const openNintendo = (redirect = vi.fn()) =>
+      openPasteStep(redirect, vi.fn(), UserConnectionDto.type.NINTENDO);
 
     it("sends the trimmed account link with the state", async () => {
       const { input } = await openNintendo();
@@ -471,30 +758,31 @@ describe("delegated code connection setup", () => {
     });
   });
 
-  it("starts the flow from Reconnect on a reauth_required connection", async () => {
-    mocks.own.data = {
-      id: 9,
-      sourceUsername: "EpicPlayer",
-      isAutoImportEnabled: false,
-      autoImportCollectionId: null,
-      authStatus: UserConnectionDto.authStatus.REAUTH_REQUIRED,
-    } as UserConnectionDto;
-    renderUI(
-      <PreferencesConnectionSetup type={UserConnectionDto.type.EPICGAMES} />,
-    );
-    fireEvent.click(
-      screen.getByRole("button", { name: "preferences.actions.reconnect" }),
-    );
-    await screen.findByRole("button", {
-      name: "preferences.delegatedCode.signInButton",
-    });
-    expect(
-      ConnectionsService.connectionsControllerInitRedirectAuthV1,
-    ).toHaveBeenCalledWith("epicgames", {
-      isAutoImportEnabled: false,
-      autoImportCollectionId: null,
-    });
-  });
+  it.each([UserConnectionDto.type.EPICGAMES, UserConnectionDto.type.GOG])(
+    "starts %s from Reconnect on a reauth_required connection",
+    async (type) => {
+      mocks.own.data = {
+        id: 9,
+        sourceUsername: "EpicPlayer",
+        isAutoImportEnabled: false,
+        autoImportCollectionId: null,
+        authStatus: UserConnectionDto.authStatus.REAUTH_REQUIRED,
+      } as UserConnectionDto;
+      renderUI(<PreferencesConnectionSetup type={type} />);
+      fireEvent.click(
+        screen.getByRole("button", { name: "preferences.actions.reconnect" }),
+      );
+      await screen.findByRole("button", {
+        name: "preferences.delegatedCode.signInButton",
+      });
+      expect(
+        ConnectionsService.connectionsControllerInitRedirectAuthV1,
+      ).toHaveBeenCalledWith(type, {
+        isAutoImportEnabled: false,
+        autoImportCollectionId: null,
+      });
+    },
+  );
 });
 
 describe("shared connection callback", () => {

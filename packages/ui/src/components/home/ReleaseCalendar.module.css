@@ -1,0 +1,551 @@
+.title {
+  font-weight: 600;
+  color: var(--mantine-color-text);
+}
+
+.calendar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-default);
+  overflow: hidden;
+  /* the 1px gaps show this as the grid lines */
+  background: var(--mantine-color-default-border);
+}
+
+.calendarWeekday {
+  padding: 8px;
+  background: #161616;
+  color: var(--mantine-color-dimmed);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* calendar on the left, the selected day's releases on the right; stacked below desktop */
+.calendarLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* no upcoming day selected: the calendar takes the full width */
+.calendarLayout:not(:has(.calendarAgenda)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.calendarDay {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 6px 2px;
+  background: #1d1d1d;
+  transition: background 150ms ease;
+}
+
+.calendarDay[data-outside],
+.calendarDay[data-past] {
+  background: #161616;
+}
+
+.calendarDay[data-outside] .calendarDate,
+.calendarDay[data-past] .calendarDate {
+  color: var(--mantine-color-dimmed);
+  opacity: 0.6;
+}
+
+.calendarDate {
+  min-width: 28px;
+  height: 28px;
+  padding-inline: 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendarDay[data-today] .calendarDate {
+  background: var(--mantine-primary-color-filled);
+  color: #ffffff;
+}
+
+/* the day's select button covers the whole cell */
+.calendarSelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.calendarSelect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.calendarSelect:disabled {
+  cursor: default;
+}
+
+.calendarSelect:focus-visible {
+  outline: none;
+}
+
+.calendarDay:not([data-selected]):has(.calendarSelect:not(:disabled)):hover {
+  background: color-mix(
+    in srgb,
+    var(--mantine-primary-color-filled) 10%,
+    #1d1d1d
+  );
+}
+
+.calendarDay:has(.calendarSelect:focus-visible),
+.calendarDay[data-selected] {
+  box-shadow: inset 0 0 0 2px var(--mantine-primary-color-filled);
+  background: color-mix(
+    in srgb,
+    var(--mantine-primary-color-filled) 18%,
+    transparent
+  );
+}
+
+.calendarCount {
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: color-mix(
+    in srgb,
+    var(--mantine-primary-color-filled) 35%,
+    transparent
+  );
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* the panel matches the calendar's height and scrolls its own list */
+.calendarAgenda {
+  position: relative;
+  min-height: 0;
+}
+
+.calendarAgendaPanel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-default);
+  background: #161616;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* date + count on the left, the pager on the right */
+.calendarAgendaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calendarAgendaTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.calendarAgendaTitle::first-letter {
+  text-transform: uppercase;
+}
+
+.calendarAgendaTitle span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--mantine-color-dimmed);
+}
+
+.calendarAgendaNav {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--mantine-color-dimmed);
+}
+
+.calendarAgendaNav span {
+  min-width: 3.5em;
+  text-align: center;
+}
+
+.agendaGame {
+  display: flex;
+  gap: 20px;
+  min-width: 0;
+  min-height: 0;
+  margin: 0 -8px;
+  padding: 8px;
+  border-radius: var(--mantine-radius-default);
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  transition: background 150ms ease;
+  animation: gn-agenda-in 220ms ease-out;
+}
+
+@keyframes gn-agenda-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+.agendaGame:hover,
+.agendaGame:focus-visible {
+  background: color-mix(in srgb, var(--mantine-color-text) 6%, transparent);
+}
+
+.agendaGame:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--mantine-primary-color-filled);
+}
+
+.agendaGame img:not(.agendaBackdrop) {
+  flex: none;
+  width: 42%;
+  max-width: 200px;
+  align-self: flex-start;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--mantine-radius-default);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 200ms ease;
+}
+
+.agendaGame:hover img:not(.agendaBackdrop) {
+  transform: translateY(-2px);
+}
+
+/* positioned against the panel, not the card */
+.agendaBackdrop {
+  position: absolute;
+  inset: -40px;
+  z-index: -1;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
+  object-fit: cover;
+  filter: blur(40px) saturate(1.2);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.agendaGameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.agendaGameName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--mantine-color-text);
+  text-wrap: balance;
+}
+
+.agendaGamePlatforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.agendaGamePlatforms span {
+  padding: 2px 8px;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mantine-color-body) 60%, transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mantine-color-text);
+  white-space: nowrap;
+}
+
+.agendaGameSummary {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--mantine-color-text) 80%, transparent);
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendarDay,
+  .agendaGame,
+  .agendaGame img {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* tablets and phones: the agenda goes under the calendar, at its natural height */
+@media (max-width: 61.99em) {
+  .calendarLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .calendarAgendaPanel {
+    position: relative;
+  }
+}
+
+@media (max-width: 47.99em) {
+  .calendarWeekday {
+    padding: 6px 0;
+    font-size: 0.65rem;
+  }
+
+  .calendarDay {
+    min-height: 56px;
+  }
+
+  .agendaGame img:not(.agendaBackdrop) {
+    width: 110px;
+  }
+}
+
+.strip {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stripHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stripDays {
+  --strip-gap: 16px;
+  --strip-dot: 36px;
+  display: flex;
+  gap: var(--strip-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* room for the today ring (a 4px box-shadow) inside the scroll box: a negative margin would
+     push the ring outside, where parent containers clip it; scroll-padding keeps snapping
+     from scrolling that room away */
+  padding: 4px;
+  scroll-padding: 4px;
+}
+
+.stripDay {
+  /* the whole week fits on desktop, the next day peeking on phones */
+  flex: 0 0 calc((100% - 6 * var(--strip-gap)) / 7);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-snap-align: start;
+}
+
+.stripDayHead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* the timeline: each day draws the segment to the next marker, across the gap */
+.stripDayHead::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: var(--strip-dot);
+  right: calc(-1 * var(--strip-gap));
+  height: 2px;
+  background: var(--mantine-color-default-border);
+  transform: translateY(-50%);
+}
+
+.stripDay:last-child .stripDayHead::before {
+  display: none;
+}
+
+.stripDayDot {
+  position: relative;
+  flex: none;
+  width: var(--strip-dot);
+  height: var(--strip-dot);
+  display: grid;
+  place-items: center;
+  border: 2px solid
+    color-mix(in srgb, var(--mantine-primary-color-filled) 70%, transparent);
+  border-radius: 999px;
+  background: var(--mantine-color-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--mantine-color-text);
+}
+
+.stripDayLabel {
+  position: relative;
+  padding-right: 6px;
+  /* masks the timeline behind the label */
+  background: var(--mantine-color-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mantine-color-dimmed);
+}
+
+.stripDay[data-today] .stripDayDot {
+  border-color: var(--mantine-primary-color-filled);
+  background: var(--mantine-primary-color-filled);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--mantine-primary-color-filled) 25%, transparent);
+}
+
+.stripDay[data-today] .stripDayLabel {
+  color: var(--mantine-color-text);
+}
+
+.stripDay[data-empty] .stripDayDot {
+  border-color: var(--mantine-color-default-border);
+  color: var(--mantine-color-dimmed);
+}
+
+.stripDayEmpty {
+  font-size: 0.75rem;
+  color: var(--mantine-color-dimmed);
+}
+
+.stripGame {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  padding: 2px;
+  border-radius: var(--mantine-radius-default);
+  color: inherit;
+  text-decoration: none;
+}
+
+.stripGame:hover,
+.stripGame:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+}
+
+.stripGame img {
+  flex: 0 0 auto;
+  width: 48px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.stripGameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stripGameName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--mantine-color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stripGamePlatforms {
+  font-size: 0.7rem;
+  color: var(--mantine-color-dimmed);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stripGameBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--mantine-color-text);
+  background: color-mix(
+    in srgb,
+    var(--mantine-primary-color-filled) 45%,
+    transparent
+  );
+}
+
+.stripMore {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 2px 8px;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mantine-color-dimmed);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.stripMore:hover {
+  color: var(--mantine-color-text);
+}
+
+@media (max-width: 48em) {
+  .stripDay {
+    flex-basis: 45%;
+  }
+}

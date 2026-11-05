@@ -8,21 +8,17 @@ import {
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
+  ReleaseStrip,
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import ActivityType = Activity.type;
-import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -48,6 +44,9 @@ const HomePage = () => {
         slot={"fixed"}
         onIonRefresh={async (evt) => {
           const promises: Promise<unknown>[] = [
+            queryClient.invalidateQueries({
+              queryKey: ["game", "all", "collectionType"],
+            }),
             queryClient.invalidateQueries({
               queryKey: ["recommendation"],
             }),
@@ -97,12 +96,7 @@ const HomePage = () => {
             <RecentActivityList limit={10} type={ActivityType.REVIEW} />
           </DetailsCard>
         </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-          <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
-          <GameCollectionTypeView
-            collectionType={CollectionType.RECENTLY_RELEASED}
-          />
-        </SimpleGrid>
+        <ReleaseStrip />
       </Stack>
     </AppPage>
   );

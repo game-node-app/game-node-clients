@@ -15,6 +15,9 @@ describe("getExternalLookupUrl", () => {
     expect(getExternalLookupUrl({ category, sourceUid })).toBe(expected);
   });
 
+  it("labels category 5 as GOG", () =>
+    expect(getExternalSourceName(5)).toBe("GOG"));
+
   it("labels category 1001 as Epic Games Namespace", () => {
     expect(getExternalSourceName(1001)).toBe("Epic Games Namespace");
   });

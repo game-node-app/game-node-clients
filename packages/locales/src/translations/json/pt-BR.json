@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Voltar ao início",
     "cancel": "Cancelar",
     "clickHere": "Clique aqui",
     "close": "Fechar",
@@ -61,7 +62,8 @@
     "viewMore": "Ver Mais",
     "yes": "Sim",
     "use": "Use",
-    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento"
+    "toOpenDialogAnytime": "para abrir esta tela a qualquer momento",
+    "retry": "Tentar novamente"
   },
   "activity": {
     "items": {
@@ -458,6 +460,116 @@
     "message": "Tem certeza de que deseja fazer isso?",
     "title": "Confirmar ação"
   },
+  "daily": {
+    "subtitle": "Adivinhe o jogo a partir de uma dica que fica mais clara a cada erro. Novos desafios todos os dias.",
+    "fetchError": "Não foi possível carregar os desafios do dia.",
+    "fetchErrorDescription": "Verifique sua conexão e tente de novo. Se continuar, volte em alguns minutos.",
+    "noPuzzle": "Não há desafio para este modo hoje.",
+    "play": "Jogar",
+    "nextPuzzleIn": "Novos desafios em {{time}}",
+    "attempts": "{{attempts}} de {{max}} tentativas usadas",
+    "modes": {
+      "cover": {
+        "name": "Capa",
+        "description": "Adivinhe o jogo pela capa, que fica mais nítida a cada tentativa."
+      },
+      "artwork": {
+        "name": "Artwork",
+        "description": "Adivinhe o jogo por uma arte que fica mais nítida a cada tentativa."
+      },
+      "keywords": {
+        "name": "Palavras-chave",
+        "description": "Adivinhe o jogo pelas palavras-chave. Novas pistas aparecem a cada tentativa."
+      },
+      "specs": {
+        "name": "Especificações",
+        "description": "Chute qualquer jogo e compare plataformas, gêneros, empresas e mais com a resposta."
+      }
+    },
+    "status": {
+      "notPlayed": "Não jogado",
+      "inProgress": "Em andamento",
+      "won": "Acertou em {{attempts}}",
+      "lost": "Não acertou"
+    },
+    "guess": {
+      "placeholder": "Busque um jogo",
+      "nothingFound": "Nenhum jogo encontrado",
+      "commonGenres": "Gêneros em comum",
+      "commonPlatforms": "Plataformas em comum",
+      "skipHint": "Pular usa uma tentativa"
+    },
+    "results": {
+      "correct": "Correto",
+      "franchise": "Mesma franquia",
+      "wrong": "Errado",
+      "skipped": "Pulado"
+    },
+    "hint": {
+      "imageLevel": "Nível {{level}}"
+    },
+    "specs": {
+      "columns": {
+        "game": "Jogo",
+        "platforms": "Plataformas",
+        "genres": "Gêneros",
+        "themes": "Temas",
+        "gameModes": "Modos",
+        "gameEngines": "Motor",
+        "companies": "Empresas",
+        "perspectives": "Perspectiva",
+        "franchise": "Franquia",
+        "releaseYear": "Ano"
+      },
+      "franchise": {
+        "match": "Mesma",
+        "partial": "Relacionada",
+        "none": "Diferente"
+      },
+      "yearRange": "Anos de lançamento",
+      "reveal": "Revelado: {{column}}",
+      "hint": "Revelar uma coluna",
+      "hintConfirm": "Revelar uma das colunas da resposta custa uma tentativa.",
+      "legend": {
+        "match": "Igual",
+        "partial": "Parcial",
+        "none": "Diferente"
+      },
+      "newer": "A resposta é mais nova",
+      "older": "A resposta é mais antiga"
+    },
+    "result": {
+      "won": "Acertou em {{attempts}}!",
+      "lost": "Acabaram as tentativas",
+      "answer": "A resposta era",
+      "community": "{{players}} jogadores acertaram, em média com {{average}} tentativas",
+      "openGame": "Abrir página do jogo"
+    },
+    "share": {
+      "copied": "Copiado para a área de transferência",
+      "today": "Compartilhar hoje"
+    },
+    "stats": {
+      "title": "Suas estatísticas",
+      "played": "Jogados",
+      "winRate": "% de acertos",
+      "currentStreak": "Sequência atual",
+      "maxStreak": "Melhor sequência",
+      "distribution": "Distribuição de tentativas"
+    },
+    "archive": {
+      "link": "Arquivo",
+      "title": "Arquivo: {{mode}}",
+      "empty": "Ainda não há desafios anteriores."
+    },
+    "continue": "Continuar",
+    "seeResult": "Ver resultado",
+    "todayProgress": "{{solved}} de {{total}} resolvidos hoje",
+    "announce": {
+      "guess": "{{name}}: {{result}}",
+      "skipped": "Palpite pulado"
+    }
+  },
   "errors": {
     "comeBackSoon": "Volte em breve!",
     "copiedToClipboard": "Detalhes do erro copiados para a área de transferência",
@@ -510,7 +622,8 @@
       "overviewTitle": "Conquistas",
       "ownedBy": "Obtida por",
       "totalCount": "{{totalObtained}} de {{total}}",
-      "trophies": "Trofeus"
+      "trophies": "Trofeus",
+      "previousProgress": "Progresso carregado anteriormente. A atualização falhou; tente novamente."
     },
     "buttons": {
       "addLibrary": "Adicionar à biblioteca",
@@ -519,6 +632,18 @@
     "collectionTypes": {
       "recentReleases": "Lançamentos recentes",
       "upcoming": "Em breve"
+    },
+    "releaseCalendar": {
+      "gamesCount": "{{count}} jogos",
+      "title": "Calendário de lançamentos",
+      "inLibrary": "Na sua lista",
+      "more": "+{{count}}",
+      "noReleases": "Sem lançamentos",
+      "showCalendar": "Ver calendário",
+      "hideCalendar": "Ocultar calendário",
+      "today": "Hoje",
+      "previousGame": "Jogo anterior",
+      "nextGame": "Próximo jogo"
     },
     "details": {
       "developers": "Desenvolvedora(s)",
@@ -805,6 +930,11 @@
       "communityDescription": "Siga seus amigos, descubra o que estão jogando e compartilhe suas conquistas.",
       "activity": "ATIVIDADE DA SEMANA",
       "hours": "24h jogadas",
+      "communityLabel": "COMUNIDADE",
+      "communitySectionTitle": "Veja o que a comunidade está jogando.",
+      "communitySectionDescription": "Os jogos e as reviews que mais chamam atenção entre os jogadores do GameNode agora.",
+      "popularGames": "Jogos mais populares do mês",
+      "popularReviews": "Reviews que os jogadores estão comentando",
       "connectionsLabel": "CONEXÕES",
       "connectionsTitle": "Suas plataformas. Um único GameNode.",
       "connectionsDescription": "Uma biblioteca conectada, para reunir sua jornada em cada plataforma.",
@@ -815,20 +945,64 @@
       "aiPrompt": "Encontre um jogo co-op que eu ainda não joguei e adicione ao meu backlog.",
       "aiReply": "It Takes Two é um jogo co-op bem avaliado que ainda não está na sua biblioteca. Adicionei ao seu backlog.",
       "aiPermission": "Você escolhe o que seu assistente pode ler e alterar.",
-      "premiumTitle": "Eleve seu perfil. Apoie o GameNode.",
-      "premiumDescription": "Mais personalização, mais presença e benefícios feitos para quem vive cada jogo.",
-      "monthly": "por mês • cancele quando quiser",
-      "supportDescription": "Todos os benefícios Premium para destacar seu perfil e apoiar o futuro do GameNode.",
-      "subscribe": "Assinar Premium",
-      "benefitsTitle": "Tudo o que muda com o Premium",
-      "benefitsDescription": "Personalize sua presença, amplie suas coleções e conecte sua comunidade ao seu perfil.",
-      "benefit1": "Personalize a capa dos seus jogos",
-      "benefit2": "Crie mais de 5 coleções",
-      "benefit3": "Use um vídeo como capa do seu perfil",
-      "benefit4": "Aplique um tema exclusivo de apoiador",
-      "benefit5": "Integre Twitch ou Kick e mostre sua live no perfil",
-      "benefit6": "Use uma borda de avatar animada",
-      "benefit7": "Receba o título exclusivo de Supporter",
+      "supporter": {
+        "label": "SEJA APOIADOR",
+        "title": "Ajude a manter o GameNode no ar.",
+        "description": "Tudo o que você usa hoje continua grátis. O plano Apoiador adiciona extras para o seu perfil e mantém o projeto vivo.",
+        "billing": "Período de cobrança",
+        "monthly": "Mensal",
+        "yearly": "Anual",
+        "yearlyBadge": "2 meses grátis",
+        "included": "Incluso:",
+        "notIncluded": "Não incluso:",
+        "free": {
+          "name": "Grátis",
+          "price": "R$ 0",
+          "period": "para sempre",
+          "description": "Tudo o que você precisa para organizar seus jogos. Continua grátis.",
+          "cta": "Começar grátis",
+          "limit": "Até 5"
+        },
+        "plan": {
+          "name": "Apoiador",
+          "badge": "Mantém o GameNode no ar",
+          "description": "Tudo do Grátis, mais um perfil seu e mais espaço na biblioteca.",
+          "cta": "Quero apoiar o GameNode",
+          "monthlyPrice": "R$ 9,90",
+          "monthlyPeriod": "/mês · ou R$ 99/ano",
+          "yearlyPrice": "R$ 99",
+          "yearlyPeriod": "/ano · ou R$ 9,90/mês",
+          "limit": "Mais de 5"
+        },
+        "groups": {
+          "always": "Sempre grátis",
+          "profile": "Seu perfil, do seu jeito",
+          "library": "Sua biblioteca, sem limites",
+          "live": "Ao vivo no seu perfil",
+          "show": "Mostre que você apoia"
+        },
+        "features": {
+          "library": "Biblioteca, avaliações e diário de jogos",
+          "import": "Importação da Steam, PSN e Xbox",
+          "achievements": "Conquistas e retrospectiva anual",
+          "videoCover": "Capa do perfil em vídeo",
+          "animatedBorder": "Borda animada no avatar",
+          "theme": "Tema exclusivo de apoiador",
+          "collections": "Coleções",
+          "customCovers": "Capas personalizadas dos jogos",
+          "live": "Live da Twitch ou Kick no perfil",
+          "badge": "Selo de Apoiador ao lado do nome",
+          "wall": "Seu nome no mural de apoiadores"
+        },
+        "trust": {
+          "cancel": "Cancele quando quiser, direto no app",
+          "benefits": "Benefícios até o fim do período pago",
+          "downgrade": "Volta ao grátis sem perder sua biblioteca",
+          "servers": "Paga servidores e desenvolvimento",
+          "openSource": "Código aberto no GitHub",
+          "footer": "Nada do que é grátis hoje vai passar a ser pago."
+        }
+      },
       "footerTitle": "Organize seus jogos. Compartilhe sua jornada.",
       "copyright": "© 2026 GameNode. Todos os direitos reservados.",
       "product": "Produto",
@@ -995,6 +1169,7 @@
     "back": "Voltar",
     "blog": "Blog",
     "collections": "Coleções",
+    "daily": "Daily",
     "explore": "Explorar",
     "feats": "Feitos",
     "home": "Início",
@@ -1106,6 +1281,10 @@
       "startOver": "Recomeçar",
       "pasteFromClipboard": "Colar da área de transferência",
       "nintendo": {
+        "signInHint": "Depois de entrar, não clique em \"Select this account\" na página da Nintendo. Clique com o botão direito (ou toque e segure no celular), escolha \"Copiar endereço do link\" e volte ao GameNode para colar o link.",
+        "guideAlt": "Exemplo: clique com o botão direito em \"Select this account\" na Nintendo, escolha \"Copiar endereço do link\" e cole no campo Link da conta do GameNode.",
+        "pauseGuide": "Pausar guia",
+        "playGuide": "Reproduzir guia",
         "copyHint": "Depois de entrar, a Nintendo mostra um botão \"Select this account\". Não clique nele. Clique com o botão direito (ou toque e segure no celular), escolha \"Copiar endereço do link\" e cole o link abaixo.",
         "pasteLabel": "Link da conta",
         "pastePlaceholder": "npf5c38e31cd085304b://auth#…",
@@ -1114,6 +1293,21 @@
         "coverage": "Só são importados jogos jogados no Switch ou Switch 2 depois que sua Conta Nintendo foi vinculada a um console. Jogos ocultos no app da Nintendo e jogos que você tem mas nunca jogou não são importados. O tempo de jogo e as datas do primeiro e do último jogo vêm da Nintendo.",
         "revoke": "Para revogar o acesso, remova a conexão com a Nintendo no GameNode. Isso apaga as credenciais da Nintendo que guardamos.",
         "phoneHint": "Copiar o link pode não funcionar no celular. Se não funcionar, vincule sua conta por um computador."
+      },
+      "gog": {
+        "signInHint": "Entre na GOG pelo navegador. Após entrar, copie a URL final inteira pela barra de endereço (ou pelo menu de compartilhamento do navegador no celular), volte ao GameNode e cole na próxima etapa.",
+        "guideAlt": "Exemplo: entre na GOG, copie a URL final inteira de embed.gog.com/on_login_success pela barra de endereço do navegador, volte ao GameNode, cole em URL final da GOG e envie. No celular, use a barra de endereço ou o menu de compartilhamento do navegador para copiar a URL.",
+        "pauseGuide": "Pausar guia",
+        "playGuide": "Reproduzir guia",
+        "coverage": "Importe jogos comprados na GOG, incluindo títulos nunca jogados, no PC. Jogos de outras lojas vinculadas ao Galaxy não são incluídos. O tempo de jogo inclui apenas a atividade cumulativa registrada pela GOG; partidas offline que a GOG nunca registrou não podem ser importadas.",
+        "expiryHint": "Esta tentativa expira em dez minutos e só pode ser usada uma vez. Após qualquer falha na troca, ou se o aplicativo perder a tentativa, comece novamente.",
+        "signInUrl": "URL de login",
+        "desktopFallback": "Copie esta URL de login para um navegador no computador se não conseguir copiar a URL final no celular. Mantenha este aplicativo aberto e cole o resultado aqui na mesma tentativa de dez minutos.",
+        "copyHint": "Copie a URL final inteira da GOG, incluindo origin=client e code. Use a barra de endereço ou o menu de compartilhamento do navegador e volte aqui. Não cole um token de acesso ou de renovação.",
+        "pasteLabel": "URL final da GOG",
+        "pastePlaceholder": "https://embed.gog.com/on_login_success?origin=client&code=…",
+        "invalidLink": "Cole a URL HTTPS completa de embed.gog.com/on_login_success com origin=client e um code não vazio.",
+        "callbackFailed": "Não foi possível concluir o login na GOG. Comece novamente para criar uma nova tentativa."
       }
     },
     "descriptions": {

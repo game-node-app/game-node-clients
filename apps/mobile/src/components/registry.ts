@@ -1,3 +1,4 @@
+import { Share } from "@capacitor/share";
 import { UIHookRegistry, UIPresenterRegistry } from "@repo/ui";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
 import { MobileGameInfoActions } from "@/components/game/info/MobileGameInfoActions.tsx";
@@ -31,4 +32,14 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
   authPath: "/m/auth",
   useScrollPosition: useIonScrollPosition,
   useIsViewActive: useIonViewActive,
+  shareText: async (text) => {
+    try {
+      await Share.share({ text });
+      return true;
+    } catch (error) {
+      // the plugin rejects when the share sheet is dismissed
+      if (/cancel/i.test((error as Error).message ?? "")) return false;
+      throw error;
+    }
+  },
 };
