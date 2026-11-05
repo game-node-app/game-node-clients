@@ -1,0 +1,24 @@
+{
+  "source": "63bffa28fd250549bcce233632011e8945a82c69",
+  "changesets": [
+    ".changeset/daily-web-redesign.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[b866fea113f9b4292edd59fc17d62e6bb2301652...63bffa28fd250549bcce233632011e8945a82c69]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/63bffa28fd250549bcce233632011e8945a82c69",
+  "versions": {
+    "web": "1.12.3"
+  }
+}
