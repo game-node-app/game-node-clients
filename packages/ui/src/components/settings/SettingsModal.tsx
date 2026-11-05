@@ -30,8 +30,8 @@ function SettingsModalContent({
   const { t } = useTranslation();
   /** Scroll-spy result, tied to the tab/section it was measured for. */
   const [spy, setSpy] = useState<{ key: string; section: string } | null>(null);
-  /** On mobile the sidebar and the panel are separate screens. */
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  /** On mobile the sidebar and the panel are separate screens; opening lands on the tab list. */
+  const [showMobileMenu, setShowMobileMenu] = useState(true);
 
   const spyKey = `${tab}:${section ?? ""}`;
   const activeSection = spy?.key === spyKey ? spy.section : section;

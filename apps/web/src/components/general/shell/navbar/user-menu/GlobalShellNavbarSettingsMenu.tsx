@@ -25,7 +25,7 @@ const GlobalShellNavbarSettingsMenu = () => {
     <Menu
       position={"right-end"}
       keepMounted={true}
-      withinPortal={false}
+      withinPortal={true}
       offset={15}
     >
       <Menu.Target>
