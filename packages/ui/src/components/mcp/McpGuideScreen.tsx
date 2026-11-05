@@ -37,7 +37,7 @@ import {
 import { McpCopy } from "./McpCopy";
 import classes from "./McpGuide.module.css";
 
-const EXAMPLES = [
+export const MCP_EXAMPLES = [
   { key: "readExample", icon: IconSearch },
   { key: "writeExample", icon: IconBookmarkPlus },
   { key: "publishExample", icon: IconPencil },
@@ -152,7 +152,7 @@ export function McpGuideScreen({ openExternal }: McpGuideScreenProps) {
           )}
         </Stack>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          {EXAMPLES.map(({ key, icon: Icon }, i) => (
+          {MCP_EXAMPLES.map(({ key, icon: Icon }, i) => (
             <Stack key={key} gap="sm" p="lg" className={classes.card}>
               <Group justify="space-between">
                 <ThemeIcon variant="light" size="lg" radius="md">

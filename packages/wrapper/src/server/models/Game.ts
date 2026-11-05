@@ -38,6 +38,7 @@ export type Game = {
     firstReleaseDate: string;
     createdAt: string;
     updatedAt: string;
+    igdbUpdatedAt: string | null;
     statisticsTarget: StatisticsTarget | null;
     statisticsTargetId: number | null;
     dlcs: Array<Game>;

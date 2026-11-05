@@ -1673,5 +1673,460 @@
       "unknown": "Permission requested by this application: {{scope}}."
     },
     "oauthBrowserError": "Could not open authorization in your browser. Return to your assistant and restart the connection."
+  },
+  "settings": {
+    "title": "Settings",
+    "sectionLabel": "Settings",
+    "close": "Close settings",
+    "reportBug": "Report a bug",
+    "badges": {
+      "new": "New",
+      "comingSoon": "Coming soon",
+      "current": "Current"
+    },
+    "tabs": {
+      "premium": {
+        "label": "Premium",
+        "title": "Premium",
+        "subtitle": "Your plan and how you show up on GameNode."
+      },
+      "profile": {
+        "label": "Edit profile",
+        "title": "Edit profile",
+        "subtitle": "How other people see you on GameNode."
+      },
+      "connections": {
+        "label": "Connections",
+        "title": "Connections",
+        "subtitle": "Platforms linked to your GameNode account."
+      },
+      "library": {
+        "label": "Library",
+        "title": "Library",
+        "subtitle": "Platforms suggested when you add games."
+      },
+      "notifications": {
+        "label": "Notifications",
+        "title": "Notifications",
+        "subtitle": "Choose what reaches you and where."
+      },
+      "privacy": {
+        "label": "Privacy and security",
+        "title": "Privacy and security",
+        "subtitle": "Who sees what you do, who can interact with you and how you sign in."
+      },
+      "appearance": {
+        "label": "Appearance and language",
+        "title": "Appearance and language",
+        "subtitle": "GameNode's language and theme."
+      },
+      "mcp": {
+        "label": "MCP",
+        "title": "MCP",
+        "subtitle": "Connect GameNode to AI assistants and other apps."
+      }
+    },
+    "privacy": {
+      "sections": {
+        "privacy": "Privacy",
+        "interactions": "Interactions",
+        "blocked": "Blocked and muted",
+        "sessions": "Sign-in and sessions",
+        "danger": "Danger zone"
+      },
+      "options": {
+        "public": "Public",
+        "everyone": "Everyone"
+      },
+      "visibility": {
+        "description": "Applies to your public profile and to searches inside GameNode.",
+        "profile": {
+          "title": "Profile",
+          "description": "Who can see your profile, reviews and lists."
+        },
+        "library": {
+          "title": "Library and collections",
+          "description": "Default for new collections. Each collection can have its own rule."
+        },
+        "activity": {
+          "title": "Activity",
+          "description": "Playing now, recent achievements and feed history."
+        },
+        "connections": {
+          "title": "Connections on your public profile",
+          "description": "Choose which platforms show up on your profile.",
+          "manage": "Manage"
+        }
+      },
+      "interactions": {
+        "description": "Who can interact with you. People you block never can.",
+        "follow": {
+          "title": "Who can follow you",
+          "description": "Follow your activity, reviews and posts."
+        },
+        "comment": {
+          "title": "Who can comment",
+          "description": "On your reviews, lists and posts."
+        },
+        "mention": {
+          "title": "Who can mention you",
+          "description": "With @ in posts, reviews and comments."
+        }
+      },
+      "blocked": {
+        "description": "Block: the person can't see your profile or interact with you. Mute: you stop seeing their posts and notifications, and they aren't told.",
+        "tabs": {
+          "blocked": "Blocked",
+          "muted": "Muted"
+        },
+        "empty": {
+          "title": "No blocked accounts",
+          "description": "Blocking and muting are coming to GameNode soon."
+        }
+      },
+      "signIn": {
+        "description": "The accounts you use to sign in and the devices where you're signed in.",
+        "emailCode": {
+          "title": "Email code",
+          "description": "Sign in with a code sent to your email.",
+          "descriptionWithEmail": "Sign in with a code sent to {{email}}."
+        },
+        "changeEmail": "Change email",
+        "note": "Keep at least one sign-in method linked."
+      },
+      "sessions": {
+        "current": "This session",
+        "activeNow": "Active now",
+        "lastActiveRelative": "Last active {{time}}",
+        "lastActiveDate": "Last active on {{date}}",
+        "revoke": "Sign out",
+        "revokeTitle": "Sign out this session?",
+        "revokeConfirm": "{{device}} will be signed out of your GameNode account.",
+        "revokeSuccess": "Session ended.",
+        "error": "Couldn't load your sessions.",
+        "device": {
+          "browserOnOs": "{{browser}} on {{os}}",
+          "osOnly": "Browser on {{os}}",
+          "appOnOs": "GameNode app on {{os}}",
+          "app": "GameNode app",
+          "unknown": "Unknown device"
+        },
+        "notFresh": {
+          "title": "Sign in again to see your sessions",
+          "description": "For your security, the device list only shows up shortly after you sign in.",
+          "action": "Sign in again"
+        },
+        "revokeOthers": {
+          "title": "Sign out of all other sessions",
+          "description": "You stay signed in only in this browser.",
+          "action": "Sign out other sessions",
+          "confirmTitle": "Sign out of all other sessions?",
+          "confirmMessage": "Every other device will have to sign in again.",
+          "success": "Other sessions ended."
+        }
+      },
+      "danger": {
+        "export": {
+          "title": "Export my data",
+          "description": "Download a file with your profile, library, reviews and lists.",
+          "action": "Export data"
+        },
+        "restart": {
+          "title": "Restart account",
+          "description": "Wipes your profile, library, collections, reviews, achievements, playtime, activity and connections, then signs you out. This can't be undone.",
+          "action": "Restart account"
+        },
+        "delete": {
+          "title": "Delete account",
+          "description": "Permanently removes your account and your data. For now, request it on Discord or at support@gamenode.app.",
+          "action": "Delete account"
+        }
+      }
+    },
+    "userMenu": {
+      "settings": "Settings",
+      "downloads": "Downloads",
+      "logout": "Log out"
+    },
+    "premium": {
+      "hero": {
+        "title": "Show that you support GameNode.",
+        "description": "Everything you use today stays free. With Premium, you help keep the project running and show it on your profile.",
+        "cta": "Discover Premium"
+      },
+      "appearance": {
+        "title": "How you show up",
+        "description": "This is how your profile would look with Premium. You can turn each feature on and off whenever you want.",
+        "lockedNote": "Available with Premium. The preview shows how your profile would look."
+      },
+      "features": {
+        "profileTheme": {
+          "label": "Premium profile theme",
+          "description": "Premium colors on your public profile."
+        },
+        "badge": {
+          "label": "Premium badge",
+          "description": "Next to your name on your profile, reviews and comments."
+        },
+        "title": {
+          "label": "Premium title",
+          "description": "Shows “Premium since {{year}}” below your name."
+        },
+        "list": {
+          "label": "Premium list",
+          "description": "Your name and avatar on the page of people who keep GameNode running."
+        }
+      },
+      "preview": {
+        "label": "Preview: how it would look",
+        "badge": "Premium",
+        "since": "Premium since {{year}}",
+        "followers_one": "{{count}} follower",
+        "followers_other": "{{count}} followers",
+        "following": "{{count}} following",
+        "favorites": "Favorites",
+        "notListed": "Not on the Premium list"
+      },
+      "billingHelp": "Questions about billing? Write to"
+    },
+    "notifications": {
+      "channels": {
+        "title": "Channels",
+        "description": "Where notifications reach you. Account, security and subscription notices are always sent.",
+        "inApp": {
+          "title": "In app",
+          "description": "In the GameNode bell, on the website and in the app.",
+          "alwaysOn": "Always on"
+        },
+        "push": {
+          "title": "Push on your phone",
+          "description": "In the GameNode app for Android. Also depends on your phone's notification permission."
+        },
+        "email": {
+          "title": "Email",
+          "description": "Notices and digests by email."
+        }
+      },
+      "types": {
+        "title": "By type",
+        "description": "Choose what reaches you on each channel.",
+        "columns": {
+          "type": "Type",
+          "inApp": "In app",
+          "push": "Push",
+          "email": "Email"
+        },
+        "always": "Always",
+        "unavailable": "Not available",
+        "items": {
+          "followers": {
+            "title": "New followers",
+            "description": "When someone starts following you."
+          },
+          "likes": {
+            "title": "Likes",
+            "description": "On reviews, lists and collections."
+          },
+          "comments": {
+            "title": "Comments and replies",
+            "description": "On reviews and conversations you take part in."
+          },
+          "mentions": {
+            "title": "Mentions",
+            "description": "When someone tags you with @."
+          },
+          "games": {
+            "title": "Followed games",
+            "description": "Releases and news about games you follow."
+          },
+          "imports": {
+            "title": "Imports",
+            "description": "When a sync finishes or fails."
+          },
+          "news": {
+            "title": "GameNode news",
+            "description": "New features and announcements from GameNode."
+          },
+          "account": {
+            "title": "Account and security",
+            "description": "New sign-ins, email changes and account deletion."
+          },
+          "premium": {
+            "title": "Premium",
+            "description": "Receipts, renewals and the end of your subscription."
+          }
+        }
+      }
+    },
+    "appearance": {
+      "language": {
+        "title": "Language",
+        "description": "Changes menus, buttons and notices. Posts and reviews stay in the language they were written in."
+      },
+      "theme": {
+        "title": "Theme",
+        "description": "Applies to this browser or device.",
+        "dark": "Dark",
+        "light": "Light",
+        "system": "Automatic",
+        "systemDescription": "Follows your system"
+      },
+      "specialThemes": {
+        "title": "Special themes",
+        "description": "Colors inspired by the stores you use. Applies to this browser or device.",
+        "disclaimer": "Only the colors are inspired by the stores. GameNode is not affiliated with Valve, Microsoft, Sony or Nintendo.",
+        "steam": "Navy and blue",
+        "xbox": "Black and green",
+        "playstation": "Deep blue",
+        "nintendo": "Light and red"
+      }
+    },
+    "profile": {
+      "images": {
+        "title": "Profile images",
+        "description": "Shown at the top of your profile.",
+        "changeBanner": "Change banner",
+        "bannerHelp": "Wide image, appears cropped on mobile.",
+        "avatarTitle": "Profile picture",
+        "avatarDescription": "Cropped into a circle.",
+        "changeAvatar": "Change photo",
+        "removeAvatar": "Remove"
+      },
+      "info": {
+        "title": "Information"
+      },
+      "displayName": {
+        "label": "Display name",
+        "help": "Shown on your profile, posts and reviews."
+      },
+      "username": {
+        "label": "Username",
+        "rulesTitle": "Before changing",
+        "rulesCurrent": "Your current username (@{{username}}) may become available for someone else to use.",
+        "submit": "Change to @{{username}}",
+        "cooldown": "You changed your username recently. You can change it again on {{date}}.",
+        "errors": {
+          "maxLength": "Must have at most {{max}} characters",
+          "updateFailed": "We couldn't change your username. Please try again."
+        }
+      },
+      "bio": {
+        "label": "Bio",
+        "help": "Shown below your name on your profile.",
+        "errors": {
+          "required": "Your bio can't be empty.",
+          "maxLength": "Your bio can have at most {{max}} characters."
+        }
+      },
+      "favorites": {
+        "title": "Favorite games",
+        "description": "Shown on your profile.",
+        "countOne": "1 game",
+        "countOther": "{{count}} games",
+        "showingFirst": "Your profile shows the first {{count}}.",
+        "empty": "You haven't added any favorite games yet.",
+        "add": "Add",
+        "addHint": "To add a favorite, open a game from your library and mark it as a favorite.",
+        "remove": "Remove {{game}} from favorites"
+      },
+      "actions": {
+        "unsaved": "Unsaved changes",
+        "discard": "Discard",
+        "save": "Save changes",
+        "saved": "Your changes have been saved."
+      }
+    },
+    "connections": {
+      "platforms": {
+        "title": "Gaming platforms",
+        "description": "Connect your accounts to import games, playtime and achievements.",
+        "empty": "No platforms are available right now."
+      },
+      "mcp": {
+        "title": "AI assistants",
+        "description": "Use GameNode from AI assistants and other apps through MCP.",
+        "rowDescription": "Choose an assistant and authorize access to your account.",
+        "action": "Set up"
+      }
+    },
+    "library": {
+      "preferredPlatforms": {
+        "title": "Preferred platforms",
+        "description": "Add the platforms you play on and turn them on or off at any time."
+      }
+    },
+    "mcp": {
+      "intro": {
+        "title": "Your AI assistant on GameNode",
+        "description": "Use GameNode in your AI assistant. It can search games, see your library and, if you allow it, add games and publish reviews and posts for you."
+      },
+      "apps": {
+        "title": "Connected apps",
+        "empty": "No connected apps yet.",
+        "emptyHint": "Follow the steps below to connect your assistant.",
+        "loadError": "Could not load your connected apps.",
+        "connectedAt": "Connected on {{date}}",
+        "dateFormat": "MMM D, YYYY",
+        "revoke": "Revoke access",
+        "revoked": "{{app}} access revoked"
+      },
+      "revoke": {
+        "title": "Revoke {{app}} access?",
+        "description": "It will no longer be able to read or publish on your GameNode. What it already published stays on your profile. You can connect it again whenever you want."
+      },
+      "server": {
+        "title": "Server address",
+        "noPassword": "No password or key needed: you sign in through GameNode itself."
+      },
+      "connect": {
+        "title": "How to connect",
+        "others": "Others",
+        "othersSteps": "In any MCP client that supports Streamable HTTP and OAuth, add a server named GameNode with the address above. Codex users can use the configuration below.",
+        "cursorSteps": "In Cursor, open Settings → MCP and add a new MCP server, or edit ~/.cursor/mcp.json, using the configuration below. Then connect and sign in to GameNode.",
+        "cursorJson": "Cursor — ~/.cursor/mcp.json",
+        "untested": "Not tested yet",
+        "untestedLegend": "Yellow dot: step-by-step not yet tested in this app."
+      },
+      "examples": {
+        "title": "What to ask"
+      },
+      "permissions": {
+        "title": "Permissions",
+        "description": "You choose what to allow when you connect, and you can revoke access at any time.",
+        "read": "Read",
+        "write": "Write"
+      },
+      "scopes": {
+        "games_read": {
+          "title": "View catalog games",
+          "short": "view games"
+        },
+        "library_read": {
+          "title": "View your library and collections",
+          "short": "view library"
+        },
+        "library_write": {
+          "title": "Add and update games in your library",
+          "short": "update library"
+        },
+        "reviews_write": {
+          "title": "Publish reviews",
+          "short": "publish reviews"
+        },
+        "posts_write": {
+          "title": "Publish posts",
+          "short": "publish posts"
+        }
+      },
+      "notice": {
+        "title": "Your assistant acts on your behalf",
+        "description": "Reviews and posts it publishes show up on your profile like any others. On the permission screen, check the app's name and domain before allowing."
+      },
+      "mobile": {
+        "title": "Mobile app",
+        "description": "The Android app is in Downloads, in your avatar menu.",
+        "open": "Open Downloads"
+      }
+    }
   }
 }
