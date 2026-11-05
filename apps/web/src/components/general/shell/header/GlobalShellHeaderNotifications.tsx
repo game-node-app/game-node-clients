@@ -78,7 +78,7 @@ const GlobalShellHeaderNotifications = () => {
             <Group
               w={"100%"}
               justify={"space-between"}
-              className={"p-2 mx-6 bg-[#111111]"}
+              className={"p-2 bg-[#111111]"}
             >
               <Group gap={5}>
                 {hasUnreadNotifications ? (

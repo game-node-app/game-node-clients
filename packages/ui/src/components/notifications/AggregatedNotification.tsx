@@ -187,10 +187,10 @@ const AggregatedNotification = ({
         t("notifications.discovery.failedPart", { count: failedCount }),
       );
     }
-    const sample =
-      preview?.gameSample && preview.gameSample.length > 0
-        ? ` (${preview.gameSample.map((g) => g.title).join(", ")})`
-        : "";
+    const sampleTitles = preview?.gameSample
+      ?.map(({ title }) => title.trim())
+      .filter((title) => title && title.toLowerCase() !== "game");
+    const sample = sampleTitles?.length ? ` (${sampleTitles.join(", ")})` : "";
 
     const message =
       parts.length > 0

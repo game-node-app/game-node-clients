@@ -22,6 +22,7 @@ const JournalAchievementsTags = ({ group }: Props) => {
         // Xbox green
         .with(
           P.union(
+            EGameExternalGameCategory.Microsoft,
             EGameExternalGameCategory.XboxMarketplace,
             EGameExternalGameCategory.XboxGamePassUltimateCloud,
           ),
