@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Box,
-  Button,
   Group,
   Kbd,
   ScrollArea,
@@ -92,16 +91,16 @@ export function SettingsPanel({
         }
       >
         {onBack && (
-          <Button
-            variant={"subtle"}
-            color={"gray"}
-            size={"compact-sm"}
-            leftSection={<IconChevronLeft size={18} />}
+          <ActionIcon
+            size={32}
+            radius={8}
+            variant={"default"}
             onClick={onBack}
-            className={"-me-3"}
+            aria-label={t("navigation.back")}
+            className={"border-0 bg-[#222] hover:bg-[#2a2a2a]"}
           >
-            {t("settings.title")}
-          </Button>
+            <IconChevronLeft size={18} />
+          </ActionIcon>
         )}
         <Stack gap={4} className={"min-w-0 flex-1"}>
           {/* Mantine focuses `data-autofocus` on open: the title, not the first sidebar button. */}
@@ -125,8 +124,9 @@ export function SettingsPanel({
         </Stack>
         <Group gap={8} wrap={"nowrap"} className={"shrink-0"}>
           <Kbd
+            visibleFrom={"sm"}
             className={
-              "border-[#2a2a2a] bg-[#222] px-1.5 py-0.5 text-[11px] font-medium text-[#adadad] max-sm:hidden"
+              "border-[#2a2a2a] bg-[#222] px-1.5 py-0.5 text-[11px] font-medium text-[#adadad]"
             }
           >
             Esc
