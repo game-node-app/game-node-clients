@@ -140,11 +140,11 @@ export function SettingsSidebar({
     <Stack
       gap={14}
       className={cn(
-        "h-full w-full border-0 border-r border-solid border-[#2a2a2a] bg-[#111] px-2.5 py-4",
+        "h-full w-full overflow-y-auto border-0 border-r border-solid border-[#2a2a2a] bg-[#111] px-2.5 py-4",
         className,
       )}
     >
-      <Box className={"flex items-center gap-2.5 px-1.5 py-1"}>
+      <Box className={"flex items-center gap-2.5 px-1.5 py-1 max-sm:pe-10"}>
         <UserAvatar userId={userId} size={32} />
         <Stack gap={2} className={"min-w-0 flex-1"}>
           <Text fz={14} fw={600} c={"white"} lh={"normal"} truncate>
