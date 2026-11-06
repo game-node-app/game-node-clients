@@ -9,6 +9,14 @@ export function isAppTheme(value: unknown): value is AppTheme {
   return APP_THEMES.includes(value as AppTheme);
 }
 
+/** Jingle played when switching to a theme; files live in each app's public/sfx. */
+const THEME_SFX: Partial<Record<AppTheme, string>> = {
+  playstation: "ps2",
+  xbox: "xbox",
+  switch: "switch",
+  bigpicture: "steam",
+};
+
 /**
  * Inline script for the document head: applies the stored theme before first paint.
  * Mirrors the validation in `isAppTheme`.
@@ -33,10 +41,13 @@ export function useAppTheme() {
 
   const setTheme = useCallback(
     (value: AppTheme) => {
+      const sfx = THEME_SFX[value];
+      // autoplay can be rejected by the browser; the sound is optional
+      if (sfx && value !== theme) new Audio(`/sfx/${sfx}.mp3`).play().catch(() => {});
       setStoredTheme(value);
       document.documentElement.dataset.theme = value;
     },
-    [setStoredTheme],
+    [setStoredTheme, theme],
   );
 
   return [theme, setTheme] as const;

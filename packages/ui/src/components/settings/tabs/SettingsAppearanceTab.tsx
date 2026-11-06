@@ -2,19 +2,18 @@ import { Box, Radio, Text } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { LANGUAGE_OPTIONS } from "#@/components/general/LanguagePickerMenu/LanguageSwitcherMenu";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
-import {
-  SettingsComingSoonBadge,
-  SettingsPill,
-} from "#@/components/settings/common/SettingsPill";
+import { SettingsPill } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
 import {
   SettingsRadioDot,
   SettingsThemeOptionCard,
   SettingsThemePalette,
 } from "#@/components/settings/tabs/appearance/SettingsThemeOptionCard";
+import { AppTheme } from "#@/components/theme/registry";
+import { useAppTheme } from "#@/components/theme/useAppTheme";
 
-/** The only theme that exists today (apps force the dark color scheme). */
-const CURRENT_THEME = "dark";
+/** "Dark" is the default GameNode app theme; light/system are not implemented yet. */
+const DARK_THEME = "dark";
 
 const BASE_THEMES: {
   value: "dark" | "light" | "system";
@@ -55,11 +54,13 @@ const BASE_THEMES: {
 /** Store-inspired palettes. Store names are proper nouns and are not translated. */
 const SPECIAL_THEMES: {
   value: "steam" | "xbox" | "playstation" | "nintendo";
+  appTheme: AppTheme;
   name: string;
   palette: SettingsThemePalette;
 }[] = [
   {
     value: "steam",
+    appTheme: "bigpicture",
     name: "Steam",
     palette: {
       background: "#1b2838",
@@ -71,6 +72,7 @@ const SPECIAL_THEMES: {
   },
   {
     value: "xbox",
+    appTheme: "xbox",
     name: "Xbox",
     palette: {
       background: "#0e0e0e",
@@ -82,6 +84,7 @@ const SPECIAL_THEMES: {
   },
   {
     value: "playstation",
+    appTheme: "playstation",
     name: "PlayStation",
     palette: {
       background: "#001d4a",
@@ -93,6 +96,7 @@ const SPECIAL_THEMES: {
   },
   {
     value: "nintendo",
+    appTheme: "switch",
     name: "Nintendo",
     palette: {
       background: "#ffffff",
@@ -106,12 +110,15 @@ const SPECIAL_THEMES: {
 ];
 
 /**
- * Appearance and language tab. The language picker is functional; themes have no
- * implementation yet, so only "Dark" (the current look) is selected and the rest is disabled.
+ * Appearance and language tab. The language picker is functional; "Dark" and the store
+ * themes are app themes (see useAppTheme); "Light" and "System" are still disabled.
  */
 export function SettingsAppearanceTab() {
   const { t } = useTranslation();
   const { language, setLanguage } = useI18nContext();
+  const [appTheme, setAppTheme] = useAppTheme();
+  const special = SPECIAL_THEMES.find((item) => item.appTheme === appTheme);
+  const selectedBase = special ? null : DARK_THEME;
 
   const themeLabels: Record<(typeof BASE_THEMES)[number]["value"], string> = {
     dark: t("settings.appearance.theme.dark"),
@@ -182,7 +189,8 @@ export function SettingsAppearanceTab() {
         description={t("settings.appearance.theme.description")}
       >
         <Radio.Group
-          value={CURRENT_THEME}
+          value={selectedBase}
+          onChange={(value) => value === DARK_THEME && setAppTheme("gamenode")}
           label={t("settings.appearance.theme.title")}
           classNames={{ root: "w-full", label: "sr-only" }}
         >
@@ -199,8 +207,8 @@ export function SettingsAppearanceTab() {
                       : undefined
                   }
                   palette={theme.palette}
-                  checked={theme.value === CURRENT_THEME}
-                  disabled={theme.value !== CURRENT_THEME}
+                  checked={theme.value === selectedBase}
+                  disabled={theme.value !== DARK_THEME}
                 />
               ))}
             </Box>
@@ -210,10 +218,13 @@ export function SettingsAppearanceTab() {
       <SettingsSection
         title={t("settings.appearance.specialThemes.title")}
         description={t("settings.appearance.specialThemes.description")}
-        rightSection={<SettingsComingSoonBadge />}
       >
         <Radio.Group
-          value={null}
+          value={special?.value ?? null}
+          onChange={(value) => {
+            const next = SPECIAL_THEMES.find((item) => item.value === value);
+            if (next) setAppTheme(next.appTheme);
+          }}
           label={t("settings.appearance.specialThemes.title")}
           classNames={{ root: "w-full", label: "sr-only" }}
         >
@@ -228,9 +239,7 @@ export function SettingsAppearanceTab() {
                     `settings.appearance.specialThemes.${theme.value}`,
                   )}
                   palette={theme.palette}
-                  checked={false}
-                  disabled
-                  withComingSoonBadge={false}
+                  checked={theme.value === special?.value}
                 />
               ))}
             </Box>
