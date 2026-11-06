@@ -36,6 +36,7 @@
     }
   },
   "actions": {
+    "backHome": "Back to home",
     "cancel": "Cancel",
     "clickHere": "Click here",
     "close": "Close",
@@ -48,6 +49,7 @@
     "logout": "Log out",
     "no": "No",
     "remove": "Remove",
+    "retry": "Try again",
     "save": "Save",
     "seeMore": "See more",
     "selectAll": "Select all items",
@@ -61,7 +63,8 @@
     "viewMore": "View More",
     "yes": "Yes",
     "use": "Use",
-    "toOpenDialogAnytime": "to open this dialog anytime"
+    "toOpenDialogAnytime": "to open this dialog anytime",
+    "clear": "Clear"
   },
   "activity": {
     "items": {
@@ -91,6 +94,16 @@
     "metaDescription": "GameNode is the ideal platform to manage your game collection virtually.",
     "openInApp": "Open in app",
     "title": "GameNode"
+  },
+  "appTheme": {
+    "label": "Theme",
+    "options": {
+      "gamenode": "GameNode",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "bigpicture": "Steam Big Picture"
+    }
   },
   "auth": {
     "accessDenied": {
@@ -458,16 +471,109 @@
     "message": "Are you sure you want to do this?",
     "title": "Confirm action"
   },
+  "daily": {
+    "subtitle": "Guess the game from a hint that gets clearer with every wrong guess. New puzzles every day.",
+    "fetchError": "Couldn't load the daily puzzles.",
+    "fetchErrorDescription": "Check your connection and try again. If it keeps happening, come back in a few minutes.",
+    "noPuzzle": "There's no puzzle for this mode today.",
+    "play": "Play",
+    "nextPuzzleIn": "New puzzles in {{time}}",
+    "attempts": "{{attempts}} of {{max}} attempts used",
+    "modes": {
+      "cover": {
+        "name": "Cover",
+        "description": "Guess the game from its cover, which gets clearer with each try."
+      },
+      "artwork": {
+        "name": "Artwork",
+        "description": "Guess the game from an artwork that gets clearer with each try."
+      },
+      "keywords": {
+        "name": "Keywords",
+        "description": "Guess the game from its keywords. More clues show up with each try."
+      },
+      "specs": {
+        "name": "Specs",
+        "description": "Guess any game and compare its platforms, genres, companies and more with the answer."
+      }
+    },
+    "status": {
+      "notPlayed": "Not played",
+      "inProgress": "In progress",
+      "won": "Solved in {{attempts}}",
+      "lost": "Not solved"
+    },
+    "guess": {
+      "placeholder": "Search for a game",
+      "nothingFound": "No games found",
+      "commonGenres": "Genres in common",
+      "commonPlatforms": "Platforms in common"
+    },
+    "results": {
+      "correct": "Correct",
+      "franchise": "Same franchise",
+      "wrong": "Wrong",
+      "skipped": "Skipped"
+    },
+    "hint": {
+      "imageLevel": "Level {{level}}"
+    },
+    "specs": {
+      "columns": {
+        "game": "Game",
+        "platforms": "Platforms",
+        "genres": "Genres",
+        "themes": "Themes",
+        "gameModes": "Modes",
+        "gameEngines": "Engine",
+        "companies": "Companies",
+        "perspectives": "Perspective",
+        "franchise": "Franchise",
+        "releaseYear": "Year"
+      },
+      "franchise": {
+        "match": "Same",
+        "partial": "Related",
+        "none": "Different"
+      },
+      "yearRange": "Released between {{min}} and {{max}}",
+      "reveal": "Hint, {{column}}: {{values}}",
+      "hint": "Reveal a column",
+      "hintConfirm": "Revealing one of the answer's columns costs one attempt."
+    },
+    "result": {
+      "won": "Solved in {{attempts}}!",
+      "lost": "Out of attempts",
+      "answer": "The answer was",
+      "community": "{{players}} players solved it, in {{average}} attempts on average"
+    },
+    "share": {
+      "all": "Share all from today",
+      "copied": "Copied to clipboard"
+    },
+    "stats": {
+      "title": "Your stats",
+      "played": "Played",
+      "winRate": "Win %",
+      "currentStreak": "Current streak",
+      "maxStreak": "Best streak",
+      "distribution": "Attempts distribution"
+    },
+    "archive": {
+      "link": "Archive",
+      "title": "{{mode}} archive",
+      "empty": "No past puzzles yet."
+    }
+  },
   "errors": {
     "comeBackSoon": "Come back soon!",
     "copiedToClipboard": "Error details copied to clipboard",
     "discord": "Discord",
     "email": "email",
-    "error404": "Error 404",
     "fetchFailed": "Failed to fetch {{resource}}. Please try again.",
     "inDevelopment": "This page is still in development.",
-    "oops": "Oops!",
-    "pageNotFound": "The page you are looking for doesn't exist.",
+    "pageNotFound": "The link may be broken, or the page may have been moved or removed.",
+    "pageNotFoundTitle": "Page not found",
     "pasteInstructions": "You may now paste the error details when reporting the issue.",
     "reportPrompt": "Please let us know about this error by sending us a message via",
     "showDetails": "Show details",
@@ -520,12 +626,26 @@
       "recentReleases": "Recent Releases",
       "upcoming": "Upcoming"
     },
+    "releaseCalendar": {
+      "gamesCount": "{{count}} games",
+      "title": "Release calendar",
+      "inLibrary": "In your library",
+      "more": "+{{count}}",
+      "noReleases": "No releases",
+      "showCalendar": "View calendar",
+      "hideCalendar": "Hide calendar",
+      "today": "Today",
+      "previousGame": "Previous game",
+      "nextGame": "Next game"
+    },
     "details": {
       "developers": "Developer(s)",
+      "images": "Images",
       "launchDate": "Launch date",
       "notAvailable": "Not available",
       "publishers": "Publisher(s)",
       "summary": "Summary",
+      "tags": "Tags",
       "whereToBuy": "Where to buy",
       "whereToPlay": "Where to play"
     },
@@ -545,6 +665,9 @@
       "inLibrary": "In your library",
       "listView": "List",
       "playedIn": "Played in",
+      "reviewsCount_zero": "No reviews",
+      "reviewsCount_one": "{{count}} review",
+      "reviewsCount_other": "{{count}} reviews",
       "share": "Share",
       "tip": "Tip",
       "userRating": "User Rating"
@@ -614,6 +737,8 @@
     },
     "ttb": {
       "basedOnIgdb": "Based on {{count}} submissions to",
+      "hours_one": "{{count}} hour",
+      "hours_other": "{{count}} hours",
       "completionist": "100%",
       "completionistDesc": "Average time to finish the game to 100% completion.",
       "mainExtras": "Main + Extras",
@@ -964,6 +1089,7 @@
     },
     "wrapped": {
       "buttons": {
+        "download": "Download",
         "generate": "Generate"
       },
       "labels": {
@@ -995,8 +1121,10 @@
     "back": "Back",
     "blog": "Blog",
     "collections": "Collections",
+    "daily": "Daily",
     "explore": "Explore",
     "feats": "Feats",
+    "feed": "Feed",
     "home": "Home",
     "journal": "Journal",
     "library": "Library",
@@ -1079,12 +1207,22 @@
     }
   },
   "posts": {
+    "labels": {
+      "postedAbout": "posted about",
+      "sharedImage": "shared an image of"
+    },
     "messages": {
+      "empty": "No posts here yet.",
+      "linkCopied": "Link copied!",
       "published": "Successfully published post!",
       "removeWarning": "This post will be deleted permanently. You cannot undo this action."
     },
+    "tabs": {
+      "mine": "My activity"
+    },
     "titles": {
-      "confirmRemove": "Confirm post removal"
+      "confirmRemove": "Confirm post removal",
+      "create": "New post"
     }
   },
   "preferences": {
@@ -1225,7 +1363,9 @@
       "fetchFailed": "We couldn't fetch this data. Please try again.",
       "noAchievements": "You have not obtained any achievements. Come back later, adventurer!",
       "noFeaturedAchievements": "No featured achievements found.",
-      "noPublicFavoriteGames": "This user has no public favorite games.",
+      "noFavoriteGamesOwn": "Mark games as favorites in your library to show them on your profile.",
+      "noFavoriteGamesTitle": "No favorite games yet",
+      "noPublicFavoriteGames": "This user's favorite games will show up here.",
       "noReviews": "User has no reviews.",
       "noReviewsOwn": "You have no reviews. Make your first one!",
       "usernameUpdateCooldown": "You have updated your username in the last 30 days. Please try again later.",

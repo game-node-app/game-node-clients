@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Button, Text, Paper, Skeleton } from "@mantine/core";
+import { Button, Text, Skeleton } from "@mantine/core";
 import {
   BlogPostCard,
   DetailsBox,
@@ -9,6 +9,7 @@ import {
   useOnMobile,
 } from "#@/components";
 import { useTranslation } from "@repo/locales";
+import { buildPresenterComponent } from "#@/context";
 
 const buildSkeletons = () => {
   const skeletons: React.ReactNode[] = [];
@@ -23,7 +24,7 @@ const buildSkeletons = () => {
   return skeletons;
 };
 
-const RecentBlogPostsCarousel = () => {
+const DEFAULT_RecentBlogPostsCarousel = () => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
 
@@ -39,9 +40,7 @@ const RecentBlogPostsCarousel = () => {
     return data?.data.map((blogPost) => {
       return (
         <Carousel.Slide key={blogPost.id}>
-          <Paper className={"w-full h-full bg-paper"} shadow={"sm"}>
-            <BlogPostCard post={blogPost} blogRoutePrefix="/blog" />
-          </Paper>
+          <BlogPostCard post={blogPost} blogRoutePrefix="/blog" />
         </Carousel.Slide>
       );
     });
@@ -79,5 +78,10 @@ const RecentBlogPostsCarousel = () => {
     </DetailsBox>
   );
 };
+
+const RecentBlogPostsCarousel = buildPresenterComponent(
+  "RecentBlogPostsCarousel",
+  DEFAULT_RecentBlogPostsCarousel,
+);
 
 export { RecentBlogPostsCarousel };

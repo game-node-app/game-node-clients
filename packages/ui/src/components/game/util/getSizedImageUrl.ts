@@ -10,6 +10,8 @@ export enum ImageSize {
   SCREENSHOT_HUGE = "screenshot_huge",
   SCREENSHOT_HUGE_2X = "screenshot_huge_2x",
   THUMB = "thumb",
+  // fits inside 284x160 without cropping, unlike THUMB
+  LOGO_MED = "logo_med",
   MICRO = "micro",
   HD = "720p",
   FULL_HD = "1080p",

@@ -1,0 +1,6 @@
+/* Entry point (package export "./themes.css"). New themes: add themes/<name>/theme.css and import it here. */
+@import "./base.css";
+@import "./themes/playstation/theme.css";
+@import "./themes/xbox/theme.css";
+@import "./themes/switch/theme.css";
+@import "./themes/bigpicture/theme.css";

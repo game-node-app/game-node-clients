@@ -36,7 +36,12 @@ const GameFigureImage = ({
   const defaultHref = `/game/${game?.id}`;
 
   return (
-    <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
+    <AspectRatio
+      ratio={264 / 354}
+      pos="relative"
+      w={"auto"}
+      className={"gn-game-figure"}
+    >
       <Link
         className="w-full h-auto"
         onClick={onClick}

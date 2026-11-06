@@ -21,6 +21,7 @@ const UserLevelInfo = ({ targetUserId }: Props) => {
             XP
           </Text>
         </Group>
+        {/* shortcut: fixed color, not themed; tokenize if it looks off in other themes */}
         <Progress
           className={"w-full border-2 border-[#9A9A9A]"}
           size="lg"

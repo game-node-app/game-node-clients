@@ -16,7 +16,6 @@ import {
   useInfiniteSearchGames,
   useUrlState,
 } from "@repo/ui";
-import { IconSearch } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 const GameSearchPage = () => {
@@ -37,8 +36,9 @@ const GameSearchPage = () => {
 
   const [layout, setLayout] = useState<GameViewLayoutOption>("grid");
 
+  // the debounced query must qualify too, or an empty search fires while it catches up
   const isQueryEnabled =
-    searchParams.query != undefined && searchParams.query.length >= 3;
+    (query?.length ?? 0) >= 3 && debouncedQuery.length >= 3;
 
   const { data, hasNextPage, fetchNextPage, isFetching, isError, error } =
     useInfiniteSearchGames(
@@ -64,11 +64,7 @@ const GameSearchPage = () => {
       <Stack className={"w-full min-h-96 mb-8"}>
         <GameView layout={layout}>
           <FocusTrap>
-            <GameSearchBar
-              onChange={(query) => setSearchParams({ query })}
-              withButton={false}
-              leftSection={<IconSearch size={21} />}
-            />
+            <GameSearchBar onChange={(query) => setSearchParams({ query })} />
           </FocusTrap>
           <GameSearchViewActions
             includeExtraContent={includeExtraContent}

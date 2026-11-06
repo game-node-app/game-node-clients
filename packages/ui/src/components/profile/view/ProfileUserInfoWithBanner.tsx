@@ -9,12 +9,13 @@ import { ProfileEditForm } from "#@/components/profile/edit/ProfileEditForm";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { ProfileUserInfo } from "#@/components/profile/view/ProfileUserInfo";
+import { buildPresenterComponent } from "#@/context";
 import { Modal } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { PropsWithChildren } from "react";
 
-interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
+export interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
 }
 
@@ -28,7 +29,7 @@ interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
  * and BELOW it for mobile.
  */
 
-const ProfileUserInfoWithBanner = ({
+const DEFAULT_ProfileUserInfoWithBanner = ({
   userId,
   children,
 }: ProfileUserInfoWithBannerProps) => {
@@ -60,7 +61,7 @@ const ProfileUserInfoWithBanner = ({
       >
         <Stack
           className={
-            "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-[#151515]"
+            "w-full lg:w-1/4 lg:min-w-52  gap-0 relative web:bg-paper-0"
           }
         >
           <Group
@@ -74,7 +75,7 @@ const ProfileUserInfoWithBanner = ({
               <Box className={"w-fit h-8 mobile:h-3 mobile:ps-2"}>
                 <Box className={"relative w-fit h-fit -translate-y-3/4"}>
                   <UserAvatar
-                    className={"relative border-[#161616] border-4"}
+                    className={"relative border-paper-0 border-4"}
                     userId={userId}
                     size={onMobilePlatform ? "8rem" : "10rem"}
                   />
@@ -114,5 +115,10 @@ const ProfileUserInfoWithBanner = ({
     </Stack>
   );
 };
+
+const ProfileUserInfoWithBanner = buildPresenterComponent(
+  "ProfileUserInfoWithBanner",
+  DEFAULT_ProfileUserInfoWithBanner,
+);
 
 export { ProfileUserInfoWithBanner };

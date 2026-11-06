@@ -1,28 +1,25 @@
-import { useUserId } from "@repo/ui";
+import { THEMES, useAppTheme, useUserId } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
+  ConsoleHome,
   DetailsCard,
   DynamicAwardsOverview,
   DynamicRecapOverview,
-  GameCollectionTypeView,
+  HomeReleases,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   TrendingGamesList,
   TrendingReviewCarousel,
 } from "@repo/ui";
-import {
-  Activity,
-  FindGamesByCollectionTypeRequestDto,
-} from "@repo/wrapper/server";
+import { Activity } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import ActivityType = Activity.type;
-import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -34,6 +31,8 @@ const HomePage = () => {
   const queryClient = useQueryClient();
 
   const userId = useUserId();
+  const [theme] = useAppTheme();
+  const isConsole = THEMES[theme].layout === "console";
 
   return (
     <AppPage
@@ -78,14 +77,21 @@ const HomePage = () => {
       {/*<HomeFab contentRef={contentRef} />*/}
       <BackToTopButton />
       <Stack className={"w-full gap-8 my-4"}>
-        {userId && <RecommendationCarousel criteria={"finished"} />}
-        <TrendingGamesList />
-        <TrendingReviewCarousel
-          slideSize={210}
-          height={260}
-          withIndicators={false}
-          withControls={false}
-        />
+        {/* console themes show these as ConsoleHome rows */}
+        {isConsole && <ConsoleHome />}
+        {!isConsole && userId && (
+          <RecommendationCarousel criteria={"finished"} />
+        )}
+        {!isConsole && <TrendingGamesList />}
+        {/* console themes show these as ConsoleReviewRow */}
+        {!isConsole && (
+          <TrendingReviewCarousel
+            slideSize={210}
+            height={260}
+            withIndicators={false}
+            withControls={false}
+          />
+        )}
         <DynamicAwardsOverview />
         <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
@@ -97,12 +103,7 @@ const HomePage = () => {
             <RecentActivityList limit={10} type={ActivityType.REVIEW} />
           </DetailsCard>
         </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-          <GameCollectionTypeView collectionType={CollectionType.UPCOMING} />
-          <GameCollectionTypeView
-            collectionType={CollectionType.RECENTLY_RELEASED}
-          />
-        </SimpleGrid>
+        <HomeReleases />
       </Stack>
     </AppPage>
   );

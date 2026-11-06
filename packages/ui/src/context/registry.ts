@@ -3,11 +3,18 @@ import {
   ActivityItemProps,
   CollectionThumbnailCardProps,
   DetailsBoxProps,
+  ExploreTrendingGamesProps,
   GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  GameInfoViewProps,
   ProfileUserInfoProps,
+  ProfileUserInfoWithBannerProps,
+  ProfileStatsSimpleOverviewProps,
+  ProfileStatsViewProps,
   ProfileViewNavbarItemProps,
+  PostsFeedViewProps,
+  PostsListItemProps,
   ReviewCardProps,
 } from "#@/components";
 import {
@@ -19,7 +26,7 @@ import { UseScrollPositionReturn } from "#@/components/general/hooks/useScrollPo
 
 /**
  * The registry of components that can be replaced at runtime
- * by the apps consuming this library.
+ * by the apps consuming this library, or by the active app theme (THEMES in components/theme/registry.ts).
  */
 export type UIPresenterRegistry = {
   DetailsBox: React.ComponentType<DetailsBoxProps>;
@@ -33,6 +40,15 @@ export type UIPresenterRegistry = {
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
   ProfileUserInfo: React.ComponentType<ProfileUserInfoProps>;
+  ProfileUserInfoWithBanner: React.ComponentType<ProfileUserInfoWithBannerProps>;
+  ProfileStatsSimpleOverview: React.ComponentType<ProfileStatsSimpleOverviewProps>;
+  ProfileStatsView: React.ComponentType<ProfileStatsViewProps>;
+  RecentBlogPostsCarousel: React.ComponentType<Record<string, never>>;
+  HomeReleases: React.ComponentType<Record<string, never>>;
+  ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;
+  GameInfoView: React.ComponentType<GameInfoViewProps>;
+  PostsListItem: React.ComponentType<PostsListItemProps>;
+  PostsFeedView: React.ComponentType<PostsFeedViewProps>;
 };
 
 /**

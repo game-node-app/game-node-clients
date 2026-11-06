@@ -1,0 +1,81 @@
+import { Group, Progress, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
+import type { DailyMode } from "#@/components/daily/util/dailyModes";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useDailyLocalResults } from "#@/components/daily/hooks/useDailyLocalResults";
+import { useDailyResults } from "#@/components/daily/hooks/useDailyResults";
+import {
+  computeDailyStats,
+  toSaoPauloDate,
+} from "#@/components/daily/util/computeDailyStats";
+
+interface Props {
+  mode: DailyMode;
+  maxAttempts: number;
+}
+
+const DailyStatsPanel = ({ mode, maxAttempts }: Props) => {
+  const { t } = useTranslation();
+  const userId = useUserId();
+  const resultsQuery = useDailyResults(mode);
+  const [local] = useDailyLocalResults();
+  const results = userId
+    ? (resultsQuery.data?.data ?? [])
+    : Object.values(local).filter((result) => result.mode === mode);
+
+  const stats = computeDailyStats(
+    results,
+    maxAttempts,
+    toSaoPauloDate(new Date()),
+  );
+  const highest = Math.max(...stats.distribution, 1);
+  const numbers = [
+    [t("daily.stats.played"), stats.played],
+    [
+      t("daily.stats.winRate"),
+      `${stats.played ? Math.round((stats.wins / stats.played) * 100) : 0}%`,
+    ],
+    [t("daily.stats.currentStreak"), stats.currentStreak],
+    [t("daily.stats.maxStreak"), stats.maxStreak],
+  ] as const;
+
+  return (
+    <Stack className={"w-full gap-3"}>
+      <Title order={4}>{t("daily.stats.title")}</Title>
+      <SimpleGrid cols={4}>
+        {numbers.map(([label, value]) => (
+          <Stack key={label} className={"items-center gap-0"}>
+            <Text fz={"xl"} fw={700}>
+              {value}
+            </Text>
+            <Text size={"xs"} c={"dimmed"} className={"text-center"}>
+              {label}
+            </Text>
+          </Stack>
+        ))}
+      </SimpleGrid>
+      <Text size={"sm"} fw={600}>
+        {t("daily.stats.distribution")}
+      </Text>
+      {stats.distribution.map((count, index) => (
+        <Group key={index} className={"flex-nowrap gap-2"}>
+          <Text size={"sm"} w={20}>
+            {index + 1}
+          </Text>
+          <Progress
+            className={"flex-grow"}
+            value={(count / highest) * 100}
+            color={"teal"}
+            size={"lg"}
+            aria-label={`${index + 1}: ${count}`}
+          />
+          <Text size={"sm"} w={24} className={"text-right"}>
+            {count}
+          </Text>
+        </Group>
+      ))}
+    </Stack>
+  );
+};
+
+export { DailyStatsPanel };

@@ -16,13 +16,17 @@ import {
   IconListCheck,
   IconStack2,
 } from "@tabler/icons-react";
+import { buildPresenterComponent } from "#@/context";
 
-interface Props {
+export interface ProfileStatsViewProps {
   userId: string;
   withUserLevel?: boolean;
 }
 
-const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
+const DEFAULT_ProfileStatsView = ({
+  userId,
+  withUserLevel = true,
+}: ProfileStatsViewProps) => {
   const { t } = useTranslation();
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 
@@ -164,5 +168,10 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
     </Stack>
   );
 };
+
+const ProfileStatsView = buildPresenterComponent(
+  "ProfileStatsView",
+  DEFAULT_ProfileStatsView,
+);
 
 export { ProfileStatsView };

@@ -1,0 +1,18 @@
+:root[data-theme="bigpicture"] {
+    --gn-body: #0e141b;
+    --gn-surface: #171d25;
+    --gn-text: #FFFFFF;
+    --gn-dimmed: #8b98a5;
+    --gn-border: #2a3542;
+    --gn-focus: #FFFFFF;
+    --gn-brand: #1a9fff;
+    --gn-brand-rgb: 26,159,255;
+    --gn-radius: 6px;
+    --gn-font: var(--gn-font-inter, Inter), Roboto, sans-serif;
+}
+
+:root[data-theme="bigpicture"] {
+    --gn-tile-width: 150px;
+    --gn-tile-aspect: 264 / 354;
+    --gn-tile-focus-scale: 1.08;
+}

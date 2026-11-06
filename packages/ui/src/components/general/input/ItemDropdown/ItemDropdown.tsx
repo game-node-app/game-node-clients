@@ -18,7 +18,7 @@ const ItemDropdown = ({ children }: PropsWithChildren) => {
   return (
     <Menu shadow={"md"} width={200} position={"left"}>
       <Menu.Target>
-        <ActionIcon variant={"subtle"} c={"#878787"} size={"lg"}>
+        <ActionIcon variant={"subtle"} c={"dimmed"} size={"lg"}>
           <IconDots size={30} strokeWidth={3} />
         </ActionIcon>
       </Menu.Target>

@@ -22,9 +22,15 @@
     src: url("/font/Roboto-Variable.ttf");
 }
 
+/* Used by some app themes (themes.css). */
+@font-face {
+    font-family: Inter;
+    src: url("/font/Inter-Variable.ttf");
+}
+
 :root {
     --text-color: #FFFFFF;
-    --bg-color: #111111;
+    --bg-color: var(--gn-body);
     --ion-padding: var(--mantine-spacing-md) !important;
     --ion-font-family: Roboto, Roboto Fallback;
     --ion-text-color: var(--text-color) !important;

@@ -48,7 +48,7 @@ const LanguageSwitcherMenu = () => {
           data-active={opened || undefined}
         >
           <IconLanguage size={20} />
-          <Text className={"text-[#E3E3E3]"}>{selected.label}</Text>
+          <Text className={"text-[var(--gn-text)]"}>{selected.label}</Text>
           <IconChevronDown className={"ms-auto me-1"} size={20} />
         </UnstyledButton>
       </Menu.Target>

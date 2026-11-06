@@ -3,6 +3,7 @@ import { DEFAULT_GAME_INFO_VIEW_DTO } from "#@/components/game/info/GameInfoView
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { Link } from "#@/util";
 import { Badge, Group, Skeleton } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { ReactNode, useMemo } from "react";
 import { Game } from "../../../../../wrapper/src/server";
 
@@ -73,6 +74,7 @@ interface IProps {
  * @constructor
  */
 const GameInfoDetailsTags = ({ gameId }: IProps) => {
+  const { t } = useTranslation();
   const gameQuery = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
 
@@ -99,7 +101,7 @@ const GameInfoDetailsTags = ({ gameId }: IProps) => {
     <DetailsBox
       withBorder
       withDimmedTitle
-      title={"Tags"}
+      title={t("game.details.tags")}
       withPadding
       withBackground
     >

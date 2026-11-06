@@ -39,7 +39,7 @@ const ProfileReviewListItem = ({ review }: Props) => {
   );
 
   return (
-    <Group className={"w-full flex-nowrap p-2 bg-[#222222] items-start"}>
+    <Group className={"w-full flex-nowrap p-2 bg-paper-6 items-start"}>
       <Stack className={"w-3/12 lg:w-2/12 items-center justify-start"}>
         <Box className={"w-11/12"}>
           <GameFigureImage game={gameQuery.data} />

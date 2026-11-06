@@ -94,7 +94,7 @@ const AggregatedNotification = ({
     return (
       <Notification
         color="rgba(255, 255, 255, 0)"
-        className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+        className={`w-full ${backgroundColor === "normal" ? "bg-paper-1" : "bg-paper-0"} cursor-pointer`}
         withCloseButton={false}
         onClick={handleItemClick}
         radius={0}
@@ -129,7 +129,7 @@ const AggregatedNotification = ({
     return (
       <Notification
         color="rgba(255, 255, 255, 0)"
-        className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+        className={`w-full ${backgroundColor === "normal" ? "bg-paper-1" : "bg-paper-0"} cursor-pointer`}
         withCloseButton={false}
         onClick={handleItemClick}
         radius={0}
@@ -200,7 +200,7 @@ const AggregatedNotification = ({
     return (
       <Notification
         color="rgba(255, 255, 255, 0)"
-        className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+        className={`w-full ${backgroundColor === "normal" ? "bg-paper-1" : "bg-paper-0"} cursor-pointer`}
         withCloseButton={false}
         onClick={handleItemClick}
         aria-label={t("notifications.discovery.title")}
@@ -239,7 +239,7 @@ const AggregatedNotification = ({
     return (
       <Notification
         color="rgba(255, 255, 255, 0)"
-        className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+        className={`w-full ${backgroundColor === "normal" ? "bg-paper-1" : "bg-paper-0"} cursor-pointer`}
         withCloseButton={false}
         onClick={handleItemClick}
         radius={0}
@@ -321,7 +321,7 @@ const AggregatedNotification = ({
   return (
     <Notification
       color="rgba(255, 255, 255, 0)"
-      className={`w-full ${backgroundColor === "normal" ? "bg-[#262626]" : "bg-[#171717]"} cursor-pointer`}
+      className={`w-full ${backgroundColor === "normal" ? "bg-paper-1" : "bg-paper-0"} cursor-pointer`}
       withCloseButton={false}
       onClick={handleItemClick}
       radius={0}

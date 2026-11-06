@@ -4,98 +4,24 @@ import {
   ActivityItemLikes,
   ActivityItemProps,
   GameRating,
-  ObtainedAchievementActivityContent,
-  useAchievementsV2,
-  useCollection,
-  useCollectionEntry,
-  useGame,
-  useObtainedGameAchievementActivity,
-  usePost,
   UserAvatar,
-  useReview,
-  useUserProfile,
 } from "#@/components";
+import { useActivityItemData } from "#@/components/activity/item/useActivityItemData";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
-import { useTranslation } from "@repo/locales";
 import { Activity } from "@repo/wrapper/server";
-import { useMemo } from "react";
-import { match } from "ts-pattern";
 
 const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
-  const { t } = useTranslation();
-  const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
-  const collectionQuery = useCollection(activity.collectionId);
-  const reviewQuery = useReview(activity.reviewId);
-  const postQuery = usePost(activity.postId);
-  const profileQuery = useUserProfile(activity.profileUserId);
-  const gameAchievementActivityQuery = useObtainedGameAchievementActivity(
-    activity.obtainedGameAchievementActivityId,
-  );
-
-  const unlockedTier = activity.obtainedAchievement?.tier ?? 0;
-  const achievementsQuery = useAchievementsV2(activity.profileUserId);
-  const unlockedAchievement = achievementsQuery.data?.find(
-    (a) => a.id === activity.obtainedAchievement?.achievementId,
-  );
-
-  const gameId =
-    collectionEntryQuery.data?.gameId ||
-    reviewQuery.data?.gameId ||
-    postQuery.data?.gameId ||
-    gameAchievementActivityQuery.data?.externalGame.gameId;
-
-  const actionText = useMemo(() => {
-    return match(activity.type)
-      .with(Activity.type.COLLECTION_ENTRY, () => {
-        return (
-          <>
-            {t("activity.items.addedTo", {
-              collection: collectionQuery.data?.name ?? "",
-            })}
-          </>
-        );
-      })
-      .with(Activity.type.REVIEW, () => {
-        return <>{t("activity.items.reviewed")}</>;
-      })
-      .with(Activity.type.POST, () => {
-        return <>{t("activity.items.postedAbout")}</>;
-      })
-      .with(Activity.type.FOLLOW, () => {
-        return <>{t("activity.items.followed")}</>;
-      })
-      .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => (
-        <ObtainedAchievementActivityContent
-          activity={gameAchievementActivityQuery.data}
-        />
-      ))
-      .with(Activity.type.ACHIEVEMENT_UNLOCKED, () =>
-        unlockedAchievement
-          ? t("activity.items.achievementUnlocked", {
-              name: unlockedAchievement.name ?? "",
-              tier: unlockedTier,
-            })
-          : t("activity.items.unknown"),
-      )
-      .otherwise(() => {
-        return t("activity.items.unknown");
-      });
-  }, [
-    activity.type,
-    collectionQuery.data?.name,
-    gameAchievementActivityQuery.data,
+  const {
+    actionText,
+    gameQuery,
+    gameHref,
+    reviewQuery,
+    profileQuery,
     unlockedAchievement,
     unlockedTier,
-    t,
-  ]);
-
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
-    },
-  });
+  } = useActivityItemData(activity);
 
   return (
     <Box className={"w-full"}>
@@ -108,7 +34,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
           <UserAvatar userId={activity.profileUserId} size={"md"} />
           <Stack className={"gap-1"}>
             <Link href={`/profile/${activity.profileUserId}`}>
-              <Text className={"text-xs text-[#808080] line-clamp-2"}>
+              <Text className={"text-xs text-dimmed line-clamp-2"}>
                 {profileQuery.data?.username}
               </Text>
             </Link>
@@ -125,11 +51,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
           </Box>
         ) : (
           <Link
-            href={
-              reviewQuery.data
-                ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
-                : `/game/${gameId}`
-            }
+            href={gameHref}
             className={"flex flex-col w-fit items-center ms-auto"}
           >
             <Text

@@ -40,6 +40,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    backHome: string;
     cancel: string;
     clickHere: string;
     close: string;
@@ -52,6 +53,7 @@ export type TranslationSchema = {
     logout: string;
     no: string;
     remove: string;
+    retry: string;
     save: string;
     seeMore: string;
     selectAll: string;
@@ -66,6 +68,7 @@ export type TranslationSchema = {
     yes: string;
     use: string;
     toOpenDialogAnytime: string;
+    clear: string;
   };
   activity: {
     items: {
@@ -95,6 +98,16 @@ export type TranslationSchema = {
     metaDescription: string;
     openInApp: string;
     title: string;
+  };
+  appTheme: {
+    label: string;
+    options: {
+      gamenode: string;
+      playstation: string;
+      xbox: string;
+      switch: string;
+      bigpicture: string;
+    };
   };
   auth: {
     accessDenied: {
@@ -462,16 +475,109 @@ export type TranslationSchema = {
     message: string;
     title: string;
   };
+  daily: {
+    subtitle: string;
+    fetchError: string;
+    fetchErrorDescription: string;
+    noPuzzle: string;
+    play: string;
+    nextPuzzleIn: string;
+    attempts: string;
+    modes: {
+      cover: {
+        name: string;
+        description: string;
+      };
+      artwork: {
+        name: string;
+        description: string;
+      };
+      keywords: {
+        name: string;
+        description: string;
+      };
+      specs: {
+        name: string;
+        description: string;
+      };
+    };
+    status: {
+      notPlayed: string;
+      inProgress: string;
+      won: string;
+      lost: string;
+    };
+    guess: {
+      placeholder: string;
+      nothingFound: string;
+      commonGenres: string;
+      commonPlatforms: string;
+    };
+    results: {
+      correct: string;
+      franchise: string;
+      wrong: string;
+      skipped: string;
+    };
+    hint: {
+      imageLevel: string;
+    };
+    specs: {
+      columns: {
+        game: string;
+        platforms: string;
+        genres: string;
+        themes: string;
+        gameModes: string;
+        gameEngines: string;
+        companies: string;
+        perspectives: string;
+        franchise: string;
+        releaseYear: string;
+      };
+      franchise: {
+        match: string;
+        partial: string;
+        none: string;
+      };
+      yearRange: string;
+      reveal: string;
+      hint: string;
+      hintConfirm: string;
+    };
+    result: {
+      won: string;
+      lost: string;
+      answer: string;
+      community: string;
+    };
+    share: {
+      all: string;
+      copied: string;
+    };
+    stats: {
+      title: string;
+      played: string;
+      winRate: string;
+      currentStreak: string;
+      maxStreak: string;
+      distribution: string;
+    };
+    archive: {
+      link: string;
+      title: string;
+      empty: string;
+    };
+  };
   errors: {
     comeBackSoon: string;
     copiedToClipboard: string;
     discord: string;
     email: string;
-    error404: string;
     fetchFailed: string;
     inDevelopment: string;
-    oops: string;
     pageNotFound: string;
+    pageNotFoundTitle: string;
     pasteInstructions: string;
     reportPrompt: string;
     showDetails: string;
@@ -524,12 +630,26 @@ export type TranslationSchema = {
       recentReleases: string;
       upcoming: string;
     };
+    releaseCalendar: {
+      gamesCount: string;
+      title: string;
+      inLibrary: string;
+      more: string;
+      noReleases: string;
+      showCalendar: string;
+      hideCalendar: string;
+      today: string;
+      previousGame: string;
+      nextGame: string;
+    };
     details: {
       developers: string;
+      images: string;
       launchDate: string;
       notAvailable: string;
       publishers: string;
       summary: string;
+      tags: string;
       whereToBuy: string;
       whereToPlay: string;
     };
@@ -549,6 +669,9 @@ export type TranslationSchema = {
       inLibrary: string;
       listView: string;
       playedIn: string;
+      reviewsCount_zero: string;
+      reviewsCount_one: string;
+      reviewsCount_other: string;
       share: string;
       tip: string;
       userRating: string;
@@ -618,6 +741,8 @@ export type TranslationSchema = {
     };
     ttb: {
       basedOnIgdb: string;
+      hours_one: string;
+      hours_other: string;
       completionist: string;
       completionistDesc: string;
       mainExtras: string;
@@ -968,6 +1093,7 @@ export type TranslationSchema = {
     };
     wrapped: {
       buttons: {
+        download: string;
         generate: string;
       };
       labels: {
@@ -999,8 +1125,10 @@ export type TranslationSchema = {
     back: string;
     blog: string;
     collections: string;
+    daily: string;
     explore: string;
     feats: string;
+    feed: string;
     home: string;
     journal: string;
     library: string;
@@ -1083,12 +1211,22 @@ export type TranslationSchema = {
     };
   };
   posts: {
+    labels: {
+      postedAbout: string;
+      sharedImage: string;
+    };
     messages: {
+      empty: string;
+      linkCopied: string;
       published: string;
       removeWarning: string;
     };
+    tabs: {
+      mine: string;
+    };
     titles: {
       confirmRemove: string;
+      create: string;
     };
   };
   preferences: {
@@ -1229,6 +1367,8 @@ export type TranslationSchema = {
       fetchFailed: string;
       noAchievements: string;
       noFeaturedAchievements: string;
+      noFavoriteGamesOwn: string;
+      noFavoriteGamesTitle: string;
       noPublicFavoriteGames: string;
       noReviews: string;
       noReviewsOwn: string;

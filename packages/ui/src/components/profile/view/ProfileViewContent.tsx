@@ -73,7 +73,7 @@ const ProfileViewContent = ({ userId }: Props) => {
           base: 2,
           md: 8,
         }}
-        className={"mb-6"}
+        className={"gn-profile-tabs mb-6"}
       >
         <ProfileViewNavbarItem
           label={t("profile.tabs.games")}

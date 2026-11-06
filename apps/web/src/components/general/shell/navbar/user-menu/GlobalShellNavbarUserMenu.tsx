@@ -5,7 +5,12 @@ import { useTranslation } from "@repo/locales";
 import { LanguageSwitcherMenu, UserAvatar, useUserId } from "@repo/ui";
 import { IconBug, IconLogout, IconSettings } from "@tabler/icons-react";
 
-const GlobalShellNavbarUserMenu = () => {
+interface Props {
+  /** Console header: the target shows avatar, name and level, and the menu opens downwards. */
+  withDetails?: boolean;
+}
+
+const GlobalShellNavbarUserMenu = ({ withDetails = false }: Props) => {
   const { t } = useTranslation();
   const userId = useUserId();
 
@@ -15,14 +20,18 @@ const GlobalShellNavbarUserMenu = () => {
 
   return (
     <Menu
-      position={"right-start"}
+      position={withDetails ? "bottom-start" : "right-start"}
       keepMounted={true}
       withinPortal={false}
       offset={15}
     >
       <Menu.Target>
         <UnstyledButton>
-          <UserAvatar userId={userId} />
+          {withDetails ? (
+            <GlobalShellUserMenuOverview userId={userId} withLink={false} />
+          ) : (
+            <UserAvatar userId={userId} />
+          )}
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown className={"px-2 bg-paper-7 min-w-56 gap-1 flex flex-col"}>

@@ -5,7 +5,7 @@ import {
   FindGamesByCollectionTypeRequestDto,
   Game,
 } from "@repo/wrapper/server";
-import dayjs from "dayjs";
+import { getReleaseDay } from "#@/components/game/util/getLocalizedFirstReleaseDate";
 import { useMemo } from "react";
 
 interface Props {
@@ -26,7 +26,9 @@ const GameCollectionTypeItem = ({ game, collectionType }: Props) => {
     [language],
   );
 
-  const releaseDate = dtf.format(dayjs(game.firstReleaseDate).toDate());
+  const releaseDate = game.firstReleaseDate
+    ? dtf.format(getReleaseDay(game.firstReleaseDate).toDate())
+    : undefined;
   const enabledReviewScore =
     collectionType !==
     FindGamesByCollectionTypeRequestDto.collectionType.UPCOMING;

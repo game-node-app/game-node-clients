@@ -64,7 +64,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
       className={"rounded"}
       styles={{
         root: {
-          backgroundColor: "#161616",
+          backgroundColor: "var(--gn-paper-0)",
         },
       }}
     >

@@ -24,6 +24,7 @@ import {
   setProjectContext,
   setupAuthClient,
   UIProvider,
+  useThemePresenters,
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
@@ -50,6 +51,7 @@ import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
+import "@repo/ui/themes.css";
 
 /**
  * Includes tailwind styles
@@ -123,6 +125,7 @@ setupIonicReact({
 });
 
 const App: React.FC = () => {
+  const presenters = useThemePresenters(UI_PRESENTER_REGISTRY);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -159,6 +162,7 @@ const App: React.FC = () => {
       if (info.platform === "android" && Number(info.osVersion) >= 14) {
         await EdgeToEdge.enable();
         await EdgeToEdge.setBackgroundColor({
+          // shortcut: fixed color, not themed; tokenize if it looks off in other themes
           color: "#1f1f1f",
         });
       } else {
@@ -195,7 +199,7 @@ const App: React.FC = () => {
         >
           <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
             <UIProvider
-              presenters={UI_PRESENTER_REGISTRY}
+              presenters={presenters}
               hooks={UI_HOOK_REGISTRY}
             >
               <PostHogProvider

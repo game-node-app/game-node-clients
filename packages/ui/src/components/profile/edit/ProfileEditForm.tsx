@@ -51,7 +51,7 @@ const ProfileEditForm = ({ userId }: Props) => {
         <Stack className={"w-full items-center relative -top-20"}>
           <Box className={"relative w-fit h-fit"}>
             <UserAvatar
-              className={"relative border-[#161616] border-[7px]"}
+              className={"relative border-paper-0 border-[7px]"}
               userId={userId}
               size={"10rem"}
             />

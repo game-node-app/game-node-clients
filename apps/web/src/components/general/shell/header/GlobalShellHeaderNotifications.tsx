@@ -72,13 +72,19 @@ const GlobalShellHeaderNotifications = () => {
           {hasUnreadNotifications ? <IconBellFilled /> : <IconBell />}
         </ActionIcon>
       </Popover.Target>
-      <Popover.Dropdown p={0}>
+      <Popover.Dropdown p={0} className={"gn-notifications"}>
         <ScrollArea.Autosize mah={400}>
-          <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
+          <Stack
+            w={"100%"}
+            h={"100%"}
+            align={"center"}
+            gap={0}
+            className={"gn-notifications-body"}
+          >
             <Group
               w={"100%"}
               justify={"space-between"}
-              className={"p-2 mx-6 bg-[#111111]"}
+              className={"gn-notifications-header p-2 mx-6 bg-[#111111]"}
             >
               <Group gap={5}>
                 {hasUnreadNotifications ? (
@@ -90,6 +96,7 @@ const GlobalShellHeaderNotifications = () => {
               </Group>
               <ActionIcon
                 variant={"transparent"}
+                className={"gn-notifications-read-all"}
                 onClick={() => {
                   const unreadNotifications = items.filter(
                     (item) => item.readVersion < item.version,
@@ -136,7 +143,11 @@ const GlobalShellHeaderNotifications = () => {
                 />
               );
             })}
-            {isEmpty && <Text>{t("notifications.empty")}</Text>}
+            {isEmpty && (
+              <Text className={"gn-notifications-empty"}>
+                {t("notifications.empty")}
+              </Text>
+            )}
             {isFetching && <CenteredLoading className={"my-4"} />}
 
             {hasNextPage && (

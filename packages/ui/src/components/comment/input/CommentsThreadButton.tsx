@@ -30,7 +30,7 @@ const CommentsThreadButton = ({ comment, onClick }: Props) => {
       onClick={onClick}
       variant={"subtle"}
       size={"xl"}
-      color={hasComments ? "brand.4" : "white"}
+      color={hasComments ? "brand" : "white"}
     >
       <IconMessages className={"me-0.5"} />
       {totalCommentsCount > 0 && <Text>{totalCommentsCount}</Text>}

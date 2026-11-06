@@ -14,12 +14,14 @@ export type GetPostsFeedRequestDto = {
   criteria?: "following" | "all";
   limit?: number;
   postId?: string;
+  enabled?: boolean;
 };
 
 export function useInfinitePostsFeed({
   criteria = "all",
   limit = 20,
   postId,
+  enabled = true,
 }: GetPostsFeedRequestDto): ExtendedUseInfiniteQueryResult<GetPostsPaginatedResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = ["posts", "feed", criteria, limit, postId];
@@ -33,6 +35,7 @@ export function useInfinitePostsFeed({
   return {
     ...useInfiniteQuery({
       queryKey,
+      enabled,
       queryFn: async ({ pageParam }) => {
         return PostsFeedService.postsFeedControllerBuildFeedV1(
           criteria,

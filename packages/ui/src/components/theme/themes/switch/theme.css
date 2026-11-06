@@ -1,0 +1,24 @@
+:root[data-theme="switch"] {
+    --gn-body: #2d2d2d;
+    --gn-surface: #282828;
+    --gn-text: #FFFFFF;
+    --gn-dimmed: #a8a8a8;
+    --gn-border: #3c3c3c;
+    --gn-focus: #00c3e3;
+    --gn-brand: #e60012;
+    --gn-brand-rgb: 230,0,18;
+    --gn-radius: 12px;
+    --gn-font: var(--gn-font-nunito, Nunito), var(--gn-font-inter, Inter), Roboto, sans-serif;
+}
+
+:root[data-theme="switch"] {
+    --gn-tile-width: 200px;
+    --gn-tile-focus-scale: 1;
+    --gn-focus-width: 4px;
+    --gn-row-justify: safe center;
+}
+
+/* The Switch home has a plain background. */
+:root[data-theme="switch"] .gn-console-backdrop {
+    display: none;
+}

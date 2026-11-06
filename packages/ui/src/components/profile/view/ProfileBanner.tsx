@@ -32,12 +32,12 @@ const ProfileBanner = ({
   return (
     <Box
       className={
-        "w-full h-full bg-[#161616] p-4 mobile:p-0 mobile:-ms-3.5 mobile:min-w-[100vw]"
+        "w-full h-full bg-paper-0 p-4 mobile:p-0 mobile:-ms-3.5 mobile:min-w-[100vw]"
       }
     >
       <Paper
         style={{
-          backgroundColor: "#161616",
+          backgroundColor: "var(--gn-paper-0)",
           backgroundImage: `url(${customSource ? customSource : bannerSrc})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",

@@ -13,7 +13,8 @@
     ]
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./themes.css": "./src/components/theme/themes.css"
   },
   "private": true,
   "license": "MIT",

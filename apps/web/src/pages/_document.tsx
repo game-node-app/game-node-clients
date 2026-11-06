@@ -1,5 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { ColorSchemeScript } from "@mantine/core";
+import { APP_THEME_SCRIPT } from "@repo/ui";
 import React from "react";
 
 export default function Document() {
@@ -7,6 +8,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <ColorSchemeScript defaultColorScheme="dark" />
+        <script dangerouslySetInnerHTML={{ __html: APP_THEME_SCRIPT }} />
         <link
           rel="apple-touch-icon"
           sizes="180x180"

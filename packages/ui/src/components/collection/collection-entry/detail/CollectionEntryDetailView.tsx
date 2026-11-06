@@ -7,6 +7,7 @@ import {
   CollectionEntryPlaytimeTracker,
   CollectionEntryRemoveModal,
   CollectionEntryReviewBox,
+  GameBackdrop,
   GameFigureImage,
   GameInfoContentTitle,
   getSizedImageUrl,
@@ -86,24 +87,7 @@ const CollectionEntryDetailView = ({
 
   return (
     <Stack className={"w-full"}>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "80vh",
-          backgroundImage: `
-              linear-gradient(180deg,rgba(0, 0, 0, 0.1) 0%, rgba(10, 10, 10, 0.6) 34%, rgba(25, 25, 25, 1) 87%), 
-              url(${backgroundImageUrl})
-            `,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          zIndex: 9,
-          opacity: 0.6,
-        }}
-      />
+      <GameBackdrop imageUrl={backgroundImageUrl} />
       <Stack className={"w-full z-10"} {...others}>
         <BackToTopButton />
         {gameId && (

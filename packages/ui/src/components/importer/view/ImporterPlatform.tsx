@@ -40,7 +40,7 @@ const ImporterPlatform = ({ connection }: Props) => {
   return (
     <Stack
       className={
-        "h-auto min-h-64 w-60 items-center bg-[#141414] p-4 rounded-md justify-between"
+        "h-auto min-h-64 w-60 items-center bg-paper-0 p-4 rounded-md justify-between"
       }
     >
       <Stack className="items-center" gap="xs">

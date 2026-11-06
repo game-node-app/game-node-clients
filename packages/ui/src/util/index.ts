@@ -3,6 +3,7 @@
  */
 
 export * from "./cn";
+export * from "./createUuid";
 export * from "./createErrorNotification";
 export * from "./downloadFile";
 export * from "./getCapitalizedText";

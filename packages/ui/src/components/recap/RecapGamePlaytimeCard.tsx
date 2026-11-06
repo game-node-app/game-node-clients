@@ -33,7 +33,7 @@ const RecapGamePlaytimeCard = ({ playedGame }: Props) => {
     >
       <Group
         className={
-          "bg-[#212121] h-20 p-4 mt-auto justify-center relative text-white"
+          "bg-paper-6 h-20 p-4 mt-auto justify-center relative text-white"
         }
       >
         <Image

@@ -51,6 +51,7 @@ const GameViewContent = ({
   return (
     <SimpleGrid
       id={"game-view-content"}
+      data-layout={layout}
       cols={layout === "list" ? 1 : cols}
       w={"100%"}
       {...others}

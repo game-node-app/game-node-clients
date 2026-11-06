@@ -10,6 +10,7 @@ export * from "./CenteredLoading";
 export * from "./DetailsBox";
 export * from "./DetailsCard";
 export * from "./ErrorBoundaryFallback";
+export * from "./ErrorState";
 export * from "./GameNodeLogo";
 export * from "./GradientSeparator";
 export * from "./ImageDropzone";

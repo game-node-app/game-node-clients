@@ -2,12 +2,13 @@ import { useProfileMetricsOverview } from "#@/components/profile/hooks/useProfil
 import { BarChart } from "@mantine/charts";
 import { Group, Popover, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { buildPresenterComponent } from "#@/context";
 
-interface Props {
+export interface ProfileStatsSimpleOverviewProps {
   userId: string;
 }
 
-const ProfileStatsSimpleOverview = ({ userId }: Props) => {
+const DEFAULT_ProfileStatsSimpleOverview = ({ userId }: ProfileStatsSimpleOverviewProps) => {
   const { t } = useTranslation();
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 
@@ -90,5 +91,10 @@ const ProfileStatsSimpleOverview = ({ userId }: Props) => {
     </Group>
   );
 };
+
+const ProfileStatsSimpleOverview = buildPresenterComponent(
+  "ProfileStatsSimpleOverview",
+  DEFAULT_ProfileStatsSimpleOverview,
+);
 
 export { ProfileStatsSimpleOverview };
