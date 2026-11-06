@@ -122,8 +122,8 @@
     overflow: hidden;
     pointer-events: none;
     container-type: size;
-    /* the delay hides YouTube's loading frame */
-    animation: gn-console-trailer-in 600ms ease 800ms both;
+    /* the delay hides YouTube's loading frame and the pause button it flashes for ~3s after starting */
+    animation: gn-console-trailer-in 600ms ease 3500ms both;
 }
 
 .gn-console-trailer iframe {
@@ -132,7 +132,8 @@
     left: 50%;
     width: max(100cqw, 100cqh * 16 / 9);
     aspect-ratio: 16 / 9;
-    transform: translate(-50%, -50%);
+    /* zoom crops the title/channel overlay YouTube draws at the top of embeds (no official param hides it) */
+    transform: translate(-50%, -50%) scale(1.35);
     border: 0;
 }
 
@@ -224,8 +225,13 @@
     gap: 14px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
-    /* room for the focus scale and ring */
-    padding: 12px 8px 16px;
+    /* room for the focus scale and ring inside the scroll clip; the negative margin keeps the tiles where an 8px/12px padding put them */
+    padding: 20px 20px 24px;
+    margin: -8px -12px -8px;
+    /* a tile cut by the row's edge fades out instead of ending in a hard slice (same as the review and Xbox rows) */
+    mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+    /* without it, snapping scrolls the first tile flush to the edge and the padding (the hover room) is clipped */
+    scroll-padding-inline: 20px;
     scrollbar-width: none;
 }
 

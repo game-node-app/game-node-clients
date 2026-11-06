@@ -70,6 +70,8 @@
 
 :root[data-theme="xbox"] .gn-console-row {
     align-items: flex-end;
+    /* Xbox sets its own padding below */
+    margin: 0;
 }
 
 :root[data-theme="xbox"] .gn-console-hero .gn-tile {

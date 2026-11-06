@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Stack, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -16,6 +16,56 @@ import { ConsoleReviewRow } from "./ConsoleReviewRow";
 
 // hovering a tile shows its art first; the trailer only replaces it once the focus settles
 const TRAILER_DELAY_MS = 3000;
+const TRAILER_START_S = 30;
+
+const TrailerFrame = ({
+  videoId,
+  title,
+}: {
+  videoId: string;
+  title?: string;
+}) => {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    const send = (message: object) =>
+      frame?.contentWindow?.postMessage(JSON.stringify(message), "*");
+    // loop=1 needs a playlist (prev/next buttons) and restarting after the end flashes the pause bezel,
+    // so seek back to the start point just before the end, while still playing
+    let duration = 0;
+    const onMessage = (message: MessageEvent) => {
+      if (message.source !== frame?.contentWindow) return;
+      try {
+        const info = JSON.parse(message.data).info;
+        duration = info?.duration ?? duration;
+        if (duration && info?.currentTime >= duration - 1) {
+          send({ event: "command", func: "seekTo", args: [TRAILER_START_S, true] });
+        }
+      } catch {
+        // not a player message
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  return (
+    <iframe
+      ref={frameRef}
+      src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&disablekb=1&enablejsapi=1&start=${TRAILER_START_S}&modestbranding=1&iv_load_policy=3&fs=0`}
+      title={title}
+      allow={"autoplay; encrypted-media"}
+      tabIndex={-1}
+      onLoad={() =>
+        frameRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "listening" }),
+          "*",
+        )
+      }
+    />
+  );
+};
 
 type RowProps = {
   onFocusGame: (game: Game, seed?: boolean) => void;
@@ -32,7 +82,7 @@ const RecentlyPlayedRow = ({
     userId,
     period: FindAllPlaytimeFiltersDto.period.ALL,
     orderBy: { lastPlayedDate: "DESC" },
-    limit: 12,
+    limit: 10,
   });
   const gameIds = playtimeQuery.data?.data.map((playtime) => playtime.gameId);
 
@@ -50,7 +100,7 @@ const RecentlyPlayedRow = ({
 
 const RecommendedRow = (props: RowProps) => {
   const { t } = useTranslation();
-  const recommendationsQuery = useRecommendations("played", 12);
+  const recommendationsQuery = useRecommendations("played", 10);
 
   return (
     <ConsoleGameRow
@@ -100,7 +150,7 @@ const ConsoleHome = ({ search }: { search?: React.ReactNode }) => {
 
   const trendingQuery = useTrendingGames({
     ...DEFAULT_SEARCH_TRENDING_GAMES_DTO,
-    limit: 12,
+    limit: 10,
   });
   const trendingGameIds = trendingQuery.isError
     ? []
@@ -127,13 +177,7 @@ const ConsoleHome = ({ search }: { search?: React.ReactNode }) => {
         />
         {videoId && trailerGameId === focused?.id && (
           <div className={"gn-console-backdrop gn-console-trailer"} aria-hidden>
-            <iframe
-              key={videoId}
-              src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&controls=0&loop=1&playlist=${encodeURIComponent(videoId)}&playsinline=1&rel=0&disablekb=1`}
-              title={focused?.name}
-              allow={"autoplay; encrypted-media"}
-              tabIndex={-1}
-            />
+            <TrailerFrame videoId={videoId} title={focused?.name} />
           </div>
         )}
         <Title order={2} className={"gn-console-focused-title"}>
