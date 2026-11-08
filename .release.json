@@ -1,0 +1,28 @@
+{
+  "source": "2ac0d0a916aeed46fe4905326698d7129e3fbac9",
+  "changesets": [
+    ".changeset/supporter-settings-redesign.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[63bffa28fd250549bcce233632011e8945a82c69...2ac0d0a916aeed46fe4905326698d7129e3fbac9]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/2ac0d0a916aeed46fe4905326698d7129e3fbac9",
+  "versions": {
+    "web": "1.13.0",
+    "mobile": "1.11.0"
+  }
+}
