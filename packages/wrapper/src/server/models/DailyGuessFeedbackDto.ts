@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DailyGuessTraitsDto } from './DailyGuessTraitsDto';
 import type { DailySpecsColumnsDto } from './DailySpecsColumnsDto';
 export type DailyGuessFeedbackDto = {
     /**
@@ -17,10 +16,6 @@ export type DailyGuessFeedbackDto = {
      * Specs mode only.
      */
     columns?: DailySpecsColumnsDto;
-    /**
-     * Cover, artwork and keywords modes only; never on a skip.
-     */
-    traits?: DailyGuessTraitsDto;
 };
 export namespace DailyGuessFeedbackDto {
     export enum result {

@@ -32,5 +32,6 @@ export * from "./report/index";
 export * from "./review/index";
 export * from "./settings/index";
 export * from "./statistics/index";
+export * from "./supporter/index";
 export * from "./user-level/index";
 export * from "./wrapped/index";

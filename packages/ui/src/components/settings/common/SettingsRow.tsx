@@ -38,6 +38,13 @@ interface Props {
   titleBadges?: ReactNode;
   /** Action on the right (button, switch, badge). */
   rightSection?: ReactNode;
+  /**
+   * Stacks `rightSection` below the text when the row is narrow, keeping it
+   * inline only when there is room. Needs a `@container` ancestor (the
+   * supporter settings view is one). Use it for action buttons that would
+   * otherwise squeeze the description into a one-word-wide column.
+   */
+  stackRightSection?: boolean;
   disabled?: boolean;
   className?: string;
 }
@@ -50,9 +57,30 @@ export function SettingsRow({
   leftSection,
   titleBadges,
   rightSection,
+  stackRightSection = false,
   disabled = false,
   className,
 }: Props) {
+  const text = (
+    <Stack gap={4} className={cn("min-w-0 flex-1", disabled && "opacity-60")}>
+      <Group gap={8} wrap={"wrap"}>
+        <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+          {title}
+        </Text>
+        {titleBadges}
+      </Group>
+      {description && (
+        <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          {description}
+        </Text>
+      )}
+    </Stack>
+  );
+
+  const action = rightSection && (
+    <Box className={"shrink-0"}>{rightSection}</Box>
+  );
+
   return (
     <Group
       wrap={"nowrap"}
@@ -60,20 +88,26 @@ export function SettingsRow({
       className={cn("w-full px-5 py-4", className)}
     >
       {leftSection ?? (Icon && <SettingsIconTile Icon={Icon} />)}
-      <Stack gap={4} className={cn("min-w-0 flex-1", disabled && "opacity-60")}>
-        <Group gap={8} wrap={"wrap"}>
-          <Text fz={14} fw={600} c={"white"} lh={"normal"}>
-            {title}
-          </Text>
-          {titleBadges}
-        </Group>
-        {description && (
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
-            {description}
-          </Text>
-        )}
-      </Stack>
-      {rightSection && <Box className={"shrink-0"}>{rightSection}</Box>}
+      {stackRightSection ? (
+        <Box className={"@container min-w-0 flex-1"}>
+          <Group
+            gap={16}
+            wrap={"nowrap"}
+            align={"center"}
+            className={
+              "flex-col items-stretch @[420px]:flex-row @[420px]:items-center"
+            }
+          >
+            {text}
+            {action}
+          </Group>
+        </Box>
+      ) : (
+        <>
+          {text}
+          {action}
+        </>
+      )}
     </Group>
   );
 }

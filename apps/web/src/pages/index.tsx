@@ -341,7 +341,9 @@ const Home = () => {
                 <Anchor href="#features">
                   {t("landing.presentation.features")}
                 </Anchor>
-                <Anchor href="#premium">Premium</Anchor>
+                <Anchor href="#premium">
+                  {t("landing.presentation.premium")}
+                </Anchor>
                 <Anchor component={Link} href="/mcp">
                   GameNode + AI
                 </Anchor>

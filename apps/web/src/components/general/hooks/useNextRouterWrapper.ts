@@ -22,8 +22,23 @@ export function useNextRouterWrapper(): RouterHookProps {
     [nextRouter.asPath]
   );
 
+  // Keep the full path (including the query) so sign-in can return the user to
+  // the same surface, but strip the locale segment the app hides from routes.
+  const asPath = useMemo(() => {
+    const rawPath = nextRouter.asPath;
+    const localePrefix = nextRouter.locale ? `/${nextRouter.locale}` : "";
+
+    if (localePrefix && rawPath.startsWith(localePrefix)) {
+      const withoutLocale = rawPath.slice(localePrefix.length);
+      return withoutLocale.length > 0 ? withoutLocale : "/";
+    }
+
+    return rawPath;
+  }, [nextRouter.asPath, nextRouter.locale]);
+
   return {
     pathname,
+    asPath,
     back: nextRouter.back,
     push: async (route, options) => {
       const targetMethod = options?.replace

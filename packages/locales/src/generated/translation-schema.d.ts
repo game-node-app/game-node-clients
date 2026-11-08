@@ -969,9 +969,10 @@ export type TranslationSchema = {
     subheadline: string;
     support: {
       apoia: string;
-      buyCoffe: string;
+      becomeSupporter: string;
       description: string;
       title: string;
+      apoiaNote: string;
     };
     presentation: {
       heroTitle: string;
@@ -1031,18 +1032,14 @@ export type TranslationSchema = {
           period: string;
           description: string;
           cta: string;
-          limit: string;
         };
         plan: {
           name: string;
           badge: string;
           description: string;
           cta: string;
-          monthlyPrice: string;
-          monthlyPeriod: string;
-          yearlyPrice: string;
-          yearlyPeriod: string;
-          limit: string;
+          priceUnavailable: string;
+          priceNote: string;
         };
         groups: {
           always: string;
@@ -1642,6 +1639,194 @@ export type TranslationSchema = {
       placeholder: string;
     };
   };
+  supporter: {
+    heading: string;
+    subheading: string;
+    banner: {
+      errorTitle: string;
+    };
+    features: {
+      title: string;
+      descriptionFree: string;
+      descriptionSupporter: string;
+      groups: {
+        profile: string;
+        library: string;
+        community: string;
+      };
+      theme: {
+        description: string;
+      };
+      badge: {
+        description: string;
+      };
+      animatedBorder: {
+        description: string;
+      };
+      videoCover: {
+        description: string;
+      };
+      liveProfile: {
+        description: string;
+      };
+      customCovers: {
+        description: string;
+      };
+      collectionLimit: {
+        description: string;
+      };
+      wall: {
+        description: string;
+      };
+      preview: {
+        caption: string;
+        badge: string;
+        since: string;
+        followers: string;
+        following: string;
+        favorites: string;
+        notListed: string;
+      };
+    };
+    subscription: {
+      title: string;
+      plan: string;
+      renewal: string;
+      ends: string;
+      billing: string;
+      billingDescription: string;
+      cancel: string;
+      cancelDescription: string;
+      paymentIssue: string;
+      endingOn: string;
+      thankYou: string;
+    };
+    alwaysFree: {
+      title: string;
+      description: string;
+    };
+    plans: {
+      title: string;
+      monthly: string;
+      yearly: string;
+      perMonth: string;
+      perYear: string;
+      yearlySavings: string;
+      monthlyCta: string;
+      yearlyCta: string;
+      priceNote: string;
+      priceUnavailable: string;
+      retry: string;
+    };
+    free: {
+      title: string;
+      description: string;
+    };
+    status: {
+      label: string;
+      free: string;
+      active: string;
+      trialing: string;
+      past_due: string;
+      canceled: string;
+      incomplete: string;
+      incomplete_expired: string;
+      unpaid: string;
+      paused: string;
+      unknown: string;
+    };
+    billing: {
+      monthly: string;
+      yearly: string;
+      renewsOn: string;
+      endsOn: string;
+      currentPeriodEnd: string;
+      cancelAtPeriodEnd: string;
+      dateFormat: string;
+    };
+    pendingCancellation: {
+      title: string;
+      description: string;
+      restore: string;
+    };
+    pastDue: {
+      title: string;
+      description: string;
+      action: string;
+    };
+    actions: {
+      manageBilling: string;
+      cancelSubscription: string;
+      keepSubscription: string;
+      refresh: string;
+      retry: string;
+      signIn: string;
+      backHome: string;
+    };
+    checkout: {
+      success: {
+        title: string;
+        description: string;
+      };
+      pending: {
+        title: string;
+        description: string;
+        stillConfirming: string;
+        refresh: string;
+      };
+      cancel: {
+        title: string;
+        description: string;
+      };
+    };
+    errors: {
+      offersUnavailable: string;
+      statusUnavailable: string;
+      billingUnavailable: string;
+      existingSubscription: string;
+      noSubscription: string;
+      noPendingCancellation: string;
+      network: string;
+      generic: string;
+    };
+    cancelDialog: {
+      title: string;
+      description: string;
+      confirm: string;
+      keep: string;
+    };
+    benefits: {
+      includedTitle: string;
+      includedDescription: string;
+      comingSoonTitle: string;
+      comingSoonDescription: string;
+      comingSoon: string;
+      available: {
+        library: string;
+        imports: string;
+        achievements: string;
+        reviews: string;
+        journal: string;
+        collections: string;
+      };
+      upcoming: {
+        badge: string;
+        theme: string;
+        videoCover: string;
+        animatedBorder: string;
+        customCovers: string;
+        liveProfile: string;
+        wall: string;
+        collectionLimit: string;
+      };
+    };
+    preferences: {
+      title: string;
+      freeStatus: string;
+      supporterStatus: string;
+    };
+    planName: string;
+  };
   upload: {
     dragPrompt: string;
     labels: {
@@ -1922,40 +2107,6 @@ export type TranslationSchema = {
       hero: {
         title: string;
         description: string;
-        cta: string;
-      };
-      appearance: {
-        title: string;
-        description: string;
-        lockedNote: string;
-      };
-      features: {
-        profileTheme: {
-          label: string;
-          description: string;
-        };
-        badge: {
-          label: string;
-          description: string;
-        };
-        title: {
-          label: string;
-          description: string;
-        };
-        list: {
-          label: string;
-          description: string;
-        };
-      };
-      preview: {
-        label: string;
-        badge: string;
-        since: string;
-        followers_one: string;
-        followers_other: string;
-        following: string;
-        favorites: string;
-        notListed: string;
       };
       billingHelp: string;
     };

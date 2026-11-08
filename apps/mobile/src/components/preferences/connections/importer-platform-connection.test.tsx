@@ -16,7 +16,10 @@ import { ImporterPlatform } from "../../../../../../packages/ui/src/components/i
 import { PreferencesConnectionItem as WebPreferencesConnectionItem } from "../../../../../../packages/ui/src/components/preferences/handlers/connections/PreferencesConnectionItem";
 import MobilePreferencesConnectionItem from "./PreferencesConnectionItem";
 import AppUrlListener from "../../general/AppUrlListener";
-import { getCommonRoutes } from "../../../pages/routes/getCommonRoutes";
+import {
+  getCommonRoutes,
+  getPreferencesCategoryPath,
+} from "../../../pages/routes/getCommonRoutes";
 import enTranslations from "../../../../../../packages/locales/src/translations/json/en.json";
 
 const mocks = vi.hoisted(() => ({
@@ -348,7 +351,7 @@ describe("Task 5.1 & 5.2: Navigation and deep linking", () => {
     const categoryRoute = routes.find(
       (r) =>
         isValidElement<{ path?: string }>(r) &&
-        r.props.path === "/home/preferences/:category",
+        r.props.path === getPreferencesCategoryPath("/home"),
     );
     const genericRoute = routes.find(
       (r) =>

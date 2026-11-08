@@ -3,6 +3,10 @@ import {
   isSettingsTab,
   SettingsTab,
 } from "#@/components/settings/settingsTabs";
+import {
+  SUPPORTER_CHECKOUT_QUERY_PARAM,
+  SUPPORTER_INTERVAL_QUERY_PARAM,
+} from "#@/components/supporter/util/getSupporterSettingsHref";
 
 export const SETTINGS_QUERY_PARAM = "settings";
 export const SETTINGS_SECTION_QUERY_PARAM = "section";
@@ -29,6 +33,13 @@ export function useSettingsModalState() {
     const query = new URLSearchParams(router.query.toString());
     query.delete(SETTINGS_QUERY_PARAM);
     query.delete(SETTINGS_SECTION_QUERY_PARAM);
+    // A checkout result belongs to the Supporter tab only: leaving it after a
+    // Stripe return must not show a stale result when it is reopened.
+    const leavingSupporter = tab === "premium" && next.tab !== "premium";
+    if (leavingSupporter) {
+      query.delete(SUPPORTER_CHECKOUT_QUERY_PARAM);
+      query.delete(SUPPORTER_INTERVAL_QUERY_PARAM);
+    }
     if (next.tab) {
       query.set(SETTINGS_QUERY_PARAM, next.tab);
       if (next.section) {

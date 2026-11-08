@@ -965,16 +965,17 @@
     "subheadline": "GameNode é a plataforma ideal para gerenciar sua coleção de jogos virtualmente.",
     "support": {
       "apoia": "Apoia.se",
-      "buyCoffe": "Nos pague um café",
+      "becomeSupporter": "Seja Apoiador",
       "description": "Colabore conosco para manter nossa plataforma 100% gratuita e em constante evolução.",
-      "title": "GameNode é mantido exclusivamente com apoio da comunidade"
+      "title": "GameNode é mantido exclusivamente com apoio da comunidade",
+      "apoiaNote": "O Apoia.se é um canal de doação à parte e não concede os benefícios de Apoiador."
     },
     "presentation": {
       "heroTitle": "Organize todos os seus jogos em um só lugar",
       "heroDescription": "GameNode é a plataforma ideal para gerenciar sua coleção de jogos de forma virtual.",
       "start": "Comece Gratuitamente",
       "about": "Sobre",
-      "premium": "Premium",
+      "premium": "Apoiador",
       "downloads": "Downloads",
       "blog": "Blog",
       "login": "Entrar",
@@ -1023,22 +1024,18 @@
         "notIncluded": "Não incluso:",
         "free": {
           "name": "Grátis",
-          "price": "R$ 0",
+          "price": "Grátis",
           "period": "para sempre",
           "description": "Tudo o que você precisa para organizar seus jogos. Continua grátis.",
-          "cta": "Começar grátis",
-          "limit": "Até 5"
+          "cta": "Começar grátis"
         },
         "plan": {
           "name": "Apoiador",
           "badge": "Mantém o GameNode no ar",
-          "description": "Tudo do Grátis, mais um perfil seu e mais espaço na biblioteca.",
+          "description": "Tudo do plano Grátis, além da satisfação de manter o GameNode no ar. Novos extras de Apoiador estão chegando.",
           "cta": "Quero apoiar o GameNode",
-          "monthlyPrice": "R$ 9,90",
-          "monthlyPeriod": "/mês · ou R$ 99/ano",
-          "yearlyPrice": "R$ 99",
-          "yearlyPeriod": "/ano · ou R$ 9,90/mês",
-          "limit": "Mais de 5"
+          "priceUnavailable": "Preço indisponível",
+          "priceNote": "O valor final é confirmado na tela de pagamento."
         },
         "groups": {
           "always": "Sempre grátis",
@@ -1638,6 +1635,194 @@
       "placeholder": "Buscar usuários ou jogos"
     }
   },
+  "supporter": {
+    "heading": "Apoie o GameNode",
+    "subheading": "Tudo o que você usa hoje continua grátis. Sua assinatura paga servidores e desenvolvimento, mantendo o projeto no ar.",
+    "banner": {
+      "errorTitle": "Algo não deu certo"
+    },
+    "features": {
+      "title": "Recursos para Apoiadores",
+      "descriptionFree": "Planejados para Apoiadores. Nenhum deles está disponível ainda.",
+      "descriptionSupporter": "Em breve. Você receberá cada um automaticamente conforme forem lançados.",
+      "groups": {
+        "profile": "Perfil",
+        "library": "Biblioteca",
+        "community": "Comunidade"
+      },
+      "theme": {
+        "description": "Um visual de Apoiador para o app, com uma cor de destaque personalizada."
+      },
+      "badge": {
+        "description": "Um selo de Apoiador e um título ao lado do seu nome."
+      },
+      "animatedBorder": {
+        "description": "Uma borda animada ao redor do seu avatar."
+      },
+      "videoCover": {
+        "description": "Use um vídeo curto como capa do seu perfil."
+      },
+      "liveProfile": {
+        "description": "Mostre o que você está jogando agora no seu perfil."
+      },
+      "customCovers": {
+        "description": "Envie suas próprias capas para os jogos da sua biblioteca."
+      },
+      "collectionLimit": {
+        "description": "Mantenha mais coleções do que o limite gratuito permite."
+      },
+      "wall": {
+        "description": "Um mural com todos que mantêm o GameNode online."
+      },
+      "preview": {
+        "caption": "Prévia · Em breve",
+        "badge": "Apoiador",
+        "since": "Apoiador desde {{year}}",
+        "followers": "{{count}} seguidores",
+        "following": "{{count}} seguindo",
+        "favorites": "JOGOS FAVORITOS",
+        "notListed": "Sua biblioteca não está listada publicamente."
+      }
+    },
+    "subscription": {
+      "title": "Sua assinatura",
+      "plan": "Plano",
+      "renewal": "Renovação",
+      "ends": "Termina",
+      "billing": "Cobrança",
+      "billingDescription": "Forma de pagamento e faturas.",
+      "cancel": "Cancelar",
+      "cancelDescription": "Seus benefícios continuam até {{date}}.",
+      "paymentIssue": "Problema no pagamento",
+      "endingOn": "Termina em {{date}}",
+      "thankYou": "Obrigado por manter o GameNode online."
+    },
+    "alwaysFree": {
+      "title": "Sempre grátis",
+      "description": "Tudo o que você usa hoje continua grátis, com ou sem assinatura."
+    },
+    "plans": {
+      "title": "Escolha seu plano",
+      "monthly": "Mensal",
+      "yearly": "Anual",
+      "perMonth": "por mês",
+      "perYear": "por ano",
+      "yearlySavings": "2 meses grátis",
+      "monthlyCta": "Assinar mensalmente",
+      "yearlyCta": "Assinar anualmente",
+      "priceNote": "O valor final é confirmado na tela de pagamento.",
+      "priceUnavailable": "O preço está indisponível no momento.",
+      "retry": "Tentar novamente"
+    },
+    "free": {
+      "title": "Você está no plano Grátis",
+      "description": "Tudo o que você usa hoje continua grátis. Seja Apoiador para manter o GameNode no ar."
+    },
+    "status": {
+      "label": "Assinatura",
+      "free": "Grátis",
+      "active": "Ativa",
+      "trialing": "Período de teste",
+      "past_due": "Problema no pagamento",
+      "canceled": "Cancelada",
+      "incomplete": "Incompleta",
+      "incomplete_expired": "Incompleta (expirada)",
+      "unpaid": "Não paga",
+      "paused": "Pausada",
+      "unknown": "Desconhecido"
+    },
+    "billing": {
+      "monthly": "Cobrança mensal",
+      "yearly": "Cobrança anual",
+      "renewsOn": "Renova em {{date}}",
+      "endsOn": "Termina em {{date}}",
+      "currentPeriodEnd": "O período atual termina em {{date}}",
+      "cancelAtPeriodEnd": "Cancela em {{date}}",
+      "dateFormat": "DD/MM/YYYY"
+    },
+    "pendingCancellation": {
+      "title": "Sua assinatura está terminando",
+      "description": "Seus benefícios continuam até {{date}}. Você pode manter sua assinatura a qualquer momento antes disso.",
+      "restore": "Manter assinatura"
+    },
+    "pastDue": {
+      "title": "Não conseguimos cobrar seu método de pagamento",
+      "description": "Atualize seu método de pagamento para manter os benefícios de Apoiador. Vamos tentar a cobrança novamente automaticamente.",
+      "action": "Atualizar método de pagamento"
+    },
+    "actions": {
+      "manageBilling": "Gerenciar cobrança",
+      "cancelSubscription": "Cancelar assinatura",
+      "keepSubscription": "Manter assinatura",
+      "refresh": "Atualizar",
+      "retry": "Tentar novamente",
+      "signIn": "Entrar",
+      "backHome": "Voltar ao início"
+    },
+    "checkout": {
+      "success": {
+        "title": "Agora você é Apoiador",
+        "description": "Obrigado por manter o GameNode no ar. Sua assinatura está ativa."
+      },
+      "pending": {
+        "title": "Confirmando sua assinatura",
+        "description": "Recebemos seu pagamento e estamos aguardando o servidor confirmar seu status de Apoiador.",
+        "stillConfirming": "Está demorando mais que o esperado. Atualize em instantes para verificar novamente.",
+        "refresh": "Verificar novamente"
+      },
+      "cancel": {
+        "title": "Compra cancelada",
+        "description": "Nenhuma assinatura foi criada e você não foi cobrado."
+      }
+    },
+    "errors": {
+      "offersUnavailable": "Os preços estão indisponíveis no momento. Tente novamente em instantes.",
+      "statusUnavailable": "Não foi possível carregar sua assinatura agora. Tente novamente em instantes.",
+      "billingUnavailable": "As assinaturas estão temporariamente indisponíveis. Tente novamente mais tarde.",
+      "existingSubscription": "Você já tem uma assinatura. Gerencie-a abaixo em vez de iniciar outra.",
+      "noSubscription": "Você não tem uma assinatura ativa.",
+      "noPendingCancellation": "Sua assinatura não está com cancelamento pendente.",
+      "network": "Não foi possível falar com o servidor. Verifique sua conexão e tente novamente.",
+      "generic": "Algo deu errado. Tente novamente em instantes."
+    },
+    "cancelDialog": {
+      "title": "Cancelar sua assinatura?",
+      "description": "Seus benefícios continuam até {{date}}. Depois disso, sua conta volta ao plano Grátis e você mantém sua biblioteca.",
+      "confirm": "Cancelar assinatura",
+      "keep": "Manter assinatura"
+    },
+    "benefits": {
+      "includedTitle": "Incluído hoje",
+      "includedDescription": "Estes recursos já fazem parte de todas as contas do GameNode.",
+      "comingSoonTitle": "Em breve",
+      "comingSoonDescription": "Estes benefícios de Apoiador estão planejados e ainda não estão disponíveis.",
+      "comingSoon": "Em breve",
+      "available": {
+        "library": "Biblioteca de jogos",
+        "imports": "Importação da Steam, PSN e Xbox",
+        "achievements": "Conquistas",
+        "reviews": "Avaliações",
+        "journal": "Diário de jogos",
+        "collections": "Coleções"
+      },
+      "upcoming": {
+        "badge": "Selo de Apoiador",
+        "theme": "Tema de Apoiador",
+        "videoCover": "Capa do perfil em vídeo",
+        "animatedBorder": "Borda animada no avatar",
+        "customCovers": "Capas personalizadas dos jogos",
+        "liveProfile": "Live no perfil",
+        "wall": "Mural de apoiadores",
+        "collectionLimit": "Limite maior de coleções"
+      }
+    },
+    "preferences": {
+      "title": "Apoiador",
+      "freeStatus": "Apoie o GameNode e mantenha o projeto no ar",
+      "supporterStatus": "Você é Apoiador. Obrigado!"
+    },
+    "planName": "Apoiador"
+  },
   "upload": {
     "dragPrompt": "Arraste imagens aqui ou clique para selecionar arquivos",
     "labels": {
@@ -1752,9 +1937,9 @@
     },
     "tabs": {
       "premium": {
-        "label": "Premium",
-        "title": "Premium",
-        "subtitle": "Seu plano e como você aparece no GameNode."
+        "label": "Apoiador",
+        "title": "Apoiador",
+        "subtitle": "Seu plano e como você apoia o GameNode."
       },
       "profile": {
         "label": "Editar perfil",
@@ -1916,42 +2101,8 @@
     },
     "premium": {
       "hero": {
-        "title": "Mostre que você apoia o GameNode.",
-        "description": "Tudo o que você usa hoje continua grátis. Com o Premium, você ajuda a manter o projeto no ar e mostra isso no seu perfil.",
-        "cta": "Conhecer o Premium"
-      },
-      "appearance": {
-        "title": "Como você aparece",
-        "description": "Assim ficaria o seu perfil com o Premium. Você liga e desliga cada recurso quando quiser.",
-        "lockedNote": "Disponível no Premium. A prévia mostra como ficaria o seu perfil."
-      },
-      "features": {
-        "profileTheme": {
-          "label": "Tema de perfil Premium",
-          "description": "Cores Premium no seu perfil público."
-        },
-        "badge": {
-          "label": "Selo Premium",
-          "description": "Ao lado do seu nome no perfil, nas reviews e nos comentários."
-        },
-        "title": {
-          "label": "Título Premium",
-          "description": "Mostra “Premium desde {{year}}” abaixo do seu nome."
-        },
-        "list": {
-          "label": "Lista Premium",
-          "description": "Seu nome e avatar na página de quem mantém o GameNode no ar."
-        }
-      },
-      "preview": {
-        "label": "Prévia: como ficaria",
-        "badge": "Premium",
-        "since": "Premium desde {{year}}",
-        "followers_one": "{{count}} seguidor",
-        "followers_other": "{{count}} seguidores",
-        "following": "{{count}} seguindo",
-        "favorites": "Favoritos",
-        "notListed": "Fora da Lista Premium"
+        "title": "Seu apoio mantém o GameNode no ar.",
+        "description": "Tudo o que você usa hoje continua grátis. Como Apoiador, sua assinatura paga servidores e desenvolvimento."
       },
       "billingHelp": "Dúvidas sobre cobrança? Escreva para"
     },
@@ -2018,8 +2169,8 @@
             "description": "Login novo, troca de e-mail e exclusão de conta."
           },
           "premium": {
-            "title": "Premium",
-            "description": "Recibos, renovação e fim da assinatura."
+            "title": "Apoiador",
+            "description": "Recibos, renovações e o fim da sua assinatura."
           }
         }
       }

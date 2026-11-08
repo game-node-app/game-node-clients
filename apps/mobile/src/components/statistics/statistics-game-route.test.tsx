@@ -17,6 +17,10 @@ vi.mock(
   }),
 );
 
+vi.mock("@/pages/preferences_supporter", () => ({
+  default: () => null,
+}));
+
 vi.mock("@/pages/game", () => ({
   default: function MockGamePage({ gameId }: { gameId: number }) {
     const [, , incrementView] = useUserView(

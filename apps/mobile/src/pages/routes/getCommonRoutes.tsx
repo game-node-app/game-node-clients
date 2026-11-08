@@ -17,6 +17,7 @@ import { BlogPostDetailPage } from "@/pages/blog/detail";
 import { BlogPostsArchivePage } from "@/pages/blog/archive.tsx";
 import CollectionEntryDetailPage from "@/pages/collection_entry.tsx";
 import PreferencesPage from "@/pages/preferences.tsx";
+import PreferencesSupporterPage from "@/pages/preferences_supporter";
 import GameSearchPage from "@/pages/search.tsx";
 import AwardsVotePage from "@/pages/awards/vote.tsx";
 import AwardsNomineesPage from "@/pages/awards/nominees.tsx";
@@ -33,6 +34,28 @@ import ConnectionCallbackPage from "@/pages/connection_callback";
 import DailyPage from "@/pages/daily";
 import DailyPlayPage from "@/pages/daily/play";
 import DailyArchivePage from "@/pages/daily/archive";
+
+/**
+ * Slugs accepted by the legacy `${prefix}/preferences/:category` deep link.
+ * `supporter` is deliberately absent: it has its own exact route, and Ionic's
+ * `IonRouterOutlet` keeps the **last** matching child, so a catch-all
+ * `:category` registered after it would swallow `/preferences/supporter` and
+ * render the Preferences list instead.
+ */
+const PREFERENCES_CATEGORIES = [
+  "profile",
+  "library",
+  "connections",
+  "importer",
+  "auth",
+  "misc",
+  "account",
+] as const;
+
+/** Path of the legacy `${prefix}/preferences/:category` deep link. */
+export function getPreferencesCategoryPath(prefix: string) {
+  return `${prefix}/preferences/:category(${PREFERENCES_CATEGORIES.join("|")})`;
+}
 
 /**
  * Retrieves a list of common routes that should be available in all tabs.
@@ -251,8 +274,14 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     />,
     <Route
       exact
+      key={`${prefix}-preferences-supporter`}
+      path={`${prefix}/preferences/supporter`}
+      render={() => <PreferencesSupporterPage />}
+    />,
+    <Route
+      exact
       key={`${prefix}-preferences-category`}
-      path={`${prefix}/preferences/:category`}
+      path={getPreferencesCategoryPath(prefix)}
       render={() => <PreferencesPage />}
     />,
     <Route

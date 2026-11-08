@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@mantine/core";
-import { Children, Fragment, PropsWithChildren } from "react";
+import { AriaRole, Children, Fragment, PropsWithChildren } from "react";
 import { cn } from "#@/util";
 
 interface Props extends PropsWithChildren<BoxProps> {
@@ -7,6 +7,8 @@ interface Props extends PropsWithChildren<BoxProps> {
   withDividers?: boolean;
   /** Red border, used by the "danger zone". */
   danger?: boolean;
+  /** ARIA role of the card surface (e.g. a status banner). */
+  role?: AriaRole;
 }
 
 /** Bordered surface that groups rows or fields (Figma "Card"). */
