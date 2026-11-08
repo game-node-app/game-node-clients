@@ -2,7 +2,6 @@ import { Group, Image, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconPlayerSkipForward } from "@tabler/icons-react";
 import { DailyGuessFeedbackDto, Game } from "@repo/wrapper/server";
-import { DailyMatchTag } from "#@/components/daily/guess/DailyMatchTag";
 import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
 import {
   getSizedImageUrl,
@@ -16,11 +15,8 @@ interface Props {
   game?: Game;
 }
 
-const TRAITS = ["genres", "themes", "platforms"] as const;
-
 const DailyGuessRow = ({ feedback, game }: Props) => {
   const { t } = useTranslation();
-  const { traits } = feedback;
   const correct = feedback.result === "correct";
   const year = game?.firstReleaseDate
     ? new Date(game.firstReleaseDate).getFullYear()
@@ -76,30 +72,9 @@ const DailyGuessRow = ({ feedback, game }: Props) => {
           )}
         </Stack>
       </Group>
-      {feedback.gameId == null ? null : traits ? (
-        <Group className={"gap-1.5"}>
-          {TRAITS.map((trait) => {
-            const value = traits[trait].values[0];
-            return (
-              value && (
-                <DailyMatchTag
-                  key={trait}
-                  match={traits[trait].match}
-                  label={value}
-                  radius={"sm"}
-                />
-              )
-            );
-          })}
-          <DailyMatchTag
-            match={traits.franchise.match}
-            label={t(`daily.franchise.${traits.franchise.match}`)}
-            radius={"sm"}
-            size={"lg"}
-          />
-        </Group>
-      ) : (
-        // Older servers only send the result and the values in common.
+      {feedback.gameId == null ? null : (
+        // The server sends the result and the values in common; detailed traits
+        // were removed from the contract in the same server release as billing.
         <Stack className={"gap-0.5 items-end"}>
           <Text fz={12} fw={600} c={color}>
             {t(labelKey)}

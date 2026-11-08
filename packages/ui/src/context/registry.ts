@@ -52,4 +52,10 @@ export type UIHookRegistry = {
    * Defaults to the Web Share API.
    */
   shareText?: (text: string) => Promise<boolean>;
+  /**
+   * Opens an external URL such as a Stripe Checkout or Customer Portal session.
+   * Defaults to `window.location.assign`; native apps can override it with an
+   * in-app browser (`Browser.open` on mobile).
+   */
+  openExternalUrl?: (url: string) => Promise<void> | void;
 };

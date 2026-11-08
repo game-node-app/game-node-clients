@@ -965,16 +965,17 @@
     "subheadline": "GameNode is the ideal platform to manage your game collection virtually.",
     "support": {
       "apoia": "Apoia.se",
-      "buyCoffe": "Buy us a coffee",
+      "becomeSupporter": "Become a Supporter",
       "description": "Collaborate with us to keep our platform 100% Free and constantly evolving.",
-      "title": "GameNode is maintained exclusively with community support"
+      "title": "GameNode is maintained exclusively with community support",
+      "apoiaNote": "Apoia.se is a separate donation channel and doesn't grant Supporter benefits."
     },
     "presentation": {
       "heroTitle": "Organize all your games in one place",
       "heroDescription": "GameNode is the ideal platform to manage your game collection virtually.",
       "start": "Get started for free",
       "about": "About",
-      "premium": "Premium",
+      "premium": "Supporter",
       "downloads": "Downloads",
       "blog": "Blog",
       "login": "Log in",
@@ -1023,22 +1024,18 @@
         "notIncluded": "Not included:",
         "free": {
           "name": "Free",
-          "price": "R$ 0",
+          "price": "Free",
           "period": "forever",
           "description": "Everything you need to organize your games. Stays free.",
-          "cta": "Start for free",
-          "limit": "Up to 5"
+          "cta": "Start for free"
         },
         "plan": {
           "name": "Supporter",
           "badge": "Keeps GameNode online",
-          "description": "Everything in Free, plus a profile that's yours and more room in your library.",
+          "description": "Everything in Free, plus the good feeling of keeping GameNode online. New supporter extras are coming soon.",
           "cta": "Support GameNode",
-          "monthlyPrice": "R$ 9.90",
-          "monthlyPeriod": "/month · or R$ 99/year",
-          "yearlyPrice": "R$ 99",
-          "yearlyPeriod": "/year · or R$ 9.90/month",
-          "limit": "More than 5"
+          "priceUnavailable": "Pricing unavailable",
+          "priceNote": "Final amount confirmed in checkout."
         },
         "groups": {
           "always": "Always free",
@@ -1638,6 +1635,194 @@
       "placeholder": "Search for users or games"
     }
   },
+  "supporter": {
+    "heading": "Support GameNode",
+    "subheading": "Everything you use today stays free. Your subscription pays for servers and development, keeping the project online.",
+    "banner": {
+      "errorTitle": "Something didn't work"
+    },
+    "features": {
+      "title": "Supporter features",
+      "descriptionFree": "Planned for Supporters. None of these are available yet.",
+      "descriptionSupporter": "On the way. You'll get each one automatically as it ships.",
+      "groups": {
+        "profile": "Profile",
+        "library": "Library",
+        "community": "Community"
+      },
+      "theme": {
+        "description": "A Supporter look for the app, with a custom accent color."
+      },
+      "badge": {
+        "description": "A Supporter badge and a title next to your name."
+      },
+      "animatedBorder": {
+        "description": "An animated border around your avatar."
+      },
+      "videoCover": {
+        "description": "Use a short video as your profile cover."
+      },
+      "liveProfile": {
+        "description": "Show what you're playing right now on your profile."
+      },
+      "customCovers": {
+        "description": "Upload your own covers for games in your library."
+      },
+      "collectionLimit": {
+        "description": "Keep more collections than the free limit allows."
+      },
+      "wall": {
+        "description": "A wall with everyone who keeps GameNode online."
+      },
+      "preview": {
+        "caption": "Preview · Coming soon",
+        "badge": "Supporter",
+        "since": "Supporter since {{year}}",
+        "followers": "{{count}} followers",
+        "following": "{{count}} following",
+        "favorites": "FAVORITE GAMES",
+        "notListed": "Your library is not listed publicly."
+      }
+    },
+    "subscription": {
+      "title": "Your subscription",
+      "plan": "Plan",
+      "renewal": "Renewal",
+      "ends": "Ends",
+      "billing": "Billing",
+      "billingDescription": "Payment method and invoices.",
+      "cancel": "Cancel",
+      "cancelDescription": "Your benefits continue until {{date}}.",
+      "paymentIssue": "Payment issue",
+      "endingOn": "Ending on {{date}}",
+      "thankYou": "Thank you for keeping GameNode online."
+    },
+    "alwaysFree": {
+      "title": "Always free",
+      "description": "Everything you use today stays free, with or without a subscription."
+    },
+    "plans": {
+      "title": "Choose your plan",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "perMonth": "per month",
+      "perYear": "per year",
+      "yearlySavings": "2 months free",
+      "monthlyCta": "Subscribe monthly",
+      "yearlyCta": "Subscribe yearly",
+      "priceNote": "Final amount confirmed in checkout.",
+      "priceUnavailable": "Pricing is unavailable right now.",
+      "retry": "Try again"
+    },
+    "free": {
+      "title": "You're on the free plan",
+      "description": "Everything you use today stays free. Become a Supporter to keep GameNode online."
+    },
+    "status": {
+      "label": "Subscription",
+      "free": "Free",
+      "active": "Active",
+      "trialing": "Trial period",
+      "past_due": "Payment issue",
+      "canceled": "Cancelled",
+      "incomplete": "Incomplete",
+      "incomplete_expired": "Incomplete (expired)",
+      "unpaid": "Unpaid",
+      "paused": "Paused",
+      "unknown": "Unknown"
+    },
+    "billing": {
+      "monthly": "Monthly billing",
+      "yearly": "Yearly billing",
+      "renewsOn": "Renews on {{date}}",
+      "endsOn": "Ends on {{date}}",
+      "currentPeriodEnd": "Current period ends on {{date}}",
+      "cancelAtPeriodEnd": "Cancels on {{date}}",
+      "dateFormat": "MMM D, YYYY"
+    },
+    "pendingCancellation": {
+      "title": "Your subscription is ending",
+      "description": "Your benefits continue until {{date}}. You can keep your subscription anytime before then.",
+      "restore": "Keep subscription"
+    },
+    "pastDue": {
+      "title": "We couldn't charge your payment method",
+      "description": "Update your payment method to keep your supporter benefits. We'll try the charge again automatically.",
+      "action": "Update payment method"
+    },
+    "actions": {
+      "manageBilling": "Manage billing",
+      "cancelSubscription": "Cancel subscription",
+      "keepSubscription": "Keep subscription",
+      "refresh": "Refresh",
+      "retry": "Try again",
+      "signIn": "Sign in",
+      "backHome": "Back to home"
+    },
+    "checkout": {
+      "success": {
+        "title": "You're a Supporter",
+        "description": "Thank you for keeping GameNode online. Your subscription is active."
+      },
+      "pending": {
+        "title": "Confirming your subscription",
+        "description": "We received your payment and are waiting for the server to confirm your supporter status.",
+        "stillConfirming": "This is taking longer than expected. Refresh in a moment to check again.",
+        "refresh": "Check again"
+      },
+      "cancel": {
+        "title": "Checkout cancelled",
+        "description": "No subscription was created and you weren't charged."
+      }
+    },
+    "errors": {
+      "offersUnavailable": "Pricing is unavailable right now. Try again in a moment.",
+      "statusUnavailable": "We couldn't load your subscription right now. Try again in a moment.",
+      "billingUnavailable": "Subscriptions are temporarily unavailable. Try again later.",
+      "existingSubscription": "You already have a subscription. Manage it below instead of starting another one.",
+      "noSubscription": "You don't have an active subscription.",
+      "noPendingCancellation": "Your subscription isn't pending cancellation.",
+      "network": "We couldn't reach the server. Check your connection and try again.",
+      "generic": "Something went wrong. Try again in a moment."
+    },
+    "cancelDialog": {
+      "title": "Cancel your subscription?",
+      "description": "Your benefits continue until {{date}}. After that, your account goes back to the free plan and you keep your library.",
+      "confirm": "Cancel subscription",
+      "keep": "Keep subscription"
+    },
+    "benefits": {
+      "includedTitle": "Included today",
+      "includedDescription": "These features are already part of every GameNode account.",
+      "comingSoonTitle": "Coming soon",
+      "comingSoonDescription": "These supporter benefits are planned and aren't available yet.",
+      "comingSoon": "Coming soon",
+      "available": {
+        "library": "Game library",
+        "imports": "Steam, PSN and Xbox imports",
+        "achievements": "Achievements",
+        "reviews": "Reviews",
+        "journal": "Game journal",
+        "collections": "Collections"
+      },
+      "upcoming": {
+        "badge": "Supporter badge",
+        "theme": "Supporter theme",
+        "videoCover": "Video profile cover",
+        "animatedBorder": "Animated avatar border",
+        "customCovers": "Custom game covers",
+        "liveProfile": "Live profile",
+        "wall": "Supporters wall",
+        "collectionLimit": "Higher collection limit"
+      }
+    },
+    "preferences": {
+      "title": "Supporter",
+      "freeStatus": "Support GameNode and keep the project online",
+      "supporterStatus": "You're a Supporter. Thank you!"
+    },
+    "planName": "Supporter"
+  },
   "upload": {
     "dragPrompt": "Drag images here or click to select files",
     "labels": {
@@ -1752,9 +1937,9 @@
     },
     "tabs": {
       "premium": {
-        "label": "Premium",
-        "title": "Premium",
-        "subtitle": "Your plan and how you show up on GameNode."
+        "label": "Supporter",
+        "title": "Supporter",
+        "subtitle": "Your plan and how you support GameNode."
       },
       "profile": {
         "label": "Edit profile",
@@ -1916,42 +2101,8 @@
     },
     "premium": {
       "hero": {
-        "title": "Show that you support GameNode.",
-        "description": "Everything you use today stays free. With Premium, you help keep the project running and show it on your profile.",
-        "cta": "Discover Premium"
-      },
-      "appearance": {
-        "title": "How you show up",
-        "description": "This is how your profile would look with Premium. You can turn each feature on and off whenever you want.",
-        "lockedNote": "Available with Premium. The preview shows how your profile would look."
-      },
-      "features": {
-        "profileTheme": {
-          "label": "Premium profile theme",
-          "description": "Premium colors on your public profile."
-        },
-        "badge": {
-          "label": "Premium badge",
-          "description": "Next to your name on your profile, reviews and comments."
-        },
-        "title": {
-          "label": "Premium title",
-          "description": "Shows “Premium since {{year}}” below your name."
-        },
-        "list": {
-          "label": "Premium list",
-          "description": "Your name and avatar on the page of people who keep GameNode running."
-        }
-      },
-      "preview": {
-        "label": "Preview: how it would look",
-        "badge": "Premium",
-        "since": "Premium since {{year}}",
-        "followers_one": "{{count}} follower",
-        "followers_other": "{{count}} followers",
-        "following": "{{count}} following",
-        "favorites": "Favorites",
-        "notListed": "Not on the Premium list"
+        "title": "Your support keeps GameNode online.",
+        "description": "Everything you use today stays free. As a Supporter, your subscription pays for servers and development."
       },
       "billingHelp": "Questions about billing? Write to"
     },
@@ -2018,7 +2169,7 @@
             "description": "New sign-ins, email changes and account deletion."
           },
           "premium": {
-            "title": "Premium",
+            "title": "Supporter",
             "description": "Receipts, renewals and the end of your subscription."
           }
         }

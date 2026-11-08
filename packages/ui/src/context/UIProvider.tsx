@@ -70,6 +70,21 @@ export function useAuthPath() {
   return useHooks().authPath ?? "/auth";
 }
 
+/**
+ * Opens an external URL (Stripe Checkout/Customer Portal). The app can replace
+ * the browser navigation with a native in-app browser.
+ */
+export function useOpenExternalUrl() {
+  const { openExternalUrl } = useHooks();
+
+  return (
+    openExternalUrl ??
+    ((url: string) => {
+      window.location.assign(url);
+    })
+  );
+}
+
 /** Opens the share sheet; the app can replace the Web Share API with a native one. */
 export function useShareText() {
   const { shareText } = useHooks();

@@ -2,21 +2,11 @@ import { useEffect } from "react";
 import { App, URLOpenListenerEvent } from "@capacitor/app";
 import { useHistory } from "react-router-dom";
 import { Browser } from "@capacitor/browser";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { getEquivalentDeepLink } from "@/components/general/getEquivalentDeepLink";
 import {
   getAppUrlTarget,
   isBrowserOAuthUrl,
 } from "@/components/general/getAppUrlTarget";
-
-const getEquivalentDeepLink = (slug: string) => {
-  if (slug.startsWith("/search")) {
-    return "/home";
-  } else if (slug.startsWith("/m/auth")) {
-    return slug;
-  }
-
-  return getTabAwareHref(slug);
-};
 
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";

@@ -4,6 +4,7 @@ import PreferencesImporterItems from "@/components/preferences/importer/Preferen
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
+import PreferencesSupporterItems from "@/components/preferences/supporter/PreferencesSupporterItems";
 import { IonList } from "@ionic/react";
 import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
 import { SessionAuth } from "@repo/ui";
@@ -18,6 +19,7 @@ const PreferencesPage = () => {
     >
       <SessionAuth>
         <IonList className={"pt-0 mb-4"}>
+          <PreferencesSupporterItems />
           <PreferencesProfileItems />
           <PreferencesLibraryItems />
           <PreferencesConnectionsItems />

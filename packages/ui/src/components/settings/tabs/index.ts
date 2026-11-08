@@ -12,6 +12,5 @@ export * from "./SettingsProfileTab";
 export * from "./appearance/index";
 export * from "./mcp/index";
 export * from "./notifications/index";
-export * from "./premium/index";
 export * from "./privacy/index";
 export * from "./profile/index";

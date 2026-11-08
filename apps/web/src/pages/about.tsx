@@ -1,9 +1,12 @@
 import { LandingHeader } from "@/components/general/header/LandingHeader";
 import { Box, Paper } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useSupporterEntryHref } from "@repo/ui";
+import Link from "next/link";
 
 const AboutPage = () => {
   const { t } = useTranslation();
+  const supporterHref = useSupporterEntryHref();
 
   return (
     <>
@@ -157,32 +160,54 @@ const AboutPage = () => {
 
       <Box
         className={
-          "flex flex-col justify-center items-center py-32 gap-4 bg-[#101010]"
+          "flex flex-col justify-center items-center py-32 gap-10 bg-[#101010] px-4"
         }
         style={{ background: "url(/img/about_us/coffee.gif) left" }}
       >
         <div className={"text-center"}>
           <h2 className={"font-bold text-4xl sm:text-6xl pb-6"}>
-            {t("landing.support.title")}
+            {t("supporter.heading")}
           </h2>
-          <p className={"font-light text-[0.8rem] sm:text-2xl mb-4"}>
+          <p className={"font-light text-[0.8rem] sm:text-2xl"}>
             {t("landing.support.description")}
           </p>
         </div>
-        <button className={"bg-[#ff424d] px-6 py-2 rounded-2xl"}>
-          <a href="https://patreon.com/GameNodeApp" target="_blank">
-            <p className={"tracking-wider text-2xl font-bold"}>
-              {t("landing.support.buyCoffe")}
+
+        <div
+          className={
+            "flex flex-col sm:flex-row items-center sm:items-start justify-center gap-10"
+          }
+        >
+          <div className={"flex flex-col items-center gap-3 max-w-md"}>
+            <Link
+              href={supporterHref}
+              className={
+                "inline-flex items-center justify-center bg-brand px-6 py-2 rounded-2xl tracking-wider text-2xl font-bold text-white transition-colors hover:bg-brand-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              }
+            >
+              {t("landing.support.becomeSupporter")}
+            </Link>
+            <p className={"text-center font-light text-sm sm:text-base"}>
+              {t("supporter.subheading")}
             </p>
-          </a>
-        </button>
-        <button className={"bg-[#eb4a3b] px-6 py-2 rounded-2xl"}>
-          <a href="https://apoia.se/gamenode" target="_blank">
-            <p className={"tracking-wider text-2xl font-bold"}>
+          </div>
+
+          <div className={"flex flex-col items-center gap-3 max-w-md"}>
+            <a
+              href="https://apoia.se/gamenode"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={
+                "inline-flex items-center justify-center bg-[#eb4a3b] px-6 py-2 rounded-2xl tracking-wider text-2xl font-bold text-white transition-colors hover:bg-[#d43f31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              }
+            >
               {t("landing.support.apoia")}
+            </a>
+            <p className={"text-center font-light text-sm sm:text-base"}>
+              {t("landing.support.apoiaNote")}
             </p>
-          </a>
-        </button>
+          </div>
+        </div>
       </Box>
 
       <footer>

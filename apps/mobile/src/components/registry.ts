@@ -1,3 +1,4 @@
+import { Browser } from "@capacitor/browser";
 import { Share } from "@capacitor/share";
 import { UIHookRegistry, UIPresenterRegistry } from "@repo/ui";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
@@ -41,5 +42,8 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
       if (/cancel/i.test((error as Error).message ?? "")) return false;
       throw error;
     }
+  },
+  openExternalUrl: async (url) => {
+    await Browser.open({ url });
   },
 };
