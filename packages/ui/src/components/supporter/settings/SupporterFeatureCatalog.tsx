@@ -9,7 +9,6 @@ import {
   IconPhoto,
   IconProps,
   IconStack2,
-  IconVideo,
 } from "@tabler/icons-react";
 import { ComponentType } from "react";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
@@ -52,11 +51,6 @@ const FEATURE_GROUPS = [
         titleKey: "supporter.benefits.upcoming.animatedBorder",
         descriptionKey: "supporter.features.animatedBorder.description",
         Icon: IconCircleDashed,
-      },
-      {
-        titleKey: "supporter.benefits.upcoming.videoCover",
-        descriptionKey: "supporter.features.videoCover.description",
-        Icon: IconVideo,
       },
       {
         titleKey: "supporter.benefits.upcoming.liveProfile",

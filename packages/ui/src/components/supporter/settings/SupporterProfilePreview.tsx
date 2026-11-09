@@ -11,6 +11,7 @@ import { useGames } from "#@/components/game/hooks/useGames";
 import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
 import { SettingsDivider } from "#@/components/settings/common/SettingsCard";
 import { cn } from "#@/util";
 import { getS3StoredUpload } from "#@/util/getServerStoredImages";
@@ -109,6 +110,7 @@ export function SupporterProfilePreview({
   const isProfileLoading = profileQuery.isLoading;
 
   const banner = profile?.banner;
+  const bannerVideo = profile?.bannerVideo;
   const bannerSrc = banner
     ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
     : undefined;
@@ -129,14 +131,22 @@ export function SupporterProfilePreview({
       >
         <Box
           className={cn(
-            "h-[76px] w-full bg-cover bg-center",
+            "relative h-[76px] w-full bg-cover bg-center",
             !bannerSrc &&
               "bg-gradient-to-br from-[rgba(151,71,255,0.35)] to-[#141414]",
           )}
           style={
             bannerSrc ? { backgroundImage: `url(${bannerSrc})` } : undefined
           }
-        />
+        >
+          {bannerVideo && (
+            <ProfileVideo
+              video={bannerVideo}
+              poster={bannerSrc}
+              className={"absolute inset-0"}
+            />
+          )}
+        </Box>
         <Box className={"h-1.5 w-full bg-[#9747ff]"} />
         <Stack gap={14} className={"px-4 pb-4 pt-3.5"}>
           <Group gap={12} wrap={"nowrap"}>

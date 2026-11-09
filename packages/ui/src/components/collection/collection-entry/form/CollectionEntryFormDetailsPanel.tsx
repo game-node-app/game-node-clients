@@ -2,6 +2,7 @@ import {
   CollectionEntryPlatformSelect,
   CollectionEntryStatusSelect,
   DEFAULT_GAME_INFO_VIEW_DTO,
+  GameCoverPickerModal,
   GameFigureImage,
   IGameAddFormProps,
   ImageSize,
@@ -14,16 +15,21 @@ import {
   useUserLibrary,
 } from "#@/components";
 import {
+  ActionIcon,
+  Button,
   ComboboxItem,
   Divider,
   Group,
   MultiSelect,
   Stack,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { Collection, GamePlatform } from "@repo/wrapper/server";
+import { IconPhotoEdit } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
@@ -74,6 +80,8 @@ const CollectionEntryFormDetailsPanel = ({
   } = useFormContext<TGameAddOrUpdateValues>();
 
   const onMobile = useOnMobile();
+
+  const [coverPickerOpened, coverPickerUtils] = useDisclosure();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
@@ -132,9 +140,25 @@ const CollectionEntryFormDetailsPanel = ({
 
   return (
     <Group className={"flex-wrap lg:flex-nowrap lg:items-start w-full h-full "}>
+      {game != undefined && (
+        <GameCoverPickerModal
+          opened={coverPickerOpened}
+          onClose={coverPickerUtils.close}
+          game={game}
+        />
+      )}
       {showGameInfo && (
         <Stack className="w-full items-center justify-start flex-shrink">
           <GameFigureImage game={game!} imageSize={ImageSize.COVER_BIG_2X} />
+          <Button
+            type="button"
+            variant="default"
+            size="xs"
+            leftSection={<IconPhotoEdit size={"1rem"} />}
+            onClick={coverPickerUtils.open}
+          >
+            {t("game.coverPicker.open")}
+          </Button>
         </Stack>
       )}
       <Divider
@@ -142,7 +166,27 @@ const CollectionEntryFormDetailsPanel = ({
         className={"w-full lg:w-fit"}
       />
       <Stack className={"w-full items-start gap-2 h-full lg:flex-grow"}>
-        <Title size={"h5"}>{game?.name}</Title>
+        <Group
+          justify="space-between"
+          align="center"
+          wrap="nowrap"
+          className="w-full"
+        >
+          <Title size={"h5"}>{game?.name}</Title>
+          {!showGameInfo && (
+            <Tooltip label={t("game.coverPicker.open")}>
+              <ActionIcon
+                type="button"
+                variant="default"
+                size="md"
+                aria-label={t("game.coverPicker.open")}
+                onClick={coverPickerUtils.open}
+              >
+                <IconPhotoEdit size={"1rem"} />
+              </ActionIcon>
+            </Tooltip>
+          )}
+        </Group>
         <CollectionEntryPlatformSelect gameId={gameId} />
         <MultiSelect
           {...register("collectionIds")}

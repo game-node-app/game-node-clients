@@ -8,12 +8,16 @@ interface Props {
 }
 
 const RecapGamePlaytimeCard = ({ playedGame }: Props) => {
-  const { data: game } = useGame(playedGame.gameId, {
-    relations: {
-      cover: true,
-      artworks: true,
+  const { data: game } = useGame(
+    playedGame.gameId,
+    {
+      relations: {
+        cover: true,
+        artworks: true,
+      },
     },
-  });
+    "off",
+  );
 
   const artworks = game?.artworks || [];
   const artworksUrls = artworks

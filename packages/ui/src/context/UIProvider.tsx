@@ -70,6 +70,11 @@ export function useAuthPath() {
   return useHooks().authPath ?? "/auth";
 }
 
+/** Whether game reads may resolve the viewer's custom covers. Defaults to true. */
+export function usePersonalizeGameCovers() {
+  return useHooks().personalizeGameCovers ?? true;
+}
+
 /**
  * Opens an external URL (Stripe Checkout/Customer Portal). The app can replace
  * the browser navigation with a native in-app browser.

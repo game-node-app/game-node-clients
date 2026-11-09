@@ -37,12 +37,13 @@ const CollectionView = ({
   const [params, setParams] = useUrlState({
     includeExtraContent: false,
     offset: 0,
+    hasCustomCover: false,
     orderBy: {
       userCustom: "ASC",
     },
   });
 
-  const { offset, includeExtraContent } = params;
+  const { offset, includeExtraContent, hasCustomCover } = params;
 
   const ownUserId = useUserId();
 
@@ -65,12 +66,16 @@ const CollectionView = ({
   const gamesIds = useMemo(() => {
     return collectionEntriesQuery.data?.data.map((entry) => entry.gameId);
   }, [collectionEntriesQuery.data]);
-  const gamesQuery = useGames({
-    gameIds: gamesIds,
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds: gamesIds,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: libraryUserId },
+  );
   const games = useMemo(() => {
     return gamesQuery.data?.map((game) => {
       const relatedCollectionEntry = findCollectionEntryByGameId(
@@ -135,6 +140,7 @@ const CollectionView = ({
               libraryUserId={libraryUserId}
               collectionId={collectionId}
               includeExtraContent={includeExtraContent}
+              hasCustomCover={hasCustomCover}
               sortValue={{
                 value: Object.keys(params.orderBy)[0],
                 ordering: Object.values(params.orderBy)[0] as never,
@@ -149,6 +155,13 @@ const CollectionView = ({
               onLayoutChange={setLayout}
               onExtraContentChange={(value) =>
                 setParams((prev) => ({ ...prev, includeExtraContent: value }))
+              }
+              onHasCustomCoverChange={(value) =>
+                setParams((prev) => ({
+                  ...prev,
+                  hasCustomCover: value,
+                  offset: 0,
+                }))
               }
             />
           </Group>

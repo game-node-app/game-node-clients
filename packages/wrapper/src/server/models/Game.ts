@@ -41,6 +41,9 @@ export type Game = {
     igdbUpdatedAt: string | null;
     statisticsTarget: StatisticsTarget | null;
     statisticsTargetId: number | null;
+    versionParentId: number | null;
+    versionParent: Game | null;
+    versionTitle: string | null;
     dlcs: Array<Game>;
     dlcOf: Array<Game>;
     expansions: Array<Game>;

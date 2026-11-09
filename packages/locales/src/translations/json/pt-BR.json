@@ -695,6 +695,22 @@
       "addLibrary": "Adicionar à biblioteca",
       "update": "Atualizar"
     },
+    "coverPicker": {
+      "title": "Escolher capa",
+      "open": "Trocar capa",
+      "default": "Capa padrão",
+      "empty": "Este jogo não possui capas alternativas.",
+      "error": "Não foi possível carregar as opções de capa.",
+      "modeNoneNotice": "As capas personalizadas estão desativadas nas suas configurações. Sua escolha é salva, mas a capa padrão continua visível até você reativá-las.",
+      "signInTitle": "Entre para escolher uma capa",
+      "signInPrompt": "Você precisa estar logado para escolher uma capa para este jogo.",
+      "kinds": {
+        "localized": "Localizada",
+        "edition": "Edição",
+        "alternative": "Alternativa",
+        "historical": "Histórica"
+      }
+    },
     "collectionTypes": {
       "recentReleases": "Lançamentos recentes",
       "upcoming": "Em breve"
@@ -1039,6 +1055,7 @@
         },
         "groups": {
           "always": "Sempre grátis",
+          "available": "Disponível agora",
           "profile": "Seu perfil, do seu jeito",
           "library": "Sua biblioteca, sem limites",
           "live": "Ao vivo no seu perfil",
@@ -1147,6 +1164,7 @@
       "importGames": "Importar jogos"
     },
     "labels": {
+      "customCovers": "Capas personalizadas",
       "management": "Gerenciamento de Biblioteca",
       "showDLCs": "Mostrar DLCs/Extras"
     },
@@ -1539,6 +1557,54 @@
       "noUsersFound": "Nenhum usuário encontrado."
     }
   },
+  "profileVideo": {
+    "labels": {
+      "image": "Imagem",
+      "video": "Vídeo",
+      "avatarVideo": "Vídeo do avatar",
+      "bannerVideo": "Vídeo do banner",
+      "avatarVideoHelp": "Vídeo curto, cortado em círculo.",
+      "bannerVideoHelp": "Vídeo curto e largo, cortado na área do banner."
+    },
+    "crop": {
+      "title": "Enquadre seu vídeo",
+      "help": "Arraste para reposicionar e use o controle para ampliar. Apenas a área enquadrada é mantida.",
+      "zoom": "Zoom",
+      "centerCropNotice": "Não é possível pré-visualizar este vídeo no seu dispositivo. O servidor vai centralizá-lo e cortá-lo para você."
+    },
+    "supporter": {
+      "title": "Vídeos de perfil são um benefício para apoiadores",
+      "description": "Apoie o GameNode para enviar um vídeo curto como seu avatar ou banner.",
+      "link": "Ver planos de apoiador"
+    },
+    "upload": {
+      "messages": {
+        "accepted": "Vídeo recebido. Estamos processando agora.",
+        "alreadyProcessing": "Já existe um vídeo sendo processado neste espaço. Vamos atualizá-lo quando estiver pronto.",
+        "invalidFile": "Este formato de vídeo não é aceito. Tente MP4, MOV, WebM ou Matroska.",
+        "forbidden": "Vídeos de perfil são um benefício para apoiadores.",
+        "tooLarge": "Este vídeo tem mais de 64 MiB. Escolha um arquivo menor.",
+        "throttled": "Muitos envios de vídeo. Aguarde alguns minutos e tente novamente.",
+        "failed": "Não foi possível enviar este vídeo. Tente novamente.",
+        "invalidVideoSource": "Escolha um vídeo antes de enviar.",
+        "gifNotSupported": "GIF não é mais aceito para avatares ou banners. Escolha uma imagem estática.",
+        "imageTooLarge": "Esta imagem tem mais de {{size}}MB. Escolha um arquivo menor."
+      }
+    },
+    "status": {
+      "processing": "Processando vídeo...",
+      "ready": "Vídeo pronto",
+      "failed": "Falha ao processar o vídeo",
+      "errors": {
+        "conversion_failed": "Não foi possível converter este vídeo. Tente outro arquivo.",
+        "output_too_large": "O vídeo convertido ficaria grande demais. Tente um vídeo mais curto ou menor.",
+        "upload_failed": "Não foi possível armazenar este vídeo. Tente novamente.",
+        "source_missing": "O vídeo enviado se perdeu antes do processamento. Envie novamente.",
+        "timeout": "O processamento demorou demais. Tente novamente.",
+        "unknown": "Não foi possível processar este vídeo."
+      }
+    }
+  },
   "recap": {
     "buttons": {
       "availableSoon": "Disponível em breve",
@@ -1658,9 +1724,6 @@
       },
       "animatedBorder": {
         "description": "Uma borda animada ao redor do seu avatar."
-      },
-      "videoCover": {
-        "description": "Use um vídeo curto como capa do seu perfil."
       },
       "liveProfile": {
         "description": "Mostre o que você está jogando agora no seu perfil."
@@ -1808,7 +1871,6 @@
       "upcoming": {
         "badge": "Selo de Apoiador",
         "theme": "Tema de Apoiador",
-        "videoCover": "Capa do perfil em vídeo",
         "animatedBorder": "Borda animada no avatar",
         "customCovers": "Capas personalizadas dos jogos",
         "liveProfile": "Live no perfil",
@@ -1824,13 +1886,18 @@
     "planName": "Apoiador"
   },
   "upload": {
-    "dragPrompt": "Arraste imagens aqui ou clique para selecionar arquivos",
+    "dragPrompt": "Arraste arquivos aqui ou clique para selecionar arquivos",
     "labels": {
       "maxFiles": "Máx. de arquivos: {{max}}",
       "maxSize": "Tamanho máx: {{size}}MB"
     },
     "messages": {
-      "invalidImageSource": "Fonte de imagem invalida"
+      "invalidImageSource": "Fonte de imagem invalida",
+      "rejectedType": "Este tipo de arquivo não é aceito. Use: {{formats}}.",
+      "rejectedTooLarge": "Este arquivo é grande demais. O tamanho máximo é {{size}}MB.",
+      "rejectedTooSmall": "Este arquivo é pequeno demais.",
+      "rejectedTooManyFiles": "Selecione até {{max}} arquivo(s).",
+      "rejectedUnknown": "Não é possível usar este arquivo."
     }
   },
   "user": {
@@ -2196,6 +2263,22 @@
         "xbox": "Preto e verde",
         "playstation": "Azul profundo",
         "nintendo": "Claro e vermelho"
+      },
+      "customCovers": {
+        "title": "Capas personalizadas",
+        "description": "Escolha quais capas você vê quando um jogo tem uma capa escolhida por você ou por outro jogador.",
+        "any": {
+          "label": "Mostrar capas escolhidas",
+          "description": "Nas páginas de outros jogadores, mostre a capa que eles escolheram. No restante, mostre a sua."
+        },
+        "prefer_yours": {
+          "label": "Preferir as minhas",
+          "description": "Mostre a sua capa escolhida onde houver uma, inclusive nas páginas de outros jogadores."
+        },
+        "none": {
+          "label": "Somente capas padrão",
+          "description": "Mostre sempre a capa original da IGDB. Suas escolhas continuam salvas."
+        }
       }
     },
     "profile": {

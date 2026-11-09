@@ -17,12 +17,16 @@ const JournalDetailPage = () => {
 
   const gameId = collectionEntryQuery.data?.gameId;
 
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
-      screenshots: true,
+  const gameQuery = useGame(
+    gameId,
+    {
+      relations: {
+        cover: true,
+        screenshots: true,
+      },
     },
-  });
+    { ownerUserId: typeof userId === "string" ? userId : undefined },
+  );
 
   const profileQuery = useUserProfile(userId as string);
 

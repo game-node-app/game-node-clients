@@ -157,6 +157,7 @@ export class CollectionsEntriesService {
      * @param orderBy
      * @param status
      * @param gameFilters
+     * @param hasCustomCover
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -167,6 +168,7 @@ export class CollectionsEntriesService {
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
+        hasCustomCover?: boolean,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -180,6 +182,7 @@ export class CollectionsEntriesService {
                 'orderBy': orderBy,
                 'status': status,
                 'gameFilters': gameFilters,
+                'hasCustomCover': hasCustomCover,
                 'offset': offset,
                 'limit': limit,
             },
@@ -190,6 +193,7 @@ export class CollectionsEntriesService {
      * @param orderBy
      * @param status
      * @param gameFilters
+     * @param hasCustomCover
      * @param offset
      * @param limit
      * @returns CollectionEntriesPaginatedResponseDto
@@ -200,6 +204,7 @@ export class CollectionsEntriesService {
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
+        hasCustomCover?: boolean,
         offset?: number,
         limit: number = 20,
     ): CancelablePromise<CollectionEntriesPaginatedResponseDto> {
@@ -213,6 +218,7 @@ export class CollectionsEntriesService {
                 'orderBy': orderBy,
                 'status': status,
                 'gameFilters': gameFilters,
+                'hasCustomCover': hasCustomCover,
                 'offset': offset,
                 'limit': limit,
             },

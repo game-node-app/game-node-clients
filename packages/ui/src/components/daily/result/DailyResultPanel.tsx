@@ -41,10 +41,14 @@ const DailyResultPanel = ({ play }: Props) => {
   const { color, icon: StatusIcon } =
     DAILY_RESULT_STYLES[won ? "correct" : "wrong"];
   // The answer only carries its name and year; the meta line also names a genre and the platforms.
-  const answerQuery = useGames({
-    gameIds: answer ? [answer.id] : [],
-    relations: { genres: true, platforms: true },
-  });
+  const answerQuery = useGames(
+    {
+      gameIds: answer ? [answer.id] : [],
+      relations: { genres: true, platforms: true },
+    },
+    false,
+    "off",
+  );
   const details = answerQuery.data?.[0];
   const meta = [
     answer?.year,

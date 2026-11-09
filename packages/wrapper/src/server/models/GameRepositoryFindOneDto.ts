@@ -4,5 +4,7 @@
 /* eslint-disable */
 export type GameRepositoryFindOneDto = {
     relations?: Record<string, any>;
+    personalizeCovers?: boolean;
+    coverOwnerUserId?: string;
 };
 

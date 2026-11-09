@@ -37,9 +37,10 @@ const LibraryView = ({ libraryUserId }: Props) => {
       addedDate: "DESC",
     },
     includeExtraContent: false,
+    hasCustomCover: false,
   });
 
-  const { status, offset, includeExtraContent } = params;
+  const { status, offset, includeExtraContent, hasCustomCover } = params;
 
   const collectionEntriesQuery = useCollectionEntriesForUserId({
     ...params,
@@ -56,12 +57,16 @@ const LibraryView = ({ libraryUserId }: Props) => {
   const gameIds =
     collectionEntriesQuery.data?.data.map((entry) => entry.gameId) ?? [];
 
-  const gamesQuery = useGames({
-    gameIds,
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: libraryUserId },
+  );
 
   const games = useMemo(() => {
     return gamesQuery.data?.map((game) => {
@@ -105,10 +110,18 @@ const LibraryView = ({ libraryUserId }: Props) => {
             libraryUserId={libraryUserId}
             collectionId={undefined}
             includeExtraContent={includeExtraContent}
+            hasCustomCover={hasCustomCover}
             onExtraContentChange={(value) => {
               setParams((prev) => ({
                 ...prev,
                 includeExtraContent: value,
+              }));
+            }}
+            onHasCustomCoverChange={(value) => {
+              setParams((prev) => ({
+                ...prev,
+                hasCustomCover: value,
+                offset: 0,
               }));
             }}
             sortValue={{

@@ -4,8 +4,10 @@ import { ProfileEditAvatarUploader } from "#@/components/profile/edit/ProfileEdi
 import { ProfileEditBioForm } from "#@/components/profile/edit/ProfileEditBioForm";
 import { ProfileEditFeaturedAchievement } from "#@/components/profile/edit/ProfileEditFeaturedAchievement";
 import { ProfileEditUsernameUpdate } from "#@/components/profile/edit/ProfileEditUsernameUpdate";
+import { ProfileVideoUploadStatus } from "#@/components/profile/edit/ProfileVideoUploadStatus";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
+import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
 import { Modal } from "#@/util";
 import {
   ActionIcon,
@@ -25,6 +27,12 @@ interface Props {
 
 const ProfileEditForm = ({ userId }: Props) => {
   const profileQuery = useUserProfile(userId);
+  /*
+   * Warm this before the avatar uploader mounts: the uploader waits for the
+   * supporter status before rendering its dropzone (the native file dialog
+   * freezes the accepted formats at click time).
+   */
+  useSupporterStatus();
 
   const [editAvatarModalOpened, editAvatarModalUtils] = useDisclosure();
   const [editUserNameModalOpen, editUserNameModalUtils] = useDisclosure();
@@ -48,6 +56,9 @@ const ProfileEditForm = ({ userId }: Props) => {
       </Modal>
       <Stack className={"w-full gap-0 items-center"}>
         <ProfileBanner userId={userId} showEditButton={true} />
+        <Box className={"w-full px-4 pt-2"}>
+          <ProfileVideoUploadStatus slot={"banner"} />
+        </Box>
         <Stack className={"w-full items-center relative -top-20"}>
           <Box className={"relative w-fit h-fit"}>
             <UserAvatar
@@ -71,6 +82,7 @@ const ProfileEditForm = ({ userId }: Props) => {
               </ActionIcon>
             </Center>
           </Box>
+          <ProfileVideoUploadStatus slot={"avatar"} />
 
           <Group className={"items-center"}>
             <Text className={""}>{profileQuery.data?.username}</Text>

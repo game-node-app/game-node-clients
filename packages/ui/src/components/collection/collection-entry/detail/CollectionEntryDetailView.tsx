@@ -62,12 +62,16 @@ const CollectionEntryDetailView = ({
 
   const ownCollectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
 
-  const gameQuery = useGame(collectionEntryQuery.data?.gameId, {
-    relations: {
-      cover: true,
-      screenshots: true,
+  const gameQuery = useGame(
+    collectionEntryQuery.data?.gameId,
+    {
+      relations: {
+        cover: true,
+        screenshots: true,
+      },
     },
-  });
+    { ownerUserId: userId },
+  );
 
   const backgroundImageUrl = useMemo(() => {
     const randomScreenshot = getRandomItem(gameQuery.data?.screenshots ?? []);

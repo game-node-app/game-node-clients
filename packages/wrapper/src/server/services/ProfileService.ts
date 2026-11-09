@@ -3,9 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FindAllProfileResponseItemDto } from '../models/FindAllProfileResponseItemDto';
-import type { Profile } from '../models/Profile';
+import type { ProfileResponseDto } from '../models/ProfileResponseDto';
 import type { UpdateProfileDto } from '../models/UpdateProfileDto';
 import type { UpdateProfileImageDto } from '../models/UpdateProfileImageDto';
+import type { UploadProfileVideoResponseDto } from '../models/UploadProfileVideoResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -27,10 +28,10 @@ export class ProfileService {
     }
     /**
      * Used to access own profile
-     * @returns Profile
+     * @returns ProfileResponseDto
      * @throws ApiError
      */
-    public static profileControllerFindOwnV1(): CancelablePromise<Profile> {
+    public static profileControllerFindOwnV1(): CancelablePromise<ProfileResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/profile',
@@ -64,18 +65,42 @@ export class ProfileService {
     /**
      * Used to access other users' profiles
      * @param id
-     * @returns Profile
+     * @returns ProfileResponseDto
      * @throws ApiError
      */
     public static profileControllerFindOneByIdV1(
         id: string,
-    ): CancelablePromise<Profile> {
+    ): CancelablePromise<ProfileResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/profile/{id}',
             path: {
                 'id': id,
             },
+        });
+    }
+    /**
+     * The body is parsed here instead of a pipe so every rejection after Multer
+     * can remove the temporary source in the same catch.
+     * @param formData
+     * @returns UploadProfileVideoResponseDto
+     * @throws ApiError
+     */
+    public static profileVideoControllerUploadV1(
+        formData: {
+            file: Blob;
+            type: 'avatar' | 'banner';
+            cropX?: number;
+            cropY?: number;
+            cropWidth?: number;
+            cropHeight?: number;
+        },
+    ): CancelablePromise<UploadProfileVideoResponseDto> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/v1/profile/video',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 }

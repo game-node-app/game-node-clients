@@ -68,12 +68,17 @@ const CollectionEntriesMoveForm = ({
   const gameIds = collectionsEntriesQuery.data?.data.map(
     (entry) => entry.gameId,
   );
-  const gamesQuery = useGames({
-    gameIds: gameIds!,
-    relations: {
-      cover: true,
+  // Only the game's name is used in the select labels, so the cover is not personalized.
+  const gamesQuery = useGames(
+    {
+      gameIds: gameIds!,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    "off",
+  );
   const gamesSelectOptions = useMemo(() => {
     if (gamesQuery.data == undefined || gamesQuery.data.length === 0) {
       return undefined;

@@ -18,6 +18,7 @@ import {
   NotificationInboxItemDto,
   NotificationProfileTargetDto,
   NotificationsService,
+  ProfileService,
   ReviewsService,
 } from "@repo/wrapper/server";
 import {
@@ -80,6 +81,28 @@ function renderUI(ui: React.ReactElement, client = createTestQueryClient()) {
 beforeEach(() => {
   vi.clearAllMocks();
   mockRouter.push.mockResolvedValue(undefined);
+  vi.spyOn(ProfileService, "profileControllerFindOneByIdV1").mockResolvedValue({
+    userId: "u1",
+    username: "alice",
+    bio: "",
+    avatar: {
+      id: 10,
+      filename: "alice_avatar",
+      extension: "png",
+      mimetype: "image/png",
+      encoding: "7bit",
+      size: 1,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      deletedAt: null,
+    },
+    banner: null,
+    avatarVideo: null,
+    bannerVideo: null,
+    usernameLastUpdatedAt: null,
+    createdAt: "2026-01-01T00:00:00.000Z",
+    updatedAt: "2026-01-01T00:00:00.000Z",
+  } as unknown as import("@repo/wrapper/server").ProfileResponseDto);
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
     addEventListener: vi.fn(),
@@ -139,6 +162,40 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
     expect(screen.getByText(/and 2 others/i)).toBeTruthy();
     // Preview text lowercased
     expect(screen.getByText(/liked your post/i)).toBeTruthy();
+  });
+
+  it("renders the lead actor avatar through UserAvatar with a complete file URL", async () => {
+    const item: NotificationInboxItemDto = {
+      id: 12,
+      type: "content.liked",
+      actors: [{ userId: "u1", username: "alice" }],
+      actorCount: 1,
+      eventCount: 1,
+      preview: { text: "Liked your post" },
+      target: { type: NotificationContentTargetDto.type.POST, id: "post-200" },
+      lastEventAt: "2026-10-25T12:00:00Z",
+      version: 1,
+      readVersion: 1,
+    };
+
+    const { container } = renderUI(
+      <AggregatedNotification
+        aggregatedNotification={item}
+        backgroundColor="normal"
+        onClick={vi.fn()}
+      />,
+    );
+
+    // The actor DTO has no extension, so the avatar must come from the
+    // actor's profile (filename + extension) instead of the notification DTO.
+    await waitFor(() => {
+      expect(
+        container.querySelector('img[src="alice_avatar.png"]'),
+      ).toBeTruthy();
+    });
+    expect(ProfileService.profileControllerFindOneByIdV1).toHaveBeenCalledWith(
+      "u1",
+    );
   });
 
   it("renders content.liked with activity target and game context without entity queries", () => {

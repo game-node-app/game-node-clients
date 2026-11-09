@@ -1,21 +1,38 @@
 import {
-  getCoverUrl,
-  getSizedImageUrl,
   ImageSize,
   useCollection,
   useCollectionEntriesForCollectionId,
   useGames,
 } from "#@/components";
+import {
+  GAME_COVER_PLACEHOLDER,
+  useGameCoverImage,
+} from "#@/components/game/hooks/useGameCoverImage";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { Carousel } from "@mantine/carousel";
 import { Card, Image, Stack, Text, Title } from "@mantine/core";
+import { Game } from "@repo/wrapper/server";
 import Autoplay from "embla-carousel-autoplay";
 import { useMemo, useRef } from "react";
 
 export interface CollectionThumbnailCardProps {
   collectionId: string;
 }
+
+const CollectionCoverSlide = ({ game }: { game: Game }) => {
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
+
+  return (
+    <Carousel.Slide>
+      <Image
+        src={src ?? GAME_COVER_PLACEHOLDER}
+        onError={onError}
+        className={"w-full h-full object-cover"}
+      />
+    </Carousel.Slide>
+  );
+};
 
 const DEFAULT_CollectionThumbnailCard = ({
   collectionId,
@@ -33,12 +50,16 @@ const DEFAULT_CollectionThumbnailCard = ({
 
   const gameIds = entriesQuery.data?.data.map((entry) => entry.gameId) ?? [];
 
-  const gamesQuery = useGames({
-    gameIds,
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: collectionQuery.data?.libraryUserId },
+  );
 
   const carouselSlides = useMemo(() => {
     if (gamesQuery.data == undefined || gamesQuery.data.length === 0)
@@ -51,15 +72,9 @@ const DEFAULT_CollectionThumbnailCard = ({
         </Carousel.Slide>,
       ];
 
-    return gamesQuery.data.map((game) => {
-      const coverUrl = getCoverUrl(game)!;
-      const sizedCoverUrl = getSizedImageUrl(coverUrl, ImageSize.COVER_BIG_2X);
-      return (
-        <Carousel.Slide key={game.id}>
-          <Image src={sizedCoverUrl} className={"w-full h-full object-cover"} />
-        </Carousel.Slide>
-      );
-    });
+    return gamesQuery.data.map((game) => (
+      <CollectionCoverSlide key={game.id} game={game} />
+    ));
   }, [collectionId, gamesQuery.data]);
 
   return (

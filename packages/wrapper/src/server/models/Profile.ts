@@ -5,6 +5,7 @@
 import type { ProfileAvatar } from './ProfileAvatar';
 import type { ProfileBanner } from './ProfileBanner';
 export type Profile = {
+    customCoverMode: Profile.customCoverMode;
     /**
      * Shareable string ID
      *
@@ -19,4 +20,11 @@ export type Profile = {
     createdAt: string;
     updatedAt: string;
 };
+export namespace Profile {
+    export enum customCoverMode {
+        ANY = 'any',
+        PREFER_YOURS = 'prefer_yours',
+        NONE = 'none',
+    }
+}
 

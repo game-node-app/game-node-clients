@@ -8,6 +8,7 @@ import {
   cn,
   CollectionEntryEditModal,
   CollectionEntryRemoveModal,
+  GameCoverPickerModal,
   GameInfoActionsProps,
   GameInfoQuickAddMenu,
   GameInfoShare,
@@ -22,6 +23,7 @@ import {
   IconChevronDown,
   IconHeartFilled,
   IconHeartPlus,
+  IconPhotoEdit,
   IconShare,
   IconX,
 } from "@tabler/icons-react";
@@ -36,6 +38,7 @@ const MobileGameInfoActions = ({
   const [shareModalOpened, shareModalUtils] = useDisclosure();
   const [preferredPlatformsModalOpened, preferredPlatformsModalUtils] =
     useDisclosure();
+  const [coverPickerOpened, coverPickerUtils] = useDisclosure();
 
   const userId = useUserId();
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
@@ -65,6 +68,11 @@ const MobileGameInfoActions = ({
           onClose={addUpdateModalUtils.close}
           gameId={game.id}
         />
+        <GameCoverPickerModal
+          opened={coverPickerOpened}
+          onClose={coverPickerUtils.close}
+          game={game}
+        />
         <Button
           onClick={addUpdateModalUtils.open}
           loading={collectionEntryQuery.isLoading}
@@ -72,6 +80,16 @@ const MobileGameInfoActions = ({
         >
           {t("game.buttons.addLibrary")}
         </Button>
+        <Tooltip label={t("game.coverPicker.open")}>
+          <ActionIcon
+            aria-label={t("game.coverPicker.open")}
+            size={40}
+            variant="default"
+            onClick={coverPickerUtils.open}
+          >
+            <IconPhotoEdit size={"1.05rem"} />
+          </ActionIcon>
+        </Tooltip>
       </Group>
     );
   }
@@ -121,6 +139,11 @@ const MobileGameInfoActions = ({
           opened={preferredPlatformsModalOpened}
           onClose={preferredPlatformsModalUtils.close}
         />
+        <GameCoverPickerModal
+          opened={coverPickerOpened}
+          onClose={coverPickerUtils.close}
+          game={game}
+        />
 
         <Group className="gap-0">
           <Button
@@ -160,6 +183,16 @@ const MobileGameInfoActions = ({
             ) : (
               <IconHeartPlus size={"1.05rem"} />
             )}
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label={t("game.coverPicker.open")}>
+          <ActionIcon
+            aria-label={t("game.coverPicker.open")}
+            size={40}
+            variant="default"
+            onClick={coverPickerUtils.open}
+          >
+            <IconPhotoEdit size={"1.05rem"} />
           </ActionIcon>
         </Tooltip>
         <Tooltip label={t("game.tooltips.share")}>

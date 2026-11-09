@@ -103,6 +103,7 @@ export default function App({
       hooks={{
         useRouter: useNextRouterWrapper,
         authPath: "/auth",
+        personalizeGameCovers: false,
       }}
     >
       <I18nProvider language={"en"}>

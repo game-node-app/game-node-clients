@@ -29,11 +29,15 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
   useOnMobile();
   const reviewQuery = useReview(reviewId);
   const gameId = reviewQuery.data?.gameId;
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
+  const gameQuery = useGame(
+    gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    { ownerUserId: reviewQuery.data?.profileUserId },
+  );
 
   const editor = useEditor(
     {

@@ -22,14 +22,19 @@ interface Props {
 const JournalOverviewItem = ({ item, targetDay }: Props) => {
   const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(item.collectionEntryId);
-  const gameQuery = useGame(item.gameId, {
-    relations: {
-      cover: true,
-    },
-  });
 
   const targetUserId =
     collectionEntryQuery.data?.collections.at(0)?.libraryUserId;
+
+  const gameQuery = useGame(
+    item.gameId,
+    {
+      relations: {
+        cover: true,
+      },
+    },
+    { ownerUserId: targetUserId },
+  );
 
   const reviewQuery = useReviewForUserIdAndGameId(targetUserId, item.gameId);
 

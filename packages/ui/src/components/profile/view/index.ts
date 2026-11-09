@@ -13,6 +13,7 @@ export * from "./ProfileStatsSimpleOverview";
 export * from "./ProfileUserInfo";
 export * from "./ProfileUserInfoConnections";
 export * from "./ProfileUserInfoWithBanner";
+export * from "./ProfileVideo";
 export * from "./ProfileViewContent";
 export * from "./ProfileViewNavbar";
 export * from "./ProfileViewNavbarLink";

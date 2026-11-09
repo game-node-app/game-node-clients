@@ -699,6 +699,22 @@ export type TranslationSchema = {
       addLibrary: string;
       update: string;
     };
+    coverPicker: {
+      title: string;
+      open: string;
+      default: string;
+      empty: string;
+      error: string;
+      modeNoneNotice: string;
+      signInTitle: string;
+      signInPrompt: string;
+      kinds: {
+        localized: string;
+        edition: string;
+        alternative: string;
+        historical: string;
+      };
+    };
     collectionTypes: {
       recentReleases: string;
       upcoming: string;
@@ -1043,6 +1059,7 @@ export type TranslationSchema = {
         };
         groups: {
           always: string;
+          available: string;
           profile: string;
           library: string;
           live: string;
@@ -1151,6 +1168,7 @@ export type TranslationSchema = {
       importGames: string;
     };
     labels: {
+      customCovers: string;
       management: string;
       showDLCs: string;
     };
@@ -1543,6 +1561,54 @@ export type TranslationSchema = {
       noUsersFound: string;
     };
   };
+  profileVideo: {
+    labels: {
+      image: string;
+      video: string;
+      avatarVideo: string;
+      bannerVideo: string;
+      avatarVideoHelp: string;
+      bannerVideoHelp: string;
+    };
+    crop: {
+      title: string;
+      help: string;
+      zoom: string;
+      centerCropNotice: string;
+    };
+    supporter: {
+      title: string;
+      description: string;
+      link: string;
+    };
+    upload: {
+      messages: {
+        accepted: string;
+        alreadyProcessing: string;
+        invalidFile: string;
+        forbidden: string;
+        tooLarge: string;
+        throttled: string;
+        failed: string;
+        invalidVideoSource: string;
+        gifNotSupported: string;
+        imageTooLarge: string;
+      };
+    };
+    status: {
+      processing: string;
+      ready: string;
+      failed: string;
+      errors: {
+        conversion_failed: string;
+        output_too_large: string;
+        upload_failed: string;
+        source_missing: string;
+        timeout: string;
+        unknown: string;
+      };
+    };
+  };
   recap: {
     buttons: {
       availableSoon: string;
@@ -1661,9 +1727,6 @@ export type TranslationSchema = {
         description: string;
       };
       animatedBorder: {
-        description: string;
-      };
-      videoCover: {
         description: string;
       };
       liveProfile: {
@@ -1812,7 +1875,6 @@ export type TranslationSchema = {
       upcoming: {
         badge: string;
         theme: string;
-        videoCover: string;
         animatedBorder: string;
         customCovers: string;
         liveProfile: string;
@@ -1835,6 +1897,11 @@ export type TranslationSchema = {
     };
     messages: {
       invalidImageSource: string;
+      rejectedType: string;
+      rejectedTooLarge: string;
+      rejectedTooSmall: string;
+      rejectedTooManyFiles: string;
+      rejectedUnknown: string;
     };
   };
   user: {
@@ -2200,6 +2267,22 @@ export type TranslationSchema = {
         xbox: string;
         playstation: string;
         nintendo: string;
+      };
+      customCovers: {
+        title: string;
+        description: string;
+        any: {
+          label: string;
+          description: string;
+        };
+        prefer_yours: {
+          label: string;
+          description: string;
+        };
+        none: {
+          label: string;
+          description: string;
+        };
       };
     };
     profile: {

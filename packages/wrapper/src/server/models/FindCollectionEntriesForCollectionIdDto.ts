@@ -8,6 +8,7 @@ export type FindCollectionEntriesForCollectionIdDto = {
     orderBy?: FindCollectionEntriesOrderBy;
     status?: FindCollectionEntriesForCollectionIdDto.status;
     gameFilters?: FindCollectionEntriesGameFilterDto;
+    hasCustomCover?: boolean;
     offset?: number;
     limit?: number;
 };

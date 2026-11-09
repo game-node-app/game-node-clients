@@ -13,6 +13,7 @@ export interface UseCollectionEntriesForUserIdProps {
   orderBy?: FindCollectionEntriesOrderBy;
   status?: CollectionEntry.status;
   gameFilters?: FindCollectionEntriesGameFilterDto;
+  hasCustomCover?: boolean;
 }
 
 export function useCollectionEntriesForUserId({
@@ -22,6 +23,7 @@ export function useCollectionEntriesForUserId({
   orderBy,
   status,
   gameFilters,
+  hasCustomCover,
 }: UseCollectionEntriesForUserIdProps) {
   return useQuery({
     queryKey: [
@@ -33,6 +35,7 @@ export function useCollectionEntriesForUserId({
       orderBy,
       gameFilters,
       status,
+      ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
     ],
     queryFn: async () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindAllByLibraryIdV1(
@@ -40,6 +43,7 @@ export function useCollectionEntriesForUserId({
         orderBy,
         status,
         gameFilters,
+        hasCustomCover ? true : undefined,
         offset,
         limit,
       );

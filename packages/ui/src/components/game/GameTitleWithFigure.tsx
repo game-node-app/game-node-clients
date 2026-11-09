@@ -1,9 +1,5 @@
-import {
-  getCoverUrl,
-  getSizedImageUrl,
-  ImageSize,
-  useGame,
-} from "#@/components";
+import { ImageSize, useGame } from "#@/components";
+import { useGameCoverImage } from "#@/components/game/hooks/useGameCoverImage";
 import { Link } from "#@/util";
 import { Avatar, Group, Skeleton, Title } from "@mantine/core";
 import { ComponentPropsWithoutRef } from "react";
@@ -24,9 +20,7 @@ const GameTitleWithFigure = ({
     },
   });
 
-  const coverUrl = getCoverUrl(data);
-
-  const sizedCoverUrl = getSizedImageUrl(coverUrl, ImageSize.THUMB);
+  const { src: coverUrl, onError } = useGameCoverImage(data, ImageSize.THUMB);
 
   if (isLoading) {
     return <Skeleton className={"h-8 w-40"} />;
@@ -35,7 +29,7 @@ const GameTitleWithFigure = ({
   return (
     <Link {...others} href={`/game/${gameId}`}>
       <Group className={"gap-3 flex-nowrap"}>
-        <Avatar src={sizedCoverUrl} size={"md"} />
+        <Avatar src={coverUrl} imageProps={{ onError }} size={"md"} />
         {withTitle && <Title size={"h5"}>{data?.name}</Title>}
       </Group>
     </Link>

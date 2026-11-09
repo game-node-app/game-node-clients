@@ -19,11 +19,15 @@ const UserPlaytimeItem = ({ playtime, variant = "detailed" }: Props) => {
   const onMobile = useOnMobile();
 
   const gameId = playtime.gameId;
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
+  const gameQuery = useGame(
+    gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    { ownerUserId: playtime.profileUserId },
+  );
 
   const imageUrl = getSizedImageUrl(
     gameQuery.data?.cover?.url,

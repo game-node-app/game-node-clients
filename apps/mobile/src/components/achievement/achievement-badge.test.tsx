@@ -3,6 +3,7 @@ import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   AchievementIconDto,
   AchievementProgressDto,
@@ -32,7 +33,9 @@ vi.mock("../../../../../packages/ui/src/components/game/hooks/useGame", () => ({
   useGame: () => ({
     data: {
       source: "MYSQL",
-      cover: { url: "https://images.igdb.com/cover.jpg" },
+      cover: {
+        url: "https://images.igdb.com/igdb/image/upload/t_cover_big/cover.jpg",
+      },
     },
   }),
 }));
@@ -49,8 +52,16 @@ beforeEach(() => {
 
 afterEach(cleanup);
 
-const renderWithMantine = (ui: React.ReactElement) =>
-  render(<MantineProvider>{ui}</MantineProvider>);
+const renderWithMantine = (ui: React.ReactElement) => {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return render(
+    <QueryClientProvider client={client}>
+      <MantineProvider>{ui}</MantineProvider>
+    </QueryClientProvider>,
+  );
+};
 
 describe("AchievementBadge", () => {
   it("renders the server icon for an image descriptor", () => {

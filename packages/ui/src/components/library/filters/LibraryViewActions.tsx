@@ -17,9 +17,11 @@ interface Props extends GroupProps {
   collectionId?: string;
   includeExtraContent: boolean;
   sortValue: SortingChipValue;
+  hasCustomCover: boolean;
   onSort: (updatedValue: SortingChipValue) => void;
   onLayoutChange: (layout: GameViewLayoutOption) => void;
   onExtraContentChange: (value: boolean) => void;
+  onHasCustomCoverChange: (value: boolean) => void;
 }
 
 const LibraryViewActions = ({
@@ -30,6 +32,8 @@ const LibraryViewActions = ({
   onLayoutChange,
   includeExtraContent,
   onExtraContentChange,
+  hasCustomCover,
+  onHasCustomCoverChange,
   ...others
 }: Props) => {
   const { t } = useTranslation();
@@ -79,6 +83,13 @@ const LibraryViewActions = ({
           onChange={() => onExtraContentChange(!includeExtraContent)}
         >
           {t("library.labels.showDLCs")}
+        </Chip>
+        <Chip
+          checked={hasCustomCover}
+          variant={"outline"}
+          onChange={() => onHasCustomCoverChange(!hasCustomCover)}
+        >
+          {t("library.labels.customCovers")}
         </Chip>
         {isOwnLibrary && (
           <Link href={"/importer"}>
