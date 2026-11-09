@@ -1,5 +1,6 @@
 import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEditBannerUploader";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
 import { Modal } from "#@/util";
 import { getS3StoredUpload } from "#@/util/getServerStoredImages";
 import { ActionIcon, Box, Center, Paper } from "@mantine/core";
@@ -23,6 +24,7 @@ const ProfileBanner = ({
     profile.data != undefined && profile.data.banner != undefined;
 
   const banner = profile.data?.banner;
+  const bannerVideo = profile.data?.bannerVideo;
   const bannerSrc = hasBanner
     ? getS3StoredUpload(`${banner?.filename}.${banner?.extension}`)
     : undefined;
@@ -45,6 +47,15 @@ const ProfileBanner = ({
         }}
         className={"w-full min-h-48 relative"}
       >
+        {/* A locally selected image replaces the banner, so the published
+            video must not play over the preview. */}
+        {!customSource && bannerVideo && (
+          <ProfileVideo
+            video={bannerVideo}
+            poster={bannerSrc}
+            className={"absolute inset-0"}
+          />
+        )}
         <Modal
           opened={editBannerModalOpen}
           onClose={editBannerModalUtils.close}

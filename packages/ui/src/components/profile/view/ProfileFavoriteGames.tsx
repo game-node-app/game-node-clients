@@ -25,12 +25,16 @@ const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
   const gamesIds = favoriteCollectionEntriesQuery.data?.data.map(
     (entry) => entry.gameId,
   );
-  const gamesQuery = useGames({
-    gameIds: gamesIds || [],
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds: gamesIds || [],
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: userId },
+  );
 
   const isLoading =
     favoriteCollectionEntriesQuery.isLoading || gamesQuery.isLoading;

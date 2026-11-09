@@ -38,7 +38,8 @@ import {
 import { AchievementIconDto } from "@repo/wrapper/server";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { useGame } from "#@/components/game/hooks/useGame";
-import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
+import { useGameCoverImage } from "#@/components/game/hooks/useGameCoverImage";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 
 /** Glyph names (kebab-case) clients can render. The admin icon picker reads this same map. */
 export const ACHIEVEMENT_GLYPHS: Record<string, TablerIcon> = {
@@ -98,9 +99,9 @@ interface Props {
 
 const GameCover = ({ gameId, size }: { gameId: number; size: number }) => {
   const gameQuery = useGame(gameId, { relations: { cover: true } });
-  const url = getCoverUrl(gameQuery.data);
-  return url ? (
-    <Image src={url} w={size} h={size} fit="cover" alt="" />
+  const { src, onError } = useGameCoverImage(gameQuery.data, ImageSize.THUMB);
+  return src ? (
+    <Image src={src} onError={onError} w={size} h={size} fit="cover" alt="" />
   ) : (
     <IconTrophy size={size * 0.5} />
   );

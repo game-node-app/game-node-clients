@@ -47,6 +47,11 @@ export type UIHookRegistry = {
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
   /**
+   * Whether game reads opt in to the viewer's custom covers. Defaults to `true`;
+   * apps that must always show default covers (admin) set it to `false`.
+   */
+  personalizeGameCovers?: boolean;
+  /**
    * Opens the native share sheet for a text. Resolves to `false` when the user
    * dismissed it and rejects when sharing isn't available, so callers can fall back.
    * Defaults to the Web Share API.

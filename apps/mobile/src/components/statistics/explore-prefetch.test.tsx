@@ -27,6 +27,11 @@ vi.mock("next/head", () => ({ default: () => null }));
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
+// `useGames` reads the session to decide whether to personalize covers; this
+// page is rendered signed out, so the hydrated default key is used as-is.
+vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
+  authClient: { useSession: () => ({ data: null, isPending: false }) },
+}));
 vi.mock("@mantine/hooks", async () => ({
   ...(await vi.importActual<typeof import("@mantine/hooks")>("@mantine/hooks")),
   useWindowScroll: () => [{ y: 0 }, vi.fn()],

@@ -30,12 +30,16 @@ const CollectionEntryDetailRelatedEntries = ({
     return [];
   }, [relatedCollectionEntriesQuery.data]);
 
-  const gamesQuery = useGames({
-    gameIds: relatedEntries.map((entry) => entry.gameId),
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds: relatedEntries.map((entry) => entry.gameId),
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: relatedEntries.at(0)?.libraryUserId },
+  );
 
   const gamesWithHref = useMemo(() => {
     return (

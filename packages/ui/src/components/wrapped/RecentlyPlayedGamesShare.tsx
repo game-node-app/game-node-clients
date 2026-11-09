@@ -141,12 +141,16 @@ const RecentlyPlayedGamesShare = ({ opened, onClose, onShare }: Props) => {
   const gameIds =
     playtimeQuery.data?.data.map((playtime) => playtime.gameId) ?? [];
 
-  const gamesQuery = useGames({
-    gameIds: Array.from(new Set(gameIds)),
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds: Array.from(new Set(gameIds)),
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    "off",
+  );
 
   const isLoading = playtimeQuery.isLoading || gamesQuery.isLoading;
 

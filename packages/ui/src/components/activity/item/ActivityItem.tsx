@@ -90,11 +90,15 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
     t,
   ]);
 
-  const gameQuery = useGame(gameId, {
-    relations: {
-      cover: true,
+  const gameQuery = useGame(
+    gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    "off",
+  );
 
   return (
     <Box className={"w-full"}>

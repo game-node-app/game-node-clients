@@ -8,11 +8,16 @@ interface Props {
 }
 
 const BlogPostReviewInfo = ({ reviewInfo }: Props) => {
-  const gameQuery = useGame(reviewInfo.gameId, {
-    relations: {
-      cover: true,
+  // Only the game's name is shown here, so the cover is not personalized.
+  const gameQuery = useGame(
+    reviewInfo.gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    "off",
+  );
 
   return (
     <Group className={"w-full justify-between flex-nowrap"}>

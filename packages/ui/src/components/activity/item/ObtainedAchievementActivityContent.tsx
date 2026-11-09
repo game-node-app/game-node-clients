@@ -21,11 +21,15 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
 
   const gameId = activity?.externalGame.gameId;
 
-  useGame(gameId, {
-    relations: {
-      cover: true,
+  useGame(
+    gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    "off",
+  );
 
   const renderedText = useMemo(() => {
     if (activity == undefined) return "";

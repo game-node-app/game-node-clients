@@ -100,13 +100,14 @@ describe("SupporterFeatureCatalog", () => {
 
     expect(
       within(catalog).getAllByText("settings.badges.comingSoon"),
-    ).toHaveLength(8);
+    ).toHaveLength(7);
     expect(
       within(catalog).getAllByText(/supporter\.benefits\.upcoming\./),
-    ).toHaveLength(8);
+    ).toHaveLength(7);
     expect(
       within(catalog).getAllByText(/supporter\.features\..*\.description/),
-    ).toHaveLength(8);
+    ).toHaveLength(7);
+    expect(within(catalog).queryByText(/videoCover/)).toBeNull();
   });
 
   it("keeps every upcoming feature as Coming soon for supporters", () => {
@@ -126,7 +127,7 @@ describe("SupporterFeatureCatalog", () => {
 
     expect(
       within(catalog).getAllByText("settings.badges.comingSoon"),
-    ).toHaveLength(8);
+    ).toHaveLength(7);
     expect(
       screen.queryByText(/supporter\.features\.preview\.since/),
     ).not.toBeNull();
@@ -161,7 +162,7 @@ describe("SupporterFeatureCatalog", () => {
       catalog.querySelectorAll(
         '[class*="size-9"][class*="rgba(151,71,255,0.16)"]',
       ),
-    ).toHaveLength(8);
+    ).toHaveLength(7);
   });
 
   it("labels the preview body as decorative and keeps the caption readable", () => {

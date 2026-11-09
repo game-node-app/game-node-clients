@@ -15,15 +15,19 @@ interface Props {
 }
 
 const JournalAchievementsGameGroupView = ({
-  userId: _userId,
+  userId,
   gameGroup,
 }: Props) => {
   const { t } = useTranslation();
-  const { data: game, isLoading: isGameLoading } = useGame(gameGroup.gameId, {
-    relations: {
-      cover: true,
+  const { data: game, isLoading: isGameLoading } = useGame(
+    gameGroup.gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    { ownerUserId: userId },
+  );
 
   const flavorText = useMemo(
     () =>

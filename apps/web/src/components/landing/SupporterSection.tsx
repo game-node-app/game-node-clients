@@ -25,7 +25,7 @@ import styles from "@/components/landing/Landing.module.css";
 
 const icon = (file: string) => `/img/landing/${file}`;
 
-// Benefits every account gets today.
+// Supporter extras that every account gets today.
 const INCLUDED_ITEMS = [
   "library",
   "import",
@@ -33,9 +33,12 @@ const INCLUDED_ITEMS = [
   "collections",
 ] as const;
 
+// Supporter extras that are available today.
+const AVAILABLE_ITEMS = ["videoCover"] as const;
+
 // Supporter extras that are announced but not available yet.
 const UPCOMING_GROUPS = [
-  { key: "profile", items: ["videoCover", "animatedBorder", "theme"] },
+  { key: "profile", items: ["animatedBorder", "theme"] },
   { key: "library", items: ["customCovers"] },
   { key: "live", items: ["live"] },
   { key: "show", items: ["badge", "wall"] },
@@ -191,6 +194,32 @@ const PlanCard = ({
             ))}
           </Stack>
         </Stack>
+        {supporter && (
+          <Stack gap={4}>
+            <Text className={styles.groupLabel} c="brand">
+              {t(`${prefix}.groups.available`)}
+            </Text>
+            <Stack component="ul" gap={0} className={styles.featureList}>
+              {AVAILABLE_ITEMS.map((item) => (
+                <Group
+                  key={item}
+                  component="li"
+                  gap={12}
+                  h={32}
+                  wrap="nowrap"
+                >
+                  <img
+                    src={icon("icon-check-brand.svg")}
+                    width={16}
+                    height={16}
+                    alt=""
+                  />
+                  <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
+                </Group>
+              ))}
+            </Stack>
+          </Stack>
+        )}
         <Stack gap={12}>
           <Text className={styles.groupLabel} c="brand">
             {t("supporter.benefits.comingSoonTitle")}

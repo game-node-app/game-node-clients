@@ -22,11 +22,15 @@ interface Props {
  */
 const ProfileReviewListItem = ({ review }: Props) => {
   const { t } = useTranslation();
-  const gameQuery = useGame(review.gameId, {
-    relations: {
-      cover: true,
+  const gameQuery = useGame(
+    review.gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    { ownerUserId: review.profileUserId },
+  );
 
   const editor = useEditor(
     {

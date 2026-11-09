@@ -1,10 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Profile, ProfileService } from "../../../../../wrapper/src/server";
+import {
+  ProfileResponseDto,
+  ProfileService,
+} from "../../../../../wrapper/src/server";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useUserProfile(
   userId: string | undefined | null,
-): ExtendedUseQueryResult<Profile> {
+): ExtendedUseQueryResult<ProfileResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = ["userProfile", userId];
   const invalidate = () => queryClient.invalidateQueries({ queryKey });

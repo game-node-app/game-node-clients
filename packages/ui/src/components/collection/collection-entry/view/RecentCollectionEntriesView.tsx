@@ -14,7 +14,9 @@ const RecentCollectionEntriesView = ({
   limit = 12,
   ...others
 }: Props) => {
-  const gamesQuery = useUserRecentGames(userId, offset, limit);
+  const gamesQuery = useUserRecentGames(userId, offset, limit, {
+    ownerUserId: userId,
+  });
 
   return (
     <GameView layout={"grid"}>

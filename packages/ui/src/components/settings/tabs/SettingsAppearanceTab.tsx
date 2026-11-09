@@ -7,6 +7,7 @@ import {
   SettingsPill,
 } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
+import { SettingsCustomCoversSection } from "#@/components/settings/tabs/appearance/SettingsCustomCoversSection";
 import {
   SettingsRadioDot,
   SettingsThemeOptionCard,
@@ -240,6 +241,7 @@ export function SettingsAppearanceTab() {
           {t("settings.appearance.specialThemes.disclaimer")}
         </Text>
       </SettingsSection>
+      <SettingsCustomCoversSection />
     </>
   );
 }

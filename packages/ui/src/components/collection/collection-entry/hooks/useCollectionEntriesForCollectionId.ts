@@ -26,6 +26,7 @@ export function useCollectionEntriesForCollectionId({
   orderBy,
   status,
   gameFilters,
+  hasCustomCover,
 }: UseCollectionEntriesForCollectionIdProps): ExtendedUseQueryResult<
   CollectionEntriesPaginatedResponseDto | undefined
 > {
@@ -38,6 +39,7 @@ export function useCollectionEntriesForCollectionId({
     orderBy,
     status,
     gameFilters,
+    ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
   ];
   const invalidate = () => {
     queryClient.invalidateQueries({
@@ -57,6 +59,7 @@ export function useCollectionEntriesForCollectionId({
             orderBy,
             status,
             gameFilters,
+            ...(hasCustomCover ? { hasCustomCover: true } : {}),
           },
         );
       },

@@ -5,5 +5,7 @@
 export type GameRepositoryFindAllDto = {
     gameIds: Array<number>;
     relations?: Record<string, any>;
+    personalizeCovers?: boolean;
+    coverOwnerUserId?: string;
 };
 

@@ -7,6 +7,7 @@ import {
 import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { GameCoverPickerModal } from "#@/components/game/info/GameCoverPickerModal";
 import { buildPresenterComponent } from "#@/context";
 import { Modal } from "#@/util";
 import {
@@ -24,6 +25,7 @@ import {
   IconChevronDown,
   IconHeartFilled,
   IconHeartPlus,
+  IconPhotoEdit,
   IconShare,
   IconX,
 } from "@tabler/icons-react";
@@ -48,6 +50,7 @@ const DEFAULT_GameInfoActions = ({
   const [shareModalOpened, shareModalUtils] = useDisclosure();
   const [preferredPlatformsModalOpened, preferredPlatformsModalUtils] =
     useDisclosure();
+  const [coverPickerOpened, coverPickerUtils] = useDisclosure();
 
   const collectionEntryQuery = useOwnCollectionEntryForGameId(game?.id);
 
@@ -82,6 +85,11 @@ const DEFAULT_GameInfoActions = ({
         <PreferredPlatformsViewModal
           opened={preferredPlatformsModalOpened}
           onClose={preferredPlatformsModalUtils.close}
+        />
+        <GameCoverPickerModal
+          opened={coverPickerOpened}
+          onClose={coverPickerUtils.close}
+          game={game}
         />
         <Modal
           opened={shareModalOpened}
@@ -142,6 +150,17 @@ const DEFAULT_GameInfoActions = ({
             ) : (
               <IconHeartPlus size={"1.05rem"} />
             )}
+          </ActionIcon>
+        </Tooltip>
+
+        <Tooltip label={t("game.coverPicker.open")}>
+          <ActionIcon
+            aria-label={t("game.coverPicker.open")}
+            size="lg"
+            variant="default"
+            onClick={coverPickerUtils.open}
+          >
+            <IconPhotoEdit size={"1.05rem"} />
           </ActionIcon>
         </Tooltip>
 

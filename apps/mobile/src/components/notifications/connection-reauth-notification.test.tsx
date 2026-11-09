@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   NotificationConnectionTargetDto,
   NotificationImporterTargetDto,
@@ -68,14 +69,19 @@ afterEach(() => {
 });
 
 const renderItem = (item: NotificationInboxItemDto, onClick = vi.fn()) => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
   const view = render(
-    <MantineProvider>
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={onClick}
-      />
-    </MantineProvider>,
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>
+        <AggregatedNotification
+          aggregatedNotification={item}
+          backgroundColor="normal"
+          onClick={onClick}
+        />
+      </MantineProvider>
+    </QueryClientProvider>,
   );
   return { ...view, onClick };
 };

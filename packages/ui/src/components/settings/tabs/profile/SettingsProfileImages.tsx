@@ -5,11 +5,14 @@ import { IconCamera } from "@tabler/icons-react";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { ProfileEditAvatarUploader } from "#@/components/profile/edit/ProfileEditAvatarUploader";
 import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEditBannerUploader";
+import { ProfileVideoUploadStatus } from "#@/components/profile/edit/ProfileVideoUploadStatus";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
 import { SettingsButton } from "#@/components/settings/common/SettingsButton";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
 import { SettingsComingSoonBadge } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
+import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
 import { getS3StoredUpload, Modal } from "#@/util";
 
 interface Props {
@@ -23,10 +26,16 @@ interface Props {
 export function SettingsProfileImages({ userId }: Props) {
   const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
+  /*
+   * Warm this before the uploader modal mounts: the uploader waits for the
+   * status before rendering its dropzone, so it should not wait on every open.
+   */
+  useSupporterStatus();
   const [bannerModalOpened, bannerModal] = useDisclosure();
   const [avatarModalOpened, avatarModal] = useDisclosure();
 
   const banner = profileQuery.data?.banner;
+  const bannerVideo = profileQuery.data?.bannerVideo;
   const bannerSrc = banner
     ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
     : undefined;
@@ -66,6 +75,13 @@ export function SettingsProfileImages({ userId }: Props) {
                 className={"absolute inset-0 h-full w-full object-cover"}
               />
             )}
+            {bannerVideo && (
+              <ProfileVideo
+                video={bannerVideo}
+                poster={bannerSrc}
+                className={"absolute inset-0"}
+              />
+            )}
             <Box className={"absolute bottom-3 right-3"}>
               <SettingsButton
                 variant={"secondary"}
@@ -79,6 +95,7 @@ export function SettingsProfileImages({ userId }: Props) {
           <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
             {t("settings.profile.images.bannerHelp")}
           </Text>
+          <ProfileVideoUploadStatus slot={"banner"} />
         </Stack>
         <Group gap={16} wrap={"nowrap"} className={"p-5"}>
           <UserAvatar userId={userId} size={72} className={"shrink-0"} />
@@ -89,6 +106,7 @@ export function SettingsProfileImages({ userId }: Props) {
             <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
               {t("settings.profile.images.avatarDescription")}
             </Text>
+            <ProfileVideoUploadStatus slot={"avatar"} />
             <Group gap={8}>
               <SettingsButton
                 variant={"secondary"}

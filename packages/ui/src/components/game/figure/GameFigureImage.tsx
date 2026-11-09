@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from "react";
 import { AspectRatio, Image, ImageProps } from "@mantine/core";
 import { Link } from "#@/util";
-import {
-  getSizedImageUrl,
-  ImageSize,
-} from "#@/components/game/util/getSizedImageUrl";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { TGameOrSearchGame } from "#@/components/game/util/types";
-import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
+import {
+  GAME_COVER_PLACEHOLDER,
+  useGameCoverImage,
+} from "#@/components/game/hooks/useGameCoverImage";
 
 export interface IGameFigureImageProps extends PropsWithChildren {
   game: TGameOrSearchGame | undefined | null;
@@ -27,9 +27,8 @@ const GameFigureImage = ({
   imageSize,
   children,
 }: IGameFigureImageProps) => {
-  const coverUrl = getCoverUrl(game);
-  const sizedCoverUrl = getSizedImageUrl(
-    coverUrl,
+  const { src: coverUrl, onError } = useGameCoverImage(
+    game,
     imageSize ?? ImageSize.COVER_BIG,
   );
 
@@ -45,10 +44,14 @@ const GameFigureImage = ({
       >
         <Image
           radius={"sm"}
-          src={sizedCoverUrl ?? "/img/game_placeholder.jpeg"}
+          src={coverUrl ?? GAME_COVER_PLACEHOLDER}
           alt={game?.name ? game.name : "Game cover"}
           className="w-full h-auto max-h-full"
           {...imageProps}
+          onError={(event) => {
+            onError();
+            imageProps?.onError?.(event);
+          }}
         />
       </Link>
       {children}

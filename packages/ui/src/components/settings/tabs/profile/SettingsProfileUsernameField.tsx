@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Group, Stack, Text, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
-import { Profile, ProfileService } from "@repo/wrapper/server";
+import { ProfileResponseDto, ProfileService } from "@repo/wrapper/server";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -43,7 +43,7 @@ const createUsernameFormSchema = (
 type UsernameFormValues = z.infer<ReturnType<typeof createUsernameFormSchema>>;
 
 /** Date from which the username can be changed again, or null if it can be changed now. */
-function getUsernameCooldownEnd(profile: Profile | undefined) {
+function getUsernameCooldownEnd(profile: ProfileResponseDto | undefined) {
   if (!profile?.usernameLastUpdatedAt) return null;
   const end = dayjs(profile.usernameLastUpdatedAt).add(
     USERNAME_COOLDOWN_DAYS,

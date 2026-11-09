@@ -13,7 +13,11 @@ const DailyGuessList = ({ feedback }: Props) => {
     item.gameId == null ? [] : [item.gameId],
   );
   // One request for every guessed game's cover and year.
-  const gamesQuery = useGames({ gameIds, relations: { cover: true } }, true);
+  const gamesQuery = useGames(
+    { gameIds, relations: { cover: true } },
+    true,
+    "off",
+  );
   if (feedback.length === 0) return null;
 
   return (

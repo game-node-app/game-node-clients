@@ -7,22 +7,13 @@ import {
   ReviewsService,
   UserConnectionDto,
 } from "@repo/wrapper/server";
-import {
-  Avatar,
-  Group,
-  Image,
-  Notification,
-  Text,
-  ThemeIcon,
-} from "@mantine/core";
+import { Group, Image, Notification, Text, ThemeIcon } from "@mantine/core";
 import { IconAlertCircleFilled, IconTrophy } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
-import {
-  getS3StoredUpload,
-  getServerStoredIcon,
-} from "#@/util/getServerStoredImages";
+import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import { useRouter } from "#@/util/link";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { getConnectionName } from "#@/components/connections/util/getConnectionName";
 
 export interface AggregatedNotificationProps {
@@ -265,9 +256,6 @@ const AggregatedNotification = ({
 
   const actors = aggregatedNotification.actors || [];
   const leadActor = actors[0];
-  const leadAvatarSrc = leadActor?.avatar?.filename
-    ? getS3StoredUpload(leadActor.avatar.filename)
-    : undefined;
 
   const actorNames = actors
     .slice(0, 2)
@@ -333,7 +321,7 @@ const AggregatedNotification = ({
       }}
     >
       <Group wrap={"nowrap"} className={"w-full"}>
-        <Avatar src={leadAvatarSrc} size={"md"} radius={"xl"} />
+        <UserAvatar userId={leadActor?.userId} size={"md"} radius={"xl"} />
         <Text lineClamp={4}>
           <strong>{actorNames}</strong>{" "}
           {remainingActors > 0 && <span>and {remainingActors} others </span>}

@@ -20,11 +20,16 @@ interface Props {
 const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
   const reviewInfo = post.review;
 
-  const gameQuery = useGame(reviewInfo?.gameId, {
-    relations: {
-      cover: true,
+  // The card shows the post's cover, not the game's, so the cover is not personalized.
+  const gameQuery = useGame(
+    reviewInfo?.gameId,
+    {
+      relations: {
+        cover: true,
+      },
     },
-  });
+    "off",
+  );
 
   const imageUrl = post.cover.url;
 

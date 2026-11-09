@@ -11,6 +11,7 @@ export function useFavoriteCollectionEntriesForUserId(
   offset?: number,
   limit?: number,
   orderBy?: FindCollectionEntriesOrderBy,
+  hasCustomCover?: boolean,
 ): ExtendedUseQueryResult<CollectionEntriesPaginatedResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = [
@@ -20,6 +21,7 @@ export function useFavoriteCollectionEntriesForUserId(
     offset,
     limit,
     orderBy,
+    ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
   ];
 
   const invalidate = () => {
@@ -35,6 +37,7 @@ export function useFavoriteCollectionEntriesForUserId(
           orderBy,
           undefined,
           undefined,
+          hasCustomCover ? true : undefined,
           offset,
           limit,
         );

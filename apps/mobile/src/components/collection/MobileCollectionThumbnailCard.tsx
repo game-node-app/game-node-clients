@@ -47,12 +47,16 @@ const MobileCollectionThumbnailCard = ({
   });
 
   const gameIds = collectionEntries?.data.map((entry) => entry.gameId);
-  const { data: games } = useGames({
-    gameIds,
-    relations: {
-      cover: true,
+  const { data: games } = useGames(
+    {
+      gameIds,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    { ownerUserId: collection?.libraryUserId },
+  );
 
   const isOwnCollection =
     collection?.libraryUserId != undefined &&

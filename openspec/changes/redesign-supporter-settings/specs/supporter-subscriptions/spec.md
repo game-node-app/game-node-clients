@@ -133,7 +133,7 @@ Mobile SHALL expose the Supporter settings screen from Preferences and SHALL ope
 - **THEN** the app sends them to sign in and returns them to the Supporter screen with the query preserved
 
 ### Requirement: Benefit availability labeling
-Clients SHALL distinguish benefits available today from benefits announced for later. The supporter badge, supporter theme, video cover, animated border, custom covers, live profile, supporters wall, collection limit and similar unshipped items SHALL be labeled "Coming soon" / "Em breve" for every user, supporters included, SHALL NOT be presented as included, unlocked or usable today, and SHALL NOT gate features that are free today.
+Clients SHALL distinguish benefits available today from benefits announced for later. The supporter badge, supporter theme, animated border, custom covers, live profile, supporters wall, collection limit and similar unshipped items SHALL be labeled "Coming soon" / "Em breve" for every user, supporters included, SHALL NOT be presented as included, unlocked or usable today, and SHALL NOT gate features that are free today. The video cover SHALL NOT be labeled "Coming soon" / "Em breve".
 
 #### Scenario: Plan copy
 - **WHEN** a user reads the supporter plan description
@@ -162,3 +162,11 @@ Clients SHALL distinguish benefits available today from benefits announced for l
 #### Scenario: Free features unchanged
 - **WHEN** a free user uses the library, collections, imports, achievements or reviews
 - **THEN** no supporter paywall or lock is shown
+
+#### Scenario: Video cover availability
+- **WHEN** a user reads the supporter plan copy or the supporter feature catalog
+- **THEN** the video cover is presented as an available supporter benefit and is not labeled "Coming soon" / "Em breve"
+
+#### Scenario: GIF retirement ownership
+- **WHEN** a client explains why GIF avatar or banner uploads are no longer accepted for any user
+- **THEN** the restriction is presented as a format change owned by `profile-video`, not as a supporter entitlement, gate or lock

@@ -1,7 +1,13 @@
 import { useCollectionEntriesForUserId, useGames } from "#@/components";
+import { GameCoverArg } from "#@/components/game/util/gameCoverRequest";
 import { useMemo } from "react";
 
-export function useUserRecentGames(userId: string, offset = 0, limit = 20) {
+export function useUserRecentGames(
+  userId: string,
+  offset = 0,
+  limit = 20,
+  cover?: GameCoverArg,
+) {
   const collectionEntriesQuery = useCollectionEntriesForUserId({
     userId,
     offset,
@@ -15,12 +21,16 @@ export function useUserRecentGames(userId: string, offset = 0, limit = 20) {
     return collectionEntriesQuery.data?.data?.map((entry) => entry.gameId);
   }, [collectionEntriesQuery]);
 
-  const gamesQuery = useGames({
-    gameIds: gameIds,
-    relations: {
-      cover: true,
+  const gamesQuery = useGames(
+    {
+      gameIds: gameIds,
+      relations: {
+        cover: true,
+      },
     },
-  });
+    false,
+    cover,
+  );
 
   return {
     ...gamesQuery,

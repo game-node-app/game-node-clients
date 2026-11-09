@@ -695,6 +695,22 @@
       "addLibrary": "Add to library",
       "update": "Update"
     },
+    "coverPicker": {
+      "title": "Choose a cover",
+      "open": "Change cover",
+      "default": "Default cover",
+      "empty": "This game has no alternative covers.",
+      "error": "Could not load the cover options.",
+      "modeNoneNotice": "Custom covers are turned off in your settings. Your choice is saved, but the default cover stays visible until you turn them back on.",
+      "signInTitle": "Sign in to choose a cover",
+      "signInPrompt": "You need to be signed in to choose a cover for this game.",
+      "kinds": {
+        "localized": "Localized",
+        "edition": "Edition",
+        "alternative": "Alternative",
+        "historical": "Historical"
+      }
+    },
     "collectionTypes": {
       "recentReleases": "Recent Releases",
       "upcoming": "Upcoming"
@@ -1039,6 +1055,7 @@
         },
         "groups": {
           "always": "Always free",
+          "available": "Available now",
           "profile": "Your profile, your way",
           "library": "Your library, no limits",
           "live": "Live on your profile",
@@ -1147,6 +1164,7 @@
       "importGames": "Import games"
     },
     "labels": {
+      "customCovers": "Custom covers",
       "management": "Library Management",
       "showDLCs": "Show DLCs/Extras"
     },
@@ -1539,6 +1557,54 @@
       "noUsersFound": "No users found."
     }
   },
+  "profileVideo": {
+    "labels": {
+      "image": "Image",
+      "video": "Video",
+      "avatarVideo": "Avatar video",
+      "bannerVideo": "Banner video",
+      "avatarVideoHelp": "Short video, cropped into a circle.",
+      "bannerVideoHelp": "Wide short video, cropped to the banner area."
+    },
+    "crop": {
+      "title": "Frame your video",
+      "help": "Drag to reposition and use the slider to zoom. Only the framed area is kept.",
+      "zoom": "Zoom",
+      "centerCropNotice": "This video can't be previewed on your device. The server will center it and crop it for you."
+    },
+    "supporter": {
+      "title": "Profile videos are a supporter benefit",
+      "description": "Support GameNode to upload a short video as your avatar or banner.",
+      "link": "See supporter plans"
+    },
+    "upload": {
+      "messages": {
+        "accepted": "Video received. We're processing it now.",
+        "alreadyProcessing": "A video is already being processed for this space. We'll update it when it's ready.",
+        "invalidFile": "This video format isn't supported. Try MP4, MOV, WebM or Matroska.",
+        "forbidden": "Profile videos are a supporter benefit.",
+        "tooLarge": "This video is larger than 64 MiB. Choose a smaller file.",
+        "throttled": "Too many video uploads. Wait a few minutes and try again.",
+        "failed": "We couldn't upload this video. Try again.",
+        "invalidVideoSource": "Choose a video before uploading.",
+        "gifNotSupported": "GIF is no longer supported for avatars or banners. Choose a static image instead.",
+        "imageTooLarge": "This image is larger than {{size}}MB. Choose a smaller file."
+      }
+    },
+    "status": {
+      "processing": "Processing video...",
+      "ready": "Video ready",
+      "failed": "Video processing failed",
+      "errors": {
+        "conversion_failed": "We couldn't convert this video. Try a different file.",
+        "output_too_large": "The converted video would be too large. Try a shorter or smaller video.",
+        "upload_failed": "We couldn't store this video. Try again.",
+        "source_missing": "The uploaded video was lost before processing. Upload it again.",
+        "timeout": "Processing took too long. Try again.",
+        "unknown": "We couldn't process this video."
+      }
+    }
+  },
   "recap": {
     "buttons": {
       "availableSoon": "Available Soon",
@@ -1658,9 +1724,6 @@
       },
       "animatedBorder": {
         "description": "An animated border around your avatar."
-      },
-      "videoCover": {
-        "description": "Use a short video as your profile cover."
       },
       "liveProfile": {
         "description": "Show what you're playing right now on your profile."
@@ -1808,7 +1871,6 @@
       "upcoming": {
         "badge": "Supporter badge",
         "theme": "Supporter theme",
-        "videoCover": "Video profile cover",
         "animatedBorder": "Animated avatar border",
         "customCovers": "Custom game covers",
         "liveProfile": "Live profile",
@@ -1824,13 +1886,18 @@
     "planName": "Supporter"
   },
   "upload": {
-    "dragPrompt": "Drag images here or click to select files",
+    "dragPrompt": "Drag files here or click to select files",
     "labels": {
       "maxFiles": "Max files: {{max}}",
       "maxSize": "Max size: {{size}}MB"
     },
     "messages": {
-      "invalidImageSource": "Invalid image source"
+      "invalidImageSource": "Invalid image source",
+      "rejectedType": "This file type isn't supported. Use: {{formats}}.",
+      "rejectedTooLarge": "This file is too large. The maximum size is {{size}}MB.",
+      "rejectedTooSmall": "This file is too small.",
+      "rejectedTooManyFiles": "Select up to {{max}} file(s).",
+      "rejectedUnknown": "This file can't be used."
     }
   },
   "user": {
@@ -2196,6 +2263,22 @@
         "xbox": "Black and green",
         "playstation": "Deep blue",
         "nintendo": "Light and red"
+      },
+      "customCovers": {
+        "title": "Custom covers",
+        "description": "Choose which covers you see when a game has one chosen by you or another player.",
+        "any": {
+          "label": "Show chosen covers",
+          "description": "On other players' pages, show the cover they picked. Everywhere else, show yours."
+        },
+        "prefer_yours": {
+          "label": "Prefer mine",
+          "description": "Show your chosen cover wherever you have one, including on other players' pages."
+        },
+        "none": {
+          "label": "Default covers only",
+          "description": "Always show the original IGDB cover. Your choices are kept."
+        }
       }
     },
     "profile": {

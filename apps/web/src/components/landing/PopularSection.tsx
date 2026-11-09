@@ -3,11 +3,11 @@ import { useTranslation } from "@repo/locales";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
   GameRating,
-  getCoverUrl,
-  getSizedImageUrl,
+  GAME_COVER_PLACEHOLDER,
   ImageSize,
   UserAvatarGroup,
   useGame,
+  useGameCoverImage,
   useReview,
   useTrendingGames,
   useTrendingReviews,
@@ -53,17 +53,16 @@ const Marquee = ({
 const GameCard = ({ gameId }: { gameId: number }) => {
   const gameQuery = useGame(gameId, { relations: { cover: true } });
   const game = gameQuery.data;
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
   if (!game) return <Skeleton className={styles.gameCard} />;
 
   return (
     <Link href={`/game/${game.id}`} className={styles.gameCard}>
       <img
-        src={
-          getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG) ??
-          "/img/game_placeholder.jpeg"
-        }
+        src={src ?? GAME_COVER_PLACEHOLDER}
         alt={game.name}
         loading="lazy"
+        onError={onError}
       />
     </Link>
   );
@@ -74,6 +73,7 @@ const ReviewCard = ({ reviewId }: { reviewId: string }) => {
   const review = reviewQuery.data;
   const gameQuery = useGame(review?.gameId, { relations: { cover: true } });
   const game = gameQuery.data;
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
   const editor = useEditor(
     {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
@@ -90,12 +90,10 @@ const ReviewCard = ({ reviewId }: { reviewId: string }) => {
     <Box className={styles.reviewCard}>
       <Box className={styles.reviewHeader}>
         <img
-          src={
-            getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG) ??
-            "/img/game_placeholder.jpeg"
-          }
+          src={src ?? GAME_COVER_PLACEHOLDER}
           alt=""
           loading="lazy"
+          onError={onError}
         />
         <Stack gap={4}>
           {/* Stretched link: its ::after covers the whole card, so the card stays one anchor. */}

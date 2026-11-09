@@ -12,11 +12,11 @@ import { Game } from "@repo/wrapper/server";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
 import { useGames } from "#@/components/game/hooks/useGames";
-import { getCoverUrl } from "#@/components/game/util/getCoverUrl";
 import {
-  getSizedImageUrl,
-  ImageSize,
-} from "#@/components/game/util/getSizedImageUrl";
+  GAME_COVER_PLACEHOLDER,
+  useGameCoverImage,
+} from "#@/components/game/hooks/useGameCoverImage";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
 import { Link } from "#@/util";
@@ -40,7 +40,10 @@ function SettingsProfileFavoriteItem({
   onRemove,
 }: FavoriteItemProps) {
   const { t } = useTranslation();
-  const coverUrl = getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG);
+  const { src: coverUrl, onError } = useGameCoverImage(
+    game,
+    ImageSize.COVER_BIG,
+  );
   const removeLabel = t("settings.profile.favorites.remove", {
     game: game.name,
   });
@@ -49,7 +52,8 @@ function SettingsProfileFavoriteItem({
     <Stack gap={6} className={"w-[90px] shrink-0"}>
       <Box className={`${COVER_CLASSNAME} bg-[#222]`}>
         <Image
-          src={coverUrl ?? "/img/game_placeholder.jpeg"}
+          src={coverUrl ?? GAME_COVER_PLACEHOLDER}
+          onError={onError}
           alt={game.name}
           className={"h-full w-full object-cover"}
         />
