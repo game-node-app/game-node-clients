@@ -1,0 +1,34 @@
+{
+  "source": "694a0e5a8eebf9eb96b89dbaf2bfa047d6bfbaea",
+  "changesets": [
+    ".changeset/custom-game-covers.md",
+    ".changeset/supporter-profile-video.md"
+  ],
+  "apps": [
+    "web",
+    "admin",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[2ac0d0a916aeed46fe4905326698d7129e3fbac9...694a0e5a8eebf9eb96b89dbaf2bfa047d6bfbaea]",
+    "--filter=web...",
+    "--filter=admin...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor",
+    "admin": "minor"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": true,
+  "ref": "releases/694a0e5a8eebf9eb96b89dbaf2bfa047d6bfbaea",
+  "versions": {
+    "web": "1.14.0",
+    "admin": "1.9.0",
+    "mobile": "1.12.0"
+  }
+}
