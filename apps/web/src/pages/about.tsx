@@ -1,7 +1,7 @@
 import { LandingHeader } from "@/components/general/header/LandingHeader";
 import { Box, Paper } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { useSupporterEntryHref } from "@repo/ui";
+import { SupportersWall, useSupporterEntryHref } from "@repo/ui";
 import Link from "next/link";
 
 const AboutPage = () => {
@@ -209,6 +209,8 @@ const AboutPage = () => {
           </div>
         </div>
       </Box>
+
+      <SupportersWall variant="page" />
 
       <footer>
         <Paper className="bg-[#191919] h-20">

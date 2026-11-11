@@ -31,6 +31,7 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
 export const UI_HOOK_REGISTRY: UIHookRegistry = {
   useRouter: useIonRouterWrapper,
   authPath: "/m/auth",
+  supporterSettingsHref: "/preferences/supporter",
   useScrollPosition: useIonScrollPosition,
   useIsViewActive: useIonViewActive,
   shareText: async (text) => {

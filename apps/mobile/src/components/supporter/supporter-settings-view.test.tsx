@@ -10,13 +10,16 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ApiError } from "@repo/wrapper/server";
 import {
   DEFAULT_MANTINE_THEME,
   UIProvider,
   type UIHookRegistry,
 } from "@repo/ui";
+import { DEFAULT_SUPPORTER_PREFERENCES } from "../../../../../packages/ui/src/components/supporter/perks/supporterPerks";
 import { SupporterSettingsView } from "../../../../../packages/ui/src/components/supporter/settings/SupporterSettingsView";
+import { setProjectContext } from "../../../../../packages/ui/src/util/projectContext";
 import type {
   SupporterOffers,
   SupporterStatus,
@@ -44,6 +47,11 @@ const mocks = vi.hoisted(() => ({
   checkout: {
     mutate: vi.fn(),
     isPending: false,
+  },
+  profile: {
+    data: undefined as Record<string, unknown> | undefined,
+    isLoading: false,
+    invalidate: vi.fn(),
   },
   actions: {
     actionError: null as string | null,
@@ -115,13 +123,23 @@ vi.mock(
   () => ({ useRedirectToAuth: () => mocks.redirectToAuth }),
 );
 
-// The feature catalog renders the real profile preview; keep it on the same
+// The perks settings render the real profile preview; keep it on the same
 // public data the profile page uses without a network layer.
 vi.mock(
   "../../../../../packages/ui/src/components/profile/hooks/useUserProfile",
   () => ({
-    useUserProfile: () => ({
-      data: { username: "cassio", banner: null, avatar: null },
+    useUserProfile: () => mocks.profile,
+  }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/connections/hooks/useOwnUserConnectionByType",
+  () => ({
+    useOwnUserConnectionByType: () => ({
+      data: { id: "connection-1" },
+      isSuccess: true,
+      isError: false,
+      error: null,
     }),
   }),
 );
@@ -182,6 +200,20 @@ const ACTIVE_STATUS: SupporterStatus = {
   supporterSince: "2026-01-15T00:00:00.000Z",
 };
 
+const FREE_PROFILE = {
+  username: "cassio",
+  banner: null,
+  avatar: null,
+  isSupporter: false,
+  supporterPreferences: null,
+};
+
+const SUPPORTER_PROFILE = {
+  ...FREE_PROFILE,
+  isSupporter: true,
+  supporterPreferences: { ...DEFAULT_SUPPORTER_PREFERENCES },
+};
+
 const CHECKOUT_URL = "https://checkout.stripe.test/session";
 
 type MutationCallbacks = {
@@ -222,27 +254,53 @@ const MockModal = ({
     </div>
   ) : null;
 
-function renderView(
+function createClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+}
+
+function viewElement(
+  client: QueryClient,
   props: Partial<React.ComponentProps<typeof SupporterSettingsView>> = {},
 ) {
-  return render(
-    <MantineProvider theme={DEFAULT_MANTINE_THEME}>
-      <UIProvider
-        presenters={{ Link: MockLink, Modal: MockModal }}
-        hooks={
-          {
-            openExternalUrl: mocks.openExternalUrl,
-          } as unknown as UIHookRegistry
-        }
-      >
-        <SupporterSettingsView {...props} />
-      </UIProvider>
-    </MantineProvider>,
+  return (
+    <QueryClientProvider client={client}>
+      <MantineProvider theme={DEFAULT_MANTINE_THEME}>
+        <UIProvider
+          presenters={{ Link: MockLink, Modal: MockModal }}
+          hooks={
+            {
+              openExternalUrl: mocks.openExternalUrl,
+            } as unknown as UIHookRegistry
+          }
+        >
+          <SupporterSettingsView {...props} />
+        </UIProvider>
+      </MantineProvider>
+    </QueryClientProvider>
   );
+}
+
+function renderView(
+  props: Partial<React.ComponentProps<typeof SupporterSettingsView>> = {},
+  client = createClient(),
+) {
+  return render(viewElement(client, props));
 }
 
 beforeEach(() => {
   vi.clearAllMocks();
+
+  setProjectContext({
+    client: "web",
+    s3BucketUrl: "",
+    serverUrl: "",
+    searchUrl: "",
+  });
 
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
@@ -273,6 +331,9 @@ beforeEach(() => {
   mocks.offers.refetch.mockImplementation(() => {});
   mocks.checkout.isPending = false;
   mocks.checkout.mutate.mockImplementation(() => {});
+  mocks.profile.data = FREE_PROFILE;
+  mocks.profile.isLoading = false;
+  mocks.profile.invalidate = vi.fn();
 
   mocks.actions.actionError = null;
   mocks.actions.cancelError = null;
@@ -479,7 +540,7 @@ describe("SupporterSettingsView", () => {
     expect(
       screen.queryByRole("button", { name: "supporter.plans.monthlyCta" }),
     ).toBeNull();
-    expect(screen.getByTestId("supporter-feature-catalog")).toBeTruthy();
+    expect(screen.getByTestId("supporter-perks-settings")).toBeTruthy();
     expect(screen.getByTestId("supporter-always-free-card")).toBeTruthy();
 
     fireEvent.click(
@@ -639,14 +700,89 @@ describe("SupporterSettingsView", () => {
     expect(mocks.offers.refetch).toHaveBeenCalledTimes(1);
   });
 
-  it("renders the feature catalog and the always-free card for free users", () => {
+  it("locks the perks with the example preview and always-free card for free users", () => {
     mocks.status.data = FREE_STATUS;
 
     renderView();
 
-    expect(screen.getByTestId("supporter-feature-catalog")).toBeTruthy();
+    expect(screen.getByTestId("supporter-perks-settings")).toBeTruthy();
     expect(screen.getByTestId("supporter-always-free-card")).toBeTruthy();
-    expect(screen.getByText("supporter.features.descriptionFree")).toBeTruthy();
+    expect(
+      screen.getByText("supporter.perks.preview.exampleCaption"),
+    ).toBeTruthy();
+    expect(screen.getByText("supporter.perks.locked.note")).toBeTruthy();
+    expect(screen.queryByText("supporter.perks.saved")).toBeNull();
     expect(screen.getByText(/settings\.premium\.billingHelp/)).toBeTruthy();
+  });
+
+  it("shows editable perks for a supporter whose profile returns preferences", () => {
+    mocks.status.data = ACTIVE_STATUS;
+    mocks.profile.data = SUPPORTER_PROFILE;
+
+    renderView();
+
+    expect(screen.getByText("supporter.perks.preview.caption")).toBeTruthy();
+    expect(screen.getByText("supporter.perks.heading")).toBeTruthy();
+    expect(screen.queryByText("supporter.perks.locked.note")).toBeNull();
+
+    const themeSwitch = screen.getByRole("switch", {
+      name: "supporter.perks.theme.title",
+    }) as HTMLInputElement;
+
+    expect(themeSwitch.disabled).toBe(false);
+  });
+
+  it("disables the perks and retries the profile when prefs are missing", () => {
+    mocks.status.data = ACTIVE_STATUS;
+
+    renderView();
+
+    expect(screen.getByText("supporter.perks.errors.missing")).toBeTruthy();
+    expect(
+      (
+        screen.getByRole("switch", {
+          name: "supporter.perks.theme.title",
+        }) as HTMLInputElement
+      ).disabled,
+    ).toBe(true);
+
+    mocks.profile.invalidate.mockClear();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "supporter.perks.errors.retry" }),
+    );
+
+    expect(mocks.profile.invalidate).toHaveBeenCalledTimes(1);
+  });
+
+  it("flips locked perks to edit after activation and the profile refetch", () => {
+    mocks.status.data = FREE_STATUS;
+    const client = createClient();
+    const view = renderView({}, client);
+
+    expect(screen.getByText("supporter.perks.locked.note")).toBeTruthy();
+    expect(mocks.profile.invalidate).not.toHaveBeenCalled();
+
+    // Billing sees the new subscription before the public profile does.
+    mocks.status.data = ACTIVE_STATUS;
+    view.rerender(viewElement(client));
+
+    expect(screen.getByText("supporter.perks.errors.missing")).toBeTruthy();
+    expect(mocks.profile.invalidate).toHaveBeenCalledTimes(1);
+
+    // The refetched profile arrives with the preferences, without a reload.
+    mocks.profile.data = SUPPORTER_PROFILE;
+    view.rerender(viewElement(client));
+
+    expect(screen.getByText("supporter.perks.preview.caption")).toBeTruthy();
+    expect(screen.queryByText("supporter.perks.locked.note")).toBeNull();
+    expect(
+      (
+        screen.getByRole("switch", {
+          name: "supporter.perks.theme.title",
+        }) as HTMLInputElement
+      ).disabled,
+    ).toBe(false);
+    expect(mocks.profile.invalidate).toHaveBeenCalledTimes(1);
   });
 });

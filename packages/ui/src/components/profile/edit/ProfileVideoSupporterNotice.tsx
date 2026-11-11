@@ -1,4 +1,4 @@
-import { getSupporterSettingsHref } from "#@/components/supporter/util/getSupporterSettingsHref";
+import { useSupporterSettingsHref } from "#@/components/supporter/util/useSupporterSettingsHref";
 import { Link } from "#@/util";
 import { Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -9,6 +9,7 @@ import { useTranslation } from "@repo/locales";
  */
 export function ProfileVideoSupporterNotice() {
   const { t } = useTranslation();
+  const supporterSettingsHref = useSupporterSettingsHref();
 
   return (
     <Paper
@@ -23,7 +24,7 @@ export function ProfileVideoSupporterNotice() {
           {t("profileVideo.supporter.description")}
         </Text>
         <Link
-          href={getSupporterSettingsHref()}
+          href={supporterSettingsHref}
           className={"w-fit text-sm font-semibold text-brand-5"}
         >
           {t("profileVideo.supporter.link")}

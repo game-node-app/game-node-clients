@@ -3,8 +3,8 @@
  */
 
 export * from "./SupporterAlwaysFreeCard";
-export * from "./SupporterFeatureCatalog";
 export * from "./SupporterHeroCard";
+export * from "./SupporterPerksSettings";
 export * from "./SupporterProfilePreview";
 export * from "./SupporterSettingsBanner";
 export * from "./SupporterSettingsView";

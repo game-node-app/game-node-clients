@@ -293,6 +293,12 @@
       "name": "Nome da coleção",
       "public": "Coleção pública"
     },
+    "limit": {
+      "title": "Você atingiu o limite grátis de {{limit}} coleções",
+      "titleNoCount": "Você atingiu o limite de coleções do plano grátis",
+      "description": "Suas coleções existentes permanecem como estão. Seja Apoiador para ter coleções ilimitadas ou remova uma para abrir espaço.",
+      "cta": "Seja Apoiador"
+    },
     "messages": {
       "applyingChanges": "Aplicando alterações...",
       "atLeastOneCollection": "Pelo menos uma coleção deve ser selecionada",
@@ -1031,7 +1037,7 @@
       "supporter": {
         "label": "SEJA APOIADOR",
         "title": "Ajude a manter o GameNode no ar.",
-        "description": "Tudo o que você usa hoje continua grátis. O plano Apoiador adiciona extras para o seu perfil e mantém o projeto vivo.",
+        "description": "Organizar seus jogos continua grátis. O plano Apoiador adiciona extras para o seu perfil e mantém o projeto vivo.",
         "billing": "Período de cobrança",
         "monthly": "Mensal",
         "yearly": "Anual",
@@ -1042,13 +1048,13 @@
           "name": "Grátis",
           "price": "Grátis",
           "period": "para sempre",
-          "description": "Tudo o que você precisa para organizar seus jogos. Continua grátis.",
+          "description": "Tudo o que você precisa para organizar seus jogos, com até 5 coleções.",
           "cta": "Começar grátis"
         },
         "plan": {
           "name": "Apoiador",
           "badge": "Mantém o GameNode no ar",
-          "description": "Tudo do plano Grátis, além da satisfação de manter o GameNode no ar. Novos extras de Apoiador estão chegando.",
+          "description": "Tudo do plano Grátis, mais coleções ilimitadas e extras para o seu perfil.",
           "cta": "Quero apoiar o GameNode",
           "priceUnavailable": "Preço indisponível",
           "priceNote": "O valor final é confirmado na tela de pagamento."
@@ -1067,11 +1073,12 @@
           "achievements": "Conquistas e retrospectiva anual",
           "videoCover": "Capa do perfil em vídeo",
           "animatedBorder": "Borda animada no avatar",
-          "theme": "Tema exclusivo de apoiador",
-          "collections": "Coleções",
+          "theme": "Tema de Apoiador no perfil, na sua cor de destaque",
+          "collections": "Até 5 coleções",
+          "unlimitedCollections": "Coleções ilimitadas",
           "customCovers": "Capas personalizadas dos jogos",
-          "live": "Live da Twitch ou Kick no perfil",
-          "badge": "Selo de Apoiador ao lado do nome",
+          "live": "O que você está jogando na Steam, ao vivo no seu perfil",
+          "badge": "Selo e título de Apoiador ao lado do seu nome",
           "wall": "Seu nome no mural de apoiadores"
         },
         "trust": {
@@ -1080,7 +1087,7 @@
           "downgrade": "Volta ao grátis sem perder sua biblioteca",
           "servers": "Paga servidores e desenvolvimento",
           "openSource": "Código aberto no GitHub",
-          "footer": "Nada do que é grátis hoje vai passar a ser pago."
+          "footer": "Sua biblioteca, importações, análises e conquistas continuam grátis."
         }
       },
       "footerTitle": "Organize seus jogos. Compartilhe sua jornada.",
@@ -1265,6 +1272,14 @@
     "settings": "Configurações",
     "stats": "Estatísticas",
     "terms": "Termos"
+  },
+  "notFoundPage": {
+    "backHome": "Voltar ao início",
+    "description": "A página que você procurou não carregou. Bora voltar pro jogo?",
+    "eyebrow": "Erro 404 · Fase não encontrada",
+    "searchGames": "Buscar jogos",
+    "title": "Essa fase não existe.",
+    "trending": "Em alta agora"
   },
   "notifications": {
     "empty": "Nenhuma notificação.",
@@ -1703,48 +1718,103 @@
   },
   "supporter": {
     "heading": "Apoie o GameNode",
-    "subheading": "Tudo o que você usa hoje continua grátis. Sua assinatura paga servidores e desenvolvimento, mantendo o projeto no ar.",
+    "subheading": "Sua biblioteca, importações, análises e conquistas continuam grátis. Sua assinatura paga servidores e desenvolvimento, mantendo o projeto no ar.",
     "banner": {
       "errorTitle": "Algo não deu certo"
     },
+    "badge": {
+      "label": "Apoiador"
+    },
     "features": {
-      "title": "Recursos para Apoiadores",
-      "descriptionFree": "Planejados para Apoiadores. Nenhum deles está disponível ainda.",
-      "descriptionSupporter": "Em breve. Você receberá cada um automaticamente conforme forem lançados.",
-      "groups": {
-        "profile": "Perfil",
-        "library": "Biblioteca",
-        "community": "Comunidade"
-      },
-      "theme": {
-        "description": "Um visual de Apoiador para o app, com uma cor de destaque personalizada."
-      },
-      "badge": {
-        "description": "Um selo de Apoiador e um título ao lado do seu nome."
-      },
-      "animatedBorder": {
-        "description": "Uma borda animada ao redor do seu avatar."
-      },
-      "liveProfile": {
-        "description": "Mostre o que você está jogando agora no seu perfil."
-      },
-      "customCovers": {
-        "description": "Envie suas próprias capas para os jogos da sua biblioteca."
-      },
+      "availableLabel": "Apoiadores",
       "collectionLimit": {
-        "description": "Mantenha mais coleções do que o limite gratuito permite."
-      },
-      "wall": {
-        "description": "Um mural com todos que mantêm o GameNode online."
+        "description": "Contas grátis podem criar até 5 coleções. Apoiadores não têm limite."
       },
       "preview": {
-        "caption": "Prévia · Em breve",
         "badge": "Apoiador",
         "since": "Apoiador desde {{year}}",
         "followers": "{{count}} seguidores",
         "following": "{{count}} seguindo",
-        "favorites": "JOGOS FAVORITOS",
-        "notListed": "Sua biblioteca não está listada publicamente."
+        "favorites": "JOGOS FAVORITOS"
+      }
+    },
+    "wall": {
+      "title": "Mural de apoiadores",
+      "description": "As pessoas que mantêm o GameNode online.",
+      "showMore": "Mostrar mais",
+      "empty": {
+        "title": "Nenhum apoiador ainda",
+        "description": "Seja o primeiro a manter o GameNode online.",
+        "cta": "Seja Apoiador"
+      },
+      "error": "Não foi possível carregar o mural de apoiadores.",
+      "retry": "Tentar novamente"
+    },
+    "perks": {
+      "heading": "Como você aparece",
+      "description": "Ative ou desative cada recurso quando quiser. Salvamos na hora.",
+      "saving": "Salvando…",
+      "saved": "Salvo",
+      "groups": {
+        "library": "Biblioteca"
+      },
+      "included": "Incluído",
+      "theme": {
+        "title": "Tema de Apoiador",
+        "description": "Uma faixa na sua cor de destaque sob o banner, com o rótulo Apoiador."
+      },
+      "accent": {
+        "title": "Cor de destaque",
+        "description": "Usada na borda do seu avatar, no selo e no tema do perfil.",
+        "reset": "Redefinir",
+        "invalid": "Use uma cor como #FF8800.",
+        "custom": "Cor personalizada"
+      },
+      "badge": {
+        "title": "Selo",
+        "description": "Aparece no seu perfil, em reviews e em comentários."
+      },
+      "titleSelect": {
+        "title": "Título",
+        "description": "Aparece abaixo do seu nome no perfil.",
+        "none": "Sem título"
+      },
+      "border": {
+        "title": "Borda animada",
+        "description": "Um anel animado ao redor do seu avatar no perfil."
+      },
+      "wall": {
+        "title": "Mural de apoiadores",
+        "description": "Mostre-me no mural público de apoiadores.",
+        "seeWall": "Ver o mural"
+      },
+      "live": {
+        "title": "Live no perfil",
+        "description": "Mostre no seu perfil o jogo da Steam que você está jogando.",
+        "needsSteam": "Conecte sua conta da Steam em Conexões para usar este recurso."
+      },
+      "collections": {
+        "title": "Coleções ilimitadas"
+      },
+      "customCovers": {
+        "title": "Capas personalizadas dos jogos",
+        "description": "Envie sua própria capa para qualquer jogo da sua biblioteca."
+      },
+      "locked": {
+        "label": "Disponível no plano Apoiador",
+        "note": "Disponível no plano Apoiador. A prévia ao lado mostra como ficaria o seu perfil."
+      },
+      "preview": {
+        "caption": "Prévia ao vivo",
+        "exampleCaption": "Prévia: como ficaria",
+        "samplePresence": "Jogando agora · Seu jogo atual",
+        "onWall": "No mural de apoiadores",
+        "notOnWall": "Fora do mural de apoiadores"
+      },
+      "errors": {
+        "notSupporter": "Sua assinatura não está ativa, então isso não foi salvo.",
+        "missing": "Não foi possível carregar seus recursos agora.",
+        "retry": "Tentar novamente"
       }
     },
     "subscription": {
@@ -1762,7 +1832,7 @@
     },
     "alwaysFree": {
       "title": "Sempre grátis",
-      "description": "Tudo o que você usa hoje continua grátis, com ou sem assinatura."
+      "description": "Grátis com ou sem assinatura."
     },
     "plans": {
       "title": "Escolha seu plano",
@@ -1779,7 +1849,7 @@
     },
     "free": {
       "title": "Você está no plano Grátis",
-      "description": "Tudo o que você usa hoje continua grátis. Seja Apoiador para manter o GameNode no ar."
+      "description": "Sua biblioteca e tudo o que você acompanha continuam grátis. Seja Apoiador para manter o GameNode no ar e liberar extras de perfil."
     },
     "status": {
       "label": "Assinatura",
@@ -1866,7 +1936,7 @@
         "achievements": "Conquistas",
         "reviews": "Avaliações",
         "journal": "Diário de jogos",
-        "collections": "Coleções"
+        "collections": "Até 5 coleções"
       },
       "upcoming": {
         "badge": "Selo de Apoiador",
@@ -1875,13 +1945,28 @@
         "customCovers": "Capas personalizadas dos jogos",
         "liveProfile": "Live no perfil",
         "wall": "Mural de apoiadores",
-        "collectionLimit": "Limite maior de coleções"
+        "collectionLimit": "Coleções ilimitadas"
       }
     },
     "preferences": {
       "title": "Apoiador",
       "freeStatus": "Apoie o GameNode e mantenha o projeto no ar",
       "supporterStatus": "Você é Apoiador. Obrigado!"
+    },
+    "presence": {
+      "playingNow": "Jogando agora"
+    },
+    "titles": {
+      "supporter": "Apoiador",
+      "patron": "Mecenas",
+      "collector": "Colecionador",
+      "completionist": "Completista",
+      "explorer": "Explorador",
+      "critic": "Crítico",
+      "night_owl": "Coruja Noturna",
+      "retro_fan": "Fã de Retrô",
+      "speedrunner": "Speedrunner",
+      "cozy_gamer": "Gamer Cozy"
     },
     "planName": "Apoiador"
   },
@@ -2169,7 +2254,7 @@
     "premium": {
       "hero": {
         "title": "Seu apoio mantém o GameNode no ar.",
-        "description": "Tudo o que você usa hoje continua grátis. Como Apoiador, sua assinatura paga servidores e desenvolvimento."
+        "description": "Sua biblioteca, importações, análises e conquistas continuam grátis. Como Apoiador, sua assinatura paga servidores e desenvolvimento."
       },
       "billingHelp": "Dúvidas sobre cobrança? Escreva para"
     },

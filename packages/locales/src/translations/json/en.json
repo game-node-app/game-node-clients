@@ -293,6 +293,12 @@
       "name": "Collection name",
       "public": "Public collection"
     },
+    "limit": {
+      "title": "You've reached the free limit of {{limit}} collections",
+      "titleNoCount": "You've reached the free collection limit",
+      "description": "Your existing collections stay as they are. Become a Supporter for unlimited collections, or remove one to make room.",
+      "cta": "Become a Supporter"
+    },
     "messages": {
       "applyingChanges": "Applying changes...",
       "atLeastOneCollection": "At least one collection must be selected",
@@ -1031,7 +1037,7 @@
       "supporter": {
         "label": "BECOME A SUPPORTER",
         "title": "Help keep GameNode online.",
-        "description": "Everything you use today stays free. The Supporter plan adds extras for your profile and keeps the project alive.",
+        "description": "Organizing your games stays free. The Supporter plan adds extras for your profile and keeps the project alive.",
         "billing": "Billing period",
         "monthly": "Monthly",
         "yearly": "Yearly",
@@ -1042,13 +1048,13 @@
           "name": "Free",
           "price": "Free",
           "period": "forever",
-          "description": "Everything you need to organize your games. Stays free.",
+          "description": "Everything you need to organize your games, with up to 5 collections.",
           "cta": "Start for free"
         },
         "plan": {
           "name": "Supporter",
           "badge": "Keeps GameNode online",
-          "description": "Everything in Free, plus the good feeling of keeping GameNode online. New supporter extras are coming soon.",
+          "description": "Everything in Free, plus unlimited collections and extras for your profile.",
           "cta": "Support GameNode",
           "priceUnavailable": "Pricing unavailable",
           "priceNote": "Final amount confirmed in checkout."
@@ -1067,11 +1073,12 @@
           "achievements": "Achievements and yearly recap",
           "videoCover": "Video profile cover",
           "animatedBorder": "Animated avatar border",
-          "theme": "Exclusive supporter theme",
-          "collections": "Collections",
+          "theme": "Supporter profile theme in your accent color",
+          "collections": "Up to 5 collections",
+          "unlimitedCollections": "Unlimited collections",
           "customCovers": "Custom game covers",
-          "live": "Twitch or Kick live on your profile",
-          "badge": "Supporter badge next to your name",
+          "live": "What you're playing on Steam, live on your profile",
+          "badge": "Supporter badge and title next to your name",
           "wall": "Your name on the supporters wall"
         },
         "trust": {
@@ -1080,7 +1087,7 @@
           "downgrade": "Back to free without losing your library",
           "servers": "Pays for servers and development",
           "openSource": "Open source on GitHub",
-          "footer": "Nothing that's free today will become paid."
+          "footer": "Your library, imports, reviews and achievements stay free."
         }
       },
       "footerTitle": "Organize your games. Share your journey.",
@@ -1265,6 +1272,14 @@
     "settings": "Settings",
     "stats": "Stats",
     "terms": "Terms"
+  },
+  "notFoundPage": {
+    "backHome": "Back to home",
+    "description": "The page you're looking for didn't load. Ready to get back in the game?",
+    "eyebrow": "Error 404 · Level not found",
+    "searchGames": "Search games",
+    "title": "This level doesn't exist.",
+    "trending": "Trending now"
   },
   "notifications": {
     "empty": "No notifications.",
@@ -1703,48 +1718,103 @@
   },
   "supporter": {
     "heading": "Support GameNode",
-    "subheading": "Everything you use today stays free. Your subscription pays for servers and development, keeping the project online.",
+    "subheading": "Your library, imports, reviews and achievements stay free. Your subscription pays for servers and development, keeping the project online.",
     "banner": {
       "errorTitle": "Something didn't work"
     },
+    "badge": {
+      "label": "Supporter"
+    },
     "features": {
-      "title": "Supporter features",
-      "descriptionFree": "Planned for Supporters. None of these are available yet.",
-      "descriptionSupporter": "On the way. You'll get each one automatically as it ships.",
-      "groups": {
-        "profile": "Profile",
-        "library": "Library",
-        "community": "Community"
-      },
-      "theme": {
-        "description": "A Supporter look for the app, with a custom accent color."
-      },
-      "badge": {
-        "description": "A Supporter badge and a title next to your name."
-      },
-      "animatedBorder": {
-        "description": "An animated border around your avatar."
-      },
-      "liveProfile": {
-        "description": "Show what you're playing right now on your profile."
-      },
-      "customCovers": {
-        "description": "Upload your own covers for games in your library."
-      },
+      "availableLabel": "Supporters",
       "collectionLimit": {
-        "description": "Keep more collections than the free limit allows."
-      },
-      "wall": {
-        "description": "A wall with everyone who keeps GameNode online."
+        "description": "Free accounts can create up to 5 collections. Supporters have no limit."
       },
       "preview": {
-        "caption": "Preview · Coming soon",
         "badge": "Supporter",
         "since": "Supporter since {{year}}",
         "followers": "{{count}} followers",
         "following": "{{count}} following",
-        "favorites": "FAVORITE GAMES",
-        "notListed": "Your library is not listed publicly."
+        "favorites": "FAVORITE GAMES"
+      }
+    },
+    "wall": {
+      "title": "Supporters wall",
+      "description": "The people keeping GameNode online.",
+      "showMore": "Show more",
+      "empty": {
+        "title": "No supporters yet",
+        "description": "Be the first to keep GameNode online.",
+        "cta": "Become a Supporter"
+      },
+      "error": "We couldn't load the supporters wall.",
+      "retry": "Try again"
+    },
+    "perks": {
+      "heading": "How you appear",
+      "description": "Turn each perk on or off anytime. We save right away.",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "groups": {
+        "library": "Library"
+      },
+      "included": "Included",
+      "theme": {
+        "title": "Supporter theme",
+        "description": "A strip in your accent color under your banner, with a Supporter label."
+      },
+      "accent": {
+        "title": "Accent color",
+        "description": "Used by your avatar border, badge and profile theme.",
+        "reset": "Reset",
+        "invalid": "Use a color like #FF8800.",
+        "custom": "Custom color"
+      },
+      "badge": {
+        "title": "Badge",
+        "description": "Next to your name on your profile, in reviews and in comments."
+      },
+      "titleSelect": {
+        "title": "Title",
+        "description": "Shown under your name on your profile.",
+        "none": "No title"
+      },
+      "border": {
+        "title": "Animated border",
+        "description": "An animated ring around your avatar on your profile."
+      },
+      "wall": {
+        "title": "Supporters wall",
+        "description": "Show me on the public supporters wall.",
+        "seeWall": "See the wall"
+      },
+      "live": {
+        "title": "Live profile",
+        "description": "Show the Steam game you're playing on your profile.",
+        "needsSteam": "Connect your Steam account in Connections to use this."
+      },
+      "collections": {
+        "title": "Unlimited collections"
+      },
+      "customCovers": {
+        "title": "Custom game covers",
+        "description": "Upload your own cover for any game in your library."
+      },
+      "locked": {
+        "label": "Available with the Supporter plan",
+        "note": "Available with the Supporter plan. The preview shows how your profile would look."
+      },
+      "preview": {
+        "caption": "Live preview",
+        "exampleCaption": "Preview: how it would look",
+        "samplePresence": "Playing now · Your current game",
+        "onWall": "On the supporters wall",
+        "notOnWall": "Not on the supporters wall"
+      },
+      "errors": {
+        "notSupporter": "Your subscription isn't active, so this wasn't saved.",
+        "missing": "We couldn't load your perks right now.",
+        "retry": "Try again"
       }
     },
     "subscription": {
@@ -1762,7 +1832,7 @@
     },
     "alwaysFree": {
       "title": "Always free",
-      "description": "Everything you use today stays free, with or without a subscription."
+      "description": "Free with or without a subscription."
     },
     "plans": {
       "title": "Choose your plan",
@@ -1779,7 +1849,7 @@
     },
     "free": {
       "title": "You're on the free plan",
-      "description": "Everything you use today stays free. Become a Supporter to keep GameNode online."
+      "description": "Your library and everything you track stay free. Become a Supporter to keep GameNode online and unlock profile extras."
     },
     "status": {
       "label": "Subscription",
@@ -1866,7 +1936,7 @@
         "achievements": "Achievements",
         "reviews": "Reviews",
         "journal": "Game journal",
-        "collections": "Collections"
+        "collections": "Up to 5 collections"
       },
       "upcoming": {
         "badge": "Supporter badge",
@@ -1875,13 +1945,28 @@
         "customCovers": "Custom game covers",
         "liveProfile": "Live profile",
         "wall": "Supporters wall",
-        "collectionLimit": "Higher collection limit"
+        "collectionLimit": "Unlimited collections"
       }
     },
     "preferences": {
       "title": "Supporter",
       "freeStatus": "Support GameNode and keep the project online",
       "supporterStatus": "You're a Supporter. Thank you!"
+    },
+    "presence": {
+      "playingNow": "Playing now"
+    },
+    "titles": {
+      "supporter": "Supporter",
+      "patron": "Patron",
+      "collector": "Collector",
+      "completionist": "Completionist",
+      "explorer": "Explorer",
+      "critic": "Critic",
+      "night_owl": "Night Owl",
+      "retro_fan": "Retro Fan",
+      "speedrunner": "Speedrunner",
+      "cozy_gamer": "Cozy Gamer"
     },
     "planName": "Supporter"
   },
@@ -2169,7 +2254,7 @@
     "premium": {
       "hero": {
         "title": "Your support keeps GameNode online.",
-        "description": "Everything you use today stays free. As a Supporter, your subscription pays for servers and development."
+        "description": "Your library, imports, reviews and achievements stay free. As a Supporter, your subscription pays for servers and development."
       },
       "billingHelp": "Questions about billing? Write to"
     },

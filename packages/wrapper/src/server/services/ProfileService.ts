@@ -3,9 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FindAllProfileResponseItemDto } from '../models/FindAllProfileResponseItemDto';
+import type { ProfilePresenceResponseDto } from '../models/ProfilePresenceResponseDto';
 import type { ProfileResponseDto } from '../models/ProfileResponseDto';
+import type { SupporterPreferencesResponseDto } from '../models/SupporterPreferencesResponseDto';
 import type { UpdateProfileDto } from '../models/UpdateProfileDto';
 import type { UpdateProfileImageDto } from '../models/UpdateProfileImageDto';
+import type { UpdateSupporterPreferencesDto } from '../models/UpdateSupporterPreferencesDto';
 import type { UploadProfileVideoResponseDto } from '../models/UploadProfileVideoResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -101,6 +104,37 @@ export class ProfileService {
             url: '/v1/profile/video',
             formData: formData,
             mediaType: 'multipart/form-data',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns SupporterPreferencesResponseDto
+     * @throws ApiError
+     */
+    public static supporterPreferencesControllerUpdateV1(
+        requestBody: UpdateSupporterPreferencesDto,
+    ): CancelablePromise<SupporterPreferencesResponseDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/v1/profile/supporter-preferences',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param id
+     * @returns ProfilePresenceResponseDto
+     * @throws ApiError
+     */
+    public static profilePresenceControllerGetPresenceV1(
+        id: string,
+    ): CancelablePromise<ProfilePresenceResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/profile/{id}/presence',
+            path: {
+                'id': id,
+            },
         });
     }
 }

@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Anchor, Stack, Text } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { useOpenExternalUrl } from "#@/context";
 import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { useSupporterCheckout } from "../hooks/useSupporterCheckout";
 import { useSupporterOffers } from "../hooks/useSupporterOffers";
 import { useSupporterStatus } from "../hooks/useSupporterStatus";
+import {
+  DEFAULT_SUPPORTER_PREFERENCES,
+  getActiveSupporterPerks,
+} from "../perks/supporterPerks";
 import type { SupporterInterval } from "../types";
 import { getSupporterErrorKind } from "../util/supporterErrors";
+import { SupportersWall } from "../wall";
 import { SupporterAlwaysFreeCard } from "./SupporterAlwaysFreeCard";
-import { SupporterFeatureCatalog } from "./SupporterFeatureCatalog";
 import { SupporterHeroCard } from "./SupporterHeroCard";
+import {
+  SupporterPerksSettings,
+  type SupporterPerksSettingsMode,
+} from "./SupporterPerksSettings";
 import { SupporterSettingsBanner } from "./SupporterSettingsBanner";
 import { SupporterSubscriptionCard } from "./SupporterSubscriptionCard";
 
@@ -22,6 +31,8 @@ export interface SupporterSettingsViewProps {
   interval?: "monthly" | "yearly" | null;
   /** Called once a checkout session was created, before the URL is opened. */
   onCheckoutStarted?: () => void;
+  /** Whether this surface renders the supporters wall itself (mobile). */
+  withSupportersWall?: boolean;
 }
 
 /**
@@ -34,6 +45,7 @@ export function SupporterSettingsView({
   checkout,
   interval,
   onCheckoutStarted,
+  withSupportersWall = false,
 }: SupporterSettingsViewProps) {
   const { t } = useTranslation();
   const { language } = useI18nContext();
@@ -43,6 +55,7 @@ export function SupporterSettingsView({
 
   const offers = useSupporterOffers();
   const status = useSupporterStatus();
+  const ownProfile = useUserProfile(userId);
   const checkoutMutation = useSupporterCheckout();
 
   const [selectedInterval, setSelectedInterval] =
@@ -58,6 +71,48 @@ export function SupporterSettingsView({
     ? getSupporterErrorKind(status.error)
     : null;
   const isStatusUnavailable = statusErrorKind === "unavailable";
+
+  const preferences = ownProfile.data?.supporterPreferences ?? null;
+  const billingIsSupporter = status.data?.isSupporter;
+  const profileIsSupporter = ownProfile.data?.isSupporter;
+
+  // Activation, cancellation end and restore update billing before the public
+  // profile reflects them. Refresh that read once for each new mismatch so the
+  // locked perks turn into working controls without a reload (design D7).
+  const invalidateOwnProfile = useRef(ownProfile.invalidate);
+  const lastProfileSync = useRef<string | null>(null);
+
+  useEffect(() => {
+    invalidateOwnProfile.current = ownProfile.invalidate;
+  }, [ownProfile.invalidate]);
+
+  useEffect(() => {
+    if (billingIsSupporter === undefined || ownProfile.isLoading) {
+      return;
+    }
+
+    const signature = `${billingIsSupporter}:${profileIsSupporter}`;
+
+    if (lastProfileSync.current === signature) return;
+
+    lastProfileSync.current = signature;
+
+    if (billingIsSupporter !== profileIsSupporter) {
+      invalidateOwnProfile.current();
+    }
+  }, [billingIsSupporter, profileIsSupporter, ownProfile.isLoading]);
+
+  const mode: SupporterPerksSettingsMode = preferences
+    ? "edit"
+    : isSupporter && !ownProfile.isLoading
+      ? "unavailable"
+      : "locked";
+  const examplePerks = getActiveSupporterPerks({
+    isSupporter: true,
+    supporterPreferences: DEFAULT_SUPPORTER_PREFERENCES,
+  });
+  const previewPerks =
+    mode === "edit" ? getActiveSupporterPerks(ownProfile.data) : examplePerks;
 
   // A lost session belongs on the sign-in screen, not inside the tab.
   useEffect(() => {
@@ -166,9 +221,19 @@ export function SupporterSettingsView({
         <SupporterSubscriptionCard status={status.data} />
       )}
 
-      <SupporterFeatureCatalog
-        isSupporter={isSupporter}
+      <SupporterPerksSettings
+        mode={mode}
+        prefs={preferences}
+        perks={previewPerks}
+        caption={
+          mode === "edit"
+            ? t("supporter.perks.preview.caption")
+            : t("supporter.perks.preview.exampleCaption")
+        }
+        onWall={preferences?.showOnSupportersWall ?? null}
         supporterSince={status.data?.supporterSince ?? null}
+        withSupportersWall={withSupportersWall}
+        onRetry={() => ownProfile.invalidate()}
       />
 
       <SupporterAlwaysFreeCard />
@@ -185,6 +250,8 @@ export function SupporterSettingsView({
         </Anchor>
         .
       </Text>
+
+      {withSupportersWall && <SupportersWall variant={"settings"} />}
     </Stack>
   );
 }

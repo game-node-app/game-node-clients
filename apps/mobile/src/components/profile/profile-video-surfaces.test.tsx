@@ -6,6 +6,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProfileBanner } from "../../../../../packages/ui/src/components/profile/view/ProfileBanner";
 import { SettingsProfileImages } from "../../../../../packages/ui/src/components/settings/tabs/profile/SettingsProfileImages";
 import { SupporterProfilePreview } from "../../../../../packages/ui/src/components/supporter/settings/SupporterProfilePreview";
+import {
+  DEFAULT_SUPPORTER_PREFERENCES,
+  getActiveSupporterPerks,
+} from "../../../../../packages/ui/src/components/supporter/perks/supporterPerks";
+import { setProjectContext } from "../../../../../packages/ui/src/util/projectContext";
 
 const mocks = vi.hoisted(() => ({
   profile: {
@@ -142,6 +147,36 @@ function renderWithMantine(ui: React.ReactElement) {
   return render(<MantineProvider>{ui}</MantineProvider>);
 }
 
+function previewPerks(accentColor: string | null = null) {
+  return getActiveSupporterPerks({
+    isSupporter: true,
+    supporterPreferences: { ...DEFAULT_SUPPORTER_PREFERENCES, accentColor },
+  });
+}
+
+interface PreviewOptions {
+  perks?: ReturnType<typeof previewPerks>;
+  caption?: string;
+  onWall?: boolean | null;
+  supporterSince?: string | null;
+}
+
+function previewElement({
+  perks = previewPerks(),
+  caption = "supporter.perks.preview.caption",
+  onWall = null,
+  supporterSince = null,
+}: PreviewOptions = {}) {
+  return (
+    <SupporterProfilePreview
+      perks={perks}
+      caption={caption}
+      onWall={onWall}
+      supporterSince={supporterSince}
+    />
+  );
+}
+
 function getBannerBackground(container: HTMLElement) {
   const paper = container.querySelector<HTMLElement>(
     '[style*="background-image"]',
@@ -151,6 +186,12 @@ function getBannerBackground(container: HTMLElement) {
 
 beforeEach(() => {
   registeredObservers = [];
+  setProjectContext({
+    client: "web",
+    s3BucketUrl: "",
+    serverUrl: "",
+    searchUrl: "",
+  });
   vi.stubGlobal(
     "IntersectionObserver",
     MockIntersectionObserver as unknown as typeof IntersectionObserver,
@@ -248,7 +289,14 @@ describe("SupporterProfilePreview profile video", () => {
   it("plays the banner video inside the profile preview", () => {
     setProfile({ bannerVideo: BANNER_VIDEO });
 
-    renderWithMantine(<SupporterProfilePreview supporterSince={null} />);
+    renderWithMantine(
+      <SupporterProfilePreview
+        perks={previewPerks()}
+        caption={"supporter.perks.preview.caption"}
+        onWall={null}
+        supporterSince={null}
+      />,
+    );
 
     triggerIntersection(true);
 
@@ -263,9 +311,78 @@ describe("SupporterProfilePreview profile video", () => {
   it("keeps the static banner when the profile has no video", () => {
     setProfile({ bannerVideo: null });
 
-    renderWithMantine(<SupporterProfilePreview supporterSince={null} />);
+    renderWithMantine(
+      <SupporterProfilePreview
+        perks={previewPerks()}
+        caption={"supporter.perks.preview.caption"}
+        onWall={null}
+        supporterSince={null}
+      />,
+    );
 
     expect(screen.queryByTestId("profile-video")).toBeNull();
     expect(screen.queryByTestId("profile-video-poster")).toBeNull();
+  });
+});
+
+describe("SupporterProfilePreview perks", () => {
+  it("follows a changed accent before the mutation resolves", () => {
+    const { rerender } = renderWithMantine(
+      previewElement({ perks: previewPerks("#FF8800") }),
+    );
+
+    expect(
+      screen.getByTestId("supporter-preview-theme-strip").style
+        .backgroundColor,
+    ).toBe("rgb(255, 136, 0)");
+
+    rerender(
+      <MantineProvider>
+        {previewElement({ perks: previewPerks("#F15025") })}
+      </MantineProvider>,
+    );
+
+    expect(
+      screen.getByTestId("supporter-preview-theme-strip").style
+        .backgroundColor,
+    ).toBe("rgb(241, 80, 37)");
+  });
+
+  it("switches the wall line between on and not on the supporters wall", () => {
+    const { rerender } = renderWithMantine(previewElement({ onWall: true }));
+
+    expect(screen.getByText("supporter.perks.preview.onWall")).toBeTruthy();
+
+    rerender(
+      <MantineProvider>{previewElement({ onWall: false })}</MantineProvider>,
+    );
+
+    expect(screen.getByText("supporter.perks.preview.notOnWall")).toBeTruthy();
+    expect(screen.queryByText("supporter.perks.preview.onWall")).toBeNull();
+  });
+
+  it("hides the wall line when onWall is null", () => {
+    renderWithMantine(previewElement({ onWall: null }));
+
+    expect(screen.queryByText("supporter.perks.preview.onWall")).toBeNull();
+    expect(screen.queryByText("supporter.perks.preview.notOnWall")).toBeNull();
+  });
+
+  it("renders only the example presence when the live profile is on", () => {
+    renderWithMantine(
+      previewElement({
+        perks: getActiveSupporterPerks({
+          isSupporter: true,
+          supporterPreferences: {
+            ...DEFAULT_SUPPORTER_PREFERENCES,
+            showLiveProfile: true,
+          },
+        }),
+      }),
+    );
+
+    expect(screen.getByTestId("supporter-preview-presence").textContent).toBe(
+      "supporter.perks.preview.samplePresence",
+    );
   });
 });

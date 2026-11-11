@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supporter Perks Mockups</title>
+<style>
+  :root {
+    --bg: #0d0d0d; --page: #161616; --panel: #151515; --card: #1a1a1a; --card-2: #141414;
+    --line: #262626; --line-2: #2a2a2a; --text: #ffffff; --muted: #adadad; --dim: #7a7a7a; --soft: #d9d9d9;
+    --brand: #F15025; --violet: #9747FF; --violet-text: #c7a6ff; --violet-tile: rgba(151,71,255,0.16);
+    --green: #3dd68c; --amber: #ffb224;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  .lede { color: var(--muted); margin: 0 0 28px; max-width: 760px; }
+  section.mock { margin: 0 0 56px; }
+  .mock > h2 { font-size: 18px; margin: 0 0 4px; }
+  .mock > .note { color: var(--muted); font-size: 13px; margin: 0 0 14px; max-width: 900px; }
+  .ref { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--violet-text); }
+  .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  .frame { border: 1px dashed #333; border-radius: 12px; overflow: hidden; background: var(--page); }
+  .label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); margin: 0 0 8px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+  .toc a { color: var(--soft); text-decoration: none; background: #1c1c1c; border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; font-size: 12px; }
+
+  /* ---------- avatars ---------- */
+  .av { border-radius: 999px; display: grid; place-items: center; font-weight: 700; color: #fff; flex-shrink: 0;
+        background: linear-gradient(135deg, #3a6ff7, #1b1b5e); }
+  .av.b { background: linear-gradient(135deg, #f7a23a, #7a2e10); }
+  .av.c { background: linear-gradient(135deg, #3dd68c, #0f4f35); }
+  .av.d { background: linear-gradient(135deg, #ff5fa2, #5b1236); }
+  .av.e { background: linear-gradient(135deg, #888, #333); }
+
+  /* ---------- supporter avatar frame (D5) ---------- */
+  .sframe { position: relative; border-radius: 999px; padding: 6px; display: inline-block; }
+  .sframe::before { content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: conic-gradient(var(--ring) 0%, var(--ring-soft) 35%, var(--ring) 50%, var(--ring-soft) 85%, var(--ring) 100%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+    animation: spin 6s linear infinite; }
+  .sframe.static::before { animation: none; }
+  .sframe > .gap { border-radius: 999px; background: var(--page); padding: 3px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .sframe::before, .dot { animation: none !important; } }
+
+  /* ---------- badge / title / presence ---------- */
+  .badge { display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 6px; border-radius: 4px;
+           font-size: 11px; font-weight: 600; background: var(--b-bg); border: 1px solid var(--b-border); color: var(--b-text); white-space: nowrap; }
+  .badge svg { width: 13px; height: 13px; }
+  .crown { width: 14px; height: 14px; color: var(--b-text, var(--violet-text)); flex-shrink: 0; }
+  .title { font-size: 13px; font-weight: 500; color: var(--t-color, var(--muted)); }
+  .presence { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px;
+              background: var(--p-bg, #1f1f1f); border: 1px solid var(--p-border, var(--line-2)); font-size: 12px; font-weight: 500; text-decoration: none; max-width: 100%; }
+  .presence .muted { color: var(--muted); }
+  .presence .game { color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 14rem; }
+  .dot { width: 6px; height: 6px; border-radius: 99px; background: var(--green); box-shadow: 0 0 0 0 rgba(61,214,140,.6); animation: pulse 2s infinite; flex-shrink: 0; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(61,214,140,.55); } 70% { box-shadow: 0 0 0 6px rgba(61,214,140,0); } 100% { box-shadow: 0 0 0 0 rgba(61,214,140,0); } }
+  .steam { width: 14px; height: 14px; color: var(--muted); }
+
+  /* theme variables, precomputed per accent (D3) */
+  .accent-orange { --accent: #FF8800; --accent-text: #FF8800; --accent-soft: rgba(255,136,0,.14); --accent-border: rgba(255,136,0,.45);
+                   --ring: #FF8800; --ring-soft: rgba(255,136,0,.25);
+                   --b-bg: var(--accent-soft); --b-border: var(--accent-border); --b-text: var(--accent-text);
+                   --t-color: var(--accent-text); --p-bg: var(--accent-soft); --p-border: var(--accent-border); --on-accent: #141414; }
+  .accent-violet { --accent: #9747FF; --accent-text: #A159FF; --accent-soft: rgba(151,71,255,.14); --accent-border: rgba(151,71,255,.45);
+                   --ring: #9747FF; --ring-soft: rgba(151,71,255,.25);
+                   --b-bg: var(--accent-soft); --b-border: var(--accent-border); --b-text: var(--accent-text);
+                   --t-color: var(--accent-text); --p-bg: var(--accent-soft); --p-border: var(--accent-border); --on-accent: #FFFFFF; }
+  .theme-off { --b-bg: rgba(151,71,255,.16); --b-border: rgba(151,71,255,.45); --b-text: #c7a6ff; --t-color: var(--muted); --p-bg: #1f1f1f; --p-border: var(--line-2); }
+
+  /* ---------- profile header (D4) ---------- */
+  .profile { width: 1100px; max-width: 100%; }
+  .banner { height: 190px; margin: 16px 16px 0; border-radius: 6px 6px 0 0;
+            background: linear-gradient(120deg, #2b1b47 0%, #1e2a4a 45%, #3b2410 100%); position: relative; }
+  /* theme strip (Figma 5147:13867): 21px, label right-aligned, avatar overlaps it */
+  .strip { height: 21px; margin: 0 16px; background: var(--accent); display: flex; align-items: center; justify-content: flex-end; padding-right: 24px; }
+  .strip-label { font-size: 10px; font-style: italic; font-weight: 500; color: var(--on-accent); }
+  .avslot, .phone .mtop > div:first-child { position: relative; z-index: 1; }
+  .pbody { display: flex; gap: 0; }
+  .pinfo { width: 26%; min-width: 230px; display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; background: var(--panel); }
+  .themed .pinfo { background: linear-gradient(180deg, var(--accent-soft) 0px, var(--panel) 240px); }
+  .avslot { height: 32px; }
+  .avlift { transform: translateY(-75%); }
+  .name { display: flex; flex-direction: column; align-items: center; gap: 4px; max-width: 18rem; text-align: center; }
+  .uname-row { display: flex; align-items: center; gap: 6px; }
+  .uname { font-size: 16px; color: #fff; }
+  .stats { margin-top: 14px; color: var(--muted); font-size: 13px; display: flex; gap: 32px; }
+  .stats b { color: #fff; display: block; font-size: 15px; text-align: center; }
+  .pcontent { flex: 1; padding: 12px; }
+  .tabs { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  .tab { background: #1c1c1c; border-radius: 6px; padding: 10px 8px; text-align: center; font-size: 12px; color: var(--muted); }
+  .tab b { display: block; color: #fff; font-size: 15px; }
+  .placeholder { margin-top: 14px; height: 120px; border-radius: 8px; background: repeating-linear-gradient(45deg, #181818 0 10px, #1b1b1b 10px 20px); }
+
+  /* mobile profile */
+  .phone { width: 375px; max-width: 100%; border-radius: 22px; border: 1px solid #333; overflow: hidden; background: var(--page); }
+  .phone .mbanner { height: 150px; background: linear-gradient(120deg, #2b1b47 0%, #1e2a4a 45%, #3b2410 100%); }
+  .phone .mstrip { height: 21px; background: var(--accent); display: flex; align-items: center; justify-content: flex-end; padding-right: 16px; }
+  .phone .mhead { padding: 0 12px 16px; }
+  .phone.themed .mhead { background: linear-gradient(180deg, var(--accent-soft) 0px, var(--page) 220px); }
+  .phone .mtop { display: flex; justify-content: space-between; align-items: flex-start; }
+  .phone .mname { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding-left: 8px; margin-top: -40px; }
+  .phone .uname { font-size: 20px; font-weight: 700; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 8px; font-size: 13px; font-weight: 600; border: 0; color: #fff; background: var(--brand); cursor: default; text-decoration: none; white-space: nowrap; }
+  .btn.ghost { background: #232323; color: var(--soft); border: 1px solid var(--line-2); }
+  .btn.xs { height: 28px; font-size: 12px; padding: 0 10px; }
+  .btn.subtle { background: transparent; color: var(--muted); }
+
+  /* ---------- list items (D10) ---------- */
+  .list { width: 560px; max-width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .li { display: flex; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .li:last-child { border-bottom: 0; }
+  .li .who { display: flex; align-items: center; gap: 6px; }
+  .li .who .n { color: #fff; font-weight: 500; }
+  .li p { margin: 4px 0 0; color: var(--soft); font-size: 13px; }
+
+  /* ---------- settings primitives ---------- */
+  .settings { width: 960px; max-width: 100%; padding: 24px; background: #121212; border-radius: 12px; border: 1px solid var(--line); }
+  .sec-h { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; gap: 12px; }
+  .sec-h h3 { margin: 0; font-size: 16px; }
+  .sec-h p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  .grid2 { display: grid; grid-template-columns: minmax(0,1fr) 280px; gap: 20px; }
+  .glabel { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .srow:last-child { border-bottom: 0; }
+  .srow.stack { flex-wrap: wrap; }
+  .tile { width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; background: var(--violet-tile); color: var(--violet-text); flex-shrink: 0; }
+  .tile svg { width: 18px; height: 18px; }
+  .stext { flex: 1; min-width: 0; }
+  .stext .t { font-weight: 500; }
+  .stext .d { color: var(--muted); font-size: 13px; }
+  .stext .warn { color: var(--amber); font-size: 12px; margin-top: 2px; }
+  .switch { width: 42px; height: 24px; border-radius: 99px; background: #3a3a3a; position: relative; flex-shrink: 0; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 99px; background: #fff; }
+  .switch.on { background: var(--brand); }
+  .switch.on::after { left: 21px; }
+  .select { height: 34px; width: 200px; border-radius: 6px; border: 1px solid #333; background: #1f1f1f; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 13px; }
+  .pill { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 99px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .pill.premium { background: rgba(151,71,255,.16); color: var(--violet-text); }
+  .pill.neutral { background: #222; color: var(--muted); }
+  .pill.success { background: rgba(61,214,140,.12); color: var(--green); }
+  .switch.locked { opacity: .45; }
+  .lock { width: 14px; height: 14px; color: var(--muted); flex-shrink: 0; }
+  .ctl { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .saved { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
+  .saved svg { width: 14px; height: 14px; color: var(--green); }
+  .inl-link { color: var(--violet-text); text-decoration: none; font-weight: 500; }
+  .wall-line { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .wall-line svg { width: 14px; height: 14px; }
+  .card-note { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  .accent-picker { width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-left: 48px; margin-top: 6px; }
+  .sw { width: 24px; height: 24px; border-radius: 99px; position: relative; }
+  .sw.sel { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px #fff; }
+  .sw.sel::after { content: "✓"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; color: #fff; font-weight: 700; }
+  .cinput { height: 28px; width: 120px; border: 1px solid #333; background: #1f1f1f; border-radius: 6px; display: flex; align-items: center; gap: 6px; padding: 0 8px; font: 12px ui-monospace, monospace; }
+  .cinput i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+
+  /* preview card (D7) */
+  .preview-cap { font-size: 12px; font-weight: 500; color: var(--dim); margin-bottom: 8px; }
+  .preview { border-radius: 12px; border: 1px solid var(--line-2); background: var(--card-2); overflow: hidden; }
+  .preview .pb { height: 76px; background: linear-gradient(120deg, #2b1b47 0%, #1e2a4a 45%, #3b2410 100%); }
+  .preview .ps { height: 14px; background: var(--accent); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; }
+  .preview .ps .strip-label { font-size: 8px; }
+  .preview .pin { padding: 14px 16px 16px; }
+  .preview.themed .pin { background: linear-gradient(180deg, var(--accent-soft) 0, var(--card-2) 140px); }
+  .preview .sframe > .gap { background: var(--card-2); }
+  .preview .uname { font-weight: 600; }
+  .preview .uname-row { flex-wrap: wrap; row-gap: 4px; }
+  .since { font-size: 12px; font-weight: 500; color: var(--accent-text, #b98aff); }
+  .favs { display: flex; gap: 6px; margin-top: 12px; }
+  .favs i { width: 44px; height: 58px; border-radius: 4px; background: linear-gradient(160deg, #2a2a2a, #1a1a1a); display: block; }
+
+  /* banners */
+  .inline-msg { display: flex; align-items: center; gap: 10px; background: rgba(229,72,77,.08); border: 1px solid rgba(229,72,77,.35); color: #ffb3b5; border-radius: 10px; padding: 10px 12px; font-size: 13px; margin-bottom: 12px; }
+
+  /* ---------- wall (D11) ---------- */
+  .about { width: 1100px; max-width: 100%; background: #101010; padding: 72px 24px; border-radius: 12px; }
+  .about h2 { text-align: center; font-size: 44px; margin: 0 0 8px; }
+  .about .sub { text-align: center; color: var(--muted); font-size: 18px; font-weight: 300; margin: 0; }
+  .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 24px 16px; margin-top: 44px; }
+  .wi { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+  .wi .av { box-shadow: 0 0 0 2px transparent; }
+  .wi.hover .av { box-shadow: 0 0 0 2px var(--violet); }
+  .wi span { font-size: 13px; color: var(--soft); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .center { display: flex; justify-content: center; margin-top: 36px; }
+  .empty { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 40px; text-align: center; }
+  .skel { width: 72px; height: 72px; border-radius: 99px; background: #1d1d1d; }
+  .wall-s { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .wall-s .wi span { font-size: 11px; }
+
+  /* ---------- collection modal (D12) ---------- */
+  .modal { width: 480px; max-width: 100%; background: #1a1a1a; border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .modal h4 { margin: 0 0 16px; font-size: 16px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .field .in { height: 36px; border-radius: 6px; border: 1px solid #333; background: #202020; padding: 0 10px; display: flex; align-items: center; color: var(--soft); }
+  .limit { display: flex; gap: 12px; align-items: flex-start; border: 1px solid rgba(151,71,255,.45); background: rgba(151,71,255,.08); border-radius: 8px; padding: 16px; margin-bottom: 18px; }
+  .limit .t { font-weight: 600; }
+  .limit .d { color: var(--muted); font-size: 13px; margin: 4px 0 10px; }
+
+  table.cx { border-collapse: collapse; font-size: 13px; }
+  table.cx td, table.cx th { border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+  table.cx th { color: var(--muted); font-weight: 500; }
+  .chip { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
+
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } .tabs { grid-template-columns: repeat(2, 1fr); } .pbody { flex-direction: column; } .pinfo { width: 100%; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"/></symbol>
+    <symbol id="i-steam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 5a4.5 4.5 0 1 1 -.653 8.953l-4.347 3.009l0 .038a3 3 0 0 1 -2.824 2.995l-.176 .005a3 3 0 0 1 -2.94 -2.398l-2.56 -1.602v-4.5l3.53 1.413a2.99 2.99 0 0 1 2.5 -.413l3.97 -5.5a4.5 4.5 0 0 1 4.5 -1z"/><circle cx="16.5" cy="9.5" r="1"/></symbol>
+    <symbol id="i-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-4a4 4 0 1 1 4 4h-4"/><path d="M21 3a16 16 0 0 0 -12.8 10.2"/><path d="M21 3a16 16 0 0 1 -10.2 12.8"/></symbol>
+    <symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95M3.69 8.56a9 9 0 0 0 -.69 3.44M3.69 15.44a9 9 0 0 0 1.95 2.92M8.56 20.31a9 9 0 0 0 3.44 .69M15.44 20.31a9 9 0 0 0 2.92 -1.95M20.31 15.44a9 9 0 0 0 .69 -3.44M20.31 8.56a9 9 0 0 0 -1.95 -2.92M15.44 3.69a9 9 0 0 0 -3.44 -.69"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="1"/><path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3z"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"/><circle cx="8.5" cy="10.5" r="1"/><circle cx="12.5" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/></symbol>
+    <symbol id="i-broadcast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.364 19.364a9 9 0 1 0 -12.728 0"/><path d="M15.536 16.536a5 5 0 1 0 -7.072 0"/><circle cx="12" cy="13" r="1"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8h.01"/><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5"/><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></symbol>
+    <symbol id="i-stack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-8 4l8 4l8 -4l-8 -4"/><path d="M4 12l8 4l8 -4"/><path d="M4 16l8 4l8 -4"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <h1>Supporter profile perks: client mockups</h1>
+  <p class="lede">Reference for <span class="ref">openspec/changes/add-supporter-profile-perks</span>. Sizes, colors and copy match <span class="ref">design.md</span> (D-numbers in each heading). Layouts follow the Figma "Version 3.0" frames named in each note, with "Premium" read as "Supporter". The ring animates; with reduced motion enabled in your OS it stops, as the real component must.</p>
+  <nav class="toc">
+    <a href="#m1">1 · Profile header (web)</a><a href="#m2">2 · Profile header (mobile)</a><a href="#m3">3 · Header variants</a>
+    <a href="#m4">4 · Compact badge in lists</a><a href="#m5">5 · Settings: supporter</a><a href="#m6">6 · Settings: free</a>
+    <a href="#m7">7 · Supporters wall</a><a href="#m8">8 · Collection limit</a><a href="#m9">9 · Accent contrast</a>
+  </nav>
+
+  <!-- 1 -->
+  <section class="mock" id="m1">
+    <h2>1 · Profile header, web: all perks on, accent #FF8800 <span class="ref">D4 D5 D6</span></h2>
+    <p class="note">Figma <span class="ref">Profile 5147:13867</span>: 21px accent strip flush under the banner with an italic 10px "Supporter" label at its right end (white or #141414, whichever contrasts more with the accent); the avatar overlaps the strip. Left column gets a soft accent gradient. 10rem avatar inside the 6px frame (3px ring + 3px gap), still lifted 75%. Username stays white, badge pill next to it, title below in readable accent, "Playing now" chip below that (links to the game page when <span class="ref">gameId</span> is set).</p>
+    <div class="frame profile themed accent-orange">
+      <div class="banner"></div>
+      <div class="strip"><span class="strip-label">Supporter</span></div>
+      <div class="pbody">
+        <div class="pinfo">
+          <div class="avslot"><div class="avlift">
+            <span class="sframe"><span class="gap" style="display:block"><span class="av b" style="width:160px;height:160px;font-size:48px">MK</span></span></span>
+          </div></div>
+          <div class="name" style="margin-top:96px">
+            <div class="uname-row"><span class="uname">mika_plays</span>
+              <span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div>
+            <span class="title">Completionist</span>
+            <a class="presence" href="#"><span class="dot"></span><svg class="steam"><use href="#i-steam"/></svg><span class="muted">Playing now ·</span><span class="game">Hades II</span></a>
+          </div>
+          <div class="stats"><span><b>128</b>followers</span><span><b>64</b>following</span></div>
+        </div>
+        <div class="pcontent">
+          <div class="tabs">
+            <div class="tab"><b>412</b>Games</div><div class="tab"><b>38</b>Reviews</div><div class="tab"><b>9</b>Collections</div><div class="tab"><b>1.2k</b>Achievements</div>
+            <div class="tab"><b>21</b>Feats</div><div class="tab">Journal</div><div class="tab">Posts</div><div class="tab">Stats</div>
+          </div>
+          <div class="placeholder"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="mock" id="m2">
+    <h2>2 · Profile header, mobile app <span class="ref">D4</span></h2>
+    <p class="note">Same component on the mobile platform: 8rem avatar left-aligned, edit/share buttons on the right, name block left-aligned with <span class="ref">ps-2</span>. Second phone: default violet accent (white label on the strip), no title, live profile off.</p>
+    <div class="row">
+      <div class="phone themed accent-orange">
+        <div class="mbanner"></div><div class="mstrip"><span class="strip-label">Supporter</span></div>
+        <div class="mhead">
+          <div class="mtop">
+            <div style="transform:translateY(-45%)"><span class="sframe"><span class="gap" style="display:block"><span class="av b" style="width:128px;height:128px;font-size:40px">MK</span></span></span></div>
+            <div style="display:flex;gap:8px;margin-top:12px"><span class="btn ghost xs">Edit</span><span class="btn ghost xs">Share</span></div>
+          </div>
+          <div class="mname">
+            <div class="uname-row"><span class="uname">mika_plays</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div>
+            <span class="title">Completionist</span>
+            <a class="presence" href="#"><span class="dot"></span><svg class="steam"><use href="#i-steam"/></svg><span class="muted">Playing now ·</span><span class="game">Hades II</span></a>
+          </div>
+          <p style="color:var(--soft);font-size:14px;margin:12px 0 0">Backlog destroyer. Roguelikes forever.</p>
+        </div>
+      </div>
+      <div class="phone themed accent-violet">
+        <div class="mbanner" style="background:linear-gradient(120deg,#1d1d1d,#2b2b2b)"></div><div class="mstrip"><span class="strip-label">Supporter</span></div>
+        <div class="mhead">
+          <div class="mtop">
+            <div style="transform:translateY(-45%)"><span class="sframe"><span class="gap" style="display:block"><span class="av" style="width:128px;height:128px;font-size:40px">JR</span></span></span></div>
+            <div style="display:flex;gap:8px;margin-top:12px"><span class="btn xs">Follow</span></div>
+          </div>
+          <div class="mname">
+            <div class="uname-row"><span class="uname">jrocha</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div>
+          </div>
+          <p style="color:var(--soft);font-size:14px;margin:12px 0 0">Defaults: badge, border and theme on.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="mock" id="m3">
+    <h2>3 · Header variants (name block only) <span class="ref">D2 D4</span></h2>
+    <p class="note">Each perk is independent. Badge off never hides the others. Unknown <span class="ref">titleKey</span> renders nothing. Non-supporter (or <span class="ref">supporterPreferences: null</span>) looks exactly like today.</p>
+    <div class="row">
+      <div class="frame accent-orange themed" style="padding:20px 28px;text-align:center">
+        <p class="label">Badge off, theme on (title in accent)</p>
+        <span class="sframe"><span class="gap" style="display:block"><span class="av b" style="width:72px;height:72px">MK</span></span></span>
+        <div class="name" style="margin-top:10px"><span class="uname">mika_plays</span><span class="title">Completionist</span></div>
+      </div>
+      <div class="frame accent-violet theme-off" style="padding:20px 28px;text-align:center">
+        <p class="label">Theme off, border static (reduced motion)</p>
+        <span class="sframe static"><span class="gap" style="display:block"><span class="av" style="width:72px;height:72px">JR</span></span></span>
+        <div class="name" style="margin-top:10px"><div class="uname-row"><span class="uname">jrocha</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div><span class="title">Night Owl</span></div>
+      </div>
+      <div class="frame theme-off" style="padding:20px 28px;text-align:center">
+        <p class="label">Border off, unknown title key</p>
+        <span class="av c" style="width:72px;height:72px;margin:6px auto 0;border:4px solid #161616">AL</span>
+        <div class="name" style="margin-top:10px"><div class="uname-row"><span class="uname">alana</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div></div>
+      </div>
+      <div class="frame" style="padding:20px 28px;text-align:center">
+        <p class="label">Not a supporter</p>
+        <span class="av e" style="width:72px;height:72px;margin:6px auto 0;border:4px solid #161616">TS</span>
+        <div class="name" style="margin-top:10px"><span class="uname">tsilva</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="mock" id="m4">
+    <h2>4 · Compact badge in lists (<span class="ref">UserAvatarGroup</span>) <span class="ref">D10</span></h2>
+    <p class="note">14px crown after the username, no pill, no ring, no presence request. Color follows the theme rule (accent text when theme on, violet otherwise). Tooltip + aria-label "Supporter".</p>
+    <div class="list">
+      <div class="li accent-orange"><span class="av b" style="width:36px;height:36px;font-size:12px">MK</span><div><div class="who"><span class="n">mika_plays</span><svg class="crown"><use href="#i-crown"/></svg></div><p>Reviewed <b>Hades II</b> · ★★★★★ "The best roguelike I've played in years."</p></div></div>
+      <div class="li theme-off"><span class="av" style="width:36px;height:36px;font-size:12px">JR</span><div><div class="who"><span class="n">jrocha</span><svg class="crown"><use href="#i-crown"/></svg></div><p>Added 3 games to <b>Couch co-op</b></p></div></div>
+      <div class="li"><span class="av e" style="width:36px;height:36px;font-size:12px">TS</span><div><div class="who"><span class="n">tsilva</span></div><p>Not a supporter (or badge hidden): no crown.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="mock" id="m5">
+    <h2>5 · Supporter settings: supporter view (web tab / mobile screen) <span class="ref">D7 D8</span></h2>
+    <p class="note">Figma <span class="ref">P-D01 4967:8272</span>. Replaces the "Coming soon" catalog, after "Your subscription". One perks card in Figma order (theme, accent, badge, title, border, wall, live), then the Library card. Every control saves immediately (optimistic) and the header shows "Saving…" then "Saved ✓". "See the wall" appears on web only (mobile shows the wall at the end of the screen). The preview reads the same cache; the line under it follows the wall switch. Below 600px container width the preview drops under the cards.</p>
+    <div class="settings">
+      <div class="sec-h"><div><h3>How you appear</h3><p>Turn each perk on or off anytime. We save right away.</p></div><span class="saved"><svg><use href="#i-check"/></svg>Saved</span></div>
+      <div class="grid2">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+<div class="srow"><span class="tile"><svg><use href="#i-brush"/></svg></span><div class="stext"><div class="t">Supporter theme</div><div class="d">A strip in your accent color under your banner, with a Supporter label.</div></div><span class="switch on"></span></div>
+<div class="srow stack"><span class="tile"><svg><use href="#i-palette"/></svg></span><div class="stext"><div class="t">Accent color</div><div class="d">Used by your avatar border, badge and profile theme.</div></div>
+<div class="accent-picker"><span class="sw" style="background:#9747FF" title="#9747FF (default)"></span><span class="sw" style="background:#F15025"></span><span class="sw sel" style="background:#FF8800"></span><span class="sw" style="background:#F5C542"></span><span class="sw" style="background:#3DD68C"></span><span class="sw" style="background:#2EB8E6"></span><span class="sw" style="background:#4C7DFF"></span><span class="sw" style="background:#FF5FA2"></span><span class="sw" style="background:#E5484D"></span><span class="cinput"><i style="background:#FF8800"></i>#FF8800</span><span class="btn subtle xs">Reset</span></div></div>
+<div class="srow"><span class="tile"><svg><use href="#i-crown"/></svg></span><div class="stext"><div class="t">Badge</div><div class="d">Next to your name on your profile, in reviews and in comments.</div></div><span class="switch on"></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-tag"/></svg></span><div class="stext"><div class="t">Title</div><div class="d">Shown under your name on your profile.</div></div><span class="ctl"><span class="select">Completionist <span style="color:var(--dim)">▾</span></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-dash"/></svg></span><div class="stext"><div class="t">Animated border</div><div class="d">An animated ring around your avatar on your profile.</div></div><span class="switch on"></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-heart"/></svg></span><div class="stext"><div class="t">Supporters wall</div><div class="d">Show me on the public supporters wall. <a class="inl-link" href="#m7">See the wall</a></div></div><span class="switch on"></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-broadcast"/></svg></span><div class="stext"><div class="t">Live profile</div><div class="d">Show the Steam game you're playing on your profile.</div><div class="warn">Connect your Steam account in Connections to use this.</div></div><span class="switch"></span></div>
+</div>
+
+          <div><p class="glabel">Library</p><div class="card">
+<div class="srow"><span class="tile"><svg><use href="#i-stack"/></svg></span><div class="stext"><div class="t">Unlimited collections</div><div class="d">Free accounts can create up to 5 collections. Supporters have no limit.</div></div><span class="pill success">Included</span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-photo"/></svg></span><div class="stext"><div class="t">Custom game covers</div><div class="d">Upload your own cover for any game in your library.</div></div><span class="pill neutral">Coming soon</span></div>
+</div></div>
+
+        </div>
+        <div>
+          <div class="preview-cap">Live preview</div>
+          <div class="preview themed accent-orange">
+            <div class="pb"></div><div class="ps"><span class="strip-label">Supporter</span></div>
+            <div class="pin">
+              <div style="display:flex;gap:12px;align-items:center">
+                <span class="sframe"><span class="gap" style="display:block"><span class="av b" style="width:48px;height:48px;font-size:14px">MK</span></span></span>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div class="uname-row"><span class="uname">mika_plays</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div>
+                  <span class="title" style="font-size:12px">Completionist</span><span class="since">Supporter since 2026</span>
+                  <span style="font-size:12px;color:var(--muted)">128 followers · 64 following</span>
+                </div>
+              </div>
+              <p class="label" style="margin:12px 0 6px">Favorites</p>
+              <div class="favs" style="margin-top:0"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="wall-line"><svg><use href="#i-heart"/></svg>On the supporters wall</div>
+        </div>
+
+      </div>
+      <p style="font-size:12px;color:var(--dim);margin:12px 0 0">Live profile on → the preview adds a static sample chip "Playing now · Your current game" (never a real request).</p>
+
+      <div style="margin-top:28px">
+        <p class="label">State: billing says supporter, profile prefs still null (mode "unavailable")</p>
+        <div class="inline-msg">We couldn't load your perks right now. <span class="btn ghost xs" style="margin-left:auto">Try again</span></div>
+        <div class="card" style="opacity:.5"><div class="srow"><span class="tile"><svg><use href="#i-brush"/></svg></span><div class="stext"><div class="t">Supporter theme</div><div class="d">Controls disabled until preferences load.</div></div><span class="switch"></span></div>
+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="mock" id="m6">
+    <h2>6 · Supporter settings: free / lapsed view <span class="ref">D9</span></h2>
+    <p class="note">Figma <span class="ref">P-D07 4967:11450</span>. Same rows as the supporter view, without the accent row: switches disabled at their default values with a lock, title select disabled, no "Saved" status, nothing is sent. The note under the card explains it; the preview is the user's own profile with default perks. Unlimited collections says "Supporters"; custom covers stay "Coming soon". Locks appear only here, never on free features.</p>
+    <div class="settings">
+      <div class="sec-h"><div><h3>How you appear</h3><p>Turn each perk on or off anytime. We save right away.</p></div></div>
+      <div class="grid2">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+          <div class="card">
+<div class="srow"><span class="tile"><svg><use href="#i-brush"/></svg></span><div class="stext"><div class="t">Supporter theme</div><div class="d">A strip in your accent color under your banner, with a Supporter label.</div></div><span class="ctl"><svg class="lock" aria-hidden="true"><use href="#i-lock"/></svg><span class="switch on locked"></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-crown"/></svg></span><div class="stext"><div class="t">Badge</div><div class="d">Next to your name on your profile, in reviews and in comments.</div></div><span class="ctl"><svg class="lock" aria-hidden="true"><use href="#i-lock"/></svg><span class="switch on locked"></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-tag"/></svg></span><div class="stext"><div class="t">Title</div><div class="d">Shown under your name on your profile.</div></div><span class="ctl"><svg class=lock><use href=#i-lock /></svg><span class="select" style=opacity:.45>No title <span style="color:var(--dim)">▾</span></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-dash"/></svg></span><div class="stext"><div class="t">Animated border</div><div class="d">An animated ring around your avatar on your profile.</div></div><span class="ctl"><svg class="lock" aria-hidden="true"><use href="#i-lock"/></svg><span class="switch on locked"></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-heart"/></svg></span><div class="stext"><div class="t">Supporters wall</div><div class="d">Show me on the public supporters wall. <a class="inl-link" href="#m7">See the wall</a></div></div><span class="ctl"><svg class="lock" aria-hidden="true"><use href="#i-lock"/></svg><span class="switch on locked"></span></span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-broadcast"/></svg></span><div class="stext"><div class="t">Live profile</div><div class="d">Show the Steam game you're playing on your profile.</div></div><span class="ctl"><svg class="lock" aria-hidden="true"><use href="#i-lock"/></svg><span class="switch locked"></span></span></div>
+</div>
+
+          <p class="card-note">Available with the Supporter plan. The preview shows how your profile would look.</p>
+          </div>
+          <div><p class="glabel">Library</p><div class="card">
+<div class="srow"><span class="tile"><svg><use href="#i-stack"/></svg></span><div class="stext"><div class="t">Unlimited collections</div><div class="d">Free accounts can create up to 5 collections. Supporters have no limit.</div></div><span class="pill premium">Supporters</span></div>
+<div class="srow"><span class="tile"><svg><use href="#i-photo"/></svg></span><div class="stext"><div class="t">Custom game covers</div><div class="d">Upload your own cover for any game in your library.</div></div><span class="pill neutral">Coming soon</span></div>
+</div></div>
+
+        </div>
+        <div>
+          <div class="preview-cap">Preview: how it would look</div>
+          <div class="preview themed accent-violet">
+            <div class="pb"></div><div class="ps"><span class="strip-label">Supporter</span></div>
+            <div class="pin">
+              <div style="display:flex;gap:12px;align-items:center">
+                <span class="sframe"><span class="gap" style="display:block"><span class="av e" style="width:48px;height:48px;font-size:14px">TS</span></span></span>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div class="uname-row"><span class="uname">tsilva</span><span class="badge"><svg><use href="#i-crown"/></svg>Supporter</span></div>
+                  
+                  <span style="font-size:12px;color:var(--muted)">12 followers · 30 following</span>
+                </div>
+              </div>
+              <p class="label" style="margin:12px 0 6px">Favorites</p>
+              <div class="favs" style="margin-top:0"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+      <div style="margin-top:24px">
+        <div class="sec-h"><div><h3>Always free</h3><p>Free with or without a subscription.</p></div></div>
+        <div class="card" style="padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px;font-size:13px;color:#d9d9d9">
+          <span>✓ Game library</span><span>✓ Steam, PSN and Xbox imports</span><span>✓ Achievements</span><span>✓ Reviews</span><span>✓ Game journal</span><span>✓ <b>Up to 5 collections</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="mock" id="m7">
+    <h2>7 · Supporters wall <span class="ref">D11</span></h2>
+    <p class="note">Web: a section of the About page after "Support GameNode", <span class="ref">id="supporters"</span>, 48 per page, server order (username A→Z), hover ring violet. Mobile: settings-styled card at the end of Preferences › Supporter, 4 columns, 24 per page.</p>
+    <div class="about">
+      <h2>Supporters wall</h2>
+      <p class="sub">The people keeping GameNode online.</p>
+      <div class="wall">
+        <div class="wi"><span class="av d" style="width:72px;height:72px">AB</span><span>abby</span></div>
+        <div class="wi hover"><span class="av c" style="width:72px;height:72px">AL</span><span>alana</span></div>
+        <div class="wi"><span class="av" style="width:72px;height:72px">BR</span><span>bruno.dev</span></div>
+        <div class="wi"><span class="av b" style="width:72px;height:72px">CA</span><span>cassi</span></div>
+        <div class="wi"><span class="av e" style="width:72px;height:72px">DM</span><span>dmitri_the_completionist</span></div>
+        <div class="wi"><span class="av d" style="width:72px;height:72px">EV</span><span>eve</span></div>
+        <div class="wi"><span class="av" style="width:72px;height:72px">JR</span><span>jrocha</span></div>
+        <div class="wi"><span class="av b" style="width:72px;height:72px">MK</span><span>mika_plays</span></div>
+        <div class="wi"><span class="av c" style="width:72px;height:72px">NO</span><span>noah</span></div>
+        <div class="wi"><span class="av e" style="width:72px;height:72px">PX</span><span>pixelpat</span></div>
+        <div class="wi"><span class="av d" style="width:72px;height:72px">RU</span><span>ruby</span></div>
+        <div class="wi"><span class="av" style="width:72px;height:72px">ZZ</span><span>zz_top</span></div>
+      </div>
+      <div class="center"><span class="btn ghost" style="border-radius:999px">Show more</span></div>
+    </div>
+    <div class="row" style="margin-top:24px">
+      <div class="frame" style="padding:28px;width:420px;max-width:100%">
+        <p class="label">Empty (no supporters / billing off)</p>
+        <div class="empty"><span class="tile" style="width:44px;height:44px"><svg><use href="#i-crown"/></svg></span><b>No supporters yet</b><span style="color:var(--muted);font-size:13px">Be the first to keep GameNode online.</span><span class="btn" style="margin-top:6px">Become a Supporter</span></div>
+      </div>
+      <div class="frame" style="padding:28px;width:420px;max-width:100%">
+        <p class="label">Loading / error</p>
+        <div style="display:flex;gap:16px;margin-bottom:22px"><span class="skel"></span><span class="skel"></span><span class="skel"></span><span class="skel"></span></div>
+        <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px">We couldn't load the supporters wall. <span class="btn ghost xs">Try again</span></div>
+      </div>
+      <div class="phone" style="padding:16px">
+        <p class="label">Mobile · end of Supporter screen</p>
+        <div class="sec-h"><div><h3>Supporters wall</h3><p>The people keeping GameNode online.</p></div></div>
+        <div class="card" style="padding:16px">
+          <div class="wall-s">
+            <div class="wi"><span class="av d" style="width:48px;height:48px;font-size:13px">AB</span><span>abby</span></div>
+            <div class="wi"><span class="av c" style="width:48px;height:48px;font-size:13px">AL</span><span>alana</span></div>
+            <div class="wi"><span class="av" style="width:48px;height:48px;font-size:13px">BR</span><span>bruno.dev</span></div>
+            <div class="wi"><span class="av b" style="width:48px;height:48px;font-size:13px">CA</span><span>cassi</span></div>
+            <div class="wi"><span class="av e" style="width:48px;height:48px;font-size:13px">DM</span><span>dmitri_th…</span></div>
+            <div class="wi"><span class="av d" style="width:48px;height:48px;font-size:13px">EV</span><span>eve</span></div>
+            <div class="wi"><span class="av" style="width:48px;height:48px;font-size:13px">JR</span><span>jrocha</span></div>
+            <div class="wi"><span class="av b" style="width:48px;height:48px;font-size:13px">MK</span><span>mika_plays</span></div>
+          </div>
+          <div class="center" style="margin-top:14px"><span class="btn ghost xs">Show more</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="mock" id="m8">
+    <h2>8 · Collection limit notice <span class="ref">D12</span></h2>
+    <p class="note">Shown inside the create form only when the 403 body has <span class="ref">code: "collection_limit_reached"</span>; replaces the generic error and suppresses the red notification. Form keeps its values; submit stays enabled. "Become a Supporter" closes the modal and opens the Supporter tab (web) or Preferences › Supporter (mobile).</p>
+    <div class="row">
+      <div class="modal">
+        <h4>Create collection</h4>
+        <div class="limit">
+          <span class="tile"><svg><use href="#i-stack"/></svg></span>
+          <div><div class="t">You've reached the free limit of 5 collections</div>
+            <div class="d">Your existing collections stay as they are. Become a Supporter for unlimited collections, or remove one to make room.</div>
+            <a class="btn xs" href="#">Become a Supporter</a></div>
+        </div>
+        <div class="field"><label>Name *</label><div class="in">Couch co-op</div></div>
+        <div class="field"><label>Description</label><div class="in" style="color:var(--dim)">Games to play with friends</div></div>
+        <div class="srow" style="padding:6px 0;border:0"><span class="switch on"></span><div class="stext"><div class="t">Public</div><div class="d">Anyone can see this collection.</div></div></div>
+        <div class="btn" style="width:100%;margin-top:14px">Create</div>
+      </div>
+      <div class="frame" style="padding:20px;width:420px;max-width:100%">
+        <p class="label">Unchanged: any other error</p>
+        <div style="color:#ff6369;text-align:center;font-size:13px;margin:8px 0 16px">Request failed with status 403 (generic CenteredErrorMessage + red notification, as today)</div>
+        <p class="label">Body without a numeric limit</p>
+        <div class="limit" style="margin:0"><span class="tile"><svg><use href="#i-stack"/></svg></span><div><div class="t">You've reached the free collection limit</div><div class="d">Your existing collections stay as they are…</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="mock" id="m9">
+    <h2>9 · Accent contrast on #161616 <span class="ref">D3</span></h2>
+    <p class="note">Stored value is never changed; only the drawn shade. Text (title, badge text, presence) needs 4.5:1, ring/strip/pill border 3:1; mix toward white in 5% steps. The strip label uses <span class="ref">getOnAccentText</span>: white or #141414, whichever contrasts more with the stored accent.</p>
+    <table class="cx">
+      <tr><th>Stored</th><th>Ratio</th><th>Text shade (≥4.5)</th><th>Decor shade (≥3)</th><th>Title sample</th><th>Strip label</th></tr>
+      <tr><td><span class="chip" style="background:#9747FF"></span>#9747FF (default)</td><td>4.02</td><td><span class="chip" style="background:#A159FF"></span>#A159FF</td><td>#9747FF</td><td style="color:#A159FF">Completionist</td><td><span style="background:#9747FF;color:#FFFFFF;font:italic 500 10px/21px sans-serif;padding:0 10px;display:inline-block">Supporter</span> #FFFFFF</td></tr>
+      <tr><td><span class="chip" style="background:#101010"></span>#101010</td><td>1.05</td><td><span class="chip" style="background:#888888"></span>#888888</td><td><span class="chip" style="background:#646464"></span>#646464</td><td style="color:#888888">Completionist</td><td><span style="background:#101010;color:#FFFFFF;font:italic 500 10px/21px sans-serif;padding:0 10px;display:inline-block">Supporter</span> #FFFFFF</td></tr>
+      <tr><td><span class="chip" style="background:#FF8800"></span>#FF8800</td><td>7.56</td><td>#FF8800</td><td>#FF8800</td><td style="color:#FF8800">Completionist</td><td><span style="background:#FF8800;color:#141414;font:italic 500 10px/21px sans-serif;padding:0 10px;display:inline-block">Supporter</span> #141414</td></tr>
+      <tr><td><span class="chip" style="background:#F15025"></span>#F15025</td><td>5.10</td><td>#F15025</td><td>#F15025</td><td style="color:#F15025">Completionist</td><td><span style="background:#F15025;color:#141414;font:italic 500 10px/21px sans-serif;padding:0 10px;display:inline-block">Supporter</span> #141414</td></tr>
+    </table>
+  </section>
+</div>
+</body>
+</html>

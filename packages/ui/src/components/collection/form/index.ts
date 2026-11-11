@@ -3,4 +3,5 @@
  */
 
 export * from "./CollectionCreateOrUpdateForm";
+export * from "./CollectionLimitNotice";
 export * from "./modal/index";

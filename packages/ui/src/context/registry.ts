@@ -46,6 +46,8 @@ export type UIHookRegistry = {
   useIsViewActive?: () => boolean;
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
+  /** Route of the settings Supporter surface. Defaults to `/home?settings=premium`. */
+  supporterSettingsHref?: string;
   /**
    * Whether game reads opt in to the viewer's custom covers. Defaults to `true`;
    * apps that must always show default covers (admin) set it to `false`.

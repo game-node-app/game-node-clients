@@ -1,4 +1,6 @@
 import { useOnMobile, useUserProfile } from "#@/components";
+import { getActiveSupporterPerks } from "#@/components/supporter/perks/supporterPerks";
+import { SupporterBadge } from "#@/components/supporter/perks/SupporterBadge";
 import { Link } from "#@/util";
 import { AvatarProps, Group, GroupProps, Text, TextProps } from "@mantine/core";
 import { Break } from "../Break";
@@ -20,6 +22,7 @@ export const UserAvatarGroup = ({
   withHorizontalBreak,
 }: IProps) => {
   const profileQuery = useUserProfile(userId);
+  const perks = getActiveSupporterPerks(profileQuery.data);
   const onMobile = useOnMobile();
   return (
     <Link
@@ -41,6 +44,7 @@ export const UserAvatarGroup = ({
         >
           {profileQuery.data?.username}
         </Text>
+        {perks?.badge && <SupporterBadge variant={"compact"} perks={perks} />}
       </Group>
     </Link>
   );
