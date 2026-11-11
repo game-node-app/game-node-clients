@@ -1,0 +1,29 @@
+{
+  "source": "53372edfa96b09d64a982c83a7cec2f8af3fd2e2",
+  "changesets": [
+    ".changeset/new-404-screen.md",
+    ".changeset/supporter-profile-perks.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[694a0e5a8eebf9eb96b89dbaf2bfa047d6bfbaea...53372edfa96b09d64a982c83a7cec2f8af3fd2e2]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/53372edfa96b09d64a982c83a7cec2f8af3fd2e2",
+  "versions": {
+    "web": "1.15.0",
+    "mobile": "1.13.0"
+  }
+}
