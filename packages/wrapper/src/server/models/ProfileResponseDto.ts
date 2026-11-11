@@ -6,8 +6,17 @@ import type { ProfileAvatar } from './ProfileAvatar';
 import type { ProfileBanner } from './ProfileBanner';
 import type { ProfileVideoResponseDto } from './ProfileVideoResponseDto';
 import type { ProfileVideoUploadsResponseDto } from './ProfileVideoUploadsResponseDto';
+import type { SupporterPreferencesResponseDto } from './SupporterPreferencesResponseDto';
 export type ProfileResponseDto = {
     customCoverMode: ProfileResponseDto.customCoverMode;
+    /**
+     * Whether the profile owner has supporter entitlement.
+     */
+    isSupporter: boolean;
+    /**
+     * Null while isSupporter is false.
+     */
+    supporterPreferences: SupporterPreferencesResponseDto | null;
     avatarVideo: ProfileVideoResponseDto | null;
     bannerVideo: ProfileVideoResponseDto | null;
     /**

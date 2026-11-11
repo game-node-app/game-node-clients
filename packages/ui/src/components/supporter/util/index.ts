@@ -7,3 +7,4 @@ export * from "./normalizeSupporter";
 export * from "./supporterErrors";
 export * from "./supporterStatus";
 export * from "./useSupporterEntryHref";
+export * from "./useSupporterSettingsHref";

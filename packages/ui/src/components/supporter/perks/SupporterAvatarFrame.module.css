@@ -1,0 +1,52 @@
+.frame {
+  position: relative;
+  border-radius: 9999px;
+  padding: 6px;
+}
+
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    var(--ring) 0%,
+    var(--ring-soft) 35%,
+    var(--ring) 50%,
+    var(--ring-soft) 85%,
+    var(--ring) 100%
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 3px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 3px),
+    #000 calc(100% - 3px)
+  );
+  animation: spin 6s linear infinite;
+}
+
+.static::before {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame::before {
+    animation: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.inner {
+  border-radius: 9999px;
+  background: #161616;
+  padding: 3px;
+}

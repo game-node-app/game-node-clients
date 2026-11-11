@@ -34,15 +34,17 @@ const INCLUDED_ITEMS = [
 ] as const;
 
 // Supporter extras that are available today.
-const AVAILABLE_ITEMS = ["videoCover"] as const;
+const AVAILABLE_ITEMS = ["videoCover", "unlimitedCollections"] as const;
+
+// Supporter extras that are available today, grouped by area.
+const AVAILABLE_GROUPS = [
+  { key: "profile", items: ["animatedBorder", "theme"] },
+  { key: "show", items: ["badge", "wall"] },
+  { key: "live", items: ["live"] },
+] as const;
 
 // Supporter extras that are announced but not available yet.
-const UPCOMING_GROUPS = [
-  { key: "profile", items: ["animatedBorder", "theme"] },
-  { key: "library", items: ["customCovers"] },
-  { key: "live", items: ["live"] },
-  { key: "show", items: ["badge", "wall"] },
-] as const;
+const UPCOMING_GROUPS = [{ key: "library", items: ["customCovers"] }] as const;
 
 const TRUST = [
   "cancel",
@@ -195,29 +197,57 @@ const PlanCard = ({
           </Stack>
         </Stack>
         {supporter && (
-          <Stack gap={4}>
-            <Text className={styles.groupLabel} c="brand">
-              {t(`${prefix}.groups.available`)}
-            </Text>
-            <Stack component="ul" gap={0} className={styles.featureList}>
-              {AVAILABLE_ITEMS.map((item) => (
-                <Group
-                  key={item}
-                  component="li"
-                  gap={12}
-                  h={32}
-                  wrap="nowrap"
-                >
-                  <img
-                    src={icon("icon-check-brand.svg")}
-                    width={16}
-                    height={16}
-                    alt=""
-                  />
-                  <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
-                </Group>
-              ))}
+          <Stack gap={12}>
+            <Stack gap={4}>
+              <Text className={styles.groupLabel} c="brand">
+                {t(`${prefix}.groups.available`)}
+              </Text>
+              <Stack component="ul" gap={0} className={styles.featureList}>
+                {AVAILABLE_ITEMS.map((item) => (
+                  <Group
+                    key={item}
+                    component="li"
+                    gap={12}
+                    h={32}
+                    wrap="nowrap"
+                  >
+                    <img
+                      src={icon("icon-check-brand.svg")}
+                      width={16}
+                      height={16}
+                      alt=""
+                    />
+                    <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
+                  </Group>
+                ))}
+              </Stack>
             </Stack>
+            {AVAILABLE_GROUPS.map((group) => (
+              <Stack key={group.key} gap={4}>
+                <Text fz={12} fw={600} className={styles.muted}>
+                  {t(`${prefix}.groups.${group.key}`)}
+                </Text>
+                <Stack component="ul" gap={0} className={styles.featureList}>
+                  {group.items.map((item) => (
+                    <Group
+                      key={item}
+                      component="li"
+                      gap={12}
+                      h={32}
+                      wrap="nowrap"
+                    >
+                      <img
+                        src={icon("icon-check-brand.svg")}
+                        width={16}
+                        height={16}
+                        alt=""
+                      />
+                      <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
+                    </Group>
+                  ))}
+                </Stack>
+              </Stack>
+            ))}
           </Stack>
         )}
         <Stack gap={12}>

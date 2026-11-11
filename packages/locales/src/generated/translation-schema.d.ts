@@ -297,6 +297,12 @@ export type TranslationSchema = {
       name: string;
       public: string;
     };
+    limit: {
+      title: string;
+      titleNoCount: string;
+      description: string;
+      cta: string;
+    };
     messages: {
       applyingChanges: string;
       atLeastOneCollection: string;
@@ -1073,6 +1079,7 @@ export type TranslationSchema = {
           animatedBorder: string;
           theme: string;
           collections: string;
+          unlimitedCollections: string;
           customCovers: string;
           live: string;
           badge: string;
@@ -1269,6 +1276,14 @@ export type TranslationSchema = {
     settings: string;
     stats: string;
     terms: string;
+  };
+  notFoundPage: {
+    backHome: string;
+    description: string;
+    eyebrow: string;
+    searchGames: string;
+    title: string;
+    trending: string;
   };
   notifications: {
     empty: string;
@@ -1711,44 +1726,99 @@ export type TranslationSchema = {
     banner: {
       errorTitle: string;
     };
+    badge: {
+      label: string;
+    };
     features: {
-      title: string;
-      descriptionFree: string;
-      descriptionSupporter: string;
-      groups: {
-        profile: string;
-        library: string;
-        community: string;
-      };
-      theme: {
-        description: string;
-      };
-      badge: {
-        description: string;
-      };
-      animatedBorder: {
-        description: string;
-      };
-      liveProfile: {
-        description: string;
-      };
-      customCovers: {
-        description: string;
-      };
+      availableLabel: string;
       collectionLimit: {
         description: string;
       };
-      wall: {
-        description: string;
-      };
       preview: {
-        caption: string;
         badge: string;
         since: string;
         followers: string;
         following: string;
         favorites: string;
-        notListed: string;
+      };
+    };
+    wall: {
+      title: string;
+      description: string;
+      showMore: string;
+      empty: {
+        title: string;
+        description: string;
+        cta: string;
+      };
+      error: string;
+      retry: string;
+    };
+    perks: {
+      heading: string;
+      description: string;
+      saving: string;
+      saved: string;
+      groups: {
+        library: string;
+      };
+      included: string;
+      theme: {
+        title: string;
+        description: string;
+      };
+      accent: {
+        title: string;
+        description: string;
+        reset: string;
+        invalid: string;
+        custom: string;
+      };
+      badge: {
+        title: string;
+        description: string;
+      };
+      titleSelect: {
+        title: string;
+        description: string;
+        none: string;
+      };
+      border: {
+        title: string;
+        description: string;
+      };
+      wall: {
+        title: string;
+        description: string;
+        seeWall: string;
+      };
+      live: {
+        title: string;
+        description: string;
+        needsSteam: string;
+      };
+      collections: {
+        title: string;
+      };
+      customCovers: {
+        title: string;
+        description: string;
+      };
+      locked: {
+        label: string;
+        note: string;
+      };
+      preview: {
+        caption: string;
+        exampleCaption: string;
+        samplePresence: string;
+        onWall: string;
+        notOnWall: string;
+      };
+      errors: {
+        notSupporter: string;
+        missing: string;
+        retry: string;
       };
     };
     subscription: {
@@ -1886,6 +1956,21 @@ export type TranslationSchema = {
       title: string;
       freeStatus: string;
       supporterStatus: string;
+    };
+    presence: {
+      playingNow: string;
+    };
+    titles: {
+      supporter: string;
+      patron: string;
+      collector: string;
+      completionist: string;
+      explorer: string;
+      critic: string;
+      night_owl: string;
+      retro_fan: string;
+      speedrunner: string;
+      cozy_gamer: string;
     };
     planName: string;
   };

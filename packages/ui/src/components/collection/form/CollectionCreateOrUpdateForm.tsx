@@ -8,6 +8,8 @@ import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
 import { Collection, CollectionsService } from "@repo/wrapper/server";
 import { useCollection } from "#@/components/collection/hooks/useCollection";
+import { getCollectionLimitError } from "#@/components/collection/util/getCollectionLimitError";
+import { CollectionLimitNotice } from "#@/components/collection/form/CollectionLimitNotice";
 import { useMutation } from "@tanstack/react-query";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { CollectionEntryStatusSelect, useOnMobile } from "#@/components";
@@ -93,7 +95,11 @@ const CollectionCreateOrUpdateForm = ({
         onClose();
       }
     },
-    onError: createErrorNotification,
+    onError: (error) => {
+      if (existingCollection != undefined || !getCollectionLimitError(error)) {
+        createErrorNotification(error);
+      }
+    },
     onSettled: () => {
       userLibraryQuery.invalidate();
       collectionQuery.invalidate();
@@ -106,15 +112,26 @@ const CollectionCreateOrUpdateForm = ({
     }
   }, [existingCollection, reset, schema]);
 
+  const collectionLimitError =
+    existingCollection == undefined && collectionMutation.isError
+      ? getCollectionLimitError(collectionMutation.error)
+      : null;
+
   return (
     <form
       className="w-full h-full"
       onSubmit={handleSubmit((data) => collectionMutation.mutate(data))}
     >
       <Stack gap="lg">
-        {collectionMutation.isError && (
-          <CenteredErrorMessage message={collectionMutation.error.message} />
-        )}
+        {collectionMutation.isError &&
+          (collectionLimitError ? (
+            <CollectionLimitNotice
+              limit={collectionLimitError.limit}
+              onNavigate={onClose}
+            />
+          ) : (
+            <CenteredErrorMessage message={collectionMutation.error.message} />
+          ))}
         <TextInput
           withAsterisk
           label={t("collection.labels.name")}

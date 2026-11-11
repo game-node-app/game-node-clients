@@ -1,13 +1,14 @@
 import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEditBannerUploader";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
-import { Modal } from "#@/util";
+import { cn, Modal } from "#@/util";
 import { getS3StoredUpload } from "#@/util/getServerStoredImages";
 import { ActionIcon, Box, Center, Paper } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCameraPlus } from "@tabler/icons-react";
+import { PropsWithChildren } from "react";
 
-interface ProfileBannerProps {
+interface ProfileBannerProps extends PropsWithChildren {
   userId: string;
   showEditButton?: boolean;
   customSource?: string;
@@ -17,6 +18,7 @@ const ProfileBanner = ({
   userId,
   showEditButton = false,
   customSource,
+  children,
 }: ProfileBannerProps) => {
   const profile = useUserProfile(userId);
 
@@ -33,9 +35,13 @@ const ProfileBanner = ({
 
   return (
     <Box
-      className={
-        "w-full h-full bg-[#161616] p-4 mobile:p-0 mobile:-ms-3.5 mobile:min-w-[100vw]"
-      }
+      data-testid={"profile-banner"}
+      className={cn(
+        "w-full h-full bg-[#161616] p-4 mobile:p-0 mobile:-ms-4 mobile:min-w-[100vw]",
+        // Callers that render a strip under the image want it flush with the
+        // banner, so the bottom padding must not leave a dark gap above it.
+        children ? "web:pb-0" : undefined,
+      )}
     >
       <Paper
         style={{
@@ -81,6 +87,7 @@ const ProfileBanner = ({
           </Center>
         )}
       </Paper>
+      {children}
     </Box>
   );
 };

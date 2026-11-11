@@ -5,5 +5,7 @@
 export * from "./SupporterCancelDialog";
 export * from "./types";
 export * from "./hooks/index";
+export * from "./perks/index";
 export * from "./settings/index";
 export * from "./util/index";
+export * from "./wall/index";

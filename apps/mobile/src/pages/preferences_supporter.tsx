@@ -37,6 +37,7 @@ const PreferencesSupporterPage = () => {
           checkout={checkout}
           interval={parseInterval(query.get("interval"))}
           onCheckoutStarted={onCheckoutStarted}
+          withSupportersWall
         />
       </SessionAuth>
     </AppPage>

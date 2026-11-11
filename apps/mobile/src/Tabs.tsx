@@ -2,6 +2,7 @@ import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
+import NotFoundPage from "@/pages/not_found";
 import NotificationsPage from "@/pages/notifications";
 import ProfilePage from "@/pages/profile/profile";
 import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
@@ -64,6 +65,13 @@ const Tabs = () => {
         {/* ---- PROFILE ROUTES ---- */}
         <Route exact path={"/profile"} render={() => <ProfilePage />} />
         {getCommonRoutes("/profile")}
+
+        {/*
+          Catch-all. IonRouterOutlet keeps the LAST matching child and only
+          falls back to pathless children when nothing else matched, so this
+          must stay the final child.
+        */}
+        <Route render={() => <NotFoundPage />} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="library" href="/library">
