@@ -1,0 +1,30 @@
+{
+  "source": "42fc7f2d52c9cf9a8cf69e04b66a1aadaa9b345f",
+  "changesets": [
+    ".changeset/about-page-current-platforms.md",
+    ".changeset/redesign-navigation-notifications.md",
+    ".changeset/remove-custom-covers-promise.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[53372edfa96b09d64a982c83a7cec2f8af3fd2e2...42fc7f2d52c9cf9a8cf69e04b66a1aadaa9b345f]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/42fc7f2d52c9cf9a8cf69e04b66a1aadaa9b345f",
+  "versions": {
+    "web": "1.16.0",
+    "mobile": "1.14.0"
+  }
+}
