@@ -1,158 +1,84 @@
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Group,
-  Popover,
-  ScrollArea,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { TopbarIconButton } from "@/components/general/shell/header/TopbarIconButton";
+import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
-  acknowledgeNotificationsRead,
-  AggregatedNotification,
-  CenteredLoading,
-  useInfiniteAggregatedNotifications,
-  useOnMobile,
+  NavBellIcon,
+  NotificationsPanel,
+  useNotificationsInbox,
+  useSettingsModalState,
 } from "@repo/ui";
-import { IconBell, IconBellFilled } from "@tabler/icons-react";
-import { useMutation } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useRouter } from "next/router";
 
+const MAX_BADGE_COUNT = 99;
+
+/**
+ * Topbar/Notification button (design node 5202:2220): bell with the unread
+ * count and a 400 × 556 popover hosting the shared `NotificationsPanel`.
+ */
 const GlobalShellHeaderNotifications = () => {
   const { t } = useTranslation();
-  const [isPopoverOpened, popoverUtils] = useDisclosure();
-  const onMobile = useOnMobile();
+  const router = useRouter();
+  const settings = useSettingsModalState();
+  const [opened, popoverUtils] = useDisclosure(false);
+  const { unreadCount } = useNotificationsInbox({ filter: "all" });
 
-  const { data, isLoading, invalidate, isFetching, fetchNextPage } =
-    useInfiniteAggregatedNotifications();
+  const hasUnread = unreadCount > 0;
+  const badgeCount =
+    unreadCount > MAX_BADGE_COUNT ? "99+" : String(unreadCount);
+  const label = hasUnread
+    ? t("notifications.bellLabel", { count: unreadCount })
+    : t("notifications.title");
 
-  const notificationViewMutation = useMutation({
-    mutationFn: acknowledgeNotificationsRead,
-    onSuccess: (shouldInvalidate) => {
-      if (shouldInvalidate) {
-        invalidate();
-      }
-    },
-  });
-
-  const items = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) ?? [];
-  }, [data?.pages]);
-
-  const lastPage = data?.pages[data?.pages.length - 1];
-  const hasNextPage = lastPage?.pagination.hasMore;
-
-  const isEmpty = !isLoading && items.length === 0;
-
-  const hasUnreadNotifications = useMemo((): boolean => {
-    const unreadCount = data?.pages[0]?.unreadCount ?? 0;
-    if (unreadCount > 0) return true;
-    return items.some((item) => item.readVersion < item.version);
-  }, [data?.pages, items]);
+  const close = popoverUtils.close;
 
   return (
     <Popover
-      width={onMobile ? 320 : 350}
-      position={onMobile ? "bottom" : "left-start"}
-      offset={13}
-      withArrow
-      shadow="md"
-      opened={isPopoverOpened}
+      position={"bottom-end"}
+      offset={8}
+      width={400}
+      middlewares={{ shift: { padding: 16 } }}
+      withArrow={false}
+      shadow={"none"}
+      opened={opened}
+      onChange={(value) => (value ? popoverUtils.open() : close())}
     >
       <Popover.Target>
-        <ActionIcon
-          c={hasUnreadNotifications ? "brand" : "unset"}
-          variant={"transparent"}
+        <TopbarIconButton
+          label={label}
+          active={opened}
           onClick={popoverUtils.toggle}
         >
-          {hasUnreadNotifications ? <IconBellFilled /> : <IconBell />}
-        </ActionIcon>
-      </Popover.Target>
-      <Popover.Dropdown p={0}>
-        <ScrollArea.Autosize mah={400}>
-          <Stack w={"100%"} h={"100%"} align={"center"} gap={0}>
-            <Group
-              w={"100%"}
-              justify={"space-between"}
-              className={"p-2 mx-6 bg-[#111111]"}
+          <NavBellIcon size={20} />
+          {hasUnread && (
+            <span
+              aria-hidden="true"
+              className={
+                "absolute left-[23px] top-[3px] flex h-4 items-center justify-center rounded-md border-2 border-nav-surface bg-brand-5 px-1 text-[12px] leading-[normal] text-nav-canvas"
+              }
             >
-              <Group gap={5}>
-                {hasUnreadNotifications ? (
-                  <IconBellFilled size={"1.8rem"} />
-                ) : (
-                  <IconBell size={"1.8rem"} />
-                )}
-                <Title size={"h4"}>{t("notifications.title")}</Title>
-              </Group>
-              <ActionIcon
-                variant={"transparent"}
-                onClick={() => {
-                  const unreadNotifications = items.filter(
-                    (item) => item.readVersion < item.version,
-                  );
-                  if (unreadNotifications.length > 0) {
-                    notificationViewMutation.mutate(unreadNotifications);
-                  }
-                }}
-              >
-                <svg
-                  width="28"
-                  height="30"
-                  viewBox="0 0 24 27"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0 13.8463C0 12.5015 0.541725 11.2133 1.50287 10.2728L8.50286 3.42238C10.4464 1.52041 13.5536 1.52041 15.4971 3.42238L22.4971 10.2728C23.4583 11.2133 24 12.5015 24 13.8463V22C24 24.7614 21.7614 27 19 27H5C2.23858 27 0 24.7614 0 22V13.8463Z"
-                    fill="#D9D9D9"
-                  />
-                  <path
-                    d="M6 16.6512L9.54098 20L18 12"
-                    stroke="#F15025"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </ActionIcon>
-            </Group>
-            {items.map((item, index) => {
-              return (
-                <AggregatedNotification
-                  key={`${item.id}-${item.version}`}
-                  aggregatedNotification={item}
-                  backgroundColor={
-                    index === 0 || index % 2 === 0 ? "normal" : "darker"
-                  }
-                  onClick={() => {
-                    popoverUtils.close();
-                    if (notificationViewMutation.isPending || isFetching) {
-                      return;
-                    }
-                    notificationViewMutation.mutate([item]);
-                  }}
-                />
-              );
-            })}
-            {isEmpty && <Text>{t("notifications.empty")}</Text>}
-            {isFetching && <CenteredLoading className={"my-4"} />}
-
-            {hasNextPage && (
-              <Center>
-                <Button
-                  size={"md"}
-                  onClick={() => {
-                    fetchNextPage();
-                  }}
-                >
-                  {t("actions.showMore")}
-                </Button>
-              </Center>
-            )}
-          </Stack>
-        </ScrollArea.Autosize>
+              {badgeCount}
+            </span>
+          )}
+        </TopbarIconButton>
+      </Popover.Target>
+      <Popover.Dropdown
+        className={
+          "flex h-[556px] flex-col gap-1 rounded-md border border-nav-border bg-nav-surface p-2 [@media(max-width:431px)]:!w-[calc(100vw-32px)]"
+        }
+      >
+        <NotificationsPanel
+          variant={"popover"}
+          onSeeAll={() => {
+            close();
+            void router.push("/notifications");
+          }}
+          onOpenSettings={() => {
+            close();
+            settings.open("notifications");
+          }}
+          onItemNavigate={close}
+        />
       </Popover.Dropdown>
     </Popover>
   );

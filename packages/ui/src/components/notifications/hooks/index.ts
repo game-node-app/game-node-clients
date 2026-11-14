@@ -3,4 +3,6 @@
  */
 
 export * from "./useAggregatedNotifications";
+export * from "./useFollowBackNotification";
 export * from "./useInfiniteAggregatedNotifications";
+export * from "./useNotificationsInbox";

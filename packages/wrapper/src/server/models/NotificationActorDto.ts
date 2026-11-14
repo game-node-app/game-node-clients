@@ -7,5 +7,6 @@ export type NotificationActorDto = {
     userId: string;
     username: string;
     avatar?: NotificationAvatarDto | null;
+    isFollowedByRecipient?: boolean;
 };
 

@@ -6,12 +6,13 @@ import {
   NotificationImporterTargetDto,
   NotificationImportPreviewDto,
   NotificationInboxItemDto,
+  NotificationsService,
 } from "@repo/wrapper/server";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
 import ptTranslations from "../../../../../packages/locales/src/translations/json/pt-BR.json";
-import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
+import { InboxNotificationItem } from "../../../../../packages/ui/src/components/notifications/view/InboxNotificationItem";
 
 const mockRouter = vi.hoisted(() => ({
   push: vi.fn().mockResolvedValue(undefined),
@@ -32,6 +33,7 @@ let currentLang = "en";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
+    i18n: { language: currentLang },
     t: (key: string, options?: Record<string, unknown>) => {
       const translations =
         currentLang === "pt-BR" ? ptTranslations : enTranslations;
@@ -41,6 +43,17 @@ vi.mock("@repo/locales", () => ({
           typeof val === "object" && val !== null
             ? (val as Record<string, unknown>)[p]
             : undefined;
+      }
+      if (typeof val !== "string") {
+        const count = Number(options?.count ?? 0);
+        let plural: unknown = translations;
+        for (const p of `${key}_${count === 1 ? "one" : "other"}`.split(".")) {
+          plural =
+            typeof plural === "object" && plural !== null
+              ? (plural as Record<string, unknown>)[p]
+              : undefined;
+        }
+        val = plural;
       }
       if (typeof val === "string") {
         return val.replace(/\{\{(\w+)\}\}/g, (_, k) =>
@@ -55,6 +68,18 @@ vi.mock("@repo/locales", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
   currentLang = "en";
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerFindAllV1",
+  ).mockResolvedValue({
+    data: [],
+    pagination: { nextCursor: null, hasMore: false },
+    unreadCount: 0,
+  });
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerAcknowledgeReadV1",
+  ).mockResolvedValue(undefined);
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
     addEventListener: vi.fn(),
@@ -66,24 +91,23 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
 });
 
-const renderItem = (item: NotificationInboxItemDto, onClick = vi.fn()) => {
+const renderItem = (item: NotificationInboxItemDto) => {
   const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
+    defaultOptions: {
+      queries: { retry: false, refetchInterval: false },
+      mutations: { retry: false },
+    },
   });
-  const view = render(
+  return render(
     <QueryClientProvider client={queryClient}>
       <MantineProvider>
-        <AggregatedNotification
-          aggregatedNotification={item}
-          backgroundColor="normal"
-          onClick={onClick}
-        />
+        <InboxNotificationItem item={item} />
       </MantineProvider>
     </QueryClientProvider>,
   );
-  return { ...view, onClick };
 };
 
 const reauthItem = (
@@ -111,50 +135,42 @@ describe("connection.reauth-required notification", () => {
       NotificationConnectionTargetDto.provider.GOG,
       "Your GOG connection needs to be reconnected.",
       "Sua conexão com GOG precisa ser reconectada.",
-      "gog",
     ],
     [
       NotificationConnectionTargetDto.provider.EPICGAMES,
       "Your Epic Games connection needs to be reconnected.",
       "Sua conexão com Epic Games precisa ser reconectada.",
-      "epicgames",
     ],
     [
       NotificationConnectionTargetDto.provider.NINTENDO,
       "Your Nintendo connection needs to be reconnected.",
       "Sua conexão com Nintendo precisa ser reconectada.",
-      "nintendo",
     ],
     [
       NotificationConnectionTargetDto.provider.XBOX,
       "Your Xbox Live connection needs to be reconnected.",
       "Sua conexão com Xbox Live precisa ser reconectada.",
-      "xbox",
     ],
-  ])(
-    "renders %s text, icon and navigates in en and pt-BR",
-    (provider, en, pt, icon) => {
-      const { container, onClick } = renderItem(reauthItem(provider));
+  ])("renders %s text and navigates in en and pt-BR", (provider, en, pt) => {
+    const { container } = renderItem(reauthItem(provider));
 
-      expect(screen.getByText(en)).toBeTruthy();
-      // Decorative: text already names the provider, and there is no actor avatar.
-      const img = container.querySelector("img");
-      expect(img?.getAttribute("src")).toContain(`/${icon}.png`);
-      expect(img?.getAttribute("alt")).toBe("");
+    expect(screen.getByText(en)).toBeTruthy();
+    // The provider logo was replaced by the shared connection icon (design §5):
+    // an icon over the subtle accent background, never an actor avatar.
+    expect(container.querySelector("img")).toBeNull();
+    expect(container.querySelector(".bg-nav-accent-subtle")).toBeTruthy();
 
-      fireEvent.click(screen.getByRole("alert"));
-      expect(onClick).toHaveBeenCalledTimes(1);
-      expect(mockRouter.push).toHaveBeenCalledWith("/preferences/connections");
+    fireEvent.click(screen.getByText(en));
+    expect(mockRouter.push).toHaveBeenCalledWith("/preferences/connections");
 
-      cleanup();
-      currentLang = "pt-BR";
-      renderItem(reauthItem(provider));
-      expect(screen.getByText(pt)).toBeTruthy();
-    },
-  );
+    cleanup();
+    currentLang = "pt-BR";
+    renderItem(reauthItem(provider));
+    expect(screen.getByText(pt)).toBeTruthy();
+  });
 
   it("does not crash without a target", () => {
-    const { onClick } = renderItem({
+    renderItem({
       ...reauthItem("xbox" as never),
       target: null,
     });
@@ -162,7 +178,6 @@ describe("connection.reauth-required notification", () => {
     fireEvent.click(
       screen.getByText("Your connection needs to be reconnected."),
     );
-    expect(onClick).toHaveBeenCalledTimes(1);
     expect(mockRouter.push).not.toHaveBeenCalled();
   });
 });
@@ -202,7 +217,7 @@ describe("import.discovery-completed provider names", () => {
     ).toBeTruthy();
     expect(screen.getByText(/2 automatically imported/i)).toBeTruthy();
 
-    fireEvent.click(screen.getByRole("alert"));
+    fireEvent.click(screen.getByText("Discovery completed"));
     expect(mockRouter.push).toHaveBeenCalledWith("/importer/epicgames");
   });
 
@@ -215,11 +230,11 @@ describe("import.discovery-completed provider names", () => {
       ),
     ).toBeTruthy();
 
-    fireEvent.click(screen.getByRole("alert"));
+    fireEvent.click(screen.getByText("Discovery completed"));
     expect(mockRouter.push).toHaveBeenCalledWith("/importer/nintendo");
   });
 
-  it("shows GOG counts, icon and importer destination", () => {
+  it("shows GOG counts, the discovery icon and importer destination", () => {
     const { container } = renderItem(importItem("gog"));
     expect(
       screen.getByText(
@@ -227,17 +242,15 @@ describe("import.discovery-completed provider names", () => {
       ),
     ).toBeTruthy();
     expect(screen.getByText(/2 automatically imported/i)).toBeTruthy();
-    expect(container.querySelector("img")?.getAttribute("src")).toContain(
-      "/gog.png",
-    );
-    fireEvent.click(screen.getByRole("alert"));
+    expect(container.querySelector(".bg-nav-accent-subtle")).toBeTruthy();
+    fireEvent.click(screen.getByText("Discovery completed"));
     expect(mockRouter.push).toHaveBeenCalledWith("/importer/gog");
   });
 
   it("does not crash when the import target is missing", () => {
     renderItem({ ...importItem("steam"), target: null });
 
-    fireEvent.click(screen.getByRole("alert"));
+    fireEvent.click(screen.getByText("Discovery completed"));
     expect(mockRouter.push).not.toHaveBeenCalled();
   });
 });

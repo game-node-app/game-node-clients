@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   Container,
   Divider,
@@ -12,7 +11,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconClock } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import {
   type SupporterOffer,
@@ -42,9 +40,6 @@ const AVAILABLE_GROUPS = [
   { key: "show", items: ["badge", "wall"] },
   { key: "live", items: ["live"] },
 ] as const;
-
-// Supporter extras that are announced but not available yet.
-const UPCOMING_GROUPS = [{ key: "library", items: ["customCovers"] }] as const;
 
 const TRUST = [
   "cancel",
@@ -250,43 +245,6 @@ const PlanCard = ({
             ))}
           </Stack>
         )}
-        <Stack gap={12}>
-          <Text className={styles.groupLabel} c="brand">
-            {t("supporter.benefits.comingSoonTitle")}
-          </Text>
-          <Stack gap={12}>
-            {UPCOMING_GROUPS.map((group) => (
-              <Stack key={group.key} gap={4}>
-                <Text fz={12} fw={600} className={styles.muted}>
-                  {t(`${prefix}.groups.${group.key}`)}
-                </Text>
-                <Stack component="ul" gap={0} className={styles.featureList}>
-                  {group.items.map((item) => (
-                    <Group
-                      key={item}
-                      component="li"
-                      gap={12}
-                      h={32}
-                      wrap="nowrap"
-                    >
-                      <IconClock
-                        size={16}
-                        color="var(--mantine-color-dimmed)"
-                        style={{ flexShrink: 0 }}
-                      />
-                      <Text flex={1} className={styles.muted}>
-                        {t(`${prefix}.features.${item}`)}
-                      </Text>
-                      <Badge size="xs" variant="light" color="gray">
-                        {t("supporter.benefits.comingSoon")}
-                      </Badge>
-                    </Group>
-                  ))}
-                </Stack>
-              </Stack>
-            ))}
-          </Stack>
-        </Stack>
       </Stack>
     </Paper>
   );

@@ -1,14 +1,16 @@
 // @vitest-environment jsdom
 import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   NotificationImporterTargetDto,
   NotificationInboxItemDto,
+  NotificationsService,
 } from "@repo/wrapper/server";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
 import ptTranslations from "../../../../../packages/locales/src/translations/json/pt-BR.json";
-import { AggregatedNotification } from "../../../../../packages/ui/src/components/notifications/AggregatedNotification";
+import { InboxNotificationItem } from "../../../../../packages/ui/src/components/notifications/view/InboxNotificationItem";
 
 const mockRouter = vi.hoisted(() => ({
   push: vi.fn().mockResolvedValue(undefined),
@@ -29,16 +31,27 @@ let currentLang = "en";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
+    i18n: { language: currentLang },
     t: (key: string, options?: Record<string, unknown>) => {
       const translations =
         currentLang === "pt-BR" ? ptTranslations : enTranslations;
-      const parts = key.split(".");
       let val: unknown = translations;
-      for (const p of parts) {
+      for (const p of key.split(".")) {
         val =
           typeof val === "object" && val !== null
             ? (val as Record<string, unknown>)[p]
             : undefined;
+      }
+      if (typeof val !== "string") {
+        const count = Number(options?.count ?? 0);
+        let plural: unknown = translations;
+        for (const p of `${key}_${count === 1 ? "one" : "other"}`.split(".")) {
+          plural =
+            typeof plural === "object" && plural !== null
+              ? (plural as Record<string, unknown>)[p]
+              : undefined;
+        }
+        val = plural;
       }
       if (typeof val === "string") {
         return val.replace(/\{\{(\w+)\}\}/g, (_, k) =>
@@ -53,6 +66,18 @@ vi.mock("@repo/locales", () => ({
 beforeEach(() => {
   vi.clearAllMocks();
   currentLang = "en";
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerFindAllV1",
+  ).mockResolvedValue({
+    data: [],
+    pagination: { nextCursor: null, hasMore: false },
+    unreadCount: 0,
+  });
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerAcknowledgeReadV1",
+  ).mockResolvedValue(undefined);
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
     addEventListener: vi.fn(),
@@ -64,7 +89,25 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
 });
+
+function renderItem(item: NotificationInboxItemDto) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false, refetchInterval: false },
+      mutations: { retry: false },
+    },
+  });
+
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>
+        <InboxNotificationItem item={item} />
+      </MantineProvider>
+    </QueryClientProvider>,
+  );
+}
 
 describe("import.discovery-completed notification localization", () => {
   const item: NotificationInboxItemDto = {
@@ -107,17 +150,8 @@ describe("import.discovery-completed notification localization", () => {
         preview: { ...item.preview, provider },
       } as NotificationInboxItemDto;
       currentLang = "en";
-      const onClick = vi.fn();
 
-      render(
-        <MantineProvider>
-          <AggregatedNotification
-            aggregatedNotification={providerItem}
-            backgroundColor="normal"
-            onClick={onClick}
-          />
-        </MantineProvider>,
-      );
+      const { container } = renderItem(providerItem);
 
       expect(
         screen.getByText(
@@ -132,14 +166,12 @@ describe("import.discovery-completed notification localization", () => {
       expect(screen.getByText(/1 failed/i)).toBeTruthy();
       expect(screen.getByText(/Hades, Celeste/i)).toBeTruthy();
 
-      const alert = screen.getByRole("alert");
-      expect(alert.getAttribute("aria-label")).toBe("Discovery completed");
+      // The name used to be the Notification aria-label; it is now a visible
+      // row, with the shared discovery icon instead of the provider logo.
+      expect(screen.getByText("Discovery completed")).toBeTruthy();
+      expect(container.querySelector(".bg-nav-accent-subtle")).toBeTruthy();
 
-      const img = screen.getByAltText("Importer source icon");
-      expect(img).toBeTruthy();
-
-      fireEvent.click(alert);
-      expect(onClick).toHaveBeenCalledTimes(1);
+      fireEvent.click(screen.getByText("Discovery completed"));
       expect(mockRouter.push).toHaveBeenCalledWith(`/importer/${provider}`);
     },
   );
@@ -154,17 +186,8 @@ describe("import.discovery-completed notification localization", () => {
       preview: { ...item.preview, provider },
     } as NotificationInboxItemDto;
     currentLang = "pt-BR";
-    const onClick = vi.fn();
 
-    render(
-      <MantineProvider>
-        <AggregatedNotification
-          aggregatedNotification={providerItem}
-          backgroundColor="normal"
-          onClick={onClick}
-        />
-      </MantineProvider>,
-    );
+    renderItem(providerItem);
 
     expect(
       screen.getByText(
@@ -178,11 +201,6 @@ describe("import.discovery-completed notification localization", () => {
     expect(screen.getByText(/5 já na sua biblioteca/i)).toBeTruthy();
     expect(screen.getByText(/1 com falha/i)).toBeTruthy();
     expect(screen.getByText(/Hades, Celeste/i)).toBeTruthy();
-
-    const alert = screen.getByRole("alert");
-    expect(alert.getAttribute("aria-label")).toBe("Descoberta concluída");
-
-    const img = screen.getByAltText("Ícone da fonte de importação");
-    expect(img).toBeTruthy();
+    expect(screen.getByText("Descoberta concluída")).toBeTruthy();
   });
 });

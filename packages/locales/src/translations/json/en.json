@@ -979,18 +979,23 @@
       "titleAlt": "We're also on your phone!"
     },
     "platforms": {
-      "description": "Import games from your platforms to your GameNode account",
-      "soon": "Soon",
-      "syncDescription": "Sync your library, your playtime directly on our website.",
+      "description": "Import your library and playtime from your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG accounts.",
+      "names": {
+        "steam": "Steam",
+        "psn": "PlayStation",
+        "xbox": "Xbox",
+        "epicgames": "Epic Games",
+        "nintendo": "Nintendo",
+        "gog": "GOG"
+      },
+      "syncDescription": "Connect each account once and keep your collection and playtime up to date automatically.",
       "title": "Sync with platforms"
     },
     "subheadline": "GameNode is the ideal platform to manage your game collection virtually.",
     "support": {
-      "apoia": "Apoia.se",
       "becomeSupporter": "Become a Supporter",
       "description": "Collaborate with us to keep our platform 100% Free and constantly evolving.",
-      "title": "GameNode is maintained exclusively with community support",
-      "apoiaNote": "Apoia.se is a separate donation channel and doesn't grant Supporter benefits."
+      "title": "GameNode is maintained exclusively with community support"
     },
     "presentation": {
       "heroTitle": "Organize all your games in one place",
@@ -1076,7 +1081,6 @@
           "theme": "Supporter profile theme in your accent color",
           "collections": "Up to 5 collections",
           "unlimitedCollections": "Unlimited collections",
-          "customCovers": "Custom game covers",
           "live": "What you're playing on Steam, live on your profile",
           "badge": "Supporter badge and title next to your name",
           "wall": "Your name on the supporters wall"
@@ -1252,26 +1256,49 @@
   },
   "navigation": {
     "about": "About",
+    "account": {
+      "caption": "My account",
+      "downloads": "Downloads",
+      "logout": "Log out",
+      "settings": "Settings",
+      "themes": "Themes",
+      "viewProfile": "View profile"
+    },
     "achievements": "Achievements",
     "activity": "Activity",
+    "ai": "GameNode + AI",
     "back": "Back",
     "blog": "Blog",
     "collections": "Collections",
     "daily": "Daily",
+    "dailyNodes": "Daily Nodes",
+    "dock": {
+      "collapse": "Collapse navigation",
+      "expand": "Expand navigation",
+      "groups": {
+        "discover": "Discover",
+        "yourSpace": "Your space"
+      },
+      "title": "Navigate"
+    },
     "explore": "Explore",
     "feats": "Feats",
     "home": "Home",
     "journal": "Journal",
     "library": "Library",
     "menu": "Menu",
+    "new": "New",
     "posts": "Posts",
     "preferences": "Preferences",
+    "premium": "Premium",
     "privacy": "Privacy",
     "profile": "Profile",
     "reviews": "Reviews",
+    "search": "Search",
     "settings": "Settings",
     "stats": "Stats",
-    "terms": "Terms"
+    "terms": "Terms",
+    "wrapped": "Wrapped"
   },
   "notFoundPage": {
     "backHome": "Back to home",
@@ -1282,17 +1309,20 @@
     "trending": "Trending now"
   },
   "notifications": {
-    "empty": "No notifications.",
-    "messages": {
-      "error": "Something went wrong!"
+    "achievement": {
+      "title": "Achievement"
     },
-    "title": "Notifications",
-    "titles": {
-      "changesApplied": "Changes applied!",
-      "error": "Error",
-      "failed": "Failed",
-      "success": "Success"
+    "achievementUnlocked": "Unlocked {{name}} (tier {{tier}})",
+    "actions": {
+      "followBack": "Follow back"
     },
+    "actors": {
+      "andOthers": "{{name}} and {{count}} more"
+    },
+    "connection": {
+      "title": "{{provider}} connection"
+    },
+    "connectionReauthRequired": "Your {{provider}} connection needs to be reconnected.",
     "discovery": {
       "title": "Discovery completed",
       "baseMessage": "We've found {{gamesCount}} new games ready to be imported from your {{sourceName}} connection.",
@@ -1301,8 +1331,71 @@
       "failedPart": "{{count}} failed",
       "sourceIconAlt": "Importer source icon"
     },
-    "connectionReauthRequired": "Your {{provider}} connection needs to be reconnected.",
-    "achievementUnlocked": "Unlocked {{name}} (tier {{tier}})"
+    "bellLabel_one": "Notifications, {{count}} unread",
+    "bellLabel_other": "Notifications, {{count}} unread",
+    "empty": "No notifications.",
+    "emptyUnread": "You're all caught up.",
+    "markAllAsRead": "Mark all as read",
+    "messages": {
+      "error": "Something went wrong!",
+      "followed_one": "started following you.",
+      "followed_other": "started following you.",
+      "liked_one": "liked your content.",
+      "liked_other": "liked your content.",
+      "likedReview_one": "liked your review{{game}}.",
+      "likedReview_other": "liked your review{{game}}.",
+      "likedActivity_one": "liked your activity{{game}}.",
+      "likedActivity_other": "liked your activity{{game}}.",
+      "likedPost_one": "liked your post.",
+      "likedPost_other": "liked your post.",
+      "likedComment_one": "liked your comment.",
+      "likedComment_other": "liked your comment.",
+      "gameSuffix": "of {{name}}",
+      "commented_one": "commented on your {{target}}: \"{{text}}\"",
+      "commented_other": "commented on your {{target}}: \"{{text}}\"",
+      "commentedNoText_one": "commented on your {{target}}.",
+      "commentedNoText_other": "commented on your {{target}}.",
+      "replied_one": "replied to your comment: \"{{text}}\"",
+      "replied_other": "replied to your comment: \"{{text}}\"",
+      "repliedNoText_one": "replied to your comment.",
+      "repliedNoText_other": "replied to your comment."
+    },
+    "moderation": {
+      "alert": "Notice",
+      "suspension": "Suspension",
+      "ban": "Ban"
+    },
+    "sections": {
+      "today": "Today",
+      "thisWeek": "This week",
+      "earlier": "Earlier"
+    },
+    "seeAll": "See all",
+    "settings": "Notification settings",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread"
+    },
+    "targets": {
+      "review": "review",
+      "post": "post",
+      "activity": "activity",
+      "content": "content"
+    },
+    "time": {
+      "now": "now",
+      "minutes": "{{count}} min",
+      "hours": "{{count}} h",
+      "days": "{{count}} d"
+    },
+    "title": "Notifications",
+    "titles": {
+      "changesApplied": "Changes applied!",
+      "error": "Error",
+      "failed": "Failed",
+      "success": "Success"
+    },
+    "unread": "Unread"
   },
   "playtime": {
     "buttons": {
@@ -1796,10 +1889,6 @@
       "collections": {
         "title": "Unlimited collections"
       },
-      "customCovers": {
-        "title": "Custom game covers",
-        "description": "Upload your own cover for any game in your library."
-      },
       "locked": {
         "label": "Available with the Supporter plan",
         "note": "Available with the Supporter plan. The preview shows how your profile would look."
@@ -1942,7 +2031,6 @@
         "badge": "Supporter badge",
         "theme": "Supporter theme",
         "animatedBorder": "Animated avatar border",
-        "customCovers": "Custom game covers",
         "liveProfile": "Live profile",
         "wall": "Supporters wall",
         "collectionLimit": "Unlimited collections"

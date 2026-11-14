@@ -22,6 +22,7 @@ import {
   getAuthClientOptions,
   handleAuthError,
   setProjectContext,
+  SettingsModal,
   setupAuthClient,
   UIProvider,
 } from "@repo/ui";
@@ -209,6 +210,12 @@ const App: React.FC = () => {
                   <LiveUpdateListener />
                   <NotificationsManager />
                   <Tabs />
+                  {/*
+                    Mobile host for `?settings=<tab>` links, including the
+                    notifications gear: the web shell mounts the same shared
+                    modal once.
+                  */}
+                  <SettingsModal />
                 </IonReactRouter>
               </PostHogProvider>
             </UIProvider>

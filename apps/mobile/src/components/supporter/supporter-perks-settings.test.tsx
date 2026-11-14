@@ -353,7 +353,6 @@ describe("SupporterPerksSettings", () => {
   it("shows Included in edit/unavailable and Supporters when locked", () => {
     renderSettings();
     expect(screen.getByText("supporter.perks.included")).toBeTruthy();
-    expect(screen.getByText("settings.badges.comingSoon")).toBeTruthy();
     cleanup();
 
     renderSettings({
@@ -364,7 +363,6 @@ describe("SupporterPerksSettings", () => {
       onWall: null,
     });
     expect(screen.getByText("supporter.perks.included")).toBeTruthy();
-    expect(screen.getByText("settings.badges.comingSoon")).toBeTruthy();
     cleanup();
 
     renderSettings({
@@ -375,8 +373,6 @@ describe("SupporterPerksSettings", () => {
       onWall: null,
     });
     expect(screen.getByText("supporter.features.availableLabel")).toBeTruthy();
-    // Custom covers stay upcoming in every mode.
-    expect(screen.getByText("settings.badges.comingSoon")).toBeTruthy();
   });
 
   it("adds the Steam hint in edit mode when no Steam account is connected", () => {

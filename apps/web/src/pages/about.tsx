@@ -1,8 +1,22 @@
 import { LandingHeader } from "@/components/general/header/LandingHeader";
-import { Box, Paper } from "@mantine/core";
+import { Box, Button, Paper } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { SupportersWall, useSupporterEntryHref } from "@repo/ui";
+import { UserConnectionDto } from "@repo/wrapper/server";
 import Link from "next/link";
+
+/**
+ * Currently supported connection types. Keep in sync with
+ * `ConnectionCreateDto.type` and `GET /v1/connections`.
+ */
+const PLATFORMS = [
+  { type: UserConnectionDto.type.STEAM, icon: "/img/landing/780e4.svg" },
+  { type: UserConnectionDto.type.PSN, icon: "/img/landing/1255f.svg" },
+  { type: UserConnectionDto.type.XBOX, icon: "/img/landing/24331.svg" },
+  { type: UserConnectionDto.type.EPICGAMES, icon: "/img/landing/317b0.svg" },
+  { type: UserConnectionDto.type.NINTENDO, icon: "/img/about_us/nintendo.png" },
+  { type: UserConnectionDto.type.GOG, icon: "/img/landing/b5a83.svg" },
+] as const;
 
 const AboutPage = () => {
   const { t } = useTranslation();
@@ -65,43 +79,82 @@ const AboutPage = () => {
         </Box>
       </Box>
 
-      <Box
-        className={
-          "flex bg-[#171717] flex-col sm:flex-row gap-0 sm:gap-32 px-4 sm:px-60 pt-20 pb-20"
-        }
-      >
-        <div className={"block"}>
-          <img
-            className={"pointer-events-none"}
-            src="/img/about_us/platforms.svg"
-            alt="platforms"
-          />
-        </div>
+      <Box className={"bg-[#171717] px-4 sm:px-12 lg:px-40 py-20"}>
+        <div
+          className={
+            "mx-auto flex max-w-6xl flex-col items-center gap-12 lg:flex-row lg:gap-24"
+          }
+        >
+          <div className={"grid w-full max-w-md grid-cols-3 gap-4 sm:gap-6"}>
+            {PLATFORMS.map((platform) => (
+              <div
+                className={"flex flex-col items-center gap-3"}
+                key={platform.type}
+              >
+                <div
+                  className={
+                    "flex size-16 items-center justify-center rounded-2xl border border-[#2a2a2a] bg-[#0b0b0b]"
+                  }
+                >
+                  <img
+                    className={"size-9 object-contain"}
+                    src={platform.icon}
+                    alt=""
+                    width={36}
+                    height={36}
+                  />
+                </div>
+                <p className={"text-center text-sm font-medium"}>
+                  {t(`landing.platforms.names.${platform.type}`)}
+                </p>
+              </div>
+            ))}
+          </div>
 
-        <div className={"pt-6 sm:pt-0"}>
-          <h2 className={"font-bold text-5xl pb-4 text-center sm:text-left"}>
-            {t("landing.platforms.title")}
-          </h2>
-          <p
-            className={
-              "text-[1.25rem] pb-2 font-regular text-center sm:text-left"
-            }
-          >
-            {t("landing.platforms.description")}
-          </p>
-          <p className={"text-[1.25rem] font-regular text-center sm:text-left"}>
-            {t("landing.platforms.syncDescription")}
-          </p>
-
-          <div className={"flex flex-col items-center pt-10 sm:items-start"}>
-            <p className={"pb-4"}>{t("landing.platforms.soon")}</p>
-            <img
-              className={"pointer-events-none"}
-              src="/img/about_us/soon.svg"
-              alt="soon"
-            />
+          <div className={"flex-1 text-center lg:text-left"}>
+            <h2 className={"font-bold text-4xl sm:text-5xl pb-4"}>
+              {t("landing.platforms.title")}
+            </h2>
+            <p className={"text-[1.25rem] pb-2 font-regular"}>
+              {t("landing.platforms.description")}
+            </p>
+            <p className={"text-[1.25rem] font-regular"}>
+              {t("landing.platforms.syncDescription")}
+            </p>
           </div>
         </div>
+      </Box>
+
+      <Box className={"px-4 sm:px-9 py-16"}>
+        <Paper
+          radius={18}
+          className={"mx-auto max-w-5xl border border-[#292929] p-8 sm:p-14"}
+          style={{
+            background:
+              "radial-gradient(60% 80% at 100% 0%, #f1502533, transparent), #090909",
+          }}
+        >
+          <div
+            className={
+              "flex flex-col items-start gap-8 lg:flex-row lg:items-center"
+            }
+          >
+            <div className={"flex-1"}>
+              <p className={"text-[13px] font-bold text-brand"}>
+                {t("landing.presentation.aiLabel")}
+              </p>
+              <h2 className={"py-3 text-3xl font-bold sm:text-4xl"}>
+                {t("landing.presentation.aiTitle")}
+              </h2>
+              <p className={"font-light text-lg text-[#adadad] sm:text-xl"}>
+                {t("landing.presentation.aiDescription")}
+              </p>
+            </div>
+            <Button component={Link} href="/mcp" size="lg" radius={8}>
+              {t("landing.presentation.aiCta")}
+            </Button>
+          </div>
+        </Paper>
       </Box>
 
       <Box className={"flex flex-col sm:flex-row items-center px-4 sm:px-9"}>
@@ -173,40 +226,18 @@ const AboutPage = () => {
           </p>
         </div>
 
-        <div
-          className={
-            "flex flex-col sm:flex-row items-center sm:items-start justify-center gap-10"
-          }
-        >
-          <div className={"flex flex-col items-center gap-3 max-w-md"}>
-            <Link
-              href={supporterHref}
-              className={
-                "inline-flex items-center justify-center bg-brand px-6 py-2 rounded-2xl tracking-wider text-2xl font-bold text-white transition-colors hover:bg-brand-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              }
-            >
-              {t("landing.support.becomeSupporter")}
-            </Link>
-            <p className={"text-center font-light text-sm sm:text-base"}>
-              {t("supporter.subheading")}
-            </p>
-          </div>
-
-          <div className={"flex flex-col items-center gap-3 max-w-md"}>
-            <a
-              href="https://apoia.se/gamenode"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                "inline-flex items-center justify-center bg-[#eb4a3b] px-6 py-2 rounded-2xl tracking-wider text-2xl font-bold text-white transition-colors hover:bg-[#d43f31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              }
-            >
-              {t("landing.support.apoia")}
-            </a>
-            <p className={"text-center font-light text-sm sm:text-base"}>
-              {t("landing.support.apoiaNote")}
-            </p>
-          </div>
+        <div className={"flex flex-col items-center gap-3 max-w-md"}>
+          <Link
+            href={supporterHref}
+            className={
+              "inline-flex items-center justify-center bg-brand px-6 py-2 rounded-2xl tracking-wider text-2xl font-bold text-white transition-colors hover:bg-brand-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            }
+          >
+            {t("landing.support.becomeSupporter")}
+          </Link>
+          <p className={"text-center font-light text-sm sm:text-base"}>
+            {t("supporter.subheading")}
+          </p>
         </div>
       </Box>
 

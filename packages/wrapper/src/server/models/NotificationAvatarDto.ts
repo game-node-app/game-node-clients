@@ -5,5 +5,6 @@
 export type NotificationAvatarDto = {
     id: number;
     filename: string;
+    extension: string;
 };
 

@@ -26,6 +26,7 @@ export * from "./avatar/index";
 export * from "./card/index";
 export * from "./editor/index";
 export * from "./hooks/index";
+export * from "./icons/index";
 export * from "./input/index";
 export * from "./not-found/index";
 export * from "./thirdparty/index";

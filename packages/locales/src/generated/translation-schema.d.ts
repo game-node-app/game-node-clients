@@ -984,17 +984,22 @@ export type TranslationSchema = {
     };
     platforms: {
       description: string;
-      soon: string;
+      names: {
+        steam: string;
+        psn: string;
+        xbox: string;
+        epicgames: string;
+        nintendo: string;
+        gog: string;
+      };
       syncDescription: string;
       title: string;
     };
     subheadline: string;
     support: {
-      apoia: string;
       becomeSupporter: string;
       description: string;
       title: string;
-      apoiaNote: string;
     };
     presentation: {
       heroTitle: string;
@@ -1080,7 +1085,6 @@ export type TranslationSchema = {
           theme: string;
           collections: string;
           unlimitedCollections: string;
-          customCovers: string;
           live: string;
           badge: string;
           wall: string;
@@ -1256,26 +1260,49 @@ export type TranslationSchema = {
   };
   navigation: {
     about: string;
+    account: {
+      caption: string;
+      downloads: string;
+      logout: string;
+      settings: string;
+      themes: string;
+      viewProfile: string;
+    };
     achievements: string;
     activity: string;
+    ai: string;
     back: string;
     blog: string;
     collections: string;
     daily: string;
+    dailyNodes: string;
+    dock: {
+      collapse: string;
+      expand: string;
+      groups: {
+        discover: string;
+        yourSpace: string;
+      };
+      title: string;
+    };
     explore: string;
     feats: string;
     home: string;
     journal: string;
     library: string;
     menu: string;
+    new: string;
     posts: string;
     preferences: string;
+    premium: string;
     privacy: string;
     profile: string;
     reviews: string;
+    search: string;
     settings: string;
     stats: string;
     terms: string;
+    wrapped: string;
   };
   notFoundPage: {
     backHome: string;
@@ -1286,17 +1313,20 @@ export type TranslationSchema = {
     trending: string;
   };
   notifications: {
-    empty: string;
-    messages: {
-      error: string;
+    achievement: {
+      title: string;
     };
-    title: string;
-    titles: {
-      changesApplied: string;
-      error: string;
-      failed: string;
-      success: string;
+    achievementUnlocked: string;
+    actions: {
+      followBack: string;
     };
+    actors: {
+      andOthers: string;
+    };
+    connection: {
+      title: string;
+    };
+    connectionReauthRequired: string;
     discovery: {
       title: string;
       baseMessage: string;
@@ -1305,8 +1335,71 @@ export type TranslationSchema = {
       failedPart: string;
       sourceIconAlt: string;
     };
-    connectionReauthRequired: string;
-    achievementUnlocked: string;
+    bellLabel_one: string;
+    bellLabel_other: string;
+    empty: string;
+    emptyUnread: string;
+    markAllAsRead: string;
+    messages: {
+      error: string;
+      followed_one: string;
+      followed_other: string;
+      liked_one: string;
+      liked_other: string;
+      likedReview_one: string;
+      likedReview_other: string;
+      likedActivity_one: string;
+      likedActivity_other: string;
+      likedPost_one: string;
+      likedPost_other: string;
+      likedComment_one: string;
+      likedComment_other: string;
+      gameSuffix: string;
+      commented_one: string;
+      commented_other: string;
+      commentedNoText_one: string;
+      commentedNoText_other: string;
+      replied_one: string;
+      replied_other: string;
+      repliedNoText_one: string;
+      repliedNoText_other: string;
+    };
+    moderation: {
+      alert: string;
+      suspension: string;
+      ban: string;
+    };
+    sections: {
+      today: string;
+      thisWeek: string;
+      earlier: string;
+    };
+    seeAll: string;
+    settings: string;
+    tabs: {
+      all: string;
+      unread: string;
+    };
+    targets: {
+      review: string;
+      post: string;
+      activity: string;
+      content: string;
+    };
+    time: {
+      now: string;
+      minutes: string;
+      hours: string;
+      days: string;
+    };
+    title: string;
+    titles: {
+      changesApplied: string;
+      error: string;
+      failed: string;
+      success: string;
+    };
+    unread: string;
   };
   playtime: {
     buttons: {
@@ -1800,10 +1893,6 @@ export type TranslationSchema = {
       collections: {
         title: string;
       };
-      customCovers: {
-        title: string;
-        description: string;
-      };
       locked: {
         label: string;
         note: string;
@@ -1946,7 +2035,6 @@ export type TranslationSchema = {
         badge: string;
         theme: string;
         animatedBorder: string;
-        customCovers: string;
         liveProfile: string;
         wall: string;
         collectionLimit: string;

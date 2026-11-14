@@ -6,5 +6,6 @@ export type NotificationGameContextDto = {
     id: number;
     name: string;
     slug: string | null;
+    coverUrl: string | null;
 };
 
