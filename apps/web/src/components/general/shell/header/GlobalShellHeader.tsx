@@ -41,7 +41,7 @@ export default function GlobalShellHeader({
   }, []);
 
   return (
-    <div className="mx-4 mt-4 flex h-14 items-center gap-2 rounded-md bg-nav-surface px-4">
+    <div className="mx-4 flex h-14 items-center gap-2 rounded-md bg-nav-surface px-4">
       <CommandCenterContextProvider>
         <CommandCenterModalOutlet />
         <CommandCenter />
