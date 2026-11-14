@@ -25,7 +25,6 @@ import {
   IconHeart,
   IconLock,
   IconPalette,
-  IconPhoto,
   IconProps,
   IconStack2,
   IconTag,
@@ -34,10 +33,7 @@ import { type ComponentType, type ReactNode } from "react";
 import { useOwnUserConnectionByType } from "#@/components/connections/hooks/useOwnUserConnectionByType";
 import { SettingsButton } from "#@/components/settings/common/SettingsButton";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
-import {
-  SettingsComingSoonBadge,
-  SettingsPill,
-} from "#@/components/settings/common/SettingsPill";
+import { SettingsPill } from "#@/components/settings/common/SettingsPill";
 import {
   SettingsIconTile,
   SettingsRow,
@@ -177,7 +173,7 @@ function LiveProfileDescription() {
  * "How you appear" supporter settings (design D7/D9): one row per preference
  * saved immediately through the partial preferences mutation, next to a live
  * preview; free users get the same rows locked. A Library card lists the
- * shipped collection perk and the upcoming custom covers.
+ * shipped collection perk.
  */
 export function SupporterPerksSettings({
   mode,
@@ -472,12 +468,6 @@ export function SupporterPerksSettings({
                       </SettingsPill>
                     )
                   }
-                />
-                <SettingsRow
-                  leftSection={<PerkIconTile Icon={IconPhoto} />}
-                  title={t("supporter.perks.customCovers.title")}
-                  description={t("supporter.perks.customCovers.description")}
-                  rightSection={<SettingsComingSoonBadge />}
                 />
               </SettingsCard>
             </Stack>

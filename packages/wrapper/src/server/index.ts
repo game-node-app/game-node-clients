@@ -191,6 +191,8 @@ export type { NotificationImportGameDto } from './models/NotificationImportGameD
 export { NotificationImportPreviewDto } from './models/NotificationImportPreviewDto';
 export type { NotificationInboxItemDto } from './models/NotificationInboxItemDto';
 export { NotificationProfileTargetDto } from './models/NotificationProfileTargetDto';
+export type { NotificationReadAllRequestDto } from './models/NotificationReadAllRequestDto';
+export type { NotificationReadAllResponseDto } from './models/NotificationReadAllResponseDto';
 export type { NotificationReadItemDto } from './models/NotificationReadItemDto';
 export type { NotificationReadRequestDto } from './models/NotificationReadRequestDto';
 export type { NotificationsPaginationDto } from './models/NotificationsPaginationDto';

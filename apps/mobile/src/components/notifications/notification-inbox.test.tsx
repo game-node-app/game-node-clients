@@ -23,9 +23,10 @@ import {
 } from "@repo/wrapper/server";
 import {
   acknowledgeNotificationsRead,
-  AggregatedNotification,
   useInfiniteAggregatedNotifications,
 } from "../../../../../packages/ui/src/components/notifications";
+import { InboxNotificationItem } from "../../../../../packages/ui/src/components/notifications/view/InboxNotificationItem";
+import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
 import NotificationsIcon from "./NotificationsIcon";
 
 const mockRouter = vi.hoisted(() => ({
@@ -43,20 +44,32 @@ vi.mock(
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
+    i18n: { language: "en" },
     t: (key: string, options?: Record<string, unknown>) => {
-      if (key === "notifications.discovery.baseMessage") {
-        return `We\x27ve found ${options?.gamesCount} new games ready to be imported from your ${options?.sourceName} connection.`;
+      const lookup = (dictionary: unknown, path: string): unknown => {
+        let value: unknown = dictionary;
+        for (const part of path.split(".")) {
+          value =
+            typeof value === "object" && value !== null
+              ? (value as Record<string, unknown>)[part]
+              : undefined;
+        }
+        return value;
+      };
+
+      let value = lookup(enTranslations, key);
+      if (typeof value !== "string") {
+        const count = Number(options?.count ?? 0);
+        value = lookup(
+          enTranslations,
+          `${key}_${count === 1 ? "one" : "other"}`,
+        );
       }
-      if (key === "notifications.discovery.importedPart") {
-        return `${options?.count} automatically imported`;
-      }
-      if (key === "notifications.discovery.skippedPart") {
-        return `${options?.count} already in your library`;
-      }
-      if (key === "notifications.discovery.failedPart") {
-        return `${options?.count} failed`;
-      }
-      return key;
+      if (typeof value !== "string") return key;
+
+      return value.replace(/\{\{(\w+)\}\}/g, (_, name: string) =>
+        String(options?.[name] ?? ""),
+      );
     },
   }),
 }));
@@ -103,6 +116,18 @@ beforeEach(() => {
     createdAt: "2026-01-01T00:00:00.000Z",
     updatedAt: "2026-01-01T00:00:00.000Z",
   } as unknown as import("@repo/wrapper/server").ProfileResponseDto);
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerFindAllV1",
+  ).mockResolvedValue({
+    data: [],
+    pagination: { nextCursor: null, hasMore: false },
+    unreadCount: 0,
+  });
+  vi.spyOn(
+    NotificationsService,
+    "notificationsControllerAcknowledgeReadV1",
+  ).mockResolvedValue(undefined);
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
     addEventListener: vi.fn(),
@@ -135,7 +160,7 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
         {
           userId: "u1",
           username: "alice",
-          avatar: { id: 10, filename: "alice_avatar" },
+          avatar: { id: 10, filename: "alice_avatar", extension: "png" },
         },
         { userId: "u2", username: "bob" },
       ],
@@ -148,27 +173,25 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
-    // Actor names
-    expect(screen.getByText(/alice, bob/i)).toBeTruthy();
-    // Remaining count = 4 - 2 = 2
-    expect(screen.getByText(/and 2 others/i)).toBeTruthy();
-    // Preview text lowercased
-    expect(screen.getByText(/liked your post/i)).toBeTruthy();
+    // Lead actor name plus the remaining count (4 - 1 = 3)
+    expect(screen.getByText("alice and 3 more")).toBeTruthy();
+    // Message comes from the translated key for the target type
+    expect(screen.getByText("liked your post.")).toBeTruthy();
   });
 
-  it("renders the lead actor avatar through UserAvatar with a complete file URL", async () => {
+  it("renders the lead actor avatar from the notification DTO without resolving the profile", () => {
     const item: NotificationInboxItemDto = {
       id: 12,
       type: "content.liked",
-      actors: [{ userId: "u1", username: "alice" }],
+      actors: [
+        {
+          userId: "u1",
+          username: "alice",
+          avatar: { id: 10, filename: "alice_avatar", extension: "png" },
+        },
+      ],
       actorCount: 1,
       eventCount: 1,
       preview: { text: "Liked your post" },
@@ -178,24 +201,14 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 1,
     };
 
-    const { container } = renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    const { container } = renderUI(<InboxNotificationItem item={item} />);
 
-    // The actor DTO has no extension, so the avatar must come from the
-    // actor's profile (filename + extension) instead of the notification DTO.
-    await waitFor(() => {
-      expect(
-        container.querySelector('img[src="alice_avatar.png"]'),
-      ).toBeTruthy();
-    });
-    expect(ProfileService.profileControllerFindOneByIdV1).toHaveBeenCalledWith(
-      "u1",
-    );
+    // The avatar is built from `actors[0].avatar` (filename + extension) and
+    // never resolves the actor profile, so the inbox issues no request per row.
+    expect(container.querySelector('img[src="alice_avatar.png"]')).toBeTruthy();
+    expect(
+      ProfileService.profileControllerFindOneByIdV1,
+    ).not.toHaveBeenCalled();
   });
 
   it("renders content.liked with activity target and game context without entity queries", () => {
@@ -210,24 +223,23 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
         type: NotificationActivityTargetDto.type.ACTIVITY,
         id: "act-1",
         activityType: "play",
-        game: { id: 99, name: "Chrono Trigger", slug: "chrono-trigger" },
+        game: {
+          id: 99,
+          name: "Chrono Trigger",
+          slug: "chrono-trigger",
+          coverUrl: null,
+        },
       },
       lastEventAt: "2026-10-25T12:00:00Z",
       version: 1,
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
     expect(screen.getByText(/alice/i)).toBeTruthy();
     expect(
-      screen.getByText(/liked your activity of Chrono Trigger/i),
+      screen.getByText("liked your activity of Chrono Trigger."),
     ).toBeTruthy();
   });
 
@@ -245,13 +257,7 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 0,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
     expect(screen.getByText(/alice/i)).toBeTruthy();
     expect(
@@ -273,13 +279,7 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 0,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
     expect(screen.getByText(/bob/i)).toBeTruthy();
     expect(
@@ -301,19 +301,13 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 0,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
     expect(screen.getByText(/charlie/i)).toBeTruthy();
-    expect(screen.getByText(/has started following you\./i)).toBeTruthy();
+    expect(screen.getByText(/started following you\./i)).toBeTruthy();
   });
 
-  it("renders import.discovery-completed with provider icon, discovery counts, and sampled titles without entity queries", () => {
+  it("renders import.discovery-completed with the discovery icon, counts and sampled titles without entity queries", () => {
     const item: NotificationInboxItemDto = {
       id: 6,
       type: "import.discovery-completed",
@@ -342,14 +336,9 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} />);
 
+    expect(screen.getByText("Discovery completed")).toBeTruthy();
     expect(
       screen.getByText(
         /15 new games ready to be imported from your Steam connection/i,
@@ -381,18 +370,57 @@ describe("Notification Inbox - Zero-hydration item rendering", () => {
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={vi.fn()}
-      />,
+    renderUI(<InboxNotificationItem item={item} />);
+
+    expect(screen.getByText("Suspension")).toBeTruthy();
+    const message = screen.getByText(/Inappropriate review text/i);
+    expect(message.textContent).toContain(
+      "The reported content may have been deleted.",
+    );
+    expect(message.textContent).toContain(
+      "If you think this is a mistake. Please reach out to us through our Discord.",
+    );
+  });
+
+  it("renders ten distinct actors without issuing a single profile request", () => {
+    const items: NotificationInboxItemDto[] = Array.from(
+      { length: 10 },
+      (_, index) => ({
+        id: 100 + index,
+        type: "profile.followed",
+        actors: [
+          {
+            userId: `actor-${index}`,
+            username: `user_${index}`,
+            avatar: {
+              id: index + 1,
+              filename: `avatar_${index}`,
+              extension: "png",
+            },
+          },
+        ],
+        actorCount: 1,
+        eventCount: 1,
+        preview: null,
+        target: { type: NotificationProfileTargetDto.type.PROFILE, id: "u" },
+        lastEventAt: "2026-10-25T12:00:00Z",
+        version: 1,
+        readVersion: 1,
+      }),
     );
 
-    expect(screen.getByText("reports.messages.suspend")).toBeTruthy();
-    expect(screen.getByText("Inappropriate review text")).toBeTruthy();
-    expect(screen.getByText("reports.messages.contentDeleted")).toBeTruthy();
-    expect(screen.getByText("reports.messages.appeal")).toBeTruthy();
+    const { container } = renderUI(
+      <>
+        {items.map((item) => (
+          <InboxNotificationItem key={item.id} item={item} />
+        ))}
+      </>,
+    );
+
+    expect(container.querySelectorAll('img[src^="avatar_"]')).toHaveLength(10);
+    expect(
+      ProfileService.profileControllerFindOneByIdV1,
+    ).not.toHaveBeenCalled();
   });
 });
 
@@ -411,7 +439,7 @@ describe("Notification Inbox - Target navigation", () => {
       { type: "importer", id: "imp-1", provider: "steam" },
     ],
   ])("navigates directly for %s target", async (_, expectedRoute, target) => {
-    const onClick = vi.fn();
+    const onNavigate = vi.fn();
     const item: NotificationInboxItemDto = {
       id: 10,
       type: "content.liked",
@@ -431,23 +459,17 @@ describe("Notification Inbox - Target navigation", () => {
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={onClick}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} onNavigate={onNavigate} />);
 
     fireEvent.click(screen.getByText(/alice/i));
-    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onNavigate).toHaveBeenCalledTimes(1);
     await waitFor(() => {
       expect(mockRouter.push).toHaveBeenCalledWith(expectedRoute);
     });
   });
 
   it("resolves review target on click to /game/<gameId>?tab=reviews&reviewId=<id>", async () => {
-    const onClick = vi.fn();
+    const onNavigate = vi.fn();
     vi.spyOn(
       ReviewsService,
       "reviewsControllerFindOneByIdV1",
@@ -469,16 +491,10 @@ describe("Notification Inbox - Target navigation", () => {
       readVersion: 1,
     };
 
-    renderUI(
-      <AggregatedNotification
-        aggregatedNotification={item}
-        backgroundColor="normal"
-        onClick={onClick}
-      />,
-    );
+    renderUI(<InboxNotificationItem item={item} onNavigate={onNavigate} />);
 
     fireEvent.click(screen.getByText(/alice/i));
-    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onNavigate).toHaveBeenCalledTimes(1);
     await waitFor(() => {
       expect(
         ReviewsService.reviewsControllerFindOneByIdV1,
@@ -560,7 +576,7 @@ describe("Notification Inbox - Cursor pagination", () => {
       expect(hookResult.current.data?.pages.length).toBe(1);
     });
 
-    expect(findSpy).toHaveBeenCalledWith(undefined, 10);
+    expect(findSpy).toHaveBeenCalledWith(undefined, 10, "all");
     expect(hookResult.current.hasNextPage).toBe(true);
 
     // Fetch next page
@@ -570,7 +586,7 @@ describe("Notification Inbox - Cursor pagination", () => {
       expect(hookResult.current.data?.pages.length).toBe(2);
     });
 
-    expect(findSpy).toHaveBeenCalledWith("cursor_page_2", 10);
+    expect(findSpy).toHaveBeenCalledWith("cursor_page_2", 10, "all");
     // On second page, hasMore is false, so hasNextPage must be false
     expect(hookResult.current.hasNextPage).toBe(false);
   });
@@ -582,7 +598,7 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
 
     // unreadCount > 0
     queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id"],
+      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
       {
         pages: [
           {
@@ -605,7 +621,7 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
 
     // unreadCount = 0 but item readVersion < version
     queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id"],
+      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
       {
         pages: [
           {
@@ -631,7 +647,7 @@ describe("Notification Inbox - Unread indicators and versioned acknowledgements"
 
     // unreadCount = 0 and all items read (readVersion >= version)
     queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id"],
+      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
       {
         pages: [
           {

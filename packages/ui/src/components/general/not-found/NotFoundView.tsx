@@ -55,7 +55,7 @@ const NotFoundView = ({
   return (
     <Box
       className={cn(
-        "mx-auto flex w-full flex-col md:min-h-[calc(100vh-54px)] md:justify-center",
+        "mx-auto flex w-full flex-col md:min-h-[calc(100vh-72px)] md:justify-center",
         className,
       )}
       px={{ base: 0, md: 80 }}

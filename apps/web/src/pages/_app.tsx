@@ -84,7 +84,7 @@ const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-roboto",
   style: ["normal", "italic"],
-  weight: ["300", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 /**

@@ -15,6 +15,32 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 export const DEFAULT_NOTIFICATIONS_LIMIT = 10;
 export const MAX_READ_ACK_BATCH_SIZE = 100;
 
+/** Server-side read-state filter of the notification inbox. */
+export type NotificationInboxFilter = "all" | "unread";
+
+/** Prefix shared by every aggregated inbox query, regardless of the filter. */
+export const NOTIFICATIONS_AGGREGATED_QUERY_KEY = [
+  "notifications",
+  "aggregated",
+] as const;
+
+/**
+ * Cache key of one inbox filter. Each filter keeps its own cursor, so they can
+ * never share a query (the server rejects a cursor used with another filter).
+ */
+export function getNotificationsInboxKey(
+  userId: string | undefined,
+  filter: NotificationInboxFilter = "all",
+): (string | undefined)[] {
+  return [
+    NOTIFICATIONS_AGGREGATED_QUERY_KEY[0],
+    NOTIFICATIONS_AGGREGATED_QUERY_KEY[1],
+    "infinite",
+    userId,
+    filter,
+  ];
+}
+
 export async function acknowledgeNotificationsRead(
   items: NotificationInboxItemDto[],
 ): Promise<boolean> {
@@ -31,9 +57,9 @@ export async function acknowledgeNotificationsRead(
 
   if (map.size === 0) return false;
 
-  const deduplicated: NotificationReadItemDto[] = Array.from(
-    map.entries(),
-  ).map(([id, version]) => ({ id, version }));
+  const deduplicated: NotificationReadItemDto[] = Array.from(map.entries()).map(
+    ([id, version]) => ({ id, version }),
+  );
 
   for (let i = 0; i < deduplicated.length; i += MAX_READ_ACK_BATCH_SIZE) {
     const chunk = deduplicated.slice(i, i + MAX_READ_ACK_BATCH_SIZE);
@@ -47,10 +73,11 @@ export async function acknowledgeNotificationsRead(
 
 export function useInfiniteAggregatedNotifications(
   limit = DEFAULT_NOTIFICATIONS_LIMIT,
+  filter: NotificationInboxFilter = "all",
 ): ExtendedUseInfiniteQueryResult<NotificationsResponseDto> {
   const userId = useUserId();
   const queryClient = useQueryClient();
-  const queryKey = ["notifications", "aggregated", "infinite", userId];
+  const queryKey = getNotificationsInboxKey(userId, filter);
   const invalidate = () => {
     queryClient.invalidateQueries({
       queryKey,
@@ -64,6 +91,7 @@ export function useInfiniteAggregatedNotifications(
         return NotificationsService.notificationsControllerFindAllV1(
           pageParam,
           limit,
+          filter,
         );
       },
       placeholderData: keepPreviousData,

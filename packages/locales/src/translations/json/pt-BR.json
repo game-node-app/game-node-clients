@@ -979,18 +979,23 @@
       "titleAlt": "Também estamos no seu celular!"
     },
     "platforms": {
-      "description": "Importe jogos das suas plataformas para sua conta GameNode",
-      "soon": "Em breve",
-      "syncDescription": "Sincronize sua biblioteca, seu tempo de jogo diretamente no nosso site.",
+      "description": "Importe sua biblioteca e seu tempo de jogo das suas contas Steam, PlayStation, Xbox, Epic Games, Nintendo e GOG.",
+      "names": {
+        "steam": "Steam",
+        "psn": "PlayStation",
+        "xbox": "Xbox",
+        "epicgames": "Epic Games",
+        "nintendo": "Nintendo",
+        "gog": "GOG"
+      },
+      "syncDescription": "Conecte cada conta uma vez e mantenha sua coleção e seu tempo de jogo sempre atualizados.",
       "title": "Sincronize com plataformas"
     },
     "subheadline": "GameNode é a plataforma ideal para gerenciar sua coleção de jogos virtualmente.",
     "support": {
-      "apoia": "Apoia.se",
       "becomeSupporter": "Seja Apoiador",
       "description": "Colabore conosco para manter nossa plataforma 100% gratuita e em constante evolução.",
-      "title": "GameNode é mantido exclusivamente com apoio da comunidade",
-      "apoiaNote": "O Apoia.se é um canal de doação à parte e não concede os benefícios de Apoiador."
+      "title": "GameNode é mantido exclusivamente com apoio da comunidade"
     },
     "presentation": {
       "heroTitle": "Organize todos os seus jogos em um só lugar",
@@ -1076,7 +1081,6 @@
           "theme": "Tema de Apoiador no perfil, na sua cor de destaque",
           "collections": "Até 5 coleções",
           "unlimitedCollections": "Coleções ilimitadas",
-          "customCovers": "Capas personalizadas dos jogos",
           "live": "O que você está jogando na Steam, ao vivo no seu perfil",
           "badge": "Selo e título de Apoiador ao lado do seu nome",
           "wall": "Seu nome no mural de apoiadores"
@@ -1252,26 +1256,49 @@
   },
   "navigation": {
     "about": "Sobre",
+    "account": {
+      "caption": "Minha conta",
+      "downloads": "Downloads",
+      "logout": "Sair",
+      "settings": "Configurações",
+      "themes": "Temas",
+      "viewProfile": "Ver perfil"
+    },
     "achievements": "Conquistas",
     "activity": "Atividade",
+    "ai": "GameNode + IA",
     "back": "Voltar",
     "blog": "Blog",
     "collections": "Coleções",
     "daily": "Daily",
+    "dailyNodes": "Daily Nodes",
+    "dock": {
+      "collapse": "Recolher navegação",
+      "expand": "Expandir navegação",
+      "groups": {
+        "discover": "Descobrir",
+        "yourSpace": "Seu espaço"
+      },
+      "title": "Navegar"
+    },
     "explore": "Explorar",
     "feats": "Feitos",
     "home": "Início",
     "journal": "Diário",
     "library": "Biblioteca",
     "menu": "Menu",
+    "new": "Novo",
     "posts": "Postagens",
     "preferences": "Preferências",
+    "premium": "Premium",
     "privacy": "Privacidade",
     "profile": "Perfil",
     "reviews": "Avaliações",
+    "search": "Buscar",
     "settings": "Configurações",
     "stats": "Estatísticas",
-    "terms": "Termos"
+    "terms": "Termos",
+    "wrapped": "Wrapped"
   },
   "notFoundPage": {
     "backHome": "Voltar ao início",
@@ -1282,17 +1309,20 @@
     "trending": "Em alta agora"
   },
   "notifications": {
-    "empty": "Nenhuma notificação.",
-    "messages": {
-      "error": "Algo deu errado!"
+    "achievement": {
+      "title": "Conquista"
     },
-    "title": "Notificações",
-    "titles": {
-      "changesApplied": "Alterações aplicadas!",
-      "error": "Erro",
-      "failed": "Falhou",
-      "success": "Sucesso"
+    "achievementUnlocked": "Desbloqueou {{name}} (nível {{tier}})",
+    "actions": {
+      "followBack": "Seguir de volta"
     },
+    "actors": {
+      "andOthers": "{{name}} e mais {{count}}"
+    },
+    "connection": {
+      "title": "Conexão com {{provider}}"
+    },
+    "connectionReauthRequired": "Sua conexão com {{provider}} precisa ser reconectada.",
     "discovery": {
       "title": "Descoberta concluída",
       "baseMessage": "Encontramos {{gamesCount}} novos jogos prontos para serem importados da sua conexão com {{sourceName}}.",
@@ -1301,8 +1331,71 @@
       "failedPart": "{{count}} com falha",
       "sourceIconAlt": "Ícone da fonte de importação"
     },
-    "connectionReauthRequired": "Sua conexão com {{provider}} precisa ser reconectada.",
-    "achievementUnlocked": "Desbloqueou {{name}} (nível {{tier}})"
+    "bellLabel_one": "Notificações, {{count}} não lida",
+    "bellLabel_other": "Notificações, {{count}} não lidas",
+    "empty": "Nenhuma notificação.",
+    "emptyUnread": "Nada novo por aqui.",
+    "markAllAsRead": "Marcar todas como lidas",
+    "messages": {
+      "error": "Algo deu errado!",
+      "followed_one": "começou a seguir você.",
+      "followed_other": "começaram a seguir você.",
+      "liked_one": "curtiu seu conteúdo.",
+      "liked_other": "curtiram seu conteúdo.",
+      "likedReview_one": "curtiu sua review{{game}}.",
+      "likedReview_other": "curtiram sua review{{game}}.",
+      "likedActivity_one": "curtiu sua atividade{{game}}.",
+      "likedActivity_other": "curtiram sua atividade{{game}}.",
+      "likedPost_one": "curtiu seu post.",
+      "likedPost_other": "curtiram seu post.",
+      "likedComment_one": "curtiu seu comentário.",
+      "likedComment_other": "curtiram seu comentário.",
+      "gameSuffix": "de {{name}}",
+      "commented_one": "comentou na sua {{target}}: \"{{text}}\"",
+      "commented_other": "comentaram na sua {{target}}: \"{{text}}\"",
+      "commentedNoText_one": "comentou na sua {{target}}.",
+      "commentedNoText_other": "comentaram na sua {{target}}.",
+      "replied_one": "respondeu seu comentário: \"{{text}}\"",
+      "replied_other": "responderam seu comentário: \"{{text}}\"",
+      "repliedNoText_one": "respondeu seu comentário.",
+      "repliedNoText_other": "responderam seu comentário."
+    },
+    "moderation": {
+      "alert": "Aviso",
+      "suspension": "Suspensão",
+      "ban": "Banimento"
+    },
+    "sections": {
+      "today": "Hoje",
+      "thisWeek": "Esta semana",
+      "earlier": "Mais antigas"
+    },
+    "seeAll": "Ver todas",
+    "settings": "Configurações de notificações",
+    "tabs": {
+      "all": "Todas",
+      "unread": "Não lidas"
+    },
+    "targets": {
+      "review": "review",
+      "post": "publicação",
+      "activity": "atividade",
+      "content": "publicação"
+    },
+    "time": {
+      "now": "agora",
+      "minutes": "{{count}} min",
+      "hours": "{{count}} h",
+      "days": "{{count}} d"
+    },
+    "title": "Notificações",
+    "titles": {
+      "changesApplied": "Alterações aplicadas!",
+      "error": "Erro",
+      "failed": "Falhou",
+      "success": "Sucesso"
+    },
+    "unread": "Não lida"
   },
   "playtime": {
     "buttons": {
@@ -1796,10 +1889,6 @@
       "collections": {
         "title": "Coleções ilimitadas"
       },
-      "customCovers": {
-        "title": "Capas personalizadas dos jogos",
-        "description": "Envie sua própria capa para qualquer jogo da sua biblioteca."
-      },
       "locked": {
         "label": "Disponível no plano Apoiador",
         "note": "Disponível no plano Apoiador. A prévia ao lado mostra como ficaria o seu perfil."
@@ -1942,7 +2031,6 @@
         "badge": "Selo de Apoiador",
         "theme": "Tema de Apoiador",
         "animatedBorder": "Borda animada no avatar",
-        "customCovers": "Capas personalizadas dos jogos",
         "liveProfile": "Live no perfil",
         "wall": "Mural de apoiadores",
         "collectionLimit": "Coleções ilimitadas"
