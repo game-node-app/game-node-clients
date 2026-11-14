@@ -9,7 +9,7 @@ import { SettingsModal } from "@repo/ui";
 
 const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/auth", "/oauth/consent"];
 
-const HEADER_HEIGHT = 72;
+const HEADER_HEIGHT = 56;
 const DOCK_GUTTER = 16;
 
 /**
@@ -68,7 +68,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
       </AppShell.Header>
       <AppShell.Navbar>
         <div className="h-full p-4">
-          <div className={"sticky top-4 h-[calc(100dvh-72px-32px)]"}>
+          <div className={"sticky top-4 h-[calc(100dvh-56px-32px)]"}>
             <Dock
               collapsed={collapsed}
               onToggleCollapsed={() => setDockCollapsed((current) => !current)}

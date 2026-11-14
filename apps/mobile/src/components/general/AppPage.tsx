@@ -44,7 +44,7 @@ const AppPage = ({
 }: Props) => {
   return (
     <IonPage>
-      <IonHeader className={"ion-no-border"}>
+      <IonHeader className={"ion-no-border relative"}>
         <IonToolbar>
           <IonButtons slot={"start"}>
             {withMenuButton ? <IonMenuButton /> : <IonBackButton />}
