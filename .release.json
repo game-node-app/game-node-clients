@@ -1,0 +1,28 @@
+{
+  "source": "b1d10a064702f93e5f5f188ecf1f188ab672a6aa",
+  "changesets": [
+    ".changeset/progress-bar-and-header-sizing.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[42fc7f2d52c9cf9a8cf69e04b66a1aadaa9b345f...b1d10a064702f93e5f5f188ecf1f188ab672a6aa]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/b1d10a064702f93e5f5f188ecf1f188ab672a6aa",
+  "versions": {
+    "web": "1.16.1",
+    "mobile": "1.14.1"
+  }
+}
