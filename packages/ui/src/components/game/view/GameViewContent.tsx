@@ -26,10 +26,17 @@ const GameViewContent = ({
       return null;
     }
 
-    return items.map((item) => {
+    return items.map((item, index) => {
+      // Entrance: each item fades up, staggered by position (capped so long lists don't lag).
+      // Keyed by game id, so only newly mounted items animate (pagination, infinite scroll).
+      const animationProps = {
+        className: "motion-safe:animate-gn-fade-up",
+        style: { animationDelay: `${Math.min(index, 12) * 40}ms` },
+      };
+
       if (layout === "list") {
         return (
-          <Box w={"100%"} key={item.id}>
+          <Box w={"100%"} key={item.id} {...animationProps}>
             <GameListItem game={item} figureProps={figureProps} />
             <Divider mt={"xs"} variant={"dashed"} />
           </Box>
@@ -37,7 +44,9 @@ const GameViewContent = ({
       }
 
       return (
-        <GameGridItem key={item.id} game={item} figureProps={figureProps} />
+        <div key={item.id} {...animationProps}>
+          <GameGridItem game={item} figureProps={figureProps} />
+        </div>
       );
     });
   }, [figureProps, items, layout]);

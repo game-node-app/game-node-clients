@@ -251,7 +251,13 @@ export default function WebApp({
                       <ErrorBoundaryFallback error={error as Error} />
                     )}
                   >
-                    <Component {...pageProps} />
+                    {/* keyed by pathname so each page fades in, but query changes (search) don't replay it */}
+                    <div
+                      key={router.asPath.split(/[?#]/)[0]}
+                      className="motion-safe:animate-gn-fade-in"
+                    >
+                      <Component {...pageProps} />
+                    </div>
                   </ErrorBoundary>
                 </GlobalAppShell>
               </HydrationBoundary>

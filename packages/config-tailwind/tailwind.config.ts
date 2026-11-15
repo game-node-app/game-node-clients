@@ -43,6 +43,20 @@ const config: Omit<Config, "content"> = {
         lg: "var(--mantine-font-size-lg)",
         xl: "var(--mantine-font-size-xl)",
       },
+      keyframes: {
+        "gn-fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "gn-fade-up": {
+          from: { opacity: "0", transform: "translateY(12px) scale(0.98)" },
+          to: { opacity: "1", transform: "none" },
+        },
+      },
+      animation: {
+        "gn-fade-in": "gn-fade-in 300ms ease-out both",
+        "gn-fade-up": "gn-fade-up 450ms cubic-bezier(0.22, 1, 0.36, 1) both",
+      },
       textColor: "#D9D9D9",
       colors: {
         body: "var(--mantine-color-body)",
