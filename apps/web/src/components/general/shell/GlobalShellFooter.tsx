@@ -3,7 +3,7 @@ import { useTranslation } from "@repo/locales";
 import {
   IconBrandDiscord,
   IconBrandGithub,
-  IconBrandTwitter,
+  IconBrandX,
 } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -46,9 +46,9 @@ const GlobalShellFooter = () => {
           <IconBrandDiscord size="1.05rem" stroke={1.5} />
         </ActionIcon>
       </Link>
-      <Link target={"_blank"} href={"https://twitter.com/gamenodeapp"}>
+      <Link target={"_blank"} href={"https://x.com/gamenodeapp"}>
         <ActionIcon size="lg" variant="default" radius="xl">
-          <IconBrandTwitter size="1.05rem" stroke={1.5} />
+          <IconBrandX size="1.05rem" stroke={1.5} />
         </ActionIcon>
       </Link>
     </Flex>
