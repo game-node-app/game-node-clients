@@ -1,0 +1,28 @@
+{
+  "source": "3b044fbdbd7fc52eea21f74b9db890ad04f3890f",
+  "changesets": [
+    ".changeset/fix-recap-video-preview.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[fa54458bba67456aaffe88e3ec4a4fb30219e8c9...3b044fbdbd7fc52eea21f74b9db890ad04f3890f]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/3b044fbdbd7fc52eea21f74b9db890ad04f3890f",
+  "versions": {
+    "web": "1.17.2",
+    "mobile": "1.15.1"
+  }
+}
