@@ -7,6 +7,7 @@ export * from "./useProfileMetricsDistributionByYear";
 export * from "./useProfileMetricsOverview";
 export * from "./useProfileMetricsReport";
 export * from "./useProfileVideoPlayback";
+export * from "./useProfileVideoPreparation";
 export * from "./useProfileVideoUpload";
 export * from "./useProfileVideoUploads";
 export * from "./useSearchUsers";

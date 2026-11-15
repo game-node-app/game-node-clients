@@ -69,7 +69,8 @@ export function ProfileVideoUploadStatus({ slot, className }: Props) {
       >
         <Loader size={12} />
         <Text fz={12} lh={"16px"} className={"text-[#adadad]"}>
-          {t("profileVideo.status.processing")}
+          {t("profileVideo.status.processing")}{" "}
+          {t("profileVideo.status.processingHint")}
         </Text>
       </Group>
     );

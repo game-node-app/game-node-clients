@@ -1862,6 +1862,13 @@
       "zoom": "Zoom",
       "centerCropNotice": "Não é possível pré-visualizar este vídeo no seu dispositivo. O servidor vai centralizá-lo e cortá-lo para você."
     },
+    "prepare": {
+      "title": "Otimizando seu vídeo",
+      "progress": "Preparando vídeo… {{percent}}%",
+      "cancel": "Cancelar",
+      "unsupported": "Seu navegador não consegue otimizar vídeos, então o arquivo original será enviado.",
+      "failedFallback": "Não conseguimos otimizar o vídeo no seu dispositivo. Enviando o arquivo original."
+    },
     "supporter": {
       "title": "Vídeos de perfil são um benefício para apoiadores",
       "description": "Apoie o GameNode para enviar um vídeo curto como seu avatar ou banner.",
@@ -1883,6 +1890,7 @@
     },
     "status": {
       "processing": "Processando vídeo...",
+      "processingHint": "Sua imagem atual continua até o novo vídeo ficar pronto.",
       "ready": "Vídeo pronto",
       "failed": "Falha ao processar o vídeo",
       "errors": {

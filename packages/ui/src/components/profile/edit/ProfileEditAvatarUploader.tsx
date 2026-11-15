@@ -6,6 +6,8 @@ import { ProfileVideoCropStep } from "#@/components/profile/edit/ProfileVideoCro
 import { ProfileVideoPreview } from "#@/components/profile/edit/ProfileVideoPreview";
 import { ProfileVideoProbe } from "#@/components/profile/edit/ProfileVideoProbe";
 import { ProfileVideoSupporterNotice } from "#@/components/profile/edit/ProfileVideoSupporterNotice";
+import { ProfileVideoPreparationStatus } from "#@/components/profile/edit/ProfileVideoPreparationStatus";
+import { useProfileVideoPreparation } from "#@/components/profile/hooks/useProfileVideoPreparation";
 import { useProfileVideoUpload } from "#@/components/profile/hooks/useProfileVideoUpload";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import type { VideoCropArea } from "#@/components/profile/util/normalizeVideoCrop";
@@ -68,6 +70,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
     supporterStatus.data == undefined &&
     (supporterStatus.isLoading || supporterStatus.isPending);
   const videoUpload = useProfileVideoUpload();
+  const videoPreparation = useProfileVideoPreparation();
 
   const [selectedFile, setSelectedFile] = useState<File>();
   const [selectedFileSrc, setSelectedFileSrc] = useState<string>();
@@ -160,20 +163,35 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
     setVideoCropPercentages(percentages);
   };
 
-  const performVideoUpload = () => {
+  const performVideoUpload = async () => {
     if (!selectedFile) {
       setSelectionError(t("profileVideo.upload.messages.invalidVideoSource"));
       return;
     }
 
-    const crop =
-      videoPreviewState === "previewable" && videoCropPercentages
-        ? normalizeVideoCrop(videoCropPercentages)
-        : undefined;
+    const cropPercentages =
+      videoPreviewState === "previewable" ? videoCropPercentages : undefined;
+    let fileToSend: File = selectedFile;
+    let crop = cropPercentages
+      ? normalizeVideoCrop(cropPercentages)
+      : undefined;
+
+    // Crop and shrink on the device first; the server still converts it.
+    const preparation = await videoPreparation.prepare({
+      file: selectedFile,
+      slot: "avatar",
+      cropPercentages,
+    });
+    if (preparation.status === "cancelled") return;
+    if (preparation.status === "prepared") {
+      fileToSend = preparation.file;
+      // Already framed, so the server must not crop it again.
+      crop = undefined;
+    }
 
     videoUpload.mutate(
       {
-        file: selectedFile,
+        file: fileToSend,
         type: "avatar",
         crop,
       },
@@ -377,9 +395,16 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
                   )}
                 </Stack>
               </DetailsBox>
+              {videoPreparation.isPreparing && (
+                <ProfileVideoPreparationStatus
+                  progress={videoPreparation.progress}
+                  onCancel={videoPreparation.cancel}
+                />
+              )}
               <Group justify={"center"} mb={10}>
                 <Button
                   variant={"default"}
+                  disabled={videoPreparation.isPreparing}
                   onClick={() =>
                     handleStepClick(videoPreviewState === "previewable" ? 1 : 0)
                   }
@@ -389,6 +414,7 @@ const ProfileEditAvatarUploader = ({ onClose }: Props) => {
                 <Button
                   onClick={() => performUpload()}
                   loading={videoUpload.isPending}
+                  disabled={videoPreparation.isPreparing}
                 >
                   {t("actions.confirm")}
                 </Button>

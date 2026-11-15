@@ -9,6 +9,7 @@ export * from "./ProfileEditFeaturedAchievement";
 export * from "./ProfileEditForm";
 export * from "./ProfileEditUsernameUpdate";
 export * from "./ProfileVideoCropStep";
+export * from "./ProfileVideoPreparationStatus";
 export * from "./ProfileVideoPreview";
 export * from "./ProfileVideoProbe";
 export * from "./ProfileVideoSupporterNotice";

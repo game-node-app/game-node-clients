@@ -1866,6 +1866,13 @@ export type TranslationSchema = {
       zoom: string;
       centerCropNotice: string;
     };
+    prepare: {
+      title: string;
+      progress: string;
+      cancel: string;
+      unsupported: string;
+      failedFallback: string;
+    };
     supporter: {
       title: string;
       description: string;
@@ -1887,6 +1894,7 @@ export type TranslationSchema = {
     };
     status: {
       processing: string;
+      processingHint: string;
       ready: string;
       failed: string;
       errors: {
