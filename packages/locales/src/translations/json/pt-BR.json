@@ -1337,8 +1337,12 @@
     },
     "wrapped": {
       "buttons": {
-        "download": "Baixar",
-        "generate": "Gerar"
+        "downloadImage": "Baixar imagem",
+        "downloadVideo": "Baixar vídeo",
+        "preparingImage": "Preparando imagem…",
+        "preparingVideo": "Preparando vídeo… {{progress}}%",
+        "shareImage": "Compartilhar imagem",
+        "shareVideo": "Compartilhar vídeo"
       },
       "card": {
         "comparison": "Vs. período anterior",
@@ -1418,7 +1422,6 @@
       "title": "Wrapped",
       "video": {
         "becomeSupporter": "Seja um Apoiador",
-        "generate": "Gerar vídeo",
         "hint": "Escolha um clipe para tocar dentro do cartaz (até {{seconds}} segundos).",
         "pick": "Escolher vídeo",
         "premiumOnly": "Exportar o Wrapped em vídeo é uma vantagem de Apoiador.",

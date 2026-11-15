@@ -1341,8 +1341,12 @@ export type TranslationSchema = {
     };
     wrapped: {
       buttons: {
-        download: string;
-        generate: string;
+        downloadImage: string;
+        downloadVideo: string;
+        preparingImage: string;
+        preparingVideo: string;
+        shareImage: string;
+        shareVideo: string;
       };
       card: {
         comparison: string;
@@ -1422,7 +1426,6 @@ export type TranslationSchema = {
       title: string;
       video: {
         becomeSupporter: string;
-        generate: string;
         hint: string;
         pick: string;
         premiumOnly: string;

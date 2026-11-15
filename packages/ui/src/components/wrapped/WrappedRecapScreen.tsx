@@ -42,17 +42,19 @@ import {
   isRecapVideoSupported,
   RECAP_VIDEO_MAX_SECONDS,
 } from "#@/components/wrapped/util/exportRecapVideo";
-import { createErrorNotification } from "#@/util";
+import { cn, createErrorNotification } from "#@/util";
 import {
   ActionIcon,
   Button,
   FileButton,
   Group,
+  Loader,
   Progress,
   SegmentedControl,
   Stack,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconDownload, IconLock, IconVideo, IconX } from "@tabler/icons-react";
@@ -266,7 +268,45 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
 
   const disabled = !isReady || isEmpty;
   const videoAvailable = template === "poster" && format === "story";
-  const hasVideo = videoAvailable && isSupporter && !!videoFile && !!videoUrl;
+  // The clip is the active output only when the whole video path is available;
+  // otherwise the screen keeps exporting the image shown in the preview.
+  const hasVideo =
+    videoAvailable &&
+    isSupporter &&
+    videoSupported &&
+    !!videoFile &&
+    !!videoUrl;
+
+  // One export area for whichever output is active: the clip or the card.
+  const exportPending = shareMutation.isPending || videoMutation.isPending;
+  const exportDisabled = disabled || exportPending;
+  const videoPercent = Math.round(videoProgress * 100);
+  const shareLabel = hasVideo
+    ? t("mobile.wrapped.buttons.shareVideo")
+    : t("mobile.wrapped.buttons.shareImage");
+  const downloadLabel = hasVideo
+    ? t("mobile.wrapped.buttons.downloadVideo")
+    : t("mobile.wrapped.buttons.downloadImage");
+  const preparingLabel = videoMutation.isPending
+    ? t("mobile.wrapped.buttons.preparingVideo", { progress: videoPercent })
+    : t("mobile.wrapped.buttons.preparingImage");
+
+  const shareActive = () => {
+    if (hasVideo) {
+      videoMutation.mutate(false);
+      return;
+    }
+    shareMutation.mutate(false);
+  };
+
+  const downloadActive = () => {
+    if (hasVideo) {
+      videoMutation.mutate(true);
+      return;
+    }
+    shareMutation.mutate(true);
+  };
+
   const captionProps = {
     size: "xs",
     fw: 700,
@@ -290,7 +330,9 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
       )}
 
       <div
-        className={"grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] items-start"}
+        className={
+          "grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_360px] items-start"
+        }
       >
         <div
           className={
@@ -360,153 +402,173 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
           )}
         </div>
 
-        <Stack gap={"lg"}>
-          <Stack gap={6}>
-            <Text {...captionProps}>{t("mobile.wrapped.labels.period")}</Text>
-            <SegmentedControl
-              fullWidth
-              data={periodOptions}
-              value={recapPeriod}
-              onChange={(value) => setRecapPeriod(value as RecapPeriod)}
-            />
-          </Stack>
-
-          <Stack gap={6}>
-            <Text {...captionProps}>{t("mobile.wrapped.labels.format")}</Text>
-            <RecapFormatToggle
-              value={format}
-              storyLabel={t("mobile.wrapped.formats.story")}
-              feedLabel={t("mobile.wrapped.formats.feed")}
-              onChange={onFormatChange}
-            />
-          </Stack>
-
-          <Stack gap={6}>
-            <Text {...captionProps}>{t("mobile.wrapped.labels.template")}</Text>
-            <RecapTemplatePicker
-              value={template}
-              options={TEMPLATES_BY_FORMAT[format]}
-              format={format}
-              getLabel={(value) => t(`mobile.wrapped.templates.${value}`)}
-              onChange={setTemplate}
-            />
-          </Stack>
-
-          <RecapCustomizePanel
-            value={custom}
-            onChange={setCustom}
-            games={backdropGames}
-            hasBackdrop={template === "poster" || template === "bento"}
-            defaultOpacity={template === "bento" ? 0.18 : 0.32}
-          />
-
-          {videoAvailable && (
-            <Stack gap={6}>
-              <Text {...captionProps}>{t("mobile.wrapped.labels.video")}</Text>
-              {!isSupporter ? (
-                <Group gap={"xs"} wrap={"nowrap"} align={"flex-start"}>
-                  <IconLock size={16} className={"shrink-0 mt-0.5"} />
-                  <Text size={"sm"} c={"dimmed"}>
-                    {t("mobile.wrapped.video.premiumOnly")}{" "}
-                    <TextLink href={supporterHref}>
-                      {t("mobile.wrapped.video.becomeSupporter")}
-                    </TextLink>
-                  </Text>
-                </Group>
-              ) : !videoSupported ? (
-                <Text size={"sm"} c={"dimmed"}>
-                  {t("mobile.wrapped.video.unsupported")}
+        <Stack gap={"lg"} className={"min-w-0"}>
+          {/* An export reads the preview as it is now, so every control that
+              changes the preview or the output is locked while it runs. */}
+          <fieldset
+            disabled={exportPending}
+            inert={exportPending || undefined}
+            className={cn(
+              "border-0 p-0 m-0 min-w-0 transition-opacity",
+              exportPending && "opacity-50",
+            )}
+          >
+            <Stack gap={"lg"}>
+              <Stack gap={6}>
+                <Text {...captionProps}>
+                  {t("mobile.wrapped.labels.period")}
                 </Text>
-              ) : (
-                <>
-                  <Text size={"sm"} c={"dimmed"}>
-                    {t("mobile.wrapped.video.hint", {
-                      seconds: RECAP_VIDEO_MAX_SECONDS,
-                    })}
+                <SegmentedControl
+                  fullWidth
+                  data={periodOptions}
+                  value={recapPeriod}
+                  disabled={exportPending}
+                  onChange={(value) => setRecapPeriod(value as RecapPeriod)}
+                />
+              </Stack>
+
+              <Stack gap={6}>
+                <Text {...captionProps}>
+                  {t("mobile.wrapped.labels.format")}
+                </Text>
+                <RecapFormatToggle
+                  value={format}
+                  storyLabel={t("mobile.wrapped.formats.story")}
+                  feedLabel={t("mobile.wrapped.formats.feed")}
+                  onChange={onFormatChange}
+                />
+              </Stack>
+
+              <Stack gap={6}>
+                <Text {...captionProps}>
+                  {t("mobile.wrapped.labels.template")}
+                </Text>
+                <RecapTemplatePicker
+                  value={template}
+                  options={TEMPLATES_BY_FORMAT[format]}
+                  format={format}
+                  getLabel={(value) => t(`mobile.wrapped.templates.${value}`)}
+                  onChange={setTemplate}
+                />
+              </Stack>
+
+              <RecapCustomizePanel
+                value={custom}
+                onChange={setCustom}
+                games={backdropGames}
+                hasBackdrop={template === "poster" || template === "bento"}
+                defaultOpacity={template === "bento" ? 0.18 : 0.32}
+              />
+
+              {videoAvailable && (
+                <Stack gap={6}>
+                  <Text {...captionProps}>
+                    {t("mobile.wrapped.labels.video")}
                   </Text>
-                  <Group gap={"xs"} wrap={"nowrap"}>
-                    <FileButton
-                      onChange={setVideoFile}
-                      accept={"video/mp4,video/quicktime,video/webm"}
-                    >
-                      {(props) => (
-                        <Button
-                          {...props}
-                          variant={"default"}
-                          leftSection={<IconVideo size={16} />}
-                          className={"flex-grow min-w-0"}
-                        >
-                          <span className={"truncate"}>
-                            {videoFile?.name ?? t("mobile.wrapped.video.pick")}
-                          </span>
-                        </Button>
-                      )}
-                    </FileButton>
-                    {videoFile && (
-                      <ActionIcon
-                        size={"input-sm"}
-                        variant={"default"}
-                        onClick={() => setVideoFile(null)}
-                        aria-label={t("mobile.wrapped.video.remove")}
-                      >
-                        <IconX size={16} />
-                      </ActionIcon>
-                    )}
-                  </Group>
-                  {hasVideo && (
-                    <Group className="w-full gap-xs" wrap={"nowrap"}>
-                      <Button
-                        onClick={() => videoMutation.mutate(false)}
-                        loading={videoMutation.isPending}
-                        disabled={disabled}
-                        className={"flex-grow"}
-                      >
-                        {t("mobile.wrapped.video.generate")}
-                      </Button>
-                      <ActionIcon
-                        size={"input-md"}
-                        variant={"default"}
-                        loading={videoMutation.isPending}
-                        disabled={disabled}
-                        onClick={() => videoMutation.mutate(true)}
-                        aria-label={t("mobile.wrapped.buttons.download")}
-                      >
-                        <IconDownload />
-                      </ActionIcon>
+                  {!isSupporter ? (
+                    <Group gap={"xs"} wrap={"nowrap"} align={"flex-start"}>
+                      <IconLock size={16} className={"shrink-0 mt-0.5"} />
+                      <Text size={"sm"} c={"dimmed"}>
+                        {t("mobile.wrapped.video.premiumOnly")}{" "}
+                        <TextLink href={supporterHref}>
+                          {t("mobile.wrapped.video.becomeSupporter")}
+                        </TextLink>
+                      </Text>
                     </Group>
+                  ) : !videoSupported ? (
+                    <Text size={"sm"} c={"dimmed"}>
+                      {t("mobile.wrapped.video.unsupported")}
+                    </Text>
+                  ) : (
+                    <>
+                      <Text size={"sm"} c={"dimmed"}>
+                        {t("mobile.wrapped.video.hint", {
+                          seconds: RECAP_VIDEO_MAX_SECONDS,
+                        })}
+                      </Text>
+                      <Group gap={"xs"} wrap={"nowrap"}>
+                        <FileButton
+                          onChange={setVideoFile}
+                          accept={"video/mp4,video/quicktime,video/webm"}
+                          disabled={exportPending}
+                        >
+                          {(props) => (
+                            <Button
+                              {...props}
+                              variant={"default"}
+                              leftSection={<IconVideo size={16} />}
+                              disabled={exportPending}
+                              className={"flex-grow min-w-0"}
+                            >
+                              <span className={"truncate"}>
+                                {videoFile?.name ??
+                                  t("mobile.wrapped.video.pick")}
+                              </span>
+                            </Button>
+                          )}
+                        </FileButton>
+                        {videoFile && (
+                          <ActionIcon
+                            size={"input-sm"}
+                            variant={"default"}
+                            disabled={exportPending}
+                            onClick={() => setVideoFile(null)}
+                            aria-label={t("mobile.wrapped.video.remove")}
+                          >
+                            <IconX size={16} />
+                          </ActionIcon>
+                        )}
+                      </Group>
+                    </>
                   )}
-                  {videoMutation.isPending && (
-                    <Progress value={videoProgress * 100} animated />
-                  )}
-                </>
+                </Stack>
               )}
             </Stack>
-          )}
+          </fieldset>
 
-          <Group className="w-full gap-xs" wrap={"nowrap"}>
-            <Button
-              size={"md"}
-              onClick={() => shareMutation.mutate(false)}
-              loading={shareMutation.isPending}
-              disabled={disabled}
-              type={"button"}
-              className={"flex-grow"}
-            >
-              {t("mobile.wrapped.buttons.generate")}
-            </Button>
-            <ActionIcon
-              size={"input-md"}
-              variant={"default"}
-              loading={shareMutation.isPending}
-              disabled={disabled}
-              onClick={() => {
-                shareMutation.mutate(true);
-              }}
-              aria-label={t("mobile.wrapped.buttons.download")}
-            >
-              <IconDownload></IconDownload>
-            </ActionIcon>
-          </Group>
+          <Stack gap={"xs"}>
+            {videoMutation.isPending && (
+              <Progress
+                value={videoPercent}
+                animated
+                aria-label={preparingLabel}
+              />
+            )}
+            <Group className="w-full gap-xs" wrap={"nowrap"}>
+              <Button
+                size={"md"}
+                type={"button"}
+                onClick={shareActive}
+                disabled={exportDisabled}
+                aria-busy={exportPending || undefined}
+                leftSection={exportPending ? <Loader size={16} /> : undefined}
+                className={"flex-grow"}
+              >
+                {shareLabel}
+              </Button>
+              <Tooltip label={downloadLabel}>
+                <ActionIcon
+                  size={"input-md"}
+                  variant={"default"}
+                  disabled={exportDisabled}
+                  onClick={downloadActive}
+                  aria-label={downloadLabel}
+                >
+                  <IconDownload />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+            {exportPending && (
+              <Text
+                size={"xs"}
+                c={"dimmed"}
+                role={"status"}
+                aria-live={"polite"}
+              >
+                {preparingLabel}
+              </Text>
+            )}
+          </Stack>
         </Stack>
       </div>
     </div>

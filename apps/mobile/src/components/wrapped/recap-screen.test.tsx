@@ -10,6 +10,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WrappedRecapScreen } from "../../../../../packages/ui/src/components/wrapped/WrappedRecapScreen";
 import { getRecapPreviewScale } from "../../../../../packages/ui/src/components/wrapped/card/recapCardFormats";
@@ -19,7 +20,12 @@ const mocks = vi.hoisted(() => ({
   summaryPeriods: [] as string[],
   cards: [] as { template: string; format: string; summary: unknown }[],
   toBlob: vi.fn(),
+  toPng: vi.fn(),
+  exportVideo: vi.fn(),
   notifyError: vi.fn(),
+  downloads: [] as string[],
+  videoSupported: true,
+  supporter: false,
 }));
 
 vi.mock("@repo/locales", () => ({
@@ -29,7 +35,10 @@ vi.mock("@repo/locales", () => ({
   }),
 }));
 
-vi.mock("html-to-image", () => ({ toBlob: mocks.toBlob }));
+vi.mock("html-to-image", () => ({
+  toBlob: mocks.toBlob,
+  toPng: mocks.toPng,
+}));
 
 vi.mock("../../../../../packages/ui/src/components", () => ({
   CenteredLoading: () => <div data-testid={"loading"} />,
@@ -47,7 +56,9 @@ vi.mock("../../../../../packages/ui/src/components", () => ({
 // The video export is a supporter feature; the screen only reads the status.
 vi.mock(
   "../../../../../packages/ui/src/components/supporter/hooks/useSupporterStatus",
-  () => ({ useSupporterStatus: () => ({ data: { isSupporter: false } }) }),
+  () => ({
+    useSupporterStatus: () => ({ data: { isSupporter: mocks.supporter } }),
+  }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/supporter/util/useSupporterEntryHref",
@@ -69,6 +80,25 @@ vi.mock(
       mocks.summaryPeriods.push(period);
       return { data: mocks.summary, isLoading: false };
     },
+  }),
+);
+
+// Fonts, rasterization and the H.264 encoder are expensive boundaries: the
+// screen tests only check which export each action dispatches.
+vi.mock(
+  "../../../../../packages/ui/src/components/wrapped/card/RecapCardFonts",
+  () => ({
+    RecapCardFonts: () => null,
+    loadRecapFonts: vi.fn(async () => {}),
+  }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/wrapped/util/exportRecapVideo",
+  () => ({
+    RECAP_VIDEO_MAX_SECONDS: 15,
+    isRecapVideoSupported: () => mocks.videoSupported,
+    exportRecapVideo: mocks.exportVideo,
   }),
 );
 
@@ -143,6 +173,31 @@ const summary = (seconds: number) => ({
   reviewedInPeriod: 0,
 });
 
+const clipFile = () => new File(["clip"], "clip.mp4", { type: "video/mp4" });
+
+const exportedVideo = () =>
+  new File(["video"], "gamenode-recap-1.mp4", { type: "video/mp4" });
+
+function deferred<T>() {
+  let resolve!: (value: T | PromiseLike<T>) => void;
+  const promise = new Promise<T>((res) => {
+    resolve = res;
+  });
+  return { promise, resolve };
+}
+
+const shareButton = (key: string) =>
+  screen.getByRole("button", { name: `mobile.wrapped.buttons.${key}` });
+
+const downloadButton = (key: string) =>
+  screen.getByRole("button", { name: `mobile.wrapped.buttons.${key}` });
+
+/** Covers both `disabled` and any disabled wrapper (fieldset/aria). */
+const isControlDisabled = (element: HTMLElement) =>
+  (element as HTMLButtonElement).disabled ||
+  element.getAttribute("aria-disabled") === "true" ||
+  !!element.closest("fieldset[disabled]");
+
 function renderScreen(onShare = vi.fn(async () => {})) {
   render(
     <MantineProvider>
@@ -154,12 +209,22 @@ function renderScreen(onShare = vi.fn(async () => {})) {
   return onShare;
 }
 
-const clickGenerate = async () => {
+const clickShare = async (key = "shareImage") => {
   await act(async () => {
-    fireEvent.click(
-      screen.getByRole("button", { name: "mobile.wrapped.buttons.generate" }),
-    );
+    fireEvent.click(shareButton(key));
   });
+};
+
+const clickDownload = async (key = "downloadImage") => {
+  await act(async () => {
+    fireEvent.click(downloadButton(key));
+  });
+};
+
+const chooseClip = () => {
+  const input = document.querySelector<HTMLInputElement>('input[type="file"]');
+  if (!input) throw new Error("The clip picker was not rendered.");
+  fireEvent.change(input, { target: { files: [clipFile()] } });
 };
 
 const clickFormat = (format: "story" | "feed") => {
@@ -172,7 +237,14 @@ beforeEach(() => {
   mocks.cards = [];
   mocks.toBlob.mockReset();
   mocks.toBlob.mockResolvedValue(new Blob(["x"], { type: "image/jpeg" }));
+  mocks.toPng.mockReset();
+  mocks.toPng.mockResolvedValue("data:image/png;base64,overlay");
+  mocks.exportVideo.mockReset();
+  mocks.exportVideo.mockResolvedValue(exportedVideo());
   mocks.notifyError.mockReset();
+  mocks.downloads = [];
+  mocks.videoSupported = true;
+  mocks.supporter = false;
 
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
@@ -190,10 +262,39 @@ beforeEach(() => {
       disconnect() {}
     },
   });
+  Object.defineProperty(URL, "createObjectURL", {
+    configurable: true,
+    writable: true,
+    value: vi.fn(() => "blob:clip"),
+  });
+  Object.defineProperty(URL, "revokeObjectURL", {
+    configurable: true,
+    writable: true,
+    value: vi.fn(),
+  });
+  // `loadImage` only needs to resolve; the encoder is mocked.
+  Object.defineProperty(globalThis, "Image", {
+    configurable: true,
+    writable: true,
+    value: class {
+      onload: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      set src(_value: string) {
+        this.onload?.();
+      }
+    },
+  });
+
+  vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (
+    this: HTMLAnchorElement,
+  ) {
+    mocks.downloads.push(this.download);
+  });
 });
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
 });
 
 describe("getRecapPreviewScale", () => {
@@ -324,10 +425,13 @@ describe("WrappedRecapScreen", () => {
     expect(screen.queryByTestId("recap-summary-card")).toBeNull();
   });
 
-  it("exports at the native Story size and shares the file", async () => {
+  it("shares the image when no clip is loaded", async () => {
     const onShare = renderScreen();
 
-    await clickGenerate();
+    expect(shareButton("shareImage")).toBeTruthy();
+    expect(downloadButton("downloadImage")).toBeTruthy();
+
+    await clickShare();
 
     await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
     expect(mocks.toBlob).toHaveBeenCalledWith(
@@ -337,18 +441,266 @@ describe("WrappedRecapScreen", () => {
     const file = (onShare.mock.calls[0] as unknown as [File])[0];
     expect(file).toBeInstanceOf(File);
     expect(file.name).toMatch(/^gamenode-recap-\d+\.jpeg$/);
+    expect(file.type).toBe("image/jpeg");
+    expect(mocks.exportVideo).not.toHaveBeenCalled();
+  });
+
+  it("downloads the image without sharing it", async () => {
+    const onShare = renderScreen();
+
+    await clickDownload();
+
+    await waitFor(() => expect(mocks.downloads).toHaveLength(1));
+    expect(mocks.downloads[0]).toMatch(/^gamenode-recap-\d+\.jpeg$/);
+    expect(onShare).not.toHaveBeenCalled();
+    expect(mocks.toBlob).toHaveBeenCalledTimes(1);
   });
 
   it("exports at the Feed size when Feed is selected", async () => {
     renderScreen();
 
     clickFormat("feed");
-    await clickGenerate();
+    await clickShare();
 
     await waitFor(() => expect(mocks.toBlob).toHaveBeenCalledTimes(1));
     expect(mocks.toBlob).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({ width: 1600, height: 900, pixelRatio: 1 }),
+    );
+  });
+
+  it("shares the video when a supporter has a clip on the Story Poster", async () => {
+    mocks.supporter = true;
+    const onShare = renderScreen();
+
+    chooseClip();
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+    expect(downloadButton("downloadVideo")).toBeTruthy();
+    // A single primary share and secondary download, with no Generate step.
+    expect(
+      screen.getAllByRole("button", {
+        name: /mobile\.wrapped\.buttons\.share/,
+      }),
+    ).toHaveLength(1);
+    expect(
+      screen.getAllByRole("button", {
+        name: /mobile\.wrapped\.buttons\.download/,
+      }),
+    ).toHaveLength(1);
+    expect(screen.queryByText("mobile.wrapped.video.generate")).toBeNull();
+    expect(screen.queryByRole("button", { name: /generate/i })).toBeNull();
+
+    await clickShare("shareVideo");
+
+    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
+    expect(mocks.exportVideo).toHaveBeenCalledTimes(1);
+    const options = mocks.exportVideo.mock.calls[0][0] as {
+      file: File;
+      overlay: unknown;
+    };
+    expect(options.file.name).toBe("clip.mp4");
+    expect(options.file.type).toBe("video/mp4");
+    expect(mocks.toPng).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ width: 1080, height: 1920, pixelRatio: 1 }),
+    );
+    expect(mocks.toBlob).not.toHaveBeenCalled();
+
+    const file = (onShare.mock.calls[0] as unknown as [File])[0];
+    expect(file).toBeInstanceOf(File);
+    expect(file.name).toBe("gamenode-recap-1.mp4");
+    expect(file.type).toBe("video/mp4");
+  });
+
+  it("downloads the video without sharing it", async () => {
+    mocks.supporter = true;
+    const onShare = renderScreen();
+
+    chooseClip();
+    await waitFor(() => expect(downloadButton("downloadVideo")).toBeTruthy());
+
+    await clickDownload("downloadVideo");
+
+    await waitFor(() => expect(mocks.downloads).toHaveLength(1));
+    expect(mocks.downloads[0]).toBe("gamenode-recap-1.mp4");
+    expect(mocks.exportVideo).toHaveBeenCalledTimes(1);
+    expect(onShare).not.toHaveBeenCalled();
+  });
+
+  it("keeps the video only for the Story Poster and falls back to the image", async () => {
+    mocks.supporter = true;
+    const onShare = renderScreen();
+
+    chooseClip();
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+
+    clickFormat("feed");
+    await waitFor(() => expect(shareButton("shareImage")).toBeTruthy());
+    await clickShare("shareImage");
+    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
+    expect(mocks.exportVideo).not.toHaveBeenCalled();
+    expect((onShare.mock.calls[0] as unknown as [File])[0].type).toBe(
+      "image/jpeg",
+    );
+
+    clickFormat("story");
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.dash"));
+    await waitFor(() => expect(shareButton("shareImage")).toBeTruthy());
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.poster"));
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+  });
+
+  it("returns to the image after the clip is removed", async () => {
+    mocks.supporter = true;
+    const onShare = renderScreen();
+
+    chooseClip();
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mobile.wrapped.video.remove" }),
+    );
+    await waitFor(() => expect(shareButton("shareImage")).toBeTruthy());
+
+    await clickShare("shareImage");
+
+    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
+    expect((onShare.mock.calls[0] as unknown as [File])[0].type).toBe(
+      "image/jpeg",
+    );
+    expect(mocks.exportVideo).not.toHaveBeenCalled();
+  });
+
+  it("uses the image for non-supporters", async () => {
+    mocks.supporter = false;
+    renderScreen();
+
+    expect(shareButton("shareImage")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /shareVideo/ })).toBeNull();
+    expect(screen.queryByText("mobile.wrapped.video.pick")).toBeNull();
+  });
+
+  it("uses the image when the browser cannot encode video", async () => {
+    mocks.supporter = true;
+    mocks.videoSupported = false;
+    renderScreen();
+
+    expect(shareButton("shareImage")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /shareVideo/ })).toBeNull();
+    expect(screen.getByText("mobile.wrapped.video.unsupported")).toBeTruthy();
+  });
+
+  it("locks both actions and the preview while the image is being prepared", async () => {
+    const pending = deferred<void>();
+    const onShare = vi.fn(() => pending.promise);
+    renderScreen(onShare);
+    const user = userEvent.setup();
+
+    await user.click(shareButton("shareImage"));
+    await waitFor(() =>
+      expect(document.body.textContent).toContain(
+        "mobile.wrapped.buttons.preparingImage",
+      ),
+    );
+
+    expect(isControlDisabled(shareButton("shareImage"))).toBe(true);
+    expect(isControlDisabled(downloadButton("downloadImage"))).toBe(true);
+    expect(
+      isControlDisabled(
+        screen.getByRole("radio", { name: "mobile.wrapped.formats.feed" }),
+      ),
+    ).toBe(true);
+    expect(
+      isControlDisabled(
+        screen.getByRole("radio", { name: "mobile.wrapped.templates.dash" }),
+      ),
+    ).toBe(true);
+    expect(
+      isControlDisabled(screen.getByLabelText("explore.periods.month")),
+    ).toBe(true);
+    expect(isControlDisabled(screen.getByTestId("recap-accent-teal"))).toBe(
+      true,
+    );
+
+    // A second click on either action must not start another export.
+    await user.click(downloadButton("downloadImage")).catch(() => {});
+    await user.click(shareButton("shareImage")).catch(() => {});
+    await user
+      .click(screen.getByRole("radio", { name: "mobile.wrapped.formats.feed" }))
+      .catch(() => {});
+
+    expect(mocks.toBlob).toHaveBeenCalledTimes(1);
+    expect(onShare).toHaveBeenCalledTimes(1);
+    expect(mocks.downloads).toHaveLength(0);
+    expect(screen.getByTestId("recap-poster-card").textContent).toBe("story");
+
+    pending.resolve();
+    await waitFor(() =>
+      expect(isControlDisabled(shareButton("shareImage"))).toBe(false),
+    );
+    expect(document.body.textContent).not.toContain(
+      "mobile.wrapped.buttons.preparingImage",
+    );
+  });
+
+  it("reports the integer video progress and locks both actions while preparing", async () => {
+    mocks.supporter = true;
+    const pending = deferred<File>();
+    mocks.exportVideo.mockImplementationOnce(
+      async ({ onProgress }: { onProgress?: (progress: number) => void }) => {
+        onProgress?.(0.426);
+        return pending.promise;
+      },
+    );
+    renderScreen();
+    const user = userEvent.setup();
+
+    chooseClip();
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+    await user.click(shareButton("shareVideo"));
+
+    await waitFor(() =>
+      expect(document.body.textContent).toContain(
+        'mobile.wrapped.buttons.preparingVideo:{"progress":43}',
+      ),
+    );
+    expect(isControlDisabled(shareButton("shareVideo"))).toBe(true);
+    expect(isControlDisabled(downloadButton("downloadVideo"))).toBe(true);
+    expect(
+      isControlDisabled(
+        screen.getByRole("radio", { name: "mobile.wrapped.formats.feed" }),
+      ),
+    ).toBe(true);
+    expect(
+      isControlDisabled(
+        screen.getByRole("radio", { name: "mobile.wrapped.templates.dash" }),
+      ),
+    ).toBe(true);
+    expect(
+      isControlDisabled(screen.getByRole("button", { name: "clip.mp4" })),
+    ).toBe(true);
+    expect(
+      isControlDisabled(
+        screen.getByRole("button", { name: "mobile.wrapped.video.remove" }),
+      ),
+    ).toBe(true);
+
+    await user.click(downloadButton("downloadVideo")).catch(() => {});
+    await user.click(shareButton("shareVideo")).catch(() => {});
+
+    expect(mocks.exportVideo).toHaveBeenCalledTimes(1);
+    expect(mocks.toBlob).not.toHaveBeenCalled();
+    expect(mocks.downloads).toHaveLength(0);
+    expect(document.body.textContent).not.toContain(
+      "mobile.wrapped.buttons.preparingImage",
+    );
+
+    pending.resolve(exportedVideo());
+    await waitFor(() =>
+      expect(isControlDisabled(shareButton("shareVideo"))).toBe(false),
     );
   });
 
@@ -359,7 +711,7 @@ describe("WrappedRecapScreen", () => {
     });
     renderScreen(onShare);
 
-    await clickGenerate();
+    await clickShare();
 
     await waitFor(() => expect(mocks.notifyError).toHaveBeenCalled());
     expect(mocks.notifyError.mock.calls[0][0]).toBe(failure);
@@ -373,12 +725,7 @@ describe("WrappedRecapScreen", () => {
     expect(
       screen.getByText(/mobile\.wrapped\.messages\.noPlaytime/),
     ).toBeTruthy();
-    expect(
-      (
-        screen.getByRole("button", {
-          name: "mobile.wrapped.buttons.generate",
-        }) as HTMLButtonElement
-      ).disabled,
-    ).toBe(true);
+    expect(isControlDisabled(shareButton("shareImage"))).toBe(true);
+    expect(isControlDisabled(downloadButton("downloadImage"))).toBe(true);
   });
 });

@@ -1337,8 +1337,12 @@
     },
     "wrapped": {
       "buttons": {
-        "download": "Download",
-        "generate": "Generate"
+        "downloadImage": "Download image",
+        "downloadVideo": "Download video",
+        "preparingImage": "Preparing image…",
+        "preparingVideo": "Preparing video… {{progress}}%",
+        "shareImage": "Share image",
+        "shareVideo": "Share video"
       },
       "card": {
         "comparison": "Vs. previous period",
@@ -1418,7 +1422,6 @@
       "title": "Wrapped",
       "video": {
         "becomeSupporter": "Become a Supporter",
-        "generate": "Generate video",
         "hint": "Pick a clip to play inside the poster (up to {{seconds}} seconds).",
         "pick": "Choose a video",
         "premiumOnly": "Exporting a Wrapped video is a Supporter perk.",
