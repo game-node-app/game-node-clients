@@ -1421,10 +1421,8 @@
       },
       "title": "Wrapped",
       "video": {
-        "becomeSupporter": "Become a Supporter",
         "hint": "Pick a clip to play inside the poster (up to {{seconds}} seconds).",
         "pick": "Choose a video",
-        "premiumOnly": "Exporting a Wrapped video is a Supporter perk.",
         "remove": "Remove video",
         "unsupported": "This browser can't export videos. Try a recent Chrome, Edge or Android browser."
       },

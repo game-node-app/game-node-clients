@@ -25,7 +25,8 @@ const mocks = vi.hoisted(() => ({
   notifyError: vi.fn(),
   downloads: [] as string[],
   videoSupported: true,
-  supporter: false,
+  useSupporterStatus: vi.fn(),
+  useSupporterEntryHref: vi.fn(),
 }));
 
 vi.mock("@repo/locales", () => ({
@@ -53,16 +54,16 @@ vi.mock("../../../../../packages/ui/src/components", () => ({
   useGames: () => ({ data: [], isLoading: false }),
 }));
 
-// The video export is a supporter feature; the screen only reads the status.
+// The recap exports video for every account: it must not read the supporter
+// subscription or link to the Supporter upsell. These stay mocked so a
+// reintroduced dependency fails loudly instead of triggering real queries.
 vi.mock(
   "../../../../../packages/ui/src/components/supporter/hooks/useSupporterStatus",
-  () => ({
-    useSupporterStatus: () => ({ data: { isSupporter: mocks.supporter } }),
-  }),
+  () => ({ useSupporterStatus: mocks.useSupporterStatus }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/supporter/util/useSupporterEntryHref",
-  () => ({ useSupporterEntryHref: () => "/supporter" }),
+  () => ({ useSupporterEntryHref: mocks.useSupporterEntryHref }),
 );
 
 vi.mock("../../../../../packages/ui/src/util", async (importOriginal) => {
@@ -244,7 +245,10 @@ beforeEach(() => {
   mocks.notifyError.mockReset();
   mocks.downloads = [];
   mocks.videoSupported = true;
-  mocks.supporter = false;
+  mocks.useSupporterStatus.mockReset();
+  mocks.useSupporterStatus.mockReturnValue({ data: { isSupporter: false } });
+  mocks.useSupporterEntryHref.mockReset();
+  mocks.useSupporterEntryHref.mockReturnValue("/supporter");
 
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
@@ -469,8 +473,7 @@ describe("WrappedRecapScreen", () => {
     );
   });
 
-  it("shares the video when a supporter has a clip on the Story Poster", async () => {
-    mocks.supporter = true;
+  it("shares the video when an ordinary account has a clip on the Story Poster", async () => {
     const onShare = renderScreen();
 
     chooseClip();
@@ -513,7 +516,6 @@ describe("WrappedRecapScreen", () => {
   });
 
   it("downloads the video without sharing it", async () => {
-    mocks.supporter = true;
     const onShare = renderScreen();
 
     chooseClip();
@@ -528,7 +530,6 @@ describe("WrappedRecapScreen", () => {
   });
 
   it("keeps the video only for the Story Poster and falls back to the image", async () => {
-    mocks.supporter = true;
     const onShare = renderScreen();
 
     chooseClip();
@@ -554,7 +555,6 @@ describe("WrappedRecapScreen", () => {
   });
 
   it("returns to the image after the clip is removed", async () => {
-    mocks.supporter = true;
     const onShare = renderScreen();
 
     chooseClip();
@@ -574,17 +574,46 @@ describe("WrappedRecapScreen", () => {
     expect(mocks.exportVideo).not.toHaveBeenCalled();
   });
 
-  it("uses the image for non-supporters", async () => {
-    mocks.supporter = false;
+  it("offers the video to an ordinary account with no supporter upsell", async () => {
+    const onShare = renderScreen();
+
+    // The picker is available without an entitlement: no lock and no upsell.
+    expect(
+      screen.getByRole("button", { name: "mobile.wrapped.video.pick" }),
+    ).toBeTruthy();
+    expect(
+      screen.queryByText(/mobile\.wrapped\.video\.premiumOnly/),
+    ).toBeNull();
+    expect(
+      screen.queryByText(/mobile\.wrapped\.video\.becomeSupporter/),
+    ).toBeNull();
+    expect(
+      screen.queryByRole("link", {
+        name: /mobile\.wrapped\.video\.becomeSupporter/,
+      }),
+    ).toBeNull();
+
+    chooseClip();
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+    await clickShare("shareVideo");
+
+    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
+    expect(mocks.exportVideo).toHaveBeenCalledTimes(1);
+    expect((onShare.mock.calls[0] as unknown as [File])[0].type).toBe(
+      "video/mp4",
+    );
+    expect(mocks.useSupporterStatus).not.toHaveBeenCalled();
+    expect(mocks.useSupporterEntryHref).not.toHaveBeenCalled();
+  });
+
+  it("does not depend on the supporter subscription for the recap", () => {
     renderScreen();
 
-    expect(shareButton("shareImage")).toBeTruthy();
-    expect(screen.queryByRole("button", { name: /shareVideo/ })).toBeNull();
-    expect(screen.queryByText("mobile.wrapped.video.pick")).toBeNull();
+    expect(mocks.useSupporterStatus).not.toHaveBeenCalled();
+    expect(mocks.useSupporterEntryHref).not.toHaveBeenCalled();
   });
 
   it("uses the image when the browser cannot encode video", async () => {
-    mocks.supporter = true;
     mocks.videoSupported = false;
     renderScreen();
 
@@ -647,7 +676,6 @@ describe("WrappedRecapScreen", () => {
   });
 
   it("reports the integer video progress and locks both actions while preparing", async () => {
-    mocks.supporter = true;
     const pending = deferred<File>();
     mocks.exportVideo.mockImplementationOnce(
       async ({ onProgress }: { onProgress?: (progress: number) => void }) => {

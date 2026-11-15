@@ -1421,10 +1421,8 @@
       },
       "title": "Wrapped",
       "video": {
-        "becomeSupporter": "Seja um Apoiador",
         "hint": "Escolha um clipe para tocar dentro do cartaz (até {{seconds}} segundos).",
         "pick": "Escolher vídeo",
-        "premiumOnly": "Exportar o Wrapped em vídeo é uma vantagem de Apoiador.",
         "remove": "Remover vídeo",
         "unsupported": "Este navegador não exporta vídeos. Tente um Chrome, Edge ou navegador Android recente."
       },

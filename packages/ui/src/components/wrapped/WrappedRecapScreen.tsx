@@ -33,8 +33,6 @@ import {
   type RecapPeriod,
 } from "#@/components/wrapped/hooks/useRecapSummary";
 import { getRecapFigures } from "#@/components/wrapped/util/recapFigures";
-import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
-import { useSupporterEntryHref } from "#@/components/supporter/util/useSupporterEntryHref";
 import { RECAP_POSTER_HERO } from "#@/components/wrapped/card/recapPosterHero";
 import { at, RECAP_COLORS } from "#@/components/wrapped/card/recapCardTheme";
 import {
@@ -57,7 +55,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { IconDownload, IconLock, IconVideo, IconX } from "@tabler/icons-react";
+import { IconDownload, IconVideo, IconX } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob, toPng } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
@@ -112,10 +110,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     DEFAULT_RECAP_CUSTOMIZATION,
   );
 
-  // Video hero (supporters only, Poster in Story format)
-  const supporterQuery = useSupporterStatus();
-  const supporterHref = useSupporterEntryHref();
-  const isSupporter = supporterQuery.data?.isSupporter ?? false;
+  // Video hero (Poster in Story format)
   const videoSupported = isRecapVideoSupported();
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -271,11 +266,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   // The clip is the active output only when the whole video path is available;
   // otherwise the screen keeps exporting the image shown in the preview.
   const hasVideo =
-    videoAvailable &&
-    isSupporter &&
-    videoSupported &&
-    !!videoFile &&
-    !!videoUrl;
+    videoAvailable && videoSupported && !!videoFile && !!videoUrl;
 
   // One export area for whichever output is active: the clip or the card.
   const exportPending = shareMutation.isPending || videoMutation.isPending;
@@ -465,17 +456,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
                   <Text {...captionProps}>
                     {t("mobile.wrapped.labels.video")}
                   </Text>
-                  {!isSupporter ? (
-                    <Group gap={"xs"} wrap={"nowrap"} align={"flex-start"}>
-                      <IconLock size={16} className={"shrink-0 mt-0.5"} />
-                      <Text size={"sm"} c={"dimmed"}>
-                        {t("mobile.wrapped.video.premiumOnly")}{" "}
-                        <TextLink href={supporterHref}>
-                          {t("mobile.wrapped.video.becomeSupporter")}
-                        </TextLink>
-                      </Text>
-                    </Group>
-                  ) : !videoSupported ? (
+                  {!videoSupported ? (
                     <Text size={"sm"} c={"dimmed"}>
                       {t("mobile.wrapped.video.unsupported")}
                     </Text>

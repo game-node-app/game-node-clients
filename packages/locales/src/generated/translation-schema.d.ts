@@ -1425,10 +1425,8 @@ export type TranslationSchema = {
       };
       title: string;
       video: {
-        becomeSupporter: string;
         hint: string;
         pick: string;
-        premiumOnly: string;
         remove: string;
         unsupported: string;
       };
