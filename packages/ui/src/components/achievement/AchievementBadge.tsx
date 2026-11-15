@@ -95,6 +95,8 @@ interface Props {
   /** 0 renders the locked state. */
   tier: number;
   size?: number;
+  /** Circular framed badge (default) or the square tile used by the Feats page. */
+  variant?: "ring" | "tile";
 }
 
 const GameCover = ({ gameId, size }: { gameId: number; size: number }) => {
@@ -107,8 +109,14 @@ const GameCover = ({ gameId, size }: { gameId: number; size: number }) => {
   );
 };
 
-const AchievementBadge = ({ icon, tier, size = 48 }: Props) => {
+const AchievementBadge = ({
+  icon,
+  tier,
+  size = 48,
+  variant = "ring",
+}: Props) => {
   const locked = tier <= 0;
+  const isTile = variant === "tile";
   const color = locked
     ? "#555555"
     : ACHIEVEMENT_TIER_COLORS[
@@ -138,14 +146,21 @@ const AchievementBadge = ({ icon, tier, size = 48 }: Props) => {
   return (
     <Box
       data-tier={tier}
+      data-variant={variant}
       className={
-        "flex items-center justify-center overflow-hidden rounded-full"
+        isTile
+          ? `flex items-center justify-center overflow-hidden rounded-[14px] border ${
+              locked
+                ? "border-paper-4 bg-paper-2"
+                : "border-brand/30 bg-brand/10"
+            }`
+          : "flex items-center justify-center overflow-hidden rounded-full"
       }
       style={{
         width: size,
         minWidth: size,
         height: size,
-        border: `3px solid ${color}`,
+        ...(isTile ? {} : { border: `3px solid ${color}` }),
         opacity: locked ? 0.6 : 1,
         filter: locked ? "grayscale(1)" : undefined,
       }}

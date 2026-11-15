@@ -15,6 +15,7 @@ export type { AchievementEventsResponseDto } from './models/AchievementEventsRes
 export type { AchievementGrantRequestDto } from './models/AchievementGrantRequestDto';
 export { AchievementIconDto } from './models/AchievementIconDto';
 export type { AchievementMetricDto } from './models/AchievementMetricDto';
+export type { AchievementObtainedTierDto } from './models/AchievementObtainedTierDto';
 export type { AchievementProgressDto } from './models/AchievementProgressDto';
 export type { AchievementTier } from './models/AchievementTier';
 export type { AchievementTierInputDto } from './models/AchievementTierInputDto';
@@ -235,6 +236,7 @@ export type { PsnExtraMappings } from './models/PsnExtraMappings';
 export { ReactionRequestDto } from './models/ReactionRequestDto';
 export type { ReactionResponseDto } from './models/ReactionResponseDto';
 export type { RecapStatusDto } from './models/RecapStatusDto';
+export type { RedeemAchievementCodeResponseDto } from './models/RedeemAchievementCodeResponseDto';
 export type { RegisterAwardsVoteDto } from './models/RegisterAwardsVoteDto';
 export { Report } from './models/Report';
 export type { Review } from './models/Review';

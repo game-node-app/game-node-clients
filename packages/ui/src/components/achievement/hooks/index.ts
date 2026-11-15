@@ -6,3 +6,5 @@ export * from "./useAchievementProgress";
 export * from "./useAchievements";
 export * from "./useAchievementsV2";
 export * from "./useAllObtainedAchievements";
+export * from "./useFeatureFeat";
+export * from "./useRedeemFeatCode";

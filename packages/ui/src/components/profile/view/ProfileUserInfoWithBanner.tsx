@@ -14,7 +14,7 @@ import { SupporterAvatarFrame } from "#@/components/supporter/perks/SupporterAva
 import { SupporterBadge } from "#@/components/supporter/perks/SupporterBadge";
 import { SupporterPresenceChip } from "#@/components/supporter/perks/SupporterPresenceChip";
 import { SupporterTitle } from "#@/components/supporter/perks/SupporterTitle";
-import { Modal } from "#@/util";
+import { Modal, cn } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -47,6 +47,11 @@ const ProfileUserInfoWithBanner = ({
   const perks = useSupporterPerks(userId);
 
   const [editModalOpened, editModalUtils] = useDisclosure();
+
+  // The desktop avatar (10rem) is too wide for phone-sized web viewports: it
+  // leaves the theme strip's "Supporter" label right against (or behind) the
+  // avatar. Scale it down with the viewport, ending at the mobile size (8rem).
+  const avatarSize = onMobilePlatform ? "8rem" : "clamp(8rem, 22vw, 10rem)";
 
   const supporterVars = perks
     ? ({
@@ -86,12 +91,16 @@ const ProfileUserInfoWithBanner = ({
         {perks?.theme && (
           <Box
             data-testid={"supporter-theme-strip"}
-            className={
+            className={cn(
               // Web: cancel the banner's p-4 so the strip spans the banner
               // container edge to edge. Mobile: the banner is already
               // full-bleed, so the strip just fills it.
-              "relative flex h-[21px] shrink-0 items-center justify-end pe-6 -mx-4 mobile:mx-0 mobile:w-full"
-            }
+              "relative flex h-[21px] shrink-0 items-center justify-end -mx-4 mobile:mx-0 mobile:w-full",
+              // The avatar overlaps the strip. On phone-sized web the label
+              // would sit against the avatar, so it keeps less padding there;
+              // the mobile app leaves the label further from the screen edge.
+              onMobilePlatform ? "pe-6" : "pe-4 sm:pe-6",
+            )}
             style={{ backgroundColor: "var(--supporter-accent)" }}
           >
             <Text
@@ -129,16 +138,13 @@ const ProfileUserInfoWithBanner = ({
                 <Box className={"relative z-10 w-fit h-fit -translate-y-3/4"}>
                   {perks?.border ? (
                     <SupporterAvatarFrame accent={perks.accent}>
-                      <UserAvatar
-                        userId={userId}
-                        size={onMobilePlatform ? "8rem" : "10rem"}
-                      />
+                      <UserAvatar userId={userId} size={avatarSize} />
                     </SupporterAvatarFrame>
                   ) : (
                     <UserAvatar
                       className={"relative border-[#161616] border-4"}
                       userId={userId}
-                      size={onMobilePlatform ? "8rem" : "10rem"}
+                      size={avatarSize}
                     />
                   )}
                 </Box>
