@@ -1396,16 +1396,10 @@
         "story": "Story"
       },
       "labels": {
-        "excludedGames": "Jogos excluídos",
-        "excludedGamesHint": "Eles não aparecerão na imagem gerada.",
         "format": "Formato",
-        "gridStyle": "Estilo da grade",
         "period": "Período",
         "template": "Modelo",
-        "video": "Vídeo",
-        "withPlatform": "Com plataforma",
-        "withRecentPlaytime": "Com tempo de jogo recente",
-        "withTotalPlaytime": "Com tempo de jogo total"
+        "video": "Vídeo"
       },
       "messages": {
         "noPlaytime": "Não encontramos informações de tempo de jogo para o período selecionado. Você pode alterar o período abaixo ou configurar uma conexão para começar a importar dados."
@@ -1417,7 +1411,6 @@
       "sharePrompt": "Este é meu GameNode Wrapped!",
       "templates": {
         "bento": "Bento",
-        "covers": "Capas",
         "dash": "Dash",
         "poster": "Cartaz",
         "summary": "Resumo"

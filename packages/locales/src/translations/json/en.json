@@ -1396,16 +1396,10 @@
         "story": "Story"
       },
       "labels": {
-        "excludedGames": "Excluded games",
-        "excludedGamesHint": "These will not appear in the generated image.",
         "format": "Format",
-        "gridStyle": "Grid style",
         "period": "Period",
         "template": "Template",
-        "video": "Video",
-        "withPlatform": "With platform",
-        "withRecentPlaytime": "With recent playtime",
-        "withTotalPlaytime": "With total playtime"
+        "video": "Video"
       },
       "messages": {
         "noPlaytime": "We've found no playtime info for the selected period. You may change the period criteria below or set up a connection to start importing playtime info."
@@ -1417,7 +1411,6 @@
       "sharePrompt": "This is my GameNode Wrapped!",
       "templates": {
         "bento": "Bento",
-        "covers": "Covers",
         "dash": "Dash",
         "poster": "Poster",
         "summary": "Summary"

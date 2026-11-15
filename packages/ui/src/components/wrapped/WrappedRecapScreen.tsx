@@ -2,15 +2,10 @@ import {
   CenteredLoading,
   TextLink,
   useGames,
-  usePlaytimeForUser,
   useUserId,
   useUserProfile,
 } from "#@/components";
 import { RecapCardPreview } from "#@/components/wrapped/card/RecapCardPreview";
-import {
-  RecapCoverGridCard,
-  type RecapCoverGridEntry,
-} from "#@/components/wrapped/card/RecapCoverGridCard";
 import { RecapBentoCard } from "#@/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "#@/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "#@/components/wrapped/card/RecapPosterCard";
@@ -51,50 +46,24 @@ import { createErrorNotification } from "#@/util";
 import {
   ActionIcon,
   Button,
-  Chip,
-  ComboboxItem,
   FileButton,
-  Flex,
   Group,
-  MultiSelect,
   Progress,
-  Select,
   SegmentedControl,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
 import { IconDownload, IconLock, IconVideo, IconX } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob, toPng } from "html-to-image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import period = FindAllPlaytimeFiltersDto.period;
-
-const GRID_OPTIONS = [
-  "2x3",
-  "2x2",
-  "3x4",
-  "3x3",
-  "3x2",
-  "4x3",
-  "4x2",
-  "4x4",
-] as const;
-
-type GridOption = (typeof GRID_OPTIONS)[number];
+import { useEffect, useRef, useState } from "react";
 
 /** Story has the editorial templates; Feed keeps the wide summary. */
 const TEMPLATES_BY_FORMAT: Record<RecapCardFormat, RecapTemplate[]> = {
-  story: ["poster", "dash", "bento", "covers"],
-  feed: ["summary", "covers"],
-};
-
-const PLAYTIME_PERIOD: Record<RecapPeriod, FindAllPlaytimeFiltersDto.period> = {
-  week: period.WEEK,
-  month: period.MONTH,
-  year: period.YEAR,
+  story: ["poster", "dash", "bento"],
+  feed: ["summary"],
 };
 
 interface Props {
@@ -137,11 +106,6 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   const [recapPeriod, setRecapPeriod] = useState<RecapPeriod>("week");
   const [format, setFormat] = useState<RecapCardFormat>("story");
   const [template, setTemplate] = useState<RecapTemplate>("poster");
-  const [grid, setGrid] = useState<GridOption>("3x3");
-  const [excludedGameIds, setExcludedGameIds] = useState<number[]>([]);
-  const [withRecentPlaytime, setWithRecentPlaytime] = useState(false);
-  const [withTotalPlaytime, setWithTotalPlaytime] = useState(false);
-  const [withSource, setWithSource] = useState(false);
   const [custom, setCustom] = useState<RecapCustomization>(
     DEFAULT_RECAP_CUSTOMIZATION,
   );
@@ -165,8 +129,6 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     return () => URL.revokeObjectURL(url);
   }, [videoFile]);
 
-  const [cols, rows] = grid.split("x").map((value) => Number.parseInt(value));
-
   // Summary template data
   const summaryQuery = useRecapSummary(recapPeriod);
   const summaryGamesQuery = useGames(
@@ -181,39 +143,10 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     ? getRecapFigures(summaryQuery.data)
     : undefined;
 
-  // Cover grid template data
-  const playtimeQuery = usePlaytimeForUser({
-    userId: userId,
-    period: PLAYTIME_PERIOD[recapPeriod],
-    orderBy: {
-      lastPlayedDate: "DESC",
-      recentPlaytimeSeconds: "DESC",
-      totalPlaytimeSeconds: "DESC",
-    },
-    // Max cols * rows combination possible
-    limit: 16,
-  });
-  const coverGamesQuery = useGames(
-    {
-      gameIds: Array.from(
-        new Set(playtimeQuery.data?.data.map((playtime) => playtime.gameId)),
-      ),
-      relations: { cover: true },
-    },
-    false,
-    "off",
-  );
-
-  const isSummary = template !== "covers";
-  const isLoading = isSummary
-    ? summaryQuery.isLoading || summaryGamesQuery.isLoading
-    : playtimeQuery.isLoading || coverGamesQuery.isLoading;
-  const isReady = isSummary
-    ? summaryQuery.data != undefined && summaryGamesQuery.data != undefined
-    : playtimeQuery.data != undefined && coverGamesQuery.data != undefined;
-  const hasActivity = isSummary
-    ? (figures?.hasActivity ?? false)
-    : (playtimeQuery.data?.pagination.totalItems ?? 0) > 0;
+  const isLoading = summaryQuery.isLoading || summaryGamesQuery.isLoading;
+  const isReady =
+    summaryQuery.data != undefined && summaryGamesQuery.data != undefined;
+  const hasActivity = figures?.hasActivity ?? false;
   const isEmpty = isReady && !hasActivity;
 
   const periodText = t(`mobile.wrapped.card.period.${recapPeriod}`);
@@ -223,36 +156,6 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     const game = summaryGamesQuery.data?.find((item) => item.id === top.gameId);
     return game ? [{ id: game.id, name: game.name }] : [];
   });
-
-  const excludedGamesOptions = useMemo((): ComboboxItem[] => {
-    if (coverGamesQuery.data == undefined) return [];
-    return coverGamesQuery.data.map((game) => ({
-      label: game.name,
-      value: `${game.id}`,
-    }));
-  }, [coverGamesQuery.data]);
-
-  const coverEntries = useMemo((): RecapCoverGridEntry[] => {
-    if (coverGamesQuery.data == undefined || playtimeQuery.data == undefined)
-      return [];
-
-    return playtimeQuery.data.data
-      .filter((playtime) => !excludedGameIds.includes(playtime.gameId))
-      .flatMap((playtime) => {
-        const game = coverGamesQuery.data.find(
-          (item) => item.id === playtime.gameId,
-        );
-        if (!game) return [];
-
-        return {
-          id: playtime.id,
-          game,
-          recentPlaytimeSeconds: playtime.recentPlaytimeSeconds,
-          totalPlaytimeSeconds: playtime.totalPlaytimeSeconds,
-          platformAbbreviation: playtime.platform.abbreviation,
-        };
-      });
-  }, [coverGamesQuery.data, excludedGameIds, playtimeQuery.data]);
 
   const shareMutation = useMutation({
     mutationFn: async (downloadOnly: boolean = false) => {
@@ -329,44 +232,28 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   ];
 
   const renderCard = (videoHero: boolean = false) => {
-    if (isSummary) {
-      if (!summaryQuery.data || !figures || !summaryGamesQuery.data) {
-        return null;
-      }
-
-      const props = {
-        format,
-        userId,
-        username,
-        period: recapPeriod,
-        periodText,
-        summary: summaryQuery.data,
-        figures,
-        games: summaryGamesQuery.data,
-        custom,
-      };
-
-      if (format === "feed" || template === "summary") {
-        return <RecapSummaryCard {...props} />;
-      }
-      if (template === "dash") return <RecapDashCard {...props} />;
-      if (template === "bento") return <RecapBentoCard {...props} />;
-      return <RecapPosterCard {...props} videoHero={videoHero} />;
+    if (!summaryQuery.data || !figures || !summaryGamesQuery.data) {
+      return null;
     }
 
-    return (
-      <RecapCoverGridCard
-        format={format}
-        userId={userId}
-        periodText={periodText}
-        cols={cols}
-        rows={rows}
-        entries={coverEntries}
-        withRecentPlaytime={withRecentPlaytime}
-        withTotalPlaytime={withTotalPlaytime}
-        withSource={withSource}
-      />
-    );
+    const props = {
+      format,
+      userId,
+      username,
+      period: recapPeriod,
+      periodText,
+      summary: summaryQuery.data,
+      figures,
+      games: summaryGamesQuery.data,
+      custom,
+    };
+
+    if (format === "feed" || template === "summary") {
+      return <RecapSummaryCard {...props} />;
+    }
+    if (template === "dash") return <RecapDashCard {...props} />;
+    if (template === "bento") return <RecapBentoCard {...props} />;
+    return <RecapPosterCard {...props} videoHero={videoHero} />;
   };
 
   const onFormatChange = (next: RecapCardFormat) => {
@@ -505,54 +392,13 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
             />
           </Stack>
 
-          {isSummary && (
-            <RecapCustomizePanel
-              value={custom}
-              onChange={setCustom}
-              games={backdropGames}
-              hasBackdrop={template === "poster" || template === "bento"}
-              defaultOpacity={template === "bento" ? 0.18 : 0.32}
-            />
-          )}
-
-          {!isSummary && (
-            <>
-              <Select
-                label={t("mobile.wrapped.labels.gridStyle")}
-                data={GRID_OPTIONS as unknown as string[]}
-                value={grid}
-                allowDeselect={false}
-                onChange={(value) => value && setGrid(value as GridOption)}
-              />
-              <MultiSelect
-                label={t("mobile.wrapped.labels.excludedGames")}
-                description={t("mobile.wrapped.labels.excludedGamesHint")}
-                data={excludedGamesOptions}
-                value={excludedGameIds.map((id) => `${id}`)}
-                onChange={(ids) =>
-                  setExcludedGameIds(ids.map((id) => Number.parseInt(id)))
-                }
-                className={"min-w-60"}
-              />
-              <Flex className={"flex-wrap gap-3"}>
-                <Chip
-                  checked={withRecentPlaytime}
-                  onChange={setWithRecentPlaytime}
-                >
-                  {t("mobile.wrapped.labels.withRecentPlaytime")}
-                </Chip>
-                <Chip
-                  checked={withTotalPlaytime}
-                  onChange={setWithTotalPlaytime}
-                >
-                  {t("mobile.wrapped.labels.withTotalPlaytime")}
-                </Chip>
-                <Chip checked={withSource} onChange={setWithSource}>
-                  {t("mobile.wrapped.labels.withPlatform")}
-                </Chip>
-              </Flex>
-            </>
-          )}
+          <RecapCustomizePanel
+            value={custom}
+            onChange={setCustom}
+            games={backdropGames}
+            hasBackdrop={template === "poster" || template === "bento"}
+            defaultOpacity={template === "bento" ? 0.18 : 0.32}
+          />
 
           {videoAvailable && (
             <Stack gap={6}>

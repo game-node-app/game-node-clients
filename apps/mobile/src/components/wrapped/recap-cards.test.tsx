@@ -5,7 +5,6 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
 import { RecapCardPreview } from "../../../../../packages/ui/src/components/wrapped/card/RecapCardPreview";
-import { RecapCoverGridCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapCoverGridCard";
 import { RecapBentoCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapPosterCard";
@@ -59,15 +58,6 @@ vi.mock(
       <figure data-testid={"cover"}>{game?.name}</figure>
     ),
     RecapBackdrop: () => null,
-  }),
-);
-
-vi.mock(
-  "../../../../../packages/ui/src/components/wrapped/card/RecapCardFooter",
-  () => ({
-    RecapCardFooter: ({ periodText }: { periodText: string }) => (
-      <footer data-testid={"footer"}>{periodText}</footer>
-    ),
   }),
 );
 
@@ -250,64 +240,5 @@ describe("recap summary templates", () => {
     expect(container.textContent).toContain("@Ana");
     expect(container.textContent).toContain("PC");
     expect(screen.getAllByTestId("cover")).toHaveLength(5);
-  });
-});
-
-describe("RecapCoverGridCard", () => {
-  const entries = [1, 2, 3, 4, 5, 6].map((id) => ({
-    id,
-    game: game(id),
-    recentPlaytimeSeconds: 7200,
-    totalPlaytimeSeconds: 36000,
-    platformAbbreviation: "pc",
-  }));
-
-  const renderGrid = (
-    options: Partial<React.ComponentProps<typeof RecapCoverGridCard>> = {},
-  ) =>
-    renderCard(
-      <RecapCoverGridCard
-        format={"story"}
-        userId={"user-1"}
-        periodText={"Last 7 days"}
-        cols={2}
-        rows={2}
-        entries={entries}
-        withRecentPlaytime={false}
-        withTotalPlaytime={false}
-        withSource={false}
-        {...options}
-      />,
-    );
-
-  it("shows only as many covers as the grid has cells", () => {
-    renderGrid();
-
-    expect(screen.getAllByTestId("cover")).toHaveLength(4);
-  });
-
-  it("adds the playtime and platform labels when they are enabled", () => {
-    const { container, rerender } = renderGrid();
-    expect(container.textContent).not.toContain("Recent:");
-
-    rerender(
-      <MantineProvider>
-        <RecapCoverGridCard
-          format={"story"}
-          userId={"user-1"}
-          periodText={"Last 7 days"}
-          cols={2}
-          rows={2}
-          entries={entries}
-          withRecentPlaytime
-          withTotalPlaytime
-          withSource
-        />
-      </MantineProvider>,
-    );
-
-    expect(container.textContent).toContain("Recent: 2h");
-    expect(container.textContent).toContain("Total: 10h");
-    expect(container.textContent).toContain("Pc");
   });
 });

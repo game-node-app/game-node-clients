@@ -1400,16 +1400,10 @@ export type TranslationSchema = {
         story: string;
       };
       labels: {
-        excludedGames: string;
-        excludedGamesHint: string;
         format: string;
-        gridStyle: string;
         period: string;
         template: string;
         video: string;
-        withPlatform: string;
-        withRecentPlaytime: string;
-        withTotalPlaytime: string;
       };
       messages: {
         noPlaytime: string;
@@ -1421,7 +1415,6 @@ export type TranslationSchema = {
       sharePrompt: string;
       templates: {
         bento: string;
-        covers: string;
         dash: string;
         poster: string;
         summary: string;

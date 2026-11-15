@@ -3,4 +3,4 @@
 "mobile": minor
 ---
 
-Redesign Wrapped: new two-column flow (period, format, template) and new Story export cards (Poster, Dash and Bento) ported from Echo, with a wide Feed summary and the cover grid kept.
+Redesign Wrapped: new two-column flow (period, format, template) and new Story export cards (Poster, Dash and Bento) ported from Echo, with a wide Feed summary.

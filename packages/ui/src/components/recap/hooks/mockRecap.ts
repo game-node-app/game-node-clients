@@ -129,34 +129,3 @@ export function buildMockRecapSummary(period: keyof typeof PERIOD_DAYS) {
     reviewedInPeriod: rand(0, 3),
   };
 }
-
-/** Fake `usePlaytimeForUser` response for the Wrapped "Covers" template. */
-export function buildMockPlaytimeList(limit: number) {
-  const data = GAME_IDS.slice(0, Math.min(limit, GAME_IDS.length)).map(
-    (gameId, index) => {
-      const platform = PLATFORMS[index % PLATFORMS.length]!;
-      return {
-        id: index + 1,
-        gameId,
-        profileUserId: MOCK_RECAP_USER_ID,
-        source: "steam",
-        platformId: platform.id,
-        platform: { ...platform, abbreviation: platform.iconName },
-        totalPlaytimeSeconds: rand(20, 400) * 3600,
-        recentPlaytimeSeconds: rand(1, 20) * 3600,
-        totalPlayCount: rand(1, 50),
-        lastPlayedDate: new Date().toISOString(),
-        firstPlayedDate: null,
-      };
-    },
-  );
-  return {
-    data,
-    pagination: {
-      totalItems: data.length,
-      totalPages: 1,
-      hasNextPage: false,
-      hasPreviousPage: false,
-    },
-  };
-}

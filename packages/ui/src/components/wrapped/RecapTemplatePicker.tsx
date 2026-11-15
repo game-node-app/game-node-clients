@@ -3,7 +3,7 @@ import { cn } from "#@/util";
 import { Text, UnstyledButton } from "@mantine/core";
 import type { ReactNode } from "react";
 
-export type RecapTemplate = "poster" | "dash" | "bento" | "summary" | "covers";
+export type RecapTemplate = "poster" | "dash" | "bento" | "summary";
 
 const BRAND = "bg-[#F15025]";
 const INK = "bg-[#0B0A09]/70";
@@ -74,13 +74,6 @@ const WIREFRAMES: Record<RecapTemplate, ReactNode> = {
           <div key={i} className={cn("rounded-[1px]", FILL)} />
         ))}
       </div>
-    </div>
-  ),
-  covers: (
-    <div className={"grid grid-cols-3 gap-0.5 w-full h-full p-1.5"}>
-      {Array.from({ length: 9 }, (_, i) => (
-        <div key={i} className={cn("rounded-[2px]", FILL)} />
-      ))}
     </div>
   ),
 };

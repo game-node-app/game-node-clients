@@ -14,11 +14,12 @@
 
 - [x] 3.1 Add the fixed-size card wrapper with the Story and Feed formats and a scaled preview derived from the container width, and verify with a component test that the card keeps its native size and the preview scales.
 - [x] 3.2 Add the summary template (hero figure, top game, genre and platform, top five games, comparison, avatar, period label and logo) at native pixel sizes for both formats, and verify with a component test covering a full summary and a missing top genre.
-- [x] 3.3 Move the current cover grid into a template keeping its grid, exclusions and playtime options, and verify with a component test that the options still change the rendered covers.
+- [x] 3.3 ~~Move the current cover grid into a template keeping its grid, exclusions and playtime options, and verify with a component test that the options still change the rendered covers.~~ Superseded by 3.7: the Covers template, its controls and the cover grid tests were removed.
 - [x] 3.4 Rebuild `WrappedRecapScreen` around the period, format and template selectors, the empty state and the share and download actions, and verify with a component test for switching period, the empty state and disabled actions.
 - [x] 3.5 Export with the native `width`, `height` and `pixelRatio: 1`, and verify with a test that `toBlob` receives the selected format's size and that a failing `onShare` shows the error notification.
 
 - [x] 3.6 Add the `RecapCustomization` model (backdrop game, art opacity, accent, extra figure, opt-in comparison), the `RecapCustomizePanel`, and apply it in the Poster, Dash, Bento and Feed summary templates, and verify with unit tests of the helpers, card tests for accent, backdrop game, opacity, extra figure and the opt-in comparison, and panel tests for each control and the reset.
+- [x] 3.7 Remove Covers completely: Story keeps only Poster, Dash and Bento, Feed keeps only the summary, and every template uses the shared period summary. Delete the Covers template, the grid size, excluded games, source and recent/lifetime playtime controls, the `usePlaytimeForUser` dependency in `WrappedRecapScreen`, the cover grid card and sizing tests, and the recap-only translation keys; verify with screen tests that Covers is absent in both formats and that switching formats falls back to an allowed template.
 
 ## 4. Copy
 

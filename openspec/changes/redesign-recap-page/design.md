@@ -30,9 +30,9 @@
 
 **One summary endpoint on the server, not client-side math.** `usePlaytimeForUser` cannot answer "hours in this period", "top genre" or "previous period", and fetching every game and genre to aggregate them in the browser would be slow and wrong (the server's `recentPlaytimeSeconds` is not a period total). The server already has the data: `getTotalPlaytimeForPeriod` gives the per-game deltas, and games carry `genres` while history rows carry `platformId`. A single `GET /v1/profile/metrics/summary/:userId/:period` returns `current` and `previous` windows (`totalPlaytimeSeconds`, `totalGames`), `topGames` (five entries with `gameId` and seconds; the client loads covers with `useGames`), `topGenre`, `topPlatform`, the existing played, finished and reviewed counts, and the same figures for the previous window so the client only computes the percentage. It reuses the report's period type and adds `YEAR`. The server change lives in `game-node-server`; the clients depend on it and regenerate the wrapper from its swagger.
 
-**Calendar versus rolling windows.** The existing report is rolling (7 and 30 days). The summary keeps rolling windows so the card says "last 7 days", matching the report and the cover grid, and avoids an empty card on a Monday. Calendar periods stay a later option.
+**Calendar versus rolling windows.** The existing report is rolling (7 and 30 days). The summary keeps rolling windows so the card says "last 7 days", matching the report, and avoids an empty card on a Monday. Calendar periods stay a later option.
 
-**Reuse the existing grid as a template.** The cover grid keeps `usePlaytimeForUser` and `useGames`, and its form options. It becomes one template of the new card rather than being deleted, so no current behavior is lost.
+**One data source, no cover grid template.** A later explicit product decision supersedes the first draft, which kept the cover grid as a template. The Covers template is removed with its grid size, excluded games, source and recent/lifetime playtime options, and `WrappedRecapScreen` no longer calls `usePlaytimeForUser`. Story keeps Poster, Dash and Bento; Feed keeps the summary; every template is built from the period summary, so the card always shows the same numbers and the page has one loading and empty state.
 
 **Fixed-size card, scaled preview.** Templates render at the native export size (1080x1920 or 1600x900) with plain pixel values, as Echo does, inside a scaled wrapper for the preview (`transform: scale`, sized from the container width). Export passes `width`, `height` and `pixelRatio: 1` to `toBlob` and clones without the preview scale, so a phone-width screen exports the same image as a desktop. The previous 480px stack could not do this.
 
@@ -56,11 +56,11 @@
 
 1. Deploy the server summary endpoint.
 2. Regenerate `@repo/wrapper`, then ship web and mobile together. No data migration.
-3. Rollback is reverting the clients, which restores the cover grid page.
+3. Rollback is reverting the clients, which restores the current Wrapped page.
 
 ## Open Questions
 
 - Rolling or calendar periods for the card label ("last 7 days" versus "this week")?
-- Which templates ship first beyond the summary and the cover grid (Echo has four)?
+- Which templates ship next beyond Poster, Dash, Bento and the summary (Echo has four)?
 - Do we want the top genre by hours or by games played in the period?
 - Where do the server change's artifacts live, and should the summary also include `finishedGames` by name?

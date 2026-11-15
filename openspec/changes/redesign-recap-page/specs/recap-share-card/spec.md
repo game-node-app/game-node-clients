@@ -26,15 +26,23 @@ The recap page SHALL show a summary for the signed-in user's week, month or year
 - **THEN** the summary and the card update for that period without leaving the page
 
 ### Requirement: Card formats and templates
-The page SHALL offer a Story format of 1080x1920 pixels and a Feed format of 1600x900 pixels, and at least two templates: a summary template with the hero figure and the top five games, and the cover grid template. The cover grid template SHALL keep the grid size, excluded games, per-game playtime and platform options.
+The page SHALL offer a Story format of 1080x1920 pixels and a Feed format of 1600x900 pixels. Story SHALL offer only the Poster, Dash and Bento templates, and Feed SHALL offer only the summary template. There SHALL be no Covers template and no cover grid options (grid size, excluded games, source or recent and lifetime playtime). Every template SHALL be built from the same period summary.
 
 #### Scenario: Choosing a format
 - **WHEN** the user selects Story or Feed
-- **THEN** the preview takes that aspect ratio and the exported image has that size in pixels
+- **THEN** the preview takes that aspect ratio, shows that format's templates and the exported image has that size in pixels
 
-#### Scenario: Cover grid template
-- **WHEN** the user selects the cover grid template
-- **THEN** the options of the previous Wrapped modal are available and apply to the card
+#### Scenario: Story templates
+- **WHEN** Story is selected
+- **THEN** Poster, Dash and Bento are offered, and the summary template does not appear as a choice
+
+#### Scenario: Feed template
+- **WHEN** Feed is selected
+- **THEN** the summary is drawn and the Story templates are not offered
+
+#### Scenario: Covers removed
+- **WHEN** the user opens the page in either format
+- **THEN** the Covers template and its grid, exclusion, source and playtime controls are absent, and changing period, format or template keeps reading the period summary
 
 ### Requirement: Card customization
 The summary templates SHALL let the user choose the accent color from a fixed set, the figure shown in the card's free slot (finished games, reviews or started games), and whether the comparison with the previous period is drawn, which SHALL be off by default. Templates that draw game art (Poster and Bento) SHALL also let the user choose which of the ranked games provides the art and how visible it is. Each choice SHALL be applied to the preview and to the exported image, and the user SHALL be able to restore the defaults.

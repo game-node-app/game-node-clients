@@ -12,16 +12,12 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WrappedRecapScreen } from "../../../../../packages/ui/src/components/wrapped/WrappedRecapScreen";
-import { getCoverGridCellWidth } from "../../../../../packages/ui/src/components/wrapped/card/RecapCoverGridCard";
-import {
-  getRecapPreviewScale,
-  RECAP_CARD_FORMATS,
-} from "../../../../../packages/ui/src/components/wrapped/card/recapCardFormats";
+import { getRecapPreviewScale } from "../../../../../packages/ui/src/components/wrapped/card/recapCardFormats";
 
 const mocks = vi.hoisted(() => ({
   summary: undefined as unknown,
-  playtime: undefined as unknown,
   summaryPeriods: [] as string[],
+  cards: [] as { template: string; format: string; summary: unknown }[],
   toBlob: vi.fn(),
   notifyError: vi.fn(),
 }));
@@ -46,10 +42,6 @@ vi.mock("../../../../../packages/ui/src/components", () => ({
   useUserId: () => "user-1",
   useUserProfile: () => ({ data: { username: "Tester" } }),
   useGames: () => ({ data: [], isLoading: false }),
-  usePlaytimeForUser: () => ({
-    data: mocks.playtime,
-    isLoading: false,
-  }),
 }));
 
 // The video export is a supporter feature; the screen only reads the status.
@@ -94,50 +86,49 @@ vi.mock(
     }) => <div ref={cardRef}>{children}</div>,
   }),
 );
+
+// Each template records the shared summary it is rendered with, so the screen
+// tests can check the selection without duplicating the card tests.
+interface CardMockProps {
+  format: string;
+  summary: unknown;
+}
+
 vi.mock(
   "../../../../../packages/ui/src/components/wrapped/card/RecapSummaryCard",
   () => ({
-    RecapSummaryCard: ({ format }: { format: string }) => (
-      <div data-testid={"summary-card"}>{format}</div>
-    ),
+    RecapSummaryCard: ({ format, summary }: CardMockProps) => {
+      mocks.cards.push({ template: "summary", format, summary });
+      return <div data-testid={"recap-summary-card"}>{format}</div>;
+    },
   }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/wrapped/card/RecapPosterCard",
   () => ({
-    RecapPosterCard: ({ format }: { format: string }) => (
-      <div data-testid={"summary-card"}>{format}</div>
-    ),
+    RecapPosterCard: ({ format, summary }: CardMockProps) => {
+      mocks.cards.push({ template: "poster", format, summary });
+      return <div data-testid={"recap-poster-card"}>{format}</div>;
+    },
   }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/wrapped/card/RecapDashCard",
   () => ({
-    RecapDashCard: ({ format }: { format: string }) => (
-      <div data-testid={"summary-card"}>{format}</div>
-    ),
+    RecapDashCard: ({ format, summary }: CardMockProps) => {
+      mocks.cards.push({ template: "dash", format, summary });
+      return <div data-testid={"recap-dash-card"}>{format}</div>;
+    },
   }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard",
   () => ({
-    RecapBentoCard: ({ format }: { format: string }) => (
-      <div data-testid={"summary-card"}>{format}</div>
-    ),
+    RecapBentoCard: ({ format, summary }: CardMockProps) => {
+      mocks.cards.push({ template: "bento", format, summary });
+      return <div data-testid={"recap-bento-card"}>{format}</div>;
+    },
   }),
-);
-vi.mock(
-  "../../../../../packages/ui/src/components/wrapped/card/RecapCoverGridCard",
-  async (importOriginal) => {
-    const actual =
-      await importOriginal<
-        typeof import("../../../../../packages/ui/src/components/wrapped/card/RecapCoverGridCard")
-      >();
-    return {
-      ...actual,
-      RecapCoverGridCard: () => <div data-testid={"cover-grid-card"} />,
-    };
-  },
 );
 
 const summary = (seconds: number) => ({
@@ -171,10 +162,14 @@ const clickGenerate = async () => {
   });
 };
 
+const clickFormat = (format: "story" | "feed") => {
+  fireEvent.click(screen.getByLabelText(`mobile.wrapped.formats.${format}`));
+};
+
 beforeEach(() => {
   mocks.summary = summary(7200);
-  mocks.playtime = { data: [], pagination: { totalItems: 0 } };
   mocks.summaryPeriods = [];
+  mocks.cards = [];
   mocks.toBlob.mockReset();
   mocks.toBlob.mockResolvedValue(new Blob(["x"], { type: "image/jpeg" }));
   mocks.notifyError.mockReset();
@@ -219,27 +214,16 @@ describe("getRecapPreviewScale", () => {
   });
 });
 
-describe("getCoverGridCellWidth", () => {
-  it("fills the Story width for a 3 column grid", () => {
-    expect(getCoverGridCellWidth("story", 3, 3)).toBe(328);
-  });
-
-  it("shrinks cells so every row fits the Feed height", () => {
-    const width = getCoverGridCellWidth("feed", 4, 2);
-    const cellHeight = (width * 354) / 264;
-
-    expect(cellHeight * 2).toBeLessThanOrEqual(
-      RECAP_CARD_FORMATS.feed.height - 48 * 2 - 120,
-    );
-  });
-});
-
 describe("WrappedRecapScreen", () => {
-  it("shows the summary card for the default week period", () => {
+  it("starts on the Poster template of the week summary", () => {
     renderScreen();
 
-    expect(screen.getByTestId("summary-card").textContent).toBe("story");
+    expect(screen.getByTestId("recap-poster-card").textContent).toBe("story");
     expect(mocks.summaryPeriods.at(-1)).toBe("week");
+    expect(mocks.cards.at(-1)).toMatchObject({
+      template: "poster",
+      summary: mocks.summary,
+    });
   });
 
   it("loads the summary again when another period is picked", () => {
@@ -250,14 +234,94 @@ describe("WrappedRecapScreen", () => {
     expect(mocks.summaryPeriods.at(-1)).toBe("month");
   });
 
-  it("switches to the cover grid template", () => {
-    mocks.playtime = { data: [], pagination: { totalItems: 1 } };
+  it("offers only Poster, Dash and Bento templates in Story", () => {
     renderScreen();
 
-    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.covers"));
+    expect(
+      screen.getByLabelText("mobile.wrapped.templates.poster"),
+    ).toBeTruthy();
+    expect(screen.getByLabelText("mobile.wrapped.templates.dash")).toBeTruthy();
+    expect(
+      screen.getByLabelText("mobile.wrapped.templates.bento"),
+    ).toBeTruthy();
 
-    expect(screen.getByTestId("cover-grid-card")).toBeTruthy();
-    expect(screen.queryByTestId("summary-card")).toBeNull();
+    // The recap has a single data source: no cover grid template or summary
+    // template is offered in the Story format.
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.covers"),
+    ).toBeNull();
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.summary"),
+    ).toBeNull();
+
+    // And none of the cover grid controls remain.
+    for (const key of [
+      "gridStyle",
+      "excludedGames",
+      "excludedGamesHint",
+      "withRecentPlaytime",
+      "withTotalPlaytime",
+      "withPlatform",
+    ]) {
+      expect(screen.queryByText(`mobile.wrapped.labels.${key}`)).toBeNull();
+    }
+  });
+
+  it("switches between the Story templates and keeps the summary", () => {
+    renderScreen();
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.dash"));
+    expect(screen.getByTestId("recap-dash-card").textContent).toBe("story");
+    expect(screen.queryByTestId("recap-poster-card")).toBeNull();
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.bento"));
+    expect(screen.getByTestId("recap-bento-card").textContent).toBe("story");
+
+    expect(screen.queryByTestId("recap-summary-card")).toBeNull();
+    expect(mocks.cards.at(-1)?.summary).toBe(mocks.summary);
+  });
+
+  it("uses the summary for Feed and never offers Covers in either format", () => {
+    renderScreen();
+
+    clickFormat("feed");
+
+    expect(screen.getByTestId("recap-summary-card").textContent).toBe("feed");
+    expect(mocks.cards.at(-1)?.summary).toBe(mocks.summary);
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.covers"),
+    ).toBeNull();
+    expect(screen.queryByText("mobile.wrapped.templates.covers")).toBeNull();
+    // The Story templates belong to the vertical format.
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.poster"),
+    ).toBeNull();
+    expect(screen.queryByLabelText("mobile.wrapped.templates.dash")).toBeNull();
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.bento"),
+    ).toBeNull();
+
+    clickFormat("story");
+
+    expect(screen.queryByTestId("recap-summary-card")).toBeNull();
+    expect(
+      screen.queryByLabelText("mobile.wrapped.templates.covers"),
+    ).toBeNull();
+  });
+
+  it("falls back to Poster when Feed is changed back to Story", () => {
+    renderScreen();
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.bento"));
+    expect(screen.getByTestId("recap-bento-card")).toBeTruthy();
+
+    clickFormat("feed");
+    expect(screen.getByTestId("recap-summary-card")).toBeTruthy();
+    expect(screen.queryByTestId("recap-bento-card")).toBeNull();
+
+    clickFormat("story");
+    expect(screen.getByTestId("recap-poster-card")).toBeTruthy();
+    expect(screen.queryByTestId("recap-summary-card")).toBeNull();
   });
 
   it("exports at the native Story size and shares the file", async () => {
@@ -278,7 +342,7 @@ describe("WrappedRecapScreen", () => {
   it("exports at the Feed size when Feed is selected", async () => {
     renderScreen();
 
-    fireEvent.click(screen.getByLabelText("mobile.wrapped.formats.feed"));
+    clickFormat("feed");
     await clickGenerate();
 
     await waitFor(() => expect(mocks.toBlob).toHaveBeenCalledTimes(1));
@@ -299,7 +363,7 @@ describe("WrappedRecapScreen", () => {
 
     await waitFor(() => expect(mocks.notifyError).toHaveBeenCalled());
     expect(mocks.notifyError.mock.calls[0][0]).toBe(failure);
-    expect(screen.getByTestId("summary-card")).toBeTruthy();
+    expect(screen.getByTestId("recap-poster-card")).toBeTruthy();
   });
 
   it("explains an empty period and disables sharing", () => {

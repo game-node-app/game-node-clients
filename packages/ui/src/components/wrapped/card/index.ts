@@ -4,13 +4,11 @@
 
 export * from "./RecapBentoCard";
 export * from "./RecapCardFonts";
-export * from "./RecapCardFooter";
 export * from "./recapCardFormats";
 export * from "./RecapCardPreview";
 export * from "./recapCardTheme";
 export * from "./recapCardTypes";
 export * from "./RecapCover";
-export * from "./RecapCoverGridCard";
 export * from "./recapCustomization";
 export * from "./RecapDashCard";
 export * from "./RecapPlatformMark";
