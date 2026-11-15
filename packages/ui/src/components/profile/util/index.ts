@@ -3,5 +3,6 @@
  */
 
 export * from "./normalizeVideoCrop";
+export * from "./prepareProfileVideo";
 export * from "./profileUploadAccept";
 export * from "./profileVideoFile";

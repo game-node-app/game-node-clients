@@ -62,14 +62,14 @@ const HomePage = () => {
     isQueryEnabled,
   );
 
-  const isEmpty = isSuccess && data?.data?.items?.length === 0;
+  const isEmpty = isQueryEnabled && isSuccess && data?.data?.items?.length === 0;
 
   const enablePagination = (data?.pagination?.totalPages ?? 1) > 1;
 
   /**
    * Trending games, reviews, etc.
    */
-  const extraItemsEnabled = !isLoading && !isError && data == undefined;
+  const extraItemsEnabled = !isQueryEnabled;
 
   return (
     <Stack mih={"100%"} pos={"relative"} className="mt-12 mb-8">
@@ -78,7 +78,8 @@ const HomePage = () => {
         <GameView layout={layout} cols={{ base: 4, md: 6, lg: 8 }}>
           <GameSearchBar
             onChange={(query) => {
-              setSearchParameters({ query });
+              // a new (or cleared) query always starts from the first page
+              setSearchParameters({ query, page: 1 });
             }}
           />
           <GameSearchViewActions
@@ -92,14 +93,14 @@ const HomePage = () => {
             <GameSearchTips className={"w-full"} />
           </Group>
 
-          {isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
+          {isQueryEnabled && isError && <CenteredErrorMessage message={getErrorMessage(error)} />}
           {isEmpty && (
             <CenteredErrorMessage message={t("home.noResultsTryAgain")} />
           )}
-          <GameView.Content items={data?.data?.items}>
-            <GameView.LoadingSkeletons isVisible={isLoading} />
+          <GameView.Content items={isQueryEnabled ? data?.data?.items : undefined}>
+            <GameView.LoadingSkeletons isVisible={isQueryEnabled && isLoading} />
           </GameView.Content>
-          {enablePagination && (
+          {isQueryEnabled && enablePagination && (
             <GameView.Pagination
               className={"mt-4"}
               page={searchParameters.page}
@@ -116,6 +117,7 @@ const HomePage = () => {
             align={"center"}
             mt={"1rem"}
             gap={40}
+            className="motion-safe:animate-gn-fade-up"
           >
             <TrendingGamesList />
             {userId && <RecommendationCarousel criteria="played" />}

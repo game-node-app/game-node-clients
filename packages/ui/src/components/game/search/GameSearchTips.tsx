@@ -1,5 +1,6 @@
-import { Box, BoxProps, Text } from "@mantine/core";
+import { BoxProps, Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconBulb } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 function getRandomItem<T>(items: T[]) {
@@ -28,11 +29,18 @@ const GameSearchTips = ({ ...others }: BoxProps) => {
   if (!randomTip) return null;
 
   return (
-    <Box className={"w-full"} {...others}>
+    <Group
+      wrap={"nowrap"}
+      align={"flex-start"}
+      gap={6}
+      className={"w-full text-dimmed"}
+      {...others}
+    >
+      <IconBulb size={14} className={"mt-px shrink-0"} aria-hidden />
       <Text className={"text-start text-xs text-dimmed"}>
         {t("game.labels.tip")}: {randomTip}
       </Text>
-    </Box>
+    </Group>
   );
 };
 

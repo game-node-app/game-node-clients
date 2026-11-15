@@ -573,6 +573,7 @@
     }
   },
   "actions": {
+    "clear": "Clear",
     "backHome": "Back to home",
     "cancel": "Cancel",
     "clickHere": "Click here",
@@ -1721,16 +1722,73 @@
     },
     "wrapped": {
       "buttons": {
-        "generate": "Generate"
+        "downloadImage": "Download image",
+        "downloadVideo": "Download video",
+        "preparingImage": "Preparing image…",
+        "preparingVideo": "Preparing video… {{progress}}%",
+        "shareImage": "Share image",
+        "shareVideo": "Share video"
+      },
+      "card": {
+        "comparison": "Vs. previous period",
+        "finished": "Finished",
+        "gamesPlayed": "Games played",
+        "hoursPlayed": "Time played",
+        "hoursUnit": "hours",
+        "madeOn": "Made on GameNode",
+        "period": {
+          "month": "Last 30 days",
+          "week": "Last 7 days",
+          "year": "Last 12 months"
+        },
+        "tail": {
+          "month": "in the last 30 days.",
+          "week": "in the last 7 days.",
+          "year": "in the last 12 months."
+        },
+        "reviewed": "Reviews",
+        "started": "Started",
+        "topGame": "Top game",
+        "topGames": "Top games",
+        "topGenre": "Top genre",
+        "topPlatform": "Top platform",
+        "vsPrevious": "{{percent}}% vs. the previous period",
+        "wrapped": "Wrapped",
+        "youPlayed": "You played"
+      },
+      "custom": {
+        "accent": "Accent color",
+        "accents": {
+          "blue": "Blue",
+          "brand": "Orange",
+          "gold": "Gold",
+          "pink": "Pink",
+          "teal": "Green",
+          "violet": "Violet"
+        },
+        "backdropAuto": "Most played game",
+        "backdropGame": "Cover art",
+        "extra": {
+          "finished": "Finished",
+          "reviewed": "Reviews",
+          "started": "Started"
+        },
+        "extraStat": "Extra figure",
+        "opacity": "Art opacity",
+        "reset": "Reset customization",
+        "resetOpacity": "Use the default opacity",
+        "showComparison": "Compare with the previous period",
+        "title": "Customize"
+      },
+      "formats": {
+        "feed": "Feed",
+        "story": "Story"
       },
       "labels": {
-        "excludedGames": "Excluded games",
-        "excludedGamesHint": "These will not appear in the generated image.",
-        "gridStyle": "Grid style",
+        "format": "Format",
         "period": "Period",
-        "withPlatform": "With platform",
-        "withRecentPlaytime": "With recent playtime",
-        "withTotalPlaytime": "With total playtime"
+        "template": "Template",
+        "video": "Video"
       },
       "messages": {
         "noPlaytime": "We've found no playtime info for the selected period. You may change the period criteria below or set up a connection to start importing playtime info."
@@ -1740,7 +1798,19 @@
       "recentlyPlayed": "Recently played games",
       "shareDescription": "Share your wrapped with friends!",
       "sharePrompt": "This is my GameNode Wrapped!",
+      "templates": {
+        "bento": "Bento",
+        "dash": "Dash",
+        "poster": "Poster",
+        "summary": "Summary"
+      },
       "title": "Wrapped",
+      "video": {
+        "hint": "Pick a clip to play inside the poster (up to {{seconds}} seconds).",
+        "pick": "Choose a video",
+        "remove": "Remove video",
+        "unsupported": "This browser can't export videos. Try a recent Chrome, Edge or Android browser."
+      },
       "weekly": "Weekly Wrapped",
       "yearly": "Yearly Wrapped"
     }
@@ -2171,6 +2241,13 @@
       "zoom": "Zoom",
       "centerCropNotice": "This video can't be previewed on your device. The server will center it and crop it for you."
     },
+    "prepare": {
+      "title": "Optimizing your video",
+      "progress": "Preparing video… {{percent}}%",
+      "cancel": "Cancel",
+      "unsupported": "Your browser can't optimize videos, so the original file will be uploaded.",
+      "failedFallback": "We couldn't optimize the video on your device. Uploading the original file instead."
+    },
     "supporter": {
       "title": "Profile videos are a supporter benefit",
       "description": "Support GameNode to upload a short video as your avatar or banner.",
@@ -2192,6 +2269,7 @@
     },
     "status": {
       "processing": "Processing video...",
+      "processingHint": "Your current picture stays until the new video is ready.",
       "ready": "Video ready",
       "failed": "Video processing failed",
       "errors": {

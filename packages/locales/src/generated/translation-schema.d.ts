@@ -577,6 +577,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    clear: string;
     backHome: string;
     cancel: string;
     clickHere: string;
@@ -1725,16 +1726,73 @@ export type TranslationSchema = {
     };
     wrapped: {
       buttons: {
-        generate: string;
+        downloadImage: string;
+        downloadVideo: string;
+        preparingImage: string;
+        preparingVideo: string;
+        shareImage: string;
+        shareVideo: string;
+      };
+      card: {
+        comparison: string;
+        finished: string;
+        gamesPlayed: string;
+        hoursPlayed: string;
+        hoursUnit: string;
+        madeOn: string;
+        period: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        tail: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        reviewed: string;
+        started: string;
+        topGame: string;
+        topGames: string;
+        topGenre: string;
+        topPlatform: string;
+        vsPrevious: string;
+        wrapped: string;
+        youPlayed: string;
+      };
+      custom: {
+        accent: string;
+        accents: {
+          blue: string;
+          brand: string;
+          gold: string;
+          pink: string;
+          teal: string;
+          violet: string;
+        };
+        backdropAuto: string;
+        backdropGame: string;
+        extra: {
+          finished: string;
+          reviewed: string;
+          started: string;
+        };
+        extraStat: string;
+        opacity: string;
+        reset: string;
+        resetOpacity: string;
+        showComparison: string;
+        title: string;
+      };
+      formats: {
+        feed: string;
+        story: string;
       };
       labels: {
-        excludedGames: string;
-        excludedGamesHint: string;
-        gridStyle: string;
+        format: string;
         period: string;
-        withPlatform: string;
-        withRecentPlaytime: string;
-        withTotalPlaytime: string;
+        template: string;
+        video: string;
       };
       messages: {
         noPlaytime: string;
@@ -1744,7 +1802,19 @@ export type TranslationSchema = {
       recentlyPlayed: string;
       shareDescription: string;
       sharePrompt: string;
+      templates: {
+        bento: string;
+        dash: string;
+        poster: string;
+        summary: string;
+      };
       title: string;
+      video: {
+        hint: string;
+        pick: string;
+        remove: string;
+        unsupported: string;
+      };
       weekly: string;
       yearly: string;
     };
@@ -2175,6 +2245,13 @@ export type TranslationSchema = {
       zoom: string;
       centerCropNotice: string;
     };
+    prepare: {
+      title: string;
+      progress: string;
+      cancel: string;
+      unsupported: string;
+      failedFallback: string;
+    };
     supporter: {
       title: string;
       description: string;
@@ -2196,6 +2273,7 @@ export type TranslationSchema = {
     };
     status: {
       processing: string;
+      processingHint: string;
       ready: string;
       failed: string;
       errors: {

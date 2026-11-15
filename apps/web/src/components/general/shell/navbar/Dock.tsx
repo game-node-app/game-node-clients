@@ -7,13 +7,11 @@ import {
   isDockItemActive,
   type DockItemDefinition,
 } from "@/components/general/shell/navbar/dockItems";
-import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
   cn,
   NavChevronLeftIcon,
   NavChevronRightIcon,
-  RecentlyPlayedGamesShare,
   useSettingsModalState,
   useUserId,
 } from "@repo/ui";
@@ -36,15 +34,10 @@ export function Dock({ collapsed, onToggleCollapsed, onNavigate }: Props) {
   const router = useRouter();
   const userId = useUserId();
   const settings = useSettingsModalState();
-  const [wrappedOpened, wrappedUtils] = useDisclosure(false);
 
   const handleActivate = (item: DockItemDefinition) => {
     if (item.kind === "action") {
-      if (item.action === "wrapped") {
-        wrappedUtils.open();
-      } else {
-        settings.open("premium");
-      }
+      settings.open(item.action);
     }
 
     onNavigate?.();
@@ -127,20 +120,6 @@ export function Dock({ collapsed, onToggleCollapsed, onNavigate }: Props) {
         )}
         <DockAccount collapsed={collapsed} onNavigate={onNavigate} />
       </div>
-      <RecentlyPlayedGamesShare
-        opened={wrappedOpened}
-        onClose={wrappedUtils.close}
-        onShare={async (file) => {
-          const toShare: ShareData = {
-            title: t("game.share.title"),
-            text: t("game.share.recentlyPlayed"),
-            files: [file],
-            url: `https://gamenode.app`,
-          };
-
-          await navigator.share(toShare);
-        }}
-      />
     </nav>
   );
 }

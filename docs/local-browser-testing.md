@@ -35,12 +35,14 @@ const REDIRECTS = {
   mod: "http://localhost:3001/dashboard/achievement/definitions",
   admin: "http://localhost:3001/dashboard/home",
   player: "http://localhost:3002/preferences",
+  web: "http://localhost:3000/recap",
 };
 
 http
   .createServer(async (req, res) => {
     try {
-      const who = req.url.slice(1);
+      const url = new URL(req.url, "http://127.0.0.1");
+      const who = url.pathname.slice(1);
       if (!(who in REDIRECTS)) return res.writeHead(404).end();
       const ctx = await auth.$context;
       const email = `browser-${who}@example.invalid`;
@@ -50,12 +52,18 @@ http
           email,
           name: `browser-${who}`,
           emailVerified: true,
-          role: who === "player" ? "user" : `user,${who}`,
+          role: who === "player" || who === "web" ? "user" : `user,${who}`,
         }));
       await pool.execute(
         "INSERT IGNORE INTO profile (userId, username) VALUES (?, ?)",
         [user.id, `browser-${who}`],
       );
+      // `/web?to=/profile` overrides the landing page (web app only).
+      const to = url.searchParams.get("to");
+      const location =
+        who === "web" && to?.startsWith("/") && !to.startsWith("//")
+          ? `http://localhost:3000${to}`
+          : REDIRECTS[who];
       await pool.execute("INSERT IGNORE INTO library (userId) VALUES (?)", [
         user.id,
       ]);
@@ -66,7 +74,7 @@ http
         ctx.secret,
         { path: "/", httpOnly: true, sameSite: "lax" },
       );
-      res.writeHead(302, { "Set-Cookie": cookie, Location: REDIRECTS[who] });
+      res.writeHead(302, { "Set-Cookie": cookie, Location: location });
       res.end();
     } catch (e) {
       console.error(e);
@@ -76,7 +84,7 @@ http
   .listen(5011, "127.0.0.1", () => console.log("Local test login ready"));
 ```
 
-3. In the built-in browser, navigate to `http://localhost:5011/editor`, `/mod`, `/admin` or `/player`. The editor and moderator go to the definitions dashboard, the admin to the dashboard home and the player to mobile web preferences. The account names are `browser-editor`, `browser-mod`, `browser-admin` and `browser-player`. An editor can open definitions and events; a moderator should see the access-denied screen on those routes, and so should `/player` on any admin route.
+3. In the built-in browser, navigate to `http://localhost:5011/editor`, `/mod`, `/admin`, `/player` or `/web`. `/web` signs in as `browser-web` (plain user) on the web app (`localhost:3000`) and lands on `/recap`; use `/web?to=/some/path` for another web page. The editor and moderator go to the definitions dashboard, the admin to the dashboard home and the player to mobile web preferences. The account names are `browser-editor`, `browser-mod`, `browser-admin` and `browser-player`. An editor can open definitions and events; a moderator should see the access-denied screen on those routes, and so should `/player` on any admin route.
 4. For simulation, the user picker uses the public user-search index. New profiles may take up to an hour to appear; refresh it locally with `docker compose exec -T -u manticore manticore /bin/bash /etc/manticoresearch/reindex.sh users` from the server checkout.
 5. Stop the helper and delete the temporary file. Test users and any reviews, events, achievements, notifications and comments made during testing remain in the development databases; remove only the test data you no longer need.
 

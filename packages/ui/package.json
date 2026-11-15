@@ -25,7 +25,8 @@
   "dependencies": {
     "@better-auth/oauth-provider": "1.7.14",
     "@repo/locales": "*",
-    "@repo/wrapper": "*"
+    "@repo/wrapper": "*",
+    "mediabunny": "1.66.0"
   },
   "peerDependencies": {
     "@dnd-kit/core": "^6.3.1",

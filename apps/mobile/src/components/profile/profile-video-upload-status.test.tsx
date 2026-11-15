@@ -125,6 +125,7 @@ describe("ProfileVideoUploadStatus", () => {
     const status = await screen.findByTestId("profile-video-status-avatar");
 
     expect(status.textContent).toContain("profileVideo.status.processing");
+    expect(status.textContent).toContain("profileVideo.status.processingHint");
     expect(screen.getByRole("status")).toBe(status);
     expect(status.querySelector('[class*="Loader"]')).not.toBeNull();
   });

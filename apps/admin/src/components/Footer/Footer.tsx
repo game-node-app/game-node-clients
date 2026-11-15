@@ -4,7 +4,7 @@ import { ActionIcon, Anchor, Container, Group, Text } from "@mantine/core";
 import {
     IconBrandDiscord,
     IconBrandGithub,
-    IconBrandTwitter,
+    IconBrandX,
 } from "@tabler/icons-react";
 import classes from "./Footer.module.css";
 import Link from "next/link";
@@ -43,10 +43,10 @@ export function Footer() {
                     </Link>
                     <Link
                         target={"_blank"}
-                        href={"https://twitter.com/gamenodeapp"}
+                        href={"https://x.com/gamenodeapp"}
                     >
                         <ActionIcon size="lg" variant="default" radius="xl">
-                            <IconBrandTwitter size="1.05rem" stroke={1.5} />
+                            <IconBrandX size="1.05rem" stroke={1.5} />
                         </ActionIcon>
                     </Link>
                 </Group>

@@ -15,7 +15,7 @@ const GameSearchViewActions = ({
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <Group className={"w-full flex-nowrap gap-sm overflow-x-hidden"}>
+    <Group className={"w-full gap-sm"}>
       {onLayoutChange && (
         <GameView.LayoutSwitcher mode={"chip"} setLayout={onLayoutChange} />
       )}
@@ -23,6 +23,10 @@ const GameSearchViewActions = ({
         variant={"outline"}
         checked={includeExtraContent}
         onChange={onExtraContentChange}
+        classNames={{
+          label:
+            "!border-transparent !bg-paper-1 data-[checked]:!border-brand/55 data-[checked]:!bg-brand/20 data-[checked]:!text-white",
+        }}
       >
         {t("library.labels.showDLCs")}
       </Chip>

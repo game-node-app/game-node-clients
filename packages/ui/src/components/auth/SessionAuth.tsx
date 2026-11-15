@@ -4,6 +4,7 @@ import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
 import { isAuthPath } from "#@/components/auth/getSafeRedirectPath";
 import { useAuthPath, useHooks } from "#@/context";
 import { useRouter } from "#@/util/link";
+import { PROJECT_CONTEXT } from "#@/util/projectContext";
 
 interface Props extends PropsWithChildren {
   /** When false, children render for signed-out users too (no redirect). */
@@ -11,7 +12,9 @@ interface Props extends PropsWithChildren {
 }
 
 const SessionAuth = ({ requireAuth = true, children }: Props) => {
-  const { data, isPending } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
+  // Dev-only preview (`debugUserId` is never set in production builds): render as that user without a session.
+  const data = session ?? (PROJECT_CONTEXT?.debugUserId ? {} : null);
   const redirectToAuth = useRedirectToAuth();
   const { asPath, pathname } = useRouter();
   const authPath = useAuthPath();

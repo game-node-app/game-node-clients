@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { ProfileMetricsOverviewDto } from '../models/ProfileMetricsOverviewDto';
 import type { ProfileMetricsReportResponseDto } from '../models/ProfileMetricsReportResponseDto';
+import type { ProfileMetricsSummaryResponseDto } from '../models/ProfileMetricsSummaryResponseDto';
 import type { ProfileMetricsTypeDistributionResponseDto } from '../models/ProfileMetricsTypeDistributionResponseDto';
 import type { ProfileMetricsYearDistributionResponseDto } from '../models/ProfileMetricsYearDistributionResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -61,6 +62,27 @@ export class ProfileMetricsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/profile/metrics/report/{userId}/{period}',
+            path: {
+                'userId': userId,
+                'period': period,
+            },
+        });
+    }
+    /**
+     * Playtime summary for the recap share card over a rolling week, month or
+     * year, with the previous window of the same length for comparison.
+     * @param userId
+     * @param period
+     * @returns ProfileMetricsSummaryResponseDto
+     * @throws ApiError
+     */
+    public static profileMetricsControllerGetPeriodSummaryV1(
+        userId: string,
+        period: string,
+    ): CancelablePromise<ProfileMetricsSummaryResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/profile/metrics/summary/{userId}/{period}',
             path: {
                 'userId': userId,
                 'period': period,
