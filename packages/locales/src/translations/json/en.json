@@ -1,4 +1,435 @@
 {
+  "about": {
+    "meta": {
+      "title": "About GameNode",
+      "description": "GameNode brings together your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG libraries, keeps your hours, reviews and achievements, and shows what your friends are playing."
+    },
+    "hero": {
+      "titleStart": "Every game you've played deserves ",
+      "titleHighlight": "a place.",
+      "description": "GameNode brings together your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG libraries, keeps your hours, reviews and achievements, and shows what your friends are playing.",
+      "primaryCta": "Create my free account",
+      "secondaryCta": "Explore Premium",
+      "footnote": "Free to organize. Open source.",
+      "footnoteLogin": "Already have an account? Sign in",
+      "playing": "Playing",
+      "playingDetail": "42 h logged in the journal",
+      "completed": "Completed"
+    },
+    "manifesto": {
+      "eyebrow": "Why GameNode exists",
+      "textStart": "Your gaming history is spread across several stores, a few consoles and one forgotten spreadsheet.",
+      "textMuted": "GameNode brings it all into a profile that is yours, and stays yours.",
+      "items": {
+        "free": {
+          "title": "Free to organize",
+          "description": "Library, imports, reviews, journal and achievements cost nothing. And they will stay that way."
+        },
+        "openSource": {
+          "title": "Open source",
+          "description": "All of GameNode's code is on GitHub. You can read it, suggest improvements and contribute."
+        },
+        "community": {
+          "title": "Kept alive by the community",
+          "description": "Everyone who subscribes to Premium pays for servers and development and keeps the project online for everyone."
+        }
+      }
+    },
+    "index": {
+      "eyebrow": "Features",
+      "title": "Everything that fits in GameNode.",
+      "description": "A quick map before the tour. Every item below has a part of this page.",
+      "items": {
+        "library": {
+          "title": "Library",
+          "description": "All your games with a status: playing, planned, completed or dropped."
+        },
+        "sync": {
+          "title": "Sync",
+          "description": "Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG, with playtime."
+        },
+        "collections": {
+          "title": "Collections",
+          "description": "Lists your way, in the order you want. Up to 5 on the free plan."
+        },
+        "explore": {
+          "title": "Explore",
+          "description": "What's trending this week, this month or this year, with genre and platform filters."
+        },
+        "reviews": {
+          "title": "Reviews",
+          "description": "A rating and a review for every game you finished, or dropped halfway."
+        },
+        "activity": {
+          "title": "Activity and posts",
+          "description": "Follow friends, see what they're playing and comment on reviews and posts."
+        },
+        "journal": {
+          "title": "Game journal",
+          "description": "Sessions, hours played and the achievements you unlocked on each platform."
+        },
+        "ai": {
+          "title": "GameNode + AI",
+          "description": "Your library inside Claude, ChatGPT, Codex or Claude Code."
+        },
+        "timeToBeat": {
+          "title": "Time to beat",
+          "description": "How long the story, the extras and the 100% take, before you start."
+        },
+        "daily": {
+          "title": "GameNode Daily",
+          "description": "Four new games to guess every day. The same challenge for everyone."
+        },
+        "achievements": {
+          "title": "Achievements and levels",
+          "description": "Earn XP using GameNode, unlock achievements and level up."
+        },
+        "awards": {
+          "title": "Awards",
+          "description": "Vote on the games of the year with the community and see the results."
+        },
+        "retrospective": {
+          "title": "Year in review",
+          "description": "Your year in hours, finished games and favorite genres, ready to share."
+        },
+        "mobile": {
+          "title": "Mobile app",
+          "description": "All of this in the palm of your hand, on Android. iOS coming soon."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "description": "Know when someone follows you, likes your review or comments on a post."
+        },
+        "premium": {
+          "title": "Premium",
+          "description": "Theme, badge, video cover, unlimited collections and your name on the Premium Wall."
+        }
+      }
+    },
+    "library": {
+      "eyebrow": "Library and collections",
+      "title": "From backlog to 100%, every game in its place.",
+      "description": "Add any game, mark where you are with it and build collections that tell your story, from “finish in 2026” to “childhood games”.",
+      "bullets": {
+        "statuses": "Four statuses: playing, planned, completed and dropped",
+        "collections": "Collections in the order you want",
+        "dlc": "DLCs and expansions next to the main game",
+        "export": "Export your data whenever you want"
+      },
+      "mock": {
+        "statuses": {
+          "playing": "Playing",
+          "planned": "Planned",
+          "finished": "Completed",
+          "dropped": "Dropped"
+        }
+      }
+    },
+    "journal": {
+      "eyebrow": "Journal, time to beat and reviews",
+      "title": "Your hours tell a story. Write the ending.",
+      "diary": {
+        "title": "Game journal",
+        "description": "Every session is logged, with the hours and achievements that come from your connected platforms."
+      },
+      "weekdays": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "sessions": {
+        "hades": "2 h 10 min · Friday",
+        "baldursGate": "3 h 45 min · Saturday",
+        "celeste": "Achievement: Chapter 7"
+      },
+      "timeToBeat": {
+        "title": "Time to beat",
+        "description": "Know how much a game asks of you before you start.",
+        "main": "Main story",
+        "extras": "Main + extras",
+        "completionist": "100%",
+        "note": "Hollow Knight · HowLongToBeat data, illustrative values"
+      },
+      "reviews": {
+        "title": "Reviews",
+        "action": "reviewed Celeste",
+        "text": "“Every death teaches you something. I finished chapter 7 at two in the morning and I don't regret it.”",
+        "like": "Like",
+        "comment": "Comment"
+      }
+    },
+    "progress": {
+      "eyebrow": "Achievements, levels and the year in review",
+      "title": "Using GameNode also levels you up.",
+      "description": "Achievements of your own, with XP and levels, and a year in review with everything you played.",
+      "level": {
+        "label": "Level",
+        "nextLevel": "Next level",
+        "xp": "2,340 / 2,800 XP"
+      },
+      "achievements": {
+        "reviewer": {
+          "title": "On-duty critic · Level 2",
+          "requirement": "Write 10 reviews",
+          "xp": "+150 XP"
+        },
+        "collector": {
+          "title": "Collector · Level 3",
+          "requirement": "Have 100 games in your library",
+          "xp": "+300 XP"
+        },
+        "voter": {
+          "title": "Public voice",
+          "requirement": "Vote in the Awards of the year",
+          "xp": "+1000 XP"
+        }
+      },
+      "retrospective": {
+        "eyebrow": "YEAR IN REVIEW",
+        "title": "This year on GameNode you...",
+        "stats": {
+          "hours": "hours played",
+          "games": "games played",
+          "reviews": "reviews written",
+          "collections": "collections created"
+        },
+        "genres": {
+          "roguelike": "Roguelike",
+          "rpg": "RPG",
+          "platform": "Platformer",
+          "metroidvania": "Metroidvania"
+        },
+        "note": "Example year in review. Based on your connected platforms and your library."
+      }
+    },
+    "community": {
+      "eyebrow": "Activity and explore",
+      "title": "See what the community is playing.",
+      "activity": {
+        "title": "Recent activity",
+        "tabs": {
+          "following": "Following",
+          "all": "All"
+        }
+      },
+      "feed": {
+        "items": {
+          "added": {
+            "action": "added",
+            "target": "Outer Wilds",
+            "suffix": "to Planned"
+          },
+          "reviewed": {
+            "action": "reviewed",
+            "target": "Celeste",
+            "suffix": "with 5 stars"
+          },
+          "unlocked": {
+            "action": "unlocked",
+            "target": "Collector",
+            "suffix": "level 3"
+          },
+          "posted": {
+            "action": "posted about",
+            "target": "Stardew Valley"
+          }
+        }
+      },
+      "times": {
+        "twelveMinutes": "12 min ago",
+        "oneHour": "1 h ago",
+        "threeHours": "3 h ago",
+        "yesterday": "yesterday"
+      },
+      "explore": {
+        "title": "Explore",
+        "description": "Find what's trending and get your list ready for the next adventure.",
+        "periods": {
+          "week": "Week",
+          "month": "Month",
+          "threeMonths": "3 months",
+          "sixMonths": "6 months",
+          "year": "Year"
+        },
+        "filters": {
+          "genres": "Genres",
+          "platforms": "Platforms",
+          "themes": "Themes",
+          "modes": "Modes"
+        }
+      }
+    },
+    "connections": {
+      "eyebrow": "Connections",
+      "title": "Connect once. Your library updates itself.",
+      "description": "Import your library and playtime from your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG accounts.",
+      "platforms": {
+        "steam": "Steam",
+        "playstation": "PlayStation",
+        "xbox": "Xbox",
+        "epicGames": "Epic Games",
+        "nintendo": "Nintendo",
+        "gog": "GOG"
+      },
+      "chips": {
+        "library": "Library",
+        "playtime": "Playtime",
+        "achievements": "Achievements"
+      }
+    },
+    "ai": {
+      "eyebrow": "GameNode + AI",
+      "title": "Your library, inside your assistant.",
+      "description": "Connect GameNode to Claude, ChatGPT, Codex or Claude Code. Ask for recommendations based on what you play, update your backlog and write reviews in conversation. You approve every permission.",
+      "assistants": {
+        "claude": "Claude",
+        "chatgpt": "ChatGPT",
+        "codex": "Codex",
+        "claudeCode": "Claude Code"
+      },
+      "cta": "Connect your assistant",
+      "chat": {
+        "assistant": "Assistant",
+        "connected": "· connected to GameNode",
+        "prompt": "Find a co-op game I haven't played yet and add it to my backlog.",
+        "reply": "It Takes Two is a well-rated co-op game that isn't in your library yet. I added it to your backlog.",
+        "cardStatus": "Added to library · Planned"
+      },
+      "permissions": {
+        "title": "You choose what your assistant can read and change.",
+        "library": "Read your library and your collections",
+        "libraryWrite": "Add and update library entries",
+        "reviews": "Create or replace your reviews",
+        "publish": "Publish on your behalf"
+      }
+    },
+    "beyond": {
+      "eyebrow": "Games outside your library",
+      "title": "One challenge a day and one vote a year.",
+      "daily": {
+        "title": "GameNode Daily",
+        "description": "Four new games every day. The same puzzle for everyone.",
+        "nextIn": "Next in",
+        "modes": {
+          "cover": {
+            "title": "Cover",
+            "description": "Guess the game from its pixelated cover"
+          },
+          "artwork": {
+            "title": "Artwork",
+            "description": "Guess from the official art, without the logo"
+          },
+          "keywords": {
+            "title": "Keywords",
+            "description": "Keywords that show up with every miss"
+          },
+          "specs": {
+            "title": "Details",
+            "description": "Compare genre, year, platform and more"
+          }
+        },
+        "keywords": {
+          "exploration": "exploration",
+          "space": "space",
+          "timeLoop": "time loop",
+          "mystery": "mystery"
+        },
+        "specs": {
+          "action": "Action",
+          "year": "2017",
+          "ps4": "PS4",
+          "indie": "Indie",
+          "twoD": "2D",
+          "solo": "Solo",
+          "unity": "Unity",
+          "metroid": "Metroid"
+        }
+      },
+      "awards": {
+        "title": "GameNode Awards",
+        "description": "The Game Awards and GameNode community nominees in one place. Vote, share and see the results.",
+        "xp": "+1000 XP",
+        "xpNote": "and a medal for taking part"
+      },
+      "blog": {
+        "title": "Blog",
+        "description": "GameNode news and writing about games, in Portuguese and English."
+      }
+    },
+    "mobileApp": {
+      "eyebrow": "Mobile app",
+      "title": "Also available on mobile.",
+      "description": "Get our app and enjoy every feature in the palm of your hand, wherever and whenever you want.",
+      "googlePlay": "Google Play",
+      "appStore": "Coming soon to the App Store"
+    },
+    "premium": {
+      "eyebrow": "Premium",
+      "title": "Your profile, your way. And GameNode online.",
+      "description": "Organizing your games stays free. Premium adds extras for your profile and pays for servers and development.",
+      "badge": "Premium",
+      "profile": {
+        "premiumSince": "Premium since {{year}}",
+        "level": "Level {{level}} · {{followers}} followers · {{following}} following",
+        "playingNow": "PLAYING ON STEAM NOW"
+      },
+      "groups": {
+        "profile": {
+          "title": "Your profile, your way",
+          "videoCover": "Video cover on your profile",
+          "animatedBorder": "Animated border on your avatar",
+          "theme": "Premium theme in your accent color"
+        },
+        "library": {
+          "title": "Your library, without limits",
+          "unlimitedCollections": "Unlimited collections"
+        },
+        "live": {
+          "title": "Live on your profile",
+          "liveStatus": "What you're playing on Steam, live"
+        },
+        "supporter": {
+          "title": "Show your support",
+          "badge": "Premium badge and title next to your name",
+          "wall": "Your name on the Premium Wall"
+        }
+      },
+      "cta": "Explore Premium",
+      "freeCta": "Start free",
+      "guarantees": {
+        "cancel": "Cancel whenever you want, right in the app",
+        "downgrade": "Go back to free without losing your library"
+      }
+    },
+    "wall": {
+      "eyebrow": "Premium Wall",
+      "title": "The people keeping GameNode online.",
+      "description": "Every name here pays for a piece of the server and the development. Thank you, truly.",
+      "pill": "Premium",
+      "note": "The wall shows everyone who subscribes to Premium and kept the Premium List option on.",
+      "emptyCard": {
+        "title": "Your name here",
+        "cta": "Subscribe to Premium"
+      }
+    },
+    "promise": {
+      "titleStart": "Nothing that is free today will ",
+      "titleHighlight": "become paid.",
+      "description": "Your library, imports, reviews and achievements stay free. The code is open on GitHub, for anyone to check.",
+      "github": "View on GitHub",
+      "discord": "Join the Discord"
+    },
+    "finalCta": {
+      "title": "Your shelf is waiting.",
+      "description": "Create your account, connect your platforms and see your whole collection in a few minutes.",
+      "primaryCta": "Create my free account",
+      "secondaryCta": "Sign in"
+    }
+  },
   "achievements": {
     "labels": {
       "complete": "Complete",
@@ -1057,52 +1488,6 @@
     }
   },
   "landing": {
-    "featureDescription": "Update your wishlist, review the titles you've already tried, and add the most anticipated releases to your wishlist. Connect with your friends, follow their activity, and keep up with each one's latest gaming sessions.",
-    "features": {
-      "achievements": "Achievements",
-      "activities": "Activities",
-      "addGames": "Add games to your library space",
-      "customCollections": "Custom Collections",
-      "makeReviews": "Make Reviews",
-      "review": "Review",
-      "shareWorld": "Share with the world"
-    },
-    "header": {
-      "aboutUs": "About us",
-      "androidApp": "Android App",
-      "collaborate": "Collaborate",
-      "joinIn": "Join in",
-      "serviceStatus": "Service Status"
-    },
-    "headline": "A new way to organize your entire game collection",
-    "headlineAlt": "Organize all your games in one place",
-    "mobile": {
-      "appStoreSoon": "Soon on App Store",
-      "description": "Access our app and enjoy all the features in the palm of your hand — wherever and whenever you want.",
-      "googlePlay": "Google Play",
-      "soonIOS": "Soon in iOS.",
-      "title": "Also available for mobile",
-      "titleAlt": "We're also on your phone!"
-    },
-    "platforms": {
-      "description": "Import your library and playtime from your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG accounts.",
-      "names": {
-        "steam": "Steam",
-        "psn": "PlayStation",
-        "xbox": "Xbox",
-        "epicgames": "Epic Games",
-        "nintendo": "Nintendo",
-        "gog": "GOG"
-      },
-      "syncDescription": "Connect each account once and keep your collection and playtime up to date automatically.",
-      "title": "Sync with platforms"
-    },
-    "subheadline": "GameNode is the ideal platform to manage your game collection virtually.",
-    "support": {
-      "becomeSupporter": "Become a Supporter",
-      "description": "Collaborate with us to keep our platform 100% Free and constantly evolving.",
-      "title": "GameNode is maintained exclusively with community support"
-    },
     "presentation": {
       "heroTitle": "Organize all your games in one place",
       "heroDescription": "GameNode is the ideal platform to manage your game collection virtually.",

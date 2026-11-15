@@ -1,0 +1,811 @@
+.section {
+  padding-block: 56px;
+  scroll-margin-top: 24px;
+}
+
+.shell {
+  width: min(100% - 48px, 1200px);
+  margin-inline: auto;
+}
+
+/* Connections */
+
+.connectionsIntro {
+  display: flex;
+  justify-content: center;
+}
+
+.connectionsIntro .connectionsHeader {
+  max-width: none;
+}
+
+.connectionsIntro .connectionsHeader > p {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.platformGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(100%, 342px);
+  margin: 36px auto 0;
+}
+
+.platformCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 8px;
+  background: #121212;
+  border: 1px solid #232323;
+  border-radius: 16px;
+  min-width: 0;
+}
+
+.platformIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #2c2c2c;
+  border-radius: 26px;
+  background: #161616;
+  flex-shrink: 0;
+}
+
+.platformIcon img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.platformName {
+  margin: 0;
+  color: #fafafa;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 342px);
+  margin-inline: auto;
+}
+
+.connectorArc {
+  width: 70%;
+  height: 24px;
+  border: 1px solid rgba(241, 80, 37, 0.55);
+  border-top: 0;
+  border-radius: 0 0 22px 22px;
+}
+
+.connectorStem {
+  width: 1px;
+  height: 26px;
+  background: #f15025;
+}
+
+.hub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 342px);
+  margin-inline: auto;
+  padding: 16px;
+  background: #141414;
+  border: 1px solid #f15025;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(241, 80, 37, 0.25);
+}
+
+.hubLogo {
+  display: block;
+  width: 85px;
+  height: 36px;
+}
+
+.hubChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding-inline: 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #d0d0d0;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* GameNode + AI */
+
+.aiGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.aiCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.aiChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.assistantChip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding-inline: 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #d0d0d0;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.aiCta {
+  margin-top: 32px;
+  width: 100%;
+}
+
+.chatCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: #121212;
+  border: 1px solid #232323;
+  border-radius: 16px;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.chatHeaderIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.chatAssistant {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.chatConnected {
+  color: #a6a6a6;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.chatBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 20px;
+}
+
+.userBubble {
+  align-self: flex-end;
+  width: min(100%, 260px);
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 14px 14px 4px 14px;
+  background: #232323;
+  color: #fafafa;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.assistantReply {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 470px;
+  min-width: 0;
+}
+
+.assistantText {
+  margin: 0;
+  color: #d6d6d6;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.aiGameCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px;
+  background: #0e0e0e;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+}
+
+.aiGameCover {
+  display: block;
+  width: 44px;
+  height: 62px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.aiGameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.aiGameTitle {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 23px;
+}
+
+.aiGameMeta {
+  color: #8c8c8c;
+  font-size: 13px;
+  line-height: 23px;
+}
+
+.chatFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding: 18px 20px;
+  border-top: 1px solid #1f1f1f;
+}
+
+.permissionNote {
+  margin: 0;
+  color: #8c8c8c;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.permissionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.permissionLabel {
+  color: #d0d0d0;
+  font-size: 13px;
+  line-height: 1.4;
+  min-width: 0;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.toggleOn {
+  background: #f15025;
+}
+
+.toggleOff {
+  background: #2a2a2a;
+}
+
+.knobOn,
+.knobOff {
+  position: absolute;
+  top: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+}
+
+.knobOn {
+  right: 2px;
+  background: #fff;
+}
+
+.knobOff {
+  left: 2px;
+  background: #8c8c8c;
+}
+
+/* Daily, Awards and Blog */
+
+.beyondGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.dailyCard {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  background: #121212;
+  border: 1px solid #232323;
+  border-radius: 16px;
+  min-width: 0;
+}
+
+.dailyHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dailyHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  color: #fafafa;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.cardDescription {
+  margin: 0;
+  color: #a6a6a6;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.dailyBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding-inline: 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #d0d0d0;
+  font-size: 13px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dailyModes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.dailyMode {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 12px;
+}
+
+.modePreview {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #181818;
+}
+
+.modeImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modeTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+  height: 100%;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.modeTag {
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #262626;
+  color: #d0d0d0;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.modeTagUnknown {
+  border: 1px dashed #3a3a3a;
+  background: transparent;
+  color: #555;
+}
+
+.modeSpecs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 10px;
+}
+
+.modeSpecRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.modeSpecCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.specGreen {
+  background: #1f6b3a;
+  color: #cff5dd;
+}
+
+.specYellow {
+  background: #7a5a12;
+  color: #fce7b2;
+}
+
+.specRed {
+  background: #3a1b1b;
+  color: #e8b4b4;
+}
+
+.modeTitle {
+  margin: 0;
+  color: #fafafa;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.modeDescription {
+  margin: 0;
+  color: #8c8c8c;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.beyondSide {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.sideCard {
+  display: block;
+  padding: 22px;
+  background: #121212;
+  border: 1px solid #232323;
+  border-radius: 16px;
+}
+
+.awardsCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sideIcon {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.sideTitle {
+  margin: 16px 0 0;
+  color: #fafafa;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.sideDescription {
+  margin: 10px 0 0;
+  color: #a6a6a6;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.xpRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.xpChip {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding-inline: 7px;
+  border: 1px solid rgba(241, 80, 37, 0.5);
+  border-radius: 5px;
+  background: rgba(241, 80, 37, 0.14);
+  color: #ff8a66;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.xpNote {
+  color: #d0d0d0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Mobile app */
+
+.mobileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.mobileVisual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 560 / 420;
+  overflow: hidden;
+  border-radius: 20px;
+  background: radial-gradient(
+    60% 55% at 50% 60%,
+    rgba(241, 80, 37, 0.35),
+    rgba(241, 80, 37, 0) 65%
+  );
+}
+
+.mobileVisualImage {
+  position: absolute;
+  top: 15.4%;
+  left: 0;
+  width: 100%;
+  height: 69.2%;
+  object-fit: cover;
+}
+
+.mobileVisualFade {
+  position: absolute;
+  top: 53.8%;
+  left: 0;
+  width: 100%;
+  height: 32.3%;
+  background: linear-gradient(to bottom, rgba(11, 11, 11, 0), #0b0b0b 92%);
+}
+
+.mobileCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.storeButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+@media (min-width: 62em) {
+  .section {
+    padding-block: 80px;
+  }
+}
+
+@media (min-width: 75em) {
+  .platformGrid {
+    width: 100%;
+    grid-template-columns: repeat(6, minmax(0, 176px));
+    justify-content: center;
+    gap: 20px;
+    margin-top: 64px;
+  }
+
+  .platformCard {
+    padding: 24px 16px 20px;
+  }
+
+  .platformIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+  }
+
+  .platformName {
+    font-size: 16px;
+  }
+
+  .connector {
+    width: 100%;
+  }
+
+  .connectorArc {
+    width: 84%;
+    max-width: 924px;
+    height: 46px;
+  }
+
+  .connectorStem {
+    height: 44px;
+  }
+
+  .hub {
+    width: fit-content;
+    margin-inline: auto;
+    flex-direction: row;
+    gap: 18px;
+    padding: 18px 26px;
+  }
+
+  .hubChips {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  .aiGrid {
+    grid-template-columns: 460px minmax(0, 1fr);
+    gap: 80px;
+  }
+
+  .aiCta {
+    width: auto;
+  }
+
+  .chatCard {
+    min-height: 499px;
+  }
+
+  .userBubble {
+    width: 420px;
+    font-size: 15px;
+  }
+
+  .assistantText {
+    font-size: 15px;
+  }
+
+  .permissionLabel {
+    font-size: 14px;
+  }
+
+  .beyondGrid {
+    grid-template-columns: 708fr 472fr;
+    gap: 20px;
+    margin-top: 56px;
+  }
+
+  .dailyCard {
+    padding: 32px;
+  }
+
+  .dailyHeader {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .cardTitle {
+    font-size: 24px;
+    line-height: 31px;
+  }
+
+  .dailyModes {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .modePreview {
+    height: 236px;
+  }
+
+  .sideCard {
+    padding: 32px;
+  }
+
+  .awardsCard {
+    flex: 1;
+  }
+
+  .sideTitle {
+    font-size: 24px;
+    line-height: 31px;
+  }
+
+  .mobileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 80px;
+  }
+
+  .mobileVisualImage {
+    top: 14.76%;
+    height: 70.22%;
+  }
+
+  .mobileVisualFade {
+    top: 59.52%;
+    height: 26.19%;
+  }
+
+  .storeButtons {
+    flex-direction: row;
+  }
+}
