@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { RecapService } from "@repo/wrapper/server";
+import { isMockRecap } from "#@/components/recap/hooks/mockRecap";
 
 /**
  * Given a userID, returns the recap status for the current year.
@@ -15,6 +16,9 @@ export function useRecapStatus(
   return useQuery({
     queryKey: ["recap", "status", userId, year],
     queryFn: async () => {
+      if (isMockRecap(userId)) {
+        return { isRecapCreated: true, isRecapEligible: true };
+      }
       return RecapService.recapControllerGetRecapStatusV1(userId!, year!);
     },
     enabled: userId != undefined && year != undefined,

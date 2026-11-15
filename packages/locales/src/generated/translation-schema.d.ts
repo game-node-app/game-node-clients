@@ -1340,13 +1340,72 @@ export type TranslationSchema = {
     };
     wrapped: {
       buttons: {
+        download: string;
         generate: string;
+      };
+      card: {
+        comparison: string;
+        finished: string;
+        gamesPlayed: string;
+        hoursPlayed: string;
+        hoursUnit: string;
+        madeOn: string;
+        period: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        tail: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        reviewed: string;
+        started: string;
+        topGame: string;
+        topGames: string;
+        topGenre: string;
+        topPlatform: string;
+        vsPrevious: string;
+        wrapped: string;
+        youPlayed: string;
+      };
+      custom: {
+        accent: string;
+        accents: {
+          blue: string;
+          brand: string;
+          gold: string;
+          pink: string;
+          teal: string;
+          violet: string;
+        };
+        backdropAuto: string;
+        backdropGame: string;
+        extra: {
+          finished: string;
+          reviewed: string;
+          started: string;
+        };
+        extraStat: string;
+        opacity: string;
+        reset: string;
+        resetOpacity: string;
+        showComparison: string;
+        title: string;
+      };
+      formats: {
+        feed: string;
+        story: string;
       };
       labels: {
         excludedGames: string;
         excludedGamesHint: string;
+        format: string;
         gridStyle: string;
         period: string;
+        template: string;
+        video: string;
         withPlatform: string;
         withRecentPlaytime: string;
         withTotalPlaytime: string;
@@ -1359,7 +1418,23 @@ export type TranslationSchema = {
       recentlyPlayed: string;
       shareDescription: string;
       sharePrompt: string;
+      templates: {
+        bento: string;
+        covers: string;
+        dash: string;
+        poster: string;
+        summary: string;
+      };
       title: string;
+      video: {
+        becomeSupporter: string;
+        generate: string;
+        hint: string;
+        pick: string;
+        premiumOnly: string;
+        remove: string;
+        unsupported: string;
+      };
       weekly: string;
       yearly: string;
     };

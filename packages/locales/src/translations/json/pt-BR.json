@@ -1336,13 +1336,72 @@
     },
     "wrapped": {
       "buttons": {
+        "download": "Baixar",
         "generate": "Gerar"
+      },
+      "card": {
+        "comparison": "Vs. período anterior",
+        "finished": "Finalizados",
+        "gamesPlayed": "Jogos jogados",
+        "hoursPlayed": "Tempo jogado",
+        "hoursUnit": "horas",
+        "madeOn": "Gerado no GameNode",
+        "period": {
+          "month": "Últimos 30 dias",
+          "week": "Últimos 7 dias",
+          "year": "Últimos 12 meses"
+        },
+        "tail": {
+          "month": "nos últimos 30 dias.",
+          "week": "nos últimos 7 dias.",
+          "year": "nos últimos 12 meses."
+        },
+        "reviewed": "Avaliações",
+        "started": "Iniciados",
+        "topGame": "Jogo mais jogado",
+        "topGames": "Mais jogados",
+        "topGenre": "Gênero mais jogado",
+        "topPlatform": "Plataforma mais usada",
+        "vsPrevious": "{{percent}}% em relação ao período anterior",
+        "wrapped": "Wrapped",
+        "youPlayed": "Você jogou"
+      },
+      "custom": {
+        "accent": "Cor de destaque",
+        "accents": {
+          "blue": "Azul",
+          "brand": "Laranja",
+          "gold": "Dourado",
+          "pink": "Rosa",
+          "teal": "Verde",
+          "violet": "Violeta"
+        },
+        "backdropAuto": "Jogo mais jogado",
+        "backdropGame": "Arte da capa",
+        "extra": {
+          "finished": "Finalizados",
+          "reviewed": "Avaliações",
+          "started": "Iniciados"
+        },
+        "extraStat": "Número extra",
+        "opacity": "Opacidade da arte",
+        "reset": "Restaurar personalização",
+        "resetOpacity": "Usar a opacidade padrão",
+        "showComparison": "Comparar com o período anterior",
+        "title": "Personalizar"
+      },
+      "formats": {
+        "feed": "Feed",
+        "story": "Story"
       },
       "labels": {
         "excludedGames": "Jogos excluídos",
         "excludedGamesHint": "Eles não aparecerão na imagem gerada.",
+        "format": "Formato",
         "gridStyle": "Estilo da grade",
         "period": "Período",
+        "template": "Modelo",
+        "video": "Vídeo",
         "withPlatform": "Com plataforma",
         "withRecentPlaytime": "Com tempo de jogo recente",
         "withTotalPlaytime": "Com tempo de jogo total"
@@ -1355,7 +1414,23 @@
       "recentlyPlayed": "Jogos recentes",
       "shareDescription": "Compartilhe sua retrospectiva com amigos!",
       "sharePrompt": "Este é meu GameNode Wrapped!",
+      "templates": {
+        "bento": "Bento",
+        "covers": "Capas",
+        "dash": "Dash",
+        "poster": "Cartaz",
+        "summary": "Resumo"
+      },
       "title": "Wrapped",
+      "video": {
+        "becomeSupporter": "Seja um Apoiador",
+        "generate": "Gerar vídeo",
+        "hint": "Escolha um clipe para tocar dentro do cartaz (até {{seconds}} segundos).",
+        "pick": "Escolher vídeo",
+        "premiumOnly": "Exportar o Wrapped em vídeo é uma vantagem de Apoiador.",
+        "remove": "Remover vídeo",
+        "unsupported": "Este navegador não exporta vídeos. Tente um Chrome, Edge ou navegador Android recente."
+      },
       "weekly": "Wrapped Semanal",
       "yearly": "Wrapped Anual"
     }
