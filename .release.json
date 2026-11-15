@@ -1,0 +1,24 @@
+{
+  "source": "86535c0e880e8a1dfe40b46de215717224c8266f",
+  "changesets": [
+    ".changeset/about-page-redesign.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[a52172504168a5b1949e4c1c5d75efdcb852f2de...86535c0e880e8a1dfe40b46de215717224c8266f]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/86535c0e880e8a1dfe40b46de215717224c8266f",
+  "versions": {
+    "web": "1.17.1"
+  }
+}
