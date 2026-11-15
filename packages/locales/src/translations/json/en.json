@@ -142,6 +142,7 @@
     }
   },
   "actions": {
+    "clear": "Clear",
     "backHome": "Back to home",
     "cancel": "Cancel",
     "clickHere": "Click here",

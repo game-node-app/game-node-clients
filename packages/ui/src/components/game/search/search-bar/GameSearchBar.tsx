@@ -1,10 +1,8 @@
 import { useSearchGamesAutocomplete } from "#@/components";
 import {
-  Button,
+  CloseButton,
   Combobox,
-  Group,
   Loader,
-  Stack,
   TextInput,
   TextInputProps,
   useCombobox,
@@ -15,86 +13,107 @@ import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 
 interface Props extends Omit<TextInputProps, "onChange"> {
-  withButton?: boolean;
   /**
-   * Triggered when user press enter/search button or types in the search bar (debounced)
+   * Triggered while the user types (debounced), and right away on Enter, a picked suggestion or clearing.
    */
   onChange: (query: string) => void;
 }
 
-const GameSearchBar = ({ withButton = true, onChange, ...others }: Props) => {
+/**
+ * Game search input. Results follow the typing, so there is no submit button.
+ */
+const GameSearchBar = ({ onChange, ...others }: Props) => {
   const { t } = useTranslation();
   const combobox = useCombobox();
 
   const [query, setQuery] = useState("");
-  const triggerDelayedOnChange = useDebouncedCallback(
-    () => onChange(query),
-    300,
-  );
+  const triggerDelayedOnChange = useDebouncedCallback(onChange, 300);
 
   const [delayedQuery] = useDebouncedValue(query, 300);
 
   const autoCompleteQuery = useSearchGamesAutocomplete(delayedQuery);
 
+  const submit = (value: string) => {
+    triggerDelayedOnChange.cancel();
+    onChange(value);
+  };
+
   return (
-    <Stack className={"w-full"}>
-      <Group className={"w-full flex-nowrap gap-0"}>
-        <Combobox
-          store={combobox}
-          onOptionSubmit={(v) => {
-            setQuery(v);
-            triggerDelayedOnChange();
+    <Combobox
+      store={combobox}
+      onOptionSubmit={(value) => {
+        setQuery(value);
+        submit(value);
+        combobox.closeDropdown();
+      }}
+    >
+      <Combobox.Target>
+        <TextInput
+          type={"search"}
+          size={"lg"}
+          placeholder={t("game.searchPlaceholder")}
+          aria-label={t("game.searchPlaceholder")}
+          value={query}
+          onChange={(event) => {
+            const value = event.currentTarget.value;
+            setQuery(value);
+            combobox.resetSelectedOption();
+            combobox.openDropdown();
+            triggerDelayedOnChange(value);
           }}
-        >
-          <Combobox.Target>
-            <TextInput
-              placeholder={t("game.searchPlaceholder")}
-              value={query}
-              onChange={(event) => {
-                setQuery(event.currentTarget.value);
-                combobox.resetSelectedOption();
-                combobox.openDropdown();
-                triggerDelayedOnChange();
-              }}
-              onClick={() => combobox.openDropdown()}
-              onFocus={() => {
-                combobox.openDropdown();
-              }}
-              onBlur={() => combobox.closeDropdown()}
-              rightSection={autoCompleteQuery.isLoading && <Loader size={16} />}
-              classNames={{
-                root: "flex-grow",
-                input: "!rounded-tr-none !rounded-br-none",
-              }}
-              {...others}
-            />
-          </Combobox.Target>
-          <Combobox.Dropdown
-            hidden={
-              autoCompleteQuery.data == undefined ||
-              autoCompleteQuery.data.length === 0
+          onKeyDown={(event) => {
+            // a highlighted suggestion is handled by the combobox instead
+            if (event.key === "Enter" && combobox.getSelectedOptionIndex() < 0) {
+              submit(query);
+              combobox.closeDropdown();
             }
-          >
-            <Combobox.Options>
-              {autoCompleteQuery.data?.map((item) => (
-                <Combobox.Option value={item} key={item}>
-                  {item}
-                </Combobox.Option>
-              ))}
-            </Combobox.Options>
-          </Combobox.Dropdown>
-        </Combobox>
-        {withButton && (
-          <Button
-            type="button"
-            className="!rounded-tl-none !rounded-bl-none"
-            onClick={() => triggerDelayedOnChange()}
-          >
-            <IconSearch />
-          </Button>
-        )}
-      </Group>
-    </Stack>
+          }}
+          onClick={() => combobox.openDropdown()}
+          onFocus={() => combobox.openDropdown()}
+          onBlur={() => combobox.closeDropdown()}
+          leftSection={<IconSearch size={20} stroke={1.75} />}
+          rightSection={
+            autoCompleteQuery.isLoading ? (
+              <Loader size={16} />
+            ) : (
+              query.length > 0 && (
+                <CloseButton
+                  size={"sm"}
+                  aria-label={t("actions.clear")}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    setQuery("");
+                    submit("");
+                  }}
+                />
+              )
+            )
+          }
+          classNames={{
+            root: "group w-full",
+            input:
+              "!rounded-full !border-transparent text-base transition-[border-color,box-shadow] duration-150 hover:!border-white/20 focus:!border-brand focus:!shadow-[0_0_0_3px_rgb(241_80_37/0.3)] [&::-webkit-search-cancel-button]:appearance-none",
+            section:
+              "text-dimmed transition-colors duration-150 group-focus-within:text-brand",
+          }}
+          {...others}
+        />
+      </Combobox.Target>
+      <Combobox.Dropdown
+        hidden={
+          autoCompleteQuery.data == undefined ||
+          autoCompleteQuery.data.length === 0
+        }
+      >
+        <Combobox.Options>
+          {autoCompleteQuery.data?.map((item) => (
+            <Combobox.Option value={item} key={item}>
+              {item}
+            </Combobox.Option>
+          ))}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   );
 };
 

@@ -146,6 +146,7 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    clear: string;
     backHome: string;
     cancel: string;
     clickHere: string;

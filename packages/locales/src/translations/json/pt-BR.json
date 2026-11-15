@@ -142,6 +142,7 @@
     }
   },
   "actions": {
+    "clear": "Limpar",
     "backHome": "Voltar ao início",
     "cancel": "Cancelar",
     "clickHere": "Clique aqui",

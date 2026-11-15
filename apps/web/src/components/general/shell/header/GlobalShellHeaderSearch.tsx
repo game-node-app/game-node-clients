@@ -61,7 +61,6 @@ const GlobalShellHeaderSearch = ({ opened, onClose }: Props) => {
           onChange={(v) => {
             setValue(v);
           }}
-          withButton={false}
         />
         <GameSearchViewActions
           includeExtraContent={includeExtraContent}
