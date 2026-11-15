@@ -1,3 +1,4 @@
+/* global process */
 import type { YearRecapDto } from "@repo/wrapper/server";
 
 /**
