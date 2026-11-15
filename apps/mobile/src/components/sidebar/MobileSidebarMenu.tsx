@@ -2,17 +2,12 @@
 // prettier-ignore
 "use no memo";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
-import { blobToBase64 } from "@/util/imageUtils";
-import { Directory, Filesystem } from "@capacitor/filesystem";
-import { Share } from "@capacitor/share";
 import { menuController } from "@ionic/core/components";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
     Link,
-    RecentlyPlayedGamesShare,
     useCurrentRecapStatus,
     UserButton,
     useRunningAwardEvent,
@@ -44,7 +39,6 @@ const MobileSidebarMenu = () => {
   const { t } = useTranslation();
   const userId = useUserId();
   const queryClient = useQueryClient();
-  const [wrappedOpened, wrappedOpenedUtils] = useDisclosure();
   const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
     useRunningAwardEvent();
   const { isRecapCreated, targetYear } = useCurrentRecapStatus(userId);
@@ -72,25 +66,6 @@ const MobileSidebarMenu = () => {
       )}
       <IonContent>
         <Stack className={"w-full min-h-full gap-0"}>
-          <RecentlyPlayedGamesShare
-            opened={wrappedOpened}
-            onClose={wrappedOpenedUtils.close}
-            onShare={async (file) => {
-              const base64 = await blobToBase64(file);
-
-              const cachedFileResult = await Filesystem.writeFile({
-                path: file.name,
-                data: base64,
-                directory: Directory.Cache,
-              });
-
-              await Share.share({
-                title: t("mobile.wrapped.sharePrompt"),
-                dialogTitle: t("mobile.wrapped.shareDescription"),
-                url: cachedFileResult.uri,
-              });
-            }}
-          />
           <MobileSidebarButton
             title={t("navigation.collections")}
             Icon={IconLibrary}
@@ -124,12 +99,8 @@ const MobileSidebarMenu = () => {
           <MobileSidebarButton
             title={t("mobile.wrapped.title")}
             Icon={IconLayout2Filled}
-            href={`/profile/${userId}/stats`}
-            onClick={(evt) => {
-              evt.preventDefault();
-              wrappedOpenedUtils.open();
-              closeMenu();
-            }}
+            href={"/recap"}
+            onClick={closeMenu}
           />
           {isAwardsEventRunning && (
             <MobileSidebarButton

@@ -64,7 +64,7 @@ export interface DockLinkItem extends DockItemBase {
 
 export interface DockActionItem extends DockItemBase {
   kind: "action";
-  action: "wrapped" | "premium";
+  action: "premium";
 }
 
 export type DockItemDefinition = DockLinkItem | DockActionItem;
@@ -184,11 +184,11 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         href: "/feats",
       },
       {
-        kind: "action",
-        id: "wrapped",
+        kind: "link",
+        id: "recap",
         labelKey: "navigation.wrapped",
         icon: NavWrappedIcon,
-        action: "wrapped",
+        href: "/recap",
       },
     ],
   },

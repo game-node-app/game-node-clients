@@ -27,6 +27,7 @@ import CollectionPage from "@/pages/library/collection";
 import CollectionReorderPage from "@/pages/library/collection_reorder";
 import AwardsEventRedirectPage from "@/pages/awards";
 import AwardsResultPage from "@/pages/awards/result";
+import RecapHomePage from "@/pages/recap/recap_home";
 import RecapStatsPage from "@/pages/recap/recap_stats";
 import JournalAchievementsPage from "@/pages/journal/journal_achievements";
 import { JournalPage } from "@/pages/journal/journal";
@@ -330,6 +331,12 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
           />
         );
       }}
+    />,
+    <Route
+      exact
+      key={`${prefix}-recap-home`}
+      path={`${prefix}/recap`}
+      render={() => <RecapHomePage />}
     />,
     <Route
       key={`${prefix}-recap-stats`}

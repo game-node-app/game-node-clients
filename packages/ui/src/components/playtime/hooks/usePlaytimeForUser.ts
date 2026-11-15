@@ -1,3 +1,7 @@
+import {
+  buildMockPlaytimeList,
+  isMockRecap,
+} from "#@/components/recap/hooks/mockRecap";
 import { useQuery } from "@tanstack/react-query";
 import {
   FindAllPlaytimeFiltersDto,
@@ -19,6 +23,7 @@ export function usePlaytimeForUser({
   return useQuery<FindAllPlaytimeResponseDto>({
     queryKey: ["playtime", "user", userId, period, offset, limit, orderBy],
     queryFn: async () => {
+      if (isMockRecap(userId)) return buildMockPlaytimeList(limit) as never;
       return PlaytimeService.playtimeControllerFindAllByUserIdWithFiltersV1(
         userId,
         {
