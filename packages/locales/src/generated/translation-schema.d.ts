@@ -4,39 +4,145 @@
 
 export type TranslationSchema = {
   achievements: {
-    buttons: {
-      redeem: string;
-      redeemCode: string;
-    };
-    descriptions: {
-      codeFormat: string;
-    };
     labels: {
-      code: string;
       complete: string;
       secret: string;
       secretDescription: string;
       progress: string;
       nextReward: string;
-      eventEnds: string;
       tier: string;
       tierRow: string;
       tiers: string;
     };
-    messages: {
-      redeemed: string;
-    };
-    titles: {
-      redeemCode: string;
-    };
-    validation: {
-      codeRequired: string;
-    };
     sections: {
       obtained: string;
       notObtained: string;
-      activeEvents: string;
       pastEvents: string;
+      obtainedCount_one: string;
+      obtainedCount_other: string;
+      notObtainedCount_one: string;
+      notObtainedCount_other: string;
+      notObtainedCountWithSecrets_one: string;
+      notObtainedCountWithSecrets_other: string;
+      secretCount_one: string;
+      secretCount_other: string;
+    };
+    page: {
+      breadcrumbProfile: string;
+      breadcrumbFeats: string;
+      title: string;
+      subtitle: string;
+      level: string;
+      xpToNextLevel: string;
+      experience: string;
+      xpProgress: string;
+      joinedAt: string;
+    };
+    summary: {
+      featsObtained: string;
+      tiersConquered: string;
+      featXp: string;
+      redeemCode: string;
+    };
+    almostThere: {
+      title: string;
+      subtitle: string;
+      progress: string;
+      nextLevel: string;
+    };
+    events: {
+      title: string;
+      subtitle: string;
+      endsAt: string;
+      ended: string;
+      obtained: string;
+      pastEvents: string;
+      pastEventsDescription: string;
+      noLongerObtainable: string;
+    };
+    filters: {
+      categories: {
+        all: string;
+        collection: string;
+        followers: string;
+        reviews: string;
+        comments: string;
+        specials: string;
+        events: string;
+      };
+      searchPlaceholder: string;
+      status: {
+        all: string;
+        obtained: string;
+        locked: string;
+      };
+      empty: string;
+      emptyDescription: string;
+    };
+    card: {
+      tier: string;
+      tierOf: string;
+      progress: string;
+      nextLevel: string;
+      reward: string;
+      rarity: string;
+      tiersAction: string;
+      complete: string;
+      obtained: string;
+      earnedXp: string;
+      secretTitle: string;
+      secretBadge: string;
+      secretDescription: string;
+    };
+    tiers: {
+      title: string;
+      levelOf: string;
+      towards: string;
+      progress: string;
+      columns: {
+        level: string;
+        threshold: string;
+        xp: string;
+        rarity: string;
+        status: string;
+      };
+      xp: string;
+      rarity: string;
+      obtainedAt: string;
+      obtained: string;
+      locked: string;
+      complete: string;
+    };
+    redeem: {
+      title: string;
+      help: string;
+      codeLabel: string;
+      codePlaceholder: string;
+      codeFormat: string;
+      cancel: string;
+      submit: string;
+      success: string;
+      newFeat: string;
+      xp: string;
+      viewFeats: string;
+    };
+    featured: {
+      title: string;
+      titleVisitor: string;
+      action: string;
+      change: string;
+      empty: string;
+      help: string;
+    };
+    units: {
+      games_one: string;
+      games_other: string;
+      reviews_one: string;
+      reviews_other: string;
+      followers_one: string;
+      followers_other: string;
+      comments_one: string;
+      comments_other: string;
     };
   };
   actions: {

@@ -7,6 +7,7 @@ export * from "./AchievementItem";
 export * from "./AchievementLogo";
 export * from "./AchievementsScreen";
 export * from "./ObtainedAchievementItem";
-export * from "./RedeemAchievementCodeModal";
+export * from "./feats/index";
 export * from "./hooks/index";
 export * from "./select/index";
+export * from "./util/index";

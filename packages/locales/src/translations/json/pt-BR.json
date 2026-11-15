@@ -1,38 +1,144 @@
 {
   "achievements": {
-    "buttons": {
-      "redeem": "Resgatar",
-      "redeemCode": "Resgatar um código"
-    },
-    "descriptions": {
-      "codeFormat": "Pode conter letras e números"
-    },
     "labels": {
-      "code": "Seu código de conquista",
       "complete": "Completa",
       "secret": "Conquista secreta",
       "secretDescription": "Continue jogando para descobrir esta conquista.",
       "progress": "{{value}} / {{threshold}}",
       "nextReward": "Próximo nível: {{xp}} XP",
-      "eventEnds": "Termina em {{date}}",
       "tier": "Nível {{level}}",
       "tierRow": "{{threshold}} · {{xp}} XP · {{rarity}}%",
       "tiers": "Níveis"
     },
-    "messages": {
-      "redeemed": "Código resgatado com sucesso. Aproveite!"
-    },
-    "titles": {
-      "redeemCode": "Resgatar conquista com um código"
-    },
-    "validation": {
-      "codeRequired": "Um código de conquista deve ser informado!"
-    },
     "sections": {
       "obtained": "Obtidas",
       "notObtained": "Ainda não obtidas",
-      "activeEvents": "Eventos ativos",
-      "pastEvents": "Eventos passados"
+      "pastEvents": "Eventos passados",
+      "obtainedCount_one": "{{count}} feito",
+      "obtainedCount_other": "{{count}} feitos",
+      "notObtainedCount_one": "{{count}} feito",
+      "notObtainedCount_other": "{{count}} feitos",
+      "notObtainedCountWithSecrets_one": "{{count}} feito, {{secrets}}",
+      "notObtainedCountWithSecrets_other": "{{count}} feitos, {{secrets}}",
+      "secretCount_one": "{{count}} secreto",
+      "secretCount_other": "{{count}} secretos"
+    },
+    "page": {
+      "breadcrumbProfile": "Perfil",
+      "breadcrumbFeats": "Feitos",
+      "title": "Feitos",
+      "subtitle": "As conquistas do GameNode. Cada nível dá XP e sobe o seu nível de perfil.",
+      "level": "Nível {{level}}",
+      "xpToNextLevel": "faltam {{xp}} XP para o {{level}}",
+      "experience": "Experiência",
+      "xpProgress": "{{current}} / {{required}} XP",
+      "joinedAt": "Membro desde {{date}}"
+    },
+    "summary": {
+      "featsObtained": "Feitos obtidos",
+      "tiersConquered": "Níveis conquistados",
+      "featXp": "XP vindo de feitos",
+      "redeemCode": "Resgatar um código"
+    },
+    "almostThere": {
+      "title": "Quase lá",
+      "subtitle": "Os feitos mais perto do próximo nível.",
+      "progress": "{{value}} / {{threshold}}",
+      "nextLevel": "Próximo nível: {{xp}} XP"
+    },
+    "events": {
+      "title": "Eventos",
+      "subtitle": "Feitos com prazo. Ficam no seu perfil depois que o evento acaba.",
+      "endsAt": "Termina em {{date}}",
+      "ended": "Evento encerrado",
+      "obtained": "Obtida · +{{xp}} XP",
+      "pastEvents": "Eventos passados",
+      "pastEventsDescription": "Feitos de eventos encerrados não podem mais ser obtidos.",
+      "noLongerObtainable": "Não é mais possível obter"
+    },
+    "filters": {
+      "categories": {
+        "all": "Todos",
+        "collection": "Coleção",
+        "followers": "Seguidores",
+        "reviews": "Reviews",
+        "comments": "Comentários",
+        "specials": "Especiais",
+        "events": "Eventos"
+      },
+      "searchPlaceholder": "Buscar feitos",
+      "status": {
+        "all": "Todos",
+        "obtained": "Obtidos",
+        "locked": "Bloqueados"
+      },
+      "empty": "Nenhum feito encontrado",
+      "emptyDescription": "Ajuste a busca ou os filtros e tente novamente."
+    },
+    "card": {
+      "tier": "Nível {{level}}",
+      "tierOf": "Nível {{level}} de {{total}}",
+      "progress": "{{value}} / {{threshold}}",
+      "nextLevel": "Próximo nível: {{xp}} XP",
+      "reward": "Recompensa: {{xp}} XP",
+      "rarity": "{{rarity}}% dos usuários",
+      "tiersAction": "Níveis",
+      "complete": "Completa",
+      "obtained": "Obtida",
+      "earnedXp": "+{{xp}} XP ganhos",
+      "secretTitle": "Conquista secreta",
+      "secretBadge": "Secreta",
+      "secretDescription": "Nome e critério revelados ao obter."
+    },
+    "tiers": {
+      "title": "Níveis",
+      "levelOf": "Nível {{level}} de {{total}}",
+      "towards": "Rumo ao nível {{level}}",
+      "progress": "{{value}} / {{threshold}}",
+      "columns": {
+        "level": "Nível",
+        "threshold": "Meta",
+        "xp": "XP",
+        "rarity": "Usuários",
+        "status": "Status"
+      },
+      "xp": "{{xp}} XP",
+      "rarity": "{{rarity}}%",
+      "obtainedAt": "Obtido em {{date}}",
+      "obtained": "Obtido",
+      "locked": "Bloqueado",
+      "complete": "Completa"
+    },
+    "redeem": {
+      "title": "Resgatar conquista com um código",
+      "help": "Ganhou um código num evento, live ou sorteio? Digite aqui para liberar o feito.",
+      "codeLabel": "Seu código de conquista",
+      "codePlaceholder": "Digite o código",
+      "codeFormat": "Pode conter letras e números",
+      "cancel": "Cancelar",
+      "submit": "Resgatar",
+      "success": "Código resgatado com sucesso. Aproveite!",
+      "newFeat": "Novo feito",
+      "xp": "+{{xp}} XP",
+      "viewFeats": "Ver meus feitos"
+    },
+    "featured": {
+      "title": "Em destaque no seu perfil",
+      "titleVisitor": "Em destaque no perfil",
+      "action": "Destacar no perfil",
+      "change": "Trocar",
+      "empty": "Nenhum feito em destaque",
+      "help": "Escolha um feito obtido para destacar no perfil."
+    },
+    "units": {
+      "games_one": "jogo",
+      "games_other": "jogos",
+      "reviews_one": "review",
+      "reviews_other": "reviews",
+      "followers_one": "seguidor",
+      "followers_other": "seguidores",
+      "comments_one": "comentário",
+      "comments_other": "comentários"
     }
   },
   "actions": {

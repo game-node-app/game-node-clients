@@ -1,38 +1,144 @@
 {
   "achievements": {
-    "buttons": {
-      "redeem": "Redeem",
-      "redeemCode": "Redeem a code"
-    },
-    "descriptions": {
-      "codeFormat": "It may contain letters and numbers"
-    },
     "labels": {
-      "code": "Your achievement code",
       "complete": "Complete",
       "secret": "Secret achievement",
       "secretDescription": "Keep playing to discover this achievement.",
       "progress": "{{value}} / {{threshold}}",
       "nextReward": "Next tier: {{xp}} XP",
-      "eventEnds": "Ends {{date}}",
       "tier": "Tier {{level}}",
       "tierRow": "{{threshold}} · {{xp}} XP · {{rarity}}%",
       "tiers": "Tiers"
     },
-    "messages": {
-      "redeemed": "Successfully redeemed your code. Enjoy!"
-    },
-    "titles": {
-      "redeemCode": "Redeem achievement with a code"
-    },
-    "validation": {
-      "codeRequired": "An achievement code must be provided!"
-    },
     "sections": {
       "obtained": "Obtained",
       "notObtained": "Not yet obtained",
-      "activeEvents": "Active events",
-      "pastEvents": "Past events"
+      "pastEvents": "Past events",
+      "obtainedCount_one": "{{count}} feat",
+      "obtainedCount_other": "{{count}} feats",
+      "notObtainedCount_one": "{{count}} feat",
+      "notObtainedCount_other": "{{count}} feats",
+      "notObtainedCountWithSecrets_one": "{{count}} feat, {{secrets}}",
+      "notObtainedCountWithSecrets_other": "{{count}} feats, {{secrets}}",
+      "secretCount_one": "{{count}} secret",
+      "secretCount_other": "{{count}} secrets"
+    },
+    "page": {
+      "breadcrumbProfile": "Profile",
+      "breadcrumbFeats": "Feats",
+      "title": "Feats",
+      "subtitle": "GameNode's achievements. Every tier grants XP and raises your profile level.",
+      "level": "Level {{level}}",
+      "xpToNextLevel": "{{xp}} XP left to reach level {{level}}",
+      "experience": "Experience",
+      "xpProgress": "{{current}} / {{required}} XP",
+      "joinedAt": "Member since {{date}}"
+    },
+    "summary": {
+      "featsObtained": "Feats obtained",
+      "tiersConquered": "Tiers conquered",
+      "featXp": "XP from feats",
+      "redeemCode": "Redeem a code"
+    },
+    "almostThere": {
+      "title": "Almost there",
+      "subtitle": "The feats closest to your next tier.",
+      "progress": "{{value}} / {{threshold}}",
+      "nextLevel": "Next tier: {{xp}} XP"
+    },
+    "events": {
+      "title": "Events",
+      "subtitle": "Feats with a deadline. They stay on your profile after the event ends.",
+      "endsAt": "Ends {{date}}",
+      "ended": "Event ended",
+      "obtained": "Obtained · +{{xp}} XP",
+      "pastEvents": "Past events",
+      "pastEventsDescription": "Feats from ended events can no longer be obtained.",
+      "noLongerObtainable": "No longer obtainable"
+    },
+    "filters": {
+      "categories": {
+        "all": "All",
+        "collection": "Collection",
+        "followers": "Followers",
+        "reviews": "Reviews",
+        "comments": "Comments",
+        "specials": "Special",
+        "events": "Events"
+      },
+      "searchPlaceholder": "Search feats",
+      "status": {
+        "all": "All",
+        "obtained": "Obtained",
+        "locked": "Locked"
+      },
+      "empty": "No feats found",
+      "emptyDescription": "Adjust your search or filters and try again."
+    },
+    "card": {
+      "tier": "Tier {{level}}",
+      "tierOf": "Tier {{level}} of {{total}}",
+      "progress": "{{value}} / {{threshold}}",
+      "nextLevel": "Next tier: {{xp}} XP",
+      "reward": "Reward: {{xp}} XP",
+      "rarity": "{{rarity}}% of users",
+      "tiersAction": "Tiers",
+      "complete": "Complete",
+      "obtained": "Obtained",
+      "earnedXp": "+{{xp}} XP earned",
+      "secretTitle": "Secret achievement",
+      "secretBadge": "Secret",
+      "secretDescription": "Name and criteria revealed once obtained."
+    },
+    "tiers": {
+      "title": "Tiers",
+      "levelOf": "Tier {{level}} of {{total}}",
+      "towards": "Towards tier {{level}}",
+      "progress": "{{value}} / {{threshold}}",
+      "columns": {
+        "level": "Tier",
+        "threshold": "Goal",
+        "xp": "XP",
+        "rarity": "Users",
+        "status": "Status"
+      },
+      "xp": "{{xp}} XP",
+      "rarity": "{{rarity}}%",
+      "obtainedAt": "Obtained on {{date}}",
+      "obtained": "Obtained",
+      "locked": "Locked",
+      "complete": "Complete"
+    },
+    "redeem": {
+      "title": "Redeem achievement with a code",
+      "help": "Got a code from an event, stream or giveaway? Enter it here to unlock the feat.",
+      "codeLabel": "Your achievement code",
+      "codePlaceholder": "Enter the code",
+      "codeFormat": "It may contain letters and numbers",
+      "cancel": "Cancel",
+      "submit": "Redeem",
+      "success": "Successfully redeemed your code. Enjoy!",
+      "newFeat": "New feat",
+      "xp": "+{{xp}} XP",
+      "viewFeats": "See my feats"
+    },
+    "featured": {
+      "title": "Featured on your profile",
+      "titleVisitor": "Featured on profile",
+      "action": "Feature on profile",
+      "change": "Change",
+      "empty": "No featured feat",
+      "help": "Choose an obtained feat to feature on your profile."
+    },
+    "units": {
+      "games_one": "game",
+      "games_other": "games",
+      "reviews_one": "review",
+      "reviews_other": "reviews",
+      "followers_one": "follower",
+      "followers_other": "followers",
+      "comments_one": "comment",
+      "comments_other": "comments"
     }
   },
   "actions": {

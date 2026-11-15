@@ -105,6 +105,72 @@ describe("AchievementBadge", () => {
     );
     expect(container.querySelector("svg.tabler-icon-lock")).toBeTruthy();
   });
+
+  it("keeps the circular ring as the default variant", () => {
+    const { container } = renderWithMantine(
+      <AchievementBadge
+        icon={{ kind: AchievementIconDto.kind.GLYPH, name: "trophy" }}
+        tier={1}
+      />,
+    );
+    const badge = container.querySelector("[data-tier='1']");
+    expect(badge?.getAttribute("data-variant")).toBe("ring");
+    expect(badge?.className).toContain("rounded-full");
+    expect(badge?.className).not.toContain("rounded-[14px]");
+  });
+
+  it("renders a glyph inside a square tile", () => {
+    const { container } = renderWithMantine(
+      <AchievementBadge
+        icon={{ kind: AchievementIconDto.kind.GLYPH, name: "trophy" }}
+        tier={1}
+        variant="tile"
+      />,
+    );
+    const tile = container.querySelector("[data-variant='tile']");
+    expect(tile?.className).toContain("rounded-[14px]");
+    expect(tile?.querySelector("svg")).toBeTruthy();
+  });
+
+  it("renders the game cover inside a square tile", () => {
+    const { container } = renderWithMantine(
+      <AchievementBadge
+        icon={{ kind: AchievementIconDto.kind.GAME_COVER, gameId: 1164 }}
+        tier={3}
+        variant="tile"
+      />,
+    );
+    const tile = container.querySelector("[data-variant='tile']");
+    expect(tile?.querySelector("img")?.getAttribute("src")).toContain(
+      "cover.jpg",
+    );
+  });
+
+  it("renders a server image inside a square tile", () => {
+    const { container } = renderWithMantine(
+      <AchievementBadge
+        icon={{ kind: AchievementIconDto.kind.IMAGE, name: "space-station" }}
+        tier={1}
+        variant="tile"
+      />,
+    );
+    const tile = container.querySelector("[data-variant='tile']");
+    expect(tile?.querySelector("img")?.getAttribute("src")).toContain(
+      "space-station.png",
+    );
+  });
+
+  it("grays out a locked tile", () => {
+    const { container } = renderWithMantine(
+      <AchievementBadge
+        icon={{ kind: AchievementIconDto.kind.GLYPH, name: "trophy" }}
+        tier={0}
+        variant="tile"
+      />,
+    );
+    const tile = container.querySelector("[data-tier='0']") as HTMLElement;
+    expect(tile.style.filter).toBe("grayscale(1)");
+  });
 });
 
 describe("AchievementItem", () => {
@@ -135,6 +201,7 @@ describe("AchievementItem", () => {
     value: 0,
     tier: 0,
     nextThreshold: 10,
+    obtainedTiers: [],
     ...p,
   });
 

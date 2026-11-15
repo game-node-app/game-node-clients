@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AchievementObtainedTierDto } from './AchievementObtainedTierDto';
 export type AchievementProgressDto = {
     achievementId: string;
     value: number;
@@ -13,5 +14,9 @@ export type AchievementProgressDto = {
      * Threshold of the next tier, null when every tier is obtained
      */
     nextThreshold: number | null;
+    /**
+     * Obtained tiers of the user, ordered by level. Empty when tier is 0.
+     */
+    obtainedTiers: Array<AchievementObtainedTierDto>;
 };
 
