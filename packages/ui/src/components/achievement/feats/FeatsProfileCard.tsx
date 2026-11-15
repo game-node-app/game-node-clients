@@ -56,7 +56,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
         align={{ base: "flex-start", sm: "center" }}
         className={"relative"}
       >
-        <Box className={"relative shrink-0"}>
+        <Stack gap={8} align={"center"} className={"shrink-0"}>
           <Box
             className={
               "h-[76px] w-[76px] rounded-full p-[3px] sm:h-[112px] sm:w-[112px]"
@@ -77,18 +77,19 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
               />
             </Box>
           </Box>
+          {/* Below the ring, never over it: an absolutely positioned pill was
+              also squeezed to the ring's half-width and truncated its label. */}
           <Badge
             variant={"light"}
             color={"brand"}
             radius={"xl"}
             size={"sm"}
-            className={
-              "absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap border-2 border-paper-7"
-            }
+            data-testid={"feats-profile-level-badge"}
+            className={"whitespace-nowrap"}
           >
             {t("achievements.page.level", { level: currentLevel })}
           </Badge>
-        </Box>
+        </Stack>
 
         <Stack gap={4} className={"min-w-0 flex-1"}>
           <Text
