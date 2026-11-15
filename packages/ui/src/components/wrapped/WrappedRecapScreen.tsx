@@ -115,16 +115,27 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoProgress, setVideoProgress] = useState(0);
+  const videoUrlRef = useRef<string | null>(null);
+
+  // The preview URL is created when a file is picked, not in an effect, so the
+  // <video> source is ready on the same render as the file.
+  const changeVideoFile = (file: File | null) => {
+    if (videoUrlRef.current) {
+      URL.revokeObjectURL(videoUrlRef.current);
+    }
+    videoUrlRef.current = file ? URL.createObjectURL(file) : null;
+    setVideoFile(file);
+    setVideoUrl(videoUrlRef.current);
+  };
 
   useEffect(() => {
-    if (!videoFile) {
-      setVideoUrl(null);
-      return;
-    }
-    const url = URL.createObjectURL(videoFile);
-    setVideoUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [videoFile]);
+    return () => {
+      if (videoUrlRef.current) {
+        URL.revokeObjectURL(videoUrlRef.current);
+        videoUrlRef.current = null;
+      }
+    };
+  }, []);
 
   // Summary template data
   const summaryQuery = useRecapSummary(recapPeriod);
@@ -469,7 +480,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
                       </Text>
                       <Group gap={"xs"} wrap={"nowrap"}>
                         <FileButton
-                          onChange={setVideoFile}
+                          onChange={changeVideoFile}
                           accept={"video/mp4,video/quicktime,video/webm"}
                           disabled={exportPending}
                         >
@@ -493,7 +504,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
                             size={"input-sm"}
                             variant={"default"}
                             disabled={exportPending}
-                            onClick={() => setVideoFile(null)}
+                            onClick={() => changeVideoFile(null)}
                             aria-label={t("mobile.wrapped.video.remove")}
                           >
                             <IconX size={16} />
