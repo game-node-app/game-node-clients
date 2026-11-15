@@ -1,0 +1,28 @@
+{
+  "source": "a52172504168a5b1949e4c1c5d75efdcb852f2de",
+  "changesets": [
+    ".changeset/redesign-feats-page.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[b1d10a064702f93e5f5f188ecf1f188ab672a6aa...a52172504168a5b1949e4c1c5d75efdcb852f2de]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/a52172504168a5b1949e4c1c5d75efdcb852f2de",
+  "versions": {
+    "web": "1.17.0",
+    "mobile": "1.15.0"
+  }
+}
