@@ -1,0 +1,24 @@
+{
+  "source": "7d58aa31a84bc4c374939e2ae845d08f4da2994b",
+  "changesets": [
+    ".changeset/premium-landing-page.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[01dcf23206f1d4105942ab834540e0ef89dffce2...7d58aa31a84bc4c374939e2ae845d08f4da2994b]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/7d58aa31a84bc4c374939e2ae845d08f4da2994b",
+  "versions": {
+    "web": "1.18.1"
+  }
+}
