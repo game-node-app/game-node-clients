@@ -1,0 +1,28 @@
+{
+  "source": "1ff726dc96763dd93057e32e130dd7c1ab7f0235",
+  "changesets": [
+    ".changeset/ninety-hotels-chew.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[ea0d13863cca365f7de338e8cb921edbb99b65a6...1ff726dc96763dd93057e32e130dd7c1ab7f0235]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch",
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/1ff726dc96763dd93057e32e130dd7c1ab7f0235",
+  "versions": {
+    "web": "1.18.2",
+    "mobile": "1.16.1"
+  }
+}
