@@ -3,6 +3,7 @@ import { CollectionsEntriesService } from "../../../../../../wrapper/src/server"
 
 export function useCollectionEntry(
   collectionEntryId: string | undefined | null,
+  options?: { enabled?: boolean },
 ) {
   return useQuery({
     queryKey: ["collection-entries", collectionEntryId],
@@ -11,6 +12,6 @@ export function useCollectionEntry(
         collectionEntryId!,
       );
     },
-    enabled: !!collectionEntryId,
+    enabled: (options?.enabled ?? true) && !!collectionEntryId,
   });
 }

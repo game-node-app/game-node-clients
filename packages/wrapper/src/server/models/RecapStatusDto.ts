@@ -13,5 +13,9 @@ export type RecapStatusDto = {
      * This is determined by the user's account creation date and the target year.
      */
     isRecapEligible: boolean;
+    /**
+     * Phase of the requested year: upcoming, live or closed.
+     */
+    phase: Record<string, any>;
 };
 

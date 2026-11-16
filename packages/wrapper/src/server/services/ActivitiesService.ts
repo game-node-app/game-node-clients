@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ActivitiesPaginatedResponseDto } from '../models/ActivitiesPaginatedResponseDto';
-import type { Activity } from '../models/Activity';
+import type { ActivityResponseDto } from '../models/ActivityResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -35,12 +35,12 @@ export class ActivitiesService {
     }
     /**
      * @param id
-     * @returns Activity
+     * @returns ActivityResponseDto
      * @throws ApiError
      */
     public static activitiesRepositoryControllerFindOneByIdV1(
         id: string,
-    ): CancelablePromise<Activity> {
+    ): CancelablePromise<ActivityResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/activities/detail/{id}',

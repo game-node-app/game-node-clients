@@ -5,7 +5,8 @@ import {
 } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  StatisticsWithStatus,
+  InitialItemStatistics,
+  ItemStatisticsData,
   useItemStatistics,
 } from "#@/components/statistics/hooks/useItemStatistics";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
@@ -13,12 +14,21 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 export interface IToggleLikeProps {
   sourceId: string | number;
   sourceType: StatisticsSourceRequestDto.sourceType;
+  initialStatistics?: InitialItemStatistics;
 }
 
-export function useUserLike({ sourceId, sourceType }: IToggleLikeProps) {
+export function useUserLike({
+  sourceId,
+  sourceType,
+  initialStatistics,
+}: IToggleLikeProps) {
   const queryClient = useQueryClient();
   const userId = useUserId();
-  const statisticsQuery = useItemStatistics(sourceId, sourceType);
+  const statisticsQuery = useItemStatistics(
+    sourceId,
+    sourceType,
+    initialStatistics,
+  );
   const queryKey = statisticsQuery.queryKey;
   const likeMutation = useMutation({
     mutationFn: async (variables: {
@@ -43,9 +53,9 @@ export function useUserLike({ sourceId, sourceType }: IToggleLikeProps) {
     onMutate: async ({ key, wasLiked }) => {
       await queryClient.cancelQueries({ queryKey: key });
       const previousStatistics =
-        queryClient.getQueryData<StatisticsWithStatus>(key);
+        queryClient.getQueryData<ItemStatisticsData>(key);
       if (previousStatistics)
-        queryClient.setQueryData(key, {
+        queryClient.setQueryData<ItemStatisticsData>(key, {
           ...previousStatistics,
           isLiked: !wasLiked,
           likesCount: wasLiked
@@ -55,7 +65,7 @@ export function useUserLike({ sourceId, sourceType }: IToggleLikeProps) {
       return { previousStatistics };
     },
     onSuccess: (response, { key }) => {
-      queryClient.setQueryData<StatisticsWithStatus>(
+      queryClient.setQueryData<ItemStatisticsData>(
         key,
         (previous) =>
           previous && {
@@ -64,13 +74,14 @@ export function useUserLike({ sourceId, sourceType }: IToggleLikeProps) {
             likesCount: response.likesCount,
           },
       );
-      if (!queryClient.getQueryData(key))
-        void queryClient.invalidateQueries({ queryKey: key });
     },
     onError: (error, { key }, context) => {
       console.error(error);
       if (context?.previousStatistics)
         queryClient.setQueryData(key, context.previousStatistics);
+    },
+    onSettled: (_data, _error, { key }) => {
+      void queryClient.invalidateQueries({ queryKey: key });
     },
   });
   const sameSource = likeMutation.variables?.key.every(

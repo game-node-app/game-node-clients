@@ -8,5 +8,8 @@ export type CreateUpdateAwardsEventDto = {
     votingStartDate: string;
     votingEndDate: string;
     resultsDate: string;
+    nominationStartDate?: string | null;
+    nominationEndDate?: string | null;
+    eligibilityCutoffDate?: string | null;
 };
 

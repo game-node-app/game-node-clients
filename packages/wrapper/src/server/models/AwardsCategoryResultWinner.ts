@@ -17,5 +17,13 @@ export type AwardsCategoryResultWinner = {
      * Only for the target category.
      */
     votesPercentage: number;
+    /**
+     * Votes cast by users who had played this game when results were computed.
+     */
+    playedVotes: number;
+    /**
+     * Percentage of the category's played-only votes.
+     */
+    playedVotesPercentage: number;
 };
 

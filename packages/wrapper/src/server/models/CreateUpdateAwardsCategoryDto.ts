@@ -8,5 +8,6 @@ export type CreateUpdateAwardsCategoryDto = {
     name: string;
     description: string;
     order: number;
+    nomineeCount?: number;
 };
 

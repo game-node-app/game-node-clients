@@ -2,24 +2,60 @@ import {
   GameAchievementHoverIcon,
   TextLink,
   useGame,
+  useObtainedGameAchievementActivity,
   useOnMobile,
 } from "#@/components";
-import { HoverCard, Popover, SimpleGrid, Stack, Text } from "@mantine/core";
+import {
+  Center,
+  HoverCard,
+  Loader,
+  Popover,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { GameObtainedAchievementActivityDto } from "@repo/wrapper/server";
-import { useMemo } from "react";
+import {
+  GameAchievementWithObtainedInfo,
+  GameObtainedAchievementActivityDto,
+  ObtainedGameAchievementActivity,
+} from "@repo/wrapper/server";
+import { useMemo, useState } from "react";
+
+type ObtainedAchievementActivitySummary =
+  | GameObtainedAchievementActivityDto
+  | ObtainedGameAchievementActivity;
 
 interface Props {
-  activity: GameObtainedAchievementActivityDto | undefined;
+  activity: ObtainedAchievementActivitySummary | undefined;
+  /** True when the parent already embedded `activity.game` (including `null`). */
+  hasEmbeddedGame?: boolean;
 }
 
-const ObtainedAchievementActivityContent = ({ activity }: Props) => {
+function hasDetailedAchievements(
+  activity: ObtainedAchievementActivitySummary | undefined,
+  hasEmbeddedGame: boolean,
+): activity is GameObtainedAchievementActivityDto {
+  if (!activity || !Array.isArray(activity.obtainedGameAchievements)) {
+    return false;
+  }
+  if (activity.obtainedGameAchievements.length === 0) {
+    return !hasEmbeddedGame && !("profile" in activity);
+  }
+  return "externalId" in activity.obtainedGameAchievements[0];
+}
+
+const ObtainedAchievementActivityContent = ({
+  activity,
+  hasEmbeddedGame = false,
+}: Props) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
+  const [hasOpened, setHasOpened] = useState(false);
 
   const PopoverElement = onMobile ? Popover : HoverCard;
 
-  const gameId = activity?.externalGame.gameId;
+  const gameId = activity?.externalGame?.gameId;
 
   useGame(
     gameId,
@@ -29,6 +65,27 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
       },
     },
     "off",
+    { enabled: !hasEmbeddedGame },
+  );
+
+  const hasDetails = hasDetailedAchievements(activity, hasEmbeddedGame);
+  const detailedActivityQuery = useObtainedGameAchievementActivity(
+    activity?.id,
+    {
+      enabled: hasOpened && !hasDetails,
+    },
+  );
+
+  const obtainedGameAchievements: GameAchievementWithObtainedInfo[] = useMemo(
+    () =>
+      hasDetails
+        ? activity.obtainedGameAchievements
+        : (detailedActivityQuery.data?.obtainedGameAchievements ?? []),
+    [
+      activity,
+      detailedActivityQuery.data?.obtainedGameAchievements,
+      hasDetails,
+    ],
   );
 
   const renderedText = useMemo(() => {
@@ -57,7 +114,7 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
   }
 
   return (
-    <PopoverElement withArrow>
+    <PopoverElement withArrow onOpen={() => setHasOpened(true)}>
       <PopoverElement.Target>
         <Text span className={"text-xs font-bold"}>
           {renderedText}
@@ -65,14 +122,20 @@ const ObtainedAchievementActivityContent = ({ activity }: Props) => {
       </PopoverElement.Target>
       <PopoverElement.Dropdown className={"max-w-[95vw] md:max-w-sm"}>
         <Stack>
-          <SimpleGrid className={"w-full gap-1 gap-y-2"} cols={6}>
-            {activity.obtainedGameAchievements.map((obtainedAchievement) => (
-              <GameAchievementHoverIcon
-                key={obtainedAchievement.externalId}
-                achievement={obtainedAchievement}
-              />
-            ))}
-          </SimpleGrid>
+          {!hasDetails && detailedActivityQuery.isLoading ? (
+            <Center>
+              <Loader size={"sm"} />
+            </Center>
+          ) : (
+            <SimpleGrid className={"w-full gap-1 gap-y-2"} cols={6}>
+              {obtainedGameAchievements.map((obtainedAchievement) => (
+                <GameAchievementHoverIcon
+                  key={obtainedAchievement.externalId}
+                  achievement={obtainedAchievement}
+                />
+              ))}
+            </SimpleGrid>
+          )}
           <TextLink
             href={`/profile/${activity.profileUserId}?tab=achievements`}
             className={"mt-2"}

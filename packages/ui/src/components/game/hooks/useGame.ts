@@ -15,6 +15,7 @@ export function useGame(
   id: number | undefined,
   dto: GameRepositoryFindOneDto,
   cover?: GameCoverArg,
+  options?: { enabled?: boolean },
 ): UseQueryResult<Game | null> {
   const queryClient = useQueryClient();
   const { fields, keyPart } = useGameCoverRequest(
@@ -38,7 +39,7 @@ export function useGame(
       );
     },
     staleTime: 5 * 60 * 1000, // 5 minutes,
-    enabled: !!id,
+    enabled: (options?.enabled ?? true) && !!id,
     // While session/profile resolve, the unpersonalized read is already cached:
     // show it instead of a loading state (design Decision 3).
     placeholderData: keyPart

@@ -4,6 +4,9 @@
 /* eslint-disable */
 import type { Profile } from './Profile';
 import type { ProfileMetricsTypeDistributionItem } from './ProfileMetricsTypeDistributionItem';
+import type { RecapCalendarDto } from './RecapCalendarDto';
+import type { RecapPlaytimeByPlatformDto } from './RecapPlaytimeByPlatformDto';
+import type { RecapTopGameDto } from './RecapTopGameDto';
 import type { YearRecapGenre } from './YearRecapGenre';
 import type { YearRecapMode } from './YearRecapMode';
 import type { YearRecapPlatform } from './YearRecapPlatform';
@@ -21,6 +24,16 @@ export type YearRecapDto = {
     distributionByMode: Array<ProfileMetricsTypeDistributionItem>;
     distributionByTheme: Array<ProfileMetricsTypeDistributionItem>;
     distributionByPlatform: Array<ProfileMetricsTypeDistributionItem>;
+    /**
+     * Added minus finished minus dropped games in the year, floored at zero.
+     */
+    backlogGrowth: number;
+    /**
+     * Null for Recaps generated before the daily calendar existed.
+     */
+    calendar: RecapCalendarDto | null;
+    topGames: Array<RecapTopGameDto>;
+    playtimeByPlatform: Array<RecapPlaytimeByPlatformDto>;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null;
@@ -31,6 +44,20 @@ export type YearRecapDto = {
     totalPlayedGames: number;
     totalPlaytimeSeconds: number;
     totalAddedGames: number;
+    totalFinishedGames: number;
+    totalDroppedGames: number;
+    /**
+     * Final Recaps are never regenerated.
+     */
+    isFinal: boolean;
+    /**
+     * Playtime seconds per UTC day of the year. Null for Recaps generated before the calendar existed.
+     */
+    dailyPlaytimeSeconds: Array<number> | null;
+    /**
+     * Community comparison stored at generation time (design 13).
+     */
+    communityHighlights: Record<string, any> | null;
     totalReviewsCreated: number;
     totalCollectionsCreated: number;
     totalFollowersGained: number;

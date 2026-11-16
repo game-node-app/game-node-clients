@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Activity } from './Activity';
+import type { ActivityResponseDto } from './ActivityResponseDto';
 import type { PaginationInfo } from './PaginationInfo';
 export type ActivitiesFeedPaginatedResponseDto = {
-    data: Array<Activity>;
+    data: Array<ActivityResponseDto>;
     pagination: PaginationInfo;
 };
 
