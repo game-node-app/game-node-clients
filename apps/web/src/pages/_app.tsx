@@ -44,6 +44,7 @@ import "yet-another-react-lightbox/styles.css";
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import NotificationsManager from "@/components/general/NotificationsManager";
+import { OpenGraph } from "@/components/general/OpenGraph";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
 import type { DehydrationResult } from "@/util/types/hydration";
 import { I18nProvider, type SupportedLanguage } from "@repo/locales";
@@ -215,32 +216,13 @@ export default function WebApp({
               }}
             >
               <Head>
-                <title>GameNode</title>
                 <meta
                   name="viewport"
                   content="width=device-width, initial-scale=1"
                 />
-                {/* Default Open Graph Meta Tags */}
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://gamenode.app" />
-                <meta property="og:title" content="GameNode" />
-                <meta
-                  property="og:description"
-                  content="GameNode is the ideal platform to manage your game collection virtually."
-                />
-                <meta property="og:image" content="/img/og_image.png" />
-                <meta property="og:site_name" content="GameNode" />
-
-                {/* Default Twitter Meta Tags */}
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content="https://gamenode.app" />
-                <meta property="twitter:title" content="GameNode" />
-                <meta
-                  property="twitter:description"
-                  content="GameNode is the ideal platform to manage your game collection virtually."
-                />
-                <meta property="twitter:image" content="/img/og_image.png" />
               </Head>
+              {/* Default title and link-preview tags; pages override them. */}
+              <OpenGraph title="GameNode" />
               <NotificationsManager />
               <OpenInAppDialog />
               <HydrationBoundary state={pageProps.dehydratedState}>
