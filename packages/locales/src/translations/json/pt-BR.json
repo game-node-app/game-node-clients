@@ -3197,5 +3197,349 @@
         "open": "Abrir Downloads"
       }
     }
+  },
+  "premium": {
+    "meta": {
+      "title": "GameNode Premium — Seu perfil com a sua cara",
+      "description": "Capa em vídeo, borda animada, sua cor no perfil, o jogo da Steam ao vivo e coleções sem limite. Cada assinatura paga servidores e desenvolvimento."
+    },
+    "hero": {
+      "eyebrow": "GameNode Premium",
+      "titleStart": "Seu perfil com a sua cara.",
+      "titleHighlight": "E o GameNode no ar.",
+      "description": "Capa em vídeo, borda animada, sua cor no perfil, o jogo da Steam ao vivo e coleções sem limite. Cada assinatura paga servidores e desenvolvimento.",
+      "fallbackMonthlyPrice": "R$ 9,90",
+      "fallbackYearlyPrice": "R$ 99,00",
+      "priceSuffix": "por mês · ou {{yearly}} por ano",
+      "primaryCta": "Assinar o Premium",
+      "secondaryCta": "Ver o que vem junto",
+      "guarantee": "Cancele quando quiser, direto no app. ",
+      "guaranteeHighlight": "Organizar seus jogos continua grátis.",
+      "profile": {
+        "badge": "Premium",
+        "title": "Completista",
+        "stats": "Nível 14 · 10 seguidores · 15 seguindo",
+        "steamPlaying": "JOGANDO AGORA NA STEAM",
+        "chipVideoTitle": "Capa em vídeo",
+        "chipVideoFormats": "MP4, MOV, WebM",
+        "chipBorderTitle": "Borda animada",
+        "chipBorderSubtitle": "no avatar",
+        "chipAccentLabel": "Sua cor de destaque"
+      }
+    },
+    "extras": {
+      "eyebrow": "O que vem no Premium",
+      "title": "Oito extras. Todos ligam e desligam na hora.",
+      "items": {
+        "video": {
+          "title": "Capa e avatar em vídeo",
+          "description": "Um vídeo curto no banner ou no avatar."
+        },
+        "border": {
+          "title": "Borda animada",
+          "description": "Um anel animado em volta do avatar."
+        },
+        "theme": {
+          "title": "Tema e cor de destaque",
+          "description": "Uma faixa na sua cor sob o banner."
+        },
+        "badge": {
+          "title": "Selo Premium",
+          "description": "No perfil, nas reviews e nos comentários."
+        },
+        "title": {
+          "title": "Título no perfil",
+          "description": "Completista, Speedrunner, Gamer Cozy e mais."
+        },
+        "steam": {
+          "title": "Live da Steam",
+          "description": "O jogo que você está jogando agora, no perfil."
+        },
+        "collections": {
+          "title": "Coleções ilimitadas",
+          "description": "O grátis vai até 5. Aqui não tem teto."
+        },
+        "wall": {
+          "title": "Mural Premium",
+          "description": "Seu nome e avatar no mural público."
+        }
+      }
+    },
+    "featureVideo": {
+      "number": "01",
+      "title": "Seu perfil não precisa ficar parado.",
+      "description": "Envie um vídeo curto como banner ou como avatar. Você enquadra, o GameNode corta e converte.",
+      "bullets": {
+        "formats": "MP4, MOV, WebM ou Matroska, até 64 MiB",
+        "shapes": "Banner largo ou avatar em círculo",
+        "crop": "Arraste para reposicionar e ajuste o zoom"
+      },
+      "mockup": {
+        "avatarTag": "Vídeo do avatar",
+        "cropTitle": "Enquadre seu vídeo",
+        "cropBadge": "Vídeo do banner",
+        "cropHint": "Arraste para reposicionar e use o controle para ampliar. Apenas a área enquadrada é mantida.",
+        "zoomLabel": "Zoom",
+        "zoomValue": "1,4×",
+        "limitPill": "até 64 MiB"
+      }
+    },
+    "featureAccent": {
+      "number": "02",
+      "title": "Uma cor sua, em todo lugar do perfil.",
+      "description": "Escolha a cor de destaque. Ela pinta a borda animada do avatar, o selo e a faixa do tema Premium sob o banner.",
+      "bullets": {
+        "palette": "Paleta pronta ou cor personalizada em hex",
+        "toggles": "Borda animada e tema com interruptor próprio",
+        "preview": "Prévia ao vivo antes de salvar"
+      },
+      "mockup": {
+        "stripLabel": "PREMIUM",
+        "badge": "Premium",
+        "pickerTitle": "Cor de destaque",
+        "pickerHint": "Usada na borda, no selo e no tema",
+        "titles": {
+          "completionist": "Completista",
+          "cozy": "Gamer Cozy",
+          "speedrunner": "Speedrunner"
+        }
+      }
+    },
+    "featureBadge": {
+      "number": "03",
+      "title": "Selo ao lado do nome. Título embaixo.",
+      "description": "O selo Premium aparece no seu perfil, nas suas reviews e nos seus comentários. O título fica logo abaixo do nome.",
+      "bullets": {
+        "choices": "9 títulos para escolher, ou nenhum",
+        "toggle": "Esconda o selo quando quiser"
+      },
+      "mockup": {
+        "selectorHeader": "Título",
+        "badge": "Premium",
+        "reviewQuote": "“Platinei depois de 63 horas. O Caminho da Dor quase me fez desistir, e foi a melhor parte.”",
+        "replyBody": "Caminho da Dor sem morrer é lenda. Parabéns!",
+        "titles": {
+          "none": "Sem título",
+          "patron": "Mecenas",
+          "collector": "Colecionador",
+          "completionist": "Completista",
+          "explorer": "Explorador",
+          "critic": "Crítico",
+          "nightOwl": "Coruja Noturna",
+          "retroFan": "Fã de Retrô",
+          "speedrunner": "Speedrunner",
+          "cozyGamer": "Gamer Cozy"
+        }
+      }
+    },
+    "rest": {
+      "eyebrow": "04 · 05 · 06",
+      "title": "E o resto que faz diferença no dia a dia.",
+      "live": {
+        "title": "O que você está jogando, ao vivo",
+        "description": "Conecte a Steam em Conexões e o perfil mostra o jogo aberto agora. Atualiza a cada minuto.",
+        "steamAccount": "Steam · ThePrado",
+        "connected": "Conectada",
+        "playingNow": "JOGANDO AGORA NA STEAM",
+        "game": "Elden Ring"
+      },
+      "collections": {
+        "title": "Coleções sem limite",
+        "description": "Contas grátis criam até 5 coleções. No Premium, crie quantas quiser.",
+        "gameCount": "{{count}} jogos",
+        "items": {
+          "platinums": "Platinados",
+          "cozy": "Cozy de domingo",
+          "soulslike": "Soulslike",
+          "coop": "Co-op com a Bia",
+          "backlog": "Backlog 2027"
+        },
+        "sixthCollection": "6ª coleção",
+        "freeLimitPill": "Grátis: até 5",
+        "premiumLimitPill": "Premium: sem limite"
+      },
+      "toggles": {
+        "title": "Você decide o que aparece",
+        "description": "Cada extra tem seu próprio interruptor em Configurações, na aba Premium. Salvamos na hora, sem botão de salvar.",
+        "saved": "Salvo",
+        "items": {
+          "badge": {
+            "title": "Selo",
+            "description": "No perfil, em reviews e em comentários."
+          },
+          "border": {
+            "title": "Borda animada",
+            "description": "Um anel animado ao redor do avatar."
+          },
+          "theme": {
+            "title": "Tema Premium",
+            "description": "Uma faixa na sua cor sob o banner."
+          },
+          "live": {
+            "title": "Live no perfil",
+            "description": "O jogo da Steam que você está jogando."
+          },
+          "wall": {
+            "title": "Mural Premium",
+            "description": "Mostre-me no mural público."
+          }
+        }
+      }
+    },
+    "comparison": {
+      "eyebrow": "Grátis e Premium",
+      "title": "O grátis organiza tudo. O Premium deixa o perfil com a sua cara.",
+      "columns": {
+        "feature": "Recurso",
+        "free": "Grátis",
+        "premium": "Premium"
+      },
+      "included": "Incluído",
+      "notIncluded": "Não incluído",
+      "groups": {
+        "organize": "Organizar",
+        "profile": "Seu perfil"
+      },
+      "rows": {
+        "library": "Biblioteca, avaliações e diário de jogos",
+        "import": "Importação da Steam, PSN e Xbox",
+        "achievements": "Conquistas e retrospectiva anual",
+        "collections": "Coleções",
+        "collectionsFree": "Até 5",
+        "collectionsPremium": "Ilimitadas",
+        "video": "Capa e avatar em vídeo",
+        "border": "Borda animada no avatar",
+        "theme": "Tema Premium na sua cor de destaque",
+        "badge": "Selo e título ao lado do nome",
+        "live": "O jogo da Steam ao vivo no perfil",
+        "wall": "Seu nome no Mural Premium"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Preço",
+      "title": "Um plano. Mensal ou anual.",
+      "subtitle": "O valor final aparece na tela de pagamento.",
+      "toggle": {
+        "label": "Periodicidade de cobrança",
+        "monthly": "Mensal",
+        "yearly": "Anual",
+        "yearlyBadge": "2 meses grátis"
+      },
+      "free": {
+        "title": "Grátis",
+        "description": "Tudo o que você precisa para organizar seus jogos, com até 5 coleções.",
+        "price": "R$ 0",
+        "period": "para sempre",
+        "note": "Sem cartão",
+        "cta": "Começar grátis",
+        "features": {
+          "library": "Biblioteca, avaliações e diário de jogos",
+          "import": "Importação da Steam, PSN e Xbox",
+          "achievements": "Conquistas e retrospectiva anual",
+          "collections": "Até 5 coleções"
+        }
+      },
+      "premium": {
+        "title": "Premium",
+        "badge": "Premium",
+        "tag": "Mantém o GameNode no ar",
+        "description": "Tudo do plano Grátis, mais coleções ilimitadas e extras para o seu perfil.",
+        "monthlyFallback": "R$ 9,90",
+        "yearlyFallback": "R$ 99,00",
+        "perMonth": "por mês",
+        "perYear": "por ano",
+        "yearlyAlt": "ou {{price}} por ano, 2 meses grátis",
+        "monthlyAlt": "ou {{price}} por mês · 2 meses grátis no anual",
+        "cta": "Assinar o Premium",
+        "listHeading": "Tudo do Grátis, mais",
+        "features": {
+          "video": "Capa e avatar em vídeo",
+          "border": "Borda animada no avatar",
+          "theme": "Tema Premium na sua cor de destaque",
+          "badge": "Selo e título ao lado do seu nome",
+          "live": "O jogo da Steam ao vivo no perfil",
+          "collections": "Coleções ilimitadas",
+          "wall": "Seu nome no Mural Premium"
+        }
+      },
+      "footnotes": {
+        "international": "Fora do Brasil: US$ 1.90 por mês ou US$ 19.00 por ano",
+        "stripe": "Pagamento seguro pelo Stripe",
+        "cancel": "Cancelou? Os extras ficam até o fim do período pago"
+      }
+    },
+    "wall": {
+      "eyebrow": "Mural Premium",
+      "title": "As pessoas que mantêm o GameNode online.",
+      "description": "Cada nome aqui paga um pedaço do servidor e do desenvolvimento. Obrigado de verdade.",
+      "pill": "Premium",
+      "ctaTitle": "Seu nome aqui",
+      "ctaLink": "Assinar o Premium",
+      "note": "O mural mostra só nome e avatar de quem assina e deixou o Mural Premium ligado."
+    },
+    "money": {
+      "eyebrow": "Para onde vai o dinheiro",
+      "items": {
+        "servers": {
+          "title": "Servidores",
+          "description": "Biblioteca, imagens, vídeos e sincronização rodando para todo mundo, inclusive quem não paga."
+        },
+        "development": {
+          "title": "Desenvolvimento",
+          "description": "Tempo para corrigir, lançar recursos novos e manter o app de celular em dia."
+        },
+        "openSource": {
+          "title": "Código aberto",
+          "description": "O código do GameNode está no GitHub. Qualquer pessoa pode conferir o que é feito."
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "Perguntas",
+      "title": "Antes de assinar.",
+      "supportPrompt": "Dúvidas sobre cobrança? Escreva para",
+      "supportEmail": "support@gamenode.app",
+      "items": {
+        "cancel": {
+          "question": "Posso cancelar quando quiser?",
+          "answer": "Sim, direto no app, em Configurações. Os extras continuam até o fim do período que você já pagou, e depois a conta volta ao grátis."
+        },
+        "collections": {
+          "question": "Perco minhas coleções se eu sair?",
+          "answer": "Não. Tudo o que você criou continua lá. Com mais de 5 coleções, só não dá para criar novas até voltar ao Premium."
+        },
+        "video": {
+          "question": "Qual vídeo posso usar no perfil?",
+          "answer": "MP4, MOV, WebM ou Matroska de até 64 MiB. Você envia e enquadra no próprio app, como banner largo ou avatar em círculo."
+        },
+        "live": {
+          "question": "A live funciona com qual plataforma?",
+          "answer": "Com a Steam. Conecte sua conta da Steam em Conexões e o perfil mostra o jogo aberto agora, atualizado a cada minuto."
+        },
+        "wall": {
+          "question": "Posso ficar fora do Mural Premium?",
+          "answer": "Sim. Em Configurações, na aba Premium, você desliga o Mural Premium quando quiser sem perder nenhum outro extra."
+        },
+        "payment": {
+          "question": "Como funciona o pagamento?",
+          "answer": "O pagamento é processado com segurança pelo Stripe, no plano mensal ou anual com renovação automática. Você gerencia cobrança e faturas em Configurações."
+        }
+      }
+    },
+    "freeForever": {
+      "titleStart": "Nada do que é grátis hoje vai ",
+      "titleHighlight": "passar a ser pago.",
+      "description": "Sua biblioteca, importações, análises e conquistas continuam grátis. O Premium só adiciona extras.",
+      "github": "Ver no GitHub",
+      "discord": "Entrar no Discord"
+    },
+    "finalCta": {
+      "titleStart": "Seu nome no mural. ",
+      "titleHighlight": "Sua cor no perfil.",
+      "fallbackPrice": "R$ 9,90",
+      "subtitle": "{{price}} por mês. Cancele quando quiser.",
+      "primaryCta": "Assinar o Premium",
+      "secondaryCta": "Começar grátis"
+    }
   }
 }
