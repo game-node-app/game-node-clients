@@ -1,0 +1,35 @@
+{
+  "source": "c11f9aba3a757718fc9c2c90dee554d90c6da4bf",
+  "changesets": [
+    ".changeset/awards-recap-admin.md",
+    ".changeset/awards-recap-clients.md",
+    ".changeset/localize-awards-category-content.md"
+  ],
+  "apps": [
+    "web",
+    "admin",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[263b0f8c25c16b7a2ffde64fb40a0e5650664eef...c11f9aba3a757718fc9c2c90dee554d90c6da4bf]",
+    "--filter=web...",
+    "--filter=admin...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "admin": "minor",
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": true,
+  "ref": "releases/c11f9aba3a757718fc9c2c90dee554d90c6da4bf",
+  "versions": {
+    "web": "1.19.0",
+    "admin": "1.10.0",
+    "mobile": "1.17.0"
+  }
+}
