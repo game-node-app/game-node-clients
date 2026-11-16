@@ -3,6 +3,9 @@
  */
 
 export * from "./mockRecap";
-export * from "./useCurrentRecapStatus";
+export * from "./recapQueryKeys";
+export * from "./useCurrentRecapWindow";
 export * from "./useRecap";
+export * from "./useRecapGoal";
+export * from "./useRecapGoalMutation";
 export * from "./useRecapStatus";

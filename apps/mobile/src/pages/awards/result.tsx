@@ -1,6 +1,6 @@
 import { AppPage } from "@/components/general/AppPage";
 import { useTranslation } from "@repo/locales";
-import { AwardsResultScreen } from "@repo/ui";
+import { AwardsResultsScreen } from "@repo/ui";
 
 interface Props {
   eventYear: string | number;
@@ -13,10 +13,7 @@ const AwardsResultPage = ({ eventYear }: Props) => {
 
   return (
     <AppPage title={t("mobile.awards.resultsTitle")} withSearch={false}>
-      <AwardsResultScreen
-        eventYear={targetYear}
-        eventId={undefined}
-      ></AwardsResultScreen>
+      <AwardsResultsScreen eventYear={targetYear} />
     </AppPage>
   );
 };

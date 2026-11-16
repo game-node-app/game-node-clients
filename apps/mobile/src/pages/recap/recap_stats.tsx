@@ -1,6 +1,6 @@
 import { AppPage } from "@/components/general/AppPage";
 import { useTranslation } from "@repo/locales";
-import { RecapStatsScreen, useUserId, useUserProfile } from "@repo/ui";
+import { useUserId, useUserProfile, YearRecapScreen } from "@repo/ui";
 
 interface Props {
   year: number;
@@ -24,7 +24,7 @@ const RecapStatsPage = ({ year, userId }: Props) => {
             })
       }
     >
-      <RecapStatsScreen userId={userId} targetYear={year} />
+      <YearRecapScreen year={year} userId={userId} />
     </AppPage>
   );
 };

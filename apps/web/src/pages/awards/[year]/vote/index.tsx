@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "@mantine/core";
-import { AwardsEventVoteScreen } from "@repo/ui";
+import { AwardsBallotScreen } from "@repo/ui";
 import { useRouter } from "next/router";
 
 const AwardsEventVotePage = () => {
@@ -9,10 +9,7 @@ const AwardsEventVotePage = () => {
 
   return (
     <Stack>
-      <AwardsEventVoteScreen
-        eventId={undefined}
-        eventYear={Number.parseInt(year as string)}
-      />
+      <AwardsBallotScreen eventYear={Number.parseInt(year as string)} />
     </Stack>
   );
 };

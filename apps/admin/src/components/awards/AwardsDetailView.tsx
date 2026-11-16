@@ -3,19 +3,47 @@ import { CreateUpdateAwardsCategoryForm } from "@/components/awards/form/CreateU
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import {
   ActionIcon,
+  Badge,
   Button,
   Flex,
+  Group,
   Modal,
   Stack,
   Title,
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { CenteredLoading, useAwardEventCategories } from "@repo/ui";
-import { VotableAwardsCategoryDto } from "@repo/wrapper/server";
+import {
+  CenteredLoading,
+  useAwardEvent,
+  useAwardEventCategories,
+} from "@repo/ui";
+import {
+  AwardsCategoryTranslationDto,
+  VotableAwardsCategoryDto,
+} from "@repo/wrapper/server";
 import { IconDeviceGamepad2, IconEdit } from "@tabler/icons-react";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
 import { useMemo, useState } from "react";
+
+const TRANSLATION_BADGES = [
+  { label: "EN", locale: AwardsCategoryTranslationDto.locale.EN },
+  { label: "PT", locale: AwardsCategoryTranslationDto.locale.PT_BR },
+] as const;
+
+const hasTranslation = (
+  category: VotableAwardsCategoryDto,
+  locale: AwardsCategoryTranslationDto["locale"],
+) => {
+  return (
+    category.translations?.some(
+      (translation) =>
+        translation.locale === locale &&
+        translation.name.trim().length > 0 &&
+        translation.description.trim().length > 0,
+    ) ?? false
+  );
+};
 
 const COLUMNS: MRT_ColumnDef<VotableAwardsCategoryDto>[] = [
   {
@@ -31,8 +59,43 @@ const COLUMNS: MRT_ColumnDef<VotableAwardsCategoryDto>[] = [
     header: "Description",
   },
   {
+    accessorKey: "translations",
+    header: "Translations",
+    Cell: ({ row }) => {
+      return (
+        <Group gap={4} wrap={"nowrap"}>
+          {TRANSLATION_BADGES.map(({ label, locale }) => {
+            const present = hasTranslation(row.original, locale);
+            return (
+              <Badge
+                key={locale}
+                size={"sm"}
+                variant={present ? "light" : "filled"}
+                color={present ? undefined : "gray"}
+              >
+                {label}
+              </Badge>
+            );
+          })}
+        </Group>
+      );
+    },
+  },
+  {
     accessorKey: "order",
     header: "Ordering",
+  },
+  {
+    accessorKey: "nomineeCount",
+    header: "Nominees",
+  },
+  {
+    header: "Nominees finalized",
+    id: "nomineesFinalizedAt",
+    accessorFn: (row) =>
+      row.nomineesFinalizedAt
+        ? new Date(row.nomineesFinalizedAt).toLocaleString("en-US")
+        : "No",
   },
   {
     accessorKey: "isVotable",
@@ -53,6 +116,7 @@ const AwardsDetailView = ({ eventId }: Props) => {
     isLoading,
     isError,
   } = useAwardEventCategories(eventId);
+  const { data: event } = useAwardEvent({ eventId });
 
   const [suggestionsModalOpened, suggestionsModalUtils] = useDisclosure();
   const [editingCategoryId, setEditingCategoryId] = useState<
@@ -116,7 +180,12 @@ const AwardsDetailView = ({ eventId }: Props) => {
   if (isLoading) return <CenteredLoading />;
   return (
     <Stack>
-      <Title size={"h4"}>Categories</Title>
+      <Group justify={"space-between"} align={"center"}>
+        <Title size={"h4"}>Categories</Title>
+        {event && (
+          <Badge variant={"light"}>{`Phase: ${event.phase}`}</Badge>
+        )}
+      </Group>
       <Modal
         opened={suggestionsModalOpened && editingCategory !== undefined}
         onClose={suggestionsModalUtils.close}

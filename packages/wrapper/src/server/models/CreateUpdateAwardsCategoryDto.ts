@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AwardsCategoryTranslationInputDto } from './AwardsCategoryTranslationInputDto';
 export type CreateUpdateAwardsCategoryDto = {
     categoryId?: number;
     year: number;
@@ -9,5 +10,6 @@ export type CreateUpdateAwardsCategoryDto = {
     description: string;
     order: number;
     nomineeCount?: number;
+    translations?: Array<AwardsCategoryTranslationInputDto>;
 };
 

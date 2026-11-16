@@ -719,6 +719,47 @@ export type TranslationSchema = {
     signIn: string;
   };
   awards: {
+    ballot: {
+      categories: string;
+      linkCopied: string;
+      loadError: string;
+      noCategories: string;
+      noVote: string;
+      readOnly: string;
+      searchTitle: string;
+      selected: string;
+      share: string;
+      shareText: string;
+      shared: {
+        empty: string;
+        emptyTitle: string;
+        heading: string;
+        loadError: string;
+        own: string;
+        signUp: string;
+        signUpDescription: string;
+        signUpTitle: string;
+        votes: string;
+      };
+      signIn: {
+        action: string;
+        description: string;
+        title: string;
+      };
+      suggestion: string;
+      title: string;
+      viewResults: string;
+      voteBar: {
+        complete: string;
+        completeHint: string;
+        confirmLast: string;
+        confirmNext: string;
+        skip: string;
+        title: string;
+      };
+      votingOpens: string;
+      votingOpensUnknown: string;
+    };
     buttons: {
       shareVotes: string;
     };
@@ -743,6 +784,59 @@ export type TranslationSchema = {
       voteSubmitted: string;
       votingIn: string;
     };
+    nominations: {
+      categories: string;
+      closed: string;
+      finalNominees: string;
+      limitReached: string;
+      loadError: string;
+      noCategories: string;
+      noFinalNominees: string;
+      noPicks: string;
+      pickCount: string;
+      searchTitle: string;
+      signInToNominate: string;
+      signInToSee: string;
+      subtitle: string;
+      subtitleClosed: string;
+      title: string;
+      upcoming: string;
+      upcomingUnknown: string;
+      yourNominations: string;
+      yourPick: string;
+    };
+    results: {
+      categoriesTitle: string;
+      disputeNote: string;
+      filter: {
+        all: string;
+        label: string;
+        played: string;
+      };
+      gameFallback: string;
+      gotyEyebrow: string;
+      gotyTitle: string;
+      notYet: string;
+      notYetUnknown: string;
+      personalGoty: {
+        others: string;
+        title: string;
+      };
+      scoreboard: {
+        share: string;
+        shareText: string;
+        summary: string;
+        summaryOther: string;
+        title: string;
+      };
+      title: string;
+      voteChip: {
+        hit: string;
+        miss: string;
+        missUnknown: string;
+        notVoted: string;
+      };
+    };
     participationReward: string;
     phaseMessages: {
       resultsOut: string;
@@ -757,12 +851,42 @@ export type TranslationSchema = {
       voting: string;
     };
     resultsDate: string;
+    search: {
+      excludingGames: string;
+    };
     share: {
       linkCopied: string;
       scrollHint: string;
       shareWithImage: string;
       shareWithLink: string;
       title: string;
+    };
+    shared: {
+      categories: string;
+      categoryPosition: string;
+      filters: {
+        all: string;
+        played: string;
+      };
+      nominee: {
+        notPlayed: string;
+        notPlayedCompact: string;
+        played: string;
+        playedHours: string;
+        playedHoursRating: string;
+        playedRating: string;
+        planned: string;
+        plannedCompact: string;
+        remove: string;
+        yourVote: string;
+      };
+      progress: string;
+      rowStates: {
+        choosing: string;
+        suggested: string;
+        vote: string;
+        voted: string;
+      };
     };
     subtitle: string;
     title: string;
@@ -1199,6 +1323,77 @@ export type TranslationSchema = {
     reportPrompt: string;
     showDetails: string;
     unexpected: string;
+  };
+  events: {
+    card: {
+      awards: {
+        endsInDays: string;
+        endsTomorrow: string;
+        nominationsDescription: string;
+        nominationsHeadline: string;
+        nominationsPrimary: string;
+        nominationsSecondary: string;
+        nominationsTitle: string;
+        participationReward: string;
+        resultsPrimary: string;
+        resultsScore: string;
+        resultsShare: string;
+        resultsTitle: string;
+        resultsVotes: string;
+        resultsWinner: string;
+        visitorNominationsAction: string;
+        visitorVotingAction: string;
+        visitorVotingDescription: string;
+        visitorVotingHeadline: string;
+        votingGoty: string;
+        votingHeadline: string;
+        votingHeadlineSingle: string;
+        votingPrimary: string;
+        votingProgress: string;
+        votingSecondary: string;
+        votingTitle: string;
+      };
+      recap: {
+        closedDownload: string;
+        closedGames: string;
+        closedHeadline: string;
+        closedPrimary: string;
+        closedSummary: string;
+        closedTitle: string;
+        hours: string;
+        liveGames: string;
+        liveHeadline: string;
+        livePrimary: string;
+        liveSentence: string;
+        liveShare: string;
+        liveTitle: string;
+        monthlyLabel: string;
+        visitorAction: string;
+        visitorDescription: string;
+        visitorHeadline: string;
+      };
+      timeline: {
+        nominations: string;
+        results: string;
+        voting: string;
+      };
+    };
+    header: {
+      awards: string;
+      breadcrumb: string;
+      navigationLabel: string;
+      recap: string;
+      screens: {
+        nominations: string;
+        recap: string;
+        results: string;
+        voting: string;
+      };
+    };
+    home: {
+      carouselLabel: string;
+      title: string;
+    };
   };
   explore: {
     fetchError: string;
@@ -1691,6 +1886,7 @@ export type TranslationSchema = {
       tip: string;
     };
     awards: {
+      nominationsTitle: string;
       resultsTitle: string;
       shareCreate: string;
       sharePrompt: string;
@@ -1859,12 +2055,15 @@ export type TranslationSchema = {
     achievements: string;
     activity: string;
     ai: string;
+    awards: string;
     back: string;
     blog: string;
     collections: string;
     daily: string;
     dailyNodes: string;
     dock: {
+      badgeLive: string;
+      badgeNewFeminine: string;
       collapse: string;
       expand: string;
       groups: {
@@ -1885,6 +2084,7 @@ export type TranslationSchema = {
     premium: string;
     privacy: string;
     profile: string;
+    recap: string;
     reviews: string;
     search: string;
     settings: string;
@@ -1910,6 +2110,23 @@ export type TranslationSchema = {
     };
     actors: {
       andOthers: string;
+    };
+    awards: {
+      title: string;
+      nominationsOpen: string;
+      nominationsCloseReminder: string;
+      votingOpen: string;
+      votingCloseReminder: string;
+      resultsPublished: string;
+    };
+    goal: {
+      title: string;
+      progress: string;
+    };
+    recap: {
+      title: string;
+      available: string;
+      closed: string;
     };
     connection: {
       title: string;
@@ -2318,6 +2535,21 @@ export type TranslationSchema = {
       availableSoon: string;
       create: string;
     };
+    goal: {
+      loading: string;
+      progress: string;
+      save: string;
+      saved: string;
+      suggestion: string;
+      targetLabel: string;
+      title: string;
+      validation: {
+        integer: string;
+        max: string;
+        min: string;
+        number: string;
+      };
+    };
     labels: {
       hoursPlayed: string;
       period: string;
@@ -2331,6 +2563,84 @@ export type TranslationSchema = {
     };
     overview: {
       description: string;
+    };
+    page: {
+      awards: {
+        action: string;
+        note: string;
+        played: string;
+        title: string;
+      };
+      backlog: {
+        dropped: string;
+        finished: string;
+        growth: string;
+        queued: string;
+        summary: string;
+        title: string;
+      };
+      calendar: {
+        description: string;
+        gridLabel: string;
+        monthCard: string;
+        streak: string;
+        title: string;
+        topMonth: string;
+        weekday: string;
+      };
+      community: {
+        averageLabel: string;
+        beyond: string;
+        divided: string;
+        inTune: string;
+        minority: string;
+        sameTone: string;
+        title: string;
+        youLabel: string;
+      };
+      footer: {
+        period: string;
+        sources: string;
+      };
+      genres: {
+        platformsTitle: string;
+        platformValue: string;
+        title: string;
+        unknownPlatform: string;
+      };
+      hero: {
+        chartSize: string;
+        chartTitle_one: string;
+        chartTitle_other: string;
+        eyebrow: string;
+        eyebrowUser: string;
+        hours: string;
+        share: string;
+        shareText: string;
+        stories: string;
+        summary: string;
+        summaryNamed: string;
+        today: string;
+        updates: string;
+      };
+      states: {
+        errorDescription: string;
+        errorTitle: string;
+        notEligibleDescription: string;
+        notEligibleTitle: string;
+        notReadyDescription: string;
+        notReadyTitle: string;
+        retry: string;
+      };
+      topGames: {
+        finished: string;
+        gameFallback: string;
+        hours: string;
+        rating: string;
+        share: string;
+        title: string;
+        top5: string;
+      };
     };
     periods: {
       month: string;
@@ -2357,6 +2667,60 @@ export type TranslationSchema = {
       thanks: string;
       thisIs: string;
       weeks: string;
+    };
+    stories: {
+      back: string;
+      calendar: {
+        eyebrow: string;
+        monthHours: string;
+        streak: string;
+        title: string;
+        weekday: string;
+        weekend: string;
+      };
+      close: string;
+      community: {
+        average: string;
+        beyond: string;
+        eyebrow: string;
+        inTuneTitle: string;
+        sameRange: string;
+        title: string;
+        titleNoGame: string;
+        yourRating: string;
+      };
+      empty: string;
+      errors: {
+        export: string;
+      };
+      final: {
+        eyebrow: string;
+        finished: string;
+        games: string;
+        goty: string;
+        gotyProgress: string;
+        guestInvite: string;
+        hours: string;
+        topMonth: string;
+        voteAwards: string;
+      };
+      next: string;
+      opening: {
+        eyebrow: string;
+        hours: string;
+        summary: string;
+      };
+      previous: string;
+      progress: string;
+      share: string;
+      shareStory: string;
+      topGame: {
+        eyebrow: string;
+        finished: string;
+        hoursValue: string;
+        line: string;
+        rating: string;
+      };
     };
     title: string;
   };

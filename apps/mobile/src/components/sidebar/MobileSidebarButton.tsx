@@ -20,6 +20,8 @@ interface Props extends Omit<GroupProps, "onClick"> {
   iconProps?: IconProps;
   textProps?: TextProps;
   withBadge?: boolean;
+  /** Label of the badge; defaults to the legacy "NEW" pill. */
+  badgeLabel?: string;
 }
 
 const MobileSidebarButton = ({
@@ -30,6 +32,7 @@ const MobileSidebarButton = ({
   iconProps,
   textProps,
   withBadge,
+  badgeLabel,
   ...others
 }: Props) => {
   return (
@@ -55,7 +58,7 @@ const MobileSidebarButton = ({
         </Text>
         {withBadge && (
           <Badge size={"xs"} className={""}>
-            NEW
+            {badgeLabel ?? "NEW"}
           </Badge>
         )}
       </Group>

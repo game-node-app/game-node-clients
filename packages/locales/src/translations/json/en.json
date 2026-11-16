@@ -715,6 +715,47 @@
     "signIn": "Sign in"
   },
   "awards": {
+    "ballot": {
+      "categories": "Categories",
+      "linkCopied": "Link copied!",
+      "loadError": "Could not load your ballot.",
+      "noCategories": "This event has no categories.",
+      "noVote": "You haven't voted in this category yet.",
+      "readOnly": "Voting is closed. These are your votes.",
+      "searchTitle": "Search eligible games",
+      "selected": "Selected",
+      "share": "Share my ballot",
+      "shareText": "My GameNode Awards {{year}} ballot: {{url}}",
+      "shared": {
+        "empty": "This user hasn't voted in the {{year}} Awards yet.",
+        "emptyTitle": "No votes yet",
+        "heading": "Shared ballot",
+        "loadError": "Could not load this ballot.",
+        "own": "Go to my ballot",
+        "signUp": "Create an account to vote",
+        "signUpDescription": "Create your account to vote in your favorite categories and share your ballot.",
+        "signUpTitle": "Join the {{year}} Awards",
+        "votes": "{{count}} of {{total}} categories"
+      },
+      "signIn": {
+        "action": "Sign in to vote",
+        "description": "Your ballot is saved in your account and you can follow your progress by category.",
+        "title": "Sign in to vote"
+      },
+      "suggestion": "Suggested: {{game}}",
+      "title": "Your ballot",
+      "viewResults": "See the results",
+      "voteBar": {
+        "complete": "Your ballot is complete!",
+        "completeHint": "You voted in every category.",
+        "confirmLast": "Confirm vote",
+        "confirmNext": "Confirm and go to {{category}}",
+        "skip": "Skip for now",
+        "title": "Your vote in {{category}}"
+      },
+      "votingOpens": "Voting opens on {{date}}.",
+      "votingOpensUnknown": "Voting hasn't opened yet."
+    },
     "buttons": {
       "shareVotes": "Share your votes!"
     },
@@ -739,6 +780,59 @@
       "voteSubmitted": "Your vote for {{category}} has been submitted!",
       "votingIn": "You are voting in the {{category}} category for the {{edition}} edition."
     },
+    "nominations": {
+      "categories": "Categories",
+      "closed": "Nominations are closed. These are the final nominees.",
+      "finalNominees": "Final nominees",
+      "limitReached": "You reached the limit of {{count}} games in this category.",
+      "loadError": "Could not load your nominations.",
+      "noCategories": "This event has no categories to show.",
+      "noFinalNominees": "No final nominees in this category.",
+      "noPicks": "You haven't nominated games in this category.",
+      "pickCount": "{{count}} of {{limit}}",
+      "searchTitle": "Search eligible games",
+      "signInToNominate": "Sign in to nominate",
+      "signInToSee": "Sign in to see your nominations",
+      "subtitle": "Pick up to {{count}} games per category.",
+      "subtitleClosed": "See the final nominees and your nominations.",
+      "title": "Nominations",
+      "upcoming": "Nominations open on {{date}}",
+      "upcomingUnknown": "Nominations are not open yet.",
+      "yourNominations": "Your nominations",
+      "yourPick": "Your nomination"
+    },
+    "results": {
+      "categoriesTitle": "Winners by category",
+      "disputeNote": "Counting only those who played it, the race tightens: {{first}} {{firstPercentage}}, {{second}} {{secondPercentage}}.",
+      "filter": {
+        "all": "All votes",
+        "label": "Vote filter",
+        "played": "Only those who played"
+      },
+      "gameFallback": "Game {{id}}",
+      "gotyEyebrow": "Results · Game of the Year · {{votes}} votes",
+      "gotyTitle": "{{game}} is the Game of the Year.",
+      "notYet": "The results come out on {{date}}.",
+      "notYetUnknown": "The results are not out yet.",
+      "personalGoty": {
+        "others": "It is also the personal GOTY of {{count}} other people on GameNode.",
+        "title": "Your personal GOTY"
+      },
+      "scoreboard": {
+        "share": "Share my score",
+        "shareText": "My GameNode Awards {{year}} score",
+        "summary": "You got {{hits}} of {{scorable}} categories right.",
+        "summaryOther": "{{name}} got {{hits}} of {{scorable}} categories right.",
+        "title": "Your score"
+      },
+      "title": "Results",
+      "voteChip": {
+        "hit": "Your vote won",
+        "miss": "Your vote: {{game}}",
+        "missUnknown": "Your vote",
+        "notVoted": "You didn't vote"
+      }
+    },
     "participationReward": "Earn 1000XP and a badge for participating!",
     "phaseMessages": {
       "resultsOut": "Results are out!",
@@ -753,12 +847,42 @@
       "voting": "Voting"
     },
     "resultsDate": "Results {{date}}",
+    "search": {
+      "excludingGames": "Excluding {{count}} games not eligible in {{year}}."
+    },
     "share": {
       "linkCopied": "Link Copied!",
       "scrollHint": "Scroll/swipe to see full image.",
       "shareWithImage": "Share with Image",
       "shareWithLink": "Share with Link",
       "title": "Share your votes!"
+    },
+    "shared": {
+      "categories": "Categories",
+      "categoryPosition": "Category {{current}} of {{total}}",
+      "filters": {
+        "all": "All · {{count}}",
+        "played": "Played · {{count}}"
+      },
+      "nominee": {
+        "notPlayed": "You haven't played it",
+        "notPlayedCompact": "Not played",
+        "played": "You played",
+        "playedHours": "You played · {{hours}} h",
+        "playedHoursRating": "You played · {{hours}} h · rated {{rating}}",
+        "playedRating": "You played · rated {{rating}}",
+        "planned": "On your wishlist",
+        "plannedCompact": "On your list",
+        "remove": "Remove",
+        "yourVote": "Your vote"
+      },
+      "progress": "{{current}} of {{total}}",
+      "rowStates": {
+        "choosing": "Choosing",
+        "suggested": "Suggested: {{game}}",
+        "vote": "Vote",
+        "voted": "Your vote"
+      }
     },
     "subtitle": "The Game Awards and GameNode community's nominees in one place",
     "title": "AWARDS",
@@ -1195,6 +1319,77 @@
     "reportPrompt": "Please let us know about this error by sending us a message via",
     "showDetails": "Show details",
     "unexpected": "An unexpected error has occurred while loading this page"
+  },
+  "events": {
+    "card": {
+      "awards": {
+        "endsInDays": "Ends in {{days}} days",
+        "endsTomorrow": "Ends tomorrow",
+        "nominationsDescription": "Nominate up to 3 games per category and help shape the ballot.",
+        "nominationsHeadline": "Which games defined the year?",
+        "nominationsPrimary": "Nominate games",
+        "nominationsSecondary": "View categories",
+        "nominationsTitle": "Awards {{year}} · Nominations open",
+        "participationReward": "+1000 XP and a medal for taking part",
+        "resultsPrimary": "View winners",
+        "resultsScore": "You got {{hits}} of {{scorable}} right",
+        "resultsShare": "Share score",
+        "resultsTitle": "Awards {{year}} · Results",
+        "resultsVotes": "{{votes}} votes across {{categories}} categories.",
+        "resultsWinner": "{{game}} is the Game of the Year",
+        "visitorNominationsAction": "Sign in to nominate",
+        "visitorVotingAction": "Sign in to vote",
+        "visitorVotingDescription": "Sign in to build your ballot and see how much of each nominee you played.",
+        "visitorVotingHeadline": "Vote for the best of the year",
+        "votingGoty": "You played {{played}} of the {{total}} Game of the Year nominees",
+        "votingHeadline": "{{count}} categories left in your ballot",
+        "votingHeadlineSingle": "1 category left in your ballot",
+        "votingPrimary": "Keep voting",
+        "votingProgress": "Your ballot {{voted}} of {{total}} categories",
+        "votingSecondary": "View ballot",
+        "votingTitle": "Awards {{year}} · Voting open"
+      },
+      "recap": {
+        "closedDownload": "Download card",
+        "closedGames": "in {{games}} games · {{year}} closed",
+        "closedHeadline": "Your {{year}} is wrapped. Ready to share?",
+        "closedPrimary": "View stories",
+        "closedSummary": "{{hours}} hours, {{games}} games and {{finished}} finished, in 5 stories ready to post.",
+        "closedTitle": "Recap {{year}} · Closed",
+        "hours": "{{hours}} h",
+        "liveGames": "in {{games}} games · so far",
+        "liveHeadline": "Your {{year}} so far",
+        "livePrimary": "See my recap",
+        "liveSentence": "{{game}} took {{share}} of your year. {{hours}} hours, {{games}} games and {{finished}} finished so far.",
+        "liveShare": "Share",
+        "liveTitle": "Recap {{year}} · Updating",
+        "monthlyLabel": "Hours per month",
+        "visitorAction": "Create account",
+        "visitorDescription": "The GameNode Recap shows your hours, your games and what you played the most.",
+        "visitorHeadline": "Create your account and see your year"
+      },
+      "timeline": {
+        "nominations": "Nominations",
+        "results": "Results",
+        "voting": "Voting"
+      }
+    },
+    "header": {
+      "awards": "Awards",
+      "breadcrumb": "Events {{year}}",
+      "navigationLabel": "Event screens",
+      "recap": "Recap",
+      "screens": {
+        "nominations": "Nominations",
+        "recap": "Recap",
+        "results": "Results",
+        "voting": "Voting"
+      }
+    },
+    "home": {
+      "carouselLabel": "Events",
+      "title": "Happening on GameNode"
+    }
   },
   "explore": {
     "fetchError": "Error while trying to fetch games. Please reload this page.",
@@ -1687,6 +1882,7 @@
       "tip": "Tip: press and hold to show actions."
     },
     "awards": {
+      "nominationsTitle": "Awards Nominations",
       "resultsTitle": "Awards Results",
       "shareCreate": "Create yours at https://gamenode.app",
       "sharePrompt": "These are my GameNode Awards nominees!"
@@ -1855,12 +2051,15 @@
     "achievements": "Achievements",
     "activity": "Activity",
     "ai": "GameNode + AI",
+    "awards": "Awards {{year}}",
     "back": "Back",
     "blog": "Blog",
     "collections": "Collections",
     "daily": "Daily",
     "dailyNodes": "Daily Nodes",
     "dock": {
+      "badgeLive": "Live",
+      "badgeNewFeminine": "New",
       "collapse": "Collapse navigation",
       "expand": "Expand navigation",
       "groups": {
@@ -1881,6 +2080,7 @@
     "premium": "Premium",
     "privacy": "Privacy",
     "profile": "Profile",
+    "recap": "Recap",
     "reviews": "Reviews",
     "search": "Search",
     "settings": "Settings",
@@ -1906,6 +2106,23 @@
     },
     "actors": {
       "andOthers": "{{name}} and {{count}} more"
+    },
+    "awards": {
+      "title": "Awards",
+      "nominationsOpen": "Awards {{year}} nominations are open.",
+      "nominationsCloseReminder": "Awards {{year}} nominations close tomorrow.",
+      "votingOpen": "Awards {{year}} voting is open.",
+      "votingCloseReminder": "Awards {{year}} voting closes in 2 days.",
+      "resultsPublished": "Awards {{year}} results are out."
+    },
+    "goal": {
+      "title": "Year goal",
+      "progress": "You finished {{finished}} of {{target}} games for your {{year}} goal."
+    },
+    "recap": {
+      "title": "Recap",
+      "available": "Your {{year}} recap is here.",
+      "closed": "Your {{year}} recap is closed."
     },
     "connection": {
       "title": "{{provider}} connection"
@@ -2314,6 +2531,21 @@
       "availableSoon": "Available Soon",
       "create": "Create my Recap"
     },
+    "goal": {
+      "loading": "Reading your goal...",
+      "progress": "{{finished}} of {{target}} finished",
+      "save": "Save goal",
+      "saved": "Goal saved. We'll remind you in July.",
+      "suggestion": "Finish {{target}} games, {{difference}} more than in {{year}}.",
+      "targetLabel": "Games to finish in {{year}}",
+      "title": "Goal for {{year}}",
+      "validation": {
+        "integer": "Use a whole number of games.",
+        "max": "At most 999 games.",
+        "min": "At least 1 game.",
+        "number": "Enter a number of games."
+      }
+    },
     "labels": {
       "hoursPlayed": "Hours Played",
       "period": "Period",
@@ -2327,6 +2559,84 @@
     },
     "overview": {
       "description": "Discover your {{year}} highlights: hours played, favorite games, collections created, and epic achievements."
+    },
+    "page": {
+      "awards": {
+        "action": "Open my ballot",
+        "note": "Your {{year}} ratings are already on the ballot.",
+        "played": "You played {{played}} of {{total}} GOTY nominees.",
+        "title": "Awards {{year}} · voting open"
+      },
+      "backlog": {
+        "dropped": "dropped",
+        "finished": "finished",
+        "growth": "The backlog grew by {{count}}.",
+        "queued": "in the queue",
+        "summary": "You added {{added}} games and finished {{finished}}.",
+        "title": "Backlog"
+      },
+      "calendar": {
+        "description": "Each square is a day. The stronger it is, the more you played.",
+        "gridLabel": "{{year}} play calendar, one square per day",
+        "monthCard": "{{hours}} h in {{month}}",
+        "streak": "{{days}} days in a row",
+        "title": "Playing calendar",
+        "topMonth": "{{month}} was your month: {{hours}} hours.",
+        "weekday": "{{weekday}} is your day: {{percent}} of your hours fell on the weekend"
+      },
+      "community": {
+        "averageLabel": "Average",
+        "beyond": "Only {{percent}} of reviewers gave {{rating}} or more.",
+        "divided": "{{game}} divided you and the community.",
+        "inTune": "In tune",
+        "minority": "Minority opinion",
+        "sameTone": "You and {{count}} more people in the same tone.",
+        "title": "You vs. the GameNode community",
+        "youLabel": "You"
+      },
+      "footer": {
+        "period": "From {{start}} to {{end}}",
+        "sources": "Hours from {{sources}} connected"
+      },
+      "genres": {
+        "platformsTitle": "Platforms",
+        "platformValue": "{{percent}} · {{hours}} h",
+        "title": "Genres",
+        "unknownPlatform": "Platform {{id}}"
+      },
+      "hero": {
+        "chartSize": "Size = hours played",
+        "chartTitle_one": "Your year in {{count}} node",
+        "chartTitle_other": "Your year in {{count}} nodes",
+        "eyebrow": "Recap {{year}}",
+        "eyebrowUser": "Recap {{year}} · @{{username}}",
+        "hours": "{{hours}} hours played.",
+        "share": "Share my year",
+        "shareText": "My {{year}} Recap on GameNode",
+        "stories": "View as stories",
+        "summary": "You played {{games}} games and finished {{finished}}.",
+        "summaryNamed": "{{name}}, you played {{games}} games and finished {{finished}}.",
+        "today": "Today · {{date}}",
+        "updates": "Updates daily until Dec 31"
+      },
+      "states": {
+        "errorDescription": "We couldn't load this Recap. Try again in a moment.",
+        "errorTitle": "Recap unavailable",
+        "notEligibleDescription": "There is no Recap to show for this year.",
+        "notEligibleTitle": "No Recap in {{year}}",
+        "notReadyDescription": "The Recap is generated every day. Come back later to see your year.",
+        "notReadyTitle": "Your {{year}} Recap isn't ready yet",
+        "retry": "Try again"
+      },
+      "topGames": {
+        "finished": "Finished {{date}}",
+        "gameFallback": "Game #{{id}}",
+        "hours": "{{hours}} h played",
+        "rating": "{{rating}} your rating",
+        "share": "{{game}} took {{percent}} of your year.",
+        "title": "Most played in {{year}}",
+        "top5": "Your top 5 by hours"
+      }
     },
     "periods": {
       "month": "Month",
@@ -2353,6 +2663,60 @@
       "thanks": "Thanks for choosing us this year.",
       "thisIs": "This is",
       "weeks": "{{count}} weeks"
+    },
+    "stories": {
+      "back": "Back to the recap",
+      "calendar": {
+        "eyebrow": "Play calendar",
+        "monthHours": "{{hours}} h in the month",
+        "streak": "{{days}} days in a row",
+        "title": "{{month}} was your month.",
+        "weekday": "{{weekday}} is your day",
+        "weekend": "{{percentage}} of your hours on weekends"
+      },
+      "close": "Close",
+      "community": {
+        "average": "Community average",
+        "beyond": "Only {{percentage}} of reviewers rated {{rating}} or higher.",
+        "eyebrow": "Minority opinion",
+        "inTuneTitle": "In {{game}}, {{userRating}} against {{average}}.",
+        "sameRange": "You and {{count}} more people in the same key.",
+        "title": "In {{game}}, you went against the majority.",
+        "titleNoGame": "You went against the majority.",
+        "yourRating": "Your rating"
+      },
+      "empty": "This recap doesn't have stories yet.",
+      "errors": {
+        "export": "Could not generate the image."
+      },
+      "final": {
+        "eyebrow": "Your year on one card",
+        "finished": "{{count}} finished",
+        "games": "{{count}} games",
+        "goty": "{{game}} game of the year",
+        "gotyProgress": "You played {{played}} of the {{total}} Game of the Year nominees.",
+        "guestInvite": "Create your account and see your year",
+        "hours": "{{hours}} h in {{year}}",
+        "topMonth": "{{month}} busiest month",
+        "voteAwards": "Vote in the Awards {{year}}"
+      },
+      "next": "Next story",
+      "opening": {
+        "eyebrow": "Your {{year}} recap",
+        "hours": "{{hours}} hours of play.",
+        "summary": "{{games}} games, {{finished}} finished and a year that fit in {{nodes}} nodes."
+      },
+      "previous": "Previous story",
+      "progress": "{{current}} / {{total}} · tap to continue",
+      "share": "Share",
+      "shareStory": "Share to stories",
+      "topGame": {
+        "eyebrow": "Most played in {{year}}",
+        "finished": "Finished on {{date}}.",
+        "hoursValue": "{{hours}} h",
+        "line": "{{hours}} hours, {{percentage}} of your year.",
+        "rating": "{{rating}} your rating"
+      }
     },
     "title": "RECAP"
   },

@@ -10,21 +10,15 @@ import {
 import { DateTimePicker } from "@mantine/dates";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AwardsService } from "@repo/wrapper/server";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { notifications } from "@mantine/notifications";
 import { createErrorNotification, useAwardEvent } from "@repo/ui";
 import dayjs from "dayjs";
-
-const CreateAwardsFormSchema = z.object({
-  year: z.number(),
-  votingStartDate: z.date(),
-  votingEndDate: z.date(),
-  resultsDate: z.date(),
-});
-
-type CreateAwardsFormValues = z.infer<typeof CreateAwardsFormSchema>;
+import {
+  createUpdateAwardsEventSchema,
+  CreateUpdateAwardsEventValues,
+} from "./schemas.ts";
 
 interface Props {
   eventId?: number;
@@ -41,19 +35,22 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<CreateAwardsFormValues>({
-    resolver: zodResolver(CreateAwardsFormSchema),
+  } = useForm<CreateUpdateAwardsEventValues>({
+    resolver: zodResolver(createUpdateAwardsEventSchema),
     mode: "onSubmit",
   });
 
   const createUpdateMutation = useMutation({
-    mutationFn: async (data: CreateAwardsFormValues) => {
+    mutationFn: async (data: CreateUpdateAwardsEventValues) => {
       await AwardsService.awardsAdminControllerCreateOrUpdateEventV1({
         eventId: eventId,
         year: data.year,
         votingStartDate: data.votingStartDate.toISOString(),
         votingEndDate: data.votingEndDate.toISOString(),
         resultsDate: data.resultsDate.toISOString(),
+        nominationStartDate: data.nominationStartDate?.toISOString() ?? null,
+        nominationEndDate: data.nominationEndDate?.toISOString() ?? null,
+        eligibilityCutoffDate: data.eligibilityCutoffDate?.toISOString() ?? null,
       });
     },
     onError: createErrorNotification,
@@ -74,6 +71,24 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
       setValue("votingStartDate", new Date(editingEvent.votingStartDate));
       setValue("votingEndDate", new Date(editingEvent.votingEndDate));
       setValue("resultsDate", new Date(editingEvent.resultsDate));
+      setValue(
+        "nominationStartDate",
+        editingEvent.nominationStartDate
+          ? new Date(editingEvent.nominationStartDate)
+          : null,
+      );
+      setValue(
+        "nominationEndDate",
+        editingEvent.nominationEndDate
+          ? new Date(editingEvent.nominationEndDate)
+          : null,
+      );
+      setValue(
+        "eligibilityCutoffDate",
+        editingEvent.eligibilityCutoffDate
+          ? new Date(editingEvent.eligibilityCutoffDate)
+          : null,
+      );
     }
   }, [editingEvent, setValue]);
 
@@ -132,9 +147,51 @@ const CreateUpdateAwardsForm = ({ eventId }: Props) => {
               setValue("resultsDate", dayjs(date).toDate());
             }
           }}
-          error={errors.votingEndDate?.message}
+          error={errors.resultsDate?.message}
           label={"Results Publish"}
           description={"The date the results will be published."}
+        />
+        <DateTimePicker
+          {...register("nominationStartDate")}
+          value={watch("nominationStartDate")}
+          onChange={(date) => {
+            setValue("nominationStartDate", date ? dayjs(date).toDate() : null);
+          }}
+          error={errors.nominationStartDate?.message}
+          label={"Nominations Start"}
+          description={
+            "Optional. Community nominations open at this date. Fill both nomination dates or leave both empty."
+          }
+          clearable
+        />
+        <DateTimePicker
+          {...register("nominationEndDate")}
+          value={watch("nominationEndDate")}
+          onChange={(date) => {
+            setValue("nominationEndDate", date ? dayjs(date).toDate() : null);
+          }}
+          error={errors.nominationEndDate?.message}
+          label={"Nominations End"}
+          description={
+            "Optional. Community nominations close at this date. It must not be after the voting start."
+          }
+          clearable
+        />
+        <DateTimePicker
+          {...register("eligibilityCutoffDate")}
+          value={watch("eligibilityCutoffDate")}
+          onChange={(date) => {
+            setValue(
+              "eligibilityCutoffDate",
+              date ? dayjs(date).toDate() : null,
+            );
+          }}
+          error={errors.eligibilityCutoffDate?.message}
+          label={"Eligibility Cutoff"}
+          description={
+            "Optional. Games released after this date are not eligible for the event."
+          }
+          clearable
         />
         <Flex justify={"end"}>
           <Button type={"submit"}>Save</Button>

@@ -2,11 +2,11 @@ import { DockAccount } from "@/components/general/shell/navbar/DockAccount";
 import { DockGroup } from "@/components/general/shell/navbar/DockGroup";
 import { DockItem } from "@/components/general/shell/navbar/DockItem";
 import {
-  DOCK_GROUPS,
   DOCK_UTILITY_ITEMS,
   isDockItemActive,
   type DockItemDefinition,
 } from "@/components/general/shell/navbar/dockItems";
+import { useDockGroups } from "@/components/general/shell/navbar/useDockGroups";
 import { useTranslation } from "@repo/locales";
 import {
   cn,
@@ -34,6 +34,7 @@ export function Dock({ collapsed, onToggleCollapsed, onNavigate }: Props) {
   const router = useRouter();
   const userId = useUserId();
   const settings = useSettingsModalState();
+  const groups = useDockGroups();
 
   const handleActivate = (item: DockItemDefinition) => {
     if (item.kind === "action") {
@@ -85,7 +86,7 @@ export function Dock({ collapsed, onToggleCollapsed, onNavigate }: Props) {
       </div>
       {/* -mr-2/pr-2 move the scrollbar into the Dock padding so it never overlaps the icons. */}
       <div className="-mr-2 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-2 [scrollbar-width:thin]">
-        {DOCK_GROUPS.map((group) => (
+        {groups.map((group) => (
           <DockGroup
             key={group.id}
             label={t(group.labelKey)}

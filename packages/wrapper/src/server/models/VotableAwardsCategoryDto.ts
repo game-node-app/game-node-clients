@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AwardsCategorySuggestion } from './AwardsCategorySuggestion';
+import type { AwardsCategoryTranslationDto } from './AwardsCategoryTranslationDto';
 export type VotableAwardsCategoryDto = {
     isVotable: boolean;
     votingStartDate: string;
@@ -20,6 +21,8 @@ export type VotableAwardsCategoryDto = {
      */
     isGOTY: boolean;
     isPersonalGOTY: boolean;
+    suggestions: Array<AwardsCategorySuggestion>;
+    translations: Array<AwardsCategoryTranslationDto>;
     /**
      * How many nominees finalization keeps for this category.
      */
@@ -28,6 +31,5 @@ export type VotableAwardsCategoryDto = {
      * Set once finalization ran, so a later tick never rewrites admin edits.
      */
     nomineesFinalizedAt: string | null;
-    suggestions: Array<AwardsCategorySuggestion>;
 };
 

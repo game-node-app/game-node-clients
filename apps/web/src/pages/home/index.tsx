@@ -5,14 +5,13 @@ import {
   buildGameCategoryFilters,
   CenteredErrorMessage,
   DetailsCard,
-  DynamicAwardsOverview,
-  DynamicRecapOverview,
   GameSearchBar,
   GameSearchTips,
   GameSearchViewActions,
   GameView,
   GameViewLayoutOption,
   getErrorMessage,
+  HomeEventsSection,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -119,11 +118,10 @@ const HomePage = () => {
             gap={40}
             className="motion-safe:animate-gn-fade-up"
           >
+            <HomeEventsSection />
             <TrendingGamesList />
             {userId && <RecommendationCarousel criteria="played" />}
             <TrendingReviewCarousel />
-            <DynamicAwardsOverview />
-            <DynamicRecapOverview />
             <RecentBlogPostsCarousel />
             <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
               <DetailsCard title={t("home.recentActivity")}>

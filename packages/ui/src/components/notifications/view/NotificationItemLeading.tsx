@@ -1,9 +1,12 @@
 import { Avatar, Image } from "@mantine/core";
 import {
   IconAlertTriangle,
+  IconAward,
   IconBell,
   IconDownload,
+  IconHistory,
   IconPlugConnected,
+  IconTargetArrow,
   IconTrophy,
 } from "@tabler/icons-react";
 import type { Icon } from "@tabler/icons-react";
@@ -24,6 +27,9 @@ const LEADING_ICONS: Record<NotificationLeadingIcon, Icon> = {
   download: IconDownload,
   alert: IconAlertTriangle,
   connection: IconPlugConnected,
+  awards: IconAward,
+  recap: IconHistory,
+  goal: IconTargetArrow,
   notification: IconBell,
 };
 

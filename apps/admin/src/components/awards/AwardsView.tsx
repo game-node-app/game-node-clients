@@ -6,6 +6,7 @@ import { AwardsEventDto } from "@repo/wrapper/server";
 import { Link, useAwardEvents } from "@repo/ui";
 import { IconArrowRight, IconEdit } from "@tabler/icons-react";
 import { CreateUpdateAwardsForm } from "@/components/awards/form/CreateUpdateAwardsForm.tsx";
+import { RecapEditionCard } from "@/components/recap/RecapEditionCard.tsx";
 
 const COLUMNS: MRT_ColumnDef<AwardsEventDto>[] = [
   {
@@ -16,6 +17,10 @@ const COLUMNS: MRT_ColumnDef<AwardsEventDto>[] = [
   {
     accessorKey: "year",
     header: "Year",
+  },
+  {
+    accessorKey: "phase",
+    header: "Phase",
   },
   {
     header: "Voting Start Date",
@@ -76,6 +81,7 @@ const AwardsView = () => {
 
   return (
     <Stack className={"w-full"}>
+      <RecapEditionCard />
       <MantineReactTable table={table} />
     </Stack>
   );

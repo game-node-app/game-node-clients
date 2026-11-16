@@ -27,8 +27,10 @@ import CollectionPage from "@/pages/library/collection";
 import CollectionReorderPage from "@/pages/library/collection_reorder";
 import AwardsEventRedirectPage from "@/pages/awards";
 import AwardsResultPage from "@/pages/awards/result";
+import AwardsNominationsPage from "@/pages/awards/nominations";
 import RecapHomePage from "@/pages/recap/recap_home";
 import RecapStatsPage from "@/pages/recap/recap_stats";
+import RecapStoriesPage from "@/pages/recap/stories";
 import JournalAchievementsPage from "@/pages/journal/journal_achievements";
 import { JournalPage } from "@/pages/journal/journal";
 import ConnectionCallbackPage from "@/pages/connection_callback";
@@ -307,6 +309,15 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       }}
     />,
     <Route
+      key={`${prefix}-awards-nominations`}
+      path={`${prefix}/awards/:eventYear/nominations`}
+      render={(props) => {
+        return (
+          <AwardsNominationsPage eventYear={props.match.params.eventYear} />
+        );
+      }}
+    />,
+    <Route
       key={`${prefix}-awards-vote`}
       path={`${prefix}/awards/:eventYear/vote`}
       render={(props) => {
@@ -345,6 +356,17 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
         const year = props.match.params.year;
         const userId = props.match.params.userId;
         return <RecapStatsPage year={parseInt(year)} userId={userId} />;
+      }}
+    />,
+    // Registered after the Recap page: the outlet keeps the last matching
+    // child, and the Recap route above is a prefix match.
+    <Route
+      key={`${prefix}-recap-stories`}
+      path={`${prefix}/recap/:year/:userId/stories`}
+      render={(props) => {
+        const year = props.match.params.year;
+        const userId = props.match.params.userId;
+        return <RecapStoriesPage year={parseInt(year)} userId={userId} />;
       }}
     />,
   ];

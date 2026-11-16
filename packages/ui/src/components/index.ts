@@ -11,6 +11,7 @@ export * from "./collection/index";
 export * from "./comment/index";
 export * from "./connections/index";
 export * from "./daily/index";
+export * from "./events/index";
 export * from "./feed/index";
 export * from "./follow/index";
 export * from "./game/index";

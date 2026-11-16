@@ -715,6 +715,47 @@
     "signIn": "Entrar"
   },
   "awards": {
+    "ballot": {
+      "categories": "Categorias",
+      "linkCopied": "Link copiado!",
+      "loadError": "Não foi possível carregar sua cédula.",
+      "noCategories": "Este evento não tem categorias.",
+      "noVote": "Você ainda não votou nesta categoria.",
+      "readOnly": "A votação está encerrada. Estes são os seus votos.",
+      "searchTitle": "Buscar jogos elegíveis",
+      "selected": "Selecionado",
+      "share": "Compartilhar minha cédula",
+      "shareText": "Minha cédula do GameNode Awards {{year}}: {{url}}",
+      "shared": {
+        "empty": "Este usuário ainda não votou no Awards {{year}}.",
+        "emptyTitle": "Ainda não votou",
+        "heading": "Cédula compartilhada",
+        "loadError": "Não foi possível carregar esta cédula.",
+        "own": "Ir para a minha cédula",
+        "signUp": "Criar conta para votar",
+        "signUpDescription": "Crie sua conta para votar nas suas categorias favoritas e compartilhar sua cédula.",
+        "signUpTitle": "Participe do Awards {{year}}",
+        "votes": "{{count}} de {{total}} categorias"
+      },
+      "signIn": {
+        "action": "Entrar para votar",
+        "description": "Sua cédula fica salva na sua conta e você acompanha o progresso por categoria.",
+        "title": "Entre para votar"
+      },
+      "suggestion": "Sugerido: {{game}}",
+      "title": "Sua cédula",
+      "viewResults": "Ver o resultado",
+      "voteBar": {
+        "complete": "Sua cédula está completa!",
+        "completeHint": "Você votou em todas as categorias.",
+        "confirmLast": "Confirmar voto",
+        "confirmNext": "Confirmar e ir para {{category}}",
+        "skip": "Pular por agora",
+        "title": "Seu voto em {{category}}"
+      },
+      "votingOpens": "A votação abre em {{date}}.",
+      "votingOpensUnknown": "A votação ainda não abriu."
+    },
     "buttons": {
       "shareVotes": "Compartilhe seus votos!"
     },
@@ -739,6 +780,59 @@
       "voteSubmitted": "Seu voto para {{category}} foi enviado!",
       "votingIn": "Você está votando na categoria {{category}} para a edição {{edition}}."
     },
+    "nominations": {
+      "categories": "Categorias",
+      "closed": "As indicações estão encerradas. Estes são os indicados finais.",
+      "finalNominees": "Indicados finais",
+      "limitReached": "Você atingiu o limite de {{count}} jogos nesta categoria.",
+      "loadError": "Não foi possível carregar suas indicações.",
+      "noCategories": "Este evento não tem categorias para mostrar.",
+      "noFinalNominees": "Nenhum indicado final nesta categoria.",
+      "noPicks": "Você ainda não indicou jogos nesta categoria.",
+      "pickCount": "{{count}} de {{limit}}",
+      "searchTitle": "Buscar jogos elegíveis",
+      "signInToNominate": "Entrar para indicar",
+      "signInToSee": "Entre para ver suas indicações",
+      "subtitle": "Indique até {{count}} jogos por categoria.",
+      "subtitleClosed": "Veja os indicados finais e suas indicações.",
+      "title": "Indicações",
+      "upcoming": "As indicações abrem em {{date}}",
+      "upcomingUnknown": "As indicações ainda não estão abertas.",
+      "yourNominations": "Suas indicações",
+      "yourPick": "Sua indicação"
+    },
+    "results": {
+      "categoriesTitle": "Vencedores por categoria",
+      "disputeNote": "Contando só quem jogou, a disputa aperta: {{first}} {{firstPercentage}}, {{second}} {{secondPercentage}}.",
+      "filter": {
+        "all": "Todos os votos",
+        "label": "Filtro de votos",
+        "played": "Só quem jogou"
+      },
+      "gameFallback": "Jogo {{id}}",
+      "gotyEyebrow": "Resultado · Jogo do Ano · {{votes}} votos",
+      "gotyTitle": "{{game}} é o Jogo do Ano.",
+      "notYet": "O resultado sai em {{date}}.",
+      "notYetUnknown": "O resultado ainda não saiu.",
+      "personalGoty": {
+        "others": "Também é o GOTY pessoal de {{count}} outras pessoas no GameNode.",
+        "title": "Seu GOTY pessoal"
+      },
+      "scoreboard": {
+        "share": "Compartilhar meu placar",
+        "shareText": "Meu placar do Awards {{year}} no GameNode",
+        "summary": "Você acertou {{hits}} de {{scorable}} categorias.",
+        "summaryOther": "{{name}} acertou {{hits}} de {{scorable}} categorias.",
+        "title": "Seu placar"
+      },
+      "title": "Resultado",
+      "voteChip": {
+        "hit": "Seu voto venceu",
+        "miss": "Seu voto: {{game}}",
+        "missUnknown": "Seu voto",
+        "notVoted": "Você não votou"
+      }
+    },
     "participationReward": "Ganhe 1000XP e uma medalha por participar!",
     "phaseMessages": {
       "resultsOut": "Os resultados saíram!",
@@ -753,12 +847,42 @@
       "voting": "Votação"
     },
     "resultsDate": "Resultados {{date}}",
+    "search": {
+      "excludingGames": "Excluindo {{count}} jogos não elegíveis em {{year}}."
+    },
     "share": {
       "linkCopied": "Link Copiado!",
       "scrollHint": "Role/deslize para ver a imagem completa.",
       "shareWithImage": "Compartilhar com Imagem",
       "shareWithLink": "Compartilhar com Link",
       "title": "Compartilhe seus votos!"
+    },
+    "shared": {
+      "categories": "Categorias",
+      "categoryPosition": "Categoria {{current}} de {{total}}",
+      "filters": {
+        "all": "Todos · {{count}}",
+        "played": "Que joguei · {{count}}"
+      },
+      "nominee": {
+        "notPlayed": "Ainda não jogou",
+        "notPlayedCompact": "Não jogou",
+        "played": "Você jogou",
+        "playedHours": "Você jogou · {{hours}} h",
+        "playedHoursRating": "Você jogou · {{hours}} h · nota {{rating}}",
+        "playedRating": "Você jogou · nota {{rating}}",
+        "planned": "Na sua lista de desejos",
+        "plannedCompact": "Na sua lista",
+        "remove": "Remover",
+        "yourVote": "Seu voto"
+      },
+      "progress": "{{current}} de {{total}}",
+      "rowStates": {
+        "choosing": "Escolhendo",
+        "suggested": "Sugerido: {{game}}",
+        "vote": "Votar",
+        "voted": "Seu voto"
+      }
     },
     "subtitle": "Os indicados do The Game Awards e da comunidade GameNode em um só lugar",
     "title": "PRÊMIOS",
@@ -1195,6 +1319,77 @@
     "reportPrompt": "Por favor, nos informe sobre este erro enviando uma mensagem via",
     "showDetails": "Mostrar detalhes",
     "unexpected": "Ocorreu um erro inesperado ao carregar esta página"
+  },
+  "events": {
+    "card": {
+      "awards": {
+        "endsInDays": "Fecha em {{days}} dias",
+        "endsTomorrow": "Fecha amanhã",
+        "nominationsDescription": "Indique até 3 jogos por categoria e ajude a montar a cédula.",
+        "nominationsHeadline": "Quais foram os jogos do ano?",
+        "nominationsPrimary": "Indicar jogos",
+        "nominationsSecondary": "Ver categorias",
+        "nominationsTitle": "Awards {{year}} · Indicações abertas",
+        "participationReward": "+1000 XP e medalha por participar",
+        "resultsPrimary": "Ver vencedores",
+        "resultsScore": "Você acertou {{hits}} de {{scorable}}",
+        "resultsShare": "Compartilhar placar",
+        "resultsTitle": "Awards {{year}} · Resultado",
+        "resultsVotes": "{{votes}} votos em {{categories}} categorias.",
+        "resultsWinner": "{{game}} é o Jogo do Ano",
+        "visitorNominationsAction": "Entrar para indicar",
+        "visitorVotingAction": "Entrar para votar",
+        "visitorVotingDescription": "Entre para montar sua cédula e ver o que já jogou de cada indicado.",
+        "visitorVotingHeadline": "Vote nos melhores do ano",
+        "votingGoty": "Você jogou {{played}} dos {{total}} indicados a Jogo do Ano",
+        "votingHeadline": "Faltam {{count}} categorias na sua cédula",
+        "votingHeadlineSingle": "Falta 1 categoria na sua cédula",
+        "votingPrimary": "Continuar votando",
+        "votingProgress": "Sua cédula {{voted}} de {{total}} categorias",
+        "votingSecondary": "Ver cédula",
+        "votingTitle": "Awards {{year}} · Votação aberta"
+      },
+      "recap": {
+        "closedDownload": "Baixar card",
+        "closedGames": "em {{games}} jogos · {{year}} fechado",
+        "closedHeadline": "Seu {{year}} fechou. Bora compartilhar?",
+        "closedPrimary": "Ver stories",
+        "closedSummary": "{{hours}} horas, {{games}} jogos e {{finished}} zerados, em 5 stories prontas para postar.",
+        "closedTitle": "Retrospectiva {{year}} · Fechada",
+        "hours": "{{hours}} h",
+        "liveGames": "em {{games}} jogos · até hoje",
+        "liveHeadline": "Seu {{year}} até agora",
+        "livePrimary": "Ver minha retrospectiva",
+        "liveSentence": "{{game}} ficou com {{share}} do seu ano. {{hours}} horas, {{games}} jogos e {{finished}} zerados até agora.",
+        "liveShare": "Compartilhar",
+        "liveTitle": "Retrospectiva {{year}} · Atualizando",
+        "monthlyLabel": "Horas por mês",
+        "visitorAction": "Criar conta",
+        "visitorDescription": "A Retrospectiva do GameNode mostra suas horas, seus jogos e o que você mais jogou no ano.",
+        "visitorHeadline": "Crie sua conta e veja seu ano"
+      },
+      "timeline": {
+        "nominations": "Indicações",
+        "results": "Resultado",
+        "voting": "Votação"
+      }
+    },
+    "header": {
+      "awards": "Awards",
+      "breadcrumb": "Eventos {{year}}",
+      "navigationLabel": "Telas dos eventos",
+      "recap": "Retrospectiva",
+      "screens": {
+        "nominations": "Indicações",
+        "recap": "Retrospectiva",
+        "results": "Resultado",
+        "voting": "Votação"
+      }
+    },
+    "home": {
+      "carouselLabel": "Eventos",
+      "title": "Acontecendo no GameNode"
+    }
   },
   "explore": {
     "fetchError": "Erro ao buscar jogos. Por favor, recarregue esta pagina.",
@@ -1687,6 +1882,7 @@
       "tip": "Dica: pressione e segure para ver as acoes."
     },
     "awards": {
+      "nominationsTitle": "Indicações do Awards",
       "resultsTitle": "Resultados do Awards",
       "shareCreate": "Crie o seu em https://gamenode.app",
       "sharePrompt": "Estes são meus indicados do GameNode Awards!"
@@ -1855,12 +2051,15 @@
     "achievements": "Conquistas",
     "activity": "Atividade",
     "ai": "GameNode + IA",
+    "awards": "Awards {{year}}",
     "back": "Voltar",
     "blog": "Blog",
     "collections": "Coleções",
     "daily": "Daily",
     "dailyNodes": "Daily Nodes",
     "dock": {
+      "badgeLive": "Ao vivo",
+      "badgeNewFeminine": "Nova",
       "collapse": "Recolher navegação",
       "expand": "Expandir navegação",
       "groups": {
@@ -1881,6 +2080,7 @@
     "premium": "Premium",
     "privacy": "Privacidade",
     "profile": "Perfil",
+    "recap": "Retrospectiva",
     "reviews": "Avaliações",
     "search": "Buscar",
     "settings": "Configurações",
@@ -1906,6 +2106,23 @@
     },
     "actors": {
       "andOthers": "{{name}} e mais {{count}}"
+    },
+    "awards": {
+      "title": "Awards",
+      "nominationsOpen": "Indicações do Awards {{year}} abertas.",
+      "nominationsCloseReminder": "Indicações do Awards {{year}} fecham amanhã.",
+      "votingOpen": "Votação do Awards {{year}} aberta.",
+      "votingCloseReminder": "Votação do Awards {{year}} fecha em 2 dias.",
+      "resultsPublished": "Resultado do Awards {{year}} saiu."
+    },
+    "goal": {
+      "title": "Meta anual",
+      "progress": "Você zerou {{finished}} de {{target}} jogos da meta de {{year}}."
+    },
+    "recap": {
+      "title": "Retrospectiva",
+      "available": "Sua retrospectiva {{year}} chegou.",
+      "closed": "Sua retrospectiva {{year}} fechou."
     },
     "connection": {
       "title": "Conexão com {{provider}}"
@@ -2314,6 +2531,21 @@
       "availableSoon": "Disponível em breve",
       "create": "Criar minha retrospectiva"
     },
+    "goal": {
+      "loading": "Lendo sua meta...",
+      "progress": "{{finished}} de {{target}} zerados",
+      "save": "Salvar meta",
+      "saved": "Meta salva. Vamos te lembrar em julho.",
+      "suggestion": "Zerar {{target}} jogos, {{difference}} a mais que em {{year}}.",
+      "targetLabel": "Jogos para zerar em {{year}}",
+      "title": "Meta para {{year}}",
+      "validation": {
+        "integer": "Use um número inteiro de jogos.",
+        "max": "No máximo 999 jogos.",
+        "min": "No mínimo 1 jogo.",
+        "number": "Informe um número de jogos."
+      }
+    },
     "labels": {
       "hoursPlayed": "Horas Jogadas",
       "period": "Período",
@@ -2327,6 +2559,84 @@
     },
     "overview": {
       "description": "Confira seus destaques de {{year}}: horas jogadas, jogos favoritos, coleções criadas e conquistas épicas."
+    },
+    "page": {
+      "awards": {
+        "action": "Abrir minha cédula",
+        "note": "Suas notas de {{year}} já aparecem na cédula.",
+        "played": "Você jogou {{played}} dos {{total}} indicados a GOTY.",
+        "title": "Awards {{year}} · votação aberta"
+      },
+      "backlog": {
+        "dropped": "abandonados",
+        "finished": "zerados",
+        "growth": "O backlog cresceu {{count}}.",
+        "queued": "na fila",
+        "summary": "Você adicionou {{added}} jogos e zerou {{finished}}.",
+        "title": "Backlog"
+      },
+      "calendar": {
+        "description": "Cada quadrado é um dia. Quanto mais forte, mais você jogou.",
+        "gridLabel": "Calendário de jogo de {{year}}, um quadrado por dia",
+        "monthCard": "{{hours}} h em {{month}}",
+        "streak": "{{days}} dias seguidos",
+        "title": "Calendário de jogo",
+        "topMonth": "{{month}} foi o seu mês: {{hours}} horas.",
+        "weekday": "{{weekday}} é o seu dia: {{percent}} das suas horas caíram no fim de semana"
+      },
+      "community": {
+        "averageLabel": "Média",
+        "beyond": "Só {{percent}} de quem avaliou deu {{rating}} ou mais.",
+        "divided": "{{game}} dividiu você e a comunidade.",
+        "inTune": "Em sintonia",
+        "minority": "Opinião minoritária",
+        "sameTone": "Você e mais {{count}} pessoas no mesmo tom.",
+        "title": "Você vs. comunidade GameNode",
+        "youLabel": "Você"
+      },
+      "footer": {
+        "period": "De {{start}} a {{end}}",
+        "sources": "Horas de {{sources}} conectados"
+      },
+      "genres": {
+        "platformsTitle": "Plataformas",
+        "platformValue": "{{percent}} · {{hours}} h",
+        "title": "Gêneros",
+        "unknownPlatform": "Plataforma {{id}}"
+      },
+      "hero": {
+        "chartSize": "Tamanho = horas no jogo",
+        "chartTitle_one": "Seu ano em {{count}} nó",
+        "chartTitle_other": "Seu ano em {{count}} nós",
+        "eyebrow": "Retrospectiva {{year}}",
+        "eyebrowUser": "Retrospectiva {{year}} · @{{username}}",
+        "hours": "{{hours}} horas de jogo.",
+        "share": "Compartilhar meu ano",
+        "shareText": "Minha Retrospectiva de {{year}} no GameNode",
+        "stories": "Ver em stories",
+        "summary": "Você jogou {{games}} jogos e zerou {{finished}}.",
+        "summaryNamed": "{{name}}, você jogou {{games}} jogos e zerou {{finished}}.",
+        "today": "Hoje · {{date}}",
+        "updates": "Atualiza todo dia até 31 dez"
+      },
+      "states": {
+        "errorDescription": "Não foi possível carregar esta Retrospectiva. Tente de novo em instantes.",
+        "errorTitle": "Retrospectiva indisponível",
+        "notEligibleDescription": "Não há Retrospectiva para mostrar neste ano.",
+        "notEligibleTitle": "Nenhuma Retrospectiva em {{year}}",
+        "notReadyDescription": "A Retrospectiva é gerada diariamente. Volte mais tarde para ver o seu ano.",
+        "notReadyTitle": "Sua Retrospectiva de {{year}} ainda não está pronta",
+        "retry": "Tentar de novo"
+      },
+      "topGames": {
+        "finished": "{{date}} zerado",
+        "gameFallback": "Jogo #{{id}}",
+        "hours": "{{hours}} h jogadas",
+        "rating": "{{rating}} sua nota",
+        "share": "{{game}} ficou com {{percent}} do seu ano.",
+        "title": "Mais jogado em {{year}}",
+        "top5": "Seu top 5 por horas"
+      }
     },
     "periods": {
       "month": "Mês",
@@ -2353,6 +2663,60 @@
       "thanks": "Obrigado por escolher a gente este ano.",
       "thisIs": "Isso é",
       "weeks": "{{count}} semanas"
+    },
+    "stories": {
+      "back": "Voltar para a retrospectiva",
+      "calendar": {
+        "eyebrow": "Calendário de jogo",
+        "monthHours": "{{hours}} h no mês",
+        "streak": "{{days}} dias seguidos",
+        "title": "{{month}} foi o seu mês.",
+        "weekday": "{{weekday}} seu dia",
+        "weekend": "{{percentage}} das suas horas no fim de semana"
+      },
+      "close": "Fechar",
+      "community": {
+        "average": "Média da comunidade",
+        "beyond": "Só {{percentage}} de quem avaliou deu {{rating}} ou mais.",
+        "eyebrow": "Opinião minoritária",
+        "inTuneTitle": "Em {{game}}, {{userRating}} contra {{average}}.",
+        "sameRange": "Você e mais {{count}} pessoas no mesmo tom.",
+        "title": "Em {{game}}, você foi contra a maioria.",
+        "titleNoGame": "Você foi contra a maioria.",
+        "yourRating": "Sua nota"
+      },
+      "empty": "Esta retrospectiva ainda não tem stories.",
+      "errors": {
+        "export": "Não foi possível gerar a imagem."
+      },
+      "final": {
+        "eyebrow": "Seu ano em um card",
+        "finished": "{{count}} zerados",
+        "games": "{{count}} jogos",
+        "goty": "{{game}} jogo do ano",
+        "gotyProgress": "Você jogou {{played}} dos {{total}} indicados a GOTY.",
+        "guestInvite": "Crie sua conta e veja seu ano",
+        "hours": "{{hours}} h em {{year}}",
+        "topMonth": "{{month}} mês mais intenso",
+        "voteAwards": "Votar no Awards {{year}}"
+      },
+      "next": "Próximo story",
+      "opening": {
+        "eyebrow": "Sua retrospectiva {{year}}",
+        "hours": "{{hours}} horas de jogo.",
+        "summary": "{{games}} jogos, {{finished}} zerados e um ano que coube em {{nodes}} nós."
+      },
+      "previous": "Story anterior",
+      "progress": "{{current}} / {{total}} · toque para seguir",
+      "share": "Compartilhar",
+      "shareStory": "Compartilhar nos stories",
+      "topGame": {
+        "eyebrow": "Mais jogado em {{year}}",
+        "finished": "Zerado em {{date}}.",
+        "hoursValue": "{{hours}} h",
+        "line": "{{hours}} horas, {{percentage}} do seu ano.",
+        "rating": "{{rating}} sua nota"
+      }
     },
     "title": "RECAP"
   },
