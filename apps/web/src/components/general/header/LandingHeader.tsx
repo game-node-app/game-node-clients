@@ -1,9 +1,12 @@
 import { Anchor, Button, Container, Group, Menu } from "@mantine/core";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
+import styles from "@/components/general/header/LandingHeader.module.css";
 
 const LandingHeader = () => {
   const { t } = useTranslation();
+  const { pathname } = useRouter();
   const links = [
     { href: "/about", label: t("landing.presentation.about") },
     { href: "/#premium", label: t("landing.presentation.premium") },
@@ -39,6 +42,8 @@ const LandingHeader = () => {
                 size="sm"
                 href={href}
                 key={href}
+                aria-current={href === pathname ? "page" : undefined}
+                className={href === pathname ? styles.active : undefined}
               >
                 {label}
               </Anchor>
@@ -73,7 +78,13 @@ const LandingHeader = () => {
             </Menu.Target>
             <Menu.Dropdown>
               {links.map(({ href, label }) => (
-                <Menu.Item component={Link} href={href} key={href}>
+                <Menu.Item
+                  component={Link}
+                  href={href}
+                  key={href}
+                  aria-current={href === pathname ? "page" : undefined}
+                  className={href === pathname ? styles.active : undefined}
+                >
                   {label}
                 </Menu.Item>
               ))}

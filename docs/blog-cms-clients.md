@@ -7,7 +7,7 @@ CMS staff accounts have a separate login from GameNode.
 Web and mobile use the GameNode server (`NEXT_PUBLIC_SERVER_URL` / existing mobile
 server configuration), never CMS delivery or administrator tokens. The paired
 server contract is `game-node-server/server_swagger.json`; regenerate with
-`yarn wrapper:generate` after copying its actual output into the wrapper input.
+`pnpm wrapper:generate` after copying its actual output into the wrapper input.
 Public list, detail and tags send `locale=en|pt-BR`. The response selects one whole
 published translation, with requested/resolved/available locales, explicit media
 URLs, excerpt and publication date. English is the only fallback.

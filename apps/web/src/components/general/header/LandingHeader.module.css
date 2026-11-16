@@ -1,0 +1,6 @@
+.active {
+  text-decoration: underline;
+  text-decoration-color: var(--mantine-color-brand-6);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}

@@ -2,7 +2,7 @@
 
 The clients only offer OAuth sign-in. For local browser testing, a temporary Better Auth session can be created against the **local development** database without an OAuth provider. This creates persistent test users, roles, profiles and libraries in the local databases. Do not point it at a shared or production database. The helper below grants editor or moderator access to anyone who can reach its loopback port; stop it immediately after testing and never deploy it.
 
-1. Start the local MySQL and API using `game-node-server`'s development configuration (`yarn start:dev:docker`). Start the clients on `localhost:3001` (admin), `localhost:3000` (web) and `localhost:3002` (mobile web). Apply the relevant server migrations first. The helper reads the server checkout's `.env` (`BETTER_AUTH_SECRET` and the `DB_*` values); verify that they are local before running it. The server's `.env` must also list the client origins in `TRUSTED_ORIGINS` (see `.env.example`).
+1. Start the local MySQL and API using `game-node-server`'s development configuration (`pnpm start:dev:docker`). Start the clients on `localhost:3001` (admin), `localhost:3000` (web) and `localhost:3002` (mobile web). Apply the relevant server migrations first. The helper reads the server checkout's `.env` (`BETTER_AUTH_SECRET` and the `DB_*` values); verify that they are local before running it. The server's `.env` must also list the client origins in `TRUSTED_ORIGINS` (see `.env.example`).
 2. From the `game-node-server` root, save the following as `.tmp/browser-login.mjs` and run `node .tmp/browser-login.mjs`. It uses dependencies already installed in that checkout.
 
 ```js

@@ -127,8 +127,8 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 8px 16px;
   border: 1px solid transparent;
   border-radius: 10px;
   font-family: inherit;
@@ -160,6 +160,11 @@
 
 .providerLabel {
   flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2px 8px;
   text-align: center;
   /* Balances the 20px icon so the label stays centered. */
   margin-right: 20px;

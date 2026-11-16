@@ -5,28 +5,28 @@
             "name": "Dev: All Apps (turbo)",
             "type": "node-terminal",
             "request": "launch",
-            "command": "yarn dev",
+            "command": "pnpm dev",
             "cwd": "${workspaceFolder}"
         },
         {
             "name": "Dev: Web",
             "type": "node-terminal",
             "request": "launch",
-            "command": "yarn dev:web",
+            "command": "pnpm dev:web",
             "cwd": "${workspaceFolder}"
         },
         {
             "name": "Dev: Mobile",
             "type": "node-terminal",
             "request": "launch",
-            "command": "yarn dev:mobile",
+            "command": "pnpm dev:mobile",
             "cwd": "${workspaceFolder}"
         },
         {
             "name": "Dev: Admin",
             "type": "node-terminal",
             "request": "launch",
-            "command": "yarn dev:admin",
+            "command": "pnpm dev:admin",
             "cwd": "${workspaceFolder}"
         }
     ]

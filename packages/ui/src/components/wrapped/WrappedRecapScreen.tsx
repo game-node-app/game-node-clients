@@ -132,15 +132,27 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [overlay, setOverlay] = useState(RECAP_OVERLAY_DEFAULT_OPACITY);
 
-  useEffect(() => {
-    if (!videoFile) {
-      setVideoUrl(null);
-      return;
+  const videoUrlRef = useRef<string | null>(null);
+
+  // The preview URL is created when a file is picked, not in an effect, so the
+  // <video> source is ready on the same render as the file.
+  const changeVideoFile = (file: File | null) => {
+    if (videoUrlRef.current) {
+      URL.revokeObjectURL(videoUrlRef.current);
     }
-    const url = URL.createObjectURL(videoFile);
-    setVideoUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [videoFile]);
+    videoUrlRef.current = file ? URL.createObjectURL(file) : null;
+    setVideoFile(file);
+    setVideoUrl(videoUrlRef.current);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (videoUrlRef.current) {
+        URL.revokeObjectURL(videoUrlRef.current);
+        videoUrlRef.current = null;
+      }
+    };
+  }, []);
 
   const photoMutation = useMutation({
     mutationFn: (file: File) => loadRecapPhoto(file),
@@ -153,7 +165,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     setCustom(DEFAULT_RECAP_CUSTOMIZATION);
     setBackground("art");
     setPhotoUrl(null);
-    setVideoFile(null);
+    changeVideoFile(null);
     setOverlay(RECAP_OVERLAY_DEFAULT_OPACITY);
   };
 
@@ -537,7 +549,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
                 videoFile={videoFile}
                 videoUrl={videoUrl}
                 videoMaxSeconds={RECAP_VIDEO_MAX_SECONDS}
-                onPickVideo={setVideoFile}
+                onPickVideo={changeVideoFile}
                 overlay={overlay}
                 onOverlayChange={setOverlay}
               />

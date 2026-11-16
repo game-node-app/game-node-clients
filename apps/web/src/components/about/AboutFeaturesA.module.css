@@ -1,0 +1,1122 @@
+/* Library, journal, progress and community sections of the About page. */
+
+.section {
+  position: relative;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  scroll-margin-top: 24px;
+}
+
+.sectionLibrary {
+  padding-top: 60px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Shared section heading geometry (the common header keeps the Mantine stack). */
+
+.aboutHeader h2 {
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 52px;
+  letter-spacing: -0.44px;
+}
+
+.libraryHeader.libraryHeader {
+  max-width: 440px;
+}
+
+.journalHeader.journalHeader {
+  max-width: 720px;
+}
+
+.progressHeaderTitle.progressHeaderTitle {
+  max-width: 640px;
+}
+
+/* Library */
+
+.libraryLayout {
+  display: grid;
+  grid-template-columns: 440px minmax(0, 1fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.libraryIntro {
+  min-width: 0;
+}
+
+.libraryBullets {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.libraryBullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.libraryBullet img {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.libraryBullet span {
+  color: #d6d6d6;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.shelfCard.shelfCard {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 24px;
+  background: #121212;
+  border-color: #232323;
+  border-radius: 16px;
+}
+
+.shelfColumn {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 12px;
+}
+
+.shelfHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.shelfStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.statusDot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.statusLabel {
+  overflow: hidden;
+  color: #d0d0d0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shelfCount {
+  color: #7a7a7a;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.shelfCover {
+  gap: 0;
+}
+
+.shelfCover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 115.5 / 186;
+  border-radius: 6px;
+}
+
+.shelfCover span {
+  display: block;
+  overflow: hidden;
+  color: #8c8c8c;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.shelfCover :global(figcaption) {
+  margin-top: 4px;
+}
+
+/* Journal */
+
+.journalHeaderWrap {
+  margin-bottom: 56px;
+}
+
+.journalGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.journalPanel.journalPanel {
+  padding: 32px;
+  background: #121212;
+  border-color: #232323;
+}
+
+.diaryCard.diaryCard {
+  display: flex;
+  grid-row: span 2;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.beatCard.beatCard,
+.reviewCard.reviewCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panelTitle {
+  color: #fafafa;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31px;
+}
+
+.panelDescription {
+  color: #a6a6a6;
+  font-size: 16px;
+  line-height: 25px;
+  margin-top: 10px;
+}
+
+.chart {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  height: 230px;
+  margin-top: 30px;
+}
+
+.barColumn {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  height: 200px;
+  min-width: 0;
+}
+
+.bar {
+  width: 100%;
+  height: calc(var(--bar-height) * 1px);
+  background: #2a2a2a;
+  border-radius: 6px 6px 2px 2px;
+}
+
+.barHighlighted {
+  background: #f15025;
+}
+
+.barLabel {
+  color: #8c8c8c;
+  font-size: 12px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+}
+
+.sessionCover {
+  flex-shrink: 0;
+  width: 32px;
+}
+
+.sessionCover img {
+  width: 32px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.sessionTitle {
+  overflow: hidden;
+  color: #fafafa;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sessionMeta {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: #a6a6a6;
+  font-size: 14px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.beatRows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.beatRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.beatLine {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.beatLabel.beatLabel {
+  color: #cfcfcf;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.beatValue.beatValue {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.track {
+  overflow: hidden;
+  width: 100%;
+  height: 10px;
+  background: #1e1e1e;
+  border-radius: 6px;
+}
+
+.trackFill {
+  height: 100%;
+  border-radius: 6px;
+}
+
+.panelNote {
+  margin-top: 18px;
+  color: #6f6f6f;
+  font-size: 12px;
+  line-height: normal;
+}
+
+.reviewInner {
+  margin-top: 22px;
+  padding: 18px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 12px;
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.reviewUsername {
+  display: block;
+  color: #fafafa;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.reviewAction {
+  display: block;
+  color: #8c8c8c;
+  font-size: 13px;
+  line-height: normal;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+  margin-top: 14px;
+}
+
+.reviewText {
+  margin-top: 10px;
+  color: #d6d6d6;
+  font-size: 15px;
+  line-height: 23px;
+}
+
+.reviewActions {
+  display: flex;
+  gap: 18px;
+  margin-top: 14px;
+  color: #8c8c8c;
+  font-size: 13px;
+  line-height: normal;
+}
+
+/* Progress */
+
+.progressHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.progressDescription.progressDescription {
+  width: 420px;
+  max-width: 100%;
+  color: #a6a6a6;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.progressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 56px;
+}
+
+.levelCard.levelCard {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background: #121212;
+  border-color: #232323;
+}
+
+.levelProfile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.levelAvatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  object-fit: cover;
+}
+
+.levelName {
+  display: block;
+  color: #fafafa;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.levelCaption {
+  display: block;
+  margin-top: 2px;
+  color: #a6a6a6;
+  font-size: 14px;
+  line-height: normal;
+}
+
+.xpBlock {
+  margin-top: 20px;
+}
+
+.xpLine {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.xpLabel {
+  color: #a6a6a6;
+  line-height: normal;
+}
+
+.xpValue {
+  color: #fff;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.xpBlock .track {
+  margin-top: 8px;
+}
+
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.achievement {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+}
+
+.achievementIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.achievementBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.achievementTitle {
+  color: #fafafa;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.achievementRequirement {
+  margin-top: 2px;
+  color: #8c8c8c;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.achievementXp {
+  flex-shrink: 0;
+  color: #f15025;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.retroCard.retroCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 32px;
+  background: linear-gradient(
+    149.81deg,
+    #f15025 3.67%,
+    #c2380f 54.63%,
+    #5f0c07 96.33%
+  );
+  border: 0;
+  border-radius: 16px;
+}
+
+.retroEyebrow {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.78px;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.retroTitle {
+  margin-top: 12px;
+  color: #fafafa;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.retroStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.retroStat {
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 12px;
+}
+
+.retroValue {
+  color: #fafafa;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.retroLabel {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: normal;
+}
+
+.retroChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.retroChip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  color: #fafafa;
+  font-size: 13px;
+  line-height: normal;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+
+.retroNote {
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  line-height: normal;
+}
+
+/* Community */
+
+.communityHeaderWrap {
+  margin-bottom: 56px;
+}
+
+.communityGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 560fr) minmax(0, 620fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.feedCard.feedCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px;
+  background: #121212;
+  border-color: #232323;
+}
+
+.feedHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.feedTitle {
+  color: #fafafa;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  border-radius: 8px;
+}
+
+.tab {
+  padding: 6px 12px;
+  color: #a6a6a6;
+  font-size: 13px;
+  line-height: normal;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+.tabActive {
+  color: #fff;
+  background: #232323;
+}
+
+.feedList {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #1c1c1c;
+}
+
+.feedItem:last-child {
+  border-bottom: 0;
+}
+
+.feedAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.feedBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.feedText {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.feedName {
+  font-weight: 600;
+  color: #fff;
+}
+
+.feedMuted {
+  font-weight: 400;
+  color: #bdbdbd;
+}
+
+.feedTime {
+  margin-top: 3px;
+  color: #6f6f6f;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.feedThumb {
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.feedThumb img {
+  width: 40px;
+  height: 56px;
+  border-radius: 4px;
+}
+
+.feedAchievement {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.exploreCard.exploreCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px;
+  background: #121212;
+  border-color: #232323;
+}
+
+.exploreTitle {
+  color: #fafafa;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.exploreDescription {
+  margin-top: 8px;
+  color: #a6a6a6;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.periods,
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.periods {
+  margin-top: 18px;
+}
+
+.period {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  color: #bdbdbd;
+  font-size: 13px;
+  line-height: normal;
+  white-space: nowrap;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+}
+
+.periodActive {
+  color: #fff;
+  background: #f15025;
+  border-color: #f15025;
+}
+
+.ranking {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.rankItem {
+  position: relative;
+  min-width: 0;
+}
+
+.rankCover img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 131.5 / 150;
+  border-radius: 6px;
+}
+
+.rankBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #fafafa;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  background: rgba(11, 11, 11, 0.85);
+  border-radius: 6px;
+}
+
+.rankTitle {
+  overflow: hidden;
+  margin-top: 8px;
+  color: #fafafa;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filters {
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  color: #d0d0d0;
+  font-size: 13px;
+  line-height: normal;
+  white-space: nowrap;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+}
+
+/* Tablet and below */
+
+@media (max-width: 62em) {
+  .section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .sectionLibrary {
+    padding-top: 60px;
+    padding-bottom: 56px;
+  }
+
+  .aboutHeader h2 {
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.3px;
+  }
+
+  .libraryLayout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .shelfCard.shelfCard {
+    max-width: 560px;
+    margin-inline: auto;
+    padding: 16px;
+  }
+
+  .shelfColumn {
+    padding: 10px;
+  }
+
+  .shelfCount {
+    display: none;
+  }
+
+  .shelfCover span {
+    font-size: 11px;
+    white-space: normal;
+  }
+
+  .journalHeaderWrap {
+    margin-bottom: 32px;
+  }
+
+  .journalGrid,
+  .progressGrid,
+  .communityGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .diaryCard.diaryCard {
+    grid-row: auto;
+  }
+
+  .progressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .progressDescription.progressDescription {
+    width: 100%;
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  .progressGrid {
+    margin-top: 32px;
+  }
+
+  .progressHeaderTitle.progressHeaderTitle {
+    max-width: 100%;
+  }
+
+  .communityHeaderWrap {
+    margin-bottom: 32px;
+  }
+}
+
+/* Mobile frame */
+
+@media (max-width: 36em) {
+  .container {
+    padding-inline: 24px;
+  }
+
+  .shelfCard.shelfCard {
+    gap: 8px;
+    align-items: flex-start;
+    max-width: none;
+    padding: 12px;
+  }
+
+  .shelfColumn {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .shelfHeader {
+    justify-content: flex-start;
+  }
+
+  .shelfStatus {
+    position: relative;
+    z-index: 2;
+    gap: 4px;
+  }
+
+  .statusLabel {
+    overflow: hidden;
+    font-size: 10px;
+    text-overflow: ellipsis;
+  }
+
+  .shelfCount {
+    display: none;
+  }
+
+  .shelfCover img {
+    width: 100%;
+    height: 110px;
+    aspect-ratio: auto;
+  }
+
+  .shelfCover span {
+    font-size: 10px;
+    line-height: 11px;
+    white-space: nowrap;
+  }
+
+  .shelfCover :global(figcaption) {
+    margin-top: 3px;
+  }
+
+  .journalPanel.journalPanel {
+    padding: 22px;
+  }
+
+  .panelTitle.panelTitle {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .panelDescription.panelDescription {
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  .chart {
+    gap: 8px;
+    height: 150px;
+  }
+
+  .barColumn {
+    height: 120px;
+  }
+
+  .bar {
+    height: calc(var(--bar-height-mobile) * 1px);
+  }
+
+  .sessionMeta.sessionMeta {
+    font-size: 12px;
+  }
+
+  .reviewText {
+    font-size: 15px;
+  }
+
+  .levelCard.levelCard {
+    padding: 22px;
+  }
+
+  .retroCard.retroCard {
+    padding: 24px;
+  }
+
+  .retroTitle {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .retroValue {
+    font-size: 24px;
+  }
+
+  .feedCard.feedCard {
+    padding: 18px;
+  }
+
+  .feedText {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .exploreCard.exploreCard {
+    padding: 22px;
+  }
+
+  .ranking {
+    gap: 8px;
+  }
+
+  .rankCover img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 68 / 110;
+  }
+
+  .rankTitle {
+    font-size: 11px;
+  }
+}

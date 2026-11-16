@@ -1,0 +1,33 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Each worktree has local links; package files share pnpm's content-addressable
+# store. Turbopack requires its virtual store to stay inside the project root.
+enableGlobalVirtualStore: false
+
+# Preserve the existing flat resolution used by the shared UI and tooling.
+# Capacitor must resolve this plugin directly from the mobile workspace.
+publicHoistPattern:
+  - "*"
+  - "!better-auth-capacitor"
+hoistPattern:
+  - "*"
+  - "!better-auth-capacitor"
+
+strictPeerDependencies: false
+
+overrides:
+  prosemirror-model: 1.25.1
+  "@types/react": 19.3.0
+  "@types/react-dom": 19.3.0
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+
+# Ionic's router imports history without declaring it.
+packageExtensions:
+  '@ionic/react-router@8.7.6':
+    dependencies:
+      history: ^4.9.0

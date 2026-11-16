@@ -30,7 +30,7 @@ test("release jobs reuse the checks dependency cache and install on a miss", () 
     readFileSync(join(root, ".github/workflows/release-mobile.yml"), "utf8"),
   );
   const sourceHash =
-    "${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}";
+    "${{ hashFiles('pnpm-lock.yaml', 'package.json', 'apps/*/package.json', 'packages/*/package.json', 'pnpm-workspace.yaml', '.npmrc') }}";
   assert.ok(
     jobs.checks.steps
       .find((step) => step.id === "plan")
@@ -51,7 +51,7 @@ test("release jobs reuse the checks dependency cache and install on a miss", () 
   const cacheJobs = [jobs.checks, jobs.prepare, mobile.jobs.deliver];
   const caches = cacheJobs.map(({ steps }) => {
     const cache = steps.find((step) => step.id === "dependencies");
-    const install = steps.find((step) => step.run?.startsWith("yarn install"));
+    const install = steps.find((step) => step.run?.startsWith("pnpm install"));
     assert.ok(steps.indexOf(cache) < steps.indexOf(install));
     assert.equal(install.if, "steps.dependencies.outputs.cache-hit != 'true'");
     assert.match(install.run, /--frozen-lockfile --ignore-scripts/);
@@ -64,11 +64,11 @@ test("release jobs reuse the checks dependency cache and install on a miss", () 
       "runner.os",
       "runner.arch",
       "steps.node.outputs.node-version",
-      "yarn.lock",
+      "pnpm-lock.yaml",
       "package.json",
       "apps/*/package.json",
       "packages/*/package.json",
-      ".yarnrc",
+      "pnpm-workspace.yaml",
       ".npmrc",
     ])
       assert.ok(key.includes(input), input);
@@ -226,7 +226,7 @@ function fixture(t) {
       name: app,
       version: app === "mobile" ? "1.8.12" : "1.0.0",
       private: true,
-      dependencies: { "@repo/ui": "*" },
+      dependencies: { "@repo/ui": "workspace:*" },
     });
   }
   write(cwd, "packages/ui/package.json", {
@@ -446,8 +446,30 @@ test("publishes snapshot and selected app tags atomically without updating main"
 test("changeset-only releases still select the app and dependencies for real Turbo checks", (t) => {
   const { cwd } = fixture(t);
   const manifest = JSON.parse(readFileSync(join(cwd, "package.json")));
-  write(cwd, "package.json", { ...manifest, packageManager: "yarn@1.22.22" });
-  write(cwd, "yarn.lock", "# yarn lockfile v1\n");
+  write(cwd, "package.json", { ...manifest, packageManager: "pnpm@10.34.9" });
+  write(cwd, "pnpm-workspace.yaml", "packages:\n  - apps/*\n  - packages/*\n");
+  write(
+    cwd,
+    "pnpm-lock.yaml",
+    require("yaml").stringify({
+      lockfileVersion: "9.0",
+      importers: Object.fromEntries([
+        [".", {}],
+        ["packages/ui", {}],
+        ...apps.map((app) => [
+          `apps/${app}`,
+          {
+            dependencies: {
+              "@repo/ui": {
+                specifier: "workspace:*",
+                version: "link:../../packages/ui",
+              },
+            },
+          },
+        ]),
+      ]),
+    }),
+  );
   write(cwd, "turbo.json", {
     tasks: { build: { dependsOn: ["^build"] }, lint: {} },
   });

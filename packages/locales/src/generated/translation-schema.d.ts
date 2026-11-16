@@ -3,6 +3,437 @@
 // Do not edit manually.
 
 export type TranslationSchema = {
+  about: {
+    meta: {
+      title: string;
+      description: string;
+    };
+    hero: {
+      titleStart: string;
+      titleHighlight: string;
+      description: string;
+      primaryCta: string;
+      secondaryCta: string;
+      footnote: string;
+      footnoteLogin: string;
+      playing: string;
+      playingDetail: string;
+      completed: string;
+    };
+    manifesto: {
+      eyebrow: string;
+      textStart: string;
+      textMuted: string;
+      items: {
+        free: {
+          title: string;
+          description: string;
+        };
+        openSource: {
+          title: string;
+          description: string;
+        };
+        community: {
+          title: string;
+          description: string;
+        };
+      };
+    };
+    index: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      items: {
+        library: {
+          title: string;
+          description: string;
+        };
+        sync: {
+          title: string;
+          description: string;
+        };
+        collections: {
+          title: string;
+          description: string;
+        };
+        explore: {
+          title: string;
+          description: string;
+        };
+        reviews: {
+          title: string;
+          description: string;
+        };
+        activity: {
+          title: string;
+          description: string;
+        };
+        journal: {
+          title: string;
+          description: string;
+        };
+        ai: {
+          title: string;
+          description: string;
+        };
+        timeToBeat: {
+          title: string;
+          description: string;
+        };
+        daily: {
+          title: string;
+          description: string;
+        };
+        achievements: {
+          title: string;
+          description: string;
+        };
+        awards: {
+          title: string;
+          description: string;
+        };
+        retrospective: {
+          title: string;
+          description: string;
+        };
+        mobile: {
+          title: string;
+          description: string;
+        };
+        notifications: {
+          title: string;
+          description: string;
+        };
+        premium: {
+          title: string;
+          description: string;
+        };
+      };
+    };
+    library: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      bullets: {
+        statuses: string;
+        collections: string;
+        dlc: string;
+        export: string;
+      };
+      mock: {
+        statuses: {
+          playing: string;
+          planned: string;
+          finished: string;
+          dropped: string;
+        };
+      };
+    };
+    journal: {
+      eyebrow: string;
+      title: string;
+      diary: {
+        title: string;
+        description: string;
+      };
+      weekdays: {
+        mon: string;
+        tue: string;
+        wed: string;
+        thu: string;
+        fri: string;
+        sat: string;
+        sun: string;
+      };
+      sessions: {
+        hades: string;
+        baldursGate: string;
+        celeste: string;
+      };
+      timeToBeat: {
+        title: string;
+        description: string;
+        main: string;
+        extras: string;
+        completionist: string;
+        note: string;
+      };
+      reviews: {
+        title: string;
+        action: string;
+        text: string;
+        like: string;
+        comment: string;
+      };
+    };
+    progress: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      level: {
+        label: string;
+        nextLevel: string;
+        xp: string;
+      };
+      achievements: {
+        reviewer: {
+          title: string;
+          requirement: string;
+          xp: string;
+        };
+        collector: {
+          title: string;
+          requirement: string;
+          xp: string;
+        };
+        voter: {
+          title: string;
+          requirement: string;
+          xp: string;
+        };
+      };
+      retrospective: {
+        eyebrow: string;
+        title: string;
+        stats: {
+          hours: string;
+          games: string;
+          reviews: string;
+          collections: string;
+        };
+        genres: {
+          roguelike: string;
+          rpg: string;
+          platform: string;
+          metroidvania: string;
+        };
+        note: string;
+      };
+    };
+    community: {
+      eyebrow: string;
+      title: string;
+      activity: {
+        title: string;
+        tabs: {
+          following: string;
+          all: string;
+        };
+      };
+      feed: {
+        items: {
+          added: {
+            action: string;
+            target: string;
+            suffix: string;
+          };
+          reviewed: {
+            action: string;
+            target: string;
+            suffix: string;
+          };
+          unlocked: {
+            action: string;
+            target: string;
+            suffix: string;
+          };
+          posted: {
+            action: string;
+            target: string;
+          };
+        };
+      };
+      times: {
+        twelveMinutes: string;
+        oneHour: string;
+        threeHours: string;
+        yesterday: string;
+      };
+      explore: {
+        title: string;
+        description: string;
+        periods: {
+          week: string;
+          month: string;
+          threeMonths: string;
+          sixMonths: string;
+          year: string;
+        };
+        filters: {
+          genres: string;
+          platforms: string;
+          themes: string;
+          modes: string;
+        };
+      };
+    };
+    connections: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      platforms: {
+        steam: string;
+        playstation: string;
+        xbox: string;
+        epicGames: string;
+        nintendo: string;
+        gog: string;
+      };
+      chips: {
+        library: string;
+        playtime: string;
+        achievements: string;
+      };
+    };
+    ai: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      assistants: {
+        claude: string;
+        chatgpt: string;
+        codex: string;
+        claudeCode: string;
+      };
+      cta: string;
+      chat: {
+        assistant: string;
+        connected: string;
+        prompt: string;
+        reply: string;
+        cardStatus: string;
+      };
+      permissions: {
+        title: string;
+        library: string;
+        libraryWrite: string;
+        reviews: string;
+        publish: string;
+      };
+    };
+    beyond: {
+      eyebrow: string;
+      title: string;
+      daily: {
+        title: string;
+        description: string;
+        nextIn: string;
+        modes: {
+          cover: {
+            title: string;
+            description: string;
+          };
+          artwork: {
+            title: string;
+            description: string;
+          };
+          keywords: {
+            title: string;
+            description: string;
+          };
+          specs: {
+            title: string;
+            description: string;
+          };
+        };
+        keywords: {
+          exploration: string;
+          space: string;
+          timeLoop: string;
+          mystery: string;
+        };
+        specs: {
+          action: string;
+          year: string;
+          ps4: string;
+          indie: string;
+          twoD: string;
+          solo: string;
+          unity: string;
+          metroid: string;
+        };
+      };
+      awards: {
+        title: string;
+        description: string;
+        xp: string;
+        xpNote: string;
+      };
+      blog: {
+        title: string;
+        description: string;
+      };
+    };
+    mobileApp: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      googlePlay: string;
+      appStore: string;
+    };
+    premium: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      badge: string;
+      profile: {
+        premiumSince: string;
+        level: string;
+        playingNow: string;
+      };
+      groups: {
+        profile: {
+          title: string;
+          videoCover: string;
+          animatedBorder: string;
+          theme: string;
+        };
+        library: {
+          title: string;
+          unlimitedCollections: string;
+        };
+        live: {
+          title: string;
+          liveStatus: string;
+        };
+        supporter: {
+          title: string;
+          badge: string;
+          wall: string;
+        };
+      };
+      cta: string;
+      freeCta: string;
+      guarantees: {
+        cancel: string;
+        downgrade: string;
+      };
+    };
+    wall: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      pill: string;
+      note: string;
+      emptyCard: {
+        title: string;
+        cta: string;
+      };
+    };
+    promise: {
+      titleStart: string;
+      titleHighlight: string;
+      description: string;
+      github: string;
+      discord: string;
+    };
+    finalCta: {
+      title: string;
+      description: string;
+      primaryCta: string;
+      secondaryCta: string;
+    };
+  };
   achievements: {
     labels: {
       complete: string;
@@ -267,6 +698,7 @@ export type TranslationSchema = {
     providers: {
       discord: string;
       google: string;
+      lastUsed: string;
       twitter: string;
     };
     redirecting: {
@@ -1062,52 +1494,6 @@ export type TranslationSchema = {
     };
   };
   landing: {
-    featureDescription: string;
-    features: {
-      achievements: string;
-      activities: string;
-      addGames: string;
-      customCollections: string;
-      makeReviews: string;
-      review: string;
-      shareWorld: string;
-    };
-    header: {
-      aboutUs: string;
-      androidApp: string;
-      collaborate: string;
-      joinIn: string;
-      serviceStatus: string;
-    };
-    headline: string;
-    headlineAlt: string;
-    mobile: {
-      appStoreSoon: string;
-      description: string;
-      googlePlay: string;
-      soonIOS: string;
-      title: string;
-      titleAlt: string;
-    };
-    platforms: {
-      description: string;
-      names: {
-        steam: string;
-        psn: string;
-        xbox: string;
-        epicgames: string;
-        nintendo: string;
-        gog: string;
-      };
-      syncDescription: string;
-      title: string;
-    };
-    subheadline: string;
-    support: {
-      becomeSupporter: string;
-      description: string;
-      title: string;
-    };
     presentation: {
       heroTitle: string;
       heroDescription: string;

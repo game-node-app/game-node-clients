@@ -9,9 +9,9 @@
   },
   "scripts": {
     "lint": "eslint index.ts --max-warnings 0",
-    "check-types": "yarn type-check",
+    "check-types": "pnpm type-check",
     "type-check": "tsc --noEmit",
-    "build": "yarn wrapper:generate",
+    "build": "pnpm wrapper:generate",
     "wrapper:generate": "node generate.js"
   },
   "publishConfig": {

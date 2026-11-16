@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { OpenGraph } from "@/components/general/OpenGraph";
+import { OpenGraph } from "../../../../components/general/OpenGraph";
 import { Button, Stack, Text } from "@mantine/core";
 import {
   BlogPostDetailLayout,

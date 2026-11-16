@@ -5,9 +5,9 @@ The repository for the web client of Game Node. This is our main site, the one y
 ## Contributing
 ### Installation
 1. Install [Node.js](https://nodejs.org/en/download/)
-2. Install [Yarn](https://yarnpkg.com/en/docs/install)
-3. Run `yarn` in the root directory of the repository
-4. Run `yarn dev` to start the development server
+2. Run `corepack enable` (Node.js 24 LTS recommended)
+3. Run `pnpm install` in the root directory of the repository
+4. Run `pnpm dev:web` from the repository root to start the development server
 5. Check your instance at `http://localhost:3000`
 
 ### Setting up your environment
@@ -28,4 +28,4 @@ Steam and Xbox sign-in return to `/connections/callback/steam` and `/connections
 
 The setup form and callback screen live in `@repo/ui` and are also used by mobile. Native Android opens provider sign-in in the system browser and handles the callback through its existing GameNode app links. Steam game details must be public for synchronization.
 
-Run the shared connection flow tests with `yarn workspace mobile test.unit --run --threads false`.
+Run the shared connection flow tests with `pnpm --filter mobile test.unit --run --threads false`.

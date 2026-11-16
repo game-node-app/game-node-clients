@@ -8,3 +8,8 @@ node_modules
 **/android/.gradle
 **/android/app/build
 **/*.jks
+
+# Optional local pnpm store
+.pnpm-store/
+
+.codegraph/

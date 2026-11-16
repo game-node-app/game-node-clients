@@ -30,7 +30,8 @@ jobs:
         id: node
         with:
           node-version: 24
-          cache: yarn
+      - run: corepack enable
+      - run: pnpm --version
       - name: Refuse stale or unselected releases
         run: |
           node scripts/prepare-release.cjs --assert-current mobile
@@ -49,10 +50,10 @@ jobs:
             node_modules
             apps/*/node_modules
             packages/*/node_modules
-          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ inputs.dependency-hash }}
-      - run: yarn install --frozen-lockfile --ignore-scripts
+          key: modules-pnpm-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ inputs.dependency-hash }}
+      - run: pnpm install --frozen-lockfile --ignore-scripts
         if: steps.dependencies.outputs.cache-hit != 'true'
-      - run: yarn build -F mobile
+      - run: pnpm build -F mobile
         env:
           VITE_PUBLIC_LIVE_UPDATE_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
       - name: Publish compatible live update
@@ -102,7 +103,7 @@ jobs:
           for format in APK AAB; do
             signing=jarsigner
             if [ "$format" = APK ]; then signing=apksigner; fi
-            yarn cap build android --keystorepath release.decrypted.jks \
+            pnpm cap build android --keystorepath release.decrypted.jks \
               --keystorepass "$KEYSTORE_PASS" --keystorealias "$KEY_ALIAS" \
               --keystorealiaspass "$KEY_PASS" --androidreleasetype "$format" \
               --signing-type "$signing"

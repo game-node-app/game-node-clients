@@ -36,7 +36,8 @@ jobs:
         id: node
         with:
           node-version: 24
-          cache: yarn
+      - run: corepack enable
+      - run: pnpm --version
       - name: Restore installed dependencies
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         id: dependencies
@@ -45,8 +46,8 @@ jobs:
             node_modules
             apps/*/node_modules
             packages/*/node_modules
-          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}
-      - run: yarn install --frozen-lockfile --ignore-scripts
+          key: modules-pnpm-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('pnpm-lock.yaml', 'package.json', 'apps/*/package.json', 'packages/*/package.json', 'pnpm-workspace.yaml', '.npmrc') }}
+      - run: pnpm install --frozen-lockfile --ignore-scripts
         if: steps.dependencies.outputs.cache-hit != 'true'
       - name: Validate explicit release decision
         id: plan
@@ -59,10 +60,10 @@ jobs:
             BASE=$(git merge-base "$BASE" "$HEAD")
           fi
           node scripts/release-plan.cjs "$BASE" "$HEAD"
-          echo "dependency-hash=${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}" >> "$GITHUB_OUTPUT"
+          echo "dependency-hash=${{ hashFiles('pnpm-lock.yaml', 'package.json', 'apps/*/package.json', 'packages/*/package.json', 'pnpm-workspace.yaml', '.npmrc') }}" >> "$GITHUB_OUTPUT"
           echo "TURBO_SCM_BASE=$BASE" >> "$GITHUB_ENV"
           echo "TURBO_SCM_HEAD=$HEAD" >> "$GITHUB_ENV"
-      - run: yarn test:releases
+      - run: pnpm test:releases
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: .turbo
@@ -71,7 +72,7 @@ jobs:
       - name: Check affected packages and consumers
         env:
           CI_FILTERS: ${{ steps.plan.outputs.filters }}
-        run: node -e 'require("node:child_process").execFileSync("yarn", ["turbo", "run", "lint", "type-check", "test", "build", ...JSON.parse(process.env.CI_FILTERS)], {stdio:"inherit"})'
+        run: node -e 'require("node:child_process").execFileSync("pnpm", ["turbo", "run", "lint", "type-check", "test", "build", ...JSON.parse(process.env.CI_FILTERS)], {stdio:"inherit"})'
 
   prepare:
     name: Reserve immutable release
@@ -91,7 +92,8 @@ jobs:
         id: node
         with:
           node-version: 24
-          cache: yarn
+      - run: corepack enable
+      - run: pnpm --version
       - name: Restore installed dependencies
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         id: dependencies
@@ -100,8 +102,8 @@ jobs:
             node_modules
             apps/*/node_modules
             packages/*/node_modules
-          key: modules-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('yarn.lock', 'package.json', 'apps/*/package.json', 'packages/*/package.json', '.yarnrc', '.npmrc') }}
-      - run: yarn install --frozen-lockfile --ignore-scripts
+          key: modules-pnpm-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('pnpm-lock.yaml', 'package.json', 'apps/*/package.json', 'packages/*/package.json', 'pnpm-workspace.yaml', '.npmrc') }}
+      - run: pnpm install --frozen-lockfile --ignore-scripts
         if: steps.dependencies.outputs.cache-hit != 'true'
       - name: Require configuration for every selected target
         env:
