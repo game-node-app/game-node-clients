@@ -55,7 +55,11 @@ export const monoStyle = (
   lineHeight: 1.25,
 });
 
-/** Absolute placement in card pixels, so layouts map 1:1 to the design. */
+/**
+ * Absolute placement in card pixels, so layouts map 1:1 to the design. The
+ * size is only part of the style when given: a spread `width: undefined` would
+ * otherwise wipe the size of the element it is merged into (e.g. a cover).
+ */
 export const at = (
   x: number,
   y: number,
@@ -65,8 +69,8 @@ export const at = (
   position: "absolute",
   left: x,
   top: y,
-  width,
-  height,
+  ...(width !== undefined ? { width } : {}),
+  ...(height !== undefined ? { height } : {}),
 });
 
 export function formatHours(hours: number): string {

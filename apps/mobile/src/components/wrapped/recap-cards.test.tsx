@@ -84,6 +84,7 @@ const figures = (changePercent: number | null) => ({
   hours: 2,
   games: 3,
   changePercent,
+  topGameSharePercent: 50,
   hasActivity: true,
 });
 
@@ -162,11 +163,13 @@ describe("recap summary templates", () => {
 
     expect(container.textContent).toContain("2");
     // The comparison is opt-in.
-    expect(container.textContent).not.toContain("vsPrevious");
-    // The API's genre is not shown; finished games take its place.
-    expect(container.textContent).not.toContain("RPG");
-    expect(container.textContent).toContain("mobile.wrapped.card.finished");
+    expect(container.textContent).not.toContain("▲");
+    expect(container.textContent).toContain("RPG");
     expect(container.textContent).toContain("PC");
+    // Finished games only take a row when there is something to show.
+    expect(container.textContent).not.toContain(
+      "mobile.wrapped.card.finished",
+    );
     expect(container.textContent).toContain("Last 7 days");
     // The top game plus the next four.
     expect(screen.getAllByTestId("cover")).toHaveLength(5);
@@ -186,7 +189,7 @@ describe("recap summary templates", () => {
 
     expect(container.textContent).not.toContain("PC");
     expect(container.textContent).toContain("-");
-    expect(container.textContent).not.toContain("vsPrevious");
+    expect(container.textContent).not.toContain("▲");
   });
 
   it("Poster shows the platform icon next to its name", () => {
@@ -204,7 +207,8 @@ describe("recap summary templates", () => {
       />,
     );
 
-    expect(container.textContent).toContain("PlayStation 5");
+    // The card only has room for the short name.
+    expect(container.textContent).toContain("PS5");
     expect(
       container.querySelector('img[src$="/v1/public/icons/ps5.png"]'),
     ).not.toBeNull();
@@ -213,31 +217,40 @@ describe("recap summary templates", () => {
   it("Poster headlines the user name and lists the ranked games", () => {
     const { container } = renderCard(<RecapPosterCard {...props()} />);
 
-    expect(container.textContent).toContain("ANA");
+    expect(container.textContent).toContain("Ana");
     expect(container.textContent).toContain("mobile.wrapped.card.wrapped");
-    // The comparison is opt-in; the free slot shows finished games.
-    expect(container.textContent).not.toContain("RPG");
+    expect(container.textContent).toContain("RPG");
+    // The comparison is opt-in.
+    expect(container.textContent).not.toContain("▲");
+    // Finished games only take a column when there is something to show.
     expect(container.textContent).not.toContain(
-      "mobile.wrapped.card.comparison",
+      "mobile.wrapped.card.finished",
     );
-    expect(container.textContent).toContain("mobile.wrapped.card.finished");
-    // The five ranked rows.
+    // How much of the period the top game took, and the games played.
+    expect(container.textContent).toContain(
+      'mobile.wrapped.card.topGameShare:{"percent":50}',
+    );
+    expect(container.textContent).toContain(
+      'mobile.wrapped.card.playedAcross:{"count":3}',
+    );
+    // The top game plus the next four.
     expect(screen.getAllByTestId("cover")).toHaveLength(5);
   });
 
-  it("Dash builds the sentence from the period and shows three tiles", () => {
+  it("Dash builds the sentence from the period and shows the top five", () => {
     const { container } = renderCard(<RecapDashCard {...props()} />);
 
-    expect(container.textContent).toContain("mobile.wrapped.card.tail.week");
+    expect(container.textContent).toContain("Last 7 days");
     expect(container.textContent).toContain("mobile.wrapped.card.youPlayed");
-    expect(screen.getAllByTestId("cover")).toHaveLength(3);
+    // Three covers on the podium and the fourth and fifth in the list.
+    expect(screen.getAllByTestId("cover")).toHaveLength(5);
   });
 
   it("Bento shows the top game, the figures and the list", () => {
     const { container } = renderCard(<RecapBentoCard {...props()} />);
 
     expect(container.textContent).toContain("Game 1");
-    expect(container.textContent).toContain("@Ana");
+    expect(container.textContent).toContain("Ana");
     expect(container.textContent).toContain("PC");
     expect(screen.getAllByTestId("cover")).toHaveLength(5);
   });

@@ -34,3 +34,20 @@ export function getPlatformIconName(
   if (!name) return undefined;
   return PLATFORM_ICON_RULES.find(([rule]) => rule.test(name))?.[1];
 }
+
+/**
+ * Platform name short enough for the cards: "PC (Microsoft Windows)" becomes
+ * "PC" and "PlayStation 5" becomes "PS5".
+ */
+export function getPlatformShortName(
+  name: string | null | undefined,
+): string | undefined {
+  if (!name) return undefined;
+  if (/windows|\bpc\b/i.test(name)) return "PC";
+
+  const short = name
+    .replace(/\s*\([^)]*\)\s*/g, " ")
+    .replace(/^playstation\s*(\d)/i, "PS$1")
+    .trim();
+  return short || name;
+}

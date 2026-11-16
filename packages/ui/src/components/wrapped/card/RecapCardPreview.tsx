@@ -24,9 +24,10 @@ export function RecapCardPreview({ format, cardRef, children }: Props) {
   const { ref, width } = useElementSize();
   const { height: viewportHeight } = useViewportSize();
   const size = RECAP_CARD_FORMATS[format];
-  // Use the available window height (minus header, title and paddings) so the
-  // card fills the preview area on large screens; never below the default.
-  const maxHeight = Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 200);
+  // Use the available window height (minus header, title, the stage's
+  // label row and format switch, and paddings) so the card fills the preview
+  // area on large screens; never below the default.
+  const maxHeight = Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
   const scale = getRecapPreviewScale(width, format, maxHeight);
 
   return (

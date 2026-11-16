@@ -1336,6 +1336,14 @@
       "startTyping": "Comece a digitar para ver resultados."
     },
     "wrapped": {
+      "background": {
+        "art": "Arte do jogo",
+        "imageOption": "Imagem {{number}}",
+        "images": "Imagens oficiais",
+        "photo": "Foto",
+        "title": "Fundo",
+        "video": "Vídeo"
+      },
       "buttons": {
         "downloadImage": "Baixar imagem",
         "downloadVideo": "Baixar vídeo",
@@ -1350,7 +1358,10 @@
         "gamesPlayed": "Jogos jogados",
         "hoursPlayed": "Tempo jogado",
         "hoursUnit": "horas",
+        "playedAcross_one": "em {{count}} jogo",
+        "playedAcross_other": "em {{count}} jogos",
         "madeOn": "Gerado no GameNode",
+        "nextUp": "Em seguida",
         "period": {
           "month": "Últimos 30 dias",
           "week": "Últimos 7 dias",
@@ -1364,9 +1375,10 @@
         "reviewed": "Avaliações",
         "started": "Iniciados",
         "topGame": "Jogo mais jogado",
+        "topGameShare": "{{percent}}% do seu tempo",
         "topGames": "Mais jogados",
-        "topGenre": "Gênero mais jogado",
-        "topPlatform": "Plataforma mais usada",
+        "topGenre": "Gênero",
+        "topPlatform": "Plataforma",
         "vsPrevious": "{{percent}}% em relação ao período anterior",
         "wrapped": "Wrapped",
         "youPlayed": "Você jogou"
@@ -1381,8 +1393,11 @@
           "teal": "Verde",
           "violet": "Violeta"
         },
+        "appearance": "Aparência",
         "backdropAuto": "Jogo mais jogado",
         "backdropGame": "Arte da capa",
+        "blur": "Intensidade do blur",
+        "data": "Dados",
         "extra": {
           "finished": "Finalizados",
           "reviewed": "Avaliações",
@@ -1390,7 +1405,9 @@
         },
         "extraStat": "Número extra",
         "opacity": "Opacidade da arte",
-        "reset": "Restaurar personalização",
+        "overlay": "Intensidade do overlay",
+        "overlayHint": "Escurece a foto ou o clipe para o texto continuar legível.",
+        "reset": "Restaurar",
         "resetOpacity": "Usar a opacidade padrão",
         "showComparison": "Comparar com o período anterior",
         "title": "Personalizar"
@@ -1402,13 +1419,22 @@
       "labels": {
         "format": "Formato",
         "period": "Período",
-        "template": "Modelo",
-        "video": "Vídeo"
+        "preview": "Prévia",
+        "template": "Modelo"
+      },
+      "media": {
+        "replace": "Substituir"
       },
       "messages": {
         "noPlaytime": "Não encontramos informações de tempo de jogo para o período selecionado. Você pode alterar o período abaixo ou configurar uma conexão para começar a importar dados."
       },
       "monthly": "Wrapped Mensal",
+      "photo": {
+        "error": "Não foi possível ler esta imagem. Tente um arquivo JPG, PNG ou WebP.",
+        "formats": "JPG, PNG ou WebP",
+        "pick": "Escolher foto",
+        "remove": "Remover foto"
+      },
       "recap": "Wrapped {{year}}",
       "recentlyPlayed": "Jogos recentes",
       "shareDescription": "Compartilhe sua retrospectiva com amigos!",
@@ -1421,7 +1447,7 @@
       },
       "title": "Wrapped",
       "video": {
-        "hint": "Escolha um clipe para tocar dentro do cartaz (até {{seconds}} segundos).",
+        "formats": "MP4, MOV ou WebM · até {{seconds}} segundos",
         "pick": "Escolher vídeo",
         "remove": "Remover vídeo",
         "unsupported": "Este navegador não exporta vídeos. Tente um Chrome, Edge ou navegador Android recente."
