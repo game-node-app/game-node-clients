@@ -45,3 +45,6 @@ dist/
 
 # intellij
 .idea/
+
+# Optional local pnpm store
+.pnpm-store/

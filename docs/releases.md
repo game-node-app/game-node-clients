@@ -3,7 +3,7 @@
 Every PR targeting `main` must introduce a new `.changeset/*.md` file. Run:
 
 ```sh
-yarn changeset
+pnpm changeset
 ```
 
 Select only the apps you intend to ship: `web`, `admin`, and/or `mobile`. Choose
@@ -15,7 +15,7 @@ release entries without summaries, and symlinked declarations.
 To intentionally ship nothing, including when deferring a release, commit:
 
 ```sh
-yarn changeset --empty
+pnpm changeset --empty
 ```
 
 A missing changeset fails validation; an empty changeset passes and selects no
@@ -51,8 +51,8 @@ lifecycle scripts; builds and native synchronization run explicitly. Checks,
 release preparation, and Android delivery reuse installed dependencies on an
 exact cache match for the runner OS, architecture, Node version, lockfile,
 workspace manifests, and
-package-manager configuration. A miss runs the frozen install. The Yarn download
-cache remains available on misses. Docker installs remain separate for Alpine,
+package-manager configuration. A miss runs the frozen install. The virtual store stays local so these cached links remain portable.
+Docker installs remain separate for Alpine,
 with per-app BuildKit layer caches. Android uses the dependency hash from Checks
 so release-only version bumps do not invalidate the cache. Coolify API requests
 refuse redirects, and public health checks never use API-provided URLs.
@@ -210,9 +210,9 @@ fingerprint and must not reach the old shell.
 ## Local verification
 
 ```sh
-yarn test:releases
-yarn release:plan <base-sha> <head-sha>
-yarn turbo run lint type-check test build --affected
+pnpm test:releases
+pnpm release:plan <base-sha> <head-sha>
+pnpm turbo run lint type-check test build --affected
 ```
 
 For PR replay, compare the PR's merge base with its head, or a merged PR's first

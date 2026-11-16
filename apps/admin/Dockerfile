@@ -1,4 +1,6 @@
 FROM node:24-alpine AS base
+RUN corepack enable
+ENV CI=true
 
 # This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update both files!
@@ -12,17 +14,17 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn global add turbo@2.8.3 --ignore-scripts
-
-RUN turbo prune admin --docker
+RUN pnpm dlx turbo@2.11.11 --skip-infer prune admin --docker
 
 # Stage 2: Installer
 FROM base AS installer
 WORKDIR /app
 COPY --from=pruner /app/out/json/ .
-COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY .npmrc ./.npmrc
 
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS builder
 WORKDIR /app
@@ -31,7 +33,7 @@ COPY --from=pruner /app/out/full/ .
 
 COPY apps/admin/.env.production ./apps/admin/.env.production
 
-RUN yarn turbo run build --filter=admin
+RUN pnpm turbo run build --filter=admin
 
 FROM base AS runner
 # Don't run production as root for security reasons

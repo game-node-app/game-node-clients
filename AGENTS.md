@@ -6,20 +6,20 @@
 
 # Repository guide
 
-Yarn 1 + Turborepo monorepo. Apps: `apps/web` (Next.js **pages router**, SSR), `apps/admin` (Next.js, port 3001), `apps/mobile` (Vite + Ionic + Capacitor, port 3002). Shared code: `packages/ui` (`@repo/ui`), `packages/wrapper` (`@repo/wrapper`), `packages/locales` (`@repo/locales`), `packages/analytics`, plus `config-*` packages. Next.js here has breaking changes: read `node_modules/next/dist/docs/` before touching Next APIs (see `apps/web/AGENTS.md`).
+pnpm 10 + Turborepo monorepo. Apps: `apps/web` (Next.js **pages router**, SSR), `apps/admin` (Next.js, port 3001), `apps/mobile` (Vite + Ionic + Capacitor, port 3002). Shared code: `packages/ui` (`@repo/ui`), `packages/wrapper` (`@repo/wrapper`), `packages/locales` (`@repo/locales`), `packages/analytics`, plus `config-*` packages. Next.js here has breaking changes: read `node_modules/next/dist/docs/` before touching Next APIs (see `apps/web/AGENTS.md`).
 
 ## Commands
 
 Run from the repo root; filter with `-F <name>` (`web`, `admin`, `mobile`, `@repo/ui`, …).
 
-- `yarn dev` / `yarn dev -F web` — dev servers (also runs the locale type watcher).
-- `yarn lint`, `yarn type-check`, `yarn build` — all via turbo; `type-check` needs `^build`, so `@repo/wrapper` must be generated first.
-- `yarn wrapper:generate` — regenerate `packages/wrapper/src/{server,search}` from `input/*_swagger.json` (generated files, never hand-edit; update the swagger JSON instead).
-- `yarn locales:generate-types` — regenerates `packages/locales/src/generated` from `en.json`. Run after adding translation keys.
-- `yarn workspace @repo/ui barrels:generate` — rebuilds the `index.ts` barrels in `packages/ui/src` (barrelsby). New files in `ui` must be exported through it.
-- Tests: `yarn workspace mobile test` (vitest, jsdom per-file via `// @vitest-environment jsdom`); single file: `yarn workspace mobile vitest run path/to/file.test.tsx`. Admin: `yarn workspace admin test` (jest, `src/**/*.test.ts` only). Release scripts: `yarn test:releases`. `web` and `@repo/ui` have no test runner; UI hook tests live in `apps/mobile` and import the hook from `packages/ui` by relative path.
-- `yarn changeset` — every PR to `main` needs a changeset (`--empty` to ship nothing); only name apps (`web`/`admin`/`mobile`), never internal packages. See `docs/releases.md`.
-- `yarn mismatches:fix` — syncpack dependency version alignment.
+- `pnpm dev` / `pnpm dev -F web` — dev servers (also runs the locale type watcher).
+- `pnpm lint`, `pnpm type-check`, `pnpm build` — all via turbo; `type-check` needs `^build`, so `@repo/wrapper` must be generated first.
+- `pnpm wrapper:generate` — regenerate `packages/wrapper/src/{server,search}` from `input/*_swagger.json` (generated files, never hand-edit; update the swagger JSON instead).
+- `pnpm locales:generate-types` — regenerates `packages/locales/src/generated` from `en.json`. Run after adding translation keys.
+- `pnpm --filter @repo/ui barrels:generate` — rebuilds the `index.ts` barrels in `packages/ui/src` (barrelsby). New files in `ui` must be exported through it.
+- Tests: `pnpm --filter mobile test` (vitest, jsdom per-file via `// @vitest-environment jsdom`); single file: `pnpm --filter mobile vitest run path/to/file.test.tsx`. Admin: `pnpm --filter admin test` (jest, `src/**/*.test.ts` only). Release scripts: `pnpm test:releases`. `web` and `@repo/ui` have no test runner; UI hook tests live in `apps/mobile` and import the hook from `packages/ui` by relative path.
+- `pnpm changeset` — every PR to `main` needs a changeset (`--empty` to ship nothing); only name apps (`web`/`admin`/`mobile`), never internal packages. See `docs/releases.md`.
+- `pnpm mismatches:fix` — syncpack dependency version alignment.
 
 ## Architecture
 
@@ -49,5 +49,6 @@ Run from the repo root; filter with `-F <name>` (`web`, `admin`, `mobile`, `@rep
 ## Gotchas
 
 - Mobile is built with the React Compiler (`babel-plugin-react-compiler`); avoid manual memoization unless profiling demands it.
-- `better-auth-capacitor` is `nohoist`; do not hoist it.
+- `better-auth-capacitor` must stay local to `apps/mobile/node_modules`; pnpm hoist patterns exclude it. Use `pnpm --filter mobile sync:native` for Capacitor sync so generated Gradle paths and native fingerprints remain portable.
+- Keep the virtual store local (`enableGlobalVirtualStore: false`): Turbopack requires dependencies inside the repository root. Worktrees still share package files through pnpm's content-addressable store.
 - Local authenticated browser testing: `docs/local-browser-testing.md` (uses a throwaway session against a local DB only).

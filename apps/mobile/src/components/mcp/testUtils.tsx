@@ -1,6 +1,6 @@
 import React from "react";
 import { vi } from "vitest";
-import { render } from "@testing-library/react";
+import { render, type RenderResult } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import { I18nProvider } from "@repo/locales";
 
@@ -28,7 +28,7 @@ export function setupDom() {
 export function renderMcp(
   children: React.ReactNode,
   language: "en" | "pt-BR" = "en",
-) {
+): RenderResult {
   return render(
     <I18nProvider language={language}>
       <MantineProvider>{children}</MantineProvider>

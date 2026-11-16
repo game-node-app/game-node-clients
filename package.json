@@ -6,18 +6,18 @@
     "test:releases": "node --test scripts/*.test.cjs",
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:web": "yarn dev -F web",
-    "dev:mobile": "yarn dev -F mobile",
-    "dev:admin": "yarn dev -F admin",
+    "dev:web": "pnpm dev -F web",
+    "dev:mobile": "pnpm dev -F mobile",
+    "dev:admin": "pnpm dev -F admin",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "mismatches:list": "syncpack lint",
     "mismatches:fix": "syncpack fix",
     "mismatches:format": "syncpack format",
-    "wrapper:generate": "yarn build -F @repo/wrapper",
-    "locales:generate-types": "yarn workspace @repo/locales translations:types",
-    "locales:watch-types": "yarn workspace @repo/locales translations:types:watch",
+    "wrapper:generate": "pnpm build -F @repo/wrapper",
+    "locales:generate-types": "pnpm --filter @repo/locales translations:types",
+    "locales:watch-types": "pnpm --filter @repo/locales translations:types:watch",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
@@ -25,26 +25,14 @@
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "syncpack": "^14.3.0",
-    "turbo": "^2.8.3"
-  },
-  "resolutions": {
-    "prosemirror-model": "1.25.1",
-    "@types/react": "19.3.0",
-    "@types/react-dom": "19.3.0"
+    "turbo": "2.11.11",
+    "yaml": "^2.8.1",
+    "@changesets/parse": "0.4.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "name": "game-node-clients",
-  "packageManager": "yarn@1.22.22",
-  "workspaces": {
-    "packages": [
-      "apps/*",
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/better-auth-capacitor"
-    ]
-  },
+  "packageManager": "pnpm@10.34.9",
   "dependencies": {}
 }

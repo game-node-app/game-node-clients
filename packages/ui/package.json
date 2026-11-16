@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@better-auth/oauth-provider": "1.7.14",
-    "@repo/locales": "*",
-    "@repo/wrapper": "*",
+    "@repo/locales": "workspace:*",
+    "@repo/wrapper": "workspace:*",
     "mediabunny": "1.66.0"
   },
   "peerDependencies": {
@@ -71,9 +71,9 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.53.0",
-    "@repo/eslint-config": "*",
-    "@repo/tailwind-config": "*",
-    "@repo/typescript-config": "*",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/react": "19.3.0",
     "autoprefixer": "^10.4.21",
     "barrelsby": "^2.8.1",

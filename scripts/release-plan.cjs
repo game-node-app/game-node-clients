@@ -1,6 +1,5 @@
 const { execFileSync } = require("node:child_process");
 const { appendFileSync } = require("node:fs");
-const { createRequire } = require("node:module");
 
 const apps = ["web", "admin", "mobile"];
 const bumpTypes = ["patch", "minor", "major"];
@@ -11,7 +10,7 @@ function git(cwd, ...args) {
 }
 
 function releasePlan(base, head = "HEAD", cwd = process.cwd()) {
-  if (!base) throw new Error("Usage: yarn release:plan <base-ref> [head-ref]");
+  if (!base) throw new Error("Usage: pnpm release:plan <base-ref> [head-ref]");
   [base, head] = [base, head].map((ref) => {
     if (
       typeof ref !== "string" ||
@@ -48,12 +47,10 @@ function releasePlan(base, head = "HEAD", cwd = process.cwd()) {
     );
   if (!files.length)
     throw new Error(
-      "A new changeset is required. Use yarn changeset, or yarn changeset --empty to release nothing.",
+      "A new changeset is required. Use pnpm changeset, or pnpm changeset --empty to release nothing.",
     );
 
-  const parse = createRequire(require.resolve("@changesets/cli/package.json"))(
-    "@changesets/parse",
-  ).default;
+  const parse = require("@changesets/parse").default;
   const bumps = {};
   for (const file of files) {
     if (!git(cwd, "ls-tree", head, "--", file).startsWith("100644 blob ")) {
