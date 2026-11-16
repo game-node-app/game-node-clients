@@ -9,6 +9,10 @@ export type AwardsCategoryResult = {
     totalVotesCount: number;
     totalUniqueGamesSubmitted: number;
     totalUsersParticipating: number;
+    /**
+     * Votes cast by users who had played the game they voted for.
+     */
+    totalPlayedVotesCount: number;
     categoryId: number;
     category: AwardsCategory;
     winners: Array<AwardsCategoryResultWinner>;

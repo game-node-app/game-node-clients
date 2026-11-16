@@ -4,7 +4,6 @@ import {
   ActivityItemProps,
   GameRating,
   ObtainedAchievementActivityContent,
-  useAchievementsV2,
   useCollection,
   useCollectionEntry,
   useGame,
@@ -18,32 +17,64 @@ import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { Activity } from "@repo/wrapper/server";
+import { AchievementIconDto, Activity } from "@repo/wrapper/server";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
 
 const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
   const { t } = useTranslation();
-  const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId);
-  const collectionQuery = useCollection(activity.collectionId);
-  const reviewQuery = useReview(activity.reviewId);
-  const postQuery = usePost(activity.postId);
-  const profileQuery = useUserProfile(activity.profileUserId);
+
+  const hasEmbeddedProfile = activity.profile !== undefined;
+  const hasEmbeddedCollectionEntry = activity.collectionEntry !== undefined;
+  const hasEmbeddedCollection = activity.collection !== undefined;
+  const hasEmbeddedReview = activity.review !== undefined;
+  const hasEmbeddedPost = activity.post !== undefined;
+  const hasEmbeddedGameAchievementActivity =
+    activity.obtainedGameAchievementActivity !== undefined;
+  const hasEmbeddedGame = activity.game !== undefined;
+
+  const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId, {
+    enabled: !hasEmbeddedCollectionEntry,
+  });
+  const collectionQuery = useCollection(activity.collectionId, {
+    enabled: !hasEmbeddedCollection,
+  });
+  const reviewQuery = useReview(activity.reviewId, {
+    enabled: !hasEmbeddedReview,
+  });
+  const postQuery = usePost(activity.postId, {
+    enabled: !hasEmbeddedPost,
+  });
+  const profileQuery = useUserProfile(activity.profileUserId, {
+    enabled: !hasEmbeddedProfile,
+  });
   const gameAchievementActivityQuery = useObtainedGameAchievementActivity(
     activity.obtainedGameAchievementActivityId,
+    { enabled: !hasEmbeddedGameAchievementActivity },
   );
+
+  const profile = hasEmbeddedProfile ? activity.profile : profileQuery.data;
+  const collectionEntry = hasEmbeddedCollectionEntry
+    ? activity.collectionEntry
+    : collectionEntryQuery.data;
+  const collection = hasEmbeddedCollection
+    ? activity.collection
+    : collectionQuery.data;
+  const review = hasEmbeddedReview ? activity.review : reviewQuery.data;
+  const post = hasEmbeddedPost ? activity.post : postQuery.data;
+  const gameAchievementActivity = hasEmbeddedGameAchievementActivity
+    ? activity.obtainedGameAchievementActivity
+    : gameAchievementActivityQuery.data;
 
   const unlockedTier = activity.obtainedAchievement?.tier ?? 0;
-  const achievementsQuery = useAchievementsV2(activity.profileUserId);
-  const unlockedAchievement = achievementsQuery.data?.find(
-    (a) => a.id === activity.obtainedAchievement?.achievementId,
-  );
+  const unlockedAchievement = activity.obtainedAchievement?.definition;
 
   const gameId =
-    collectionEntryQuery.data?.gameId ||
-    reviewQuery.data?.gameId ||
-    postQuery.data?.gameId ||
-    gameAchievementActivityQuery.data?.externalGame.gameId;
+    collectionEntry?.gameId ||
+    review?.gameId ||
+    post?.gameId ||
+    gameAchievementActivity?.externalGame?.gameId ||
+    activity.game?.id;
 
   const actionText = useMemo(() => {
     return match(activity.type)
@@ -51,7 +82,7 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
         return (
           <>
             {t("activity.items.addedTo", {
-              collection: collectionQuery.data?.name ?? "",
+              collection: collection?.name ?? "",
             })}
           </>
         );
@@ -67,7 +98,8 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
       })
       .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => (
         <ObtainedAchievementActivityContent
-          activity={gameAchievementActivityQuery.data}
+          activity={gameAchievementActivity ?? undefined}
+          hasEmbeddedGame={hasEmbeddedGame}
         />
       ))
       .with(Activity.type.ACHIEVEMENT_UNLOCKED, () =>
@@ -83,8 +115,9 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
       });
   }, [
     activity.type,
-    collectionQuery.data?.name,
-    gameAchievementActivityQuery.data,
+    collection?.name,
+    gameAchievementActivity,
+    hasEmbeddedGame,
     unlockedAchievement,
     unlockedTier,
     t,
@@ -98,7 +131,10 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
       },
     },
     "off",
+    { enabled: !hasEmbeddedGame },
   );
+
+  const game = hasEmbeddedGame ? activity.game : gameQuery.data;
 
   return (
     <Box className={"w-full"}>
@@ -108,11 +144,15 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
         }
       >
         <Box className={"flex max-w-96 items-center flex-nowrap gap-2"}>
-          <UserAvatar userId={activity.profileUserId} size={"md"} />
+          <UserAvatar
+            userId={activity.profileUserId}
+            profile={activity.profile}
+            size={"md"}
+          />
           <Stack className={"gap-1"}>
             <Link href={`/profile/${activity.profileUserId}`}>
               <Text className={"text-xs text-[#808080] line-clamp-2"}>
-                {profileQuery.data?.username}
+                {profile?.username}
               </Text>
             </Link>
 
@@ -122,15 +162,20 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
         {activity.type === Activity.type.ACHIEVEMENT_UNLOCKED ? (
           <Box className={"ms-auto"}>
             <AchievementBadge
-              icon={unlockedAchievement?.icon}
+              icon={
+                unlockedAchievement?.icon as
+                  | AchievementIconDto
+                  | null
+                  | undefined
+              }
               tier={unlockedTier}
             />
           </Box>
         ) : (
           <Link
             href={
-              reviewQuery.data
-                ? `/game/${gameId}?reviewId=${reviewQuery.data.id}`
+              review
+                ? `/game/${gameId}?reviewId=${review.id}`
                 : `/game/${gameId}`
             }
             className={"flex flex-col w-fit items-center ms-auto"}
@@ -138,11 +183,9 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
             <Text
               className={"font-bold text-sm text-center max-w-20 text-wrap"}
             >
-              {gameQuery.data?.name}
+              {game?.name}
             </Text>
-            {reviewQuery.data && (
-              <GameRating size={"sm"} value={reviewQuery.data.rating} />
-            )}
+            {review && <GameRating size={"sm"} value={review.rating} />}
           </Link>
         )}
 

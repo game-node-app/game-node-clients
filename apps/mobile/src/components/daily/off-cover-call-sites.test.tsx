@@ -166,16 +166,15 @@ describe("surfaces that always show the default cover", () => {
     expect(profileSpy).not.toHaveBeenCalled();
   });
 
-  it("ActivityItem sends no opt-in fields", async () => {
+  it("ActivityItem sends no opt-in fields on fallback", async () => {
     signIn("viewer-1");
     vi.spyOn(
       ProfileService,
       "profileControllerFindOneByIdV1",
     ).mockResolvedValue(profile("any"));
-    vi.spyOn(
-      AchievementsService,
-      "achievementsV2ControllerGetAchievementsV2",
-    ).mockResolvedValue({ data: [] } as never);
+    const achievementsSpy = vi
+      .spyOn(AchievementsService, "achievementsV2ControllerGetAchievementsV2")
+      .mockResolvedValue({ data: [] } as never);
     vi.spyOn(
       CollectionsEntriesService,
       "collectionsEntriesControllerFindEntryByIdV1",
@@ -203,6 +202,46 @@ describe("surfaces that always show the default cover", () => {
           dto.coverOwnerUserId != undefined,
       ),
     ).toBe(false);
+    expect(achievementsSpy).not.toHaveBeenCalled();
+  });
+
+  it("ActivityItem skips game and profile requests when embedded", () => {
+    signIn("viewer-1");
+    const profileSpy = vi.spyOn(
+      ProfileService,
+      "profileControllerFindOneByIdV1",
+    );
+    const achievementsSpy = vi.spyOn(
+      AchievementsService,
+      "achievementsV2ControllerGetAchievementsV2",
+    );
+    const entrySpy = vi.spyOn(
+      CollectionsEntriesService,
+      "collectionsEntriesControllerFindEntryByIdV1",
+    );
+    const findOne = vi.spyOn(
+      GameRepositoryService,
+      "gameRepositoryControllerFindOneByIdV1",
+    );
+
+    const activity = {
+      id: "activity-2",
+      type: Activity.type.COLLECTION_ENTRY,
+      profileUserId: "owner-1",
+      profile: { userId: "owner-1", username: "owner", avatar: null },
+      collectionEntryId: "entry-1",
+      collectionEntry: entry(1),
+      collectionId: "col-1",
+      collection: null,
+      game: game(1),
+    } as unknown as Activity;
+
+    render(<ActivityItem activity={activity} />, { wrapper: Providers });
+
+    expect(profileSpy).not.toHaveBeenCalled();
+    expect(achievementsSpy).not.toHaveBeenCalled();
+    expect(entrySpy).not.toHaveBeenCalled();
+    expect(findOne).not.toHaveBeenCalled();
   });
 });
 

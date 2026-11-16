@@ -22,5 +22,17 @@ export type YearRecapPlayedGameDto = {
     totalPlaytimeSeconds: number;
     percentOfTotalPlaytime: number;
     percentOfTotalPlaytimeFormatted: string;
+    /**
+     * First day the game was played in the year; falls back to the library start date.
+     */
+    firstPlayedAt: string | null;
+    /**
+     * Day the game was finished in the year, if any.
+     */
+    finishedAt: string | null;
+    /**
+     * The user's review rating (0-5), if any.
+     */
+    rating: number | null;
 };
 

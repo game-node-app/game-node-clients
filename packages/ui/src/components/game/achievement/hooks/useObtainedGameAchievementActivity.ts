@@ -3,6 +3,7 @@ import { GameAchievementService } from "@repo/wrapper/server";
 
 export function useObtainedGameAchievementActivity(
   id: number | null | undefined,
+  options?: { enabled?: boolean },
 ) {
   return useQuery({
     queryKey: ["game", "achievements", "obtained", "activity", id],
@@ -11,6 +12,6 @@ export function useObtainedGameAchievementActivity(
         id!,
       );
     },
-    enabled: !!id,
+    enabled: (options?.enabled ?? true) && !!id,
   });
 }

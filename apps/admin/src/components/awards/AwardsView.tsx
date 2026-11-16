@@ -2,12 +2,12 @@ import React from "react";
 import { ActionIcon, Button, Flex, Stack, Tooltip } from "@mantine/core";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
-import { AwardsEvent } from "@repo/wrapper/server";
+import { AwardsEventDto } from "@repo/wrapper/server";
 import { Link, useAwardEvents } from "@repo/ui";
 import { IconArrowRight, IconEdit } from "@tabler/icons-react";
 import { CreateUpdateAwardsForm } from "@/components/awards/form/CreateUpdateAwardsForm.tsx";
 
-const COLUMNS: MRT_ColumnDef<AwardsEvent>[] = [
+const COLUMNS: MRT_ColumnDef<AwardsEventDto>[] = [
   {
     accessorKey: "id",
     header: "ID",

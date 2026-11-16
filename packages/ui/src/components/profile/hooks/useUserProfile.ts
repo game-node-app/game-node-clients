@@ -7,6 +7,7 @@ import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export function useUserProfile(
   userId: string | undefined | null,
+  options?: { enabled?: boolean },
 ): ExtendedUseQueryResult<ProfileResponseDto> {
   const queryClient = useQueryClient();
   const queryKey = ["userProfile", userId];
@@ -17,7 +18,7 @@ export function useUserProfile(
       queryFn: async () => {
         return ProfileService.profileControllerFindOneByIdV1(userId!);
       },
-      enabled: !!userId,
+      enabled: (options?.enabled ?? true) && !!userId,
       retry: 1,
     }),
     invalidate,

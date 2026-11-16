@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCollection(
   collectionId: string | undefined | null,
+  options?: { enabled?: boolean },
 ): ExtendedUseQueryResult<Collection> {
   const queryClient = useQueryClient();
   const queryKey = ["collection", collectionId];
@@ -17,7 +18,7 @@ export function useCollection(
           collectionId!,
         );
       },
-      enabled: !!collectionId,
+      enabled: (options?.enabled ?? true) && !!collectionId,
     }),
     invalidate,
     queryKey,

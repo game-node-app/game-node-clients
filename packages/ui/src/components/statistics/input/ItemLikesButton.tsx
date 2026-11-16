@@ -9,12 +9,18 @@ import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 
-const ItemLikesButton = ({ sourceType, sourceId, ...others }: Props) => {
+const ItemLikesButton = ({
+  sourceType,
+  sourceId,
+  initialStatistics,
+  ...others
+}: Props) => {
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
   const [likesCount, isLiked, toggleUserLike] = useUserLike({
     sourceId: sourceId,
     sourceType: sourceType,
+    initialStatistics,
   });
 
   return (

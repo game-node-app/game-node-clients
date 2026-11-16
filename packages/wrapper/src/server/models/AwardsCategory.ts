@@ -16,6 +16,14 @@ export type AwardsCategory = {
      */
     isGOTY: boolean;
     isPersonalGOTY: boolean;
+    /**
+     * How many nominees finalization keeps for this category.
+     */
+    nomineeCount: number;
+    /**
+     * Set once finalization ran, so a later tick never rewrites admin edits.
+     */
+    nomineesFinalizedAt: string | null;
     suggestions: Array<AwardsCategorySuggestion>;
     createdAt: string;
     updatedAt: string;

@@ -1,0 +1,55 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+import type { ActivityStatisticsSummaryDto } from './ActivityStatisticsSummaryDto';
+import type { Collection } from './Collection';
+import type { CollectionEntry } from './CollectionEntry';
+import type { Game } from './Game';
+import type { ObtainedAchievement } from './ObtainedAchievement';
+import type { ObtainedGameAchievementActivity } from './ObtainedGameAchievementActivity';
+import type { Post } from './Post';
+import type { Profile } from './Profile';
+import type { Review } from './Review';
+import type { StatisticsTarget } from './StatisticsTarget';
+import type { UserFollow } from './UserFollow';
+export type ActivityResponseDto = {
+    game: Game | null;
+    statistics: ActivityStatisticsSummaryDto;
+    id: string;
+    type: ActivityResponseDto.type;
+    /**
+     * The associated profile with this Activity (e.g. user who performed an action)
+     */
+    profile: Profile;
+    profileUserId: string;
+    collectionEntry: CollectionEntry | null;
+    collectionEntryId: string | null;
+    collection: Collection | null;
+    collectionId: string | null;
+    review: Review | null;
+    reviewId: string | null;
+    userFollow: UserFollow | null;
+    userFollowId: number | null;
+    post: Post | null;
+    postId: string | null;
+    obtainedGameAchievementActivity: ObtainedGameAchievementActivity | null;
+    obtainedGameAchievementActivityId: number | null;
+    obtainedAchievement: ObtainedAchievement | null;
+    obtainedAchievementId: number | null;
+    createdAt: string;
+    updatedAt: string;
+    statisticsTarget: StatisticsTarget | null;
+    statisticsTargetId: number | null;
+};
+export namespace ActivityResponseDto {
+    export enum type {
+        REVIEW = 'REVIEW',
+        FOLLOW = 'FOLLOW',
+        COLLECTION_ENTRY = 'COLLECTION_ENTRY',
+        POST = 'POST',
+        OBTAINED_GAME_ACHIEVEMENT = 'OBTAINED_GAME_ACHIEVEMENT',
+        ACHIEVEMENT_UNLOCKED = 'ACHIEVEMENT_UNLOCKED',
+    }
+}
+

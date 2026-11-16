@@ -16,6 +16,20 @@ export type YearRecap = {
     totalPlayedGames: number;
     totalPlaytimeSeconds: number;
     totalAddedGames: number;
+    totalFinishedGames: number;
+    totalDroppedGames: number;
+    /**
+     * Final Recaps are never regenerated.
+     */
+    isFinal: boolean;
+    /**
+     * Playtime seconds per UTC day of the year. Null for Recaps generated before the calendar existed.
+     */
+    dailyPlaytimeSeconds: Array<number> | null;
+    /**
+     * Community comparison stored at generation time (design 13).
+     */
+    communityHighlights: Record<string, any> | null;
     totalReviewsCreated: number;
     totalCollectionsCreated: number;
     totalFollowersGained: number;

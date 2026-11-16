@@ -10,11 +10,23 @@ const mocks = vi.hoisted(() => ({
     data: undefined as Record<string, unknown> | undefined,
     isLoading: false,
   },
+  calls: [] as Array<{
+    userId: string | undefined | null;
+    options?: { enabled?: boolean };
+  }>,
 }));
 
 vi.mock(
   "../../../../../packages/ui/src/components/profile/hooks/useUserProfile",
-  () => ({ useUserProfile: () => mocks.profile }),
+  () => ({
+    useUserProfile: (
+      userId: string | undefined | null,
+      options?: { enabled?: boolean },
+    ) => {
+      mocks.calls.push({ userId, options });
+      return mocks.profile;
+    },
+  }),
 );
 
 type ObserverCallback = (entries: { isIntersecting: boolean }[]) => void;
@@ -76,6 +88,7 @@ function renderAvatar(ui: React.ReactElement) {
 }
 
 beforeEach(() => {
+  mocks.calls = [];
   registeredObservers = [];
   vi.stubGlobal(
     "IntersectionObserver",
@@ -164,5 +177,52 @@ describe("UserAvatar profile video", () => {
     expect(screen.getByTestId("profile-video-poster").getAttribute("src")).toBe(
       "avatar-file.png",
     );
+  });
+
+  it("skips the profile query and renders static avatar when embedded profile is passed", () => {
+    renderAvatar(
+      <UserAvatar
+        userId={"u1"}
+        profile={{ avatar: AVATAR_FILE, avatarVideo: null } as never}
+        size={72}
+      />,
+    );
+
+    expect(mocks.calls[0]).toEqual({
+      userId: "u1",
+      options: { enabled: false },
+    });
+    const image = document.querySelector("img");
+    expect(image?.getAttribute("src")).toBe("avatar-file.png");
+    expect(screen.queryByTestId("profile-video")).toBeNull();
+  });
+
+  it("skips the profile query while preserving avatar video behavior when embedded profile has avatarVideo", async () => {
+    renderAvatar(
+      <UserAvatar
+        userId={"u1"}
+        profile={{ avatar: AVATAR_FILE, avatarVideo: AVATAR_VIDEO } as never}
+        size={72}
+      />,
+    );
+
+    expect(mocks.calls[0]).toEqual({
+      userId: "u1",
+      options: { enabled: false },
+    });
+    expect(screen.getByTestId("profile-video-poster").getAttribute("src")).toBe(
+      "avatar-file.png",
+    );
+    expect(screen.queryByTestId("profile-video")).toBeNull();
+
+    triggerIntersection(true);
+
+    const videoElement = screen.getByTestId("profile-video");
+    expect(videoElement.getAttribute("src")).toBe("avatar-video.mp4");
+    expect(videoElement.getAttribute("poster")).toBe("avatar-file.png");
+
+    await waitFor(() => {
+      expect(screen.getByTestId("profile-video")).toBeTruthy();
+    });
   });
 });

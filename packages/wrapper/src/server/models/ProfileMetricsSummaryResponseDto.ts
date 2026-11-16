@@ -10,6 +10,8 @@ export type ProfileMetricsSummaryResponseDto = {
     current: ProfileMetricsSummaryWindowDto;
     /**
      * The window of the same length that ends where the current one starts.
+     * A Steam library first observed shortly after this end can still
+     * contribute its recent-time overlap.
      */
     previous: ProfileMetricsSummaryWindowDto;
     /**

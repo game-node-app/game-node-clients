@@ -36,16 +36,13 @@ vi.mock("../../../../../packages/ui/src/components", () => {
     GameRating: () => null,
     ObtainedAchievementActivityContent: () => null,
     UserAvatar: () => null,
-    useAchievementsV2: () => ({
-      data: [{ id: "horror-critic", name: "Horror critic", icon: null }],
-    }),
     useCollection: empty,
     useCollectionEntry: empty,
     useGame: empty,
     useObtainedGameAchievementActivity: empty,
     usePost: empty,
     useReview: empty,
-    useUserProfile: () => ({ data: { username: "ana" } }),
+    useUserProfile: () => ({ data: undefined }),
   };
 });
 
@@ -62,7 +59,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("ACHIEVEMENT_UNLOCKED activity", () => {
-  it("shows the unlock text with the tier badge and the like control", () => {
+  it("reads the embedded definition and profile without whole-user achievements", () => {
     render(
       <MantineProvider>
         <ActivityItem
@@ -71,15 +68,51 @@ describe("ACHIEVEMENT_UNLOCKED activity", () => {
               id: "a1",
               type: Activity.type.ACHIEVEMENT_UNLOCKED,
               profileUserId: "u1",
+              profile: { userId: "u1", username: "ana", avatar: null },
               obtainedAchievementId: 5,
-              obtainedAchievement: { achievementId: "horror-critic", tier: 2 },
+              obtainedAchievement: {
+                achievementId: "horror-critic",
+                tier: 2,
+                definition: {
+                  id: "horror-critic",
+                  name: "Horror critic",
+                  icon: null,
+                },
+              },
             } as unknown as Activity
           }
         />
       </MantineProvider>,
     );
+    expect(screen.getByText("ana")).toBeTruthy();
     expect(screen.getByText("Unlocked Horror critic tier 2")).toBeTruthy();
     expect(screen.getByTestId("badge").textContent).toBe("2");
     expect(screen.getByText("likes")).toBeTruthy();
+  });
+
+  it("renders unknown fallback text when definition is absent", () => {
+    render(
+      <MantineProvider>
+        <ActivityItem
+          activity={
+            {
+              id: "a2",
+              type: Activity.type.ACHIEVEMENT_UNLOCKED,
+              profileUserId: "u1",
+              profile: { userId: "u1", username: "ana", avatar: null },
+              obtainedAchievementId: 5,
+              obtainedAchievement: {
+                achievementId: "horror-critic",
+                tier: 2,
+              },
+            } as unknown as Activity
+          }
+        />
+      </MantineProvider>,
+    );
+    expect(
+      screen.getByText(enTranslations.activity.items.unknown),
+    ).toBeTruthy();
+    expect(screen.getByTestId("badge").textContent).toBe("2");
   });
 });
