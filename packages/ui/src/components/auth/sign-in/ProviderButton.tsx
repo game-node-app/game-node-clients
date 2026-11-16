@@ -1,4 +1,4 @@
-import { Loader } from "@mantine/core";
+import { Badge, Loader } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { DiscordLogo, GoogleLogo, XLogo } from "#@/assets/auth";
 import classes from "./SignIn.module.css";
@@ -17,10 +17,18 @@ interface Props {
   pending: boolean;
   /** Another provider is pending. */
   disabled: boolean;
+  /** This provider was the last one used from this device. */
+  lastUsed?: boolean;
   onClick: () => void;
 }
 
-const ProviderButton = ({ provider, pending, disabled, onClick }: Props) => {
+const ProviderButton = ({
+  provider,
+  pending,
+  disabled,
+  lastUsed = false,
+  onClick,
+}: Props) => {
   const { t } = useTranslation();
   const Logo = LOGOS[provider];
 
@@ -38,6 +46,17 @@ const ProviderButton = ({ provider, pending, disabled, onClick }: Props) => {
       </span>
       <span className={classes.providerLabel}>
         {t(`auth.providers.${provider}`)}
+        {lastUsed && (
+          <Badge
+            component={"span"}
+            color={"gray"}
+            variant={"light"}
+            size={"xs"}
+            tt={"none"}
+          >
+            {t("auth.providers.lastUsed")}
+          </Badge>
+        )}
       </span>
     </button>
   );
