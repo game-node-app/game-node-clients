@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AwardsBallotNomineeDto } from './AwardsBallotNomineeDto';
+import type { AwardsCategoryTranslationDto } from './AwardsCategoryTranslationDto';
 export type AwardsBallotCategoryDto = {
+    translations: Array<AwardsCategoryTranslationDto>;
     id: number;
     name: string;
     description: string;

@@ -6,32 +6,33 @@ import { menuController } from "@ionic/core/components";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useLocation } from "react-router-dom";
 import {
-    Link,
-    useCurrentRecapStatus,
-    UserButton,
-    useRunningAwardEvent,
-    useUserId,
+  Link,
+  useRecapVisited,
+  useSeasonEvents,
+  UserButton,
+  useUserId,
   signOut,
 } from "@repo/ui";
 import {
-    IconActivity,
-    IconCloudDownload,
-    IconDeviceGamepad2,
-    IconHistory,
-    IconLayout2Filled,
-    IconLibrary,
-    IconLogout,
-    IconMessage,
-    IconMilitaryAward,
-    IconNews,
-    IconNotebook,
-    IconPuzzle,
-    IconRobot,
-    IconSettings,
-    IconStars,
-    IconTrophy,
-    IconTrophyFilled,
+  IconActivity,
+  IconAward,
+  IconCloudDownload,
+  IconDeviceGamepad2,
+  IconHistory,
+  IconLayout2Filled,
+  IconLibrary,
+  IconLogout,
+  IconMessage,
+  IconMilitaryAward,
+  IconNews,
+  IconNotebook,
+  IconPuzzle,
+  IconRobot,
+  IconSettings,
+  IconStars,
+  IconTrophy,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -39,9 +40,17 @@ const MobileSidebarMenu = () => {
   const { t } = useTranslation();
   const userId = useUserId();
   const queryClient = useQueryClient();
-  const { isRunningEvent: isAwardsEventRunning, eventYear: awardsEventYear } =
-    useRunningAwardEvent();
-  const { isRecapCreated, targetYear } = useCurrentRecapStatus(userId);
+  const season = useSeasonEvents();
+  // Subscribes to navigation so the "Nova" marker is re-read after the Recap
+  // page writes it; the page and this menu can stay mounted between routes.
+  useLocation();
+  const awardsEntry = season.awardsEntry;
+  const awardsEvent = season.awardsEvent;
+  const recapEntry = season.recapEntry;
+  const recapHref = season.recapHref;
+  const recapYear = recapEntry?.year ?? null;
+  const recapVisited = useRecapVisited(recapYear);
+  const showRecapEntry = !!recapHref && !!recapEntry;
 
   const closeMenu = () => {
     menuController.close("main-menu").catch(console.error);
@@ -97,27 +106,29 @@ const MobileSidebarMenu = () => {
             href={`/profile/${userId}/stats`}
           />
           <MobileSidebarButton
-            title={t("mobile.wrapped.title")}
-            Icon={IconLayout2Filled}
-            href={"/recap"}
+            title={
+              showRecapEntry ? t("navigation.recap") : t("mobile.wrapped.title")
+            }
+            Icon={showRecapEntry ? IconHistory : IconLayout2Filled}
+            href={showRecapEntry && recapHref ? recapHref : "/recap"}
             onClick={closeMenu}
+            withBadge={showRecapEntry && !recapVisited}
+            badgeLabel={t("navigation.dock.badgeNewFeminine")}
           />
-          {isAwardsEventRunning && (
+          {awardsEntry && awardsEvent && (
             <MobileSidebarButton
-              title={t("awards.title")}
-              Icon={IconTrophyFilled}
-              href={`/awards/${awardsEventYear}`}
+              title={t("navigation.awards", { year: awardsEvent.year })}
+              Icon={IconAward}
+              href={awardsEntry.href}
               onClick={closeMenu}
-              withBadge
-            />
-          )}
-          {isRecapCreated && (
-            <MobileSidebarButton
-              title={t("mobile.wrapped.recap", { year: targetYear })}
-              Icon={IconHistory}
-              href={`/recap/${targetYear}/${userId}`}
-              onClick={closeMenu}
-              withBadge
+              withBadge={!!awardsEntry.dockBadge}
+              badgeLabel={
+                awardsEntry.dockBadge === "live"
+                  ? t("navigation.dock.badgeLive")
+                  : awardsEntry.dockBadge === "new"
+                    ? t("navigation.new")
+                    : undefined
+              }
             />
           )}
           <MobileSidebarButton

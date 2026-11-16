@@ -2,12 +2,12 @@ import React from "react";
 import { ActionIcon, Button, Flex, Stack, Tooltip } from "@mantine/core";
 import { useCustomTable } from "@/components/table/hooks/use-custom-table.ts";
 import { MantineReactTable, MRT_ColumnDef } from "mantine-react-table";
-import { AwardsEventDto } from "@repo/wrapper/server";
-import { Link, useAwardEvents } from "@repo/ui";
+import { AwardsEvent, Link, useAwardEvents } from "@repo/ui";
 import { IconArrowRight, IconEdit } from "@tabler/icons-react";
 import { CreateUpdateAwardsForm } from "@/components/awards/form/CreateUpdateAwardsForm.tsx";
+import { RecapEditionCard } from "@/components/recap/RecapEditionCard.tsx";
 
-const COLUMNS: MRT_ColumnDef<AwardsEventDto>[] = [
+const COLUMNS: MRT_ColumnDef<AwardsEvent>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -16,6 +16,10 @@ const COLUMNS: MRT_ColumnDef<AwardsEventDto>[] = [
   {
     accessorKey: "year",
     header: "Year",
+  },
+  {
+    accessorKey: "phase",
+    header: "Phase",
   },
   {
     header: "Voting Start Date",
@@ -76,6 +80,7 @@ const AwardsView = () => {
 
   return (
     <Stack className={"w-full"}>
+      <RecapEditionCard />
       <MantineReactTable table={table} />
     </Stack>
   );

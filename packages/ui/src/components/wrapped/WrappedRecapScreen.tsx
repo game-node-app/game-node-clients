@@ -44,6 +44,7 @@ import {
   type RecapMediaTemplate,
 } from "#@/components/wrapped/card/recapMedia";
 import { at, RECAP_COLORS } from "#@/components/wrapped/card/recapCardTheme";
+import { exportCardImage } from "#@/components/wrapped/util/exportCardImage";
 import {
   exportRecapVideo,
   isRecapVideoSupported,
@@ -66,7 +67,7 @@ import {
 import { useTranslation } from "@repo/locales";
 import { IconDownload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
-import { toBlob, toPng } from "html-to-image";
+import { toPng } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 
 /** Story has the editorial templates; Feed keeps the wide summary. */
@@ -203,28 +204,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
       if (!node) {
         throw new Error("Failed to generate final image.");
       }
-      const size = RECAP_CARD_FORMATS[format];
-      await loadRecapFonts();
-      const blob = await toBlob(node, {
-        // The card is rendered at its native size, so the export never
-        // depends on the screen or on the preview scale.
-        width: size.width,
-        height: size.height,
-        pixelRatio: 1,
-        type: "image/jpeg",
-        quality: 0.92,
-        fetchRequestInit: {
-          method: "GET",
-          cache: "no-cache", // <-- Important!
-        },
-      });
-      if (!blob) {
-        throw new Error("Failed to generate final image.");
-      }
-      const filename = `gamenode-recap-${new Date().getTime()}.jpeg`;
-      const file = new File([blob], filename, {
-        type: blob.type,
-      });
+      const file = await exportCardImage(node, format);
 
       if (downloadOnly) {
         return downloadFile(file);

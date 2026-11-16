@@ -1,9 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   NotificationAchievementTargetDto,
+  NotificationAwardsTargetDto,
   NotificationConnectionTargetDto,
   NotificationContentTargetDto,
+  NotificationGoalTargetDto,
   NotificationInboxItemDto,
+  NotificationRecapTargetDto,
   ReviewsService,
 } from "@repo/wrapper/server";
 import { navigateToNotificationTarget } from "../../../../../packages/ui/src/components/notifications/util/navigateToNotificationTarget";
@@ -84,6 +87,69 @@ describe("navigateToNotificationTarget", () => {
         type: NotificationAchievementTargetDto.type.ACHIEVEMENT,
         id: "horror-critic",
         tier: 2,
+      },
+      router,
+    );
+
+    expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it("opens the Awards screen for the target year", async () => {
+    const router = createRouter();
+
+    await navigateToNotificationTarget(
+      {
+        type: NotificationAwardsTargetDto.type.AWARDS,
+        eventId: 12,
+        year: 2026,
+        phase: NotificationAwardsTargetDto.phase.VOTING,
+      },
+      router,
+    );
+
+    expect(router.push).toHaveBeenCalledTimes(1);
+    expect(router.push).toHaveBeenCalledWith("/awards/2026");
+  });
+
+  it("opens the target user's Recap", async () => {
+    const router = createRouter();
+
+    await navigateToNotificationTarget(
+      {
+        type: NotificationRecapTargetDto.type.RECAP,
+        userId: "abc",
+        year: 2026,
+      },
+      router,
+    );
+
+    expect(router.push).toHaveBeenCalledTimes(1);
+    expect(router.push).toHaveBeenCalledWith("/recap/2026/abc");
+  });
+
+  it("opens the previous year's Recap goal for goal reminders", async () => {
+    const router = createRouter();
+
+    await navigateToNotificationTarget(
+      {
+        type: NotificationGoalTargetDto.type.GOAL,
+        year: 2027,
+      },
+      router,
+      "user-1",
+    );
+
+    expect(router.push).toHaveBeenCalledTimes(1);
+    expect(router.push).toHaveBeenCalledWith("/recap/2026/user-1#goal");
+  });
+
+  it("does not navigate to a goal reminder without a user id", async () => {
+    const router = createRouter();
+
+    await navigateToNotificationTarget(
+      {
+        type: NotificationGoalTargetDto.type.GOAL,
+        year: 2027,
       },
       router,
     );

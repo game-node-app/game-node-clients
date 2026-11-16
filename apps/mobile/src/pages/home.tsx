@@ -6,8 +6,7 @@ import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
   DetailsCard,
-  DynamicAwardsOverview,
-  DynamicRecapOverview,
+  HomeEventsSection,
   RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
@@ -77,6 +76,7 @@ const HomePage = () => {
       {/*<HomeFab contentRef={contentRef} />*/}
       <BackToTopButton />
       <Stack className={"w-full gap-8 my-4"}>
+        <HomeEventsSection />
         {userId && <RecommendationCarousel criteria={"finished"} />}
         <TrendingGamesList />
         <TrendingReviewCarousel
@@ -85,8 +85,6 @@ const HomePage = () => {
           withIndicators={false}
           withControls={false}
         />
-        <DynamicAwardsOverview />
-        <DynamicRecapOverview />
         <RecentBlogPostsCarousel />
         <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
           <DetailsCard title={t("home.recentActivity")}>

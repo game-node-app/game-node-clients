@@ -1,8 +1,8 @@
 import { Stack } from "@mantine/core";
-import { RecapStatsScreen } from "@repo/ui";
+import { YearRecapScreen } from "@repo/ui";
 import { useRouter } from "next/router";
 
-const RecapStatsPage = () => {
+const RecapPage = () => {
   const router = useRouter();
   const { year, userId } = router.query;
   const targetYear = Array.isArray(year)
@@ -10,11 +10,15 @@ const RecapStatsPage = () => {
     : parseInt(year || "", 10);
   const targetUserId = Array.isArray(userId) ? userId[0] : userId;
 
+  if (!targetUserId || Number.isNaN(targetYear)) {
+    return null;
+  }
+
   return (
-    <Stack className={"w-full mb-20"}>
-      <RecapStatsScreen userId={targetUserId!} targetYear={targetYear!} />
+    <Stack className={"w-full"}>
+      <YearRecapScreen year={targetYear} userId={targetUserId} />
     </Stack>
   );
 };
 
-export default RecapStatsPage;
+export default RecapPage;

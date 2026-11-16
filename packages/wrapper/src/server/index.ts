@@ -36,6 +36,8 @@ export type { AwardsCategory } from './models/AwardsCategory';
 export type { AwardsCategoryResult } from './models/AwardsCategoryResult';
 export type { AwardsCategoryResultWinner } from './models/AwardsCategoryResultWinner';
 export type { AwardsCategorySuggestion } from './models/AwardsCategorySuggestion';
+export { AwardsCategoryTranslationDto } from './models/AwardsCategoryTranslationDto';
+export { AwardsCategoryTranslationInputDto } from './models/AwardsCategoryTranslationInputDto';
 export type { AwardsEvent } from './models/AwardsEvent';
 export type { AwardsEventDto } from './models/AwardsEventDto';
 export type { AwardsUserVoteDto } from './models/AwardsUserVoteDto';

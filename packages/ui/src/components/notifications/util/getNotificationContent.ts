@@ -22,6 +22,9 @@ export type NotificationLeadingIcon =
   | "download"
   | "alert"
   | "connection"
+  | "awards"
+  | "recap"
+  | "goal"
   | "notification";
 
 /**
@@ -161,6 +164,25 @@ function getFallbackContent(
       : { kind: "icon", icon: "notification" },
   };
 }
+
+/**
+ * Localized copy for each Awards milestone sent in `preview.milestone`. When
+ * the server does not send the milestone, the copy falls back to the phase the
+ * event was in when the notification was materialized.
+ */
+const AWARDS_MILESTONE_KEYS = {
+  nominations_open: "notifications.awards.nominationsOpen",
+  nominations_close_reminder: "notifications.awards.nominationsCloseReminder",
+  voting_open: "notifications.awards.votingOpen",
+  voting_close_reminder: "notifications.awards.votingCloseReminder",
+  results_published: "notifications.awards.resultsPublished",
+} as const;
+
+const AWARDS_PHASE_FALLBACK_KEYS = {
+  nominations: "notifications.awards.nominationsOpen",
+  voting: "notifications.awards.votingOpen",
+  results: "notifications.awards.resultsPublished",
+} as const;
 
 /**
  * Builds the display content of a notification from its materialized DTO.
@@ -347,6 +369,69 @@ export function getNotificationContent(
             provider: providerName,
           }),
           leading: { kind: "icon", icon: "connection" },
+        };
+      }
+      break;
+    }
+
+    case "awards.milestone": {
+      const target = item.target;
+      if (target?.type === "awards") {
+        const milestoneKey = textPreview?.milestone
+          ? AWARDS_MILESTONE_KEYS[
+              textPreview.milestone as keyof typeof AWARDS_MILESTONE_KEYS
+            ]
+          : undefined;
+        const key = milestoneKey ?? AWARDS_PHASE_FALLBACK_KEYS[target.phase];
+
+        if (key) {
+          return {
+            name: t("notifications.awards.title"),
+            message: t(key, { year: target.year }),
+            leading: { kind: "icon", icon: "awards" },
+          };
+        }
+      }
+      break;
+    }
+
+    case "recap.milestone": {
+      const target = item.target;
+      if (target?.type === "recap") {
+        const closed = textPreview?.milestone === "closed";
+
+        return {
+          name: t("notifications.recap.title"),
+          message: t(
+            closed
+              ? "notifications.recap.closed"
+              : "notifications.recap.available",
+            { year: target.year },
+          ),
+          leading: { kind: "icon", icon: "recap" },
+        };
+      }
+      break;
+    }
+
+    case "goal.reminder": {
+      const target = item.target;
+      const goalTarget = textPreview?.target;
+      const finished = textPreview?.finished;
+
+      if (
+        target?.type === "goal" &&
+        typeof goalTarget === "number" &&
+        typeof finished === "number"
+      ) {
+        return {
+          name: t("notifications.goal.title"),
+          message: t("notifications.goal.progress", {
+            target: goalTarget,
+            finished,
+            year: target.year,
+          }),
+          leading: { kind: "icon", icon: "goal" },
         };
       }
       break;

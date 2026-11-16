@@ -45,6 +45,14 @@ export async function navigateToNotificationTarget(
     await router.push(`/importer/${target.provider}`);
   } else if (target.type === "connection") {
     await router.push("/preferences/connections");
+  } else if (target.type === "awards") {
+    // The phase redirect picks the nominations, ballot or results screen.
+    await router.push(`/awards/${target.year}`);
+  } else if (target.type === "recap") {
+    await router.push(`/recap/${target.year}/${target.userId}`);
+  } else if (target.type === "goal" && userId) {
+    // The goal card lives in the previous year's Recap.
+    await router.push(`/recap/${target.year - 1}/${userId}#goal`);
   } else if (target.type === "achievement" && userId) {
     await router.push(`/feats/${userId}`);
   }

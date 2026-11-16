@@ -27,6 +27,8 @@ export const GAMENODE_ANDROID_URL =
 export type DockLabelKey =
   | "navigation.dock.groups.discover"
   | "navigation.dock.groups.yourSpace"
+  | "navigation.dock.badgeLive"
+  | "navigation.dock.badgeNewFeminine"
   | "navigation.home"
   | "navigation.explore"
   | "navigation.dailyNodes"
@@ -40,19 +42,30 @@ export type DockLabelKey =
   | "navigation.achievements"
   | "navigation.feats"
   | "navigation.wrapped"
+  | "navigation.recap"
+  | "navigation.awards"
   | "navigation.premium";
 
 export type DockProfileTab = "main" | "collections" | "journal";
 
+/**
+ * Client-local badge of a Dock item. The season entries use "live" for the
+ * running Awards, "new" for its results and "newFeminine" for a Retrospectiva
+ * the viewer has not opened yet.
+ */
+export type DockBadge = "new" | "live" | "newFeminine";
+
 interface DockItemBase {
   id: string;
   labelKey: DockLabelKey;
+  /** Values interpolated into the label, e.g. the event year. */
+  labelParams?: Record<string, string | number>;
   /**
    * Glyph from the Figma `Icons/Nav/*` export (file `ikcThguwowTdynGz0L2YkS`),
    * kept in `@repo/ui` → `general/icons/nav` so each path matches the design.
    */
   icon: ComponentType<NavIconProps>;
-  isNew?: boolean;
+  badge?: DockBadge;
 }
 
 export interface DockLinkItem extends DockItemBase {
@@ -108,7 +121,7 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         labelKey: "navigation.dailyNodes",
         icon: NavDailyIcon,
         href: "/daily",
-        isNew: true,
+        badge: "new",
       },
       {
         kind: "link",
@@ -116,7 +129,7 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         labelKey: "navigation.ai",
         icon: NavAiIcon,
         href: "/mcp",
-        isNew: true,
+        badge: "new",
       },
       {
         kind: "link",

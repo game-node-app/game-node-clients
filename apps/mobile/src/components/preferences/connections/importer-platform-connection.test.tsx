@@ -390,5 +390,6 @@ describe("Task 5.1 & 5.2: Navigation and deep linking", () => {
 
     cleanup();
     await waitFor(() => expect(mocks.removeListener).toHaveBeenCalled());
+    window.history.replaceState({}, "", "/");
   });
 });

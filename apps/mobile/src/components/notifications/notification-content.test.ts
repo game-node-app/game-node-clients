@@ -2,12 +2,15 @@ import { describe, expect, it } from "vitest";
 import {
   NotificationAchievementTargetDto,
   NotificationActivityTargetDto,
+  NotificationAwardsTargetDto,
   NotificationConnectionTargetDto,
   NotificationContentTargetDto,
+  NotificationGoalTargetDto,
   NotificationImporterTargetDto,
   NotificationImportPreviewDto,
   NotificationInboxItemDto,
   NotificationProfileTargetDto,
+  NotificationRecapTargetDto,
   NotificationTextPreviewDto,
 } from "@repo/wrapper/server";
 import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
@@ -531,6 +534,233 @@ describe("getNotificationContent - system notifications", () => {
 
     expect(result.name).toBe("Suspensão");
     expect(result.message).toContain("Conteúdo impróprio");
+  });
+});
+
+const awardsTarget = (phase: NotificationAwardsTargetDto.phase) =>
+  ({
+    type: NotificationAwardsTargetDto.type.AWARDS,
+    eventId: 12,
+    year: 2026,
+    phase,
+  }) satisfies NotificationAwardsTargetDto;
+
+const recapTarget = {
+  type: NotificationRecapTargetDto.type.RECAP,
+  userId: "abc",
+  year: 2026,
+} satisfies NotificationRecapTargetDto;
+
+const goalTarget = {
+  type: NotificationGoalTargetDto.type.GOAL,
+  year: 2027,
+} satisfies NotificationGoalTargetDto;
+
+describe("getNotificationContent - awards.milestone", () => {
+  it.each([
+    [
+      "nominations_open",
+      NotificationAwardsTargetDto.phase.NOMINATIONS,
+      "Awards 2026 nominations are open.",
+    ],
+    [
+      "nominations_close_reminder",
+      NotificationAwardsTargetDto.phase.NOMINATIONS,
+      "Awards 2026 nominations close tomorrow.",
+    ],
+    [
+      "voting_open",
+      NotificationAwardsTargetDto.phase.VOTING,
+      "Awards 2026 voting is open.",
+    ],
+    [
+      "voting_close_reminder",
+      NotificationAwardsTargetDto.phase.VOTING,
+      "Awards 2026 voting closes in 2 days.",
+    ],
+    [
+      "results_published",
+      NotificationAwardsTargetDto.phase.RESULTS,
+      "Awards 2026 results are out.",
+    ],
+  ])(
+    "renders the %s milestone with the Awards icon",
+    (milestone, phase, expectedMessage) => {
+      const result = content({
+        type: "awards.milestone",
+        preview: { text: "Server copy", milestone },
+        target: awardsTarget(phase),
+      });
+
+      expect(result.name).toBe("Awards");
+      expect(result.message).toBe(expectedMessage);
+      expect(result.leading).toEqual({ kind: "icon", icon: "awards" });
+    },
+  );
+
+  it("renders the voting open milestone in pt-BR", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "awards.milestone",
+        preview: { text: "Awards voting is open.", milestone: "voting_open" },
+        target: awardsTarget(NotificationAwardsTargetDto.phase.VOTING),
+      }),
+      ptBR,
+    );
+
+    expect(result.message).toBe("Votação do Awards 2026 aberta.");
+  });
+
+  it("distinguishes the nominations reminder from the opening copy", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "awards.milestone",
+        preview: {
+          text: "Awards nominations close tomorrow.",
+          milestone: "nominations_close_reminder",
+        },
+        target: awardsTarget(NotificationAwardsTargetDto.phase.NOMINATIONS),
+      }),
+      ptBR,
+    );
+
+    expect(result.message).toBe("Indicações do Awards 2026 fecham amanhã.");
+    expect(result.message).not.toContain("abertas");
+  });
+
+  it.each([
+    [
+      NotificationAwardsTargetDto.phase.NOMINATIONS,
+      "Awards 2026 nominations are open.",
+    ],
+    [NotificationAwardsTargetDto.phase.VOTING, "Awards 2026 voting is open."],
+    [NotificationAwardsTargetDto.phase.RESULTS, "Awards 2026 results are out."],
+  ])(
+    "falls back to the %s phase copy when the milestone is missing",
+    (phase, expectedMessage) => {
+      const result = content({
+        type: "awards.milestone",
+        preview: textPreview("Server copy"),
+        target: awardsTarget(phase),
+      });
+
+      expect(result.message).toBe(expectedMessage);
+      expect(result.leading).toEqual({ kind: "icon", icon: "awards" });
+    },
+  );
+
+  it("uses the phase fallback for an unrecognized milestone instead of preview.text", () => {
+    const result = content({
+      type: "awards.milestone",
+      preview: { text: "Server copy", milestone: "future_milestone" },
+      target: awardsTarget(NotificationAwardsTargetDto.phase.VOTING),
+    });
+
+    expect(result.message).toBe("Awards 2026 voting is open.");
+  });
+
+  it("uses preview.text only when neither the milestone nor the target is recognized", () => {
+    const result = content({
+      type: "awards.milestone",
+      preview: textPreview("Awards voting is open."),
+      target: null,
+    });
+
+    expect(result.message).toBe("Awards voting is open.");
+    expect(result.leading).toEqual({ kind: "icon", icon: "notification" });
+  });
+});
+
+describe("getNotificationContent - recap.milestone", () => {
+  it.each([
+    ["available", "Your 2026 recap is here."],
+    ["closed", "Your 2026 recap is closed."],
+  ])(
+    "renders the %s milestone with the Recap icon",
+    (milestone, expectedMessage) => {
+      const result = content({
+        type: "recap.milestone",
+        preview: { text: "Server copy", milestone },
+        target: recapTarget,
+      });
+
+      expect(result.name).toBe("Recap");
+      expect(result.message).toBe(expectedMessage);
+      expect(result.leading).toEqual({ kind: "icon", icon: "recap" });
+    },
+  );
+
+  it("falls back to the 'here' copy without a milestone", () => {
+    const result = content({
+      type: "recap.milestone",
+      preview: textPreview("Your year recap is here."),
+      target: recapTarget,
+    });
+
+    expect(result.message).toBe("Your 2026 recap is here.");
+  });
+
+  it("translates the available milestone to pt-BR", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "recap.milestone",
+        preview: { text: "Your year recap is here.", milestone: "available" },
+        target: recapTarget,
+      }),
+      ptBR,
+    );
+
+    expect(result.message).toBe("Sua retrospectiva 2026 chegou.");
+  });
+});
+
+describe("getNotificationContent - goal.reminder", () => {
+  it("shows the target year progress with the goal icon", () => {
+    const result = content({
+      type: "goal.reminder",
+      preview: {
+        text: "Your 2027 goal: 7 of 18 games finished.",
+        target: 18,
+        finished: 7,
+      },
+      target: goalTarget,
+    });
+
+    expect(result.name).toBe("Year goal");
+    expect(result.message).toBe(
+      "You finished 7 of 18 games for your 2027 goal.",
+    );
+    expect(result.leading).toEqual({ kind: "icon", icon: "goal" });
+  });
+
+  it("translates the goal progress to pt-BR", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "goal.reminder",
+        preview: {
+          text: "Your 2027 goal: 7 of 18 games finished.",
+          target: 18,
+          finished: 7,
+        },
+        target: goalTarget,
+      }),
+      ptBR,
+    );
+
+    expect(result.message).toBe("Você zerou 7 de 18 jogos da meta de 2027.");
+  });
+
+  it("falls back to preview.text when the progress numbers are missing", () => {
+    const result = content({
+      type: "goal.reminder",
+      preview: {
+        text: "Your 2027 goal: 7 of 18 games finished.",
+      },
+      target: goalTarget,
+    });
+
+    expect(result.message).toBe("Your 2027 goal: 7 of 18 games finished.");
+    expect(result.leading).toEqual({ kind: "icon", icon: "notification" });
   });
 });
 

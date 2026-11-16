@@ -14,6 +14,10 @@ export type NotificationTextPreviewDto = {
      * Finished games so far, for goal reminders
      */
     finished?: number;
+    /**
+     * Milestone identifier, for awards.milestone and recap.milestone
+     */
+    milestone?: string;
 };
 export namespace NotificationTextPreviewDto {
     export enum action {
