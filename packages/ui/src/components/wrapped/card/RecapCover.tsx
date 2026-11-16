@@ -64,13 +64,15 @@ export function getRecapBackdropUrl(
 
 interface BackdropProps {
   game: Game | undefined;
+  /** A specific image to draw instead of the game's automatic art. */
+  imageUrl?: string;
   style?: CSSProperties;
 }
 
 /** Fills its parent with the game's wide art (or the cover as a fallback). */
-export function RecapBackdrop({ game, style }: BackdropProps) {
+export function RecapBackdrop({ game, imageUrl, style }: BackdropProps) {
   const { src: coverSrc } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
-  const src = getRecapBackdropUrl(game) ?? coverSrc;
+  const src = imageUrl ?? getRecapBackdropUrl(game) ?? coverSrc;
   if (!src) return null;
 
   return (

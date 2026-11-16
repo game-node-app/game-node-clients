@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { OpenGraph } from "../../../../components/general/OpenGraph";
 import { Button, Stack, Text } from "@mantine/core";
 import {
   BlogPostDetailLayout,
@@ -59,23 +60,25 @@ export default function BlogPostDetailPage({
   return (
     <Stack className="w-full items-center">
       {post && (
-        <Head>
-          <title>{post.title}</title>
-          <meta name="description" content={post.excerpt} />
-          <meta
-            property="og:locale"
-            content={post.resolvedLocale.replace("-", "_")}
-          />
-          <link rel="canonical" href={articleUrl(post.resolvedLocale)} />
-          {post.availableLocales.map((locale) => (
-            <link
-              key={locale}
-              rel="alternate"
-              hrefLang={locale}
-              href={articleUrl(locale)}
+        <>
+          <OpenGraph title={post.title} description={post.excerpt} />
+          <Head>
+            <meta
+              key="og:locale"
+              property="og:locale"
+              content={post.resolvedLocale.replace("-", "_")}
             />
-          ))}
-        </Head>
+            <link rel="canonical" href={articleUrl(post.resolvedLocale)} />
+            {post.availableLocales.map((locale) => (
+              <link
+                key={locale}
+                rel="alternate"
+                hrefLang={locale}
+                href={articleUrl(locale)}
+              />
+            ))}
+          </Head>
+        </>
       )}
       <BlogPostsLayout>
         <BlogPostDetailLayout postId={postId}>

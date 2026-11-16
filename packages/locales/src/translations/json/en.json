@@ -1722,6 +1722,14 @@
       "startTyping": "Start typing to see results."
     },
     "wrapped": {
+      "background": {
+        "art": "Game art",
+        "imageOption": "Image {{number}}",
+        "images": "Official images",
+        "photo": "Photo",
+        "title": "Background",
+        "video": "Video"
+      },
       "buttons": {
         "downloadImage": "Download image",
         "downloadVideo": "Download video",
@@ -1736,7 +1744,10 @@
         "gamesPlayed": "Games played",
         "hoursPlayed": "Time played",
         "hoursUnit": "hours",
+        "playedAcross_one": "played across {{count}} game",
+        "playedAcross_other": "played across {{count}} games",
         "madeOn": "Made on GameNode",
+        "nextUp": "Next up",
         "period": {
           "month": "Last 30 days",
           "week": "Last 7 days",
@@ -1750,6 +1761,7 @@
         "reviewed": "Reviews",
         "started": "Started",
         "topGame": "Top game",
+        "topGameShare": "{{percent}}% of your time",
         "topGames": "Top games",
         "topGenre": "Top genre",
         "topPlatform": "Top platform",
@@ -1767,8 +1779,11 @@
           "teal": "Green",
           "violet": "Violet"
         },
+        "appearance": "Appearance",
         "backdropAuto": "Most played game",
         "backdropGame": "Cover art",
+        "blur": "Blur intensity",
+        "data": "Data",
         "extra": {
           "finished": "Finished",
           "reviewed": "Reviews",
@@ -1776,7 +1791,9 @@
         },
         "extraStat": "Extra figure",
         "opacity": "Art opacity",
-        "reset": "Reset customization",
+        "overlay": "Overlay intensity",
+        "overlayHint": "Darkens the photo or clip so the text stays readable.",
+        "reset": "Reset",
         "resetOpacity": "Use the default opacity",
         "showComparison": "Compare with the previous period",
         "title": "Customize"
@@ -1788,13 +1805,22 @@
       "labels": {
         "format": "Format",
         "period": "Period",
-        "template": "Template",
-        "video": "Video"
+        "preview": "Preview",
+        "template": "Template"
+      },
+      "media": {
+        "replace": "Replace"
       },
       "messages": {
         "noPlaytime": "We've found no playtime info for the selected period. You may change the period criteria below or set up a connection to start importing playtime info."
       },
       "monthly": "Monthly Wrapped",
+      "photo": {
+        "error": "We couldn't read this image. Try a JPG, PNG or WebP file.",
+        "formats": "JPG, PNG or WebP",
+        "pick": "Choose a photo",
+        "remove": "Remove photo"
+      },
       "recap": "{{year}} Recap",
       "recentlyPlayed": "Recently played games",
       "shareDescription": "Share your wrapped with friends!",
@@ -1807,7 +1833,7 @@
       },
       "title": "Wrapped",
       "video": {
-        "hint": "Pick a clip to play inside the poster (up to {{seconds}} seconds).",
+        "formats": "MP4, MOV or WebM · up to {{seconds}} seconds",
         "pick": "Choose a video",
         "remove": "Remove video",
         "unsupported": "This browser can't export videos. Try a recent Chrome, Edge or Android browser."

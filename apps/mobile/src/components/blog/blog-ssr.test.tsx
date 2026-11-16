@@ -33,7 +33,10 @@ vi.mock("next/head", () => ({
   default: ({ children }: import("react").PropsWithChildren) => <>{children}</>,
 }));
 vi.mock("next/router", () => ({
-  useRouter: () => ({ query: { postId: "article" } }),
+  useRouter: () => ({
+    asPath: "/blog/post/article",
+    query: { postId: "article" },
+  }),
 }));
 afterEach(() => {
   vi.restoreAllMocks();

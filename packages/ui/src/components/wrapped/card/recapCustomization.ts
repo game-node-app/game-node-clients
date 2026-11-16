@@ -24,15 +24,62 @@ export interface RecapCustomization {
    * each template's own default.
    */
   backdropOpacity: number | null;
+  /**
+   * Official image of the backdrop game to draw (one of
+   * `getRecapBackdropImages`); `null` keeps the automatic one.
+   */
+  backdropImageUrl: string | null;
+  /**
+   * Blur of the art, in pixels from 0 to 100. `null` keeps each template's
+   * own default.
+   */
+  backdropBlur: number | null;
   accent: RecapAccent;
   extraStat: RecapExtraStat;
   /** Whether the change against the previous period is drawn. Off by default. */
   showComparison: boolean;
 }
 
+/** Art opacity each template uses until the user moves the slider. */
+export const RECAP_BACKDROP_OPACITY = {
+  poster: 0.9,
+  dash: 0.9,
+  bento: 0.85,
+  summary: 0.8,
+} as const;
+
+/** Blur of the art, in pixels, each template uses until the user moves the slider. */
+export const RECAP_BACKDROP_BLUR = {
+  poster: 35,
+  dash: 35,
+  bento: 50,
+  summary: 80,
+} as const;
+
+/** Largest blur the user can pick, in pixels. */
+export const RECAP_BACKDROP_BLUR_MAX = 100;
+
+/** The blur to use, in pixels: the user's value, or the template's default. */
+export function getBackdropBlur(
+  fallback: number,
+  custom?: RecapCustomization,
+): number {
+  const value = custom?.backdropBlur;
+  if (value == null || !Number.isFinite(value)) return fallback;
+  return Math.min(RECAP_BACKDROP_BLUR_MAX, Math.max(0, Math.round(value)));
+}
+
+/**
+ * How dark the overlay over a photo or clip is until the user moves the
+ * slider, from 0 to 1. It keeps the text readable on any media.
+ */
+export const RECAP_OVERLAY_DEFAULT_OPACITY = 0.5;
+
 export const DEFAULT_RECAP_CUSTOMIZATION: RecapCustomization = {
   backdropGameId: null,
   backdropOpacity: null,
+  backdropImageUrl: null,
+  backdropBlur: null,
   accent: "brand",
   extraStat: "finished",
   showComparison: false,

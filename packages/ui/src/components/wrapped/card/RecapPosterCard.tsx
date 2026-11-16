@@ -1,4 +1,5 @@
 import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
+import { RecapChange } from "#@/components/wrapped/card/RecapChange";
 import { RecapPlatformMark } from "#@/components/wrapped/card/RecapPlatformMark";
 import {
   RecapBackdrop,
@@ -7,7 +8,6 @@ import {
 import {
   at,
   displayStyle,
-  fitFontSize,
   formatHours,
   formatPlaytime,
   monoStyle,
@@ -17,48 +17,79 @@ import {
   getRankedGames,
   type RecapCardProps,
 } from "#@/components/wrapped/card/recapCardTypes";
-import { formatRecapChange } from "#@/components/wrapped/util/recapFigures";
-import { RECAP_POSTER_HERO } from "#@/components/wrapped/card/recapPosterHero";
 import {
+  hasRecapMedia,
+  RecapMediaLayer,
+} from "#@/components/wrapped/card/RecapMediaLayer";
+import {
+  getBackdropBlur,
   getBackdropOpacity,
+  RECAP_BACKDROP_BLUR,
+  RECAP_BACKDROP_OPACITY,
   getRecapAccent,
   getRecapExtraStat,
   pickBackdropGame,
 } from "#@/components/wrapped/card/recapCustomization";
+import { pickBackdropImage } from "#@/components/wrapped/card/recapBackdropImages";
+import { getPlatformShortName } from "#@/components/wrapped/util/recapPlatform";
 import { useTranslation } from "@repo/locales";
-import type { ReactNode } from "react";
 
-function Stat({
+const GROUND = "15, 14, 13";
+const COVER_SHADOW = "0 28px 56px rgba(0, 0, 0, 0.5)";
+const THUMB_SHADOW = "0 14px 32px rgba(0, 0, 0, 0.45)";
+
+/** Font size that keeps `text` inside `width`, between `min` and `max`. */
+function fitText(text: string, width: number, max: number, min: number) {
+  const fit = Math.round(width / (0.55 * Math.max(text.length, 1)));
+  return Math.max(min, Math.min(max, fit));
+}
+
+function InfoStat({
   label,
   value,
-  color = RECAP_COLORS.cream,
-  size = 44,
-  children,
+  x,
+  width,
+  platform = false,
+  compact = false,
 }: {
   label: string;
-  value?: string;
-  color?: string;
-  size?: number;
-  children?: ReactNode;
+  value: string;
+  x: number;
+  width: number;
+  /** Draws the value as a platform (icon and short name). */
+  platform?: boolean;
+  /** Smaller label, for the three-column row. */
+  compact?: boolean;
 }) {
+  const size = fitText(value, width, 52, 34);
   return (
-    <div>
-      <div style={monoStyle(20)}>{label}</div>
-      <div style={{ marginTop: 8 }}>
-        {children ?? (
-          <div className={"line-clamp-2"} style={displayStyle(size, color)}>
-            {value}
-          </div>
-        )}
+    <div style={at(x, 1142, width)}>
+      <div className={"truncate"} style={monoStyle(compact ? 20 : 22)}>
+        {label}
       </div>
+      {platform ? (
+        <div style={{ marginTop: 8 }}>
+          <RecapPlatformMark name={value} size={size} />
+        </div>
+      ) : (
+        <div
+          className={"line-clamp-2"}
+          style={{
+            ...displayStyle(size, RECAP_COLORS.cream),
+            marginTop: 8,
+          }}
+        >
+          {value}
+        </div>
+      )}
     </div>
   );
 }
 
 /**
- * Poster (Story, 1080x1920), ported from Echo's "Cartaz": the user's name as
- * a giant headline on a brand-coloured block over the top game's art, then
- * the top game, a ranked list and the period figures.
+ * Poster (Story, 1080x1920): the period's hours as the hero over a blurred
+ * cover of the top game, then the top game with its cover, the genre and
+ * platform, and the next four games as a row of covers.
  */
 export function RecapPosterCard({
   username,
@@ -67,237 +98,250 @@ export function RecapPosterCard({
   figures,
   games,
   custom,
-  videoHero = false,
-}: RecapCardProps & {
-  /**
-   * Video export mode: the card background and the hero block are transparent
-   * (the encoder draws the background and the clip underneath) and the hero
-   * text turns light, over a scrim, to stay readable on any footage.
-   */
-  videoHero?: boolean;
-}) {
+  media,
+}: RecapCardProps) {
   const { t } = useTranslation();
   const ranked = getRankedGames(summary, games);
   const [top] = ranked;
   const accent = getRecapAccent(custom);
   const backdropGame = pickBackdropGame(ranked, custom);
+  const backdropImage = pickBackdropImage(backdropGame, custom);
+  const backdropBlur = getBackdropBlur(RECAP_BACKDROP_BLUR.poster, custom);
   const extra = getRecapExtraStat(summary, custom);
-  // Without a name the headline is just "WRAPPED" (no duplicated line).
-  const name = (username ?? "").trim().toUpperCase();
-  const innerWidth = 860;
+  const showExtra = Number(extra.value) > 0;
+  // Without a name the label is just "WRAPPED" (no duplicated line).
+  const name = (username ?? "").trim();
+  const wrapped = t("mobile.wrapped.card.wrapped");
+  const label = name ? `${name} · ${wrapped}` : wrapped;
+
+  const hours = `${formatHours(figures.hours)}h`;
+  const hoursSize = Math.min(
+    330,
+    Math.round(960 / (0.5 * Math.max(hours.length, 1))),
+  );
+  const topName = top?.game?.name ?? "-";
+  const topNameSingleLine = 504 / (0.55 * topName.length) >= 64;
+  const topNameSize = topNameSingleLine ? fitText(topName, 504, 104, 64) : 60;
+  const share = figures.games > 1 ? figures.topGameSharePercent : null;
+
+  const columns = showExtra ? 3 : 2;
+  const columnWidth = showExtra ? 156 : 236;
+  const columnGap = showExtra ? 16 : 28;
+  const stats = [
+    {
+      label: t("mobile.wrapped.card.topGenre"),
+      value: summary.topGenre?.name || "-",
+    },
+    {
+      label: t("mobile.wrapped.card.topPlatform"),
+      value: getPlatformShortName(summary.topPlatform?.name) ?? "-",
+      platform: true,
+    },
+    ...(showExtra ? [{ label: t(extra.labelKey), value: extra.value }] : []),
+  ].slice(0, columns);
 
   return (
     <div
       className={"relative w-full h-full overflow-hidden"}
       style={{
-        background: videoHero
-          ? "transparent"
-          : `radial-gradient(900px 900px at 50% 90%, ${accent}38, transparent), ${RECAP_COLORS.ground}`,
+        background: media?.video ? "transparent" : RECAP_COLORS.ground,
         color: RECAP_COLORS.cream,
       }}
     >
+      {hasRecapMedia(media) ? (
+        <RecapMediaLayer media={media} template={"poster"} />
+      ) : (
+        <>
+          <div style={at(-120, -120, 1320, 1340)}>
+            <RecapBackdrop
+              game={backdropGame}
+              imageUrl={backdropImage}
+              style={{
+                opacity: getBackdropOpacity(
+                  RECAP_BACKDROP_OPACITY.poster,
+                  custom,
+                ),
+                filter: `blur(${backdropBlur}px)`,
+              }}
+            />
+          </div>
+          <div
+            style={{
+              ...at(0, 0, 1080, 1300),
+              background: `linear-gradient(to bottom, rgba(${GROUND}, 0.1) 0%, rgba(${GROUND}, 0.45) 50%, rgba(${GROUND}, 1) 100%)`,
+            }}
+          />
+        </>
+      )}
+
       <div style={at(60, 150)}>
         <GameNodeLogo style={{ width: 200 }} />
       </div>
-      <div
-        style={{ ...at(520, 168, 500), ...monoStyle(34), textAlign: "right" }}
-      >
-        {periodText}
+      <div className={"flex justify-end"} style={at(520, 144, 500)}>
+        <div
+          style={{
+            ...monoStyle(26, RECAP_COLORS.cream),
+            padding: "12px 22px",
+            border: `2px solid ${RECAP_COLORS.cream}`,
+            borderRadius: 999,
+            background: `rgba(${GROUND}, 0.6)`,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {periodText}
+        </div>
       </div>
 
       <div
-        className={"overflow-hidden"}
-        style={{
-          ...at(
-            RECAP_POSTER_HERO.x,
-            RECAP_POSTER_HERO.y,
-            RECAP_POSTER_HERO.width,
-            RECAP_POSTER_HERO.height
-          ),
-          borderRadius: RECAP_POSTER_HERO.radius,
-          background: videoHero ? "transparent" : accent,
-        }}
+        className={"truncate"}
+        style={{ ...at(60, 262, 960), ...monoStyle(30, RECAP_COLORS.cream) }}
       >
-        {videoHero ? (
-          <div
-            className={"absolute inset-0"}
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(11,10,9,0) 35%, rgba(11,10,9,0.78) 100%)",
-            }}
-          />
-        ) : (
-          <RecapBackdrop
-            game={backdropGame}
-            style={{
-              opacity: getBackdropOpacity(0.32, custom),
-              mixBlendMode: "multiply",
-              filter: "grayscale(0.4)",
-            }}
-          />
-        )}
-        {videoHero ? (
-          // Over footage the giant WRAPPED would fight the clip: only the
-          // name, smaller, with the period right under it.
-          <div
-            className={"flex flex-col justify-end"}
-            style={{ ...at(48, 0, 864, 800), paddingBottom: 56, gap: 16 }}
-          >
-            {name && (
-              <div
-                style={{
-                  ...displayStyle(
-                    fitFontSize(name, innerWidth, 120),
-                    RECAP_COLORS.cream
-                  ),
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {name}
-              </div>
-            )}
-            <div style={monoStyle(34, RECAP_COLORS.cream)}>{periodText}</div>
-          </div>
-        ) : (
-          <>
-            <div
-              style={{
-                ...at(48, 36),
-                ...displayStyle(192, `${RECAP_COLORS.ink}26`),
-                whiteSpace: "nowrap",
-                textTransform: "uppercase",
-              }}
-            >
-              {t("mobile.wrapped.card.wrapped")}
-            </div>
-            <div
-              className={"flex flex-col justify-end"}
-              style={{ ...at(48, 0, 864, 800), paddingBottom: 124 }}
-            >
-              {name && (
-                <div
-                  style={{
-                    ...displayStyle(
-                      fitFontSize(name, innerWidth, 300),
-                      RECAP_COLORS.ink
-                    ),
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {name}
-                </div>
-              )}
-              <div
-                style={{
-                  ...displayStyle(
-                    fitFontSize("WRAPPED", innerWidth, 192),
-                    RECAP_COLORS.ink
-                  ),
-                  whiteSpace: "nowrap",
-                  textTransform: "uppercase",
-                }}
-              >
-                {t("mobile.wrapped.card.wrapped")}
-              </div>
-            </div>
-            <div
-              style={{
-                ...at(56, 704),
-                ...monoStyle(30, RECAP_COLORS.ink),
-              }}
-            >
-              {periodText}
-            </div>
-          </>
+        {label}
+      </div>
+      {/* The hours sit on the bottom of a fixed box, so the line under them
+          keeps its place whatever the size of the figure. */}
+      <div
+        className={"flex items-end"}
+        style={{ ...at(48, 300, 984, 304), whiteSpace: "nowrap" }}
+      >
+        <div
+          style={{
+            ...displayStyle(hoursSize, accent),
+            letterSpacing: "-0.04em",
+          }}
+        >
+          {hours}
+        </div>
+      </div>
+      <div
+        className={"flex items-center"}
+        style={{ ...at(60, 596, 960), gap: 24 }}
+      >
+        <div
+          style={{
+            ...displayStyle(50, RECAP_COLORS.cream, 600),
+            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {t("mobile.wrapped.card.playedAcross", { count: figures.games })}
+        </div>
+        {custom?.showComparison && figures.changePercent != null && (
+          <RecapChange percent={figures.changePercent} size={26} />
         )}
       </div>
 
-      <div style={{ ...at(70, 1124), ...monoStyle(28, "#9B938A") }}>
+      <RecapCover
+        game={top?.game}
+        width={405}
+        height={540}
+        radius={28}
+        style={{ ...at(60, 690), boxShadow: COVER_SHADOW }}
+      />
+      <div style={{ ...at(520, 696), ...monoStyle(26) }}>
         {t("mobile.wrapped.card.topGame")}
       </div>
       <div
-        className={"line-clamp-2"}
+        className={topNameSingleLine ? "whitespace-nowrap" : "line-clamp-2"}
         style={{
-          ...at(66, 1166, 950),
-          ...displayStyle(
-            fitFontSize(top?.game?.name ?? "-", 950, 118),
-            RECAP_COLORS.cream
-          ),
+          ...at(516, 736, 504, topNameSingleLine ? undefined : 122),
+          ...displayStyle(topNameSize, RECAP_COLORS.cream),
         }}
       >
-        {top?.game?.name ?? "-"}
+        {topName}
       </div>
-
-      <div className={"flex flex-col"} style={{ ...at(70, 1340, 520), gap: 4 }}>
-        {ranked.slice(0, 5).map(({ game, seconds }, index) => (
+      <div style={{ ...at(520, 858), ...displayStyle(84, accent) }}>
+        {formatPlaytime(top?.seconds ?? 0)}
+      </div>
+      {share != null && (
+        // The room under the top game's time: how much of the period it took.
+        <div style={at(520, 990, 500)}>
+          <div style={monoStyle(26, RECAP_COLORS.cream)}>
+            {t("mobile.wrapped.card.topGameShare", { percent: share })}
+          </div>
           <div
-            key={game?.id ?? index}
-            className={"flex items-center"}
-            style={{ height: 86, gap: 20 }}
+            style={{
+              marginTop: 18,
+              height: 14,
+              borderRadius: 7,
+              background: `${RECAP_COLORS.cream}24`,
+            }}
           >
-            <span
+            <div
               style={{
-                ...displayStyle(48, index === 0 ? accent : "#4A423B"),
-                width: 44,
+                width: `${share}%`,
+                height: "100%",
+                borderRadius: 7,
+                background: accent,
+              }}
+            />
+          </div>
+        </div>
+      )}
+      <div
+        style={{
+          ...at(520, 1110, 500, 2),
+          background: `${RECAP_COLORS.cream}24`,
+        }}
+      />
+      {stats.map((stat, index) => (
+        <InfoStat
+          key={stat.label}
+          label={stat.label}
+          value={stat.value}
+          platform={"platform" in stat && stat.platform}
+          compact={showExtra}
+          x={520 + index * (columnWidth + columnGap)}
+          width={columnWidth}
+        />
+      ))}
+
+      {ranked.length > 1 && (
+        <div style={{ ...at(60, 1296), ...monoStyle(26) }}>
+          {t("mobile.wrapped.card.nextUp")}
+        </div>
+      )}
+      {ranked.slice(1, 5).map(({ game, seconds }, index) => {
+        const x = 60 + index * 250;
+        return (
+          <div key={game?.id ?? index}>
+            <RecapCover
+              game={game}
+              width={210}
+              height={280}
+              radius={22}
+              style={{ ...at(x, 1342), boxShadow: THUMB_SHADOW }}
+            />
+            <div
+              style={{
+                ...at(x, 1640),
+                ...displayStyle(30, accent),
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
               }}
             >
-              {index + 1}
-            </span>
-            <RecapCover game={game} width={56} height={74} radius={10} />
-            <div className={"min-w-0 flex-1"}>
-              <div
-                className={"truncate"}
-                style={{
-                  ...displayStyle(30, RECAP_COLORS.cream, 600),
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.1,
-                }}
-              >
-                {game?.name ?? "-"}
-              </div>
-              <div
-                style={{
-                  ...monoStyle(19, RECAP_COLORS.muted, false),
-                  marginTop: 4,
-                }}
-              >
-                {formatPlaytime(seconds)}
-              </div>
+              {index + 2}
+            </div>
+            <div
+              className={"truncate"}
+              style={{
+                ...at(x + 35, 1640, 175),
+                ...displayStyle(30, RECAP_COLORS.cream, 600),
+                letterSpacing: "-0.01em",
+                lineHeight: 1.1,
+              }}
+            >
+              {game?.name ?? "-"}
+            </div>
+            <div style={{ ...at(x + 35, 1684), ...monoStyle(22) }}>
+              {formatPlaytime(seconds)}
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
 
-      <div
-        className={"flex flex-col justify-between"}
-        style={{ ...at(650, 1346, 370, 430) }}
-      >
-        <Stat
-          label={t("mobile.wrapped.card.hoursPlayed")}
-          value={`${formatHours(figures.hours)}h`}
-          color={accent}
-          size={104}
-        />
-        <Stat
-          label={t("mobile.wrapped.card.gamesPlayed")}
-          value={`${figures.games}`}
-          size={56}
-        />
-        {custom?.showComparison ? (
-          <Stat
-            label={t("mobile.wrapped.card.comparison")}
-            value={formatRecapChange(figures.changePercent)}
-            size={56}
-          />
-        ) : (
-          <Stat label={t(extra.labelKey)} value={extra.value} size={56} />
-        )}
-        <Stat label={t("mobile.wrapped.card.topPlatform")}>
-          <RecapPlatformMark name={summary.topPlatform?.name} size={34} />
-        </Stat>
-      </div>
-
-      <div style={{ ...at(60, 1834), ...monoStyle(26, "#6F665B") }}>
+      <div style={{ ...at(60, 1830), ...monoStyle(22, RECAP_COLORS.dim) }}>
         {t("mobile.wrapped.card.madeOn")}
       </div>
     </div>

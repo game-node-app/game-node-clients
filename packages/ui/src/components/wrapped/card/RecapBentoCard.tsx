@@ -1,5 +1,10 @@
+import { getPlatformShortName } from "#@/components/wrapped/util/recapPlatform";
 import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
-import { RecapPlatformMark } from "#@/components/wrapped/card/RecapPlatformMark";
+import { RecapChange } from "#@/components/wrapped/card/RecapChange";
+import {
+  hasRecapMedia,
+  RecapMediaLayer,
+} from "#@/components/wrapped/card/RecapMediaLayer";
 import {
   RecapBackdrop,
   RecapCover,
@@ -7,6 +12,7 @@ import {
 import {
   at,
   displayStyle,
+  fitFontSize,
   formatHours,
   formatPlaytime,
   monoStyle,
@@ -17,13 +23,23 @@ import {
   type RecapCardProps,
 } from "#@/components/wrapped/card/recapCardTypes";
 import {
+  getBackdropBlur,
   getBackdropOpacity,
+  RECAP_BACKDROP_BLUR,
+  RECAP_BACKDROP_OPACITY,
   getRecapAccent,
   getRecapExtraStat,
   pickBackdropGame,
 } from "#@/components/wrapped/card/recapCustomization";
+import { pickBackdropImage } from "#@/components/wrapped/card/recapBackdropImages";
 import { useTranslation } from "@repo/locales";
 import type { CSSProperties, PropsWithChildren } from "react";
+
+/** Default art opacity of the top game tile (the Figma blurred layer). */
+/** Gap between the tiles of the bento grid. */
+const GAP = 24;
+const GRID_X = 48;
+const GRID_WIDTH = 984;
 
 function Tile({
   x,
@@ -44,7 +60,7 @@ function Tile({
       className={"overflow-hidden"}
       style={{
         ...at(x, y, w, h),
-        borderRadius: 36,
+        borderRadius: 40,
         background: RECAP_COLORS.panel,
         ...style,
       }}
@@ -54,9 +70,44 @@ function Tile({
   );
 }
 
+/** Big single-line value of the small bottom tiles, shrunk to fit its width. */
+function SmallStat({
+  x,
+  width,
+  label,
+  value,
+}: {
+  x: number;
+  width: number;
+  label: string;
+  value: string;
+}) {
+  const textWidth = width - 72;
+
+  return (
+    <Tile x={x} y={1577} w={width} h={170}>
+      <div style={{ ...at(36, 32), ...monoStyle(22), whiteSpace: "nowrap" }}>
+        {label}
+      </div>
+      <div
+        className={"truncate"}
+        style={{
+          ...at(34, 72, textWidth),
+          ...displayStyle(
+            fitFontSize(value, textWidth, 76),
+            RECAP_COLORS.cream,
+          ),
+        }}
+      >
+        {value}
+      </div>
+    </Tile>
+  );
+}
+
 /**
- * Bento (Story, 1080x1920), ported from Echo's "Bento": the top game on a
- * brand tile over its art, number tiles, the ranked list and genre/platform.
+ * Bento (Story, 1080x1920): the top game on a tile over its blurred art,
+ * the hours and games figures, the next four games and genre/platform.
  */
 export function RecapBentoCard({
   username,
@@ -65,168 +116,271 @@ export function RecapBentoCard({
   figures,
   games,
   custom,
+  media,
 }: RecapCardProps) {
   const { t } = useTranslation();
   const ranked = getRankedGames(summary, games);
   const [top] = ranked;
+  const nextUp = ranked.slice(1, 5);
   const accent = getRecapAccent(custom);
   const backdropGame = pickBackdropGame(ranked, custom);
+  const backdropImage = pickBackdropImage(backdropGame, custom);
+  const backdropBlur = getBackdropBlur(RECAP_BACKDROP_BLUR.bento, custom);
   const extra = getRecapExtraStat(summary, custom);
-  const change = custom?.showComparison ? figures.changePercent : null;
+  const showChange = !!custom?.showComparison && figures.changePercent != null;
   const topName = top?.game?.name ?? "-";
+  const hoursText = `${formatHours(figures.hours)}h`;
+  const gamesText = `${figures.games}`;
+
+  const smallStats = [
+    {
+      key: "genre",
+      label: t("mobile.wrapped.card.topGenre"),
+      value: summary.topGenre?.name || "-",
+    },
+    {
+      key: "platform",
+      label: t("mobile.wrapped.card.topPlatform"),
+      value: getPlatformShortName(summary.topPlatform?.name) ?? "-",
+    },
+    ...(Number(extra.value) > 0
+      ? [{ key: "extra", label: t(extra.labelKey), value: extra.value }]
+      : []),
+  ];
+  const smallWidth =
+    (GRID_WIDTH - GAP * (smallStats.length - 1)) / smallStats.length;
 
   return (
     <div
       className={"relative w-full h-full overflow-hidden"}
-      style={{ background: RECAP_COLORS.ground, color: RECAP_COLORS.cream }}
+      style={{
+        background: media?.video ? "transparent" : RECAP_COLORS.ground,
+        color: RECAP_COLORS.cream,
+      }}
     >
-      <div style={at(48, 90)}>
-        <GameNodeLogo style={{ width: 180 }} />
+      <div style={at(GRID_X, 88)}>
+        <GameNodeLogo style={{ width: 140 }} />
       </div>
       <div
-        style={{ ...at(520, 108, 512), ...monoStyle(34), textAlign: "right" }}
+        className={"flex items-center"}
+        style={{
+          position: "absolute",
+          right: GRID_X,
+          top: 84,
+          height: 61,
+          boxSizing: "border-box",
+          padding: "0 22px",
+          borderRadius: 999,
+          background: `${RECAP_COLORS.panel}E6`,
+          border: `2px solid ${RECAP_COLORS.cream}33`,
+        }}
       >
-        {periodText}
+        <span
+          style={{ ...monoStyle(26, RECAP_COLORS.cream), whiteSpace: "nowrap" }}
+        >
+          {periodText}
+        </span>
       </div>
 
-      <Tile x={48} y={240} w={984} h={560} style={{ background: accent }}>
-        <RecapBackdrop game={backdropGame} />
-        <div
-          className={"absolute inset-0"}
-          // The accent sits over the art, so the art shows as the opposite.
-          style={{
-            background: accent,
-            opacity: 1 - getBackdropOpacity(0.18, custom),
-          }}
-        />
-        <div
-          style={{ ...at(40, 40), ...monoStyle(28, `${RECAP_COLORS.ink}B3`) }}
-        >
+      <Tile
+        x={48}
+        y={155}
+        w={984}
+        h={620}
+        style={media?.video ? { background: "transparent" } : undefined}
+      >
+        {hasRecapMedia(media) ? (
+          <RecapMediaLayer media={media} template={"bento"} fill />
+        ) : (
+          <>
+            <RecapBackdrop
+              game={backdropGame}
+              imageUrl={backdropImage}
+              style={{
+                inset: -60,
+                width: 1104,
+                height: 740,
+                opacity: getBackdropOpacity(
+                  RECAP_BACKDROP_OPACITY.bento,
+                  custom,
+                ),
+                filter: `blur(${backdropBlur}px)`,
+              }}
+            />
+            <div
+              className={"absolute inset-0"}
+              style={{
+                background: `linear-gradient(to right, ${RECAP_COLORS.ground}D1 0%, ${RECAP_COLORS.ground}73 60%, ${RECAP_COLORS.ground}40 100%)`,
+              }}
+            />
+          </>
+        )}
+        <div style={{ ...at(44, 44), ...monoStyle(26, RECAP_COLORS.cream) }}>
           {t("mobile.wrapped.card.topGame")}
         </div>
         <div
-          className={"line-clamp-3"}
-          style={{
-            ...at(40, 0, 900),
-            top: undefined,
-            bottom: 96,
-            ...displayStyle(topName.length > 18 ? 110 : 140, RECAP_COLORS.ink),
-          }}
+          className={"flex flex-col justify-end"}
+          style={{ ...at(40, 262, 500, 228) }}
         >
-          {topName}
+          <div
+            className={"line-clamp-2"}
+            style={{
+              ...displayStyle(
+                Math.min(
+                  124,
+                  Math.max(60, Math.round(1500 / Math.max(topName.length, 1))),
+                ),
+                RECAP_COLORS.cream,
+              ),
+              letterSpacing: "-0.03em",
+              overflowWrap: "anywhere",
+            }}
+          >
+            {topName}
+          </div>
         </div>
         <div
+          className={"truncate"}
           style={{
-            ...at(40, 0),
-            top: undefined,
-            bottom: 40,
-            ...monoStyle(30, RECAP_COLORS.ink),
+            ...at(44, 520, 500),
+            ...displayStyle(64, accent),
+            letterSpacing: "-0.02em",
           }}
         >
           {top ? formatPlaytime(top.seconds) : "-"}
         </div>
+        <div style={at(580, 56, 340, 454)}>
+          <RecapCover
+            game={top?.game}
+            width={340}
+            height={454}
+            radius={26}
+            style={{ boxShadow: "0 24px 48px rgba(0, 0, 0, 0.6)" }}
+          />
+        </div>
+        <div
+          className={"absolute inset-0 pointer-events-none"}
+          style={{
+            borderRadius: 40,
+            border: `2px solid ${RECAP_COLORS.cream}1A`,
+          }}
+        />
       </Tile>
 
-      <Tile x={48} y={820} w={482} h={280}>
-        <div style={{ ...at(36, 34), ...monoStyle(24) }}>
+      <Tile x={48} y={799} w={480} h={250} style={{ background: accent }}>
+        <div style={{ ...at(36, 34), ...monoStyle(24, RECAP_COLORS.ink) }}>
           {t("mobile.wrapped.card.hoursPlayed")}
         </div>
-        <div style={{ ...at(32, 78), ...displayStyle(150, accent) }}>
-          {formatHours(figures.hours)}
-          <span style={{ fontSize: 64 }}>h</span>
+        <div
+          style={{
+            ...at(32, 70, 420),
+            ...displayStyle(fitFontSize(hoursText, 420, 150), RECAP_COLORS.ink),
+            letterSpacing: "-0.04em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {hoursText}
         </div>
-        {change != null && (
-          <div
-            style={{
-              ...at(36, 232, 420),
-              ...monoStyle(
-                22,
-                change >= 0 ? RECAP_COLORS.positive : RECAP_COLORS.negative,
-              ),
-            }}
-          >
-            {t("mobile.wrapped.card.vsPrevious", {
-              percent: `${change > 0 ? "+" : ""}${change}`,
-            })}
+        {showChange && (
+          <div style={{ position: "absolute", right: 32, top: 26 }}>
+            <RecapChange
+              percent={figures.changePercent}
+              size={22}
+              style={{
+                color: RECAP_COLORS.ink,
+                background: `${RECAP_COLORS.ink}24`,
+              }}
+            />
           </div>
         )}
       </Tile>
-      <Tile x={550} y={820} w={482} h={280}>
+      <Tile x={552} y={799} w={480} h={250}>
         <div style={{ ...at(36, 34), ...monoStyle(24) }}>
           {t("mobile.wrapped.card.gamesPlayed")}
         </div>
         <div
-          style={{ ...at(32, 78), ...displayStyle(150, RECAP_COLORS.cream) }}
-        >
-          {figures.games}
-        </div>
-        <div
-          className={"truncate"}
-          style={{ ...at(36, 232, 420), ...monoStyle(22) }}
-        >
-          {username ? `@${username}` : ""}
-        </div>
-      </Tile>
-
-      <Tile x={48} y={1120} w={984} h={420}>
-        <div style={{ ...at(36, 32), ...monoStyle(24) }}>
-          {t("mobile.wrapped.card.topGames")}
-        </div>
-        {ranked.slice(0, 5).map(({ game, seconds }, index) => (
-          <div
-            key={game?.id ?? index}
-            className={"flex items-center"}
-            style={{ ...at(36, 76 + index * 68, 912, 60), gap: 20 }}
-          >
-            <span
-              style={{
-                ...monoStyle(26, index === 0 ? accent : RECAP_COLORS.muted),
-                width: 28,
-              }}
-            >
-              {index + 1}
-            </span>
-            <RecapCover game={game} width={44} height={58} radius={8} />
-            <span
-              className={"flex-1 truncate"}
-              style={{
-                ...displayStyle(30, RECAP_COLORS.cream, 600),
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {game?.name ?? "-"}
-            </span>
-            <span style={monoStyle(22, RECAP_COLORS.muted, false)}>
-              {formatPlaytime(seconds)}
-            </span>
-          </div>
-        ))}
-      </Tile>
-
-      <Tile x={48} y={1560} w={482} h={250}>
-        <div style={{ ...at(36, 34), ...monoStyle(22) }}>
-          {t(extra.labelKey)}
-        </div>
-        <div
-          className={"line-clamp-2"}
           style={{
-            ...at(36, 90, 410),
-            ...displayStyle(88, RECAP_COLORS.cream),
+            ...at(32, 70, 420),
+            ...displayStyle(
+              fitFontSize(gamesText, 420, 150),
+              RECAP_COLORS.cream,
+            ),
+            letterSpacing: "-0.04em",
+            whiteSpace: "nowrap",
           }}
         >
-          {extra.value}
+          {gamesText}
         </div>
-      </Tile>
-      <Tile x={550} y={1560} w={482} h={250}>
-        <div style={{ ...at(36, 34), ...monoStyle(22) }}>
-          {t("mobile.wrapped.card.topPlatform")}
-        </div>
-        <div style={at(36, 90, 410)}>
-          <RecapPlatformMark name={summary.topPlatform?.name} size={50} />
-        </div>
+        {username && (
+          <div
+            className={"truncate"}
+            style={{ ...at(36, 206, 408), ...monoStyle(20) }}
+          >
+            {username}
+          </div>
+        )}
       </Tile>
 
-      <div style={{ ...at(48, 1846), ...monoStyle(26, "#6F665B") }}>
+      {nextUp.length > 0 && (
+        <Tile x={48} y={1073} w={984} h={480}>
+          <div style={{ ...at(36, 34), ...monoStyle(24) }}>
+            {t("mobile.wrapped.card.nextUp")}
+          </div>
+          {nextUp.map(({ game, seconds }, index) => {
+            const x = 36 + index * 233;
+
+            return (
+              <div key={game?.id ?? index}>
+                <div style={at(x, 84, 213, 284)}>
+                  <RecapCover
+                    game={game}
+                    width={213}
+                    height={284}
+                    radius={20}
+                    style={{ boxShadow: "0 12px 24px rgba(0, 0, 0, 0.45)" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    ...at(x, 384),
+                    ...displayStyle(28, accent),
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {index + 2}
+                </div>
+                <div
+                  className={"truncate"}
+                  style={{
+                    ...at(x + 32, 384, 181),
+                    ...displayStyle(28, RECAP_COLORS.cream, 600),
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {game?.name ?? "-"}
+                </div>
+                <div style={{ ...at(x + 32, 424, 181), ...monoStyle(20) }}>
+                  {formatPlaytime(seconds)}
+                </div>
+              </div>
+            );
+          })}
+        </Tile>
+      )}
+
+      {smallStats.map(({ key, label, value }, index) => (
+        <SmallStat
+          key={key}
+          x={GRID_X + index * (smallWidth + GAP)}
+          width={smallWidth}
+          label={label}
+          value={value}
+        />
+      ))}
+
+      <div style={{ ...at(48, 1830), ...monoStyle(22, RECAP_COLORS.dim) }}>
         {t("mobile.wrapped.card.madeOn")}
       </div>
     </div>

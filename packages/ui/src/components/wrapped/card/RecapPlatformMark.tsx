@@ -2,7 +2,10 @@ import {
   displayStyle,
   RECAP_COLORS,
 } from "#@/components/wrapped/card/recapCardTheme";
-import { getPlatformIconName } from "#@/components/wrapped/util/recapPlatform";
+import {
+  getPlatformIconName,
+  getPlatformShortName,
+} from "#@/components/wrapped/util/recapPlatform";
 import { getServerStoredIcon } from "#@/util";
 
 interface Props {
@@ -38,7 +41,7 @@ export function RecapPlatformMark({
         className={"line-clamp-2 min-w-0"}
         style={displayStyle(size, color)}
       >
-        {name ?? "-"}
+        {getPlatformShortName(name) ?? "-"}
       </span>
     </div>
   );

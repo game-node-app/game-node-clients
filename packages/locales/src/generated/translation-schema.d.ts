@@ -1726,6 +1726,14 @@ export type TranslationSchema = {
       startTyping: string;
     };
     wrapped: {
+      background: {
+        art: string;
+        imageOption: string;
+        images: string;
+        photo: string;
+        title: string;
+        video: string;
+      };
       buttons: {
         downloadImage: string;
         downloadVideo: string;
@@ -1740,7 +1748,10 @@ export type TranslationSchema = {
         gamesPlayed: string;
         hoursPlayed: string;
         hoursUnit: string;
+        playedAcross_one: string;
+        playedAcross_other: string;
         madeOn: string;
+        nextUp: string;
         period: {
           month: string;
           week: string;
@@ -1754,6 +1765,7 @@ export type TranslationSchema = {
         reviewed: string;
         started: string;
         topGame: string;
+        topGameShare: string;
         topGames: string;
         topGenre: string;
         topPlatform: string;
@@ -1771,8 +1783,11 @@ export type TranslationSchema = {
           teal: string;
           violet: string;
         };
+        appearance: string;
         backdropAuto: string;
         backdropGame: string;
+        blur: string;
+        data: string;
         extra: {
           finished: string;
           reviewed: string;
@@ -1780,6 +1795,8 @@ export type TranslationSchema = {
         };
         extraStat: string;
         opacity: string;
+        overlay: string;
+        overlayHint: string;
         reset: string;
         resetOpacity: string;
         showComparison: string;
@@ -1792,13 +1809,22 @@ export type TranslationSchema = {
       labels: {
         format: string;
         period: string;
+        preview: string;
         template: string;
-        video: string;
+      };
+      media: {
+        replace: string;
       };
       messages: {
         noPlaytime: string;
       };
       monthly: string;
+      photo: {
+        error: string;
+        formats: string;
+        pick: string;
+        remove: string;
+      };
       recap: string;
       recentlyPlayed: string;
       shareDescription: string;
@@ -1811,7 +1837,7 @@ export type TranslationSchema = {
       };
       title: string;
       video: {
-        hint: string;
+        formats: string;
         pick: string;
         remove: string;
         unsupported: string;

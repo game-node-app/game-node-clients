@@ -222,7 +222,17 @@ const clickDownload = async (key = "downloadImage") => {
   });
 };
 
+const selectBackground = (background: "art" | "photo" | "video") => {
+  fireEvent.click(
+    screen.getByRole("radio", {
+      name: `mobile.wrapped.background.${background}`,
+    }),
+  );
+};
+
 const chooseClip = () => {
+  // The clip picker lives in the video choice of the background control.
+  selectBackground("video");
   const input = document.querySelector<HTMLInputElement>('input[type="file"]');
   if (!input) throw new Error("The clip picker was not rendered.");
   fireEvent.change(input, { target: { files: [clipFile()] } });
@@ -500,9 +510,14 @@ describe("WrappedRecapScreen", () => {
     const options = mocks.exportVideo.mock.calls[0][0] as {
       file: File;
       overlay: unknown;
+      format: string;
+      hero: { width: number; height: number };
     };
     expect(options.file.name).toBe("clip.mp4");
     expect(options.file.type).toBe("video/mp4");
+    // The Poster's clip fills the top of the 1080x1920 card.
+    expect(options.format).toBe("story");
+    expect(options.hero).toMatchObject({ width: 1080, height: 1300 });
     expect(mocks.toPng).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({ width: 1080, height: 1920, pixelRatio: 1 }),
@@ -529,29 +544,34 @@ describe("WrappedRecapScreen", () => {
     expect(onShare).not.toHaveBeenCalled();
   });
 
-  it("keeps the video only for the Story Poster and falls back to the image", async () => {
+  it("keeps the video on every template and format", async () => {
     const onShare = renderScreen();
 
     chooseClip();
     await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
 
-    clickFormat("feed");
-    await waitFor(() => expect(shareButton("shareImage")).toBeTruthy());
-    await clickShare("shareImage");
-    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
-    expect(mocks.exportVideo).not.toHaveBeenCalled();
-    expect((onShare.mock.calls[0] as unknown as [File])[0].type).toBe(
-      "image/jpeg",
-    );
-
-    clickFormat("story");
-    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
-
     fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.dash"));
-    await waitFor(() => expect(shareButton("shareImage")).toBeTruthy());
-
-    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.poster"));
     await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+
+    fireEvent.click(screen.getByLabelText("mobile.wrapped.templates.bento"));
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+
+    // The Feed card is exported as a video at its own size and media area.
+    clickFormat("feed");
+    await waitFor(() => expect(shareButton("shareVideo")).toBeTruthy());
+    await clickShare("shareVideo");
+    await waitFor(() => expect(onShare).toHaveBeenCalledTimes(1));
+    expect(mocks.toBlob).not.toHaveBeenCalled();
+    expect(mocks.toPng).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ width: 1600, height: 900 }),
+    );
+    expect(mocks.exportVideo).toHaveBeenCalledWith(
+      expect.objectContaining({
+        format: "feed",
+        hero: expect.objectContaining({ width: 1600, height: 900 }),
+      }),
+    );
   });
 
   it("returns to the image after the clip is removed", async () => {
@@ -578,8 +598,9 @@ describe("WrappedRecapScreen", () => {
     const onShare = renderScreen();
 
     // The picker is available without an entitlement: no lock and no upsell.
+    selectBackground("video");
     expect(
-      screen.getByRole("button", { name: "mobile.wrapped.video.pick" }),
+      screen.getByRole("button", { name: /mobile\.wrapped\.video\.pick/ }),
     ).toBeTruthy();
     expect(
       screen.queryByText(/mobile\.wrapped\.video\.premiumOnly/),
@@ -619,6 +640,7 @@ describe("WrappedRecapScreen", () => {
 
     expect(shareButton("shareImage")).toBeTruthy();
     expect(screen.queryByRole("button", { name: /shareVideo/ })).toBeNull();
+    selectBackground("video");
     expect(screen.getByText("mobile.wrapped.video.unsupported")).toBeTruthy();
   });
 
@@ -708,7 +730,9 @@ describe("WrappedRecapScreen", () => {
       ),
     ).toBe(true);
     expect(
-      isControlDisabled(screen.getByRole("button", { name: "clip.mp4" })),
+      isControlDisabled(
+        screen.getByRole("button", { name: "mobile.wrapped.media.replace" }),
+      ),
     ).toBe(true);
     expect(
       isControlDisabled(

@@ -1,6 +1,10 @@
-import type { RecapCardFormat } from "#@/components/wrapped/card/recapCardFormats";
+import {
+  RECAP_CARD_FORMATS,
+  type RecapCardFormat,
+} from "#@/components/wrapped/card/recapCardFormats";
 import { cn } from "#@/util";
 import { Text, UnstyledButton } from "@mantine/core";
+import { useElementSize } from "@mantine/hooks";
 import type { ReactNode } from "react";
 
 export type RecapTemplate = "poster" | "dash" | "bento" | "summary";
@@ -84,24 +88,83 @@ interface PickerProps {
   format: RecapCardFormat;
   getLabel: (template: RecapTemplate) => string;
   onChange: (template: RecapTemplate) => void;
+  /**
+   * Live miniature of a template. The wireframe is drawn until it returns
+   * something, so the picker still works before the data has loaded.
+   */
+  renderPreview?: (template: RecapTemplate) => ReactNode;
 }
 
-/** Template choice as a row of layout thumbnails. */
+/** The native-size card, scaled to the width of its thumbnail. */
+function Thumb({
+  format,
+  preview,
+  fallback,
+  active,
+}: {
+  format: RecapCardFormat;
+  preview: ReactNode;
+  fallback: ReactNode;
+  active: boolean;
+}) {
+  const { ref, width } = useElementSize();
+  const size = RECAP_CARD_FORMATS[format];
+  const scale = width > 0 ? width / size.width : 0;
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "relative w-full overflow-hidden rounded-lg bg-[#0F0E0D] transition-shadow",
+        active
+          ? "ring-2 ring-[#F15025]"
+          : "ring-1 ring-white/10 group-hover:ring-white/25",
+      )}
+      style={{ aspectRatio: `${size.width} / ${size.height}` }}
+    >
+      {preview && scale > 0 ? (
+        <div
+          aria-hidden
+          className={"absolute left-0 top-0 pointer-events-none"}
+          style={{
+            width: size.width,
+            height: size.height,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+        >
+          {preview}
+        </div>
+      ) : (
+        fallback
+      )}
+    </div>
+  );
+}
+
+/** Template choice as a row of thumbnails of the real card. */
 export function RecapTemplatePicker({
   value,
   options,
   format,
   getLabel,
   onChange,
+  renderPreview,
 }: PickerProps) {
-  const portrait = format === "story";
-
   return (
-    <div role={"radiogroup"} className={"grid grid-cols-4 gap-2"}>
+    <div
+      role={"radiogroup"}
+      className={"grid gap-3"}
+      style={{
+        gridTemplateColumns: `repeat(${Math.max(
+          options.length,
+          3,
+        )}, minmax(0, 1fr))`,
+      }}
+    >
       {options.map((option) => {
         const active = option === value;
         const label = getLabel(option);
-        const tall = portrait;
         return (
           <UnstyledButton
             key={option}
@@ -109,85 +172,20 @@ export function RecapTemplatePicker({
             aria-checked={active}
             aria-label={label}
             onClick={() => onChange(option)}
-            className={cn(
-              "flex flex-col items-center gap-1.5 rounded-lg p-2 border transition-colors",
-              active
-                ? "border-[#F15025] bg-[#F15025]/10"
-                : "border-white/10 hover:border-white/25 bg-white/[0.03]",
-            )}
+            className={"group flex flex-col items-center gap-2"}
           >
-            <div
-              className={cn(
-                "rounded-md bg-[#0F0E0D] border border-white/10 overflow-hidden",
-                tall ? "w-11 h-20" : "w-16 h-9",
-              )}
-            >
-              {WIREFRAMES[option]}
-            </div>
+            <Thumb
+              format={format}
+              active={active}
+              preview={renderPreview?.(option)}
+              fallback={WIREFRAMES[option]}
+            />
             <Text
               size={"xs"}
-              fw={active ? 700 : 500}
+              fw={active ? 600 : 500}
               c={active ? "white" : "dimmed"}
             >
               {label}
-            </Text>
-          </UnstyledButton>
-        );
-      })}
-    </div>
-  );
-}
-
-interface FormatProps {
-  value: RecapCardFormat;
-  storyLabel: string;
-  feedLabel: string;
-  onChange: (format: RecapCardFormat) => void;
-}
-
-/** Story / Feed switch drawn with the aspect of each format. */
-export function RecapFormatToggle({
-  value,
-  storyLabel,
-  feedLabel,
-  onChange,
-}: FormatProps) {
-  const items: { format: RecapCardFormat; label: string; box: string }[] = [
-    { format: "story", label: storyLabel, box: "w-3 h-5" },
-    { format: "feed", label: feedLabel, box: "w-5 h-3" },
-  ];
-
-  return (
-    <div role={"radiogroup"} className={"grid grid-cols-2 gap-2"}>
-      {items.map((item) => {
-        const active = item.format === value;
-        return (
-          <UnstyledButton
-            key={item.format}
-            role={"radio"}
-            aria-checked={active}
-            aria-label={item.label}
-            onClick={() => onChange(item.format)}
-            className={cn(
-              "flex items-center justify-center gap-2 rounded-lg h-11 border transition-colors",
-              active
-                ? "border-[#F15025] bg-[#F15025]/10"
-                : "border-white/10 hover:border-white/25 bg-white/[0.03]",
-            )}
-          >
-            <span
-              className={cn(
-                "rounded-[2px] border-2",
-                item.box,
-                active ? "border-[#F15025]" : "border-white/40",
-              )}
-            />
-            <Text
-              size={"sm"}
-              fw={active ? 700 : 500}
-              c={active ? "white" : "dimmed"}
-            >
-              {item.label}
             </Text>
           </UnstyledButton>
         );

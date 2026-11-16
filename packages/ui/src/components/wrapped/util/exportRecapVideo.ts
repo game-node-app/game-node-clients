@@ -1,6 +1,9 @@
 import { RECAP_COLORS } from "#@/components/wrapped/card/recapCardTheme";
-import { RECAP_POSTER_HERO } from "#@/components/wrapped/card/recapPosterHero";
-import { RECAP_CARD_FORMATS } from "#@/components/wrapped/card/recapCardFormats";
+import {
+  RECAP_CARD_FORMATS,
+  type RecapCardFormat,
+} from "#@/components/wrapped/card/recapCardFormats";
+import type { RecapMediaRect } from "#@/components/wrapped/card/recapMedia";
 
 /** Longest clip exported; longer files are trimmed from the start. */
 export const RECAP_VIDEO_MAX_SECONDS = 15;
@@ -28,10 +31,14 @@ export function isRecapVideoSupported(): boolean {
 }
 
 export interface ExportRecapVideoOptions {
-  /** The clip that fills the hero block of the poster. */
+  /** The clip that fills the media area of the card. */
   file: File;
-  /** The poster rendered with a transparent hero and background, at 1080x1920. */
+  /** The card rendered with a transparent media area and background. */
   overlay: HTMLImageElement;
+  /** Format of the card, which sets the size of the video. */
+  format: RecapCardFormat;
+  /** Where the clip is drawn, in card pixels (see `RECAP_MEDIA_RECTS`). */
+  hero: RecapMediaRect;
   /** Called with `0..1`. */
   onProgress?: (progress: number) => void;
   signal?: AbortSignal;
@@ -48,16 +55,10 @@ function coverCrop(sw: number, sh: number, dw: number, dh: number) {
 function drawBackground(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.fillStyle = RECAP_COLORS.ground;
   ctx.fillRect(0, 0, w, h);
-  // Same glow as the poster's CSS background (900px circle at 50% 90%).
-  const glow = ctx.createRadialGradient(w / 2, h * 0.9, 0, w / 2, h * 0.9, 900);
-  glow.addColorStop(0, `${RECAP_COLORS.brand}38`);
-  glow.addColorStop(1, `${RECAP_COLORS.brand}00`);
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, w, h);
 }
 
 /**
- * Composites the clip into the poster's hero block and encodes the whole card
+ * Composites the clip into the card's media area and encodes the whole card
  * as an MP4 (H.264 + AAC), fully in the browser.
  *
  * Offline pipeline ported from Echo: the clip is demuxed and decoded with
@@ -65,12 +66,15 @@ function drawBackground(ctx: CanvasRenderingContext2D, w: number, h: number) {
  * drawn per frame as background, video in the hero, then the overlay. Audio
  * is the clip's own track, or silence (some apps reject videos without audio).
  *
- * Throws when the device cannot decode the clip or encode H.264 at 1080x1920,
+ * Throws when the device cannot decode the clip or encode H.264 at the size of
+ * the card,
  * and an `AbortError` when `signal` is aborted.
  */
 export async function exportRecapVideo({
   file,
   overlay,
+  format,
+  hero,
   onProgress,
   signal,
 }: ExportRecapVideoOptions): Promise<File> {
@@ -94,7 +98,7 @@ export async function exportRecapVideo({
     canEncodeVideo,
   } = await import("mediabunny");
 
-  const { width: canvasW, height: canvasH } = RECAP_CARD_FORMATS.story;
+  const { width: canvasW, height: canvasH } = RECAP_CARD_FORMATS[format];
 
   if (
     !(await canEncodeVideo("avc", {
@@ -103,7 +107,9 @@ export async function exportRecapVideo({
       bitrate: VIDEO_BITRATE,
     }))
   ) {
-    throw new Error("This device cannot encode H.264 at 1080x1920.");
+    throw new Error(
+      `This device cannot encode H.264 at ${canvasW}x${canvasH}.`,
+    );
   }
 
   const input = new Input({
@@ -139,7 +145,6 @@ export async function exportRecapVideo({
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) throw new Error("Canvas is not available.");
 
-    const hero = RECAP_POSTER_HERO;
     const crop = coverCrop(displayW, displayH, hero.width, hero.height);
     const composite = (frame: HTMLCanvasElement | OffscreenCanvas | null) => {
       drawBackground(ctx, canvasW, canvasH);
