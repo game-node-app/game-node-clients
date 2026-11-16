@@ -694,6 +694,7 @@
     "providers": {
       "discord": "Continue with Discord",
       "google": "Continue with Google",
+      "lastUsed": "Last used",
       "twitter": "Continue with X"
     },
     "redirecting": {

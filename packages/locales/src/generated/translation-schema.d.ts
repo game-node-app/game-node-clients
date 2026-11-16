@@ -698,6 +698,7 @@ export type TranslationSchema = {
     providers: {
       discord: string;
       google: string;
+      lastUsed: string;
       twitter: string;
     };
     redirecting: {

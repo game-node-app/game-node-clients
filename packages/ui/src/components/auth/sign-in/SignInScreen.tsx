@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Alert, Button, Loader, Text } from "@mantine/core";
 import { IconLock } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
@@ -21,6 +27,54 @@ import { AuthProvider, ProviderButton } from "./ProviderButton";
 import classes from "./SignIn.module.css";
 
 const PROVIDERS: AuthProvider[] = ["google", "discord", "twitter"];
+
+/**
+ * Storage contract: a single provider id (`google`, `discord` or `twitter`) under this key.
+ * It records only which button was pressed last, no personal data. Anything else is ignored.
+ */
+export const LAST_USED_PROVIDER_STORAGE_KEY = "gamenode-auth-last-provider";
+
+const readLastUsedProvider = (): AuthProvider | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = window.localStorage.getItem(LAST_USED_PROVIDER_STORAGE_KEY);
+    return stored && (PROVIDERS as readonly string[]).includes(stored)
+      ? (stored as AuthProvider)
+      : null;
+  } catch {
+    // Storage can be blocked (private mode, cookies off); the badge is optional.
+    return null;
+  }
+};
+
+const lastUsedProviderListeners = new Set<() => void>();
+
+const subscribeToLastUsedProvider = (onChange: () => void) => {
+  lastUsedProviderListeners.add(onChange);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === null || event.key === LAST_USED_PROVIDER_STORAGE_KEY) {
+      onChange();
+    }
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    lastUsedProviderListeners.delete(onChange);
+    window.removeEventListener("storage", onStorage);
+  };
+};
+
+/** Best-effort: a failed write only costs the badge, never the sign-in. */
+export const rememberLastUsedProvider = (provider: AuthProvider) => {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(LAST_USED_PROVIDER_STORAGE_KEY, provider);
+  } catch {
+    return;
+  }
+  lastUsedProviderListeners.forEach((onChange) => onChange());
+};
+
+const getServerLastUsedProvider = () => null;
 
 export interface SignInScreenProps {
   variant?: "default" | "admin";
@@ -49,6 +103,11 @@ const SignInScreen = ({
   const [failed, setFailed] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [showProviders, setShowProviders] = useState(false);
+  const lastUsedProvider = useSyncExternalStore(
+    subscribeToLastUsedProvider,
+    readLastUsedProvider,
+    getServerLastUsedProvider,
+  );
 
   const [oauthFailed, setOauthFailed] = useState(false);
   const [reauthenticate, setReauthenticate] = useState(false);
@@ -119,6 +178,7 @@ const SignInScreen = ({
   }, [relativeCallbacks]);
 
   const signIn = (provider: AuthProvider) => {
+    rememberLastUsedProvider(provider);
     setPending(provider);
     setFailed(false);
     // A fresh attempt supersedes the error from the URL.
@@ -274,6 +334,7 @@ const SignInScreen = ({
                   provider={provider}
                   pending={pending === provider}
                   disabled={!!pending && pending !== provider}
+                  lastUsed={lastUsedProvider === provider}
                   onClick={() => signIn(provider)}
                 />
               ))}
