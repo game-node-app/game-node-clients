@@ -12,7 +12,7 @@ Verdict: approved. All 13 implementation tasks are verified.
 | `pnpm --filter mobile test` | Passed, 162 files / 1,255 tests |
 | `pnpm --filter admin test` | Passed, 6 suites / 42 tests |
 | `pnpm test:releases` | Passed, 22 tests; 1 existing skip because zip is unavailable |
-| `git diff --check` | Passed |
+| `git -c core.whitespace=-blank-at-eof diff origin/main --check` | Passed; generated wrapper files retain the generator's trailing blank line |
 
 The previous type-check blocker was a missing optional `milestone` property
 in the wrapper input schema. It is present in the server's
@@ -53,7 +53,10 @@ The original implementation used five DeepSeek V4.1 Flash agents, Max,
 `full-access`, in the shared checkout across three waves: contract;
 resolver/admin; screens/release. The principal reviewed the implementation
 and resolved the small wrapper contract mismatch during verification.
-No functional findings remain open. No commit, push, PR or archive was made.
+No functional findings remain open. Before opening the PR, rebased onto current
+`origin/main`, preserved its embedded activity schemas, regenerated the wrapper,
+and repeated lint, type-check and the client tests. No archive or production
+deployment was performed.
 
 Native mobile runtime was not exercised; shared mobile UI behavior is covered
 by the passing automated tests. Production deployment was not tested.
