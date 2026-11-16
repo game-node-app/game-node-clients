@@ -3541,5 +3541,23 @@
       "primaryCta": "Assinar o Premium",
       "secondaryCta": "Começar grátis"
     }
+  },
+  "mobileLiveUpdate": {
+    "downloadingTitle": "Baixando atualização",
+    "downloading": "Uma nova atualização está sendo baixada. Você pode continuar usando o app.",
+    "downloadProgress": "Baixando atualização: {{progress}}%",
+    "preparing": "Download concluído. Preparando a atualização…",
+    "progressLabel": "Progresso do download da atualização",
+    "readyTitle": "Atualização pronta",
+    "ready": "Reinicie para aplicar a atualização ou continue usando o app e atualize na próxima abertura. Alterações não salvas podem ser perdidas ao reiniciar.",
+    "restartNow": "Reiniciar agora",
+    "later": "Depois",
+    "restartingTitle": "Reiniciando o app",
+    "restarting": "Aplicando a atualização…",
+    "errorTitle": "Atualização interrompida",
+    "downloadError": "Não foi possível preparar a atualização. Você pode continuar usando o app e tentar novamente.",
+    "restartError": "Não foi possível reiniciar o app. Tente novamente ou feche e abra o app para aplicar a atualização.",
+    "retry": "Tentar novamente",
+    "dismiss": "Dispensar"
   }
 }
