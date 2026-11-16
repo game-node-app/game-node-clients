@@ -3546,4 +3546,22 @@ export type TranslationSchema = {
       secondaryCta: string;
     };
   };
+  mobileLiveUpdate: {
+    downloadingTitle: string;
+    downloading: string;
+    downloadProgress: string;
+    preparing: string;
+    progressLabel: string;
+    readyTitle: string;
+    ready: string;
+    restartNow: string;
+    later: string;
+    restartingTitle: string;
+    restarting: string;
+    errorTitle: string;
+    downloadError: string;
+    restartError: string;
+    retry: string;
+    dismiss: string;
+  };
 };

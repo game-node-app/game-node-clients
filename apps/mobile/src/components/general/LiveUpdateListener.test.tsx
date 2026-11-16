@@ -1,183 +1,168 @@
 // @vitest-environment jsdom
-import { cleanup, render, waitFor } from "@testing-library/react";
+import { MantineProvider } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { Capacitor } from "@capacitor/core";
-import { App } from "@capacitor/app";
-import { LiveUpdate } from "@capawesome/capacitor-live-update";
+import type { ReactNode } from "react";
+import en from "../../../../../packages/locales/src/translations/json/en.json";
 import LiveUpdateListener from "./LiveUpdateListener";
+import { useLiveUpdate, type LiveUpdateState } from "./useLiveUpdate";
 
-vi.mock("@capacitor/core", () => ({
-  Capacitor: { isNativePlatform: vi.fn() },
+vi.mock("./useLiveUpdate", () => ({ useLiveUpdate: vi.fn() }));
+vi.mock("@mantine/notifications", () => ({
+  notifications: { show: vi.fn(), update: vi.fn(), hide: vi.fn() },
 }));
-vi.mock("@capacitor/app", () => ({ App: { addListener: vi.fn() } }));
-vi.mock("@capawesome/capacitor-live-update", () => ({
-  LiveUpdate: {
-    ready: vi.fn(),
-    getCurrentBundle: vi.fn(),
-    getNextBundle: vi.fn(),
-    getDownloadedBundles: vi.fn(),
-    downloadBundle: vi.fn(),
-    setNextBundle: vi.fn(),
-  },
+vi.mock("@repo/locales", () => ({
+  useTranslation: () => ({ t: translate }),
 }));
 
-const directory = `https://updates.example/ota/${__NATIVE_FINGERPRINT__}/`;
-const manifest = {
-  bundleId: "1.8.13-abc1234",
-  url: `${directory}1.8.13-abc1234.zip`,
-  checksum: "ab".repeat(32),
-};
-const remove = vi.fn();
-let resume: () => void;
+function translate(key: string, options?: { progress: number }) {
+  const field = key.replace(
+    "mobileLiveUpdate.",
+    "",
+  ) as keyof typeof en.mobileLiveUpdate;
+  return en.mobileLiveUpdate[field].replace(
+    "{{progress}}",
+    String(options?.progress),
+  );
+}
+
+const restart = vi.fn();
+const retry = vi.fn();
+const dismiss = vi.fn();
+function setState(state: LiveUpdateState) {
+  vi.mocked(useLiveUpdate).mockReturnValue({ state, restart, retry, dismiss });
+}
+function renderMessage(message?: ReactNode) {
+  const latest =
+    vi.mocked(notifications.update).mock.lastCall?.[0] ??
+    vi.mocked(notifications.show).mock.lastCall?.[0];
+  return render(
+    <MantineProvider>{message ?? latest?.message}</MantineProvider>,
+  );
+}
 
 beforeEach(() => {
   vi.resetAllMocks();
-  vi.stubEnv("VITE_PUBLIC_LIVE_UPDATE_URL", "https://updates.example/");
-  vi.mocked(Capacitor.isNativePlatform).mockReturnValue(true);
-  vi.mocked(LiveUpdate.ready).mockResolvedValue({
-    currentBundleId: null,
-    previousBundleId: null,
-    rollback: false,
+  window.matchMedia = vi.fn().mockReturnValue({
+    matches: false,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
   });
-  vi.mocked(LiveUpdate.getCurrentBundle).mockResolvedValue({ bundleId: null });
-  vi.mocked(LiveUpdate.getNextBundle).mockResolvedValue({ bundleId: null });
-  vi.mocked(LiveUpdate.getDownloadedBundles).mockResolvedValue({
-    bundleIds: [],
-  });
-  vi.mocked(App.addListener).mockImplementation(async (_event, callback) => {
-    resume = callback as () => void;
-    return { remove };
-  });
-  vi.stubGlobal(
-    "fetch",
-    vi
-      .fn()
-      .mockResolvedValue({ status: 200, ok: true, json: async () => manifest }),
-  );
-  vi.spyOn(console, "error").mockImplementation(() => {});
+  setState({ status: "idle" });
 });
-afterEach(() => {
-  cleanup();
-  vi.restoreAllMocks();
-  vi.unstubAllEnvs();
-  vi.unstubAllGlobals();
+afterEach(cleanup);
+
+it("keeps idle checks invisible", () => {
+  render(<LiveUpdateListener />);
+  expect(notifications.show).not.toHaveBeenCalled();
+  expect(restart).not.toHaveBeenCalled();
 });
 
-it("confirms readiness before checking and passes the hex checksum to Android without reloading", async () => {
-  const { unmount } = render(<LiveUpdateListener />);
-  await waitFor(() =>
-    expect(LiveUpdate.setNextBundle).toHaveBeenCalledWith({
-      bundleId: manifest.bundleId,
+it("updates one persistent notification with real progress without offering restart early", () => {
+  setState({ status: "downloading", progress: null });
+  const listener = render(<LiveUpdateListener />);
+  expect(notifications.show).toHaveBeenCalledWith(
+    expect.objectContaining({
+      id: "mobile-live-update",
+      loading: true,
+      autoClose: false,
+      withCloseButton: false,
     }),
   );
-  expect(LiveUpdate.ready).toHaveBeenCalledOnce();
-  expect(vi.mocked(LiveUpdate.ready).mock.invocationCallOrder[0]).toBeLessThan(
-    vi.mocked(fetch).mock.invocationCallOrder[0]!,
+  const initialMessage = renderMessage();
+  expect(screen.getByText(en.mobileLiveUpdate.downloading)).toBeTruthy();
+  expect(screen.queryByRole("progressbar")).toBeNull();
+  expect(screen.queryByRole("button")).toBeNull();
+  initialMessage.unmount();
+
+  setState({ status: "downloading", progress: 42.9 });
+  listener.rerender(<LiveUpdateListener />);
+  const progressMessage = renderMessage();
+  expect(screen.getByText("Downloading update: 42%")).toBeTruthy();
+  expect(screen.getByRole("progressbar").getAttribute("aria-valuenow")).toBe(
+    "42.9",
   );
-  expect(fetch).toHaveBeenCalledWith(
-    `${directory}latest.json`,
-    expect.objectContaining({ cache: "no-store" }),
+  expect(screen.getByRole("progressbar").getAttribute("aria-label")).toBe(
+    en.mobileLiveUpdate.progressLabel,
   );
-  expect(LiveUpdate.downloadBundle).toHaveBeenCalledWith(manifest);
-  resume();
-  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
-  unmount();
-  await waitFor(() => expect(remove).toHaveBeenCalledOnce());
+  progressMessage.unmount();
+
+  setState({ status: "downloading", progress: 100 });
+  listener.rerender(<LiveUpdateListener />);
+  renderMessage();
+  expect(screen.getByText(en.mobileLiveUpdate.preparing)).toBeTruthy();
+  expect(screen.queryByRole("button")).toBeNull();
+  expect(notifications.show).toHaveBeenCalledOnce();
+  expect(notifications.hide).not.toHaveBeenCalled();
+  expect(restart).not.toHaveBeenCalled();
 });
 
-it("does nothing on web platforms", async () => {
-  vi.mocked(Capacitor.isNativePlatform).mockReturnValue(false);
+it("only restarts on explicit user action and allows postponing", () => {
+  setState({ status: "ready" });
   render(<LiveUpdateListener />);
-  expect(LiveUpdate.ready).not.toHaveBeenCalled();
-  expect(App.addListener).not.toHaveBeenCalled();
-  expect(fetch).not.toHaveBeenCalled();
+  renderMessage();
+  expect(screen.getByText(en.mobileLiveUpdate.ready)).toBeTruthy();
+  expect(restart).not.toHaveBeenCalled();
+  fireEvent.click(
+    screen.getByRole("button", { name: en.mobileLiveUpdate.restartNow }),
+  );
+  expect(restart).toHaveBeenCalledOnce();
+  fireEvent.click(
+    screen.getByRole("button", { name: en.mobileLiveUpdate.later }),
+  );
+  expect(dismiss).toHaveBeenCalledOnce();
 });
 
-it.each(["current", "next", "downloaded"])(
-  "reuses the %s bundle",
-  async (location) => {
-    if (location === "current")
-      vi.mocked(LiveUpdate.getCurrentBundle).mockResolvedValue({
-        bundleId: manifest.bundleId,
-      });
-    if (location === "next")
-      vi.mocked(LiveUpdate.getNextBundle).mockResolvedValue({
-        bundleId: manifest.bundleId,
-      });
-    if (location === "downloaded")
-      vi.mocked(LiveUpdate.getDownloadedBundles).mockResolvedValue({
-        bundleIds: [manifest.bundleId],
-      });
+it("disables both actions while restarting", () => {
+  setState({ status: "restarting" });
+  render(<LiveUpdateListener />);
+  renderMessage();
+  expect(screen.getByText(en.mobileLiveUpdate.restarting)).toBeTruthy();
+  const buttons = screen.getAllByRole("button") as HTMLButtonElement[];
+  expect(buttons.every((button) => button.disabled)).toBe(true);
+  buttons.forEach((button) => fireEvent.click(button));
+  expect(restart).not.toHaveBeenCalled();
+  expect(dismiss).not.toHaveBeenCalled();
+});
+
+it.each(["download", "restart"] as const)(
+  "offers retry and dismiss after %s failure",
+  (phase) => {
+    setState({ status: "error", phase });
     render(<LiveUpdateListener />);
-    await waitFor(() =>
-      expect(
-        location === "downloaded"
-          ? LiveUpdate.setNextBundle
-          : LiveUpdate.getNextBundle,
-      ).toHaveBeenCalled(),
+    renderMessage();
+    expect(
+      screen.getByText(
+        phase === "restart"
+          ? en.mobileLiveUpdate.restartError
+          : en.mobileLiveUpdate.downloadError,
+      ),
+    ).toBeTruthy();
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({ color: "red", loading: false }),
     );
-    expect(LiveUpdate.downloadBundle).not.toHaveBeenCalled();
-    if (location !== "downloaded")
-      expect(LiveUpdate.setNextBundle).not.toHaveBeenCalled();
+    fireEvent.click(
+      screen.getByRole("button", { name: en.mobileLiveUpdate.retry }),
+    );
+    expect(retry).toHaveBeenCalledOnce();
+    fireEvent.click(
+      screen.getByRole("button", { name: en.mobileLiveUpdate.dismiss }),
+    );
+    expect(dismiss).toHaveBeenCalledOnce();
   },
 );
 
-it.each([
-  { ...manifest, checksum: "invalid" },
-  { ...manifest, bundleId: "../other" },
-  { ...manifest, bundleId: "public" },
-  { ...manifest, url: "http://updates.example/bundle.zip" },
-  { ...manifest, url: "https://updates.example/ota/other/bundle.zip" },
-  null,
-])("rejects malformed or incompatible manifests: %j", async (value) => {
-  vi.mocked(fetch).mockResolvedValue({
-    status: 200,
-    ok: true,
-    json: async () => value,
-  } as Response);
-  render(<LiveUpdateListener />);
-  await waitFor(() => expect(console.error).toHaveBeenCalled());
-  expect(LiveUpdate.downloadBundle).not.toHaveBeenCalled();
-  expect(LiveUpdate.setNextBundle).not.toHaveBeenCalled();
-});
-
-it.each(["offline", "checksum"])(
-  "catches %s failures without staging a bundle",
-  async (failure) => {
-    if (failure === "offline")
-      vi.mocked(fetch).mockRejectedValue(new Error("Offline"));
-    else
-      vi.mocked(LiveUpdate.downloadBundle).mockRejectedValue(
-        new Error("Checksum mismatch"),
-      );
-    render(<LiveUpdateListener />);
-    await waitFor(() => expect(console.error).toHaveBeenCalled());
-    expect(LiveUpdate.setNextBundle).not.toHaveBeenCalled();
-  },
-);
-
-it("ignores missing manifests and retries on resume", async () => {
-  vi.mocked(fetch).mockResolvedValueOnce({ status: 404 } as Response);
-  render(<LiveUpdateListener />);
-  await waitFor(() => expect(fetch).toHaveBeenCalledOnce());
-  resume();
-  await waitFor(() => expect(LiveUpdate.setNextBundle).toHaveBeenCalled());
-  expect(console.error).not.toHaveBeenCalled();
-});
-
-it("prevents overlapping checks and does not stage after unmount", async () => {
-  let finish!: () => void;
-  vi.mocked(LiveUpdate.downloadBundle).mockReturnValue(
-    new Promise<void>((resolve) => {
-      finish = resolve;
-    }),
-  );
-  const { unmount } = render(<LiveUpdateListener />);
-  await waitFor(() => expect(LiveUpdate.downloadBundle).toHaveBeenCalledOnce());
-  resume();
-  expect(fetch).toHaveBeenCalledOnce();
-  unmount();
-  finish();
-  await waitFor(() => expect(remove).toHaveBeenCalledOnce());
-  expect(LiveUpdate.setNextBundle).not.toHaveBeenCalled();
+it("hides the notification on idle and cleans it up on unmount", () => {
+  setState({ status: "ready" });
+  const listener = render(<LiveUpdateListener />);
+  setState({ status: "idle" });
+  listener.rerender(<LiveUpdateListener />);
+  expect(notifications.hide).toHaveBeenCalledOnce();
+  setState({ status: "ready" });
+  listener.rerender(<LiveUpdateListener />);
+  expect(notifications.show).toHaveBeenCalledTimes(2);
+  listener.unmount();
+  expect(notifications.hide).toHaveBeenCalledTimes(2);
+  expect(dismiss).not.toHaveBeenCalled();
 });

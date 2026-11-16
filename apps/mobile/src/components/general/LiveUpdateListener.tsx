@@ -1,90 +1,115 @@
-import { App } from "@capacitor/app";
-import { Capacitor } from "@capacitor/core";
-import { LiveUpdate } from "@capawesome/capacitor-live-update";
-import { useEffect } from "react";
-import { z } from "zod";
+import { Button, Group, Progress, Stack, Text } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useTranslation } from "@repo/locales";
+import { useEffect, useRef } from "react";
+import { useLiveUpdate } from "./useLiveUpdate";
 
-const manifestSchema = z.object({
-  bundleId: z
-    .string()
-    .regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/)
-    .refine((id) => id !== "public"),
-  url: z.url({ protocol: /^https$/ }),
-  checksum: z.string().regex(/^[a-fA-F0-9]{64}$/),
-});
+const NOTIFICATION_ID = "mobile-live-update";
 
 const LiveUpdateListener = () => {
+  const { t } = useTranslation();
+  const { state, restart, retry, dismiss } = useLiveUpdate();
+  const visible = useRef(false);
+
   useEffect(() => {
-    if (!Capacitor.isNativePlatform()) return;
+    if (state.status === "idle") {
+      if (visible.current) notifications.hide(NOTIFICATION_ID);
+      visible.current = false;
+      return;
+    }
 
-    let checking = false;
-    let cancelled = false;
-    const check = async () => {
-      const baseUrl = import.meta.env.VITE_PUBLIC_LIVE_UPDATE_URL;
-      if (!baseUrl || checking || cancelled) return;
-      checking = true;
-      try {
-        const base = new URL(baseUrl);
-        if (base.protocol !== "https:")
-          throw new Error("Live update hosting must use HTTPS");
-        const directory = `${baseUrl.replace(
-          /\/$/,
-          "",
-        )}/ota/${__NATIVE_FINGERPRINT__}/`;
-        const response = await fetch(`${directory}latest.json`, {
-          cache: "no-store",
-          signal: AbortSignal.timeout(10000),
-        });
-        if (response.status === 404) return;
-        if (!response.ok)
-          throw new Error(`Live update manifest: HTTP ${response.status}`);
-        const manifest = manifestSchema.parse(await response.json());
-        // Keep downloads inside this shell's compatibility directory.
-        if (manifest.url !== `${directory}${manifest.bundleId}.zip`) {
-          throw new Error(
-            "Live update bundle URL does not match the native fingerprint",
-          );
-        }
-        const current = await LiveUpdate.getCurrentBundle();
-        const next = await LiveUpdate.getNextBundle();
-        if (
-          cancelled ||
-          manifest.bundleId === current.bundleId ||
-          manifest.bundleId === next.bundleId
-        )
-          return;
-        const downloaded = await LiveUpdate.getDownloadedBundles();
-        if (!downloaded.bundleIds.includes(manifest.bundleId)) {
-          await LiveUpdate.downloadBundle(manifest);
-        }
-        if (!cancelled)
-          await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
-      } catch (error) {
-        console.error("Live update check failed", error);
-      } finally {
-        checking = false;
-      }
+    const downloading = state.status === "downloading";
+    const restarting = state.status === "restarting";
+    const failed = state.status === "error";
+    const title = downloading
+      ? t("mobileLiveUpdate.downloadingTitle")
+      : restarting
+        ? t("mobileLiveUpdate.restartingTitle")
+        : failed
+          ? t("mobileLiveUpdate.errorTitle")
+          : t("mobileLiveUpdate.readyTitle");
+    const message = (
+      <Stack gap="xs">
+        {downloading ? (
+          <>
+            <Text size="sm" c="bright">
+              {state.progress === null
+                ? t("mobileLiveUpdate.downloading")
+                : state.progress >= 100
+                  ? t("mobileLiveUpdate.preparing")
+                  : t("mobileLiveUpdate.downloadProgress", {
+                      progress: Math.floor(state.progress),
+                    })}
+            </Text>
+            {state.progress !== null && (
+              <Progress
+                value={state.progress}
+                aria-label={t("mobileLiveUpdate.progressLabel")}
+              />
+            )}
+          </>
+        ) : (
+          <Text size="sm" c="bright">
+            {restarting
+              ? t("mobileLiveUpdate.restarting")
+              : failed
+                ? state.phase === "restart"
+                  ? t("mobileLiveUpdate.restartError")
+                  : t("mobileLiveUpdate.downloadError")
+                : t("mobileLiveUpdate.ready")}
+          </Text>
+        )}
+        {!downloading && (
+          <Group gap="xs">
+            <Button
+              size="sm"
+              mih={44}
+              onClick={() => void (failed ? retry() : restart())}
+              loading={restarting}
+              disabled={restarting}
+            >
+              {failed
+                ? t("mobileLiveUpdate.retry")
+                : t("mobileLiveUpdate.restartNow")}
+            </Button>
+            <Button
+              size="sm"
+              mih={44}
+              variant="subtle"
+              disabled={restarting}
+              onClick={dismiss}
+            >
+              {failed
+                ? t("mobileLiveUpdate.dismiss")
+                : t("mobileLiveUpdate.later")}
+            </Button>
+          </Group>
+        )}
+      </Stack>
+    );
+    const notification = {
+      id: NOTIFICATION_ID,
+      title,
+      message,
+      color: failed ? "red" : undefined,
+      loading: restarting || (downloading && state.progress === null),
+      autoClose: false as const,
+      withCloseButton: false,
     };
+    if (visible.current) notifications.update(notification);
+    else {
+      notifications.show(notification);
+      visible.current = true;
+    }
+  }, [state, restart, retry, dismiss, t]);
 
-    const listener = (async () => {
-      try {
-        await LiveUpdate.ready();
-        if (cancelled) return;
-        const handle = await App.addListener("resume", () => {
-          void check();
-        });
-        void check();
-        return handle;
-      } catch (error) {
-        console.error("Live update initialization failed", error);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-      void listener.then((handle) => handle?.remove()).catch(console.error);
-    };
-  }, []);
+  useEffect(
+    () => () => {
+      if (visible.current) notifications.hide(NOTIFICATION_ID);
+      visible.current = false;
+    },
+    [],
+  );
 
   return null;
 };

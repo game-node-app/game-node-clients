@@ -3541,5 +3541,23 @@
       "primaryCta": "Subscribe to Premium",
       "secondaryCta": "Start for free"
     }
+  },
+  "mobileLiveUpdate": {
+    "downloadingTitle": "Downloading update",
+    "downloading": "A new update is downloading. You can keep using the app.",
+    "downloadProgress": "Downloading update: {{progress}}%",
+    "preparing": "Download complete. Preparing the update…",
+    "progressLabel": "Update download progress",
+    "readyTitle": "Update ready",
+    "ready": "Restart to apply the update, or keep using the app and update on your next launch. Unsaved changes may be lost when restarting.",
+    "restartNow": "Restart now",
+    "later": "Later",
+    "restartingTitle": "Restarting app",
+    "restarting": "Applying the update…",
+    "errorTitle": "Update interrupted",
+    "downloadError": "We couldn’t prepare the update. You can keep using the app and try again.",
+    "restartError": "We couldn’t restart the app. Try again, or close and reopen the app to apply the update.",
+    "retry": "Try again",
+    "dismiss": "Dismiss"
   }
 }

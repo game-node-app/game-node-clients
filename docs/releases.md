@@ -182,13 +182,28 @@ versions. Commit the generated Gradle changes from `cap sync` with plugin change
 so build-time and publish-time fingerprints agree. JS-only and release-version
 changes preserve the fingerprint; native changes get a separate update path.
 
-The listener confirms startup with `ready()`, checks on launch and resume,
-downloads a matching bundle with checksum verification, and activates it on the
-next launch. Offline failures are logged without blocking the app. If startup
+The listener confirms startup with `ready()`, checks on launch and resume, and
+downloads a matching bundle with checksum verification. A persistent notification
+shows download progress without blocking navigation. Until the plugin reports a
+percentage, it shows download activity; reaching 100% still requires preparation
+to finish before restart is offered. Once the bundle is staged, the user can
+restart immediately or choose Later to apply it on the next cold launch. Restart
+is always an explicit action and can discard unsaved edits. Deferring suppresses
+repeat prompts for that bundle during the current session. An already staged
+bundle can be offered even when the manifest server is offline. Download or
+restart failures offer a retry; background manifest failures are logged without
+interrupting the app. If startup
 does not signal readiness within 10 seconds, Capawesome resets to the bundle
 shipped with the installed app; the next launch uses that bundle. Installing a
 new store build resets downloaded bundles. The first release containing the
 plugin must be installed through the Play Store before OTA can reach those users.
+
+For device acceptance, use an installed native build without Vite live reload:
+publish a compatible bundle, verify progress while navigating, then verify both
+Later followed by a cold launch and Restart now. Also test a slow/offline
+download and a pending bundle with the manifest server unavailable. JavaScript
+tests exercise native events and failure paths with plugin mocks; actual WebView
+reload and rollback behavior require this device check.
 
 To roll back distribution, overwrite `ota/<fingerprint>/latest.json` with the
 previous bundle's **full manifest**, retaining its URL and checksum, or delete it
