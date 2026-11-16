@@ -1,0 +1,22 @@
+{
+  "source": "263b0f8c25c16b7a2ffde64fb40a0e5650664eef",
+  "changesets": [
+    ".changeset/mobile-ota-progress.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[1ff726dc96763dd93057e32e130dd7c1ab7f0235...263b0f8c25c16b7a2ffde64fb40a0e5650664eef]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/263b0f8c25c16b7a2ffde64fb40a0e5650664eef",
+  "versions": {
+    "mobile": "1.16.2"
+  }
+}
