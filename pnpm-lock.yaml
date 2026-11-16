@@ -21,6 +21,12 @@ importers:
       '@changesets/parse':
         specifier: 0.4.3
         version: 0.4.3
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^8.46.0
+        version: 8.46.1(@typescript-eslint/parser@8.46.1(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)
+      '@typescript-eslint/parser':
+        specifier: ^8.46.0
+        version: 8.46.1(eslint@8.57.1)(typescript@5.9.2)
       prettier:
         specifier: 3.5.3
         version: 3.5.3
