@@ -1,0 +1,29 @@
+{
+  "source": "01dcf23206f1d4105942ab834540e0ef89dffce2",
+  "changesets": [
+    ".changeset/link-preview-tags.md",
+    ".changeset/recap-cover-first-cards.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[1cbe3f674ab80238fb2d122ff9016c318325d20b...01dcf23206f1d4105942ab834540e0ef89dffce2]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/01dcf23206f1d4105942ab834540e0ef89dffce2",
+  "versions": {
+    "web": "1.18.0",
+    "mobile": "1.16.0"
+  }
+}
