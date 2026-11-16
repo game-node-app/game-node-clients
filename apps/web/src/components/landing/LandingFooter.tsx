@@ -49,7 +49,7 @@ const LandingFooter = () => {
               <Anchor href="#features">
                 {t("landing.presentation.features")}
               </Anchor>
-              <Anchor href="#premium">
+              <Anchor component={Link} href="/premium">
                 {t("landing.presentation.premium")}
               </Anchor>
               <Anchor component={Link} href="/mcp">

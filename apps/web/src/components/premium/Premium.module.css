@@ -1,0 +1,47 @@
+/* Shared tokens for the public Premium page. Section styles live in the
+   per-group modules (PremiumTop / PremiumMiddle / PremiumClosing). */
+.page {
+  --premium-canvas: #0b0b0b;
+  --premium-surface: #121212;
+  --premium-surface-raised: #1a1a1a;
+  --premium-border: #262626;
+  --premium-border-subtle: #1f1f1f;
+  --premium-text: #fafafa;
+  --premium-muted: #8c8c8c;
+  --premium-body: #a6a6a6;
+  --premium-violet: #9747ff;
+  --premium-violet-text: #b98aff;
+  --premium-violet-soft: #c9a6ff;
+  --premium-violet-subtle: rgba(151, 71, 255, 0.16);
+  --premium-success: #3dd68c;
+  background: var(--premium-canvas);
+  color: var(--premium-text);
+  overflow-x: clip;
+}
+
+.page a:focus-visible,
+.page button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 1248px) {
+  .container {
+    padding-inline: 0;
+  }
+}
+
+.eyebrow {
+  color: var(--premium-violet-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

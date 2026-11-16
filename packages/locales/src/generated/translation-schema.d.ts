@@ -3202,4 +3202,348 @@ export type TranslationSchema = {
       };
     };
   };
+  premium: {
+    meta: {
+      title: string;
+      description: string;
+    };
+    hero: {
+      eyebrow: string;
+      titleStart: string;
+      titleHighlight: string;
+      description: string;
+      fallbackMonthlyPrice: string;
+      fallbackYearlyPrice: string;
+      priceSuffix: string;
+      primaryCta: string;
+      secondaryCta: string;
+      guarantee: string;
+      guaranteeHighlight: string;
+      profile: {
+        badge: string;
+        title: string;
+        stats: string;
+        steamPlaying: string;
+        chipVideoTitle: string;
+        chipVideoFormats: string;
+        chipBorderTitle: string;
+        chipBorderSubtitle: string;
+        chipAccentLabel: string;
+      };
+    };
+    extras: {
+      eyebrow: string;
+      title: string;
+      items: {
+        video: {
+          title: string;
+          description: string;
+        };
+        border: {
+          title: string;
+          description: string;
+        };
+        theme: {
+          title: string;
+          description: string;
+        };
+        badge: {
+          title: string;
+          description: string;
+        };
+        title: {
+          title: string;
+          description: string;
+        };
+        steam: {
+          title: string;
+          description: string;
+        };
+        collections: {
+          title: string;
+          description: string;
+        };
+        wall: {
+          title: string;
+          description: string;
+        };
+      };
+    };
+    featureVideo: {
+      number: string;
+      title: string;
+      description: string;
+      bullets: {
+        formats: string;
+        shapes: string;
+        crop: string;
+      };
+      mockup: {
+        avatarTag: string;
+        cropTitle: string;
+        cropBadge: string;
+        cropHint: string;
+        zoomLabel: string;
+        zoomValue: string;
+        limitPill: string;
+      };
+    };
+    featureAccent: {
+      number: string;
+      title: string;
+      description: string;
+      bullets: {
+        palette: string;
+        toggles: string;
+        preview: string;
+      };
+      mockup: {
+        stripLabel: string;
+        badge: string;
+        pickerTitle: string;
+        pickerHint: string;
+        titles: {
+          completionist: string;
+          cozy: string;
+          speedrunner: string;
+        };
+      };
+    };
+    featureBadge: {
+      number: string;
+      title: string;
+      description: string;
+      bullets: {
+        choices: string;
+        toggle: string;
+      };
+      mockup: {
+        selectorHeader: string;
+        badge: string;
+        reviewQuote: string;
+        replyBody: string;
+        titles: {
+          none: string;
+          patron: string;
+          collector: string;
+          completionist: string;
+          explorer: string;
+          critic: string;
+          nightOwl: string;
+          retroFan: string;
+          speedrunner: string;
+          cozyGamer: string;
+        };
+      };
+    };
+    rest: {
+      eyebrow: string;
+      title: string;
+      live: {
+        title: string;
+        description: string;
+        steamAccount: string;
+        connected: string;
+        playingNow: string;
+        game: string;
+      };
+      collections: {
+        title: string;
+        description: string;
+        gameCount: string;
+        items: {
+          platinums: string;
+          cozy: string;
+          soulslike: string;
+          coop: string;
+          backlog: string;
+        };
+        sixthCollection: string;
+        freeLimitPill: string;
+        premiumLimitPill: string;
+      };
+      toggles: {
+        title: string;
+        description: string;
+        saved: string;
+        items: {
+          badge: {
+            title: string;
+            description: string;
+          };
+          border: {
+            title: string;
+            description: string;
+          };
+          theme: {
+            title: string;
+            description: string;
+          };
+          live: {
+            title: string;
+            description: string;
+          };
+          wall: {
+            title: string;
+            description: string;
+          };
+        };
+      };
+    };
+    comparison: {
+      eyebrow: string;
+      title: string;
+      columns: {
+        feature: string;
+        free: string;
+        premium: string;
+      };
+      included: string;
+      notIncluded: string;
+      groups: {
+        organize: string;
+        profile: string;
+      };
+      rows: {
+        library: string;
+        import: string;
+        achievements: string;
+        collections: string;
+        collectionsFree: string;
+        collectionsPremium: string;
+        video: string;
+        border: string;
+        theme: string;
+        badge: string;
+        live: string;
+        wall: string;
+      };
+    };
+    pricing: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      toggle: {
+        label: string;
+        monthly: string;
+        yearly: string;
+        yearlyBadge: string;
+      };
+      free: {
+        title: string;
+        description: string;
+        price: string;
+        period: string;
+        note: string;
+        cta: string;
+        features: {
+          library: string;
+          import: string;
+          achievements: string;
+          collections: string;
+        };
+      };
+      premium: {
+        title: string;
+        badge: string;
+        tag: string;
+        description: string;
+        monthlyFallback: string;
+        yearlyFallback: string;
+        perMonth: string;
+        perYear: string;
+        yearlyAlt: string;
+        monthlyAlt: string;
+        cta: string;
+        listHeading: string;
+        features: {
+          video: string;
+          border: string;
+          theme: string;
+          badge: string;
+          live: string;
+          collections: string;
+          wall: string;
+        };
+      };
+      footnotes: {
+        international: string;
+        stripe: string;
+        cancel: string;
+      };
+    };
+    wall: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      pill: string;
+      ctaTitle: string;
+      ctaLink: string;
+      note: string;
+    };
+    money: {
+      eyebrow: string;
+      items: {
+        servers: {
+          title: string;
+          description: string;
+        };
+        development: {
+          title: string;
+          description: string;
+        };
+        openSource: {
+          title: string;
+          description: string;
+        };
+      };
+    };
+    faq: {
+      eyebrow: string;
+      title: string;
+      supportPrompt: string;
+      supportEmail: string;
+      items: {
+        cancel: {
+          question: string;
+          answer: string;
+        };
+        collections: {
+          question: string;
+          answer: string;
+        };
+        video: {
+          question: string;
+          answer: string;
+        };
+        live: {
+          question: string;
+          answer: string;
+        };
+        wall: {
+          question: string;
+          answer: string;
+        };
+        payment: {
+          question: string;
+          answer: string;
+        };
+      };
+    };
+    freeForever: {
+      titleStart: string;
+      titleHighlight: string;
+      description: string;
+      github: string;
+      discord: string;
+    };
+    finalCta: {
+      titleStart: string;
+      titleHighlight: string;
+      fallbackPrice: string;
+      subtitle: string;
+      primaryCta: string;
+      secondaryCta: string;
+    };
+  };
 };

@@ -12,6 +12,7 @@ import { useTranslation } from "@repo/locales";
 const EXCLUDED_ROUTES = [
   "/",
   "/about",
+  "/premium",
   "/tos",
   "/privacy",
   "/auth",

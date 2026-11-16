@@ -9,7 +9,7 @@ const LandingHeader = () => {
   const { pathname } = useRouter();
   const links = [
     { href: "/about", label: t("landing.presentation.about") },
-    { href: "/#premium", label: t("landing.presentation.premium") },
+    { href: "/premium", label: t("landing.presentation.premium") },
     { href: "/mcp", label: t("mcp.title") },
     {
       href: "https://play.google.com/store/apps/details?id=app.gamenode",

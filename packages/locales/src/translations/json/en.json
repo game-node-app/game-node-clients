@@ -3197,5 +3197,349 @@
         "open": "Open Downloads"
       }
     }
+  },
+  "premium": {
+    "meta": {
+      "title": "GameNode Premium — Your profile, your way",
+      "description": "Video cover, animated border, your accent color, live Steam game, and unlimited collections. Every subscription funds servers and development."
+    },
+    "hero": {
+      "eyebrow": "GameNode Premium",
+      "titleStart": "Your profile, your way.",
+      "titleHighlight": "And GameNode online.",
+      "description": "Video cover, animated border, your color on your profile, live Steam game, and unlimited collections. Every subscription pays for servers and development.",
+      "fallbackMonthlyPrice": "$1.90",
+      "fallbackYearlyPrice": "$19.00",
+      "priceSuffix": "per month · or {{yearly}} per year",
+      "primaryCta": "Subscribe to Premium",
+      "secondaryCta": "See what's included",
+      "guarantee": "Cancel anytime, straight in the app. ",
+      "guaranteeHighlight": "Organizing your games stays free.",
+      "profile": {
+        "badge": "Premium",
+        "title": "Completionist",
+        "stats": "Level 14 · 10 followers · 15 following",
+        "steamPlaying": "PLAYING NOW ON STEAM",
+        "chipVideoTitle": "Video cover",
+        "chipVideoFormats": "MP4, MOV, WebM",
+        "chipBorderTitle": "Animated border",
+        "chipBorderSubtitle": "on avatar",
+        "chipAccentLabel": "Your accent color"
+      }
+    },
+    "extras": {
+      "eyebrow": "What comes in Premium",
+      "title": "Eight perks. Every one toggles on and off.",
+      "items": {
+        "video": {
+          "title": "Video cover and avatar",
+          "description": "A short video as your banner or avatar."
+        },
+        "border": {
+          "title": "Animated border",
+          "description": "An animated ring around your avatar."
+        },
+        "theme": {
+          "title": "Theme and accent color",
+          "description": "A strip in your color under the banner."
+        },
+        "badge": {
+          "title": "Premium badge",
+          "description": "On your profile, reviews, and comments."
+        },
+        "title": {
+          "title": "Profile title",
+          "description": "Completionist, Speedrunner, Cozy Gamer, and more."
+        },
+        "steam": {
+          "title": "Steam Live",
+          "description": "The game you're playing right now, on your profile."
+        },
+        "collections": {
+          "title": "Unlimited collections",
+          "description": "Free goes up to 5. No cap here."
+        },
+        "wall": {
+          "title": "Premium Wall",
+          "description": "Your name and avatar on the public wall."
+        }
+      }
+    },
+    "featureVideo": {
+      "number": "01",
+      "title": "Your profile doesn't have to sit still.",
+      "description": "Upload a short video as your banner or avatar. You frame it, and GameNode crops and converts it.",
+      "bullets": {
+        "formats": "MP4, MOV, WebM, or Matroska, up to 64 MiB",
+        "shapes": "Wide banner or circular avatar",
+        "crop": "Drag to reposition and adjust the zoom"
+      },
+      "mockup": {
+        "avatarTag": "Avatar video",
+        "cropTitle": "Frame your video",
+        "cropBadge": "Banner video",
+        "cropHint": "Drag to reposition and use the slider to zoom in. Only the framed area is kept.",
+        "zoomLabel": "Zoom",
+        "zoomValue": "1.4×",
+        "limitPill": "up to 64 MiB"
+      }
+    },
+    "featureAccent": {
+      "number": "02",
+      "title": "Your color, everywhere on your profile.",
+      "description": "Choose your accent color. It paints your animated avatar border, your badge, and the Premium theme strip under your banner.",
+      "bullets": {
+        "palette": "Preset palette or custom hex color",
+        "toggles": "Animated border and theme with their own toggles",
+        "preview": "Live preview before saving"
+      },
+      "mockup": {
+        "stripLabel": "PREMIUM",
+        "badge": "Premium",
+        "pickerTitle": "Accent color",
+        "pickerHint": "Used on the border, badge, and theme",
+        "titles": {
+          "completionist": "Completionist",
+          "cozy": "Cozy Gamer",
+          "speedrunner": "Speedrunner"
+        }
+      }
+    },
+    "featureBadge": {
+      "number": "03",
+      "title": "Badge beside your name. Title underneath.",
+      "description": "The Premium badge shows up on your profile, reviews, and comments. Your title sits right below your name.",
+      "bullets": {
+        "choices": "9 titles to choose from, or none",
+        "toggle": "Hide the badge whenever you want"
+      },
+      "mockup": {
+        "selectorHeader": "Title",
+        "badge": "Premium",
+        "reviewQuote": "“Platinumed after 63 hours. Path of Pain nearly made me quit, and it was the best part.”",
+        "replyBody": "Path of Pain deathless is legendary. Congrats!",
+        "titles": {
+          "none": "No title",
+          "patron": "Patron",
+          "collector": "Collector",
+          "completionist": "Completionist",
+          "explorer": "Explorer",
+          "critic": "Critic",
+          "nightOwl": "Night Owl",
+          "retroFan": "Retro Fan",
+          "speedrunner": "Speedrunner",
+          "cozyGamer": "Cozy Gamer"
+        }
+      }
+    },
+    "rest": {
+      "eyebrow": "04 · 05 · 06",
+      "title": "And the rest that makes a difference day to day.",
+      "live": {
+        "title": "What you're playing, live",
+        "description": "Connect Steam in Connections and your profile shows the game open right now. Updates every minute.",
+        "steamAccount": "Steam · ThePrado",
+        "connected": "Connected",
+        "playingNow": "PLAYING NOW ON STEAM",
+        "game": "Elden Ring"
+      },
+      "collections": {
+        "title": "Unlimited collections",
+        "description": "Free accounts can create up to 5 collections. On Premium, create as many as you want.",
+        "gameCount": "{{count}} games",
+        "items": {
+          "platinums": "Platinumed",
+          "cozy": "Sunday cozy",
+          "soulslike": "Soulslike",
+          "coop": "Co-op with Bia",
+          "backlog": "2027 Backlog"
+        },
+        "sixthCollection": "6th collection",
+        "freeLimitPill": "Free: up to 5",
+        "premiumLimitPill": "Premium: unlimited"
+      },
+      "toggles": {
+        "title": "You decide what shows up",
+        "description": "Each perk has its own toggle in Settings, under the Premium tab. We save right away, with no save button.",
+        "saved": "Saved",
+        "items": {
+          "badge": {
+            "title": "Badge",
+            "description": "On your profile, in reviews, and in comments."
+          },
+          "border": {
+            "title": "Animated border",
+            "description": "An animated ring around your avatar."
+          },
+          "theme": {
+            "title": "Premium theme",
+            "description": "A strip in your accent color under your banner."
+          },
+          "live": {
+            "title": "Live profile",
+            "description": "The Steam game you're playing right now."
+          },
+          "wall": {
+            "title": "Premium Wall",
+            "description": "Show me on the public wall."
+          }
+        }
+      }
+    },
+    "comparison": {
+      "eyebrow": "Free & Premium",
+      "title": "Free organizes everything. Premium makes your profile yours.",
+      "columns": {
+        "feature": "Feature",
+        "free": "Free",
+        "premium": "Premium"
+      },
+      "included": "Included",
+      "notIncluded": "Not included",
+      "groups": {
+        "organize": "Organize",
+        "profile": "Your profile"
+      },
+      "rows": {
+        "library": "Library, reviews, and game journal",
+        "import": "Steam, PSN, and Xbox import",
+        "achievements": "Achievements and yearly wrapped",
+        "collections": "Collections",
+        "collectionsFree": "Up to 5",
+        "collectionsPremium": "Unlimited",
+        "video": "Video cover and avatar",
+        "border": "Animated avatar border",
+        "theme": "Premium theme in your accent color",
+        "badge": "Badge and title next to your name",
+        "live": "Live Steam game on your profile",
+        "wall": "Your name on the Premium Wall"
+      }
+    },
+    "pricing": {
+      "eyebrow": "Pricing",
+      "title": "One plan. Monthly or yearly.",
+      "subtitle": "Final amount is shown at checkout.",
+      "toggle": {
+        "label": "Billing interval",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "yearlyBadge": "2 months free"
+      },
+      "free": {
+        "title": "Free",
+        "description": "Everything you need to organize your games, with up to 5 collections.",
+        "price": "$0",
+        "period": "forever",
+        "note": "No card required",
+        "cta": "Start free",
+        "features": {
+          "library": "Library, reviews, and game journal",
+          "import": "Steam, PSN, and Xbox import",
+          "achievements": "Achievements and yearly wrapped",
+          "collections": "Up to 5 collections"
+        }
+      },
+      "premium": {
+        "title": "Premium",
+        "badge": "Premium",
+        "tag": "Keeps GameNode online",
+        "description": "Everything in Free, plus unlimited collections and extras for your profile.",
+        "monthlyFallback": "$1.90",
+        "yearlyFallback": "$19.00",
+        "perMonth": "per month",
+        "perYear": "per year",
+        "yearlyAlt": "or {{price}} per year, 2 months free",
+        "monthlyAlt": "or {{price}} per month · 2 months free on annual",
+        "cta": "Subscribe to Premium",
+        "listHeading": "Everything in Free, plus",
+        "features": {
+          "video": "Video cover and avatar",
+          "border": "Animated avatar border",
+          "theme": "Premium theme in your accent color",
+          "badge": "Badge and title next to your name",
+          "live": "Live Steam game on your profile",
+          "collections": "Unlimited collections",
+          "wall": "Your name on the Premium Wall"
+        }
+      },
+      "footnotes": {
+        "international": "Outside Brazil: US$ 1.90 per month or US$ 19.00 per year",
+        "stripe": "Secure payment via Stripe",
+        "cancel": "Cancelled? Extras stay until the end of the paid period"
+      }
+    },
+    "wall": {
+      "eyebrow": "Premium Wall",
+      "title": "The people keeping GameNode online.",
+      "description": "Every name here pays for a piece of the server and the development. Thank you, truly.",
+      "pill": "Premium",
+      "ctaTitle": "Your name here",
+      "ctaLink": "Subscribe to Premium",
+      "note": "The wall only shows the name and avatar of those who subscribe and kept the Premium Wall on."
+    },
+    "money": {
+      "eyebrow": "Where the money goes",
+      "items": {
+        "servers": {
+          "title": "Servers",
+          "description": "Library, images, videos and sync running for everyone, even on the free plan."
+        },
+        "development": {
+          "title": "Development",
+          "description": "Time to fix bugs, ship new features and keep the mobile app up to date."
+        },
+        "openSource": {
+          "title": "Open source",
+          "description": "GameNode's code is on GitHub. Anyone can inspect what gets built."
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Before you subscribe.",
+      "supportPrompt": "Questions about billing? Write to",
+      "supportEmail": "support@gamenode.app",
+      "items": {
+        "cancel": {
+          "question": "Can I cancel anytime?",
+          "answer": "Yes, right in the app under Settings. Your extras stay active until the end of the period you already paid for, then your account returns to the free plan."
+        },
+        "collections": {
+          "question": "Do I lose my collections if I cancel?",
+          "answer": "No. Everything you created stays intact. With more than 5 collections, you just can't create new ones until you return to Premium."
+        },
+        "video": {
+          "question": "Which videos can I use on my profile?",
+          "answer": "MP4, MOV, WebM or Matroska up to 64 MiB. You upload and crop them right inside the app, as a wide banner or a circular avatar."
+        },
+        "live": {
+          "question": "Which platform does live status work with?",
+          "answer": "Steam. Connect your Steam account in Connections and your profile shows the game you are currently playing, updated every minute."
+        },
+        "wall": {
+          "question": "Can I stay off the Supporters Wall?",
+          "answer": "Yes. In Settings under the Premium tab, you can turn off the Premium Wall anytime without losing any other perks."
+        },
+        "payment": {
+          "question": "How does payment work?",
+          "answer": "Payments are processed securely by Stripe on a monthly or yearly auto-renewing plan. You can manage your payment method and invoices in Settings."
+        }
+      }
+    },
+    "freeForever": {
+      "titleStart": "Nothing that is free today will ",
+      "titleHighlight": "become paid.",
+      "description": "Your library, imports, reviews and achievements stay free. Premium only adds extras.",
+      "github": "View on GitHub",
+      "discord": "Join the Discord"
+    },
+    "finalCta": {
+      "titleStart": "Your name on the wall. ",
+      "titleHighlight": "Your color on your profile.",
+      "fallbackPrice": "$1.90",
+      "subtitle": "{{price}} per month. Cancel anytime.",
+      "primaryCta": "Subscribe to Premium",
+      "secondaryCta": "Start for free"
+    }
   }
 }

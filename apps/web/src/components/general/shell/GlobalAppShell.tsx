@@ -7,7 +7,14 @@ import { Dock } from "@/components/general/shell/navbar/Dock";
 import { useRouter } from "next/router";
 import { SettingsModal } from "@repo/ui";
 
-const IGNORED_PATHNAMES = ["/", "/about", "/awards", "/auth", "/oauth/consent"];
+const IGNORED_PATHNAMES = [
+  "/",
+  "/about",
+  "/premium",
+  "/awards",
+  "/auth",
+  "/oauth/consent",
+];
 
 const HEADER_HEIGHT = 56;
 const DOCK_GUTTER = 16;
