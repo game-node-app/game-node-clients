@@ -3,4 +3,4 @@
 "mobile": patch
 ---
 
-Fix the Home recap card monthly strip and the Recap hero nodes chart on wide layouts: cap their width, size labels in screen pixels and keep overlapping nodes apart.
+Rebuild the Recap hero nodes chart to match the design (month grid, today marker, connected nodes, game chips) and cap the Home recap card monthly strip on wide layouts.

@@ -15,7 +15,7 @@ import {
 } from "#@/components/recap/year/util/recapYear";
 import { useShareText } from "#@/context/UIProvider";
 import { createErrorNotification, Link } from "#@/util";
-import { Badge, Button, Group, Stack, Text, Title } from "@mantine/core";
+import { Button, Group, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
 
@@ -125,20 +125,37 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
         </Button>
       </Group>
 
-      <Stack gap={4}>
+      <Stack gap={"sm"}>
         <Group justify={"space-between"} align={"center"} gap={"xs"}>
           <Title order={2} size={"h3"}>
             {chartTitle}
           </Title>
-          {isLive && today && (
-            <Badge
-              data-testid={"recap-hero-today"}
-              color={"brand"}
-              variant={"light"}
-            >
-              {t("recap.page.hero.today", { date: today })}
-            </Badge>
-          )}
+          <Group gap={"md"} wrap={"wrap"}>
+            <Group gap={6} wrap={"nowrap"}>
+              <span
+                aria-hidden={"true"}
+                className={"size-2.5 shrink-0 rounded-full bg-brand-5"}
+              />
+              <Text size={"sm"} c={"dimmed"}>
+                {t("recap.page.hero.chartSize")}
+              </Text>
+            </Group>
+            {isLive && (
+              <Group gap={6} wrap={"nowrap"}>
+                <span
+                  aria-hidden={"true"}
+                  className={"h-3 w-0.5 shrink-0 bg-[#adadad]"}
+                />
+                <Text
+                  data-testid={"recap-hero-updates"}
+                  size={"sm"}
+                  c={"dimmed"}
+                >
+                  {t("recap.page.hero.updates")}
+                </Text>
+              </Group>
+            )}
+          </Group>
         </Group>
         <RecapNodesChart
           year={year}
@@ -146,17 +163,11 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
           games={gamesQuery.data}
           label={chartTitle}
           gameLabel={gameLabel}
+          today={isLive ? recap.updatedAt : null}
+          todayLabel={
+            isLive && today ? t("recap.page.hero.today", { date: today }) : null
+          }
         />
-        <Group justify={"space-between"} gap={"xs"} wrap={"wrap"}>
-          <Text size={"xs"} c={"dimmed"}>
-            {t("recap.page.hero.chartSize")}
-          </Text>
-          {isLive && (
-            <Text data-testid={"recap-hero-updates"} size={"xs"} c={"dimmed"}>
-              {t("recap.page.hero.updates")}
-            </Text>
-          )}
-        </Group>
       </Stack>
     </Stack>
   );

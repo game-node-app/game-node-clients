@@ -164,119 +164,92 @@ export function getRecapDistributionShares(
     .sort((a, b) => b.count - a.count);
 }
 
+export type RecapNodeTier = "primary" | "secondary" | "muted";
+
 export interface RecapNodeLayout {
+  /** Position in the playtime order (0 = the most played game). */
   index: number;
   gameId: number;
-  /** Horizontal position in the 100-wide chart viewBox. */
+  /** Horizontal centre, in px of the chart (0 = Jan 1st, `width` = Dec 31st). */
   x: number;
-  /** Vertical position in the 60-high chart viewBox. */
+  /** Vertical centre, in px of the chart; more played games sit higher. */
   y: number;
-  /** Node radius; proportional to the square root of the hours. */
+  /** Node radius in px; proportional to the square root of the hours. */
   radius: number;
+  /** Visual weight: the top 5 are solid brand, the next 6 lighter, the rest outlined. */
+  tier: RecapNodeTier;
 }
 
-const CHART_WIDTH = 100;
-const CHART_HEIGHT = 60;
-const CHART_PADDING = 4;
-const MIN_RADIUS = 2.2;
-const MAX_RADIUS = 6.6;
+/** The year-chart geometry of the design (frame `5415:955`, 1200px wide). */
+export const RECAP_CHART = {
+  designWidth: 1200,
+  height: 300,
+  plotTop: 44,
+  plotBottom: 270,
+  monthLabelTop: 282,
+  /** Centre of the smallest / largest node. */
+  nodeBottom: 241.8,
+  nodeTop: 74.3,
+  minRadius: 5.5,
+  maxRadius: 18.35,
+  primaryNodes: 5,
+  secondaryNodes: 6,
+} as const;
+
+/** Day-of-year fraction (0–1) of an instant, in UTC. */
+export function getRecapYearFraction(
+  value: string | null | undefined,
+  year: number,
+): number | null {
+  if (!value) return null;
+  const date = dayjs.utc(value);
+  if (!date.isValid()) return null;
+  const start = dayjs.utc().year(year).startOf("year");
+  const fraction = date.diff(start, "day", true) / getYearDayCount(year);
+  return Math.min(1, Math.max(0, fraction));
+}
 
 /**
- * Hero node per top game: x from `firstPlayedAt` (falling back to the middle
- * of the year), y spread so the labels do not collide, radius ∝ √hours.
+ * Hero node per top game (design §10): x from `firstPlayedAt` (the middle of
+ * the year without it), radius ∝ √hours, and y from the same ratio, so the
+ * most played games float to the top and the long tail sits on the baseline.
+ * `width` is the rendered chart width; node sizes shrink below the design's
+ * 1200px so a phone is not left with a few giant circles.
  */
 export function getRecapNodeLayout(
   topGames: readonly RecapTopGameDto[],
   year: number,
+  width: number = RECAP_CHART.designWidth,
 ): RecapNodeLayout[] {
   const maxSeconds = Math.max(
     1,
     ...topGames.map((topGame) => topGame.totalPlaytimeSeconds),
   );
-  const startOfYear = dayjs.utc().year(year).startOf("year");
-  const totalDays = getYearDayCount(year);
-  const usableWidth = CHART_WIDTH - CHART_PADDING * 2;
+  const scale = Math.min(1, Math.max(0.7, width / RECAP_CHART.designWidth));
+  const yRange = RECAP_CHART.nodeBottom - RECAP_CHART.nodeTop;
 
-  const nodes = topGames.map((topGame, index) => {
-    const firstPlayedAt = topGame.firstPlayedAt
-      ? dayjs.utc(topGame.firstPlayedAt)
-      : null;
-    const dayOffset =
-      firstPlayedAt && firstPlayedAt.isValid()
-        ? firstPlayedAt.diff(startOfYear, "day")
-        : Math.floor(totalDays / 2);
-    const fraction = Math.min(1, Math.max(0, dayOffset / totalDays));
+  return topGames.map((topGame, index) => {
+    const ratio = Math.sqrt(
+      Math.max(0, topGame.totalPlaytimeSeconds) / maxSeconds,
+    );
+    const radius =
+      (RECAP_CHART.minRadius +
+        (RECAP_CHART.maxRadius - RECAP_CHART.minRadius) * ratio) *
+      scale;
+    const fraction = getRecapYearFraction(topGame.firstPlayedAt, year) ?? 0.5;
 
     return {
       index,
       gameId: topGame.gameId,
-      x: CHART_PADDING + fraction * usableWidth,
-      // Deterministic scatter inside the plot; overlaps are relaxed below.
-      y: CHART_HEIGHT / 2 + Math.sin((index + 1) * 1.7) * 14,
-      radius:
-        MIN_RADIUS +
-        (MAX_RADIUS - MIN_RADIUS) *
-          Math.sqrt(topGame.totalPlaytimeSeconds / maxSeconds),
+      x: Math.min(width - radius, Math.max(radius, fraction * width)),
+      y: RECAP_CHART.nodeBottom - ratio * yRange,
+      radius,
+      tier:
+        index < RECAP_CHART.primaryNodes
+          ? "primary"
+          : index < RECAP_CHART.primaryNodes + RECAP_CHART.secondaryNodes
+            ? "secondary"
+            : "muted",
     };
   });
-
-  return relaxRecapNodes(nodes);
-}
-
-/** Extra room kept around the nodes that carry a label above them. */
-const LABEL_ROOM = 5;
-const NODE_GAP = 0.8;
-const LABELLED_NODES = 4;
-
-/**
- * Nudges overlapping nodes apart (mostly vertically, so the x axis keeps its
- * month meaning) and keeps them, and the labels of the largest ones, inside
- * the plot. Deterministic: same input, same layout.
- */
-function relaxRecapNodes(nodes: RecapNodeLayout[]): RecapNodeLayout[] {
-  const result = nodes.map((node) => ({ ...node }));
-  const room = (node: RecapNodeLayout) =>
-    node.radius + (node.index < LABELLED_NODES ? LABEL_ROOM : NODE_GAP);
-
-  for (let pass = 0; pass < 60; pass++) {
-    let moved = false;
-
-    for (let i = 0; i < result.length; i++) {
-      for (let j = i + 1; j < result.length; j++) {
-        const a = result[i];
-        const b = result[j];
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        const distance = Math.hypot(dx * 0.5, dy);
-        const minimum = room(a) + room(b);
-
-        if (distance >= minimum) continue;
-
-        moved = true;
-        const push = (minimum - distance) / 2 + 0.01;
-        const direction =
-          distance === 0 ? (j % 2 === 0 ? 1 : -1) : dy / distance;
-        a.y -= push * direction;
-        b.y += push * direction;
-      }
-    }
-
-    for (const node of result) {
-      node.x = Math.min(
-        CHART_WIDTH - CHART_PADDING - node.radius,
-        Math.max(CHART_PADDING + node.radius, node.x),
-      );
-      node.y = Math.min(
-        CHART_HEIGHT - CHART_PADDING / 2 - node.radius,
-        Math.max(
-          node.radius + (node.index < LABELLED_NODES ? LABEL_ROOM : 1),
-          node.y,
-        ),
-      );
-    }
-
-    if (!moved) break;
-  }
-
-  return result;
 }
