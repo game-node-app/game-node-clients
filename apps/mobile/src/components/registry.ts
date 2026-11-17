@@ -1,8 +1,8 @@
 import { Browser } from "@capacitor/browser";
 import { Share } from "@capacitor/share";
 import { UIHookRegistry, UIPresenterRegistry } from "@repo/ui";
+import { shareGeneratedFile } from "@/util/shareGeneratedFile";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
-import { MobileGameInfoActions } from "@/components/game/info/MobileGameInfoActions.tsx";
 import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
@@ -17,7 +17,6 @@ import { useIonViewActive } from "@/components/general/hooks/useIonViewActive";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
-  GameInfoActions: MobileGameInfoActions,
   DetailsBox: MobileDetailsBox,
   TrendingReviewCard: MobileTrendingReviewCard,
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
@@ -44,6 +43,7 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
       throw error;
     }
   },
+  shareFile: shareGeneratedFile,
   openExternalUrl: async (url) => {
     await Browser.open({ url });
   },

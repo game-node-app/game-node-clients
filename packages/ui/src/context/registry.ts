@@ -36,6 +36,20 @@ export type UIPresenterRegistry = {
 };
 
 /**
+ * What a caller wants to share: a locally generated file plus the copy that
+ * goes with it. Apps only decide *how* to open the share sheet.
+ */
+export type ShareFilePayload = {
+  file: File;
+  /** Subject/title of the share. */
+  title: string;
+  /** Body text, usually including the page URL. */
+  text: string;
+  /** Canonical URL of the page the file belongs to. */
+  url: string;
+};
+
+/**
  * The hook regitry should only be used when a hook cannot be consumed directly by the @repo/ui package.
  * Example: useRouter, which would be a framework-specific hook, could cause issues if used in the shared package.
  */
@@ -59,6 +73,13 @@ export type UIHookRegistry = {
    * Defaults to the Web Share API.
    */
   shareText?: (text: string) => Promise<boolean>;
+  /**
+   * Opens the native share sheet for a locally generated file (e.g. a game card
+   * image). Resolves to `false` when the user dismissed it and rejects when
+   * sharing isn't available, so callers can fall back.
+   * Defaults to the Web Share API.
+   */
+  shareFile?: (payload: ShareFilePayload) => Promise<boolean>;
   /**
    * Opens an external URL such as a Stripe Checkout or Customer Portal session.
    * Defaults to `window.location.assign`; native apps can override it with an

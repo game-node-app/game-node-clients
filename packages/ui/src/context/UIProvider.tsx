@@ -1,5 +1,9 @@
 import React, { createContext, useContext } from "react";
-import { UIHookRegistry, UIPresenterRegistry } from "#@/context/registry.ts";
+import {
+  ShareFilePayload,
+  UIHookRegistry,
+  UIPresenterRegistry,
+} from "#@/context/registry.ts";
 
 interface UIProviderContext {
   presenters: Partial<UIPresenterRegistry>;
@@ -99,6 +103,27 @@ export function useShareText() {
       if (!navigator.share) throw new Error("Sharing is not supported");
       try {
         await navigator.share({ text });
+        return true;
+      } catch (error) {
+        if ((error as Error).name === "AbortError") return false;
+        throw error;
+      }
+    })
+  );
+}
+
+/**
+ * Opens the share sheet for a generated file. The app can replace the Web Share
+ * API with a native one (Capacitor's Share on mobile).
+ */
+export function useShareFile() {
+  const { shareFile } = useHooks();
+  return (
+    shareFile ??
+    (async ({ file, title, text, url }: ShareFilePayload) => {
+      if (!navigator.share) throw new Error("Sharing is not supported");
+      try {
+        await navigator.share({ files: [file], title, text, url });
         return true;
       } catch (error) {
         if ((error as Error).name === "AbortError") return false;

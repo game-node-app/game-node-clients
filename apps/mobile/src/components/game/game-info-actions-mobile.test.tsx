@@ -16,12 +16,13 @@ import {
   CollectionsEntriesService,
   Game,
   GameCoverService,
+  PreferredPlatformService,
   ProfileResponseDto,
   ProfileService,
   ReviewsService,
 } from "@repo/wrapper/server";
 import { setProjectContext } from "../../../../../packages/ui/src/util/projectContext";
-import { MobileGameInfoActions } from "@/components/game/info/MobileGameInfoActions";
+import { GameInfoActions } from "../../../../../packages/ui/src/components/game/info/GameInfoActions";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -102,6 +103,10 @@ function mockServices(ownEntryResult: "found" | "missing" = "found") {
   vi.spyOn(ProfileService, "profileControllerFindOneByIdV1").mockResolvedValue({
     customCoverMode: "any",
   } as ProfileResponseDto);
+  vi.spyOn(
+    PreferredPlatformService,
+    "preferredPlatformControllerFindAllByUserIdV1",
+  ).mockResolvedValue([]);
 }
 
 function renderWithProviders(ui: React.ReactElement) {
@@ -124,13 +129,17 @@ beforeEach(() => {
     searchUrl: "https://search.example.com",
   });
   mocks.session = { data: { user: { id: "viewer" } }, isPending: false };
-  window.matchMedia = vi.fn().mockReturnValue({
-    matches: false,
+  // The shared actions switch to their touch layout below the `sm` breakpoint.
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query.includes("max-width"),
+    media: query,
+    onchange: null,
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     addListener: vi.fn(),
     removeListener: vi.fn(),
-  });
+    dispatchEvent: vi.fn(),
+  }));
   vi.stubGlobal(
     "ResizeObserver",
     class {
@@ -156,7 +165,7 @@ it("changes the visibility of the owner's entry through the dedicated route", as
     )
     .mockResolvedValue(undefined);
 
-  renderWithProviders(<MobileGameInfoActions game={game} />);
+  renderWithProviders(<GameInfoActions game={game} />);
 
   const trigger = await screen.findByRole("button", {
     name: "libraryVisibility.actions.changeVisibility",
@@ -181,17 +190,60 @@ it("changes the visibility of the owner's entry through the dedicated route", as
   );
 });
 
-it("does not offer the visibility action for a game outside the library", async () => {
+it("keeps visibility out of the overflow menu on touch", async () => {
+  mockServices("found");
+
+  renderWithProviders(<GameInfoActions game={game} />);
+
+  // The touch layout shows the current visibility as its own control...
+  await screen.findByRole("button", {
+    name: "libraryVisibility.actions.changeVisibility",
+  });
+
+  fireEvent.click(
+    screen.getByRole("button", { name: "game.tooltips.moreActions" }),
+  );
+
+  // ...so the overflow menu only holds the destructive action.
+  const menuItems = await screen.findAllByRole("menuitem");
+  expect(menuItems.map((item) => item.textContent)).toEqual([
+    "game.tooltips.removeLibrary",
+  ]);
+});
+
+it("labels every action button", async () => {
+  mockServices("found");
+
+  renderWithProviders(<GameInfoActions game={game} />);
+
+  await screen.findByRole("button", { name: "game.tooltips.addFavorites" });
+  expect(
+    screen.getByRole("button", { name: "game.coverPicker.open" }),
+  ).toBeTruthy();
+  expect(
+    screen.getByRole("button", { name: "game.tooltips.share" }),
+  ).toBeTruthy();
+  expect(
+    screen.getByRole("button", { name: "game.tooltips.moreActions" }),
+  ).toBeTruthy();
+});
+
+it("does not offer entry-only actions for a game outside the library", async () => {
   mockServices("missing");
 
-  renderWithProviders(<MobileGameInfoActions game={game} />);
+  renderWithProviders(<GameInfoActions game={game} />);
 
-  expect(
-    await screen.findByRole("button", { name: "game.buttons.addLibrary" }),
-  ).toBeTruthy();
+  const favorite = await screen.findByRole("button", {
+    name: "game.tooltips.addToLibraryFirst",
+  });
+  expect(favorite.getAttribute("aria-disabled")).toBe("true");
+
   expect(
     screen.queryByRole("button", {
       name: "libraryVisibility.actions.changeVisibility",
     }),
+  ).toBeNull();
+  expect(
+    screen.queryByRole("button", { name: "game.tooltips.moreActions" }),
   ).toBeNull();
 });
