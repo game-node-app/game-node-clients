@@ -4,6 +4,29 @@ const { existsSync, readFileSync } = require("node:fs");
 const { createRequire } = require("node:module");
 const { join, resolve } = require("node:path");
 
+const CAPACITOR_SETTINGS = "apps/mobile/android/capacitor.settings.gradle";
+
+/**
+ * `cap sync` writes the plugin paths of `capacitor.settings.gradle` relative to
+ * wherever `node_modules` lives: `../../../node_modules` with the hoisted yarn
+ * layout, `../node_modules` with pnpm. That is a workspace layout detail, not a
+ * change to the native shell, so hoisted packages are hashed in the legacy form
+ * and installed apps keep the fingerprint (and OTA channel) they were built
+ * with. `better-auth-capacitor` is installed locally to `apps/mobile` in both
+ * layouts, so its path never changed.
+ */
+function normalizeNativeFile(file, content) {
+  if (file !== CAPACITOR_SETTINGS) return content;
+  return Buffer.from(
+    content
+      .toString("utf8")
+      .replaceAll(
+        /'\.\.\/node_modules\/(?!better-auth-capacitor\/)/g,
+        "'../../../node_modules/",
+      ),
+  );
+}
+
 function nativeFingerprint(root = resolve(__dirname, "..")) {
   const mobile = join(root, "apps/mobile");
   const manifest = join(mobile, "package.json");
@@ -23,7 +46,7 @@ function nativeFingerprint(root = resolve(__dirname, "..")) {
     hash
       .update(file)
       .update("\0")
-      .update(readFileSync(join(root, file)))
+      .update(normalizeNativeFile(file, readFileSync(join(root, file))))
       .update("\0");
   }
   const { dependencies } = JSON.parse(readFileSync(manifest, "utf8"));

@@ -179,8 +179,15 @@ rules from overriding the manifest's cache header.
 `node scripts/native-fingerprint.cjs` hashes tracked Android files except
 `version.properties`, Capacitor config, and installed native plugin/runtime
 versions. Commit the generated Gradle changes from `cap sync` with plugin changes
-so build-time and publish-time fingerprints agree. JS-only and release-version
-changes preserve the fingerprint; native changes get a separate update path.
+so build-time and publish-time fingerprints agree. The `node_modules` paths in
+`capacitor.settings.gradle` are hashed in their yarn-era form, so moving the
+workspace layout (as the pnpm migration did) does not strand installed apps on an
+old OTA channel. The Android release also mirrors each bundle into the legacy
+`ota/851b7306d93e4022/` channel, which the 1.16.x/1.17.0 APKs (built before the
+normalization) still poll; the bundle they download carries the normalized
+fingerprint, so they move to the right channel afterwards. JS-only and
+release-version changes preserve the fingerprint; native changes get a separate
+update path.
 
 The listener confirms startup with `ready()`, checks on launch and resume, and
 downloads a matching bundle with checksum verification. A persistent notification
