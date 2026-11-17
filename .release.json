@@ -1,0 +1,28 @@
+{
+  "source": "17962c0c91b38ea834281b2a606cb61dcf0f3507",
+  "changesets": [
+    ".changeset/profile-banner-framing.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[1c38ceaa231a630f8b49b7e8126c93c611480448...17962c0c91b38ea834281b2a606cb61dcf0f3507]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/17962c0c91b38ea834281b2a606cb61dcf0f3507",
+  "versions": {
+    "web": "1.20.1",
+    "mobile": "1.18.1"
+  }
+}
