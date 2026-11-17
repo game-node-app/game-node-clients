@@ -1,0 +1,29 @@
+{
+  "source": "8dce44b69c2bb950d2c68f69db84d2585d5631cc",
+  "changesets": [
+    ".changeset/happening-cards-figma.md",
+    ".changeset/restore-wrapped-entry.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[8b6c538c791ae0b9174e899fc99388020b2708b2...8dce44b69c2bb950d2c68f69db84d2585d5631cc]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/8dce44b69c2bb950d2c68f69db84d2585d5631cc",
+  "versions": {
+    "web": "1.19.2",
+    "mobile": "1.17.3"
+  }
+}
