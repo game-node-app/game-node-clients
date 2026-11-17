@@ -72,6 +72,10 @@ const config: Omit<Config, "content"> = {
           7: "#111111",
           8: "#1A1A1A",
         },
+        line: {
+          DEFAULT: "#2A2A2A",
+          strong: "#3D3D3D",
+        },
         dimmed: {
           DEFAULT: "var(--mantine-color-dimmed)",
           0: "var(--mantine-color-dimmed)",

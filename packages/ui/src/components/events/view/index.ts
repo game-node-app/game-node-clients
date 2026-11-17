@@ -4,7 +4,10 @@
 
 export * from "./EventCard";
 export * from "./EventCardCovers";
+export * from "./EventCardParts";
+export * from "./EventNominationsArt";
 export * from "./EventPhaseTimeline";
 export * from "./HomeEventsSection";
+export * from "./RecapLiveArt";
 export * from "./RecapMonthlyBars";
 export * from "./SeasonEventHeader";

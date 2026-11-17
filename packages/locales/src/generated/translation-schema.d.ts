@@ -1329,11 +1329,12 @@ export type TranslationSchema = {
       awards: {
         endsInDays: string;
         endsTomorrow: string;
+        eyebrow: string;
+        nominationSlot: string;
         nominationsDescription: string;
         nominationsHeadline: string;
         nominationsPrimary: string;
         nominationsSecondary: string;
-        nominationsTitle: string;
         participationReward: string;
         resultsPrimary: string;
         resultsScore: string;
@@ -1351,7 +1352,6 @@ export type TranslationSchema = {
         votingPrimary: string;
         votingProgress: string;
         votingSecondary: string;
-        votingTitle: string;
       };
       recap: {
         closedDownload: string;
@@ -1359,14 +1359,13 @@ export type TranslationSchema = {
         closedHeadline: string;
         closedPrimary: string;
         closedSummary: string;
-        closedTitle: string;
+        eyebrow: string;
         hours: string;
+        liveDescription: string;
         liveGames: string;
         liveHeadline: string;
         livePrimary: string;
-        liveSentence: string;
         liveShare: string;
-        liveTitle: string;
         monthlyLabel: string;
         visitorAction: string;
         visitorDescription: string;

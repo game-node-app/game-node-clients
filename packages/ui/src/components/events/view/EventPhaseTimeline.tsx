@@ -1,5 +1,6 @@
 import {
   formatUtcDate,
+  formatUtcDateRange,
   useFormatLocale,
 } from "#@/components/events/util/format";
 import { cn } from "#@/util";
@@ -15,7 +16,7 @@ export interface EventPhaseTimelineProps {
   votingStartDate: string;
   votingEndDate: string;
   resultsDate: string;
-  /** The step of the current phase; it paints the dot in the brand color. */
+  /** The step of the current phase; its bar is painted in the brand color. */
   active: EventTimelineStep;
   className?: string;
 }
@@ -28,8 +29,9 @@ interface TimelineStep {
 
 /**
  * Indicações / Votação / Resultado timeline of the Awards cards (frame
- * `5444:2410`). Dates are UTC instants and are formatted in UTC, so the
- * 23:59:59Z end dates never move to the next day (design §13).
+ * `5444:2056`): three 4 px bars, the current (and finished) phases in brand.
+ * Dates are UTC instants and are formatted in UTC, so the 23:59:59Z end dates
+ * never move to the next day (design §13).
  *
  * Legacy events without a nominations phase skip that step instead of showing
  * an empty range.
@@ -46,34 +48,20 @@ export function EventPhaseTimeline({
   const { t } = useTranslation();
   const locale = useFormatLocale();
 
-  const formatRange = (
-    start: string | null,
-    end: string | null,
-  ): string | null => {
-    const startLabel = formatUtcDate(start, locale);
-    const endLabel = formatUtcDate(end, locale);
-
-    if (startLabel && endLabel) {
-      return `${startLabel} – ${endLabel}`;
-    }
-
-    return startLabel ?? endLabel;
-  };
-
   const steps: TimelineStep[] = [];
 
   if (nominationStartDate || nominationEndDate) {
     steps.push({
       key: "nominations",
       label: t("events.card.timeline.nominations"),
-      range: formatRange(nominationStartDate, nominationEndDate),
+      range: formatUtcDateRange(nominationStartDate, nominationEndDate, locale),
     });
   }
 
   steps.push({
     key: "voting",
     label: t("events.card.timeline.voting"),
-    range: formatRange(votingStartDate, votingEndDate),
+    range: formatUtcDateRange(votingStartDate, votingEndDate, locale),
   });
 
   steps.push({
@@ -88,7 +76,7 @@ export function EventPhaseTimeline({
     <Group
       data-testid={"event-phase-timeline"}
       data-active={active}
-      gap={0}
+      gap={6}
       align={"flex-start"}
       wrap={"nowrap"}
       className={cn("w-full", className)}
@@ -100,48 +88,39 @@ export function EventPhaseTimeline({
         return (
           <Stack
             key={step.key}
-            gap={4}
+            gap={8}
             className={"min-w-0 flex-1"}
             data-step={step.key}
             data-active={isActive}
           >
-            <Group gap={6} wrap={"nowrap"} className={"w-full"}>
-              <Box
-                aria-hidden={"true"}
-                className={cn(
-                  "size-2.5 shrink-0 rounded-full border",
-                  isActive
-                    ? "border-brand-5 bg-brand-5"
-                    : isDone
-                      ? "border-brand-5/60 bg-brand-5/60"
-                      : "border-paper-4 bg-paper-4",
-                )}
-              />
-              <Box
-                aria-hidden={"true"}
-                className={cn(
-                  "h-px min-w-0 flex-1",
-                  index === steps.length - 1
-                    ? "bg-transparent"
-                    : isDone
-                      ? "bg-brand-5/40"
-                      : "bg-paper-4",
-                )}
-              />
-            </Group>
-            <Text
-              size={"xs"}
-              fw={isActive ? 700 : 500}
-              c={isActive ? undefined : "dimmed"}
-              truncate
-            >
-              {step.label}
-            </Text>
-            {step.range && (
-              <Text size={"xs"} c={"dimmed"} truncate>
-                {step.range}
+            <Box
+              aria-hidden={"true"}
+              className={cn(
+                "h-1 w-full rounded-[2px]",
+                isActive || isDone ? "bg-brand-5" : "bg-line-strong",
+              )}
+            />
+            <Stack gap={2}>
+              <Text
+                fz={12}
+                lh={"normal"}
+                fw={isActive ? 600 : 500}
+                truncate
+                className={isActive ? "text-white" : "text-nav-muted"}
+              >
+                {step.label}
               </Text>
-            )}
+              {step.range && (
+                <Text
+                  fz={12}
+                  lh={"normal"}
+                  truncate
+                  className={"text-dimmed-1"}
+                >
+                  {step.range}
+                </Text>
+              )}
+            </Stack>
           </Stack>
         );
       })}
