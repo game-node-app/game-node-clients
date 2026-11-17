@@ -726,6 +726,17 @@ export type TranslationSchema = {
         subtitle: string;
         title: string;
       };
+      card: {
+        countPill: string;
+        eyebrow: string;
+        footerTitle: string;
+        footerUrl: string;
+        remainingSubtitle: string;
+        remaining_one: string;
+        remaining_other: string;
+        subtitle: string;
+        title: string;
+      };
       categories: string;
       linkCopied: string;
       loadError: string;
@@ -735,6 +746,16 @@ export type TranslationSchema = {
       searchTitle: string;
       selected: string;
       share: string;
+      shareModal: {
+        close: string;
+        copyLink: string;
+        downloadImage: string;
+        exportError: string;
+        eyebrow: string;
+        saved: string;
+        shareStories: string;
+        shareUnsupported: string;
+      };
       shareText: string;
       shared: {
         empty: string;

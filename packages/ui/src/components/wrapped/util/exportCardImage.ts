@@ -19,6 +19,8 @@ export interface ExportCardImageOptions {
   quality?: number;
   /** File name prefix; a timestamp and the extension are appended. */
   filenamePrefix?: string;
+  /** Font loader awaited before rasterizing; defaults to `loadRecapFonts`. */
+  loadFonts?: () => Promise<void>;
 }
 
 /**
@@ -35,8 +37,9 @@ export async function exportCardImage(
   const size = RECAP_CARD_FORMATS[format];
   const type = options.type ?? "image/jpeg";
   const quality = type === "image/jpeg" ? (options.quality ?? 0.92) : undefined;
+  const loadFonts = options.loadFonts ?? loadRecapFonts;
 
-  await loadRecapFonts();
+  await loadFonts();
 
   const blob = await toBlob(node, {
     width: size.width,

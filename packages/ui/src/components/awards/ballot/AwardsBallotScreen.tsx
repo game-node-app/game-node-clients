@@ -1,3 +1,5 @@
+import { getBallotGameMetadata } from "#@/components/awards/ballot/AwardsBallotCard";
+import { AwardsBallotShareModal } from "#@/components/awards/ballot/AwardsBallotShareScreen";
 import { useAwardEvent } from "#@/components/awards/hooks/useAwardEvent";
 import { useAwardEventCategories } from "#@/components/awards/hooks/useAwardEventCategories";
 import { useAwardsBallot } from "#@/components/awards/hooks/useAwardsBallot";
@@ -28,12 +30,12 @@ import {
 import { SeasonEventHeader } from "#@/components/events/view/SeasonEventHeader";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useGames } from "#@/components/game/hooks/useGames";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import type { Game } from "@repo/wrapper/server";
 import { ApiError } from "@repo/wrapper/server";
-import { useShareText } from "#@/context";
-import { cn, createErrorNotification, Link } from "#@/util";
+import { cn, Link } from "#@/util";
 import { Box, Button, Paper, Stack, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
+import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
 import { useState, type ReactNode } from "react";
@@ -46,27 +48,6 @@ const BALLOT_GAME_RELATIONS = {
     company: true,
   },
 };
-
-/** "Koei Tecmo · PS5, PC": developer and up to three platform abbreviations. */
-function gameMetadata(game: Game | undefined | null): string | null {
-  if (!game) {
-    return null;
-  }
-
-  const developer = game.involvedCompanies?.find(
-    (involvedCompany) => involvedCompany.developer,
-  )?.company?.name;
-
-  const platforms = (game.platforms ?? [])
-    .slice(0, 3)
-    .map((platform) => platform.abbreviation || platform.name)
-    .filter((platform): platform is string => !!platform)
-    .join(", ");
-
-  const parts = [developer, platforms].filter((part): part is string => !!part);
-
-  return parts.length > 0 ? parts.join(" · ") : null;
-}
 
 /** The voted game first; the rest keep the server order (not a ranking). */
 function orderNominees(
@@ -87,6 +68,8 @@ function orderNominees(
 export interface AwardsBallotScreenProps {
   eventYear: number;
   className?: string;
+  onShare?: (file: File) => Promise<void>;
+  onDownload?: (file: File) => Promise<void>;
 }
 
 /**
@@ -106,14 +89,16 @@ export interface AwardsBallotScreenProps {
 const AwardsBallotScreen = ({
   eventYear,
   className,
+  onShare,
+  onDownload,
 }: AwardsBallotScreenProps) => {
   const { t } = useTranslation();
   const resolveCategoryText = useAwardsCategoryText();
   const locale = useFormatLocale();
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
-  const shareText = useShareText();
   const isMobileLayout = useAwardsMobileLayout();
+  const [shareModalOpened, shareModal] = useDisclosure(false);
 
   const eventQuery = useAwardEvent({ eventYear });
   const event = eventQuery.data;
@@ -122,6 +107,7 @@ const AwardsBallotScreen = ({
   const categoriesQuery = useAwardEventCategories(event?.id);
   const ballotQuery = useAwardsBallot(event?.id);
   const voteMutation = useAwardsVoteMutation(event?.id);
+  const profileQuery = useUserProfile(userId);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<
     number | undefined
@@ -253,30 +239,12 @@ const AwardsBallotScreen = ({
       .catch(() => setPending(null));
   };
 
-  const shareBallot = async () => {
+  const shareBallot = () => {
     if (!event || !userId) {
       return;
     }
 
-    const url = `https://gamenode.app/awards/${event.year}/nominees/${userId}`;
-    const text = t("awards.ballot.shareText", { year: event.year, url });
-
-    try {
-      await shareText(text);
-      return;
-    } catch {
-      // Sharing isn't available here; fall back to the clipboard.
-    }
-
-    try {
-      if (!navigator.clipboard) {
-        throw new Error("Clipboard is not available");
-      }
-      await navigator.clipboard.writeText(text);
-      notifications.show({ message: t("awards.ballot.linkCopied") });
-    } catch (error) {
-      createErrorNotification(error as Error);
-    }
+    shareModal.open();
   };
 
   if (!Number.isFinite(eventYear)) {
@@ -387,7 +355,7 @@ const AwardsBallotScreen = ({
       status: nominee.status,
       playtimeSeconds: nominee.playtimeSeconds,
       rating: nominee.rating,
-      metadata: gameMetadata(game),
+      metadata: getBallotGameMetadata(game),
       selected,
       selectedLabel:
         selected && pendingForActive === nominee.gameId
@@ -632,7 +600,9 @@ const AwardsBallotScreen = ({
           current={ballot.categoriesVoted}
           total={progressTotal}
           voteBar={voteBar}
-          listFooter={userId && !isComplete ? shareButton : undefined}
+          listFooter={
+            userId && (!isComplete || !canVote) ? shareButton : undefined
+          }
         >
           <Box
             data-awards-goty-category={activeCategory.isGOTY ? "true" : "false"}
@@ -655,7 +625,19 @@ const AwardsBallotScreen = ({
           {t("awards.ballot.noCategories")}
         </Text>
       )}
-      {isMobileLayout && userId && !isComplete && shareButton}
+      {isMobileLayout && userId && (!isComplete || !canVote) && shareButton}
+      <AwardsBallotShareModal
+        opened={shareModalOpened}
+        onClose={shareModal.close}
+        eventYear={event.year}
+        userId={userId}
+        username={profileQuery.data?.username}
+        categories={displayCategories}
+        totalCategories={progressTotal}
+        gamesById={gamesById}
+        onShare={onShare}
+        onDownload={onDownload}
+      />
     </Stack>
   );
 };

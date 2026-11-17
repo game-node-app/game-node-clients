@@ -722,6 +722,17 @@
         "subtitle": "{{count}} categories. On every nominee you see whether you played it, for how long and what rating you gave.",
         "title": "Vote for the best of {{year}}."
       },
+      "card": {
+        "countPill": "{{voted}} of {{total}} categories",
+        "eyebrow": "GameNode Awards {{year}} · Community voting",
+        "footerTitle": "Vote in the {{year}} Awards",
+        "footerUrl": "gamenode.app/awards/{{year}}",
+        "remainingSubtitle": "Vote in the {{year}} Awards and build your ballot.",
+        "remaining_one": "{{count}} category left",
+        "remaining_other": "{{count}} categories left",
+        "subtitle": "My votes in GameNode Awards {{year}}.",
+        "title": "My ballot"
+      },
       "categories": "Categories",
       "linkCopied": "Link copied!",
       "loadError": "Could not load your ballot.",
@@ -731,6 +742,16 @@
       "searchTitle": "Search eligible games",
       "selected": "Selected",
       "share": "Share my ballot",
+      "shareModal": {
+        "close": "Close",
+        "copyLink": "Copy ballot link",
+        "downloadImage": "Download image",
+        "exportError": "Could not generate your ballot image.",
+        "eyebrow": "Your ballot",
+        "saved": "Image saved to Documents!",
+        "shareStories": "Share to stories",
+        "shareUnsupported": "Image sharing is not supported in this browser. Try Download image."
+      },
       "shareText": "My GameNode Awards {{year}} ballot: {{url}}",
       "shared": {
         "empty": "This user hasn't voted in the {{year}} Awards yet.",

@@ -18,11 +18,13 @@ import {
   AwardsCategoryTranslationDto,
   AwardsService,
   GameRepositoryService,
+  ProfileService,
   type AwardsBallotCategoryDto,
   type AwardsBallotDto,
   type AwardsEventDto,
   type CurrentAwardsEventDto,
   type Game,
+  type ProfileResponseDto,
   type VotableAwardsCategoryDto,
 } from "@repo/wrapper/server";
 import type { ReactElement, ReactNode } from "react";
@@ -369,8 +371,7 @@ function loadScreen({
             id: category.id,
             name: category.name,
             order: category.order,
-            isGOTY:
-              category.order === 0 && !category.isPersonalGOTY,
+            isGOTY: category.order === 0 && !category.isPersonalGOTY,
             isPersonalGOTY: category.isPersonalGOTY,
             translations: category.translations,
           }),
@@ -400,8 +401,7 @@ function loadScreen({
         const isNewVote = target.voteGameId == null;
         currentBallot = {
           ...currentBallot,
-          categoriesVoted:
-            currentBallot.categoriesVoted + (isNewVote ? 1 : 0),
+          categoriesVoted: currentBallot.categoriesVoted + (isNewVote ? 1 : 0),
           categories: currentBallot.categories.map((category) =>
             category.id === body.categoryId
               ? { ...category, voteGameId: body.gameId }
@@ -415,7 +415,21 @@ function loadScreen({
     .spyOn(GameRepositoryService, "gameRepositoryControllerFindAllByIdsV1")
     .mockResolvedValue(games);
 
-  return { getBallot, getCategories, registerVote, findAllByIds, event };
+  const getProfile = vi
+    .spyOn(ProfileService, "profileControllerFindOneByIdV1")
+    .mockResolvedValue({
+      userId: "user-1",
+      username: "marina",
+    } as unknown as ProfileResponseDto);
+
+  return {
+    getBallot,
+    getCategories,
+    registerVote,
+    findAllByIds,
+    getProfile,
+    event,
+  };
 }
 
 beforeEach(() => {
@@ -491,16 +505,12 @@ describe("AwardsBallotScreen", () => {
 
     const { container } = renderScreen();
 
-    await waitFor(() =>
-      expect(screen.getByText("Sua cédula")).toBeTruthy(),
-    );
+    await waitFor(() => expect(screen.getByText("Sua cédula")).toBeTruthy());
     await waitFor(() => expect(screen.getByText("Nioh 3")).toBeTruthy());
 
     expect(getBallot).toHaveBeenCalledWith(12);
     expect(screen.getByText("1 de 3")).toBeTruthy();
-    expect(
-      container.querySelector("[data-awards-progress-bar]"),
-    ).toBeTruthy();
+    expect(container.querySelector("[data-awards-progress-bar]")).toBeTruthy();
 
     const rows = Array.from(
       container.querySelectorAll("[data-awards-category-row]"),
@@ -559,9 +569,7 @@ describe("AwardsBallotScreen", () => {
     renderScreen();
 
     await waitFor(() =>
-      expect(
-        screen.getByText("Você jogou · 86 h · nota 9"),
-      ).toBeTruthy(),
+      expect(screen.getByText("Você jogou · 86 h · nota 9")).toBeTruthy(),
     );
 
     expect(screen.getByText("Você jogou")).toBeTruthy();
@@ -624,9 +632,7 @@ describe("AwardsBallotScreen", () => {
       games: BASE_GAMES,
     });
 
-    const { container } = renderScreen(
-      <AwardsBallotScreen eventYear={2025} />,
-    );
+    const { container } = renderScreen(<AwardsBallotScreen eventYear={2025} />);
 
     await waitFor(() =>
       expect(
@@ -705,9 +711,7 @@ describe("AwardsBallotScreen", () => {
       expect(screen.getByText("Seu voto em Jogo do Ano")).toBeTruthy(),
     );
 
-    fireEvent.click(
-      screen.getByText("Confirmar e ir para Narrativa"),
-    );
+    fireEvent.click(screen.getByText("Confirmar e ir para Narrativa"));
 
     await waitFor(() =>
       expect(registerVote).toHaveBeenCalledWith({
@@ -787,9 +791,7 @@ describe("AwardsBallotScreen", () => {
 
     expect(registerVote).not.toHaveBeenCalled();
     expect(
-      container.querySelector(
-        '[data-awards-category-row][data-state="voted"]',
-      ),
+      container.querySelector('[data-awards-category-row][data-state="voted"]'),
     ).toBeNull();
   });
 
@@ -805,9 +807,7 @@ describe("AwardsBallotScreen", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText(
-          "A votação está encerrada. Estes são os seus votos.",
-        ),
+        screen.getByText("A votação está encerrada. Estes são os seus votos."),
       ).toBeTruthy(),
     );
 
@@ -837,9 +837,7 @@ describe("AwardsBallotScreen", () => {
     expect(getBallot).toHaveBeenCalledWith(12);
     expect(screen.queryByText("Sua cédula")).toBeNull();
     expect(screen.queryByText("0 de 3")).toBeNull();
-    expect(
-      container.querySelector("[data-awards-category-list]"),
-    ).toBeNull();
+    expect(container.querySelector("[data-awards-category-list]")).toBeNull();
   });
 
   it("shows the sign-in invite to a visitor without reading the ballot", async () => {
@@ -857,9 +855,7 @@ describe("AwardsBallotScreen", () => {
 
     expect(getBallot).not.toHaveBeenCalled();
     expect(screen.queryByText("Sua cédula")).toBeNull();
-    expect(
-      container.querySelector("[data-awards-category-list]"),
-    ).toBeNull();
+    expect(container.querySelector("[data-awards-category-list]")).toBeNull();
   });
 
   it("offers the suggestion and the eligible search on the personal GOTY", async () => {
@@ -905,9 +901,7 @@ describe("AwardsBallotScreen", () => {
     expect(
       panel.querySelector("[data-awards-eligible-game-search]"),
     ).toBeTruthy();
-    expect(
-      panel.querySelector("[data-awards-ballot-suggestion]"),
-    ).toBeTruthy();
+    expect(panel.querySelector("[data-awards-ballot-suggestion]")).toBeTruthy();
 
     // The suggestion card is the only card: no six-nominee grid.
     expect(panel.querySelectorAll("[data-awards-nominee-card]")).toHaveLength(
@@ -1036,34 +1030,117 @@ describe("AwardsBallotScreen", () => {
     expect(container.querySelector("[data-awards-vote-bar]")).toBeNull();
   });
 
-  it("shares the public ballot link from the completed ballot", async () => {
+  it("opens the share modal from the completed ballot and copies the public link", async () => {
     session.userId = "user-1";
-    loadScreen({
-      phase: "voting",
-      categories: [
-        {
-          id: 40,
-          name: "Jogo do Ano",
-          order: 0,
-          voteGameId: 101,
-          nominees: [{ gameId: 101, status: "played" }],
-        },
-      ],
-      games: BASE_GAMES,
+    const writeText = vi.fn(async () => {});
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText },
+      configurable: true,
     });
 
-    renderScreen();
+    try {
+      loadScreen({
+        phase: "voting",
+        categories: [
+          {
+            id: 40,
+            name: "Jogo do Ano",
+            order: 0,
+            voteGameId: 101,
+            nominees: [{ gameId: 101, status: "played" }],
+          },
+        ],
+        games: BASE_GAMES,
+      });
 
-    await waitFor(() =>
-      expect(screen.getByText("Sua cédula está completa!")).toBeTruthy(),
-    );
+      renderScreen();
 
-    fireEvent.click(screen.getByText("Compartilhar minha cédula"));
+      await waitFor(() =>
+        expect(screen.getByText("Sua cédula está completa!")).toBeTruthy(),
+      );
 
-    await waitFor(() => expect(shareText).toHaveBeenCalledTimes(1));
-    expect(shareText.mock.calls[0][0]).toContain(
-      "/awards/2026/nominees/user-1",
-    );
+      fireEvent.click(screen.getByText("Compartilhar minha cédula"));
+
+      await waitFor(() => expect(screen.getByRole("dialog")).toBeTruthy());
+
+      const dialog = screen.getByRole("dialog");
+      expect(dialog.textContent).toContain("Sua cédula");
+      expect(dialog.textContent).toContain("@marina");
+      expect(dialog.querySelector("[data-awards-ballot-card]")).toBeTruthy();
+
+      fireEvent.click(screen.getByText("Copiar link da cédula"));
+
+      await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
+      expect(writeText).toHaveBeenCalledWith(
+        "https://gamenode.app/awards/2026/nominees/user-1",
+      );
+    } finally {
+      Object.defineProperty(navigator, "clipboard", {
+        value: originalClipboard,
+        configurable: true,
+      });
+    }
+  });
+
+  it("opens the share modal from a partial ballot and falls back to shareText when clipboard is unavailable", async () => {
+    session.userId = "user-1";
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, "clipboard", {
+      value: undefined,
+      configurable: true,
+    });
+
+    try {
+      loadScreen({
+        phase: "voting",
+        categories: [
+          {
+            id: 40,
+            name: "Jogo do Ano",
+            order: 0,
+            voteGameId: 101,
+            nominees: [{ gameId: 101, status: "played" }],
+          },
+          {
+            id: 41,
+            name: "Direção de Arte",
+            order: 1,
+            voteGameId: null,
+            nominees: [{ gameId: 110, status: "played" }],
+          },
+        ],
+        games: BASE_GAMES,
+      });
+
+      renderScreen();
+
+      await waitFor(() =>
+        expect(screen.getByText("Compartilhar minha cédula")).toBeTruthy(),
+      );
+
+      fireEvent.click(screen.getByText("Compartilhar minha cédula"));
+
+      await waitFor(() => expect(screen.getByRole("dialog")).toBeTruthy());
+
+      const dialog = screen.getByRole("dialog");
+      expect(
+        dialog.querySelector("[data-awards-ballot-card-remaining]")
+          ?.textContent,
+      ).toContain("Falta 1 categoria");
+
+      fireEvent.click(screen.getByText("Copiar link da cédula"));
+
+      await waitFor(() => expect(shareText).toHaveBeenCalledTimes(1));
+      expect(shareText.mock.calls[0][0]).toContain(
+        "/awards/2026/nominees/user-1",
+      );
+    } finally {
+      Object.defineProperty(navigator, "clipboard", {
+        value: originalClipboard,
+        configurable: true,
+      });
+    }
   });
 
   it("shows the en category text in the list, the panel and the vote bar", async () => {
