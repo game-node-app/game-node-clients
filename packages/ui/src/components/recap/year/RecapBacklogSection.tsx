@@ -5,7 +5,13 @@ import {
 import { RecapGoalCard } from "#@/components/recap/goal/RecapGoalCard";
 import type { YearRecap } from "#@/components/recap/types";
 import { RecapAwardsCard } from "#@/components/recap/year/RecapAwardsCard";
-import { Paper, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import {
+  RecapEyebrow,
+  RecapHeading,
+  RecapLead,
+  RecapSection,
+} from "#@/components/recap/year/RecapSection";
+import { cn } from "#@/util";
 import { useTranslation } from "@repo/locales";
 
 export interface RecapBacklogSectionProps {
@@ -15,10 +21,36 @@ export interface RecapBacklogSectionProps {
   userId: string;
 }
 
+/** Most squares drawn; bigger libraries are scaled down proportionally. */
+const MAX_UNITS = 156;
+
+type BacklogUnit = "finished" | "dropped" | "queued";
+
+const UNIT_STYLES: Record<BacklogUnit, string> = {
+  finished: "bg-[#4fd1a5]",
+  dropped: "bg-[#3a3a3a]",
+  queued: "border border-[#2a2a2a]",
+};
+
+function buildUnits(counts: Record<BacklogUnit, number>): BacklogUnit[] {
+  const total = counts.finished + counts.dropped + counts.queued;
+  const scale = total > MAX_UNITS ? MAX_UNITS / total : 1;
+  const units: BacklogUnit[] = [];
+
+  for (const unit of ["finished", "dropped", "queued"] as const) {
+    const amount =
+      counts[unit] > 0 ? Math.max(1, Math.round(counts[unit] * scale)) : 0;
+    for (let index = 0; index < amount; index++) units.push(unit);
+  }
+
+  return units;
+}
+
 /**
- * "Backlog and next step" (frame 5420:945): added/finished/growth, the
- * finished/dropped/queued grid, the optional ballot shortcut and the goal card.
- * The growth sentence is omitted when `backlogGrowth` is 0.
+ * "Backlog and next step" (frame 5420:945): added/finished/growth, a unit chart
+ * (one square per game: finished, dropped, still queued), the optional ballot
+ * shortcut and the goal card. The growth sentence is omitted when
+ * `backlogGrowth` is 0.
  */
 export function RecapBacklogSection({
   year,
@@ -29,69 +61,85 @@ export function RecapBacklogSection({
   const locale = useFormatLocale();
   const number = (value: number) => formatNumber(value, locale) ?? "0";
 
+  const counts = {
+    finished: Math.max(0, recap.totalFinishedGames),
+    dropped: Math.max(0, recap.totalDroppedGames),
+    queued: Math.max(0, recap.backlogGrowth),
+  };
+  const units = buildUnits(counts);
+
   return (
-    <Paper
-      data-testid={"recap-backlog"}
-      withBorder
-      radius={"lg"}
-      p={{ base: "md", md: "xl" }}
-      className={"bg-paper-8"}
-    >
-      <Stack gap={"lg"}>
-        <Stack gap={4}>
-          <Title order={2} size={"h2"}>
-            {t("recap.page.backlog.title")}
-          </Title>
-          <Text size={"md"}>
-            {t("recap.page.backlog.summary", {
-              added: number(recap.totalAddedGames),
-              finished: number(recap.totalFinishedGames),
+    <RecapSection data-testid={"recap-backlog"}>
+      <RecapEyebrow>{t("recap.page.backlog.title")}</RecapEyebrow>
+      <RecapHeading className={"mt-4"}>
+        {t("recap.page.backlog.summary", {
+          added: number(recap.totalAddedGames),
+          finished: number(recap.totalFinishedGames),
+        })}
+      </RecapHeading>
+      {recap.backlogGrowth > 0 && (
+        <RecapLead className={"mt-3"}>
+          {t("recap.page.backlog.growth", {
+            count: number(recap.backlogGrowth),
+          })}
+        </RecapLead>
+      )}
+
+      {units.length > 0 && (
+        <div className={"mt-8 md:mt-12"}>
+          <div
+            data-testid={"recap-backlog-units"}
+            role={"img"}
+            aria-label={t("recap.page.backlog.unitsLabel", {
+              finished: number(counts.finished),
+              dropped: number(counts.dropped),
+              queued: number(counts.queued),
             })}
-          </Text>
-          {recap.backlogGrowth > 0 && (
-            <Text size={"sm"} c={"dimmed"}>
-              {t("recap.page.backlog.growth", {
-                count: number(recap.backlogGrowth),
-              })}
-            </Text>
-          )}
-        </Stack>
+            className={"flex flex-wrap gap-1.5 md:gap-2"}
+          >
+            {units.map((unit, index) => (
+              <span
+                key={index}
+                data-unit={unit}
+                className={cn(
+                  "size-6 rounded-md md:size-[38px] md:rounded-[10px]",
+                  UNIT_STYLES[unit],
+                )}
+              />
+            ))}
+          </div>
+          <ul
+            className={
+              "m-0 mt-4 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-sm text-[#adadad]"
+            }
+          >
+            {(["finished", "dropped", "queued"] as const).map((unit) => (
+              <li key={unit} className={"flex items-center gap-2"}>
+                <span
+                  aria-hidden
+                  className={cn("size-3 rounded-[3px]", UNIT_STYLES[unit])}
+                />
+                <span>
+                  {number(counts[unit])} {t(`recap.page.backlog.${unit}`)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-        <SimpleGrid cols={{ base: 1, xs: 3 }} spacing={"sm"}>
-          <BacklogStat
-            value={number(recap.totalFinishedGames)}
-            label={t("recap.page.backlog.finished")}
-          />
-          <BacklogStat
-            value={number(recap.totalDroppedGames)}
-            label={t("recap.page.backlog.dropped")}
-          />
-          <BacklogStat
-            value={number(recap.backlogGrowth)}
-            label={t("recap.page.backlog.queued")}
-          />
-        </SimpleGrid>
-
+      <div
+        className={
+          "mt-10 grid grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 md:gap-6"
+        }
+      >
         <RecapAwardsCard year={year} userId={userId} />
         <RecapGoalCard
           year={year}
           userId={userId}
           finishedGames={recap.totalFinishedGames}
         />
-      </Stack>
-    </Paper>
-  );
-}
-
-function BacklogStat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className={"flex flex-col gap-1 rounded-md bg-paper-4 p-4"}>
-      <Text size={"2rem"} fw={800} lh={1}>
-        {value}
-      </Text>
-      <Text size={"sm"} c={"dimmed"}>
-        {label}
-      </Text>
-    </div>
+      </div>
+    </RecapSection>
   );
 }

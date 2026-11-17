@@ -1,8 +1,8 @@
-import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import type { RecapPhase, YearRecap } from "#@/components/recap/types";
 import { RecapNodesChart } from "#@/components/recap/year/RecapNodesChart";
+import { RecapEyebrow, RecapLead } from "#@/components/recap/year/RecapSection";
 import {
   formatNumber,
   formatPlaytimeHours,
@@ -15,7 +15,7 @@ import {
 } from "#@/components/recap/year/util/recapYear";
 import { useShareText } from "#@/context/UIProvider";
 import { createErrorNotification, Link } from "#@/util";
-import { Badge, Button, Group, Stack, Text, Title } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
 
@@ -79,85 +79,123 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
     }
   };
 
+  const title = t("recap.page.hero.hours", { hours });
+  const hoursIndex = title.indexOf(hours);
+
   return (
-    <Stack data-testid={"recap-hero"} gap={"lg"}>
-      <Group justify={"space-between"} align={"flex-start"} wrap={"nowrap"}>
-        <Stack gap={4} className={"min-w-0 flex-1"}>
-          <Text size={"sm"} c={"dimmed"} className={"uppercase tracking-wide"}>
-            {username
-              ? t("recap.page.hero.eyebrowUser", { year, username })
-              : t("recap.page.hero.eyebrow", { year })}
-          </Text>
-          <Title order={1} className={"text-4xl md:text-6xl font-black"}>
-            {t("recap.page.hero.hours", { hours })}
-          </Title>
-          <Text size={"md"} c={"dimmed"}>
-            {username
-              ? t("recap.page.hero.summaryNamed", {
-                  name: username,
-                  games: topGames.length,
-                  finished: finishedGames,
-                })
-              : t("recap.page.hero.summary", {
-                  games: topGames.length,
-                  finished: finishedGames,
-                })}
-          </Text>
-        </Stack>
-        <UserAvatar
-          userId={recap.profileUserId}
-          size={56}
-          radius={"xl"}
-          className={"shrink-0"}
-        />
-      </Group>
+    <section
+      data-testid={"recap-hero"}
+      className={"flex w-full flex-col pt-8 md:pt-12"}
+    >
+      <RecapEyebrow>
+        {username
+          ? t("recap.page.hero.eyebrowUser", { year, username })
+          : t("recap.page.hero.eyebrow", { year })}
+      </RecapEyebrow>
 
-      <Group gap={"sm"} wrap={"wrap"}>
-        <Button leftSection={<IconShare size={16} />} onClick={onShare}>
-          {t("recap.page.hero.share")}
-        </Button>
-        <Button
-          component={Link}
-          href={getRecapStoriesHref(year, recap.profileUserId)}
-          variant={"default"}
+      <h1 className="m-0 mt-4 text-5xl leading-[1.05] font-bold tracking-[-0.02em] text-white md:text-[64px] md:leading-[72px]">
+        {hoursIndex >= 0 ? (
+          <>
+            {title.slice(0, hoursIndex)}
+            <span className={"text-brand"}>{hours}</span>
+            {title.slice(hoursIndex + hours.length)}
+          </>
+        ) : (
+          title
+        )}
+      </h1>
+
+      <div
+        className={
+          "mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12"
+        }
+      >
+        <RecapLead className={"max-w-[680px] text-lg md:text-xl"}>
+          {username
+            ? t("recap.page.hero.summaryNamed", {
+                name: username,
+                games: topGames.length,
+                finished: finishedGames,
+              })
+            : t("recap.page.hero.summary", {
+                games: topGames.length,
+                finished: finishedGames,
+              })}
+        </RecapLead>
+
+        <div className={"flex shrink-0 flex-wrap gap-3"}>
+          <Button
+            size={"md"}
+            radius={"md"}
+            leftSection={<IconShare size={16} />}
+            onClick={onShare}
+          >
+            {t("recap.page.hero.share")}
+          </Button>
+          <Button
+            size={"md"}
+            radius={"md"}
+            component={Link}
+            href={getRecapStoriesHref(year, recap.profileUserId)}
+            variant={"default"}
+            className={"border-[#333] bg-[#262626]"}
+          >
+            {t("recap.page.hero.stories")}
+          </Button>
+        </div>
+      </div>
+
+      <div className={"mt-10 flex flex-col gap-4 md:mt-14"}>
+        <div
+          className={
+            "flex flex-wrap items-center justify-between gap-x-6 gap-y-2"
+          }
         >
-          {t("recap.page.hero.stories")}
-        </Button>
-      </Group>
-
-      <Stack gap={4}>
-        <Group justify={"space-between"} align={"center"} gap={"xs"}>
-          <Title order={2} size={"h3"}>
+          <h2
+            className={
+              "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+            }
+          >
             {chartTitle}
-          </Title>
-          {isLive && today && (
-            <Badge
-              data-testid={"recap-hero-today"}
-              color={"brand"}
-              variant={"light"}
-            >
-              {t("recap.page.hero.today", { date: today })}
-            </Badge>
-          )}
-        </Group>
+          </h2>
+          <div className={"flex flex-wrap items-center gap-x-5 gap-y-1"}>
+            <div className={"flex items-center gap-2"}>
+              <span
+                aria-hidden={"true"}
+                className={"size-2.5 shrink-0 rounded-full bg-brand"}
+              />
+              <span className={"text-sm text-[#adadad]"}>
+                {t("recap.page.hero.chartSize")}
+              </span>
+            </div>
+            {isLive && (
+              <div className={"flex items-center gap-2"}>
+                <span
+                  aria-hidden={"true"}
+                  className={"h-3 w-0.5 shrink-0 bg-[#adadad]"}
+                />
+                <span
+                  data-testid={"recap-hero-updates"}
+                  className={"text-sm text-[#adadad]"}
+                >
+                  {t("recap.page.hero.updates")}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
         <RecapNodesChart
           year={year}
           topGames={topGames}
           games={gamesQuery.data}
           label={chartTitle}
           gameLabel={gameLabel}
+          today={isLive ? recap.updatedAt : null}
+          todayLabel={
+            isLive && today ? t("recap.page.hero.today", { date: today }) : null
+          }
         />
-        <Group justify={"space-between"} gap={"xs"} wrap={"wrap"}>
-          <Text size={"xs"} c={"dimmed"}>
-            {t("recap.page.hero.chartSize")}
-          </Text>
-          {isLive && (
-            <Text data-testid={"recap-hero-updates"} size={"xs"} c={"dimmed"}>
-              {t("recap.page.hero.updates")}
-            </Text>
-          )}
-        </Group>
-      </Stack>
-    </Stack>
+      </div>
+    </section>
   );
 }

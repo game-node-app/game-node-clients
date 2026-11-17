@@ -35,7 +35,7 @@ export function RecapMonthlyBars({ values, className }: RecapMonthlyBarsProps) {
       wrap={"nowrap"}
       role={"img"}
       aria-label={t("events.card.recap.monthlyLabel")}
-      className={cn("h-12 w-full", className)}
+      className={cn("h-12 w-full max-w-xs", className)}
     >
       {months.map((value, index) => {
         const ratio = Number.isFinite(value) && value > 0 ? value / max : 0;
@@ -49,7 +49,7 @@ export function RecapMonthlyBars({ values, className }: RecapMonthlyBarsProps) {
             }}
             className={cn(
               "min-w-0 flex-1 rounded-t-sm",
-              ratio > 0 ? "bg-brand-5/80" : "bg-paper-4",
+              ratio > 0 ? "bg-brand-5/80" : "bg-white/15",
             )}
           />
         );

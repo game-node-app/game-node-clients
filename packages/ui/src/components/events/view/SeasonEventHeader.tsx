@@ -82,10 +82,10 @@ export function SeasonEventHeader({ year, screen }: SeasonEventHeaderProps) {
       className={"w-full"}
     >
       <Breadcrumbs separator={"›"} separatorMargin={"xs"}>
-        <Text size={"sm"} c={"dimmed"}>
+        <Text size={"13px"} c={"#8c8c8c"}>
           {t("events.header.breadcrumb", { year })}
         </Text>
-        <Text size={"sm"} fw={600}>
+        <Text size={"13px"} fw={500} c={"#d0d0d0"}>
           {t(SCREEN_LABEL_KEYS[screen])}
         </Text>
       </Breadcrumbs>
@@ -96,6 +96,15 @@ export function SeasonEventHeader({ year, screen }: SeasonEventHeaderProps) {
           size={"sm"}
           radius={"md"}
           className={"max-w-full"}
+          styles={{
+            root: {
+              backgroundColor: "#121212",
+              border: "1px solid #262626",
+              padding: 3,
+            },
+            indicator: { backgroundColor: "#262626", borderRadius: 6 },
+            label: { fontSize: 13, fontWeight: 400 },
+          }}
           value={screen === "recap" ? "recap" : "awards"}
           onChange={(value) => {
             const segment = segments.find((item) => item.value === value);

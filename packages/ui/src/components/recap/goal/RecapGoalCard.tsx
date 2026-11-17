@@ -12,16 +12,16 @@ import { useRecapGoal } from "#@/components/recap/hooks/useRecapGoal";
 import { useRecapGoalMutation } from "#@/components/recap/hooks/useRecapGoalMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  ActionIcon,
   Button,
   Group,
   Loader,
   NumberInput,
-  Paper,
   Progress,
   Stack,
   Text,
-  Title,
 } from "@mantine/core";
+import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -88,91 +88,158 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
       : undefined;
   const finishedGamesCount = goalQuery.data?.finished;
 
+  const headlineTarget = savedTarget ?? suggestion;
+
   return (
-    <Paper
+    <div
       id={"goal"}
-      withBorder
-      radius={"md"}
-      p={"lg"}
-      className={"w-full scroll-mt-4"}
+      className={
+        "flex w-full scroll-mt-4 flex-col gap-5 rounded-2xl border border-[#2a2a2a] bg-paper-0 p-5 md:p-8"
+      }
     >
-      <Stack gap={"sm"}>
-        <Title order={2} size={"h3"}>
-          {t("recap.goal.title", { year: goalYear })}
-        </Title>
-
-        {goalQuery.isPending ? (
-          <Group gap={"xs"}>
-            <Loader size={"sm"} />
-            <Text size={"sm"} c={"dimmed"}>
-              {t("recap.goal.loading")}
-            </Text>
-          </Group>
-        ) : (
-          <form onSubmit={onSave}>
-            <Group align={"flex-end"} gap={"sm"} wrap={"wrap"}>
-              <Controller
-                control={control}
-                name={"target"}
-                render={({ field, fieldState }) => (
-                  <NumberInput
-                    label={t("recap.goal.targetLabel", { year: goalYear })}
-                    min={RECAP_GOAL_MIN_TARGET}
-                    max={RECAP_GOAL_MAX_TARGET}
-                    allowDecimal={false}
-                    clampBehavior={"strict"}
-                    value={field.value}
-                    onChange={(value) =>
-                      field.onChange(
-                        typeof value === "number" ? value : Number(value),
-                      )
-                    }
-                    onBlur={field.onBlur}
-                    error={fieldState.error?.message}
-                    disabled={goalMutation.isPending}
-                    w={{ base: "100%", xs: 220 }}
-                  />
-                )}
-              />
-              <Button type={"submit"} loading={goalMutation.isPending}>
-                {t("recap.goal.save")}
-              </Button>
-            </Group>
-          </form>
-        )}
-
-        {savedTarget == null && !goalQuery.isPending && (
-          <Text size={"sm"} c={"dimmed"}>
-            {t("recap.goal.suggestion", {
-              target: suggestion,
-              difference: suggestion - finishedGames,
+      <p
+        className={
+          "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+        }
+      >
+        {t("recap.goal.title", { year: goalYear })}
+      </p>
+      <h3 className={"m-0 text-2xl leading-8 font-medium text-white"}>
+        {headlineTarget - finishedGames > 0
+          ? t("recap.goal.suggestion", {
+              target: headlineTarget,
+              difference: headlineTarget - finishedGames,
               year,
+            })
+          : t("recap.goal.headline", {
+              target: headlineTarget,
+              year: goalYear,
             })}
+      </h3>
+
+      <p className={"m-0 text-base leading-normal text-[#adadad]"}>
+        {t("recap.goal.reminder")}
+      </p>
+
+      {goalQuery.isPending ? (
+        <Group gap={"xs"}>
+          <Loader size={"sm"} />
+          <Text size={"sm"} c={"dimmed"}>
+            {t("recap.goal.loading")}
           </Text>
+        </Group>
+      ) : (
+        <form onSubmit={onSave} className={"mt-auto"}>
+          <div className={"flex flex-wrap items-end justify-between gap-3"}>
+            <Controller
+              control={control}
+              name={"target"}
+              render={({ field, fieldState }) => (
+                <NumberInput
+                  aria-label={t("recap.goal.targetLabel", { year: goalYear })}
+                  min={RECAP_GOAL_MIN_TARGET}
+                  max={RECAP_GOAL_MAX_TARGET}
+                  allowDecimal={false}
+                  clampBehavior={"strict"}
+                  hideControls
+                  value={field.value}
+                  onChange={(value) =>
+                    field.onChange(
+                      typeof value === "number" ? value : Number(value),
+                    )
+                  }
+                  onBlur={field.onBlur}
+                  error={fieldState.error?.message}
+                  disabled={goalMutation.isPending}
+                  w={156}
+                  size={"md"}
+                  radius={"md"}
+                  styles={{
+                    input: { textAlign: "center", fontWeight: 500 },
+                    section: { pointerEvents: "all" },
+                  }}
+                  leftSection={
+                    <ActionIcon
+                      variant={"subtle"}
+                      color={"gray"}
+                      aria-label={t("recap.goal.decrease")}
+                      disabled={
+                        goalMutation.isPending ||
+                        (field.value ?? 0) <= RECAP_GOAL_MIN_TARGET
+                      }
+                      onClick={() =>
+                        field.onChange(
+                          Math.max(
+                            RECAP_GOAL_MIN_TARGET,
+                            (field.value ?? 0) - 1,
+                          ),
+                        )
+                      }
+                    >
+                      <IconMinus size={14} />
+                    </ActionIcon>
+                  }
+                  rightSection={
+                    <ActionIcon
+                      variant={"subtle"}
+                      color={"gray"}
+                      aria-label={t("recap.goal.increase")}
+                      disabled={
+                        goalMutation.isPending ||
+                        (field.value ?? 0) >= RECAP_GOAL_MAX_TARGET
+                      }
+                      onClick={() =>
+                        field.onChange(
+                          Math.min(
+                            RECAP_GOAL_MAX_TARGET,
+                            (field.value ?? 0) + 1,
+                          ),
+                        )
+                      }
+                    >
+                      <IconPlus size={14} />
+                    </ActionIcon>
+                  }
+                  leftSectionWidth={40}
+                  rightSectionWidth={40}
+                />
+              )}
+            />
+            <Button
+              type={"submit"}
+              size={"md"}
+              radius={"md"}
+              variant={"default"}
+              className={"border-[#333] bg-[#262626]"}
+              loading={goalMutation.isPending}
+            >
+              {t("recap.goal.save")}
+            </Button>
+          </div>
+        </form>
+      )}
+
+      {progressText != null &&
+        savedTarget != null &&
+        finishedGamesCount != null && (
+          <Stack gap={6}>
+            <Text size={"sm"}>{progressText}</Text>
+            <Progress
+              value={Math.min(
+                100,
+                Math.round((finishedGamesCount / savedTarget) * 100),
+              )}
+              aria-label={progressText}
+            />
+          </Stack>
         )}
 
-        {progressText != null &&
-          savedTarget != null &&
-          finishedGamesCount != null && (
-            <Stack gap={6}>
-              <Text size={"sm"}>{progressText}</Text>
-              <Progress
-                value={Math.min(
-                  100,
-                  Math.round((finishedGamesCount / savedTarget) * 100),
-                )}
-                aria-label={progressText}
-              />
-            </Stack>
-          )}
-
-        {goalMutation.isSuccess && (
-          <Text size={"sm"} c={"teal"}>
-            {t("recap.goal.saved")}
-          </Text>
-        )}
-      </Stack>
-    </Paper>
+      {goalMutation.isSuccess && (
+        <Text size={"sm"} c={"teal"}>
+          {t("recap.goal.saved")}
+        </Text>
+      )}
+    </div>
   );
 };
 
