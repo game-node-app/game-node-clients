@@ -227,12 +227,12 @@ describe("owner cover call sites", () => {
     ).toBe(false);
   });
 
-  it("sends no opt-in field while the owner of a surface is still loading", async () => {
+  it("asks for the journal owner's covers without waiting for the collection entry", async () => {
     signIn("viewer-1");
-    const profileSpy = vi.spyOn(
+    vi.spyOn(
       ProfileService,
       "profileControllerFindOneByIdV1",
-    );
+    ).mockResolvedValue(profile("any"));
     vi.spyOn(
       CollectionsEntriesService,
       "collectionsEntriesControllerFindEntryByIdV1",
@@ -248,21 +248,19 @@ describe("owner cover call sites", () => {
     };
 
     const { Wrapper } = createWrapper(createClient());
-    render(<JournalOverviewItem item={item} targetDay={1} />, {
+    render(<JournalOverviewItem userId="owner-1" item={item} targetDay={1} />, {
       wrapper: Wrapper,
     });
 
     await waitFor(() =>
-      expect(findOne).toHaveBeenCalledWith(1, { relations: { cover: true } }),
+      expect(findOne).toHaveBeenCalledWith(1, {
+        relations: { cover: true },
+        coverOwnerUserId: "owner-1",
+      }),
     );
-    expect(
-      findOne.mock.calls.some(
-        ([, dto]) =>
-          dto.personalizeCovers != undefined ||
-          dto.coverOwnerUserId != undefined,
-      ),
-    ).toBe(false);
-    expect(profileSpy).not.toHaveBeenCalled();
+    expect(findOne.mock.calls.some(([, dto]) => dto.personalizeCovers)).toBe(
+      false,
+    );
   });
 
   it("badges the owner's own non-public entries on library cards", async () => {

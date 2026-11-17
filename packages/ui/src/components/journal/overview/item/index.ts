@@ -3,5 +3,3 @@
  */
 
 export * from "./JournalOverviewItem";
-export * from "./JournalOverviewMonthGroup";
-export * from "./JournalOverviewYearGroup";
