@@ -7,8 +7,12 @@ export function useUserLibrary(
   userId: string | undefined | null,
 ): ExtendedUseQueryResult<Library | null> {
   const queryClient = useQueryClient();
-  const queryKey = ["library", userId];
-  useUserId();
+  const viewerId = useUserId();
+  /*
+    Collections are filtered by the viewer's visibility, so the viewer id (or
+    `null` while signed out) is part of the key.
+   */
+  const queryKey = ["library", userId ?? null, viewerId ?? null];
   const invalidate = () => queryClient.invalidateQueries({ queryKey });
 
   return {

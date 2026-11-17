@@ -16,6 +16,10 @@ import { GAME_COVER_PLACEHOLDER } from "../../../../../packages/ui/src/component
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import { LinkComponentProps } from "../../../../../packages/ui/src/util/link";
 
+vi.mock("@repo/locales", () => ({
+  useTranslation: () => ({ t: (key: string) => key }),
+}));
+
 const IGDB_URL = "https://images.igdb.com/igdb/image/upload";
 
 const igdbUrl = (name: string) => `${IGDB_URL}/t_cover_big/${name}.jpg`;
@@ -50,7 +54,10 @@ const PresenterLink = ({ href, children, ...rest }: LinkComponentProps) => (
   </a>
 );
 
-const renderFigure = (onError?: React.ReactEventHandler<HTMLImageElement>) => {
+const renderFigure = (
+  onError?: React.ReactEventHandler<HTMLImageElement>,
+  visibility?: "public" | "followers" | "private",
+) => {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
@@ -71,6 +78,7 @@ const renderFigure = (onError?: React.ReactEventHandler<HTMLImageElement>) => {
         <MantineProvider>
           <GameFigureImage
             game={personalizedGame}
+            visibility={visibility}
             imageProps={onError ? { onError } : undefined}
           />
         </MantineProvider>
@@ -121,4 +129,19 @@ it("shows the placeholder after both images fail, still composing onError", asyn
 
   expect(image.getAttribute("src")).toBe(GAME_COVER_PLACEHOLDER);
   expect(callerOnError).toHaveBeenCalledTimes(2);
+});
+
+it("draws the owner-only visibility badge for a non-public entry", () => {
+  renderFigure(undefined, "private");
+
+  expect(screen.getByText("libraryVisibility.badges.private")).toBeTruthy();
+});
+
+it("draws no badge for a public entry", () => {
+  renderFigure(undefined, "public");
+
+  expect(screen.queryByText("libraryVisibility.badges.private")).toBeNull();
+  expect(
+    screen.queryByText("libraryVisibility.badges.followersOnly"),
+  ).toBeNull();
 });

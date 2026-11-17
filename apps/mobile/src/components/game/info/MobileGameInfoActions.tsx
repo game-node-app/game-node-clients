@@ -8,12 +8,14 @@ import {
   cn,
   CollectionEntryEditModal,
   CollectionEntryRemoveModal,
+  CollectionEntryVisibilityMenu,
   GameCoverPickerModal,
   GameInfoActionsProps,
   GameInfoQuickAddMenu,
   GameInfoShare,
   Modal,
   PreferredPlatformsViewModal,
+  toLibraryVisibilityLevel,
   useOwnCollectionEntryForGameId,
   useReviewForUserIdAndGameId,
   useUpdateFavoriteStatusMutation,
@@ -185,6 +187,16 @@ const MobileGameInfoActions = ({
             )}
           </ActionIcon>
         </Tooltip>
+        {collectionEntryQuery.data != undefined && (
+          <CollectionEntryVisibilityMenu
+            gameId={game.id}
+            value={
+              toLibraryVisibilityLevel(collectionEntryQuery.data.visibility) ??
+              "public"
+            }
+            size={40}
+          />
+        )}
         <Tooltip label={t("game.coverPicker.open")}>
           <ActionIcon
             aria-label={t("game.coverPicker.open")}

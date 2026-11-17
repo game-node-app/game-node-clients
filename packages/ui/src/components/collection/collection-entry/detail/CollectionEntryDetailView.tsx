@@ -7,18 +7,21 @@ import {
   CollectionEntryPlaytimeTracker,
   CollectionEntryRemoveModal,
   CollectionEntryReviewBox,
+  CollectionEntryVisibilityBadge,
   GameFigureImage,
   GameInfoContentTitle,
   getSizedImageUrl,
   ImageSize,
   JournalPlaylogView,
+  toLibraryVisibilityLevel,
   useCollectionEntry,
   useGame,
   useOnMobile,
   useOwnCollectionEntryForGameId,
+  useUserId,
   useUserProfile,
 } from "#@/components";
-import { getRandomItem, Link } from "#@/util";
+import { cn, getRandomItem, isNotFoundApiError, Link } from "#@/util";
 import {
   ActionIcon,
   Box,
@@ -29,11 +32,12 @@ import {
   Stack,
   StackProps,
   Tabs,
+  Text,
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { IconLock, IconTrashFilled } from "@tabler/icons-react";
 import { useMemo } from "react";
 
 interface Props extends StackProps {
@@ -85,8 +89,43 @@ const CollectionEntryDetailView = ({
 
   const isInLibrary = ownCollectionEntryQuery.data != undefined;
 
+  const ownUserId = useUserId();
+  const isOwner = userId === ownUserId;
+  const entryVisibility = toLibraryVisibilityLevel(
+    collectionEntryQuery.data?.visibility,
+  );
+
+  /*
+   * A hidden entry answers the same 404 as a missing one. Never retried
+   * (`useCollectionEntry`) and never toasted: render the shared "not visible"
+   * notice instead of an empty page.
+   */
+  const isHidden = isNotFoundApiError(collectionEntryQuery.error);
+
   const [editOpened, editOpenedUtils] = useDisclosure();
   const [removeOpened, removeOpenedUtils] = useDisclosure();
+
+  if (isHidden) {
+    return (
+      <Stack
+        {...others}
+        align={"center"}
+        justify={"center"}
+        gap={"xs"}
+        py={"xl"}
+        className={cn("w-full", others.className)}
+        data-testid={"collection-entry-hidden-state"}
+      >
+        <IconLock size={40} className={"text-dimmed"} aria-hidden />
+        <Title size={"h3"} className={"text-center"}>
+          {t("libraryVisibility.hidden.title")}
+        </Title>
+        <Text c={"dimmed"} className={"text-center max-w-md"}>
+          {t("libraryVisibility.hidden.description")}
+        </Text>
+      </Stack>
+    );
+  }
 
   return (
     <Stack className={"w-full"}>
@@ -153,6 +192,10 @@ const CollectionEntryDetailView = ({
             <Title className={"text-center text-xl"}>
               {gameQuery.data?.name}
             </Title>
+
+            {isOwner && entryVisibility != undefined && (
+              <CollectionEntryVisibilityBadge visibility={entryVisibility} />
+            )}
 
             <Group className={"w-full gap-2 flex-nowrap"}>
               <Button

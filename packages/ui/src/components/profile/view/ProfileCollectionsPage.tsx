@@ -3,8 +3,11 @@ import {
   CenteredLoading,
   CollectionThumbnailCard,
   DetailsBox,
+  LibraryHiddenState,
+  useIsLibraryHidden,
   useUserLibrary,
 } from "#@/components";
+import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
 import { Divider, SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
@@ -14,13 +17,25 @@ interface Props {
 
 const ProfileCollectionsPage = ({ userId }: Props) => {
   const { t } = useTranslation();
+  const { isHidden, isOwner, profile } = useIsLibraryHidden(userId);
   const { data, isLoading, isError, error } = useUserLibrary(userId);
 
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
+
+  // A non-owner never receives private collections on a fresh read; filtering
+  // protects lists rendered from a cache filled in another permission state.
+  const visibleCollections = filterVisibleCollections(
+    data?.collections,
+    isOwner,
+  );
+
   const featuredCollections =
-    data?.collections.filter((collection) => collection.isFeatured) ?? [];
+    visibleCollections?.filter((collection) => collection.isFeatured) ?? [];
 
   const nonFeaturedCollections =
-    data?.collections.filter((collection) => !collection.isFeatured) ?? [];
+    visibleCollections?.filter((collection) => !collection.isFeatured) ?? [];
 
   return (
     <Stack className={"w-full h-full"}>

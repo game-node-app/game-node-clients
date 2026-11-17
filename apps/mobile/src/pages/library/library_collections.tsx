@@ -5,6 +5,9 @@ import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   CollectionThumbnailCard,
+  filterVisibleCollections,
+  LibraryHiddenState,
+  useIsLibraryHidden,
   useUserId,
   useUserLibrary,
   useUserProfile,
@@ -17,9 +20,14 @@ interface Props {
 const LibraryCollectionsPage = ({ userId }: Props) => {
   const { t } = useTranslation();
   const ownUserId = useUserId();
+  const profileQuery = useUserProfile(userId);
+  const { isHidden, isOwner, profile } = useIsLibraryHidden(
+    userId,
+    profileQuery.data,
+  );
   const { data: library } = useUserLibrary(userId);
-  const { data: profile } = useUserProfile(userId);
-  const collections = library?.collections ?? [];
+  const collections =
+    filterVisibleCollections(library?.collections, isOwner) ?? [];
 
   const isOwnLibrary = userId === ownUserId;
 
@@ -31,17 +39,21 @@ const LibraryCollectionsPage = ({ userId }: Props) => {
         {isOwnLibrary
           ? t("mobile.library.collectionsTitle")
           : t("mobile.library.collectionsTitleFor", {
-              username: profile?.username ?? "",
+              username: profileQuery.data?.username ?? "",
             })}
       </Text>
-      <Stack>
-        {collections.map((collection) => (
-          <CollectionThumbnailCard
-            key={`${userId}-${collection.id}`}
-            collectionId={collection.id}
-          />
-        ))}
-      </Stack>
+      {isHidden ? (
+        <LibraryHiddenState profile={profile} />
+      ) : (
+        <Stack>
+          {collections.map((collection) => (
+            <CollectionThumbnailCard
+              key={`${userId}-${collection.id}`}
+              collectionId={collection.id}
+            />
+          ))}
+        </Stack>
+      )}
     </AppPage>
   );
 };

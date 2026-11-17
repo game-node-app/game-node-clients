@@ -1,4 +1,6 @@
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
+import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
 import { ComboboxItemGroup, Select, SelectProps } from "@mantine/core";
 import { useMemo } from "react";
 
@@ -9,12 +11,17 @@ interface Props extends SelectProps {
 }
 
 const LibraryViewCollectionsSelect = ({ userId, ...others }: Props) => {
+  const ownUserId = useUserId();
   const libraryQuery = useUserLibrary(userId);
   const collectionOptions = useMemo<ItemGroup[] | undefined>(() => {
-    const collections = libraryQuery.data?.collections.filter(
+    const visibleCollections = filterVisibleCollections(
+      libraryQuery.data?.collections,
+      ownUserId != undefined && ownUserId === userId,
+    );
+    const collections = visibleCollections?.filter(
       (collection) => !collection.isFeatured,
     );
-    const featuredCollections = libraryQuery.data?.collections.filter(
+    const featuredCollections = visibleCollections?.filter(
       (collection) => collection.isFeatured,
     );
     const options: ItemGroup[] = [];
@@ -42,7 +49,7 @@ const LibraryViewCollectionsSelect = ({ userId, ...others }: Props) => {
     }
 
     return options;
-  }, [libraryQuery.data?.collections]);
+  }, [libraryQuery.data?.collections, ownUserId, userId]);
   return (
     <Select
       w={"100%"}

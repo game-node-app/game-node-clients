@@ -2,11 +2,13 @@ import {
   CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
+  LibraryHiddenState,
   useGamesResource,
   useOnMobile,
 } from "#@/components";
 import { useJournalPlaylog } from "#@/components/journal/hooks/useJournalPlaylog.ts";
 import { JournalPlaylogTimeline } from "#@/components/journal/playlog/JournalPlaylogTimeline.tsx";
+import { isNotFoundApiError } from "#@/util";
 import { SegmentedControl } from "@mantine/core";
 import { useMemo, useState } from "react";
 
@@ -43,6 +45,12 @@ const JournalPlaylogView = ({ userId, gameId, withTitle = true }: Props) => {
     setPreviousPlatforms(availablePlatforms);
     if (availablePlatforms.length > 0)
       setSelectedPlatformid(availablePlatforms[0].id);
+  }
+
+  // A play log of a hidden game answers 404: show the hidden notice, not an
+  // error or "not enough data".
+  if (isNotFoundApiError(playlogQuery.error)) {
+    return <LibraryHiddenState userId={userId} />;
   }
 
   return (

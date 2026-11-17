@@ -5,6 +5,7 @@ import {
   FindCollectionEntriesGameFilterDto,
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export interface UseCollectionEntriesForUserIdProps {
   userId: string;
@@ -25,6 +26,8 @@ export function useCollectionEntriesForUserId({
   gameFilters,
   hasCustomCover,
 }: UseCollectionEntriesForUserIdProps) {
+  const viewerId = useUserId();
+
   return useQuery({
     queryKey: [
       "collection-entries",
@@ -36,6 +39,8 @@ export function useCollectionEntriesForUserId({
       gameFilters,
       status,
       ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
+      // Hidden entries are filtered per viewer, so the viewer id belongs to the key.
+      viewerId ?? null,
     ],
     queryFn: async () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindAllByLibraryIdV1(

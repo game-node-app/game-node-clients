@@ -1,7 +1,8 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "#@/components/follow/hooks/useFollowStatus";
+import { invalidateFollowedUserQueries } from "#@/components/follow/hooks/useUserFollow";
 import { Button, Group } from "@mantine/core";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FollowService } from "../../../../../wrapper/src/server";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 const UserFollowActions = ({ targetUserId }: Props) => {
   const ownUserId = useUserId();
+  const queryClient = useQueryClient();
   /*
     Checks if current logged-in user is following target user
      */
@@ -31,6 +33,10 @@ const UserFollowActions = ({ targetUserId }: Props) => {
       await FollowService.followControllerRemoveFollowV1({
         followedUserId: targetUserId,
       });
+    },
+    onSuccess: () => {
+      // Following/unfollowing changes what the viewer may see of this user.
+      void invalidateFollowedUserQueries(queryClient, targetUserId);
     },
     onSettled: () => {
       ownToTargetFollowStatus.invalidate();

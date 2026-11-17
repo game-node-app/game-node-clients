@@ -5,14 +5,16 @@ import {
   findCollectionEntryByGameId,
   GameView,
   GameViewLayoutOption,
+  LibraryHiddenState,
   LibraryViewActions,
   useCollection,
   useCollectionEntriesForCollectionId,
   useGames,
   useUrlState,
   useUserId,
+  toLibraryVisibilityLevel,
 } from "#@/components";
-import { getOffsetAsPage, getPageAsOffset } from "#@/util";
+import { getOffsetAsPage, getPageAsOffset, isNotFoundApiError } from "#@/util";
 import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { useMemo } from "react";
@@ -86,9 +88,18 @@ const CollectionView = ({
       return {
         ...game,
         href: `/library/${libraryUserId}/collection/entry/${relatedCollectionEntry?.id}`,
+        // Owner-only badge: never expose another user's entry level.
+        visibility: isOwnCollection
+          ? toLibraryVisibilityLevel(relatedCollectionEntry?.visibility)
+          : undefined,
       };
     });
-  }, [collectionEntriesQuery.data?.data, gamesQuery.data, libraryUserId]);
+  }, [
+    collectionEntriesQuery.data?.data,
+    gamesQuery.data,
+    isOwnCollection,
+    libraryUserId,
+  ]);
 
   const paginationInfo = collectionEntriesQuery.data?.pagination;
 
@@ -108,6 +119,17 @@ const CollectionView = ({
 
   const enablePagination =
     paginationInfo != undefined && (paginationInfo.totalPages ?? 1) > 1;
+
+  /*
+    A private collection (or a collection of a hidden library) answers 404 for
+    a non-owner. It is the same answer as a missing collection, so it becomes a
+    hidden notice instead of an error or an "empty collection" message.
+   */
+  const isHidden = isNotFoundApiError(collectionQuery.error);
+
+  if (isHidden) {
+    return <LibraryHiddenState userId={libraryUserId} />;
+  }
 
   return (
     <Stack w={"100%"} h={"100%"} className={"gap-0 mb-8"}>

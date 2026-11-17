@@ -3,6 +3,8 @@ import { ApiError, RecapService } from "@repo/wrapper/server";
 import { isMockRecap } from "#@/components/recap/hooks/mockRecap";
 import type { RecapStatus } from "#@/components/recap/types";
 import { toRecapStatus } from "#@/components/recap/types";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { retryUnlessHidden } from "#@/util";
 import { getRecapStatusQueryKey } from "./recapQueryKeys";
 
 /**
@@ -17,8 +19,10 @@ export function useRecapStatus(
   userId: string | undefined,
   year: number | undefined,
 ) {
+  const viewerId = useUserId();
+
   return useQuery<RecapStatus, ApiError>({
-    queryKey: getRecapStatusQueryKey(userId, year),
+    queryKey: getRecapStatusQueryKey(userId, year, viewerId),
     queryFn: async () => {
       if (isMockRecap(userId)) {
         return { isRecapCreated: true, isRecapEligible: true, phase: "live" };
@@ -28,5 +32,7 @@ export function useRecapStatus(
       );
     },
     enabled: userId != undefined && year != undefined,
+    // A hidden library answers 404 for another user: don't retry.
+    retry: retryUnlessHidden,
   });
 }

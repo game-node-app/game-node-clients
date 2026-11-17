@@ -4,11 +4,15 @@ import {
   findCollectionEntryByGameId,
   GameView,
   GameViewLayoutOption,
+  LibraryHiddenState,
   LibraryViewActions,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
   useGames,
+  useIsLibraryHidden,
   useUrlState,
+  useUserId,
+  toLibraryVisibilityLevel,
 } from "#@/components";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 import { Group, Stack } from "@mantine/core";
@@ -23,6 +27,20 @@ interface Props {
 }
 
 const LibraryView = ({ libraryUserId }: Props) => {
+  const { isHidden, profile } = useIsLibraryHidden(libraryUserId);
+
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
+
+  return <LibraryViewContent libraryUserId={libraryUserId} />;
+};
+
+/**
+ * The listing itself. Split from `LibraryView` so a hidden library does not
+ * fire the (empty) listing reads before the hidden state replaces them.
+ */
+const LibraryViewContent = ({ libraryUserId }: Props) => {
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
     defaultValue: "grid",
@@ -41,6 +59,9 @@ const LibraryView = ({ libraryUserId }: Props) => {
   });
 
   const { status, offset, includeExtraContent, hasCustomCover } = params;
+
+  const ownUserId = useUserId();
+  const isOwner = libraryUserId === ownUserId;
 
   const collectionEntriesQuery = useCollectionEntriesForUserId({
     ...params,
@@ -78,9 +99,18 @@ const LibraryView = ({ libraryUserId }: Props) => {
       return {
         ...game,
         href: `/library/${libraryUserId}/collection/entry/${relatedCollectionEntry?.id}`,
+        // Owner-only badge: never expose another user's entry level.
+        visibility: isOwner
+          ? toLibraryVisibilityLevel(relatedCollectionEntry?.visibility)
+          : undefined,
       };
     });
-  }, [collectionEntriesQuery.data?.data, gamesQuery.data, libraryUserId]);
+  }, [
+    collectionEntriesQuery.data?.data,
+    gamesQuery.data,
+    isOwner,
+    libraryUserId,
+  ]);
 
   const isLoading = collectionEntriesQuery.isLoading || gamesQuery.isLoading;
 

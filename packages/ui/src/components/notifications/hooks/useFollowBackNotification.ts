@@ -1,5 +1,6 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { NOTIFICATIONS_AGGREGATED_QUERY_KEY } from "#@/components/notifications/hooks/useInfiniteAggregatedNotifications";
+import { invalidateFollowedUserQueries } from "#@/components/follow/hooks/useUserFollow";
 import { createErrorNotification } from "#@/util/createErrorNotification";
 import { FollowService, NotificationsResponseDto } from "@repo/wrapper/server";
 import {
@@ -72,6 +73,10 @@ export function useFollowBackNotification() {
         queryClient.setQueryData(queryKey, data);
       });
       createErrorNotification(error as Error);
+    },
+    onSuccess: (_data, actorUserId) => {
+      // The viewer now follows this actor, so their visible library changes.
+      void invalidateFollowedUserQueries(queryClient, actorUserId);
     },
     onSettled: (_data, _error, actorUserId) => {
       // The inbox itself is not invalidated: the optimistic state already

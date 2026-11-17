@@ -1,7 +1,9 @@
 import {
+  CollectionEntryVisibilityMenu,
   GameInfoQuickAddMenu,
   GameInfoShare,
   PreferredPlatformsViewModal,
+  toLibraryVisibilityLevel,
   useUpdateFavoriteStatusMutation,
 } from "#@/components";
 import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
@@ -152,6 +154,17 @@ const DEFAULT_GameInfoActions = ({
             )}
           </ActionIcon>
         </Tooltip>
+
+        {gameInLibrary && collectionEntryQuery.data != undefined && (
+          <CollectionEntryVisibilityMenu
+            gameId={game.id}
+            value={
+              toLibraryVisibilityLevel(collectionEntryQuery.data.visibility) ??
+              "public"
+            }
+            size={"lg"}
+          />
+        )}
 
         <Tooltip label={t("game.coverPicker.open")}>
           <ActionIcon

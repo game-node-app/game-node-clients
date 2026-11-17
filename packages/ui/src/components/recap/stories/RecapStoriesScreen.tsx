@@ -25,7 +25,12 @@ import { RecapCardFonts } from "#@/components/wrapped/card/RecapCardFonts";
 import { RecapCardPreview } from "#@/components/wrapped/card/RecapCardPreview";
 import { exportCardImage } from "#@/components/wrapped/util/exportCardImage";
 import { useAuthPath } from "#@/context";
-import { createErrorNotification, Link, useRouter } from "#@/util";
+import {
+  createErrorNotification,
+  isNotFoundApiError,
+  Link,
+  useRouter,
+} from "#@/util";
 import { ActionIcon, Button, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconX } from "@tabler/icons-react";
@@ -169,6 +174,28 @@ export function RecapStoriesScreen({
     return <CenteredLoading />;
   }
 
+  if (statusQuery.isError) {
+    const isHidden = isNotFoundApiError(statusQuery.error);
+
+    return (
+      <StoriesMessage
+        year={year}
+        userId={userId}
+        message={
+          isHidden
+            ? t("libraryVisibility.hidden.title")
+            : t("recap.page.states.errorTitle")
+        }
+        description={
+          isHidden
+            ? t("libraryVisibility.hidden.description")
+            : t("recap.page.states.errorDescription")
+        }
+        backLabel={t("recap.stories.back")}
+      />
+    );
+  }
+
   if (statusQuery.data && !statusQuery.data.isRecapCreated) {
     return (
       <StoriesMessage
@@ -181,6 +208,18 @@ export function RecapStoriesScreen({
   }
 
   if (!recap) {
+    if (isNotFoundApiError(recapQuery.error)) {
+      return (
+        <StoriesMessage
+          year={year}
+          userId={userId}
+          message={t("libraryVisibility.hidden.title")}
+          description={t("libraryVisibility.hidden.description")}
+          backLabel={t("recap.stories.back")}
+        />
+      );
+    }
+
     return <CenteredLoading />;
   }
 
@@ -353,11 +392,13 @@ function StoriesMessage({
   year,
   userId,
   message,
+  description,
   backLabel,
 }: {
   year: number;
   userId: string;
   message: string;
+  description?: string;
   backLabel: string;
 }) {
   return (
@@ -365,6 +406,11 @@ function StoriesMessage({
       <Text c={"dimmed"} ta={"center"}>
         {message}
       </Text>
+      {description && (
+        <Text size={"sm"} c={"dimmed"} ta={"center"}>
+          {description}
+        </Text>
+      )}
       <Link href={`/recap/${year}/${userId}`}>
         <Button variant={"light"}>{backLabel}</Button>
       </Link>

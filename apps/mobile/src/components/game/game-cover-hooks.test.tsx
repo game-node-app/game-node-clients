@@ -316,7 +316,9 @@ describe("useGame cover request", () => {
     });
 
     await waitFor(() =>
-      expect(client.getQueryData(["userProfile", "viewer"])).toBeDefined(),
+      expect(
+        client.getQueryData(["userProfile", "viewer", "viewer"]),
+      ).toBeDefined(),
     );
     expect(gameKeys(client)).toEqual([["game", 1, gameDto]]);
     expect(findOne).toHaveBeenCalledTimes(1);
@@ -360,8 +362,10 @@ describe("useGame cover request", () => {
 
     await waitFor(() =>
       expect(
-        client.getQueryCache().find({ queryKey: ["userProfile", "viewer"] })
-          ?.state.status,
+        client
+          .getQueryCache()
+          .find({ queryKey: ["userProfile", "viewer", "viewer"] })?.state
+          .status,
       ).toBe("error"),
     );
     expect(gameKeys(client)).toEqual([["game", 1, gameDto]]);

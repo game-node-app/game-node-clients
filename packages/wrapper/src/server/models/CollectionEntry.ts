@@ -12,6 +12,7 @@ export type CollectionEntry = {
      * Collections this entry belongs to
      */
     collections: Array<Collection>;
+    visibility: CollectionEntry.visibility;
     id: string;
     game: Game;
     gameId: number;
@@ -32,6 +33,11 @@ export type CollectionEntry = {
     updatedAt: string;
 };
 export namespace CollectionEntry {
+    export enum visibility {
+        PUBLIC = 'public',
+        FOLLOWERS = 'followers',
+        PRIVATE = 'private',
+    }
     export enum status {
         PLAYING = 'playing',
         FINISHED = 'finished',

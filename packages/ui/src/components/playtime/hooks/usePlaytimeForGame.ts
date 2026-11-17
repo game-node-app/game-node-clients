@@ -1,14 +1,16 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlaytimeService, UserPlaytime } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export function usePlaytimeForGame(
   userId: string | undefined,
   gameId: number | undefined,
 ): ExtendedUseQueryResult<UserPlaytime[] | null> {
   const queryClient = useQueryClient();
+  const viewerId = useUserId();
 
-  const queryKey = ["playtime", "game", userId, gameId];
+  const queryKey = ["playtime", "game", userId, gameId, viewerId ?? null];
 
   const invalidate = () => {
     queryClient.invalidateQueries({

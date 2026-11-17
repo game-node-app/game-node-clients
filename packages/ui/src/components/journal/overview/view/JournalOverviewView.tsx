@@ -1,4 +1,9 @@
-import { BackToTopButton, CenteredLoading } from "#@/components";
+import {
+  BackToTopButton,
+  CenteredLoading,
+  LibraryHiddenState,
+  useIsLibraryHidden,
+} from "#@/components";
 import { useJournalOverview } from "#@/components/journal/hooks/useJournalOverview.ts";
 import { JournalOverviewYearGroup } from "#@/components/journal/overview/item/JournalOverviewYearGroup.tsx";
 import { Stack } from "@mantine/core";
@@ -11,6 +16,7 @@ interface Props {
 
 const JournalOverviewView = ({ userId }: Props) => {
   const { t } = useTranslation();
+  const { isHidden, profile } = useIsLibraryHidden(userId);
   const { data, isLoading } = useJournalOverview(userId);
 
   const renderedItens = useMemo(() => {
@@ -18,6 +24,10 @@ const JournalOverviewView = ({ userId }: Props) => {
       <JournalOverviewYearGroup key={yearGroup.year} yearGroup={yearGroup} />
     ));
   }, [data]);
+
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
 
   return (
     <Stack>

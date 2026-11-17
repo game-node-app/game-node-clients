@@ -137,7 +137,7 @@ describe("useRecapStatus", () => {
 
     expect(
       client.getQueryCache().find({
-        queryKey: getRecapStatusQueryKey("user-1", 2025),
+        queryKey: getRecapStatusQueryKey("user-1", 2025, null),
       }),
     ).toBeDefined();
     expect(hook.result.current.data).toEqual({
@@ -190,13 +190,19 @@ describe("useRecapGoal", () => {
 describe("Recap query keys", () => {
   it("matches the design §2 table", () => {
     expect(getCurrentRecapWindowQueryKey()).toEqual(["recap", "current"]);
-    expect(getRecapStatusQueryKey("user-1", 2026)).toEqual([
+    expect(getRecapStatusQueryKey("user-1", 2026, "viewer-1")).toEqual([
       "recap",
       "status",
       "user-1",
       2026,
+      "viewer-1",
     ]);
-    expect(getRecapQueryKey(2026, "user-1")).toEqual(["recap", 2026, "user-1"]);
+    expect(getRecapQueryKey(2026, "user-1", "viewer-1")).toEqual([
+      "recap",
+      2026,
+      "user-1",
+      "viewer-1",
+    ]);
     expect(getRecapGoalQueryKey(2027, "user-1")).toEqual([
       "recap",
       "goals",
@@ -342,12 +348,34 @@ describe("useRecap", () => {
     expect(
       client
         .getQueryCache()
-        .find({ queryKey: getRecapQueryKey(2026, "user-1") }),
+        .find({ queryKey: getRecapQueryKey(2026, "user-1", "user-1") }),
     ).toBeDefined();
 
     const data = hook.result.current.data as YearRecap;
     expect(data.communityHighlights?.minority?.gameId).toBe(101);
     expect(data.communityHighlights?.minority?.beyondShare).toBe(0.06);
     expect(data.communityHighlights?.inTune).toBeNull();
+  });
+
+  it("never retries a 404 from a hidden library, but retries transient errors", () => {
+    session.userId = "viewer-1";
+    vi.spyOn(RecapService, "recapControllerGetRecapByYearV1").mockReturnValue(
+      new Promise(() => {}) as never,
+    );
+
+    const client = createClient();
+    renderHook(() => useRecap("user-1", 2026), {
+      wrapper: createWrapper(client),
+    });
+
+    const options = client
+      .getQueryCache()
+      .find({ queryKey: getRecapQueryKey(2026, "user-1", "viewer-1") })
+      ?.options as unknown as { retry?: unknown };
+    const retry = options.retry as (count: number, error: unknown) => boolean;
+
+    expect(typeof retry).toBe("function");
+    expect(retry(0, apiError(404))).toBe(false);
+    expect(retry(0, apiError(500))).toBe(true);
   });
 });

@@ -7,7 +7,7 @@ import {
   useGame,
   useReviewForUserIdAndGameId,
 } from "#@/components";
-import { Link } from "#@/util";
+import { isNotFoundApiError, Link } from "#@/util";
 import { ActionIcon, Box, Center, Group, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { JournalEntryStatusDto } from "@repo/wrapper/server";
@@ -43,6 +43,12 @@ const JournalOverviewItem = ({ item, targetDay }: Props) => {
       .map((platform) => platform.abbreviation)
       .join(" / ");
   }, [collectionEntryQuery.data?.ownedPlatforms]);
+
+  if (isNotFoundApiError(collectionEntryQuery.error)) {
+    // The entry became hidden after the overview was cached: omit the row
+    // instead of keeping a spinner for content the viewer may not see.
+    return null;
+  }
 
   if (!collectionEntryQuery.data || !gameQuery.data) return <CenteredLoading />;
 

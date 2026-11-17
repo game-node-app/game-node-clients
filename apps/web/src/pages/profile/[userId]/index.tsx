@@ -2,6 +2,7 @@ import { Box } from "@mantine/core";
 import {
   ProfileUserInfoWithBanner,
   ProfileViewContent,
+  getUserProfileQueryKey,
   useUserProfile,
 } from "@repo/ui";
 import { ProfileService } from "@repo/wrapper/server";
@@ -15,7 +16,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["userProfile", userId],
+    /*
+      The server has no session here, so it dehydrates the anonymous key
+      (`null` viewer). That is the key the client computes while the session is
+      still loading, so hydration matches; once the session resolves, the
+      viewer-aware key is fetched and replaces it.
+     */
+    queryKey: getUserProfileQueryKey(userId, null),
     queryFn: () => {
       const profile = ProfileService.profileControllerFindOneByIdV1(userId);
       if (!profile) {

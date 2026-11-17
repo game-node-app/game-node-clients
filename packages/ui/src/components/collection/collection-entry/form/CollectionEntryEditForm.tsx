@@ -17,6 +17,7 @@ import { useTranslation } from "@repo/locales";
 import {
   CollectionEntry,
   CollectionsEntriesService,
+  CreateUpdateCollectionEntryDto,
   ReviewsService,
 } from "@repo/wrapper/server";
 import {
@@ -30,9 +31,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import { SessionAuth } from "#@/components/auth/SessionAuth";
 import { z } from "zod";
 import { useOwnCollectionEntryForGameId } from "../hooks";
+import {
+  LIBRARY_VISIBILITY_LEVELS,
+  type LibraryVisibilityLevel,
+} from "../visibility/LibraryVisibilityLevel";
 import { CollectionEntryFormDetailsPanel } from "./CollectionEntryFormDetailsPanel";
 import { CollectionEntryFormDlcsPanel } from "./CollectionEntryFormDlcsPanel";
 import { CollectionEntryFormReviewPanel } from "./CollectionEntryFormReviewPanel";
+
+const VISIBILITY_TO_DTO: Record<
+  LibraryVisibilityLevel,
+  CreateUpdateCollectionEntryDto.visibility
+> = {
+  public: CreateUpdateCollectionEntryDto.visibility.PUBLIC,
+  followers: CreateUpdateCollectionEntryDto.visibility.FOLLOWERS,
+  private: CreateUpdateCollectionEntryDto.visibility.PRIVATE,
+};
 
 const createGameAddOrUpdateSchema = (
   t: ReturnType<typeof useTranslation<"common">>["t"],
@@ -58,6 +72,12 @@ const createGameAddOrUpdateSchema = (
       .min(1, t("collectionEntry.validation.platformRequired")),
     finishedAt: z.date().nullable(),
     status: z.enum(CollectionEntry.status),
+    visibility: z.enum(
+      LIBRARY_VISIBILITY_LEVELS as [
+        LibraryVisibilityLevel,
+        ...LibraryVisibilityLevel[],
+      ],
+    ),
     review: z.object({
       rating: z
         .number({ message: t("collectionEntry.validation.ratingInvalid") })
@@ -99,6 +119,7 @@ const CollectionEntryEditForm = ({
     resolver: zodResolver(GameAddOrUpdateSchema),
     defaultValues: {
       status: CollectionEntry.status.PLANNED,
+      visibility: "public",
       finishedAt: new Date(),
       relatedGamesIds: [],
       collectionIds: [],
@@ -177,6 +198,7 @@ const CollectionEntryEditForm = ({
               ? data.finishedAt.toISOString()
               : null,
           status: data.status,
+          visibility: VISIBILITY_TO_DTO[data.visibility],
           relatedGameIds: data.relatedGamesIds,
         },
       );

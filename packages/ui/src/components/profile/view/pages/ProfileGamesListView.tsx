@@ -1,4 +1,8 @@
-import { RecentCollectionEntriesView } from "#@/components";
+import {
+  LibraryHiddenState,
+  RecentCollectionEntriesView,
+  useIsLibraryHidden,
+} from "#@/components";
 import { Link } from "#@/util";
 import { Button, Center, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -9,6 +13,12 @@ interface Props {
 
 const ProfileGamesListView = ({ userId }: Props) => {
   const { t } = useTranslation();
+  const { isHidden, profile } = useIsLibraryHidden(userId);
+
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
+
   return (
     <Stack className={"w-full"}>
       <RecentCollectionEntriesView userId={userId} limit={15} />

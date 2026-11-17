@@ -48,6 +48,8 @@ const profile = (
   videoUploads?: ProfileVideoUploadsResponseDto,
 ): ProfileResponseDto => ({
   customCoverMode: ProfileResponseDto.customCoverMode.ANY,
+  libraryVisibility: ProfileResponseDto.libraryVisibility.PUBLIC,
+  canViewLibrary: true,
   isSupporter: false,
   supporterPreferences: null,
   userId: "user-1",

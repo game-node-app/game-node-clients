@@ -2,6 +2,7 @@ import {
   AchievementsScreen,
   JournalObtainedAchievementsView,
   JournalOverviewView,
+  LibraryHiddenState,
   PostsListView,
   ProfileCollectionsPage,
   ProfileGamesListView,
@@ -11,12 +12,14 @@ import {
   ProfileViewNavbarItem,
   useAllObtainedAchievements,
   useCollectionEntriesForUserId,
+  useIsLibraryHidden,
   useReviewsForUserId,
   useUrlState,
   useUserLibrary,
   useUserProfile,
 } from "#@/components";
 import { useObtainedGameAchievements } from "#@/components/game/achievement/hooks/useObtainedGameAchievements";
+import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
 import { SimpleGrid, Tabs } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -37,6 +40,10 @@ const ProfileViewContent = ({ userId }: Props) => {
   const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   const libraryQuery = useUserLibrary(profileQuery.data?.userId);
+  const { isHidden: isLibraryHidden, isOwner } = useIsLibraryHidden(
+    userId,
+    profileQuery.data,
+  );
   const collectionEntriesQuery = useCollectionEntriesForUserId({
     userId,
     limit: 1,
@@ -78,7 +85,11 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileViewNavbarItem
           label={t("profile.tabs.games")}
           value={"games"}
-          count={collectionEntriesQuery.data?.pagination.totalItems ?? 0}
+          count={
+            isLibraryHidden
+              ? undefined
+              : (collectionEntriesQuery.data?.pagination.totalItems ?? 0)
+          }
           activeTab={tab}
         />
         <ProfileViewNavbarItem
@@ -90,7 +101,14 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileViewNavbarItem
           label={t("profile.tabs.collections")}
           value={"collections"}
-          count={libraryQuery.data?.collections.length ?? 0}
+          count={
+            isLibraryHidden
+              ? undefined
+              : (filterVisibleCollections(
+                  libraryQuery.data?.collections,
+                  isOwner,
+                )?.length ?? 0)
+          }
           activeTab={tab}
         />
         <ProfileViewNavbarItem
@@ -129,13 +147,21 @@ const ProfileViewContent = ({ userId }: Props) => {
         <ProfileViewMainPage userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="games">
-        <ProfileGamesListView userId={userId} />
+        {isLibraryHidden ? (
+          <LibraryHiddenState profile={profileQuery.data} />
+        ) : (
+          <ProfileGamesListView userId={userId} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="reviews">
         <ProfileReviewListView userId={userId} />
       </Tabs.Panel>
       <Tabs.Panel value="collections">
-        <ProfileCollectionsPage userId={userId} />
+        {isLibraryHidden ? (
+          <LibraryHiddenState profile={profileQuery.data} />
+        ) : (
+          <ProfileCollectionsPage userId={userId} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="achievements">
         <JournalObtainedAchievementsView userId={userId} />
@@ -145,13 +171,21 @@ const ProfileViewContent = ({ userId }: Props) => {
         <AchievementsScreen targetUserId={userId} withUserLevel={false} />
       </Tabs.Panel>
       <Tabs.Panel value="journal">
-        <JournalOverviewView userId={userId} />
+        {isLibraryHidden ? (
+          <LibraryHiddenState profile={profileQuery.data} />
+        ) : (
+          <JournalOverviewView userId={userId} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="posts">
         <PostsListView profileUserId={userId} withUserProfile={false} />
       </Tabs.Panel>
       <Tabs.Panel value="stats">
-        <ProfileStatsView userId={userId} withUserLevel={false} />
+        {isLibraryHidden ? (
+          <LibraryHiddenState profile={profileQuery.data} />
+        ) : (
+          <ProfileStatsView userId={userId} withUserLevel={false} />
+        )}
       </Tabs.Panel>
     </Tabs>
   );

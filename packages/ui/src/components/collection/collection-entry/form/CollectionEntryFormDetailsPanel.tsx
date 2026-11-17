@@ -6,7 +6,10 @@ import {
   GameFigureImage,
   IGameAddFormProps,
   ImageSize,
+  LibraryVisibilitySelect,
+  ReviewsAlwaysPublicNote,
   TGameAddOrUpdateValues,
+  toLibraryVisibilityLevel,
   useGame,
   useGamesResource,
   useOnMobile,
@@ -110,6 +113,7 @@ const CollectionEntryFormDetailsPanel = ({
   const collectionsIdsValue = watch("collectionIds", []);
   const finishedAtDate = watch("finishedAt");
   const status = watch("status");
+  const visibility = watch("visibility") ?? "public";
 
   /**
    * Effect to sync with user's collection data.
@@ -126,6 +130,10 @@ const CollectionEntryFormDetailsPanel = ({
         (collection) => collection.id,
       );
       setValue("status", collectionEntry.status);
+      setValue(
+        "visibility",
+        toLibraryVisibilityLevel(collectionEntry.visibility) ?? "public",
+      );
 
       if (platformOptions && platformOptions.length > 0) {
         const platformIds = collectionEntry.ownedPlatforms.map(
@@ -223,6 +231,14 @@ const CollectionEntryFormDetailsPanel = ({
             maxDate={new Date()}
           />
         )}
+        <LibraryVisibilitySelect
+          className={"w-full"}
+          label={t("libraryVisibility.labels.visibility")}
+          description={t("libraryVisibility.descriptions.game")}
+          value={visibility}
+          onChange={(value) => setValue("visibility", value)}
+        />
+        <ReviewsAlwaysPublicNote />
       </Stack>
     </Group>
   );

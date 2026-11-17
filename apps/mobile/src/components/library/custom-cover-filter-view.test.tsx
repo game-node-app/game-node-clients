@@ -154,9 +154,11 @@ it("toggling the custom cover chip in a library sends the filter and returns to 
     .getQueryCache()
     .getAll()
     .map((query) => query.queryKey)
-    .find(
-      (key) =>
-        JSON.stringify(key.at(-1)) === JSON.stringify({ hasCustomCover: true }),
+    .find((key) =>
+      key.some(
+        (part) =>
+          JSON.stringify(part) === JSON.stringify({ hasCustomCover: true }),
+      ),
     );
   expect(filteredKey).toBeDefined();
 });

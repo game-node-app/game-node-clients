@@ -6,6 +6,8 @@ import {
 } from "#@/components/recap/hooks/mockRecap";
 import type { YearRecap } from "#@/components/recap/types";
 import { toYearRecap } from "#@/components/recap/types";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { retryUnlessHidden } from "#@/util";
 import { getRecapQueryKey } from "./recapQueryKeys";
 
 /**
@@ -18,8 +20,10 @@ export function useRecap(
   targetYear: number | undefined,
   options?: { enabled?: boolean },
 ) {
+  const viewerId = useUserId();
+
   return useQuery<YearRecap, ApiError>({
-    queryKey: getRecapQueryKey(targetYear, userId),
+    queryKey: getRecapQueryKey(targetYear, userId, viewerId),
     queryFn: async () => {
       if (isMockRecap(userId)) {
         return toYearRecap(buildMockRecap(userId!, targetYear!));
@@ -32,5 +36,7 @@ export function useRecap(
       );
     },
     enabled: !!userId && targetYear != undefined && (options?.enabled ?? true),
+    // A hidden library answers 404 for another user: don't retry.
+    retry: retryUnlessHidden,
   });
 }

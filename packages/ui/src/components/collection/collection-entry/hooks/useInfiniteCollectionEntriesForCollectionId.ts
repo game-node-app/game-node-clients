@@ -5,6 +5,7 @@ import {
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 interface UseInfiniteCollectionEntriesForCollectionIdProps {
   collectionId: string;
@@ -21,12 +22,15 @@ export function useInfiniteCollectionEntriesForCollectionId({
 > {
   const limitToUse = limit || 12;
   const queryClient = useQueryClient();
+  const viewerId = useUserId();
   const queryKey = [
     "collection-entries",
     "infinite",
     collectionId,
     limit,
     orderBy,
+    // Entries of a collection are filtered per viewer.
+    viewerId ?? null,
   ];
   /**
    * This will also invalidate useCollectionEntriesForCollectionId

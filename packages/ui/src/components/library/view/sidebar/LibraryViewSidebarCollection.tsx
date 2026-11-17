@@ -1,4 +1,5 @@
-import { useUserLibrary } from "#@/components";
+import { useUserId, useUserLibrary } from "#@/components";
+import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
 import { Link } from "#@/util";
 import { Accordion, Group, ScrollArea, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -12,17 +13,23 @@ interface Props {
 
 const LibraryViewSidebarCollection = ({ userId, type }: Props) => {
   const { t } = useTranslation();
+  const ownUserId = useUserId();
   const userLibraryQuery = useUserLibrary(userId);
 
   const collections = useMemo(() => {
-    return userLibraryQuery.data?.collections.filter((collection) => {
+    const visibleCollections = filterVisibleCollections(
+      userLibraryQuery.data?.collections,
+      ownUserId != undefined && ownUserId === userId,
+    );
+
+    return visibleCollections?.filter((collection) => {
       if (type === "featured") {
         return collection.isFeatured;
       }
 
       return true;
     });
-  }, [type, userLibraryQuery.data?.collections]);
+  }, [ownUserId, type, userId, userLibraryQuery.data?.collections]);
 
   const renderedCollections = useMemo(() => {
     return collections?.map((collection) => {

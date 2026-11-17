@@ -5,6 +5,7 @@ import {
   type FindCollectionEntriesForCollectionIdDto,
 } from "@repo/wrapper/server";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 interface UseCollectionEntriesForCollectionIdProps
   extends FindCollectionEntriesForCollectionIdDto {
@@ -31,6 +32,7 @@ export function useCollectionEntriesForCollectionId({
   CollectionEntriesPaginatedResponseDto | undefined
 > {
   const queryClient = useQueryClient();
+  const viewerId = useUserId();
   const queryKey = [
     "collection-entries",
     collectionId,
@@ -40,6 +42,8 @@ export function useCollectionEntriesForCollectionId({
     status,
     gameFilters,
     ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
+    // Entries of a collection are filtered per viewer (private entries/lists).
+    viewerId ?? null,
   ];
   const invalidate = () => {
     queryClient.invalidateQueries({

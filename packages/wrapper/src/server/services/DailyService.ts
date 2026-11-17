@@ -28,6 +28,44 @@ export class DailyService {
         });
     }
     /**
+     * @param period
+     * @param mode
+     * @param scope
+     * @param offset
+     * @param limit
+     * @returns DailyRankingResponseDto
+     * @throws ApiError
+     */
+    public static dailyControllerFindRankingV1(
+        period: 'today' | 'week' | 'month' | 'all' = 'week',
+        mode?: 'cover' | 'artwork' | 'keywords' | 'specs',
+        scope: 'all' | 'following' = 'all',
+        offset?: number,
+        limit: number = 20,
+    ): CancelablePromise<DailyRankingResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/daily/ranking',
+            query: {
+                'period': period,
+                'mode': mode,
+                'scope': scope,
+                'offset': offset,
+                'limit': limit,
+            },
+        });
+    }
+    /**
+     * @returns DailyWeeklyRankingResponseDto
+     * @throws ApiError
+     */
+    public static dailyControllerFindWeeklyRankingV1(): CancelablePromise<DailyWeeklyRankingResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/daily/weekly/ranking',
+        });
+    }
+    /**
      * @param mode
      * @param offset
      * @param limit
@@ -63,6 +101,43 @@ export class DailyService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/daily/puzzles/{id}/play',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Starts a practice round; the round id is the capability for guests.
+     * @param requestBody
+     * @returns DailyPracticePlayResponseDto
+     * @throws ApiError
+     */
+    public static dailyControllerStartPracticeV1(
+        requestBody: DailyPracticeStartRequestDto,
+    ): CancelablePromise<DailyPracticePlayResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/daily/practice',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Same feedback as the daily mode; progress stored on the round can only grow.
+     * @param id
+     * @param requestBody
+     * @returns DailyPracticePlayResponseDto
+     * @throws ApiError
+     */
+    public static dailyControllerPlayPracticeV1(
+        id: string,
+        requestBody: DailyPlayRequestDto,
+    ): CancelablePromise<DailyPracticePlayResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/daily/practice/{id}/play',
             path: {
                 'id': id,
             },
@@ -119,81 +194,6 @@ export class DailyService {
             path: {
                 'token': token,
             },
-        });
-    }
-    /**
-     * @param period
-     * @param mode
-     * @param scope
-     * @param offset
-     * @param limit
-     * @returns DailyRankingResponseDto
-     * @throws ApiError
-     */
-    public static dailyControllerFindRankingV1(
-        period: 'today' | 'week' | 'month' | 'all' = 'week',
-        mode?: 'cover' | 'artwork' | 'keywords' | 'specs',
-        scope: 'all' | 'following' = 'all',
-        offset?: number,
-        limit: number = 20,
-    ): CancelablePromise<DailyRankingResponseDto> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/v1/daily/ranking',
-            query: {
-                'period': period,
-                'mode': mode,
-                'scope': scope,
-                'offset': offset,
-                'limit': limit,
-            },
-        });
-    }
-    /**
-     * @returns DailyWeeklyRankingResponseDto
-     * @throws ApiError
-     */
-    public static dailyControllerFindWeeklyRankingV1(): CancelablePromise<DailyWeeklyRankingResponseDto> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/v1/daily/weekly/ranking',
-        });
-    }
-    /**
-     * Starts a practice round; the round id is the capability for guests.
-     * @param requestBody
-     * @returns DailyPracticePlayResponseDto
-     * @throws ApiError
-     */
-    public static dailyControllerStartPracticeV1(
-        requestBody: DailyPracticeStartRequestDto,
-    ): CancelablePromise<DailyPracticePlayResponseDto> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/v1/daily/practice',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-    /**
-     * Same feedback as the daily mode; progress stored on the round can only grow.
-     * @param id
-     * @param requestBody
-     * @returns DailyPracticePlayResponseDto
-     * @throws ApiError
-     */
-    public static dailyControllerPlayPracticeV1(
-        id: string,
-        requestBody: DailyPlayRequestDto,
-    ): CancelablePromise<DailyPracticePlayResponseDto> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/v1/daily/practice/{id}/play',
-            path: {
-                'id': id,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
         });
     }
 }

@@ -171,7 +171,7 @@ describe("SettingsAppearanceTab custom cover mode", () => {
 
     await waitFor(() =>
       expect(invalidateSpy).toHaveBeenCalledWith({
-        queryKey: ["userProfile", VIEWER_ID],
+        queryKey: ["userProfile", VIEWER_ID, VIEWER_ID],
       }),
     );
 

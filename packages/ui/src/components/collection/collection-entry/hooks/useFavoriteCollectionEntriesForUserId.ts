@@ -5,6 +5,7 @@ import {
   FindCollectionEntriesOrderBy,
 } from "@repo/wrapper/server";
 import { ExtendedUseQueryResult } from "#@/util";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export function useFavoriteCollectionEntriesForUserId(
   userId: string | undefined,
@@ -14,6 +15,7 @@ export function useFavoriteCollectionEntriesForUserId(
   hasCustomCover?: boolean,
 ): ExtendedUseQueryResult<CollectionEntriesPaginatedResponseDto> {
   const queryClient = useQueryClient();
+  const viewerId = useUserId();
   const queryKey = [
     "collection-entries",
     "favorites",
@@ -22,6 +24,8 @@ export function useFavoriteCollectionEntriesForUserId(
     limit,
     orderBy,
     ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
+    // Favorites are filtered per viewer, so the viewer id belongs to the key.
+    viewerId ?? null,
   ];
 
   const invalidate = () => {

@@ -17,6 +17,10 @@ vi.mock(
   "../../../../../packages/ui/src/components/general/hooks/useOnMobile",
   () => ({ useOnMobile: () => false }),
 );
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({ useUserId: () => undefined }),
+);
 vi.mock("../../../../../packages/ui/src/components/game/hooks/useGame", () => ({
   useGame: () => ({ data: undefined }),
 }));

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MantineProvider } from "@mantine/core";
 import { DEFAULT_MANTINE_THEME, UIProvider } from "@repo/ui";
@@ -104,12 +104,16 @@ const profile = (customCoverMode?: string) =>
 
 const game = (id: number) => ({ id, name: `Game ${id}` }) as Game;
 
-const entry = (gameId: number): CollectionEntry =>
+const entry = (
+  gameId: number,
+  visibility?: CollectionEntry.visibility,
+): CollectionEntry =>
   ({
     id: `entry-${gameId}`,
     gameId,
     isFavorite: false,
     status: CollectionEntry.status.PLAYING,
+    visibility,
     collections: [],
     ownedPlatforms: [],
   }) as unknown as CollectionEntry;
@@ -259,5 +263,50 @@ describe("owner cover call sites", () => {
       ),
     ).toBe(false);
     expect(profileSpy).not.toHaveBeenCalled();
+  });
+
+  it("badges the owner's own non-public entries on library cards", async () => {
+    signIn("viewer-1");
+    vi.spyOn(
+      ProfileService,
+      "profileControllerFindOneByIdV1",
+    ).mockResolvedValue(profile("any"));
+    vi.spyOn(
+      CollectionsEntriesService,
+      "collectionsEntriesControllerFindAllByLibraryIdV1",
+    ).mockResolvedValue(page([entry(1, CollectionEntry.visibility.PRIVATE)]));
+    vi.spyOn(
+      GameRepositoryService,
+      "gameRepositoryControllerFindAllByIdsV1",
+    ).mockResolvedValue([game(1)]);
+
+    const { Wrapper } = createWrapper(createClient());
+    render(<LibraryView libraryUserId="viewer-1" />, { wrapper: Wrapper });
+
+    expect(
+      await screen.findByText("libraryVisibility.badges.private"),
+    ).toBeTruthy();
+  });
+
+  it("never badges another user's library cards", async () => {
+    signIn("viewer-1");
+    vi.spyOn(
+      ProfileService,
+      "profileControllerFindOneByIdV1",
+    ).mockResolvedValue(profile("any"));
+    vi.spyOn(
+      CollectionsEntriesService,
+      "collectionsEntriesControllerFindAllByLibraryIdV1",
+    ).mockResolvedValue(page([entry(1, CollectionEntry.visibility.PRIVATE)]));
+    vi.spyOn(
+      GameRepositoryService,
+      "gameRepositoryControllerFindAllByIdsV1",
+    ).mockResolvedValue([game(1)]);
+
+    const { Wrapper } = createWrapper(createClient());
+    render(<LibraryView libraryUserId="owner-1" />, { wrapper: Wrapper });
+
+    expect(await screen.findByText("Game 1")).toBeTruthy();
+    expect(screen.queryByText("libraryVisibility.badges.private")).toBeNull();
   });
 });

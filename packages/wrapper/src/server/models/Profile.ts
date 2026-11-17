@@ -6,6 +6,7 @@ import type { ProfileAvatar } from './ProfileAvatar';
 import type { ProfileBanner } from './ProfileBanner';
 export type Profile = {
     customCoverMode: Profile.customCoverMode;
+    libraryVisibility: Profile.libraryVisibility;
     /**
      * Shareable string ID
      *
@@ -25,6 +26,11 @@ export namespace Profile {
         ANY = 'any',
         PREFER_YOURS = 'prefer_yours',
         NONE = 'none',
+    }
+    export enum libraryVisibility {
+        PUBLIC = 'public',
+        FOLLOWERS = 'followers',
+        PRIVATE = 'private',
     }
 }
 
