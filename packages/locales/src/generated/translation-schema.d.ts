@@ -720,6 +720,12 @@ export type TranslationSchema = {
   };
   awards: {
     ballot: {
+      band: {
+        eyebrow: string;
+        now: string;
+        subtitle: string;
+        title: string;
+      };
       categories: string;
       linkCopied: string;
       loadError: string;
@@ -754,8 +760,11 @@ export type TranslationSchema = {
         completeHint: string;
         confirmLast: string;
         confirmNext: string;
+        confirmNextCompact: string;
         skip: string;
+        skipCompact: string;
         title: string;
+        titleCompact: string;
       };
       votingOpens: string;
       votingOpensUnknown: string;
@@ -815,7 +824,9 @@ export type TranslationSchema = {
       };
       gameFallback: string;
       gotyEyebrow: string;
+      gotyEyebrowCompact: string;
       gotyTitle: string;
+      gotyTitleCompact: string;
       notYet: string;
       notYetUnknown: string;
       personalGoty: {
@@ -823,11 +834,13 @@ export type TranslationSchema = {
         title: string;
       };
       scoreboard: {
+        hitsCompact: string;
         share: string;
         shareText: string;
         summary: string;
         summaryOther: string;
         title: string;
+        viewCategories: string;
       };
       title: string;
       voteChip: {
@@ -871,12 +884,14 @@ export type TranslationSchema = {
       nominee: {
         notPlayed: string;
         notPlayedCompact: string;
-        played: string;
-        playedHours: string;
-        playedHoursRating: string;
-        playedRating: string;
         planned: string;
         plannedCompact: string;
+        played: string;
+        playedCompact: string;
+        playedHours: string;
+        playedHoursCompact: string;
+        playedHoursRating: string;
+        playedRating: string;
         remove: string;
         yourVote: string;
       };

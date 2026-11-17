@@ -716,6 +716,12 @@
   },
   "awards": {
     "ballot": {
+      "band": {
+        "eyebrow": "GameNode Awards {{year}} · Community voting",
+        "now": "now",
+        "subtitle": "{{count}} categories. On every nominee you see whether you played it, for how long and what rating you gave.",
+        "title": "Vote for the best of {{year}}."
+      },
       "categories": "Categories",
       "linkCopied": "Link copied!",
       "loadError": "Could not load your ballot.",
@@ -750,8 +756,11 @@
         "completeHint": "You voted in every category.",
         "confirmLast": "Confirm vote",
         "confirmNext": "Confirm and go to {{category}}",
+        "confirmNextCompact": "Confirm and continue",
         "skip": "Skip for now",
-        "title": "Your vote in {{category}}"
+        "skipCompact": "Skip",
+        "title": "Your vote in {{category}}",
+        "titleCompact": "Your vote"
       },
       "votingOpens": "Voting opens on {{date}}.",
       "votingOpensUnknown": "Voting hasn't opened yet."
@@ -811,7 +820,9 @@
       },
       "gameFallback": "Game {{id}}",
       "gotyEyebrow": "Results · Game of the Year · {{votes}} votes",
+      "gotyEyebrowCompact": "Game of the Year · {{votes}} votes",
       "gotyTitle": "{{game}} is the Game of the Year.",
+      "gotyTitleCompact": "{{game}} won.",
       "notYet": "The results come out on {{date}}.",
       "notYetUnknown": "The results are not out yet.",
       "personalGoty": {
@@ -819,11 +830,13 @@
         "title": "Your personal GOTY"
       },
       "scoreboard": {
+        "hitsCompact": "{{hits}} of {{scorable}} right",
         "share": "Share my score",
         "shareText": "My GameNode Awards {{year}} score",
         "summary": "You got {{hits}} of {{scorable}} categories right.",
         "summaryOther": "{{name}} got {{hits}} of {{scorable}} categories right.",
-        "title": "Your score"
+        "title": "Your score",
+        "viewCategories": "See categories"
       },
       "title": "Results",
       "voteChip": {
@@ -867,12 +880,14 @@
       "nominee": {
         "notPlayed": "You haven't played it",
         "notPlayedCompact": "Not played",
-        "played": "You played",
-        "playedHours": "You played · {{hours}} h",
-        "playedHoursRating": "You played · {{hours}} h · rated {{rating}}",
-        "playedRating": "You played · rated {{rating}}",
         "planned": "On your wishlist",
         "plannedCompact": "On your list",
+        "played": "You played",
+        "playedCompact": "Played",
+        "playedHours": "You played · {{hours}} h",
+        "playedHoursCompact": "Played · {{hours}} h",
+        "playedHoursRating": "You played · {{hours}} h · rated {{rating}}",
+        "playedRating": "You played · rated {{rating}}",
         "remove": "Remove",
         "yourVote": "Your vote"
       },

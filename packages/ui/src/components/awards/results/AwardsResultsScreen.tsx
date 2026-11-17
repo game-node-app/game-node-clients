@@ -8,7 +8,11 @@ import {
 } from "#@/components/awards/results/awardsResults";
 import { AwardsResultsGOTY } from "#@/components/awards/results/AwardsResultsGOTY";
 import { AwardsResultsPersonalGOTY } from "#@/components/awards/results/AwardsResultsPersonalGOTY";
-import { AwardsResultsScoreboard } from "#@/components/awards/results/AwardsResultsScoreboard";
+import {
+  AwardsResultsScoreboard,
+  AwardsResultsScoreCard,
+} from "#@/components/awards/results/AwardsResultsScoreboard";
+import { useAwardsMobileLayout } from "#@/components/awards/shared/useAwardsMobileLayout";
 import { AwardsResultsWinnerCard } from "#@/components/awards/results/AwardsResultsWinnerCard";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import {
@@ -19,8 +23,9 @@ import { SeasonEventHeader } from "#@/components/events/view/SeasonEventHeader";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { cn, useRouter } from "#@/util";
-import { Paper, SimpleGrid, Stack, Text } from "@mantine/core";
+import { Paper, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useRef } from "react";
 import type { Game } from "@repo/wrapper/server";
 
 export interface AwardsResultsScreenProps {
@@ -48,6 +53,8 @@ export function AwardsResultsScreen({
   const locale = useFormatLocale();
   const userId = useUserId();
   const router = useRouter();
+  const isMobileLayout = useAwardsMobileLayout();
+  const categoriesRef = useRef<HTMLElement>(null);
 
   const requestedUserId = router.query.get("user")?.trim() || undefined;
   const scoreboardUserId = requestedUserId ?? userId;
@@ -171,36 +178,80 @@ export function AwardsResultsScreen({
     ? scoreboardByCategory.get(featured.categoryId)
     : undefined;
   const personalGOTY = scoreboard?.personalGOTY ?? null;
+  const showScoreboard = !!scoreboard && !!scoreboardUserId;
+
+  const personalTile = personalGOTY && (
+    <AwardsResultsPersonalGOTY
+      personalGOTY={personalGOTY}
+      game={gamesById.get(personalGOTY.gameId)}
+      className={"col-span-1 @3xl:col-span-2"}
+    />
+  );
+
+  const scrollToCategories = () =>
+    categoriesRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
 
   return (
-    <Stack
+    <div
       data-awards-results-screen
       data-state={"results"}
-      className={cn("w-full", className)}
-      gap={"lg"}
+      className={cn("flex w-full flex-col gap-6", className)}
     >
-      <SeasonEventHeader year={event.year} screen={"results"} />
+      {!isMobileLayout && (
+        <SeasonEventHeader year={event.year} screen={"results"} />
+      )}
       {featured && (
         <AwardsResultsGOTY
           result={featured}
           gamesById={gamesById}
-          outcome={gotyOutcome?.outcome}
-          votedGameName={votedGameName(gotyOutcome)}
+          votedGameId={gotyOutcome?.votedGameId ?? null}
         />
       )}
-      {scoreboard && scoreboardUserId && (
-        <AwardsResultsScoreboard
+      {isMobileLayout && showScoreboard && (
+        <AwardsResultsScoreCard
           year={event.year}
           userId={scoreboardUserId}
           isOwn={isOwnScoreboard}
           scoreboard={scoreboard}
+          onViewCategories={scrollToCategories}
         />
       )}
-      <Stack gap={"sm"}>
-        <Text size={"lg"} fw={700}>
-          {t("awards.results.categoriesTitle")}
-        </Text>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={"sm"}>
+      <section
+        ref={categoriesRef}
+        data-awards-results-categories
+        className={cn(
+          "@container flex w-full flex-col",
+          isMobileLayout
+            ? "gap-4 pt-2"
+            : "gap-8 rounded-[20px] bg-paper-0 p-10",
+        )}
+      >
+        {showScoreboard ? (
+          <AwardsResultsScoreboard
+            year={event.year}
+            userId={scoreboardUserId}
+            isOwn={isOwnScoreboard}
+            scoreboard={scoreboard}
+          />
+        ) : (
+          <h2
+            className={cn(
+              "font-bold text-white",
+              isMobileLayout ? "text-[20px]" : "text-[32px] leading-[38px]",
+            )}
+          >
+            {t("awards.results.categoriesTitle")}
+          </h2>
+        )}
+        <div
+          className={cn(
+            "grid grid-cols-1 gap-3.5 @3xl:grid-cols-2 @5xl:grid-cols-3",
+            !isMobileLayout && "gap-4",
+          )}
+        >
           {winnerResults.map((result) => {
             const outcome = scoreboardByCategory.get(result.categoryId);
             const winner = findCategoryWinner(result);
@@ -215,14 +266,9 @@ export function AwardsResultsScreen({
               />
             );
           })}
-        </SimpleGrid>
-        {personalGOTY && (
-          <AwardsResultsPersonalGOTY
-            personalGOTY={personalGOTY}
-            game={gamesById.get(personalGOTY.gameId)}
-          />
-        )}
-      </Stack>
-    </Stack>
+          {personalTile}
+        </div>
+      </section>
+    </div>
   );
 }

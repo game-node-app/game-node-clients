@@ -5,22 +5,23 @@ import {
   toPlaytimeHours,
   useFormatLocale,
 } from "#@/components/events/util/format";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import type { TGameOrSearchGame } from "#@/components/game/util/types";
 import { cn } from "#@/util";
-import {
-  ActionIcon,
-  Badge,
-  Box,
-  Group,
-  Paper,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { ActionIcon, Box, Group, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { IconX } from "@tabler/icons-react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { AwardsGameCover } from "./AwardsGameCover";
+import { AwardsStatusChip, type AwardsChipTone } from "./AwardsStatusChip";
+import { useAwardsMobileLayout } from "./useAwardsMobileLayout";
+
+/**
+ * `grid` is the vertical card of the nominee grid (frame `5408:716`); `row` is
+ * the compact horizontal card used outside the grid (voted game, suggestion
+ * and the nominations lists).
+ */
+export type AwardsNomineeCardLayout = "grid" | "row";
 
 export interface AwardsNomineeCardProps {
   gameId: number;
@@ -42,18 +43,23 @@ export interface AwardsNomineeCardProps {
   onRemove?: (gameId: number) => void;
   removeLabel?: string;
   disabled?: boolean;
+  layout?: AwardsNomineeCardLayout;
   className?: string;
 }
 
-const STATUS_COLORS: Record<AwardsNomineeStatus, "teal" | "brand" | "gray"> = {
-  played: "teal",
+const STATUS_TONES: Record<AwardsNomineeStatus, AwardsChipTone> = {
+  played: "played",
   planned: "brand",
-  not_played: "gray",
+  not_played: "neutral",
 };
 
 /**
  * Nominee card from the design component `5408:716`: cover, name, developer and
- * platforms, the viewer's play status as a chip and, when selected, "Seu voto".
+ * platforms, the viewer's play status as a chip and, when selected, the
+ * "Seu voto" badge over the cover and the brand-tinted frame.
+ *
+ * Below `md` it follows the mobile frame: no frame until selected, no
+ * developer line and the short chip copy.
  */
 const AwardsNomineeCard = ({
   gameId,
@@ -68,11 +74,12 @@ const AwardsNomineeCard = ({
   onRemove,
   removeLabel,
   disabled = false,
+  layout = "row",
   className,
 }: AwardsNomineeCardProps) => {
   const { t } = useTranslation();
   const locale = useFormatLocale();
-  const compact = useOnMobile();
+  const compact = useAwardsMobileLayout();
 
   let statusText: string | null = null;
 
@@ -84,7 +91,11 @@ const AwardsNomineeCard = ({
         : null;
     const ratingText = formatRatingCompact(rating, locale);
 
-    if (hours && ratingText) {
+    if (compact) {
+      statusText = hours
+        ? t("awards.shared.nominee.playedHoursCompact", { hours })
+        : t("awards.shared.nominee.playedCompact");
+    } else if (hours && ratingText) {
       statusText = t("awards.shared.nominee.playedHoursRating", {
         hours,
         rating: ratingText,
@@ -108,7 +119,6 @@ const AwardsNomineeCard = ({
       : t("awards.shared.nominee.notPlayed");
   }
 
-  const statusColor = status ? STATUS_COLORS[status] : null;
   const isInteractive = !!onSelect && !disabled;
 
   const select = () => {
@@ -126,20 +136,128 @@ const AwardsNomineeCard = ({
     select();
   };
 
-  return (
-    <Paper
-      data-awards-nominee-card
-      data-game-id={gameId}
-      data-status={status ?? "none"}
-      data-selected={selected ? "true" : "false"}
-      role={isInteractive ? "button" : undefined}
-      tabIndex={isInteractive ? 0 : undefined}
-      aria-pressed={isInteractive ? selected : undefined}
-      onClick={isInteractive ? select : undefined}
-      onKeyDown={isInteractive ? onKeyDown : undefined}
+  const statusChip =
+    statusText && status ? (
+      <AwardsStatusChip
+        data-awards-chip={status}
+        tone={STATUS_TONES[status]}
+        className={"truncate"}
+      >
+        {statusText}
+      </AwardsStatusChip>
+    ) : null;
+
+  const selectedBadge = selected ? (
+    <span
+      data-awards-chip={"selected"}
+      data-color={"brand"}
       className={cn(
-        "w-full border bg-paper-2 p-3",
-        selected ? "border-brand" : "border-paper-4",
+        "inline-flex items-center gap-1 bg-brand font-bold uppercase leading-[normal] tracking-[0.72px] text-[#0b0b0b]",
+        "text-[12px]",
+        compact ? "rounded-md px-2 py-1" : "rounded-full py-1.5 pl-2 pr-3",
+        layout === "grid" && "absolute z-10",
+        layout === "grid" &&
+          (compact ? "left-3 top-3" : "left-[14px] top-[14px]"),
+      )}
+    >
+      <IconCheck size={compact ? 12 : 16} stroke={3} aria-hidden={"true"} />
+      {selectedLabel ?? t("awards.shared.nominee.yourVote")}
+    </span>
+  ) : null;
+
+  const removeAction = onRemove ? (
+    <ActionIcon
+      variant={"subtle"}
+      color={"gray"}
+      aria-label={removeLabel ?? t("awards.shared.nominee.remove")}
+      onClick={(event) => {
+        event.stopPropagation();
+        onRemove(gameId);
+      }}
+    >
+      <IconX size={16} />
+    </ActionIcon>
+  ) : null;
+
+  const rootProps = {
+    "data-awards-nominee-card": true,
+    "data-game-id": gameId,
+    "data-status": status ?? "none",
+    "data-selected": selected ? "true" : "false",
+    "data-layout": layout,
+    role: isInteractive ? "button" : undefined,
+    tabIndex: isInteractive ? 0 : undefined,
+    "aria-pressed": isInteractive ? selected : undefined,
+    onClick: isInteractive ? select : undefined,
+    onKeyDown: isInteractive ? onKeyDown : undefined,
+  } as const;
+
+  if (layout === "grid") {
+    const frameless = compact && !selected;
+
+    return (
+      <div
+        {...rootProps}
+        className={cn(
+          "relative flex w-full flex-col",
+          compact ? "gap-2.5 rounded-[12px]" : "gap-3 rounded-[14px]",
+          selected
+            ? "border-2 border-brand bg-brand-tint"
+            : frameless
+              ? "border-0"
+              : "border border-line bg-paper-5",
+          selected ? (compact ? "p-1.5" : "p-2") : frameless ? "p-0" : "p-2",
+          isInteractive && "cursor-pointer",
+          isInteractive && !selected && !compact && "hover:border-line-strong",
+          disabled && "opacity-60",
+          className,
+        )}
+      >
+        {selectedBadge}
+        <Box className={"relative"}>
+          <AwardsGameCover
+            game={game}
+            size={ImageSize.COVER_BIG}
+            className={"aspect-[231/280] h-auto"}
+            imageProps={{ radius: 8 }}
+          />
+          {removeAction && (
+            <Box className={"absolute right-2 top-2 rounded-md bg-black/60"}>
+              {removeAction}
+            </Box>
+          )}
+        </Box>
+        <Stack
+          gap={compact ? 8 : 8}
+          className={cn("min-w-0", compact ? "px-0" : "px-1 pb-1.5")}
+        >
+          <Text
+            className={cn(
+              "break-words leading-[normal] text-white",
+              compact ? "text-[16px] font-medium" : "text-[20px] font-semibold",
+            )}
+          >
+            {game?.name}
+          </Text>
+          {metadata && !compact && (
+            <Text className={"text-[14px] leading-[1.43] text-nav-muted"}>
+              {metadata}
+            </Text>
+          )}
+          {statusChip}
+        </Stack>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      {...rootProps}
+      className={cn(
+        "w-full rounded-[14px] p-3",
+        selected
+          ? "border-2 border-brand bg-brand-tint"
+          : "border border-line bg-paper-5",
         isInteractive && "cursor-pointer",
         disabled && "opacity-60",
         className,
@@ -149,7 +267,7 @@ const AwardsNomineeCard = ({
         <Box className={"w-16 shrink-0"}>
           <AwardsGameCover game={game} />
         </Box>
-        <Stack gap={4} className={"min-w-0 flex-1"}>
+        <Stack gap={6} className={"min-w-0 flex-1"}>
           <Text fw={600} className={"truncate"}>
             {game?.name}
           </Text>
@@ -159,49 +277,13 @@ const AwardsNomineeCard = ({
             </Text>
           )}
           <Group gap={6} wrap={"wrap"}>
-            {statusText && status && statusColor && (
-              <Badge
-                data-awards-chip={status}
-                data-color={statusColor}
-                variant={"light"}
-                color={statusColor}
-                size={"sm"}
-                radius={"sm"}
-                tt={"none"}
-              >
-                {statusText}
-              </Badge>
-            )}
-            {selected && (
-              <Badge
-                data-awards-chip={"selected"}
-                data-color={"brand"}
-                variant={"light"}
-                color={"brand"}
-                size={"sm"}
-                radius={"sm"}
-                tt={"none"}
-              >
-                {selectedLabel ?? t("awards.shared.nominee.yourVote")}
-              </Badge>
-            )}
+            {statusChip}
+            {selectedBadge}
           </Group>
         </Stack>
-        {onRemove && (
-          <ActionIcon
-            variant={"subtle"}
-            color={"gray"}
-            aria-label={removeLabel ?? t("awards.shared.nominee.remove")}
-            onClick={(event) => {
-              event.stopPropagation();
-              onRemove(gameId);
-            }}
-          >
-            <IconX size={16} />
-          </ActionIcon>
-        )}
+        {removeAction}
       </Group>
-    </Paper>
+    </div>
   );
 };
 

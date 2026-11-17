@@ -1,5 +1,5 @@
 import { cn } from "#@/util";
-import { SimpleGrid, SegmentedControl, Stack, Text } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useState, type ReactNode } from "react";
 import {
@@ -7,6 +7,8 @@ import {
   type AwardsNomineeCardProps,
 } from "./AwardsNomineeCard";
 import { formatCategoryNumber } from "./AwardsCategoryList";
+import { AwardsSegmentedControl } from "./AwardsSegmentedControl";
+import { useAwardsMobileLayout } from "./useAwardsMobileLayout";
 
 type AwardsCategoryFilter = "all" | "played";
 
@@ -50,6 +52,7 @@ const AwardsCategoryPanel = ({
   className,
 }: AwardsCategoryPanelProps) => {
   const { t } = useTranslation();
+  const compact = useAwardsMobileLayout();
 
   const [filter, setFilter] = useState<AwardsCategoryFilter>("all");
 
@@ -66,58 +69,92 @@ const AwardsCategoryPanel = ({
       ? nominees.filter((nominee) => nominee.status === "played")
       : nominees;
 
+  const filterControl = filterVisible ? (
+    <AwardsSegmentedControl
+      data-awards-category-filter
+      surface={"canvas"}
+      fullWidth={compact}
+      value={filter}
+      onChange={setFilter}
+      options={[
+        {
+          value: "all",
+          label: t("awards.shared.filters.all", { count: nominees.length }),
+        },
+        {
+          value: "played",
+          label: t("awards.shared.filters.played", { count: playedCount }),
+        },
+      ]}
+    />
+  ) : null;
+
   return (
     <Stack
       data-awards-category-panel
       data-category-index={index}
       className={cn("w-full", className)}
-      gap={"md"}
+      gap={compact ? 16 : 28}
     >
-      <Stack gap={4}>
-        <Text size={"xs"} c={"dimmed"} className={"uppercase tracking-wide"}>
-          {t("awards.shared.categoryPosition", {
-            current: formatCategoryNumber(index + 1),
-            total: formatCategoryNumber(total),
-          })}
-        </Text>
-        <Text size={"xl"} fw={700}>
-          {name}
-        </Text>
-        {description && (
-          <Text size={"sm"} c={"dimmed"}>
-            {description}
-          </Text>
+      <div
+        className={cn(
+          "flex w-full gap-4",
+          compact ? "flex-col" : "items-end justify-between",
         )}
-      </Stack>
-      {filterVisible && (
-        <SegmentedControl
-          data-awards-category-filter
-          value={filter}
-          onChange={(value) => setFilter(value as AwardsCategoryFilter)}
-          data={[
-            {
-              value: "all",
-              label: t("awards.shared.filters.all", {
-                count: nominees.length,
-              }),
-            },
-            {
-              value: "played",
-              label: t("awards.shared.filters.played", {
-                count: playedCount,
-              }),
-            },
-          ]}
-          size={"xs"}
-          className={"self-start"}
-        />
-      )}
+      >
+        <Stack gap={compact ? 8 : 10} className={"min-w-0"}>
+          <Text
+            className={
+              "text-[12px] font-bold uppercase leading-[normal] tracking-[0.72px] text-dimmed-1"
+            }
+          >
+            {t("awards.shared.categoryPosition", {
+              current: formatCategoryNumber(index + 1),
+              total: formatCategoryNumber(total),
+            })}
+          </Text>
+          <Text
+            className={cn(
+              "font-bold text-white",
+              compact
+                ? "text-[28px] leading-[34px] tracking-[-0.28px]"
+                : "text-[32px] leading-[38px] tracking-[-0.32px]",
+            )}
+          >
+            {name}
+          </Text>
+          {description && (
+            <Text
+              className={cn(
+                "text-nav-muted",
+                compact
+                  ? "text-[14px] leading-[1.43]"
+                  : "max-w-[520px] text-[16px] leading-normal",
+              )}
+            >
+              {description}
+            </Text>
+          )}
+        </Stack>
+        {filterControl}
+      </div>
       {visibleNominees.length > 0 && (
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={"sm"}>
-          {visibleNominees.map((nominee) => (
-            <AwardsNomineeCard key={nominee.gameId} {...nominee} />
-          ))}
-        </SimpleGrid>
+        <div className={"@container w-full"}>
+          <div
+            data-awards-nominee-grid
+            className={
+              "grid grid-cols-2 gap-x-3 gap-y-4 @2xl:grid-cols-3 @2xl:gap-5"
+            }
+          >
+            {visibleNominees.map((nominee) => (
+              <AwardsNomineeCard
+                key={nominee.gameId}
+                layout={"grid"}
+                {...nominee}
+              />
+            ))}
+          </div>
+        </div>
       )}
       {children}
       {footer}

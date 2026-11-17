@@ -93,6 +93,13 @@ const config: Omit<Config, "content"> = {
           7: "#d6360b",
           8: "#c02d06",
           9: "#a82301",
+          // Selected/"your vote" surface of the Awards (design `brand/tint`).
+          tint: "#2e150f",
+        },
+        // Play-status colors of the Awards chips and notes.
+        state: {
+          played: "#4fd1a5",
+          "played-tint": "#0f2620",
         },
         secondary: "#1A1A1A",
         tertiary: "#872C13",
