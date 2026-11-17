@@ -20,7 +20,7 @@
 ## 4. Seções de funcionalidades
 
 - [x] 4.1 Implementar `AboutLibrarySection` (texto, lista com checks e estante de quatro colunas por status com contadores e capas); verificar contra o frame e que a estante empilha sem rolagem horizontal em 390 px.
-- [x] 4.2 Implementar `AboutJournalSection` (gráfico de barras da semana, sessões, barras de tempo para zerar com a nota HowLongToBeat, card de review com estrelas); verificar geometria das barras e cards em 1440/768/390 px.
+- [x] 4.2 Implementar `AboutJournalSection` (gráfico de barras da semana, sessões, barras de tempo para zerar com a nota de valores ilustrativos, card de review com estrelas); verificar geometria das barras e cards em 1440/768/390 px.
 - [x] 4.3 Implementar `AboutProgressSection` (cartão de nível com barra de XP e três conquistas, painel laranja da retrospectiva com quatro números, chips e nota de exemplo); verificar contra o frame nos três tamanhos.
 - [x] 4.4 Implementar `AboutCommunitySection` (feed com abas estáticas e quatro atividades, card Explorar com chips de período, ranking de quatro capas e chips de filtro); verificar que nenhum elemento do mockup recebe foco por Tab e que o mockup tem `aria-hidden`.
 - [x] 4.5 Implementar `AboutConnectionsSection` (seis plataformas, conectores e hub GameNode com três chips e glow); verificar curvas e proporções em 1440 px e o layout do frame mobile em 390 px.
