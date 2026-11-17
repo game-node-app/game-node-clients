@@ -5,7 +5,7 @@ import {
   ImageSize,
 } from "#@/components/game/util/getSizedImageUrl";
 import { getRecapNodeLayout } from "#@/components/recap/year/util/recapYear";
-import { useId } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 export interface RecapNodesChartProps {
   year: number;
@@ -21,6 +21,11 @@ export interface RecapNodesChartProps {
 /** The four largest nodes (first in the playtime order) carry a label. */
 const LABELLED_NODES = 4;
 
+/** On-screen size of the node labels, in CSS pixels: grows with the chart. */
+const LABEL_FONT_MIN_PX = 9;
+const LABEL_FONT_MAX_PX = 12;
+const VIEWBOX_WIDTH = 100;
+
 /**
  * Hero chart of the Recap: one node per top game, positioned by the month of
  * `firstPlayedAt` and sized by the square root of the hours (design §10).
@@ -34,16 +39,42 @@ export function RecapNodesChart({
   gameLabel,
 }: RecapNodesChartProps) {
   const rawClipPrefix = `recap-node-${useId()}`.replace(/[^a-zA-Z0-9_-]/g, "");
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [pxPerUnit, setPxPerUnit] = useState(VIEWBOX_WIDTH / 10);
   const nodes = getRecapNodeLayout(topGames, year);
+
+  // The viewBox scales with the card width, which blew the labels up on wide
+  // screens; size them in screen pixels instead.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const update = () => {
+      const width = svg.getBoundingClientRect().width;
+      if (width > 0) {
+        setPxPerUnit(width / VIEWBOX_WIDTH);
+      }
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(svg);
+    return () => observer.disconnect();
+  }, []);
+  const labelFontSize =
+    Math.min(LABEL_FONT_MAX_PX, Math.max(LABEL_FONT_MIN_PX, pxPerUnit * 3.5)) /
+    pxPerUnit;
   const gamesById = new Map((games ?? []).map((game) => [game.id, game]));
 
   return (
     <svg
+      ref={svgRef}
       data-testid={"recap-hero-chart"}
       viewBox={"0 0 100 60"}
       role={"img"}
       aria-label={label}
-      className={"w-full h-auto"}
+      className={"mx-auto h-auto w-full max-w-3xl"}
     >
       <defs>
         {nodes.map((node) => (
@@ -90,11 +121,11 @@ export function RecapNodesChart({
             {node.index < LABELLED_NODES && (
               <text
                 x={node.x}
-                y={node.y - node.radius - 1.4}
+                y={node.y - node.radius - labelFontSize * 0.5}
                 textAnchor={
                   node.x < 20 ? "start" : node.x > 80 ? "end" : "middle"
                 }
-                fontSize={2.4}
+                fontSize={labelFontSize}
                 fill={"#D9D9D9"}
               >
                 {gameLabel(node.gameId)}

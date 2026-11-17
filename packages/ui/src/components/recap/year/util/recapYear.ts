@@ -197,7 +197,7 @@ export function getRecapNodeLayout(
   const totalDays = getYearDayCount(year);
   const usableWidth = CHART_WIDTH - CHART_PADDING * 2;
 
-  return topGames.map((topGame, index) => {
+  const nodes = topGames.map((topGame, index) => {
     const firstPlayedAt = topGame.firstPlayedAt
       ? dayjs.utc(topGame.firstPlayedAt)
       : null;
@@ -211,7 +211,7 @@ export function getRecapNodeLayout(
       index,
       gameId: topGame.gameId,
       x: CHART_PADDING + fraction * usableWidth,
-      // Deterministic scatter inside the plot so the nodes do not overlap.
+      // Deterministic scatter inside the plot; overlaps are relaxed below.
       y: CHART_HEIGHT / 2 + Math.sin((index + 1) * 1.7) * 14,
       radius:
         MIN_RADIUS +
@@ -219,4 +219,64 @@ export function getRecapNodeLayout(
           Math.sqrt(topGame.totalPlaytimeSeconds / maxSeconds),
     };
   });
+
+  return relaxRecapNodes(nodes);
+}
+
+/** Extra room kept around the nodes that carry a label above them. */
+const LABEL_ROOM = 5;
+const NODE_GAP = 0.8;
+const LABELLED_NODES = 4;
+
+/**
+ * Nudges overlapping nodes apart (mostly vertically, so the x axis keeps its
+ * month meaning) and keeps them, and the labels of the largest ones, inside
+ * the plot. Deterministic: same input, same layout.
+ */
+function relaxRecapNodes(nodes: RecapNodeLayout[]): RecapNodeLayout[] {
+  const result = nodes.map((node) => ({ ...node }));
+  const room = (node: RecapNodeLayout) =>
+    node.radius + (node.index < LABELLED_NODES ? LABEL_ROOM : NODE_GAP);
+
+  for (let pass = 0; pass < 60; pass++) {
+    let moved = false;
+
+    for (let i = 0; i < result.length; i++) {
+      for (let j = i + 1; j < result.length; j++) {
+        const a = result[i];
+        const b = result[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const distance = Math.hypot(dx * 0.5, dy);
+        const minimum = room(a) + room(b);
+
+        if (distance >= minimum) continue;
+
+        moved = true;
+        const push = (minimum - distance) / 2 + 0.01;
+        const direction =
+          distance === 0 ? (j % 2 === 0 ? 1 : -1) : dy / distance;
+        a.y -= push * direction;
+        b.y += push * direction;
+      }
+    }
+
+    for (const node of result) {
+      node.x = Math.min(
+        CHART_WIDTH - CHART_PADDING - node.radius,
+        Math.max(CHART_PADDING + node.radius, node.x),
+      );
+      node.y = Math.min(
+        CHART_HEIGHT - CHART_PADDING / 2 - node.radius,
+        Math.max(
+          node.radius + (node.index < LABELLED_NODES ? LABEL_ROOM : 1),
+          node.y,
+        ),
+      );
+    }
+
+    if (!moved) break;
+  }
+
+  return result;
 }
