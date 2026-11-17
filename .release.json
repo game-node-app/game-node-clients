@@ -1,0 +1,28 @@
+{
+  "source": "8b6c538c791ae0b9174e899fc99388020b2708b2",
+  "changesets": [
+    ".changeset/fix-recap-card-bars.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[a69efc4135d3314a0d1898732ccb89da8e3f8cf5...8b6c538c791ae0b9174e899fc99388020b2708b2]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/8b6c538c791ae0b9174e899fc99388020b2708b2",
+  "versions": {
+    "web": "1.19.1",
+    "mobile": "1.17.2"
+  }
+}
