@@ -1,0 +1,28 @@
+{
+  "source": "1c38ceaa231a630f8b49b7e8126c93c611480448",
+  "changesets": [
+    ".changeset/daily-ranking-and-challenges.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[eb21b47ef093106fbe938c9e15fd7e6c2f0f8cd5...1c38ceaa231a630f8b49b7e8126c93c611480448]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/1c38ceaa231a630f8b49b7e8126c93c611480448",
+  "versions": {
+    "web": "1.20.0",
+    "mobile": "1.18.0"
+  }
+}
