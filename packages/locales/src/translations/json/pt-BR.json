@@ -2571,6 +2571,13 @@
     }
   },
   "profile": {
+    "bannerEditor": {
+      "title": "Enquadre seu banner",
+      "help": "Arraste a imagem para destacar o que importa. Confira as duas prévias antes de salvar.",
+      "verticalPosition": "Posição vertical (de cima para baixo)",
+      "web": "Web · computador",
+      "mobile": "Celular"
+    },
     "collections": {
       "featured": "Destaque",
       "loading": "Carregando coleções...",
