@@ -1318,7 +1318,169 @@
     "attempts": "{{attempts}} de {{max}} tentativas usadas",
     "continue": "Continuar",
     "seeResult": "Ver resultado",
-    "todayProgress": "{{solved}} de {{total}} resolvidos hoje"
+    "todayProgress": "{{solved}} de {{total}} resolvidos hoje",
+    "ranking": {
+      "title": "Ranking do Daily",
+      "subtitleOverall": "Quem acerta mais com menos tentativas. Mesmo puzzle para todo mundo.",
+      "subtitleMode": "Ranking só do modo {{mode}} {{period}}.",
+      "periodPhrase": {
+        "today": "hoje",
+        "week": "nesta semana",
+        "month": "neste mês",
+        "all": "de todos os tempos"
+      },
+      "endsIn": {
+        "today": "Hoje termina em {{time}}",
+        "week": "Semana termina em {{time}}",
+        "month": "Mês termina em {{time}}"
+      },
+      "overall": "Geral",
+      "filters": {
+        "mode": "Modo",
+        "period": "Período",
+        "scope": "Jogadores"
+      },
+      "periods": {
+        "today": "Hoje",
+        "week": "Semana",
+        "month": "Mês",
+        "all": "Sempre"
+      },
+      "scopes": {
+        "all": "Todos",
+        "following": "Quem eu sigo"
+      },
+      "columns": {
+        "position": "#",
+        "player": "Jogador",
+        "points": "Pontos",
+        "byMode": "Por modo",
+        "streak": "Sequência",
+        "winRate": "Acerto",
+        "wins": "Resolvidos",
+        "averageAttempts": "Média tent.",
+        "bestStreak": "Melhor seq."
+      },
+      "points": "{{points}} pts",
+      "pointsOne": "{{points}} pt",
+      "streakDays": "{{count}} dias seguidos",
+      "streakDaysOne": "{{count}} dia seguido",
+      "days": "{{count}} dias",
+      "daysOne": "{{count}} dia",
+      "change": {
+        "new": "novo",
+        "up": "Subiu {{count}}",
+        "down": "Caiu {{count}}",
+        "same": "Sem mudança"
+      },
+      "you": "Você",
+      "openSpot": "Vaga aberta",
+      "openSpotHint": "Jogue hoje para entrar",
+      "loadMore": "Carregar mais",
+      "showing": "Mostrando {{from}}–{{to}} de {{total}} jogadores",
+      "yourPosition": "Sua posição",
+      "emptyTable": "Ninguém além do pódio ainda. As próximas posições aparecem aqui.",
+      "early": {
+        "title": "Ainda é cedo: {{count}} jogadores pontuaram hoje",
+        "titleOne": "Ainda é cedo: {{count}} jogador pontuou hoje",
+        "description": "O ranking de Hoje reinicia às 00:00 (BRT). Jogue o Daily para entrar no pódio.",
+        "action": "Jogar o Daily"
+      },
+      "scoring": {
+        "title": "Como funciona a pontuação",
+        "intro": "Cover, Artwork e Keywords: menos tentativas, mais pontos.",
+        "attempt1": "Acertou na 1ª tentativa",
+        "attempt2": "2ª",
+        "attempt3": "3ª",
+        "attempt4": "4ª",
+        "attempt5": "5ª",
+        "attempt6": "6ª",
+        "notSolved": "Não acertou",
+        "specs": "Specs (10 vidas): pontos × 0,6 por tentativa restante, de 6 a 0,6.",
+        "footer": "Pular conta como tentativa. Jogos do Arquivo não contam. Bônus de +2 por dia com os 4 modos acertados.",
+        "notSolvedPoints": "0 pt"
+      },
+      "summary": {
+        "title": {
+          "today": "Seu resumo de hoje",
+          "week": "Seu resumo da semana",
+          "month": "Seu resumo do mês",
+          "all": "Seu resumo de todos os tempos"
+        },
+        "position": "Posição",
+        "points": "Pontos",
+        "streak": "Sequência",
+        "bestStreak": "Melhor seq.",
+        "streakValue": "{{count}}d",
+        "gap": "Faltam {{points}} pts para o top 100.",
+        "empty": "Você ainda não tem resultado nesta lista. Jogue o Daily de hoje para entrar."
+      },
+      "signIn": {
+        "title": "Entre para competir no ranking",
+        "description": "Seu progresso de hoje está salvo neste aparelho e entra no ranking quando você fizer login.",
+        "create": "Criar conta",
+        "signIn": "Entrar"
+      },
+      "panel": {
+        "title": "Ranking da semana",
+        "you": "Você: #{{position}}",
+        "youChange": "Você: #{{position}} ({{change}})",
+        "seeAll": "Ver ranking completo",
+        "invite": "Jogue o Daily de hoje para entrar no pódio."
+      },
+      "button": "Ranking",
+      "result": {
+        "points": "+{{points}} pts no ranking",
+        "rose": "você subiu para #{{position}}",
+        "entered": "você entrou em #{{position}}",
+        "same": "você está em #{{position}}",
+        "week": "Semana: {{points}} pts.",
+        "bonus": "Inclui +{{points}} por acertar os quatro modos hoje.",
+        "notCounted": "Jogos do Arquivo não pontuam no ranking",
+        "notCountedDescription": "Só os puzzles de hoje, terminados hoje, valem pontos.",
+        "see": "Ver ranking"
+      }
+    },
+    "weekly": {
+      "section": "Semanal",
+      "resets": "Reinicia segunda",
+      "title": "Desafio da semana",
+      "titleNumber": "Desafio da semana #{{number}}",
+      "description": "Um jogo difícil, 10 tentativas, ranking entre amigos",
+      "endsIn": "Termina em {{time}}",
+      "endsInLabel": "Termina em",
+      "none": "Não há desafio da semana agora.",
+      "friends": {
+        "title": "Ranking entre amigos",
+        "attempts": "{{count}} tentativas",
+        "attemptsOne": "{{count}} tentativa",
+        "notGuessed": "não acertou",
+        "invite": "Siga jogadores para comparar seu resultado com o deles.",
+        "signInTitle": "Entre para comparar com amigos",
+        "signInDescription": "Seu resultado fica neste aparelho e vai para a sua conta quando você fizer login."
+      }
+    },
+    "practice": {
+      "section": "Ilimitado",
+      "noLimit": "Sem limite diário",
+      "cover": {
+        "title": "Cover ilimitado",
+        "description": "Capas aleatórias do catálogo, sem esperar amanhã"
+      },
+      "specs": {
+        "title": "Specs ilimitado",
+        "description": "Pratique a comparação com jogos aleatórios"
+      },
+      "playAgain": "Jogar de novo",
+      "rateLimited": {
+        "title": "Muitas rodadas seguidas",
+        "description": "Espere um momento e tente de novo."
+      },
+      "unavailable": {
+        "title": "O treino está indisponível agora",
+        "description": "Tente de novo em alguns minutos."
+      }
+    }
   },
   "errors": {
     "comeBackSoon": "Volte em breve!",

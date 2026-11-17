@@ -1318,7 +1318,169 @@
     "attempts": "{{attempts}} of {{max}} attempts used",
     "continue": "Continue",
     "seeResult": "See result",
-    "todayProgress": "{{solved}} of {{total}} solved today"
+    "todayProgress": "{{solved}} of {{total}} solved today",
+    "ranking": {
+      "title": "Daily ranking",
+      "subtitleOverall": "Most solves with the fewest attempts. The same puzzle for everyone.",
+      "subtitleMode": "{{mode}} mode only, {{period}}.",
+      "periodPhrase": {
+        "today": "today",
+        "week": "this week",
+        "month": "this month",
+        "all": "all time"
+      },
+      "endsIn": {
+        "today": "Today ends in {{time}}",
+        "week": "Week ends in {{time}}",
+        "month": "Month ends in {{time}}"
+      },
+      "overall": "Overall",
+      "filters": {
+        "mode": "Mode",
+        "period": "Period",
+        "scope": "Players"
+      },
+      "periods": {
+        "today": "Today",
+        "week": "Week",
+        "month": "Month",
+        "all": "All time"
+      },
+      "scopes": {
+        "all": "Everyone",
+        "following": "People I follow"
+      },
+      "columns": {
+        "position": "#",
+        "player": "Player",
+        "points": "Points",
+        "byMode": "By mode",
+        "streak": "Streak",
+        "winRate": "Win rate",
+        "wins": "Solved",
+        "averageAttempts": "Avg. attempts",
+        "bestStreak": "Best streak"
+      },
+      "points": "{{points}} pts",
+      "pointsOne": "{{points}} pt",
+      "streakDays": "{{count}} days in a row",
+      "streakDaysOne": "{{count}} day in a row",
+      "days": "{{count}} days",
+      "daysOne": "{{count}} day",
+      "change": {
+        "new": "new",
+        "up": "Up {{count}}",
+        "down": "Down {{count}}",
+        "same": "No change"
+      },
+      "you": "You",
+      "openSpot": "Open spot",
+      "openSpotHint": "Play today to get in",
+      "loadMore": "Load more",
+      "showing": "Showing {{from}}–{{to}} of {{total}} players",
+      "yourPosition": "Your position",
+      "emptyTable": "No one beyond the podium yet. Further positions will show up here.",
+      "early": {
+        "title": "Still early: {{count}} players scored today",
+        "titleOne": "Still early: {{count}} player scored today",
+        "description": "Today's ranking resets at 00:00 (BRT). Play the Daily to make the podium.",
+        "action": "Play the Daily"
+      },
+      "scoring": {
+        "title": "How scoring works",
+        "intro": "Cover, Artwork and Keywords: fewer attempts, more points.",
+        "attempt1": "Solved on the 1st attempt",
+        "attempt2": "2nd",
+        "attempt3": "3rd",
+        "attempt4": "4th",
+        "attempt5": "5th",
+        "attempt6": "6th",
+        "notSolved": "Not solved",
+        "specs": "Specs (10 lives): 0.6 points per remaining life, from 6 to 0.6.",
+        "footer": "Skipping counts as an attempt. Archive plays don't count. +2 bonus for each day with all 4 modes solved.",
+        "notSolvedPoints": "0 pts"
+      },
+      "summary": {
+        "title": {
+          "today": "Your summary for today",
+          "week": "Your summary for the week",
+          "month": "Your summary for the month",
+          "all": "Your all-time summary"
+        },
+        "position": "Position",
+        "points": "Points",
+        "streak": "Streak",
+        "bestStreak": "Best streak",
+        "streakValue": "{{count}}d",
+        "gap": "{{points}} pts to the top 100.",
+        "empty": "You have no counted result in this list yet. Play today's Daily to get in."
+      },
+      "signIn": {
+        "title": "Sign in to compete in the ranking",
+        "description": "Today's progress is saved on this device and joins the ranking when you sign in.",
+        "create": "Create account",
+        "signIn": "Sign in"
+      },
+      "panel": {
+        "title": "Ranking of the week",
+        "you": "You: #{{position}}",
+        "youChange": "You: #{{position}} ({{change}})",
+        "seeAll": "See full ranking",
+        "invite": "Play today's Daily to get on the podium."
+      },
+      "button": "Ranking",
+      "result": {
+        "points": "+{{points}} pts in the ranking",
+        "rose": "you rose to #{{position}}",
+        "entered": "you entered at #{{position}}",
+        "same": "you're at #{{position}}",
+        "week": "Week: {{points}} pts.",
+        "bonus": "Includes +{{points}} for solving all four modes today.",
+        "notCounted": "Archive plays don't score in the ranking",
+        "notCountedDescription": "Only today's puzzles, finished today, earn points.",
+        "see": "See ranking"
+      }
+    },
+    "weekly": {
+      "section": "Weekly",
+      "resets": "Resets Monday",
+      "title": "Challenge of the week",
+      "titleNumber": "Challenge of the week #{{number}}",
+      "description": "One hard game, 10 attempts, ranking among friends",
+      "endsIn": "Ends in {{time}}",
+      "endsInLabel": "Ends in",
+      "none": "There's no challenge of the week right now.",
+      "friends": {
+        "title": "Friends ranking",
+        "attempts": "{{count}} attempts",
+        "attemptsOne": "{{count}} attempt",
+        "notGuessed": "not guessed",
+        "invite": "Follow players to compare your result with theirs.",
+        "signInTitle": "Sign in to compare with friends",
+        "signInDescription": "Your result stays on this device and moves to your account when you sign in."
+      }
+    },
+    "practice": {
+      "section": "Unlimited",
+      "noLimit": "No daily limit",
+      "cover": {
+        "title": "Unlimited Cover",
+        "description": "Random covers from the catalog, without waiting for tomorrow"
+      },
+      "specs": {
+        "title": "Unlimited Specs",
+        "description": "Practice the comparison with random games"
+      },
+      "playAgain": "Play again",
+      "rateLimited": {
+        "title": "Too many rounds in a row",
+        "description": "Wait a moment and try again."
+      },
+      "unavailable": {
+        "title": "Practice is unavailable right now",
+        "description": "Try again in a few minutes."
+      }
+    }
   },
   "errors": {
     "comeBackSoon": "Come back soon!",

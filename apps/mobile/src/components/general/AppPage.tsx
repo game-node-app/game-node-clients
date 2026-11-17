@@ -29,6 +29,8 @@ interface Props extends PropsWithChildren {
    */
   withMenuButton?: boolean;
   contentProps?: React.ComponentProps<typeof ScrollableIonContent>;
+  /** Extra toolbar buttons at the end, before the search button. */
+  endButtons?: React.ReactNode;
 }
 
 /**
@@ -40,6 +42,7 @@ const AppPage = ({
   withSearch = true,
   title,
   contentProps,
+  endButtons,
   children,
 }: Props) => {
   return (
@@ -50,9 +53,10 @@ const AppPage = ({
             {withMenuButton ? <IonMenuButton /> : <IonBackButton />}
           </IonButtons>
           {title != undefined && <IonTitle>{title}</IonTitle>}
-          {withSearch && (
+          {(withSearch || endButtons) && (
             <IonButtons slot={"end"}>
-              <HeaderSearchButton />
+              {endButtons}
+              {withSearch && <HeaderSearchButton />}
             </IonButtons>
           )}
         </IonToolbar>

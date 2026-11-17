@@ -5,16 +5,33 @@ import {
   readDailyLocalResults,
   useDailyLocalResults,
 } from "#@/components/daily/hooks/useDailyLocalResults";
-import { toDailyLocalResult } from "#@/components/daily/util/toDailyLocalResult";
+import {
+  type DailyPuzzleKind,
+  toDailyLocalResult,
+} from "#@/components/daily/util/toDailyLocalResult";
 import { createErrorNotification } from "#@/util/createErrorNotification";
 
 type Guesses = (number | null)[];
+
+interface Options {
+  /** Stored with guest plays so weekly ones stay out of daily stats. */
+  kind?: DailyPuzzleKind;
+}
+
+/** Queries a daily guess must not refetch: the play itself and practice rounds. */
+const SKIPPED_ON_PLAY = new Set(["play", "practice"]);
+
+export const shouldRefreshAfterDailyPlay = (queryKey: readonly unknown[]) =>
+  !SKIPPED_ON_PLAY.has(queryKey[1] as string);
 
 /**
  * A puzzle's play state. The client always sends the whole play: signed-in
  * progress lives on the server, guest progress in local storage.
  */
-export function useDailyPlay(puzzleId: number | undefined) {
+export function useDailyPlay(
+  puzzleId: number | undefined,
+  { kind = "daily" }: Options = {},
+) {
   const queryClient = useQueryClient();
   const { data: session, isPending: isSessionPending } =
     authClient.useSession();
@@ -33,6 +50,7 @@ export function useDailyPlay(puzzleId: number | undefined) {
         [response.puzzleId]: toDailyLocalResult(
           response,
           current[response.puzzleId],
+          kind,
         ),
       }));
     }
@@ -67,7 +85,7 @@ export function useDailyPlay(puzzleId: number | undefined) {
       queryClient.setQueryData(queryKey, response);
       return queryClient.invalidateQueries({
         queryKey: ["daily"],
-        predicate: ({ queryKey }) => queryKey[1] !== "play",
+        predicate: ({ queryKey }) => shouldRefreshAfterDailyPlay(queryKey),
       });
     },
     onError: createErrorNotification,
