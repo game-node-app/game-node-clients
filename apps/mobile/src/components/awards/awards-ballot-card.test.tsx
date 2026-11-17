@@ -31,6 +31,19 @@ vi.mock("html-to-image", () => ({
   toBlob: mocks.toBlob,
 }));
 
+// Font loading is a browser boundary: the suite must never depend on it. Other
+// test files stub `document.fonts` without `load`, and that can leak into this
+// file when they share a worker, which made the share export throw.
+vi.mock(
+  "../../../../../packages/ui/src/components/awards/ballot/AwardsBallotFonts",
+  async (importOriginal) => ({
+    ...(await importOriginal<
+      typeof import("../../../../../packages/ui/src/components/awards/ballot/AwardsBallotFonts")
+    >()),
+    loadAwardsBallotFonts: vi.fn(async () => {}),
+  }),
+);
+
 vi.mock("@mantine/notifications", () => ({
   notifications: { show: vi.fn() },
 }));
