@@ -1,0 +1,28 @@
+{
+  "source": "73ec18092ccb882d2d5b3620c871a4676100b5ea",
+  "changesets": [
+    ".changeset/redeploy-library-visibility.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6e2b4011f89370e1412714fdebce97b5d08bead2...73ec18092ccb882d2d5b3620c871a4676100b5ea]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/73ec18092ccb882d2d5b3620c871a4676100b5ea",
+  "versions": {
+    "web": "1.21.0",
+    "mobile": "1.19.0"
+  }
+}
