@@ -1,0 +1,24 @@
+{
+  "source": "0a3593759f5f0f17d5e10c86f0d657219bfbc597",
+  "changesets": [
+    ".changeset/game-info-actions-layout.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[5bed2ba85705485797f63e03e50994938cd51aa4...0a3593759f5f0f17d5e10c86f0d657219bfbc597]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/0a3593759f5f0f17d5e10c86f0d657219bfbc597",
+  "versions": {
+    "web": "1.21.1"
+  }
+}
