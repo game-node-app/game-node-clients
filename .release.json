@@ -1,0 +1,22 @@
+{
+  "source": "a69efc4135d3314a0d1898732ccb89da8e3f8cf5",
+  "changesets": [
+    ".changeset/mobile-ota-fingerprint-pnpm.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[c11f9aba3a757718fc9c2c90dee554d90c6da4bf...a69efc4135d3314a0d1898732ccb89da8e3f8cf5]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/a69efc4135d3314a0d1898732ccb89da8e3f8cf5",
+  "versions": {
+    "mobile": "1.17.1"
+  }
+}
