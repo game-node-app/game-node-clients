@@ -165,10 +165,14 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
     });
   run(env);
   const calls = readFileSync(log, "utf8").trim().split("\n").map(JSON.parse);
-  assert.equal(calls.length, 2);
-  const manifest = JSON.parse(
-    readFileSync(join(temporary, "latest.json"), "utf8"),
+  assert.equal(calls.length, 4);
+  const manifest = JSON.parse(readFileSync(calls[1][2], "utf8"));
+  const legacyManifest = JSON.parse(readFileSync(calls[3][2], "utf8"));
+  assert.equal(
+    legacyManifest.url,
+    calls[2][3].replace("s3://bucket", "https://updates.example.test"),
   );
+  assert.equal(legacyManifest.checksum, manifest.checksum);
   const zip = calls[0][2];
   assert.equal(
     manifest.checksum,
@@ -185,6 +189,11 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
   assert.equal(
     calls[1][3],
     calls[0][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
+  );
+  assert.match(calls[2][3], /\/ota\/851b7306d93e4022\/1\.8\.12-[a-f0-9]+\.zip$/);
+  assert.equal(
+    calls[3][3],
+    calls[2][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
   );
   assert.equal(calls[0].at(-1), "public, max-age=31536000, immutable");
   assert.equal(calls[1].at(-1), "no-cache");

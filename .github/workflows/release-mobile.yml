@@ -71,18 +71,23 @@ jobs:
           archive="$RUNNER_TEMP/$bundle_id.zip"
           (cd apps/mobile/dist && zip -qr "$archive" .)
           checksum=$(sha256sum "$archive" | cut -d ' ' -f 1)
-          prefix="ota/$fingerprint"
-          jq -n --arg bundleId "$bundle_id" \
-            --arg url "${LIVE_UPDATE_PUBLIC_URL%/}/$prefix/$bundle_id.zip" \
-            --arg checksum "$checksum" \
-            '{bundleId: $bundleId, url: $url, checksum: $checksum}' > "$RUNNER_TEMP/latest.json"
           endpoint="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
-          aws s3 cp "$archive" "s3://$R2_BUCKET/$prefix/$bundle_id.zip" \
-            --endpoint-url "$endpoint" --no-progress --content-type application/zip \
-            --cache-control 'public, max-age=31536000, immutable'
-          aws s3 cp "$RUNNER_TEMP/latest.json" "s3://$R2_BUCKET/$prefix/latest.json" \
-            --endpoint-url "$endpoint" --no-progress --content-type application/json \
-            --cache-control no-cache
+          # 851b7306d93e4022 is the fingerprint the 1.16.x/1.17.0 APKs baked in before it was
+          # normalized; those shells keep polling that channel, so mirror the bundle there.
+          for channel in "$fingerprint" 851b7306d93e4022; do
+            prefix="ota/$channel"
+            manifest="$RUNNER_TEMP/$channel.latest.json"
+            jq -n --arg bundleId "$bundle_id" \
+              --arg url "${LIVE_UPDATE_PUBLIC_URL%/}/$prefix/$bundle_id.zip" \
+              --arg checksum "$checksum" \
+              '{bundleId: $bundleId, url: $url, checksum: $checksum}' > "$manifest"
+            aws s3 cp "$archive" "s3://$R2_BUCKET/$prefix/$bundle_id.zip" \
+              --endpoint-url "$endpoint" --no-progress --content-type application/zip \
+              --cache-control 'public, max-age=31536000, immutable'
+            aws s3 cp "$manifest" "s3://$R2_BUCKET/$prefix/latest.json" \
+              --endpoint-url "$endpoint" --no-progress --content-type application/json \
+              --cache-control no-cache
+          done
       - name: Decode Android signing key
         working-directory: apps/mobile
         env:
