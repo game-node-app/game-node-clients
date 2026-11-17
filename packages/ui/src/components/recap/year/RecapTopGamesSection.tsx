@@ -13,8 +13,13 @@ import {
 import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import type { Game } from "@repo/wrapper/server";
 import type { YearRecap } from "#@/components/recap/types";
+import {
+  RecapEyebrow,
+  RecapHeading,
+  RecapSection,
+} from "#@/components/recap/year/RecapSection";
+import { cn } from "#@/util";
 import { getRecapPlatformMap } from "#@/components/recap/year/util/recapYear";
-import { Image, Paper, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 export interface RecapTopGamesSectionProps {
@@ -52,6 +57,9 @@ export function RecapTopGamesSection({
   const topGameData = gamesQuery.data?.find(
     (game) => game.id === topGame.gameId,
   );
+  const gamesById = new Map(
+    (gamesQuery.data ?? []).map((game) => [game.id, game]),
+  );
   const topGamesList = topGames.slice(0, TOP_GAMES_LIMIT);
   const maxPlaytimeSeconds = Math.max(
     1,
@@ -71,111 +79,162 @@ export function RecapTopGamesSection({
   const rating = formatRating(topGame.rating, locale);
 
   return (
-    <Paper
-      data-testid={"recap-top-games"}
-      withBorder
-      radius={"lg"}
-      p={{ base: "md", md: "xl" }}
-      className={"bg-paper-8"}
-    >
-      <Stack gap={"lg"}>
-        <Title order={2} size={"h2"}>
-          {t("recap.page.topGames.title", { year })}
-        </Title>
+    <RecapSection data-testid={"recap-top-games"}>
+      <div
+        className={
+          "grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:items-start md:gap-16 lg:gap-24"
+        }
+      >
+        <TopGameCover game={topGameData} />
 
-        <div className={"flex flex-col gap-5 sm:flex-row sm:items-center"}>
-          <TopGameCover game={topGameData} />
-          <Stack gap={"xs"} className={"min-w-0"}>
-            <Text size={"xl"} fw={800} className={"truncate"}>
-              {gameLabel(topGame.gameId)}
-            </Text>
-            {share && (
-              <Text size={"md"} c={"dimmed"}>
-                {t("recap.page.topGames.share", {
+        <div className={"flex min-w-0 flex-col"}>
+          <RecapEyebrow>
+            {t("recap.page.topGames.title", { year })}
+          </RecapEyebrow>
+          <RecapHeading className={"mt-4"}>
+            {share
+              ? t("recap.page.topGames.share", {
                   game: gameLabel(topGame.gameId),
                   percent: share,
-                })}
-              </Text>
+                })
+              : gameLabel(topGame.gameId)}
+          </RecapHeading>
+
+          <div className={"mt-8 flex flex-wrap gap-x-10 gap-y-4"}>
+            <TopGameStat
+              value={t("events.card.recap.hours", { hours: hours ?? "0" })}
+              label={t("recap.page.topGames.hoursLabel")}
+            />
+            {finishedAt && (
+              <TopGameStat
+                value={finishedAt}
+                label={t("recap.page.topGames.finishedLabel")}
+              />
             )}
-            <Text size={"sm"}>
-              {t("recap.page.topGames.hours", { hours: hours ?? "0" })}
-            </Text>
-            <div className={"flex flex-wrap gap-x-4 gap-y-1"}>
-              {finishedAt && (
-                <Text size={"sm"} c={"dimmed"}>
-                  {t("recap.page.topGames.finished", { date: finishedAt })}
-                </Text>
-              )}
-              {rating && (
-                <Text size={"sm"} c={"dimmed"}>
-                  {t("recap.page.topGames.rating", { rating })}
-                </Text>
-              )}
-            </div>
-          </Stack>
-        </div>
+            {rating && (
+              <TopGameStat
+                value={rating}
+                label={t("recap.page.topGames.ratingLabel")}
+              />
+            )}
+          </div>
 
-        <Title order={3} size={"h4"}>
-          {t("recap.page.topGames.top5")}
-        </Title>
+          <div className={"mt-8 border-t border-[#2a2a2a] pt-8"}>
+            <h3
+              className={
+                "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+              }
+            >
+              {t("recap.page.topGames.top5")}
+            </h3>
 
-        <Stack gap={"sm"}>
-          {topGamesList.map((entry, index) => {
-            const platformNames = entry.platformIds
-              .map((platformId) => platformMap.get(platformId)?.abbreviation)
-              .filter((name): name is string => !!name);
-            const entryHours = formatPlaytimeHours(
-              entry.totalPlaytimeSeconds,
-              locale,
-            );
-            const width = Math.max(
-              4,
-              (entry.totalPlaytimeSeconds / maxPlaytimeSeconds) * 100,
-            );
+            <ol className={"m-0 mt-5 flex list-none flex-col p-0"}>
+              {topGamesList.map((entry, index) => {
+                const platformNames = entry.platformIds
+                  .map(
+                    (platformId) => platformMap.get(platformId)?.abbreviation,
+                  )
+                  .filter((name): name is string => !!name);
+                const entryHours = formatPlaytimeHours(
+                  entry.totalPlaytimeSeconds,
+                  locale,
+                );
+                const width = Math.max(
+                  3,
+                  (entry.totalPlaytimeSeconds / maxPlaytimeSeconds) * 100,
+                );
+                const isFirst = index === 0;
 
-            return (
-              <Stack
-                key={`${entry.gameId}-${index}`}
-                data-testid={"recap-top-game-row"}
-                gap={4}
-              >
-                <div
-                  className={
-                    "flex flex-wrap items-baseline justify-between gap-x-3"
-                  }
-                >
-                  <div className={"flex min-w-0 items-baseline gap-2"}>
-                    <Text size={"sm"} fw={700} className={"truncate"}>
-                      {gameLabel(entry.gameId)}
-                    </Text>
-                    {platformNames.length > 0 && (
-                      <Text size={"xs"} c={"dimmed"}>
-                        {platformNames.join(", ")}
-                      </Text>
+                return (
+                  <li
+                    key={`${entry.gameId}-${index}`}
+                    data-testid={"recap-top-game-row"}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-3 sm:gap-4",
+                      isFirst && "bg-paper-5",
                     )}
-                  </div>
-                  {entryHours && (
-                    <Text size={"xs"} c={"dimmed"}>
-                      {entryHours} h
-                    </Text>
-                  )}
-                </div>
-                <div
-                  className={
-                    "h-2 w-full overflow-hidden rounded-full bg-paper-4"
-                  }
-                >
-                  <div
-                    className={"h-full rounded-full bg-brand"}
-                    style={{ width: `${width}%` }}
-                  />
-                </div>
-              </Stack>
-            );
-          })}
-        </Stack>
-      </Stack>
-    </Paper>
+                  >
+                    <span
+                      className={cn(
+                        "w-5 shrink-0 text-xs font-bold tabular-nums",
+                        isFirst ? "text-brand" : "text-[#808080]",
+                      )}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <TopGameThumb game={gamesById.get(entry.gameId)} />
+                    <div className={"flex min-w-0 flex-1 flex-col"}>
+                      <span
+                        className={
+                          "truncate text-base leading-6 font-medium text-white"
+                        }
+                      >
+                        {gameLabel(entry.gameId)}
+                      </span>
+                      {platformNames.length > 0 && (
+                        <span className={"truncate text-sm text-[#808080]"}>
+                          {platformNames.join(", ")}
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      className={
+                        "hidden h-2 w-24 shrink-0 overflow-hidden rounded-full bg-[#262626] sm:block lg:w-40 xl:w-[220px]"
+                      }
+                    >
+                      <div
+                        className={cn(
+                          "h-full rounded-full",
+                          isFirst ? "bg-brand" : "bg-brand-3",
+                        )}
+                        style={{ width: `${width}%` }}
+                      />
+                    </div>
+                    {entryHours && (
+                      <span
+                        className={
+                          "w-12 shrink-0 text-right text-xs font-bold tracking-[0.06em] text-white uppercase"
+                        }
+                      >
+                        {t("events.card.recap.hours", { hours: entryHours })}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </RecapSection>
+  );
+}
+
+function TopGameStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className={"flex flex-col gap-1"}>
+      <span
+        className={
+          "text-[28px] leading-8 font-semibold tracking-[-0.01em] text-white"
+        }
+      >
+        {value}
+      </span>
+      <span className={"text-sm text-[#808080]"}>{label}</span>
+    </div>
+  );
+}
+
+function TopGameThumb({ game }: { game: Game | undefined }) {
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_SMALL);
+
+  return (
+    <img
+      src={src ?? GAME_COVER_PLACEHOLDER}
+      onError={onError}
+      alt={""}
+      className={"h-12 w-9 shrink-0 rounded object-cover"}
+    />
   );
 }
 
@@ -183,14 +242,13 @@ function TopGameCover({ game }: { game: Game | undefined }) {
   const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
 
   return (
-    <Image
+    <img
       src={src ?? GAME_COVER_PLACEHOLDER}
       onError={onError}
       alt={game?.name ?? ""}
       className={
-        "h-48 w-32 shrink-0 self-center rounded-md object-cover sm:self-start"
+        "mx-auto aspect-[3/4] w-full max-w-[480px] rounded-2xl object-cover md:mx-0"
       }
-      radius={"md"}
     />
   );
 }

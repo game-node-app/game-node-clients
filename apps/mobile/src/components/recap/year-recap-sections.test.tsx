@@ -118,7 +118,7 @@ describe("RecapTopGamesSection", () => {
       <RecapTopGamesSection year={RECAP_YEAR} recap={recap} />,
     );
 
-    await waitFor(() => expect(screen.getAllByText("Nioh 3").length).toBe(2));
+    await waitFor(() => expect(screen.getAllByText("Nioh 3").length).toBe(1));
 
     expect(
       screen.getByText(
@@ -128,13 +128,15 @@ describe("RecapTopGamesSection", () => {
         })}`,
       ),
     ).toBeTruthy();
+    // The hours show in the stats row and in the top-5 row of the same game.
     expect(
-      screen.getByText(
-        `recap.page.topGames.hours:${JSON.stringify({ hours: "86" })}`,
+      screen.getAllByText(
+        `events.card.recap.hours:${JSON.stringify({ hours: "86" })}`,
       ),
-    ).toBeTruthy();
-    expect(screen.queryByText(/recap\.page\.topGames\.finished/)).toBeNull();
-    expect(screen.queryByText(/recap\.page\.topGames\.rating/)).toBeNull();
+    ).toHaveLength(2);
+    expect(screen.getByText("recap.page.topGames.hoursLabel")).toBeTruthy();
+    expect(screen.queryByText("recap.page.topGames.finishedLabel")).toBeNull();
+    expect(screen.queryByText("recap.page.topGames.ratingLabel")).toBeNull();
     expect(screen.getByText("PS5")).toBeTruthy();
     expect(screen.getAllByTestId("recap-top-game-row")).toHaveLength(2);
   });
@@ -202,17 +204,17 @@ describe("RecapCalendarSection", () => {
     ).toBeTruthy();
     expect(
       screen.getByText(
-        `recap.page.calendar.streak:${JSON.stringify({ days: "23" })}`,
+        `recap.page.calendar.streakValue:${JSON.stringify({ days: 23 })}`,
       ),
     ).toBeTruthy();
     expect(
       screen.getByText(
-        `recap.page.calendar.weekday:${JSON.stringify({
-          weekday: "Saturday",
+        `recap.page.calendar.weekdayFact:${JSON.stringify({
           percent: "31%",
         })}`,
       ),
     ).toBeTruthy();
+    expect(screen.getByText("Saturday")).toBeTruthy();
   });
 });
 

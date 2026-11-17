@@ -6,7 +6,6 @@ import { RecapBacklogSection } from "#@/components/recap/year/RecapBacklogSectio
 import { RecapCalendarSection } from "#@/components/recap/year/RecapCalendarSection";
 import { RecapCommunitySection } from "#@/components/recap/year/RecapCommunitySection";
 import { RecapFooter } from "#@/components/recap/year/RecapFooter";
-import { RecapGenresPlatformsSection } from "#@/components/recap/year/RecapGenresPlatformsSection";
 import { RecapHero } from "#@/components/recap/year/RecapHero";
 import { RecapTopGamesSection } from "#@/components/recap/year/RecapTopGamesSection";
 import { markRecapVisited } from "#@/components/recap/year/util/recapVisited";
@@ -95,18 +94,10 @@ export function YearRecapScreen({ year, userId }: YearRecapScreenProps) {
 
     return (
       <>
-        <Paper
-          withBorder
-          radius={"lg"}
-          p={{ base: "md", md: "xl" }}
-          className={"bg-paper-8"}
-        >
-          <RecapHero year={year} recap={recap} phase={status.phase} />
-        </Paper>
+        <RecapHero year={year} recap={recap} phase={status.phase} />
         <RecapTopGamesSection year={year} recap={recap} />
         <RecapCalendarSection year={year} recap={recap} />
         <RecapCommunitySection recap={recap} />
-        <RecapGenresPlatformsSection recap={recap} />
         <RecapBacklogSection year={year} recap={recap} userId={userId} />
         <RecapFooter year={year} recap={recap} userId={userId} />
       </>
@@ -114,14 +105,15 @@ export function YearRecapScreen({ year, userId }: YearRecapScreenProps) {
   })();
 
   return (
-    <Stack
+    <div
       data-testid={"year-recap-screen"}
-      gap={"lg"}
-      className={"w-full max-w-5xl mx-auto px-4 md:px-0 pb-16"}
+      className={
+        "mx-auto flex w-full max-w-[1200px] flex-col px-4 pb-16 md:px-6"
+      }
     >
       <SeasonEventHeader year={year} screen={"recap"} />
       {content}
-    </Stack>
+    </div>
   );
 }
 
@@ -139,7 +131,7 @@ function RecapStateNotice({
       withBorder
       radius={"lg"}
       p={{ base: "md", md: "xl" }}
-      className={"bg-paper-8"}
+      className={"mt-8 bg-paper-0"}
     >
       <Stack gap={"sm"} align={"flex-start"}>
         <Title order={2} size={"h3"}>

@@ -2532,8 +2532,12 @@
       "create": "Criar minha retrospectiva"
     },
     "goal": {
+      "decrease": "Diminuir meta",
+      "headline": "Zerar {{target}} jogos em {{year}}.",
+      "increase": "Aumentar meta",
       "loading": "Lendo sua meta...",
       "progress": "{{finished}} de {{target}} zerados",
+      "reminder": "A gente te lembra em julho de como está indo. Dá para mudar quando quiser.",
       "save": "Salvar meta",
       "saved": "Meta salva. Vamos te lembrar em julho.",
       "suggestion": "Zerar {{target}} jogos, {{difference}} a mais que em {{year}}.",
@@ -2573,16 +2577,20 @@
         "growth": "O backlog cresceu {{count}}.",
         "queued": "na fila",
         "summary": "Você adicionou {{added}} jogos e zerou {{finished}}.",
-        "title": "Backlog"
+        "title": "Backlog",
+        "unitsLabel": "{{finished}} zerados, {{dropped}} abandonados, {{queued}} na fila"
       },
       "calendar": {
         "description": "Cada quadrado é um dia. Quanto mais forte, mais você jogou.",
         "gridLabel": "Calendário de jogo de {{year}}, um quadrado por dia",
-        "monthCard": "{{hours}} h em {{month}}",
-        "streak": "{{days}} dias seguidos",
+        "less": "Menos",
+        "monthFact": "em {{month}}, o seu mês mais jogado",
+        "more": "Mais",
+        "streakFact": "seguidos jogando, de {{start}} a {{end}}. Seu recorde no GameNode",
+        "streakValue": "{{days}} dias",
         "title": "Calendário de jogo",
         "topMonth": "{{month}} foi o seu mês: {{hours}} horas.",
-        "weekday": "{{weekday}} é o seu dia: {{percent}} das suas horas caíram no fim de semana"
+        "weekdayFact": "é o seu dia: {{percent}} das suas horas caíram no fim de semana"
       },
       "community": {
         "averageLabel": "Média",
@@ -2599,8 +2607,8 @@
         "sources": "Horas de {{sources}} conectados"
       },
       "genres": {
+        "platformDetail": "{{name}} · {{hours}} h",
         "platformsTitle": "Plataformas",
-        "platformValue": "{{percent}} · {{hours}} h",
         "title": "Gêneros",
         "unknownPlatform": "Plataforma {{id}}"
       },
@@ -2629,10 +2637,10 @@
         "retry": "Tentar de novo"
       },
       "topGames": {
-        "finished": "{{date}} zerado",
+        "finishedLabel": "zerado",
         "gameFallback": "Jogo #{{id}}",
-        "hours": "{{hours}} h jogadas",
-        "rating": "{{rating}} sua nota",
+        "hoursLabel": "jogadas",
+        "ratingLabel": "sua nota",
         "share": "{{game}} ficou com {{percent}} do seu ano.",
         "title": "Mais jogado em {{year}}",
         "top5": "Seu top 5 por horas"

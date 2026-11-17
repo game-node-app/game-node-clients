@@ -6,7 +6,6 @@ import {
   useFormatLocale,
 } from "#@/components/events/util/format";
 import type { YearRecap } from "#@/components/recap/types";
-import { Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import type { UserConnectionDto } from "@repo/wrapper/server";
 
@@ -45,18 +44,19 @@ export function RecapFooter({ year, recap, userId }: RecapFooterProps) {
   return (
     <footer
       data-testid={"recap-footer"}
-      className={"flex flex-col gap-1 border-t border-white/[0.08] pt-4"}
+      className={
+        "flex flex-wrap items-center gap-x-2 gap-y-1 pt-10 pb-4 text-sm text-[#808080] md:pt-12"
+      }
     >
       {start && end && (
-        <Text size={"sm"} c={"dimmed"}>
-          {t("recap.page.footer.period", { start, end })}
-        </Text>
+        <span>{t("recap.page.footer.period", { start, end })}</span>
       )}
       {isOwner && <RecapConnectedSources />}
       {!recap.isFinal && (
-        <Text size={"xs"} c={"dimmed"}>
-          {t("recap.page.hero.updates")}
-        </Text>
+        <>
+          <span aria-hidden>·</span>
+          <span>{t("recap.page.hero.updates")}</span>
+        </>
       )}
     </footer>
   );
@@ -88,8 +88,11 @@ function RecapConnectedSources() {
   }).format(names);
 
   return (
-    <Text data-testid={"recap-footer-sources"} size={"sm"} c={"dimmed"}>
-      {t("recap.page.footer.sources", { sources })}
-    </Text>
+    <>
+      <span aria-hidden>·</span>
+      <span data-testid={"recap-footer-sources"}>
+        {t("recap.page.footer.sources", { sources })}
+      </span>
+    </>
   );
 }

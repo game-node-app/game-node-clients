@@ -8,7 +8,7 @@ import {
 } from "#@/components/events/util/format";
 import { getAwardsEntry } from "#@/components/events/util/seasonEvents";
 import { Link } from "#@/util";
-import { Button, Paper, Stack, Text, Title } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 export interface RecapAwardsCardProps {
@@ -54,39 +54,41 @@ export function RecapAwardsCard({ year, userId }: RecapAwardsCardProps) {
     : null;
 
   return (
-    <Paper
+    <div
       data-testid={"recap-awards-card"}
-      withBorder
-      radius={"lg"}
-      p={{ base: "md", md: "lg" }}
-      className={"bg-paper-4"}
+      className={
+        "flex flex-col gap-5 rounded-2xl border border-brand bg-[#2b130e] p-5 md:p-8"
+      }
     >
-      <Stack gap={"sm"}>
-        <Title order={3} size={"h4"}>
-          {t("recap.page.awards.title", { year })}
-        </Title>
-        {gotyTotals && (
-          <Text size={"md"} fw={700}>
-            {t("recap.page.awards.played", {
-              played: formatNumber(gotyTotals.played, locale) ?? "0",
-              total: formatNumber(gotyTotals.total, locale) ?? "0",
-            })}
-          </Text>
-        )}
-        <Text size={"sm"} c={"dimmed"}>
-          {t("recap.page.awards.note", { year })}
-        </Text>
-        {entry && (
-          <Button
-            component={Link}
-            href={entry.href}
-            variant={"light"}
-            className={"self-start"}
-          >
-            {t("recap.page.awards.action")}
-          </Button>
-        )}
-      </Stack>
-    </Paper>
+      <p
+        className={
+          "m-0 text-xs leading-none font-bold tracking-[0.06em] text-brand-3 uppercase"
+        }
+      >
+        {t("recap.page.awards.title", { year })}
+      </p>
+      {gotyTotals && (
+        <h3 className={"m-0 text-2xl leading-8 font-medium text-white"}>
+          {t("recap.page.awards.played", {
+            played: formatNumber(gotyTotals.played, locale) ?? "0",
+            total: formatNumber(gotyTotals.total, locale) ?? "0",
+          })}
+        </h3>
+      )}
+      <p className={"m-0 text-base leading-normal text-[#adadad]"}>
+        {t("recap.page.awards.note", { year })}
+      </p>
+      {entry && (
+        <Button
+          component={Link}
+          href={entry.href}
+          size={"md"}
+          radius={"md"}
+          className={"mt-auto self-end"}
+        >
+          {t("recap.page.awards.action")}
+        </Button>
+      )}
+    </div>
   );
 }

@@ -2536,8 +2536,12 @@ export type TranslationSchema = {
       create: string;
     };
     goal: {
+      decrease: string;
+      headline: string;
+      increase: string;
       loading: string;
       progress: string;
+      reminder: string;
       save: string;
       saved: string;
       suggestion: string;
@@ -2578,15 +2582,19 @@ export type TranslationSchema = {
         queued: string;
         summary: string;
         title: string;
+        unitsLabel: string;
       };
       calendar: {
         description: string;
         gridLabel: string;
-        monthCard: string;
-        streak: string;
+        less: string;
+        monthFact: string;
+        more: string;
+        streakFact: string;
+        streakValue: string;
         title: string;
         topMonth: string;
-        weekday: string;
+        weekdayFact: string;
       };
       community: {
         averageLabel: string;
@@ -2603,8 +2611,8 @@ export type TranslationSchema = {
         sources: string;
       };
       genres: {
+        platformDetail: string;
         platformsTitle: string;
-        platformValue: string;
         title: string;
         unknownPlatform: string;
       };
@@ -2633,10 +2641,10 @@ export type TranslationSchema = {
         retry: string;
       };
       topGames: {
-        finished: string;
+        finishedLabel: string;
         gameFallback: string;
-        hours: string;
-        rating: string;
+        hoursLabel: string;
+        ratingLabel: string;
         share: string;
         title: string;
         top5: string;

@@ -2532,8 +2532,12 @@
       "create": "Create my Recap"
     },
     "goal": {
+      "decrease": "Decrease goal",
+      "headline": "Finish {{target}} games in {{year}}.",
+      "increase": "Increase goal",
       "loading": "Reading your goal...",
       "progress": "{{finished}} of {{target}} finished",
+      "reminder": "We'll remind you in July how it's going. You can change it whenever you want.",
       "save": "Save goal",
       "saved": "Goal saved. We'll remind you in July.",
       "suggestion": "Finish {{target}} games, {{difference}} more than in {{year}}.",
@@ -2573,16 +2577,20 @@
         "growth": "The backlog grew by {{count}}.",
         "queued": "in the queue",
         "summary": "You added {{added}} games and finished {{finished}}.",
-        "title": "Backlog"
+        "title": "Backlog",
+        "unitsLabel": "{{finished}} finished, {{dropped}} dropped, {{queued}} in the queue"
       },
       "calendar": {
         "description": "Each square is a day. The stronger it is, the more you played.",
         "gridLabel": "{{year}} play calendar, one square per day",
-        "monthCard": "{{hours}} h in {{month}}",
-        "streak": "{{days}} days in a row",
+        "less": "Less",
+        "monthFact": "in {{month}}, your most played month",
+        "more": "More",
+        "streakFact": "in a row, from {{start}} to {{end}}. Your longest streak on GameNode",
+        "streakValue": "{{days}} days",
         "title": "Playing calendar",
         "topMonth": "{{month}} was your month: {{hours}} hours.",
-        "weekday": "{{weekday}} is your day: {{percent}} of your hours fell on the weekend"
+        "weekdayFact": "is your day: {{percent}} of your hours fell on the weekend"
       },
       "community": {
         "averageLabel": "Average",
@@ -2599,8 +2607,8 @@
         "sources": "Hours from {{sources}} connected"
       },
       "genres": {
+        "platformDetail": "{{name}} · {{hours}} h",
         "platformsTitle": "Platforms",
-        "platformValue": "{{percent}} · {{hours}} h",
         "title": "Genres",
         "unknownPlatform": "Platform {{id}}"
       },
@@ -2629,10 +2637,10 @@
         "retry": "Try again"
       },
       "topGames": {
-        "finished": "Finished {{date}}",
+        "finishedLabel": "finished",
         "gameFallback": "Game #{{id}}",
-        "hours": "{{hours}} h played",
-        "rating": "{{rating}} your rating",
+        "hoursLabel": "played",
+        "ratingLabel": "your rating",
         "share": "{{game}} took {{percent}} of your year.",
         "title": "Most played in {{year}}",
         "top5": "Your top 5 by hours"

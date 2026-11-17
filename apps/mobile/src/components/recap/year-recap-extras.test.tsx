@@ -255,7 +255,7 @@ describe("RecapBacklogSection", () => {
       ),
     ).toBeTruthy();
     expect(screen.queryByText(/recap\.page\.backlog\.growth/)).toBeNull();
-    expect(screen.getByText("recap.page.backlog.queued")).toBeTruthy();
+    expect(screen.getByText(/recap\.page\.backlog\.queued/)).toBeTruthy();
   });
 });
 

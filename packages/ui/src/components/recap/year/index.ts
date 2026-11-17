@@ -10,6 +10,7 @@ export * from "./RecapFooter";
 export * from "./RecapGenresPlatformsSection";
 export * from "./RecapHero";
 export * from "./RecapNodesChart";
+export * from "./RecapSection";
 export * from "./RecapTopGamesSection";
 export * from "./YearRecapScreen";
 export * from "./util/index";
