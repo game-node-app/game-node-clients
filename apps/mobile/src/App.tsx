@@ -77,7 +77,6 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
-import { routeApiThroughNativeHttp } from "@/util/nativeApiFetch";
 
 /**
  * dayjs setup
@@ -98,13 +97,6 @@ const CAPACITOR_AUTH_STORAGE = {
   cookiePrefix: "better-auth",
 };
 const isNative = Capacitor.isNativePlatform();
-// Before setupAuthClient: the auth client must see the patched fetch.
-if (isNative) {
-  routeApiThroughNativeHttp([
-    import.meta.env.VITE_PUBLIC_SERVER_URL!,
-    import.meta.env.VITE_PUBLIC_SEARCH_URL!,
-  ]);
-}
 const authClientOptions = getAuthClientOptions(
   import.meta.env.VITE_PUBLIC_SERVER_URL!,
 );
@@ -211,6 +203,8 @@ const App: React.FC = () => {
                 appName={"mobile"}
                 posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
                 posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+                // CapacitorHttp sends binary bodies as text, which breaks gzip.
+                disableCompression={isNative}
               >
                 <IonReactRouter>
                   <AppUrlListener />

@@ -16,6 +16,10 @@ const config: CapacitorConfig = {
     CapacitorCookies: {
       enabled: true,
     },
+    // Native HTTP has no CORS, so API calls skip the preflight round trip from the WebView origin.
+    CapacitorHttp: {
+      enabled: true,
+    },
     StatusBar: {
       backgroundColor: "#1f1f1f",
       style: "DARK",
