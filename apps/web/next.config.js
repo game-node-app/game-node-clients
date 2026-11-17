@@ -33,6 +33,7 @@ const nextConfig = {
     "@repo/locales",
   ],
   experimental: {
+    agentUpgrade: "security",
     optimizePackageImports: ["@tabler/icons-react"],
     turbopackFileSystemCacheForDev: true,
   },

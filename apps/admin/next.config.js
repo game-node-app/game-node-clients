@@ -7,6 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@repo/wrapper", "@repo/ui", "@repo/locales"],
   experimental: {
+    agentUpgrade: "security",
     optimizePackageImports: ["@tabler/icons-react"],
     turbopackFileSystemCacheForDev: true,
   },
