@@ -12,12 +12,20 @@ import { AwardsVoteBarContent } from "../../../../../packages/ui/src/components/
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import { DEFAULT_MANTINE_THEME } from "../../../../../packages/ui/src/util/theme";
 
+const router = {
+  pathname: "/awards/2026/vote",
+  asPath: "/awards/2026/vote",
+  back: () => {},
+  push: async () => {},
+  query: new URLSearchParams(),
+};
+
 function renderUi(ui: ReactElement) {
   return render(
     <I18nProvider language="pt-BR">
       <MantineProvider theme={DEFAULT_MANTINE_THEME}>
         <QueryClientProvider client={new QueryClient()}>
-          <UIProvider>{ui}</UIProvider>
+          <UIProvider hooks={{ useRouter: () => router }}>{ui}</UIProvider>
         </QueryClientProvider>
       </MantineProvider>
     </I18nProvider>,
