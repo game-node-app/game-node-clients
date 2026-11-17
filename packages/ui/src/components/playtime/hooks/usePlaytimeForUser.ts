@@ -4,6 +4,7 @@ import {
   FindAllPlaytimeResponseDto,
   PlaytimeService,
 } from "@repo/wrapper/server";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 interface Props extends FindAllPlaytimeFiltersDto {
   userId: string;
@@ -16,8 +17,19 @@ export function usePlaytimeForUser({
   period = FindAllPlaytimeFiltersDto.period.ALL,
   orderBy,
 }: Props) {
+  const viewerId = useUserId();
+
   return useQuery<FindAllPlaytimeResponseDto>({
-    queryKey: ["playtime", "user", userId, period, offset, limit, orderBy],
+    queryKey: [
+      "playtime",
+      "user",
+      userId,
+      period,
+      offset,
+      limit,
+      orderBy,
+      viewerId ?? null,
+    ],
     queryFn: async () => {
       return PlaytimeService.playtimeControllerFindAllByUserIdWithFiltersV1(
         userId,

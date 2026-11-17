@@ -11,6 +11,12 @@ import { useCollectionEntriesForUserId } from "../../../../../packages/ui/src/co
 import { useFavoriteCollectionEntriesForUserId } from "../../../../../packages/ui/src/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
 import { useCollectionEntriesForCollectionId } from "../../../../../packages/ui/src/components/collection/collection-entry/hooks/useCollectionEntriesForCollectionId";
 
+// Signed out: the viewer marker is `null` in every key.
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({ useUserId: () => undefined }),
+);
+
 const EMPTY_PAGE: CollectionEntriesPaginatedResponseDto = {
   data: [],
   pagination: {
@@ -79,6 +85,7 @@ it("sends no hasCustomCover and keeps the existing key when the library filter i
       undefined,
       undefined,
       undefined,
+      null,
     ],
   ]);
 });
@@ -124,6 +131,7 @@ it("sends hasCustomCover=true in the right positional argument when the library 
       undefined,
       undefined,
       { hasCustomCover: true },
+      null,
     ],
   ]);
 });
@@ -161,6 +169,7 @@ it("keeps favorites requests and keys unchanged when the filter is off", async (
       undefined,
       undefined,
       undefined,
+      null,
     ],
   ]);
 });
@@ -206,6 +215,7 @@ it("sends hasCustomCover=true in the right positional argument for favorites whe
       20,
       { addedDate: "DESC" },
       { hasCustomCover: true },
+      null,
     ],
   ]);
 });
@@ -238,6 +248,7 @@ it("omits hasCustomCover from the collection body and key when the filter is off
       undefined,
       undefined,
       undefined,
+      null,
     ],
   ]);
 });
@@ -281,6 +292,7 @@ it("sends hasCustomCover in the collection body and key when the filter is on", 
       undefined,
       undefined,
       { hasCustomCover: true },
+      null,
     ],
   ]);
 });

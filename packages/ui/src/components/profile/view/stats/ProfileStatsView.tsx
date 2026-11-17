@@ -3,10 +3,12 @@ import { Box, Group, Paper, SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   DetailsBox,
+  LibraryHiddenState,
   ProfileStatsDataIcon,
   ProfileStatsDistributionBarByType,
   ProfileStatsDistributionLineByYear,
   ProfileStatsDistributionRadarByType,
+  useIsLibraryHidden,
   useProfileMetricsOverview,
   UserAvatarWithLevelInfo,
 } from "@repo/ui";
@@ -24,11 +26,16 @@ interface Props {
 
 const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
   const { t } = useTranslation();
+  const { isHidden, profile } = useIsLibraryHidden(userId);
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 
   const playtimeInHours = metricsOverviewQuery.data?.totalEstimatedPlaytime
     ? Math.ceil(metricsOverviewQuery.data?.totalEstimatedPlaytime / 3600)
     : 0;
+
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
 
   return (
     <Stack className="w-full h-full">

@@ -1,10 +1,12 @@
 import {
   DetailsBox,
   JournalHeatmap,
+  LibraryHiddenState,
   ProfileFavoriteGames,
   ProfileStatsSimpleOverview,
   RecentActivityList,
   TextLink,
+  useIsLibraryHidden,
   useOnMobilePlatform,
   usePlaytimeForUser,
   UserRecentGames,
@@ -31,10 +33,16 @@ const ProfileViewMainPage = ({ userId }: Props) => {
 
   const ownUserId = useUserId();
 
+  const { isHidden, profile } = useIsLibraryHidden(userId);
+
   const hasPlaytimeInfo =
     playtime.data != undefined && playtime.data.data.length > 0;
 
   const showPlaytimeInfo = hasPlaytimeInfo || ownUserId === userId;
+
+  if (isHidden) {
+    return <LibraryHiddenState profile={profile} />;
+  }
 
   return (
     <Stack>

@@ -14,6 +14,12 @@ vi.mock("@repo/locales", () => ({
   }),
 }));
 
+// Rows render user avatars, which read the profile; no session in these tests.
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({ useUserId: () => undefined }),
+);
+
 stubMatchMedia();
 afterEach(cleanup);
 

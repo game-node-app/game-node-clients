@@ -5,6 +5,7 @@
 import type { CollectionEntriesPaginatedResponseDto } from '../models/CollectionEntriesPaginatedResponseDto';
 import type { CollectionEntry } from '../models/CollectionEntry';
 import type { CollectionEntryFavoriteStatusDto } from '../models/CollectionEntryFavoriteStatusDto';
+import type { CollectionEntryVisibilityDto } from '../models/CollectionEntryVisibilityDto';
 import type { CreateUpdateCollectionEntryDto } from '../models/CreateUpdateCollectionEntryDto';
 import type { FindCollectionEntriesForCollectionIdDto } from '../models/FindCollectionEntriesForCollectionIdDto';
 import type { FindCollectionEntriesGameFilterDto } from '../models/FindCollectionEntriesGameFilterDto';
@@ -145,6 +146,26 @@ export class CollectionsEntriesService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/collections-entries/game/{id}/favorite',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param id
+     * @param requestBody
+     * @returns void
+     * @throws ApiError
+     */
+    public static collectionsEntriesControllerChangeVisibilityV1(
+        id: number,
+        requestBody: CollectionEntryVisibilityDto,
+    ): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/collections-entries/game/{id}/visibility',
             path: {
                 'id': id,
             },

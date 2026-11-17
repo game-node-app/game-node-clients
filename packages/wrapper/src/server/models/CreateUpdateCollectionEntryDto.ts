@@ -9,6 +9,7 @@ export type CreateUpdateCollectionEntryDto = {
     platformIds: Array<number>;
     finishedAt?: string | null;
     status: CreateUpdateCollectionEntryDto.status;
+    visibility?: CreateUpdateCollectionEntryDto.visibility;
 };
 export namespace CreateUpdateCollectionEntryDto {
     export enum status {
@@ -17,6 +18,11 @@ export namespace CreateUpdateCollectionEntryDto {
         PLANNED = 'planned',
         DROPPED = 'dropped',
         ONGOING = 'ongoing',
+    }
+    export enum visibility {
+        PUBLIC = 'public',
+        FOLLOWERS = 'followers',
+        PRIVATE = 'private',
     }
 }
 

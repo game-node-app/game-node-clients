@@ -5,4 +5,5 @@
 export * from "./filters/index";
 export * from "./hooks/index";
 export * from "./tabs/index";
+export * from "./util/index";
 export * from "./view/index";

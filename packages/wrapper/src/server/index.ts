@@ -62,6 +62,7 @@ export { CollectionEntry } from './models/CollectionEntry';
 export type { CollectionEntryFavoriteStatusDto } from './models/CollectionEntryFavoriteStatusDto';
 export type { CollectionEntryToCollection } from './models/CollectionEntryToCollection';
 export type { CollectionEntryUpdateOrderingDto } from './models/CollectionEntryUpdateOrderingDto';
+export { CollectionEntryVisibilityDto } from './models/CollectionEntryVisibilityDto';
 export type { ConnectionAuthCallbackDto } from './models/ConnectionAuthCallbackDto';
 export type { ConnectionAuthInitDto } from './models/ConnectionAuthInitDto';
 export type { ConnectionAuthInitResponseDto } from './models/ConnectionAuthInitResponseDto';

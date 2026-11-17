@@ -1,5 +1,6 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { LibraryHiddenState } from "#@/components/library/view/LibraryHiddenState";
 import { useRecap } from "#@/components/recap/hooks/useRecap";
 import { useRecapStatus } from "#@/components/recap/hooks/useRecapStatus";
 import { RecapBacklogSection } from "#@/components/recap/year/RecapBacklogSection";
@@ -12,6 +13,7 @@ import { markRecapVisited } from "#@/components/recap/year/util/recapVisited";
 import { SeasonEventHeader } from "#@/components/events/view/SeasonEventHeader";
 import { Button, Paper, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { isNotFoundApiError } from "#@/util";
 import { useEffect, type ReactNode } from "react";
 
 export interface YearRecapScreenProps {
@@ -47,6 +49,11 @@ export function YearRecapScreen({ year, userId }: YearRecapScreenProps) {
     }
 
     if (statusQuery.isError) {
+      // A hidden library answers 404: the Recap is not visible to this viewer.
+      if (!isOwner && isNotFoundApiError(statusQuery.error)) {
+        return <LibraryHiddenState userId={userId} />;
+      }
+
       return (
         <RecapStateNotice
           title={t("recap.page.states.errorTitle")}
@@ -79,6 +86,10 @@ export function YearRecapScreen({ year, userId }: YearRecapScreenProps) {
     }
 
     if (!recap) {
+      if (!isOwner && isNotFoundApiError(recapQuery.error)) {
+        return <LibraryHiddenState userId={userId} />;
+      }
+
       return (
         <RecapStateNotice
           title={t("recap.page.states.errorTitle")}

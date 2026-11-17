@@ -30,7 +30,7 @@ vi.mock(
   () => ({ useUserId: () => mocks.userId }),
 );
 
-const PROFILE_KEY = ["userProfile", "user-1"];
+const PROFILE_KEY = ["userProfile", "user-1", "user-1"];
 
 function createClient() {
   return new QueryClient({
@@ -49,7 +49,10 @@ function createWrapper(client: QueryClient) {
   };
 }
 
-function seedProfile(client: QueryClient, prefs = DEFAULT_SUPPORTER_PREFERENCES) {
+function seedProfile(
+  client: QueryClient,
+  prefs = DEFAULT_SUPPORTER_PREFERENCES,
+) {
   const profile = {
     userId: "user-1",
     username: "alice",
@@ -70,7 +73,13 @@ function readPreferences(client: QueryClient) {
 function apiError(status: number) {
   return new ApiError(
     {} as unknown as ConstructorParameters<typeof ApiError>[0],
-    { status, statusText: "", url: "/v1/profile/supporter-preferences", body: null, ok: false },
+    {
+      status,
+      statusText: "",
+      url: "/v1/profile/supporter-preferences",
+      body: null,
+      ok: false,
+    },
     "preferences error",
   );
 }

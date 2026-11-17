@@ -961,7 +961,7 @@
     "descriptions": {
       "autoStatus": "Todos os jogos desta coleção serão preenchidos com o status selecionado ao serem adicionados. Afeta apenas novas entradas.",
       "featured": "Se esta coleção deve aparecer em destaque no seu perfil e biblioteca",
-      "public": "Se esta coleção é visível para outros usuários"
+      "public": "Oculta o nome, a página e quais jogos estão nesta coleção. Os jogos mantêm a própria visibilidade."
     },
     "labels": {
       "automation": "Automação",
@@ -2052,6 +2052,55 @@
       "userOrder": "Ordem do Usuário"
     }
   },
+  "libraryVisibility": {
+    "actions": {
+      "changeVisibility": "Alterar visibilidade"
+    },
+    "badges": {
+      "followersOnly": "Somente seguidores",
+      "private": "Privado"
+    },
+    "descriptions": {
+      "game": "Quem pode ver este jogo na sua biblioteca.",
+      "library": "Quem pode ver sua biblioteca e suas coleções."
+    },
+    "empty": {
+      "followersDescription": "Siga este usuário para ver esta biblioteca.",
+      "followersTitle": "Somente seguidores podem ver esta biblioteca",
+      "privateDescription": "O proprietário restringiu quem pode ver esta biblioteca.",
+      "privateTitle": "Esta biblioteca é privada"
+    },
+    "hidden": {
+      "description": "O proprietário restringiu quem pode ver este conteúdo.",
+      "title": "Este conteúdo não está visível"
+    },
+    "labels": {
+      "visibility": "Visibilidade"
+    },
+    "levels": {
+      "followers": {
+        "description": "Somente você e quem segue você.",
+        "label": "Seguidores"
+      },
+      "private": {
+        "description": "Somente você.",
+        "label": "Privado"
+      },
+      "public": {
+        "description": "Qualquer pessoa pode ver, mesmo sem estar conectada.",
+        "label": "Público"
+      }
+    },
+    "messages": {
+      "entryUpdateError": "Não foi possível atualizar a visibilidade do jogo. Tente novamente.",
+      "entryUpdateSuccess": "Visibilidade do jogo atualizada.",
+      "libraryUpdateError": "Não foi possível atualizar a visibilidade da biblioteca. Tente novamente.",
+      "libraryUpdateSuccess": "Visibilidade da biblioteca atualizada."
+    },
+    "notes": {
+      "reviewsAlwaysPublic": "As avaliações são sempre públicas."
+    }
+  },
   "mobile": {
     "activity": {
       "loadingMore": "Carregando mais atividades...",
@@ -2595,8 +2644,8 @@
       "bioUpdated": "Biografia atualizada com sucesso!",
       "fetchFailed": "Não foi possível buscar esses dados. Tente novamente.",
       "noAchievements": "Você ainda não obteve nenhuma conquista. Volte aqui mais tarde, aventureiro!",
+      "noFavoriteGames": "Este usuário ainda não tem jogos favoritos.",
       "noFeaturedAchievements": "Nenhuma conquista em destaque encontrada.",
-      "noPublicFavoriteGames": "Este usuário não possui jogos favoritos públicos.",
       "noReviews": "O usuário não tem avaliações.",
       "noReviewsOwn": "Você não tem avaliações. Faça sua primeira!",
       "usernameUpdateCooldown": "Você atualizou seu nome de usuário nos últimos 30 dias. Por favor, tente novamente mais tarde.",
@@ -3388,7 +3437,7 @@
         },
         "library": {
           "title": "Biblioteca e coleções",
-          "description": "Padrão para coleções novas. Cada coleção pode ter sua própria regra."
+          "description": "Limita quem pode ver sua biblioteca e coleções. Cada jogo pode ser mais restrito que a biblioteca, nunca menos."
         },
         "activity": {
           "title": "Atividade",

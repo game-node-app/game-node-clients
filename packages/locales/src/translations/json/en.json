@@ -961,7 +961,7 @@
     "descriptions": {
       "autoStatus": "All games in this collection will be filled with the selected status when being added. Only affects new entries.",
       "featured": "If this collections should be featured in your profile and library",
-      "public": "If this collections is visible to other users"
+      "public": "Hides this collection's name, page and which games are in it. The games keep their own visibility."
     },
     "labels": {
       "automation": "Automation",
@@ -2052,6 +2052,55 @@
       "userOrder": "User Order"
     }
   },
+  "libraryVisibility": {
+    "actions": {
+      "changeVisibility": "Change visibility"
+    },
+    "badges": {
+      "followersOnly": "Followers only",
+      "private": "Private"
+    },
+    "descriptions": {
+      "game": "Who can see this game in your library.",
+      "library": "Who can see your library and collections."
+    },
+    "empty": {
+      "followersDescription": "Follow this user to see this library.",
+      "followersTitle": "Only followers can see this library",
+      "privateDescription": "The owner has restricted who can see this library.",
+      "privateTitle": "This library is private"
+    },
+    "hidden": {
+      "description": "Its owner has restricted who can see it.",
+      "title": "This content is not visible"
+    },
+    "labels": {
+      "visibility": "Visibility"
+    },
+    "levels": {
+      "followers": {
+        "description": "Only you and the people who follow you.",
+        "label": "Followers"
+      },
+      "private": {
+        "description": "Only you.",
+        "label": "Private"
+      },
+      "public": {
+        "description": "Anyone can see this, even when signed out.",
+        "label": "Public"
+      }
+    },
+    "messages": {
+      "entryUpdateError": "Couldn't update the game visibility. Please try again.",
+      "entryUpdateSuccess": "Game visibility updated.",
+      "libraryUpdateError": "Couldn't update the library visibility. Please try again.",
+      "libraryUpdateSuccess": "Library visibility updated."
+    },
+    "notes": {
+      "reviewsAlwaysPublic": "Reviews are always public."
+    }
+  },
   "mobile": {
     "activity": {
       "loadingMore": "Fetching more activities...",
@@ -2595,8 +2644,8 @@
       "bioUpdated": "Successfully updated your bio!",
       "fetchFailed": "We couldn't fetch this data. Please try again.",
       "noAchievements": "You have not obtained any achievements. Come back later, adventurer!",
+      "noFavoriteGames": "This user has no favorite games yet.",
       "noFeaturedAchievements": "No featured achievements found.",
-      "noPublicFavoriteGames": "This user has no public favorite games.",
       "noReviews": "User has no reviews.",
       "noReviewsOwn": "You have no reviews. Make your first one!",
       "usernameUpdateCooldown": "You have updated your username in the last 30 days. Please try again later.",
@@ -3388,7 +3437,7 @@
         },
         "library": {
           "title": "Library and collections",
-          "description": "Default for new collections. Each collection can have its own rule."
+          "description": "Caps who can see your library and collections. Each game can be more restrictive than the library, never less."
         },
         "activity": {
           "title": "Activity",

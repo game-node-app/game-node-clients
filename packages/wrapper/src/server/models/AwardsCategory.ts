@@ -6,6 +6,7 @@ import type { AwardsCategorySuggestion } from './AwardsCategorySuggestion';
 import type { AwardsCategoryTranslationDto } from './AwardsCategoryTranslationDto';
 import type { AwardsEvent } from './AwardsEvent';
 export type AwardsCategory = {
+    translations: Array<AwardsCategoryTranslationDto>;
     id: number;
     event: AwardsEvent;
     eventId: number;
@@ -17,11 +18,6 @@ export type AwardsCategory = {
      */
     isGOTY: boolean;
     isPersonalGOTY: boolean;
-    suggestions: Array<AwardsCategorySuggestion>;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    translations: Array<AwardsCategoryTranslationDto>;
     /**
      * How many nominees finalization keeps for this category.
      */
@@ -30,5 +26,9 @@ export type AwardsCategory = {
      * Set once finalization ran, so a later tick never rewrites admin edits.
      */
     nomineesFinalizedAt: string | null;
+    suggestions: Array<AwardsCategorySuggestion>;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
 };
 

@@ -4,6 +4,7 @@
 
 export * from "./useAuthSessions";
 export * from "./useCustomCoverModeSetting";
+export * from "./useLibraryVisibilitySetting";
 export * from "./useOAuthConsents";
 export * from "./useRevokeOAuthConsent";
 export * from "./useRevokeSession";

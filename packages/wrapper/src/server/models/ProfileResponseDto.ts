@@ -9,6 +9,11 @@ import type { ProfileVideoUploadsResponseDto } from './ProfileVideoUploadsRespon
 import type { SupporterPreferencesResponseDto } from './SupporterPreferencesResponseDto';
 export type ProfileResponseDto = {
     customCoverMode: ProfileResponseDto.customCoverMode;
+    libraryVisibility: ProfileResponseDto.libraryVisibility;
+    /**
+     * Whether the current viewer may see this profile's library games.
+     */
+    canViewLibrary: boolean;
     /**
      * Whether the profile owner has supporter entitlement.
      */
@@ -42,6 +47,11 @@ export namespace ProfileResponseDto {
         ANY = 'any',
         PREFER_YOURS = 'prefer_yours',
         NONE = 'none',
+    }
+    export enum libraryVisibility {
+        PUBLIC = 'public',
+        FOLLOWERS = 'followers',
+        PRIVATE = 'private',
     }
 }
 

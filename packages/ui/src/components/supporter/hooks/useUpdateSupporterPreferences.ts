@@ -42,15 +42,21 @@ function pickPatchedFields(
  * Partial save of the signed-in user's supporter preferences (design D8).
  *
  * Every control sends only its own field and is applied optimistically to the
- * shared `["userProfile", userId]` read, so the settings preview and the header
- * follow the change before the server answers. A failed request only rolls back
- * the fields it patched, leaving concurrent successful changes intact.
+ * shared profile read, so the settings preview and the header follow the change
+ * before the server answers. The profile key carries the viewer id too, so this
+ * read stays in sync with `useUserProfile` (here the viewer is the owner). A
+ * failed request only rolls back the fields it patched, leaving concurrent
+ * successful changes intact.
  */
 export function useUpdateSupporterPreferences() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const userId = useUserId();
-  const profileQueryKey = ["userProfile", userId];
+  /*
+    Mirrors `useUserProfile`'s key: the viewer of one's own profile is the user
+    itself, so the viewer segment (or `null`) keeps both reads in sync.
+   */
+  const profileQueryKey = ["userProfile", userId ?? null, userId ?? null];
 
   return useMutation<
     SupporterPreferencesResponseDto,
@@ -70,18 +76,16 @@ export function useUpdateSupporterPreferences() {
       const previous = pickPatchedFields(currentPreferences, patch);
 
       if (currentPreferences) {
-        queryClient.setQueryData<ProfileResponseDto>(
-          profileQueryKey,
-          (old) =>
-            old
-              ? {
-                  ...old,
-                  supporterPreferences: {
-                    ...currentPreferences,
-                    ...patch,
-                  } as SupporterPreferencesResponseDto,
-                }
-              : old,
+        queryClient.setQueryData<ProfileResponseDto>(profileQueryKey, (old) =>
+          old
+            ? {
+                ...old,
+                supporterPreferences: {
+                  ...currentPreferences,
+                  ...patch,
+                } as SupporterPreferencesResponseDto,
+              }
+            : old,
         );
       }
 
@@ -89,18 +93,16 @@ export function useUpdateSupporterPreferences() {
     },
     onError: (error, _patch, context) => {
       if (context?.previous && Object.keys(context.previous).length > 0) {
-        queryClient.setQueryData<ProfileResponseDto>(
-          profileQueryKey,
-          (old) =>
-            old?.supporterPreferences
-              ? {
-                  ...old,
-                  supporterPreferences: {
-                    ...old.supporterPreferences,
-                    ...context.previous,
-                  } as SupporterPreferencesResponseDto,
-                }
-              : old,
+        queryClient.setQueryData<ProfileResponseDto>(profileQueryKey, (old) =>
+          old?.supporterPreferences
+            ? {
+                ...old,
+                supporterPreferences: {
+                  ...old.supporterPreferences,
+                  ...context.previous,
+                } as SupporterPreferencesResponseDto,
+              }
+            : old,
         );
       }
 
@@ -119,9 +121,8 @@ export function useUpdateSupporterPreferences() {
       createErrorNotification(error);
     },
     onSuccess: (result) => {
-      queryClient.setQueryData<ProfileResponseDto>(
-        profileQueryKey,
-        (old) => (old ? { ...old, supporterPreferences: result } : old),
+      queryClient.setQueryData<ProfileResponseDto>(profileQueryKey, (old) =>
+        old ? { ...old, supporterPreferences: result } : old,
       );
     },
     onSettled: (_result, _error, patch) => {

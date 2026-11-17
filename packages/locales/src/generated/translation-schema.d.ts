@@ -2056,6 +2056,55 @@ export type TranslationSchema = {
       userOrder: string;
     };
   };
+  libraryVisibility: {
+    actions: {
+      changeVisibility: string;
+    };
+    badges: {
+      followersOnly: string;
+      private: string;
+    };
+    descriptions: {
+      game: string;
+      library: string;
+    };
+    empty: {
+      followersDescription: string;
+      followersTitle: string;
+      privateDescription: string;
+      privateTitle: string;
+    };
+    hidden: {
+      description: string;
+      title: string;
+    };
+    labels: {
+      visibility: string;
+    };
+    levels: {
+      followers: {
+        description: string;
+        label: string;
+      };
+      private: {
+        description: string;
+        label: string;
+      };
+      public: {
+        description: string;
+        label: string;
+      };
+    };
+    messages: {
+      entryUpdateError: string;
+      entryUpdateSuccess: string;
+      libraryUpdateError: string;
+      libraryUpdateSuccess: string;
+    };
+    notes: {
+      reviewsAlwaysPublic: string;
+    };
+  };
   mobile: {
     activity: {
       loadingMore: string;
@@ -2599,8 +2648,8 @@ export type TranslationSchema = {
       bioUpdated: string;
       fetchFailed: string;
       noAchievements: string;
+      noFavoriteGames: string;
       noFeaturedAchievements: string;
-      noPublicFavoriteGames: string;
       noReviews: string;
       noReviewsOwn: string;
       usernameUpdateCooldown: string;

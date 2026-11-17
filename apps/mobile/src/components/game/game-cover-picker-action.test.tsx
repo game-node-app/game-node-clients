@@ -116,6 +116,7 @@ function DetailsPanelHarness({
   const form = useForm<TGameAddOrUpdateValues>({
     defaultValues: {
       status: CollectionEntry.status.PLANNED,
+      visibility: "public",
       finishedAt: null,
       relatedGamesIds: [],
       collectionIds: [],
