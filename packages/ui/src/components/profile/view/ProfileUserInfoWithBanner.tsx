@@ -92,10 +92,9 @@ const ProfileUserInfoWithBanner = ({
           <Box
             data-testid={"supporter-theme-strip"}
             className={cn(
-              // Web: cancel the banner's p-4 so the strip spans the banner
-              // container edge to edge. Mobile: the banner is already
-              // full-bleed, so the strip just fills it.
-              "relative flex h-[21px] shrink-0 items-center justify-end -mx-4 mobile:mx-0 mobile:w-full",
+              // The banner fills its container edge-to-edge on both platforms,
+              // so the strip spans its full width flush underneath.
+              "relative flex h-[21px] w-full shrink-0 items-center justify-end",
               // The avatar overlaps the strip. On phone-sized web the label
               // would sit against the avatar, so it keeps less padding there;
               // the mobile app leaves the label further from the screen edge.

@@ -2571,6 +2571,13 @@
     }
   },
   "profile": {
+    "bannerEditor": {
+      "title": "Frame your banner",
+      "help": "Drag the image to keep your subject in view. Check both previews before saving.",
+      "verticalPosition": "Vertical position (top to bottom)",
+      "web": "Web · desktop",
+      "mobile": "Mobile"
+    },
     "collections": {
       "featured": "Featured",
       "loading": "Loading collections...",

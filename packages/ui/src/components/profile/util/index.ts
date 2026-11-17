@@ -4,5 +4,6 @@
 
 export * from "./normalizeVideoCrop";
 export * from "./prepareProfileVideo";
+export * from "./profileBannerLayout";
 export * from "./profileUploadAccept";
 export * from "./profileVideoFile";
