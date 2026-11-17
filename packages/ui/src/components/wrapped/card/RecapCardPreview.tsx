@@ -4,8 +4,9 @@ import {
   RECAP_PREVIEW_MAX_HEIGHT,
   type RecapCardFormat,
 } from "#@/components/wrapped/card/recapCardFormats";
+import { cn } from "#@/util";
 import { useElementSize, useViewportSize } from "@mantine/hooks";
-import type { PropsWithChildren, RefObject } from "react";
+import type { CSSProperties, PropsWithChildren, RefObject } from "react";
 
 interface Props extends PropsWithChildren {
   format: RecapCardFormat;
@@ -14,13 +15,26 @@ interface Props extends PropsWithChildren {
    * not scaled itself, so exporting it yields the full-size image.
    */
   cardRef: RefObject<HTMLDivElement | null>;
+  /** Fixed preview scale cap; when omitted, fits container width and maxHeight. */
+  scale?: number;
+  frameClassName?: string;
+  frameStyle?: CSSProperties;
+  testId?: string;
 }
 
 /**
  * Shows the card scaled down to fit the page while keeping the card itself at
  * its native pixel size, which is what gets exported.
  */
-export function RecapCardPreview({ format, cardRef, children }: Props) {
+export function RecapCardPreview({
+  format,
+  cardRef,
+  scale: scaleOverride,
+  frameClassName,
+  frameStyle,
+  testId = "recap-card",
+  children,
+}: Props) {
   const { ref, width } = useElementSize();
   const { height: viewportHeight } = useViewportSize();
   const size = RECAP_CARD_FORMATS[format];
@@ -28,13 +42,25 @@ export function RecapCardPreview({ format, cardRef, children }: Props) {
   // label row and format switch, and paddings) so the card fills the preview
   // area on large screens; never below the default.
   const maxHeight = Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
-  const scale = getRecapPreviewScale(width, format, maxHeight);
+  const scale =
+    scaleOverride != null
+      ? width > 0
+        ? Math.min(scaleOverride, width / size.width)
+        : scaleOverride
+      : getRecapPreviewScale(width, format, maxHeight);
 
   return (
     <div ref={ref} className={"w-full flex justify-center"}>
       <div
-        className={"shrink-0 overflow-hidden rounded-md"}
-        style={{ width: size.width * scale, height: size.height * scale }}
+        className={cn(
+          "shrink-0 overflow-hidden rounded-md",
+          frameClassName,
+        )}
+        style={{
+          width: size.width * scale,
+          height: size.height * scale,
+          ...frameStyle,
+        }}
       >
         <div
           style={{
@@ -46,7 +72,7 @@ export function RecapCardPreview({ format, cardRef, children }: Props) {
         >
           <div
             ref={cardRef}
-            data-testid={"recap-card"}
+            data-testid={testId}
             style={{ width: size.width, height: size.height }}
           >
             {children}

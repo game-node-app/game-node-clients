@@ -8,6 +8,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { cn, ModalComponentProps } from "@repo/ui";
+import type { CSSProperties } from "react";
 
 const IonModalWrapper = ({
   opened,
@@ -17,9 +18,21 @@ const IonModalWrapper = ({
   initialBreakpoint,
   onBreakpointChange,
   withCloseButton = true,
+  padding,
+  p,
   classNames,
   children,
 }: ModalComponentProps) => {
+  const zeroPadding = padding === 0 || p === 0;
+  const contentStyle = zeroPadding
+    ? ({
+        "--padding-top": "0px",
+        "--padding-bottom": "0px",
+        "--padding-start": "0px",
+        "--padding-end": "0px",
+      } as CSSProperties)
+    : undefined;
+
   return (
     <IonModal
       isOpen={opened}
@@ -33,24 +46,34 @@ const IonModalWrapper = ({
           onBreakpointChange(evt.detail.breakpoint);
         }
       }}
+      className={classNames?.content}
     >
-      <IonHeader>
-        <IonToolbar>
-          {title && <IonTitle>{title}</IonTitle>}
-          {withCloseButton && (
-            <IonButtons slot="end">
-              <IonButton
-                onClick={() => {
-                  onClose();
-                }}
-              >
-                Close
-              </IonButton>
-            </IonButtons>
-          )}
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className={cn("w-full ion-padding", classNames?.body)}>
+      {(title || withCloseButton) && (
+        <IonHeader>
+          <IonToolbar>
+            {title && <IonTitle>{title}</IonTitle>}
+            {withCloseButton && (
+              <IonButtons slot="end">
+                <IonButton
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  Close
+                </IonButton>
+              </IonButtons>
+            )}
+          </IonToolbar>
+        </IonHeader>
+      )}
+      <IonContent
+        className={cn(
+          "w-full",
+          !zeroPadding && "ion-padding",
+          classNames?.body,
+        )}
+        style={contentStyle}
+      >
         {children}
       </IonContent>
     </IonModal>

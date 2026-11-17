@@ -722,6 +722,17 @@
         "subtitle": "{{count}} categorias. Você vê em cada indicado se já jogou, quanto e que nota deu.",
         "title": "Vote no melhor de {{year}}."
       },
+      "card": {
+        "countPill": "{{voted}} de {{total}} categorias",
+        "eyebrow": "GameNode Awards {{year}} · Votação da comunidade",
+        "footerTitle": "Vote no Awards {{year}}",
+        "footerUrl": "gamenode.app/awards/{{year}}",
+        "remainingSubtitle": "Vote no Awards {{year}} e monte a sua cédula.",
+        "remaining_one": "Falta {{count}} categoria",
+        "remaining_other": "Faltam {{count}} categorias",
+        "subtitle": "Meus votos no GameNode Awards {{year}}.",
+        "title": "Minha cédula"
+      },
       "categories": "Categorias",
       "linkCopied": "Link copiado!",
       "loadError": "Não foi possível carregar sua cédula.",
@@ -731,6 +742,16 @@
       "searchTitle": "Buscar jogos elegíveis",
       "selected": "Selecionado",
       "share": "Compartilhar minha cédula",
+      "shareModal": {
+        "close": "Fechar",
+        "copyLink": "Copiar link da cédula",
+        "downloadImage": "Baixar imagem",
+        "exportError": "Não foi possível gerar a imagem da cédula.",
+        "eyebrow": "Sua cédula",
+        "saved": "Imagem salva em Documentos!",
+        "shareStories": "Compartilhar nos stories",
+        "shareUnsupported": "O compartilhamento de imagens não está disponível neste navegador. Use Baixar imagem."
+      },
       "shareText": "Minha cédula do GameNode Awards {{year}}: {{url}}",
       "shared": {
         "empty": "Este usuário ainda não votou no Awards {{year}}.",
