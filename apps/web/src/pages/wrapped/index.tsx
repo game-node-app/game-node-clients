@@ -2,7 +2,7 @@ import { useTranslation } from "@repo/locales";
 import { SessionAuth, WrappedRecapScreen } from "@repo/ui";
 import Head from "next/head";
 
-const RecapPage = () => {
+const WrappedPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -28,4 +28,4 @@ const RecapPage = () => {
   );
 };
 
-export default RecapPage;
+export default WrappedPage;

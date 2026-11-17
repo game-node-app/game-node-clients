@@ -106,15 +106,23 @@ const MobileSidebarMenu = () => {
             href={`/profile/${userId}/stats`}
           />
           <MobileSidebarButton
-            title={
-              showRecapEntry ? t("navigation.recap") : t("mobile.wrapped.title")
-            }
-            Icon={showRecapEntry ? IconHistory : IconLayout2Filled}
-            href={showRecapEntry && recapHref ? recapHref : "/recap"}
+            title={t("mobile.wrapped.title")}
+            Icon={IconLayout2Filled}
+            href={"/wrapped"}
             onClick={closeMenu}
-            withBadge={showRecapEntry && !recapVisited}
-            badgeLabel={t("navigation.dock.badgeNewFeminine")}
+            withBadge
+            badgeLabel={t("navigation.new")}
           />
+          {showRecapEntry && recapHref && (
+            <MobileSidebarButton
+              title={t("navigation.recap")}
+              Icon={IconHistory}
+              href={recapHref}
+              onClick={closeMenu}
+              withBadge={!recapVisited}
+              badgeLabel={t("navigation.dock.badgeNewFeminine")}
+            />
+          )}
           {awardsEntry && awardsEvent && (
             <MobileSidebarButton
               title={t("navigation.awards", { year: awardsEvent.year })}

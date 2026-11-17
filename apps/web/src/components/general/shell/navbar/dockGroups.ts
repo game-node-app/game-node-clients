@@ -69,9 +69,9 @@ export function getAwardsDockItem(
 }
 
 /**
- * "Retrospectiva" replaces "Wrapped" in "Seu espaço" while the Recap is in
+ * "Retrospectiva" sits next to "Wrapped" in "Seu espaço" while the Recap is in
  * season and the viewer has a created Recap (which also gives `recapHref`).
- * Visitors and the off-season keep the normal Wrapped item.
+ * Wrapped is a separate feature and is always kept.
  */
 export function getRecapDockItem(
   season: DockSeasonState,
@@ -116,9 +116,7 @@ export function buildDockGroups(
     if (group.id === "yourSpace" && recapItem) {
       return {
         ...group,
-        items: group.items.map((item) =>
-          item.id === "recap" ? recapItem : item,
-        ),
+        items: insertAfter(group.items, "wrapped", recapItem),
       };
     }
 

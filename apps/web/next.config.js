@@ -45,6 +45,12 @@ const nextConfig = {
         permanent: true,
       },
       {
+        // Wrapped used to live at /recap, which is now the yearly Recap.
+        source: "/recap",
+        destination: "/wrapped",
+        permanent: true,
+      },
+      {
         source: "/search",
         destination: "/home",
         permanent: true,

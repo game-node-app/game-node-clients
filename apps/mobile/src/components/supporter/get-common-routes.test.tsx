@@ -67,7 +67,7 @@ async function loadCommonRoutes() {
     "awards",
     "awards/result",
     "awards/nominations",
-    "recap/recap_home",
+    "wrapped/wrapped_home",
     "recap/recap_stats",
     "recap/stories",
     "journal/journal_achievements",

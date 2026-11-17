@@ -5,7 +5,7 @@ import { Share } from "@capacitor/share";
 import { useTranslation } from "@repo/locales";
 import { WrappedRecapScreen } from "@repo/ui";
 
-const RecapHomePage = () => {
+const WrappedHomePage = () => {
   const { t } = useTranslation();
 
   return (
@@ -31,4 +31,4 @@ const RecapHomePage = () => {
   );
 };
 
-export default RecapHomePage;
+export default WrappedHomePage;

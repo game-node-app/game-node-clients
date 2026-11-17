@@ -149,7 +149,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
       ? season.recapHref
       : season.userId && recapYear
         ? `/recap/${recapYear}/${season.userId}`
-        : "/recap";
+        : "/wrapped";
   const storiesHref = `${recapHref}/stories`;
 
   let coverIds: Array<number | null | undefined> = [];
