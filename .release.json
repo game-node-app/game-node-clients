@@ -1,0 +1,22 @@
+{
+  "source": "eb21b47ef093106fbe938c9e15fd7e6c2f0f8cd5",
+  "changesets": [
+    ".changeset/mobile-native-api-http.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[7468fabdcc006b47525ed7e8e81a4a49c84396b1...eb21b47ef093106fbe938c9e15fd7e6c2f0f8cd5]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/eb21b47ef093106fbe938c9e15fd7e6c2f0f8cd5",
+  "versions": {
+    "mobile": "1.17.5"
+  }
+}
