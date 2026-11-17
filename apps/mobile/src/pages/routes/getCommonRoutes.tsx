@@ -37,6 +37,9 @@ import ConnectionCallbackPage from "@/pages/connection_callback";
 import DailyPage from "@/pages/daily";
 import DailyPlayPage from "@/pages/daily/play";
 import DailyArchivePage from "@/pages/daily/archive";
+import DailyRankingPage from "@/pages/daily/ranking";
+import DailyWeeklyPage from "@/pages/daily/weekly";
+import DailyPracticePage from "@/pages/daily/practice";
 
 /**
  * Slugs accepted by the legacy `${prefix}/preferences/:category` deep link.
@@ -54,6 +57,13 @@ const PREFERENCES_CATEGORIES = [
   "misc",
   "account",
 ] as const;
+
+/**
+ * `:mode` for the Daily routes, limited to the modes. Ionic keeps the last
+ * matching route, so `/daily/:mode` must not match `/daily/ranking` or
+ * `/daily/weekly` whatever the order. Kept in sync with `DAILY_MODES`.
+ */
+export const DAILY_MODE_PARAM = ":mode(cover|artwork|keywords|specs)";
 
 /** Path of the legacy `${prefix}/preferences/:category` deep link. */
 export function getPreferencesCategoryPath(prefix: string) {
@@ -77,17 +87,36 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       path={`${prefix}/daily`}
       render={() => <DailyPage />}
     />,
+    // Exact static routes must come before `/daily/:mode`.
+    <Route
+      exact
+      key={`${prefix}-daily-ranking`}
+      path={`${prefix}/daily/ranking`}
+      render={() => <DailyRankingPage />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-daily-weekly`}
+      path={`${prefix}/daily/weekly`}
+      render={() => <DailyWeeklyPage />}
+    />,
     <Route
       exact
       key={`${prefix}-daily-play`}
-      path={`${prefix}/daily/:mode`}
+      path={`${prefix}/daily/${DAILY_MODE_PARAM}`}
       render={({ match }) => <DailyPlayPage mode={match.params.mode} />}
     />,
     <Route
       exact
       key={`${prefix}-daily-archive`}
-      path={`${prefix}/daily/:mode/archive`}
+      path={`${prefix}/daily/${DAILY_MODE_PARAM}/archive`}
       render={({ match }) => <DailyArchivePage mode={match.params.mode} />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-daily-practice`}
+      path={`${prefix}/daily/${DAILY_MODE_PARAM}/practice`}
+      render={({ match }) => <DailyPracticePage mode={match.params.mode} />}
     />,
     <Route
       exact

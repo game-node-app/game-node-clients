@@ -3,11 +3,14 @@
  */
 
 export * from "./DailyArchiveView";
+export * from "./DailyBackToHubButton";
 export * from "./DailyCountdown";
 export * from "./DailyErrorState";
 export * from "./DailyHomeView";
 export * from "./DailyHowToPlayModal";
+export * from "./DailyHubSection";
 export * from "./DailyInfoTile";
 export * from "./DailyModeStepper";
+export * from "./DailyPlayBoard";
 export * from "./DailyPlayHeader";
 export * from "./DailyPlayView";

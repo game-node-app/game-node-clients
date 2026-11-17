@@ -172,3 +172,26 @@ it("counts the days in a row with any mode finished on its day", () => {
     ),
   ).toBe(0);
 });
+
+it("uses an entry's title in place of the mode and number", () => {
+  expect(
+    buildDailyShareText(
+      [
+        {
+          modeLabel: "Specs",
+          title: "Challenge of the week #7",
+          number: 3,
+          maxAttempts: 10,
+          results: ["wrong", "correct"],
+        },
+      ],
+      "https://gamenode.app/daily",
+    ),
+  ).toBe(
+    [
+      "🕹️ GameNode Daily",
+      "Challenge of the week #7 🟥🟩⬜⬜⬜⬜⬜⬜⬜⬜",
+      "https://gamenode.app/daily",
+    ].join("\n"),
+  );
+});

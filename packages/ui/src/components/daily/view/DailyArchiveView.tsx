@@ -25,6 +25,7 @@ import {
   type DailyMode,
 } from "#@/components/daily/util/dailyModes";
 import { startedDailyResult } from "#@/components/daily/util/startedDailyResult";
+import { isDailyLocalResult } from "#@/components/daily/util/toDailyLocalResult";
 import { formatDailyDate } from "#@/components/daily/util/formatDailyDate";
 import { getPageAsOffset } from "#@/util/getOffsetAsPage";
 import { Link, useRouter } from "#@/util/link";
@@ -120,7 +121,10 @@ const DailyArchiveView = ({ mode }: Props) => {
                 <div>
                   <DailyStatusBadge
                     result={startedDailyResult(
-                      puzzle.result ?? local[puzzle.id],
+                      puzzle.result ??
+                        (isDailyLocalResult(local[puzzle.id])
+                          ? local[puzzle.id]
+                          : undefined),
                     )}
                   />
                 </div>

@@ -76,6 +76,9 @@ async function loadCommonRoutes() {
     "daily/index",
     "daily/play",
     "daily/archive",
+    "daily/ranking",
+    "daily/weekly",
+    "daily/practice",
     "mcp",
   ]) {
     vi.doMock(`@/pages/${page}`, () => ({ default: () => null }));
@@ -84,11 +87,10 @@ async function loadCommonRoutes() {
     default: () => <div>preferences-supporter-page</div>,
   }));
 
-  const { getCommonRoutes, getPreferencesCategoryPath } = await import(
-    "../../pages/routes/getCommonRoutes"
-  );
+  const { getCommonRoutes, getPreferencesCategoryPath, DAILY_MODE_PARAM } =
+    await import("../../pages/routes/getCommonRoutes");
 
-  return { getCommonRoutes, getPreferencesCategoryPath };
+  return { getCommonRoutes, getPreferencesCategoryPath, DAILY_MODE_PARAM };
 }
 
 it.each(["/home", "/library"])(
@@ -153,5 +155,36 @@ it.each(["/home", "/library"])(
         (candidate) => routePath(candidate) === `${prefix}/supporter`,
       ),
     ).toBe(false);
+  },
+);
+
+it.each(["/home", "/library"])(
+  "routes %s/daily/ranking to the ranking, not the play page",
+  async (prefix) => {
+    const { getCommonRoutes, DAILY_MODE_PARAM } = await loadCommonRoutes();
+    const routes = getCommonRoutes(prefix);
+    const playPath = `${prefix}/daily/${DAILY_MODE_PARAM}`;
+
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/ranking`)).toBe(
+      `${prefix}/daily/ranking`,
+    );
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/ranking/`)).toBe(
+      `${prefix}/daily/ranking`,
+    );
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/cover`)).toBe(
+      playPath,
+    );
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/specs`)).toBe(
+      playPath,
+    );
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/weekly`)).toBe(
+      `${prefix}/daily/weekly`,
+    );
+    expect(
+      lastMatchingRoutePath(routes, `${prefix}/daily/specs/practice`),
+    ).toBe(`${prefix}/daily/${DAILY_MODE_PARAM}/practice`);
+    expect(lastMatchingRoutePath(routes, `${prefix}/daily/cover/archive`)).toBe(
+      `${prefix}/daily/${DAILY_MODE_PARAM}/archive`,
+    );
   },
 );

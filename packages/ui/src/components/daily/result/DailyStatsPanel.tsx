@@ -8,6 +8,7 @@ import {
   computeDailyStats,
   toSaoPauloDate,
 } from "#@/components/daily/util/computeDailyStats";
+import { dailyLocalResults } from "#@/components/daily/util/toDailyLocalResult";
 import { cn } from "#@/util/cn";
 
 interface Props {
@@ -24,7 +25,7 @@ const DailyStatsPanel = ({ mode, maxAttempts, highlight }: Props) => {
   const [local] = useDailyLocalResults();
   const results = userId
     ? (resultsQuery.data?.data ?? [])
-    : Object.values(local).filter((result) => result.mode === mode);
+    : dailyLocalResults(local).filter((result) => result.mode === mode);
 
   const stats = computeDailyStats(
     results,

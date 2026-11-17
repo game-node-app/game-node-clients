@@ -1323,6 +1323,168 @@ export type TranslationSchema = {
     continue: string;
     seeResult: string;
     todayProgress: string;
+    ranking: {
+      title: string;
+      subtitleOverall: string;
+      subtitleMode: string;
+      periodPhrase: {
+        today: string;
+        week: string;
+        month: string;
+        all: string;
+      };
+      endsIn: {
+        today: string;
+        week: string;
+        month: string;
+      };
+      overall: string;
+      filters: {
+        mode: string;
+        period: string;
+        scope: string;
+      };
+      periods: {
+        today: string;
+        week: string;
+        month: string;
+        all: string;
+      };
+      scopes: {
+        all: string;
+        following: string;
+      };
+      columns: {
+        position: string;
+        player: string;
+        points: string;
+        byMode: string;
+        streak: string;
+        winRate: string;
+        wins: string;
+        averageAttempts: string;
+        bestStreak: string;
+      };
+      points: string;
+      pointsOne: string;
+      streakDays: string;
+      streakDaysOne: string;
+      days: string;
+      daysOne: string;
+      change: {
+        new: string;
+        up: string;
+        down: string;
+        same: string;
+      };
+      you: string;
+      openSpot: string;
+      openSpotHint: string;
+      loadMore: string;
+      showing: string;
+      yourPosition: string;
+      emptyTable: string;
+      early: {
+        title: string;
+        titleOne: string;
+        description: string;
+        action: string;
+      };
+      scoring: {
+        title: string;
+        intro: string;
+        attempt1: string;
+        attempt2: string;
+        attempt3: string;
+        attempt4: string;
+        attempt5: string;
+        attempt6: string;
+        notSolved: string;
+        specs: string;
+        footer: string;
+        notSolvedPoints: string;
+      };
+      summary: {
+        title: {
+          today: string;
+          week: string;
+          month: string;
+          all: string;
+        };
+        position: string;
+        points: string;
+        streak: string;
+        bestStreak: string;
+        streakValue: string;
+        gap: string;
+        empty: string;
+      };
+      signIn: {
+        title: string;
+        description: string;
+        create: string;
+        signIn: string;
+      };
+      panel: {
+        title: string;
+        you: string;
+        youChange: string;
+        seeAll: string;
+        invite: string;
+      };
+      button: string;
+      result: {
+        points: string;
+        rose: string;
+        entered: string;
+        same: string;
+        week: string;
+        bonus: string;
+        notCounted: string;
+        notCountedDescription: string;
+        see: string;
+      };
+    };
+    weekly: {
+      section: string;
+      resets: string;
+      title: string;
+      titleNumber: string;
+      description: string;
+      endsIn: string;
+      endsInLabel: string;
+      none: string;
+      friends: {
+        title: string;
+        attempts: string;
+        attemptsOne: string;
+        notGuessed: string;
+        invite: string;
+        signInTitle: string;
+        signInDescription: string;
+      };
+    };
+    practice: {
+      section: string;
+      noLimit: string;
+      cover: {
+        title: string;
+        description: string;
+      };
+      specs: {
+        title: string;
+        description: string;
+      };
+      playAgain: string;
+      rateLimited: {
+        title: string;
+        description: string;
+      };
+      unavailable: {
+        title: string;
+        description: string;
+      };
+    };
   };
   errors: {
     comeBackSoon: string;

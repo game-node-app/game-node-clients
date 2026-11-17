@@ -1,12 +1,12 @@
 import { Button, Group, SimpleGrid, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
-import { DailyPlayResponseDto } from "@repo/wrapper/server";
+import type { DailyBoardState } from "#@/components/daily/util/dailyBoardState";
 import { DailyInfoTile } from "#@/components/daily/view/DailyInfoTile";
 import { ActionConfirm } from "#@/components/general/ActionConfirm";
 
 interface Props {
-  play: DailyPlayResponseDto;
+  play: DailyBoardState;
   onUseHint: () => void;
   disabled?: boolean;
 }

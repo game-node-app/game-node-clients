@@ -11,7 +11,6 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { IconBookmark, IconExternalLink } from "@tabler/icons-react";
-import { DailyPlayResponseDto } from "@repo/wrapper/server";
 import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal";
 import { useGames } from "#@/components/game/hooks/useGames";
 import {
@@ -22,12 +21,14 @@ import { DailyShareButton } from "#@/components/daily/result/DailyShareButton";
 import {
   buildDailyShareText,
   DAILY_SHARE_URL,
+  type DailyShareEntry,
 } from "#@/components/daily/util/buildDailyShareText";
+import type { DailyBoardState } from "#@/components/daily/util/dailyBoardState";
 import { DAILY_RESULT_STYLES } from "#@/components/daily/util/dailyModes";
 import { Link } from "#@/util/link";
 
 interface Props {
-  play: DailyPlayResponseDto;
+  play: DailyBoardState;
 }
 
 /**
@@ -140,11 +141,19 @@ const DailyResultPanel = ({ play }: Props) => {
 /**
  * The share text as it will be copied, with the copy action.
  */
-const DailySharePanel = ({ play }: Props) => {
+const DailySharePanel = ({
+  play,
+  title,
+}: {
+  play: DailyBoardState & { number: number };
+  /** Replaces "<mode> #<number>" in the share line (the weekly challenge). */
+  title?: string;
+}) => {
   const { t } = useTranslation();
-  const entries = [
+  const entries: DailyShareEntry[] = [
     {
       modeLabel: t(`daily.modes.${play.mode}.name`),
+      title,
       number: play.number,
       maxAttempts: play.maxAttempts,
       results: play.feedback.map((feedback) => feedback.result),

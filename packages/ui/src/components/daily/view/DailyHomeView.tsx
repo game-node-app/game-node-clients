@@ -13,9 +13,17 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { DailyPuzzleDto } from "@repo/wrapper/server";
-import { IconCalendar, IconFlame, IconHelp } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconFlame,
+  IconHelp,
+  IconTrophy,
+} from "@tabler/icons-react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { DailyErrorState } from "#@/components/daily/view/DailyErrorState";
+import { DailyPracticeSection } from "#@/components/daily/practice/DailyPracticeSection";
+import { DailyRankingPanel } from "#@/components/daily/ranking/DailyRankingPanel";
+import { DailyWeeklyCard } from "#@/components/daily/weekly/DailyWeeklyCard";
 import { DailyHowToPlayModal } from "#@/components/daily/view/DailyHowToPlayModal";
 import { useDailyImportOnLogin } from "#@/components/daily/hooks/useDailyImportOnLogin";
 import { useDailyLocalResults } from "#@/components/daily/hooks/useDailyLocalResults";
@@ -33,6 +41,7 @@ import {
   DAILY_RESULT_STYLES,
   DAILY_STATUS_KIND,
 } from "#@/components/daily/util/dailyModes";
+import { dailyLocalResults } from "#@/components/daily/util/toDailyLocalResult";
 import { Link } from "#@/util/link";
 
 const DAILY_PLACEHOLDERS = [0, 1, 2, 3];
@@ -138,7 +147,7 @@ const DailyHomeView = () => {
     ({ result }) => result && result.status !== "in_progress",
   ).length;
   const streak = computeDailyPlayStreak(
-    userId ? (resultsQuery.data?.data ?? []) : Object.values(local),
+    userId ? (resultsQuery.data?.data ?? []) : dailyLocalResults(local),
     toSaoPauloDate(new Date()),
   );
 
@@ -153,6 +162,26 @@ const DailyHomeView = () => {
         </Text>
       </Stack>
       <Group className={"gap-2 flex-nowrap"}>
+        <Button
+          component={Link}
+          href={"/daily/ranking"}
+          variant={"default"}
+          leftSection={<IconTrophy size={16} />}
+          visibleFrom={"sm"}
+        >
+          {t("daily.ranking.button")}
+        </Button>
+        <ActionIcon
+          component={Link}
+          href={"/daily/ranking"}
+          variant={"subtle"}
+          color={"gray"}
+          size={"lg"}
+          hiddenFrom={"sm"}
+          aria-label={t("daily.ranking.button")}
+        >
+          <IconTrophy size={20} />
+        </ActionIcon>
         <Button
           variant={"default"}
           leftSection={<IconHelp size={16} />}
@@ -250,14 +279,27 @@ const DailyHomeView = () => {
     );
   })();
 
+  const weekly = todayQuery.data?.weekly;
+
   return (
     <Stack
       className={
-        "w-full max-w-[720px] mx-auto mb-8 pt-2 sm:pt-6 gap-4 sm:gap-7"
+        "w-full max-w-[1264px] mx-auto mb-8 pt-2 sm:pt-6 gap-4 sm:gap-7"
       }
     >
       {intro}
-      {panel}
+      <div
+        className={
+          "grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,720px)_minmax(0,520px)]"
+        }
+      >
+        <div className={"min-w-0"}>{panel}</div>
+        <div className={"flex min-w-0 flex-col gap-5"}>
+          <DailyRankingPanel />
+          <DailyPracticeSection />
+          {weekly && <DailyWeeklyCard weekly={weekly} />}
+        </div>
+      </div>
       <DailyHowToPlayModal opened={howToPlayOpened} onClose={howToPlay.close} />
     </Stack>
   );

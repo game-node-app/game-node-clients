@@ -6,11 +6,20 @@ import type { DailyAnswerDto } from './DailyAnswerDto';
 import type { DailyCommunityDto } from './DailyCommunityDto';
 import type { DailyGuessFeedbackDto } from './DailyGuessFeedbackDto';
 import type { DailyHintsDto } from './DailyHintsDto';
+import type { DailyRankingSummaryDto } from './DailyRankingSummaryDto';
 export type DailyPlayResponseDto = {
     puzzleId: number;
-    mode: DailyPlayResponseDto.mode;
     number: number;
     date: string;
+    /**
+     * Only once the puzzle is finished.
+     */
+    community?: DailyCommunityDto;
+    /**
+     * Signed-in daily finishes only; absent for guests, unfinished plays and weekly puzzles.
+     */
+    ranking?: DailyRankingSummaryDto;
+    mode: DailyPlayResponseDto.mode;
     maxAttempts: number;
     attempts: number;
     status: DailyPlayResponseDto.status;
@@ -25,10 +34,6 @@ export type DailyPlayResponseDto = {
      * Only once the puzzle is finished.
      */
     answer?: DailyAnswerDto;
-    /**
-     * Only once the puzzle is finished.
-     */
-    community?: DailyCommunityDto;
 };
 export namespace DailyPlayResponseDto {
     export enum mode {
