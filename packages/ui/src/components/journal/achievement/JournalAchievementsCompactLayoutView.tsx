@@ -1,4 +1,7 @@
-import { JournalAchievementsGameGroupView } from "#@/components";
+import {
+  JournalAchievementsGameGroupView,
+  useProgressiveRender,
+} from "#@/components";
 import { Stack } from "@mantine/core";
 import {
   JournalAchievementsGameGroup,
@@ -50,15 +53,20 @@ const JournalAchievementsCompactLayoutView = ({ userId, groups }: Props) => {
     return gameGroupsFlattened;
   }, [groups]);
 
+  const { visibleCount, sentinelRef, hasMore } = useProgressiveRender(
+    gameGroups.length,
+  );
+
   return (
     <Stack className={"gap-2 w-full"}>
-      {gameGroups.map((gameGroup) => (
+      {gameGroups.slice(0, visibleCount).map((gameGroup) => (
         <JournalAchievementsGameGroupView
-          key={`${gameGroup.gameId}`}
+          key={gameGroup.externalGameId}
           userId={userId}
           gameGroup={gameGroup}
         />
       ))}
+      {hasMore && <div ref={sentinelRef} className={"h-px"} />}
     </Stack>
   );
 };

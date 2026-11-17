@@ -5,5 +5,6 @@
 export * from "./useOnMobile";
 export * from "./useOnMobilePlatform";
 export * from "./useOnTouchDevice";
+export * from "./useProgressiveRender";
 export * from "./useScrollPosition";
 export * from "./useUrlState";

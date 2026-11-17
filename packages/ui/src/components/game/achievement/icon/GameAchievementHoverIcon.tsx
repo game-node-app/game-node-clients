@@ -24,6 +24,7 @@ const GameAchievementHoverIcon = ({ achievement, ...others }: Props) => {
     <TargetElement openDelay={500}>
       <TargetElement.Target>
         <Image
+          loading={"lazy"}
           {...others}
           src={achievement.iconUrl}
           alt={achievement.name}

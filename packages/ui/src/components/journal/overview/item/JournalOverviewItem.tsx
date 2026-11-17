@@ -1,5 +1,4 @@
 import {
-  CenteredLoading,
   GameFigureImage,
   GameRating,
   getLocalizedCollectionEntryStatusName,
@@ -8,23 +7,27 @@ import {
   useReviewForUserIdAndGameId,
 } from "#@/components";
 import { isNotFoundApiError, Link } from "#@/util";
-import { ActionIcon, Box, Center, Group, Text } from "@mantine/core";
+import { ActionIcon, Box, Center, Group, Skeleton, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { JournalEntryStatusDto } from "@repo/wrapper/server";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useMemo } from "react";
 
 interface Props {
+  /**
+   * Owner of the journal (and of the collection entry).
+   * Known upfront, so game/review requests don't wait for the collection entry.
+   */
+  userId: string;
   targetDay: number;
   item: JournalEntryStatusDto;
 }
 
-const JournalOverviewItem = ({ item, targetDay }: Props) => {
+const JournalOverviewItem = ({ userId, item, targetDay }: Props) => {
   const { t } = useTranslation();
   const collectionEntryQuery = useCollectionEntry(item.collectionEntryId);
 
-  const targetUserId =
-    collectionEntryQuery.data?.collections.at(0)?.libraryUserId;
+  const targetUserId = userId;
 
   const gameQuery = useGame(
     item.gameId,
@@ -50,7 +53,9 @@ const JournalOverviewItem = ({ item, targetDay }: Props) => {
     return null;
   }
 
-  if (!collectionEntryQuery.data || !gameQuery.data) return <CenteredLoading />;
+  if (!collectionEntryQuery.data || !gameQuery.data) {
+    return <Skeleton className={"w-full h-28 lg:h-32 rounded-md"} />;
+  }
 
   return (
     <Group
