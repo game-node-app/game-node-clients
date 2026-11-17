@@ -7,8 +7,8 @@ import { CapacitorHttp } from "@capacitor/core";
  * `Authorization` header, so the browser sends a CORS preflight before each new URL: one extra
  * round trip (~200 ms from Brazil). Native requests have no CORS, so no preflight.
  *
- * Only plain API calls are routed: better-auth (`/v1/auth`) keeps the WebView fetch because it
- * checks the `Origin` header, and FormData/Blob uploads keep it because CapacitorHttp re-encodes them.
+ * better-auth calls go native too: the server's `capacitor()` plugin turns the `capacitor-origin`
+ * header into `Origin`. FormData/Blob uploads keep the WebView fetch because CapacitorHttp re-encodes them.
  */
 export function routeApiThroughNativeHttp(baseUrls: string[]) {
   const webFetch = window.fetch.bind(window);
@@ -25,10 +25,7 @@ export function routeApiThroughNativeHttp(baseUrls: string[]) {
     const native =
       url != undefined &&
       (body == undefined || typeof body === "string") &&
-      bases.some(
-        (base) =>
-          url.startsWith(`${base}/`) && !url.startsWith(`${base}/v1/auth/`),
-      );
+      bases.some((base) => url.startsWith(`${base}/`));
 
     return native ? nativeFetch(url, init) : webFetch(input, init);
   };

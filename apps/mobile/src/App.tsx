@@ -98,6 +98,13 @@ const CAPACITOR_AUTH_STORAGE = {
   cookiePrefix: "better-auth",
 };
 const isNative = Capacitor.isNativePlatform();
+// Before setupAuthClient: the auth client must see the patched fetch.
+if (isNative) {
+  routeApiThroughNativeHttp([
+    import.meta.env.VITE_PUBLIC_SERVER_URL!,
+    import.meta.env.VITE_PUBLIC_SEARCH_URL!,
+  ]);
+}
 const authClientOptions = getAuthClientOptions(
   import.meta.env.VITE_PUBLIC_SERVER_URL!,
 );
@@ -109,12 +116,6 @@ setupAuthClient(
       }) as typeof authClientOptions)
     : authClientOptions,
 );
-if (isNative) {
-  routeApiThroughNativeHttp([
-    import.meta.env.VITE_PUBLIC_SERVER_URL!,
-    import.meta.env.VITE_PUBLIC_SEARCH_URL!,
-  ]);
-}
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,

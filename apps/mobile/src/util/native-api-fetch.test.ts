@@ -61,8 +61,12 @@ describe("routeApiThroughNativeHttp", () => {
     expect(native).toHaveBeenCalled();
   });
 
-  it("keeps auth, uploads and other hosts on the WebView fetch", async () => {
+  it("sends auth calls natively", async () => {
     await window.fetch(`${SERVER}/v1/auth/get-session`);
+    expect(native).toHaveBeenCalled();
+  });
+
+  it("keeps uploads and other hosts on the WebView fetch", async () => {
     await window.fetch(`${SERVER}/v1/profile/image`, {
       method: "POST",
       body: new FormData(),
@@ -71,7 +75,7 @@ describe("routeApiThroughNativeHttp", () => {
     await window.fetch("data:image/png;base64,AA==");
 
     expect(native).not.toHaveBeenCalled();
-    expect(webFetch).toHaveBeenCalledTimes(4);
+    expect(webFetch).toHaveBeenCalledTimes(3);
   });
 });
 
