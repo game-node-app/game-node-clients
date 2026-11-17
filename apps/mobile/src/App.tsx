@@ -77,6 +77,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
+import { routeApiThroughNativeHttp } from "@/util/nativeApiFetch";
 
 /**
  * dayjs setup
@@ -108,6 +109,12 @@ setupAuthClient(
       }) as typeof authClientOptions)
     : authClientOptions,
 );
+if (isNative) {
+  routeApiThroughNativeHttp([
+    import.meta.env.VITE_PUBLIC_SERVER_URL!,
+    import.meta.env.VITE_PUBLIC_SEARCH_URL!,
+  ]);
+}
 setupWrapper({
   serverBaseURL: import.meta.env.VITE_PUBLIC_SERVER_URL!,
   searchBaseURL: import.meta.env.VITE_PUBLIC_SEARCH_URL!,
