@@ -1757,6 +1757,10 @@ export type TranslationSchema = {
     };
     tooltips: {
       addFavorites: string;
+      addToLibraryFirst: string;
+      moreActions: string;
+      quickAdd: string;
+      removeFavorites: string;
       removeLibrary: string;
       share: string;
     };

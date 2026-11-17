@@ -17,6 +17,7 @@ import {
   Button,
   Group,
   GroupProps,
+  Menu,
   Stack,
   Tooltip,
 } from "@mantine/core";
@@ -27,10 +28,14 @@ import {
   IconChevronDown,
   IconHeartFilled,
   IconHeartPlus,
+  IconDots,
   IconPhotoEdit,
   IconShare,
-  IconX,
+  IconTrash,
 } from "@tabler/icons-react";
+
+const ACTION_SIZE = 36;
+const ACTIONS_MAX_WIDTH = 320;
 
 export interface GameInfoActionsProps {
   wrapperProps?: GroupProps;
@@ -71,54 +76,66 @@ const DEFAULT_GameInfoActions = ({
     return null;
   }
 
+  const favoriteLabel = !gameInLibrary
+    ? t("game.tooltips.addToLibraryFirst")
+    : gameInFavorites
+      ? t("game.tooltips.removeFavorites")
+      : t("game.tooltips.addFavorites");
+
   return (
-    <Stack align={"center"}>
-      <Group gap={"0.725rem"} {...wrapperProps}>
-        <CollectionEntryEditModal
-          opened={addUpdateModalOpened}
-          onClose={addUpdateModalUtils.close}
+    <>
+      <CollectionEntryEditModal
+        opened={addUpdateModalOpened}
+        onClose={addUpdateModalUtils.close}
+        gameId={game.id}
+      />
+      <CollectionEntryRemoveModal
+        opened={removeModalOpened}
+        onClose={removeModalUtils.close}
+        gameId={game.id}
+      />
+      <PreferredPlatformsViewModal
+        opened={preferredPlatformsModalOpened}
+        onClose={preferredPlatformsModalUtils.close}
+      />
+      <GameCoverPickerModal
+        opened={coverPickerOpened}
+        onClose={coverPickerUtils.close}
+        game={game}
+      />
+      <Modal
+        opened={shareModalOpened}
+        onClose={shareModalUtils.close}
+        title={t("game.labels.share")}
+      >
+        <GameInfoShare
           gameId={game.id}
-        />
-        <CollectionEntryRemoveModal
-          opened={removeModalOpened}
-          onClose={removeModalUtils.close}
-          gameId={game.id}
-        />
-        <PreferredPlatformsViewModal
-          opened={preferredPlatformsModalOpened}
-          onClose={preferredPlatformsModalUtils.close}
-        />
-        <GameCoverPickerModal
-          opened={coverPickerOpened}
-          onClose={coverPickerUtils.close}
-          game={game}
-        />
-        <Modal
-          opened={shareModalOpened}
-          onClose={shareModalUtils.close}
-          title={t("game.labels.share")}
-        >
-          <GameInfoShare
-            gameId={game.id}
-            onShare={async (file) => {
-              // eslint-disable-next-line no-undef
-              const toShare: ShareData = {
-                title: t("game.share.title"),
-                text: t("game.share.seeMoreAt", { gameId: game?.id }),
-                files: [file],
-                url: `https://gamenode.app/game/${game?.id}`,
-              };
+          onShare={async (file) => {
+            // eslint-disable-next-line no-undef
+            const toShare: ShareData = {
+              title: t("game.share.title"),
+              text: t("game.share.seeMoreAt", { gameId: game?.id }),
+              files: [file],
+              url: `https://gamenode.app/game/${game?.id}`,
+            };
 
-              return await navigator.share(toShare);
-            }}
-          />
-        </Modal>
+            return await navigator.share(toShare);
+          }}
+        />
+      </Modal>
 
-        <Group className="gap-0">
+      <Stack
+        gap={"xs"}
+        w={"100%"}
+        maw={ACTIONS_MAX_WIDTH}
+        className={wrapperProps?.className}
+      >
+        {/* Primary action: the split button owns the full row. */}
+        <Group gap={0} wrap={"nowrap"} w={"100%"}>
           <Button
             onClick={addUpdateModalUtils.open}
             loading={collectionEntryQuery.isLoading}
-            className="rounded-tr-none rounded-br-none"
+            className="flex-1 rounded-tr-none rounded-br-none"
           >
             {gameInLibrary
               ? t("game.buttons.update")
@@ -130,7 +147,8 @@ const DEFAULT_GameInfoActions = ({
           >
             <ActionIcon
               variant="filled"
-              size={36}
+              size={ACTION_SIZE}
+              aria-label={t("game.tooltips.quickAdd")}
               className="rounded-tl-none rounded-bl-none border-0 border-l-[1px] border-body"
             >
               <IconChevronDown />
@@ -138,69 +156,96 @@ const DEFAULT_GameInfoActions = ({
           </GameInfoQuickAddMenu>
         </Group>
 
-        <Tooltip label={t("game.tooltips.addFavorites")}>
-          <ActionIcon
-            size="lg"
-            variant="default"
-            disabled={!gameInLibrary}
-            onClick={() => {
-              collectionEntryFavoriteMutation.mutate(game.id);
-            }}
-          >
-            {gameInFavorites ? (
-              <IconHeartFilled size={"1.05rem"} />
-            ) : (
-              <IconHeartPlus size={"1.05rem"} />
-            )}
-          </ActionIcon>
-        </Tooltip>
+        {/* Secondary actions share the row evenly, so they never wrap. */}
+        <Group gap={"xs"} wrap={"nowrap"} w={"100%"}>
+          <Tooltip label={favoriteLabel}>
+            <ActionIcon
+              aria-label={favoriteLabel}
+              size={ACTION_SIZE}
+              variant="default"
+              className="flex-1 w-auto"
+              // `data-disabled` keeps the tooltip working: a native `disabled`
+              // button swallows pointer events, so we'd lose the explanation.
+              data-disabled={!gameInLibrary || undefined}
+              aria-disabled={!gameInLibrary}
+              onClick={() => {
+                if (!gameInLibrary) return;
+                collectionEntryFavoriteMutation.mutate(game.id);
+              }}
+            >
+              {gameInFavorites ? (
+                <IconHeartFilled size={"1.05rem"} />
+              ) : (
+                <IconHeartPlus size={"1.05rem"} />
+              )}
+            </ActionIcon>
+          </Tooltip>
 
-        {gameInLibrary && collectionEntryQuery.data != undefined && (
-          <CollectionEntryVisibilityMenu
-            gameId={game.id}
-            value={
-              toLibraryVisibilityLevel(collectionEntryQuery.data.visibility) ??
-              "public"
-            }
-            size={"lg"}
-          />
-        )}
+          {gameInLibrary && collectionEntryQuery.data != undefined && (
+            <CollectionEntryVisibilityMenu
+              gameId={game.id}
+              value={
+                toLibraryVisibilityLevel(
+                  collectionEntryQuery.data.visibility,
+                ) ?? "public"
+              }
+              size={ACTION_SIZE}
+              className="flex-1 w-auto"
+            />
+          )}
 
-        <Tooltip label={t("game.coverPicker.open")}>
-          <ActionIcon
-            aria-label={t("game.coverPicker.open")}
-            size="lg"
-            variant="default"
-            onClick={coverPickerUtils.open}
-          >
-            <IconPhotoEdit size={"1.05rem"} />
-          </ActionIcon>
-        </Tooltip>
-
-        {gameInLibrary && (
-          <>
-            <Tooltip label={t("game.tooltips.removeLibrary")}>
-              <ActionIcon
-                variant="default"
-                size="lg"
-                onClick={removeModalUtils.open}
-              >
-                <IconX color="red" />
-              </ActionIcon>
-            </Tooltip>
+          {gameInLibrary && (
             <Tooltip label={t("game.tooltips.share")}>
               <ActionIcon
-                size="lg"
+                aria-label={t("game.tooltips.share")}
+                size={ACTION_SIZE}
                 variant="default"
+                className="flex-1 w-auto"
                 onClick={shareModalUtils.open}
               >
                 <IconShare size={"1.05rem"} />
               </ActionIcon>
             </Tooltip>
-          </>
-        )}
-      </Group>
-    </Stack>
+          )}
+
+          {/* Occasional and destructive actions live in the overflow menu. */}
+          <Menu shadow={"md"} position={"bottom-end"} width={240} withinPortal>
+            <Menu.Target>
+              <Tooltip label={t("game.tooltips.moreActions")}>
+                <ActionIcon
+                  aria-label={t("game.tooltips.moreActions")}
+                  size={ACTION_SIZE}
+                  variant="default"
+                  className="flex-1 w-auto"
+                >
+                  <IconDots size={"1.05rem"} />
+                </ActionIcon>
+              </Tooltip>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                leftSection={<IconPhotoEdit size={16} />}
+                onClick={coverPickerUtils.open}
+              >
+                {t("game.coverPicker.open")}
+              </Menu.Item>
+              {gameInLibrary && (
+                <>
+                  <Menu.Divider />
+                  <Menu.Item
+                    color={"red"}
+                    leftSection={<IconTrash size={16} />}
+                    onClick={removeModalUtils.open}
+                  >
+                    {t("game.tooltips.removeLibrary")}
+                  </Menu.Item>
+                </>
+              )}
+            </Menu.Dropdown>
+          </Menu>
+        </Group>
+      </Stack>
+    </>
   );
 };
 

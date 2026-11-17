@@ -1753,6 +1753,10 @@
     },
     "tooltips": {
       "addFavorites": "Adicionar aos seus favoritos",
+      "addToLibraryFirst": "Adicione este jogo à sua biblioteca primeiro",
+      "moreActions": "Mais ações",
+      "quickAdd": "Opções de adição rápida",
+      "removeFavorites": "Remover dos seus favoritos",
       "removeLibrary": "Remover da sua biblioteca",
       "share": "Compartilhar este jogo"
     },
