@@ -1,0 +1,28 @@
+{
+  "source": "7468fabdcc006b47525ed7e8e81a4a49c84396b1",
+  "changesets": [
+    ".changeset/awards-design-parity.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[8dce44b69c2bb950d2c68f69db84d2585d5631cc...7468fabdcc006b47525ed7e8e81a4a49c84396b1]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/7468fabdcc006b47525ed7e8e81a4a49c84396b1",
+  "versions": {
+    "web": "1.19.3",
+    "mobile": "1.17.4"
+  }
+}
