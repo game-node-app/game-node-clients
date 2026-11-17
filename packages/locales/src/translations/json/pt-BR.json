@@ -716,6 +716,12 @@
   },
   "awards": {
     "ballot": {
+      "band": {
+        "eyebrow": "GameNode Awards {{year}} · Votação da comunidade",
+        "now": "agora",
+        "subtitle": "{{count}} categorias. Você vê em cada indicado se já jogou, quanto e que nota deu.",
+        "title": "Vote no melhor de {{year}}."
+      },
       "categories": "Categorias",
       "linkCopied": "Link copiado!",
       "loadError": "Não foi possível carregar sua cédula.",
@@ -750,8 +756,11 @@
         "completeHint": "Você votou em todas as categorias.",
         "confirmLast": "Confirmar voto",
         "confirmNext": "Confirmar e ir para {{category}}",
+        "confirmNextCompact": "Confirmar e seguir",
         "skip": "Pular por agora",
-        "title": "Seu voto em {{category}}"
+        "skipCompact": "Pular",
+        "title": "Seu voto em {{category}}",
+        "titleCompact": "Seu voto"
       },
       "votingOpens": "A votação abre em {{date}}.",
       "votingOpensUnknown": "A votação ainda não abriu."
@@ -811,7 +820,9 @@
       },
       "gameFallback": "Jogo {{id}}",
       "gotyEyebrow": "Resultado · Jogo do Ano · {{votes}} votos",
+      "gotyEyebrowCompact": "Jogo do Ano · {{votes}} votos",
       "gotyTitle": "{{game}} é o Jogo do Ano.",
+      "gotyTitleCompact": "{{game}} venceu.",
       "notYet": "O resultado sai em {{date}}.",
       "notYetUnknown": "O resultado ainda não saiu.",
       "personalGoty": {
@@ -819,11 +830,13 @@
         "title": "Seu GOTY pessoal"
       },
       "scoreboard": {
+        "hitsCompact": "{{hits}} de {{scorable}} acertos",
         "share": "Compartilhar meu placar",
         "shareText": "Meu placar do Awards {{year}} no GameNode",
         "summary": "Você acertou {{hits}} de {{scorable}} categorias.",
         "summaryOther": "{{name}} acertou {{hits}} de {{scorable}} categorias.",
-        "title": "Seu placar"
+        "title": "Seu placar",
+        "viewCategories": "Ver categorias"
       },
       "title": "Resultado",
       "voteChip": {
@@ -867,12 +880,14 @@
       "nominee": {
         "notPlayed": "Ainda não jogou",
         "notPlayedCompact": "Não jogou",
-        "played": "Você jogou",
-        "playedHours": "Você jogou · {{hours}} h",
-        "playedHoursRating": "Você jogou · {{hours}} h · nota {{rating}}",
-        "playedRating": "Você jogou · nota {{rating}}",
         "planned": "Na sua lista de desejos",
         "plannedCompact": "Na sua lista",
+        "played": "Você jogou",
+        "playedCompact": "Jogou",
+        "playedHours": "Você jogou · {{hours}} h",
+        "playedHoursCompact": "Jogou · {{hours}} h",
+        "playedHoursRating": "Você jogou · {{hours}} h · nota {{rating}}",
+        "playedRating": "Você jogou · nota {{rating}}",
         "remove": "Remover",
         "yourVote": "Seu voto"
       },

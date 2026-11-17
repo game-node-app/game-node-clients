@@ -138,7 +138,7 @@ describe("AwardsCategoryList", () => {
     expect(screen.getByText("1 de 3")).toBeTruthy();
     expect(screen.getByText("Escolhendo")).toBeTruthy();
     expect(screen.getByText("Seu voto")).toBeTruthy();
-    expect(screen.getByText("Votar")).toBeTruthy();
+    expect(screen.queryByText("Votar")).toBeNull();
     expect(screen.getByText("Sugerido: Nioh 3")).toBeTruthy();
 
     const rows = container.querySelectorAll("[data-awards-category-row]");
@@ -173,7 +173,7 @@ describe("AwardsNomineeCard", () => {
 
     const chip = container.querySelector('[data-awards-chip="played"]');
     expect(chip?.getAttribute("data-color")).toBe("teal");
-    expect(chip?.className).toContain("mantine-Badge-root");
+    expect(chip?.className).toContain("bg-state-played-tint");
   });
 
   it("omits the hours label and the rating when they are absent", () => {

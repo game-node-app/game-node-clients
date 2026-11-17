@@ -385,10 +385,7 @@ function loadEvent({
     GameRepositoryService,
     "gameRepositoryControllerFindAllByIdsV1",
   ).mockResolvedValue(GAMES);
-  vi.spyOn(
-    ProfileService,
-    "profileControllerFindOneByIdV1",
-  ).mockResolvedValue({
+  vi.spyOn(ProfileService, "profileControllerFindOneByIdV1").mockResolvedValue({
     id: "abc",
     username: profileUsername,
   } as unknown as ProfileResponseDto);
@@ -544,14 +541,10 @@ describe("AwardsResultsScreen", () => {
 
     const { container } = renderScreen();
 
-    await waitFor(() =>
-      expect(screen.getByText("45%")).toBeTruthy(),
-    );
+    await waitFor(() => expect(screen.getByText("45%")).toBeTruthy());
 
     expect(screen.queryByText("Só quem jogou")).toBeNull();
-    expect(
-      container.querySelector("[data-awards-results-dispute]"),
-    ).toBeNull();
+    expect(container.querySelector("[data-awards-results-dispute]")).toBeNull();
     expect(screen.getByText("30%")).toBeTruthy();
   });
 
@@ -567,9 +560,7 @@ describe("AwardsResultsScreen", () => {
     );
 
     expect(screen.queryByText(/é o Jogo do Ano/)).toBeNull();
-    expect(
-      screen.queryByText("Vencedores por categoria"),
-    ).toBeNull();
+    expect(screen.queryByText("Vencedores por categoria")).toBeNull();
   });
 
   it("keeps the results date when the results phase returns no results", async () => {
@@ -584,9 +575,7 @@ describe("AwardsResultsScreen", () => {
     );
 
     expect(screen.queryByText(/é o Jogo do Ano/)).toBeNull();
-    expect(
-      screen.queryByText("Vencedores por categoria"),
-    ).toBeNull();
+    expect(screen.queryByText("Vencedores por categoria")).toBeNull();
   });
 
   it("shows the scoreboard totals and the hit, miss and not-voted chips", async () => {
@@ -596,14 +585,14 @@ describe("AwardsResultsScreen", () => {
     const { container } = renderScreen();
 
     await waitFor(() =>
-      expect(
-        screen.getByText("Você acertou 1 de 3 categorias."),
-      ).toBeTruthy(),
+      expect(screen.getByText("Você acertou 1 de 3 categorias.")).toBeTruthy(),
     );
 
     expect(getScoreboard).toHaveBeenCalledWith(EVENT_ID, "user-1");
     expect(screen.getByText("Seu placar")).toBeTruthy();
-    expect(screen.getByText("Seu voto venceu")).toBeTruthy();
+    expect(
+      container.querySelector("[data-awards-results-own-vote]"),
+    ).toBeTruthy();
     expect(screen.getByText("Seu voto: Nioh 3")).toBeTruthy();
     expect(screen.getByText("Você não votou")).toBeTruthy();
     expect(screen.getByText("Seu GOTY pessoal")).toBeTruthy();
@@ -615,9 +604,11 @@ describe("AwardsResultsScreen", () => {
     expect(
       screen.getByRole("button", { name: "Compartilhar meu placar" }),
     ).toBeTruthy();
+    // The GOTY hit is shown as the "Seu voto" marker in its vote list; the
+    // other categories keep one chip each.
     expect(
       container.querySelectorAll("[data-awards-results-vote-chip]"),
-    ).toHaveLength(3);
+    ).toHaveLength(2);
   });
 
   it("omits the other-people sentence when the personal GOTY count is zero", async () => {
@@ -633,14 +624,10 @@ describe("AwardsResultsScreen", () => {
     const { container } = renderScreen();
 
     await waitFor(() =>
-      expect(
-        screen.getByText("Você acertou 0 de 2 categorias."),
-      ).toBeTruthy(),
+      expect(screen.getByText("Você acertou 0 de 2 categorias.")).toBeTruthy(),
     );
 
-    const card = container.querySelector(
-      "[data-awards-results-personal-goty]",
-    );
+    const card = container.querySelector("[data-awards-results-personal-goty]");
     expect(card).not.toBeNull();
     expect(card?.textContent).toContain("Seu GOTY pessoal");
     expect(card?.textContent).toContain("Nioh 3");
@@ -678,7 +665,7 @@ describe("AwardsResultsScreen", () => {
   it("shows only the public result to a visitor without a scoreboard", async () => {
     const { getScoreboard } = loadEvent();
 
-    renderScreen();
+    const { container } = renderScreen();
 
     await waitFor(() => expect(screen.getByText("31%")).toBeTruthy());
     await waitFor(
@@ -691,7 +678,9 @@ describe("AwardsResultsScreen", () => {
 
     expect(getScoreboard).not.toHaveBeenCalled();
     expect(screen.queryByText("Seu placar")).toBeNull();
-    expect(screen.queryByText("Seu voto venceu")).toBeNull();
+    expect(
+      container.querySelector("[data-awards-results-own-vote]"),
+    ).toBeNull();
     expect(screen.queryByText("Você não votou")).toBeNull();
   });
 
@@ -701,7 +690,12 @@ describe("AwardsResultsScreen", () => {
       scoreboard: {
         totals: { hits: 7, voted: 8, scorable: 11 },
         categories: scoreboardCategories([
-          { categoryId: 40, votedGameId: 101, winningGameId: 101, outcome: "hit" },
+          {
+            categoryId: 40,
+            votedGameId: 101,
+            winningGameId: 101,
+            outcome: "hit",
+          },
           {
             categoryId: 41,
             votedGameId: 102,
@@ -723,9 +717,9 @@ describe("AwardsResultsScreen", () => {
     );
 
     expect(getScoreboard).toHaveBeenCalledWith(EVENT_ID, "abc");
-    expect(
-      ProfileService.profileControllerFindOneByIdV1,
-    ).toHaveBeenCalledWith("abc");
+    expect(ProfileService.profileControllerFindOneByIdV1).toHaveBeenCalledWith(
+      "abc",
+    );
     expect(screen.getByText("Seu placar")).toBeTruthy();
     expect(
       screen.queryByRole("button", { name: "Compartilhar meu placar" }),

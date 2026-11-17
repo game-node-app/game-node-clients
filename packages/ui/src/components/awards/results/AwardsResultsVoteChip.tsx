@@ -1,5 +1,8 @@
 import type { AwardsScoreboardOutcome } from "#@/components/awards/types";
-import { Badge } from "@mantine/core";
+import {
+  AwardsStatusChip,
+  type AwardsChipTone,
+} from "#@/components/awards/shared/AwardsStatusChip";
 import { useTranslation } from "@repo/locales";
 
 export interface AwardsResultsVoteChipProps {
@@ -8,10 +11,10 @@ export interface AwardsResultsVoteChipProps {
   votedGameName?: string | null;
 }
 
-const OUTCOME_COLORS: Record<AwardsScoreboardOutcome, "teal" | "gray"> = {
-  hit: "teal",
-  miss: "gray",
-  not_voted: "gray",
+const OUTCOME_TONES: Record<AwardsScoreboardOutcome, AwardsChipTone> = {
+  hit: "played",
+  miss: "neutral",
+  not_voted: "neutral",
 };
 
 /**
@@ -42,16 +45,12 @@ export function AwardsResultsVoteChip({
   }
 
   return (
-    <Badge
+    <AwardsStatusChip
       data-awards-results-vote-chip
       data-outcome={outcome}
-      variant={"light"}
-      color={OUTCOME_COLORS[outcome]}
-      size={"sm"}
-      radius={"sm"}
-      tt={"none"}
+      tone={OUTCOME_TONES[outcome]}
     >
       {label}
-    </Badge>
+    </AwardsStatusChip>
   );
 }

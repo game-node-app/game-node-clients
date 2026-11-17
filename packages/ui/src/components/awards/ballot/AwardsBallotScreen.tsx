@@ -6,6 +6,10 @@ import { AwardsEligibleGameSearch } from "#@/components/awards/search/AwardsElig
 import { AwardsCategoryLayout } from "#@/components/awards/shared/AwardsCategoryLayout";
 import type { AwardsCategoryListRow } from "#@/components/awards/shared/AwardsCategoryList";
 import { AwardsCategoryPanel } from "#@/components/awards/shared/AwardsCategoryPanel";
+import { AwardsEventBand } from "#@/components/awards/shared/AwardsEventBand";
+import { AwardsSecondaryButton } from "#@/components/awards/shared/AwardsSecondaryButton";
+import { AwardsVoteBarContent } from "#@/components/awards/shared/AwardsVoteBarContent";
+import { useAwardsMobileLayout } from "#@/components/awards/shared/useAwardsMobileLayout";
 import {
   AwardsNomineeCard,
   type AwardsNomineeCardProps,
@@ -28,7 +32,7 @@ import type { Game } from "@repo/wrapper/server";
 import { ApiError } from "@repo/wrapper/server";
 import { useShareText } from "#@/context";
 import { cn, createErrorNotification, Link } from "#@/util";
-import { Box, Button, Group, Paper, Stack, Text } from "@mantine/core";
+import { Box, Button, Paper, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
 import { IconShare } from "@tabler/icons-react";
@@ -109,6 +113,7 @@ const AwardsBallotScreen = ({
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
   const shareText = useShareText();
+  const isMobileLayout = useAwardsMobileLayout();
 
   const eventQuery = useAwardEvent({ eventYear });
   const event = eventQuery.data;
@@ -502,37 +507,36 @@ const AwardsBallotScreen = ({
       const pendingGame = gamesById.get(pending.gameId);
 
       voteBar = (
-        <Stack data-awards-vote-bar-content gap={"sm"}>
-          <Stack gap={2}>
-            <Text size={"sm"} c={"dimmed"}>
-              {t("awards.ballot.voteBar.title", {
-                category: activeCategory.name,
-              })}
-            </Text>
-            <Text fw={600}>{pendingGame?.name}</Text>
-          </Stack>
-          <Group gap={"sm"} wrap={"wrap"}>
-            <Button
-              data-awards-vote-skip
-              variant={"default"}
-              onClick={skip}
-              disabled={voteMutation.isPending}
-            >
-              {t("awards.ballot.voteBar.skip")}
-            </Button>
-            <Button
-              data-awards-vote-confirm
-              onClick={confirm}
-              loading={voteMutation.isPending}
-            >
-              {nextCategory
-                ? t("awards.ballot.voteBar.confirmNext", {
+        <AwardsVoteBarContent
+          compact={isMobileLayout}
+          caption={
+            isMobileLayout
+              ? t("awards.ballot.voteBar.titleCompact")
+              : t("awards.ballot.voteBar.title", {
+                  category: activeCategory.name,
+                })
+          }
+          game={pendingGame}
+          gameName={pendingGame?.name}
+          skipLabel={
+            isMobileLayout
+              ? t("awards.ballot.voteBar.skipCompact")
+              : t("awards.ballot.voteBar.skip")
+          }
+          confirmLabel={
+            nextCategory
+              ? isMobileLayout
+                ? t("awards.ballot.voteBar.confirmNextCompact")
+                : t("awards.ballot.voteBar.confirmNext", {
                     category: nextCategory.name,
                   })
-                : t("awards.ballot.voteBar.confirmLast")}
-            </Button>
-          </Group>
-        </Stack>
+              : t("awards.ballot.voteBar.confirmLast")
+          }
+          onSkip={skip}
+          onConfirm={confirm}
+          disabled={voteMutation.isPending}
+          loading={voteMutation.isPending}
+        />
       );
     } else if (isComplete) {
       voteBar = (
@@ -541,17 +545,27 @@ const AwardsBallotScreen = ({
           <Text size={"sm"} c={"dimmed"}>
             {t("awards.ballot.voteBar.completeHint")}
           </Text>
-          <Button
+          <AwardsSecondaryButton
             leftSection={<IconShare size={18} />}
             onClick={shareBallot}
             data-awards-ballot-share-complete
           >
             {t("awards.ballot.share")}
-          </Button>
+          </AwardsSecondaryButton>
         </Stack>
       );
     }
   }
+
+  const shareButton = (
+    <AwardsSecondaryButton
+      data-awards-ballot-share
+      fullWidth
+      onClick={shareBallot}
+    >
+      {t("awards.ballot.share")}
+    </AwardsSecondaryButton>
+  );
 
   const readOnlyMessage =
     phase === "voting_closed" || phase === "results"
@@ -573,7 +587,22 @@ const AwardsBallotScreen = ({
       className={cn(className)}
       gap={"lg"}
     >
-      <SeasonEventHeader year={event.year} screen={"voting"} />
+      {!isMobileLayout && (
+        <>
+          <SeasonEventHeader year={event.year} screen={"voting"} />
+          <AwardsEventBand
+            year={event.year}
+            phase={event.phase}
+            categoriesCount={displayCategories.length}
+            nominationStartDate={event.nominationStartDate}
+            nominationEndDate={event.nominationEndDate}
+            votingStartDate={event.votingStartDate}
+            votingEndDate={event.votingEndDate}
+            resultsDate={event.resultsDate}
+            className={"pb-6 pt-4"}
+          />
+        </>
+      )}
       {!isVotingPhase && readOnlyMessage && (
         <Stack data-awards-ballot-read-only gap={"sm"}>
           <Text size={"sm"} c={"dimmed"}>
@@ -603,6 +632,7 @@ const AwardsBallotScreen = ({
           current={ballot.categoriesVoted}
           total={progressTotal}
           voteBar={voteBar}
+          listFooter={userId && !isComplete ? shareButton : undefined}
         >
           <Box
             data-awards-goty-category={activeCategory.isGOTY ? "true" : "false"}
@@ -625,18 +655,7 @@ const AwardsBallotScreen = ({
           {t("awards.ballot.noCategories")}
         </Text>
       )}
-      {userId && !isComplete && (
-        <Group justify={"flex-start"}>
-          <Button
-            data-awards-ballot-share
-            variant={"light"}
-            leftSection={<IconShare size={18} />}
-            onClick={shareBallot}
-          >
-            {t("awards.ballot.share")}
-          </Button>
-        </Group>
-      )}
+      {isMobileLayout && userId && !isComplete && shareButton}
     </Stack>
   );
 };
