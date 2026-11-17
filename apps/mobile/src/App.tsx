@@ -203,6 +203,8 @@ const App: React.FC = () => {
                 appName={"mobile"}
                 posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
                 posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+                // CapacitorHttp sends binary bodies as text, which breaks gzip.
+                disableCompression={isNative}
               >
                 <IonReactRouter>
                   <AppUrlListener />

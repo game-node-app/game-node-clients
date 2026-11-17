@@ -10,6 +10,8 @@ interface Props extends PropsWithChildren {
   posthogKey: string;
   posthogHost: string;
   enableDebug?: boolean;
+  /** Send events as plain JSON. Needed where fetch is patched to native HTTP, which corrupts gzip bodies. */
+  disableCompression?: boolean;
 }
 
 const PostHogProvider = ({
@@ -17,6 +19,7 @@ const PostHogProvider = ({
   posthogKey,
   posthogHost,
   enableDebug = false,
+  disableCompression = false,
   children,
 }: Props) => {
   usePostHogUserListener();
@@ -28,6 +31,7 @@ const PostHogProvider = ({
         ui_host: "https://app.posthog.com",
         defaults: "2025-05-24",
         debug: enableDebug,
+        disable_compression: disableCompression,
         before_send: beforeOAuthCapture,
         autocapture: !isPrivateAuthUrl(window.location.href),
         disable_session_recording: isPrivateAuthUrl(window.location.href),
@@ -46,7 +50,7 @@ const PostHogProvider = ({
         "PostHog key or host not set. Analytics functionality will not be available.",
       );
     }
-  }, [appName, enableDebug, posthogHost, posthogKey]);
+  }, [appName, disableCompression, enableDebug, posthogHost, posthogKey]);
 
   return <OriginalProvider client={posthog}>{children}</OriginalProvider>;
 };
