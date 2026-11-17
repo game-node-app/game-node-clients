@@ -4,6 +4,7 @@
 
 export * from "./CollectionEntryVisibilityBadge";
 export * from "./CollectionEntryVisibilityMenu";
+export * from "./CollectionEntryVisibilitySubmenu";
 export * from "./LibraryVisibilityLevel";
 export * from "./LibraryVisibilitySelect";
 export * from "./ReviewsAlwaysPublicNote";

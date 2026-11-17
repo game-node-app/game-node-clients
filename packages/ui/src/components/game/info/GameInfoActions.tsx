@@ -1,5 +1,5 @@
 import {
-  CollectionEntryVisibilityMenu,
+  CollectionEntryVisibilitySubmenu,
   GameInfoQuickAddMenu,
   GameInfoShare,
   PreferredPlatformsViewModal,
@@ -75,6 +75,9 @@ const DEFAULT_GameInfoActions = ({
   if (game == undefined) {
     return null;
   }
+
+  const visibility =
+    toLibraryVisibilityLevel(collectionEntryQuery.data?.visibility) ?? "public";
 
   const favoriteLabel = !gameInLibrary
     ? t("game.tooltips.addToLibraryFirst")
@@ -181,18 +184,17 @@ const DEFAULT_GameInfoActions = ({
             </ActionIcon>
           </Tooltip>
 
-          {gameInLibrary && collectionEntryQuery.data != undefined && (
-            <CollectionEntryVisibilityMenu
-              gameId={game.id}
-              value={
-                toLibraryVisibilityLevel(
-                  collectionEntryQuery.data.visibility,
-                ) ?? "public"
-              }
+          <Tooltip label={t("game.coverPicker.open")}>
+            <ActionIcon
+              aria-label={t("game.coverPicker.open")}
               size={ACTION_SIZE}
+              variant="default"
               className="flex-1 w-auto"
-            />
-          )}
+              onClick={coverPickerUtils.open}
+            >
+              <IconPhotoEdit size={"1.05rem"} />
+            </ActionIcon>
+          </Tooltip>
 
           {gameInLibrary && (
             <Tooltip label={t("game.tooltips.share")}>
@@ -208,41 +210,45 @@ const DEFAULT_GameInfoActions = ({
             </Tooltip>
           )}
 
-          {/* Occasional and destructive actions live in the overflow menu. */}
-          <Menu shadow={"md"} position={"bottom-end"} width={240} withinPortal>
-            <Menu.Target>
-              <Tooltip label={t("game.tooltips.moreActions")}>
-                <ActionIcon
-                  aria-label={t("game.tooltips.moreActions")}
-                  size={ACTION_SIZE}
-                  variant="default"
-                  className="flex-1 w-auto"
-                >
-                  <IconDots size={"1.05rem"} />
-                </ActionIcon>
-              </Tooltip>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item
-                leftSection={<IconPhotoEdit size={16} />}
-                onClick={coverPickerUtils.open}
-              >
-                {t("game.coverPicker.open")}
-              </Menu.Item>
-              {gameInLibrary && (
-                <>
-                  <Menu.Divider />
-                  <Menu.Item
-                    color={"red"}
-                    leftSection={<IconTrash size={16} />}
-                    onClick={removeModalUtils.open}
+          {/*
+            Entry-only actions (visibility, remove) live in the overflow menu.
+            Without a library entry there is nothing to put in it.
+          */}
+          {gameInLibrary && (
+            <Menu
+              shadow={"md"}
+              position={"bottom-end"}
+              width={240}
+              withinPortal
+            >
+              <Menu.Target>
+                <Tooltip label={t("game.tooltips.moreActions")}>
+                  <ActionIcon
+                    aria-label={t("game.tooltips.moreActions")}
+                    size={ACTION_SIZE}
+                    variant="default"
+                    className="flex-1 w-auto"
                   >
-                    {t("game.tooltips.removeLibrary")}
-                  </Menu.Item>
-                </>
-              )}
-            </Menu.Dropdown>
-          </Menu>
+                    <IconDots size={"1.05rem"} />
+                  </ActionIcon>
+                </Tooltip>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <CollectionEntryVisibilitySubmenu
+                  gameId={game.id}
+                  value={visibility}
+                />
+                <Menu.Divider />
+                <Menu.Item
+                  color={"red"}
+                  leftSection={<IconTrash size={16} />}
+                  onClick={removeModalUtils.open}
+                >
+                  {t("game.tooltips.removeLibrary")}
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </Group>
       </Stack>
     </>

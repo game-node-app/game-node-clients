@@ -228,19 +228,13 @@ it("offers the cover picker from the web game info actions without a library ent
   });
   expect(addToLibrary).toBeTruthy();
 
-  fireEvent.click(
-    screen.getByRole("button", { name: "game.tooltips.moreActions" }),
-  );
+  // Without a library entry there is nothing entry-specific (visibility,
+  // remove) to offer, so the overflow menu is not rendered at all.
+  expect(
+    screen.queryByRole("button", { name: "game.tooltips.moreActions" }),
+  ).toBeNull();
 
-  // Without a library entry the overflow menu only offers the cover picker:
-  // removing something that isn't in the library makes no sense.
-  expect(screen.queryByText("game.tooltips.removeLibrary")).toBeNull();
-
-  fireEvent.click(
-    await screen.findByRole("menuitem", { name: "game.coverPicker.open" }),
-  );
-
-  expect(await screen.findByText("game.coverPicker.empty")).toBeTruthy();
+  await expectPickerOpens();
 });
 
 it("explains why favoriting is unavailable when the game is not in the library", async () => {
@@ -253,7 +247,7 @@ it("explains why favoriting is unavailable when the game is not in the library",
   expect(favorite.getAttribute("aria-disabled")).toBe("true");
 });
 
-it("offers removal from the overflow menu when the game is in the library", async () => {
+it("offers visibility and removal from the overflow menu when the game is in the library", async () => {
   vi.spyOn(
     CollectionsEntriesService,
     "collectionsEntriesControllerFindOwnEntryByGameIdV1",
@@ -277,9 +271,13 @@ it("offers removal from the overflow menu when the game is in the library", asyn
   );
 
   expect(
-    await screen.findByRole("menuitem", {
-      name: "game.tooltips.removeLibrary",
-    }),
+    await screen.findByText("libraryVisibility.labels.visibility"),
+  ).toBeTruthy();
+  expect(await screen.findByText("game.tooltips.removeLibrary")).toBeTruthy();
+
+  // The cover picker stays on the main row, not in the menu.
+  expect(
+    screen.getByRole("button", { name: "game.coverPicker.open" }),
   ).toBeTruthy();
 });
 
