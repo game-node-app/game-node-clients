@@ -224,9 +224,9 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
   );
 
   /**
-   * Text column of a card. `visual` is the legacy block that Wide/Mobile keep
-   * below (or beside) the text; Half moves it, or `halfArt`, into the shell's
-   * art column.
+   * Text column of a card. `visual` is the block that Wide keeps beside the
+   * text (and Mobile below it); Half moves its `halfArt` into the shell's art
+   * column.
    */
   const renderCard = (
     content: ReactNode,
@@ -273,6 +273,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
       season.awardsEntry?.href ??
       getAwardsScreenHref(awardsEvent.year, awardsEvent.phase);
     const chip = deadlineLabel(awardsEvent.nominationEndDate);
+    const nominationsArt = <EventNominationsArt eventId={awardsEvent.id} />;
 
     return renderCard(
       <>
@@ -330,8 +331,12 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
               />,
             )}
       </>,
-      isHalf ? null : trophyVisual,
-      isHalf ? <EventNominationsArt eventId={awardsEvent.id} /> : undefined,
+      isHalf ? null : (
+        <div className={"relative min-h-[120px] w-full flex-1"}>
+          {nominationsArt}
+        </div>
+      ),
+      isHalf ? nominationsArt : undefined,
     );
   }
 

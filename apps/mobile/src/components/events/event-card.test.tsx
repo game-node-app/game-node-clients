@@ -410,6 +410,7 @@ describe("EventCard · Awards Indicações", () => {
     expect(screen.getByText("Indicações")).toBeTruthy();
     expect(screen.getByText("Votação")).toBeTruthy();
     expect(screen.getByText("Resultado")).toBeTruthy();
+    expect(screen.getByText("Sua indicação")).toBeTruthy();
     expect(buttonHref("Indicar jogos")).toBe("/awards/2026/nominations");
     expect(buttonHref("Ver categorias")).toBe("/awards/2026/nominations");
   });
@@ -432,6 +433,25 @@ describe("EventCard · Awards Indicações", () => {
     expect(screen.getByTestId("event-card-art")).toBeTruthy();
     expect(screen.getByText("Sua indicação")).toBeTruthy();
     expect(screen.queryByText("+1000 XP e medalha por participar")).toBeNull();
+    expect(buttonHref("Indicar jogos")).toBe("/awards/2026/nominations");
+  });
+
+  it("shows the nominations art in the mobile card", async () => {
+    seasonState.value = season({
+      awardsEvent: awardsEvent("nominations"),
+      awardsEntry: {
+        kind: "nominations",
+        showHomeCard: true,
+        dockBadge: "live",
+        href: "/awards/2026/nominations",
+      },
+    });
+
+    renderCard("awards-nominations", "mobile");
+
+    await waitFor(() => expect(screen.getByText("Awards 2026")).toBeTruthy());
+
+    expect(screen.getByText("Sua indicação")).toBeTruthy();
     expect(buttonHref("Indicar jogos")).toBe("/awards/2026/nominations");
   });
 
