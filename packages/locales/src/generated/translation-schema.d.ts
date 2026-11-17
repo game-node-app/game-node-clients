@@ -2575,6 +2575,13 @@ export type TranslationSchema = {
     };
   };
   profile: {
+    bannerEditor: {
+      title: string;
+      help: string;
+      verticalPosition: string;
+      web: string;
+      mobile: string;
+    };
     collections: {
       featured: string;
       loading: string;

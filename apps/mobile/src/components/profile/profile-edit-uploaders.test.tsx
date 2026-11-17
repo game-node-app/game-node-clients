@@ -11,6 +11,8 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import * as imageUtils from "../../../../../packages/ui/src/util/imageUtils";
+import { getCroppedImg } from "../../../../../packages/ui/src/util/imageUtils";
 import type { Area } from "react-easy-crop";
 import type { FileWithPath } from "@mantine/dropzone";
 import { UIProvider, type UIHookRegistry } from "@repo/ui";
@@ -19,6 +21,8 @@ import {
   UploadProfileVideoResponseDto,
 } from "@repo/wrapper/server";
 import { ProfileEditAvatarUploader } from "../../../../../packages/ui/src/components/profile/edit/ProfileEditAvatarUploader";
+import { ProfileBannerPreview } from "../../../../../packages/ui/src/components/profile/edit/ProfileBannerPreview";
+import { DEFAULT_SUPPORTER_PREFERENCES } from "../../../../../packages/ui/src/components/supporter/perks/supporterPerks";
 import { ProfileEditBannerUploader } from "../../../../../packages/ui/src/components/profile/edit/ProfileEditBannerUploader";
 
 const mocks = vi.hoisted(() => ({
@@ -27,6 +31,7 @@ const mocks = vi.hoisted(() => ({
   /** A failed status read keeps the image-only dropzone. */
   statusError: false,
   profileInvalidate: vi.fn(),
+  profileData: undefined as Record<string, unknown> | undefined,
   dropzoneProps: undefined as Record<string, unknown> | undefined,
   cropperProps: undefined as Record<string, unknown> | undefined,
 }));
@@ -47,7 +52,7 @@ vi.mock(
   "../../../../../packages/ui/src/components/profile/hooks/useUserProfile",
   () => ({
     useUserProfile: () => ({
-      data: undefined,
+      data: mocks.profileData,
       isLoading: false,
       invalidate: mocks.profileInvalidate,
     }),
@@ -146,7 +151,10 @@ type CapturedCropperProps = {
   video?: string;
   aspect: number;
   minZoom: number;
-  onCropComplete: (percentages: Area) => void;
+  onCropComplete: (percentages: Area, pixels?: Area) => void;
+  onCropAreaChange: (area: Area, pixels: Area) => void;
+  onZoomChange: (zoom: number) => void;
+  onCropChange: (crop: { x: number; y: number }) => void;
 };
 
 const MockLink = ({ children, ...props }: React.ComponentProps<"a">) =>
@@ -205,11 +213,20 @@ const mockUploadAccepted = () =>
     .mockResolvedValue({} as UploadProfileVideoResponseDto);
 
 beforeEach(() => {
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
   mocks.isSupporter = true;
   mocks.statusError = false;
   mocks.dropzoneProps = undefined;
   mocks.cropperProps = undefined;
   mocks.profileInvalidate.mockReset();
+  mocks.profileData = undefined;
 
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
@@ -219,6 +236,10 @@ beforeEach(() => {
     removeListener: vi.fn(),
   });
 
+  Object.defineProperty(URL, "revokeObjectURL", {
+    configurable: true,
+    value: vi.fn(),
+  });
   Object.defineProperty(URL, "createObjectURL", {
     configurable: true,
     writable: true,
@@ -229,6 +250,7 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("ProfileEditAvatarUploader", () => {
@@ -351,6 +373,115 @@ describe("ProfileEditAvatarUploader", () => {
 });
 
 describe("ProfileEditBannerUploader", () => {
+  it("previews the saved framing on both devices and blocks stale crops", async () => {
+    const blob = new Blob(["cropped"], { type: "image/jpeg" });
+    const convert = vi
+      .spyOn(imageUtils, "base64ToBlob")
+      .mockResolvedValue(blob);
+    const upload = vi
+      .spyOn(ProfileService, "profileControllerUpdateImageV1")
+      .mockResolvedValue(undefined);
+    renderUploader(<ProfileEditBannerUploader />);
+    dropFile(new File(["image"], "banner.jpg", { type: "image/jpeg" }));
+    expect(cropperProps()?.aspect).toBe(1280 / 192);
+    expect(cropperProps()?.minZoom).toBe(1);
+    expect(
+      (
+        screen.getByRole("button", {
+          name: "actions.confirm",
+        }) as HTMLButtonElement
+      ).disabled,
+    ).toBe(true);
+    const pixels = { x: 0, y: 60, width: 1280, height: 192 };
+    act(() => {
+      cropperProps()?.onCropAreaChange(pixels, pixels);
+    });
+    await waitFor(() =>
+      expect(screen.getByText("profile.bannerEditor.web")).toBeTruthy(),
+    );
+    expect(getCroppedImg).toHaveBeenCalledWith("blob:preview", pixels);
+    expect(screen.getByText("profile.bannerEditor.web")).toBeTruthy();
+    expect(screen.getByText("profile.bannerEditor.mobile")).toBeTruthy();
+
+    // Cropper can report its existing values when a user clicks a slider
+    // thumb or pans against a boundary. No fresh crop event follows.
+    act(() => {
+      cropperProps()?.onCropChange({ x: 0, y: 0 });
+      cropperProps()?.onZoomChange(1);
+    });
+    expect(
+      (
+        screen.getByRole("button", {
+          name: "actions.confirm",
+        }) as HTMLButtonElement
+      ).disabled,
+    ).toBe(false);
+
+    let resolveCrop!: (value: string) => void;
+    vi.mocked(getCroppedImg).mockImplementationOnce(
+      () =>
+        new Promise<string | null>((resolve) => {
+          resolveCrop = resolve;
+        }),
+    );
+    act(() => {
+      cropperProps()?.onCropChange({ x: 0, y: 20 });
+    });
+    act(() => {
+      cropperProps()?.onCropComplete(pixels, pixels);
+    });
+    act(() => {
+      cropperProps()?.onCropChange({ x: 0, y: 40 });
+    });
+    await act(async () => {
+      resolveCrop("data:image/jpeg;base64,stale");
+    });
+    expect(
+      (
+        screen.getByRole("button", {
+          name: "actions.confirm",
+        }) as HTMLButtonElement
+      ).disabled,
+    ).toBe(true);
+    await act(async () => {
+      cropperProps()?.onCropComplete(pixels, pixels);
+    });
+    fireEvent.click(screen.getByRole("button", { name: "actions.confirm" }));
+    expect(screen.getByText("profile.bannerEditor.web")).toBeTruthy();
+    expect(screen.getByText("profile.bannerEditor.mobile")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "actions.confirm" }));
+    await waitFor(() =>
+      expect(upload).toHaveBeenCalledWith({ file: blob, type: "banner" }),
+    );
+    expect(convert).toHaveBeenCalledWith("data:image/jpeg;base64,cropped");
+  });
+
+  it("uses the same avatar poster for both supporter previews", () => {
+    mocks.profileData = {
+      username: "sectional-endowment4",
+      avatar: { filename: "avatar-poster", extension: "jpg" },
+      avatarVideo: { filename: "animated-avatar", extension: "mp4" },
+      isSupporter: true,
+      supporterPreferences: DEFAULT_SUPPORTER_PREFERENCES,
+    };
+    const { container } = renderUploader(
+      <ProfileBannerPreview
+        userId="user-1"
+        src="data:image/jpeg;base64,banner"
+      />,
+    );
+    const avatars = [...container.querySelectorAll(".mantine-Avatar-image")];
+    expect(avatars).toHaveLength(2);
+    expect(
+      avatars.every((avatar) =>
+        avatar.getAttribute("src")?.endsWith("avatar-poster.jpg"),
+      ),
+    ).toBe(true);
+    expect(container.querySelectorAll("video")).toHaveLength(0);
+    expect(screen.getAllByTestId("supporter-avatar-frame")).toHaveLength(2);
+    expect(screen.getAllByText("sectional-endowment4")).toHaveLength(2);
+  });
+
   it("sends the normalized crop fields at the banner aspect", async () => {
     const upload = mockUploadAccepted();
     const file = mp4File();
