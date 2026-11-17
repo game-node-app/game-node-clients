@@ -28,8 +28,8 @@ import CollectionReorderPage from "@/pages/library/collection_reorder";
 import AwardsEventRedirectPage from "@/pages/awards";
 import AwardsResultPage from "@/pages/awards/result";
 import AwardsNominationsPage from "@/pages/awards/nominations";
-import RecapHomePage from "@/pages/recap/recap_home";
 import RecapStatsPage from "@/pages/recap/recap_stats";
+import WrappedHomePage from "@/pages/wrapped/wrapped_home";
 import RecapStoriesPage from "@/pages/recap/stories";
 import JournalAchievementsPage from "@/pages/journal/journal_achievements";
 import { JournalPage } from "@/pages/journal/journal";
@@ -345,9 +345,9 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     />,
     <Route
       exact
-      key={`${prefix}-recap-home`}
-      path={`${prefix}/recap`}
-      render={() => <RecapHomePage />}
+      key={`${prefix}-wrapped-home`}
+      path={`${prefix}/wrapped`}
+      render={() => <WrappedHomePage />}
     />,
     <Route
       key={`${prefix}-recap-stats`}

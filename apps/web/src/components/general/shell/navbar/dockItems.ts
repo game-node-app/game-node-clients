@@ -198,10 +198,11 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
       },
       {
         kind: "link",
-        id: "recap",
+        id: "wrapped",
         labelKey: "navigation.wrapped",
         icon: NavWrappedIcon,
-        href: "/recap",
+        href: "/wrapped",
+        badge: "new",
       },
     ],
   },

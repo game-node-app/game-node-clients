@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   AwardsService,
   RecapService,
+  StatisticsService,
   type AwardsBallotDto,
   type AwardsCategoryResult,
   type RecapCurrentDto,
@@ -29,6 +30,12 @@ const seasonState = vi.hoisted(() => ({
 vi.mock(
   "../../../../../packages/ui/src/components/events/hooks/useSeasonEvents",
   () => ({ useSeasonEvents: () => seasonState.value }),
+);
+
+// The nominations art reads the signed-in user's nominations.
+vi.mock(
+  "../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({ useUserId: () => seasonState.value?.userId }),
 );
 
 // The cards hydrate game covers/names; the repository read is out of scope here
@@ -351,6 +358,17 @@ beforeEach(() => {
     AwardsService,
     "awardsControllerGetResultsByEventIdV1",
   ).mockResolvedValue([gotyResult()]);
+  vi.spyOn(
+    AwardsService,
+    "awardsNominationControllerGetMyNominationsV1",
+  ).mockResolvedValue([]);
+  vi.spyOn(
+    StatisticsService,
+    "statisticsControllerFindRankingsV1",
+  ).mockResolvedValue({
+    items: [],
+    pagination: { limit: 2, offset: 0, total: 0, hasNextPage: false },
+  } as never);
   vi.spyOn(AwardsService, "awardsControllerGetScoreboardV1").mockResolvedValue({
     totals: { hits: 7, voted: 10, scorable: 11 },
     categories: [],
@@ -378,11 +396,15 @@ describe("EventCard · Awards Indicações", () => {
 
     renderCard("awards-nominations");
 
-    await waitFor(() =>
-      expect(screen.getByText("Awards 2026 · Indicações abertas")).toBeTruthy(),
-    );
+    await waitFor(() => expect(screen.getByText("Awards 2026")).toBeTruthy());
 
     expect(screen.getByText("Quais foram os jogos do ano?")).toBeTruthy();
+    expect(
+      screen.getByText(
+        "Indique até 3 jogos por categoria. Os mais indicados vão para a cédula de 1 de dezembro.",
+      ),
+    ).toBeTruthy();
+    expect(screen.getByText("+1000 XP e medalha por participar")).toBeTruthy();
     expect(screen.getByText("Fecha amanhã")).toBeTruthy();
     expect(screen.getByTestId("event-phase-timeline")).toBeTruthy();
     expect(screen.getByText("Indicações")).toBeTruthy();
@@ -390,6 +412,27 @@ describe("EventCard · Awards Indicações", () => {
     expect(screen.getByText("Resultado")).toBeTruthy();
     expect(buttonHref("Indicar jogos")).toBe("/awards/2026/nominations");
     expect(buttonHref("Ver categorias")).toBe("/awards/2026/nominations");
+  });
+
+  it("shows the Half art column and drops the reward line", async () => {
+    seasonState.value = season({
+      awardsEvent: awardsEvent("nominations"),
+      awardsEntry: {
+        kind: "nominations",
+        showHomeCard: true,
+        dockBadge: "live",
+        href: "/awards/2026/nominations",
+      },
+    });
+
+    renderCard("awards-nominations", "half");
+
+    await waitFor(() => expect(screen.getByText("Awards 2026")).toBeTruthy());
+
+    expect(screen.getByTestId("event-card-art")).toBeTruthy();
+    expect(screen.getByText("Sua indicação")).toBeTruthy();
+    expect(screen.queryByText("+1000 XP e medalha por participar")).toBeNull();
+    expect(buttonHref("Indicar jogos")).toBe("/awards/2026/nominations");
   });
 
   it("shows only the sign-in action to a visitor", async () => {
@@ -556,13 +599,32 @@ describe("EventCard · Retrospectiva Atualizando", () => {
 
     expect(screen.getByText("em 38 jogos · até hoje")).toBeTruthy();
     expect(screen.getByTestId("recap-monthly-bars")).toBeTruthy();
+    expect(screen.getByText("Seu 2026 até agora")).toBeTruthy();
     expect(
       screen.getByText(
-        "Game 500 ficou com 21% do seu ano. 412 horas, 38 jogos e 14 zerados até agora.",
+        "Game 500 ficou com 21% do seu ano. Ainda dá tempo de mudar o final: o ano fecha em 31 de dezembro.",
       ),
     ).toBeTruthy();
     expect(buttonHref("Ver minha retrospectiva")).toBe("/recap/2026/user-1");
     expect(buttonHref("Compartilhar")).toBe("/recap/2026/user-1/stories");
+  });
+
+  it("keeps the Half card to the single primary action", async () => {
+    seasonState.value = season({
+      recapEntry: { kind: "live", year: 2026 },
+      recapYear: 2026,
+      recapHref: "/recap/2026/user-1",
+      recapStatus: createdStatus() as unknown as SeasonEvents["recapStatus"],
+    });
+
+    renderCard("recap-live", "half");
+
+    await waitFor(() => expect(screen.getByText("412 h")).toBeTruthy());
+
+    expect(screen.getByTestId("event-card-art")).toBeTruthy();
+    expect(screen.getByTestId("recap-live-art")).toBeTruthy();
+    expect(buttonHref("Ver minha retrospectiva")).toBe("/recap/2026/user-1");
+    expect(screen.queryByRole("button", { name: "Compartilhar" })).toBeNull();
   });
 
   it("omits the monthly bars for a Recap without a calendar", async () => {

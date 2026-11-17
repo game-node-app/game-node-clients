@@ -1,5 +1,6 @@
+import { useFormatLocale } from "#@/components/events/util/format";
 import { cn } from "#@/util";
-import { Box, Group } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 export interface RecapMonthlyBarsProps {
@@ -9,51 +10,94 @@ export interface RecapMonthlyBarsProps {
    * omits the strip and keeps its other numbers.
    */
   values: number[] | null | undefined;
+  /**
+   * Recap year. When it is the current year, the current month is highlighted
+   * and the months still to come are drawn as dashed placeholders.
+   */
+  year?: number | null;
   className?: string;
 }
 
-/**
- * The 12-bar monthly playtime strip of the Retrospectiva card (frame
- * `5444:2410`). Zero months keep a baseline mark so the rhythm of the year is
- * still readable.
- */
-export function RecapMonthlyBars({ values, className }: RecapMonthlyBarsProps) {
-  const { t } = useTranslation();
-  const months = (values ?? []).slice(0, 12);
+const MONTHS = 12;
+/** Tallest bar of the strip (frame `5444:2138`); the strip is 96 px with the letters. */
+const MAX_BAR_HEIGHT = 76;
 
-  if (months.length === 0) {
+/**
+ * The 12-column monthly playtime strip of the Retrospectiva card (frame
+ * `5444:2138`): brand bars scaled to the busiest month, a month initial under
+ * each one, the current month in white and the future months dashed.
+ */
+export function RecapMonthlyBars({
+  values,
+  year,
+  className,
+}: RecapMonthlyBarsProps) {
+  const { t } = useTranslation();
+  const locale = useFormatLocale();
+  const source = (values ?? []).slice(0, MONTHS);
+
+  if (source.length === 0) {
     return null;
   }
 
+  const months = Array.from(
+    { length: MONTHS },
+    (_, index) => source[index] ?? 0,
+  );
   const max = Math.max(...months, 1);
+  const today = new Date();
+  const currentMonth =
+    year != null && year === today.getFullYear() ? today.getMonth() : null;
+  const initials = new Intl.DateTimeFormat(locale, {
+    month: "narrow",
+    timeZone: "UTC",
+  });
 
   return (
-    <Group
+    <div
       data-testid={"recap-monthly-bars"}
-      gap={3}
-      align={"flex-end"}
-      wrap={"nowrap"}
       role={"img"}
       aria-label={t("events.card.recap.monthlyLabel")}
-      className={cn("h-12 w-full max-w-xs", className)}
+      className={cn("grid w-full max-w-[196px] grid-cols-12 gap-1", className)}
     >
       {months.map((value, index) => {
+        const isFuture = currentMonth != null && index > currentMonth;
+        const isCurrent = index === currentMonth;
         const ratio = Number.isFinite(value) && value > 0 ? value / max : 0;
 
         return (
-          <Box
-            key={index}
-            aria-hidden={"true"}
-            style={{
-              height: ratio > 0 ? `${Math.max(8, ratio * 100)}%` : "3px",
-            }}
-            className={cn(
-              "min-w-0 flex-1 rounded-t-sm",
-              ratio > 0 ? "bg-brand-5/80" : "bg-white/15",
-            )}
-          />
+          <div key={index} aria-hidden={"true"} className={"min-w-0"}>
+            <div className={"flex h-20 items-end"}>
+              <Box
+                style={{
+                  height: isFuture
+                    ? MAX_BAR_HEIGHT
+                    : ratio > 0
+                      ? Math.max(4, ratio * MAX_BAR_HEIGHT)
+                      : 3,
+                }}
+                className={cn(
+                  "w-full rounded-[3px]",
+                  isFuture
+                    ? "border border-dashed border-line-strong"
+                    : ratio > 0
+                      ? "bg-brand-5"
+                      : "bg-line-strong",
+                )}
+              />
+            </div>
+            <Text
+              fz={10}
+              lh={"12px"}
+              ta={"center"}
+              fw={isCurrent ? 700 : 500}
+              className={cn("mt-1", isCurrent ? "text-white" : "text-dimmed-1")}
+            >
+              {initials.format(new Date(Date.UTC(2000, index, 1)))}
+            </Text>
+          </div>
         );
       })}
-    </Group>
+    </div>
   );
 }

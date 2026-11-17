@@ -153,3 +153,55 @@ export function formatUtcDate(
     timeZone: "UTC",
   }).format(date);
 }
+
+function toValidDate(value: string | Date | null | undefined): Date | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  const date = typeof value === "string" ? new Date(value) : value;
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/**
+ * UTC date range of the event timeline. Inside one month the day range is
+ * collapsed into the single month label ("3–16 de nov." in pt-BR, "Nov 3–16"
+ * in en); across months both ends are written out ("Dec 1 – Jan 5").
+ */
+export function formatUtcDateRange(
+  start: string | Date | null | undefined,
+  end: string | Date | null | undefined,
+  locale: string,
+): string | null {
+  const startDate = toValidDate(start);
+  const endDate = toValidDate(end);
+
+  if (!startDate || !endDate) {
+    return formatUtcDate(startDate ?? endDate, locale);
+  }
+
+  const sameMonth =
+    startDate.getUTCFullYear() === endDate.getUTCFullYear() &&
+    startDate.getUTCMonth() === endDate.getUTCMonth();
+
+  if (!sameMonth) {
+    return `${formatUtcDate(startDate, locale)} – ${formatUtcDate(endDate, locale)}`;
+  }
+
+  const resolvedLocale = locale || DEFAULT_FORMAT_LOCALE;
+  const startDay = new Intl.DateTimeFormat(resolvedLocale, {
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(startDate);
+
+  return new Intl.DateTimeFormat(resolvedLocale, {
+    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  })
+    .formatToParts(endDate)
+    .map((part) =>
+      part.type === "day" ? `${startDay}–${part.value}` : part.value,
+    )
+    .join("");
+}

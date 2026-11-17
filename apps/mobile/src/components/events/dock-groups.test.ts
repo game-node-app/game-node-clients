@@ -159,7 +159,7 @@ describe("Dock seasonal groups", () => {
     expect(discover[1].id).toBe("explore");
   });
 
-  it("replaces Wrapped with Retrospectiva and the Nova badge", () => {
+  it("adds Retrospectiva next to Wrapped with the Nova badge", () => {
     const groups = buildDockGroups(
       season({
         recapEntry: { kind: "live", year: 2026 },
@@ -172,9 +172,10 @@ describe("Dock seasonal groups", () => {
     expect(recap?.labelKey).toBe("navigation.recap");
     expect(recap?.badge).toBe("newFeminine");
     expect(linkedHref(recap)).toBe("/recap/2026/user-1");
-    expect(
-      groupItems(groups, "yourSpace").some((item) => item.id === "recap"),
-    ).toBe(true);
+    const ids = groupItems(groups, "yourSpace").map((item) => item.id);
+    expect(ids.indexOf("recap")).toBe(ids.indexOf("wrapped") + 1);
+    expect(findItem(groups, "wrapped")?.labelKey).toBe("navigation.wrapped");
+    expect(findItem(groups, "wrapped")?.badge).toBe("new");
   });
 
   it("drops the Nova badge after the first visit", () => {
@@ -189,21 +190,24 @@ describe("Dock seasonal groups", () => {
     expect(findItem(groups, "recap")?.badge).toBeUndefined();
   });
 
-  it("restores Wrapped outside the Recap season", () => {
+  it("keeps Wrapped, and no Retrospectiva, outside the Recap season", () => {
     const groups = buildDockGroups(season(), { recapVisited: false });
-    const recap = findItem(groups, "recap");
+    const wrapped = findItem(groups, "wrapped");
 
-    expect(recap?.labelKey).toBe("navigation.wrapped");
-    expect(linkedHref(recap)).toBe("/recap");
+    expect(wrapped?.labelKey).toBe("navigation.wrapped");
+    expect(wrapped?.badge).toBe("new");
+    expect(linkedHref(wrapped)).toBe("/wrapped");
+    expect(findItem(groups, "recap")).toBeUndefined();
   });
 
-  it("keeps Wrapped for a visitor who has no personal Recap", () => {
+  it("shows no Retrospectiva for a visitor who has no personal Recap", () => {
     const groups = buildDockGroups(
       season({ recapEntry: { kind: "live", year: 2026 }, recapHref: null }),
       { recapVisited: false },
     );
 
-    expect(findItem(groups, "recap")?.labelKey).toBe("navigation.wrapped");
+    expect(findItem(groups, "wrapped")?.labelKey).toBe("navigation.wrapped");
+    expect(findItem(groups, "recap")).toBeUndefined();
   });
 
   it("does not mutate the static Dock groups", () => {

@@ -6,6 +6,7 @@ import {
   formatNumber,
   formatPercentage,
   formatPlaytimeHours,
+  formatUtcDate,
   useFormatLocale,
 } from "#@/components/events/util/format";
 import { getAwardsScreenHref } from "#@/components/events/util/seasonEvents";
@@ -13,23 +14,23 @@ import { useSeasonEvents } from "#@/components/events/hooks/useSeasonEvents";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { useRecap } from "#@/components/recap/hooks/useRecap";
 import { cn, Link } from "#@/util";
-import {
-  Badge,
-  Box,
-  Button,
-  Group,
-  Progress,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Badge, Box, Group, Progress, Stack, Text } from "@mantine/core";
 import { IconAward } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import type { Game } from "@repo/wrapper/server";
 import type { ReactNode } from "react";
 import { EventCardCovers } from "./EventCardCovers";
+import {
+  EventCardButton,
+  EventCardDeadline,
+  EventCardDescription,
+  EventCardEyebrow,
+  EventCardHeadline,
+  EventCardShell,
+} from "./EventCardParts";
+import { EventNominationsArt } from "./EventNominationsArt";
 import { EventPhaseTimeline } from "./EventPhaseTimeline";
-import { RecapMonthlyBars } from "./RecapMonthlyBars";
+import { RecapLiveArt } from "./RecapLiveArt";
 
 /**
  * The five Home card variants of frame `5444:2410` (spec: Card do Awards por
@@ -149,7 +150,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
       ? season.recapHref
       : season.userId && recapYear
         ? `/recap/${recapYear}/${season.userId}`
-        : "/recap";
+        : "/wrapped";
   const storiesHref = `${recapHref}/stories`;
 
   let coverIds: Array<number | null | undefined> = [];
@@ -198,15 +199,13 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
     ? (winner.game?.name ?? gamesById.get(winner.gameId)?.name ?? null)
     : null;
 
-  const isWide = layout === "wide";
-  const cardClassName = cn(
-    "relative flex h-full flex-col gap-5 overflow-hidden rounded-lg border border-paper-4 bg-paper-1 p-6",
-    isWide && "md:flex-row md:items-stretch md:gap-8",
-    layout === "mobile" && "w-[300px] shrink-0",
-  );
+  const isHalf = layout === "half";
+  const longDate = (value: string | Date | null | undefined) =>
+    formatUtcDate(value, locale, { day: "numeric", month: "long" }) ?? "";
+
   const visualClassName = cn(
     "flex shrink-0 flex-col justify-end gap-3",
-    isWide ? "md:w-64" : "w-full",
+    layout === "wide" ? "md:w-64" : "w-full",
   );
 
   const renderVisual = (visual: ReactNode) => (
@@ -224,11 +223,45 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
     </Box>
   );
 
-  const actions = (primary: ReactNode, secondary?: ReactNode) => (
-    <Group gap={"sm"} mt={"auto"} wrap={"wrap"}>
-      {primary}
-      {secondary}
-    </Group>
+  /**
+   * Text column of a card. `visual` is the legacy block that Wide/Mobile keep
+   * below (or beside) the text; Half moves it, or `halfArt`, into the shell's
+   * art column.
+   */
+  const renderCard = (
+    content: ReactNode,
+    visual: ReactNode,
+    halfArt?: ReactNode,
+  ) => (
+    <EventCardShell
+      kind={kind}
+      layout={layout}
+      art={
+        halfArt ??
+        (visual ? (
+          <div className={"flex h-full w-full items-center justify-center"}>
+            {visual}
+          </div>
+        ) : undefined)
+      }
+    >
+      <div className={"flex min-w-0 flex-1 flex-col gap-[10px]"}>{content}</div>
+      {!isHalf && visual ? renderVisual(visual) : null}
+    </EventCardShell>
+  );
+
+  const actions = (
+    primary: ReactNode,
+    secondary?: ReactNode,
+    above?: ReactNode,
+  ) => (
+    <div className={"mt-auto flex flex-col gap-4 pt-1"}>
+      {above}
+      <Group gap={8} wrap={"wrap"}>
+        {primary}
+        {secondary}
+      </Group>
+    </div>
   );
 
   if (kind === "awards-nominations") {
@@ -241,64 +274,64 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
       getAwardsScreenHref(awardsEvent.year, awardsEvent.phase);
     const chip = deadlineLabel(awardsEvent.nominationEndDate);
 
-    return (
-      <article
-        data-testid={"event-card"}
-        data-kind={kind}
-        data-layout={layout}
-        className={cardClassName}
-      >
-        <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-          <Group justify={"space-between"} align={"flex-start"} gap={"xs"}>
-            <Text size={"sm"} fw={600} c={"dimmed"}>
-              {t("events.card.awards.nominationsTitle", {
-                year: awardsEvent.year,
-              })}
-            </Text>
-            {chip && (
-              <Badge variant={"light"} size={"sm"}>
-                {chip}
-              </Badge>
-            )}
-          </Group>
-          <Title order={3} size={"h4"}>
-            {t("events.card.awards.nominationsHeadline")}
-          </Title>
-          <Text size={"sm"} c={"dimmed"}>
-            {t("events.card.awards.nominationsDescription")}
-          </Text>
-          <EventPhaseTimeline
-            nominationStartDate={awardsEvent.nominationStartDate}
-            nominationEndDate={awardsEvent.nominationEndDate}
-            votingStartDate={awardsEvent.votingStartDate}
-            votingEndDate={awardsEvent.votingEndDate}
-            resultsDate={awardsEvent.resultsDate}
-            active={"nominations"}
-          />
-          <Text size={"xs"} c={"dimmed"}>
+    return renderCard(
+      <>
+        <EventCardEyebrow
+          trailing={chip && <EventCardDeadline>{chip}</EventCardDeadline>}
+        >
+          {t("events.card.awards.eyebrow", { year: awardsEvent.year })}
+        </EventCardEyebrow>
+        <EventCardHeadline layout={layout}>
+          {t("events.card.awards.nominationsHeadline")}
+        </EventCardHeadline>
+        <EventCardDescription>
+          {t("events.card.awards.nominationsDescription", {
+            date: longDate(awardsEvent.votingStartDate),
+          })}
+        </EventCardDescription>
+        {!isHalf && (
+          <Text size={"xs"} className={"text-dimmed-1"}>
             {t("events.card.awards.participationReward")}
           </Text>
-          {isVisitor
-            ? actions(
-                <Button size={"sm"} onClick={() => void redirectToAuth()}>
-                  {t("events.card.awards.visitorNominationsAction")}
-                </Button>,
-              )
-            : actions(
-                <Link href={href}>
-                  <Button size={"sm"}>
-                    {t("events.card.awards.nominationsPrimary")}
-                  </Button>
-                </Link>,
-                <Link href={href}>
-                  <Button size={"sm"} variant={"default"}>
-                    {t("events.card.awards.nominationsSecondary")}
-                  </Button>
-                </Link>,
-              )}
-        </Stack>
-        {renderVisual(trophyVisual)}
-      </article>
+        )}
+        {isVisitor
+          ? actions(
+              <EventCardButton onClick={() => void redirectToAuth()}>
+                {t("events.card.awards.visitorNominationsAction")}
+              </EventCardButton>,
+              undefined,
+              <EventPhaseTimeline
+                nominationStartDate={awardsEvent.nominationStartDate}
+                nominationEndDate={awardsEvent.nominationEndDate}
+                votingStartDate={awardsEvent.votingStartDate}
+                votingEndDate={awardsEvent.votingEndDate}
+                resultsDate={awardsEvent.resultsDate}
+                active={"nominations"}
+              />,
+            )
+          : actions(
+              <Link href={href}>
+                <EventCardButton>
+                  {t("events.card.awards.nominationsPrimary")}
+                </EventCardButton>
+              </Link>,
+              <Link href={href}>
+                <EventCardButton tone={"secondary"}>
+                  {t("events.card.awards.nominationsSecondary")}
+                </EventCardButton>
+              </Link>,
+              <EventPhaseTimeline
+                nominationStartDate={awardsEvent.nominationStartDate}
+                nominationEndDate={awardsEvent.nominationEndDate}
+                votingStartDate={awardsEvent.votingStartDate}
+                votingEndDate={awardsEvent.votingEndDate}
+                resultsDate={awardsEvent.resultsDate}
+                active={"nominations"}
+              />,
+            )}
+      </>,
+      isHalf ? null : trophyVisual,
+      isHalf ? <EventNominationsArt eventId={awardsEvent.id} /> : undefined,
     );
   }
 
@@ -316,102 +349,82 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
         ? Math.min(100, (categoriesVoted / categoriesTotal) * 100)
         : 0;
 
-    return (
-      <article
-        data-testid={"event-card"}
-        data-kind={kind}
-        data-layout={layout}
-        className={cardClassName}
-      >
-        <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-          <Group justify={"space-between"} align={"flex-start"} gap={"xs"}>
-            <Text size={"sm"} fw={600} c={"dimmed"}>
-              {t("events.card.awards.votingTitle", {
-                year: awardsEvent.year,
-              })}
-            </Text>
-            {chip && (
-              <Badge variant={"light"} size={"sm"}>
-                {chip}
-              </Badge>
+    return renderCard(
+      <>
+        <EventCardEyebrow
+          trailing={chip && <EventCardDeadline>{chip}</EventCardDeadline>}
+        >
+          {t("events.card.awards.eyebrow", { year: awardsEvent.year })}
+        </EventCardEyebrow>
+        {isVisitor ? (
+          <>
+            <EventCardHeadline layout={layout}>
+              {t("events.card.awards.visitorVotingHeadline")}
+            </EventCardHeadline>
+            <EventCardDescription>
+              {t("events.card.awards.visitorVotingDescription")}
+            </EventCardDescription>
+          </>
+        ) : (
+          <>
+            {missingCategories != null && (
+              <EventCardHeadline layout={layout}>
+                {missingCategories === 1
+                  ? t("events.card.awards.votingHeadlineSingle")
+                  : t("events.card.awards.votingHeadline", {
+                      count: missingCategories,
+                    })}
+              </EventCardHeadline>
             )}
-          </Group>
-          {isVisitor ? (
-            <>
-              <Title order={3} size={"h4"}>
-                {t("events.card.awards.visitorVotingHeadline")}
-              </Title>
-              <Text size={"sm"} c={"dimmed"}>
-                {t("events.card.awards.visitorVotingDescription")}
-              </Text>
-            </>
-          ) : (
-            <>
-              {missingCategories != null && (
-                <Title order={3} size={"h4"}>
-                  {missingCategories === 1
-                    ? t("events.card.awards.votingHeadlineSingle")
-                    : t("events.card.awards.votingHeadline", {
-                        count: missingCategories,
-                      })}
-                </Title>
-              )}
-              {gotyBallotCategory && (
-                <Text size={"sm"} c={"dimmed"}>
-                  {t("events.card.awards.votingGoty", {
-                    played: gotyBallotCategory.playedNomineesCount,
-                    total: gotyBallotCategory.nominees.length,
+            {gotyBallotCategory && (
+              <EventCardDescription>
+                {t("events.card.awards.votingGoty", {
+                  played: gotyBallotCategory.playedNomineesCount,
+                  total: gotyBallotCategory.nominees.length,
+                })}
+              </EventCardDescription>
+            )}
+            {ballot && (
+              <Stack gap={4}>
+                <Text size={"xs"} className={"text-dimmed-1"}>
+                  {t("events.card.awards.votingProgress", {
+                    voted: categoriesVoted,
+                    total: categoriesTotal,
                   })}
                 </Text>
-              )}
-              {ballot && (
-                <Stack gap={4}>
-                  <Text size={"xs"} c={"dimmed"}>
-                    {t("events.card.awards.votingProgress", {
-                      voted: categoriesVoted,
-                      total: categoriesTotal,
-                    })}
-                  </Text>
-                  <Progress
-                    value={progressValue}
-                    size={"md"}
-                    radius={"xl"}
-                    aria-label={t("events.card.awards.votingProgress", {
-                      voted: categoriesVoted,
-                      total: categoriesTotal,
-                    })}
-                  />
-                </Stack>
-              )}
-            </>
-          )}
-          {isVisitor
-            ? actions(
-                <Button size={"sm"} onClick={() => void redirectToAuth()}>
-                  {t("events.card.awards.visitorVotingAction")}
-                </Button>,
-              )
-            : actions(
-                <Link href={href}>
-                  <Button size={"sm"}>
-                    {t("events.card.awards.votingPrimary")}
-                  </Button>
-                </Link>,
-                <Link href={href}>
-                  <Button size={"sm"} variant={"default"}>
-                    {t("events.card.awards.votingSecondary")}
-                  </Button>
-                </Link>,
-              )}
-        </Stack>
-        {renderVisual(
-          covers.some(Boolean) ? (
-            <EventCardCovers games={covers} />
-          ) : (
-            trophyVisual
-          ),
+                <Progress
+                  value={progressValue}
+                  size={"md"}
+                  radius={"xl"}
+                  aria-label={t("events.card.awards.votingProgress", {
+                    voted: categoriesVoted,
+                    total: categoriesTotal,
+                  })}
+                />
+              </Stack>
+            )}
+          </>
         )}
-      </article>
+        {isVisitor
+          ? actions(
+              <EventCardButton onClick={() => void redirectToAuth()}>
+                {t("events.card.awards.visitorVotingAction")}
+              </EventCardButton>,
+            )
+          : actions(
+              <Link href={href}>
+                <EventCardButton>
+                  {t("events.card.awards.votingPrimary")}
+                </EventCardButton>
+              </Link>,
+              <Link href={href}>
+                <EventCardButton tone={"secondary"}>
+                  {t("events.card.awards.votingSecondary")}
+                </EventCardButton>
+              </Link>,
+            )}
+      </>,
+      covers.some(Boolean) ? <EventCardCovers games={covers} /> : trophyVisual,
     );
   }
 
@@ -426,63 +439,50 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
     const votes = formatNumber(gotyResult?.totalVotesCount, locale);
     const categoriesCount = formatNumber(awardsEvent.categoriesCount, locale);
 
-    return (
-      <article
-        data-testid={"event-card"}
-        data-kind={kind}
-        data-layout={layout}
-        className={cardClassName}
-      >
-        <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-          <Text size={"sm"} fw={600} c={"dimmed"}>
-            {t("events.card.awards.resultsTitle", { year: awardsEvent.year })}
-          </Text>
-          {winnerName && (
-            <Title order={3} size={"h4"}>
-              {t("events.card.awards.resultsWinner", { game: winnerName })}
-            </Title>
-          )}
-          <Text size={"sm"} c={"dimmed"}>
-            {votes && categoriesCount
-              ? t("events.card.awards.resultsVotes", {
-                  votes,
-                  categories: categoriesCount,
-                })
-              : t("events.card.awards.resultsTitle", {
-                  year: awardsEvent.year,
-                })}
-          </Text>
-          {!isVisitor && scoreboard && (
-            <Badge variant={"light"} size={"md"} className={"self-start"}>
-              {t("events.card.awards.resultsScore", {
-                hits: scoreboard.totals.hits,
-                scorable: scoreboard.totals.scorable,
-              })}
-            </Badge>
-          )}
-          {actions(
-            <Link href={href}>
-              <Button size={"sm"}>
-                {t("events.card.awards.resultsPrimary")}
-              </Button>
-            </Link>,
-            !isVisitor ? (
-              <Link href={href}>
-                <Button size={"sm"} variant={"default"}>
-                  {t("events.card.awards.resultsShare")}
-                </Button>
-              </Link>
-            ) : undefined,
-          )}
-        </Stack>
-        {renderVisual(
-          covers.some(Boolean) ? (
-            <EventCardCovers games={covers} />
-          ) : (
-            trophyVisual
-          ),
+    return renderCard(
+      <>
+        <EventCardEyebrow>
+          {t("events.card.awards.eyebrow", { year: awardsEvent.year })}
+        </EventCardEyebrow>
+        {winnerName && (
+          <EventCardHeadline layout={layout}>
+            {t("events.card.awards.resultsWinner", { game: winnerName })}
+          </EventCardHeadline>
         )}
-      </article>
+        <EventCardDescription>
+          {votes && categoriesCount
+            ? t("events.card.awards.resultsVotes", {
+                votes,
+                categories: categoriesCount,
+              })
+            : t("events.card.awards.resultsTitle", {
+                year: awardsEvent.year,
+              })}
+        </EventCardDescription>
+        {!isVisitor && scoreboard && (
+          <Badge variant={"light"} size={"md"} className={"self-start"}>
+            {t("events.card.awards.resultsScore", {
+              hits: scoreboard.totals.hits,
+              scorable: scoreboard.totals.scorable,
+            })}
+          </Badge>
+        )}
+        {actions(
+          <Link href={href}>
+            <EventCardButton>
+              {t("events.card.awards.resultsPrimary")}
+            </EventCardButton>
+          </Link>,
+          !isVisitor ? (
+            <Link href={href}>
+              <EventCardButton tone={"secondary"}>
+                {t("events.card.awards.resultsShare")}
+              </EventCardButton>
+            </Link>
+          ) : undefined,
+        )}
+      </>,
+      covers.some(Boolean) ? <EventCardCovers games={covers} /> : trophyVisual,
     );
   }
 
@@ -490,144 +490,127 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
     return null;
   }
 
-  const liveSentence =
-    topGameName && topGameShare && hours && gamesCount && finishedCount
-      ? t("events.card.recap.liveSentence", {
-          game: topGameName,
-          share: topGameShare,
-          hours,
-          games: gamesCount,
-          finished: finishedCount,
-        })
-      : null;
+  const recapEyebrow = (
+    <EventCardEyebrow>
+      {t("events.card.recap.eyebrow", { year: recapYear })}
+    </EventCardEyebrow>
+  );
 
   if (kind === "recap-live") {
     if (isVisitor) {
-      return (
-        <article
-          data-testid={"event-card"}
-          data-kind={kind}
-          data-layout={layout}
-          className={cardClassName}
-        >
-          <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-            <Text size={"sm"} fw={600} c={"dimmed"}>
-              {t("events.card.recap.liveTitle", { year: recapYear })}
-            </Text>
-            <Title order={3} size={"h4"}>
-              {t("events.card.recap.visitorHeadline")}
-            </Title>
-            <Text size={"sm"} c={"dimmed"}>
-              {t("events.card.recap.visitorDescription")}
-            </Text>
-            {actions(
-              <Button size={"sm"} onClick={() => void redirectToAuth()}>
-                {t("events.card.recap.visitorAction")}
-              </Button>,
-            )}
-          </Stack>
-          {renderVisual(trophyVisual)}
-        </article>
+      return renderCard(
+        <>
+          {recapEyebrow}
+          <EventCardHeadline layout={layout}>
+            {t("events.card.recap.visitorHeadline")}
+          </EventCardHeadline>
+          <EventCardDescription>
+            {t("events.card.recap.visitorDescription")}
+          </EventCardDescription>
+          {actions(
+            <EventCardButton onClick={() => void redirectToAuth()}>
+              {t("events.card.recap.visitorAction")}
+            </EventCardButton>,
+          )}
+        </>,
+        trophyVisual,
       );
     }
 
-    return (
-      <article
-        data-testid={"event-card"}
-        data-kind={kind}
-        data-layout={layout}
-        className={cardClassName}
-      >
-        <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-          <Text size={"sm"} fw={600} c={"dimmed"}>
-            {t("events.card.recap.liveTitle", { year: recapYear })}
-          </Text>
-          <Group align={"flex-end"} gap={"xs"}>
-            {hours && (
-              <Title order={2}>{t("events.card.recap.hours", { hours })}</Title>
-            )}
-            {gamesCount && (
-              <Text size={"sm"} c={"dimmed"} pb={4}>
-                {t("events.card.recap.liveGames", { games: gamesCount })}
-              </Text>
-            )}
-          </Group>
-          <RecapMonthlyBars values={recap?.calendar?.monthlyPlaytimeSeconds} />
-          {liveSentence ? (
-            <Text size={"sm"}>{liveSentence}</Text>
-          ) : (
-            <Title order={3} size={"h4"}>
-              {t("events.card.recap.liveHeadline", { year: recapYear })}
-            </Title>
-          )}
-          {actions(
-            <Link href={recapHref}>
-              <Button size={"sm"}>{t("events.card.recap.livePrimary")}</Button>
-            </Link>,
-            <Link href={storiesHref}>
-              <Button size={"sm"} variant={"default"}>
-                {t("events.card.recap.liveShare")}
-              </Button>
-            </Link>,
-          )}
-        </Stack>
-        {renderVisual(
-          covers.some(Boolean) ? <EventCardCovers games={covers} /> : null,
+    const closesAt =
+      season.recapWindow?.closesAt ??
+      new Date(Date.UTC(recapYear, 11, 31)).toISOString();
+    const stats = (
+      <RecapLiveArt
+        hours={hours}
+        gamesCount={gamesCount}
+        monthlyPlaytimeSeconds={recap?.calendar?.monthlyPlaytimeSeconds}
+        year={recapYear}
+        fill={isHalf}
+      />
+    );
+
+    return renderCard(
+      <>
+        {recapEyebrow}
+        <EventCardHeadline layout={layout}>
+          {t("events.card.recap.liveHeadline", { year: recapYear })}
+        </EventCardHeadline>
+        {topGameName && topGameShare && (
+          <EventCardDescription>
+            {t("events.card.recap.liveDescription", {
+              game: topGameName,
+              share: topGameShare,
+              date: longDate(closesAt),
+            })}
+          </EventCardDescription>
         )}
-      </article>
+        {!isHalf && stats}
+        {actions(
+          <Link href={recapHref}>
+            <EventCardButton>
+              {t("events.card.recap.livePrimary")}
+            </EventCardButton>
+          </Link>,
+          !isHalf ? (
+            <Link href={storiesHref}>
+              <EventCardButton tone={"secondary"}>
+                {t("events.card.recap.liveShare")}
+              </EventCardButton>
+            </Link>
+          ) : undefined,
+        )}
+      </>,
+      !isHalf && covers.some(Boolean) ? (
+        <EventCardCovers games={covers} />
+      ) : null,
+      isHalf ? stats : undefined,
     );
   }
 
-  return (
-    <article
-      data-testid={"event-card"}
-      data-kind={kind}
-      data-layout={layout}
-      className={cardClassName}
-    >
-      <Stack className={"min-w-0 flex-1"} gap={"sm"}>
-        <Text size={"sm"} fw={600} c={"dimmed"}>
-          {t("events.card.recap.closedTitle", { year: recapYear })}
-        </Text>
-        <Title order={3} size={"h4"}>
-          {t("events.card.recap.closedHeadline", { year: recapYear })}
-        </Title>
-        <Group align={"flex-end"} gap={"xs"}>
-          {hours && (
-            <Title order={2}>{t("events.card.recap.hours", { hours })}</Title>
-          )}
-          {gamesCount && (
-            <Text size={"sm"} c={"dimmed"} pb={4}>
-              {t("events.card.recap.closedGames", {
-                games: gamesCount,
-                year: recapYear,
-              })}
-            </Text>
-          )}
-        </Group>
-        {hours && gamesCount && finishedCount && (
-          <Text size={"sm"} c={"dimmed"}>
-            {t("events.card.recap.closedSummary", {
-              hours,
+  return renderCard(
+    <>
+      {recapEyebrow}
+      <EventCardHeadline layout={layout}>
+        {t("events.card.recap.closedHeadline", { year: recapYear })}
+      </EventCardHeadline>
+      <Group align={"flex-end"} gap={"xs"}>
+        {hours && (
+          <Text fz={32} fw={700} lh={1} className={"text-white"}>
+            {t("events.card.recap.hours", { hours })}
+          </Text>
+        )}
+        {gamesCount && (
+          <Text size={"sm"} className={"pb-0.5 text-nav-muted"}>
+            {t("events.card.recap.closedGames", {
               games: gamesCount,
-              finished: finishedCount,
+              year: recapYear,
             })}
           </Text>
         )}
-        {actions(
-          <Link href={storiesHref}>
-            <Button size={"sm"}>{t("events.card.recap.closedPrimary")}</Button>
-          </Link>,
-          <Link href={`${storiesHref}?story=5`}>
-            <Button size={"sm"} variant={"default"}>
-              {t("events.card.recap.closedDownload")}
-            </Button>
-          </Link>,
-        )}
-      </Stack>
-      {renderVisual(
-        covers.some(Boolean) ? <EventCardCovers games={covers} /> : null,
+      </Group>
+      {hours && gamesCount && finishedCount && (
+        <EventCardDescription>
+          {t("events.card.recap.closedSummary", {
+            hours,
+            games: gamesCount,
+            finished: finishedCount,
+          })}
+        </EventCardDescription>
       )}
-    </article>
+      {actions(
+        <Link href={storiesHref}>
+          <EventCardButton>
+            {t("events.card.recap.closedPrimary")}
+          </EventCardButton>
+        </Link>,
+        <Link href={`${storiesHref}?story=5`}>
+          <EventCardButton tone={"secondary"}>
+            {t("events.card.recap.closedDownload")}
+          </EventCardButton>
+        </Link>,
+      )}
+    </>,
+    covers.some(Boolean) ? <EventCardCovers games={covers} /> : null,
   );
 }

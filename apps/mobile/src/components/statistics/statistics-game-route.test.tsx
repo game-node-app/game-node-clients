@@ -61,7 +61,7 @@ it("rejects malformed mobile game routes before source reads or views", async ()
     "awards",
     "awards/result",
     "awards/nominations",
-    "recap/recap_home",
+    "wrapped/wrapped_home",
     "recap/recap_stats",
     "recap/stories",
     "journal/journal_achievements",
