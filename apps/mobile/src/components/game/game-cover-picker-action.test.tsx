@@ -228,7 +228,57 @@ it("offers the cover picker from the web game info actions without a library ent
   });
   expect(addToLibrary).toBeTruthy();
 
+  // Without a library entry there is nothing entry-specific (visibility,
+  // remove) to offer, so the overflow menu is not rendered at all.
+  expect(
+    screen.queryByRole("button", { name: "game.tooltips.moreActions" }),
+  ).toBeNull();
+
   await expectPickerOpens();
+});
+
+it("explains why favoriting is unavailable when the game is not in the library", async () => {
+  renderWithProviders(<GameInfoActions game={game} />);
+
+  const favorite = await screen.findByRole("button", {
+    name: "game.tooltips.addToLibraryFirst",
+  });
+
+  expect(favorite.getAttribute("aria-disabled")).toBe("true");
+});
+
+it("offers visibility and removal from the overflow menu when the game is in the library", async () => {
+  vi.spyOn(
+    CollectionsEntriesService,
+    "collectionsEntriesControllerFindOwnEntryByGameIdV1",
+  ).mockResolvedValue({
+    id: "entry-1",
+    gameId: game.id,
+    libraryUserId: "viewer",
+    isFavorite: false,
+    status: CollectionEntry.status.PLAYING,
+    visibility: CollectionEntry.visibility.PUBLIC,
+    collections: [],
+    ownedPlatforms: [],
+  } as unknown as CollectionEntry);
+
+  renderWithProviders(<GameInfoActions game={game} />);
+
+  await screen.findByRole("button", { name: "game.buttons.update" });
+
+  fireEvent.click(
+    screen.getByRole("button", { name: "game.tooltips.moreActions" }),
+  );
+
+  expect(
+    await screen.findByText("libraryVisibility.labels.visibility"),
+  ).toBeTruthy();
+  expect(await screen.findByText("game.tooltips.removeLibrary")).toBeTruthy();
+
+  // The cover picker stays on the main row, not in the menu.
+  expect(
+    screen.getByRole("button", { name: "game.coverPicker.open" }),
+  ).toBeTruthy();
 });
 
 it("offers the cover picker from the collection entry details panel cover column without submitting the form", async () => {

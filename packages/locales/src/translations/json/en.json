@@ -1753,6 +1753,10 @@
     },
     "tooltips": {
       "addFavorites": "Add to your favorites",
+      "addToLibraryFirst": "Add this game to your library first",
+      "moreActions": "More actions",
+      "quickAdd": "Quick add options",
+      "removeFavorites": "Remove from your favorites",
       "removeLibrary": "Remove from your library",
       "share": "Share this game"
     },
