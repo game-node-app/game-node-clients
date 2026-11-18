@@ -1,5 +1,5 @@
 import {
-  BlogPostsListItem,
+  BlogPostCard,
   CenteredErrorMessage,
   CenteredLoading,
   DetailsBox,
@@ -14,7 +14,7 @@ import {
   getOffsetAsPage,
   getPageAsOffset,
 } from "#@/util";
-import { Badge, Button, Center, Text } from "@mantine/core";
+import { Badge, Box, Button, Center, Text } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { useMemo, useState } from "react";
 
@@ -46,7 +46,11 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
   const renderedItems = useMemo(
     () =>
       data?.data.map((post) => (
-        <BlogPostsListItem key={`list-${post.id}`} post={post} />
+        <BlogPostCard
+          key={`list-${post.id}`}
+          post={post}
+          blogRoutePrefix="/blog"
+        />
       )),
     [data],
   );
@@ -73,7 +77,9 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
         </Center>
       )}
 
-      {renderedItems}
+      <Box className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"}>
+        {renderedItems}
+      </Box>
       <GameViewPagination
         wrapperProps={{
           className: "mt-auto",
