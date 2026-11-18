@@ -23,6 +23,11 @@ describe("EntrySplash", () => {
     vi.resetModules();
     vi.useFakeTimers();
     mockReducedMotion(false);
+    // frames every 16 ms on the fake clock, so the calm-frames wait is deterministic
+    vi.stubGlobal("requestAnimationFrame", (cb: (time: number) => void) =>
+      setTimeout(() => cb(Date.now()), 16),
+    );
+    vi.stubGlobal("cancelAnimationFrame", (id: number) => clearTimeout(id));
   });
 
   afterEach(() => {
@@ -46,8 +51,9 @@ describe("EntrySplash", () => {
     await act(() => vi.advanceTimersByTimeAsync(650));
     expect(phaseOf(container)).toBe("zoom");
 
-    // The page poll ticks every 150 ms, so the fill starts at 1.2 s: zoom ends at 2.75 s.
-    await act(() => vi.advanceTimersByTimeAsync(700));
+    // The page poll ticks every 150 ms (ready at 1.2 s), then six calm 16 ms frames start the
+    // fill at about 1.3 s: the zoom ends at about 2.85 s.
+    await act(() => vi.advanceTimersByTimeAsync(800));
     expect(phaseOf(container)).toBe("fade");
 
     await act(() => vi.advanceTimersByTimeAsync(300));

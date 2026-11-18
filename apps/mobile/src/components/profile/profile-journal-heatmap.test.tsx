@@ -23,10 +23,20 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 it("counts January journal entries in January and switches to the selected year", async () => {
   vi.setSystemTime(new Date(2026, 0, 3, 12));
+  // Mantine's FloatingIndicator (year tabs) observes its target's size; jsdom has no ResizeObserver
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
   window.matchMedia = vi.fn().mockReturnValue({
     matches: false,
     addEventListener: vi.fn(),
