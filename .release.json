@@ -1,0 +1,24 @@
+{
+  "source": "10815b9f585a5621d05cb001499777d39114f958",
+  "changesets": [
+    ".changeset/blog-share-cover.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[a0b575e6f73867296481503608de6d51b16a6e4e...10815b9f585a5621d05cb001499777d39114f958]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/10815b9f585a5621d05cb001499777d39114f958",
+  "versions": {
+    "web": "1.22.2"
+  }
+}
