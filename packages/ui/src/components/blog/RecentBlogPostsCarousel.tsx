@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Button, Text, Paper, Skeleton } from "@mantine/core";
+import { Button, Text, Skeleton } from "@mantine/core";
 import {
   BlogPostCard,
   DetailsBox,
@@ -39,9 +39,7 @@ const RecentBlogPostsCarousel = () => {
     return data?.data.map((blogPost) => {
       return (
         <Carousel.Slide key={blogPost.id}>
-          <Paper className={"w-full h-full bg-paper"} shadow={"sm"}>
-            <BlogPostCard post={blogPost} blogRoutePrefix="/blog" />
-          </Paper>
+          <BlogPostCard post={blogPost} blogRoutePrefix="/blog" />
         </Carousel.Slide>
       );
     });

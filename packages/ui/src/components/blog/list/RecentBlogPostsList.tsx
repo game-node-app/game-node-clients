@@ -1,20 +1,26 @@
 import {
   BLOG_POSTS_FEED_DEFAULT_LIMIT,
+  BlogPostCard,
   CenteredErrorMessage,
   CenteredLoading,
   useBlogPosts,
 } from "#@/components";
-import { BlogPostsListItem } from "#@/components/blog/list/BlogPostsListItem.tsx";
-import { Button, Stack, Text } from "@mantine/core";
+import { cn } from "#@/util";
+import { Box, Button, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   limit?: number;
+  /**
+   * Grid of the cards. Defaults to one column on phones and two from `sm` up; narrow places like
+   * a sidebar pass their own.
+   */
+  className?: string;
 }
-
-import { useTranslation } from "@repo/locales";
 
 const RecentBlogPostsList = ({
   limit = BLOG_POSTS_FEED_DEFAULT_LIMIT,
+  className,
 }: Props) => {
   const { t } = useTranslation();
   const { data, isLoading, error, refetch } = useBlogPosts({
@@ -31,9 +37,15 @@ const RecentBlogPostsList = ({
         </>
       )}
       {data?.data.length === 0 && <Text>{t("blog.list.empty")}</Text>}
-      {data?.data.map((blogPost) => (
-        <BlogPostsListItem key={blogPost.id} post={blogPost} />
-      ))}
+      <Box className={cn("grid grid-cols-1 sm:grid-cols-2 gap-4", className)}>
+        {data?.data.map((blogPost) => (
+          <BlogPostCard
+            key={blogPost.id}
+            post={blogPost}
+            blogRoutePrefix="/blog"
+          />
+        ))}
+      </Box>
     </Stack>
   );
 };

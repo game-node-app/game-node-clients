@@ -35,7 +35,7 @@ const BlogPostDetailLayout = ({ children, postId }: Props) => {
           )}
           <Paper className={"p-2"}>
             <DetailsBox title={t("blog.recentPosts")}>
-              <RecentBlogPostsList />
+              <RecentBlogPostsList className={"lg:grid-cols-1"} />
             </DetailsBox>
           </Paper>
           <Paper className={"p-2"}>
