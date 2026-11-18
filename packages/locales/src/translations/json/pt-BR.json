@@ -2842,6 +2842,14 @@
     }
   },
   "recap": {
+    "playtime": {
+      "afterConnection": "O tempo jogado antes de conectar a conta não entra nos períodos; só o que for jogado depois.",
+      "estimateDetails": "Sobre a estimativa de tempo jogado",
+      "estimateExplanation": "Parte deste tempo foi estimada a partir da primeira sincronização do jogo (datas de início e última partida informadas pela loja).",
+      "noSync": "Nenhuma sincronização registrada",
+      "syncDelay": "A loja pode levar algumas horas para reportar o tempo jogado.",
+      "syncTitle": "Última sincronização por loja"
+    },
     "buttons": {
       "availableSoon": "Disponível em breve",
       "create": "Criar minha retrospectiva"
@@ -2918,8 +2926,7 @@
         "youLabel": "Você"
       },
       "footer": {
-        "period": "De {{start}} a {{end}}",
-        "sources": "Horas de {{sources}} conectados"
+        "period": "De {{start}} a {{end}}"
       },
       "genres": {
         "platformDetail": "{{name}} · {{hours}} h",

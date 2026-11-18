@@ -5,6 +5,7 @@ import {
   useUserId,
   useUserProfile,
 } from "#@/components";
+import { RecapStoreSync } from "#@/components/recap/RecapStoreSync";
 import { RecapCardPreview } from "#@/components/wrapped/card/RecapCardPreview";
 import { RecapBentoCard } from "#@/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "#@/components/wrapped/card/RecapDashCard";
@@ -43,7 +44,11 @@ import {
   RECAP_MEDIA_RECTS,
   type RecapMediaTemplate,
 } from "#@/components/wrapped/card/recapMedia";
-import { at, RECAP_COLORS } from "#@/components/wrapped/card/recapCardTheme";
+import {
+  at,
+  formatPlaytime,
+  RECAP_COLORS,
+} from "#@/components/wrapped/card/recapCardTheme";
 import { exportCardImage } from "#@/components/wrapped/util/exportCardImage";
 import {
   exportRecapVideo,
@@ -65,7 +70,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconInfoCircle } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toPng } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
@@ -172,6 +177,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
 
   // Summary template data
   const summaryQuery = useRecapSummary(recapPeriod);
+  const current = summaryQuery.data?.current;
   const summaryGamesQuery = useGames(
     {
       gameIds: summaryQuery.data?.topGames.map((top) => top.gameId) ?? [],
@@ -354,14 +360,39 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
       <RecapCardFonts />
       <div className={"flex flex-wrap items-center justify-between gap-4"}>
         <Title order={2}>{t("mobile.wrapped.title")}</Title>
-        <SegmentedControl
-          aria-label={t("mobile.wrapped.labels.period")}
-          className={"w-full sm:w-72"}
-          data={periodOptions}
-          value={recapPeriod}
-          disabled={exportPending}
-          onChange={(value) => setRecapPeriod(value as RecapPeriod)}
-        />
+        <div className={"flex w-full flex-col gap-1 sm:w-72"}>
+          <SegmentedControl
+            aria-label={t("mobile.wrapped.labels.period")}
+            data={periodOptions}
+            value={recapPeriod}
+            disabled={exportPending}
+            onChange={(value) => setRecapPeriod(value as RecapPeriod)}
+          />
+          {current && current.estimatedPlaytimeSeconds > 0 && (
+            <Group gap={"xs"}>
+              <Text size={"sm"} c={"dimmed"}>
+                {t("mobile.wrapped.card.hoursPlayed")}{" "}
+                <strong>~{formatPlaytime(current.totalPlaytimeSeconds)}</strong>
+              </Text>
+              <Tooltip
+                label={t("recap.playtime.estimateExplanation")}
+                events={{ hover: true, focus: true, touch: true }}
+                multiline
+                w={280}
+                withArrow
+              >
+                <ActionIcon
+                  aria-label={t("recap.playtime.estimateDetails")}
+                  size={"sm"}
+                  variant={"subtle"}
+                  color={"gray"}
+                >
+                  <IconInfoCircle size={16} aria-hidden />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+          )}
+        </div>
       </div>
 
       {isEmpty && (
@@ -372,6 +403,8 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
           </TextLink>{" "}
         </Text>
       )}
+
+      {userId && <RecapStoreSync />}
 
       <div
         className={

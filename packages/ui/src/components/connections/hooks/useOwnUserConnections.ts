@@ -4,12 +4,15 @@ import { ConnectionsService } from "../../../../../wrapper/src/server";
 /**
  * Returns the connections persisted by the current logged-in user.
  */
-export function useOwnUserConnections() {
+export function useOwnUserConnections(options?: {
+  refetchOnMount?: boolean | "always";
+}) {
   return useQuery({
     queryKey: ["connections", "own"],
     queryFn: async () => {
       return ConnectionsService.connectionsControllerFindOwnV1();
     },
     retry: 1,
+    ...options,
   });
 }

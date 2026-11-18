@@ -2842,6 +2842,14 @@
     }
   },
   "recap": {
+    "playtime": {
+      "afterConnection": "Playtime from before you connected the account isn't counted in these periods. Only playtime after connecting counts.",
+      "estimateDetails": "About the playtime estimate",
+      "estimateExplanation": "Some of this playtime was estimated from the game's first sync (using the start and last-played dates reported by the store).",
+      "noSync": "No sync recorded yet",
+      "syncDelay": "The store may take a few hours to report playtime.",
+      "syncTitle": "Last sync by store"
+    },
     "buttons": {
       "availableSoon": "Available Soon",
       "create": "Create my Recap"
@@ -2918,8 +2926,7 @@
         "youLabel": "You"
       },
       "footer": {
-        "period": "From {{start}} to {{end}}",
-        "sources": "Hours from {{sources}} connected"
+        "period": "From {{start}} to {{end}}"
       },
       "genres": {
         "platformDetail": "{{name}} · {{hours}} h",

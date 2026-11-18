@@ -330,18 +330,24 @@ describe("RecapFooter", () => {
         })}`,
       ),
     ).toBeTruthy();
-    expect(screen.queryByTestId("recap-footer-sources")).toBeNull();
+    expect(screen.queryByText("recap.playtime.syncTitle")).toBeNull();
     expect(connections).not.toHaveBeenCalled();
   });
 
-  it("lists the owner's connected sources", async () => {
+  it("shows each connected store and gives the history notice once", async () => {
     session.userId = "user-1";
     vi.spyOn(
       ConnectionsService,
       "connectionsControllerFindOwnV1",
     ).mockResolvedValue([
-      { type: UserConnectionDto.type.STEAM },
-      { type: UserConnectionDto.type.PSN },
+      {
+        type: UserConnectionDto.type.PSN,
+        lastSyncedAt: "2026-11-15T04:00:00Z",
+      },
+      { type: UserConnectionDto.type.NINTENDO },
+      { type: UserConnectionDto.type.XBOX },
+      { type: UserConnectionDto.type.EPICGAMES },
+      { type: UserConnectionDto.type.GOG },
     ] as unknown as OwnUserConnectionDto[]);
 
     renderWithProviders(
@@ -352,13 +358,19 @@ describe("RecapFooter", () => {
       />,
     );
 
-    expect(await screen.findByTestId("recap-footer-sources")).toBeTruthy();
+    expect(await screen.findByText("recap.playtime.syncTitle")).toBeTruthy();
+    expect(screen.getByText("recap.playtime.syncDelay")).toBeTruthy();
     expect(
-      screen.getByText(
-        `recap.page.footer.sources:${JSON.stringify({
-          sources: "Steam and Playstation Network",
-        })}`,
-      ),
-    ).toBeTruthy();
+      screen
+        .getByText("Playstation Network")
+        .parentElement?.querySelector("time")?.dateTime,
+    ).toBe("2026-11-15T04:00:00.000Z");
+    expect(screen.getByText("Nintendo").parentElement?.textContent).toContain(
+      "recap.playtime.noSync",
+    );
+    expect(screen.getByText("Xbox Live, Epic Games, and GOG.")).toBeTruthy();
+    expect(screen.getAllByText("recap.playtime.afterConnection")).toHaveLength(
+      1,
+    );
   });
 });
