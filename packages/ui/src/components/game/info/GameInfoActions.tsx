@@ -1,24 +1,26 @@
 import {
+  CollectionEntryVisibilityMenu,
   CollectionEntryVisibilitySubmenu,
   GameInfoQuickAddMenu,
   GameInfoShare,
   PreferredPlatformsViewModal,
   toLibraryVisibilityLevel,
+  useOnMobile,
   useUpdateFavoriteStatusMutation,
 } from "#@/components";
 import { CollectionEntryEditModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryEditModal.tsx";
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { GameCoverPickerModal } from "#@/components/game/info/GameCoverPickerModal";
-import { buildPresenterComponent } from "#@/context";
+import { buildPresenterComponent, useShareFile } from "#@/context";
 import { Modal } from "#@/util";
 import {
   ActionIcon,
   Button,
   Group,
-  GroupProps,
   Menu,
   Stack,
+  StackProps,
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -34,17 +36,22 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 
-const ACTION_SIZE = 36;
+/** Controls are 36px on a pointer device, but need a larger touch target. */
+const DESKTOP_ACTION_SIZE = 36;
+const MOBILE_ACTION_SIZE = 40;
 const ACTIONS_MAX_WIDTH = 320;
 
 export interface GameInfoActionsProps {
-  wrapperProps?: GroupProps;
+  wrapperProps?: StackProps;
   game: Game | undefined;
 }
 
 /**
  * Component that handles the library-related actions for a game.
  * The game add report is handled here.
+ *
+ * Shared by web and mobile: the only platform-specific piece is how the share
+ * sheet opens, which comes from the `shareFile` hook registry.
  * @constructor
  */
 const DEFAULT_GameInfoActions = ({
@@ -52,6 +59,8 @@ const DEFAULT_GameInfoActions = ({
   wrapperProps,
 }: GameInfoActionsProps) => {
   const { t } = useTranslation();
+  const onMobile = useOnMobile();
+  const shareFile = useShareFile();
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
@@ -75,6 +84,8 @@ const DEFAULT_GameInfoActions = ({
   if (game == undefined) {
     return null;
   }
+
+  const actionSize = onMobile ? MOBILE_ACTION_SIZE : DESKTOP_ACTION_SIZE;
 
   const visibility =
     toLibraryVisibilityLevel(collectionEntryQuery.data?.visibility) ?? "public";
@@ -114,30 +125,23 @@ const DEFAULT_GameInfoActions = ({
         <GameInfoShare
           gameId={game.id}
           onShare={async (file) => {
-            // eslint-disable-next-line no-undef
-            const toShare: ShareData = {
+            await shareFile({
+              file,
               title: t("game.share.title"),
-              text: t("game.share.seeMoreAt", { gameId: game?.id }),
-              files: [file],
-              url: `https://gamenode.app/game/${game?.id}`,
-            };
-
-            return await navigator.share(toShare);
+              text: t("game.share.seeMoreAt", { gameId: game.id }),
+              url: `https://gamenode.app/game/${game.id}`,
+            });
           }}
         />
       </Modal>
 
-      <Stack
-        gap={"xs"}
-        w={"100%"}
-        maw={ACTIONS_MAX_WIDTH}
-        className={wrapperProps?.className}
-      >
+      <Stack gap={"xs"} w={"100%"} maw={ACTIONS_MAX_WIDTH} {...wrapperProps}>
         {/* Primary action: the split button owns the full row. */}
         <Group gap={0} wrap={"nowrap"} w={"100%"}>
           <Button
             onClick={addUpdateModalUtils.open}
             loading={collectionEntryQuery.isLoading}
+            h={actionSize}
             className="flex-1 rounded-tr-none rounded-br-none"
           >
             {gameInLibrary
@@ -150,7 +154,7 @@ const DEFAULT_GameInfoActions = ({
           >
             <ActionIcon
               variant="filled"
-              size={ACTION_SIZE}
+              size={actionSize}
               aria-label={t("game.tooltips.quickAdd")}
               className="rounded-tl-none rounded-bl-none border-0 border-l-[1px] border-body"
             >
@@ -164,7 +168,7 @@ const DEFAULT_GameInfoActions = ({
           <Tooltip label={favoriteLabel}>
             <ActionIcon
               aria-label={favoriteLabel}
-              size={ACTION_SIZE}
+              size={actionSize}
               variant="default"
               className="flex-1 w-auto"
               // `data-disabled` keeps the tooltip working: a native `disabled`
@@ -187,7 +191,7 @@ const DEFAULT_GameInfoActions = ({
           <Tooltip label={t("game.coverPicker.open")}>
             <ActionIcon
               aria-label={t("game.coverPicker.open")}
-              size={ACTION_SIZE}
+              size={actionSize}
               variant="default"
               className="flex-1 w-auto"
               onClick={coverPickerUtils.open}
@@ -196,11 +200,25 @@ const DEFAULT_GameInfoActions = ({
             </ActionIcon>
           </Tooltip>
 
+          {/*
+            Touch devices have no hover, which Mantine's submenu relies on, so
+            the current visibility keeps its own button there and the overflow
+            menu only holds the destructive action.
+          */}
+          {onMobile && gameInLibrary && (
+            <CollectionEntryVisibilityMenu
+              gameId={game.id}
+              value={visibility}
+              size={actionSize}
+              className="flex-1 w-auto"
+            />
+          )}
+
           {gameInLibrary && (
             <Tooltip label={t("game.tooltips.share")}>
               <ActionIcon
                 aria-label={t("game.tooltips.share")}
-                size={ACTION_SIZE}
+                size={actionSize}
                 variant="default"
                 className="flex-1 w-auto"
                 onClick={shareModalUtils.open}
@@ -225,7 +243,7 @@ const DEFAULT_GameInfoActions = ({
                 <Tooltip label={t("game.tooltips.moreActions")}>
                   <ActionIcon
                     aria-label={t("game.tooltips.moreActions")}
-                    size={ACTION_SIZE}
+                    size={actionSize}
                     variant="default"
                     className="flex-1 w-auto"
                   >
@@ -234,11 +252,15 @@ const DEFAULT_GameInfoActions = ({
                 </Tooltip>
               </Menu.Target>
               <Menu.Dropdown>
-                <CollectionEntryVisibilitySubmenu
-                  gameId={game.id}
-                  value={visibility}
-                />
-                <Menu.Divider />
+                {!onMobile && (
+                  <>
+                    <CollectionEntryVisibilitySubmenu
+                      gameId={game.id}
+                      value={visibility}
+                    />
+                    <Menu.Divider />
+                  </>
+                )}
                 <Menu.Item
                   color={"red"}
                   leftSection={<IconTrash size={16} />}

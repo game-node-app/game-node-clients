@@ -37,15 +37,21 @@ export function useProgressiveRender(
   const [sentinel, setSentinel] = useState<HTMLElement | null>(null);
   const hasMore = visibleCount < totalCount;
 
-  const sentinelRef = useCallback((node: HTMLElement | null) => {
-    setSentinel(node);
-  }, []);
+  const sentinelRef = useCallback(
+    (node: HTMLElement | null) => {
+      // Older WebViews and jsdom may not provide IntersectionObserver: render
+      // everything. Handled on attach rather than in the effect below so the
+      // server render stays at `initialCount` and hydration matches it.
+      if (node != null && typeof IntersectionObserver === "undefined") {
+        setVisibleCount(totalCount);
+      }
+      setSentinel(node);
+    },
+    [totalCount],
+  );
 
   useEffect(() => {
-    if (!sentinel || !hasMore) return;
-    // Older WebViews and jsdom may not provide IntersectionObserver: render everything.
-    if (typeof IntersectionObserver === "undefined") {
-      setVisibleCount(totalCount);
+    if (!sentinel || !hasMore || typeof IntersectionObserver === "undefined") {
       return;
     }
 
@@ -62,7 +68,7 @@ export function useProgressiveRender(
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [hasMore, rootMargin, sentinel, step, totalCount, visibleCount]);
+  }, [hasMore, rootMargin, sentinel, step, visibleCount]);
 
   return { visibleCount, sentinelRef, hasMore };
 }
