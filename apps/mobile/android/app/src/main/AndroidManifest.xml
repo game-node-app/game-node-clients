@@ -35,6 +35,61 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name="app.gamenode.widget.HoursWidgetProvider"
+            android:label="@string/widget_hours_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_hours_widget_info" />
+        </receiver>
+        <receiver
+            android:name="app.gamenode.widget.TopGameWidgetProvider"
+            android:label="@string/widget_top_game_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_top_game_widget_info" />
+        </receiver>
+        <receiver
+            android:name="app.gamenode.widget.Top3WidgetProvider"
+            android:label="@string/widget_top3_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_top3_widget_info" />
+        </receiver>
+        <receiver
+            android:name="app.gamenode.widget.PosterWidgetProvider"
+            android:label="@string/widget_poster_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_poster_widget_info" />
+        </receiver>
+        <receiver
+            android:name="app.gamenode.widget.PersonalityWidgetProvider"
+            android:label="@string/widget_personality_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_personality_widget_info" />
+        </receiver>
+        <receiver
+            android:name="app.gamenode.widget.DailyWidgetProvider"
+            android:label="@string/widget_daily_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/wrapped_daily_widget_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -18,6 +18,8 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import LiveUpdateListener from "@/components/general/LiveUpdateListener";
+import WrappedWidgetSync from "@/components/wrapped/WrappedWidgetSync";
+import DailyWidgetSync from "@/components/daily/DailyWidgetSync";
 import EntrySplash from "@/components/general/splash/EntrySplash";
 import {
   getAuthClientOptions,
@@ -210,6 +212,8 @@ const App: React.FC = () => {
                   <AppUrlListener />
                   <AppUpdateListener />
                   <LiveUpdateListener />
+                  <WrappedWidgetSync />
+                  <DailyWidgetSync />
                   <NotificationsManager />
                   <Tabs />
                   {/*

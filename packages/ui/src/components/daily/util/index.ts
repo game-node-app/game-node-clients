@@ -5,6 +5,7 @@
 export * from "./buildDailyShareText";
 export * from "./computeDailyStats";
 export * from "./dailyModes";
+export * from "./dailyWidgetSnapshot";
 export * from "./formatDailyDate";
 export * from "./startedDailyResult";
 export * from "./toDailyLocalResult";

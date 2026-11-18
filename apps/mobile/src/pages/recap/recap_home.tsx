@@ -3,14 +3,21 @@ import { blobToBase64 } from "@/util/imageUtils";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { useTranslation } from "@repo/locales";
-import { WrappedRecapScreen } from "@repo/ui";
+import { WrappedRecapScreen, type RecapPeriod } from "@repo/ui";
+import { useLocation } from "react-router-dom";
+
+const RECAP_PERIODS: RecapPeriod[] = ["week", "month", "year"];
 
 const RecapHomePage = () => {
   const { t } = useTranslation();
+  // `?period=year` comes from the home screen widgets, which summarise the last 12 months.
+  const requested = new URLSearchParams(useLocation().search).get("period");
+  const initialPeriod = RECAP_PERIODS.find((period) => period === requested);
 
   return (
     <AppPage withMenuButton>
       <WrappedRecapScreen
+        initialPeriod={initialPeriod}
         onShare={async (file) => {
           const base64 = await blobToBase64(file);
 

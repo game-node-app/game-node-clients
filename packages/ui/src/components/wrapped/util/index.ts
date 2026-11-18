@@ -6,3 +6,5 @@ export * from "./exportRecapVideo";
 export * from "./recapFigures";
 export * from "./recapPhoto";
 export * from "./recapPlatform";
+export * from "./wrappedPersonality";
+export * from "./wrappedWidgetSnapshot";
