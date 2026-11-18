@@ -1,0 +1,28 @@
+{
+  "source": "a0b575e6f73867296481503608de6d51b16a6e4e",
+  "changesets": [
+    ".changeset/favorite-game-cover-resolution.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[7320bdb0cc78ad42390d9934621b77f09e05448b...a0b575e6f73867296481503608de6d51b16a6e4e]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/a0b575e6f73867296481503608de6d51b16a6e4e",
+  "versions": {
+    "web": "1.22.1",
+    "mobile": "1.20.1"
+  }
+}
