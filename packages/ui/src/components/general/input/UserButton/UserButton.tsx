@@ -10,8 +10,6 @@ interface UserButtonProps extends GroupProps {
   userId: string;
   /** What the secondary line shows. `viewProfile` renders a "View profile" call to action. */
   count?: "level" | "games" | "viewProfile";
-  /** Renders the name as a bold `@username` handle. */
-  withHandle?: boolean;
   /** Renders the name in bold without the `@` prefix. */
   boldName?: boolean;
   avatarProps?: AvatarProps;
@@ -20,7 +18,6 @@ interface UserButtonProps extends GroupProps {
 export function UserButton({
   userId,
   count = "games",
-  withHandle = false,
   boldName = false,
   avatarProps,
   ...others
@@ -43,8 +40,7 @@ export function UserButton({
       <UserAvatar userId={userId} size={"lg"} {...avatarProps} />
 
       <div style={{ flex: 1 }}>
-        <Text size="md" c={"white"} fw={withHandle || boldName ? 700 : undefined}>
-          {withHandle && profile.data?.username ? "@" : ""}
+        <Text size="md" c={"white"} fw={boldName ? 700 : undefined}>
           {profile.data?.username}
         </Text>
 

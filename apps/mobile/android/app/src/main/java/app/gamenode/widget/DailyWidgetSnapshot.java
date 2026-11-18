@@ -58,6 +58,16 @@ public final class DailyWidgetSnapshot {
         return strOrNull("title") == null;
     }
 
+    /** True once the daily reset has passed, i.e. the stored results belong to yesterday. */
+    public boolean resetPassed(long nowMs) {
+        return nextResetAt > 0 && nowMs >= nextResetAt;
+    }
+
+    /** Title of the pending state: the played snapshot carries it separately as `titlePending`. */
+    public String pendingTitle() {
+        return str("titlePending", str("title", ""));
+    }
+
     public String str(String key, String fallback) {
         String v = strings.optString(key, "");
         return v.isEmpty() ? fallback : v;

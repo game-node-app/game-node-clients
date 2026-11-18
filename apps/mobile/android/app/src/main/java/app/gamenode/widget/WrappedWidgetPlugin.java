@@ -18,9 +18,57 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @CapacitorPlugin(name = "WrappedWidget")
 public class WrappedWidgetPlugin extends Plugin {
+
+    /**
+     * All snapshot/image work runs on this single thread so calls execute in order and never
+     * overlap (no shared .tmp files, no older update finishing after a newer one).
+     */
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "wrapped-widget-worker");
+        t.setDaemon(true);
+        return t;
+    });
+
+    /** Bumped by every update/clear call; a queued update that is no longer the latest is skipped. */
+    private static final AtomicInteger WRAPPED_GENERATION = new AtomicInteger();
+
+    /**
+     * Queues work, then refreshes widgets and resolves the call exactly once. Nothing thrown by
+     * the work, the refresh or the executor can escape.
+     */
+    private static void enqueue(final Context ctx, final PluginCall call, final Runnable work) {
+        try {
+            EXECUTOR.execute(() -> {
+                try {
+                    work.run();
+                } catch (Throwable ignored) {
+                    // best-effort; widgets fall back to what is stored
+                }
+                finish(ctx, call, true);
+            });
+        } catch (Throwable t) {
+            finish(ctx, call, false);
+        }
+    }
+
+    private static void finish(Context ctx, PluginCall call, boolean refresh) {
+        if (refresh) {
+            try {
+                WidgetRefresher.refreshAll(ctx);
+            } catch (Throwable ignored) {
+            }
+        }
+        try {
+            call.resolve();
+        } catch (Throwable ignored) {
+        }
+    }
 
     @PluginMethod
     public void update(final PluginCall call) {
@@ -38,40 +86,48 @@ public class WrappedWidgetPlugin extends Plugin {
             call.reject("invalid snapshot", e);
             return;
         }
-        new Thread(() -> {
-            try {
-                ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
-                        .edit().putString(WidgetSnapshot.KEY, json).commit();
-
-                File dir = WidgetSnapshot.imagesDir(ctx);
-                //noinspection ResultOfMethodCallIgnored
-                dir.mkdirs();
-                for (int i = 0; i < 3; i++) {
-                    String url = i < parsed.topGames.size() ? parsed.topGames.get(i).coverUrl : null;
-                    syncImage(url, WidgetSnapshot.coverFile(ctx, i));
+        final int generation = WRAPPED_GENERATION.incrementAndGet();
+        try {
+            EXECUTOR.execute(() -> {
+                boolean stale = generation != WRAPPED_GENERATION.get();
+                if (!stale) {
+                    try {
+                        // Images first so a widget refresh never pairs new names with old covers.
+                        try {
+                            File dir = WidgetSnapshot.imagesDir(ctx);
+                            //noinspection ResultOfMethodCallIgnored
+                            dir.mkdirs();
+                            for (int i = 0; i < 3; i++) {
+                                String url = i < parsed.topGames.size() ? parsed.topGames.get(i).coverUrl : null;
+                                syncImage(url, WidgetSnapshot.coverFile(ctx, i));
+                            }
+                            syncImage(parsed.avatarUrl, WidgetSnapshot.avatarFile(ctx));
+                        } catch (Throwable ignored) {
+                            // images are best-effort; widgets fall back to placeholders
+                        }
+                        ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
+                                .edit().putString(WidgetSnapshot.KEY, json).commit();
+                    } catch (Throwable ignored) {
+                    }
                 }
-                syncImage(parsed.avatarUrl, WidgetSnapshot.avatarFile(ctx));
-            } catch (Throwable ignored) {
-                // images are best-effort; widgets fall back to placeholders
-            }
-            WidgetRefresher.refreshAll(ctx);
-            call.resolve();
-        }, "wrapped-widget-update").start();
+                // A newer update/clear is queued and will refresh the widgets itself.
+                finish(ctx, call, !stale);
+            });
+        } catch (Throwable t) {
+            finish(ctx, call, false);
+        }
     }
 
     @PluginMethod
     public void clear(final PluginCall call) {
         final Context ctx = getContext().getApplicationContext();
-        new Thread(() -> {
-            try {
-                ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
-                        .edit().remove(WidgetSnapshot.KEY).commit();
-                deleteRecursive(WidgetSnapshot.imagesDir(ctx));
-            } catch (Throwable ignored) {
-            }
-            WidgetRefresher.refreshAll(ctx);
-            call.resolve();
-        }, "wrapped-widget-clear").start();
+        // Invalidates any older update still waiting in the queue.
+        WRAPPED_GENERATION.incrementAndGet();
+        enqueue(ctx, call, () -> {
+            ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
+                    .edit().remove(WidgetSnapshot.KEY).commit();
+            deleteRecursive(WidgetSnapshot.imagesDir(ctx));
+        });
     }
 
     @PluginMethod
@@ -89,29 +145,15 @@ public class WrappedWidgetPlugin extends Plugin {
             call.reject("invalid snapshot", e);
             return;
         }
-        new Thread(() -> {
-            try {
-                ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
-                        .edit().putString(DailyWidgetSnapshot.KEY, json).commit();
-            } catch (Throwable ignored) {
-            }
-            WidgetRefresher.refreshAll(ctx);
-            call.resolve();
-        }, "daily-widget-update").start();
+        enqueue(ctx, call, () -> ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
+                .edit().putString(DailyWidgetSnapshot.KEY, json).commit());
     }
 
     @PluginMethod
     public void clearDaily(final PluginCall call) {
         final Context ctx = getContext().getApplicationContext();
-        new Thread(() -> {
-            try {
-                ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
-                        .edit().remove(DailyWidgetSnapshot.KEY).commit();
-            } catch (Throwable ignored) {
-            }
-            WidgetRefresher.refreshAll(ctx);
-            call.resolve();
-        }, "daily-widget-clear").start();
+        enqueue(ctx, call, () -> ctx.getSharedPreferences(WidgetSnapshot.PREFS, Context.MODE_PRIVATE)
+                .edit().remove(DailyWidgetSnapshot.KEY).commit());
     }
 
     @PluginMethod

@@ -81,6 +81,7 @@ describe("buildWrappedWidgetSnapshot", () => {
         games: [],
         username: "ThePrado",
         language: "en",
+        period: "year",
         labels,
       }),
     ).toBeNull();
@@ -98,6 +99,7 @@ describe("buildWrappedWidgetSnapshot", () => {
       username: "ThePrado",
       avatarUrl: "https://cdn/avatar.png",
       language: "en",
+      period: "year",
       labels,
       now: 123,
     })!;
@@ -119,12 +121,27 @@ describe("buildWrappedWidgetSnapshot", () => {
     expect(snapshot.chips).toEqual(["Role-playing (RPG)", "PC", "#1 Elden Ring"]);
   });
 
+  it("carries the period the widgets cover", () => {
+    const snapshot = buildWrappedWidgetSnapshot({
+      summary: summary(10, 5, [{ gameId: 1, seconds: 10 }]),
+      period: "week",
+      games: [],
+      username: "ThePrado",
+      language: "en",
+      labels,
+    })!;
+
+    expect(snapshot.period).toBe("week");
+    expect(JSON.parse(JSON.stringify(snapshot)).period).toBe("week");
+  });
+
   it("drops the change chip without a previous period and keeps decimals for small totals", () => {
     const snapshot = buildWrappedWidgetSnapshot({
       summary: summary(4.5, 0, [{ gameId: 1, seconds: 4.5 }]),
       games: [],
       username: "ThePrado",
       language: "pt-BR",
+      period: "year",
       labels,
     })!;
 
@@ -144,6 +161,7 @@ describe("buildWrappedWidgetSnapshot", () => {
       games: [game(1, "Elden Ring")],
       username: "ThePrado",
       language: "en",
+      period: "year",
       labels,
     })!;
 
@@ -165,6 +183,7 @@ describe("buildWrappedWidgetSnapshot", () => {
       games: [],
       username: "ThePrado",
       language: "en",
+      period: "year",
       labels,
     })!;
 
@@ -177,6 +196,7 @@ describe("buildWrappedWidgetSnapshot", () => {
       games: [],
       username: "ThePrado",
       language: "en",
+      period: "year",
       labels,
     })!;
 

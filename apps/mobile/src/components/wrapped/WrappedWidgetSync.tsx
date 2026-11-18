@@ -61,6 +61,7 @@ export default function WrappedWidgetSync() {
     const periodChip = t(`mobile.wrapped.widget.period.${period}`);
     const snapshot = buildWrappedWidgetSnapshot({
       summary,
+      period,
       games,
       username,
       avatarUrl,

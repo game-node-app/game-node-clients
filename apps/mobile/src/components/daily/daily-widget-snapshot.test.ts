@@ -58,6 +58,9 @@ describe("buildDailyWidgetSnapshot", () => {
       "none",
     ]);
     expect(snapshot.strings.title).toBe("1 of 4 solved");
+    // Kept so the widget can show "new puzzles" itself after the reset.
+    expect(snapshot.strings.titlePending).toBe("What's today's game?");
+    expect(snapshot.strings.cta).toBe("Play now");
     expect(snapshot.strings.subtitle).toBe("3 day streak");
   });
 

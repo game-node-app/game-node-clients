@@ -24,11 +24,14 @@ abstract class BaseWidgetProvider extends AppWidgetProvider {
 
     /**
      * Where a tap on the widget goes. It is an https link on the app's own domain: the app's
-     * `AppUrlListener` turns it into the matching in-app route (e.g. `/recap` becomes the Wrapped
-     * screen, opened on the same 12 months the widgets summarise), both when the app is already running and on a cold start.
+     * `AppUrlListener` nests it under the current tab, both when the app is already running and on
+     * a cold start. Wrapped widgets open the Wrapped screen (`/wrapped`) on the period the widgets
+     * cover, taken from the stored snapshot (year when there is none).
      */
-    protected String targetUrl() {
-        return "https://gamenode.app/recap?period=year";
+    protected String targetUrl(Context ctx) {
+        WidgetSnapshot s = WidgetSnapshot.load(ctx);
+        String period = s != null ? s.period : WidgetSnapshot.DEFAULT_PERIOD;
+        return "https://gamenode.app/wrapped?period=" + period;
     }
 
     /** Builds the populated widget. May throw; the caller falls back to the empty state. */
@@ -87,7 +90,7 @@ abstract class BaseWidgetProvider extends AppWidgetProvider {
         }
         if (rv == null) return;
         try {
-            rv.setOnClickPendingIntent(R.id.root, openAppIntent(context, id, targetUrl()));
+            rv.setOnClickPendingIntent(R.id.root, openAppIntent(context, id, targetUrl(context)));
             mgr.updateAppWidget(id, rv);
         } catch (Throwable ignored) {
             // never crash from the receiver

@@ -12,6 +12,7 @@ import {
   getWrappedPersonality,
   type WrappedPersonalityId,
 } from "#@/components/wrapped/util/wrappedPersonality";
+import type { RecapPeriod } from "#@/components/wrapped/hooks/useRecapSummary";
 import type {
   Game,
   ProfileMetricsSummaryResponseDto,
@@ -29,6 +30,8 @@ export const WRAPPED_WIDGET_MAX_GAMES = 3;
 export interface WrappedWidgetSnapshot {
   version: typeof WRAPPED_WIDGET_SNAPSHOT_VERSION;
   updatedAt: number;
+  /** Period the widgets cover; a tap opens the Wrapped screen on it. */
+  period: RecapPeriod;
   username: string;
   avatarUrl: string | null;
   strings: {
@@ -90,6 +93,8 @@ export interface WrappedWidgetLabels {
 
 export interface BuildWrappedWidgetSnapshotInput {
   summary: ProfileMetricsSummaryResponseDto;
+  /** Period `summary` covers (week, month or year). */
+  period: RecapPeriod;
   /** Loaded games for `summary.topGames` (with their cover), in any order. */
   games: Game[];
   username: string;
@@ -114,6 +119,7 @@ function formatHoursValue(hours: number, language: string) {
  */
 export function buildWrappedWidgetSnapshot({
   summary,
+  period,
   games,
   username,
   avatarUrl = null,
@@ -169,6 +175,7 @@ export function buildWrappedWidgetSnapshot({
   return {
     version: WRAPPED_WIDGET_SNAPSHOT_VERSION,
     updatedAt: now,
+    period,
     username,
     avatarUrl,
     strings: {

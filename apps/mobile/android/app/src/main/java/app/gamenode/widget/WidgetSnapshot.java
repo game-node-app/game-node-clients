@@ -16,6 +16,7 @@ public final class WidgetSnapshot {
     public static final String PREFS = "wrapped_widget";
     public static final String KEY = "snapshot";
     public static final String IMAGES_DIR = "wrapped_widget";
+    public static final String DEFAULT_PERIOD = "year";
 
     public static final class Game {
         public String name = "";
@@ -31,6 +32,8 @@ public final class WidgetSnapshot {
     }
 
     public Personality personality;
+    /** Period the widgets cover: "week", "month" or "year" (default). */
+    public String period = DEFAULT_PERIOD;
     public String username = "";
     public String avatarUrl;
     public final JSONObject strings = new JSONObject();
@@ -46,6 +49,10 @@ public final class WidgetSnapshot {
     public static WidgetSnapshot parse(String json) throws Exception {
         JSONObject root = new JSONObject(json);
         WidgetSnapshot s = new WidgetSnapshot();
+        String period = root.optString("period", DEFAULT_PERIOD);
+        if ("week".equals(period) || "month".equals(period) || "year".equals(period)) {
+            s.period = period;
+        }
         s.username = root.optString("username", "");
         s.avatarUrl = nullable(root, "avatarUrl");
         JSONObject st = root.optJSONObject("strings");

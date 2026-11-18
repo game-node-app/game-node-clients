@@ -19,6 +19,8 @@ vi.mock("@repo/ui", () => ({
   useUserId: () => state.userId,
   useSeasonEvents: () => state.season,
   useRecapVisited: () => state.recapVisited,
+  useUserProfile: () => ({ data: undefined }),
+  getS3StoredUpload: (name: string) => `/uploads/${name}`,
   signOut: vi.fn(async () => {}),
   cn: (...values: Array<string | false | null | undefined>) =>
     values.filter(Boolean).join(" "),

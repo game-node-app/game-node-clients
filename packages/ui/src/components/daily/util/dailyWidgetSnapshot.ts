@@ -19,6 +19,12 @@ export interface DailyWidgetSnapshot {
   strings: {
     eyebrow: string;
     title: string;
+    /**
+     * Title of the "new puzzles" state. Always present, even while `state` is
+     * `played`: the widget falls back to it once `nextResetAt` has passed and
+     * the app has not had the chance to push a fresh snapshot.
+     */
+    titlePending: string;
     subtitle: string | null;
     streakChip: string | null;
     cta: string;
@@ -92,6 +98,7 @@ export function buildDailyWidgetSnapshot({
       title: pending
         ? labels.titlePending
         : labels.titlePlayed(won, puzzles.length),
+      titlePending: labels.titlePending,
       subtitle: hasStreak ? labels.streak(streak) : null,
       streakChip: hasStreak ? labels.streakChip(streak) : null,
       cta: labels.cta,
