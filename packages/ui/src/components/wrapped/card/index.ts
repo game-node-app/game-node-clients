@@ -4,9 +4,16 @@
 
 export * from "./RecapBentoCard";
 export * from "./RecapCardFonts";
+export * from "./recapBackdropImages";
+export * from "./recapCardFormats";
 export * from "./RecapCardPreview";
+export * from "./recapCardTheme";
+export * from "./recapCardTypes";
 export * from "./RecapChange";
 export * from "./RecapCover";
+export * from "./recapCustomization";
+export * from "./recapMedia";
+export * from "./RecapMediaLayer";
 export * from "./RecapDashCard";
 export * from "./RecapMediaLayer";
 export * from "./RecapPlatformMark";

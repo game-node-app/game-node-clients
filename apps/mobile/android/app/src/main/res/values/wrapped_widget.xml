@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wrapped_bg">#111111</color>
+    <color name="wrapped_orange">#F15025</color>
+    <color name="wrapped_orange_soft">#2EF15025</color>
+    <color name="wrapped_gray">#868686</color>
+    <color name="wrapped_white">#FFFFFF</color>
+    <color name="wrapped_white_75">#BFFFFFFF</color>
+    <color name="wrapped_white_70">#B3FFFFFF</color>
+    <color name="wrapped_white_soft">#2EFFFFFF</color>
+    <color name="wrapped_white_10">#1AFFFFFF</color>
+    <color name="wrapped_white_12">#1FFFFFFF</color>
+</resources>

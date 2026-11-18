@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Same colour as the web/Kotlin EntrySplash and the page background in index.html. -->
+    <color name="splash_background">#1A1A1A</color>
+</resources>

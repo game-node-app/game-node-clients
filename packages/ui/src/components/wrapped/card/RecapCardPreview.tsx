@@ -20,6 +20,8 @@ interface Props extends PropsWithChildren {
   frameClassName?: string;
   frameStyle?: CSSProperties;
   testId?: string;
+  /** Overrides the height the preview may take (compact layouts fit the card in one screen). */
+  maxHeight?: number;
 }
 
 /**
@@ -33,6 +35,7 @@ export function RecapCardPreview({
   frameClassName,
   frameStyle,
   testId = "recap-card",
+  maxHeight: maxHeightOverride,
   children,
 }: Props) {
   const { ref, width } = useElementSize();
@@ -41,7 +44,9 @@ export function RecapCardPreview({
   // Use the available window height (minus header, title, the stage's
   // label row and format switch, and paddings) so the card fills the preview
   // area on large screens; never below the default.
-  const maxHeight = Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
+  const maxHeight =
+    maxHeightOverride ??
+    Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
   const scale =
     scaleOverride != null
       ? width > 0

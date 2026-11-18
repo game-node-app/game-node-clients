@@ -4,19 +4,25 @@ import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { cn } from "#@/util";
 import { AvatarProps, Group, GroupProps, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface UserButtonProps extends GroupProps {
   userId: string;
-  count?: "level" | "games";
+  /** What the secondary line shows. `viewProfile` renders a "View profile" call to action. */
+  count?: "level" | "games" | "viewProfile";
+  /** Renders the name as a bold `@username` handle. */
+  withHandle?: boolean;
   avatarProps?: AvatarProps;
 }
 
 export function UserButton({
   userId,
   count = "games",
+  withHandle = false,
   avatarProps,
   ...others
 }: UserButtonProps) {
+  const { t } = useTranslation();
   const profile = useUserProfile(userId);
   const collectionEntriesCount = useCollectionEntriesForUserId({
     userId,
@@ -34,12 +40,17 @@ export function UserButton({
       <UserAvatar userId={userId} size={"lg"} {...avatarProps} />
 
       <div style={{ flex: 1 }}>
-        <Text size="md" c={"white"}>
+        <Text size="md" c={"white"} fw={withHandle ? 700 : undefined}>
+          {withHandle && profile.data?.username ? "@" : ""}
           {profile.data?.username}
         </Text>
 
         <Text c="dimmed" size="sm">
-          {count === "level" ? `Level ${totalLevel}` : `${totalGames} games`}
+          {count === "viewProfile"
+            ? t("navigation.account.viewProfile")
+            : count === "level"
+              ? `Level ${totalLevel}`
+              : `${totalGames} games`}
         </Text>
       </div>
     </Group>

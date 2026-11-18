@@ -2,7 +2,7 @@
 // prettier-ignore
 "use no memo";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
-import { menuController } from "@ionic/core/components";
+import { closeMainMenu } from "@/util/closeMainMenu";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -53,7 +53,7 @@ const MobileSidebarMenu = () => {
   const showRecapEntry = !!recapHref && !!recapEntry;
 
   const closeMenu = () => {
-    menuController.close("main-menu").catch(console.error);
+    closeMainMenu().catch(console.error);
   };
 
   return (
