@@ -1,0 +1,22 @@
+{
+  "source": "54385a6dc3f233239c68b1838a404a3690f6a392",
+  "changesets": [
+    ".changeset/android-wrapped-widgets.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[89a87326d6573cad665472d792d04a75c9f69398...54385a6dc3f233239c68b1838a404a3690f6a392]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "minor"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/54385a6dc3f233239c68b1838a404a3690f6a392",
+  "versions": {
+    "mobile": "1.21.0"
+  }
+}
