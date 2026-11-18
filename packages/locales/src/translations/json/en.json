@@ -4247,5 +4247,82 @@
     "restartError": "We couldn’t restart the app. Try again, or close and reopen the app to apply the update.",
     "retry": "Try again",
     "dismiss": "Dismiss"
+  },
+  "seo": {
+    "defaultDescription": "Organize all your games in one place: track what you play, review games and see what your friends are playing.",
+    "profile": {
+      "title": "{{username}} on GameNode",
+      "description": "See {{username}}'s games, reviews and activity on GameNode."
+    },
+    "library": {
+      "title": "{{username}}'s library - GameNode",
+      "description": "Browse the games in {{username}}'s library on GameNode."
+    },
+    "collection": {
+      "title": "{{collection}} - {{username}}'s library - GameNode",
+      "description": "A game collection by {{username}} on GameNode."
+    },
+    "entry": {
+      "title": "{{game}} in {{username}}'s library - GameNode",
+      "description": "See how {{username}} is doing in {{game}}: status, playtime, review and more."
+    },
+    "reviews": {
+      "title": "{{username}}'s reviews - GameNode",
+      "description": "Read {{username}}'s game reviews on GameNode."
+    },
+    "stats": {
+      "title": "{{username}}'s stats - GameNode",
+      "description": "Playtime, genres, platforms and more from {{username}}'s library."
+    },
+    "activity": {
+      "title": "{{username}}'s activity - GameNode",
+      "description": "See what {{username}} has been playing on GameNode."
+    },
+    "feats": {
+      "title": "{{username}}'s feats - GameNode"
+    },
+    "recap": {
+      "title": "{{username}}'s {{year}} Recap - GameNode",
+      "description": "The games, hours and highlights of {{username}}'s {{year}} on GameNode."
+    },
+    "awards": {
+      "title": "GameNode Awards {{year}}",
+      "description": "Nominate and vote for the best games of {{year}} with the GameNode community.",
+      "nominationsTitle": "Nominations - GameNode Awards {{year}}",
+      "voteTitle": "Vote - GameNode Awards {{year}}",
+      "resultsTitle": "Results - GameNode Awards {{year}}",
+      "resultsDescription": "The best games of {{year}}, as voted by the GameNode community.",
+      "ballotTitle": "{{username}}'s votes - GameNode Awards {{year}}",
+      "ballotDescription": "See {{username}}'s picks for the best games of {{year}}."
+    },
+    "blog": {
+      "title": "Blog - GameNode",
+      "description": "News, reviews and updates from GameNode.",
+      "archiveTitle": "Blog archive - GameNode",
+      "taggedTitle": "{{tag}} - GameNode Blog"
+    },
+    "explore": {
+      "description": "Discover trending games, new releases and what the GameNode community is playing."
+    },
+    "daily": {
+      "description": "Daily game puzzles: guess the game from its cover, artwork, keywords or specs. A new challenge every day."
+    },
+    "feed": {
+      "title": "Activity - GameNode",
+      "postsTitle": "Posts - GameNode"
+    },
+    "mcp": {
+      "title": "GameNode + AI",
+      "description": "Connect GameNode to Claude, ChatGPT and other AI assistants and manage your library by chat."
+    },
+    "privacy": {
+      "title": "Privacy policy - GameNode"
+    },
+    "tos": {
+      "title": "Terms of service - GameNode"
+    },
+    "achievements": {
+      "title": "{{username}}'s achievements - GameNode"
+    }
   }
 }

@@ -69,7 +69,7 @@ declare const cookieStore: {
 
 function getLocaleFromPath(
   asPath: string,
-  defaultLocale?: string
+  defaultLocale?: string,
 ): SupportedLanguage | undefined {
   const pathname = asPath.split("?")[0];
   const firstSegment = pathname.split("/").filter(Boolean)[0];
@@ -145,7 +145,7 @@ export default function WebApp({
             retry: 2,
           },
         },
-      })
+      }),
   );
 
   const locale =
@@ -165,7 +165,7 @@ export default function WebApp({
         {
           locale: lang,
           scroll: false,
-        }
+        },
       );
 
       void cookieStore.set({
@@ -173,7 +173,7 @@ export default function WebApp({
         value: lang,
       });
     },
-    [router]
+    [router],
   );
 
   useEffect(() => {
@@ -188,7 +188,7 @@ export default function WebApp({
       {
         locale,
         scroll: false,
-      }
+      },
     );
   }, [locale, router]);
 
@@ -222,7 +222,7 @@ export default function WebApp({
                 />
               </Head>
               {/* Default title and link-preview tags; pages override them. */}
-              <OpenGraph title="GameNode" />
+              <OpenGraph title="GameNode" links={false} />
               <NotificationsManager />
               <OpenInAppDialog />
               <HydrationBoundary state={pageProps.dehydratedState}>

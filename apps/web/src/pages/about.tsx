@@ -17,8 +17,8 @@ import { AboutPromiseSection } from "@/components/about/AboutPromiseSection";
 import { AboutSupportersWall } from "@/components/about/AboutSupportersWall";
 import { Box } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import Head from "next/head";
 import aboutStyles from "@/components/about/About.module.css";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 /**
  * Public About page. Composition only: every section lives in
@@ -30,10 +30,10 @@ const AboutPage = () => {
 
   return (
     <Box className={aboutStyles.page}>
-      <Head>
-        <title>{t("about.meta.title")}</title>
-        <meta name="description" content={t("about.meta.description")} />
-      </Head>
+      <OpenGraph
+        title={t("about.meta.title")}
+        description={t("about.meta.description")}
+      />
 
       <LandingHeader />
 

@@ -4247,5 +4247,82 @@
     "restartError": "Não foi possível reiniciar o app. Tente novamente ou feche e abra o app para aplicar a atualização.",
     "retry": "Tentar novamente",
     "dismiss": "Dispensar"
+  },
+  "seo": {
+    "defaultDescription": "Organize todos os seus jogos em um só lugar: acompanhe o que você joga, avalie jogos e veja o que seus amigos estão jogando.",
+    "profile": {
+      "title": "{{username}} no GameNode",
+      "description": "Veja os jogos, avaliações e atividades de {{username}} no GameNode."
+    },
+    "library": {
+      "title": "Biblioteca de {{username}} - GameNode",
+      "description": "Explore os jogos da biblioteca de {{username}} no GameNode."
+    },
+    "collection": {
+      "title": "{{collection}} - Biblioteca de {{username}} - GameNode",
+      "description": "Uma coleção de jogos de {{username}} no GameNode."
+    },
+    "entry": {
+      "title": "{{game}} na biblioteca de {{username}} - GameNode",
+      "description": "Veja como {{username}} está em {{game}}: status, tempo de jogo, avaliação e mais."
+    },
+    "reviews": {
+      "title": "Avaliações de {{username}} - GameNode",
+      "description": "Leia as avaliações de jogos de {{username}} no GameNode."
+    },
+    "stats": {
+      "title": "Estatísticas de {{username}} - GameNode",
+      "description": "Tempo de jogo, gêneros, plataformas e mais da biblioteca de {{username}}."
+    },
+    "activity": {
+      "title": "Atividade de {{username}} - GameNode",
+      "description": "Veja o que {{username}} anda jogando no GameNode."
+    },
+    "feats": {
+      "title": "Feitos de {{username}} - GameNode"
+    },
+    "recap": {
+      "title": "Recap {{year}} de {{username}} - GameNode",
+      "description": "Os jogos, as horas e os destaques do {{year}} de {{username}} no GameNode."
+    },
+    "awards": {
+      "title": "GameNode Awards {{year}}",
+      "description": "Indique e vote nos melhores jogos de {{year}} com a comunidade do GameNode.",
+      "nominationsTitle": "Indicações - GameNode Awards {{year}}",
+      "voteTitle": "Votação - GameNode Awards {{year}}",
+      "resultsTitle": "Resultados - GameNode Awards {{year}}",
+      "resultsDescription": "Os melhores jogos de {{year}}, escolhidos pela comunidade do GameNode.",
+      "ballotTitle": "Votos de {{username}} - GameNode Awards {{year}}",
+      "ballotDescription": "Veja as escolhas de {{username}} para os melhores jogos de {{year}}."
+    },
+    "blog": {
+      "title": "Blog - GameNode",
+      "description": "Notícias, análises e novidades do GameNode.",
+      "archiveTitle": "Arquivo do blog - GameNode",
+      "taggedTitle": "{{tag}} - Blog do GameNode"
+    },
+    "explore": {
+      "description": "Descubra jogos em alta, lançamentos e o que a comunidade do GameNode está jogando."
+    },
+    "daily": {
+      "description": "Desafios diários de jogos: adivinhe o jogo pela capa, arte, palavras-chave ou especificações. Um novo desafio todo dia."
+    },
+    "feed": {
+      "title": "Atividade - GameNode",
+      "postsTitle": "Posts - GameNode"
+    },
+    "mcp": {
+      "title": "GameNode + IA",
+      "description": "Conecte o GameNode ao Claude, ChatGPT e outros assistentes de IA e gerencie sua biblioteca conversando."
+    },
+    "privacy": {
+      "title": "Política de privacidade - GameNode"
+    },
+    "tos": {
+      "title": "Termos de serviço - GameNode"
+    },
+    "achievements": {
+      "title": "Conquistas de {{username}} - GameNode"
+    }
   }
 }

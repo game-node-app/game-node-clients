@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "@repo/locales";
@@ -8,6 +7,7 @@ import {
   DailyPracticeView,
   isDailyPracticeMode,
 } from "@repo/ui";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 /** Practice only exists for Cover and Specs. */
 export const getServerSideProps = async ({
@@ -24,9 +24,10 @@ const DailyPracticePage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${t(`daily.practice.${mode}.title`)} - GameNode Daily`}</title>
-      </Head>
+      <OpenGraph
+        title={`${t(`daily.practice.${mode}.title`)} - GameNode Daily`}
+        description={t("seo.daily.description")}
+      />
       <DailyPracticeView mode={mode} />
     </>
   );

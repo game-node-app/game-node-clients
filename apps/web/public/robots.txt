@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /oauth
+Disallow: /preferences
+Disallow: /wizard
+Disallow: /notifications
+Disallow: /importer
+Disallow: /connections
+Disallow: /wrapped
+Disallow: /pt-BR/auth
+Disallow: /pt-BR/oauth
+Disallow: /pt-BR/preferences
+Disallow: /pt-BR/wizard
+Disallow: /pt-BR/notifications
+Disallow: /pt-BR/importer
+Disallow: /pt-BR/connections
+Disallow: /pt-BR/wrapped
+
+Sitemap: https://gamenode.app/sitemap.xml

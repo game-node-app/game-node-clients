@@ -1,9 +1,9 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "@repo/locales";
 import { DailyMode, DailyPlayView, isDailyMode } from "@repo/ui";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 export const getServerSideProps = async ({
   params,
@@ -18,9 +18,10 @@ const DailyModePage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${t(`daily.modes.${mode}.name`)} - GameNode Daily`}</title>
-      </Head>
+      <OpenGraph
+        title={`${t(`daily.modes.${mode}.name`)} - GameNode Daily`}
+        description={t(`daily.modes.${mode}.description`)}
+      />
       <DailyPlayView mode={mode} puzzleId={puzzleId} />
     </>
   );

@@ -1,9 +1,9 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "@repo/locales";
 import { DailyArchiveView, DailyMode, isDailyMode } from "@repo/ui";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 export const getServerSideProps = async ({
   params,
@@ -17,11 +17,10 @@ const DailyArchivePage = () => {
 
   return (
     <>
-      <Head>
-        <title>
-          {`${t("daily.archive.title", { mode: t(`daily.modes.${mode}.name`) })} - GameNode Daily`}
-        </title>
-      </Head>
+      <OpenGraph
+        title={`${t("daily.archive.title", { mode: t(`daily.modes.${mode}.name`) })} - GameNode Daily`}
+        description={t("seo.daily.description")}
+      />
       <DailyArchiveView mode={mode} />
     </>
   );

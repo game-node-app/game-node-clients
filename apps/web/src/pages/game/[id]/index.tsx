@@ -10,8 +10,6 @@ import {
   GameInfoTabs,
   GameInfoTabValue,
   GameInfoView,
-  getSizedImageUrl,
-  ImageSize,
   useGame,
   useUrlState,
   useUserView,
@@ -20,46 +18,125 @@ import {
   Game,
   GameRepositoryFindOneDto,
   GameRepositoryService,
+  ReviewScoreResponseDto,
+  ReviewsService,
   StatisticsSourceRequestDto,
 } from "@repo/wrapper/server";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { NextPageContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { OpenGraph } from "../../../components/general/OpenGraph";
+import {
+  fetchForSeo,
+  gameCoverUrl,
+  isNotFoundError,
+  SITE_URL,
+} from "../../../util/seo";
 import sourceType = StatisticsSourceRequestDto.sourceType;
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
   const queryId = context.query.id;
-  if (queryId == undefined) {
-    return;
+  const idAsNumber =
+    typeof queryId === "string" && /^\d+$/.test(queryId)
+      ? Number(queryId)
+      : NaN;
+  if (!Number.isSafeInteger(idAsNumber) || idAsNumber <= 0) {
+    return { notFound: true } as const;
   }
   const dto: GameRepositoryFindOneDto = DEFAULT_GAME_INFO_VIEW_DTO;
-  const idAsNumber = parseInt(queryId as string, 10);
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["game", idAsNumber, dto],
-    queryFn: async (): Promise<Game | undefined> => {
-      if (!idAsNumber) {
-        return undefined;
-      }
-      return GameRepositoryService.gameRepositoryControllerFindOneByIdV1(
-        idAsNumber,
-        dto,
-      );
-    },
-  });
+  const [game, score] = await Promise.all([
+    queryClient
+      .fetchQuery({
+        queryKey: ["game", idAsNumber, dto],
+        queryFn: (): Promise<Game | undefined> =>
+          GameRepositoryService.gameRepositoryControllerFindOneByIdV1(
+            idAsNumber,
+            dto,
+          ),
+      })
+      .catch((error: unknown) => (isNotFoundError(error) ? null : undefined)),
+    fetchForSeo(() =>
+      ReviewsService.reviewsControllerGetScoreForGameIdV1(idAsNumber),
+    ),
+  ]);
+  if (game === null) {
+    return { notFound: true } as const;
+  }
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
+      reviewScore: score ? toSeoReviewScore(score) : null,
     },
   };
 };
 
-const GameInfoPage = () => {
+type SeoReviewScore = { average: number; count: number };
+
+function toSeoReviewScore(
+  score: ReviewScoreResponseDto,
+): SeoReviewScore | null {
+  const { total, ...counts } = score.distribution;
+  if (!total) return null;
+  const sum = Object.entries(counts).reduce(
+    (acc, [rating, count]) => acc + Number(rating) * count,
+    0,
+  );
+  return { average: Math.round((sum / total) * 10) / 10, count: total };
+}
+
+/** schema.org `VideoGame` of a game page. */
+function gameJsonLd(
+  game: Game,
+  url: string,
+  image: string | null,
+  reviewScore: SeoReviewScore | null,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: game.name,
+    url,
+    ...(game.summary ? { description: game.summary } : {}),
+    ...(image ? { image } : {}),
+    ...(game.firstReleaseDate
+      ? { datePublished: game.firstReleaseDate.slice(0, 10) }
+      : {}),
+    ...(game.genres?.length
+      ? { genre: game.genres.map((genre) => genre.name).filter(Boolean) }
+      : {}),
+    ...(game.platforms?.length
+      ? {
+          gamePlatform: game.platforms
+            .map((platform) => platform.name)
+            .filter(Boolean),
+        }
+      : {}),
+    ...(reviewScore
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewScore.average,
+            ratingCount: reviewScore.count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+  };
+}
+
+const GameInfoPage = ({
+  reviewScore = null,
+}: {
+  reviewScore?: SeoReviewScore | null;
+}) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { id, reviewId } = router.query;
@@ -105,6 +182,8 @@ const GameInfoPage = () => {
 
   const onGoBack = () => onChange(GameInfoTabValue.overview);
 
+  const coverUrl = gameCoverUrl(gameQuery.data?.cover?.url);
+
   return (
     <Container
       fluid
@@ -117,9 +196,13 @@ const GameInfoPage = () => {
         <OpenGraph
           title={`${gameQuery.data.name} - GameNode`}
           description={gameQuery.data.summary}
-          imageUrl={getSizedImageUrl(
-            gameQuery.data.cover?.url,
-            ImageSize.FULL_HD,
+          imageUrl={coverUrl}
+          imageAlt={gameQuery.data.name}
+          jsonLd={gameJsonLd(
+            gameQuery.data,
+            `${SITE_URL}/game/${idAsNumber}`,
+            coverUrl,
+            reviewScore,
           )}
         />
       )}

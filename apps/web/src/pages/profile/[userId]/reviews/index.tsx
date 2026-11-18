@@ -7,15 +7,35 @@ import {
   useUserProfile,
   DetailsBox,
 } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
+import { ProfileOpenGraph } from "@/components/general/ProfileOpenGraph";
+import { getSeoProfileProps, SeoProfileProps } from "@/util/seo";
 
-const Index = () => {
+export const getServerSideProps = getSeoProfileProps();
+
+const Index = ({ seoProfile }: SeoProfileProps) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { userId } = router.query;
 
   const profileQuery = useUserProfile(userId as string);
   const username = profileQuery.data?.username;
+  const openGraph = (
+    <ProfileOpenGraph
+      profile={seoProfile}
+      title={t("seo.reviews.title", { username: seoProfile?.username })}
+      description={t("seo.reviews.description", {
+        username: seoProfile?.username,
+      })}
+    />
+  );
   if (profileQuery.isLoading) {
-    return <CenteredLoading className={"mt-4"} />;
+    return (
+      <>
+        {openGraph}
+        <CenteredLoading className={"mt-4"} />
+      </>
+    );
   }
   return (
     <Container
@@ -24,6 +44,7 @@ const Index = () => {
       className={"flex flex-wrap justify-center"}
       p={0}
     >
+      {openGraph}
       <Paper
         w={{
           base: "100%",

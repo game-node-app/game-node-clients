@@ -20,6 +20,8 @@ import styles from "@/components/landing/Landing.module.css";
 import { PopularSection } from "@/components/landing/PopularSection";
 import { SupporterSection } from "@/components/landing/SupporterSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { OpenGraph } from "@/components/general/OpenGraph";
+import { SITE_URL } from "@/util/seo";
 
 const asset = (file: string) => `/img/landing/${file}`;
 const Home = () => {
@@ -32,6 +34,24 @@ const Home = () => {
 
   return (
     <Box className={styles.page}>
+      <OpenGraph
+        title={`GameNode - ${t("landing.presentation.heroTitle")}`}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "GameNode",
+            url: SITE_URL,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "GameNode",
+            url: SITE_URL,
+            logo: `${SITE_URL}/favicon/apple-touch-icon.png`,
+          },
+        ]}
+      />
       <Box className={styles.hero}>
         <img
           className={styles.heroBackground}

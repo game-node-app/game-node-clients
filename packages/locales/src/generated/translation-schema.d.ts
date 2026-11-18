@@ -4252,4 +4252,81 @@ export type TranslationSchema = {
     retry: string;
     dismiss: string;
   };
+  seo: {
+    defaultDescription: string;
+    profile: {
+      title: string;
+      description: string;
+    };
+    library: {
+      title: string;
+      description: string;
+    };
+    collection: {
+      title: string;
+      description: string;
+    };
+    entry: {
+      title: string;
+      description: string;
+    };
+    reviews: {
+      title: string;
+      description: string;
+    };
+    stats: {
+      title: string;
+      description: string;
+    };
+    activity: {
+      title: string;
+      description: string;
+    };
+    feats: {
+      title: string;
+    };
+    recap: {
+      title: string;
+      description: string;
+    };
+    awards: {
+      title: string;
+      description: string;
+      nominationsTitle: string;
+      voteTitle: string;
+      resultsTitle: string;
+      resultsDescription: string;
+      ballotTitle: string;
+      ballotDescription: string;
+    };
+    blog: {
+      title: string;
+      description: string;
+      archiveTitle: string;
+      taggedTitle: string;
+    };
+    explore: {
+      description: string;
+    };
+    daily: {
+      description: string;
+    };
+    feed: {
+      title: string;
+      postsTitle: string;
+    };
+    mcp: {
+      title: string;
+      description: string;
+    };
+    privacy: {
+      title: string;
+    };
+    tos: {
+      title: string;
+    };
+    achievements: {
+      title: string;
+    };
+  };
 };

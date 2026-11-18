@@ -1,15 +1,13 @@
 import { useTranslation } from "@repo/locales";
 import { SessionAuth, WrappedRecapScreen } from "@repo/ui";
-import Head from "next/head";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 const WrappedPage = () => {
   const { t } = useTranslation();
 
   return (
     <>
-      <Head>
-        <title>{`${t("mobile.wrapped.title")} | GameNode`}</title>
-      </Head>
+      <OpenGraph title={`${t("mobile.wrapped.title")} | GameNode`} noIndex />
       <SessionAuth>
         <WrappedRecapScreen
           onShare={async (file) => {

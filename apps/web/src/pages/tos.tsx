@@ -9,12 +9,14 @@ import {
   List,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 const Tos = () => {
   const { t } = useTranslation();
 
   return (
     <Container fluid p={0}>
+      <OpenGraph title={t("seo.tos.title")} />
       <Flex justify={"center"}>
         <Paper
           w={{
