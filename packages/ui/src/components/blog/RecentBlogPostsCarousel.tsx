@@ -4,11 +4,12 @@ import { Button, Text, Skeleton } from "@mantine/core";
 import {
   BlogPostCard,
   DetailsBox,
-  TextLink,
   useBlogPosts,
   useOnMobile,
 } from "#@/components";
+import { Link } from "#@/util";
 import { useTranslation } from "@repo/locales";
+import { IconArrowRight } from "@tabler/icons-react";
 
 const buildSkeletons = () => {
   const skeletons: React.ReactNode[] = [];
@@ -73,7 +74,18 @@ const RecentBlogPostsCarousel = () => {
       >
         {buildSlides()}
       </Carousel>
-      <TextLink href={"/blog"}>{t("blog.buttons.seeMore")}</TextLink>
+      <Link href={"/blog"} className={"w-full min-h-min"}>
+        <Button
+          component={"span"}
+          variant={"light"}
+          radius={"xl"}
+          size={"md"}
+          fullWidth
+          rightSection={<IconArrowRight size={18} />}
+        >
+          {t("blog.buttons.seeMore")}
+        </Button>
+      </Link>
     </DetailsBox>
   );
 };

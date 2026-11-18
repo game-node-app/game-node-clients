@@ -1,4 +1,4 @@
-import { UserAvatarGroup } from "#@/components";
+import { BlogPostCategoryLabel, UserAvatarGroup } from "#@/components";
 import { Link } from "#@/util";
 import {
   AspectRatio,
@@ -31,7 +31,7 @@ const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
     <Card
       radius="lg"
       padding="sm"
-      className="relative bg-paper w-full h-full transition-colors duration-200 hover:bg-paper-1"
+      className="relative bg-paper-1 w-full h-full transition-colors duration-200 active:bg-[#343333] [@media(hover:hover)]:hover:bg-[#2e2d2d]"
     >
       {/* The link's ::after covers the whole card, so all of it opens the post. The author row
           stays outside the link (its avatar is a profile link: no <a> inside <a>) and sits above
@@ -46,6 +46,7 @@ const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
           <Image src={imageUrl} alt={post.cover.alt} radius="md" />
         </AspectRatio>
         <Stack className={"gap-1.5 px-1"}>
+          <BlogPostCategoryLabel tags={post.tags} />
           <Title
             lineClamp={2}
             order={3}

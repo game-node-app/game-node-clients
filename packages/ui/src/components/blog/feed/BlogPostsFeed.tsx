@@ -1,20 +1,9 @@
 import {
+  BlogPostsCategorySection,
   BlogPostsFeatured,
-  BlogPostsFeaturedReviews,
   DetailsBox,
-  RecentBlogPostsList,
 } from "#@/components";
-import { Link } from "#@/util";
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Center,
-  Divider,
-  Group,
-  Popover,
-  Text,
-} from "@mantine/core";
+import { ActionIcon, Box, Popover, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconQuestionMark } from "@tabler/icons-react";
 
@@ -46,30 +35,21 @@ const BlogPostsFeed = () => {
       }
     >
       <BlogPostsFeatured />
-      <Divider className={"w-full my-6"} />
-      <Group className={"w-full lg:flex-nowrap lg:items-start"}>
-        <DetailsBox
-          title={t("blog.recentPosts")}
-          stackProps={{
-            className: "lg:!w-2/3",
-          }}
-        >
-          <RecentBlogPostsList />
-          <Center>
-            <Link href={"/blog/archive"}>
-              <Button className={"mt-4"}>{t("blog.buttons.seeMore")}</Button>
-            </Link>
-          </Center>
-        </DetailsBox>
-        <DetailsBox
-          title={t("blog.recentReviews")}
-          stackProps={{
-            className: "lg:!w-1/3",
-          }}
-        >
-          <BlogPostsFeaturedReviews />
-        </DetailsBox>
-      </Group>
+      <Stack className={"w-full gap-8 mt-4"}>
+        <BlogPostsCategorySection tag="news" title={t("blog.nav.news")} />
+        <BlogPostsCategorySection
+          tag="review"
+          title={t("blog.nav.reviews")}
+        />
+        <BlogPostsCategorySection
+          tag="article"
+          title={t("blog.nav.articles")}
+        />
+        <BlogPostsCategorySection
+          tag="gamenode"
+          title={t("blog.nav.gameNode")}
+        />
+      </Stack>
     </DetailsBox>
   );
 };
