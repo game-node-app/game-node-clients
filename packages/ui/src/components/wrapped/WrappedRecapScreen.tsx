@@ -62,12 +62,20 @@ import {
   Text,
   Title,
   Tooltip,
+  Transition,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { IconDownload } from "@tabler/icons-react";
+import { useMediaQuery, useViewportSize } from "@mantine/hooks";
+import {
+  IconAdjustmentsHorizontal,
+  IconDeviceMobile,
+  IconDownload,
+  IconPhoto,
+  IconUpload,
+} from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { toBlob, toPng } from "html-to-image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /** Story has the editorial templates; Feed keeps the wide summary. */
 const TEMPLATES_BY_FORMAT: Record<RecapCardFormat, RecapTemplate[]> = {
@@ -82,6 +90,12 @@ interface Props {
    * @param file
    */
   onShare: (file: File) => Promise<void>;
+  /**
+   * The period the screen opens on, e.g. when coming from a home screen widget that
+   * summarises the year.
+   * @default "week"
+   */
+  initialPeriod?: RecapPeriod;
 }
 
 function downloadFile(file: File) {
@@ -105,14 +119,25 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-const WrappedRecapScreen = ({ onShare }: Props) => {
+const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const userId = useUserId()!;
   const username = useUserProfile(userId).data?.username;
 
-  const [recapPeriod, setRecapPeriod] = useState<RecapPeriod>("week");
+  // Phones get a one-screen layout: the card is the hero and the controls live
+  // in a bottom sheet. Wide screens keep the two-column editor.
+  const isWide = useMediaQuery("(min-width: 64em)", false);
+  const compact = !isWide;
+  const { height: viewportHeight } = useViewportSize();
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetTab, setSheetTab] = useState<"format" | "backdrop" | "style">(
+    "backdrop",
+  );
+  const swipeStartX = useRef<number | null>(null);
+
+  const [recapPeriod, setRecapPeriod] = useState<RecapPeriod>(initialPeriod);
   const [format, setFormat] = useState<RecapCardFormat>("story");
   const [template, setTemplate] = useState<RecapTemplate>("poster");
   const [custom, setCustom] = useState<RecapCustomization>(
@@ -144,6 +169,14 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
     setVideoFile(file);
     setVideoUrl(videoUrlRef.current);
   };
+
+  // While the customize panel is open the floating tab bar slides out of the way
+  // (apps style `body.gn-hide-tabbar`), freeing its space for the controls.
+  useEffect(() => {
+    if (!compact) return;
+    document.body.classList.toggle("gn-hide-tabbar", sheetOpen);
+    return () => document.body.classList.remove("gn-hide-tabbar");
+  }, [compact, sheetOpen]);
 
   useEffect(() => {
     return () => {
@@ -369,29 +402,359 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
   const cardSize = RECAP_CARD_FORMATS[format];
   const templateOptions = TEMPLATES_BY_FORMAT[format];
 
+  const openSheet = (tab: "format" | "backdrop" | "style") => {
+    setSheetTab(tab);
+    setSheetOpen(true);
+  };
+
+  const previewContent: ReactNode = (
+    <>
+      {isLoading && <CenteredLoading />}
+      {isReady && !isEmpty && (
+        <RecapCardPreview
+          format={format}
+          cardRef={cardRef}
+          maxHeight={
+            compact
+              ? sheetOpen
+                ? Math.max(140, viewportHeight * 0.26)
+                : Math.max(240, viewportHeight - 440)
+              : undefined
+          }
+        >
+          {hasVideo ? (
+            <div
+              className={"relative w-full h-full"}
+              style={{ background: RECAP_COLORS.ground }}
+            >
+              <video
+                src={videoUrl!}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={"object-cover"}
+                style={{
+                  ...at(
+                    mediaRect.x,
+                    mediaRect.y,
+                    mediaRect.width,
+                    mediaRect.height,
+                  ),
+                  borderRadius: mediaRect.radius,
+                }}
+              />
+              <div className={"absolute inset-0"}>{renderCard(true)}</div>
+            </div>
+          ) : (
+            renderCard()
+          )}
+        </RecapCardPreview>
+      )}
+      {hasVideo && isReady && (
+        // Off-screen copy with a transparent hero: the encoder draws the
+        // background and the clip underneath this image.
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            left: -99999,
+            top: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            ref={overlayRef}
+            style={{ width: cardSize.width, height: cardSize.height }}
+          >
+            {renderCard(true)}
+          </div>
+        </div>
+      )}
+    </>
+  );
+
+  const templatePicker = templateOptions.length > 1 && (
+    <>
+      <Stack gap={12}>
+        <Text {...captionProps}>{t("mobile.wrapped.labels.template")}</Text>
+        <RecapTemplatePicker
+          value={template}
+          options={templateOptions}
+          format={format}
+          getLabel={(value) => t(`mobile.wrapped.templates.${value}`)}
+          onChange={setTemplate}
+          renderPreview={(option) => renderTemplate(option)}
+        />
+      </Stack>
+      <div className={"h-px bg-white/[0.08]"} />
+    </>
+  );
+
+  const backgroundControl = (
+    <RecapBackgroundControl
+      value={background}
+      onChange={setBackground}
+      onReset={resetCustomization}
+      games={backdropGames}
+      custom={custom}
+      onCustomChange={setCustom}
+      defaultOpacity={RECAP_BACKDROP_OPACITY[activeTemplate]}
+      defaultBlur={RECAP_BACKDROP_BLUR[activeTemplate]}
+      photoUrl={photoUrl}
+      photoLoading={photoMutation.isPending}
+      onPickPhoto={(file) => photoMutation.mutate(file)}
+      onRemovePhoto={() => setPhotoUrl(null)}
+      videoSupported={videoSupported}
+      videoFile={videoFile}
+      videoUrl={videoUrl}
+      videoMaxSeconds={RECAP_VIDEO_MAX_SECONDS}
+      onPickVideo={changeVideoFile}
+      overlay={overlay}
+      onOverlayChange={setOverlay}
+    />
+  );
+
+  const formatControl = (
+    <SegmentedControl
+      aria-label={t("mobile.wrapped.labels.format")}
+      fullWidth
+      data={[
+        { label: t("mobile.wrapped.formats.story"), value: "story" },
+        { label: t("mobile.wrapped.formats.feed"), value: "feed" },
+      ]}
+      value={format}
+      disabled={exportPending}
+      onChange={(value) => onFormatChange(value as RecapCardFormat)}
+    />
+  );
+
+  const exportProgress = videoMutation.isPending && (
+    <Progress value={videoPercent} animated aria-label={preparingLabel} />
+  );
+
+  const exportStatus = exportPending && (
+    <Text size={"xs"} c={"dimmed"} role={"status"} aria-live={"polite"}>
+      {preparingLabel}
+    </Text>
+  );
+
+  const periodControl = (className: string) => (
+    <SegmentedControl
+      aria-label={t("mobile.wrapped.labels.period")}
+      className={className}
+      data={periodOptions}
+      value={recapPeriod}
+      disabled={exportPending}
+      onChange={(value) => setRecapPeriod(value as RecapPeriod)}
+    />
+  );
+
+  const emptyMessage = isEmpty && (
+    <Text c={"red"}>
+      {t("mobile.wrapped.messages.noPlaytime")}{" "}
+      <TextLink href={"/preferences/connections"}>
+        {t("mobile.importer.clickHere")}
+      </TextLink>{" "}
+    </Text>
+  );
+
+  if (compact) {
+    const templateIndex = Math.max(templateOptions.indexOf(template), 0);
+    const goToTemplate = (next: number) => {
+      const target = templateOptions[next];
+      if (target) setTemplate(target);
+    };
+    const chips = [
+      {
+        tab: "format" as const,
+        label: t(`mobile.wrapped.formats.${format}`),
+        Icon: IconDeviceMobile,
+      },
+      {
+        tab: "backdrop" as const,
+        label: t("mobile.wrapped.labels.backdrop"),
+        Icon: IconPhoto,
+      },
+      {
+        tab: "style" as const,
+        label: t("mobile.wrapped.labels.style"),
+        Icon: IconAdjustmentsHorizontal,
+      },
+    ];
+
+    return (
+      <div className={"flex flex-col w-full gap-3"}>
+        <RecapCardFonts />
+        {!sheetOpen && <Title order={2}>{t("mobile.wrapped.title")}</Title>}
+        {periodControl("w-full")}
+        {emptyMessage}
+
+        <div
+          className={"flex flex-1 flex-col justify-center touch-pan-y min-h-40"}
+          onTouchStart={(event) => {
+            swipeStartX.current = event.touches[0]?.clientX ?? null;
+          }}
+          onTouchEnd={(event) => {
+            const start = swipeStartX.current;
+            swipeStartX.current = null;
+            const end = event.changedTouches[0]?.clientX;
+            if (start == null || end == null || exportPending) return;
+            const delta = end - start;
+            if (Math.abs(delta) < 40) return;
+            goToTemplate(templateIndex + (delta < 0 ? 1 : -1));
+          }}
+        >
+          {previewContent}
+        </div>
+
+        {templateOptions.length > 1 && !sheetOpen && (
+          <Group justify={"center"} gap={"xs"}>
+            <Text size={"xs"} fw={500} c={"dimmed"}>
+              {t(`mobile.wrapped.templates.${template}`)}
+            </Text>
+            {templateOptions.map((option, index) => (
+              <button
+                key={option}
+                type={"button"}
+                aria-label={t(`mobile.wrapped.templates.${option}`)}
+                aria-current={index === templateIndex}
+                disabled={exportPending}
+                onClick={() => goToTemplate(index)}
+                className={cn(
+                  "h-1.5 rounded-full border-0 p-0 transition-all",
+                  index === templateIndex
+                    ? "w-4 bg-[#F15025]"
+                    : "w-1.5 bg-white/25",
+                )}
+              />
+            ))}
+          </Group>
+        )}
+
+        {!sheetOpen && (
+          <>
+            <div className={"grid grid-cols-3 gap-2"}>
+              {chips.map(({ tab, label, Icon }) => (
+                <Button
+                  key={tab}
+                  variant={"default"}
+                  size={"sm"}
+                  px={"xs"}
+                  disabled={disabled || exportPending}
+                  leftSection={<Icon size={16} />}
+                  onClick={() => openSheet(tab)}
+                  classNames={{ inner: "justify-center" }}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
+
+            <Stack gap={"xs"}>
+              {exportProgress}
+              <Group className="w-full gap-xs" wrap={"nowrap"}>
+                <Button
+                  size={"lg"}
+                  type={"button"}
+                  onClick={shareActive}
+                  disabled={exportDisabled}
+                  aria-busy={exportPending || undefined}
+                  leftSection={
+                    exportPending ? (
+                      <Loader size={16} />
+                    ) : (
+                      <IconUpload size={20} />
+                    )
+                  }
+                  className={"flex-grow"}
+                >
+                  {shareLabel}
+                </Button>
+                <ActionIcon
+                  size={"input-lg"}
+                  variant={"default"}
+                  disabled={exportDisabled}
+                  onClick={downloadActive}
+                  aria-label={downloadLabel}
+                >
+                  <IconDownload />
+                </ActionIcon>
+              </Group>
+              {exportStatus}
+            </Stack>
+          </>
+        )}
+
+        <Transition
+          mounted={sheetOpen}
+          transition={"slide-up"}
+          duration={280}
+          timingFunction={"cubic-bezier(0.22, 1, 0.36, 1)"}
+        >
+          {(transitionStyles) => (
+            <div
+              style={transitionStyles}
+              className={
+                "flex flex-col gap-3 rounded-t-2xl border border-b-0 border-white/[0.08] bg-[#1A1A1A] p-3"
+              }
+            >
+              <Group justify={"space-between"}>
+                <Text fw={700}>{t("mobile.wrapped.labels.customize")}</Text>
+                <Button size={"compact-sm"} onClick={() => setSheetOpen(false)}>
+                  {t("mobile.wrapped.labels.done")}
+                </Button>
+              </Group>
+              <SegmentedControl
+                fullWidth
+                value={sheetTab}
+                onChange={(value) => setSheetTab(value as typeof sheetTab)}
+                data={[
+                  { label: t("mobile.wrapped.labels.format"), value: "format" },
+                  {
+                    label: t("mobile.wrapped.labels.backdrop"),
+                    value: "backdrop",
+                  },
+                  { label: t("mobile.wrapped.labels.style"), value: "style" },
+                ]}
+              />
+              <div
+                className={
+                  "-mx-2 overflow-y-auto overscroll-contain px-2 py-1 pb-2"
+                }
+                // Everything above (header, period, card, panel title and tabs) plus the floating tab bar
+                // must stay on screen, so the controls scroll inside what is left.
+                style={{
+                  height: Math.max(140, viewportHeight * 0.74 - 252),
+                }}
+              >
+                {sheetTab === "format" && (
+                  <Stack gap={"lg"}>
+                    {formatControl}
+                    {templatePicker}
+                  </Stack>
+                )}
+                {sheetTab === "backdrop" && backgroundControl}
+                {sheetTab === "style" && (
+                  <RecapCustomizePanel value={custom} onChange={setCustom} />
+                )}
+              </div>
+            </div>
+          )}
+        </Transition>
+      </div>
+    );
+  }
+
   return (
     <div className={"flex flex-col w-full max-w-6xl mx-auto p-4 mb-20 gap-6"}>
       <RecapCardFonts />
       <div className={"flex flex-wrap items-center justify-between gap-4"}>
         <Title order={2}>{t("mobile.wrapped.title")}</Title>
-        <SegmentedControl
-          aria-label={t("mobile.wrapped.labels.period")}
-          className={"w-full sm:w-72"}
-          data={periodOptions}
-          value={recapPeriod}
-          disabled={exportPending}
-          onChange={(value) => setRecapPeriod(value as RecapPeriod)}
-        />
+        {periodControl("w-full sm:w-72")}
       </div>
 
-      {isEmpty && (
-        <Text c={"red"}>
-          {t("mobile.wrapped.messages.noPlaytime")}{" "}
-          <TextLink href={"/preferences/connections"}>
-            {t("mobile.importer.clickHere")}
-          </TextLink>{" "}
-        </Text>
-      )}
+      {emptyMessage}
 
       <div
         className={
@@ -415,61 +778,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
           </div>
 
           <div className={"flex flex-1 flex-col justify-center"}>
-            {isLoading && <CenteredLoading />}
-            {isReady && !isEmpty && (
-              <RecapCardPreview format={format} cardRef={cardRef}>
-                {hasVideo ? (
-                  <div
-                    className={"relative w-full h-full"}
-                    style={{ background: RECAP_COLORS.ground }}
-                  >
-                    <video
-                      src={videoUrl!}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className={"object-cover"}
-                      style={{
-                        ...at(
-                          mediaRect.x,
-                          mediaRect.y,
-                          mediaRect.width,
-                          mediaRect.height,
-                        ),
-                        borderRadius: mediaRect.radius,
-                      }}
-                    />
-                    <div className={"absolute inset-0"}>{renderCard(true)}</div>
-                  </div>
-                ) : (
-                  renderCard()
-                )}
-              </RecapCardPreview>
-            )}
-            {hasVideo && isReady && (
-              // Off-screen copy with a transparent hero: the encoder draws the
-              // background and the clip underneath this image.
-              <div
-                aria-hidden
-                style={{
-                  position: "fixed",
-                  left: -99999,
-                  top: 0,
-                  pointerEvents: "none",
-                }}
-              >
-                <div
-                  ref={overlayRef}
-                  style={{
-                    width: cardSize.width,
-                    height: cardSize.height,
-                  }}
-                >
-                  {renderCard(true)}
-                </div>
-              </div>
-            )}
+            {previewContent}
           </div>
 
           <div className={"flex justify-center"}>
@@ -511,48 +820,8 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
             )}
           >
             <Stack gap={"xl"}>
-              {templateOptions.length > 1 && (
-                <>
-                  <Stack gap={12}>
-                    <Text {...captionProps}>
-                      {t("mobile.wrapped.labels.template")}
-                    </Text>
-                    <RecapTemplatePicker
-                      value={template}
-                      options={templateOptions}
-                      format={format}
-                      getLabel={(value) =>
-                        t(`mobile.wrapped.templates.${value}`)
-                      }
-                      onChange={setTemplate}
-                      renderPreview={(option) => renderTemplate(option)}
-                    />
-                  </Stack>
-                  <div className={"h-px bg-white/[0.08]"} />
-                </>
-              )}
-
-              <RecapBackgroundControl
-                value={background}
-                onChange={setBackground}
-                onReset={resetCustomization}
-                games={backdropGames}
-                custom={custom}
-                onCustomChange={setCustom}
-                defaultOpacity={RECAP_BACKDROP_OPACITY[activeTemplate]}
-                defaultBlur={RECAP_BACKDROP_BLUR[activeTemplate]}
-                photoUrl={photoUrl}
-                photoLoading={photoMutation.isPending}
-                onPickPhoto={(file) => photoMutation.mutate(file)}
-                onRemovePhoto={() => setPhotoUrl(null)}
-                videoSupported={videoSupported}
-                videoFile={videoFile}
-                videoUrl={videoUrl}
-                videoMaxSeconds={RECAP_VIDEO_MAX_SECONDS}
-                onPickVideo={changeVideoFile}
-                overlay={overlay}
-                onOverlayChange={setOverlay}
-              />
+              {templatePicker}
+              {backgroundControl}
 
               <div className={"h-px bg-white/[0.08]"} />
 
@@ -566,13 +835,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
               "z-10 -mx-6 -mb-6 mt-auto rounded-b-2xl border-t border-white/[0.08] bg-[#1A1A1A] px-6 pb-6 pt-5 lg:sticky lg:bottom-0"
             }
           >
-            {videoMutation.isPending && (
-              <Progress
-                value={videoPercent}
-                animated
-                aria-label={preparingLabel}
-              />
-            )}
+            {exportProgress}
             <Group className="w-full gap-xs" wrap={"nowrap"}>
               <Button
                 size={"md"}
@@ -597,16 +860,7 @@ const WrappedRecapScreen = ({ onShare }: Props) => {
                 </ActionIcon>
               </Tooltip>
             </Group>
-            {exportPending && (
-              <Text
-                size={"xs"}
-                c={"dimmed"}
-                role={"status"}
-                aria-live={"polite"}
-              >
-                {preparingLabel}
-              </Text>
-            )}
+            {exportStatus}
           </Stack>
         </div>
       </div>

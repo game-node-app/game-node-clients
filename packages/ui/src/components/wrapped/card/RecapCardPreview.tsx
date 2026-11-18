@@ -14,20 +14,29 @@ interface Props extends PropsWithChildren {
    * not scaled itself, so exporting it yields the full-size image.
    */
   cardRef: RefObject<HTMLDivElement | null>;
+  /** Overrides the height the preview may take (compact layouts fit the card in one screen). */
+  maxHeight?: number;
 }
 
 /**
  * Shows the card scaled down to fit the page while keeping the card itself at
  * its native pixel size, which is what gets exported.
  */
-export function RecapCardPreview({ format, cardRef, children }: Props) {
+export function RecapCardPreview({
+  format,
+  cardRef,
+  maxHeight: maxHeightOverride,
+  children,
+}: Props) {
   const { ref, width } = useElementSize();
   const { height: viewportHeight } = useViewportSize();
   const size = RECAP_CARD_FORMATS[format];
   // Use the available window height (minus header, title, the stage's
   // label row and format switch, and paddings) so the card fills the preview
   // area on large screens; never below the default.
-  const maxHeight = Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
+  const maxHeight =
+    maxHeightOverride ??
+    Math.max(RECAP_PREVIEW_MAX_HEIGHT, viewportHeight - 300);
   const scale = getRecapPreviewScale(width, format, maxHeight);
 
   return (

@@ -1184,6 +1184,19 @@ export type TranslationSchema = {
     continue: string;
     seeResult: string;
     todayProgress: string;
+    widget: {
+      eyebrow: string;
+      titlePlayed: string;
+      titlePending: string;
+      streak_one: string;
+      streak_other: string;
+      streakChip_one: string;
+      streakChip_other: string;
+      cta: string;
+      countdown: string;
+      emptyTitle: string;
+      emptyBody: string;
+    };
   };
   errors: {
     comeBackSoon: string;
@@ -1708,6 +1721,12 @@ export type TranslationSchema = {
     preferences: {
       cacheClearedSuccess: string;
       clearLocalCache: string;
+      widgetPeriod: string;
+      widgetPeriodOptions: {
+        month: string;
+        week: string;
+        year: string;
+      };
       editProfile: string;
       editProfileDetails: string;
       setAppLanguage: string;
@@ -1811,6 +1830,10 @@ export type TranslationSchema = {
         period: string;
         preview: string;
         template: string;
+        customize: string;
+        backdrop: string;
+        style: string;
+        done: string;
       };
       media: {
         replace: string;
@@ -1843,6 +1866,81 @@ export type TranslationSchema = {
         unsupported: string;
       };
       weekly: string;
+      widget: {
+        change: string;
+        detail: string;
+        emptyBody: string;
+        emptyTitle: string;
+        eyebrow: string;
+        hoursCaption: string;
+        personality: {
+          acrobat: {
+            subtitle: string;
+            title: string;
+          };
+          adventurer: {
+            subtitle: string;
+            title: string;
+          };
+          allrounder: {
+            subtitle: string;
+            title: string;
+          };
+          athlete: {
+            subtitle: string;
+            title: string;
+          };
+          brawler: {
+            subtitle: string;
+            title: string;
+          };
+          builder: {
+            subtitle: string;
+            title: string;
+          };
+          completionist: {
+            subtitle: string;
+            title: string;
+          };
+          explorer: {
+            subtitle: string;
+            title: string;
+          };
+          sharpshooter: {
+            subtitle: string;
+            title: string;
+          };
+          speedster: {
+            subtitle: string;
+            title: string;
+          };
+          strategist: {
+            subtitle: string;
+            title: string;
+          };
+          thinker: {
+            subtitle: string;
+            title: string;
+          };
+        };
+        personalityChip: string;
+        personalityEyebrow: string;
+        period: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        periodTagline: {
+          month: string;
+          week: string;
+          year: string;
+        };
+        posterSubtitle: string;
+        posterTagline: string;
+        top3Title: string;
+        topGameBadge: string;
+        viewRecap: string;
+      };
       yearly: string;
     };
   };

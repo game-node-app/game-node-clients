@@ -4,14 +4,15 @@ import { ScrollableIonContent } from "@/components/general/ScrollableIonContent.
 import { IonViewActiveProvider } from "@/components/general/hooks/useIonViewActive";
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonHeader,
-  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { ErrorBoundaryFallback } from "@repo/ui";
+import { openMainMenu } from "@/util/closeMainMenu";
+import { ErrorBoundaryFallback, UserAvatar, useUserId } from "@repo/ui";
 import React, { PropsWithChildren } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -42,12 +43,23 @@ const AppPage = ({
   contentProps,
   children,
 }: Props) => {
+  const userId = useUserId();
   return (
     <IonPage>
       <IonHeader className={"ion-no-border relative"}>
         <IonToolbar>
           <IonButtons slot={"start"}>
-            {withMenuButton ? <IonMenuButton /> : <IonBackButton />}
+            {withMenuButton ? (
+              <IonButton
+                onClick={() => {
+                  openMainMenu().catch(console.error);
+                }}
+              >
+                <UserAvatar userId={userId} size={32} radius={"xl"} />
+              </IonButton>
+            ) : (
+              <IonBackButton />
+            )}
           </IonButtons>
           {title != undefined && <IonTitle>{title}</IonTitle>}
           {withSearch && (

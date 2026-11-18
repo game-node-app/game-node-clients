@@ -1179,7 +1179,20 @@
     "attempts": "{{attempts}} of {{max}} attempts used",
     "continue": "Continue",
     "seeResult": "See result",
-    "todayProgress": "{{solved}} of {{total}} solved today"
+    "todayProgress": "{{solved}} of {{total}} solved today",
+    "widget": {
+      "eyebrow": "GAMENODE DAILY",
+      "titlePlayed": "{{won}} of {{total}} solved",
+      "titlePending": "What's today's game?",
+      "streak_one": "{{count}} day streak",
+      "streak_other": "{{count}} day streak",
+      "streakChip_one": "{{count}} day",
+      "streakChip_other": "{{count}} days",
+      "cta": "Play now",
+      "countdown": "Next in %s",
+      "emptyTitle": "GameNode Daily",
+      "emptyBody": "Open GameNode to play today's challenge"
+    }
   },
   "errors": {
     "comeBackSoon": "Come back soon!",
@@ -1704,6 +1717,12 @@
     "preferences": {
       "cacheClearedSuccess": "Cache cleared successfully!",
       "clearLocalCache": "Clear local cache",
+      "widgetPeriod": "Widget period",
+      "widgetPeriodOptions": {
+        "month": "Monthly",
+        "week": "Weekly",
+        "year": "Yearly"
+      },
       "editProfile": "Edit profile",
       "editProfileDetails": "Edit profile details",
       "setAppLanguage": "Set app language",
@@ -1806,7 +1825,11 @@
         "format": "Format",
         "period": "Period",
         "preview": "Preview",
-        "template": "Template"
+        "template": "Template",
+        "customize": "Customize",
+        "backdrop": "Backdrop",
+        "style": "Style",
+        "done": "Done"
       },
       "media": {
         "replace": "Replace"
@@ -1839,6 +1862,81 @@
         "unsupported": "This browser can't export videos. Try a recent Chrome, Edge or Android browser."
       },
       "weekly": "Weekly Wrapped",
+      "widget": {
+        "change": "{{change}} vs. previous",
+        "detail": "{{hours}} · {{percent}}% of your time",
+        "emptyBody": "Open GameNode to see your Wrapped",
+        "emptyTitle": "Your Wrapped",
+        "eyebrow": "WRAPPED {{year}}",
+        "hoursCaption": "hours played",
+        "personality": {
+          "acrobat": {
+            "subtitle": "platform master",
+            "title": "Acrobat"
+          },
+          "adventurer": {
+            "subtitle": "of RPG worlds",
+            "title": "Adventurer"
+          },
+          "allrounder": {
+            "subtitle": "of every genre",
+            "title": "All-rounder"
+          },
+          "athlete": {
+            "subtitle": "of the sports arena",
+            "title": "All-star"
+          },
+          "brawler": {
+            "subtitle": "ready for the next round",
+            "title": "Brawler"
+          },
+          "builder": {
+            "subtitle": "of worlds and systems",
+            "title": "Builder"
+          },
+          "completionist": {
+            "subtitle": "finishes what they start",
+            "title": "Completionist"
+          },
+          "explorer": {
+            "subtitle": "of open worlds",
+            "title": "Explorer"
+          },
+          "sharpshooter": {
+            "subtitle": "with a quick trigger",
+            "title": "Sharpshooter"
+          },
+          "speedster": {
+            "subtitle": "pedal to the metal",
+            "title": "Speedster"
+          },
+          "strategist": {
+            "subtitle": "always one step ahead",
+            "title": "Strategist"
+          },
+          "thinker": {
+            "subtitle": "hooked on puzzles",
+            "title": "Mastermind"
+          }
+        },
+        "personalityChip": "{{percent}}% {{genre}}",
+        "personalityEyebrow": "YOUR PROFILE {{year}}",
+        "period": {
+          "month": "MONTHLY",
+          "week": "WEEKLY",
+          "year": "YEARLY"
+        },
+        "periodTagline": {
+          "month": "played in the last 30 days",
+          "week": "played in the last 7 days",
+          "year": "played in the last 12 months"
+        },
+        "posterSubtitle": "Your Wrapped",
+        "posterTagline": "played in the last 12 months",
+        "top3Title": "TOP 3 GAMES",
+        "topGameBadge": "#1 GAME",
+        "viewRecap": "View recap →"
+      },
       "yearly": "Yearly Wrapped"
     }
   },
