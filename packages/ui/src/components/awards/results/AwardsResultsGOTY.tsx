@@ -292,7 +292,7 @@ export function AwardsResultsGOTY({
         >
           <AwardsGameCover
             game={winnerGame}
-            size={ImageSize.COVER_BIG_2X}
+            size={ImageSize.FULL_HD}
             className={"h-full"}
             imageProps={{ radius: 16 }}
           />

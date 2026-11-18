@@ -146,7 +146,7 @@ function CommunityCard({
 }) {
   const { t } = useTranslation();
   const locale = useFormatLocale();
-  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
   const userRating = formatRating(highlight.userRating, locale) ?? "0.0";
   const communityAverage =
     formatRating(highlight.communityAverage, locale) ?? "0.0";

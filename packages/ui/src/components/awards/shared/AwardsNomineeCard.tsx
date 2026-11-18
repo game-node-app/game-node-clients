@@ -217,7 +217,7 @@ const AwardsNomineeCard = ({
         <Box className={"relative"}>
           <AwardsGameCover
             game={game}
-            size={ImageSize.COVER_BIG}
+            size={ImageSize.COVER_BIG_2X}
             className={"aspect-[231/280] h-auto"}
             imageProps={{ radius: 8 }}
           />

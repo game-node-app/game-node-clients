@@ -14,6 +14,18 @@ interface CoverProps {
   style?: CSSProperties;
 }
 
+/** Cover width of `t_cover_big_2x`; larger boxes need the 1080p size. */
+const COVER_BIG_2X_WIDTH = 528;
+/** Covers are 3:4, so a tall box needs more width than its own width. */
+const COVER_ASPECT_RATIO = 3 / 4;
+
+export function getRecapCoverSize(width: number, height: number): ImageSize {
+  const neededWidth = Math.max(width, height * COVER_ASPECT_RATIO);
+  return neededWidth > COVER_BIG_2X_WIDTH
+    ? ImageSize.FULL_HD
+    : ImageSize.COVER_BIG_2X;
+}
+
 /**
  * Cover cropped to an exact box (`object-fit: cover`), so tall tiles are
  * filled with the art instead of letterboxed. Inert: it never navigates.
@@ -25,7 +37,7 @@ export function RecapCover({
   radius = 16,
   style,
 }: CoverProps) {
-  const { src } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
+  const { src } = useGameCoverImage(game, getRecapCoverSize(width, height));
 
   return (
     <div
@@ -71,7 +83,8 @@ interface BackdropProps {
 
 /** Fills its parent with the game's wide art (or the cover as a fallback). */
 export function RecapBackdrop({ game, imageUrl, style }: BackdropProps) {
-  const { src: coverSrc } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
+  // The fallback cover fills a whole card, so it needs more than its tile size.
+  const { src: coverSrc } = useGameCoverImage(game, ImageSize.FULL_HD);
   const src = imageUrl ?? getRecapBackdropUrl(game) ?? coverSrc;
   if (!src) return null;
 

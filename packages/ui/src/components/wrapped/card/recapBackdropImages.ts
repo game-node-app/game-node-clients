@@ -54,7 +54,8 @@ export function getRecapBackdropImages(
       ImageSize.SCREENSHOT_MED,
     );
   }
-  add("cover", getCoverUrl(game), ImageSize.COVER_BIG_2X, ImageSize.COVER_BIG);
+  // A cover picked as the backdrop fills the whole card, not a tile.
+  add("cover", getCoverUrl(game), ImageSize.FULL_HD, ImageSize.COVER_BIG);
 
   return images;
 }
