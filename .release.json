@@ -1,0 +1,28 @@
+{
+  "source": "b6ea4095dd5be7b3e89f5aefc81a9362520e1235",
+  "changesets": [
+    ".changeset/blog-post-card-lists.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[54385a6dc3f233239c68b1838a404a3690f6a392...b6ea4095dd5be7b3e89f5aefc81a9362520e1235]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/b6ea4095dd5be7b3e89f5aefc81a9362520e1235",
+  "versions": {
+    "web": "1.22.4",
+    "mobile": "1.21.1"
+  }
+}
