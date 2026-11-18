@@ -2,15 +2,17 @@
 // prettier-ignore
 "use no memo";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
-import { menuController } from "@ionic/core/components";
+import { closeMainMenu } from "@/util/closeMainMenu";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useLocation } from "react-router-dom";
 import {
+  getS3StoredUpload,
   Link,
   useRecapVisited,
   useSeasonEvents,
+  useUserProfile,
   UserButton,
   useUserId,
   signOut,
@@ -51,23 +53,39 @@ const MobileSidebarMenu = () => {
   const recapYear = recapEntry?.year ?? null;
   const recapVisited = useRecapVisited(recapYear);
   const showRecapEntry = !!recapHref && !!recapEntry;
+  const profile = useUserProfile(userId);
+  const banner = profile.data?.banner;
+  const bannerSrc = banner
+    ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
+    : undefined;
 
   const closeMenu = () => {
-    menuController.close("main-menu").catch(console.error);
+    closeMainMenu().catch(console.error);
   };
 
   return (
     <>
       {userId && (
-        <IonHeader className={"relative ion-activatable"}>
+        <IonHeader
+          className={"relative ion-activatable ion-no-border"}
+          style={{
+            backgroundColor: "#161616",
+            backgroundImage: bannerSrc
+              ? `linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.45)), url(${bannerSrc})`
+              : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
           <IonRippleEffect onClick={closeMenu} />
           <Link href={`/profile/${userId}`} onClick={closeMenu}>
             <UserButton
               userId={userId}
-              count={"level"}
-              className={"px-6 py-3.5"}
+              count={"viewProfile"}
+              boldName
+              className={"px-6 pt-10 pb-5"}
               avatarProps={{
-                size: "md",
+                size: "xl",
               }}
             />
           </Link>

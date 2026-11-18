@@ -585,6 +585,7 @@
     "goBack": "Voltar",
     "login": "Entrar",
     "like": "Curtir",
+    "loginCta": "Fazer login",
     "logout": "Sair",
     "no": "Não",
     "remove": "Remover",
@@ -1504,6 +1505,19 @@
         "title": "O treino está indisponível agora",
         "description": "Tente de novo em alguns minutos."
       }
+    },
+    "widget": {
+      "eyebrow": "GAMENODE DAILY",
+      "titlePlayed": "{{won}} de {{total}} acertos",
+      "titlePending": "Qual é o jogo de hoje?",
+      "streak_one": "{{count}} dia seguido",
+      "streak_other": "{{count}} dias seguidos",
+      "streakChip_one": "{{count}} dia",
+      "streakChip_other": "{{count}} dias",
+      "cta": "Jogar agora",
+      "countdown": "Próximo em %s",
+      "emptyTitle": "GameNode Daily",
+      "emptyBody": "Abra o GameNode para jogar o desafio de hoje"
     }
   },
   "errors": {
@@ -2153,6 +2167,12 @@
     "preferences": {
       "cacheClearedSuccess": "Cache limpo com sucesso!",
       "clearLocalCache": "Limpar cache local",
+      "widgetPeriod": "Período do widget",
+      "widgetPeriodOptions": {
+        "month": "Mensal",
+        "week": "Semanal",
+        "year": "Anual"
+      },
       "editProfile": "Editar perfil",
       "editProfileDetails": "Editar detalhes do perfil",
       "setAppLanguage": "Definir idioma da aplicação",
@@ -2255,7 +2275,11 @@
         "format": "Formato",
         "period": "Período",
         "preview": "Prévia",
-        "template": "Modelo"
+        "template": "Modelo",
+        "customize": "Personalizar",
+        "backdrop": "Fundo",
+        "style": "Estilo",
+        "done": "Concluir"
       },
       "media": {
         "replace": "Substituir"
@@ -2288,6 +2312,81 @@
         "unsupported": "Este navegador não exporta vídeos. Tente um Chrome, Edge ou navegador Android recente."
       },
       "weekly": "Wrapped Semanal",
+      "widget": {
+        "change": "{{change}} vs. anterior",
+        "detail": "{{hours}} · {{percent}}% do seu tempo",
+        "emptyBody": "Abra o GameNode para ver seu Wrapped",
+        "emptyTitle": "Seu Wrapped",
+        "eyebrow": "WRAPPED {{year}}",
+        "hoursCaption": "horas jogadas",
+        "personality": {
+          "acrobat": {
+            "subtitle": "mestre das plataformas",
+            "title": "Acrobata"
+          },
+          "adventurer": {
+            "subtitle": "de mundos de RPG",
+            "title": "Aventureiro"
+          },
+          "allrounder": {
+            "subtitle": "de todos os gêneros",
+            "title": "Gamer"
+          },
+          "athlete": {
+            "subtitle": "da arena esportiva",
+            "title": "Craque"
+          },
+          "brawler": {
+            "subtitle": "pronto pro próximo round",
+            "title": "Lutador"
+          },
+          "builder": {
+            "subtitle": "de mundos e sistemas",
+            "title": "Construtor"
+          },
+          "completionist": {
+            "subtitle": "termina o que começa",
+            "title": "Completista"
+          },
+          "explorer": {
+            "subtitle": "de mundos abertos",
+            "title": "Explorador"
+          },
+          "sharpshooter": {
+            "subtitle": "de gatilho rápido",
+            "title": "Atirador"
+          },
+          "speedster": {
+            "subtitle": "pé no acelerador",
+            "title": "Velocista"
+          },
+          "strategist": {
+            "subtitle": "sempre um passo à frente",
+            "title": "Estrategista"
+          },
+          "thinker": {
+            "subtitle": "viciada em enigmas",
+            "title": "Mente brilhante"
+          }
+        },
+        "personalityChip": "{{percent}}% {{genre}}",
+        "personalityEyebrow": "SEU PERFIL {{year}}",
+        "period": {
+          "month": "MENSAL",
+          "week": "SEMANAL",
+          "year": "ANUAL"
+        },
+        "periodTagline": {
+          "month": "jogadas nos últimos 30 dias",
+          "week": "jogadas nos últimos 7 dias",
+          "year": "jogadas nos últimos 12 meses"
+        },
+        "posterSubtitle": "Seu Wrapped",
+        "posterTagline": "jogadas nos últimos 12 meses",
+        "top3Title": "TOP 3 JOGOS",
+        "topGameBadge": "JOGO #1",
+        "viewRecap": "Ver recap →"
+      },
       "yearly": "Wrapped Anual"
     }
   },

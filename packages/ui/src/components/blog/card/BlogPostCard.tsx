@@ -7,6 +7,7 @@ import {
   Group,
   Image,
   ImageProps,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
@@ -19,46 +20,57 @@ interface Props {
   blogRoutePrefix: string;
 }
 
+/**
+ * Editorial card: rounded cover, left-aligned headline, muted two-line excerpt and a single meta
+ * row (author on the left, date on the right). References: Perplexity Discover, Google News.
+ */
 const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
   const imageUrl = post.cover.url;
 
   return (
     <Card
-      shadow="sm"
-      radius="md"
-      className="hover:shadow-xl transition-shadow duration-200 bg-paper w-full h-full"
+      radius="lg"
+      padding="sm"
+      className="bg-paper w-full h-full transition-colors duration-200 hover:bg-paper-1"
     >
-      <Card.Section>
-        <AspectRatio ratio={37 / 28}>
-          <Image src={imageUrl} alt={post.cover.alt} />
+      <Link
+        href={`${blogRoutePrefix}/post/${post.id}`}
+        className={"flex flex-col gap-3 w-full h-full"}
+      >
+        <AspectRatio ratio={16 / 10}>
+          <Image src={imageUrl} alt={post.cover.alt} radius="md" />
         </AspectRatio>
-      </Card.Section>
-      <Card.Section className={"px-3 my-3"}>
-        <Link href={`${blogRoutePrefix}/post/${post.id}`} className={"w-full"}>
-          <Title lineClamp={2} size={"h3"} className={"text-center text-white"}>
+        <Stack className={"gap-1.5 px-1"}>
+          <Title
+            lineClamp={2}
+            order={3}
+            className={"text-left text-white text-xl leading-snug font-bold"}
+          >
             {post.title}
           </Title>
-        </Link>
-      </Card.Section>
-      <Text lineClamp={3}>{post.excerpt}</Text>
-      <Card.Section
-        className={"flex justify-between flex-nowrap gap-5 px-3 my-2 mt-auto"}
-      >
-        <Box className={"max-w-40 lg:max-w-48"}>
-          <UserAvatarGroup
-            avatarProps={{
-              size: "sm",
-            }}
-            groupProps={{
-              gap: 3,
-            }}
-            userId={post.profileUserId}
-          />
-        </Box>
-        <Group className={"relative items-baseline"}>
-          <Text>{dayjs(post.publishedAt).format("DD/MM/YYYY")}</Text>
+          <Text lineClamp={2} size="sm" c="dimmed" className={"text-left"}>
+            {post.excerpt}
+          </Text>
+        </Stack>
+        <Group
+          className={"mt-auto px-1 pb-0.5 justify-between flex-nowrap gap-4"}
+        >
+          <Box className={"min-w-0 max-w-40 lg:max-w-48"}>
+            <UserAvatarGroup
+              avatarProps={{
+                size: "sm",
+              }}
+              groupProps={{
+                gap: 6,
+              }}
+              userId={post.profileUserId}
+            />
+          </Box>
+          <Text size="xs" c="dimmed" className={"shrink-0"}>
+            {dayjs(post.publishedAt).format("DD/MM/YYYY")}
+          </Text>
         </Group>
-      </Card.Section>
+      </Link>
     </Card>
   );
 };

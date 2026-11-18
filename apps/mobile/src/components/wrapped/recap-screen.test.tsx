@@ -26,6 +26,7 @@ const mocks = vi.hoisted(() => ({
   notifyError: vi.fn(),
   downloads: [] as string[],
   videoSupported: true,
+  wide: true,
   useSupporterStatus: vi.fn(),
   useSupporterEntryHref: vi.fn(),
 }));
@@ -273,13 +274,19 @@ beforeEach(() => {
   mocks.useSupporterEntryHref.mockReset();
   mocks.useSupporterEntryHref.mockReturnValue("/supporter");
 
-  window.matchMedia = vi.fn().mockReturnValue({
-    matches: false,
+  // The screen shows the full editor (format, backdrop and style controls
+  // inline) on wide viewports and a compact one-screen layout, with those
+  // controls behind a customize sheet, on phones. These tests drive the
+  // wide editor; the compact layout has its own describe block below.
+  mocks.wide = true;
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query.includes("min-width") ? mocks.wide : false,
+    media: query,
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     addListener: vi.fn(),
     removeListener: vi.fn(),
-  });
+  }));
   Object.defineProperty(window, "ResizeObserver", {
     configurable: true,
     writable: true,
@@ -819,5 +826,26 @@ describe("WrappedRecapScreen", () => {
     ).toBeTruthy();
     expect(isControlDisabled(shareButton("shareImage"))).toBe(true);
     expect(isControlDisabled(downloadButton("downloadImage"))).toBe(true);
+  });
+});
+
+describe("WrappedRecapScreen compact layout", () => {
+  it("keeps the controls behind the customize sheet on phones", async () => {
+    mocks.wide = false;
+    renderScreen();
+
+    expect(screen.queryByLabelText("mobile.wrapped.formats.feed")).toBeNull();
+    expect(
+      screen.queryByRole("radio", { name: "mobile.wrapped.background.video" }),
+    ).toBeNull();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "mobile.wrapped.formats.story" }),
+    );
+
+    expect(
+      await screen.findByText("mobile.wrapped.labels.customize"),
+    ).toBeTruthy();
+    expect(screen.getByLabelText("mobile.wrapped.formats.feed")).toBeTruthy();
   });
 });

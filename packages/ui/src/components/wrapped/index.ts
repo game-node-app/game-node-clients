@@ -3,6 +3,7 @@
  */
 
 export * from "./RecapBackgroundControl";
+export * from "./recapControlStyles";
 export * from "./RecapCustomizePanel";
 export * from "./RecapTemplatePicker";
 export * from "./WrappedRecapScreen";

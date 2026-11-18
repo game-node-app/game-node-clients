@@ -4,4 +4,22 @@
     <string name="title_activity_main">GameNode</string>
     <string name="package_name">app.gamenode</string>
     <string name="custom_url_scheme">app.gamenode</string>
+
+    <string name="widget_hours_label">Wrapped · Horas jogadas</string>
+    <string name="widget_hours_description">Total de horas jogadas no ano.</string>
+    <string name="widget_top_game_label">Wrapped · Jogo #1</string>
+    <string name="widget_top_game_description">Seu jogo mais jogado do ano.</string>
+    <string name="widget_top3_label">Wrapped · Top 3</string>
+    <string name="widget_top3_description">Seus 3 jogos mais jogados do ano.</string>
+    <string name="widget_poster_label">Wrapped · Poster</string>
+    <string name="widget_poster_description">O pôster completo do seu Wrapped.</string>
+    <string name="wrapped_empty_title">Seu Wrapped</string>
+    <string name="wrapped_empty_body">Abra o GameNode para ver seu Wrapped</string>
+
+    <string name="widget_personality_label">Wrapped · Personalidade</string>
+    <string name="widget_personality_description">Seu perfil de jogador do ano.</string>
+    <string name="widget_daily_label">GameNode Daily</string>
+    <string name="widget_daily_description">Seu desafio diário do GameNode.</string>
+    <string name="daily_empty_title">GameNode Daily</string>
+    <string name="daily_empty_body">Abra o GameNode para jogar o desafio de hoje</string>
 </resources>

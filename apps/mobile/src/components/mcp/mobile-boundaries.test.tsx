@@ -165,7 +165,8 @@ describe("native browser authorization boundary", () => {
       expect(history.location.pathname).toBe(`/${tab}/preferences`);
       view.unmount();
     }
-  });
+    // mounts every tab (~2 s alone): the default 5 s runs out when the full suite loads the CPU
+  }, 20_000);
   it("uses the installed Browser adapter inside AppPage without search", async () => {
     const view = render(<McpPage />);
     fireEvent.click(screen.getByRole("button", { name: "guide" }));

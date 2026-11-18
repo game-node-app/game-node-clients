@@ -111,6 +111,30 @@ describe("supporter settings navigation", () => {
   });
 });
 
+describe("Wrapped widget links", () => {
+  beforeEach(() => {
+    window.history.replaceState({}, "", "/library/game/1");
+  });
+
+  afterEach(() => {
+    window.history.replaceState({}, "", "/");
+  });
+
+  it.each(["week", "month", "year"])(
+    "opens the Wrapped screen on the %s period under the current tab",
+    (period) => {
+      const slug = getAppUrlTarget(
+        `https://gamenode.app/wrapped?period=${period}`,
+      );
+
+      expect(slug).toBe(`/wrapped?period=${period}`);
+      expect(getEquivalentDeepLink(slug!)).toBe(
+        `/library/wrapped?period=${period}`,
+      );
+    },
+  );
+});
+
 describe("OAuth app links", () => {
   it.each([
     "https://gamenode.app/auth?client_id=client&sig=signed&resource=a&resource=b&ba_param=resource&ba_param=state",

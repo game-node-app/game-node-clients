@@ -41,3 +41,104 @@
 ion-tab-button:not(.tab-selected) {
     color: #FAF4F4;
 }
+
+/*
+ * Tab bar, same language as the web sidebar: the active item sits on a rounded "pill" highlight
+ * (web's selected nav item) instead of just changing colour.
+ */
+ion-tab-bar {
+    --background: #161616;
+    --border: 0;
+    /* floating pill with the web dock border (nav-border #2A2A2A) */
+    /* floats over the page: the area around the pill is see-through */
+    position: absolute !important;
+    left: 16px;
+    right: 16px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    margin: 0 !important;
+    width: auto !important;
+    height: 64px;
+    min-height: 64px;
+    padding: 0 8px !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 9999px !important;
+    overflow: hidden;
+    gap: 4px;
+    box-shadow: none !important;
+    transition:
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 220ms ease;
+}
+
+/* screens that need the whole height (e.g. the Wrapped editor) slide the bar out of view */
+body.gn-hide-tabbar ion-tab-bar {
+    transform: translateY(calc(100% + 24px + env(safe-area-inset-bottom)));
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.gn-hide-tabbar ion-tabs ion-content::part(scroll) {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ion-tab-bar {
+        transition: none;
+    }
+}
+
+/* the bar floats, so keep the end of the scroll clear of it */
+ion-tabs ion-content::part(scroll) {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+    transition: padding-bottom 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+ion-tab-button {
+    --ripple-color: transparent;
+}
+
+ion-tab-button::part(native) {
+    /* the native button is height: 100%, so shrink it instead of adding margin (which would overflow the bar) */
+    height: calc(100% - 16px);
+    margin: 8px 0;
+    border-radius: 9999px;
+    background: transparent;
+    transition: background-color 180ms ease;
+}
+
+ion-tab-button.tab-selected::part(native) {
+    background: #f15025; /* brand, solid pill like the reference */
+}
+
+ion-tab-button.tab-selected {
+    --color-selected: #ffffff;
+    color: #ffffff;
+}
+
+/*
+ * Side menu: a wide drawer that pushes the app to the right (Spotify style), with the pushed app
+ * dimmed so the menu reads as the foreground. Ionic marks the pushed element with `menu-content-open`.
+ */
+ion-menu {
+    --width: min(86vw, 360px);
+    --max-width: 360px;
+}
+
+/*
+ * Dimming layer over the pushed app while the menu is open (rendered by Tabs.tsx). Ionic turns pointer
+ * events off on the pushed content, so this layer opts back in: a tap on it closes the menu instead of
+ * falling through to the page (and, say, opening a game).
+ */
+.gn-menu-dim {
+    position: absolute;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    animation: gn-menu-dim-in 200ms ease-out;
+}
+
+@keyframes gn-menu-dim-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

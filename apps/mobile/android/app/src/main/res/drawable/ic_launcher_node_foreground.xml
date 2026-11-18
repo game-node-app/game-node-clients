@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GameNode node logo (same art as ic_splash_logo), centred in the adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.0600"
+        android:scaleY="0.0600"
+        android:translateX="23.970"
+        android:translateY="24.000">
+        <path
+            android:fillColor="#F15025"
+            android:pathData="M159 210V681.146L270.871 789.169L842 790V318.023L730.129 210H159ZM670.409 619.656H340.685L330.591 609.685V379.513H660.315L670.409 388.653V619.656Z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M212 256V653.225L306.509 744.299L789 745V347.075L694.491 256H212ZM644.039 601.383H365.488L356.961 592.976V398.917H635.512L644.039 406.623V601.383Z" />
+    </group>
+</vector>

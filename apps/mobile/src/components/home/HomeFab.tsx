@@ -19,7 +19,8 @@ const HomeFab = ({ contentRef }: Props) => {
       slot="fixed"
       horizontal="end"
       vertical="bottom"
-      className={"me-2 mb-2"}
+      style={{ marginBottom: "calc(128px + env(safe-area-inset-bottom))" }}
+      className={"me-2"}
     >
       <IonFabButton
         onClick={() => {

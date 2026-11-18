@@ -27,6 +27,10 @@ export default defineConfig({
     postcss: "./postcss.config.js",
   },
   resolve: {
+    // packages/ui does not declare react, so it could resolve a second copy
+    // from the workspace root. Two Reacts break the React Compiler runtime
+    // (`useMemoCache` of null -> blank screen).
+    dedupe: ["react", "react-dom"],
     alias: {
       // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created
       // This solves this nasty bug: https://github.com/tabler/tabler-icons/issues/1233

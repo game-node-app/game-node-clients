@@ -1,4 +1,5 @@
 import {
+  CSSProperties,
   useCallback,
   useEffect,
   useRef,
@@ -86,6 +87,8 @@ export interface SignInScreenProps {
   relativeCallbacks?: boolean;
   /** Leaves the screen once signed in. Defaults to replacing it with the safe `redirectTo` target. */
   onSignedIn?: (target: string) => void;
+  /** Overrides for the root element, e.g. to fit a container shorter than the viewport. */
+  style?: CSSProperties;
 }
 
 const SignInScreen = ({
@@ -94,6 +97,7 @@ const SignInScreen = ({
   newUserPath,
   relativeCallbacks = false,
   onSignedIn,
+  style,
 }: SignInScreenProps) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -261,7 +265,7 @@ const SignInScreen = ({
   const isNotice = errorKey === "access_denied";
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <section className={classes.hero} aria-hidden>
         <div className={classes.heroLogo}>
           <GameNodeLogo />
