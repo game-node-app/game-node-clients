@@ -591,6 +591,7 @@ export type TranslationSchema = {
     edit: string;
     goBack: string;
     login: string;
+    loginCta: string;
     logout: string;
     no: string;
     remove: string;

@@ -10,9 +10,16 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
 import { openMainMenu } from "@/util/closeMainMenu";
-import { ErrorBoundaryFallback, UserAvatar, useUserId } from "@repo/ui";
+import {
+  authClient,
+  ErrorBoundaryFallback,
+  UserAvatar,
+  useUserId,
+} from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 import React, { PropsWithChildren } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -32,6 +39,11 @@ interface Props extends PropsWithChildren {
   contentProps?: React.ComponentProps<typeof ScrollableIonContent>;
   /** Extra toolbar buttons at the end, before the search button. */
   endButtons?: React.ReactNode;
+  /**
+   * Makes the toolbar transparent so the content (with `fullscreen`) shows behind it.
+   * @default false
+   */
+  transparentHeader?: boolean;
 }
 
 /**
@@ -44,15 +56,48 @@ const AppPage = ({
   title,
   contentProps,
   endButtons,
+  transparentHeader = false,
   children,
 }: Props) => {
   const userId = useUserId();
+  const { t } = useTranslation();
+  const ionRouter = useIonRouter();
+  const { isPending } = authClient.useSession();
+  const signedOut = !isPending && userId == undefined;
   return (
     <IonPage>
       <IonHeader className={"ion-no-border relative"}>
-        <IonToolbar>
+        <IonToolbar
+          style={
+            transparentHeader ? { "--background": "transparent" } : undefined
+          }
+        >
           <IonButtons slot={"start"}>
-            {withMenuButton ? (
+            {withMenuButton && signedOut ? (
+              <IonButton
+                fill={"solid"}
+                color={"primary"}
+                shape={"round"}
+                className={"ion-margin-start"}
+                style={{
+                  "--padding-start": "18px",
+                  "--padding-end": "18px",
+                  "--border-radius": "9999px",
+                  "--box-shadow": "none",
+                  height: "40px",
+                  minWidth: "88px",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  letterSpacing: "0.01em",
+                  textTransform: "none",
+                }}
+                onClick={() => {
+                  ionRouter.push("/m/auth", "forward");
+                }}
+              >
+                {t("actions.loginCta")}
+              </IonButton>
+            ) : withMenuButton ? (
               <IonButton
                 onClick={() => {
                   openMainMenu().catch(console.error);

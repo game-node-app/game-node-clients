@@ -1,6 +1,7 @@
 import { ExploreGamesPageView } from "@/components/explore/ExploreGamesPageView";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
+import { SessionAuth } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
 
 const ExplorePage = () => {
@@ -20,7 +21,9 @@ const ExplorePage = () => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <ExploreGamesPageView />
+      <SessionAuth>
+        <ExploreGamesPageView />
+      </SessionAuth>
     </AppPage>
   );
 };
