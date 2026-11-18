@@ -60,7 +60,7 @@ const AgendaGame = ({ game }: { game: Game }) => {
     ?.map((platform) => platform.abbreviation)
     .filter(Boolean);
   const cover =
-    getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG) ??
+    getSizedImageUrl(getCoverUrl(game), ImageSize.COVER_BIG_2X) ??
     "/img/game_placeholder.jpeg";
   return (
     <Link href={`/game/${game.id}`} className={classes.agendaGame}>

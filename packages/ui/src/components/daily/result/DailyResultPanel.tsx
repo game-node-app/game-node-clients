@@ -74,7 +74,7 @@ const DailyResultPanel = ({ play }: Props) => {
             src={
               getSizedImageUrl(
                 answer.coverUrl ?? undefined,
-                ImageSize.COVER_BIG,
+                ImageSize.COVER_BIG_2X,
               ) ?? "/img/game_placeholder.jpeg"
             }
             alt={""}

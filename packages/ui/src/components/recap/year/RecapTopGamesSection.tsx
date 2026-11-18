@@ -239,7 +239,8 @@ function TopGameThumb({ game }: { game: Game | undefined }) {
 }
 
 function TopGameCover({ game }: { game: Game | undefined }) {
-  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
+  // Up to 480 CSS px wide: the 2x cover would still be upscaled on hidpi.
+  const { src, onError } = useGameCoverImage(game, ImageSize.FULL_HD);
 
   return (
     <img

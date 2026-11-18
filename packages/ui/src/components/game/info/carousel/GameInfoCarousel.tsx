@@ -1,5 +1,6 @@
 import { TGameOrSearchGame } from "#@/components";
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { Carousel, CarouselProps } from "@mantine/carousel";
@@ -23,6 +24,8 @@ const buildGamesFigures = (games: TGameOrSearchGame[] | undefined) => {
             game={game}
             figureProps={{
               withHoverTitle: true,
+              // Slides take 65% of the width on phones.
+              imageSize: ImageSize.COVER_BIG_2X,
             }}
           />
         </Carousel.Slide>

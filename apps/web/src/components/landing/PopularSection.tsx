@@ -53,7 +53,7 @@ const Marquee = ({
 const GameCard = ({ gameId }: { gameId: number }) => {
   const gameQuery = useGame(gameId, { relations: { cover: true } });
   const game = gameQuery.data;
-  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG);
+  const { src, onError } = useGameCoverImage(game, ImageSize.COVER_BIG_2X);
   if (!game) return <Skeleton className={styles.gameCard} />;
 
   return (

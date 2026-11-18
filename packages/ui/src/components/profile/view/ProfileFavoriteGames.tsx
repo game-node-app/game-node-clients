@@ -3,6 +3,7 @@ import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/
 import { toLibraryVisibilityLevel } from "#@/components/collection/collection-entry/visibility/LibraryVisibilityLevel";
 import { GameFigureImage } from "#@/components/game/figure/GameFigureImage";
 import { useGames } from "#@/components/game/hooks/useGames";
+import { ImageSize } from "#@/components/game/util/getSizedImageUrl";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
 import { useSettingsModalState } from "#@/components/settings/hooks/useSettingsModalState";
 import { cn, Link } from "#@/util";
@@ -101,6 +102,7 @@ const ProfileFavoriteGames = ({
                     >
                       <GameFigureImage
                         game={game}
+                        imageSize={ImageSize.COVER_BIG_2X}
                         ratio={224 / 264}
                         linkProps={{
                           "aria-label": game.name,
