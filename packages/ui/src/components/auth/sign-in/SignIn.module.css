@@ -7,15 +7,15 @@
   --auth-brand: var(--mantine-color-brand-6, #f15025);
   --auth-hero: linear-gradient(135deg, #f15025 0%, #d42912 56%, #5c0b06 100%);
   --auth-glow: radial-gradient(
-    60% 50% at 50% 0%,
-    rgba(241, 80, 37, 0.18),
+    70% 30% at 50% 35%,
+    rgba(241, 80, 37, 0.16),
     transparent
   );
 
   min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr;
-  background: var(--auth-bg);
+  background: var(--auth-glow), var(--auth-bg);
   color: var(--auth-text);
 }
 
@@ -63,7 +63,6 @@
   justify-content: center;
   gap: 24px;
   padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
-  background: var(--auth-glow), var(--auth-bg);
 }
 
 @media (min-width: 62em) {

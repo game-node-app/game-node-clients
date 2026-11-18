@@ -9,9 +9,26 @@ const AuthPage = () => {
   const query = useSearchParameters();
 
   return (
-    <AppPage withSearch={false}>
+    <AppPage
+      withSearch={false}
+      transparentHeader
+      contentProps={{
+        // No `ion-padding`: the screen paints its own background edge to edge,
+        // and `fullscreen` lets it run behind the (transparent) header and status bar.
+        className: "",
+        fullscreen: true,
+        style: { "--background": "#0b0b0b" },
+      }}
+    >
       <SignInScreen
         homePath={"/home"}
+        // Fill the page (not the viewport) and clear the floating tab bar.
+        style={{
+          minHeight: "100%",
+          // Clear the transparent header that now overlays the top of the screen.
+          paddingTop: "calc(var(--ion-safe-area-top, 0px) + 56px)",
+          paddingBottom: 96,
+        }}
         relativeCallbacks={Capacitor.isNativePlatform()}
         // This page was pushed over the one that asked for sign-in, so popping it is the native way back.
         onSignedIn={(target) =>
