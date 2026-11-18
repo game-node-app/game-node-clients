@@ -17,6 +17,7 @@ import {
   PROFILE_VIDEO_ACCEPT,
   PROFILE_VIDEO_MAX_SIZE,
 } from "#@/components/profile/util/profileUploadAccept";
+import { PROFILE_BANNER_DESKTOP_ASPECT } from "#@/components/profile/util/profileBannerLayout";
 import { isProfileVideoFile } from "#@/components/profile/util/profileVideoFile";
 import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
 import { ProfileBannerPreview } from "#@/components/profile/edit/ProfileBannerPreview";
@@ -44,8 +45,6 @@ import type = UpdateProfileImageDto.type;
 
 /** Same limit the banner dropzone used before the video flow. */
 const BANNER_IMAGE_MAX_SIZE = 3 * 1024 ** 2;
-/** Desktop profile: a 192px banner in a representative 1280px viewport. */
-const BANNER_IMAGE_ASPECT = 1280 / 192;
 /** Output aspect of the server-rendered banner video. */
 const BANNER_VIDEO_ASPECT = 1280 / 548;
 const BANNER_SUPPORTER_ACCEPT: Accept = {
@@ -401,7 +400,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
                 image={uploadedFileSrc}
                 crop={crop}
                 zoom={zoom}
-                aspect={BANNER_IMAGE_ASPECT}
+                aspect={PROFILE_BANNER_DESKTOP_ASPECT}
                 cropShape="rect"
                 showGrid
                 minZoom={1}

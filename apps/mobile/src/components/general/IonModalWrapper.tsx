@@ -7,6 +7,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import { useTranslation } from "@repo/locales";
 import { cn, ModalComponentProps } from "@repo/ui";
 import type { CSSProperties } from "react";
 
@@ -23,6 +24,7 @@ const IonModalWrapper = ({
   classNames,
   children,
 }: ModalComponentProps) => {
+  const { t } = useTranslation();
   const zeroPadding = padding === 0 || p === 0;
   const contentStyle = zeroPadding
     ? ({
@@ -59,7 +61,7 @@ const IonModalWrapper = ({
                     onClose();
                   }}
                 >
-                  Close
+                  {t("actions.close")}
                 </IonButton>
               </IonButtons>
             )}

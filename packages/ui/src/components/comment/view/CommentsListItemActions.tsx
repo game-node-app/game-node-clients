@@ -1,7 +1,7 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { CommentsReplyButton } from "#@/components/comment/input/CommentsReplyButton.tsx";
 import { CommentsThreadButton } from "#@/components/comment/input/CommentsThreadButton";
-import { UserComment } from "#@/components/comment/types";
+import type { CommentSource, UserComment } from "#@/components/comment/types";
 import { getCommentReportType } from "#@/components/comment/util/getCommentReportType.ts";
 import { getCommentStatisticsType } from "#@/components/comment/util/getCommentStatisticsType.ts";
 import { CommentsRemoveModal } from "#@/components/comment/view/CommentsRemoveModal";
@@ -10,9 +10,8 @@ import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFo
 import { ItemLikesButton } from "#@/components/statistics/input/ItemLikesButton";
 import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useMemo } from "react";
 
-interface Props {
+interface Props extends CommentSource {
   comment: UserComment;
   onEditStart: (commentId: string) => void;
   onCommentThreadClick: () => void;
@@ -20,18 +19,12 @@ interface Props {
 
 const CommentsListItemActions = ({
   comment,
+  sourceId,
+  sourceType,
   onEditStart,
   onCommentThreadClick,
 }: Props) => {
   const ownUserId = useUserId();
-
-  const statisticsType = useMemo(() => {
-    return getCommentStatisticsType(comment);
-  }, [comment]);
-
-  const reportType = useMemo(() => {
-    return getCommentReportType(comment);
-  }, [comment]);
 
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [reportModalOpened, reportModalUtils] = useDisclosure();
@@ -44,13 +37,15 @@ const CommentsListItemActions = ({
       <CommentsRemoveModal
         opened={removeModalOpened}
         onClose={removeModalUtils.close}
-        comment={comment}
+        commentId={comment.id}
+        sourceId={sourceId}
+        sourceType={sourceType}
       />
       <ReportCreateFormModal
         opened={reportModalOpened}
         onClose={reportModalUtils.close}
         sourceId={comment.id}
-        sourceType={reportType}
+        sourceType={getCommentReportType(sourceType)}
       />
 
       <CommentsReplyButton comment={comment} />
@@ -58,7 +53,7 @@ const CommentsListItemActions = ({
 
       <ItemLikesButton
         sourceId={comment.id}
-        sourceType={statisticsType}
+        sourceType={getCommentStatisticsType(sourceType)}
       />
 
       <ItemDropdown>

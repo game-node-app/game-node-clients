@@ -180,6 +180,16 @@ describe("SettingsModal mobile initial view", () => {
     expect(screen.queryByTestId("settings-panel")).toBeNull();
   });
 
+  it("opens a linked settings section directly on mobile", () => {
+    mocks.onMobile = true;
+    homepageWith("settings=profile&section=favorites");
+
+    renderSettingsModal();
+
+    expect(screen.getByTestId("settings-panel")).toBeTruthy();
+    expect(screen.queryByTestId("settings-sidebar")).toBeNull();
+  });
+
   it("shows both screens side by side on desktop", () => {
     mocks.onMobile = false;
     homepageWith("settings=premium&checkout=cancel");

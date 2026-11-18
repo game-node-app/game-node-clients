@@ -1,6 +1,4 @@
-import { UserComment } from "#@/components/comment/types";
-import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
-import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
+import type { CommentSource } from "#@/components/comment/types";
 import { createErrorNotification, Modal } from "#@/util";
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { Button, Group, Stack, Text } from "@mantine/core";
@@ -8,27 +6,24 @@ import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
 import { CommentService } from "@repo/wrapper/server";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
 import { SessionAuth } from "#@/components/auth/SessionAuth";
 
-interface Props extends BaseModalProps {
-  comment: UserComment;
+interface Props extends BaseModalProps, CommentSource {
+  commentId: string;
 }
 
-const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
+const CommentsRemoveModal = ({
+  opened,
+  onClose,
+  commentId,
+  sourceId,
+  sourceType,
+}: Props) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
-  const sourceType = useMemo(() => {
-    return getCommentSourceType(comment);
-  }, [comment]);
-
-  const sourceId = useMemo(() => {
-    return getCommentSourceId(comment);
-  }, [comment]);
-
   const commentRemoveMutation = useMutation({
-    mutationFn: async (commentId: string) => {
+    mutationFn: () => {
       return CommentService.commentControllerDeleteV1(commentId, {
         sourceType,
       });
@@ -62,7 +57,7 @@ const CommentsRemoveModal = ({ opened, onClose, comment }: Props) => {
             </Button>
             <Button
               onClick={() => {
-                commentRemoveMutation.mutate(comment.id);
+                commentRemoveMutation.mutate();
               }}
               color={"red"}
             >

@@ -19,9 +19,12 @@ const ReviewListItemRemoveModal = ({ reviewId, opened, onClose }: Props) => {
     mutationFn: async () => {
       await ReviewsService.reviewsControllerDeleteV1(reviewId);
     },
-    onSettled: () => {
+    onSuccess: () => {
       if (userId) {
-        queryClient.invalidateQueries({ queryKey: ["review"] }).then();
+        void queryClient.invalidateQueries({ queryKey: ["review"] });
+        void queryClient.invalidateQueries({
+          queryKey: ["reviews", "all", userId],
+        });
       }
     },
   });

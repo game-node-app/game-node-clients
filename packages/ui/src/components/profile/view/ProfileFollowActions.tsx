@@ -1,17 +1,17 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "#@/components/follow/hooks/useFollowStatus";
 import { UserFollowActions } from "#@/components/follow/input/UserFollowActions";
-import { Stack, Text } from "@mantine/core";
+import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
+import { Button, Stack, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 
 interface Props {
   targetUserId: string;
-  withUnfollowButton?: boolean;
 }
 
-const ProfileFollowActions = ({
-  targetUserId,
-  withUnfollowButton: _withUnfollowButton = true,
-}: Props) => {
+const ProfileFollowActions = ({ targetUserId }: Props) => {
+  const { t } = useTranslation();
+  const redirectToAuth = useRedirectToAuth();
   const ownUserId = useUserId();
   /*
     Checks if current logged-in user is following target user
@@ -27,17 +27,30 @@ const ProfileFollowActions = ({
     return null;
   }
 
+  if (!ownUserId) {
+    return (
+      <Button
+        onClick={() => void redirectToAuth()}
+        variant="outline"
+        radius="md"
+        size="md"
+      >
+        {t("profile.overview.follow")}
+      </Button>
+    );
+  }
+
   return (
-    <Stack className={"w-fit justify-center"}>
+    <Stack gap={4} className="justify-center">
       <UserFollowActions targetUserId={targetUserId} />
       {isBeingFollowed && !isFollowedBack && (
         <Text fz={"0.8rem"} c={"dimmed"}>
-          This user is following you.
+          {t("profile.overview.followsYou")}
         </Text>
       )}
       {isFollowedBack && (
         <Text fz={"0.8rem"} c={"dimmed"}>
-          You follow each other.
+          {t("profile.overview.mutualFollow")}
         </Text>
       )}
     </Stack>

@@ -21,6 +21,8 @@ import { getErrorMessage, getServerStoredIcon, Link } from "#@/util";
 
 type AvailableConnection = FindAvailableConnectionsResponseDto;
 
+const CONNECTION_ROW_CLASS_NAME = "gap-2 py-2.5 sm:gap-4 sm:py-4";
+
 /**
  * Settings-styled version of `PreferencesConnectionItem`: same status logic
  * (`usePreferencesConnectionStatus`) and setup modal, drawn as a `SettingsRow`.
@@ -63,6 +65,8 @@ function SettingsConnectionRow({
         onClose={modalUtils.close}
       />
       <SettingsRow
+        className={CONNECTION_ROW_CLASS_NAME}
+        stackRightSection
         leftSection={
           <Box
             className={
@@ -97,7 +101,7 @@ function SettingsConnectionRow({
         }
         description={description}
         rightSection={
-          <Group gap={8} wrap={"nowrap"}>
+          <Group gap={6}>
             {isConnected && !requiresReauth && isEligible && (
               <SettingsButton
                 component={Link}
@@ -135,6 +139,7 @@ export function SettingsConnectionsTab() {
   return (
     <>
       <SettingsSection
+        sectionId="platforms"
         title={t("settings.connections.platforms.title")}
         description={t("settings.connections.platforms.description")}
       >
@@ -164,6 +169,8 @@ export function SettingsConnectionsTab() {
       >
         <SettingsCard>
           <SettingsRow
+            className={CONNECTION_ROW_CLASS_NAME}
+            stackRightSection
             Icon={IconSparkles}
             title={t("mcp.title")}
             description={t("settings.connections.mcp.rowDescription")}

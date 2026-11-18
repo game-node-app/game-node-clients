@@ -174,6 +174,7 @@ export function SettingsProfileFavorites({
   return (
     <SettingsSection
       title={t("settings.profile.favorites.title")}
+      sectionId="favorites"
       description={t("settings.profile.favorites.description")}
     >
       <SettingsCard>

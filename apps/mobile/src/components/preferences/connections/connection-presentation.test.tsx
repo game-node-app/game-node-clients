@@ -41,8 +41,8 @@ it("renders a GOG profile icon without an external link", () => {
       <ProfileUserInfoConnections userId="user" />
     </MantineProvider>,
   );
-  expect(screen.getByRole("img").getAttribute("src")).toContain(
-    "/v1/public/icons/gog.png",
-  );
+  expect(
+    screen.getByRole("img", { hidden: true }).getAttribute("src"),
+  ).toContain("/v1/public/icons/gog.png");
   expect(screen.queryByRole("link")).toBeNull();
 });

@@ -383,7 +383,7 @@ describe("ProfileEditBannerUploader", () => {
       .mockResolvedValue(undefined);
     renderUploader(<ProfileEditBannerUploader />);
     dropFile(new File(["image"], "banner.jpg", { type: "image/jpeg" }));
-    expect(cropperProps()?.aspect).toBe(1280 / 192);
+    expect(cropperProps()?.aspect).toBe(1144 / 400);
     expect(cropperProps()?.minZoom).toBe(1);
     expect(
       (
@@ -392,7 +392,7 @@ describe("ProfileEditBannerUploader", () => {
         }) as HTMLButtonElement
       ).disabled,
     ).toBe(true);
-    const pixels = { x: 0, y: 60, width: 1280, height: 192 };
+    const pixels = { x: 0, y: 60, width: 1144, height: 400 };
     act(() => {
       cropperProps()?.onCropAreaChange(pixels, pixels);
     });

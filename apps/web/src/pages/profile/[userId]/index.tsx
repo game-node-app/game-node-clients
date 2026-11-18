@@ -1,10 +1,5 @@
 import { Box } from "@mantine/core";
-import {
-  ProfileUserInfoWithBanner,
-  ProfileViewContent,
-  getUserProfileQueryKey,
-  useUserProfile,
-} from "@repo/ui";
+import { ProfileViewContent, getUserProfileQueryKey } from "@repo/ui";
 import { ProfileService } from "@repo/wrapper/server";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
@@ -43,13 +38,10 @@ const Index = () => {
   const router = useRouter();
   const { userId } = router.query;
   const userIdString = userId as string;
-  useUserProfile(userIdString);
 
   return (
     <Box className={"w-full h-full mt-3 mb-8"}>
-      <ProfileUserInfoWithBanner userId={userIdString}>
-        <ProfileViewContent userId={userIdString} />
-      </ProfileUserInfoWithBanner>
+      <ProfileViewContent key={userIdString} userId={userIdString} />
     </Box>
   );
 };

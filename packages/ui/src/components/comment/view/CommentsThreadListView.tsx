@@ -1,13 +1,11 @@
 import { useRenderedComments } from "#@/components/comment/hooks/useRenderedComments";
-import { UserComment } from "#@/components/comment/types";
-import { getCommentSourceId } from "#@/components/comment/util/getCommentSourceId";
-import { getCommentSourceType } from "#@/components/comment/util/getCommentSourceType";
+import type { CommentSource, UserComment } from "#@/components/comment/types";
 import { Pagination, Stack } from "@mantine/core";
 import { useMemo, useState } from "react";
 
 const DEFAULT_LIMIT = 10;
 
-interface Props {
+interface Props extends CommentSource {
   // The source, top-level comment
   comment: UserComment;
 }
@@ -16,23 +14,15 @@ interface Props {
  * Used to render the inner comments of any kind of comment (e.g. review or activity comment)
  * @constructor
  */
-const CommentsThreadListView = ({ comment }: Props) => {
+const CommentsThreadListView = ({ comment, sourceId, sourceType }: Props) => {
   // Children are automatically pre-fetched for each comment, so no need to show
   // a loading state
-  const children: UserComment[] = comment.parentOf!;
+  const children = comment.parentOf;
 
   const [offset, setOffset] = useState(0);
 
   const offsetAsPage =
     offset >= DEFAULT_LIMIT ? Math.ceil((offset + 1) / DEFAULT_LIMIT) : 1;
-
-  const sourceId = useMemo(() => {
-    return getCommentSourceId(comment);
-  }, [comment]);
-
-  const sourceType = useMemo(() => {
-    return getCommentSourceType(comment);
-  }, [comment]);
 
   const items = useRenderedComments({
     data: children || [],

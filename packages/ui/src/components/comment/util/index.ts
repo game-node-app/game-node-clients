@@ -3,6 +3,4 @@
  */
 
 export * from "./getCommentReportType";
-export * from "./getCommentSourceId";
-export * from "./getCommentSourceType";
 export * from "./getCommentStatisticsType";

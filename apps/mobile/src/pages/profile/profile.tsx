@@ -1,30 +1,23 @@
 import { AppPage } from "@/components/general/AppPage";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
-import {
-  CenteredLoading,
-  ProfileUserInfoWithBanner,
-  ProfileViewContent,
-  useUserId,
-  useUserProfile,
-} from "@repo/ui";
+import { useTranslation } from "@repo/locales";
+import { ProfileViewContent, SessionAuth, useUserId } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
-import { SessionAuth } from "@repo/ui";
 
 interface Props {
   userId?: string;
 }
 
 const ProfilePage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const ownUserId = useUserId();
-  const userIdToUse =
-    userId == undefined && ownUserId != undefined ? ownUserId : userId;
-
-  const profileQuery = useUserProfile(userId);
+  const userIdToUse = userId ?? ownUserId;
 
   return (
     <AppPage
       withMenuButton
+      title={t("navigation.profile")}
       contentProps={{
         fixedSlotPlacement: "before",
       }}
@@ -32,39 +25,44 @@ const ProfilePage = ({ userId }: Props) => {
       <IonRefresher
         slot="fixed"
         onIonRefresh={async (event) => {
-          const promises: Promise<unknown>[] = [
-            queryClient.invalidateQueries({
-              queryKey: ["userProfile", userIdToUse],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: ["collection-entries", "favorites", userIdToUse],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: ["playtime", "user", userIdToUse],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: ["achievement", "obtained", "all", userIdToUse],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: ["journal", "overview", userIdToUse],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: ["journal", "achievements", "obtained"],
-            }),
+          const queryKeys = [
+            ["userProfile", userIdToUse],
+            ["user-level", userIdToUse],
+            ["user", "follow", "info"],
+            ["collection-entries", "favorites", userIdToUse],
+            ["collection-entries", "all", userIdToUse],
+            ["library", userIdToUse],
+            ["connections", "user", userIdToUse],
+            ["playtime", "user", userIdToUse],
+            ["achievement", "obtained", "all", userIdToUse],
+            ["achievements", "v2", userIdToUse],
+            ["achievements", "progress", userIdToUse],
+            ["game", "achievements", "obtained", userIdToUse],
+            ["journal", "overview", userIdToUse],
+            ["journal", "achievements", "obtained", userIdToUse],
+            ["reviews", "all", userIdToUse],
+            ["activities", "latest", userIdToUse],
+            ["posts", "infinite", undefined, undefined, userIdToUse],
           ];
 
-          await Promise.all(promises);
-          event.detail.complete();
+          try {
+            if (userIdToUse) {
+              await Promise.all(
+                queryKeys.map((queryKey) =>
+                  queryClient.invalidateQueries({ queryKey }),
+                ),
+              );
+            }
+          } finally {
+            event.detail.complete();
+          }
         }}
       >
         <IonRefresherContent />
       </IonRefresher>
       <SessionAuth requireAuth={userId == undefined}>
-        {profileQuery.isLoading && <CenteredLoading />}
         {userIdToUse && (
-          <ProfileUserInfoWithBanner userId={userIdToUse}>
-            <ProfileViewContent userId={userIdToUse} />
-          </ProfileUserInfoWithBanner>
+          <ProfileViewContent key={userIdToUse} userId={userIdToUse} />
         )}
       </SessionAuth>
     </AppPage>

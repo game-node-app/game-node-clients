@@ -1,16 +1,22 @@
-import { UserComment } from "#@/components";
-import { StatisticsSourceRequestDto } from "@repo/wrapper/server";
+import {
+  CreateCommentDto,
+  StatisticsSourceRequestDto,
+} from "@repo/wrapper/server";
 
-export function getCommentStatisticsType(comment: UserComment) {
-  if ("reviewId" in comment) {
-    return StatisticsSourceRequestDto.sourceType.REVIEW_COMMENT;
-  }
-  if ("postId" in comment) {
-    return StatisticsSourceRequestDto.sourceType.POST_COMMENT;
-  }
-  if ("activityId" in comment) {
-    return StatisticsSourceRequestDto.sourceType.ACTIVITY_COMMENT;
-  }
+const statisticsTypes = {
+  [CreateCommentDto.sourceType.REVIEW]:
+    StatisticsSourceRequestDto.sourceType.REVIEW_COMMENT,
+  [CreateCommentDto.sourceType.POST]:
+    StatisticsSourceRequestDto.sourceType.POST_COMMENT,
+  [CreateCommentDto.sourceType.ACTIVITY]:
+    StatisticsSourceRequestDto.sourceType.ACTIVITY_COMMENT,
+} satisfies Record<
+  CreateCommentDto.sourceType,
+  StatisticsSourceRequestDto.sourceType
+>;
 
-  throw new Error(`Unmapped comment source type for statistics: ${comment}`);
+export function getCommentStatisticsType(
+  sourceType: CreateCommentDto.sourceType,
+) {
+  return statisticsTypes[sourceType];
 }

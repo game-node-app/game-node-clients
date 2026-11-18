@@ -3,6 +3,7 @@ import {
   UseCommentsProps,
 } from "#@/components/comment/hooks/useComments";
 import { ActionIcon, Text } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { IconMessageCircle } from "@tabler/icons-react";
 import { useMemo } from "react";
 
@@ -11,6 +12,7 @@ interface Props extends Omit<UseCommentsProps, "enabled"> {
 }
 
 const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
+  const { t } = useTranslation();
   const commentsQuery = useComments({
     orderBy: {
       createdAt: "DESC",
@@ -36,6 +38,7 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
       variant={"subtle"}
       size={"xl"}
       color={"white"}
+      aria-label={t("actions.viewComments")}
       loading={commentsQuery.isLoading}
     >
       <IconMessageCircle className={"me-0.5"} />

@@ -86,7 +86,9 @@ describe("LibraryHiddenState", () => {
     expect(
       screen.getByText("libraryVisibility.empty.privateDescription"),
     ).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "Follow" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "profile.overview.follow" }),
+    ).toBeNull();
   });
 
   it("offers the follow action for a followers-only library", async () => {
@@ -105,7 +107,9 @@ describe("LibraryHiddenState", () => {
     ).toBeTruthy();
 
     await waitFor(() =>
-      expect(screen.getByRole("button", { name: "Follow" })).toBeTruthy(),
+      expect(
+        screen.getByRole("button", { name: "profile.overview.follow" }),
+      ).toBeTruthy(),
     );
   });
 
@@ -122,7 +126,9 @@ describe("LibraryHiddenState", () => {
     expect(
       screen.getByText("libraryVisibility.empty.followersTitle"),
     ).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "Follow" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "profile.overview.follow" }),
+    ).toBeNull();
   });
 
   it("renders nothing for an explicit visible profile", () => {

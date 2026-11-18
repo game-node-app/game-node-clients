@@ -1,43 +1,51 @@
-import {
-  ItemDropdown,
-  ReportCreateFormModal,
-  UserFollowActions,
-  useUserId,
-} from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { ItemDropdown } from "#@/components/general/input/ItemDropdown";
+import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";
+import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
+import { useSettingsModalState } from "#@/components/settings/hooks/useSettingsModalState";
 import { Button, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import { CreateReportRequestDto } from "@repo/wrapper/server";
-import sourceType = CreateReportRequestDto.sourceType;
 
-interface Props {
-  userId: string;
-  onEditClick: () => void;
-}
-
-const ProfileAvatarSectionButtons = ({ userId, onEditClick }: Props) => {
+const ProfileAvatarSectionButtons = ({ userId }: { userId: string }) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
-  const isOwnProfile = ownUserId === userId;
-  const [reportModalOpened, reportModalUtils] = useDisclosure();
+  const settings = useSettingsModalState();
+  const [reportOpened, report] = useDisclosure();
+
+  if (ownUserId === userId) {
+    return (
+      <Button
+        variant="outline"
+        radius="md"
+        size="md"
+        className="w-full sm:w-auto sm:min-w-44"
+        onClick={() => settings.open("profile", "images")}
+      >
+        {t("settings.tabs.profile.label")}
+      </Button>
+    );
+  }
 
   return (
-    <Group className={"w-52 max-w-fit flex-nowrap gap-4"}>
-      <ReportCreateFormModal
-        opened={reportModalOpened}
-        onClose={reportModalUtils.close}
-        sourceId={userId}
-        sourceType={sourceType.PROFILE}
-      />
-      {!isOwnProfile && (
-        <ItemDropdown>
-          <ItemDropdown.ReportButton onClick={reportModalUtils.open} />
-        </ItemDropdown>
-      )}
-      {isOwnProfile ? (
-        <Button variant={"default"} size={"sm"} onClick={onEditClick}>
-          Edit Profile
-        </Button>
-      ) : (
-        <UserFollowActions targetUserId={userId} />
+    <Group
+      wrap="nowrap"
+      align="flex-start"
+      gap="xs"
+      className="w-full sm:w-auto"
+    >
+      <ProfileFollowActions targetUserId={userId} />
+      <ItemDropdown>
+        <ItemDropdown.ReportButton onClick={report.open} />
+      </ItemDropdown>
+      {reportOpened && (
+        <ReportCreateFormModal
+          opened={reportOpened}
+          onClose={report.close}
+          sourceId={userId}
+          sourceType={CreateReportRequestDto.sourceType.PROFILE}
+        />
       )}
     </Group>
   );

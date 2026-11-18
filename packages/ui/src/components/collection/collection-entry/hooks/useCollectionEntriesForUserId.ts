@@ -8,7 +8,7 @@ import {
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 export interface UseCollectionEntriesForUserIdProps {
-  userId: string;
+  userId: string | undefined;
   offset?: number;
   limit?: number;
   orderBy?: FindCollectionEntriesOrderBy;
@@ -44,7 +44,7 @@ export function useCollectionEntriesForUserId({
     ],
     queryFn: async () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindAllByLibraryIdV1(
-        userId,
+        userId!,
         orderBy,
         status,
         gameFilters,
@@ -53,6 +53,6 @@ export function useCollectionEntriesForUserId({
         limit,
       );
     },
-    enabled: userId != undefined,
+    enabled: !!userId,
   });
 }

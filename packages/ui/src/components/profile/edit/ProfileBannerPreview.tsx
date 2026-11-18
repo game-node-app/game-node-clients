@@ -2,7 +2,11 @@ import { useSupporterPerks } from "#@/components/supporter/hooks/useSupporterPer
 import { SupporterAvatarFrame } from "#@/components/supporter/perks/SupporterAvatarFrame";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { PROFILE_BANNER_IMAGE_STYLE } from "#@/components/profile/util/profileBannerLayout";
+import {
+  PROFILE_BANNER_DESKTOP_SIZE,
+  PROFILE_BANNER_IMAGE_STYLE,
+  PROFILE_BANNER_MOBILE_SIZE,
+} from "#@/components/profile/util/profileBannerLayout";
 import { Box, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -22,10 +26,13 @@ function DevicePreview({
   const perks = useSupporterPerks(userId);
   const { ref, width } = useElementSize();
   const { ref: sceneRef, height: sceneHeight } = useElementSize();
-  const viewport = mobile ? 390 : 1280;
+  const size = mobile
+    ? PROFILE_BANNER_MOBILE_SIZE
+    : PROFILE_BANNER_DESKTOP_SIZE;
+  const viewport = size.width;
   const scale = Math.max(0, width - 2) / viewport;
-  const avatarSize = mobile ? 128 : 160;
-  const avatarOuterSize = avatarSize + (perks?.border ? 18 : 0);
+  const avatarSize = mobile ? 96 : 150;
+  const avatarOuterSize = avatarSize + (perks?.border ? (mobile ? 12 : 18) : 8);
   // Preview the same poster in both devices; independently playing avatar
   // videos can show unrelated frames and obscure the banner comparison.
   const avatar = (
@@ -69,34 +76,46 @@ function DevicePreview({
         >
           <Box
             style={{
-              height: 192,
+              position: "relative",
+              height: size.height,
               ...PROFILE_BANNER_IMAGE_STYLE,
               backgroundImage: `url(${src})`,
             }}
-          />
-          {perks?.theme && (
-            <Box style={{ height: 21, backgroundColor: perks.accent }}>
-              <Text ta="right" pr={24} fz={10} fs="italic" c={perks.onAccent}>
-                {t("supporter.badge.label")}
-              </Text>
-            </Box>
-          )}
+          >
+            <Box className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            {perks?.theme && (
+              <Box
+                className="absolute inset-x-0 bottom-0 flex items-center justify-end px-4"
+                style={{
+                  height: mobile ? 24 : 28,
+                  backgroundColor: perks.accent,
+                }}
+              >
+                <Text size="sm" fw={600} c={perks.onAccent}>
+                  {t("supporter.badge.label")}
+                </Text>
+              </Box>
+            )}
+          </Box>
           <Box
-            style={{
-              position: "relative",
-              width: mobile ? viewport - 48 : viewport / 4,
-              marginLeft: mobile ? 24 : 0,
-              marginTop: -avatarOuterSize * 0.75,
-            }}
+            pos="relative"
+            px={mobile ? 16 : 32}
+            pt={mobile ? 54 : 16}
+            mih={mobile ? undefined : 100}
           >
             <Box
+              pos="absolute"
               style={{
-                width: "fit-content",
-                margin: mobile ? undefined : "0 auto",
+                insetInlineStart: mobile ? 16 : 32,
+                top: -avatarOuterSize * 0.6,
               }}
             >
               {perks?.border ? (
-                <SupporterAvatarFrame accent={perks.accent} animated={false}>
+                <SupporterAvatarFrame
+                  accent={perks.accent}
+                  animated={false}
+                  className={mobile ? "!p-[3px]" : undefined}
+                >
                   {avatar}
                 </SupporterAvatarFrame>
               ) : (
@@ -104,13 +123,13 @@ function DevicePreview({
               )}
             </Box>
             <Text
-              ta={mobile ? "left" : "center"}
               style={{
-                paddingTop: 8,
+                marginInlineStart: mobile ? 0 : 192,
                 overflowWrap: "anywhere",
-                fontSize: 16,
-                lineHeight: 1.5,
               }}
+              fz={32}
+              fw={500}
+              lh={1}
             >
               {profile.data?.username}
             </Text>

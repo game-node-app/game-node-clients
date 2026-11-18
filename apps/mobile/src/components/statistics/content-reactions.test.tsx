@@ -13,11 +13,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Activity,
   ActivityResponseDto,
+  FindAllCommentsDto,
   StatisticsSourceRequestDto,
   StatisticsService,
 } from "@repo/wrapper/server";
 import { ItemLikesButton } from "../../../../../packages/ui/src/components/statistics/input/ItemLikesButton";
 import { ActivityItemLikes } from "../../../../../packages/ui/src/components/activity/input/ActivityItemLikes";
+import { CommentsListView } from "../../../../../packages/ui/src/components/comment/view/CommentsListView";
+import { CommentsView } from "../../../../../packages/ui/src/components/comment/view/CommentsView";
+import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 
 const session = vi.hoisted(() => {
   const listeners = new Set<() => void>();
@@ -91,6 +95,83 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+});
+
+it("renders and likes a review comment without a reviewId in its response", async () => {
+  const client = createTestQueryClient();
+  const reviewId = "123e4567-e89b-12d3-a456-426614174000";
+  const commentId = "123e4567-e89b-12d3-a456-426614174001";
+  const userId = session.id!;
+  const sourceType = FindAllCommentsDto.sourceType.REVIEW;
+  const commentSourceType =
+    StatisticsSourceRequestDto.sourceType.REVIEW_COMMENT;
+  const date = "2026-01-01T12:00:00Z";
+
+  client.setQueryData(
+    ["comments", sourceType, reviewId, 0, 10, { createdAt: "DESC" }],
+    {
+      data: [
+        {
+          id: commentId,
+          content: "<p>A newly submitted comment</p>",
+          profileUserId: userId,
+          createdAt: date,
+          updatedAt: date,
+          childOfId: null,
+          parentOf: null,
+        },
+      ],
+      pagination: { totalItems: 1, totalPages: 1, hasNextPage: false },
+    },
+  );
+  client.setQueryData(["userProfile", userId, userId], {
+    userId,
+    username: "Player",
+  });
+  client.setQueryData(["statistics", commentSourceType, commentId, userId], {
+    isLiked: false,
+    likesCount: 0,
+  });
+  const like = vi
+    .spyOn(StatisticsService, "statisticsControllerAddLikeV1")
+    .mockImplementation(
+      () =>
+        Promise.resolve({ isLiked: true, likesCount: 1 }) as ReturnType<
+          typeof StatisticsService.statisticsControllerAddLikeV1
+        >,
+    );
+
+  renderComponent(
+    <UIProvider
+      hooks={{
+        useRouter: () => ({
+          back: () => {},
+          pathname: "/",
+          push: async () => {},
+          query: new URLSearchParams(),
+        }),
+      }}
+      presenters={{
+        Link: ({ href, children }) => <a href={href}>{children}</a>,
+      }}
+    >
+      <CommentsView>
+        <CommentsListView sourceId={reviewId} sourceType={sourceType} />
+      </CommentsView>
+    </UIProvider>,
+    client,
+  );
+
+  expect(await screen.findByText("A newly submitted comment")).toBeTruthy();
+  fireEvent.click(
+    screen.getByRole("button", { name: /^(Like|actions\.like)$/ }),
+  );
+  await waitFor(() => {
+    expect(like).toHaveBeenCalledWith({
+      sourceId: commentId,
+      sourceType: commentSourceType,
+    });
+  });
 });
 
 describe("content reactions (useUserLike & ItemLikesButton)", () => {
