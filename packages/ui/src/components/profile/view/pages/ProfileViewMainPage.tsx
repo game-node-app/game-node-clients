@@ -1,104 +1,150 @@
+import { RecentActivityList } from "#@/components/activity/RecentActivityList";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { JournalHeatmap } from "#@/components/journal/heatmap/view/JournalHeatmap";
+import { useIsLibraryHidden } from "#@/components/library/hooks/useIsLibraryHidden";
+import { LibraryHiddenState } from "#@/components/library/view/LibraryHiddenState";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
+import { ProfileReviewListItem } from "#@/components/profile/review/ProfileReviewListItem";
+import { ProfileAchievementHighlights } from "#@/components/profile/view/ProfileAchievementHighlights";
+import { ProfileFavoriteGames } from "#@/components/profile/view/ProfileFavoriteGames";
+import { ProfileFooter } from "#@/components/profile/view/ProfileFooter";
+import type { ProfileTab } from "#@/components/profile/view/ProfileViewContent";
+import type { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId";
 import {
-  DetailsBox,
-  JournalHeatmap,
-  LibraryHiddenState,
-  ProfileFavoriteGames,
-  ProfileStatsSimpleOverview,
-  RecentActivityList,
-  TextLink,
-  useIsLibraryHidden,
-  useOnMobilePlatform,
-  usePlaytimeForUser,
-  UserRecentGames,
-  useUserId,
-} from "#@/components";
-import { Box, Divider, Flex, Stack } from "@mantine/core";
+  Box,
+  Group,
+  SimpleGrid,
+  Stack,
+  Tabs,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { FindAllPlaytimeFiltersDto } from "@repo/wrapper/server";
-import period = FindAllPlaytimeFiltersDto.period;
 
 interface Props {
   userId: string;
+  reviews: ReturnType<typeof useReviewsForUserId>;
+  onNavigate: (tab: ProfileTab) => void;
 }
 
-const ProfileViewMainPage = ({ userId }: Props) => {
-  const { t } = useTranslation();
-  const onMobilePlatform = useOnMobilePlatform();
-  const playtime = usePlaytimeForUser({
-    userId: userId,
-    offset: 0,
-    limit: 5,
-    period: period.YEAR,
-  });
+const TEXT_LINK =
+  "self-start text-sm text-[var(--profile-accent-text,var(--mantine-color-brand-filled))] hover:underline";
+const TAB_STYLE =
+  "border-b-2 border-transparent px-1 py-2 text-sm text-dimmed data-[active]:border-[var(--profile-accent,var(--mantine-color-brand-filled))] data-[active]:font-semibold data-[active]:text-white";
 
+const ProfileViewMainPage = ({ userId, reviews, onNavigate }: Props) => {
+  const { t } = useTranslation();
+  const { data: profile } = useUserProfile(userId);
+  const { isHidden } = useIsLibraryHidden(userId, profile);
   const ownUserId = useUserId();
 
-  const { isHidden, profile } = useIsLibraryHidden(userId);
-
-  const hasPlaytimeInfo =
-    playtime.data != undefined && playtime.data.data.length > 0;
-
-  const showPlaytimeInfo = hasPlaytimeInfo || ownUserId === userId;
-
-  if (isHidden) {
-    return <LibraryHiddenState profile={profile} />;
-  }
-
   return (
-    <Stack>
-      <Box className={"w-full mt-2 mb-4"}>
-        <ProfileFavoriteGames userId={userId} />
+    <Stack gap="xl" className="min-w-0">
+      {isHidden ? (
+        <LibraryHiddenState profile={profile} />
+      ) : (
+        <>
+          <ProfileFavoriteGames userId={userId} />
+          <Stack gap="xs">
+            <JournalHeatmap userId={userId} />
+            <Group gap="md" justify="flex-end">
+              <UnstyledButton
+                className={TEXT_LINK}
+                onClick={() => onNavigate("journal")}
+              >
+                {t("profile.tabs.journal")}
+              </UnstyledButton>
+              <UnstyledButton
+                className={TEXT_LINK}
+                onClick={() => onNavigate("stats")}
+              >
+                {t("profile.labels.stats")}
+              </UnstyledButton>
+            </Group>
+          </Stack>
+        </>
+      )}
+
+      <Box className="grid items-start gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <Tabs
+          key={String(isHidden)}
+          defaultValue="reviews"
+          keepMounted={false}
+          unstyled
+          className="min-w-0"
+        >
+          <Tabs.List
+            aria-label={t("profile.overview.highlights")}
+            className="mb-4 flex flex-wrap gap-5"
+          >
+            <Tabs.Tab value="reviews" className={TAB_STYLE}>
+              {t("profile.tabs.reviews")}
+            </Tabs.Tab>
+            {!isHidden && (
+              <Tabs.Tab value="activity" className={TAB_STYLE}>
+                {t("profile.overview.activity")}
+              </Tabs.Tab>
+            )}
+          </Tabs.List>
+          <Tabs.Panel value="reviews">
+            <Stack gap="md">
+              {reviews.isLoading && <CenteredLoading />}
+              {reviews.isError && (
+                <Text size="sm" c="dimmed">
+                  {t("profile.messages.fetchFailed")}
+                </Text>
+              )}
+              {reviews.isSuccess && !reviews.data?.data.length && (
+                <Text size="sm" c="dimmed">
+                  {t(
+                    ownUserId === userId
+                      ? "profile.messages.noReviewsOwn"
+                      : "profile.messages.noReviews",
+                  )}
+                </Text>
+              )}
+              {!!reviews.data?.data.length && (
+                <>
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    {reviews.data.data.map((review) => (
+                      <ProfileReviewListItem
+                        key={review.id}
+                        review={review}
+                        preview
+                      />
+                    ))}
+                  </SimpleGrid>
+                  <UnstyledButton
+                    className={TEXT_LINK}
+                    onClick={() => onNavigate("reviews")}
+                  >
+                    {t("profile.overview.allReviews")}
+                  </UnstyledButton>
+                </>
+              )}
+            </Stack>
+          </Tabs.Panel>
+          {!isHidden && (
+            <Tabs.Panel value="activity">
+              <RecentActivityList
+                userId={userId}
+                withUserAvatar
+                limit={10}
+                variant="card"
+              />
+            </Tabs.Panel>
+          )}
+        </Tabs>
+        <ProfileAchievementHighlights
+          userId={userId}
+          showGameAchievements={!isHidden}
+          onGameAchievements={() => onNavigate("achievements")}
+          onFeats={() => onNavigate("feats")}
+        />
       </Box>
-      <JournalHeatmap userId={userId} />
-      <Divider
-        className={"w-full mt-6 mb-2"}
-        label={t("profile.labels.stats")}
-      />
-      <Stack>
-        <ProfileStatsSimpleOverview userId={userId} />
-        <TextLink href={`/profile/${userId}/stats`}>
-          {t("actions.showMore")}
-        </TextLink>
-      </Stack>
 
-      <Flex className={"w-full flex-col lg:flex-row lg:flex-nowrap gap-3"}>
-        <DetailsBox
-          title={onMobilePlatform ? t("profile.recent.recentlyPlayed") : ""}
-          withDimmedTitle
-          stackProps={{
-            className: showPlaytimeInfo ? "w-full lg:w-2/5" : "hidden",
-          }}
-        >
-          {!onMobilePlatform && (
-            <Divider
-              className={"w-full mt-6 mb-2"}
-              label={t("profile.recent.recentlyPlayed")}
-            />
-          )}
-          <UserRecentGames userId={userId} offset={0} limit={5} />
-        </DetailsBox>
-
-        <DetailsBox
-          title={onMobilePlatform ? t("profile.recent.recentActivity") : ""}
-          withDimmedTitle
-          stackProps={{
-            className: showPlaytimeInfo ? "w-full lg:w-3/5" : "w-full",
-          }}
-        >
-          {!onMobilePlatform && (
-            <Divider
-              className={"w-full mt-6 mb-2"}
-              label={t("profile.recent.recentActivity")}
-            />
-          )}
-          <RecentActivityList
-            userId={userId}
-            withUserAvatar={true}
-            limit={10}
-            variant={"card"}
-          />
-        </DetailsBox>
-      </Flex>
+      {profile && <ProfileFooter profile={profile} />}
     </Stack>
   );
 };

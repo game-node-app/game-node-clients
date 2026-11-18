@@ -85,9 +85,8 @@ export function SettingsPanel({
       <Group
         wrap={"nowrap"}
         align={"flex-start"}
-        gap={24}
         className={
-          "border-0 border-b border-solid border-[#2a2a2a] pb-4 pe-4 ps-8 pt-[18px] max-sm:ps-4"
+          "gap-3 border-0 border-b border-solid border-[#2a2a2a] px-3 py-3 sm:gap-6 sm:pb-4 sm:pe-4 sm:ps-8 sm:pt-[18px]"
         }
       >
         {onBack && (
@@ -150,7 +149,7 @@ export function SettingsPanel({
           scrollbarSize={4}
           type={"hover"}
         >
-          <Stack gap={32} className={"px-8 pb-10 pt-7 max-sm:px-4"}>
+          <Stack gap={32} className="px-2.5 pb-10 pt-4 sm:px-8 sm:pt-7">
             {children}
           </Stack>
         </ScrollArea>

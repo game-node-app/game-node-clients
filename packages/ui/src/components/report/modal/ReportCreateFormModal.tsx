@@ -4,6 +4,7 @@ import {
 } from "#@/components/report/form/ReportCreateForm";
 import { Modal } from "#@/util";
 import { BaseModalProps } from "#@/util/types/modal-props";
+import { useTranslation } from "@repo/locales";
 
 type Props = BaseModalProps & ReportCreateFormProps;
 
@@ -13,8 +14,9 @@ const ReportCreateFormModal = ({
   sourceType,
   sourceId,
 }: Props) => {
+  const { t } = useTranslation();
   return (
-    <Modal title={"Report content"} onClose={onClose} opened={opened}>
+    <Modal title={t("reports.title")} onClose={onClose} opened={opened}>
       <ReportCreateForm
         sourceId={sourceId}
         sourceType={sourceType}

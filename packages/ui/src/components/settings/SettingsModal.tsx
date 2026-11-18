@@ -34,11 +34,11 @@ function SettingsModalContent({
   const [spy, setSpy] = useState<{ key: string; section: string } | null>(null);
   /**
    * On mobile the sidebar and the panel are separate screens. Opening lands on
-   * the tab list, except after a checkout return, which opens the Supporter
-   * panel (and its result) directly. The back button still reveals the list.
+   * the tab list. Section links and checkout returns open the panel directly.
+   * The back button reveals the list.
    */
   const [showMobileMenu, setShowMobileMenu] = useState(
-    () => !router.query.has(SUPPORTER_CHECKOUT_QUERY_PARAM),
+    () => !section && !router.query.has(SUPPORTER_CHECKOUT_QUERY_PARAM),
   );
 
   const spyKey = `${tab}:${section ?? ""}`;

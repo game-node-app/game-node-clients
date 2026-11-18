@@ -40,8 +40,7 @@ interface Props {
   rightSection?: ReactNode;
   /**
    * Stacks `rightSection` below the text when the row is narrow, keeping it
-   * inline only when there is room. Needs a `@container` ancestor (the
-   * supporter settings view is one). Use it for action buttons that would
+   * inline only when there is room. Use it for action buttons that would
    * otherwise squeeze the description into a one-word-wide column.
    */
   stackRightSection?: boolean;
@@ -70,7 +69,11 @@ export function SettingsRow({
         {titleBadges}
       </Group>
       {description && (
-        <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+        <Text
+          fz={13}
+          lh={"18px"}
+          className={"text-[#adadad] [overflow-wrap:anywhere]"}
+        >
           {description}
         </Text>
       )}
@@ -85,7 +88,7 @@ export function SettingsRow({
     <Group
       wrap={"nowrap"}
       gap={16}
-      className={cn("w-full px-5 py-4", className)}
+      className={cn("w-full px-3 py-4 sm:px-5", className)}
     >
       {leftSection ?? (Icon && <SettingsIconTile Icon={Icon} />)}
       {stackRightSection ? (
@@ -95,7 +98,7 @@ export function SettingsRow({
             wrap={"nowrap"}
             align={"center"}
             className={
-              "flex-col items-stretch @[420px]:flex-row @[420px]:items-center"
+              "flex-col items-stretch gap-2 @[420px]:flex-row @[420px]:items-center @[420px]:gap-4"
             }
           >
             {text}

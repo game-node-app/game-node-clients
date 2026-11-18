@@ -12,8 +12,12 @@ export function useIonRouterWrapper(): RouterHookProps {
   const tabname = pathname.split("/")[1];
 
   const patchedPush: RouterHookProps["push"] = async (url, options) => {
+    // A query-only update on a tab root keeps its canonical Ionic path.
+    const target =
+      !url || url.startsWith("?") ? `${pathname}${url}` : getTabAwareHref(url);
+
     ionRouter.push(
-      options?.absolute ? url : getTabAwareHref(url),
+      options?.absolute ? url : target,
       undefined,
       options?.replace ? "replace" : undefined,
     );

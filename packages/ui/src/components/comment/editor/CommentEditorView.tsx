@@ -19,7 +19,7 @@ import { CommentService, CreateCommentDto } from "@repo/wrapper/server";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Editor } from "@tiptap/core";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface Props {
   /**
@@ -57,8 +57,6 @@ const CommentEditorView = ({
 
   const previousContent = commentId ? commentQuery.data?.content : undefined;
 
-  const [content, setContent] = useState("");
-
   const clearTargetComment = () => {
     context.updateContext({
       repliedCommentId: undefined,
@@ -72,17 +70,16 @@ const CommentEditorView = ({
   };
 
   const commentMutation = useMutation({
-    mutationFn: async () => {
-      if (editorRef.current == undefined) return;
-
+    mutationFn: async (content: string) => {
       if (commentId) {
-        return CommentService.commentControllerUpdateV1(commentId, {
+        await CommentService.commentControllerUpdateV1(commentId, {
           sourceType,
           content: content,
         });
+        return;
       }
 
-      return CommentService.commentControllerCreateV1({
+      await CommentService.commentControllerCreateV1({
         sourceId,
         sourceType,
         content: content,
@@ -95,6 +92,11 @@ const CommentEditorView = ({
       });
     },
     onSuccess: () => {
+      if (commentId) {
+        void queryClient.invalidateQueries({
+          queryKey: ["comment", "findOne", sourceType, commentId],
+        });
+      }
       notifications.show({
         color: "green",
         message: t("comment.messages.submitted"),
@@ -139,17 +141,18 @@ const CommentEditorView = ({
                 // eslint-disable-next-line react/prop-types
                 editorRef.current = props.editor;
               }}
-              onUpdate={(props) => {
-                setContent(props.editor.getHTML());
-              }}
             />
           </ScrollArea.Autosize>
         </Box>
 
         <ActionIcon
           size={"xl"}
+          aria-label={t("actions.submit")}
           onClick={() => {
-            commentMutation.mutate();
+            const editor = editorRef.current;
+            if (editor && !editor.isDestroyed && !editor.isEmpty) {
+              commentMutation.mutate(editor.getHTML());
+            }
           }}
           loading={commentMutation.isPending}
         >

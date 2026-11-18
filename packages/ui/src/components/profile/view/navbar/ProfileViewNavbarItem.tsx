@@ -1,75 +1,41 @@
-import { buildPresenterComponent } from "#@/context";
-import { Link } from "#@/util";
-import { Stack, Tabs, TabsTabProps, Text } from "@mantine/core";
-import { IconProps } from "@tabler/icons-react";
-import { ExoticComponent, PropsWithoutRef } from "react";
+import { Stack, Text, UnstyledButton } from "@mantine/core";
+import { IconChevronRight } from "@tabler/icons-react";
 
-export interface ProfileViewNavbarItemProps extends TabsTabProps {
+interface Props {
   label: string;
-  icon?: ExoticComponent<PropsWithoutRef<IconProps>>;
-  count?: number;
-  href?: string;
-  activeTab: string | null;
+  count?: string;
+  active: boolean;
+  onClick: () => void;
 }
 
-const DEFAULT_ProfileViewNavbarItem = ({
-  label,
-  count,
-  value,
-  href,
-  activeTab,
-  ...others
-}: ProfileViewNavbarItemProps) => {
-  return (
-    <Tabs.Tab value={value} {...others}>
-      <Link
-        href={href ?? "#"}
-        onClick={(evt) => {
-          // Prevents screen flicker
-          if (href == undefined) {
-            evt.preventDefault();
-          }
-        }}
+const ProfileViewNavbarItem = ({ label, count, active, onClick }: Props) => (
+  <UnstyledButton
+    onClick={onClick}
+    aria-current={active ? "page" : undefined}
+    className="min-w-0 rounded-md px-0.5 py-1 text-white transition-colors hover:bg-paper-3 aria-[current=page]:bg-paper-4 sm:px-4"
+  >
+    <Stack gap={2} align="center">
+      <Text
+        component="span"
+        fw={600}
+        className="text-[clamp(1.125rem,6vw,1.75rem)] leading-none tracking-tight tabular-nums [font-variation-settings:'wdth'_75] sm:text-[2.5rem]"
       >
-        <Stack
-          className={
-            "items-center gap-1 text-[#868686] data-[active=true]:text-white"
-          }
-        >
-          {others.icon != undefined && (
-            <others.icon
-              className={
-                "font-bold text-[#868686] data-[active=true]:text-white"
-              }
-              size={"2rem"}
-              data-active={activeTab === value ? "true" : "false"}
-            />
-          )}
-          {count != undefined && (
-            <Text
-              className={
-                "font-bold text-lg text-[#868686] data-[active=true]:text-white"
-              }
-              data-active={activeTab === value ? "true" : "false"}
-            >
-              {count}
-            </Text>
-          )}
-          <Text
-            className={"font-bold text-[#868686] data-[active=true]:text-white"}
-            data-active={activeTab === value ? "true" : "false"}
-          >
-            {label}
-          </Text>
-        </Stack>
-      </Link>
-    </Tabs.Tab>
-  );
-};
-
-const ProfileViewNavbarItem = buildPresenterComponent(
-  "ProfileViewNavbarItem",
-  DEFAULT_ProfileViewNavbarItem,
+        {count ?? "—"}
+      </Text>
+      <Text
+        component="span"
+        c="dimmed"
+        className="flex items-center text-center text-[clamp(0.5rem,2.5vw,0.75rem)] [overflow-wrap:anywhere] sm:gap-1 sm:text-sm"
+      >
+        {label}
+        <IconChevronRight
+          size={14}
+          className="hidden shrink-0 sm:block"
+          aria-hidden
+        />
+      </Text>
+    </Stack>
+  </UnstyledButton>
 );
 
 export { ProfileViewNavbarItem };

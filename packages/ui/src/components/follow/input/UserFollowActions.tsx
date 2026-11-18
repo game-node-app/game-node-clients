@@ -1,7 +1,9 @@
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFollowStatus } from "#@/components/follow/hooks/useFollowStatus";
 import { invalidateFollowedUserQueries } from "#@/components/follow/hooks/useUserFollow";
+import { createErrorNotification } from "#@/util";
 import { Button, Group } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FollowService } from "../../../../../wrapper/src/server";
 
@@ -10,6 +12,7 @@ interface Props {
 }
 
 const UserFollowActions = ({ targetUserId }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const queryClient = useQueryClient();
   /*
@@ -37,13 +40,15 @@ const UserFollowActions = ({ targetUserId }: Props) => {
     onSuccess: () => {
       // Following/unfollowing changes what the viewer may see of this user.
       void invalidateFollowedUserQueries(queryClient, targetUserId);
+      void queryClient.invalidateQueries({
+        queryKey: ["user", "follow", "info"],
+      });
     },
+    onError: createErrorNotification,
     onSettled: () => {
       ownToTargetFollowStatus.invalidate();
     },
   });
-
-  // if (!shouldShowFollowButton) return null;
 
   return (
     <Group className={"flex-nowrap w-fit"}>
@@ -54,7 +59,9 @@ const UserFollowActions = ({ targetUserId }: Props) => {
           followMutation.mutate(isFollowing ? "remove" : "register");
         }}
       >
-        {isFollowing ? "Unfollow" : "Follow"}
+        {t(
+          isFollowing ? "profile.overview.unfollow" : "profile.overview.follow",
+        )}
       </Button>
     </Group>
   );

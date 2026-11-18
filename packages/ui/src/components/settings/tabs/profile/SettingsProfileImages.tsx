@@ -42,6 +42,7 @@ export function SettingsProfileImages({ userId }: Props) {
 
   return (
     <SettingsSection
+      sectionId="images"
       title={t("settings.profile.images.title")}
       description={t("settings.profile.images.description")}
     >

@@ -4,6 +4,7 @@ import { Placeholder } from "@tiptap/extension-placeholder";
 import { EditorOptions, useEditor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import { StarterKit } from "@tiptap/starter-kit";
+import { useMemo } from "react";
 
 interface Props extends Partial<EditorOptions> {
   onClick?: () => void;
@@ -19,17 +20,19 @@ const createCommentEditorExtensions = (placeholder: string) => [
 const CommentEditor = ({ onClick, ...editorOptions }: Props) => {
   const { t } = useTranslation();
 
-  const COMMENT_EDITOR_EXTENSIONS = createCommentEditorExtensions(
-    t("comment.placeholders.writeComment"),
+  const placeholder = t("comment.placeholders.writeComment");
+  const extensions = useMemo(
+    () => createCommentEditorExtensions(placeholder),
+    [placeholder],
   );
 
   const editor = useEditor(
     {
       ...editorOptions,
-      extensions: COMMENT_EDITOR_EXTENSIONS,
-      immediatelyRender: window != undefined,
+      extensions,
+      immediatelyRender: false,
     },
-    [editorOptions.content, COMMENT_EDITOR_EXTENSIONS],
+    [editorOptions.content, extensions],
   );
 
   if (!editor) return null;

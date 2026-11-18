@@ -1,86 +1,116 @@
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { ProfileAvatarSectionButtons } from "#@/components/profile/view/ProfileAvatarSectionButtons";
+import { ProfileFollowInfo } from "#@/components/profile/view/ProfileFollowInfo";
+import { SupporterAvatarFrame } from "#@/components/supporter/perks/SupporterAvatarFrame";
+import { SupporterBadge } from "#@/components/supporter/perks/SupporterBadge";
+import { SupporterPresenceChip } from "#@/components/supporter/perks/SupporterPresenceChip";
+import { SupporterTitle } from "#@/components/supporter/perks/SupporterTitle";
+import type { ActiveSupporterPerks } from "#@/components/supporter/perks/supporterPerks";
+import { useUserLevel } from "#@/components/user-level/hooks/useUserLevel";
+import { Box, Group, Stack, Text, Title } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
-  ProfileFollowInfo,
-  ProfileUserInfoConnections,
-  UserLevel,
-} from "#@/components";
-import { useUserId } from "#@/components/auth/hooks/useUserId";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { TextLink } from "#@/components/general/TextLink";
-import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
-import { ProfileFeaturedAchievements } from "#@/components/profile/view/ProfileFeaturedAchievements.tsx";
-import { ProfileFollowActions } from "#@/components/profile/view/ProfileFollowActions";
-import { buildPresenterComponent } from "#@/context";
-import { Box, Center, Divider, Group, Stack, Text } from "@mantine/core";
-import { FollowInfoRequestDto } from "@repo/wrapper/server";
+  FollowInfoRequestDto,
+  type ProfileResponseDto,
+} from "@repo/wrapper/server";
 
-export interface ProfileUserInfoProps {
-  userId: string;
-  onEditClick?: () => void;
-  withEditDetailsButton?: boolean;
+interface Props {
+  profile: ProfileResponseDto;
+  perks: ActiveSupporterPerks | null;
 }
 
-const DEFAULT_ProfileUserInfo = ({
-  userId,
-  onEditClick,
-  withEditDetailsButton = true,
-}: ProfileUserInfoProps) => {
-  const ownUserId = useUserId();
-  const profileQuery = useUserProfile(userId);
-
-  const isOwnProfile = ownUserId != undefined && ownUserId === userId;
-
-  if (profileQuery.isLoading) {
-    return <CenteredLoading />;
-  } else if (profileQuery.data == undefined) {
-    return null;
-  }
+const ProfileUserInfo = ({ profile, perks }: Props) => {
+  const { t } = useTranslation();
+  const { userId, username, bio } = profile;
+  const { data: level } = useUserLevel(userId);
+  const avatar = (
+    <UserAvatar
+      userId={userId}
+      profile={profile}
+      alt={username}
+      className="[--avatar-size:96px] sm:[--avatar-size:150px]"
+    />
+  );
 
   return (
-    <Stack className={"w-full h-full items-center mb-6"}>
-      <Center>
-        <UserLevel userId={userId} />
-      </Center>
-      <Group className={"w-full justify-center gap-12"}>
-        <ProfileFollowInfo
-          targetUserId={userId}
-          criteria={FollowInfoRequestDto.criteria.FOLLOWERS}
-        />
-        <ProfileFollowInfo
-          targetUserId={userId}
-          criteria={FollowInfoRequestDto.criteria.FOLLOWING}
-        />
-      </Group>
-      <Stack className={"mt-4 w-full relative"}>
-        <Text className={"text-center"}>{profileQuery.data?.bio}</Text>
-      </Stack>
-
-      {isOwnProfile && withEditDetailsButton && (
-        <TextLink
-          onClick={(evt) => {
-            evt.preventDefault();
-            if (onEditClick) onEditClick();
-          }}
-          href={"#"}
-          className={"mt-2"}
-        >
-          Edit profile details
-        </TextLink>
-      )}
-      <Box className={"my-4"}>
-        <ProfileFollowActions targetUserId={userId} />
+    <Box className="relative min-w-0 pt-[54px] sm:min-h-28 sm:ps-[192px] sm:pt-4">
+      <Box className="absolute start-0 top-0 z-10 w-fit -translate-y-[60%]">
+        {perks?.border ? (
+          <SupporterAvatarFrame
+            accent={perks.accent}
+            className="!p-[3px] sm:!p-[6px]"
+          >
+            {avatar}
+          </SupporterAvatarFrame>
+        ) : (
+          <Box
+            data-testid="profile-avatar-frame"
+            className="rounded-full border-[3px] border-solid border-line bg-body p-0.5 sm:p-1.5"
+          >
+            {avatar}
+          </Box>
+        )}
+        {level && (
+          <Text
+            component="span"
+            size="xs"
+            fw={600}
+            className="absolute -bottom-1.5 start-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-solid bg-body px-3 py-0.5 text-white"
+            style={{
+              borderColor:
+                "var(--profile-accent, var(--mantine-color-brand-filled))",
+            }}
+          >
+            {t("profile.overview.level", { level: level.currentLevel })}
+          </Text>
+        )}
       </Box>
-      <Divider className={"w-full"} />
-      <ProfileFeaturedAchievements targetUserId={userId} />
-      <Stack className={"w-full"}>
-        <ProfileUserInfoConnections userId={userId} />
-      </Stack>
-    </Stack>
+
+      <Group align="flex-start" gap="md" justify="space-between">
+        <Stack gap={6} className="min-w-0 flex-1 basis-full sm:basis-52">
+          <Group gap={10}>
+            <Title
+              order={1}
+              className="[overflow-wrap:anywhere] text-[32px] font-medium leading-none tracking-tight text-white"
+            >
+              {username}
+            </Title>
+            {perks?.badge && <SupporterBadge variant="full" perks={perks} />}
+            {perks?.liveProfile && (
+              <SupporterPresenceChip userId={userId} perks={perks} />
+            )}
+          </Group>
+          <Text
+            size="sm"
+            c="dimmed"
+            className="whitespace-pre-wrap break-words"
+          >
+            @{username}
+            {bio && " · "}
+            {bio}
+          </Text>
+          <Group gap="md">
+            <ProfileFollowInfo
+              targetUserId={userId}
+              criteria={FollowInfoRequestDto.criteria.FOLLOWERS}
+            />
+            <ProfileFollowInfo
+              targetUserId={userId}
+              criteria={FollowInfoRequestDto.criteria.FOLLOWING}
+            />
+          </Group>
+          {perks?.titleKey && (
+            <SupporterTitle
+              variant="chip"
+              titleKey={perks.titleKey}
+              perks={perks}
+            />
+          )}
+        </Stack>
+        <ProfileAvatarSectionButtons userId={userId} />
+      </Group>
+    </Box>
   );
 };
-
-const ProfileUserInfo = buildPresenterComponent(
-  "ProfileUserInfo",
-  DEFAULT_ProfileUserInfo,
-);
 
 export { ProfileUserInfo };

@@ -577,6 +577,9 @@ export type TranslationSchema = {
     };
   };
   actions: {
+    like: string;
+    report: string;
+    viewComments: string;
     clear: string;
     backHome: string;
     cancel: string;
@@ -2649,6 +2652,61 @@ export type TranslationSchema = {
     };
   };
   profile: {
+    overview: {
+      sections: string;
+      back: string;
+      level: string;
+      follow: string;
+      unfollow: string;
+      followsYou: string;
+      mutualFollow: string;
+      favorites: string;
+      addBanner: string;
+      favoriteCount_one: string;
+      favoriteCount_other: string;
+      favoriteSlots: string;
+      editFavorites: string;
+      noFavorites: string;
+      activityTitle: string;
+      activityPeriod: string;
+      lastYear: string;
+      rollingTotal_one: string;
+      rollingTotal_other: string;
+      yearTotal_one: string;
+      yearTotal_other: string;
+      days_one: string;
+      days_other: string;
+      currentStreak: string;
+      longestStreak: string;
+      activeDays: string;
+      activityHint: string;
+      dayActivity_one: string;
+      dayActivity_other: string;
+      less: string;
+      more: string;
+      highlights: string;
+      activity: string;
+      allReviews: string;
+      gameAchievements: string;
+      gameAchievementsHint: string;
+      noGameAchievements: string;
+      achievementRarity: string;
+      allGameAchievements: string;
+      gamenodeAchievements: string;
+      gamenodeAchievementsHint: string;
+      noFeats: string;
+      featXp: string;
+      allFeats: string;
+      connections: string;
+      noConnections: string;
+      linkAccount: string;
+      onSupportersWall: string;
+      copyLink: string;
+      shareProfile: string;
+      editAccounts: string;
+      linkCopied: string;
+      copyFailed: string;
+    };
     bannerEditor: {
       title: string;
       help: string;
@@ -2994,6 +3052,7 @@ export type TranslationSchema = {
     gamesYouMayLike: string;
   };
   reports: {
+    title: string;
     buttons: {
       submit: string;
     };

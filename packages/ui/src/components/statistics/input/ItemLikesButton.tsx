@@ -6,6 +6,7 @@ import {
 import { ActionIcon, ActionIconProps, Text } from "@mantine/core";
 import { IconThumbUp, IconThumbUpFilled } from "@tabler/icons-react";
 import { useRedirectToAuth } from "#@/components/auth/hooks/useRedirectToAuth";
+import { useTranslation } from "@repo/locales";
 
 interface Props extends IToggleLikeProps, ActionIconProps {}
 
@@ -15,6 +16,7 @@ const ItemLikesButton = ({
   initialStatistics,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
   const [likesCount, isLiked, toggleUserLike] = useUserLike({
@@ -35,6 +37,8 @@ const ItemLikesButton = ({
       variant={"subtle"}
       size={"xl"}
       color={isLiked ? "brand.4" : "white"}
+      aria-label={t("actions.like")}
+      aria-pressed={isLiked}
       data-disabled={!userId}
       {...others}
     >

@@ -8,14 +8,19 @@ import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useState } from "react";
-import { UserComment } from "../types";
+import type { CommentSource, UserComment } from "../types";
 
-interface Props {
+interface Props extends CommentSource {
   comment: UserComment;
   onEditStart: (commentId: string) => void;
 }
 
-const CommentsListItem = ({ comment, onEditStart }: Props) => {
+const CommentsListItem = ({
+  comment,
+  sourceId,
+  sourceType,
+  onEditStart,
+}: Props) => {
   const { t } = useTranslation();
   const [isReadMore, setIsReadMore] = useState(false);
 
@@ -75,6 +80,8 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
         <Stack className={"w-full"}>
           <CommentsListItemActions
             comment={comment}
+            sourceId={sourceId}
+            sourceType={sourceType}
             onEditStart={onEditStart}
             onCommentThreadClick={commentThreadUtils.toggle}
           />
@@ -86,7 +93,11 @@ const CommentsListItem = ({ comment, onEditStart }: Props) => {
         transitionDuration={100}
       >
         <Stack className={"w-full h-full"}>
-          <CommentsThreadListView comment={comment} />
+          <CommentsThreadListView
+            comment={comment}
+            sourceId={sourceId}
+            sourceType={sourceType}
+          />
         </Stack>
       </Collapse>
     </Stack>

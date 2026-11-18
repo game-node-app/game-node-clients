@@ -1,3 +1,4 @@
+import { useRouter } from "#@/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -34,6 +35,7 @@ const GameInfoReviewEditorView = ({
   gameId,
 }: IGameInfoReviewEditorViewProps) => {
   const { t } = useTranslation();
+  const editReviewId = useRouter().query.get("editReviewId");
   const [isEditMode, setIsEditMode] = useState<boolean>(true);
   const hasSetEditMode = useRef<boolean>(false);
 
@@ -78,21 +80,20 @@ const GameInfoReviewEditorView = ({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["review"] });
+      queryClient.invalidateQueries({ queryKey: ["reviews", "all", userId] });
     },
   });
 
   const rating = watch("rating");
   const error = formState.errors.content || formState.errors.rating;
 
-  /**
-   * Effect to synchronize isEditMode with reviewQuery.data
-   */
+  const ownReviewId = reviewQuery.data?.id;
   useEffect(() => {
-    if (!hasSetEditMode.current && reviewQuery.data != undefined) {
-      setIsEditMode(false);
+    if (ownReviewId && (!hasSetEditMode.current || ownReviewId === editReviewId)) {
+      setIsEditMode(ownReviewId === editReviewId);
       hasSetEditMode.current = true;
     }
-  }, [isEditMode, reviewQuery.data]);
+  }, [editReviewId, ownReviewId]);
 
   useEffect(() => {
     if (reviewQuery.data && !formState.dirtyFields.rating) {
@@ -150,6 +151,7 @@ const GameInfoReviewEditorView = ({
                   size={"lg"}
                   variant={"default"}
                   c={"red"}
+                  aria-label={t("actions.cancel")}
                   onClick={() => setIsEditMode(false)}
                 >
                   <IconX />

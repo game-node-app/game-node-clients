@@ -1,8 +1,8 @@
 import { useInfiniteFollowInfo } from "#@/components/follow/hooks/useInfiniteFollowInfo";
 import { FollowInfoListModal } from "#@/components/follow/modal/FollowInfoListModal";
-import { Box, Text, UnstyledButton } from "@mantine/core";
+import { Group, Text, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useTranslation } from "@repo/locales";
+import { useI18nContext, useTranslation } from "@repo/locales";
 import { FollowInfoRequestDto } from "@repo/wrapper/server";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 
 const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
   const { t } = useTranslation();
+  const { language } = useI18nContext();
   const [modalOpened, modalUtils] = useDisclosure();
   const followInfoQuery = useInfiniteFollowInfo({
     criteria,
@@ -25,27 +26,31 @@ const ProfileFollowInfo = ({ targetUserId, criteria }: Props) => {
       : t("follow.titles.following");
 
   return (
-    <Box>
-      <FollowInfoListModal
-        targetUserId={targetUserId}
-        criteria={criteria}
-        opened={modalOpened}
-        onClose={modalUtils.close}
-      />
+    <>
+      {modalOpened && (
+        <FollowInfoListModal
+          targetUserId={targetUserId}
+          criteria={criteria}
+          opened={modalOpened}
+          onClose={modalUtils.close}
+        />
+      )}
       <UnstyledButton
-        onClick={() => {
-          modalUtils.open();
-        }}
-        className={
-          "mobile:flex mobile:flex-row mobile:items-center mobile:gap-2"
-        }
+        onClick={modalUtils.open}
+        className="rounded-sm hover:underline"
       >
-        <Text className={"text-white text-center mobile:font-bold"}>
-          {totalItems}
-        </Text>
-        <Text className={"text-dimmed"}>{criteriaText}</Text>
+        <Group gap={4}>
+          <Text component="span" size="sm" fw={600}>
+            {followInfoQuery.isSuccess
+              ? totalItems.toLocaleString(language)
+              : "—"}
+          </Text>
+          <Text component="span" size="sm" c="dimmed">
+            {criteriaText}
+          </Text>
+        </Group>
       </UnstyledButton>
-    </Box>
+    </>
   );
 };
 

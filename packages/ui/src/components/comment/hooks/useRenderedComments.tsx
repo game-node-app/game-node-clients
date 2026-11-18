@@ -1,15 +1,11 @@
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
-import { UserComment } from "#@/components/comment/types";
+import type { CommentSource, UserComment } from "#@/components/comment/types";
 import { CommentsListItem } from "#@/components/comment/view/CommentsListItem";
 import { Divider, Group } from "@mantine/core";
-import { CreateCommentDto } from "@repo/wrapper/server";
 import { useMemo, useState } from "react";
 
-interface UseRenderedCommentsProps {
+interface UseRenderedCommentsProps extends CommentSource {
   data: UserComment[];
-  // The original content ID (e.g. the review id)
-  sourceId: string;
-  sourceType: CreateCommentDto.sourceType;
 }
 
 export function useRenderedComments({
@@ -55,6 +51,8 @@ export function useRenderedComments({
             <CommentsListItem
               key={comment.id}
               comment={comment}
+              sourceId={sourceId}
+              sourceType={sourceType}
               onEditStart={(commentId) => setEditedCommentId(commentId)}
             />
           </Group>

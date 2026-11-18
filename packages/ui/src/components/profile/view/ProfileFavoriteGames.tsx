@@ -1,120 +1,169 @@
-import {
-  DetailsBox,
-  LibraryHiddenState,
-  toLibraryVisibilityLevel,
-  useIsLibraryHidden,
-  useUserId,
-} from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useFavoriteCollectionEntriesForUserId } from "#@/components/collection/collection-entry/hooks/useFavoriteCollectionEntriesForUserId";
-import { GameGridItem } from "#@/components/game/figure/GameGridItem";
+import { toLibraryVisibilityLevel } from "#@/components/collection/collection-entry/visibility/LibraryVisibilityLevel";
+import { GameFigureImage } from "#@/components/game/figure/GameFigureImage";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage";
-import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { useOnMobilePlatform } from "#@/components/general/hooks/useOnMobilePlatform";
-import { SimpleGrid } from "@mantine/core";
+import { useSettingsModalState } from "#@/components/settings/hooks/useSettingsModalState";
+import { cn, Link } from "#@/util";
+import {
+  Box,
+  Group,
+  Paper,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { useMemo } from "react";
+import { IconPlus } from "@tabler/icons-react";
 
-interface Props {
+const GRID =
+  "grid grid-flow-col auto-cols-[39%] gap-2 overflow-x-auto pb-1 motion-safe:scroll-smooth snap-x sm:grid-flow-row sm:auto-cols-auto sm:grid-cols-5 sm:overflow-visible";
+const SLOT = "aspect-[224/264] snap-start rounded-md";
+
+const ProfileFavoriteGames = ({
+  userId,
+  limit = 10,
+}: {
   userId: string;
   limit?: number;
-}
-
-const ProfileFavoriteGames = ({ userId, limit = 10 }: Props) => {
+}) => {
   const { t } = useTranslation();
-  const onMobile = useOnMobile();
-  const onMobilePlatform = useOnMobilePlatform();
-  // Favorites are hidden by the library ceiling (and each game's own level),
-  // never by collection membership.
-  const { isHidden, profile } = useIsLibraryHidden(userId);
-  const ownUserId = useUserId();
-  // Same rule as the library and collection listings: the entry level only
-  // reaches the rendered items for the owner, never for another viewer.
-  const isOwner = ownUserId != undefined && ownUserId === userId;
-  const favoriteCollectionEntriesQuery = useFavoriteCollectionEntriesForUserId(
-    userId,
-    0,
-    limit,
-  );
-  const gamesIds = favoriteCollectionEntriesQuery.data?.data.map(
-    (entry) => entry.gameId,
-  );
-  const gamesQuery = useGames(
+  const settings = useSettingsModalState();
+  const isOwner = useUserId() === userId;
+  const favorites = useFavoriteCollectionEntriesForUserId(userId, 0, limit);
+  const entries = favorites.data?.data;
+  const games = useGames(
     {
-      gameIds: gamesIds || [],
-      relations: {
-        cover: true,
-      },
+      gameIds: entries?.map((entry) => entry.gameId),
+      relations: { cover: true },
     },
     false,
     { ownerUserId: userId },
   );
+  const isLoading = favorites.isLoading || games.isLoading;
+  const isError = favorites.isError || games.isError;
+  const gamesById = new Map(games.data?.map((game) => [game.id, game]));
+  const visibleEntries = (entries ?? []).filter((entry) =>
+    gamesById.has(entry.gameId),
+  );
+  const count = visibleEntries.length;
+  const isVisitorEmpty = !isOwner && !isLoading && !isError && count === 0;
+  const emptySlots = isOwner
+    ? Math.max(0, limit - count)
+    : isVisitorEmpty
+      ? limit
+      : 0;
 
-  const games = useMemo(() => {
-    if (gamesQuery.data == undefined) {
-      return undefined;
-    }
-
-    if (!isOwner) {
-      return gamesQuery.data;
-    }
-
-    const entries = favoriteCollectionEntriesQuery.data?.data;
-
-    return gamesQuery.data.map((game) => {
-      const relatedCollectionEntry = entries?.find(
-        (entry) => entry.gameId === game.id,
-      );
-
-      return {
-        ...game,
-        // Owner-only badge: never expose another user's entry level.
-        visibility: toLibraryVisibilityLevel(
-          relatedCollectionEntry?.visibility,
-        ),
-      };
-    });
-  }, [favoriteCollectionEntriesQuery.data?.data, gamesQuery.data, isOwner]);
-
-  const isLoading =
-    favoriteCollectionEntriesQuery.isLoading || gamesQuery.isLoading;
-
-  const isError = favoriteCollectionEntriesQuery.isError || gamesQuery.isError;
-
-  const isEmpty =
-    favoriteCollectionEntriesQuery.data == undefined ||
-    favoriteCollectionEntriesQuery.data.data.length === 0 ||
-    gamesQuery.data == undefined ||
-    gamesQuery.data.length === 0;
-
-  if (isHidden) {
-    return <LibraryHiddenState profile={profile} />;
-  }
-
-  if (isLoading) {
-    return <CenteredLoading />;
-  } else if (isError) {
-    return <CenteredErrorMessage message={t("profile.messages.fetchFailed")} />;
-  } else if (isEmpty) {
-    return (
-      <CenteredErrorMessage message={t("profile.messages.noFavoriteGames")} />
-    );
-  }
   return (
-    <DetailsBox
-      title={t("profile.titles.favoriteGames")}
-      withDimmedTitle
-      stackProps={{
-        className: onMobilePlatform ? "bg-paper-4 p-2" : undefined,
-      }}
-    >
-      <SimpleGrid cols={onMobile ? 3 : 5} w={"100%"}>
-        {games?.map((game) => {
-          return <GameGridItem key={game.id} game={game} />;
-        })}
-      </SimpleGrid>
-    </DetailsBox>
+    <Stack component="section" gap="sm">
+      <Group justify="space-between" gap="xs">
+        <Group gap="xs" align="baseline">
+          <Title order={2} size="h4">
+            {t("profile.overview.favorites")}
+          </Title>
+          {!isLoading && !isError && !isVisitorEmpty && (
+            <Text size="sm" c="dimmed">
+              {isOwner && count < limit
+                ? t("profile.overview.favoriteSlots", { count, limit })
+                : t("profile.overview.favoriteCount", { count })}
+            </Text>
+          )}
+        </Group>
+        {isOwner && (
+          <UnstyledButton
+            className="text-sm text-[var(--profile-accent-text,var(--mantine-color-brand-filled))] hover:underline"
+            onClick={() => settings.open("profile", "favorites")}
+          >
+            {t("profile.overview.editFavorites")}
+          </UnstyledButton>
+        )}
+      </Group>
+      {isError ? (
+        <CenteredErrorMessage message={t("profile.messages.fetchFailed")} />
+      ) : (
+        <Box className="relative min-w-0">
+          <Box className={GRID}>
+            {isLoading ? (
+              Array.from({ length: 5 }, (_, index) => (
+                <Skeleton key={index} className={SLOT} />
+              ))
+            ) : (
+              <>
+                {visibleEntries.map((entry) => {
+                  const game = gamesById.get(entry.gameId)!;
+                  return (
+                    <Box
+                      key={entry.gameId}
+                      className="group min-w-0 snap-start motion-safe:transition-transform motion-safe:hover:-translate-y-1"
+                    >
+                      <GameFigureImage
+                        game={game}
+                        ratio={224 / 264}
+                        linkProps={{
+                          "aria-label": game.name,
+                          className: "block w-full",
+                        }}
+                        visibility={
+                          isOwner
+                            ? toLibraryVisibilityLevel(entry.visibility)
+                            : undefined
+                        }
+                        imageProps={{
+                          radius: "md",
+                          className:
+                            "h-full w-full object-cover ring-inset group-hover:ring-1 group-hover:ring-[var(--profile-accent,var(--mantine-color-brand-filled))]",
+                        }}
+                      />
+                    </Box>
+                  );
+                })}
+                {Array.from({ length: emptySlots }, (_, index) =>
+                  isOwner ? (
+                    <Link
+                      key={index}
+                      href={`/library/${userId}`}
+                      className={cn(
+                        SLOT,
+                        "flex flex-col items-center justify-center gap-2 border border-dashed border-line px-2 text-center text-xs text-dimmed transition-colors hover:border-line-strong hover:text-white",
+                      )}
+                    >
+                      <IconPlus size={18} aria-hidden />
+                      {t("settings.profile.favorites.add")}
+                    </Link>
+                  ) : (
+                    <Box
+                      key={index}
+                      aria-hidden
+                      className={cn(SLOT, "bg-paper-6")}
+                    />
+                  ),
+                )}
+              </>
+            )}
+          </Box>
+          {isVisitorEmpty && (
+            <Box className="pointer-events-none absolute inset-0 grid place-items-center p-3">
+              <Paper
+                radius="md"
+                withBorder
+                p="md"
+                className="bg-body text-center"
+              >
+                <Text size="sm" fw={600}>
+                  {t("profile.overview.noFavorites")}
+                </Text>
+                <Text size="sm" c="dimmed">
+                  {t("profile.messages.noFavoriteGames")}
+                </Text>
+              </Paper>
+            </Box>
+          )}
+        </Box>
+      )}
+    </Stack>
   );
 };
 

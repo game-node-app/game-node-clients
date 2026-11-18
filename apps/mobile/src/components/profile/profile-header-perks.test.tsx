@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
 import { MantineProvider } from "@mantine/core";
-import { cleanup, render, screen, within } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProfileUserInfoWithBanner } from "../../../../../packages/ui/src/components/profile/view/ProfileUserInfoWithBanner";
 import { DEFAULT_SUPPORTER_PREFERENCES } from "../../../../../packages/ui/src/components/supporter/perks/supporterPerks";
@@ -10,6 +16,8 @@ import { setProjectContext } from "../../../../../packages/ui/src/util/projectCo
 
 const mocks = vi.hoisted(() => ({
   profile: undefined as Record<string, unknown> | undefined,
+  viewerId: undefined as string | undefined,
+  push: vi.fn(),
 }));
 
 vi.mock("@repo/locales", () => ({
@@ -18,6 +26,7 @@ vi.mock("@repo/locales", () => ({
       (
         ({
           "supporter.badge.label": "Supporter",
+          "supporter.titles.night_owl": "Night Owl",
         }) as Record<string, string>
       )[key] ?? key,
   }),
@@ -38,14 +47,27 @@ vi.mock(
 
 vi.mock(
   "../../../../../packages/ui/src/components/auth/hooks/useUserId",
-  () => ({ useUserId: () => undefined }),
+  () => ({ useUserId: () => mocks.viewerId }),
 );
 
-// The mobile header renders edit/follow actions, which need a QueryClient this
-// test does not provide; the header geometry is what matters here.
 vi.mock(
-  "../../../../../packages/ui/src/components/profile/view/ProfileAvatarSectionButtons",
-  () => ({ ProfileAvatarSectionButtons: () => null }),
+  "../../../../../packages/ui/src/components/follow/hooks/useInfiniteFollowInfo",
+  () => ({
+    useInfiniteFollowInfo: () => ({
+      isSuccess: true,
+      data: { pages: [{ pagination: { totalItems: 10 } }] },
+    }),
+  }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/user-level/hooks/useUserLevel",
+  () => ({ useUserLevel: () => ({ data: { currentLevel: 3 } }) }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/profile/view/ProfileFollowActions",
+  () => ({ ProfileFollowActions: () => null }),
 );
 
 const baseProfile = {
@@ -77,13 +99,12 @@ function renderHeader() {
   return render(
     <MantineProvider>
       <UIProvider
-        presenters={{ ProfileUserInfo: () => null }}
         hooks={{
           useRouter: () => ({
             pathname: "/profile/u1",
             asPath: "/profile/u1",
             back: () => {},
-            push: async () => {},
+            push: mocks.push,
             query: new URLSearchParams(),
           }),
         }}
@@ -94,17 +115,8 @@ function renderHeader() {
   );
 }
 
-function hasBorderClass(container: HTMLElement) {
-  return Array.from(container.querySelectorAll<HTMLElement>("div")).some((el) =>
-    el.className.includes("border-[#161616]"),
-  );
-}
-
-function getInfoColumn() {
-  return screen.getByTestId("profile-info-column");
-}
-
 beforeEach(() => {
+  mocks.viewerId = undefined;
   setProjectContext({
     client: "web",
     s3BucketUrl: "",
@@ -139,15 +151,12 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
   it("renders no badge, strip or frame for a non-supporter", () => {
     setProfile(null, false);
 
-    const { container } = renderHeader();
+    renderHeader();
 
     expect(screen.queryByTestId("supporter-badge")).toBeNull();
     expect(screen.queryByTestId("supporter-theme-strip")).toBeNull();
     expect(screen.queryByTestId("supporter-avatar-frame")).toBeNull();
-    expect(getInfoColumn().style.getPropertyValue("--supporter-tint-end")).toBe(
-      "",
-    );
-    expect(hasBorderClass(container)).toBe(true);
+    expect(screen.getByTestId("profile-avatar-frame")).toBeTruthy();
   });
 
   it("keeps the avatar border and hides only the badge when showBadge is false", () => {
@@ -167,10 +176,10 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
     };
     setProfile(profileWithBorderOff);
 
-    const { container } = renderHeader();
+    renderHeader();
 
     expect(screen.queryByTestId("supporter-avatar-frame")).toBeNull();
-    expect(hasBorderClass(container)).toBe(true);
+    expect(screen.getByTestId("profile-avatar-frame")).toBeTruthy();
   });
 
   it("renders the theme strip inside the banner and keeps the username white", () => {
@@ -201,50 +210,43 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
         "supporter-theme-strip",
       ),
     ).toBeNull();
-    expect(getInfoColumn().style.getPropertyValue("--supporter-tint-end")).toBe(
-      "",
-    );
     expect(screen.getByTestId("supporter-badge")).toBeTruthy();
   });
 
-  // jsdom drops inline gradient values, so the platform-specific end color is
-  // asserted through the CSS variable the gradient consumes.
-  it("tints the whole info column on web", () => {
-    setProfile({
-      ...DEFAULT_SUPPORTER_PREFERENCES,
-      accentColor: "#FF8800",
-    });
+  it.each(["web", "mobile"] as const)(
+    "renders the shared identity and title chip on %s",
+    (client) => {
+      setProjectContext({
+        client,
+        s3BucketUrl: "",
+        serverUrl: "",
+        searchUrl: "",
+      });
+      setProfile({ ...DEFAULT_SUPPORTER_PREFERENCES, titleKey: "night_owl" });
 
+      renderHeader();
+
+      expect(screen.getByRole("heading", { name: "alice" })).toBeTruthy();
+      expect(screen.getByText("@alice")).toBeTruthy();
+      expect(screen.getByText("Night Owl")).toBeTruthy();
+      expect(
+        screen.getByRole("button", { name: /10 follow.titles.followers/ }),
+      ).toBeTruthy();
+    },
+  );
+
+  it("opens the profile settings section for the owner", () => {
+    mocks.viewerId = "u1";
     renderHeader();
 
-    const column = getInfoColumn();
-
-    expect(column.style.getPropertyValue("--supporter-tint-end")).toBe(
-      "#151515",
+    fireEvent.click(
+      screen.getByRole("button", { name: "settings.tabs.profile.label" }),
     );
-    expect(within(column).getByText("alice")).toBeTruthy();
-  });
 
-  it("tints the whole info column on the mobile platform", () => {
-    setProjectContext({
-      client: "mobile",
-      s3BucketUrl: "",
-      serverUrl: "",
-      searchUrl: "",
-    });
-    setProfile({
-      ...DEFAULT_SUPPORTER_PREFERENCES,
-      accentColor: "#FF8800",
-    });
-
-    renderHeader();
-
-    const column = getInfoColumn();
-
-    expect(column.style.getPropertyValue("--supporter-tint-end")).toBe(
-      "#111111",
+    expect(mocks.push).toHaveBeenCalledWith(
+      "/profile/u1?settings=profile&section=images",
+      expect.objectContaining({ replace: false }),
     );
-    expect(within(column).getByText("alice")).toBeTruthy();
   });
 
   it("puts the accent CSS variables on the root only for active perks", () => {
@@ -258,15 +260,8 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
     const root = document.getElementById("profile-user-info-banner");
 
     expect(root).toBeTruthy();
-    expect(root!.style.getPropertyValue("--supporter-accent")).toBe("#FF8800");
-    expect(root!.style.getPropertyValue("--supporter-accent-text")).not.toBe(
-      "",
-    );
-    expect(root!.style.getPropertyValue("--supporter-accent-soft")).not.toBe(
-      "",
-    );
-    expect(root!.style.getPropertyValue("--supporter-accent-border")).not.toBe(
-      "",
-    );
+    expect(root!.style.getPropertyValue("--profile-accent")).toBe("#FF8800");
+    expect(root!.style.getPropertyValue("--profile-accent-text")).not.toBe("");
+    expect(root!.style.getPropertyValue("--profile-accent-soft")).not.toBe("");
   });
 });

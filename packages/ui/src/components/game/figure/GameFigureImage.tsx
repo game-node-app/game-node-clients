@@ -16,6 +16,7 @@ export interface IGameFigureImageProps extends PropsWithChildren {
   imageProps?: ImageProps;
   linkProps?: Omit<React.HTMLProps<HTMLAnchorElement>, "href">;
   imageSize?: ImageSize;
+  ratio?: number;
   /**
    * The viewer's own entry visibility, drawn as an owner-only badge on the
    * cover. Falls back to `game.visibility`, which listings of the viewer's own
@@ -33,6 +34,7 @@ const GameFigureImage = ({
   linkProps,
   onClick,
   imageSize,
+  ratio = 264 / 354,
   visibility,
   children,
 }: IGameFigureImageProps) => {
@@ -46,7 +48,7 @@ const GameFigureImage = ({
   const badgeVisibility = visibility ?? game?.visibility;
 
   return (
-    <AspectRatio ratio={264 / 354} pos="relative" w={"auto"}>
+    <AspectRatio ratio={ratio} pos="relative" w={"auto"}>
       <Link
         className="w-full h-auto"
         onClick={onClick}
