@@ -291,7 +291,10 @@ describe("Task 4.2 & 4.3: PreferencesConnectionItem (Web & Mobile)", () => {
       expect(screen.getByText("XboxChampion")).toBeTruthy();
       expect(screen.getByText("Connected")).toBeTruthy();
       expect(screen.getByRole("button", { name: "Configure" })).toBeTruthy();
-      expect(screen.getByRole("button", { name: "Import games" })).toBeTruthy();
+      // Mobile renders the importer CTA as a router link, not a nested button.
+      expect(
+        screen.getByRole("link", { name: "Import games" }).getAttribute("href"),
+      ).toBe(`/home/importer/${type}`);
     },
   );
 
@@ -318,7 +321,7 @@ describe("Task 4.2 & 4.3: PreferencesConnectionItem (Web & Mobile)", () => {
 
       expect(screen.getByText("Reconnect required")).toBeTruthy();
       expect(screen.getByRole("button", { name: "Reconnect" })).toBeTruthy();
-      expect(screen.queryByRole("button", { name: "Import games" })).toBeNull();
+      expect(screen.queryByRole("link", { name: "Import games" })).toBeNull();
     },
   );
 
