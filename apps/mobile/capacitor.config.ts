@@ -5,6 +5,8 @@ const config: CapacitorConfig = {
   appId: "app.gamenode",
   appName: "GameNode",
   webDir: "dist",
+  // Same colour as the launch splash: avoids a white flash while the WebView loads.
+  backgroundColor: "#1A1A1A",
   plugins: {
     LiveUpdate: {
       readyTimeout: 10000,

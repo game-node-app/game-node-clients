@@ -18,6 +18,7 @@ import AppUrlListener from "./components/general/AppUrlListener";
 import Tabs from "./Tabs";
 import AppUpdateListener from "@/components/general/AppUpdateListener";
 import LiveUpdateListener from "@/components/general/LiveUpdateListener";
+import EntrySplash from "@/components/general/splash/EntrySplash";
 import {
   getAuthClientOptions,
   handleAuthError,
@@ -188,6 +189,7 @@ const App: React.FC = () => {
       }}
     >
       <IonApp>
+        <EntrySplash />
         <I18nProvider
           language={language ?? "en"}
           onLanguageChange={(lang) => {
