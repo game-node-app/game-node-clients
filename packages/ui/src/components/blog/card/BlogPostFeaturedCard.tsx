@@ -1,8 +1,11 @@
-import { BlogPostCategoryLabel, UserAvatarGroup } from "#@/components";
+import {
+  BlogPostCategoryLabel,
+  BlogPostDate,
+  UserAvatarGroup,
+} from "#@/components";
 import { Link } from "#@/util";
 import { Box, Group, Image, Stack, Text, Title } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;
@@ -58,9 +61,11 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
               userId={post.profileUserId}
             />
           </Box>
-          <Text size="xs" className={"shrink-0 text-gray-400"}>
-            {dayjs(post.publishedAt).format("DD/MM/YYYY")}
-          </Text>
+          <BlogPostDate
+            publishedAt={post.publishedAt}
+            className={"shrink-0"}
+            c="gray.4"
+          />
         </Group>
       </Stack>
     </Box>

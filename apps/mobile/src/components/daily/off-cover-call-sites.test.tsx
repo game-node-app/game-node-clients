@@ -45,6 +45,7 @@ vi.mock(
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
+  useI18nContext: () => ({ language: "en" }),
 }));
 
 function signIn(userId: string) {
@@ -284,6 +285,7 @@ describe("surfaces that do not display a cover", () => {
       title: "Review",
       excerpt: "Excerpt",
       publishedAt: "2026-01-01T00:00:00.000Z",
+      tags: [{ id: "review", name: "Review", articles: [] }],
       review: { gameId: 1, rating: 80 },
       cover: { url: "https://example.com/post.jpg", alt: "Post cover" },
     } as unknown as BlogArticleDto;

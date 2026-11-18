@@ -70,14 +70,14 @@ ion-tab-bar {
         opacity 220ms ease;
 }
 
-/* screens that need the whole height (e.g. the Wrapped editor) slide the bar out of view */
-body.gn-hide-tabbar ion-tab-bar {
+/* Blog routes slide the tab bar out of view. */
+ion-tabs.gn-hide-tabbar ion-tab-bar {
     transform: translateY(calc(100% + 24px + env(safe-area-inset-bottom)));
     opacity: 0;
     pointer-events: none;
 }
 
-body.gn-hide-tabbar ion-tabs ion-content::part(scroll) {
+ion-tabs.gn-hide-tabbar ion-content::part(scroll) {
     padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 

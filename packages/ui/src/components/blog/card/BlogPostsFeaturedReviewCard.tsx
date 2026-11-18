@@ -1,4 +1,9 @@
-import { GameRating, useGame } from "#@/components";
+import {
+  BlogPostCategoryLabel,
+  BlogPostDate,
+  GameRating,
+  useGame,
+} from "#@/components";
 import { Link } from "#@/util";
 import {
   AspectRatio,
@@ -11,7 +16,6 @@ import {
   Title,
 } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;
@@ -36,25 +40,30 @@ const BlogPostsFeaturedReviewCard = ({ post }: Props) => {
   if (reviewInfo == undefined) return null;
 
   return (
-    <Box className={"w-full h-full relative"}>
+    <Box
+      className={"w-full h-full relative overflow-hidden rounded-lg bg-paper-1"}
+    >
       <Stack
         className={
           "z-10 absolute w-full h-full justify-end items-center text-gray-100 px-4 pb-8"
         }
       >
+        <BlogPostCategoryLabel tags={post.tags} categoryId="review" />
         <Link href={`/blog/post/${post.id}`}>
-          <Title ta={"center"} size={"h3"} lineClamp={6}>
+          <Title ta={"center"} size={"h3"} lineClamp={3}>
             {post.title}
           </Title>
         </Link>
 
         <Text lineClamp={2}>{post.excerpt}</Text>
-        <Text>{dayjs(post.publishedAt).format("DD/MM/YYYY")}</Text>
+        <BlogPostDate publishedAt={post.publishedAt} c="gray.4" />
         <Divider size={"lg"} className={"border-brand-5 w-full"} />
         <Link href={`/blog/post/${post.id}`} className={"w-full"}>
           <Group className={"w-full justify-between"}>
-            <Title size={"h4"}>{gameQuery.data?.name}</Title>
-            <GameRating value={reviewInfo.rating} />
+            <Title size={"h4"} lineClamp={2}>
+              {gameQuery.data?.name}
+            </Title>
+            <GameRating size="sm" value={reviewInfo.rating} />
           </Group>
         </Link>
       </Stack>

@@ -11,22 +11,23 @@ export const getServerSideProps = async () => ({ props: {} });
 const BlogPostArchivePage = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { tag } = router.query;
+  const tag =
+    typeof router.query.tag === "string" ? router.query.tag : undefined;
 
   return (
     <BlogPostsLayout>
       <OpenGraph
         title={
-          typeof tag === "string"
+          tag
             ? t("seo.blog.taggedTitle", { tag: getCapitalizedText(tag) })
             : t("seo.blog.archiveTitle")
         }
         description={t("seo.blog.description")}
       />
       <BlogPostsListView
-        tag={tag as string | undefined}
+        tag={tag}
         onTagDeselect={() => {
-          router.push("/blog/archive");
+          router.replace("/blog/archive");
         }}
         stackProps={{
           className: "w-full !h-full min-h-dvh mb-8",

@@ -23,6 +23,11 @@ import { CommentsListView } from "../../../../../packages/ui/src/components/comm
 import { CommentsView } from "../../../../../packages/ui/src/components/comment/view/CommentsView";
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 
+vi.mock("@repo/locales", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@repo/locales")>()),
+  useTranslation: () => ({ t: (key: string) => key }),
+}));
+
 const session = vi.hoisted(() => {
   const listeners = new Set<() => void>();
   let id: string | undefined = "user-123";
@@ -164,7 +169,7 @@ it("renders and likes a review comment without a reviewId in its response", asyn
 
   expect(await screen.findByText("A newly submitted comment")).toBeTruthy();
   fireEvent.click(
-    screen.getByRole("button", { name: /^(Like|actions\.like)$/ }),
+    screen.getByRole("button", { name: "actions.like" }),
   );
   await waitFor(() => {
     expect(like).toHaveBeenCalledWith({

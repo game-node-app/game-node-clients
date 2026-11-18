@@ -1,4 +1,8 @@
-import { BlogPostCategoryLabel, UserAvatarGroup } from "#@/components";
+import {
+  BlogPostCategoryLabel,
+  BlogPostDate,
+  UserAvatarGroup,
+} from "#@/components";
 import { Link } from "#@/util";
 import {
   AspectRatio,
@@ -12,26 +16,26 @@ import {
   Title,
 } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;
   imageProps?: ImageProps;
   blogRoutePrefix: string;
+  categoryId?: string;
 }
 
 /**
  * Editorial card: rounded cover, left-aligned headline, muted two-line excerpt and a single meta
  * row (author on the left, date on the right). References: Perplexity Discover, Google News.
  */
-const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
+const BlogPostCard = ({ post, blogRoutePrefix, categoryId }: Props) => {
   const imageUrl = post.cover.url;
 
   return (
     <Card
       radius="lg"
       padding="sm"
-      className="relative bg-paper-1 w-full h-full transition-colors duration-200 active:bg-[#343333] [@media(hover:hover)]:hover:bg-[#2e2d2d]"
+      className="relative bg-paper-1 w-full h-full transition-colors duration-200 [@media(hover:hover)]:hover:bg-paper-4 active:!bg-paper-6"
     >
       {/* The link's ::after covers the whole card, so all of it opens the post. The author row
           stays outside the link (its avatar is a profile link: no <a> inside <a>) and sits above
@@ -46,7 +50,7 @@ const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
           <Image src={imageUrl} alt={post.cover.alt} radius="md" />
         </AspectRatio>
         <Stack className={"gap-1.5 px-1"}>
-          <BlogPostCategoryLabel tags={post.tags} />
+          <BlogPostCategoryLabel tags={post.tags} categoryId={categoryId} />
           <Title
             lineClamp={2}
             order={3}
@@ -73,9 +77,7 @@ const BlogPostCard = ({ post, blogRoutePrefix }: Props) => {
             userId={post.profileUserId}
           />
         </Box>
-        <Text size="xs" c="dimmed" className={"shrink-0"}>
-          {dayjs(post.publishedAt).format("DD/MM/YYYY")}
-        </Text>
+        <BlogPostDate publishedAt={post.publishedAt} className={"shrink-0"} />
       </Group>
     </Card>
   );

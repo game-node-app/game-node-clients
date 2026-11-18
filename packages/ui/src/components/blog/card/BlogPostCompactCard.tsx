@@ -1,8 +1,7 @@
-import { BlogPostCategoryLabel } from "#@/components";
+import { BlogPostCategoryLabel, BlogPostDate } from "#@/components";
 import { Link } from "#@/util";
-import { Card, Image, Stack, Text, Title } from "@mantine/core";
+import { Card, Image, Stack, Title } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;
@@ -18,7 +17,7 @@ const BlogPostCompactCard = ({ post, blogRoutePrefix = "/blog" }: Props) => {
     <Card
       radius="lg"
       padding="sm"
-      className="relative flex flex-row items-center gap-3 bg-paper-1 w-full transition-colors duration-200 active:bg-[#343333] [@media(hover:hover)]:hover:bg-[#2e2d2d]"
+      className="relative flex flex-row items-center gap-3 bg-paper-1 w-full transition-colors duration-200 [@media(hover:hover)]:hover:bg-paper-4 active:!bg-paper-6"
     >
       <Stack className={"gap-1.5 min-w-0 flex-1"}>
         <BlogPostCategoryLabel tags={post.tags} />
@@ -34,9 +33,7 @@ const BlogPostCompactCard = ({ post, blogRoutePrefix = "/blog" }: Props) => {
             {post.title}
           </Title>
         </Link>
-        <Text size="xs" c="dimmed">
-          {dayjs(post.publishedAt).format("DD/MM/YYYY")}
-        </Text>
+        <BlogPostDate publishedAt={post.publishedAt} />
       </Stack>
       <Image
         src={post.cover.url}

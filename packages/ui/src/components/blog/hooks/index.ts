@@ -3,6 +3,7 @@
  */
 
 export * from "./queryOptions";
+export * from "./useBlogCategories";
 export * from "./useBlogPost";
 export * from "./useBlogPostTags";
 export * from "./useBlogPosts";
