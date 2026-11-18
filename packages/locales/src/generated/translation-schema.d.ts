@@ -2846,6 +2846,14 @@ export type TranslationSchema = {
     };
   };
   recap: {
+    playtime: {
+      afterConnection: string;
+      estimateDetails: string;
+      estimateExplanation: string;
+      noSync: string;
+      syncDelay: string;
+      syncTitle: string;
+    };
     buttons: {
       availableSoon: string;
       create: string;
@@ -2923,7 +2931,6 @@ export type TranslationSchema = {
       };
       footer: {
         period: string;
-        sources: string;
       };
       genres: {
         platformDetail: string;

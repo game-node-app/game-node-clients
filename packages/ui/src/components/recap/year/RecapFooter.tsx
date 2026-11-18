@@ -1,13 +1,11 @@
-import { useOwnUserConnections } from "#@/components/connections/hooks/useOwnUserConnections";
-import { getConnectionName } from "#@/components/connections/util/getConnectionName";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 import {
   formatUtcDate,
   useFormatLocale,
 } from "#@/components/events/util/format";
+import { RecapStoreSync } from "#@/components/recap/RecapStoreSync";
 import type { YearRecap } from "#@/components/recap/types";
 import { useTranslation } from "@repo/locales";
-import type { UserConnectionDto } from "@repo/wrapper/server";
 
 export interface RecapFooterProps {
   year: number;
@@ -44,55 +42,24 @@ export function RecapFooter({ year, recap, userId }: RecapFooterProps) {
   return (
     <footer
       data-testid={"recap-footer"}
-      className={
-        "flex flex-wrap items-center gap-x-2 gap-y-1 pt-10 pb-4 text-sm text-[#808080] md:pt-12"
-      }
+      className={"flex flex-col gap-3 pt-10 pb-4 md:pt-12"}
     >
-      {start && end && (
-        <span>{t("recap.page.footer.period", { start, end })}</span>
-      )}
-      {isOwner && <RecapConnectedSources />}
-      {!recap.isFinal && (
-        <>
-          <span aria-hidden>·</span>
-          <span>{t("recap.page.hero.updates")}</span>
-        </>
-      )}
+      <div
+        className={
+          "flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#808080]"
+        }
+      >
+        {start && end && (
+          <span>{t("recap.page.footer.period", { start, end })}</span>
+        )}
+        {!recap.isFinal && (
+          <>
+            {start && end && <span aria-hidden>·</span>}
+            <span>{t("recap.page.hero.updates")}</span>
+          </>
+        )}
+      </div>
+      {isOwner && <RecapStoreSync />}
     </footer>
-  );
-}
-
-/**
- * Reads the owner's connections and lists their providers. Mounted only for the
- * owner: the read needs a session and a visitor cannot see them.
- */
-function RecapConnectedSources() {
-  const { t } = useTranslation();
-  const locale = useFormatLocale();
-  const connectionsQuery = useOwnUserConnections();
-
-  if (!connectionsQuery.data || connectionsQuery.data.length === 0) {
-    return null;
-  }
-
-  const names = Array.from(
-    new Set(
-      connectionsQuery.data.map((connection) =>
-        getConnectionName(connection.type as unknown as UserConnectionDto.type),
-      ),
-    ),
-  );
-  const sources = new Intl.ListFormat(locale, {
-    style: "long",
-    type: "conjunction",
-  }).format(names);
-
-  return (
-    <>
-      <span aria-hidden>·</span>
-      <span data-testid={"recap-footer-sources"}>
-        {t("recap.page.footer.sources", { sources })}
-      </span>
-    </>
   );
 }

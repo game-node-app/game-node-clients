@@ -127,11 +127,10 @@ const MockLink = ({ href, children }: LinkComponentProps) => (
   <a href={href}>{children}</a>
 );
 
-function renderWithProviders(node: React.ReactNode) {
-  const client = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-
+function renderWithProviders(
+  node: React.ReactNode,
+  client = new QueryClient({ defaultOptions: { queries: { retry: false } } }),
+) {
   return render(node, {
     wrapper: ({ children }) => (
       <MantineProvider>
@@ -308,40 +307,70 @@ describe("RecapAwardsCard", () => {
 });
 
 describe("RecapFooter", () => {
-  it("shows the period without the sources for a visitor", () => {
-    const connections = vi.spyOn(
-      ConnectionsService,
-      "connectionsControllerFindOwnV1",
-    );
+  it.each([
+    { visitor: "signed out", userId: undefined },
+    { visitor: "signed into another account", userId: "user-2" },
+  ])(
+    "hides store details for a visitor who is $visitor, even with cached connections",
+    ({ userId }) => {
+      session.userId = userId;
+      const connections = vi.spyOn(
+        ConnectionsService,
+        "connectionsControllerFindOwnV1",
+      );
+      const client = new QueryClient();
+      client.setQueryData(
+        ["connections", "own"],
+        [
+          {
+            type: UserConnectionDto.type.XBOX,
+            lastSyncedAt: "2026-11-15T04:00:00Z",
+          },
+        ],
+      );
 
-    renderWithProviders(
-      <RecapFooter
-        year={RECAP_YEAR}
-        recap={buildYearRecap()}
-        userId={"user-1"}
-      />,
-    );
+      renderWithProviders(
+        <RecapFooter
+          year={RECAP_YEAR}
+          recap={buildYearRecap()}
+          userId={"user-1"}
+        />,
+        client,
+      );
 
-    expect(
-      screen.getByText(
-        `recap.page.footer.period:${JSON.stringify({
-          start: "Jan 1, 2026",
-          end: "Nov 15, 2026",
-        })}`,
-      ),
-    ).toBeTruthy();
-    expect(screen.queryByTestId("recap-footer-sources")).toBeNull();
-    expect(connections).not.toHaveBeenCalled();
-  });
+      expect(
+        screen.getByText(
+          `recap.page.footer.period:${JSON.stringify({
+            start: "Jan 1, 2026",
+            end: "Nov 15, 2026",
+          })}`,
+        ),
+      ).toBeTruthy();
+      expect(screen.queryByText("recap.playtime.syncTitle")).toBeNull();
+      expect(screen.queryByText("recap.playtime.syncDelay")).toBeNull();
+      expect(screen.queryByText("recap.playtime.afterConnection")).toBeNull();
+      expect(screen.queryByText("Xbox Live")).toBeNull();
+      expect(
+        screen.getByTestId("recap-footer").querySelector("time"),
+      ).toBeNull();
+      expect(connections).not.toHaveBeenCalled();
+    },
+  );
 
-  it("lists the owner's connected sources", async () => {
+  it("shows each connected store and gives the history notice once", async () => {
     session.userId = "user-1";
     vi.spyOn(
       ConnectionsService,
       "connectionsControllerFindOwnV1",
     ).mockResolvedValue([
-      { type: UserConnectionDto.type.STEAM },
-      { type: UserConnectionDto.type.PSN },
+      {
+        type: UserConnectionDto.type.PSN,
+        lastSyncedAt: "2026-11-15T04:00:00Z",
+      },
+      { type: UserConnectionDto.type.NINTENDO },
+      { type: UserConnectionDto.type.XBOX },
+      { type: UserConnectionDto.type.EPICGAMES },
+      { type: UserConnectionDto.type.GOG },
     ] as unknown as OwnUserConnectionDto[]);
 
     renderWithProviders(
@@ -352,13 +381,19 @@ describe("RecapFooter", () => {
       />,
     );
 
-    expect(await screen.findByTestId("recap-footer-sources")).toBeTruthy();
+    expect(await screen.findByText("recap.playtime.syncTitle")).toBeTruthy();
+    expect(screen.getByText("recap.playtime.syncDelay")).toBeTruthy();
     expect(
-      screen.getByText(
-        `recap.page.footer.sources:${JSON.stringify({
-          sources: "Steam and Playstation Network",
-        })}`,
-      ),
-    ).toBeTruthy();
+      screen
+        .getByText("Playstation Network")
+        .parentElement?.querySelector("time")?.dateTime,
+    ).toBe("2026-11-15T04:00:00.000Z");
+    expect(screen.getByText("Nintendo").parentElement?.textContent).toContain(
+      "recap.playtime.noSync",
+    );
+    expect(screen.getByText("Xbox Live, Epic Games, and GOG.")).toBeTruthy();
+    expect(screen.getAllByText("recap.playtime.afterConnection")).toHaveLength(
+      1,
+    );
   });
 });

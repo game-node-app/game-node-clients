@@ -2,6 +2,7 @@
 import React from "react";
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ConnectionsService } from "@repo/wrapper/server";
 import {
   act,
   cleanup,
@@ -162,10 +163,18 @@ vi.mock(
   }),
 );
 
-const summary = (seconds: number) => ({
+const summary = (seconds: number, estimatedSeconds = 0) => ({
   period: "week",
-  current: { totalPlaytimeSeconds: seconds, totalGames: seconds > 0 ? 2 : 0 },
-  previous: { totalPlaytimeSeconds: 3600, totalGames: 1 },
+  current: {
+    totalPlaytimeSeconds: seconds,
+    estimatedPlaytimeSeconds: estimatedSeconds,
+    totalGames: seconds > 0 ? 2 : 0,
+  },
+  previous: {
+    totalPlaytimeSeconds: 3600,
+    estimatedPlaytimeSeconds: 600,
+    totalGames: 1,
+  },
   topGames: [],
   topGenre: null,
   topPlatform: null,
@@ -243,6 +252,10 @@ const clickFormat = (format: "story" | "feed") => {
 };
 
 beforeEach(() => {
+  vi.spyOn(
+    ConnectionsService,
+    "connectionsControllerFindOwnV1",
+  ).mockResolvedValue([]);
   mocks.summary = summary(7200);
   mocks.summaryPeriods = [];
   mocks.cards = [];
@@ -330,6 +343,33 @@ describe("getRecapPreviewScale", () => {
 });
 
 describe("WrappedRecapScreen", () => {
+  it("shows the estimate with the period selector and keeps it out of the card", async () => {
+    mocks.summary = summary(11_700, 9_900);
+    renderScreen();
+
+    const period = screen.getByRole("radiogroup", {
+      name: "mobile.wrapped.labels.period",
+    });
+    const estimate = screen.getByRole("button", {
+      name: "recap.playtime.estimateDetails",
+    });
+    expect(period.parentElement?.contains(estimate)).toBe(true);
+    expect(period.parentElement?.textContent).toContain("~3h 15m");
+    await clickDownload();
+
+    expect(mocks.toBlob).toHaveBeenCalledOnce();
+    const node = mocks.toBlob.mock.calls[0]![0] as HTMLElement;
+    expect(node.contains(estimate)).toBe(false);
+    expect(node.textContent).not.toContain("~3h 15m");
+  });
+
+  it("leaves the current total unmarked when only the previous period is estimated", () => {
+    renderScreen();
+
+    expect(
+      screen.queryByRole("button", { name: "recap.playtime.estimateDetails" }),
+    ).toBeNull();
+  });
   it("starts on the Poster template of the week summary", () => {
     renderScreen();
 
