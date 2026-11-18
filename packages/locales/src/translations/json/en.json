@@ -3561,12 +3561,6 @@
       },
       "signIn": {
         "description": "The accounts you use to sign in and the devices where you're signed in.",
-        "emailCode": {
-          "title": "Email code",
-          "description": "Sign in with a code sent to your email.",
-          "descriptionWithEmail": "Sign in with a code sent to {{email}}."
-        },
-        "changeEmail": "Change email",
         "note": "Keep at least one sign-in method linked."
       },
       "sessions": {

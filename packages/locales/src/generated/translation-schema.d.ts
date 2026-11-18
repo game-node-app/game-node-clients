@@ -3565,12 +3565,6 @@ export type TranslationSchema = {
       };
       signIn: {
         description: string;
-        emailCode: {
-          title: string;
-          description: string;
-          descriptionWithEmail: string;
-        };
-        changeEmail: string;
         note: string;
       };
       sessions: {

@@ -5,11 +5,9 @@ import {
   IconBrandGoogle,
   IconBrandX,
   IconLock,
-  IconMail,
   IconProps,
 } from "@tabler/icons-react";
 import { ComponentType } from "react";
-import { authClient } from "#@/components/auth/authClient";
 import { ActionConfirm } from "#@/components/general/ActionConfirm";
 import {
   PROVIDERS,
@@ -18,7 +16,6 @@ import {
 } from "#@/components/preferences/handlers/account/SignInMethodsSection";
 import { SettingsButton } from "#@/components/settings/common/SettingsButton";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
-import { SettingsComingSoonBadge } from "#@/components/settings/common/SettingsPill";
 import { SettingsRow } from "#@/components/settings/common/SettingsRow";
 
 const PROVIDER_ICONS: Record<ProviderId, ComponentType<IconProps>> = {
@@ -29,12 +26,10 @@ const PROVIDER_ICONS: Record<ProviderId, ComponentType<IconProps>> = {
 
 /**
  * Social sign-in methods (link/unlink through `useSignInMethods`, shared with
- * mobile) plus the email-code method, which has no backend yet.
+ * mobile).
  */
 export function SettingsSignInMethodsCard() {
   const { t } = useTranslation();
-  const { data: session } = authClient.useSession();
-  const email = session?.user.email;
   const {
     linked,
     errorCode,
@@ -66,24 +61,6 @@ export function SettingsSignInMethodsCard() {
         </Box>
       )}
       <SettingsCard>
-        <SettingsRow
-          disabled
-          Icon={IconMail}
-          title={t("settings.privacy.signIn.emailCode.title")}
-          titleBadges={<SettingsComingSoonBadge />}
-          description={
-            email
-              ? t("settings.privacy.signIn.emailCode.descriptionWithEmail", {
-                  email,
-                })
-              : t("settings.privacy.signIn.emailCode.description")
-          }
-          rightSection={
-            <SettingsButton variant={"secondary"} disabled>
-              {t("settings.privacy.signIn.changeEmail")}
-            </SettingsButton>
-          }
-        />
         {PROVIDERS.map(({ id }) => {
           const isLinked = linked.has(id);
           const isLast = isLinked && linked.size <= 1;
