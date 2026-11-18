@@ -1,3 +1,4 @@
+import { useHideTabBar } from "@/components/general/hooks/useHideTabBar";
 import { AppPage } from "@/components/general/AppPage";
 import { Box } from "@mantine/core";
 import {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const BlogPostDetailPage = ({ postId }: Props) => {
+  useHideTabBar();
 
   return (
     <AppPage>
