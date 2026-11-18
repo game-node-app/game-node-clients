@@ -5,7 +5,6 @@ import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
 import NotFoundPage from "@/pages/not_found";
 import NotificationsPage from "@/pages/notifications";
-import RecapHomePage from "@/pages/recap/recap_home";
 import ProfilePage from "@/pages/profile/profile";
 import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import GameSearchPage from "@/pages/search.tsx";
@@ -21,8 +20,8 @@ import {
   IconHome,
   IconLibrary,
   IconTrendingUp,
+  IconUser,
 } from "@tabler/icons-react";
-import { NavWrappedIcon } from "@repo/ui";
 import { useEffect, useRef, useState } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import AuthPage from "./pages/auth";
@@ -116,9 +115,6 @@ const Tabs = () => {
               render={() => <NotificationsPage />}
             />
             {getCommonRoutes("/notifications")}
-            {/* ---- WRAPPED (RECAP) ROUTES ---- */}
-            <Route exact path={"/recap"} render={() => <RecapHomePage />} />
-            {getCommonRoutes("/recap")}
             {/* ---- PROFILE ROUTES ---- */}
             <Route exact path={"/profile"} render={() => <ProfilePage />} />
             {getCommonRoutes("/profile")}
@@ -143,8 +139,8 @@ const Tabs = () => {
             <IonTabButton tab="notifications" href="/notifications">
               <IconBell />
             </IonTabButton>
-            <IonTabButton tab="recap" href="/recap">
-              <NavWrappedIcon size={24} />
+            <IonTabButton tab="profile" href="/profile">
+              <IconUser />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
