@@ -7,12 +7,16 @@ import {
   SimpleInfiniteLoader,
 } from "@repo/ui";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 const All = () => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
     <Stack className={"w-full items-center"}>
+      <OpenGraph title={t("seo.feed.title")} />
       <Box className={"w-full"}>
         <ActivityFeedLayout
           currentTab={"all"}

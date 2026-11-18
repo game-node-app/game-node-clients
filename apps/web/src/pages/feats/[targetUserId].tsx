@@ -1,9 +1,12 @@
 import { AchievementsScreen } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
-import Head from "next/head";
 import { useRouter } from "next/router";
+import { ProfileOpenGraph } from "@/components/general/ProfileOpenGraph";
+import { getSeoProfileProps, SeoProfileProps } from "@/util/seo";
 
-export default function FeatsPage() {
+export const getServerSideProps = getSeoProfileProps("targetUserId");
+
+export default function FeatsPage({ seoProfile }: SeoProfileProps) {
   const router = useRouter();
   const query = router.query;
   const targetUserId = query.targetUserId as string;
@@ -11,9 +14,11 @@ export default function FeatsPage() {
 
   return (
     <>
-      <Head>
-        <title>{`${t("achievements.page.title")} - GameNode`}</title>
-      </Head>
+      <ProfileOpenGraph
+        profile={seoProfile}
+        title={t("seo.feats.title", { username: seoProfile?.username })}
+        description={t("achievements.page.subtitle")}
+      />
       <AchievementsScreen targetUserId={targetUserId} />
     </>
   );

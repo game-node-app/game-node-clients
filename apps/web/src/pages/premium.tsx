@@ -16,7 +16,7 @@ import { PremiumSupportersWall } from "@/components/premium/PremiumSupportersWal
 import premiumStyles from "@/components/premium/Premium.module.css";
 import { Box } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import Head from "next/head";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 /**
  * Public Premium landing page. Composition only: every section lives in
@@ -28,10 +28,10 @@ const PremiumPage = () => {
 
   return (
     <Box className={premiumStyles.page}>
-      <Head>
-        <title>{t("premium.meta.title")}</title>
-        <meta name="description" content={t("premium.meta.description")} />
-      </Head>
+      <OpenGraph
+        title={t("premium.meta.title")}
+        description={t("premium.meta.description")}
+      />
 
       <LandingHeader />
 

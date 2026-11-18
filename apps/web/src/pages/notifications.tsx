@@ -5,7 +5,7 @@ import {
   SessionAuth,
   useSettingsModalState,
 } from "@repo/ui";
-import Head from "next/head";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 /**
  * Authenticated notifications page (design: NotificationsPanel page variant).
@@ -18,9 +18,7 @@ const NotificationsPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${t("notifications.title")} - GameNode`}</title>
-      </Head>
+      <OpenGraph title={`${t("notifications.title")} - GameNode`} noIndex />
       <SessionAuth>
         <Box className={"w-full py-4"}>
           <NotificationsPanel

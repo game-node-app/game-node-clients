@@ -1,16 +1,17 @@
 import React from "react";
-import Head from "next/head";
 import { useTranslation } from "@repo/locales";
 import { DailyWeeklyView } from "@repo/ui";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 const DailyWeeklyPage = () => {
   const { t } = useTranslation();
 
   return (
     <>
-      <Head>
-        <title>{`${t("daily.weekly.title")} - GameNode Daily`}</title>
-      </Head>
+      <OpenGraph
+        title={`${t("daily.weekly.title")} - GameNode Daily`}
+        description={t("seo.daily.description")}
+      />
       <DailyWeeklyView />
     </>
   );

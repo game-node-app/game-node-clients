@@ -7,8 +7,14 @@ import {
   useUserProfile,
 } from "@repo/ui";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
+import { ProfileOpenGraph } from "@/components/general/ProfileOpenGraph";
+import { getSeoProfileProps, SeoProfileProps } from "@/util/seo";
 
-const Index = () => {
+export const getServerSideProps = getSeoProfileProps();
+
+const Index = ({ seoProfile }: SeoProfileProps) => {
+  const { t } = useTranslation();
   useOnMobile();
   const router = useRouter();
   const { userId } = router.query;
@@ -18,6 +24,13 @@ const Index = () => {
 
   return (
     <Stack className={"lg:my-10"}>
+      <ProfileOpenGraph
+        profile={seoProfile}
+        title={t("seo.library.title", { username: seoProfile?.username })}
+        description={t("seo.library.description", {
+          username: seoProfile?.username,
+        })}
+      />
       <LibraryViewLayout userId={userId as string} collectionId={undefined}>
         <LibraryView libraryUserId={userId as string} />
       </LibraryViewLayout>

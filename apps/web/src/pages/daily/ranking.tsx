@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import { useTranslation } from "@repo/locales";
 import {
@@ -9,6 +8,7 @@ import {
   DailyRankingView,
   isDailyMode,
 } from "@repo/ui";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 interface Props {
   initialFilters: Partial<DailyRankingQuery>;
@@ -32,9 +32,10 @@ const DailyRankingPage = ({ initialFilters }: Props) => {
 
   return (
     <>
-      <Head>
-        <title>{`${t("daily.ranking.title")} - GameNode`}</title>
-      </Head>
+      <OpenGraph
+        title={`${t("daily.ranking.title")} - GameNode`}
+        description={t("seo.daily.description")}
+      />
       <DailyRankingView initialFilters={initialFilters} />
     </>
   );

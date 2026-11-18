@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html>
       <Head>
         <ColorSchemeScript defaultColorScheme="dark" />
         <link

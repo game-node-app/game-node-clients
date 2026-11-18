@@ -1,4 +1,5 @@
 import { Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import {
   CenteredLoading,
   CollectionEntryDetailView,
@@ -6,10 +7,53 @@ import {
   useGame,
   useUserProfile,
 } from "@repo/ui";
+import {
+  CollectionsEntriesService,
+  GameRepositoryService,
+} from "@repo/wrapper/server";
+import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { OpenGraph } from "@/components/general/OpenGraph";
+import {
+  fetchForSeo,
+  fetchSeoProfile,
+  gameCoverUrl,
+  SeoProfile,
+} from "@/util/seo";
 
-const JournalDetailPage = () => {
+type SeoGame = { name: string; coverUrl: string | null };
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { userId, collectionEntryId } = ctx.query;
+  const [seoProfile, entry] = await Promise.all([
+    fetchSeoProfile(userId),
+    typeof collectionEntryId === "string"
+      ? fetchForSeo(() =>
+          CollectionsEntriesService.collectionsEntriesControllerFindEntryByIdV1(
+            collectionEntryId,
+          ),
+        )
+      : null,
+  ]);
+  const game = entry
+    ? await fetchForSeo(() =>
+        GameRepositoryService.gameRepositoryControllerFindOneByIdV1(
+          entry.gameId,
+          { relations: { cover: true } },
+        ),
+      )
+    : null;
+  const seoGame: SeoGame | null = game
+    ? { name: game.name, coverUrl: gameCoverUrl(game.cover?.url) }
+    : null;
+  return { props: { seoProfile, seoGame } };
+};
+
+type Props = { seoProfile: SeoProfile | null; seoGame: SeoGame | null };
+
+const JournalDetailPage = ({ seoProfile, seoGame }: Props) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { collectionEntryId, userId } = router.query;
 
@@ -42,14 +86,29 @@ const JournalDetailPage = () => {
     return <CenteredLoading />;
   }
 
+  const values = { game: seoGame?.name, username: seoProfile?.username };
+
   return (
     <Stack className={"w-full"}>
-      {gameQuery.data && profileQuery.data && (
-        <Head>
-          <title>
-            {gameQuery.data?.name} - {profileQuery.data?.username} - GameNode
-          </title>
-        </Head>
+      {seoGame && seoProfile ? (
+        <OpenGraph
+          title={t("seo.entry.title", values)}
+          description={t("seo.entry.description", values)}
+          imageUrl={seoGame.coverUrl}
+          imageAlt={seoGame.name}
+        />
+      ) : (
+        gameQuery.data &&
+        profileQuery.data && (
+          <Head>
+            <title>
+              {t("seo.entry.title", {
+                game: gameQuery.data.name,
+                username: profileQuery.data.username,
+              })}
+            </title>
+          </Head>
+        )
       )}
 
       <CollectionEntryDetailView

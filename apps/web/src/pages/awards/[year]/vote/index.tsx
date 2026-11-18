@@ -3,6 +3,10 @@ import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { AwardsBallotScreen } from "@repo/ui";
 import { useRouter } from "next/router";
+import { OpenGraph } from "@/components/general/OpenGraph";
+
+/** Rendered per request so the route parameters reach the page's metadata. */
+export const getServerSideProps = async () => ({ props: {} });
 
 const AwardsEventVotePage = () => {
   const { t } = useTranslation();
@@ -12,6 +16,10 @@ const AwardsEventVotePage = () => {
 
   return (
     <Stack>
+      <OpenGraph
+        title={t("seo.awards.voteTitle", { year: eventYear })}
+        description={t("seo.awards.description", { year: eventYear })}
+      />
       <AwardsBallotScreen
         eventYear={eventYear}
         onShare={async (file) => {

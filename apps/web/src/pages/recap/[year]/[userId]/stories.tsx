@@ -1,7 +1,10 @@
 import { useTranslation } from "@repo/locales";
 import { RecapStoriesScreen } from "@repo/ui";
-import Head from "next/head";
 import { useRouter } from "next/router";
+import { OpenGraph } from "@/components/general/OpenGraph";
+
+/** Rendered per request so the route parameters reach the page's metadata. */
+export const getServerSideProps = async () => ({ props: {} });
 
 /**
  * `/recap/[year]/[userId]/stories`: the five Recap stories in the full-screen
@@ -19,15 +22,16 @@ const RecapStoriesPage = () => {
 
   return (
     <>
-      <Head>
-        <title>
-          {Number.isFinite(targetYear)
+      <OpenGraph
+        title={
+          Number.isFinite(targetYear)
             ? `${t("recap.stories.opening.eyebrow", {
                 year: targetYear,
               })} | GameNode`
-            : "GameNode"}
-        </title>
-      </Head>
+            : "GameNode"
+        }
+        noIndex
+      />
       {targetUserId && Number.isFinite(targetYear) && (
         <RecapStoriesScreen
           userId={targetUserId}

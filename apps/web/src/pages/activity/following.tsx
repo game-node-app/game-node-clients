@@ -8,12 +8,16 @@ import {
   SimpleInfiniteLoader,
 } from "@repo/ui";
 import { useRouter } from "next/router";
+import { useTranslation } from "@repo/locales";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 const Following = () => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
     <SessionAuth>
+      <OpenGraph title={t("seo.feed.title")} noIndex />
       <Stack className={"w-full items-center"}>
         <Box className={"w-full"}>
           <ActivityFeedLayout

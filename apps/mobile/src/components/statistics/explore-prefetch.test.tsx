@@ -24,6 +24,9 @@ import ExplorePage, {
 } from "../../../../web/src/pages/explore/index";
 
 vi.mock("next/head", () => ({ default: () => null }));
+vi.mock("../../../../web/src/components/general/OpenGraph", () => ({
+  OpenGraph: () => null,
+}));
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));

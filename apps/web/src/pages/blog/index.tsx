@@ -9,6 +9,8 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { blogPostsOptions } from "@repo/ui";
 import { SupportedLanguage } from "@repo/locales";
 import { NextPageContext } from "next";
+import { useTranslation } from "@repo/locales";
+import { OpenGraph } from "@/components/general/OpenGraph";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const queryClient = new QueryClient();
@@ -28,8 +30,13 @@ export const getServerSideProps = async (context: NextPageContext) => {
 };
 
 const BlogLandingPage = () => {
+  const { t } = useTranslation();
   return (
     <Stack className="mx-auto lg:px-4 lg:py-8">
+      <OpenGraph
+        title={t("seo.blog.title")}
+        description={t("seo.blog.description")}
+      />
       <BlogPostsLayout>
         <BlogPostsFeed />
       </BlogPostsLayout>

@@ -19,13 +19,13 @@ import {
 import { IconArrowUp } from "@tabler/icons-react";
 import { dehydrate, InfiniteData, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
-import Head from "next/head";
 import { useMemo, useState } from "react";
 import ExploreScreenFilters from "../../components/explore/ExploreScreenFilters";
 import {
   DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
   exploreScreenUrlQueryToDto,
 } from "../../components/explore/utils";
+import { OpenGraph } from "../../components/general/OpenGraph";
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;
@@ -140,9 +140,10 @@ const Index = () => {
 
   return (
     <Stack className={"w-full mb-8"} align={"center"}>
-      <Head>
-        <title>{t("explore.metaTitle")}</title>
-      </Head>
+      <OpenGraph
+        title={t("explore.metaTitle")}
+        description={t("seo.explore.description")}
+      />
       <Stack className={"w-full"}>
         <GameView
           layout={"grid"}
