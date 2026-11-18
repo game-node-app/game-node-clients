@@ -1,0 +1,28 @@
+{
+  "source": "7320bdb0cc78ad42390d9934621b77f09e05448b",
+  "changesets": [
+    ".changeset/release-shared-profile-clients.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[2c37a47426395fedb79b200ad21d538fb7a2194f...7320bdb0cc78ad42390d9934621b77f09e05448b]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/7320bdb0cc78ad42390d9934621b77f09e05448b",
+  "versions": {
+    "web": "1.22.0",
+    "mobile": "1.20.0"
+  }
+}
