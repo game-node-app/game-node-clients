@@ -1,0 +1,28 @@
+{
+  "source": "587edce1430ef1ed308813b0206da2aa7d9da443",
+  "changesets": [
+    ".changeset/remove-email-code-sign-in.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[10815b9f585a5621d05cb001499777d39114f958...587edce1430ef1ed308813b0206da2aa7d9da443]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/587edce1430ef1ed308813b0206da2aa7d9da443",
+  "versions": {
+    "web": "1.22.3",
+    "mobile": "1.20.2"
+  }
+}
