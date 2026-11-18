@@ -1,0 +1,28 @@
+{
+  "source": "a7f2745e2fd24a6b88eb3821320f9363f274d8b1",
+  "changesets": [
+    ".changeset/mobile-game-info-actions.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[75efc1b68c4951557735ae10b128590b53126e2c...a7f2745e2fd24a6b88eb3821320f9363f274d8b1]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch",
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/a7f2745e2fd24a6b88eb3821320f9363f274d8b1",
+  "versions": {
+    "web": "1.21.2",
+    "mobile": "1.19.1"
+  }
+}
