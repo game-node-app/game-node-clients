@@ -6,8 +6,12 @@ import {
   InfiniteQueryTrendingGamesDto,
   SimpleInfiniteLoader,
   useGames,
+  useGamesResource,
   useInfiniteTrendingGames,
 } from "@repo/ui";
+import { TrendingGenreChips } from "@/components/explore/TrendingGenreChips";
+import { TrendingShelf } from "@/components/explore/TrendingShelf";
+import { TRENDING_GENRE_IDS } from "@/components/explore/trending-genres";
 import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useMemo, useState } from "react";
 
@@ -49,7 +53,31 @@ const ExploreGamesPageView = () => {
       limit: DEFAULT_LIMIT,
     });
 
-  const trendingGamesQuery = useInfiniteTrendingGames(trendingQueryDto);
+  const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>();
+  const isOverview = selectedGenreId == undefined;
+
+  const { data: genresResource } = useGamesResource("genres");
+  const genres = useMemo(
+    () =>
+      TRENDING_GENRE_IDS.map((id) => {
+        const genre = genresResource?.find((item) => item.id === id);
+        return genre?.name ? { id, name: genre.name } : undefined;
+      }).filter((genre) => genre !== undefined),
+    [genresResource],
+  );
+
+  const trendingGamesQuery = useInfiniteTrendingGames(
+    trendingQueryDto,
+    !isOverview,
+  );
+
+  const onSelectGenre = (genreId: number | undefined) => {
+    setSelectedGenreId(genreId);
+    setTrendingQueryDto((prev) => ({
+      ...prev,
+      criteria: genreId != undefined ? { genres: [genreId] } : undefined,
+    }));
+  };
 
   const gamesIds = useMemo(() => {
     if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
@@ -72,7 +100,7 @@ const ExploreGamesPageView = () => {
         cover: true,
       },
     },
-    true,
+    !isOverview,
   );
 
   const periodSelectOptions = useMemo(() => {
@@ -106,24 +134,48 @@ const ExploreGamesPageView = () => {
           {periodSelectOptions}
         </IonSelect>
       </Flex>
-      <GameView layout={"grid"}>
-        <GameView.Content
-          items={gamesIds
-            ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
-            .filter((game) => game !== undefined)}
-        >
-          <GameView.LoadingSkeletons isVisible={isFetching} />
-        </GameView.Content>
-        <SimpleInfiniteLoader
-          key={gamesQuery.data?.map((game) => game.id).join(",")}
-          fetchNextPage={async () => {
-            if (isFetching) return;
-            await trendingGamesQuery.fetchNextPage();
-          }}
-          isFetching={isFetching}
-          hasNextPage={trendingGamesQuery.hasNextPage}
-        />
-      </GameView>
+      <TrendingGenreChips
+        genres={genres}
+        selectedGenreId={selectedGenreId}
+        onSelect={onSelectGenre}
+      />
+      {isOverview ? (
+        <Stack gap={"lg"} className={"w-full"}>
+          <TrendingShelf
+            ranked
+            title={t("explore.sections.topOverall")}
+            period={selectedPeriod}
+          />
+          {genres.map((genre) => (
+            <TrendingShelf
+              key={genre.id}
+              title={genre.name}
+              genreId={genre.id}
+              period={selectedPeriod}
+              onSeeAll={() => onSelectGenre(genre.id)}
+            />
+          ))}
+        </Stack>
+      ) : (
+        <GameView layout={"grid"}>
+          <GameView.Content
+            items={gamesIds
+              ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
+              .filter((game) => game !== undefined)}
+          >
+            <GameView.LoadingSkeletons isVisible={isFetching} />
+          </GameView.Content>
+          <SimpleInfiniteLoader
+            key={gamesQuery.data?.map((game) => game.id).join(",")}
+            fetchNextPage={async () => {
+              if (isFetching) return;
+              await trendingGamesQuery.fetchNextPage();
+            }}
+            isFetching={isFetching}
+            hasNextPage={trendingGamesQuery.hasNextPage}
+          />
+        </GameView>
+      )}
     </Stack>
   );
 };

@@ -8,10 +8,33 @@ import { TrendingReviewCarousel } from "../../../../../packages/ui/src/component
 const state = vi.hoisted(() => ({
   gameItems: [2, 1] as number[],
   reviewItems: ["pinned", "other"] as string[],
+  emptyReviewIds: [] as string[],
   reviewsArgs: vi.fn(),
   gameArgs: vi.fn(),
   rankingArgs: vi.fn(),
 }));
+vi.mock("@tanstack/react-query", async () => {
+  const actual = await vi.importActual<typeof import("@tanstack/react-query")>(
+    "@tanstack/react-query",
+  );
+  return {
+    ...actual,
+    // The carousel pre-fetches each review to drop the ones without text.
+    useQueries: ({
+      queries,
+    }: {
+      queries: Array<{ queryKey: readonly unknown[] }>;
+    }) =>
+      queries.map((query) => ({
+        isLoading: false,
+        data: {
+          content: state.emptyReviewIds.includes(String(query.queryKey[1]))
+            ? "<p></p>"
+            : "<p>Great game</p>",
+        },
+      })),
+  };
+});
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
@@ -167,6 +190,7 @@ afterEach(() => {
   cleanup();
   state.gameItems = [2, 1];
   state.reviewItems = ["pinned", "other"];
+  state.emptyReviewIds = [];
   state.reviewsArgs.mockClear();
   state.gameArgs.mockClear();
   state.rankingArgs.mockClear();
@@ -179,6 +203,11 @@ it("renders home games and reviews in ranking order and hides an empty ranking",
   const reviews = render(<TrendingReviewCarousel />);
   expect(reviews.container.textContent).toBe("pinnedother");
   reviews.unmount();
+  state.emptyReviewIds = ["pinned"];
+  const withoutRatingOnly = render(<TrendingReviewCarousel />);
+  expect(withoutRatingOnly.container.textContent).toBe("other");
+  withoutRatingOnly.unmount();
+  state.emptyReviewIds = [];
   state.gameItems = [];
   const empty = render(<TrendingGamesList />);
   expect(empty.container.textContent).toBe("");

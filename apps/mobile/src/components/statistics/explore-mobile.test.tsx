@@ -6,6 +6,19 @@ const state = vi.hoisted(() => ({ request: vi.fn(), games: vi.fn() }));
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
+vi.mock("@/components/explore/TrendingShelf", () => ({
+  TrendingShelf: ({
+    title,
+    onSeeAll,
+  }: {
+    title: string;
+    onSeeAll?: () => void;
+  }) => (
+    <button data-testid="shelf" onClick={onSeeAll}>
+      {title}
+    </button>
+  ),
+}));
 vi.mock("@ionic/react", async () => {
   const React = await import("react");
   return {
@@ -28,7 +41,21 @@ vi.mock("@mantine/core", async () => {
     await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
   const C = ({ children }: import("react").PropsWithChildren) =>
     React.createElement("div", null, children);
-  return { ...actual, Flex: C, Stack: C };
+  const Button = ({
+    children,
+    onClick,
+    ...rest
+  }: import("react").PropsWithChildren<{
+    onClick?: () => void;
+    role?: string;
+    "aria-selected"?: boolean;
+  }>) =>
+    React.createElement(
+      "button",
+      { onClick, role: rest.role, "aria-selected": rest["aria-selected"] },
+      children,
+    );
+  return { ...actual, Flex: C, Stack: C, Button };
 });
 vi.mock("@repo/ui", async () => {
   const React = await import("react");
@@ -54,6 +81,12 @@ vi.mock("@repo/ui", async () => {
   };
   return {
     GameView: C,
+    useGamesResource: () => ({
+      data: [
+        { id: 12, name: "RPG" },
+        { id: 31, name: "Adventure" },
+      ],
+    }),
     SimpleInfiniteLoader: () => null,
     useInfiniteTrendingGames: (
       dto: Parameters<typeof import("@repo/ui").useInfiniteTrendingGames>[0],
@@ -88,14 +121,30 @@ afterEach(() => {
   state.games.mockClear();
 });
 
-it("preserves first ranked order and updates period", () => {
-  const page = render(<ExploreGamesPageView />);
-  expect(page.container.textContent).toBe("Period213");
+it("shows category shelves by default without loading the flat grid", () => {
+  render(<ExploreGamesPageView />);
+  expect(screen.getAllByTestId("shelf").map((el) => el.textContent)).toEqual([
+    "explore.sections.topOverall",
+    "RPG",
+    "Adventure",
+  ]);
   expect(state.games).toHaveBeenLastCalledWith(
     expect.objectContaining({ gameIds: [2, 1, 3] }),
   );
+});
+
+it("opens the filtered ranking for a genre and keeps order and period", () => {
+  const page = render(<ExploreGamesPageView />);
+  fireEvent.click(screen.getByRole("tab", { name: "RPG" }));
+  expect(state.request).toHaveBeenLastCalledWith(
+    expect.objectContaining({ criteria: { genres: [12] }, limit: 48 }),
+  );
+  expect(screen.queryAllByTestId("shelf")).toHaveLength(0);
+  expect(page.container.textContent).toContain("213");
   fireEvent.click(screen.getByText("Period"));
   expect(state.request).toHaveBeenLastCalledWith(
-    expect.objectContaining({ period: "all", limit: 48 }),
+    expect.objectContaining({ period: "all", criteria: { genres: [12] } }),
   );
+  fireEvent.click(screen.getByRole("tab", { name: "explore.filters.all" }));
+  expect(screen.getAllByTestId("shelf")).toHaveLength(3);
 });

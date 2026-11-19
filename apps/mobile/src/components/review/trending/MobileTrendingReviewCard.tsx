@@ -4,6 +4,7 @@ import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
   GameFigureImage,
   GameRating,
+  hasReviewContent,
   Link,
   useGame,
   UserAvatarGroup,
@@ -15,6 +16,11 @@ interface Props {
   reviewId: string;
 }
 
+/**
+ * Review-first card: the written opinion is the content, the game is context.
+ * Rating-only reviews are filtered out by the carousel, and also render
+ * nothing here as a safety net.
+ */
 const MobileTrendingReviewCard = ({ reviewId }: Props) => {
   const reviewQuery = useReview(reviewId);
   const gameId = reviewQuery.data?.gameId;
@@ -40,7 +46,11 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
 
   if (reviewQuery.isLoading || gameQuery.isLoading) {
     return <Skeleton className={"w-full h-full"} />;
-  } else if (reviewQuery.data == undefined || gameQuery.data == undefined) {
+  } else if (
+    reviewQuery.data == undefined ||
+    gameQuery.data == undefined ||
+    !hasReviewContent(reviewQuery.data.content)
+  ) {
     return null;
   }
 
@@ -51,37 +61,48 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
     >
       <Stack
         className={
-          "bg-paper-2 p-2 gap-0 rounded-md w-full h-full relative ion-activatable"
+          "bg-paper-2 p-4 gap-3 rounded-lg w-full h-full relative ion-activatable justify-between"
         }
       >
-        <IonRippleEffect className={"rounded-md"} />
-        <Group className={"w-full flex-nowrap justify-start gap-1"}>
-          <Box className={"min-w-16 w-16"}>
+        <IonRippleEffect className={"rounded-lg"} />
+        <Stack className={"gap-3 min-h-0"}>
+          <Group className={"w-full flex-nowrap justify-between gap-2"}>
+            <Box className={"min-w-0"}>
+              <UserAvatarGroup
+                groupProps={{ gap: "xs" }}
+                avatarProps={{ size: "sm" }}
+                textProps={{
+                  lineClamp: 1,
+                  size: "sm",
+                  fw: 600,
+                }}
+                userId={reviewQuery.data.profileUserId}
+              />
+            </Box>
+            <GameRating value={reviewQuery.data.rating} size={"sm"} />
+          </Group>
+          <EditorContent
+            editor={editor}
+            className={"w-full line-clamp-6 text-sm leading-relaxed"}
+          />
+        </Stack>
+        <Group
+          className={
+            "flex-nowrap gap-3 pt-3 border-t border-paper-4 border-solid border-0"
+          }
+        >
+          <Box className={"min-w-9 w-9"}>
             <GameFigureImage game={gameQuery.data} />
           </Box>
-          <Stack className={"grow gap-xs"}>
-            <Text className={"font-bold text-sm"}>{gameQuery.data.name}</Text>
-            <UserAvatarGroup
-              groupProps={{
-                gap: "xs",
-              }}
-              avatarProps={{
-                size: "xs",
-              }}
-              textProps={{
-                lineClamp: 1,
-                size: "xs",
-                className: "!text-dimmed-alt-0",
-              }}
-              userId={reviewQuery.data.profileUserId}
-            />
-            <GameRating value={reviewQuery.data.rating} size={"md"} />
-          </Stack>
+          <Text
+            lineClamp={1}
+            size={"sm"}
+            fw={600}
+            className={"min-w-0 flex-1"}
+          >
+            {gameQuery.data.name}
+          </Text>
         </Group>
-        <EditorContent
-          editor={editor}
-          className={"w-full line-clamp-6 text-dimmed-alt-0 text-sm"}
-        />
       </Stack>
     </Link>
   );
