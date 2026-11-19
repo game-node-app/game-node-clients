@@ -965,7 +965,9 @@
     "recentPosts": "Postagens recentes do blog",
     "recentReviews": "Avaliações recentes",
     "read": {
-      "fallback": "Este artigo está disponível em inglês.",
+      "alsoAvailable": "Também disponível em",
+      "chooseLanguage": "Escolher idioma",
+      "fallback": "Tradução indisponível.",
       "missing": "Artigo não encontrado.",
       "error": "Os artigos estão indisponíveis no momento.",
       "retry": "Tentar novamente"

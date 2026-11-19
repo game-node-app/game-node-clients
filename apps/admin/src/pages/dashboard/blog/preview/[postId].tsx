@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
-import { I18nProvider } from "@repo/locales";
+import { I18nProvider, SUPPORTED_LANGUAGES } from "@repo/locales";
 import { BlogPreviewDto } from "@repo/wrapper/server";
-import {
-  BlogArticleView,
-  EUserRoles,
-  useUserId,
-  useUserRoles,
-} from "@repo/ui";
+import { BlogArticleView, EUserRoles, useUserId, useUserRoles } from "@repo/ui";
 import { Text } from "@mantine/core";
 
 export function getServerSideProps({ res }: GetServerSidePropsContext) {
@@ -25,10 +20,9 @@ export default function Preview() {
     [EUserRoles.ADMIN, EUserRoles.MOD, EUserRoles.EDITOR].includes(role),
   );
   const id = typeof query.postId === "string" ? query.postId : undefined;
-  const locale =
-    query.locale === "en" || query.locale === "pt-BR"
-      ? query.locale
-      : undefined;
+  const locale = SUPPORTED_LANGUAGES.find(
+    (language) => language === query.locale,
+  );
   const key = JSON.stringify([userId, allowed, id, locale]);
   const [result, setResult] = useState<{
     key: string;
@@ -64,7 +58,7 @@ export default function Preview() {
       {!userId || !allowed ? (
         <Text>Access denied</Text>
       ) : !locale ? (
-        <Text>Select en or pt-BR.</Text>
+        <Text>Select a supported language.</Text>
       ) : result?.key === key && result.post ? (
         <I18nProvider language={locale}>
           <BlogArticleView post={result.post} />
