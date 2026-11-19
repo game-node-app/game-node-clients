@@ -1,11 +1,14 @@
 import { IonRippleEffect } from "@ionic/react";
-import { Box, Group, Skeleton, Stack, Text } from "@mantine/core";
+import { Box, Group, Image, Skeleton, Stack, Text } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
-  GameFigureImage,
+  GAME_COVER_PLACEHOLDER,
   GameRating,
+  hasReviewContent,
+  ImageSize,
   Link,
   useGame,
+  useGameCoverImage,
   UserAvatarGroup,
   useReview,
 } from "@repo/ui";
@@ -15,8 +18,13 @@ interface Props {
   reviewId: string;
 }
 
+/**
+ * Review-first card: the written opinion is the content, the game is context.
+ * Rating-only reviews are filtered out by the carousel, and also render
+ * nothing here as a safety net.
+ */
 const MobileTrendingReviewCard = ({ reviewId }: Props) => {
-  const reviewQuery = useReview(reviewId);
+  const reviewQuery = useReview(reviewId, { refetchOnMount: false });
   const gameId = reviewQuery.data?.gameId;
   const gameQuery = useGame(
     gameId,
@@ -27,6 +35,7 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
     },
     { ownerUserId: reviewQuery.data?.profileUserId },
   );
+  const cover = useGameCoverImage(gameQuery.data, ImageSize.COVER_BIG);
 
   const editor = useEditor(
     {
@@ -40,50 +49,68 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
 
   if (reviewQuery.isLoading || gameQuery.isLoading) {
     return <Skeleton className={"w-full h-full"} />;
-  } else if (reviewQuery.data == undefined || gameQuery.data == undefined) {
+  } else if (
+    reviewQuery.data == undefined ||
+    gameQuery.data == undefined ||
+    !hasReviewContent(reviewQuery.data.content)
+  ) {
     return null;
   }
 
   return (
-    <Link
-      href={`/game/${gameId}?reviewId=${reviewId}`}
-      className={"w-full h-full"}
+    <Stack
+      className={
+        "bg-paper-2 p-4 gap-3 rounded-lg w-full h-full relative ion-activatable justify-between"
+      }
     >
-      <Stack
-        className={
-          "bg-paper-2 p-2 gap-0 rounded-md w-full h-full relative ion-activatable"
-        }
-      >
-        <IonRippleEffect className={"rounded-md"} />
-        <Group className={"w-full flex-nowrap justify-start gap-1"}>
-          <Box className={"min-w-16 w-16"}>
-            <GameFigureImage game={gameQuery.data} />
-          </Box>
-          <Stack className={"grow gap-xs"}>
-            <Text className={"font-bold text-sm"}>{gameQuery.data.name}</Text>
+      <IonRippleEffect className={"rounded-lg"} />
+      <Stack className={"gap-3 min-h-0"}>
+        <Group className={"w-full flex-nowrap justify-between gap-2"}>
+          <Box className={"relative z-10 min-w-0"}>
             <UserAvatarGroup
-              groupProps={{
-                gap: "xs",
-              }}
-              avatarProps={{
-                size: "xs",
-              }}
+              groupProps={{ gap: "xs" }}
+              avatarProps={{ size: "sm" }}
               textProps={{
                 lineClamp: 1,
-                size: "xs",
-                className: "!text-dimmed-alt-0",
+                size: "sm",
+                fw: 600,
               }}
               userId={reviewQuery.data.profileUserId}
             />
-            <GameRating value={reviewQuery.data.rating} size={"md"} />
-          </Stack>
+          </Box>
+          <GameRating value={reviewQuery.data.rating} size={"sm"} />
         </Group>
         <EditorContent
           editor={editor}
-          className={"w-full line-clamp-6 text-dimmed-alt-0 text-sm"}
+          className={
+            "w-full line-clamp-6 text-sm leading-relaxed [&_a]:relative [&_a]:z-10"
+          }
         />
       </Stack>
-    </Link>
+      <Group
+        className={
+          "flex-nowrap gap-3 pt-3 border-t border-paper-4 border-solid border-0"
+        }
+      >
+        <Image
+          alt=""
+          src={cover.src ?? GAME_COVER_PLACEHOLDER}
+          onError={cover.onError}
+          radius={"sm"}
+          className={"aspect-[264/354] w-9 shrink-0"}
+        />
+        <Link
+          href={`/game/${gameId}?reviewId=${reviewId}`}
+          className={
+            "min-w-0 flex-1 after:absolute after:inset-0 after:content-['']"
+          }
+        >
+          <Text lineClamp={1} size={"sm"} fw={600}>
+            {gameQuery.data.name}
+          </Text>
+        </Link>
+      </Group>
+    </Stack>
   );
 };
 

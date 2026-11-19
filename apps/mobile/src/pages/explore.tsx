@@ -12,7 +12,7 @@ const ExplorePage = () => {
         slot={"fixed"}
         onIonRefresh={async (evt) => {
           await queryClient.resetQueries({
-            queryKey: ["statistics", "trending", "game", "infinite"],
+            queryKey: ["statistics", "trending", "game"],
             type: "active",
           });
           evt.detail.complete();

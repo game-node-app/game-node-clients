@@ -1,19 +1,33 @@
-import { getTabAwareHref } from "@/util/getTabAwareHref";
+import {
+  getTabAwareHref,
+  LEGACY_WRAPPED_PATH,
+  MOBILE_TABS,
+  WRAPPED_TAB_PATH,
+} from "@/util/getTabAwareHref";
+import { matchPath } from "react-router";
 
-/** Tab roots registered by `Tabs.tsx`; routes live below one of these. */
-const TAB_PREFIX = /^\/(?:home|library|explore|notifications|profile)(?=\/)/;
+const TAB_PREFIX = new RegExp(`^/(?:${MOBILE_TABS.join("|")})(?=/)`);
 
 /**
- * Ionic only registers routes under a tab prefix (`/home/...`, `/library/...`).
- * `getAppUrlTarget` may return an already tab-prefixed route, but the app keeps
- * the user on the tab they are on, so a named tab is replaced by the current
- * one. Targets without a tab (e.g. `/game/12`) are nested under the current tab.
+ * Open shared routes in the current tab. Wrapped links from widgets and the
+ * website address the dedicated Wrapped tab.
  */
 export function getEquivalentDeepLink(slug: string) {
   if (slug.startsWith("/search")) {
     return "/home";
   }
   if (slug.startsWith("/m/auth")) {
+    return slug;
+  }
+
+  const pathname = slug.split(/[?#]/, 1)[0];
+  if (matchPath(pathname, { path: LEGACY_WRAPPED_PATH, exact: true })) {
+    return WRAPPED_TAB_PATH + slug.slice(pathname.length);
+  }
+  if (
+    pathname === WRAPPED_TAB_PATH ||
+    pathname.startsWith(`${WRAPPED_TAB_PATH}/`)
+  ) {
     return slug;
   }
 

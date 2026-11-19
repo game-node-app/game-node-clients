@@ -11,16 +11,14 @@ afterEach(() => {
 });
 
 it("serializes source status, numeric ranking pages, durable views and reactions", async () => {
-  const fetch = vi
-    .fn()
-    .mockImplementation(() =>
-      Promise.resolve(
-        new Response("{}", {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }),
-      ),
-    );
+  const fetch = vi.fn().mockImplementation(() =>
+    Promise.resolve(
+      new Response("{}", {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    ),
+  );
   vi.stubGlobal("fetch", fetch);
   await StatisticsService.statisticsControllerGetStatusV1("game", 42);
   await StatisticsService.statisticsControllerFindRankingsV1({

@@ -173,7 +173,7 @@ describe("SessionAuth", () => {
 
   it.each([
     "/library",
-    "/profile",
+    "/wrapped",
     "/home/preferences",
     "/home/connections/callback/steam",
     "/notifications",

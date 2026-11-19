@@ -27,7 +27,7 @@ export interface ReviewCardProps {
  */
 const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
   useOnMobile();
-  const reviewQuery = useReview(reviewId);
+  const reviewQuery = useReview(reviewId, { refetchOnMount: false });
   const gameId = reviewQuery.data?.gameId;
   const gameQuery = useGame(
     gameId,

@@ -16,7 +16,9 @@ export const LibraryViewFab = () => {
       slot="fixed"
       horizontal="end"
       vertical="bottom"
-      className="me-2 mb-2"
+      // The tab bar floats over the page (64px + 8px offset), so lift the FAB clear of it.
+      style={{ marginBottom: "calc(80px + env(safe-area-inset-bottom))" }}
+      className="me-2"
     >
       <CollectionCreateOrUpdateModal
         opened={createCollectionModalOpened}

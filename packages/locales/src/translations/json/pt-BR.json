@@ -1611,6 +1611,7 @@
   "explore": {
     "fetchError": "Erro ao buscar jogos. Por favor, recarregue esta pagina.",
     "filters": {
+      "all": "Todos",
       "genres": "Gêneros",
       "modes": "Modos",
       "platforms": "Plataformas",
@@ -1618,6 +1619,10 @@
       "trendingIn": "Em alta em"
     },
     "metaTitle": "Explorar - GameNode",
+    "sections": {
+      "seeAll": "Ver tudo",
+      "topOverall": "Top geral"
+    },
     "periods": {
       "allTime": "Todo o período",
       "month": "Mês",
@@ -2439,6 +2444,15 @@
     "reviews": "Avaliações",
     "search": "Buscar",
     "settings": "Configurações",
+    "sidebar": {
+      "groups": {
+        "account": "Conta",
+        "community": "Comunidade",
+        "highlights": "Destaques",
+        "tools": "Ferramentas",
+        "yourSpace": "Seu espaço"
+      }
+    },
     "stats": "Estatísticas",
     "terms": "Termos",
     "wrapped": "Wrapped"
@@ -2493,6 +2507,7 @@
     },
     "bellLabel_one": "Notificações, {{count}} não lida",
     "bellLabel_other": "Notificações, {{count}} não lidas",
+    "bellLabelUnread": "Notificações, há itens não lidos",
     "empty": "Nenhuma notificação.",
     "emptyUnread": "Nada novo por aqui.",
     "markAllAsRead": "Marcar todas como lidas",

@@ -10,6 +10,8 @@ export interface RecapLiveArtProps {
   year: number;
   /** Stretches to the art column and pins the bars to the bottom (Half). */
   fill?: boolean;
+  /** Lets the monthly strip span the whole card width (mobile). */
+  stretch?: boolean;
   className?: string;
 }
 
@@ -23,6 +25,7 @@ export function RecapLiveArt({
   monthlyPlaytimeSeconds,
   year,
   fill = false,
+  stretch = false,
   className,
 }: RecapLiveArtProps) {
   const { t } = useTranslation();
@@ -58,7 +61,11 @@ export function RecapLiveArt({
           </Text>
         )}
       </div>
-      <RecapMonthlyBars values={monthlyPlaytimeSeconds} year={year} />
+      <RecapMonthlyBars
+        values={monthlyPlaytimeSeconds}
+        year={year}
+        stretch={stretch}
+      />
     </div>
   );
 }

@@ -12,7 +12,7 @@ import { Router, Switch } from "react-router";
 import { createMemoryHistory } from "history";
 import AppUrlListener from "../general/AppUrlListener";
 import McpPage from "../../pages/mcp";
-import { getTabAwareHref } from "../../util/getTabAwareHref";
+import { getTabAwareHref, MOBILE_TABS } from "../../util/getTabAwareHref";
 const mocks = vi.hoisted(() => ({
   open: vi.fn(),
   close: vi.fn(),
@@ -146,7 +146,7 @@ describe("native browser authorization boundary", () => {
     const { getCommonRoutes } = await import(
       "../../pages/routes/getCommonRoutes"
     );
-    for (const tab of ["home", "explore", "library", "profile"]) {
+    for (const tab of MOBILE_TABS) {
       window.history.replaceState({}, "", `/${tab}/preferences`);
       const history = createMemoryHistory({
         initialEntries: [`/${tab}/preferences`, getTabAwareHref("/mcp")],

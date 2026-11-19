@@ -2,6 +2,7 @@ import {
   AchievementBadge,
   ActivityItemLikes,
   ActivityItemProps,
+  GameFigureImage,
   GameRating,
   ObtainedAchievementActivityContent,
   useCollection,
@@ -21,7 +22,10 @@ import { AchievementIconDto, Activity } from "@repo/wrapper/server";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
 
-const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
+const DEFAULT_ActivityItem = ({
+  activity,
+  variant = "default",
+}: ActivityItemProps) => {
   const { t } = useTranslation();
 
   const hasEmbeddedProfile = activity.profile !== undefined;
@@ -135,6 +139,69 @@ const DEFAULT_ActivityItem = ({ activity }: ActivityItemProps) => {
   );
 
   const game = hasEmbeddedGame ? activity.game : gameQuery.data;
+
+  if (variant === "card") {
+    const isAchievementUnlocked =
+      activity.type === Activity.type.ACHIEVEMENT_UNLOCKED;
+    const gameHref = review
+      ? `/game/${gameId}?reviewId=${review.id}`
+      : `/game/${gameId}`;
+    return (
+      <Stack className={"w-full h-full gap-2 p-3 rounded-lg bg-paper-2"}>
+        <Group className={"w-full flex-nowrap justify-between gap-2"}>
+          <Group className={"min-w-0 flex-nowrap gap-2"}>
+            <UserAvatar
+              userId={activity.profileUserId}
+              profile={activity.profile}
+              size={"sm"}
+            />
+            <Link
+              href={`/profile/${activity.profileUserId}`}
+              className={"min-w-0"}
+            >
+              <Text className={"text-xs text-dimmed font-medium truncate"}>
+                {profile?.username}
+              </Text>
+            </Link>
+          </Group>
+          <ActivityItemLikes activity={activity} />
+        </Group>
+        <Group className={"w-full flex-nowrap items-center gap-3"}>
+          {isAchievementUnlocked && (
+            <Box className={"w-12 min-w-12"}>
+              <AchievementBadge
+                icon={
+                  unlockedAchievement?.icon as
+                    | AchievementIconDto
+                    | null
+                    | undefined
+                }
+                tier={unlockedTier}
+              />
+            </Box>
+          )}
+          {!isAchievementUnlocked && game && (
+            <Box className={"w-12 min-w-12"}>
+              <GameFigureImage game={{ ...game, href: gameHref }} />
+            </Box>
+          )}
+          <Stack className={"min-w-0 flex-1 gap-0.5"}>
+            <Text className={"text-xs text-dimmed line-clamp-2"}>
+              {actionText}
+            </Text>
+            {!isAchievementUnlocked && game && (
+              <Link href={gameHref} className={"min-w-0"}>
+                <Text className={"text-sm font-bold line-clamp-1"}>
+                  {game?.name}
+                </Text>
+              </Link>
+            )}
+            {review && <GameRating size={"xs"} value={review.rating} />}
+          </Stack>
+        </Group>
+      </Stack>
+    );
+  }
 
   return (
     <Box className={"w-full"}>

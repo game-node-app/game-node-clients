@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
 import type { ReactNode } from "react";
-import { cleanup, render, screen } from "@testing-library/react";
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { IonReactMemoryRouter } from "@ionic/react-router";
 import {
@@ -43,6 +49,10 @@ vi.mock("@/components/general/AppPage.tsx", () => ({
   ),
 }));
 
+vi.mock("@/components/notifications/NotificationsIcon.tsx", () => ({
+  default: () => null,
+}));
+
 vi.mock("@/components/sidebar/MobileSidebarMenu.tsx", () => ({
   MobileSidebarMenu: () => null,
 }));
@@ -53,6 +63,7 @@ const PAGE_MODULES = [
   "library/library",
   "notifications",
   "profile/profile",
+  "wrapped/wrapped_home",
   "search.tsx",
   "auth",
   "mcp",
@@ -93,11 +104,12 @@ async function renderAt(path: string) {
   const { default: Tabs } = await import("../Tabs");
   const history = createMemoryHistory({ initialEntries: [path] });
 
-  return render(
+  const view = render(
     <IonReactMemoryRouter history={history}>
       <Tabs />
     </IonReactMemoryRouter>,
   );
+  return { ...view, history };
 }
 
 beforeEach(() => {
@@ -139,6 +151,62 @@ describe("mobile not-found route", () => {
 
     expect(screen.getByText("page:home")).toBeTruthy();
     expect(screen.queryByText(NOT_FOUND_TEXT)).toBeNull();
+  });
+
+  it("opens Wrapped from the tab bar and remembers each tab's nested route", async () => {
+    const { container, history } = await renderAt("/home/game/12");
+    const wrapped = container.querySelector('ion-tab-button[tab="wrapped"]')!;
+    const home = container.querySelector('ion-tab-button[tab="home"]')!;
+    const clickTab = (tab: Element) =>
+      fireEvent(tab, new CustomEvent("ionTabButtonClick"));
+
+    clickTab(wrapped);
+    expect(history.location.pathname).toBe("/wrapped");
+    expect(screen.getByText("page:wrapped/wrapped_home")).toBeTruthy();
+    act(() => history.push("/wrapped/preferences"));
+    expect(screen.getByText("page:preferences.tsx")).toBeTruthy();
+    expect(wrapped.getAttribute("href")).toBe("/wrapped/preferences");
+
+    clickTab(home);
+    expect(history.location.pathname).toBe("/home/game/12");
+    clickTab(wrapped);
+    expect(history.location.pathname).toBe("/wrapped/preferences");
+  });
+
+  it("keeps user profiles within the Wrapped tab", async () => {
+    const { container } = await renderAt("/wrapped/profile/user-1");
+    expect(screen.getByText("page:profile/profile")).toBeTruthy();
+    expect(
+      container
+        .querySelector('ion-tab-button[tab="wrapped"]')
+        ?.getAttribute("href"),
+    ).toBe("/wrapped/profile/user-1");
+  });
+
+  it("hides the tab bar on a blog route opened from Wrapped", async () => {
+    const { container } = await renderAt("/wrapped/blog");
+    expect(screen.getByText("page:blog")).toBeTruthy();
+    expect(
+      container.querySelector("ion-tab-bar")?.getAttribute("aria-hidden"),
+    ).toBe("true");
+  });
+
+  it.each(["/home/wrapped", "/profile/wrapped"])(
+    "redirects the old Wrapped entry at %s and preserves the period",
+    async (path) => {
+      const { history } = await renderAt(`${path}?period=year#top`);
+      expect(history.location).toMatchObject({
+        pathname: "/wrapped",
+        search: "?period=year",
+        hash: "#top",
+      });
+      expect(screen.getByText("page:wrapped/wrapped_home")).toBeTruthy();
+    },
+  );
+
+  it("has no standalone profile route", async () => {
+    await renderAt("/profile");
+    expect(screen.getByText(NOT_FOUND_TEXT)).toBeTruthy();
   });
 
   it("does not render the not-found page for a common nested route", async () => {

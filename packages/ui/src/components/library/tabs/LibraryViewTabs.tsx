@@ -1,40 +1,84 @@
 import { useOnMobile } from "#@/components";
+import { cn } from "#@/util";
 import { Scroller, Tabs } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { CollectionEntry } from "@repo/wrapper/server";
+import { useEffect, useRef } from "react";
 
 interface Props {
   status: CollectionEntry.status;
   onStatusChange: (status: CollectionEntry.status) => void;
 }
 
+const STATUSES = [
+  {
+    value: CollectionEntry.status.PLAYING,
+    labelKey: "collectionEntry.statuses.playing",
+  },
+  {
+    value: CollectionEntry.status.FINISHED,
+    labelKey: "collectionEntry.statuses.finished",
+  },
+  {
+    value: CollectionEntry.status.PLANNED,
+    labelKey: "collectionEntry.statuses.planned",
+  },
+  {
+    value: CollectionEntry.status.DROPPED,
+    labelKey: "collectionEntry.statuses.dropped",
+  },
+  {
+    value: CollectionEntry.status.ONGOING,
+    labelKey: "collectionEntry.statuses.ongoing",
+  },
+] as const;
+
 const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Keep the active chip visible when the row is wider than the screen.
+  useEffect(() => {
+    if (!onMobile) return;
+    const active = listRef.current?.querySelector<HTMLElement>(
+      "[data-active='true']",
+    );
+    active?.scrollIntoView?.({
+      block: "nearest",
+      inline: "nearest",
+    });
+  }, [status, onMobile]);
+
   return (
     <Tabs
       value={status}
       onChange={(v) => onStatusChange(v as CollectionEntry.status)}
-      variant={"outline"}
-      radius={"md"}
+      // Mobile: filled chips (selected = brand), the same language as the tab bar.
+      // The outlined "folder" tabs need a full-width row, which overflows on a phone.
+      variant={onMobile ? "pills" : "outline"}
+      radius={onMobile ? "xl" : "md"}
     >
-      <Tabs.List grow={onMobile} className={"flex-nowrap overflow-x-auto"}>
+      <Tabs.List
+        ref={listRef}
+        className={cn(
+          "flex-nowrap overflow-x-auto",
+          onMobile && "gap-2 before:hidden",
+        )}
+      >
         <Scroller>
-          <Tabs.Tab value={CollectionEntry.status.PLAYING}>
-            {t("collectionEntry.statuses.playing")}
-          </Tabs.Tab>
-          <Tabs.Tab value={CollectionEntry.status.FINISHED}>
-            {t("collectionEntry.statuses.finished")}
-          </Tabs.Tab>
-          <Tabs.Tab value={CollectionEntry.status.PLANNED}>
-            {t("collectionEntry.statuses.planned")}
-          </Tabs.Tab>
-          <Tabs.Tab value={CollectionEntry.status.DROPPED}>
-            {t("collectionEntry.statuses.dropped")}
-          </Tabs.Tab>
-          <Tabs.Tab value={CollectionEntry.status.ONGOING}>
-            {t("collectionEntry.statuses.ongoing")}
-          </Tabs.Tab>
+          {STATUSES.map(({ value, labelKey }) => (
+            <Tabs.Tab
+              key={value}
+              value={value}
+              className={cn(
+                onMobile &&
+                  "shrink-0 px-4 h-9 text-sm font-medium border border-[#2a2a2a] data-[active=true]:border-transparent [&:not([data-active])]:bg-[#161616]",
+              )}
+            >
+              {t(labelKey)}
+            </Tabs.Tab>
+          ))}
         </Scroller>
       </Tabs.List>
     </Tabs>

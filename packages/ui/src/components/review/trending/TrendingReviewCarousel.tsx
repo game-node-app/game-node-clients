@@ -1,4 +1,7 @@
 import React from "react";
+import { useQueries } from "@tanstack/react-query";
+import { reviewOptions } from "#@/components/review/hooks/useReview";
+import { hasReviewContent } from "#@/components/review/util/hasReviewContent";
 import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
 import { useOnMobile } from "../../general/hooks/useOnMobile.ts";
@@ -30,59 +33,63 @@ const TrendingReviewCarousel = (props: CarouselProps) => {
     offset: 0,
     limit: 10,
   });
-  const isEmpty =
-    trendingReviews.isError || trendingReviews.data?.items.length === 0;
-
-  const buildSlides = () => {
-    if (trendingReviews.isLoading) {
-      return buildSkeletons();
-    }
-
-    return trendingReviews.data?.items.map((reviewStatistics) => {
-      if (
-        reviewStatistics == undefined ||
-        typeof reviewStatistics.sourceId !== "string"
-      ) {
-        return null;
-      }
-      return (
-        <Carousel.Slide key={reviewStatistics.sourceId}>
-          <TrendingReviewCard reviewId={reviewStatistics.sourceId} />
-        </Carousel.Slide>
-      );
-    });
-  };
+  const reviewIds = [
+    ...new Set(
+      (trendingReviews.data?.items ?? [])
+        .map((item) => item?.sourceId)
+        .filter((id): id is string => typeof id === "string" && id.length > 0),
+    ),
+  ];
+  // Same keys as `useReview`, so the cards reuse these results from the cache.
+  const reviewQueries = useQueries({
+    queries: reviewIds.map((id) => reviewOptions(id)),
+  });
+  const slides = trendingReviews.isLoading
+    ? buildSkeletons()
+    : reviewQueries.flatMap((query, index) => {
+        if (!query.isLoading && !hasReviewContent(query.data?.content))
+          return [];
+        const reviewId = reviewIds[index];
+        return (
+          <Carousel.Slide key={reviewId}>
+            {query.isLoading ? (
+              <Skeleton h={"100%"} />
+            ) : (
+              <TrendingReviewCard reviewId={reviewId} />
+            )}
+          </Carousel.Slide>
+        );
+      });
+  if (slides.length === 0) return null;
 
   return (
-    !isEmpty && (
-      <DetailsBox
-        title={t("home.trendingReviews")}
-        stackProps={{
-          className: "",
+    <DetailsBox
+      title={t("home.trendingReviews")}
+      stackProps={{
+        className: "",
+      }}
+    >
+      <Carousel
+        slideSize={{
+          base: "90%",
+          sm: "40%",
         }}
+        height={440}
+        slideGap={{
+          base: "xs",
+          lg: "md",
+        }}
+        controlsOffset="xs"
+        emblaOptions={{
+          dragFree: true,
+          align: "start",
+          slidesToScroll: onMobile ? 1 : 2,
+        }}
+        {...props}
       >
-        <Carousel
-          slideSize={{
-            base: "90%",
-            sm: "40%",
-          }}
-          height={440}
-          slideGap={{
-            base: "xs",
-            lg: "md",
-          }}
-          controlsOffset="xs"
-          emblaOptions={{
-            dragFree: true,
-            align: "start",
-            slidesToScroll: onMobile ? 1 : 2,
-          }}
-          {...props}
-        >
-          {buildSlides()}
-        </Carousel>
-      </DetailsBox>
-    )
+        {slides}
+      </Carousel>
+    </DetailsBox>
   );
 };
 

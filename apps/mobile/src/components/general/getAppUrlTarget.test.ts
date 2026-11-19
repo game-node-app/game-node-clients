@@ -71,7 +71,7 @@ describe("supporter settings links", () => {
 
 describe("supporter settings navigation", () => {
   beforeEach(() => {
-    window.history.replaceState({}, "", "/profile");
+    window.history.replaceState({}, "", "/wrapped");
   });
 
   afterEach(() => {
@@ -82,17 +82,17 @@ describe("supporter settings navigation", () => {
     [
       "https://gamenode.app/home?settings=premium&checkout=success",
       "/home/preferences/supporter?checkout=success",
-      "/profile/preferences/supporter?checkout=success",
+      "/wrapped/preferences/supporter?checkout=success",
     ],
     [
       "https://gamenode.app/en/home?settings=premium&interval=yearly",
       "/home/preferences/supporter?interval=yearly",
-      "/profile/preferences/supporter?interval=yearly",
+      "/wrapped/preferences/supporter?interval=yearly",
     ],
     [
       "https://gamenode.app/pt-BR/home?settings=premium&checkout=cancel",
       "/home/preferences/supporter?checkout=cancel",
-      "/profile/preferences/supporter?checkout=cancel",
+      "/wrapped/preferences/supporter?checkout=cancel",
     ],
   ])(
     "maps %s to a tab-prefixed route and opens it in the current tab",
@@ -106,7 +106,7 @@ describe("supporter settings navigation", () => {
 
   it("leaves a tab-relative deep link nested under the current tab", () => {
     expect(getEquivalentDeepLink("/connections/callback/xbox?code=1")).toBe(
-      "/profile/connections/callback/xbox?code=1",
+      "/wrapped/connections/callback/xbox?code=1",
     );
   });
 });
@@ -121,18 +121,37 @@ describe("Wrapped widget links", () => {
   });
 
   it.each(["week", "month", "year"])(
-    "opens the Wrapped screen on the %s period under the current tab",
+    "opens the Wrapped tab on the %s period",
     (period) => {
       const slug = getAppUrlTarget(
         `https://gamenode.app/wrapped?period=${period}`,
       );
 
       expect(slug).toBe(`/wrapped?period=${period}`);
-      expect(getEquivalentDeepLink(slug!)).toBe(
-        `/library/wrapped?period=${period}`,
+      expect(getEquivalentDeepLink(slug!)).toBe(`/wrapped?period=${period}`);
+    },
+  );
+
+  it.each(["home", "library", "explore", "notifications", "profile"])(
+    "preserves legacy Wrapped links under /%s",
+    (tab) => {
+      expect(getEquivalentDeepLink(`/${tab}/wrapped?period=year#top`)).toBe(
+        "/wrapped?period=year#top",
       );
     },
   );
+
+  it("keeps an explicit Wrapped subroute under Wrapped", () => {
+    expect(getEquivalentDeepLink("/wrapped/preferences/connections")).toBe(
+      "/wrapped/preferences/connections",
+    );
+  });
+
+  it("keeps the profile segment when opening a user profile", () => {
+    expect(getEquivalentDeepLink("/profile/user-1")).toBe(
+      "/library/profile/user-1",
+    );
+  });
 });
 
 describe("OAuth app links", () => {

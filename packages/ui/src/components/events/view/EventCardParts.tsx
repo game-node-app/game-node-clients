@@ -45,7 +45,7 @@ export function EventCardShell({
       className={cn(
         "@container relative flex h-full overflow-hidden rounded-[20px] border border-line bg-paper-0",
         isHalf && "min-h-[328px]",
-        layout === "mobile" && "w-[300px] shrink-0",
+        layout === "mobile" && "w-full shrink-0",
       )}
     >
       <div

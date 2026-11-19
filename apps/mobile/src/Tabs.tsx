@@ -1,3 +1,4 @@
+import NotificationsIcon from "@/components/notifications/NotificationsIcon.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import ExplorePage from "@/pages/explore";
@@ -5,10 +6,15 @@ import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
 import NotFoundPage from "@/pages/not_found";
 import NotificationsPage from "@/pages/notifications";
-import ProfilePage from "@/pages/profile/profile";
 import { BLOG_ROUTES, getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import GameSearchPage from "@/pages/search.tsx";
-import { MOBILE_TABS } from "@/util/getTabAwareHref";
+import WrappedHomePage from "@/pages/wrapped/wrapped_home";
+import {
+  LEGACY_WRAPPED_PATH,
+  MOBILE_TABS,
+  WRAPPED_TAB_PATH,
+} from "@/util/getTabAwareHref";
+import { useTabSlideAnimation } from "@/util/useTabSlideAnimation";
 import {
   IonMenu,
   IonRouterOutlet,
@@ -16,12 +22,12 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
+import { useTranslation } from "@repo/locales";
 import {
-  IconBell,
   IconHome,
+  IconLayout2,
   IconLibrary,
   IconTrendingUp,
-  IconUser,
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { matchPath, Redirect, Route, useLocation } from "react-router-dom";
@@ -38,9 +44,13 @@ const BLOG_TAB_PATHS = Object.values(BLOG_ROUTES).map(
 );
 
 const Tabs = () => {
+  const { t } = useTranslation();
   const [dimmed, setDimmed] = useState(false);
   const hideTimer = useRef<number>(undefined);
   const location = useLocation();
+  const { outletRef, onIonTabsWillChange } = useTabSlideAnimation(
+    location.pathname,
+  );
   const hideTabBar = Boolean(
     matchPath(location.pathname, { path: BLOG_TAB_PATHS, exact: true }),
   );
@@ -85,9 +95,13 @@ const Tabs = () => {
             }}
           />
         )}
-        <IonTabs className={hideTabBar ? "gn-hide-tabbar" : undefined}>
+        <IonTabs
+          className={hideTabBar ? "gn-hide-tabbar" : undefined}
+          onIonTabsWillChange={onIonTabsWillChange}
+        >
           <IonRouterOutlet
             id="main-outlet"
+            ref={outletRef}
             onScroll={(evt) => {
               console.log("onScroll: ", evt);
             }}
@@ -122,9 +136,20 @@ const Tabs = () => {
               render={() => <NotificationsPage />}
             />
             {getCommonRoutes("/notifications")}
-            {/* ---- PROFILE ROUTES ---- */}
-            <Route exact path={"/profile"} render={() => <ProfilePage />} />
-            {getCommonRoutes("/profile")}
+            {/* ---- WRAPPED ROUTES ---- */}
+            <Route
+              exact
+              path={WRAPPED_TAB_PATH}
+              render={() => <WrappedHomePage />}
+            />
+            {getCommonRoutes(WRAPPED_TAB_PATH)}
+            <Route
+              exact
+              path={LEGACY_WRAPPED_PATH}
+              render={({ location: { search, hash } }) => (
+                <Redirect to={{ pathname: WRAPPED_TAB_PATH, search, hash }} />
+              )}
+            />
 
             {/*
           Catch-all. IonRouterOutlet keeps the LAST matching child and only
@@ -136,22 +161,38 @@ const Tabs = () => {
           <IonTabBar
             slot="bottom"
             inert={hideTabBar}
-            aria-hidden={hideTabBar || undefined}
+            aria-hidden={hideTabBar ? "true" : undefined}
           >
-            <IonTabButton tab="library" href="/library">
+            <IonTabButton
+              tab="library"
+              href="/library"
+              aria-label={t("navigation.library")}
+            >
               <IconLibrary />
             </IonTabButton>
-            <IonTabButton tab="explore" href="/explore">
+            <IonTabButton
+              tab="explore"
+              href="/explore"
+              aria-label={t("navigation.explore")}
+            >
               <IconTrendingUp />
             </IonTabButton>
-            <IonTabButton tab="home" href="/home">
+            <IonTabButton
+              tab="home"
+              href="/home"
+              aria-label={t("navigation.home")}
+            >
               <IconHome />
             </IonTabButton>
             <IonTabButton tab="notifications" href="/notifications">
-              <IconBell />
+              <NotificationsIcon />
             </IonTabButton>
-            <IonTabButton tab="profile" href="/profile">
-              <IconUser />
+            <IonTabButton
+              tab="wrapped"
+              href={WRAPPED_TAB_PATH}
+              aria-label={t("mobile.wrapped.title")}
+            >
+              <IconLayout2 />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

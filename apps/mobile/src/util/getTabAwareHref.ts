@@ -1,9 +1,13 @@
+export const WRAPPED_TAB_PATH = "/wrapped";
+export const LEGACY_WRAPPED_PATH = `/:tab(home|library|explore|notifications|profile)${WRAPPED_TAB_PATH}`;
+
+// Visual order of the mobile tab bar.
 export const MOBILE_TABS = [
-  "home",
   "library",
   "explore",
+  "home",
   "notifications",
-  "profile",
+  "wrapped",
 ];
 
 /**

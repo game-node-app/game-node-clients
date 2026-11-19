@@ -10,6 +10,8 @@ export interface EventCardCoversProps {
    */
   games: Array<Game | null | undefined>;
   max?: number;
+  /** Spreads the covers across the full width, side by side (mobile card). */
+  stretch?: boolean;
   className?: string;
 }
 
@@ -20,6 +22,7 @@ export interface EventCardCoversProps {
 export function EventCardCovers({
   games,
   max = 4,
+  stretch = false,
   className,
 }: EventCardCoversProps) {
   const visibleGames = games
@@ -33,14 +36,25 @@ export function EventCardCovers({
   return (
     <div
       data-testid={"event-card-covers"}
-      className={cn("flex w-full items-end -space-x-6", className)}
+      style={
+        stretch
+          ? {
+              gridTemplateColumns: `repeat(${visibleGames.length}, minmax(0, 1fr))`,
+            }
+          : undefined
+      }
+      className={cn(
+        stretch ? "grid w-full gap-2" : "flex w-full items-end -space-x-6",
+        className,
+      )}
     >
       {visibleGames.map((game, index) => (
         <div
           key={game.id}
           style={{ zIndex: visibleGames.length - index }}
           className={cn(
-            "aspect-[3/4] w-16 shrink-0 overflow-hidden rounded-md border-2 border-paper-1 shadow-lg",
+            "aspect-[3/4] overflow-hidden rounded-md border-2 border-paper-1 shadow-lg",
+            stretch ? "w-full" : "w-16 shrink-0",
             index > 0 && "shadow-black/40",
           )}
         >
