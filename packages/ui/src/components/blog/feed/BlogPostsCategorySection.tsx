@@ -21,12 +21,12 @@ interface Props {
  */
 const BlogPostsCategorySection = ({ tag, title }: Props) => {
   const { t } = useTranslation();
-  const { data, isLoading, isError } = useBlogPosts({
+  const { data, isLoading } = useBlogPosts({
     tag,
     limit: BLOG_CATEGORY_POSTS_LIMIT,
   });
 
-  if (isError || (!isLoading && (data?.data.length ?? 0) === 0)) return null;
+  if (!isLoading && !data?.data.length) return null;
 
   return (
     <section className={"w-full"}>

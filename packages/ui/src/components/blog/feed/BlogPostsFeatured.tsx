@@ -21,7 +21,7 @@ const BlogPostsFeatured = () => {
   if (isLoading) {
     return <CenteredLoading />;
   }
-  if (error) {
+  if (error && !data) {
     return (
       <>
         <CenteredErrorMessage message={getErrorMessage(error)} />

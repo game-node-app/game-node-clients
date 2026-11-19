@@ -40,9 +40,9 @@ const BlogPostCategoryLabel = ({ tags, categoryId, className }: Props) => {
     >
       <span
         aria-hidden
-        className={"inline-block size-1.5 rounded-full bg-current"}
+        className={"inline-block size-1.5 shrink-0 rounded-full bg-current"}
       />
-      {category.name}
+      <span className="min-w-0 [overflow-wrap:anywhere]">{category.name}</span>
     </Text>
   );
 };

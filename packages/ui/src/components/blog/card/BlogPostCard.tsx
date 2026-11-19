@@ -16,19 +16,26 @@ import {
   Title,
 } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
+import type { ReactNode } from "react";
 
 interface Props {
   post: BlogArticleDto;
   imageProps?: ImageProps;
   blogRoutePrefix: string;
   categoryId?: string;
+  details?: ReactNode;
 }
 
 /**
  * Editorial card: rounded cover, left-aligned headline, muted two-line excerpt and a single meta
  * row (author on the left, date on the right). References: Perplexity Discover, Google News.
  */
-const BlogPostCard = ({ post, blogRoutePrefix, categoryId }: Props) => {
+const BlogPostCard = ({
+  post,
+  blogRoutePrefix,
+  categoryId,
+  details,
+}: Props) => {
   const imageUrl = post.cover.url;
 
   return (
@@ -54,30 +61,46 @@ const BlogPostCard = ({ post, blogRoutePrefix, categoryId }: Props) => {
           <Title
             lineClamp={2}
             order={3}
-            className={"text-left text-white text-xl leading-snug font-bold"}
+            className={
+              "text-left text-white text-xl leading-snug font-bold [overflow-wrap:anywhere]"
+            }
           >
             {post.title}
           </Title>
-          <Text lineClamp={2} size="sm" c="dimmed" className={"text-left"}>
+          <Text
+            lineClamp={2}
+            size="sm"
+            c="dimmed"
+            className={"text-left [overflow-wrap:anywhere]"}
+          >
             {post.excerpt}
           </Text>
         </Stack>
       </Link>
+      {details && <Box className="px-1 pt-3">{details}</Box>}
       <Group
-        className={"mt-auto pt-3 px-1 pb-0.5 justify-between flex-nowrap gap-4"}
+        justify="space-between"
+        gap="xs"
+        className="mt-auto px-1 pt-3 pb-0.5"
       >
-        <Box className={"relative z-10 min-w-0 max-w-40 lg:max-w-48"}>
+        <Box className="relative z-10 min-w-0 max-w-full">
           <UserAvatarGroup
             avatarProps={{
               size: "sm",
             }}
             groupProps={{
               gap: 6,
+              wrap: "nowrap",
+              className: "min-w-0",
             }}
+            textProps={{ className: "min-w-0 [overflow-wrap:anywhere]" }}
             userId={post.profileUserId}
           />
         </Box>
-        <BlogPostDate publishedAt={post.publishedAt} className={"shrink-0"} />
+        <BlogPostDate
+          publishedAt={post.publishedAt}
+          className="ml-auto shrink-0"
+        />
       </Group>
     </Card>
   );

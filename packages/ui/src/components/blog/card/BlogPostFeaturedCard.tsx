@@ -35,7 +35,10 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0)_25%,_rgba(10,10,10,0.78)_62%,_rgba(0,0,0,0.96)_100%)]"
       />
-      <Stack className={"absolute inset-x-0 bottom-0 gap-2 p-4 text-gray-100"}>
+      <Stack
+        className={"absolute inset-0 gap-2 p-4 text-gray-100"}
+        justify="flex-end"
+      >
         <BlogPostCategoryLabel tags={post.tags} />
         {/* The title link's ::after covers the whole card, so all of it opens the post. The
             author avatar is a profile link, so it sits above that overlay instead. */}

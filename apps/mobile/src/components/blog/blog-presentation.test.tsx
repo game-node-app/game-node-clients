@@ -2,7 +2,10 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 import { afterEach, expect, it, vi } from "vitest";
+import type { BlogArticleDto, BlogListResponseDto } from "@repo/wrapper/server";
 import { BlogArticleView } from "../../../../../packages/ui/src/components/blog/view/BlogArticleView";
+import { BlogPostsCategorySection } from "../../../../../packages/ui/src/components/blog/feed/BlogPostsCategorySection";
+import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import { draft, english, fallback } from "./fixtures";
 const reading = vi.hoisted(() => ({
   query: {} as {
@@ -11,6 +14,10 @@ const reading = vi.hoisted(() => ({
     isError?: boolean;
     error?: { status: number };
     refetch?: () => void;
+  },
+  categoryQuery: {} as {
+    data?: BlogListResponseDto;
+    isError?: boolean;
   },
   setLanguage: vi.fn(),
 }));
@@ -23,11 +30,13 @@ vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
   useI18nContext: () => ({ setLanguage: reading.setLanguage }),
 }));
-vi.mock("@mantine/core", () => {
+vi.mock("@mantine/core", async (importOriginal) => {
+  const mantine = await importOriginal<typeof import("@mantine/core")>();
   const C = ({ children, ...props }: import("react").ComponentProps<"div">) => (
     <div {...props}>{children}</div>
   );
   return {
+    ...mantine,
     Box: C,
     Group: C,
     Stack: C,
@@ -43,8 +52,11 @@ vi.mock("@mantine/core", () => {
     Image: (props: import("react").ComponentProps<"img">) => <img {...props} />,
   };
 });
-vi.mock("../../../../../packages/ui/src/components", () => ({
+vi.mock("../../../../../packages/ui/src/components", async () => ({
+  ...(await import("../../../../../packages/ui/src/components/blog/constants")),
   useBlogPost: () => reading.query,
+  useBlogPosts: () => reading.categoryQuery,
+  BlogPostCard: ({ post }: { post: BlogArticleDto }) => <p>{post.title}</p>,
   CenteredLoading: () => <span>Loading</span>,
   UserAvatarGroup: () => null,
   BlogPostTags: () => null,
@@ -134,6 +146,47 @@ it("distinguishes loading, missing and failed detail reads with retry", () => {
   expect(screen.getByRole("alert").textContent).toBe("blog.read.error");
   fireEvent.click(screen.getByRole("button", { name: "blog.read.retry" }));
   expect(refetch).toHaveBeenCalledOnce();
+});
+it("keeps category posts and their archive link when a background refresh fails", () => {
+  const data = {
+    data: [english as BlogArticleDto],
+    pagination: { totalItems: 1, totalPages: 1, hasNextPage: false },
+  };
+  reading.categoryQuery = { data };
+  const section = () => <BlogPostsCategorySection tag="news" title="News" />;
+  const view = render(section(), {
+    wrapper: ({ children }) => (
+      <UIProvider
+        hooks={{
+          useRouter: () => ({
+            pathname: "/blog",
+            query: new URLSearchParams(),
+            back: () => {},
+            push: async () => {},
+          }),
+        }}
+        presenters={{
+          Link: ({ href, children }) => <a href={href}>{children}</a>,
+        }}
+      >
+        {children}
+      </UIProvider>
+    ),
+  });
+  expect(screen.getByText(english.title)).toBeTruthy();
+
+  reading.categoryQuery = { data, isError: true };
+  view.rerender(section());
+  expect(screen.getByText(english.title)).toBeTruthy();
+  expect(
+    screen
+      .getByRole("link", { name: "blog.buttons.seeMore" })
+      .getAttribute("href"),
+  ).toBe("/blog/archive?tag=news");
+
+  reading.categoryQuery = { isError: true };
+  view.rerender(section());
+  expect(screen.queryByText("News")).toBeNull();
 });
 it("changes mobile language on the current UUID article", () => {
   setProjectContext({
