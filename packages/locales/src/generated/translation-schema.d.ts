@@ -2466,6 +2466,7 @@ export type TranslationSchema = {
     terms: string;
     wrapped: string;
   };
+      version: string;
   notFoundPage: {
     backHome: string;
     description: string;

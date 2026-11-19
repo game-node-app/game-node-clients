@@ -25,6 +25,7 @@ vi.mock("@repo/ui", () => ({
   cn: (...values: Array<string | false | null | undefined>) =>
     values.filter(Boolean).join(" "),
   UserButton: () => null,
+  GameNodeLogo: () => null,
   Link: ({
     href,
     children,
@@ -38,6 +39,10 @@ vi.mock("@repo/ui", () => ({
       {children}
     </a>
   ),
+}));
+
+vi.mock("@capacitor/app", () => ({
+  App: { getInfo: vi.fn(async () => ({ version: "1.8.12" })) },
 }));
 
 vi.mock("@ionic/react", () => ({

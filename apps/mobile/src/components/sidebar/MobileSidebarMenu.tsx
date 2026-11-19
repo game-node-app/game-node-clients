@@ -5,9 +5,11 @@ import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.ts
 import { MobileSidebarSection } from "@/components/sidebar/MobileSidebarSection.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { WRAPPED_TAB_PATH } from "@/util/getTabAwareHref";
+import { App } from "@capacitor/app";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
-import { Stack } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   getS3StoredUpload,
@@ -18,6 +20,7 @@ import {
   UserButton,
   useUserId,
   signOut,
+  GameNodeLogo,
 } from "@repo/ui";
 import {
   IconActivity,
@@ -61,6 +64,14 @@ const MobileSidebarMenu = () => {
     ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
     : undefined;
 
+  const [appVersion, setAppVersion] = useState<string>();
+  useEffect(() => {
+    // native build version; unavailable in the browser, where the row is simply hidden
+    App.getInfo()
+      .then((info) => setAppVersion(info.version))
+      .catch(() => undefined);
+  }, []);
+
   const closeMenu = () => {
     closeMainMenu().catch(console.error);
   };
@@ -91,6 +102,14 @@ const MobileSidebarMenu = () => {
               }}
             />
           </Link>
+          {/* soft fade into the menu background below the banner */}
+          <div
+            aria-hidden
+            className={"pointer-events-none absolute inset-x-0 bottom-0 h-8"}
+            style={{
+              background: "linear-gradient(to bottom, transparent, #0F0F0F)",
+            }}
+          />
         </IonHeader>
       )}
       <IonContent>
@@ -221,6 +240,15 @@ const MobileSidebarMenu = () => {
               href={"/preferences"}
               onClick={closeMenu}
             />
+            <div className={"mx-6 mt-2 mb-1 border-t border-white/10"} />
+            <div className={"flex flex-col items-start gap-2 px-6 py-5"}>
+              <GameNodeLogo style={{ width: 84 }} />
+              {appVersion && (
+                <Text size={"xs"} c={"dimmed"} fw={500}>
+                  {t("navigation.sidebar.version", { version: appVersion })}
+                </Text>
+              )}
+            </div>
             <MobileSidebarButton
               title={t("actions.logout")}
               Icon={IconLogout}

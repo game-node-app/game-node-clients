@@ -2456,7 +2456,8 @@
         "highlights": "Destaques",
         "tools": "Ferramentas",
         "yourSpace": "Seu espaço"
-      }
+      },
+      "version": "Versão {{version}}"
     },
     "stats": "Estatísticas",
     "terms": "Termos",
