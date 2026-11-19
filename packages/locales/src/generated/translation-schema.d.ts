@@ -1612,6 +1612,7 @@ export type TranslationSchema = {
   explore: {
     fetchError: string;
     filters: {
+      all: string;
       genres: string;
       modes: string;
       platforms: string;
@@ -1619,6 +1620,10 @@ export type TranslationSchema = {
       trendingIn: string;
     };
     metaTitle: string;
+    sections: {
+      seeAll: string;
+      topOverall: string;
+    };
     periods: {
       allTime: string;
       month: string;
@@ -2440,6 +2445,15 @@ export type TranslationSchema = {
     reviews: string;
     search: string;
     settings: string;
+    sidebar: {
+      groups: {
+        account: string;
+        community: string;
+        highlights: string;
+        tools: string;
+        yourSpace: string;
+      };
+    };
     stats: string;
     terms: string;
     wrapped: string;

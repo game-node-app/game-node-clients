@@ -1608,6 +1608,7 @@
   "explore": {
     "fetchError": "Error while trying to fetch games. Please reload this page.",
     "filters": {
+      "all": "All",
       "genres": "Genres",
       "modes": "Modes",
       "platforms": "Platforms",
@@ -1615,6 +1616,10 @@
       "trendingIn": "Trending in"
     },
     "metaTitle": "Explore - GameNode",
+    "sections": {
+      "seeAll": "See all",
+      "topOverall": "Top overall"
+    },
     "periods": {
       "allTime": "All time",
       "month": "Month",
@@ -2436,6 +2441,15 @@
     "reviews": "Reviews",
     "search": "Search",
     "settings": "Settings",
+    "sidebar": {
+      "groups": {
+        "account": "Account",
+        "community": "Community",
+        "highlights": "Highlights",
+        "tools": "Tools",
+        "yourSpace": "Your space"
+      }
+    },
     "stats": "Stats",
     "terms": "Terms",
     "wrapped": "Wrapped"
