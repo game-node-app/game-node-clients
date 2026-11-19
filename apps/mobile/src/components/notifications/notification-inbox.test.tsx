@@ -593,81 +593,53 @@ describe("Notification Inbox - Cursor pagination", () => {
 });
 
 describe("Notification Inbox - Unread indicators and versioned acknowledgements", () => {
-  it("derives unread indicator when unreadCount > 0 or readVersion < version", () => {
+  it("updates the tab's badge and accessible name with the unread state", async () => {
     const queryClient = createTestQueryClient();
+    const setUnreadState = (unreadCount: number, readVersion: number) =>
+      queryClient.setQueryData(
+        ["notifications", "aggregated", "infinite", "test-user-id", "all"],
+        {
+          pages: [
+            {
+              data: [{ id: 1, version: 2, readVersion }],
+              pagination: { nextCursor: null, hasMore: false },
+              unreadCount,
+            },
+          ],
+          pageParams: [undefined],
+        },
+      );
 
-    // unreadCount > 0
-    queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
-      {
-        pages: [
-          {
-            data: [{ id: 1, version: 1, readVersion: 1 }],
-            pagination: { nextCursor: null, hasMore: false },
-            unreadCount: 3,
-          },
-        ],
-        pageParams: [undefined],
-      },
-    );
-
-    const { container, rerender } = renderUI(
-      <NotificationsIcon />,
+    setUnreadState(3, 1);
+    const { container } = renderUI(
+      <a href="/notifications" role="tab">
+        <NotificationsIcon />
+      </a>,
       queryClient,
     );
+    const badge = () => container.querySelector(".mantine-Indicator-indicator");
     expect(
-      container.querySelector(".mantine-Indicator-indicator"),
+      screen.getByRole("tab", { name: "Notifications, 3 unread" }),
     ).toBeTruthy();
+    expect(badge()?.textContent).toBe("3");
 
-    // unreadCount = 0 but item readVersion < version
-    queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
-      {
-        pages: [
-          {
-            data: [{ id: 1, version: 2, readVersion: 1 }],
-            pagination: { nextCursor: null, hasMore: false },
-            unreadCount: 0,
-          },
-        ],
-        pageParams: [undefined],
-      },
-    );
-
-    rerender(
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider>
-          <NotificationsIcon />
-        </MantineProvider>
-      </QueryClientProvider>,
-    );
+    setUnreadState(120, 1);
     expect(
-      container.querySelector(".mantine-Indicator-indicator"),
+      await screen.findByRole("tab", { name: "Notifications, 120 unread" }),
     ).toBeTruthy();
+    expect(badge()?.textContent).toBe("99+");
 
-    // unreadCount = 0 and all items read (readVersion >= version)
-    queryClient.setQueryData(
-      ["notifications", "aggregated", "infinite", "test-user-id", "all"],
-      {
-        pages: [
-          {
-            data: [{ id: 1, version: 2, readVersion: 2 }],
-            pagination: { nextCursor: null, hasMore: false },
-            unreadCount: 0,
-          },
-        ],
-        pageParams: [undefined],
-      },
-    );
+    setUnreadState(0, 1);
+    expect(
+      await screen.findByRole("tab", { name: "Notifications, unread items" }),
+    ).toBeTruthy();
+    expect(badge()?.textContent).toBe("");
 
-    rerender(
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider>
-          <NotificationsIcon />
-        </MantineProvider>
-      </QueryClientProvider>,
-    );
-    expect(container.querySelector(".mantine-Indicator-indicator")).toBeNull();
+    setUnreadState(0, 2);
+    expect(
+      await screen.findByRole("tab", { name: "Notifications" }),
+    ).toBeTruthy();
+    expect(badge()).toBeNull();
   });
 
   it("acknowledges unread items in batches of at most 100 items and skips already-read items", async () => {

@@ -38,7 +38,9 @@ export function EventCardCovers({
       data-testid={"event-card-covers"}
       style={
         stretch
-          ? { gridTemplateColumns: `repeat(${max}, minmax(0, 1fr))` }
+          ? {
+              gridTemplateColumns: `repeat(${visibleGames.length}, minmax(0, 1fr))`,
+            }
           : undefined
       }
       className={cn(

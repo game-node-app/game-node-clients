@@ -2511,6 +2511,7 @@ export type TranslationSchema = {
     };
     bellLabel_one: string;
     bellLabel_other: string;
+    bellLabelUnread: string;
     empty: string;
     emptyUnread: string;
     markAllAsRead: string;

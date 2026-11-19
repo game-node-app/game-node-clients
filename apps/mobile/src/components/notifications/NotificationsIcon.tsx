@@ -1,4 +1,5 @@
-import { Indicator } from "@mantine/core";
+import { Indicator, VisuallyHidden } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { useInfiniteAggregatedNotifications } from "@repo/ui";
 import { IconBell } from "@tabler/icons-react";
 
@@ -9,6 +10,7 @@ const MAX_BADGE_COUNT = 99;
  * loaded items are unread but the server count is missing or zero.
  */
 const NotificationsIcon = () => {
+  const { t } = useTranslation();
   const query = useInfiniteAggregatedNotifications();
   const data = query.isPlaceholderData ? undefined : query.data;
 
@@ -19,23 +21,35 @@ const NotificationsIcon = () => {
     ) ?? false;
 
   const showCount = unreadCount > 0;
-  const label =
+  const badgeLabel =
     unreadCount > MAX_BADGE_COUNT ? `${MAX_BADGE_COUNT}+` : unreadCount;
+  const tabLabel = showCount
+    ? t("notifications.bellLabel", { count: unreadCount })
+    : t(
+        hasUnreadItems
+          ? "notifications.bellLabelUnread"
+          : "notifications.title",
+      );
 
   return (
-    <Indicator
-      position={"top-end"}
-      offset={4}
-      size={showCount ? 16 : 8}
-      label={showCount ? label : undefined}
-      disabled={!showCount && !hasUnreadItems}
-      withBorder
-      styles={{
-        indicator: { fontSize: 10, fontWeight: 700, padding: "0 4px" },
-      }}
-    >
-      <IconBell />
-    </Indicator>
+    <>
+      {/* Ionic's tab link gets its name from the slotted text. */}
+      <VisuallyHidden>{tabLabel}</VisuallyHidden>
+      <Indicator
+        aria-hidden="true"
+        position={"top-end"}
+        offset={4}
+        size={showCount ? 16 : 8}
+        label={showCount ? badgeLabel : undefined}
+        disabled={!showCount && !hasUnreadItems}
+        withBorder
+        styles={{
+          indicator: { fontSize: 10, fontWeight: 700, padding: "0 4px" },
+        }}
+      >
+        <IconBell />
+      </Indicator>
+    </>
   );
 };
 

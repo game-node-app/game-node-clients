@@ -2507,6 +2507,7 @@
     },
     "bellLabel_one": "Notificações, {{count}} não lida",
     "bellLabel_other": "Notificações, {{count}} não lidas",
+    "bellLabelUnread": "Notificações, há itens não lidos",
     "empty": "Nenhuma notificação.",
     "emptyUnread": "Nada novo por aqui.",
     "markAllAsRead": "Marcar todas como lidas",

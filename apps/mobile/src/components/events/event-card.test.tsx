@@ -605,6 +605,27 @@ describe("EventCard · Awards Resultado", () => {
 });
 
 describe("EventCard · Retrospectiva Atualizando", () => {
+  it("fills the mobile cover strip when only two games are available", async () => {
+    const recap = recapFixture(true);
+    vi.spyOn(RecapService, "recapControllerGetRecapByYearV1").mockResolvedValue(
+      {
+        ...recap,
+        topGames: recap.topGames.slice(0, 2),
+      },
+    );
+    seasonState.value = season({
+      recapEntry: { kind: "live", year: 2026 },
+      recapYear: 2026,
+      recapHref: "/recap/2026/user-1",
+    });
+
+    renderCard("recap-live", "mobile");
+
+    const covers = await screen.findByTestId("event-card-covers");
+    expect(covers.children).toHaveLength(2);
+    expect(covers.style.gridTemplateColumns).toBe("repeat(2, minmax(0, 1fr))");
+  });
+
   it("renders hours, games, monthly bars and the top game sentence", async () => {
     seasonState.value = season({
       recapEntry: { kind: "live", year: 2026 },

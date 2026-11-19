@@ -184,11 +184,7 @@ const Tabs = () => {
             >
               <IconHome />
             </IonTabButton>
-            <IonTabButton
-              tab="notifications"
-              href="/notifications"
-              aria-label={t("notifications.title")}
-            >
+            <IonTabButton tab="notifications" href="/notifications">
               <NotificationsIcon />
             </IonTabButton>
             <IonTabButton

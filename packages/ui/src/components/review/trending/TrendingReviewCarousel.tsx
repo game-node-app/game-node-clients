@@ -1,7 +1,7 @@
 import React from "react";
 import { useQueries } from "@tanstack/react-query";
-import { reviewOptions } from "../hooks/useReview.ts";
-import { hasReviewContent } from "../util/hasReviewContent.ts";
+import { reviewOptions } from "#@/components/review/hooks/useReview";
+import { hasReviewContent } from "#@/components/review/util/hasReviewContent";
 import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
 import { useOnMobile } from "../../general/hooks/useOnMobile.ts";

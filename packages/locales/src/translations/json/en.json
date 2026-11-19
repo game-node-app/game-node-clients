@@ -2507,6 +2507,7 @@
     },
     "bellLabel_one": "Notifications, {{count}} unread",
     "bellLabel_other": "Notifications, {{count}} unread",
+    "bellLabelUnread": "Notifications, unread items",
     "empty": "No notifications.",
     "emptyUnread": "You're all caught up.",
     "markAllAsRead": "Mark all as read",
