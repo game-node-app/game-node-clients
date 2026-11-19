@@ -4,4 +4,4 @@
 "web": patch
 ---
 
-Show alternate languages below the blog byline with readable names and let editors switch translations within the admin preview.
+Show alternate languages below the blog byline. Open a single translation directly or choose from a menu when several are available, including in the admin preview.

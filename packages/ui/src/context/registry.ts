@@ -1,5 +1,4 @@
 import React from "react";
-import type { ButtonProps } from "@mantine/core";
 import type { SupportedLanguage } from "@repo/locales";
 import {
   ActivityItemProps,
@@ -29,9 +28,16 @@ export type UIPresenterRegistry = {
   TrendingReviewCard: React.ComponentType<ReviewCardProps>;
   CollectionThumbnailCard: React.ComponentType<CollectionThumbnailCardProps>;
   GameAchievementsListItem: React.ComponentType<GameAchievementsListItemProps>;
-  BlogArticleLanguageLink: React.ComponentType<
-    ButtonProps & { href: string; locale: SupportedLanguage }
-  >;
+  BlogArticleLanguageLink: React.ComponentType<{
+    href: string;
+    locale: SupportedLanguage;
+    render: (
+      props: { lang: SupportedLanguage } & (
+        | { component: "a"; href: string; hrefLang: SupportedLanguage }
+        | { component: "button"; type: "button"; onClick: () => void }
+      ),
+    ) => React.ReactElement;
+  }>;
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
 };

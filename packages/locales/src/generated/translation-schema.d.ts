@@ -970,6 +970,7 @@ export type TranslationSchema = {
     recentReviews: string;
     read: {
       alsoAvailable: string;
+      chooseLanguage: string;
       fallback: string;
       missing: string;
       error: string;

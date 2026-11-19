@@ -1,9 +1,20 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { renderToString } from "react-dom/server";
-import { afterEach, expect, it, vi } from "vitest";
+import { MantineProvider } from "@mantine/core";
+import {
+  cleanup,
+  fireEvent,
+  render as renderDom,
+  screen,
+  within,
+  type RenderOptions,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { Fragment, type ReactElement } from "react";
+import { renderToString as renderServer } from "react-dom/server";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import type { BlogArticleDto, BlogListResponseDto } from "@repo/wrapper/server";
 import { MobileBlogArticleLanguageLink } from "./MobileBlogArticleLanguageLink";
+import { BlogPostDetailView } from "../../../../../packages/ui/src/components/blog/view/BlogPostDetailView";
 import { BlogArticleView } from "../../../../../packages/ui/src/components/blog/view/BlogArticleView";
 import { BlogPostsCategorySection } from "../../../../../packages/ui/src/components/blog/feed/BlogPostsCategorySection";
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
@@ -28,46 +39,11 @@ const lightbox = vi.hoisted(() => ({
   unregisterImage: vi.fn(),
 }));
 vi.mock("@repo/locales", () => ({
+  DEFAULT_LANGUAGE: "en",
+  SUPPORTED_LANGUAGES: ["en", "pt-BR", "es", "ja"],
   useTranslation: () => ({ t: (key: string) => key }),
   useI18nContext: () => ({ setLanguage: reading.setLanguage }),
 }));
-vi.mock("@mantine/core", async (importOriginal) => {
-  const mantine = await importOriginal<typeof import("@mantine/core")>();
-  const C = ({ children, ...props }: import("react").ComponentProps<"div">) => (
-    <div {...props}>{children}</div>
-  );
-  return {
-    ...mantine,
-    Box: C,
-    Group: C,
-    Stack: C,
-    Text: C,
-    Title: C,
-    Badge: C,
-    Button: ({
-      children,
-      onClick,
-      component,
-      href,
-      hrefLang,
-      lang,
-    }: import("react").ComponentProps<"button"> & {
-      component?: "a";
-      href?: string;
-      hrefLang?: string;
-    }) =>
-      component === "a" ? (
-        <a href={href} hrefLang={hrefLang} lang={lang}>
-          {children}
-        </a>
-      ) : (
-        <button onClick={onClick} lang={lang}>
-          {children}
-        </button>
-      ),
-    Image: (props: import("react").ComponentProps<"img">) => <img {...props} />,
-  };
-});
 vi.mock("../../../../../packages/ui/src/components", async () => ({
   ...(await import("../../../../../packages/ui/src/components/blog/constants")),
   useBlogPost: () => reading.query,
@@ -83,9 +59,49 @@ vi.mock("../../../../../packages/ui/src/components", async () => ({
     children,
   usePostImageLightboxContext: () => lightbox,
 }));
+
+function render(
+  element: ReactElement,
+  { wrapper: Wrapper = Fragment }: RenderOptions = {},
+) {
+  return renderDom(element, {
+    wrapper: ({ children }) => (
+      <MantineProvider env="test">
+        <Wrapper>{children}</Wrapper>
+      </MantineProvider>
+    ),
+  });
+}
+
+function renderToString(element: ReactElement) {
+  return renderServer(<MantineProvider env="test">{element}</MantineProvider>);
+}
+
+const multilingual = {
+  ...english,
+  availableLocales: ["en", "pt-BR", "es", "es", "ja", "de"],
+} as BlogArticleDto;
+
+beforeEach(() => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: false,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
+});
+
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
+  vi.unstubAllGlobals();
 });
 it("includes sanitized article markup in SSR and expands images by keyboard", () => {
   const html = renderToString(
@@ -138,6 +154,41 @@ it.each([
   },
 );
 
+it("opens one keyboard-accessible menu with all distinct supported alternatives", async () => {
+  const user = userEvent.setup();
+  render(<BlogArticleView post={multilingual} />);
+
+  const trigger = screen.getByRole("button", {
+    name: "blog.read.chooseLanguage",
+  });
+  expect(screen.queryByRole("menu")).toBeNull();
+  trigger.focus();
+  await user.keyboard("{Enter}");
+
+  const menu = within(await screen.findByRole("menu"));
+  const items = menu.getAllByRole("menuitem");
+  expect(items.map((item) => item.textContent)).toEqual([
+    "Português (Brasil)",
+    "Español",
+    "日本語",
+  ]);
+  expect(items.map((item) => item.getAttribute("href"))).toEqual([
+    `/pt-BR/blog/post/${english.id}`,
+    `/es/blog/post/${english.id}`,
+    `/ja/blog/post/${english.id}`,
+  ]);
+  expect(items.map((item) => item.getAttribute("hreflang"))).toEqual([
+    "pt-BR",
+    "es",
+    "ja",
+  ]);
+  await user.keyboard("{ArrowDown}");
+  expect(document.activeElement).toBe(items[0]);
+  await user.keyboard("{Escape}");
+  expect(screen.queryByRole("menu")).toBeNull();
+  expect(document.activeElement).toBe(trigger);
+});
+
 it("hides the language prompt when the requested version is the only one", () => {
   render(
     <BlogArticleView
@@ -181,7 +232,6 @@ it("presents an unpublished exact-locale preview with its real draft state", () 
   expect(html).toContain('href="?locale=en"');
 });
 
-import { BlogPostDetailView } from "../../../../../packages/ui/src/components/blog/view/BlogPostDetailView";
 it("distinguishes loading, missing and failed detail reads with retry", () => {
   reading.query = { isLoading: true };
   const view = render(<BlogPostDetailView postId="article" />);
@@ -237,22 +287,40 @@ it("keeps category posts and their archive link when a background refresh fails"
   view.rerender(section());
   expect(screen.queryByText("News")).toBeNull();
 });
-it("changes mobile language on the current UUID article", () => {
-  render(
-    <UIProvider
-      presenters={{ BlogArticleLanguageLink: MobileBlogArticleLanguageLink }}
-      hooks={{
-        useRouter: () => ({
-          pathname: "/blog/post",
-          query: new URLSearchParams(),
-          back: () => {},
-          push: async () => {},
-        }),
-      }}
-    >
-      <BlogArticleView post={english as BlogArticleDto} />
-    </UIProvider>,
-  );
-  fireEvent.click(screen.getByRole("button", { name: "Português (Brasil)" }));
-  expect(reading.setLanguage).toHaveBeenCalledWith("pt-BR");
-});
+it.each([
+  {
+    post: english as BlogArticleDto,
+    locale: "pt-BR",
+    label: "Português (Brasil)",
+    menu: false,
+  },
+  { post: multilingual, locale: "ja", label: "日本語", menu: true },
+])(
+  "changes mobile language to $locale on the current article",
+  ({ post, locale, label, menu }) => {
+    render(
+      <UIProvider
+        presenters={{ BlogArticleLanguageLink: MobileBlogArticleLanguageLink }}
+        hooks={{
+          useRouter: () => ({
+            pathname: "/blog/post",
+            query: new URLSearchParams(),
+            back: () => {},
+            push: async () => {},
+          }),
+        }}
+      >
+        <BlogArticleView post={post} />
+      </UIProvider>,
+    );
+    if (menu) {
+      fireEvent.click(
+        screen.getByRole("button", { name: "blog.read.chooseLanguage" }),
+      );
+    }
+    fireEvent.click(
+      screen.getByRole(menu ? "menuitem" : "button", { name: label }),
+    );
+    expect(reading.setLanguage).toHaveBeenCalledWith(locale);
+  },
+);

@@ -18,6 +18,7 @@ vi.mock("@mantine/core", () => ({
   ),
 }));
 vi.mock("@repo/locales", () => ({
+  SUPPORTED_LANGUAGES: ["en", "pt-BR", "es"],
   I18nProvider: ({ children }: import("react").PropsWithChildren) => children,
 }));
 vi.mock("@repo/ui", () => ({
@@ -67,10 +68,14 @@ it("denies unauthorized reads and clears prior content on logout, locale changes
   expect(fetch).toHaveBeenCalledTimes(1);
   state.userId = "other-editor";
   fetch.mockResolvedValue({ ok: false });
-  state.query.locale = "en";
+  state.query.locale = "es";
   view.rerender(<Preview />);
   expect(screen.queryByText(draft.title)).toBeNull();
   await screen.findByText("Preview unavailable");
+  expect(fetch).toHaveBeenLastCalledWith(
+    expect.stringContaining("?locale=es"),
+    expect.anything(),
+  );
   state.roles = [];
   view.rerender(<Preview />);
   expect(screen.getByText("Access denied")).toBeTruthy();

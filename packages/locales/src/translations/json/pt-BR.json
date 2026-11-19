@@ -966,6 +966,7 @@
     "recentReviews": "Avaliações recentes",
     "read": {
       "alsoAvailable": "Também disponível em",
+      "chooseLanguage": "Escolher idioma",
       "fallback": "Tradução indisponível.",
       "missing": "Artigo não encontrado.",
       "error": "Os artigos estão indisponíveis no momento.",
