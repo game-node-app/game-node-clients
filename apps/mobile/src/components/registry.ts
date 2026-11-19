@@ -7,6 +7,7 @@ import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
 import { MobileGameAchievementListItem } from "@/components/achievement/MobileGameAchievementListItem.tsx";
+import { MobileBlogArticleLanguageLink } from "@/components/blog/MobileBlogArticleLanguageLink";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
@@ -19,6 +20,7 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   TrendingReviewCard: MobileTrendingReviewCard,
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
   GameAchievementsListItem: MobileGameAchievementListItem,
+  BlogArticleLanguageLink: MobileBlogArticleLanguageLink,
   Link: LinkWrapper,
   Modal: IonModalWrapper,
 };

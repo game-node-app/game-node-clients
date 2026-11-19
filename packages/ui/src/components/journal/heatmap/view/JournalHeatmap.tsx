@@ -63,7 +63,12 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
 
   const counts = Object.values(data);
   const total = counts.reduce((sum, count) => sum + count, 0);
-  const year = today.year();
+  const availableYears = (journal?.years ?? [])
+    .filter(({ months }) =>
+      months.some(({ days }) => days.some(({ entries }) => entries.length)),
+    )
+    .map(({ year }) => year)
+    .sort((a, b) => b - a);
   const dateFormatter = new Intl.DateTimeFormat(language, {
     dateStyle: "medium",
     timeZone: "UTC",
@@ -113,7 +118,7 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
             onChange={setPeriod}
             data={[
               { value: "rolling", label: t("profile.overview.lastYear") },
-              ...[year - 1, year - 2].map((year) => ({
+              ...availableYears.map((year) => ({
                 value: String(year),
                 label: String(year),
               })),
