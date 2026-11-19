@@ -1,4 +1,7 @@
 import React from "react";
+import { useQueries } from "@tanstack/react-query";
+import { reviewOptions } from "../hooks/useReview.ts";
+import { hasReviewContent } from "../util/hasReviewContent.ts";
 import { Carousel, CarouselProps } from "@mantine/carousel";
 import { Skeleton } from "@mantine/core";
 import { useOnMobile } from "../../general/hooks/useOnMobile.ts";
@@ -30,27 +33,33 @@ const TrendingReviewCarousel = (props: CarouselProps) => {
     offset: 0,
     limit: 10,
   });
+  const reviewIds = (trendingReviews.data?.items ?? [])
+    .map((item) => item?.sourceId)
+    .filter((id): id is string => typeof id === "string");
+  // Same keys as `useReview`, so the cards reuse these results from the cache.
+  const reviewQueries = useQueries({
+    queries: reviewIds.map((id) => reviewOptions(id)),
+  });
+  const reviewsLoading = reviewQueries.some((query) => query.isLoading);
+  // Rating-only reviews (no text) are not worth a card.
+  const visibleIds = reviewIds.filter((_, index) =>
+    hasReviewContent(reviewQueries[index]?.data?.content),
+  );
   const isEmpty =
-    trendingReviews.isError || trendingReviews.data?.items.length === 0;
+    trendingReviews.isError ||
+    trendingReviews.data?.items.length === 0 ||
+    (!trendingReviews.isLoading && !reviewsLoading && visibleIds.length === 0);
 
   const buildSlides = () => {
-    if (trendingReviews.isLoading) {
+    if (trendingReviews.isLoading || reviewsLoading) {
       return buildSkeletons();
     }
 
-    return trendingReviews.data?.items.map((reviewStatistics) => {
-      if (
-        reviewStatistics == undefined ||
-        typeof reviewStatistics.sourceId !== "string"
-      ) {
-        return null;
-      }
-      return (
-        <Carousel.Slide key={reviewStatistics.sourceId}>
-          <TrendingReviewCard reviewId={reviewStatistics.sourceId} />
-        </Carousel.Slide>
-      );
-    });
+    return visibleIds.map((reviewId) => (
+      <Carousel.Slide key={reviewId}>
+        <TrendingReviewCard reviewId={reviewId} />
+      </Carousel.Slide>
+    ));
   };
 
   return (
