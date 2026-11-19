@@ -9,7 +9,11 @@ import NotificationsPage from "@/pages/notifications";
 import { BLOG_ROUTES, getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import GameSearchPage from "@/pages/search.tsx";
 import WrappedHomePage from "@/pages/wrapped/wrapped_home";
-import { MOBILE_TABS } from "@/util/getTabAwareHref";
+import {
+  LEGACY_WRAPPED_PATH,
+  MOBILE_TABS,
+  WRAPPED_TAB_PATH,
+} from "@/util/getTabAwareHref";
 import { useTabSlideAnimation } from "@/util/useTabSlideAnimation";
 import {
   IonMenu,
@@ -132,9 +136,20 @@ const Tabs = () => {
               render={() => <NotificationsPage />}
             />
             {getCommonRoutes("/notifications")}
-            {/* ---- PROFILE ROUTES ---- */}
-            <Route exact path={"/profile"} render={() => <WrappedHomePage />} />
-            {getCommonRoutes("/profile")}
+            {/* ---- WRAPPED ROUTES ---- */}
+            <Route
+              exact
+              path={WRAPPED_TAB_PATH}
+              render={() => <WrappedHomePage />}
+            />
+            {getCommonRoutes(WRAPPED_TAB_PATH)}
+            <Route
+              exact
+              path={LEGACY_WRAPPED_PATH}
+              render={({ location: { search, hash } }) => (
+                <Redirect to={{ pathname: WRAPPED_TAB_PATH, search, hash }} />
+              )}
+            />
 
             {/*
           Catch-all. IonRouterOutlet keeps the LAST matching child and only
@@ -146,7 +161,7 @@ const Tabs = () => {
           <IonTabBar
             slot="bottom"
             inert={hideTabBar}
-            aria-hidden={hideTabBar || undefined}
+            aria-hidden={hideTabBar ? "true" : undefined}
           >
             <IonTabButton
               tab="library"
@@ -176,10 +191,9 @@ const Tabs = () => {
             >
               <NotificationsIcon />
             </IonTabButton>
-            {/* Ionic matches the tab by its href prefix. */}
             <IonTabButton
-              tab="profile"
-              href="/profile"
+              tab="wrapped"
+              href={WRAPPED_TAB_PATH}
               aria-label={t("mobile.wrapped.title")}
             >
               <IconLayout2 />

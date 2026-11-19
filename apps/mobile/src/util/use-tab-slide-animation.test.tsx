@@ -41,7 +41,7 @@ afterEach(() => {
 
 it.each([
   ["/home", "/explore", "explore", -32],
-  ["/explore", "/profile/preferences", "profile", 32],
+  ["/explore", "/wrapped/preferences", "wrapped", 32],
 ])("slides from %s to %s in tab-bar order", (from, to, nextTab, offset) => {
   vi.stubGlobal("matchMedia", () => ({ matches: false }));
   const cancel = vi.fn();

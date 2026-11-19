@@ -4,6 +4,7 @@
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
 import { MobileSidebarSection } from "@/components/sidebar/MobileSidebarSection.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
+import { WRAPPED_TAB_PATH } from "@/util/getTabAwareHref";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -130,7 +131,8 @@ const MobileSidebarMenu = () => {
             <MobileSidebarButton
               title={t("mobile.wrapped.title")}
               Icon={IconLayout2}
-              href={"/wrapped"}
+              href={WRAPPED_TAB_PATH}
+              absolute
               onClick={closeMenu}
               withBadge
               badgeLabel={t("navigation.new")}

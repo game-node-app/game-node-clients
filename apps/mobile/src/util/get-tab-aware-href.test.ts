@@ -10,6 +10,12 @@ describe("getTabAwareHref", () => {
     expect(getTabAwareHref("/search")).toBe("/library/search");
   });
 
+  it("keeps links opened from Wrapped in the Wrapped tab", () => {
+    window.history.replaceState(null, "", "/wrapped/preferences");
+    expect(getTabAwareHref("/profile/user-1")).toBe("/wrapped/profile/user-1");
+    expect(getTabAwareHref("/search")).toBe("/wrapped/search");
+  });
+
   it("falls back to the home tab outside a known tab", () => {
     window.history.replaceState(null, "", "/this-does-not-exist");
     expect(getTabAwareHref("/search")).toBe("/home/search");

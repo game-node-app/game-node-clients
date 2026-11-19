@@ -13,9 +13,11 @@ interface Props extends Omit<GroupProps, "onClick"> {
   title: string;
   Icon: React.ComponentType<IconProps>;
   /**
-   * {@link getTabAwareHref} automatically applied.
+   * {@link getTabAwareHref} is applied to links within the current tab.
    */
   href: string;
+  /** App-wide destination, such as the Wrapped tab root. */
+  absolute?: boolean;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
   iconProps?: IconProps;
   textProps?: TextProps;
@@ -31,6 +33,7 @@ const MobileSidebarButton = ({
   onClick,
   Icon,
   href,
+  absolute,
   iconProps,
   textProps,
   withBadge,
@@ -40,7 +43,7 @@ const MobileSidebarButton = ({
 }: Props) => {
   return (
     <Link
-      to={getTabAwareHref(href)}
+      to={absolute ? href : getTabAwareHref(href)}
       onClick={onClick}
       className={"w-full relative ion-activatable"}
     >

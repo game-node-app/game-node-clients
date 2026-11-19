@@ -186,7 +186,7 @@ describe("MobileSidebarMenu · seasonal entries", () => {
     renderMenu();
 
     expect(screen.getByText("Wrapped")).toBeTruthy();
-    expect(menuHref("Wrapped")).toBe("/home/wrapped");
+    expect(menuHref("Wrapped")).toBe("/wrapped");
     // Wrapped, Daily and GameNode + AI always carry the translated badge.
     expect(screen.getAllByText("Novo")).toHaveLength(3);
     expect(screen.getByText("Retrospectiva")).toBeTruthy();
