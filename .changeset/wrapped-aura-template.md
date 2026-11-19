@@ -3,4 +3,4 @@
 "mobile": minor
 ---
 
-Add the Aura Story template to Wrapped, ported from Echo: a soft glow behind a tilted row of the top covers, the hours as a large figure and four frosted tiles.
+Add the Aura Story template to Wrapped, ported from Echo: a brand-colored glow on the dark ground behind a tilted row of the top covers, the hours as a large accent figure and four panel tiles.
