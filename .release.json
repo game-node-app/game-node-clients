@@ -1,0 +1,28 @@
+{
+  "source": "bd1f1865368fa012e26786bc0cc4cc1b0899ac12",
+  "changesets": [
+    ".changeset/profile-activity-available-years.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6ac169b897d2a4c3299f8949ed50f1aa650368d7...bd1f1865368fa012e26786bc0cc4cc1b0899ac12]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/bd1f1865368fa012e26786bc0cc4cc1b0899ac12",
+  "versions": {
+    "web": "1.23.2",
+    "mobile": "1.22.2"
+  }
+}
