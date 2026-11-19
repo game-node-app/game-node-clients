@@ -1810,7 +1810,11 @@
     "noResultsTryAgain": "Nenhum resultado encontrado. Tente novamente.",
     "recentActivity": "Atividade Recente",
     "trendingGames": "Jogos em alta",
-    "trendingReviews": "Avaliações em alta"
+    "trendingReviews": "Avaliações em alta",
+    "trendingRank": "#{{rank}} em alta",
+    "trendingSelectGame": "Mostrar {{name}}",
+    "trendingTrailerMuted": "Trailer · mudo",
+    "trendingViewGame": "Ver jogo"
   },
   "importer": {
     "buttons": {

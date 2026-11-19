@@ -1815,6 +1815,10 @@ export type TranslationSchema = {
     recentActivity: string;
     trendingGames: string;
     trendingReviews: string;
+    trendingRank: string;
+    trendingSelectGame: string;
+    trendingTrailerMuted: string;
+    trendingViewGame: string;
   };
   importer: {
     buttons: {

@@ -1,10 +1,12 @@
-import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { useGames } from "#@/components/game/hooks/useGames";
+import {
+  TRENDING_HERO_MAX_GAMES,
+  TrendingGamesHero,
+} from "#@/components/game/trending/TrendingGamesHero";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
-import { SimpleGrid, Skeleton } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { useMemo } from "react";
 import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import period = StatisticsRankingsRequestDto.period;
 
@@ -26,6 +28,9 @@ const TrendingGamesList = () => {
     gameIds: gamesIds || [],
     relations: {
       cover: true,
+      genres: true,
+      videos: true,
+      artworks: true,
     },
   });
 
@@ -35,13 +40,10 @@ const TrendingGamesList = () => {
     !isLoading &&
     (gamesQuery.data == undefined || gamesQuery.data.length === 0);
 
-  const elementsSkeletons = useMemo(() => {
-    return Array(DEFAULT_SEARCH_TRENDING_GAMES_DTO.limit)
-      .fill(0)
-      .map((v, i) => {
-        return <Skeleton className={"h-36 lg:h-60"} key={i} />;
-      });
-  }, []);
+  const games = (gamesIds ?? [])
+    .map((id) => gamesQuery.data?.find((game) => game.id === id))
+    .filter((game) => game !== undefined)
+    .slice(0, TRENDING_HERO_MAX_GAMES);
 
   return (
     <DetailsBox
@@ -51,15 +53,11 @@ const TrendingGamesList = () => {
         className: "",
       }}
     >
-      <SimpleGrid cols={{ base: 3, lg: 6 }} h={"100%"} w={"100%"}>
-        {isLoading && elementsSkeletons}
-        {gamesIds
-          ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
-          .filter((game) => game !== undefined)
-          .map((game) => {
-            return <GameGridItem key={game.id} game={game} />;
-          })}
-      </SimpleGrid>
+      {isLoading ? (
+        <Skeleton className={"h-[347px] w-full"} radius={20} />
+      ) : (
+        <TrendingGamesHero games={games} />
+      )}
     </DetailsBox>
   );
 };

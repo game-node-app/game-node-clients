@@ -1,0 +1,287 @@
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 20px;
+  background: #0a0a0a;
+  color: #fff;
+}
+
+/* Layers: blurred screenshot < scrim < content */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.poster {
+  position: absolute;
+  inset: -24px;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+  object-fit: cover;
+  filter: blur(14px) saturate(1.15);
+  transform: scale(1.05);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.45) 0%,
+    rgb(0 0 0 / 0.72) 45%,
+    rgb(10 10 10 / 0.95) 100%
+  );
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chipRank {
+  background: var(--mantine-primary-color-filled);
+}
+
+.featured {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  animation: heroIn 280ms ease both;
+}
+
+.cover {
+  flex: none;
+  display: block;
+  width: 136px;
+  aspect-ratio: 264 / 354;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.55);
+  background: #1a1a1a;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.7);
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.summary {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 17px;
+  color: rgb(255 255 255 / 0.85);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: var(--mantine-primary-color-filled);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.thumbs {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.thumb {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 200ms ease;
+}
+
+.thumb:hover,
+.thumbActive {
+  opacity: 1;
+}
+
+.thumbCover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 264 / 354;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #1a1a1a;
+}
+
+.thumbActive .thumbCover {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 0;
+}
+
+.thumbCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.track {
+  position: relative;
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.22);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--mantine-primary-color-filled);
+  animation: heroProgress var(--hero-rotate-ms, 10000ms) linear both;
+}
+
+.fillStatic {
+  animation: none;
+}
+
+@keyframes heroProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured {
+    animation: none;
+  }
+}
+
+@media (min-width: 48em) {
+  .content {
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .cover {
+    width: 200px;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .summary {
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    max-width: 52ch;
+  }
+
+  .thumb {
+    max-width: 96px;
+  }
+}
