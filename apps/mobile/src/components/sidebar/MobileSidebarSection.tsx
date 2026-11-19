@@ -12,7 +12,7 @@ interface Props {
  */
 const MobileSidebarSection = ({ title, children }: Props) => {
   return (
-    <section className={"w-full overflow-hidden rounded-3xl bg-[#1A1A1A] pb-1"}>
+    <section className={"w-full overflow-hidden rounded-3xl bg-[#1A1A1A]"}>
       <Text
         size={"xs"}
         fw={600}

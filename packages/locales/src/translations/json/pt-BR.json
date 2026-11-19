@@ -1902,7 +1902,10 @@
       "autoUpdate": "Estas informações são atualizadas automaticamente de forma periódica* a partir das plataformas de jogos que você conecta ao seu perfil GameNode, como Steam, Xbox e PlayStation.",
       "count": "{{count}} conquista{{suffix}}",
       "description": "Esta seção do diário é dedicada a exibir as conquistas que você obteve nos jogos que joga. É uma forma de celebrar seus marcos de jogo e compartilhar suas realizações com a comunidade.",
+      "completed": "Completo",
       "hover": "Passe o mouse sobre",
+      "helpLabel": "Sobre as conquistas",
+      "platinum": "Platina",
       "loading": "Carregando conquistas...",
       "tap": "Toque",
       "tipAction": "{{action}} as conquistas para mostrar detalhes. As conquistas mais recentes são mostradas primeiro.",
@@ -1911,6 +1914,8 @@
     },
     "loading": "Carregando Diário...",
     "overview": {
+      "emptyDescription": "Os jogos que você começar, zerar ou abandonar aparecem aqui, mês a mês.",
+      "emptyTitle": "Seu diário está vazio",
       "gamesCount": "{{count}} jogos"
     }
   },
@@ -2311,12 +2316,12 @@
       "shareDescription": "Compartilhe sua retrospectiva com amigos!",
       "sharePrompt": "Este é meu GameNode Wrapped!",
       "templates": {
+        "aura": "Aura",
         "bento": "Bento",
         "dash": "Dash",
         "poster": "Cartaz",
         "summary": "Resumo"
       },
-        "aura": "Aura",
       "title": "Wrapped",
       "video": {
         "formats": "MP4, MOV ou WebM · até {{seconds}} segundos",
@@ -2624,6 +2629,15 @@
     }
   },
   "posts": {
+    "tabs": {
+      "all": "Todas",
+      "following": "Seguindo",
+      "soon": "Em breve"
+    },
+    "empty": {
+      "title": "Nenhuma postagem ainda",
+      "description": "As postagens da comunidade vão aparecer aqui."
+    },
     "messages": {
       "published": "Postagem publicada com sucesso!",
       "removeWarning": "Esta postagem será excluída permanentemente. Você não pode desfazer esta ação."
@@ -2854,6 +2868,7 @@
       "noFeaturedAchievements": "Nenhuma conquista em destaque encontrada.",
       "noReviews": "O usuário não tem avaliações.",
       "noReviewsOwn": "Você não tem avaliações. Faça sua primeira!",
+      "reviewAGame": "Avaliar um jogo",
       "usernameUpdateCooldown": "Você atualizou seu nome de usuário nos últimos 30 dias. Por favor, tente novamente mais tarde.",
       "usernameUpdated": "Seu nome de usuário foi atualizado!"
     },
@@ -2865,6 +2880,7 @@
       "backlogTracking": "Acompanhamento de backlog",
       "collectionsLabel": "Coleções",
       "estimatedPlaytime": "Tempo de jogo estimado (em horas)*",
+      "playtimeShort": "Horas jogadas",
       "finishYear": "Ano de Conclusão",
       "finishedGames": "Jogos concluídos",
       "finishedGamesLabel": "Jogos concluídos",
@@ -3500,6 +3516,7 @@
     "list": "Lista"
   },
   "mcp": {
+    "eyebrow": "Model Context Protocol",
     "title": "GameNode + IA",
     "intro": "Encontre seu próximo jogo e organize sua vida gamer com seu assistente. Você escolhe as permissões ao autorizar.",
     "readExample": "Encontre um jogo cooperativo e mostre minha biblioteca e coleções.",

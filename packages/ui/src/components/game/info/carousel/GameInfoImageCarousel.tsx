@@ -20,7 +20,7 @@ interface IGameInfoImageCarouselProps {
   carouselProps?: CarouselProps;
 }
 
-const getCombinedImages = (game: Game) => {
+export const getCombinedImages = (game: Game) => {
   const screenshotsUrls = game.screenshots
     ?.filter((screenshot) => screenshot.url != undefined)
     .map((screenshot) => screenshot.url!);

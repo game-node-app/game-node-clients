@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { useTranslation } from "@repo/locales";
 import { JournalOverviewView, useUserId, useUserProfile } from "@repo/ui";
 
 interface Props {
@@ -6,12 +7,13 @@ interface Props {
 }
 
 const JournalPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   useUserId();
 
   useUserProfile(userId);
 
   return (
-    <AppPage>
+    <AppPage title={t("navigation.journal")}>
       <JournalOverviewView userId={userId} />
     </AppPage>
   );

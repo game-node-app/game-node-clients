@@ -1906,7 +1906,10 @@ export type TranslationSchema = {
       autoUpdate: string;
       count: string;
       description: string;
+      completed: string;
       hover: string;
+      helpLabel: string;
+      platinum: string;
       loading: string;
       tap: string;
       tipAction: string;
@@ -1915,6 +1918,8 @@ export type TranslationSchema = {
     };
     loading: string;
     overview: {
+      emptyDescription: string;
+      emptyTitle: string;
       gamesCount: string;
     };
   };
@@ -2315,12 +2320,12 @@ export type TranslationSchema = {
       shareDescription: string;
       sharePrompt: string;
       templates: {
+        aura: string;
         bento: string;
         dash: string;
         poster: string;
         summary: string;
       };
-        aura: string;
       title: string;
       video: {
         formats: string;
@@ -2461,12 +2466,12 @@ export type TranslationSchema = {
         tools: string;
         yourSpace: string;
       };
+      version: string;
     };
     stats: string;
     terms: string;
     wrapped: string;
   };
-      version: string;
   notFoundPage: {
     backHome: string;
     description: string;
@@ -2628,6 +2633,15 @@ export type TranslationSchema = {
     };
   };
   posts: {
+    tabs: {
+      all: string;
+      following: string;
+      soon: string;
+    };
+    empty: {
+      title: string;
+      description: string;
+    };
     messages: {
       published: string;
       removeWarning: string;
@@ -2858,6 +2872,7 @@ export type TranslationSchema = {
       noFeaturedAchievements: string;
       noReviews: string;
       noReviewsOwn: string;
+      reviewAGame: string;
       usernameUpdateCooldown: string;
       usernameUpdated: string;
     };
@@ -2869,6 +2884,7 @@ export type TranslationSchema = {
       backlogTracking: string;
       collectionsLabel: string;
       estimatedPlaytime: string;
+      playtimeShort: string;
       finishYear: string;
       finishedGames: string;
       finishedGamesLabel: string;
@@ -3504,6 +3520,7 @@ export type TranslationSchema = {
     list: string;
   };
   mcp: {
+    eyebrow: string;
     title: string;
     intro: string;
     readExample: string;

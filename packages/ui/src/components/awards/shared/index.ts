@@ -5,6 +5,7 @@
 export * from "./AwardsCategoryLayout";
 export * from "./AwardsCategoryList";
 export * from "./AwardsCategoryPanel";
+export * from "./awardsCategoryText";
 export * from "./AwardsEventBand";
 export * from "./AwardsGameCover";
 export * from "./AwardsNomineeCard";
@@ -13,5 +14,4 @@ export * from "./AwardsSegmentedControl";
 export * from "./AwardsStatusChip";
 export * from "./AwardsVoteBar";
 export * from "./AwardsVoteBarContent";
-export * from "./awardsCategoryText";
 export * from "./useAwardsMobileLayout";

@@ -15,7 +15,7 @@ const WrappedHomePage = () => {
   const initialPeriod = RECAP_PERIODS.find((period) => period === requested);
 
   return (
-    <AppPage withMenuButton>
+    <AppPage title={t("navigation.wrapped")} withMenuButton>
       <SessionAuth>
         <WrappedRecapScreen
           initialPeriod={initialPeriod}

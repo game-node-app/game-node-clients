@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { ProfileStatsView } from "@repo/ui";
 
 interface Props {
@@ -6,8 +7,9 @@ interface Props {
 }
 
 const ProfileStatsPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   return (
-    <AppPage>
+    <AppPage title={t("navigation.stats")}>
       <ProfileStatsView userId={userId} />
     </AppPage>
   );

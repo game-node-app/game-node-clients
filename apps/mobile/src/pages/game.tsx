@@ -48,7 +48,7 @@ const GamePage = ({ gameId }: Props) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
-  useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
+  const { data: game } = useGame(gameId, DEFAULT_GAME_INFO_VIEW_DTO);
 
   const [params, setParams] = useUrlState({
     tab: GameInfoTabValue.overview,
@@ -94,7 +94,12 @@ const GamePage = ({ gameId }: Props) => {
   };
 
   return (
-    <AppPage withSearch>
+    <AppPage
+      withSearch
+      transparentHeader
+      title={game?.name}
+      contentProps={{ fullscreen: true }}
+    >
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {

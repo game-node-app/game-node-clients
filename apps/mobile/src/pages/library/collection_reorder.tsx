@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { Box } from "@mantine/core";
 import { CollectionOrderingUpdateForm } from "@repo/ui";
 
@@ -7,8 +8,10 @@ interface Props {
 }
 
 const CollectionReorderPage = ({ collectionId }: Props) => {
+  const { t } = useTranslation();
   return (
     <AppPage
+      title={t("navigation.collections")}
       withSearch={false}
       contentProps={{
         scrollY: false,

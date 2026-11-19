@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import {
   Accordion,
   Alert,
@@ -26,15 +26,11 @@ import {
   IconWorld,
 } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
+import { buildPresenterComponent } from "#@/context";
 import { GameNodeLogo } from "#@/components/general/GameNodeLogo";
-import {
-  getMcpConnection,
-  getMcpPrompt,
-  MCP_CLIENTS,
-  MCP_SCOPES,
-  McpClient,
-} from "./connection";
+import { MCP_CLIENTS, MCP_SCOPES, McpClient } from "./connection";
 import { McpCopy } from "./McpCopy";
+import { useMcpGuide } from "./useMcpGuide";
 import classes from "./McpGuide.module.css";
 
 export const MCP_EXAMPLES = [
@@ -47,31 +43,17 @@ export interface McpGuideScreenProps {
   openExternal?: (url: string) => Promise<void>;
 }
 
-export function McpGuideScreen({ openExternal }: McpGuideScreenProps) {
+const DEFAULT_McpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState<McpClient>("codex");
-  const [launchError, setLaunchError] = useState<string>();
-  const connection = getMcpConnection();
-  const client = selected === "manual" ? null : MCP_CLIENTS[selected];
-  const prompt = getMcpPrompt(selected, t);
-  const launch = (url: string) => {
-    setLaunchError(undefined);
-    void openExternal?.(url).catch(() => setLaunchError(url));
-  };
-  const launchProps = (url: string) => ({
-    onClick: () => {
-      setSelected(url === MCP_CLIENTS.claude.launch ? "claude" : "chatgpt");
-      if (openExternal) launch(url);
-    },
-    ...(!openExternal
-      ? {
-          component: "a" as const,
-          href: url,
-          target: "_blank",
-          rel: "noreferrer",
-        }
-      : {}),
-  });
+  const {
+    selected,
+    setSelected,
+    launchError,
+    connection,
+    client,
+    prompt,
+    launchProps,
+  } = useMcpGuide({ openExternal });
   const snippet = (value: string) => (
     <Stack gap="xs" style={{ minWidth: 0 }}>
       <Code
@@ -305,4 +287,9 @@ export function McpGuideScreen({ openExternal }: McpGuideScreenProps) {
       </Stack>
     </Container>
   );
-}
+};
+
+export const McpGuideScreen = buildPresenterComponent(
+  "McpGuideScreen",
+  DEFAULT_McpGuideScreen,
+);

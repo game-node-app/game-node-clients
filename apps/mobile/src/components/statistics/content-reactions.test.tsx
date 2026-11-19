@@ -168,9 +168,7 @@ it("renders and likes a review comment without a reviewId in its response", asyn
   );
 
   expect(await screen.findByText("A newly submitted comment")).toBeTruthy();
-  fireEvent.click(
-    screen.getByRole("button", { name: "actions.like" }),
-  );
+  fireEvent.click(screen.getByRole("button", { name: "actions.like" }));
   await waitFor(() => {
     expect(like).toHaveBeenCalledWith({
       sourceId: commentId,

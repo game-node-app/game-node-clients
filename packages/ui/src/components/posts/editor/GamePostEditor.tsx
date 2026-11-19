@@ -19,7 +19,7 @@ import { notifications } from "@mantine/notifications";
 import { RichTextEditor, RichTextEditorContentProps } from "@mantine/tiptap";
 import { useTranslation } from "@repo/locales";
 import { PostsService } from "@repo/wrapper/server";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto, IconPlus } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEditor } from "@tiptap/react";
 import { useState } from "react";
@@ -151,7 +151,14 @@ const GamePostEditor = (props: GamePostEditorProps) => {
 
   if (!editorEnabled) {
     return (
-      <Button variant={"default"} onClick={editorEnabledUtils.open}>
+      <Button
+        variant={"light"}
+        radius={"xl"}
+        size={"md"}
+        fullWidth
+        rightSection={<IconPlus size={18} />}
+        onClick={editorEnabledUtils.open}
+      >
         {t("actions.create")}
       </Button>
     );

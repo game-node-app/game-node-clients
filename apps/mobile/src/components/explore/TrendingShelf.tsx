@@ -5,11 +5,14 @@ import {
   CenteredErrorMessage,
   cn,
   GameGridItem,
+  getSizedImageUrl,
+  ImageSize,
+  Link,
   useGames,
   useTrendingGames,
 } from "@repo/ui";
-import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
-import { IconChevronRight } from "@tabler/icons-react";
+import { Game, StatisticsRankingsRequestDto } from "@repo/wrapper/server";
+import { IconChevronRight, IconStarFilled } from "@tabler/icons-react";
 
 interface TrendingShelfProps {
   title: string;
@@ -20,6 +23,87 @@ interface TrendingShelfProps {
   ranked?: boolean;
   onSeeAll?: () => void;
 }
+
+function getBackdropUrl(game: Game): string | undefined {
+  const url = getSizedImageUrl(
+    game.artworks?.[0]?.url ?? game.screenshots?.[0]?.url ?? game.cover?.url,
+    ImageSize.SCREENSHOT_BIG,
+  );
+  // getSizedImageUrl returns a message string when the url is not an IGDB one
+  return url?.startsWith("https://") ? url : undefined;
+}
+
+const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
+  const { t } = useTranslation();
+  const backdrop = getBackdropUrl(game);
+  const genres = game.genres
+    ?.map((genre) => genre.name)
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" · ");
+  const rating =
+    typeof game.aggregatedRating === "number" && game.aggregatedRating > 0
+      ? (game.aggregatedRating / 20).toFixed(1)
+      : undefined;
+
+  return (
+    <Link
+      href={`/game/${game.id}`}
+      className={
+        "relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-xl bg-paper-6"
+      }
+    >
+      {backdrop && (
+        <img
+          src={backdrop}
+          alt={""}
+          loading={"lazy"}
+          draggable={false}
+          className={"absolute inset-0 h-full w-full object-cover"}
+        />
+      )}
+      <div
+        aria-hidden={true}
+        className={
+          "absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
+        }
+      />
+      <span
+        className={
+          "absolute left-3 top-3 rounded-full bg-brand-5 px-2.5 py-0.5 text-xs font-bold text-white"
+        }
+      >
+        {label}
+      </span>
+      <div className={"relative flex flex-col gap-1.5 p-3"}>
+        <Text fw={800} size={"xl"} lineClamp={2} c={"white"} lh={1.15}>
+          {game.name}
+        </Text>
+        <div className={"flex items-center gap-2 text-xs text-white/80"}>
+          {genres && <span className={"truncate"}>{genres}</span>}
+          {rating && (
+            <span className={"flex shrink-0 items-center gap-0.5"}>
+              <IconStarFilled size={12} color={"#F5C518"} />
+              {rating}
+            </span>
+          )}
+        </div>
+        {game.summary && (
+          <Text size={"sm"} lineClamp={3} c={"rgba(255,255,255,0.82)"}>
+            {game.summary}
+          </Text>
+        )}
+        <span
+          className={
+            "mt-1 w-fit rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-black"
+          }
+        >
+          {t("home.trendingViewGame")}
+        </span>
+      </div>
+    </Link>
+  );
+};
 
 const TrendingShelf = ({
   title,
@@ -41,7 +125,10 @@ const TrendingShelf = ({
     typeof sourceId === "number" ? [sourceId] : [],
   );
 
-  const gamesQuery = useGames({ gameIds, relations: { cover: true } });
+  const gamesQuery = useGames({
+    gameIds,
+    relations: { cover: true, genres: true, artworks: true },
+  });
 
   const games = gameIds?.flatMap((id, index) => {
     const game = gamesQuery.data?.find((game) => game.id === id);
@@ -54,10 +141,12 @@ const TrendingShelf = ({
 
   if (!ranked && !isLoading && !hasGames) return null;
 
+  const featured = games?.[0];
+  const rest = games?.slice(1);
   const cardWidth = ranked ? "w-32" : "w-28";
 
   return (
-    <section className={"flex w-full flex-col gap-2"}>
+    <section className={"flex w-full flex-col gap-3"}>
       <Group justify={"space-between"} wrap={"nowrap"}>
         <Text fw={700} size={"lg"} className={"truncate"}>
           {title}
@@ -79,6 +168,13 @@ const TrendingShelf = ({
       {ranked && !isLoading && !hasError && !hasGames && (
         <CenteredErrorMessage message={t("game.search.noGamesFound")} />
       )}
+      {isLoading && <Skeleton className={"aspect-[4/3] w-full rounded-xl"} />}
+      {featured && (
+        <FeaturedGame
+          game={featured.game}
+          label={t("home.trendingRank", { rank: featured.rank })}
+        />
+      )}
       <div
         className={
           "flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -91,7 +187,7 @@ const TrendingShelf = ({
               className={cn("shrink-0 aspect-[264/354]", cardWidth)}
             />
           ))}
-        {games?.map(({ game, rank }) => (
+        {rest?.map(({ game, rank }) => (
           <div
             key={game.id}
             className={cn("relative shrink-0 snap-start", cardWidth)}

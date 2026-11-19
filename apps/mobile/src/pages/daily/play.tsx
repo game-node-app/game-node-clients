@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters";
 import { DailyPlayView, isDailyMode } from "@repo/ui";
 import { Redirect } from "react-router-dom";
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const DailyPlayPage = ({ mode }: Props) => {
+  const { t } = useTranslation();
   const searchParameters = useSearchParameters();
   const puzzleId = Number(searchParameters.get("puzzle")) || undefined;
 
@@ -17,7 +19,7 @@ const DailyPlayPage = ({ mode }: Props) => {
   }
 
   return (
-    <AppPage>
+    <AppPage title={t("navigation.daily")}>
       <DailyPlayView mode={mode} puzzleId={puzzleId} />
     </AppPage>
   );

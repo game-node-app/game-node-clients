@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 import {
   IonInfiniteScroll,
@@ -13,10 +14,12 @@ import {
   PostsFeedLayout,
   PostsFeedTabValue,
 } from "@repo/ui";
+import { MobilePostsFeedEmpty } from "@/components/posts/MobilePostsFeedEmpty";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
 const PostsPage = () => {
+  const { t } = useTranslation();
   const params = useSearchParameters();
   const postId = params.get("postId") as string | undefined;
 
@@ -30,6 +33,7 @@ const PostsPage = () => {
 
   return (
     <AppPage
+      title={t("navigation.posts")}
       withSearch
       contentProps={{
         ref: contentRef,
@@ -50,15 +54,21 @@ const PostsPage = () => {
         <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
           <PostsFeed criteria={currentTab} targetedPostId={postId}>
             {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <IonInfiniteScroll
-                disabled={!hasNextPage}
-                onIonInfinite={async (evt) => {
-                  await fetchNextPage();
-                  await evt.target.complete();
-                }}
-              >
-                <IonInfiniteScrollContent />
-              </IonInfiniteScroll>
+              <>
+                <MobilePostsFeedEmpty
+                  criteria={currentTab}
+                  targetedPostId={postId}
+                />
+                <IonInfiniteScroll
+                  disabled={!hasNextPage}
+                  onIonInfinite={async (evt) => {
+                    await fetchNextPage();
+                    await evt.target.complete();
+                  }}
+                >
+                  <IonInfiniteScrollContent />
+                </IonInfiniteScroll>
+              </>
             )}
           </PostsFeed>
         </PostsFeedLayout>

@@ -59,13 +59,11 @@ const GameSearchPage = () => {
   }, [data]);
 
   return (
-    <AppPage withSearch={false}>
+    <AppPage title={t("navigation.search")} withSearch={false}>
       <Stack className={"w-full min-h-96 mb-8"}>
         <GameView layout={layout}>
           <FocusTrap>
-            <GameSearchBar
-              onChange={(query) => setSearchParams({ query })}
-            />
+            <GameSearchBar onChange={(query) => setSearchParams({ query })} />
           </FocusTrap>
           <GameSearchViewActions
             includeExtraContent={includeExtraContent}

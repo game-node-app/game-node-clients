@@ -84,6 +84,20 @@ export const BLOG_ROUTES = {
   detail: "/blog/post/:postId",
 } as const;
 
+/**
+ * Utility screens (setup, connections, settings, sign-in): they are reached from a menu or a
+ * button, not from the tab bar, so the bar is hidden on them (see `Tabs`).
+ */
+export const UTILITY_ROUTES = {
+  mcp: "/mcp",
+  connectionCallback: "/connections/callback/:type",
+  importer: "/importer",
+  importerSource: "/importer/:source",
+  auth: "/auth",
+  preferences: "/preferences",
+  preferencesSupporter: "/preferences/supporter",
+} as const;
+
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
     <Route
@@ -126,13 +140,13 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-mcp`}
-      path={`${prefix}/mcp`}
+      path={`${prefix}${UTILITY_ROUTES.mcp}`}
       render={() => <McpPage />}
     />,
     <Route
       exact
       key={`${prefix}-connection-callback`}
-      path={`${prefix}/connections/callback/:type`}
+      path={`${prefix}${UTILITY_ROUTES.connectionCallback}`}
       render={({ match }) => (
         <ConnectionCallbackPage type={match.params.type} />
       )}
@@ -252,12 +266,12 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-importer`}
-      path={`${prefix}/importer`}
+      path={`${prefix}${UTILITY_ROUTES.importer}`}
       render={() => <ImporterPage />}
     />,
     <Route
       key={`${prefix}-importer-type`}
-      path={`${prefix}/importer/:source`}
+      path={`${prefix}${UTILITY_ROUTES.importerSource}`}
       render={(props) => {
         // eslint-disable-next-line react/prop-types
         return <ImporterByTypePage source={props.match.params.source} />;
@@ -266,7 +280,7 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-auth`}
-      path={`${prefix}/auth`}
+      path={`${prefix}${UTILITY_ROUTES.auth}`}
       render={() => <AuthPage />}
     />,
     <Route
@@ -314,7 +328,7 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-preferences-supporter`}
-      path={`${prefix}/preferences/supporter`}
+      path={`${prefix}${UTILITY_ROUTES.preferencesSupporter}`}
       render={() => <PreferencesSupporterPage />}
     />,
     <Route
@@ -326,7 +340,7 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-preferences`}
-      path={`${prefix}/preferences`}
+      path={`${prefix}${UTILITY_ROUTES.preferences}`}
       render={() => <PreferencesPage />}
     />,
     <Route

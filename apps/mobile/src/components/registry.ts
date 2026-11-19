@@ -7,7 +7,21 @@ import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
 import { MobileGameAchievementListItem } from "@/components/achievement/MobileGameAchievementListItem.tsx";
+import { MobileUserLevelHeader } from "@/components/general/MobileUserLevelHeader";
+import { MobileJournalAchievementsGameGroup } from "@/components/journal/MobileJournalAchievementsGameGroup";
+import { MobileProfileStatsView } from "@/components/profile/MobileProfileStatsView";
 import { MobileBlogArticleLanguageLink } from "@/components/blog/MobileBlogArticleLanguageLink";
+import { MobileMcpGuideScreen } from "@/components/mcp/MobileMcpGuideScreen";
+import { MobilePostsFeedLayout } from "@/components/posts/MobilePostsFeedLayout";
+import { MobilePostsListItem } from "@/components/posts/MobilePostsListItem";
+import {
+  MobileJournalMonthHeader,
+  MobileJournalYearHeader,
+} from "@/components/journal/MobileJournalHeaders";
+import { MobileJournalOverviewEmpty } from "@/components/journal/MobileJournalOverviewEmpty";
+import { MobileJournalOverviewItem } from "@/components/journal/MobileJournalOverviewItem";
+import { MobileProfileReviewListEmpty } from "@/components/review/list/MobileProfileReviewListEmpty";
+import { MobileProfileReviewListItem } from "@/components/review/list/MobileProfileReviewListItem";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
@@ -21,6 +35,18 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
   GameAchievementsListItem: MobileGameAchievementListItem,
   BlogArticleLanguageLink: MobileBlogArticleLanguageLink,
+  McpGuideScreen: MobileMcpGuideScreen,
+  PostsFeedLayout: MobilePostsFeedLayout,
+  PostsListItem: MobilePostsListItem,
+  UserLevelHeader: MobileUserLevelHeader,
+  JournalAchievementsGameGroup: MobileJournalAchievementsGameGroup,
+  ProfileStatsView: MobileProfileStatsView,
+  JournalOverviewItem: MobileJournalOverviewItem,
+  JournalMonthHeader: MobileJournalMonthHeader,
+  JournalYearHeader: MobileJournalYearHeader,
+  JournalOverviewEmpty: MobileJournalOverviewEmpty,
+  ProfileReviewListItem: MobileProfileReviewListItem,
+  ProfileReviewListEmpty: MobileProfileReviewListEmpty,
   Link: LinkWrapper,
   Modal: IonModalWrapper,
 };

@@ -14,10 +14,7 @@ const AwardsNomineesPage = ({ userId, eventYear }: Props) => {
 
   return (
     <AppPage title={t("awards.ballot.shared.heading")} withSearch={false}>
-      <AwardsSharedBallotScreen
-        eventYear={eventYearNumber}
-        userId={userId}
-      />
+      <AwardsSharedBallotScreen eventYear={eventYearNumber} userId={userId} />
     </AppPage>
   );
 };

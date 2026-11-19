@@ -119,22 +119,27 @@ const ExploreGamesPageView = () => {
 
   return (
     <Stack className={"w-full"}>
-      <Flex className={"w-full justify-end"}>
+      {/* Period pill pinned on the left, genre chips scroll beside it (Phantom / Public style). */}
+      <Flex className={"w-full items-center gap-2"} wrap={"nowrap"}>
         <IonSelect
-          label={t("explore.filters.trendingIn")}
+          className={"gn-period-select"}
+          aria-label={t("explore.filters.trendingIn")}
           interface="action-sheet"
+          interfaceOptions={{ header: t("explore.filters.trendingIn") }}
           placeholder={t("explore.placeholders.selectPeriod")}
           onIonChange={(evt) => setSelectedPeriod(evt.detail.value)}
           value={selectedPeriod}
         >
           {periodSelectOptions}
         </IonSelect>
+        <div aria-hidden className={"h-5 w-px shrink-0 bg-white/15"} />
+        <TrendingGenreChips
+          className={"min-w-0 flex-1"}
+          genres={genres}
+          selectedGenreId={selectedGenreId}
+          onSelect={onSelectGenre}
+        />
       </Flex>
-      <TrendingGenreChips
-        genres={genres}
-        selectedGenreId={selectedGenreId}
-        onSelect={onSelectGenre}
-      />
       {isOverview ? (
         <Stack gap={"lg"} className={"w-full"}>
           <TrendingShelf

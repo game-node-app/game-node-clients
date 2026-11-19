@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { useTranslation } from "@repo/locales";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 import { useIonRouter } from "@ionic/react";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const LibraryPage = (props: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const targetUserId = props.userId ?? ownUserId;
 
@@ -26,6 +28,7 @@ const LibraryPage = (props: Props) => {
 
   return (
     <AppPage
+      title={t("navigation.library")}
       withMenuButton
       withSearch
       contentProps={{

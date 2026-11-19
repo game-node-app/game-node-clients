@@ -7,9 +7,11 @@ import { match, P } from "ts-pattern";
 
 interface Props {
   group: JournalAchievementsGameGroup;
+  /** Overrides the badge captions (defaults to English). */
+  labels?: { completed: string; platinum: string };
 }
 
-const JournalAchievementsTags = ({ group }: Props) => {
+const JournalAchievementsTags = ({ group, labels }: Props) => {
   const { isComplete, isPlatinum } = group;
 
   const source = group.source as unknown as EGameExternalGameCategory;
@@ -53,7 +55,7 @@ const JournalAchievementsTags = ({ group }: Props) => {
           color="teal"
           className="font-semibold tracking-wide"
         >
-          Completed
+          {labels?.completed ?? "Completed"}
         </Badge>
       )}
 
@@ -65,7 +67,7 @@ const JournalAchievementsTags = ({ group }: Props) => {
           gradient={{ from: "#0d47a1", to: "#cfd8dc", deg: 120 }}
           className="font-semibold tracking-wide text-[#0b1930]"
         >
-          Platinum
+          {labels?.platinum ?? "Platinum"}
         </Badge>
       )}
     </Group>

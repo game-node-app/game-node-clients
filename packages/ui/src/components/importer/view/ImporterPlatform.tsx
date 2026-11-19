@@ -1,7 +1,8 @@
 import { getConnectionName } from "#@/components";
 import { Link } from "#@/util";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { Badge, Button, Image, Stack, Text, Title } from "@mantine/core";
+import { Badge, Box, Button, Group, Image, Stack, Text, Title } from "@mantine/core";
+import { IconChevronRight } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { OwnUserConnectionDto } from "@repo/wrapper/server";
 import { useMemo } from "react";
@@ -37,21 +38,47 @@ const ImporterPlatform = ({ connection }: Props) => {
     }
   }, [connection.lastSyncedAt, i18n.language]);
 
+  const action = isReauthRequired ? (
+    <Link href="/preferences/connections" className={"shrink-0"}>
+      <Button color="yellow" variant="light" size="sm">
+        {t("importer.connection.reconnect")}
+      </Button>
+    </Link>
+  ) : (
+    <Link
+      href={`/importer/${connection.type.valueOf()}`}
+      className={"shrink-0"}
+    >
+      <Button size="sm" rightSection={<IconChevronRight size={16} />}>
+        {t("importer.buttons.import")}
+      </Button>
+    </Link>
+  );
+
   return (
-    <Stack
+    <Group
+      wrap="nowrap"
+      gap="md"
       className={
-        "h-auto min-h-64 w-60 items-center bg-[#141414] p-4 rounded-md justify-between"
+        "w-full max-w-xl rounded-xl border border-solid border-[#2a2a2a] bg-[#141414] p-4"
       }
     >
-      <Stack className="items-center" gap="xs">
+      <Box
+        className={
+          "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#1f1f1f]"
+        }
+      >
         <Image
           alt={"Importer source icon"}
           src={getServerStoredIcon(connection.type.valueOf())}
-          w={48}
-          h={48}
-          className={"mt-2"}
+          w={32}
+          h={32}
         />
-        <Title size={"h4"}>{connectionName}</Title>
+      </Box>
+      <Stack gap={6} className={"min-w-0 flex-1 items-start"}>
+        <Title order={4} size={"h5"} lh={1.2}>
+          {connectionName}
+        </Title>
 
         {isReauthRequired ? (
           <Badge color="yellow" variant="light" size="sm">
@@ -72,27 +99,13 @@ const ImporterPlatform = ({ connection }: Props) => {
         ) : null}
 
         {formattedLastSynced && (
-          <Text size="xs" c="dimmed" ta="center">
+          <Text size="xs" c="dimmed" lh={1.3}>
             {t("importer.connection.lastSynced", { time: formattedLastSynced })}
           </Text>
         )}
       </Stack>
-
-      {isReauthRequired ? (
-        <Link href="/preferences/connections" className={"w-full mt-auto mb-2"}>
-          <Button color="yellow" variant="outline" className={"w-full"}>
-            {t("importer.connection.reconnect")}
-          </Button>
-        </Link>
-      ) : (
-        <Link
-          href={`/importer/${connection.type.valueOf()}`}
-          className={"w-full mt-auto mb-2"}
-        >
-          <Button className={"w-full"}>{t("importer.buttons.import")}</Button>
-        </Link>
-      )}
-    </Stack>
+      {action}
+    </Group>
   );
 };
 

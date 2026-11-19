@@ -4,20 +4,21 @@ import {
   JournalAchievementsTags,
   useGame,
 } from "#@/components";
+import { buildPresenterComponent } from "#@/context";
 import { Box, Flex, Skeleton, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { JournalAchievementsGameGroup } from "@repo/wrapper/server";
 import { useMemo } from "react";
 
-interface Props {
+export interface JournalAchievementsGameGroupViewProps {
   userId: string;
   gameGroup: JournalAchievementsGameGroup;
 }
 
-const JournalAchievementsGameGroupView = ({
+const DEFAULT_JournalAchievementsGameGroupView = ({
   userId,
   gameGroup,
-}: Props) => {
+}: JournalAchievementsGameGroupViewProps) => {
   const { t } = useTranslation();
   const { data: game, isLoading: isGameLoading } = useGame(
     gameGroup.gameId,
@@ -66,5 +67,10 @@ const JournalAchievementsGameGroupView = ({
     </Flex>
   );
 };
+
+const JournalAchievementsGameGroupView = buildPresenterComponent(
+  "JournalAchievementsGameGroup",
+  DEFAULT_JournalAchievementsGameGroupView,
+);
 
 export { JournalAchievementsGameGroupView };

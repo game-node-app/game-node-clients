@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
+import { Capacitor } from "@capacitor/core";
+import { useEffect, useRef, useState } from "react";
 
 type SplashPhase = "pulse" | "fill" | "zoom" | "fade" | "done";
 
@@ -26,6 +28,8 @@ const SPLASH_ALPHA = 0.995;
 // logo drawn in a 1000x1000 viewBox (node_icon.svg), shown at 0.2 px per unit
 const LOGO_SCALE = 0.2;
 const LOGO_PX = 1000 * LOGO_SCALE;
+// screen.height and innerHeight differ by a rounding pixel when the WebView is full screen
+const FULL_SCREEN_TOLERANCE_PX = 4;
 // center of the logo's hole, which is what the final zoom grows into
 const HOLE_CX = 500.5;
 const HOLE_CY = 500.15;
@@ -50,6 +54,31 @@ const HOLE_Y = HOLE_CY * LOGO_SCALE;
  */
 let splashShown = false;
 
+/**
+ * The native splash is centred on the whole screen, but the edge-to-edge plugin may still have the
+ * WebView inset by the system bars (it runs before JS can disable it). Returns how far the WebView's
+ * centre sits below the screen centre, in CSS px, so the logo can be pulled back onto it.
+ */
+async function getCenterShift(): Promise<number> {
+  if (Capacitor.getPlatform() !== "android") return 0;
+  // getInsets() reports the system bars even after EdgeToEdge.disable() has made the WebView
+  // full screen again, so only trust it while the WebView is really shorter than the screen.
+  // Otherwise the logo is pulled off-centre as soon as the WebView grows.
+  if (window.screen.height - window.innerHeight < FULL_SCREEN_TOLERANCE_PX) {
+    return 0;
+  }
+  try {
+    const { top, bottom } = await EdgeToEdge.getInsets();
+    // the WebView may have been resized while the insets were being read
+    if (window.screen.height - window.innerHeight < FULL_SCREEN_TOLERANCE_PX) {
+      return 0;
+    }
+    return (top - bottom) / 2 / (window.devicePixelRatio || 1);
+  } catch {
+    return 0;
+  }
+}
+
 /** Fill circle radius and hole zoom that cover the viewport. */
 function coverScales() {
   const { innerWidth: w, innerHeight: h } = window;
@@ -73,14 +102,25 @@ function coverScales() {
  * The hole reveal uses a "frame" layer instead of a mask: orange everywhere except the
  * transparent hole, which is swapped in once the fill has covered the screen and scaled up.
  */
-export default function EntrySplash() {
+export default function EntrySplash({
+  onFinish,
+}: {
+  /** Called when the splash starts fading out (or right away if it was already shown). */
+  onFinish?: () => void;
+}) {
   const [phase, setPhase] = useState<SplashPhase>(
     splashShown ? "done" : "pulse",
   );
   const [scales, setScales] = useState({ fillRadius: 1000, zoom: 40 });
+  const rootRef = useRef<HTMLDivElement>(null);
+  const onFinishRef = useRef(onFinish);
+  onFinishRef.current = onFinish;
 
   useEffect(() => {
-    if (splashShown) return;
+    if (splashShown) {
+      onFinishRef.current?.();
+      return;
+    }
 
     let timer: ReturnType<typeof setTimeout>;
     let frame: number | undefined;
@@ -91,6 +131,7 @@ export default function EntrySplash() {
 
     const fadeOut = () => {
       splashShown = true;
+      onFinishRef.current?.();
       setPhase("fade");
       timer = setTimeout(() => setPhase("done"), FADE_MS);
     };
@@ -123,7 +164,18 @@ export default function EntrySplash() {
       frame = requestAnimationFrame(tick);
     };
 
+    // set straight on the element (a CSS variable), not through state: a React render waits for
+    // the busy main thread, and the logo would sit off-centre until it got there
+    const updateShift = () => {
+      getCenterShift().then((next) =>
+        rootRef.current?.style.setProperty("--gn-shift", `${next}px`),
+      );
+    };
+    // the WebView grows to full screen once the edge-to-edge plugin is disabled
+    window.addEventListener("resize", updateShift);
+
     const waitForPage = () => {
+      updateShift();
       const elapsed = Date.now() - startedAt;
       const loaded =
         document.readyState === "complete" &&
@@ -137,6 +189,7 @@ export default function EntrySplash() {
     waitForPage();
 
     return () => {
+      window.removeEventListener("resize", updateShift);
       clearTimeout(timer);
       if (frame !== undefined) cancelAnimationFrame(frame);
     };
@@ -148,7 +201,7 @@ export default function EntrySplash() {
   const logoBox = {
     position: "absolute",
     left: `calc(50% - ${HOLE_X}px)`,
-    top: `calc(50% - ${HOLE_Y}px)`,
+    top: `calc(50% - var(--gn-shift, 0px) - ${HOLE_Y}px)`,
     width: LOGO_PX,
     height: LOGO_PX,
   } as const;
@@ -156,6 +209,7 @@ export default function EntrySplash() {
   return (
     <div
       aria-hidden
+      ref={rootRef}
       className="gn-entry-splash"
       data-phase={phase}
       style={{ position: "fixed", inset: 0, zIndex: 99999, overflow: "hidden" }}
@@ -191,7 +245,7 @@ export default function EntrySplash() {
           .gn-entry-splash__fill {
             position: absolute;
             left: calc(50% - ${scales.fillRadius}px);
-            top: calc(50% - ${scales.fillRadius}px);
+            top: calc(50% - var(--gn-shift, 0px) - ${scales.fillRadius}px);
             width: ${scales.fillRadius * 2}px;
             height: ${scales.fillRadius * 2}px;
             border-radius: 50%;
@@ -208,7 +262,7 @@ export default function EntrySplash() {
           .gn-entry-splash__frame {
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: calc(50% - var(--gn-shift, 0px));
             width: 0;
             height: 0;
             transform-origin: 0 0;

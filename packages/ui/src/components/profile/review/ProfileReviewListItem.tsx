@@ -10,10 +10,12 @@ import { RelativeDate } from "#@/components/general/RelativeDate";
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { ReviewListItemComments } from "#@/components/review/view/ReviewListItemComments";
 import { ReviewListItemDropdownButton } from "#@/components/review/view/ReviewListItemDropdownButton";
+import { buildPresenterComponent } from "#@/context";
 import { Link, useRouter } from "#@/util";
 import { Box, Divider, Group, Paper, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { Review, StatisticsSourceRequestDto } from "@repo/wrapper/server";
+import type { ReactElement } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import sourceType = StatisticsSourceRequestDto.sourceType;
 
@@ -22,14 +24,16 @@ interface Props {
   preview?: boolean;
 }
 
+export interface ProfileReviewListItemProps {
+  review: Review;
+}
+
 /**
- * Renders a preview of a user's review with a visit button.
- * @constructor
+ * Game (with cover) of a review, loaded for the review's owner. Shared by the
+ * default list item and the presenters registered by the apps.
  */
-const ProfileReviewListItem = ({ review, preview = false }: Props) => {
-  const { t } = useTranslation();
-  const router = useRouter();
-  const gameQuery = useGame(
+function useProfileReviewGame(review: Review) {
+  return useGame(
     review.gameId,
     {
       relations: {
@@ -38,6 +42,16 @@ const ProfileReviewListItem = ({ review, preview = false }: Props) => {
     },
     { ownerUserId: review.profileUserId },
   );
+}
+
+/**
+ * Renders a preview of a user's review with a visit button.
+ * @constructor
+ */
+const DEFAULT_ProfileReviewListItem = ({ review, preview = false }: Props) => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const gameQuery = useProfileReviewGame(review);
 
   const editor = useEditor(
     {
@@ -158,4 +172,25 @@ const ProfileReviewListItem = ({ review, preview = false }: Props) => {
   );
 };
 
-export { ProfileReviewListItem };
+/**
+ * Only the full list item (`preview = false`) can be replaced by a presenter;
+ * the compact preview always renders the default layout.
+ */
+const ProfileReviewListItemPresenter = buildPresenterComponent(
+  "ProfileReviewListItem",
+  ({ review }: ProfileReviewListItemProps) => (
+    <DEFAULT_ProfileReviewListItem review={review} />
+  ),
+);
+
+const ProfileReviewListItem = ({
+  review,
+  preview = false,
+}: Props): ReactElement =>
+  preview ? (
+    <DEFAULT_ProfileReviewListItem review={review} preview />
+  ) : (
+    <ProfileReviewListItemPresenter review={review} />
+  );
+
+export { ProfileReviewListItem, useProfileReviewGame };
