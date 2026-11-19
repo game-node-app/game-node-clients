@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
 import { RecapBackgroundControl } from "../../../../../packages/ui/src/components/wrapped/RecapBackgroundControl";
 import { RecapCustomizePanel } from "../../../../../packages/ui/src/components/wrapped/RecapCustomizePanel";
+import { RecapAuraCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapAuraCard";
 import { RecapBentoCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapPosterCard";
@@ -234,6 +235,7 @@ describe("customization in the cards", () => {
     ["Poster", RecapPosterCard],
     ["Dash", RecapDashCard],
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])("%s draws the chosen official image", (_, Card) => {
     renderCard(
@@ -292,6 +294,7 @@ describe("customization in the cards", () => {
     ["Poster", RecapPosterCard],
     ["Dash", RecapDashCard],
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])(
     "%s draws a photo instead of the cover art, under the overlay",
@@ -310,6 +313,7 @@ describe("customization in the cards", () => {
 
   it.each([
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])("%s darkens the photo evenly by the chosen overlay", (_, Card) => {
     const { container } = renderCard(
@@ -323,6 +327,7 @@ describe("customization in the cards", () => {
     ["Poster", RecapPosterCard],
     ["Dash", RecapDashCard],
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])("%s leaves the media area to the clip in a video export", (_, Card) => {
     const { container } = renderCard(<Card {...props()} media={{ video: true }} />);
@@ -354,6 +359,7 @@ describe("customization in the cards", () => {
   it.each([
     ["Dash", RecapDashCard],
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])(
     "%s hides the comparison by default and shows it when asked",
@@ -373,6 +379,7 @@ describe("customization in the cards", () => {
   it.each([
     ["Dash", RecapDashCard],
     ["Bento", RecapBentoCard],
+    ["Aura", RecapAuraCard],
     ["Feed summary", RecapSummaryCard],
   ])("%s shows the chosen extra figure", (_, Card) => {
     const { container } = renderCard(

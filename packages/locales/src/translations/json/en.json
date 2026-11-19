@@ -2316,6 +2316,7 @@
         "poster": "Poster",
         "summary": "Summary"
       },
+        "aura": "Aura",
       "title": "Wrapped",
       "video": {
         "formats": "MP4, MOV or WebM · up to {{seconds}} seconds",

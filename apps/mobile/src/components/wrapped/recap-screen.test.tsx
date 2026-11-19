@@ -155,6 +155,16 @@ vi.mock(
   }),
 );
 vi.mock(
+  "../../../../../packages/ui/src/components/wrapped/card/RecapAuraCard",
+  () => ({
+    RecapAuraCard: ({ format, summary }: CardMockProps) => {
+      mocks.cards.push({ template: "aura", format, summary });
+      return <div data-testid={"recap-aura-card"}>{format}</div>;
+    },
+  }),
+);
+
+vi.mock(
   "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard",
   () => ({
     RecapBentoCard: ({ format, summary }: CardMockProps) => {
@@ -396,7 +406,7 @@ describe("WrappedRecapScreen", () => {
     expect(mocks.summaryPeriods.at(-1)).toBe("month");
   });
 
-  it("offers only Poster, Dash and Bento templates in Story", () => {
+  it("offers Poster, Dash, Bento and Aura templates in Story", () => {
     renderScreen();
 
     expect(
@@ -406,6 +416,7 @@ describe("WrappedRecapScreen", () => {
     expect(
       screen.getByLabelText("mobile.wrapped.templates.bento"),
     ).toBeTruthy();
+    expect(screen.getByLabelText("mobile.wrapped.templates.aura")).toBeTruthy();
 
     // The recap has a single data source: no cover grid template or summary
     // template is offered in the Story format.

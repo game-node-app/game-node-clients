@@ -2316,6 +2316,7 @@
         "poster": "Cartaz",
         "summary": "Resumo"
       },
+        "aura": "Aura",
       "title": "Wrapped",
       "video": {
         "formats": "MP4, MOV ou WebM · até {{seconds}} segundos",

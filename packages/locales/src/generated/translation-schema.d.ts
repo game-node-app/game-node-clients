@@ -2320,6 +2320,7 @@ export type TranslationSchema = {
         poster: string;
         summary: string;
       };
+        aura: string;
       title: string;
       video: {
         formats: string;

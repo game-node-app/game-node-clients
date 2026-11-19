@@ -5,6 +5,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
 import { RecapCardPreview } from "../../../../../packages/ui/src/components/wrapped/card/RecapCardPreview";
+import { RecapAuraCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapAuraCard";
 import { RecapBentoCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapPosterCard";
@@ -244,6 +245,18 @@ describe("recap summary templates", () => {
     expect(container.textContent).toContain("mobile.wrapped.card.youPlayed");
     // Three covers on the podium and the fourth and fifth in the list.
     expect(screen.getAllByTestId("cover")).toHaveLength(5);
+  });
+
+  it("Aura shows the top covers, the hours sentence and the tiles", () => {
+    const { container } = renderCard(<RecapAuraCard {...props()} />);
+
+    expect(container.textContent).toContain("Game 1");
+    expect(container.textContent).toContain("Game 2");
+    expect(container.textContent).toContain("Ana");
+    expect(container.textContent).toContain(
+      'mobile.wrapped.card.playedAcross:{"count":3}',
+    );
+    expect(screen.getAllByTestId("cover")).toHaveLength(4);
   });
 
   it("Bento shows the top game, the figures and the list", () => {

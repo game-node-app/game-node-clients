@@ -7,7 +7,7 @@ import { Text, UnstyledButton } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import type { ReactNode } from "react";
 
-export type RecapTemplate = "poster" | "dash" | "bento" | "summary";
+export type RecapTemplate = "poster" | "dash" | "bento" | "aura" | "summary";
 
 const BRAND = "bg-[#F15025]";
 const INK = "bg-[#0B0A09]/70";
@@ -63,6 +63,28 @@ const WIREFRAMES: Record<RecapTemplate, ReactNode> = {
       <div className={"flex gap-0.5 h-4"}>
         <div className={cn("flex-1 rounded-[2px]", FILL)} />
         <div className={cn("flex-1 rounded-[2px]", FILL)} />
+      </div>
+    </div>
+  ),
+  aura: (
+    <div className={"relative flex flex-col gap-1 w-full h-full p-1.5"}>
+      <div
+        className={"absolute inset-0"}
+        style={{
+          background:
+            "radial-gradient(circle at 15% 12%, rgba(241,80,37,0.7), transparent 60%), radial-gradient(circle at 90% 50%, rgba(45,106,143,0.5), transparent 55%)",
+        }}
+      />
+      <div className={"relative flex gap-0.5 h-5"}>
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className={cn("flex-1 rounded-[2px]", FILL)} />
+        ))}
+      </div>
+      <div className={cn("relative h-5 w-3/4 rounded-[2px]", LINE)} />
+      <div className={"relative grid grid-cols-2 gap-0.5 flex-1"}>
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className={cn("rounded-[2px]", FILL)} />
+        ))}
       </div>
     </div>
   ),
