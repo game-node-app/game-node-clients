@@ -1,14 +1,19 @@
 import { Box, Stack, Tabs } from "@mantine/core";
+import { buildPresenterComponent } from "#@/context";
 import { PropsWithChildren } from "react";
 
 export type PostsFeedTabValue = "following" | "all";
 
-interface Props extends PropsWithChildren {
+export interface PostsFeedLayoutProps extends PropsWithChildren {
   currentTab: PostsFeedTabValue;
   onChange: (value: PostsFeedTabValue) => void;
 }
 
-const PostsFeedLayout = ({ currentTab, onChange, children }: Props) => {
+const DEFAULT_PostsFeedLayout = ({
+  currentTab,
+  onChange,
+  children,
+}: PostsFeedLayoutProps) => {
   return (
     <Stack className={"w-full h-full"}>
       <Tabs value={currentTab}>
@@ -36,5 +41,10 @@ const PostsFeedLayout = ({ currentTab, onChange, children }: Props) => {
     </Stack>
   );
 };
+
+const PostsFeedLayout = buildPresenterComponent(
+  "PostsFeedLayout",
+  DEFAULT_PostsFeedLayout,
+);
 
 export { PostsFeedLayout };

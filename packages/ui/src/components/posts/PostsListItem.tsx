@@ -9,68 +9,47 @@ import {
   ReportCreateFormModal,
   useOnMobile,
   UserAvatarGroup,
-  useUserId,
+  usePostsListItem,
 } from "#@/components";
 import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
 import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
-import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
-import { createErrorNotification, Modal } from "#@/util";
+import { buildPresenterComponent } from "#@/context";
+import { Modal } from "#@/util";
 import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
   CreateReportRequestDto,
   FindAllCommentsDto,
   Post,
-  PostsService,
   StatisticsSourceRequestDto,
 } from "@repo/wrapper/server";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 
-interface Props {
+export interface PostsListItemProps {
   item: Post;
   withUserProfile?: boolean;
   withGameInfo?: boolean;
 }
 
-const PostsListItem = ({
+const DEFAULT_PostsListItem = ({
   item,
   withUserProfile = true,
   withGameInfo = true,
-}: Props) => {
+}: PostsListItemProps) => {
   const { t } = useTranslation();
-  const userId = useUserId();
   const onMobile = useOnMobile();
-  const queryClient = useQueryClient();
-  const [commentsOpened, commentsOpenedUtils] = useDisclosure();
-  const [reportModalOpened, reportModalUtils] = useDisclosure();
-  const [removeModalOpened, removeModalUtils] = useDisclosure();
-
-  const editor = useEditor(
-    {
-      extensions: POST_EDITOR_EXTENSIONS,
-      immediatelyRender: window != undefined,
-      content: item.content,
-      editable: false,
-    },
-    [item.content],
-  );
-
-  const deletePostMutation = useMutation({
-    mutationFn: async () => {
-      return PostsService.postsControllerDeleteV1(item.id);
-    },
-    onError: createErrorNotification,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["posts", "feed"],
-      });
-    },
-  });
-
-  const isOwnPost = userId === item.profileUserId;
+  const {
+    editor,
+    commentsOpened,
+    commentsOpenedUtils,
+    reportModalOpened,
+    reportModalUtils,
+    removeModalOpened,
+    removeModalUtils,
+    deletePostMutation,
+    isOwnPost,
+  } = usePostsListItem(item);
 
   if (!editor) return null;
 
@@ -195,5 +174,10 @@ const PostsListItem = ({
     </Group>
   );
 };
+
+const PostsListItem = buildPresenterComponent(
+  "PostsListItem",
+  DEFAULT_PostsListItem,
+);
 
 export { PostsListItem };

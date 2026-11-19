@@ -28,10 +28,21 @@ export function setupDom() {
 export function renderMcp(
   children: React.ReactNode,
   language: "en" | "pt-BR" = "en",
+  /** Skips Mantine transitions (collapses open at once), which jsdom cannot finish. */
+  reduceMotion = false,
 ): RenderResult {
+  if (reduceMotion) {
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    });
+  }
   return render(
     <I18nProvider language={language}>
-      <MantineProvider>{children}</MantineProvider>
+      <MantineProvider theme={{ respectReducedMotion: reduceMotion }}>
+        {children}
+      </MantineProvider>
     </I18nProvider>,
   );
 }

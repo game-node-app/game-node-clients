@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { Box } from "@mantine/core";
 import {
   BlogPostDetailLayout,
@@ -11,8 +12,9 @@ interface Props {
 }
 
 const BlogPostDetailPage = ({ postId }: Props) => {
+  const { t } = useTranslation();
   return (
-    <AppPage>
+    <AppPage title={t("navigation.blog")}>
       <Box className={"w-full min-h-screen mb-8 mt-3"}>
         <BlogPostsLayout>
           <BlogPostDetailLayout postId={postId}>

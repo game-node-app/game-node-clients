@@ -1,12 +1,14 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { BlogPostsLayout, BlogPostsListView, useRouter } from "@repo/ui";
 
 const BlogPostsArchivePage = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const tag = router.query?.get("tag");
 
   return (
-    <AppPage>
+    <AppPage title={t("navigation.blog")}>
       <BlogPostsLayout>
         <BlogPostsListView
           tag={tag ?? undefined}

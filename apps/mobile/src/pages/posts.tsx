@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 import {
   IonInfiniteScroll,
@@ -8,15 +9,18 @@ import {
 } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import {
-  InfiniteLoaderProps,
   PostsFeed,
+  type PostsFeedChildrenProps,
   PostsFeedLayout,
   PostsFeedTabValue,
 } from "@repo/ui";
+import { MobilePostsFeedEmpty } from "@/components/posts/MobilePostsFeedEmpty";
+import { MobilePostsFeedSkeleton } from "@/components/posts/MobilePostsFeedSkeleton";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
 const PostsPage = () => {
+  const { t } = useTranslation();
   const params = useSearchParameters();
   const postId = params.get("postId") as string | undefined;
 
@@ -30,6 +34,7 @@ const PostsPage = () => {
 
   return (
     <AppPage
+      title={t("navigation.posts")}
       withSearch
       contentProps={{
         ref: contentRef,
@@ -49,16 +54,31 @@ const PostsPage = () => {
       <Stack className={"w-full my-4"}>
         <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
           <PostsFeed criteria={currentTab} targetedPostId={postId}>
-            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <IonInfiniteScroll
-                disabled={!hasNextPage}
-                onIonInfinite={async (evt) => {
-                  await fetchNextPage();
-                  await evt.target.complete();
-                }}
-              >
-                <IonInfiniteScrollContent />
-              </IonInfiniteScroll>
+            {({
+              fetchNextPage,
+              hasNextPage,
+              openEditor,
+            }: PostsFeedChildrenProps) => (
+              <>
+                <MobilePostsFeedSkeleton
+                  criteria={currentTab}
+                  targetedPostId={postId}
+                />
+                <MobilePostsFeedEmpty
+                  criteria={currentTab}
+                  targetedPostId={postId}
+                  onCreate={openEditor}
+                />
+                <IonInfiniteScroll
+                  disabled={!hasNextPage}
+                  onIonInfinite={async (evt) => {
+                    await fetchNextPage();
+                    await evt.target.complete();
+                  }}
+                >
+                  <IonInfiniteScrollContent />
+                </IonInfiniteScroll>
+              </>
             )}
           </PostsFeed>
         </PostsFeedLayout>

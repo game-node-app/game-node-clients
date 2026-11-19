@@ -86,12 +86,23 @@ vi.mock(
   },
 );
 vi.mock(
-  "../../../../../packages/ui/src/components/game/figure/GameGridItem",
+  "../../../../../packages/ui/src/components/game/trending/TrendingGamesHero",
   async () => {
     const React = await import("react");
     return {
-      GameGridItem: ({ game }: { game: import("@repo/wrapper/server").Game }) =>
-        React.createElement("span", null, game.name),
+      TRENDING_HERO_MAX_GAMES: 5,
+      TrendingGamesHero: ({
+        games,
+      }: {
+        games: import("@repo/wrapper/server").Game[];
+      }) =>
+        React.createElement(
+          React.Fragment,
+          null,
+          games.map((game) =>
+            React.createElement("span", { key: game.id }, game.name),
+          ),
+        ),
     };
   },
 );

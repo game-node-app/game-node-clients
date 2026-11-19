@@ -151,6 +151,7 @@ const App: React.FC = () => {
   );
 
   const [language, onLanguageChange] = useLanguagePreference();
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     // Stale key from the previous auth provider; harmless, but no reason to keep it.
@@ -158,18 +159,28 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // The edge-to-edge plugin only exists on Android; on web and iOS its
+    // methods reject with "plugin is not implemented".
+    if (Capacitor.getPlatform() !== "android") return;
+
     (async () => {
       const info = await Device.getInfo();
-      if (info.platform === "android" && Number(info.osVersion) >= 14) {
-        await EdgeToEdge.enable();
-        await EdgeToEdge.setBackgroundColor({
-          color: "#1f1f1f",
-        });
+      if (Number(info.osVersion) >= 14) {
+        if (splashDone) {
+          await EdgeToEdge.enable();
+          await EdgeToEdge.setBackgroundColor({
+            color: "#111111",
+          });
+        } else {
+          // Without the plugin's insets the WebView extends under the system bars, so the
+          // entry splash covers the whole screen. Enabled again once the splash ends.
+          await EdgeToEdge.disable();
+        }
       } else {
         await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
       }
-    })();
-  }, []);
+    })().catch(console.error);
+  }, [splashDone]);
 
   useEffect(() => {
     Network.addListener("networkStatusChange", (status) => {
@@ -191,7 +202,7 @@ const App: React.FC = () => {
       }}
     >
       <IonApp>
-        <EntrySplash />
+        <EntrySplash onFinish={() => setSplashDone(true)} />
         <I18nProvider
           language={language ?? "en"}
           onLanguageChange={(lang) => {

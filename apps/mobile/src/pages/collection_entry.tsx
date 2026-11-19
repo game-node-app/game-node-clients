@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { useTranslation } from "@repo/locales";
 import { CollectionEntryDetailView, ImageSize, useUserProfile } from "@repo/ui";
 
 interface Props {
@@ -7,10 +8,11 @@ interface Props {
 }
 
 const CollectionEntryDetailPage = ({ userId, collectionEntryId }: Props) => {
+  const { t } = useTranslation();
   useUserProfile(userId);
 
   return (
-    <AppPage withSearch>
+    <AppPage title={t("navigation.library")} withSearch>
       <CollectionEntryDetailView
         userId={userId}
         collectionEntryId={collectionEntryId}

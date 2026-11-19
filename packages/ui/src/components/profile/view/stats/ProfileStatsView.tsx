@@ -1,3 +1,4 @@
+import { buildPresenterComponent } from "#@/context";
 import { BarChart } from "@mantine/charts";
 import { Box, Group, Paper, SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -19,12 +20,15 @@ import {
   IconStack2,
 } from "@tabler/icons-react";
 
-interface Props {
+export interface ProfileStatsViewProps {
   userId: string;
   withUserLevel?: boolean;
 }
 
-const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
+const DEFAULT_ProfileStatsView = ({
+  userId,
+  withUserLevel = true,
+}: ProfileStatsViewProps) => {
   const { t } = useTranslation();
   const { isHidden, profile } = useIsLibraryHidden(userId);
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
@@ -171,5 +175,10 @@ const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
     </Stack>
   );
 };
+
+const ProfileStatsView = buildPresenterComponent(
+  "ProfileStatsView",
+  DEFAULT_ProfileStatsView,
+);
 
 export { ProfileStatsView };

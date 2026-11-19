@@ -1,5 +1,4 @@
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { Group } from "@mantine/core";
+import { CardRow } from "@/components/general/card";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { Modal, SettingsCustomCoversSection } from "@repo/ui";
@@ -14,7 +13,11 @@ const PreferencesCustomCoversItems = () => {
   const [opened, { open, close }] = useDisclosure();
 
   return (
-    <IonItemGroup>
+    <CardRow
+      icon={<IconPalette size={20} />}
+      title={t("settings.appearance.customCovers.title")}
+      onClick={open}
+    >
       <Modal
         opened={opened}
         onClose={close}
@@ -22,16 +25,7 @@ const PreferencesCustomCoversItems = () => {
       >
         <SettingsCustomCoversSection showHeader={false} />
       </Modal>
-      <IonItemDivider>
-        <IonLabel>{t("settings.tabs.appearance.label")}</IonLabel>
-      </IonItemDivider>
-      <IonItem button onClick={open}>
-        <Group className={"gap-2"}>
-          <IconPalette />
-          <IonLabel>{t("settings.appearance.customCovers.title")}</IonLabel>
-        </Group>
-      </IonItem>
-    </IonItemGroup>
+    </CardRow>
   );
 };
 

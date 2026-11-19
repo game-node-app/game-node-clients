@@ -1,4 +1,4 @@
-import { useUserId } from "@repo/ui";
+import { cn, useUserId } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import { HomeActivityShelf } from "@/components/home/HomeActivityShelf";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
@@ -15,10 +15,19 @@ import {
 } from "@repo/ui";
 import { Activity } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import ActivityType = Activity.type;
 
+// Entrance animation plays only on the first Home mount after the app opens.
+let homeEntrancePlayed = false;
+
 const HomePage = () => {
+  const [animateEntrance] = useState(() => !homeEntrancePlayed);
+  useEffect(() => {
+    homeEntrancePlayed = true;
+  }, []);
+
   const { t } = useTranslation();
   const contentRef =
     useRef<
@@ -31,6 +40,7 @@ const HomePage = () => {
 
   return (
     <AppPage
+      title={t("navigation.home")}
       withMenuButton
       withSearch
       contentProps={{
@@ -74,7 +84,9 @@ const HomePage = () => {
       </IonRefresher>
       {/*<HomeFab contentRef={contentRef} />*/}
       <BackToTopButton />
-      <Stack className={"w-full gap-8 my-4"}>
+      <Stack
+        className={cn("w-full gap-8 my-4", animateEntrance && "gn-home-enter")}
+      >
         <HomeEventsSection />
         {userId && <RecommendationCarousel criteria={"finished"} />}
         <TrendingGamesList />

@@ -1,5 +1,5 @@
 /** The templates a photo or clip can be the background of. */
-export type RecapMediaTemplate = "poster" | "dash" | "bento" | "summary";
+export type RecapMediaTemplate = "poster" | "dash" | "bento" | "aura" | "summary";
 
 export interface RecapMediaRect {
   x: number;
@@ -20,6 +20,8 @@ export const RECAP_MEDIA_RECTS: Record<RecapMediaTemplate, RecapMediaRect> = {
   dash: { x: 0, y: 0, width: 1080, height: 1250, radius: 0 },
   // The top game tile of the bento grid.
   bento: { x: 48, y: 155, width: 984, height: 620, radius: 40 },
+  // The whole card: the glow is drawn over it.
+  aura: { x: 0, y: 0, width: 1080, height: 1920, radius: 0 },
   summary: { x: 0, y: 0, width: 1600, height: 900, radius: 0 },
 };
 
@@ -32,5 +34,6 @@ export const RECAP_MEDIA_FADES: Record<RecapMediaTemplate, boolean> = {
   poster: true,
   dash: true,
   bento: false,
+  aura: false,
   summary: false,
 };

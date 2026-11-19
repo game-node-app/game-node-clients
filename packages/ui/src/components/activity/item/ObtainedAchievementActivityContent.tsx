@@ -104,7 +104,6 @@ const ObtainedAchievementActivityContent = ({
     } else {
       return t("activity.items.obtainedAchievements", {
         count: totalObtained,
-        suffix: totalObtained > 1 ? "s" : "",
       });
     }
   }, [activity, t]);

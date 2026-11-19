@@ -1,34 +1,43 @@
 import { AppPage } from "@/components/general/AppPage";
+import { CardSection } from "@/components/general/card";
+import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
 import PreferencesCustomCoversItems from "@/components/preferences/covers/PreferencesCustomCoversItems";
-import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesSupporterItems from "@/components/preferences/supporter/PreferencesSupporterItems";
-import { IonList } from "@ionic/react";
-import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
+import { useTranslation } from "@repo/locales";
 import { SessionAuth } from "@repo/ui";
 
 const PreferencesPage = () => {
+  const { t } = useTranslation();
+
   return (
-    <AppPage
-      withSearch={false}
-      contentProps={{
-        className: "p-0",
-      }}
-    >
+    <AppPage withSearch={false} title={t("navigation.settings")}>
       <SessionAuth>
-        <IonList className={"pt-0 mb-4"}>
+        {/*
+          Supporter is a promo entry point, so it stays on its own at the top. The rest is grouped
+          into four cards. The gap between blocks lives here only, and the horizontal gutter is
+          AppPage's `ion-padding`.
+        */}
+        <div className="flex flex-col gap-6 pb-32">
           <PreferencesSupporterItems />
-          <PreferencesProfileItems />
-          <PreferencesLibraryItems />
-          <PreferencesCustomCoversItems />
-          <PreferencesConnectionsItems />
-          <PreferencesImporterItems />
-          <PreferencesSignInMethodsItems />
-          <PreferencesMiscItems />
-        </IonList>
+          <CardSection title={t("preferences.categories.account")}>
+            <PreferencesProfileItems />
+            <PreferencesSignInMethodsItems />
+          </CardSection>
+          <CardSection title={t("mobile.preferences.libraryAndDisplay")}>
+            <PreferencesLibraryItems />
+            <PreferencesCustomCoversItems />
+          </CardSection>
+          <CardSection title={t("mobile.preferences.platformsAndImport")}>
+            <PreferencesConnectionsItems />
+          </CardSection>
+          <CardSection title={t("mobile.preferences.appsAndTools")}>
+            <PreferencesMiscItems />
+          </CardSection>
+        </div>
       </SessionAuth>
     </AppPage>
   );

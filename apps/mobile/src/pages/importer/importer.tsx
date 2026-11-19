@@ -1,7 +1,7 @@
 import { AppPage } from "@/components/general/AppPage";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
-import { Group, Space, Stack, Text } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   CenteredErrorMessage,
@@ -38,12 +38,11 @@ const ImporterPage = () => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <Stack w={"100%"} justify={"center"} align={"center"} mb={"lg"}>
-        <Stack className={"w-full h-full items-center p-2 pb-8"}>
-          <Text className={"text-center"}>
+      <Stack w={"100%"} mb={"lg"}>
+        <Stack className={"w-full h-full items-center gap-4 p-2 pb-8"}>
+          <Text size="sm" c="dimmed" className={"w-full max-w-xl"}>
             {t("mobile.importer.description")}
           </Text>
-          <Space h={"2rem"} />
           {isLoading && <CenteredLoading className={"mt-8"} />}
           {isError && <CenteredErrorMessage message={error.message} />}
           {!isLoading && !isError && !isImportingAvailable && (
@@ -55,13 +54,13 @@ const ImporterPage = () => {
               {t("mobile.importer.setUpOne")}
             </Text>
           )}
-          <Group className={"w-full gap-5 justify-center"}>
+          <Stack className={"w-full items-center gap-3"}>
             {importerUsableConnections?.map((connection) => {
               return (
                 <ImporterPlatform key={connection.id} connection={connection} />
               );
             })}
-          </Group>
+          </Stack>
         </Stack>
       </Stack>
     </AppPage>

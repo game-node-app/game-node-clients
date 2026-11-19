@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { useTranslation } from "@repo/locales";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab.tsx";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
 import {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const CollectionPage = ({ userId, collectionId }: Props) => {
+  const { t } = useTranslation();
   const ownUserId = useUserId();
   const isOwnLibrary = userId === ownUserId;
 
@@ -24,6 +26,7 @@ const CollectionPage = ({ userId, collectionId }: Props) => {
 
   return (
     <AppPage
+      title={t("navigation.collections")}
       contentProps={{
         fixedSlotPlacement: "before",
       }}

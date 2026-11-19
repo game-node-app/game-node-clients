@@ -32,7 +32,11 @@ const LibraryCollectionsPage = ({ userId }: Props) => {
   const isOwnLibrary = userId === ownUserId;
 
   return (
-    <AppPage withSearch contentProps={{ fixedSlotPlacement: "before" }}>
+    <AppPage
+      title={t("navigation.collections")}
+      withSearch
+      contentProps={{ fixedSlotPlacement: "before" }}
+    >
       <LibraryViewRefresher userId={userId} />
       {isOwnLibrary && <LibraryViewFab />}
       <Text className={"text-xl font-bold mb-5"}>

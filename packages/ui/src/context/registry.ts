@@ -7,7 +7,19 @@ import {
   GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  JournalMonthHeaderProps,
+  JournalOverviewEmptyProps,
+  JournalOverviewItemProps,
+  JournalYearHeaderProps,
+  ProfileReviewListEmptyProps,
+  ProfileReviewListItemProps,
   ReviewCardProps,
+  McpGuideScreenProps,
+  PostsFeedLayoutProps,
+  PostsListItemProps,
+  JournalAchievementsGameGroupViewProps,
+  ProfileStatsViewProps,
+  UserAvatarWithLevelInfoProps,
 } from "#@/components";
 import {
   LinkComponentProps,
@@ -28,6 +40,15 @@ export type UIPresenterRegistry = {
   TrendingReviewCard: React.ComponentType<ReviewCardProps>;
   CollectionThumbnailCard: React.ComponentType<CollectionThumbnailCardProps>;
   GameAchievementsListItem: React.ComponentType<GameAchievementsListItemProps>;
+  JournalOverviewItem: React.ComponentType<JournalOverviewItemProps>;
+  JournalMonthHeader: React.ComponentType<JournalMonthHeaderProps>;
+  JournalYearHeader: React.ComponentType<JournalYearHeaderProps>;
+  JournalOverviewEmpty: React.ComponentType<JournalOverviewEmptyProps>;
+  ProfileReviewListItem: React.ComponentType<ProfileReviewListItemProps>;
+  ProfileReviewListEmpty: React.ComponentType<ProfileReviewListEmptyProps>;
+  McpGuideScreen: React.ComponentType<McpGuideScreenProps>;
+  PostsFeedLayout: React.ComponentType<PostsFeedLayoutProps>;
+  PostsListItem: React.ComponentType<PostsListItemProps>;
   BlogArticleLanguageLink: React.ComponentType<{
     href: string;
     locale: SupportedLanguage;
@@ -38,6 +59,9 @@ export type UIPresenterRegistry = {
       ),
     ) => React.ReactElement;
   }>;
+  UserLevelHeader: React.ComponentType<UserAvatarWithLevelInfoProps>;
+  JournalAchievementsGameGroup: React.ComponentType<JournalAchievementsGameGroupViewProps>;
+  ProfileStatsView: React.ComponentType<ProfileStatsViewProps>;
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
 };

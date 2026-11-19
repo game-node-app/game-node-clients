@@ -14,7 +14,7 @@ const ActivityDetailPage = ({ activityId }: Props) => {
   const profileQuery = useUserProfile(activityQuery.data?.profileUserId);
 
   return (
-    <AppPage>
+    <AppPage title={t("navigation.activity")}>
       <Stack className={"w-full h-full mb-8"}>
         {(activityQuery.isError || profileQuery.isError) && (
           <CenteredErrorMessage

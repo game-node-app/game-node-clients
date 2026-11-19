@@ -23,12 +23,12 @@ const config: CapacitorConfig = {
       enabled: true,
     },
     StatusBar: {
-      backgroundColor: "#1f1f1f",
+      backgroundColor: "#111111",
       style: "DARK",
     },
     EdgeToEdge: {
       // Should be the same as StatusBar#backgroundColor!
-      backgroundColor: "#1f1f1f",
+      backgroundColor: "#111111",
     },
     SystemBars: {
       style: "DARK",
