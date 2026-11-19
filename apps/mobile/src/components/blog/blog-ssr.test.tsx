@@ -1,7 +1,8 @@
 import process from "node:process";
-import { BlogPostService } from "@repo/wrapper/server";
+import { BlogPostService, type BlogArticleDto } from "@repo/wrapper/server";
 import { renderToString } from "react-dom/server";
 import { afterEach, expect, it, vi } from "vitest";
+import { getServerSideProps as getBlogHomeProps } from "../../../../web/src/pages/blog/index";
 import Page, {
   getServerSideProps,
 } from "../../../../web/src/pages/blog/post/[postId]/index";
@@ -21,6 +22,7 @@ vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 vi.mock("@repo/ui", async () => ({
+  ...(await import("../../../../../packages/ui/src/components/blog/constants")),
   ...(await import(
     "../../../../../packages/ui/src/components/blog/hooks/queryOptions"
   )),
@@ -41,6 +43,67 @@ vi.mock("next/router", () => ({
 afterEach(() => {
   vi.restoreAllMocks();
 });
+
+it("hydrates the featured posts and each published category on the blog home", async () => {
+  const tag = { id: "interviews", name: "Entrevistas", articles: [] };
+  const data = [{ ...portuguese, tags: [tag] } as BlogArticleDto];
+  vi.spyOn(BlogPostService, "blogPostControllerTagsV1").mockResolvedValue([
+    tag,
+  ]);
+  const list = vi
+    .spyOn(BlogPostService, "blogPostControllerListV1")
+    .mockResolvedValue({
+      data,
+      pagination: { totalItems: 1, totalPages: 1, hasNextPage: false },
+    });
+  const { props } = await getBlogHomeProps({
+    locale: "pt-BR",
+  } as import("next").GetServerSidePropsContext);
+
+  expect(list.mock.calls).toEqual([
+    ["pt-BR", undefined, 3, undefined],
+    ["pt-BR", tag.id, 8, undefined],
+  ]);
+  expect(
+    props.dehydratedState.queries.map(({ queryKey, state }) => [
+      queryKey,
+      state.data,
+    ]),
+  ).toEqual(
+    expect.arrayContaining([
+      [["blog", "tags", "pt-BR"], [tag]],
+      [
+        ["blog", "posts", "pt-BR", null, 3, null],
+        expect.objectContaining({ data }),
+      ],
+      [
+        ["blog", "posts", "pt-BR", tag.id, 8, null],
+        expect.objectContaining({ data }),
+      ],
+    ]),
+  );
+});
+
+it("keeps the featured posts in SSR when category discovery fails", async () => {
+  vi.spyOn(BlogPostService, "blogPostControllerTagsV1").mockRejectedValue({
+    status: 503,
+  });
+  const data = [english as BlogArticleDto];
+  vi.spyOn(BlogPostService, "blogPostControllerListV1").mockResolvedValue({
+    data,
+    pagination: { totalItems: 1, totalPages: 1, hasNextPage: false },
+  });
+  const { props } = await getBlogHomeProps(
+    {} as import("next").GetServerSidePropsContext,
+  );
+  expect(props.dehydratedState.queries).toMatchObject([
+    {
+      queryKey: ["blog", "posts", "en", null, 3, null],
+      state: { data: { data } },
+    },
+  ]);
+});
+
 it("prefetches the route locale with published data for hydration", async () => {
   const one = vi
     .spyOn(BlogPostService, "blogPostControllerOneV1")

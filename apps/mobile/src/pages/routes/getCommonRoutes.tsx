@@ -79,6 +79,12 @@ export function getPreferencesCategoryPath(prefix: string) {
  * @param prefix
  * @see getTabAwareHref
  */
+export const BLOG_ROUTES = {
+  feed: "/blog",
+  archive: "/blog/archive",
+  detail: "/blog/post/:postId",
+} as const;
+
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
   return [
     <Route
@@ -289,17 +295,19 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
     <Route
       exact
       key={`${prefix}-blog-posts`}
-      path={`${prefix}/blog`}
+      path={`${prefix}${BLOG_ROUTES.feed}`}
       render={() => <BlogPostsPage />}
     />,
     <Route
+      exact
       key={`${prefix}-blog-posts-archive`}
-      path={`${prefix}/blog/archive`}
+      path={`${prefix}${BLOG_ROUTES.archive}`}
       render={() => <BlogPostsArchivePage />}
     />,
     <Route
+      exact
       key={`${prefix}-blog-post-detail`}
-      path={`${prefix}/blog/post/:postId`}
+      path={`${prefix}${BLOG_ROUTES.detail}`}
       render={(props) => {
         return <BlogPostDetailPage postId={props.match.params.postId} />;
       }}

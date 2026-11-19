@@ -935,6 +935,7 @@
   },
   "blog": {
     "buttons": {
+      "browseBlog": "Browse blog",
       "seeMore": "See more"
     },
     "contentNotice": "As such, these blog posts may not share or reflect the ideals, vision or opinions of the core GameNode team. Content is of responsibility of the Post author. Please contact our team through Discord if you notice any issues.",

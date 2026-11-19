@@ -1,12 +1,9 @@
 import { AppPage } from "@/components/general/AppPage";
-import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
-import { useIonRouter } from "@ionic/react";
-import { BlogPostsLayout, BlogPostsListView } from "@repo/ui";
+import { BlogPostsLayout, BlogPostsListView, useRouter } from "@repo/ui";
 
 const BlogPostsArchivePage = () => {
-  const router = useIonRouter();
-  const searchParameters = useSearchParameters();
-  const tag = searchParameters.get("tag");
+  const router = useRouter();
+  const tag = router.query?.get("tag");
 
   return (
     <AppPage>
@@ -14,7 +11,7 @@ const BlogPostsArchivePage = () => {
         <BlogPostsListView
           tag={tag ?? undefined}
           onTagDeselect={() => {
-            router.push("/blog/archive");
+            router.push("/blog/archive", { replace: true });
           }}
           stackProps={{
             className: "w-full !h-full min-h-dvh mb-8",

@@ -3,5 +3,6 @@
  */
 
 export * from "./BlogPostCard";
+export * from "./BlogPostCompactCard";
 export * from "./BlogPostFeaturedCard";
 export * from "./BlogPostsFeaturedReviewCard";

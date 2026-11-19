@@ -1,14 +1,10 @@
 import React, { useCallback } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Button, Text, Skeleton } from "@mantine/core";
-import {
-  BlogPostCard,
-  DetailsBox,
-  TextLink,
-  useBlogPosts,
-  useOnMobile,
-} from "#@/components";
+import { Button, Group, Skeleton, Stack, Text } from "@mantine/core";
+import { BlogPostCard, useBlogPosts, useOnMobile } from "#@/components";
+import { Link } from "#@/util";
 import { useTranslation } from "@repo/locales";
+import { IconArrowRight } from "@tabler/icons-react";
 
 const buildSkeletons = () => {
   const skeletons: React.ReactNode[] = [];
@@ -46,12 +42,19 @@ const RecentBlogPostsCarousel = () => {
   }, [data?.data, isLoading]);
 
   return (
-    <DetailsBox
-      title={t("blog.recentPosts")}
-      stackProps={{
-        className: "",
-      }}
-    >
+    <Stack component="section" className="w-full gap-2">
+      <Group justify="space-between" wrap="nowrap">
+        <Text component="h2" fw={600}>
+          {t("blog.recentPosts")}
+        </Text>
+        <Link
+          href="/blog"
+          className="hidden min-h-9 shrink-0 items-center gap-1.5 rounded-md text-sm font-medium text-dimmed transition-colors hover:text-white md:inline-flex"
+        >
+          {t("blog.buttons.browseBlog")}
+          <IconArrowRight aria-hidden size={16} />
+        </Link>
+      </Group>
       {error && (
         <Button onClick={() => refetch()}>
           {t("blog.read.error")} {t("blog.read.retry")}
@@ -73,8 +76,19 @@ const RecentBlogPostsCarousel = () => {
       >
         {buildSlides()}
       </Carousel>
-      <TextLink href={"/blog"}>{t("blog.buttons.seeMore")}</TextLink>
-    </DetailsBox>
+      <Link href="/blog" className="w-full min-h-min md:hidden">
+        <Button
+          component={"span"}
+          variant={"light"}
+          radius={"xl"}
+          size={"md"}
+          fullWidth
+          rightSection={<IconArrowRight size={18} />}
+        >
+          {t("blog.buttons.seeMore")}
+        </Button>
+      </Link>
+    </Stack>
   );
 };
 

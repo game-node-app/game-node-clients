@@ -5,7 +5,7 @@ import {
   DetailsBox,
   DetailsBoxProps,
   GameViewPagination,
-  TextLink,
+  useBlogCategories,
   useBlogPosts,
 } from "#@/components";
 import {
@@ -13,9 +13,11 @@ import {
   getErrorMessage,
   getOffsetAsPage,
   getPageAsOffset,
+  Link,
 } from "#@/util";
 import { Badge, Box, Button, Center, Text } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
+import { IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 interface Props extends Omit<DetailsBoxProps, "title"> {
@@ -27,6 +29,10 @@ const DEFAULT_LIMIT = 20;
 
 const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
   const { t } = useTranslation();
+  const categories = useBlogCategories();
+  const tagTitle =
+    categories.find(({ id }) => id === tag)?.title ??
+    (tag ? getCapitalizedText(tag) : undefined);
   const [offset, setOffset] = useState(0);
   const { language } = useI18nContext();
   const [filter, setFilter] = useState({ tag, language });
@@ -49,18 +55,34 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
         <BlogPostCard
           key={`list-${post.id}`}
           post={post}
+          categoryId={tag}
           blogRoutePrefix="/blog"
         />
       )),
-    [data],
+    [data, tag],
   );
 
   return (
     <DetailsBox
       {...others}
-      title={tag ? t("blog.list.taggedTitle", { tag }) : t("blog.list.title")}
+      title={
+        tagTitle
+          ? t("blog.list.taggedTitle", { tag: tagTitle })
+          : t("blog.list.title")
+      }
     >
-      {tag && <Badge onClick={onTagDeselect}>{getCapitalizedText(tag)}</Badge>}
+      {tagTitle && (
+        <Badge
+          component="button"
+          type="button"
+          aria-label={t("actions.clear")}
+          className="cursor-pointer"
+          onClick={onTagDeselect}
+          rightSection={<IconX size={12} aria-hidden />}
+        >
+          {tagTitle}
+        </Badge>
+      )}
       {isLoading && <CenteredLoading />}
       {isError && (
         <>
@@ -72,7 +94,10 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
         <Center>
           <Text className={"text-yellow-400"}>
             {t("blog.list.empty")}{" "}
-            <TextLink href={"/blog/archive"}>{t("actions.goBack")}</TextLink>.
+            <Link href="/blog/archive" className="underline" replace>
+              {t("actions.goBack")}
+            </Link>
+            .
           </Text>
         </Center>
       )}

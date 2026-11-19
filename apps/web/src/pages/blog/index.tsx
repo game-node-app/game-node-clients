@@ -1,26 +1,43 @@
 import React from "react";
 import { Stack } from "@mantine/core";
 import {
-  BLOG_POSTS_FEED_DEFAULT_LIMIT,
+  BLOG_CATEGORY_POSTS_LIMIT,
+  BLOG_FEATURED_POSTS_LIMIT,
   BlogPostsFeed,
   BlogPostsLayout,
+  blogPostsOptions,
+  blogTagsOptions,
 } from "@repo/ui";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { blogPostsOptions } from "@repo/ui";
-import { SupportedLanguage } from "@repo/locales";
-import { NextPageContext } from "next";
-import { useTranslation } from "@repo/locales";
-import { OpenGraph } from "@/components/general/OpenGraph";
+import { SupportedLanguage, useTranslation } from "@repo/locales";
+import type { GetServerSidePropsContext } from "next";
+import { OpenGraph } from "../../components/general/OpenGraph";
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async ({
+  locale,
+}: GetServerSidePropsContext) => {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(
-    blogPostsOptions(
-      { limit: BLOG_POSTS_FEED_DEFAULT_LIMIT },
-      (context.locale ?? "en") as SupportedLanguage,
+  const language = (locale ?? "en") as SupportedLanguage;
+  const tagsQuery = blogTagsOptions(language);
+  await Promise.all([
+    queryClient.prefetchQuery(
+      blogPostsOptions({ limit: BLOG_FEATURED_POSTS_LIMIT }, language),
     ),
-  );
+    queryClient
+      .prefetchQuery(tagsQuery)
+      .then(() =>
+        Promise.all(
+          (queryClient.getQueryData(tagsQuery.queryKey) ?? []).map(({ id }) =>
+            queryClient.prefetchQuery(
+              blogPostsOptions(
+                { tag: id, limit: BLOG_CATEGORY_POSTS_LIMIT },
+                language,
+              ),
+            ),
+          ),
+        ),
+      ),
+  ]);
 
   return {
     props: {

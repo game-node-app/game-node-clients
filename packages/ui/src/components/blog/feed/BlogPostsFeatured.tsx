@@ -1,50 +1,27 @@
 import {
+  BLOG_FEATURED_POSTS_LIMIT,
+  BlogPostCompactCard,
   CenteredErrorMessage,
   CenteredLoading,
   useBlogPosts,
 } from "#@/components";
 import { BlogPostFeaturedCard } from "#@/components/blog/card/BlogPostFeaturedCard.tsx";
-import { getErrorMessage, getRandomItems } from "#@/util";
+import { getErrorMessage } from "#@/util";
 import { Box, Button, Text } from "@mantine/core";
-import { useMemo } from "react";
 
 import { useTranslation } from "@repo/locales";
 
+/** Latest post as a hero, the next two as compact rows (side by side on `lg`). */
 const BlogPostsFeatured = () => {
   const { t } = useTranslation();
   const { data, isLoading, error, refetch } = useBlogPosts({
-    limit: 50,
+    limit: BLOG_FEATURED_POSTS_LIMIT,
   });
-
-  const randomPosts = useMemo(() => {
-    if (data == undefined || data.data == undefined) {
-      return [];
-    }
-
-    return getRandomItems(data.data, 3);
-  }, [data]);
-
-  const renderedItems = useMemo(() => {
-    return randomPosts.map((post, i) => {
-      return (
-        <Box
-          key={post.id}
-          className={
-            i === 0
-              ? "relative col-span-3 lg:col-span-2 lg:row-span-2 overflow-hidden"
-              : "relative col-span-3 lg:col-span-1 overflow-hidden"
-          }
-        >
-          <BlogPostFeaturedCard post={post} />
-        </Box>
-      );
-    });
-  }, [randomPosts]);
 
   if (isLoading) {
     return <CenteredLoading />;
   }
-  if (error) {
+  if (error && !data) {
     return (
       <>
         <CenteredErrorMessage message={getErrorMessage(error)} />
@@ -53,9 +30,18 @@ const BlogPostsFeatured = () => {
     );
   }
 
-  if (data?.data.length === 0) return <Text>{t("blog.list.empty")}</Text>;
+  const [hero, ...rest] = data?.data ?? [];
+  if (!hero) return <Text>{t("blog.list.empty")}</Text>;
+
   return (
-    <Box className={"grid grid-cols-3 gap-4 lg:min-h-96"}>{renderedItems}</Box>
+    <Box className={"grid grid-cols-1 lg:grid-cols-3 gap-3"}>
+      <Box className={"lg:col-span-2 lg:row-span-2"}>
+        <BlogPostFeaturedCard post={hero} />
+      </Box>
+      {rest.map((post) => (
+        <BlogPostCompactCard key={post.id} post={post} />
+      ))}
+    </Box>
   );
 };
 

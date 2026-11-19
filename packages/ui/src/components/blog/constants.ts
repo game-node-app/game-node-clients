@@ -1,1 +1,3 @@
 export const BLOG_POSTS_FEED_DEFAULT_LIMIT = 6;
+export const BLOG_FEATURED_POSTS_LIMIT = 3;
+export const BLOG_CATEGORY_POSTS_LIMIT = 8;
