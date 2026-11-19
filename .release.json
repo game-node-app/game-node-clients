@@ -1,0 +1,28 @@
+{
+  "source": "ada8fffe44689ce31c450041525b916355cd281f",
+  "changesets": [
+    ".changeset/blog-home-redesign.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[b6ea4095dd5be7b3e89f5aefc81a9362520e1235...ada8fffe44689ce31c450041525b916355cd281f]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/ada8fffe44689ce31c450041525b916355cd281f",
+  "versions": {
+    "web": "1.23.0",
+    "mobile": "1.22.0"
+  }
+}
