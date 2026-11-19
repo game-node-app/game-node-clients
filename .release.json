@@ -1,0 +1,33 @@
+{
+  "source": "6ac169b897d2a4c3299f8949ed50f1aa650368d7",
+  "changesets": [
+    ".changeset/blog-article-languages.md"
+  ],
+  "apps": [
+    "web",
+    "admin",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[ada8fffe44689ce31c450041525b916355cd281f...6ac169b897d2a4c3299f8949ed50f1aa650368d7]",
+    "--filter=web...",
+    "--filter=admin...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch",
+    "admin": "patch",
+    "web": "patch"
+  },
+  "docker": [
+    "web",
+    "admin"
+  ],
+  "mobile": true,
+  "ref": "releases/6ac169b897d2a4c3299f8949ed50f1aa650368d7",
+  "versions": {
+    "web": "1.23.1",
+    "admin": "1.10.2",
+    "mobile": "1.22.1"
+  }
+}
