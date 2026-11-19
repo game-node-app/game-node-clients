@@ -116,7 +116,9 @@ const ImageDropzone = ({
 
   return (
     <Dropzone
-      className={"w-full h-full"}
+      className={
+        "h-full w-full rounded-xl border-2 border-dashed border-[#3a3a3a] bg-[#1a1a1a] hover:bg-[#222]"
+      }
       accept={accept}
       maxSize={maxSize}
       maxFiles={maxFiles}
@@ -126,15 +128,16 @@ const ImageDropzone = ({
     >
       <Group
         justify="center"
-        gap="xl"
-        mih={220}
+        gap="md"
+        mih={160}
+        className={"py-6"}
         style={{ pointerEvents: "none" }}
       >
         <Dropzone.Accept>
           <IconUpload
             style={{
-              width: rem(52),
-              height: rem(52),
+              width: rem(36),
+              height: rem(36),
               color: "var(--mantine-color-blue-6)",
             }}
             stroke={1.5}
@@ -143,8 +146,8 @@ const ImageDropzone = ({
         <Dropzone.Reject>
           <IconX
             style={{
-              width: rem(52),
-              height: rem(52),
+              width: rem(36),
+              height: rem(36),
               color: "var(--mantine-color-red-6)",
             }}
             stroke={1.5}
@@ -153,27 +156,27 @@ const ImageDropzone = ({
         <Dropzone.Idle>
           <IconPhoto
             style={{
-              width: rem(52),
-              height: rem(52),
+              width: rem(36),
+              height: rem(36),
               color: "var(--mantine-color-dimmed)",
             }}
             stroke={1.5}
           />
         </Dropzone.Idle>
-        <Stack justify={"center"}>
-          <Text size="xl" inline>
+        <Stack justify={"center"} align={"center"} gap={6}>
+          <Text fz={15} fw={600} ta={"center"}>
             {prompt ?? t("upload.dragPrompt")}
           </Text>
-          <Group gap={10}>
+          <Group gap={10} c={"dimmed"} fz={12}>
             {maxFiles != undefined && (
-              <Text>
+              <Text fz={12} c={"dimmed"}>
                 {t("upload.labels.maxFiles", {
                   max: maxFiles,
                 })}
               </Text>
             )}
             {maxSize != undefined && (
-              <Text>
+              <Text fz={12} c={"dimmed"}>
                 {t("upload.labels.maxSize", {
                   size: sizeInMb(maxSize),
                 })}

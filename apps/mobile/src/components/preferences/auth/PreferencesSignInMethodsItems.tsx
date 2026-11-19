@@ -1,5 +1,8 @@
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { Alert, Button, Group } from "@mantine/core";
+import {
+  CardRow,
+  CardSection,
+} from "@/components/general/card";
+import { Alert, Button } from "@mantine/core";
 import { Capacitor } from "@capacitor/core";
 import { useTranslation } from "@repo/locales";
 import { ActionConfirm, PROVIDERS, useSignInMethods } from "@repo/ui";
@@ -18,12 +21,9 @@ const PreferencesSignInMethodsItems = () => {
   } = useSignInMethods(Capacitor.isNativePlatform());
 
   return (
-    <IonItemGroup>
-      <IonItemDivider>
-        <IonLabel>{t("auth.methods.title")}</IonLabel>
-      </IonItemDivider>
+    <CardSection title={t("auth.methods.title")}>
       {errorCode && (
-        <Alert color={"red"} variant={"light"} className={"m-2"}>
+        <Alert color={"red"} variant={"light"} className={"m-3"}>
           {t(
             `auth.errors.${errorKey === "default" ? "unable_to_link_account" : errorKey}.body`,
           )}
@@ -33,45 +33,39 @@ const PreferencesSignInMethodsItems = () => {
         const isLinked = linked.has(id);
         const isLast = isLinked && linked.size <= 1;
         return (
-          <IonItem key={id}>
-            <Group className={"gap-2 w-full"} wrap={"nowrap"}>
-              <Logo />
-              <IonLabel>
-                <h3>{t(`auth.methods.providerNames.${id}`)}</h3>
-                <p>
-                  {isLinked
-                    ? t("auth.methods.linked")
-                    : t("auth.methods.notLinked")}
-                </p>
-              </IonLabel>
-            </Group>
-            {isLinked ? (
-              <Button
-                slot={"end"}
-                variant={"subtle"}
-                color={"red"}
-                size={"xs"}
-                disabled={isLast || unlinkMutation.isPending}
-                onClick={() => setUnlinking(id)}
-              >
-                {t("auth.methods.unlink")}
-              </Button>
-            ) : (
-              <Button
-                slot={"end"}
-                variant={"outline"}
-                color={"brand"}
-                size={"xs"}
-                loading={
-                  linkMutation.isPending && linkMutation.variables === id
-                }
-                disabled={isLoadingAccounts}
-                onClick={() => linkMutation.mutate(id)}
-              >
-                {t("auth.methods.link")}
-              </Button>
-            )}
-          </IonItem>
+          <CardRow
+            key={id}
+            icon={<Logo />}
+            title={t(`auth.methods.providerNames.${id}`)}
+            description={
+              isLinked ? t("auth.methods.linked") : t("auth.methods.notLinked")
+            }
+            trailing={
+              isLinked ? (
+                <Button
+                  variant={"subtle"}
+                  color={"red"}
+                  size={"xs"}
+                  disabled={isLast || unlinkMutation.isPending}
+                  onClick={() => setUnlinking(id)}
+                >
+                  {t("auth.methods.unlink")}
+                </Button>
+              ) : (
+                <Button
+                  variant={"light"}
+                  size={"xs"}
+                  loading={
+                    linkMutation.isPending && linkMutation.variables === id
+                  }
+                  disabled={isLoadingAccounts}
+                  onClick={() => linkMutation.mutate(id)}
+                >
+                  {t("auth.methods.link")}
+                </Button>
+              )
+            }
+          />
         );
       })}
       <ActionConfirm
@@ -85,7 +79,7 @@ const PreferencesSignInMethodsItems = () => {
         })}
         onConfirm={() => unlinking && unlinkMutation.mutate(unlinking)}
       />
-    </IonItemGroup>
+    </CardSection>
   );
 };
 

@@ -1,21 +1,17 @@
 import { Capacitor } from "@capacitor/core";
+import { IonSelect, IonSelectOption } from "@ionic/react";
 import {
-  IonItem,
-  IonItemDivider,
-  IonItemGroup,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
-} from "@ionic/react";
+  CardRow,
+  CardSection,
+} from "@/components/general/card";
 import {
   useWidgetPeriod,
   WIDGET_PERIODS,
 } from "@/components/wrapped/useWidgetPeriod";
 import type { RecapPeriod } from "@repo/ui";
-import { Group } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
-import { IconRefreshDot } from "@tabler/icons-react";
+import { IconCalendarStats, IconRefreshDot } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 const PreferencesMiscItems = () => {
@@ -24,42 +20,43 @@ const PreferencesMiscItems = () => {
   const [widgetPeriod, setWidgetPeriod] = useWidgetPeriod();
 
   return (
-    <IonItemGroup>
-      <IonItemDivider>
-        <IonLabel>{t("mobile.preferences.misc")}</IonLabel>
-      </IonItemDivider>
+    <CardSection title={t("mobile.preferences.misc")}>
       {Capacitor.getPlatform() === "android" && (
-        <IonItem>
-          <IonSelect
-            label={t("mobile.preferences.widgetPeriod")}
-            interface="popover"
-            value={widgetPeriod}
-            onIonChange={(e) => setWidgetPeriod(e.detail.value as RecapPeriod)}
-          >
-            {WIDGET_PERIODS.map((period) => (
-              <IonSelectOption key={period} value={period}>
-                {t(`mobile.preferences.widgetPeriodOptions.${period}`)}
-              </IonSelectOption>
-            ))}
-          </IonSelect>
-        </IonItem>
+        <CardRow
+          icon={<IconCalendarStats size={20} />}
+          title={t("mobile.preferences.widgetPeriod")}
+          trailing={
+            <IonSelect
+              aria-label={t("mobile.preferences.widgetPeriod")}
+              interface="popover"
+              className="w-auto min-h-0 max-w-[55%] shrink-0 text-sm"
+              value={widgetPeriod}
+              onIonChange={(e) =>
+                setWidgetPeriod(e.detail.value as RecapPeriod)
+              }
+            >
+              {WIDGET_PERIODS.map((period) => (
+                <IonSelectOption key={period} value={period}>
+                  {t(`mobile.preferences.widgetPeriodOptions.${period}`)}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          }
+        />
       )}
-      <IonItem button>
-        <Group
-          className={"gap-2"}
-          onClick={() => {
-            queryClient.clear();
-            notifications.show({
-              color: "green",
-              message: t("mobile.preferences.cacheClearedSuccess"),
-            });
-          }}
-        >
-          <IconRefreshDot />
-          <IonLabel>{t("mobile.preferences.clearLocalCache")}</IonLabel>
-        </Group>
-      </IonItem>
-    </IonItemGroup>
+      <CardRow
+        icon={<IconRefreshDot size={20} />}
+        title={t("mobile.preferences.clearLocalCache")}
+        chevron={false}
+        onClick={() => {
+          queryClient.clear();
+          notifications.show({
+            color: "green",
+            message: t("mobile.preferences.cacheClearedSuccess"),
+          });
+        }}
+      />
+    </CardSection>
   );
 };
 

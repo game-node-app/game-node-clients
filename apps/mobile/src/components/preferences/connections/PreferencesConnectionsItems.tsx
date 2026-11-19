@@ -1,28 +1,36 @@
+import {
+  CardRow,
+  CardSection,
+} from "@/components/general/card";
 import PreferencesConnectionItem from "@/components/preferences/connections/PreferencesConnectionItem";
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
+import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { useTranslation } from "@repo/locales";
 import { UserConnectionDto } from "@repo/wrapper/server";
+import { IconPlugConnected } from "@tabler/icons-react";
 
-import { getTabAwareHref } from "@/util/getTabAwareHref";
+const CONNECTION_TYPES = [
+  UserConnectionDto.type.STEAM,
+  UserConnectionDto.type.PSN,
+  UserConnectionDto.type.XBOX,
+  UserConnectionDto.type.EPICGAMES,
+  UserConnectionDto.type.NINTENDO,
+  UserConnectionDto.type.GOG,
+];
 
 const PreferencesConnectionsItems = () => {
   const { t } = useTranslation();
 
   return (
-    <IonItemGroup>
-      <IonItemDivider>
-        <IonLabel>{t("preferences.categories.connections")}</IonLabel>
-      </IonItemDivider>
-      <PreferencesConnectionItem type={UserConnectionDto.type.STEAM} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.PSN} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.XBOX} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.EPICGAMES} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.NINTENDO} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.GOG} />
-      <IonItem routerLink={getTabAwareHref("/mcp")} button detail>
-        <IonLabel>{t("mcp.title")}</IonLabel>
-      </IonItem>
-    </IonItemGroup>
+    <CardSection title={t("preferences.categories.connections")}>
+      {CONNECTION_TYPES.map((type) => (
+        <PreferencesConnectionItem key={type} type={type} />
+      ))}
+      <CardRow
+        icon={<IconPlugConnected size={20} />}
+        title={t("mcp.title")}
+        href={getTabAwareHref("/mcp")}
+      />
+    </CardSection>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Box, Group, Image, Stack, Text } from "@mantine/core";
+import { Box, Image, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { IconCamera } from "@tabler/icons-react";
@@ -8,9 +8,7 @@ import { ProfileEditBannerUploader } from "#@/components/profile/edit/ProfileEdi
 import { ProfileVideoUploadStatus } from "#@/components/profile/edit/ProfileVideoUploadStatus";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
-import { SettingsButton } from "#@/components/settings/common/SettingsButton";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
-import { SettingsComingSoonBadge } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
 import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
 import { getS3StoredUpload, Modal } from "#@/util";
@@ -62,11 +60,16 @@ export function SettingsProfileImages({ userId }: Props) {
       >
         <ProfileEditAvatarUploader onClose={avatarModal.close} />
       </Modal>
-      <SettingsCard>
-        <Stack gap={12} className={"p-5"}>
+      <SettingsCard withDividers={false}>
+        {/* Cover + overlapping avatar: each image is a tap target of its own. */}
+        <Box className={"relative"}>
           <Box
+            component={"button"}
+            type={"button"}
+            onClick={bannerModal.open}
+            aria-label={t("settings.profile.images.changeBanner")}
             className={
-              "relative h-[132px] w-full overflow-hidden rounded-[10px] bg-[#222]"
+              "group relative block h-[140px] w-full cursor-pointer overflow-hidden border-0 bg-[#222] p-0"
             }
           >
             {bannerSrc && (
@@ -83,47 +86,41 @@ export function SettingsProfileImages({ userId }: Props) {
                 className={"absolute inset-0"}
               />
             )}
-            <Box className={"absolute bottom-3 right-3"}>
-              <SettingsButton
-                variant={"secondary"}
-                leftSection={<IconCamera size={14} />}
-                onClick={bannerModal.open}
-              >
-                {t("settings.profile.images.changeBanner")}
-              </SettingsButton>
-            </Box>
+            <span
+              className={
+                "absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm group-hover:bg-black/75"
+              }
+            >
+              <IconCamera size={14} />
+              {t("settings.profile.images.changeBanner")}
+            </span>
           </Box>
+          <Box
+            component={"button"}
+            type={"button"}
+            onClick={avatarModal.open}
+            aria-label={t("settings.profile.images.changeAvatar")}
+            className={
+              "absolute -bottom-9 left-4 cursor-pointer rounded-full border-4 border-solid border-[#1a1a1a] bg-[#1a1a1a] p-0"
+            }
+          >
+            <UserAvatar userId={userId} size={80} className={"shrink-0"} />
+            <span
+              className={
+                "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-solid border-[#1a1a1a] bg-[#2a2a2a] text-white"
+              }
+            >
+              <IconCamera size={14} />
+            </span>
+          </Box>
+        </Box>
+        <Stack gap={8} className={"px-4 pb-4 pt-12"}>
           <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
             {t("settings.profile.images.bannerHelp")}
           </Text>
           <ProfileVideoUploadStatus slot={"banner"} />
+          <ProfileVideoUploadStatus slot={"avatar"} />
         </Stack>
-        <Group gap={16} wrap={"nowrap"} className={"p-5"}>
-          <UserAvatar userId={userId} size={72} className={"shrink-0"} />
-          <Stack gap={8} className={"min-w-0 flex-1"}>
-            <Text fz={14} fw={600} c={"white"} lh={"normal"}>
-              {t("settings.profile.images.avatarTitle")}
-            </Text>
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
-              {t("settings.profile.images.avatarDescription")}
-            </Text>
-            <ProfileVideoUploadStatus slot={"avatar"} />
-            <Group gap={8}>
-              <SettingsButton
-                variant={"secondary"}
-                leftSection={<IconCamera size={14} />}
-                onClick={avatarModal.open}
-              >
-                {t("settings.profile.images.changeAvatar")}
-              </SettingsButton>
-              {/* There is no endpoint to delete the avatar yet. */}
-              <SettingsButton variant={"ghost"} disabled>
-                {t("settings.profile.images.removeAvatar")}
-              </SettingsButton>
-              <SettingsComingSoonBadge />
-            </Group>
-          </Stack>
-        </Group>
       </SettingsCard>
     </SettingsSection>
   );

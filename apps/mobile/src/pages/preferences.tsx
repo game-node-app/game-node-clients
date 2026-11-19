@@ -6,20 +6,24 @@ import PreferencesLibraryItems from "@/components/preferences/library/Preference
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
 import PreferencesSupporterItems from "@/components/preferences/supporter/PreferencesSupporterItems";
-import { IonList } from "@ionic/react";
 import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
+import { useTranslation } from "@repo/locales";
 import { SessionAuth } from "@repo/ui";
 
 const PreferencesPage = () => {
+  const { t } = useTranslation();
+
   return (
     <AppPage
       withSearch={false}
+      title={t("navigation.settings")}
       contentProps={{
         className: "p-0",
       }}
     >
       <SessionAuth>
-        <IonList className={"pt-0 mb-4"}>
+        {/* Each block is a CardSection card; the gap between them lives here only. */}
+        <div className="flex flex-col gap-6 pb-32 pt-2">
           <PreferencesSupporterItems />
           <PreferencesProfileItems />
           <PreferencesLibraryItems />
@@ -28,7 +32,7 @@ const PreferencesPage = () => {
           <PreferencesImporterItems />
           <PreferencesSignInMethodsItems />
           <PreferencesMiscItems />
-        </IonList>
+        </div>
       </SessionAuth>
     </AppPage>
   );

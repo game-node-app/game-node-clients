@@ -13,6 +13,8 @@ vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 vi.mock("@repo/ui", () => ({
+  // Preferences primitives merge class names with the shared `cn`.
+  cn: (...classes: unknown[]) => classes.filter(Boolean).join(" "),
   useSupporterStatus: () => mocks.status,
 }));
 

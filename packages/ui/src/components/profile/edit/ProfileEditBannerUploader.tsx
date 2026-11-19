@@ -24,15 +24,7 @@ import { ProfileBannerPreview } from "#@/components/profile/edit/ProfileBannerPr
 import { createErrorNotification } from "#@/util";
 import { base64ToBlob, getCroppedImg } from "#@/util/imageUtils";
 import { BaseModalChildrenProps } from "#@/util/types/modal-props";
-import {
-  Box,
-  Button,
-  Group,
-  Slider,
-  Stack,
-  Stepper,
-  Text,
-} from "@mantine/core";
+import { Box, Button, Group, Slider, Stack, Text } from "@mantine/core";
 import type { FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
@@ -542,16 +534,25 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
 
   return (
     <Stack className={"w-full"}>
-      <Stepper
-        active={currentStep}
-        onStepClick={handleStepClick}
-        allowNextStepsSelect={false}
-        size={"sm"}
+      <Group
+        gap={6}
+        wrap={"nowrap"}
+        role={"progressbar"}
+        aria-valuemin={1}
+        aria-valuemax={3}
+        aria-valuenow={currentStep + 1}
       >
-        <Stepper.Step />
-        <Stepper.Step />
-        <Stepper.Step />
-      </Stepper>
+        {[0, 1, 2].map((step) => (
+          <Box
+            key={step}
+            className={
+              step <= currentStep
+                ? "h-1 flex-1 rounded-full bg-brand-5"
+                : "h-1 flex-1 rounded-full bg-[#2a2a2a]"
+            }
+          />
+        ))}
+      </Group>
       {profileBannerMutation.isError && (
         <Text c={"red"}>{profileBannerMutation.error.message}</Text>
       )}

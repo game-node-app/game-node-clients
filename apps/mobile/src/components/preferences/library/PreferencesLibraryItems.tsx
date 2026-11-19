@@ -1,5 +1,7 @@
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { Group } from "@mantine/core";
+import {
+  CardRow,
+  CardSection,
+} from "@/components/general/card";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { PreferredPlatformsViewModal } from "@repo/ui";
@@ -9,21 +11,18 @@ const PreferencesLibraryItems = () => {
   const { t } = useTranslation();
   const [preferredPlatformsOpened, preferredPlatformsUtils] = useDisclosure();
   return (
-    <IonItemGroup>
-      <PreferredPlatformsViewModal
-        opened={preferredPlatformsOpened}
-        onClose={preferredPlatformsUtils.close}
-      />
-      <IonItemDivider>
-        <IonLabel>{t("navigation.library")}</IonLabel>
-      </IonItemDivider>
-      <IonItem button onClick={preferredPlatformsUtils.open}>
-        <Group className={"gap-2"}>
-          <IconBrandAppleArcade />
-          <IonLabel>{t("preferences.labels.preferredPlatforms")}</IonLabel>
-        </Group>
-      </IonItem>
-    </IonItemGroup>
+    <CardSection title={t("navigation.library")}>
+      <CardRow
+        icon={<IconBrandAppleArcade size={20} />}
+        title={t("preferences.labels.preferredPlatforms")}
+        onClick={preferredPlatformsUtils.open}
+      >
+        <PreferredPlatformsViewModal
+          opened={preferredPlatformsOpened}
+          onClose={preferredPlatformsUtils.close}
+        />
+      </CardRow>
+    </CardSection>
   );
 };
 
