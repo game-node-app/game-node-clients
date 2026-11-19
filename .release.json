@@ -1,0 +1,28 @@
+{
+  "source": "6eed7a3dc70248590ab5069a2961f609310918f4",
+  "changesets": [
+    ".changeset/mobile-home-explore-sidebar.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[bd1f1865368fa012e26786bc0cc4cc1b0899ac12...6eed7a3dc70248590ab5069a2961f609310918f4]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/6eed7a3dc70248590ab5069a2961f609310918f4",
+  "versions": {
+    "web": "1.24.0",
+    "mobile": "1.23.0"
+  }
+}
