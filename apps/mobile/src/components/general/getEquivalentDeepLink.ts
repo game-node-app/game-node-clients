@@ -4,7 +4,7 @@ import {
   MOBILE_TABS,
   WRAPPED_TAB_PATH,
 } from "@/util/getTabAwareHref";
-import { matchPath } from "react-router-dom";
+import { matchPath } from "react-router";
 
 const TAB_PREFIX = new RegExp(`^/(?:${MOBILE_TABS.join("|")})(?=/)`);
 
