@@ -90,6 +90,9 @@ it("counts January journal entries in January and switches to the selected year"
   expect(screen.getAllByText("profile.overview.days:2")).toHaveLength(2);
   expect(screen.getByRole("img")).toBeTruthy();
 
+  // Only years that have journal data are offered (no 2024 here).
+  expect(screen.queryByRole("radio", { name: "2024" })).toBeNull();
+
   fireEvent.click(screen.getByRole("radio", { name: "2025" }));
 
   expect(screen.getByText("profile.overview.yearTotal:1")).toBeTruthy();
