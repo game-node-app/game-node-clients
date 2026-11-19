@@ -9,6 +9,7 @@ const state = vi.hoisted(() => ({
   gameItems: [2, 1] as number[],
   reviewItems: ["pinned", "other"] as string[],
   emptyReviewIds: [] as string[],
+  loadingReviewIds: [] as string[],
   reviewsArgs: vi.fn(),
   gameArgs: vi.fn(),
   rankingArgs: vi.fn(),
@@ -26,7 +27,7 @@ vi.mock("@tanstack/react-query", async () => {
       queries: Array<{ queryKey: readonly unknown[] }>;
     }) =>
       queries.map((query) => ({
-        isLoading: false,
+        isLoading: state.loadingReviewIds.includes(String(query.queryKey[1])),
         data: {
           content: state.emptyReviewIds.includes(String(query.queryKey[1]))
             ? "<p></p>"
@@ -191,6 +192,7 @@ afterEach(() => {
   state.gameItems = [2, 1];
   state.reviewItems = ["pinned", "other"];
   state.emptyReviewIds = [];
+  state.loadingReviewIds = [];
   state.reviewsArgs.mockClear();
   state.gameArgs.mockClear();
   state.rankingArgs.mockClear();
@@ -214,6 +216,16 @@ it("renders home games and reviews in ranking order and hides an empty ranking",
   expect(state.gameArgs).toHaveBeenLastCalledWith(
     expect.objectContaining({ gameIds: [] }),
   );
+});
+
+it("shows loaded reviews while other ranked reviews are pending", () => {
+  state.loadingReviewIds = ["pinned"];
+  const page = render(<TrendingReviewCarousel />);
+  expect(page.container.textContent).toBe("other");
+
+  state.loadingReviewIds = [];
+  page.rerender(<TrendingReviewCarousel />);
+  expect(page.container.textContent).toBe("pinnedother");
 });
 
 it("keeps eligible pins in order, respects exclusion and bounds numbered pages", () => {

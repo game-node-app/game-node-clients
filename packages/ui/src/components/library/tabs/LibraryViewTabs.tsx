@@ -10,7 +10,7 @@ interface Props {
   onStatusChange: (status: CollectionEntry.status) => void;
 }
 
-const STATUSES: { value: CollectionEntry.status; labelKey: string }[] = [
+const STATUSES = [
   {
     value: CollectionEntry.status.PLAYING,
     labelKey: "collectionEntry.statuses.playing",
@@ -31,7 +31,7 @@ const STATUSES: { value: CollectionEntry.status; labelKey: string }[] = [
     value: CollectionEntry.status.ONGOING,
     labelKey: "collectionEntry.statuses.ongoing",
   },
-];
+] as const;
 
 const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
   const { t } = useTranslation();
@@ -44,10 +44,9 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
     const active = listRef.current?.querySelector<HTMLElement>(
       "[data-active='true']",
     );
-    active?.scrollIntoView({
+    active?.scrollIntoView?.({
       block: "nearest",
-      inline: "center",
-      behavior: "smooth",
+      inline: "nearest",
     });
   }, [status, onMobile]);
 
@@ -74,10 +73,10 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
               value={value}
               className={cn(
                 onMobile &&
-                  "shrink-0 px-4 h-9 text-sm font-medium border border-[#2a2a2a] bg-[#161616] data-[active=true]:border-transparent",
+                  "shrink-0 px-4 h-9 text-sm font-medium border border-[#2a2a2a] data-[active=true]:border-transparent [&:not([data-active])]:bg-[#161616]",
               )}
             >
-              {t(labelKey as never)}
+              {t(labelKey)}
             </Tabs.Tab>
           ))}
         </Scroller>

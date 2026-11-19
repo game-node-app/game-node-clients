@@ -143,6 +143,9 @@ const DEFAULT_ActivityItem = ({
   if (variant === "card") {
     const isAchievementUnlocked =
       activity.type === Activity.type.ACHIEVEMENT_UNLOCKED;
+    const gameHref = review
+      ? `/game/${gameId}?reviewId=${review.id}`
+      : `/game/${gameId}`;
     return (
       <Stack className={"w-full h-full gap-2 p-3 rounded-lg bg-paper-2"}>
         <Group className={"w-full flex-nowrap justify-between gap-2"}>
@@ -164,8 +167,8 @@ const DEFAULT_ActivityItem = ({
           <ActivityItemLikes activity={activity} />
         </Group>
         <Group className={"w-full flex-nowrap items-center gap-3"}>
-          <Box className={"w-12 min-w-12"}>
-            {isAchievementUnlocked ? (
+          {isAchievementUnlocked && (
+            <Box className={"w-12 min-w-12"}>
               <AchievementBadge
                 icon={
                   unlockedAchievement?.icon as
@@ -175,23 +178,19 @@ const DEFAULT_ActivityItem = ({
                 }
                 tier={unlockedTier}
               />
-            ) : (
-              <GameFigureImage game={game} />
-            )}
-          </Box>
+            </Box>
+          )}
+          {!isAchievementUnlocked && game && (
+            <Box className={"w-12 min-w-12"}>
+              <GameFigureImage game={{ ...game, href: gameHref }} />
+            </Box>
+          )}
           <Stack className={"min-w-0 flex-1 gap-0.5"}>
             <Text className={"text-xs text-dimmed line-clamp-2"}>
               {actionText}
             </Text>
-            {!isAchievementUnlocked && (
-              <Link
-                href={
-                  review
-                    ? `/game/${gameId}?reviewId=${review.id}`
-                    : `/game/${gameId}`
-                }
-                className={"min-w-0"}
-              >
+            {!isAchievementUnlocked && game && (
+              <Link href={gameHref} className={"min-w-0"}>
                 <Text className={"text-sm font-bold line-clamp-1"}>
                   {game?.name}
                 </Text>

@@ -33,65 +33,63 @@ const TrendingReviewCarousel = (props: CarouselProps) => {
     offset: 0,
     limit: 10,
   });
-  const reviewIds = (trendingReviews.data?.items ?? [])
-    .map((item) => item?.sourceId)
-    .filter((id): id is string => typeof id === "string");
+  const reviewIds = [
+    ...new Set(
+      (trendingReviews.data?.items ?? [])
+        .map((item) => item?.sourceId)
+        .filter((id): id is string => typeof id === "string" && id.length > 0),
+    ),
+  ];
   // Same keys as `useReview`, so the cards reuse these results from the cache.
   const reviewQueries = useQueries({
     queries: reviewIds.map((id) => reviewOptions(id)),
   });
-  const reviewsLoading = reviewQueries.some((query) => query.isLoading);
-  // Rating-only reviews (no text) are not worth a card.
-  const visibleIds = reviewIds.filter((_, index) =>
-    hasReviewContent(reviewQueries[index]?.data?.content),
-  );
-  const isEmpty =
-    trendingReviews.isError ||
-    trendingReviews.data?.items.length === 0 ||
-    (!trendingReviews.isLoading && !reviewsLoading && visibleIds.length === 0);
-
-  const buildSlides = () => {
-    if (trendingReviews.isLoading || reviewsLoading) {
-      return buildSkeletons();
-    }
-
-    return visibleIds.map((reviewId) => (
-      <Carousel.Slide key={reviewId}>
-        <TrendingReviewCard reviewId={reviewId} />
-      </Carousel.Slide>
-    ));
-  };
+  const slides = trendingReviews.isLoading
+    ? buildSkeletons()
+    : reviewQueries.flatMap((query, index) => {
+        if (!query.isLoading && !hasReviewContent(query.data?.content))
+          return [];
+        const reviewId = reviewIds[index];
+        return (
+          <Carousel.Slide key={reviewId}>
+            {query.isLoading ? (
+              <Skeleton h={"100%"} />
+            ) : (
+              <TrendingReviewCard reviewId={reviewId} />
+            )}
+          </Carousel.Slide>
+        );
+      });
+  if (slides.length === 0) return null;
 
   return (
-    !isEmpty && (
-      <DetailsBox
-        title={t("home.trendingReviews")}
-        stackProps={{
-          className: "",
+    <DetailsBox
+      title={t("home.trendingReviews")}
+      stackProps={{
+        className: "",
+      }}
+    >
+      <Carousel
+        slideSize={{
+          base: "90%",
+          sm: "40%",
         }}
+        height={440}
+        slideGap={{
+          base: "xs",
+          lg: "md",
+        }}
+        controlsOffset="xs"
+        emblaOptions={{
+          dragFree: true,
+          align: "start",
+          slidesToScroll: onMobile ? 1 : 2,
+        }}
+        {...props}
       >
-        <Carousel
-          slideSize={{
-            base: "90%",
-            sm: "40%",
-          }}
-          height={440}
-          slideGap={{
-            base: "xs",
-            lg: "md",
-          }}
-          controlsOffset="xs"
-          emblaOptions={{
-            dragFree: true,
-            align: "start",
-            slidesToScroll: onMobile ? 1 : 2,
-          }}
-          {...props}
-        >
-          {buildSlides()}
-        </Carousel>
-      </DetailsBox>
-    )
+        {slides}
+      </Carousel>
+    </DetailsBox>
   );
 };
 

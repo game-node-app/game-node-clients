@@ -1,7 +1,8 @@
+// Visual order of the mobile tab bar.
 export const MOBILE_TABS = [
-  "home",
   "library",
   "explore",
+  "home",
   "notifications",
   "profile",
 ];

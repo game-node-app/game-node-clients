@@ -1,12 +1,14 @@
 import { IonRippleEffect } from "@ionic/react";
-import { Box, Group, Skeleton, Stack, Text } from "@mantine/core";
+import { Box, Group, Image, Skeleton, Stack, Text } from "@mantine/core";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
-  GameFigureImage,
+  GAME_COVER_PLACEHOLDER,
   GameRating,
   hasReviewContent,
+  ImageSize,
   Link,
   useGame,
+  useGameCoverImage,
   UserAvatarGroup,
   useReview,
 } from "@repo/ui";
@@ -22,7 +24,7 @@ interface Props {
  * nothing here as a safety net.
  */
 const MobileTrendingReviewCard = ({ reviewId }: Props) => {
-  const reviewQuery = useReview(reviewId);
+  const reviewQuery = useReview(reviewId, { refetchOnMount: false });
   const gameId = reviewQuery.data?.gameId;
   const gameQuery = useGame(
     gameId,
@@ -33,6 +35,7 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
     },
     { ownerUserId: reviewQuery.data?.profileUserId },
   );
+  const cover = useGameCoverImage(gameQuery.data, ImageSize.COVER_BIG);
 
   const editor = useEditor(
     {
@@ -55,56 +58,59 @@ const MobileTrendingReviewCard = ({ reviewId }: Props) => {
   }
 
   return (
-    <Link
-      href={`/game/${gameId}?reviewId=${reviewId}`}
-      className={"w-full h-full"}
+    <Stack
+      className={
+        "bg-paper-2 p-4 gap-3 rounded-lg w-full h-full relative ion-activatable justify-between"
+      }
     >
-      <Stack
+      <IonRippleEffect className={"rounded-lg"} />
+      <Stack className={"gap-3 min-h-0"}>
+        <Group className={"w-full flex-nowrap justify-between gap-2"}>
+          <Box className={"relative z-10 min-w-0"}>
+            <UserAvatarGroup
+              groupProps={{ gap: "xs" }}
+              avatarProps={{ size: "sm" }}
+              textProps={{
+                lineClamp: 1,
+                size: "sm",
+                fw: 600,
+              }}
+              userId={reviewQuery.data.profileUserId}
+            />
+          </Box>
+          <GameRating value={reviewQuery.data.rating} size={"sm"} />
+        </Group>
+        <EditorContent
+          editor={editor}
+          className={
+            "w-full line-clamp-6 text-sm leading-relaxed [&_a]:relative [&_a]:z-10"
+          }
+        />
+      </Stack>
+      <Group
         className={
-          "bg-paper-2 p-4 gap-3 rounded-lg w-full h-full relative ion-activatable justify-between"
+          "flex-nowrap gap-3 pt-3 border-t border-paper-4 border-solid border-0"
         }
       >
-        <IonRippleEffect className={"rounded-lg"} />
-        <Stack className={"gap-3 min-h-0"}>
-          <Group className={"w-full flex-nowrap justify-between gap-2"}>
-            <Box className={"min-w-0"}>
-              <UserAvatarGroup
-                groupProps={{ gap: "xs" }}
-                avatarProps={{ size: "sm" }}
-                textProps={{
-                  lineClamp: 1,
-                  size: "sm",
-                  fw: 600,
-                }}
-                userId={reviewQuery.data.profileUserId}
-              />
-            </Box>
-            <GameRating value={reviewQuery.data.rating} size={"sm"} />
-          </Group>
-          <EditorContent
-            editor={editor}
-            className={"w-full line-clamp-6 text-sm leading-relaxed"}
-          />
-        </Stack>
-        <Group
+        <Image
+          alt=""
+          src={cover.src ?? GAME_COVER_PLACEHOLDER}
+          onError={cover.onError}
+          radius={"sm"}
+          className={"aspect-[264/354] w-9 shrink-0"}
+        />
+        <Link
+          href={`/game/${gameId}?reviewId=${reviewId}`}
           className={
-            "flex-nowrap gap-3 pt-3 border-t border-paper-4 border-solid border-0"
+            "min-w-0 flex-1 after:absolute after:inset-0 after:content-['']"
           }
         >
-          <Box className={"min-w-9 w-9"}>
-            <GameFigureImage game={gameQuery.data} />
-          </Box>
-          <Text
-            lineClamp={1}
-            size={"sm"}
-            fw={600}
-            className={"min-w-0 flex-1"}
-          >
+          <Text lineClamp={1} size={"sm"} fw={600}>
             {gameQuery.data.name}
           </Text>
-        </Group>
-      </Stack>
-    </Link>
+        </Link>
+      </Group>
+    </Stack>
   );
 };
 

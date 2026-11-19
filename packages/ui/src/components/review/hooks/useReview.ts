@@ -1,5 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { ReviewsService } from "../../../../../wrapper/src/server";
+import { ReviewsService } from "@repo/wrapper/server";
 
 export const reviewOptions = (reviewId: string | undefined | null) =>
   queryOptions({
@@ -15,10 +15,11 @@ export const reviewOptions = (reviewId: string | undefined | null) =>
 
 export function useReview(
   reviewId: string | undefined | null,
-  options?: { enabled?: boolean },
+  options?: { enabled?: boolean; refetchOnMount?: boolean },
 ) {
   return useQuery({
     ...reviewOptions(reviewId),
+    ...options,
     enabled: (options?.enabled ?? true) && reviewId != undefined,
   });
 }

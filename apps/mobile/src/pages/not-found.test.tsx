@@ -57,6 +57,7 @@ const PAGE_MODULES = [
   "library/library",
   "notifications",
   "profile/profile",
+  "wrapped/wrapped_home",
   "search.tsx",
   "auth",
   "mcp",
@@ -143,6 +144,25 @@ describe("mobile not-found route", () => {
 
     expect(screen.getByText("page:home")).toBeTruthy();
     expect(screen.queryByText(NOT_FOUND_TEXT)).toBeNull();
+  });
+
+  it("opens Wrapped at the profile tab root and keeps nested routes in that tab", async () => {
+    const root = await renderAt("/profile");
+    expect(screen.getByText("page:wrapped/wrapped_home")).toBeTruthy();
+    expect(
+      root.container
+        .querySelector('ion-tab-button[tab="profile"]')
+        ?.getAttribute("href"),
+    ).toBe("/profile");
+
+    root.unmount();
+    const nested = await renderAt("/profile/preferences");
+    expect(screen.getByText("page:preferences.tsx")).toBeTruthy();
+    expect(
+      nested.container
+        .querySelector('ion-tab-button[tab="profile"]')
+        ?.getAttribute("href"),
+    ).toBe("/profile/preferences");
   });
 
   it("does not render the not-found page for a common nested route", async () => {

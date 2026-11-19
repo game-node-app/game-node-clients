@@ -303,7 +303,7 @@ describe("ActivityItem hydration", () => {
       statistics: { likesCount: 0, isLiked: false },
     } as unknown as ActivityResponseDto;
 
-    render(
+    const { container, rerender } = render(
       <>
         <ActivityItem activity={reviewActivity} />
         <ActivityItem activity={postActivity} />
@@ -317,6 +317,19 @@ describe("ActivityItem hydration", () => {
     expect(screen.getByText("Posted about")).toBeTruthy();
     expect(screen.getByText("Hades")).toBeTruthy();
     expect(screen.getByText("Followed")).toBeTruthy();
+    rerender(
+      <>
+        <ActivityItem activity={reviewActivity} variant={"card"} />
+        <ActivityItem activity={postActivity} variant={"card"} />
+        <ActivityItem activity={followActivity} variant={"card"} />
+      </>,
+    );
+
+    expect(screen.getByText("Followed")).toBeTruthy();
+    expect(
+      screen.getByText("Portal 2").closest("a")?.getAttribute("href"),
+    ).toBe("/game/7?reviewId=rev-1");
+    expect(container.querySelector('a[href="/game/undefined"]')).toBeNull();
     expectNoActivityRequests(spies);
   });
 

@@ -47,12 +47,11 @@ vi.mock("@mantine/core", async () => {
     ...rest
   }: import("react").PropsWithChildren<{
     onClick?: () => void;
-    role?: string;
-    "aria-selected"?: boolean;
+    "aria-pressed"?: boolean;
   }>) =>
     React.createElement(
       "button",
-      { onClick, role: rest.role, "aria-selected": rest["aria-selected"] },
+      { onClick, "aria-pressed": rest["aria-pressed"] },
       children,
     );
   return { ...actual, Flex: C, Stack: C, Button };
@@ -80,6 +79,9 @@ vi.mock("@repo/ui", async () => {
     return null;
   };
   return {
+    CenteredErrorMessage: ({ message }: { message: string }) => (
+      <div>{message}</div>
+    ),
     GameView: C,
     useGamesResource: () => ({
       data: [
@@ -90,7 +92,9 @@ vi.mock("@repo/ui", async () => {
     SimpleInfiniteLoader: () => null,
     useInfiniteTrendingGames: (
       dto: Parameters<typeof import("@repo/ui").useInfiniteTrendingGames>[0],
+      enabled: boolean,
     ) => {
+      if (!enabled) return { isFetching: false };
       state.request(dto);
       return {
         data: {
@@ -129,13 +133,14 @@ it("shows category shelves by default without loading the flat grid", () => {
     "Adventure",
   ]);
   expect(state.games).toHaveBeenLastCalledWith(
-    expect.objectContaining({ gameIds: [2, 1, 3] }),
+    expect.objectContaining({ gameIds: undefined }),
   );
+  expect(state.request).not.toHaveBeenCalled();
 });
 
 it("opens the filtered ranking for a genre and keeps order and period", () => {
   const page = render(<ExploreGamesPageView />);
-  fireEvent.click(screen.getByRole("tab", { name: "RPG" }));
+  fireEvent.click(screen.getByRole("button", { name: "RPG", pressed: false }));
   expect(state.request).toHaveBeenLastCalledWith(
     expect.objectContaining({ criteria: { genres: [12] }, limit: 48 }),
   );
@@ -145,6 +150,22 @@ it("opens the filtered ranking for a genre and keeps order and period", () => {
   expect(state.request).toHaveBeenLastCalledWith(
     expect.objectContaining({ period: "all", criteria: { genres: [12] } }),
   );
-  fireEvent.click(screen.getByRole("tab", { name: "explore.filters.all" }));
+  fireEvent.click(screen.getByRole("button", { name: "explore.filters.all" }));
   expect(screen.getAllByTestId("shelf")).toHaveLength(3);
+});
+
+it("opens the full overall ranking from the top shelf", () => {
+  const page = render(<ExploreGamesPageView />);
+  fireEvent.click(screen.getByText("Period"));
+  fireEvent.click(
+    screen.getByRole("button", { name: "explore.sections.topOverall" }),
+  );
+
+  expect(state.request).toHaveBeenLastCalledWith({
+    period: "all",
+    criteria: undefined,
+    limit: 48,
+  });
+  expect(page.container.textContent).toContain("213");
+  expect(screen.queryAllByTestId("shelf")).toHaveLength(0);
 });

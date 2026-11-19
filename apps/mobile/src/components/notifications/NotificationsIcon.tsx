@@ -9,7 +9,8 @@ const MAX_BADGE_COUNT = 99;
  * loaded items are unread but the server count is missing or zero.
  */
 const NotificationsIcon = () => {
-  const { data } = useInfiniteAggregatedNotifications();
+  const query = useInfiniteAggregatedNotifications();
+  const data = query.isPlaceholderData ? undefined : query.data;
 
   const unreadCount = data?.pages[0]?.unreadCount ?? 0;
   const hasUnreadItems =
@@ -29,7 +30,9 @@ const NotificationsIcon = () => {
       label={showCount ? label : undefined}
       disabled={!showCount && !hasUnreadItems}
       withBorder
-      styles={{ indicator: { fontSize: 10, fontWeight: 700, padding: "0 4px" } }}
+      styles={{
+        indicator: { fontSize: 10, fontWeight: 700, padding: "0 4px" },
+      }}
     >
       <IconBell />
     </Indicator>

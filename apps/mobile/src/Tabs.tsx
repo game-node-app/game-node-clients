@@ -1,5 +1,4 @@
 import NotificationsIcon from "@/components/notifications/NotificationsIcon.tsx";
-import { tabSlideAnimation } from "@/util/tabSlideAnimation";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import ExplorePage from "@/pages/explore";
@@ -7,10 +6,11 @@ import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
 import NotFoundPage from "@/pages/not_found";
 import NotificationsPage from "@/pages/notifications";
-import ProfilePage from "@/pages/profile/profile";
 import { BLOG_ROUTES, getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import GameSearchPage from "@/pages/search.tsx";
+import WrappedHomePage from "@/pages/wrapped/wrapped_home";
 import { MOBILE_TABS } from "@/util/getTabAwareHref";
+import { useTabSlideAnimation } from "@/util/useTabSlideAnimation";
 import {
   IonMenu,
   IonRouterOutlet,
@@ -18,6 +18,7 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
+import { useTranslation } from "@repo/locales";
 import {
   IconHome,
   IconLayout2,
@@ -39,9 +40,13 @@ const BLOG_TAB_PATHS = Object.values(BLOG_ROUTES).map(
 );
 
 const Tabs = () => {
+  const { t } = useTranslation();
   const [dimmed, setDimmed] = useState(false);
   const hideTimer = useRef<number>(undefined);
   const location = useLocation();
+  const { outletRef, onIonTabsWillChange } = useTabSlideAnimation(
+    location.pathname,
+  );
   const hideTabBar = Boolean(
     matchPath(location.pathname, { path: BLOG_TAB_PATHS, exact: true }),
   );
@@ -86,10 +91,13 @@ const Tabs = () => {
             }}
           />
         )}
-        <IonTabs className={hideTabBar ? "gn-hide-tabbar" : undefined}>
+        <IonTabs
+          className={hideTabBar ? "gn-hide-tabbar" : undefined}
+          onIonTabsWillChange={onIonTabsWillChange}
+        >
           <IonRouterOutlet
             id="main-outlet"
-            animation={tabSlideAnimation}
+            ref={outletRef}
             onScroll={(evt) => {
               console.log("onScroll: ", evt);
             }}
@@ -125,7 +133,7 @@ const Tabs = () => {
             />
             {getCommonRoutes("/notifications")}
             {/* ---- PROFILE ROUTES ---- */}
-            <Route exact path={"/profile"} render={() => <ProfilePage />} />
+            <Route exact path={"/profile"} render={() => <WrappedHomePage />} />
             {getCommonRoutes("/profile")}
 
             {/*
@@ -140,20 +148,40 @@ const Tabs = () => {
             inert={hideTabBar}
             aria-hidden={hideTabBar || undefined}
           >
-            <IonTabButton tab="library" href="/library">
+            <IonTabButton
+              tab="library"
+              href="/library"
+              aria-label={t("navigation.library")}
+            >
               <IconLibrary />
             </IonTabButton>
-            <IonTabButton tab="explore" href="/explore">
+            <IonTabButton
+              tab="explore"
+              href="/explore"
+              aria-label={t("navigation.explore")}
+            >
               <IconTrendingUp />
             </IonTabButton>
-            <IonTabButton tab="home" href="/home">
+            <IonTabButton
+              tab="home"
+              href="/home"
+              aria-label={t("navigation.home")}
+            >
               <IconHome />
             </IonTabButton>
-            <IonTabButton tab="notifications" href="/notifications">
+            <IonTabButton
+              tab="notifications"
+              href="/notifications"
+              aria-label={t("notifications.title")}
+            >
               <NotificationsIcon />
             </IonTabButton>
-            {/* Keeps the "profile" tab id so /profile/* routes stay inside this tab; the tab itself opens the Wrapped. */}
-            <IonTabButton tab="profile" href="/profile/wrapped">
+            {/* Ionic matches the tab by its href prefix. */}
+            <IonTabButton
+              tab="profile"
+              href="/profile"
+              aria-label={t("mobile.wrapped.title")}
+            >
               <IconLayout2 />
             </IonTabButton>
           </IonTabBar>
