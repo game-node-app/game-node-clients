@@ -72,7 +72,7 @@ const WIREFRAMES: Record<RecapTemplate, ReactNode> = {
         className={"absolute inset-0"}
         style={{
           background:
-            "radial-gradient(circle at 15% 12%, rgba(241,80,37,0.7), transparent 60%), radial-gradient(circle at 90% 50%, rgba(45,106,143,0.5), transparent 55%)",
+            "radial-gradient(circle at 9% 14%, rgba(241,80,37,0.75), transparent 72%), radial-gradient(circle at 93% 78%, rgba(241,80,37,0.3), transparent 72%)",
         }}
       />
       <div className={"relative flex gap-0.5 h-5"}>

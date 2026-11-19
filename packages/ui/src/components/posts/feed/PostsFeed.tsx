@@ -1,15 +1,20 @@
-import { GamePostEditor, InfiniteLoaderChildren } from "#@/components";
+import { GamePostEditor, InfiniteLoaderProps } from "#@/components";
 import {
   PostsFeedCriteria,
   useInfinitePostsFeed,
 } from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
 import { PostsList } from "#@/components/posts/PostsList.tsx";
 import { Stack } from "@mantine/core";
-import { useMemo } from "react";
+import { type ReactNode, useMemo, useState } from "react";
+
+export interface PostsFeedChildrenProps extends InfiniteLoaderProps {
+  /** Reveals the post editor, same as the "Create" button above the feed. */
+  openEditor: () => void;
+}
 
 interface Props {
   criteria: PostsFeedCriteria;
-  children: InfiniteLoaderChildren;
+  children: (props: PostsFeedChildrenProps) => ReactNode;
   /**
    * This post will appear on top
    */
@@ -29,6 +34,7 @@ const PostsFeed = ({
   hardLimit,
   children,
 }: Props) => {
+  const [editorEnabled, setEditorEnabled] = useState(false);
   const postsFeedQuery = useInfinitePostsFeed({
     criteria,
     limit: hardLimit ?? limit,
@@ -43,7 +49,11 @@ const PostsFeed = ({
 
   return (
     <Stack>
-      <GamePostEditor withEnableButton />
+      <GamePostEditor
+        withEnableButton
+        enabled={editorEnabled}
+        onEnabledChange={setEditorEnabled}
+      />
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {
@@ -52,6 +62,7 @@ const PostsFeed = ({
         },
         isFetching: postsFeedQuery.isFetching,
         hasNextPage: postsFeedQuery.hasNextPage,
+        openEditor: () => setEditorEnabled(true),
       })}
     </Stack>
   );

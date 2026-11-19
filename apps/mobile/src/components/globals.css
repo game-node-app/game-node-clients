@@ -177,14 +177,22 @@ ion-menu {
 }
 
 /*
- * Cards (CardSection/CardRow, general/card): rows are transparent IonItems separated by
- * an inset hairline; the last row of a card has no divider.
+ * Cards (CardSection/CardRow, general/card): the one divider system. Rows are separated by a 1px
+ * hairline in --gn-divider and the last row has none.
+ *  - IonItem rows (CardRow) draw it with their own inset border (shadow DOM, hence the variable).
+ *  - Any other row (GameRow, option buttons, accordion items) adds the `gn-row` class and gets the
+ *    same line as a top border from the previous `gn-row` sibling. Don't add per-component
+ *    border-t/border-b classes for dividers.
  */
+.gn-card {
+    --gn-divider: #2A2A2A;
+}
+
 .gn-card ion-item {
     --background: transparent;
     --background-activated: rgba(255, 255, 255, 0.06);
     --background-hover: rgba(255, 255, 255, 0.04);
-    --border-color: #2A2A2A;
+    --border-color: var(--gn-divider);
     --padding-start: 14px;
     --inner-padding-end: 14px;
     --min-height: 64px;
@@ -192,6 +200,10 @@ ion-menu {
 
 .gn-card ion-item:last-of-type {
     --border-width: 0;
+}
+
+.gn-card .gn-row + .gn-row {
+    border-top: 1px solid var(--gn-divider);
 }
 
 /*

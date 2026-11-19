@@ -17,6 +17,8 @@ interface Props {
   trailing?: ReactNode;
   /** Brand-tinted icon tile, matches `CardSection accent`. */
   accent?: boolean;
+  /** Violet icon tile and text, matches `CardSection premium` (supporter entry points only). */
+  premium?: boolean;
   /** Show the chevron on tappable rows. @default true */
   chevron?: boolean;
   /** Content rendered under the text inside the row (e.g. inline actions or alerts). */
@@ -39,6 +41,7 @@ const CardRow = ({
   onClick,
   trailing,
   accent,
+  premium,
   chevron = true,
   footer,
   children,
@@ -59,7 +62,11 @@ const CardRow = ({
           <span
             className={cn(
               "flex size-10 shrink-0 items-center justify-center rounded-xl",
-              accent ? "bg-brand text-white" : "bg-paper-4 text-neutral-300",
+              premium
+                ? "bg-[#9747FF] text-white"
+                : accent
+                  ? "bg-brand text-[#111111]"
+                  : "bg-paper-4 text-neutral-300",
             )}
           >
             {icon}
@@ -72,7 +79,12 @@ const CardRow = ({
                 {title}
               </p>
               {description != undefined && (
-                <p className="m-0 mt-0.5 text-[13px] leading-4 text-dimmed-1 [overflow-wrap:anywhere]">
+                <p
+                  className={cn(
+                    "m-0 mt-0.5 text-[13px] leading-4 [overflow-wrap:anywhere]",
+                    premium ? "text-[#C7A6FF]" : "text-dimmed-1",
+                  )}
+                >
                   {description}
                 </p>
               )}
@@ -82,7 +94,13 @@ const CardRow = ({
             )}
             {trailing}
             {interactive && chevron && trailing == undefined && (
-              <IconChevronRight size={18} className="shrink-0 text-dimmed-1" />
+              <IconChevronRight
+                size={18}
+                className={cn(
+                  "shrink-0",
+                  premium ? "text-[#C7A6FF]" : "text-dimmed-1",
+                )}
+              />
             )}
           </div>
           {footer}

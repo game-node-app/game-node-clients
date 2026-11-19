@@ -33,9 +33,49 @@ import { pickBackdropImage } from "#@/components/wrapped/card/recapBackdropImage
 import { getPlatformShortName } from "#@/components/wrapped/util/recapPlatform";
 import { useTranslation } from "@repo/locales";
 
-/** Tilt and vertical offset of the four covers, so the row feels hand-placed. */
-const COVER_TILT = [-6, 3, -2, 5] as const;
-const COVER_TOP = [270, 240, 280, 250] as const;
+const COVER_WIDTH = 230;
+const COVER_PITCH = 240;
+
+/**
+ * Tilt and vertical offset per cover, so the row feels hand-placed. Each count
+ * has its own set: the four-cover composition is the reference, fewer covers
+ * keep the same stagger instead of leaving the row left-heavy.
+ */
+const COVER_LAYOUTS = [
+  [],
+  [{ tilt: -3, top: 262 }],
+  [
+    { tilt: -5, top: 270 },
+    { tilt: 4, top: 244 },
+  ],
+  [
+    { tilt: -6, top: 270 },
+    { tilt: 3, top: 240 },
+    { tilt: -3, top: 274 },
+  ],
+  [
+    { tilt: -6, top: 270 },
+    { tilt: 3, top: 240 },
+    { tilt: -2, top: 280 },
+    { tilt: 5, top: 250 },
+  ],
+] as const;
+
+/**
+ * Position of each cover in the row. The row is centred on the same axis as
+ * the four-cover row (x = 60 for four), so 1 to 3 games stay balanced.
+ */
+export function getAuraCoverLayout(
+  count: number,
+): { left: number; top: number; tilt: number }[] {
+  const size = Math.min(Math.max(count, 0), 4);
+  const left = 60 + ((4 - size) * COVER_PITCH) / 2;
+  return COVER_LAYOUTS[size]!.map(({ tilt, top }, index) => ({
+    left: left + index * COVER_PITCH,
+    top,
+    tilt,
+  }));
+}
 
 const GLASS_WIDTH = 468;
 const GLASS_HEIGHT = 236;
@@ -112,6 +152,7 @@ export function RecapAuraCard({
   const { t } = useTranslation();
   const ranked = getRankedGames(summary, games);
   const covers = ranked.slice(0, 4);
+  const coverLayout = getAuraCoverLayout(covers.length);
   const accent = getRecapAccent(custom);
   const backdropGame = pickBackdropGame(ranked, custom);
   const backdropImage = pickBackdropImage(backdropGame, custom);
@@ -129,7 +170,7 @@ export function RecapAuraCard({
     },
     {
       key: "second",
-      label: "#2",
+      label: t("mobile.wrapped.card.secondGame"),
       value: ranked[1]?.game?.name ?? "-",
     },
     {
@@ -198,14 +239,24 @@ export function RecapAuraCard({
         <div
           key={game?.id ?? index}
           style={{
-            ...at(60 + index * 240, COVER_TOP[index]!, 230, 306),
-            transform: `rotate(${COVER_TILT[index]}deg)`,
+            ...at(
+              coverLayout[index]!.left,
+              coverLayout[index]!.top,
+              COVER_WIDTH,
+              306,
+            ),
+            transform: `rotate(${coverLayout[index]!.tilt}deg)`,
             boxShadow: "0 24px 60px rgba(0, 0, 0, 0.5)",
             border: `3px solid ${RECAP_COLORS.cream}33`,
             borderRadius: 30,
           }}
         >
-          <RecapCover game={game} width={230} height={306} radius={30} />
+          <RecapCover
+            game={game}
+            width={COVER_WIDTH}
+            height={306}
+            radius={30}
+          />
         </div>
       ))}
 

@@ -612,7 +612,8 @@
       "addedTo": "Added to {{collection}}",
       "completedAllAchievements": "Completed all achievements",
       "followed": "Followed",
-      "obtainedAchievements": "Obtained {{count}} achievement{{suffix}}",
+      "obtainedAchievements_one": "Obtained {{count}} achievement",
+      "obtainedAchievements_other": "Obtained {{count}} achievements",
       "obtainedAllAndPlatinum": "Obtained platinum trophy and completed all achievements",
       "obtainedPlatinum": "Obtained platinum trophy",
       "postedAbout": "Posted about",
@@ -1813,8 +1814,10 @@
     "trendingReviews": "Trending Reviews",
     "trendingRank": "#{{rank}} trending",
     "trendingSelectGame": "Show {{name}}",
-    "trendingTrailerMuted": "Trailer · muted",
-    "trendingViewGame": "View game"
+    "trendingViewGame": "View game",
+    "trendingPause": "Pause featured games rotation",
+    "trendingPlay": "Resume featured games rotation",
+    "trendingError": "Couldn't load trending games."
   },
   "importer": {
     "buttons": {
@@ -1900,7 +1903,8 @@
   "journal": {
     "achievements": {
       "autoUpdate": "This information is automatically updated periodically* from the gaming platforms you connect to your GameNode profile, such as Steam, Xbox and PlayStation.",
-      "count": "{{count}} achievement{{suffix}}",
+      "count_one": "{{count}} achievement",
+      "count_other": "{{count}} achievements",
       "description": "This section of the journal is dedicated to showcasing the achievements you've obtained in the games you play. It's a way to celebrate your gaming milestones and share your accomplishments with the community.",
       "completed": "Completed",
       "hover": "Hover",
@@ -1914,9 +1918,11 @@
     },
     "loading": "Loading Journal...",
     "overview": {
+      "emptyAction": "Add a game to your library",
       "emptyDescription": "Games you start, finish or drop will show up here, month by month.",
       "emptyTitle": "Your journal is empty",
-      "gamesCount": "{{count}} games"
+      "gamesCount_one": "{{count}} game",
+      "gamesCount_other": "{{count}} games"
     }
   },
   "landing": {
@@ -2194,6 +2200,10 @@
       "editProfileDetails": "Edit profile details",
       "setAppLanguage": "Set app language",
       "importerSystem": "Importer system",
+      "libraryAndDisplay": "Library & display",
+      "platformsAndImport": "Platforms & import",
+      "appsAndTools": "Apps & tools",
+      "connectionLoadFailed": "Couldn't load this connection",
       "misc": "Misc",
       "profile": "Profile"
     },
@@ -2246,6 +2256,7 @@
         },
         "reviewed": "Reviews",
         "started": "Started",
+        "secondGame": "Second game",
         "topGame": "Top game",
         "topGameShare": "{{percent}}% of your time",
         "topGames": "Top games",
@@ -2629,14 +2640,10 @@
     }
   },
   "posts": {
-    "tabs": {
-      "all": "All",
-      "following": "Following",
-      "soon": "Soon"
-    },
     "empty": {
       "title": "No posts yet",
-      "description": "Posts from the community will show up here."
+      "description": "Posts from the community will show up here.",
+      "create": "Create post"
     },
     "messages": {
       "published": "Successfully published post!",
@@ -2888,6 +2895,12 @@
       "gamesByYear": "Games by year",
       "gamesLabel": "Games",
       "libraryDistribution": "Library distribution",
+      "distributionBy": {
+        "status": "Status",
+        "genre": "Genre",
+        "theme": "Theme",
+        "mode": "Mode"
+      },
       "playedThisYear": "Played this year",
       "playtime": "Playtime",
       "playtimeNote1": "Based on data from available connections (e.g. Steam, PSN).",
@@ -3516,7 +3529,6 @@
     "list": "List"
   },
   "mcp": {
-    "eyebrow": "Model Context Protocol",
     "title": "GameNode + AI",
     "intro": "Find your next game and organize your gaming life with your assistant. You choose the permissions at authorization.",
     "readExample": "Find a co-op game and show my library entries and collections.",
@@ -3525,6 +3537,7 @@
     "read": "Read access",
     "write": "Changes to your account",
     "choose": "Choose your assistant",
+    "otherAssistants": "Other assistants",
     "add": "Add GameNode",
     "authorizeStep": "Sign in and authorize",
     "verify": "Check the connection",

@@ -1,4 +1,8 @@
 .card {
+  /* Cover column width drives the (constant) height of the featured block. */
+  --hero-cover-w: 136px;
+  /* Text on the brand fill: #111 is 5.3:1 on #F15025 (white is 3.55:1, fails AA). */
+  --hero-on-brand: #111;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -68,20 +72,62 @@
 
 .chipRank {
   background: var(--mantine-primary-color-filled);
+  color: var(--hero-on-brand);
+  font-weight: 700;
+}
+
+/* 44px hit area that does not grow the row: the visible circle is 28px. */
+.pause {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -11px -8px -11px 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.pauseIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.5);
+  transition: background-color 150ms ease;
+}
+
+.pause:hover .pauseIcon {
+  background: rgb(0 0 0 / 0.7);
+}
+
+.pause:focus-visible,
+.cta:focus-visible,
+.thumb:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .featured {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 14px;
+  /* Constant for every game: cover ratio 264/354 of the cover column. */
+  height: calc(var(--hero-cover-w) * 354 / 264);
   animation: heroIn 280ms ease both;
 }
 
 .cover {
   flex: none;
   display: block;
-  width: 136px;
-  aspect-ratio: 264 / 354;
+  width: var(--hero-cover-w);
+  height: 100%;
   overflow: hidden;
   border-radius: 14px;
   box-shadow: 0 10px 24px rgb(0 0 0 / 0.55);
@@ -112,22 +158,31 @@
   overflow-wrap: anywhere;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 
 .meta {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 4px 10px;
+  gap: 10px;
+  max-width: 100%;
   font-size: 12px;
+  line-height: 16px;
   color: rgb(255 255 255 / 0.7);
+}
+
+.metaText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .rating {
   display: inline-flex;
+  flex: none;
   align-items: center;
   gap: 4px;
   font-weight: 700;
@@ -141,8 +196,8 @@
   color: rgb(255 255 255 / 0.85);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 
@@ -151,11 +206,14 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 38px;
+  /* pinned to the bottom of the fixed-height block so it never moves between games */
+  margin-top: auto;
+  flex: none;
+  min-height: 44px;
   padding: 0 18px;
   border-radius: 12px;
   background: var(--mantine-primary-color-filled);
-  color: #fff;
+  color: var(--hero-on-brand);
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
@@ -169,7 +227,7 @@
 
 .thumb {
   flex: 1 1 0;
-  min-width: 0;
+  min-width: 44px;
   max-width: 72px;
   display: flex;
   flex-direction: column;
@@ -259,13 +317,13 @@
 }
 
 @media (min-width: 48em) {
+  .card {
+    --hero-cover-w: 200px;
+  }
+
   .content {
     padding: 24px;
     gap: 20px;
-  }
-
-  .cover {
-    width: 200px;
   }
 
   .title {
@@ -276,8 +334,8 @@
   .summary {
     font-size: 14px;
     line-height: 20px;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     max-width: 52ch;
   }
 

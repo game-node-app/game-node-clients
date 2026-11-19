@@ -5,7 +5,10 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
 import { RecapCardPreview } from "../../../../../packages/ui/src/components/wrapped/card/RecapCardPreview";
-import { RecapAuraCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapAuraCard";
+import {
+  getAuraCoverLayout,
+  RecapAuraCard,
+} from "../../../../../packages/ui/src/components/wrapped/card/RecapAuraCard";
 import { RecapBentoCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "../../../../../packages/ui/src/components/wrapped/card/RecapPosterCard";
@@ -257,6 +260,44 @@ describe("recap summary templates", () => {
       'mobile.wrapped.card.playedAcross:{"count":3}',
     );
     expect(screen.getAllByTestId("cover")).toHaveLength(4);
+  });
+
+  it("Aura keeps the four-cover composition and centres fewer covers", () => {
+    expect(getAuraCoverLayout(4)).toEqual([
+      { left: 60, top: 270, tilt: -6 },
+      { left: 300, top: 240, tilt: 3 },
+      { left: 540, top: 280, tilt: -2 },
+      { left: 780, top: 250, tilt: 5 },
+    ]);
+
+    // Same row centre as the four-cover row (x = 535) for every count.
+    for (const count of [1, 2, 3, 4]) {
+      const layout = getAuraCoverLayout(count);
+      expect(layout).toHaveLength(count);
+      const center = (layout[0]!.left + layout[count - 1]!.left + 230) / 2;
+      expect(center).toBe(535);
+    }
+    expect(getAuraCoverLayout(0)).toEqual([]);
+  });
+
+  it("Aura draws two centred covers and a translated second-game label", () => {
+    const { container } = renderCard(
+      <RecapAuraCard
+        {...props({
+          games: [1, 2].map(game),
+          summary: summary({
+            topGames: [1, 2].map((gameId) => ({
+              gameId,
+              totalPlaytimeSeconds: 100,
+            })),
+          }),
+        })}
+      />,
+    );
+
+    expect(screen.getAllByTestId("cover")).toHaveLength(2);
+    expect(container.textContent).toContain("mobile.wrapped.card.secondGame");
+    expect(container.textContent).not.toContain("#2");
   });
 
   it("Bento shows the top game, the figures and the list", () => {

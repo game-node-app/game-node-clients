@@ -34,7 +34,6 @@ const DEFAULT_JournalAchievementsGameGroupView = ({
     () =>
       t("journal.achievements.count", {
         count: gameGroup.achievements.length,
-        suffix: gameGroup.achievements.length > 1 ? "s" : "",
       }),
     [gameGroup.achievements.length, t],
   );

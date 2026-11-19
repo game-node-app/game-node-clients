@@ -1,7 +1,4 @@
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
+import { CARD_BUTTON_PROPS, CardRow } from "@/components/general/card";
 import { Alert, Button } from "@mantine/core";
 import { Capacitor } from "@capacitor/core";
 import { useTranslation } from "@repo/locales";
@@ -21,7 +18,7 @@ const PreferencesSignInMethodsItems = () => {
   } = useSignInMethods(Capacitor.isNativePlatform());
 
   return (
-    <CardSection title={t("auth.methods.title")}>
+    <>
       {errorCode && (
         <Alert color={"red"} variant={"light"} className={"m-3"}>
           {t(
@@ -45,7 +42,8 @@ const PreferencesSignInMethodsItems = () => {
                 <Button
                   variant={"subtle"}
                   color={"red"}
-                  size={"xs"}
+                  {...CARD_BUTTON_PROPS}
+                  className={"ml-2"}
                   disabled={isLast || unlinkMutation.isPending}
                   onClick={() => setUnlinking(id)}
                 >
@@ -54,7 +52,7 @@ const PreferencesSignInMethodsItems = () => {
               ) : (
                 <Button
                   variant={"light"}
-                  size={"xs"}
+                  {...CARD_BUTTON_PROPS}
                   loading={
                     linkMutation.isPending && linkMutation.variables === id
                   }
@@ -79,7 +77,7 @@ const PreferencesSignInMethodsItems = () => {
         })}
         onConfirm={() => unlinking && unlinkMutation.mutate(unlinking)}
       />
-    </CardSection>
+    </>
   );
 };
 

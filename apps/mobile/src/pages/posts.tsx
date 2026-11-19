@@ -9,12 +9,13 @@ import {
 } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import {
-  InfiniteLoaderProps,
   PostsFeed,
+  type PostsFeedChildrenProps,
   PostsFeedLayout,
   PostsFeedTabValue,
 } from "@repo/ui";
 import { MobilePostsFeedEmpty } from "@/components/posts/MobilePostsFeedEmpty";
+import { MobilePostsFeedSkeleton } from "@/components/posts/MobilePostsFeedSkeleton";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
@@ -53,11 +54,20 @@ const PostsPage = () => {
       <Stack className={"w-full my-4"}>
         <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
           <PostsFeed criteria={currentTab} targetedPostId={postId}>
-            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+            {({
+              fetchNextPage,
+              hasNextPage,
+              openEditor,
+            }: PostsFeedChildrenProps) => (
               <>
+                <MobilePostsFeedSkeleton
+                  criteria={currentTab}
+                  targetedPostId={postId}
+                />
                 <MobilePostsFeedEmpty
                   criteria={currentTab}
                   targetedPostId={postId}
+                  onCreate={openEditor}
                 />
                 <IonInfiniteScroll
                   disabled={!hasNextPage}

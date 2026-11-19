@@ -23,7 +23,7 @@ const ListEmptyState = ({
 }: Props) => (
   <div
     className={cn(
-      "mx-4 flex flex-col items-center gap-2 rounded-2xl border border-dashed border-line px-6 py-10 text-center",
+      "flex flex-col items-center gap-2 rounded-2xl border border-dashed border-line px-6 py-10 text-center",
       className,
     )}
   >

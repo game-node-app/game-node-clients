@@ -28,44 +28,42 @@ export const MobileUserLevelHeader = ({
   const locale = i18n.resolvedLanguage || i18n.language;
 
   return (
-    <div className="px-4">
-      <Link
-        href={`/profile/${userId}`}
-        className="flex items-center gap-4 rounded-2xl border border-line bg-paper-8 p-4 text-white no-underline"
-        onClick={(evt) => {
-          if (!enableLink) evt.preventDefault();
-        }}
-      >
-        <UserAvatar userId={userId} size="lg" {...avatarProps} />
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-          <div className="flex items-baseline justify-between gap-2">
-            <span className="truncate text-base font-bold">
-              {profileQuery.data?.username}
-            </span>
-            <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-brand">
-              {t("user.labels.level", { level: userLevel?.currentLevel ?? 1 })}
-            </span>
-          </div>
-          <Progress value={progress} size="sm" radius="xl" />
-          <div className="flex flex-col gap-0.5 text-xs text-dimmed-1">
-            <span className="whitespace-nowrap">
-              {t("user.labels.xp", {
-                exp: userLevel?.currentLevelExp ?? 0,
-                cost: userLevel?.levelUpExpCost ?? 0,
+    <Link
+      href={`/profile/${userId}`}
+      className="flex items-center gap-4 rounded-2xl border border-line bg-paper-8 p-4 text-white no-underline"
+      onClick={(evt) => {
+        if (!enableLink) evt.preventDefault();
+      }}
+    >
+      <UserAvatar userId={userId} size="lg" {...avatarProps} />
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+        <div className="flex items-baseline justify-between gap-2">
+          <span className="truncate text-base font-bold">
+            {profileQuery.data?.username}
+          </span>
+          <span className="shrink-0 text-xs font-semibold uppercase tracking-wider text-brand">
+            {t("user.labels.level", { level: userLevel?.currentLevel ?? 1 })}
+          </span>
+        </div>
+        <Progress value={progress} size="sm" radius="xl" />
+        <div className="flex flex-col gap-0.5 text-xs text-dimmed-1">
+          <span className="whitespace-nowrap">
+            {t("user.labels.xp", {
+              exp: userLevel?.currentLevelExp ?? 0,
+              cost: userLevel?.levelUpExpCost ?? 0,
+            })}
+          </span>
+          {showJoinDate && profileQuery.data && (
+            <span>
+              {t("profile.memberSince", {
+                date: new Intl.DateTimeFormat(locale, {
+                  dateStyle: "medium",
+                }).format(new Date(profileQuery.data.createdAt)),
               })}
             </span>
-            {showJoinDate && profileQuery.data && (
-              <span>
-                {t("profile.memberSince", {
-                  date: new Intl.DateTimeFormat(locale, {
-                    dateStyle: "medium",
-                  }).format(new Date(profileQuery.data.createdAt)),
-                })}
-              </span>
-            )}
-          </div>
+          )}
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };

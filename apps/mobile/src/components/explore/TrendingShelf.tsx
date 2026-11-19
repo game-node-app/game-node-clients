@@ -8,11 +8,17 @@ import {
   getSizedImageUrl,
   ImageSize,
   Link,
+  RATING_STAR_COLOR,
+  TrendingGamesError,
   useGames,
   useTrendingGames,
 } from "@repo/ui";
 import { Game, StatisticsRankingsRequestDto } from "@repo/wrapper/server";
-import { IconChevronRight, IconStarFilled } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconChevronRight,
+  IconStarFilled,
+} from "@tabler/icons-react";
 
 interface TrendingShelfProps {
   title: string;
@@ -70,7 +76,7 @@ const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
       />
       <span
         className={
-          "absolute left-3 top-3 rounded-full bg-brand-5 px-2.5 py-0.5 text-xs font-bold text-white"
+          "absolute left-3 top-3 inline-flex h-[22px] items-center whitespace-nowrap rounded-full bg-brand-5 px-2.5 text-[11px] font-bold uppercase tracking-[0.04em] text-paper-7"
         }
       >
         {label}
@@ -83,7 +89,7 @@ const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
           {genres && <span className={"truncate"}>{genres}</span>}
           {rating && (
             <span className={"flex shrink-0 items-center gap-0.5"}>
-              <IconStarFilled size={12} color={"#F5C518"} />
+              <IconStarFilled size={12} color={RATING_STAR_COLOR} />
               {rating}
             </span>
           )}
@@ -95,10 +101,11 @@ const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
         )}
         <span
           className={
-            "mt-1 w-fit rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-black"
+            "mt-1 inline-flex min-h-11 w-fit items-center justify-center gap-1.5 rounded-xl bg-brand-5 px-[18px] text-[13px] font-bold text-paper-7"
           }
         >
           {t("home.trendingViewGame")}
+          <IconArrowRight size={16} aria-hidden={true} />
         </span>
       </div>
     </Link>
@@ -139,7 +146,8 @@ const TrendingShelf = ({
   const hasError = trendingQuery.isError || gamesQuery.isError;
   const hasGames = !!games?.length;
 
-  if (!ranked && !isLoading && !hasGames) return null;
+  // Non-ranked shelves vanish when empty, but a failed request is never silent.
+  if (!ranked && !isLoading && !hasGames && !hasError) return null;
 
   const featured = games?.[0];
   const rest = games?.slice(1);
@@ -162,8 +170,15 @@ const TrendingShelf = ({
           </UnstyledButton>
         )}
       </Group>
-      {ranked && hasError && (
-        <CenteredErrorMessage message={t("explore.fetchError")} />
+      {hasError && (
+        <TrendingGamesError
+          retrying={trendingQuery.isFetching || gamesQuery.isFetching}
+          onRetry={() =>
+            trendingQuery.isError
+              ? trendingQuery.refetch()
+              : gamesQuery.refetch()
+          }
+        />
       )}
       {ranked && !isLoading && !hasError && !hasGames && (
         <CenteredErrorMessage message={t("game.search.noGamesFound")} />

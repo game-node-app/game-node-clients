@@ -22,8 +22,8 @@ interface Props {
 /**
  * Compact game row shared by the journal and the reviews list: cover, title, meta line, optional
  * chips and a neutral chevron. Meant to sit inside a `CardSection`, which draws the card; dividers
- * between sibling rows come from here. The cover and the text area are separate links so there are
- * no nested anchors.
+ * between sibling rows come from the `gn-row` class (see `.gn-card` in globals.css). The cover and
+ * the text area are separate links so there are no nested anchors.
  */
 const GameRow = ({
   game,
@@ -52,7 +52,7 @@ const GameRow = ({
   return (
     <div
       className={cn(
-        "flex w-full items-center gap-3 border-b border-line px-3 py-3 last:border-b-0",
+        "gn-row flex w-full items-center gap-3 px-3 py-3",
         className,
       )}
     >

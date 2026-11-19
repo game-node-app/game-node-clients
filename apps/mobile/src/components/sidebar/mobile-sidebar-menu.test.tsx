@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
 import React from "react";
 import { MantineProvider } from "@mantine/core";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu";
 import type { SeasonEvents } from "../../../../../packages/ui/src/components/events/hooks/useSeasonEvents";
+import { App } from "@capacitor/app";
+import { version as buildVersion } from "../../../package.json";
 import ptBR from "../../../../../packages/locales/src/translations/json/pt-BR.json";
 
 const state = vi.hoisted(() => ({
@@ -25,7 +27,7 @@ vi.mock("@repo/ui", () => ({
   cn: (...values: Array<string | false | null | undefined>) =>
     values.filter(Boolean).join(" "),
   UserButton: () => null,
-  GameNodeLogo: () => null,
+  GameNodeLogo: () => <img alt={""} data-testid={"sidebar-logo"} />,
   Link: ({
     href,
     children,
@@ -229,5 +231,41 @@ describe("MobileSidebarMenu · seasonal entries", () => {
     // Wrapped, Daily and GameNode + AI carry their own "Novo" badge, next to the Awards one.
     expect(screen.getAllByText("Novo")).toHaveLength(4);
     expect(menuHref("Awards 2026")).toBe("/home/awards/2026/result");
+  });
+});
+
+describe("MobileSidebarMenu · footer", () => {
+  it("keeps Logout with the account actions and ends the menu with the logo and version", async () => {
+    state.season = season();
+
+    renderMenu();
+
+    const settings = screen.getByText("Configurações");
+    const logout = screen.getByText("Sair");
+    const logo = screen.getByTestId("sidebar-logo");
+
+    // Settings and Logout share the account section; the logo is outside it.
+    expect(settings.closest("section")).toBe(logout.closest("section"));
+    expect(logo.closest("section")).toBeNull();
+    expect(
+      logout.compareDocumentPosition(logo) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+
+    expect(await screen.findByText("Versão 1.8.12")).toBeTruthy();
+    const version = screen.getByText("Versão 1.8.12");
+    expect(
+      logo.compareDocumentPosition(version) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("falls back to the bundled version where App.getInfo is unavailable (web)", async () => {
+    state.season = season();
+    vi.mocked(App.getInfo).mockRejectedValueOnce(new Error("not implemented"));
+
+    renderMenu();
+
+    await waitFor(() => {
+      expect(screen.getByText(`Versão ${buildVersion}`)).toBeTruthy();
+    });
   });
 });

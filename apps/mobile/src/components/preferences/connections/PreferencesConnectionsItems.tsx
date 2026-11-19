@@ -1,12 +1,5 @@
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
 import PreferencesConnectionItem from "@/components/preferences/connections/PreferencesConnectionItem";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
-import { useTranslation } from "@repo/locales";
 import { UserConnectionDto } from "@repo/wrapper/server";
-import { IconPlugConnected } from "@tabler/icons-react";
 
 const CONNECTION_TYPES = [
   UserConnectionDto.type.STEAM,
@@ -17,21 +10,16 @@ const CONNECTION_TYPES = [
   UserConnectionDto.type.GOG,
 ];
 
-const PreferencesConnectionsItems = () => {
-  const { t } = useTranslation();
-
-  return (
-    <CardSection title={t("preferences.categories.connections")}>
-      {CONNECTION_TYPES.map((type) => (
-        <PreferencesConnectionItem key={type} type={type} />
-      ))}
-      <CardRow
-        icon={<IconPlugConnected size={20} />}
-        title={t("mcp.title")}
-        href={getTabAwareHref("/mcp")}
-      />
-    </CardSection>
-  );
-};
+/**
+ * One row per game platform connection. Each connected platform carries its own "Import games"
+ * action, so there is no separate importer entry in Preferences.
+ */
+const PreferencesConnectionsItems = () => (
+  <>
+    {CONNECTION_TYPES.map((type) => (
+      <PreferencesConnectionItem key={type} type={type} />
+    ))}
+  </>
+);
 
 export default PreferencesConnectionsItems;

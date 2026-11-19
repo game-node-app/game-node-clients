@@ -37,7 +37,12 @@ vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
     t: (key: string, options?: Record<string, unknown>) => {
       let val: unknown = enTranslations;
-      for (const p of key.split(".")) {
+      // Minimal i18next plural resolution: `key_one` / `key_other` when a count is given.
+      const parts = key.split(".");
+      if (typeof options?.count === "number") {
+        parts[parts.length - 1] += options.count === 1 ? "_one" : "_other";
+      }
+      for (const p of parts) {
         val =
           typeof val === "object" && val !== null
             ? (val as Record<string, unknown>)[p]

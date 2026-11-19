@@ -1,4 +1,3 @@
-import { CardSection } from "@/components/general/card";
 import { ActionIcon, Popover, SegmentedControl } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
@@ -19,8 +18,8 @@ interface Props {
 }
 
 /**
- * Mobile restyle of `JournalObtainedAchievementsView`: header card, segmented layout toggle
- * and the tip as a card note. Data and list layouts are the shared ones from `@repo/ui`.
+ * Mobile restyle of `JournalObtainedAchievementsView`: header card and segmented layout toggle
+ * (the help popover holds the notes and the tip). Data and list layouts are the shared ones from `@repo/ui`.
  */
 export const MobileJournalAchievements = ({
   userId,
@@ -36,7 +35,7 @@ export const MobileJournalAchievements = ({
     <div className="flex w-full flex-col gap-4 pb-6 pt-3">
       <BackToTopButton />
       {withUserInfo && <UserAvatarWithLevelInfo userId={userId} />}
-      <div className="flex items-center gap-2 px-4">
+      <div className="flex items-center gap-2">
         <SegmentedControl
           fullWidth
           size="xs"
@@ -70,25 +69,23 @@ export const MobileJournalAchievements = ({
                 <p className="m-0 mt-2 text-sm text-dimmed">
                   {t("journal.achievements.updateNote")}
                 </p>
+                <p className="m-0 mt-2 text-sm">
+                  <span className="font-semibold">
+                    {t("journal.achievements.tipLabel")}
+                  </span>
+                  {t("journal.achievements.tipAction", {
+                    action: t("journal.achievements.tap"),
+                  })}
+                </p>
               </div>
             </Popover.Dropdown>
           </Popover>
         )}
       </div>
-      <CardSection>
-        <p className="m-0 p-3 text-[13px] leading-5 text-dimmed-1">
-          <span className="font-semibold text-white">
-            {t("journal.achievements.tipLabel")}
-          </span>
-          {t("journal.achievements.tipAction", {
-            action: t("journal.achievements.tap"),
-          })}
-        </p>
-      </CardSection>
       {isLoading && (
         <CenteredLoading message={t("journal.achievements.loading")} />
       )}
-      <div className="px-4">
+      <div>
         {layout === "compact" ? (
           <JournalAchievementsCompactLayoutView
             userId={userId}

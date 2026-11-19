@@ -1,5 +1,6 @@
 import { CardSection, StatTile } from "@/components/general/card";
 import { BarChart } from "@mantine/charts";
+import { SegmentedControl } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   LibraryHiddenState,
@@ -7,6 +8,7 @@ import {
   ProfileStatsDistributionLineByYear,
   ProfileStatsDistributionRadarByType,
   ProfileStatsViewProps,
+  SUCCESS_COLOR,
   useIsLibraryHidden,
   useProfileMetricsOverview,
   UserAvatarWithLevelInfo,
@@ -17,6 +19,10 @@ import {
   IconListCheck,
   IconStack2,
 } from "@tabler/icons-react";
+import { useState } from "react";
+
+const RADAR_TYPES = ["status", "genre", "theme", "mode"] as const;
+type RadarType = (typeof RADAR_TYPES)[number];
 
 /** Turns the year-distribution pills into a full-width segmented control (styling only). */
 const SEGMENTED_TABS =
@@ -34,6 +40,7 @@ export const MobileProfileStatsView = ({
   const { isHidden, profile } = useIsLibraryHidden(userId);
   const metricsQuery = useProfileMetricsOverview(userId);
   const metrics = metricsQuery.data;
+  const [radarType, setRadarType] = useState<RadarType>("status");
 
   if (isHidden) {
     return <LibraryHiddenState profile={profile} />;
@@ -46,7 +53,7 @@ export const MobileProfileStatsView = ({
   return (
     <div className="flex w-full flex-col gap-5 pb-6 pt-3">
       {withUserLevel && <UserAvatarWithLevelInfo userId={userId} />}
-      <div className="grid grid-cols-2 gap-3 px-4">
+      <div className="grid grid-cols-2 gap-3">
         <StatTile
           icon={<IconDeviceGamepad2 size={20} />}
           value={metrics?.totalGames ?? 0}
@@ -85,15 +92,16 @@ export const MobileProfileStatsView = ({
               series={[
                 {
                   name: "totalGames",
-                  color: "blue",
+                  color: "gray.6",
                   label: t("profile.stats.total"),
                 },
                 {
                   name: "totalFinishedGames",
-                  color: "red",
+                  color: SUCCESS_COLOR,
                   label: t("profile.stats.finishedGames"),
                 },
               ]}
+              withLegend
               gridAxis="y"
               barProps={{ barSize: 20, height: 20 }}
               withYAxis={false}
@@ -116,11 +124,20 @@ export const MobileProfileStatsView = ({
         </div>
       </CardSection>
       <CardSection title={t("profile.stats.libraryDistribution")}>
-        <div className="flex flex-col gap-4 p-3">
-          <ProfileStatsDistributionRadarByType userId={userId} by="status" />
-          <ProfileStatsDistributionRadarByType userId={userId} by="genre" />
-          <ProfileStatsDistributionRadarByType userId={userId} by="theme" />
-          <ProfileStatsDistributionRadarByType userId={userId} by="mode" />
+        {/* One radar at a time: four 350px charts stacked in one card read as noise, and each
+            needs its own label. Switching keeps every dataset reachable and mounts one chart. */}
+        <div className="flex flex-col gap-3 p-3">
+          <SegmentedControl
+            fullWidth
+            size="xs"
+            value={radarType}
+            onChange={(value) => setRadarType(value as RadarType)}
+            data={RADAR_TYPES.map((type) => ({
+              value: type,
+              label: t(`profile.stats.distributionBy.${type}`),
+            }))}
+          />
+          <ProfileStatsDistributionRadarByType userId={userId} by={radarType} />
         </div>
       </CardSection>
     </div>

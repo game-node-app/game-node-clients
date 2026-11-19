@@ -1,9 +1,7 @@
 import { Capacitor } from "@capacitor/core";
 import { IonSelect, IonSelectOption } from "@ionic/react";
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
+import { CardRow } from "@/components/general/card";
+import { getTabAwareHref } from "@/util/getTabAwareHref";
 import {
   useWidgetPeriod,
   WIDGET_PERIODS,
@@ -11,16 +9,26 @@ import {
 import type { RecapPeriod } from "@repo/ui";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "@repo/locales";
-import { IconCalendarStats, IconRefreshDot } from "@tabler/icons-react";
+import {
+  IconCalendarStats,
+  IconPlugConnected,
+  IconRefreshDot,
+} from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 
+/** "Apps & tools" rows: GameNode + AI (MCP), the Android widget period and the local cache. */
 const PreferencesMiscItems = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [widgetPeriod, setWidgetPeriod] = useWidgetPeriod();
 
   return (
-    <CardSection title={t("mobile.preferences.misc")}>
+    <>
+      <CardRow
+        icon={<IconPlugConnected size={20} />}
+        title={t("mcp.title")}
+        href={getTabAwareHref("/mcp")}
+      />
       {Capacitor.getPlatform() === "android" && (
         <CardRow
           icon={<IconCalendarStats size={20} />}
@@ -29,7 +37,7 @@ const PreferencesMiscItems = () => {
             <IonSelect
               aria-label={t("mobile.preferences.widgetPeriod")}
               interface="popover"
-              className="w-auto min-h-0 max-w-[55%] shrink-0 text-sm"
+              className="w-auto min-h-11 max-w-[55%] shrink-0 text-sm"
               value={widgetPeriod}
               onIonChange={(e) =>
                 setWidgetPeriod(e.detail.value as RecapPeriod)
@@ -56,7 +64,7 @@ const PreferencesMiscItems = () => {
           });
         }}
       />
-    </CardSection>
+    </>
   );
 };
 

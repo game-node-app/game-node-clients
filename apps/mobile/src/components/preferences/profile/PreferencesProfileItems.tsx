@@ -1,7 +1,4 @@
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
+import { CardRow } from "@/components/general/card";
 import { IonSelect, IonSelectOption } from "@ionic/react";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -23,7 +20,7 @@ const PreferencesProfileItems = () => {
   if (!userId) return null;
 
   return (
-    <CardSection title={t("mobile.preferences.profile")}>
+    <>
       <CardRow
         icon={<IconUser size={20} />}
         title={t("mobile.preferences.editProfileDetails")}
@@ -44,7 +41,7 @@ const PreferencesProfileItems = () => {
           <IonSelect
             aria-label={t("mobile.preferences.setAppLanguage")}
             interface="popover"
-            className="w-auto min-h-0 max-w-[55%] shrink-0 text-sm"
+            className="w-auto min-h-11 max-w-[55%] shrink-0 text-sm"
             value={language}
             onIonChange={(evt) => {
               setLanguage(evt.detail.value as SupportedLanguage);
@@ -58,7 +55,7 @@ const PreferencesProfileItems = () => {
           </IonSelect>
         }
       />
-    </CardSection>
+    </>
   );
 };
 

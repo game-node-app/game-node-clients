@@ -47,10 +47,7 @@ export const MobileJournalAchievementsGameGroup = ({
             }}
           />
           <span className="text-xs uppercase tracking-wider text-dimmed-1">
-            {t("journal.achievements.count", {
-              count,
-              suffix: count > 1 ? "s" : "",
-            })}
+            {t("journal.achievements.count", { count })}
           </span>
         </div>
       </div>

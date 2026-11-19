@@ -1,7 +1,4 @@
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
+import { CardRow, CardSection } from "@/components/general/card";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { useTranslation } from "@repo/locales";
 import { useSupporterStatus } from "@repo/ui";
@@ -17,9 +14,9 @@ const PreferencesSupporterItems = () => {
     : t("supporter.preferences.freeStatus");
 
   return (
-    <CardSection accent>
+    <CardSection premium>
       <CardRow
-        accent
+        premium
         icon={<IconHeartFilled size={20} />}
         title={t("supporter.preferences.title")}
         description={statusLabel}

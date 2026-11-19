@@ -8,6 +8,7 @@ import {
   Code,
   Stack,
   Text,
+  ThemeIcon,
 } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
@@ -30,11 +31,22 @@ import {
 } from "@tabler/icons-react";
 import { CardRow, CardSection } from "@/components/general/card";
 
+/** Filled brand ThemeIcon, so the number gets the dark text from `variantColorResolver`. */
 const StepNumber = ({ n }: { n: number }) => (
-  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-bold text-white">
-    {n}
-  </span>
+  <ThemeIcon size={24} radius="xl" aria-hidden className="shrink-0">
+    <span className="text-xs font-bold">{n}</span>
+  </ThemeIcon>
 );
+
+type ClientEntry = [
+  Exclude<McpClient, "manual">,
+  (typeof MCP_CLIENTS)[keyof typeof MCP_CLIENTS],
+];
+const CLIENTS = Object.entries(MCP_CLIENTS) as ClientEntry[];
+// Hosted clients (they have a web flow, so a phone can finish setup) come first; terminal clients
+// go behind a disclosure.
+const HOSTED_CLIENTS = CLIENTS.filter(([, item]) => "launch" in item);
+const TERMINAL_CLIENTS = CLIENTS.filter(([, item]) => !("launch" in item));
 
 /**
  * Mobile presenter for the MCP guide: same state and copy as the shared screen (`useMcpGuide`),
@@ -50,7 +62,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
     client,
     prompt,
     launchProps,
-  } = useMcpGuide({ openExternal });
+  } = useMcpGuide({ openExternal, defaultClient: "claude" });
 
   const snippet = (value: string) => (
     <Stack gap="xs" className="min-w-0">
@@ -74,14 +86,14 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
         aria-controls="mcp-instructions"
         onClick={() => setSelected(key)}
         className={cn(
-          "flex w-full items-center gap-3 border-0 border-t border-solid border-line bg-transparent px-3.5 py-3 text-left first:border-t-0",
+          "gn-row flex w-full items-center gap-3 border-0 bg-transparent px-3.5 py-3 text-left",
           active && "bg-brand/10",
         )}
       >
         <span
           className={cn(
             "flex size-10 shrink-0 items-center justify-center rounded-xl",
-            active ? "bg-brand text-white" : "bg-paper-4 text-neutral-300",
+            active ? "bg-brand text-[#111111]" : "bg-paper-4 text-neutral-300",
           )}
         >
           {icon}
@@ -102,14 +114,11 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             <div className="w-9 shrink-0">
               <GameNodeLogo />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-brand">
-              {t("mcp.eyebrow")}
-            </span>
+            <h1 className="m-0 text-2xl font-bold leading-tight text-white">
+              {t("mcp.title")}
+            </h1>
           </div>
-          <h1 className="m-0 text-2xl font-bold leading-tight text-white">
-            {t("mcp.title")}
-          </h1>
-          <Text size="sm" c="dimmed">
+          <Text size="sm" c="dimmed" style={{ textWrap: "balance" }}>
             {t("mcp.intro")}
           </Text>
           <div className="flex flex-col gap-2">
@@ -129,7 +138,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
               {t("mcp.openChatgpt")}
             </Button>
           </div>
-          <Text size="xs" c="dimmed">
+          <Text size="xs" c="dimmed" style={{ textWrap: "pretty" }}>
             {t("mcp.hostedHelp")}
           </Text>
           {launchError && (
@@ -152,7 +161,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             footer={
               <Badge
                 mt={6}
-                size="sm"
+                size="md"
                 variant="light"
                 color={i ? "brand" : "gray"}
               >
@@ -164,33 +173,36 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
       </CardSection>
 
       <CardSection title={t("mcp.choose")}>
-        {(
-          Object.entries(MCP_CLIENTS) as [
-            Exclude<McpClient, "manual">,
-            (typeof MCP_CLIENTS)[keyof typeof MCP_CLIENTS],
-          ][]
-        ).map(([key, item]) =>
-          option(
-            key,
-            item.name,
-            "launch" in item ? (
-              <IconWorld size={20} />
-            ) : (
-              <IconTerminal2 size={20} />
-            ),
-          ),
+        {HOSTED_CLIENTS.map(([key, item]) =>
+          option(key, item.name, <IconWorld size={20} />),
         )}
-        {option("manual", t("mcp.manual"), <IconSettings size={20} />)}
+        <Accordion
+          variant="unstyled"
+          defaultValue={
+            HOSTED_CLIENTS.some(([key]) => key === selected) ? null : "other"
+          }
+          classNames={{ content: "p-0" }}
+        >
+          <Accordion.Item value="other" className="gn-row">
+            <Accordion.Control className="gn-row px-3.5 py-3">
+              {t("mcp.otherAssistants")}
+            </Accordion.Control>
+            <Accordion.Panel className="gn-row">
+              {TERMINAL_CLIENTS.map(([key, item]) =>
+                option(key, item.name, <IconTerminal2 size={20} />),
+              )}
+              {option("manual", t("mcp.manual"), <IconSettings size={20} />)}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       </CardSection>
 
       <section
         id="mcp-instructions"
         aria-label={client?.name || t("mcp.manual")}
-        className="flex min-w-0 flex-col gap-5"
+        className="min-w-0"
       >
-        <CardSection
-          title={`${t("mcp.add")} — ${client?.name || t("mcp.manual")}`}
-        >
+        <CardSection>
           <div className="flex min-w-0 flex-col gap-4 p-4">
             <div className="flex min-w-0 flex-col gap-2">
               <div className="flex items-center gap-2">
@@ -258,9 +270,11 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
                 label={t("mcp.copyPrompt")}
               />
             </div>
-            <Accordion variant="contained">
+            <Accordion variant="unstyled" classNames={{ content: "px-0" }}>
               <Accordion.Item value="prompt">
-                <Accordion.Control>{t("mcp.showPrompt")}</Accordion.Control>
+                <Accordion.Control className="px-0 py-2 text-sm">
+                  {t("mcp.showPrompt")}
+                </Accordion.Control>
                 <Accordion.Panel>
                   <Text size="sm" style={{ userSelect: "text" }}>
                     {prompt}
@@ -273,9 +287,11 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
       </section>
 
       <CardSection>
-        <Accordion variant="default">
-          <Accordion.Item value="manual">
-            <Accordion.Control>{t("mcp.manual")}</Accordion.Control>
+        <Accordion variant="unstyled" classNames={{ content: "px-3.5" }}>
+          <Accordion.Item value="manual" className="gn-row">
+            <Accordion.Control className="px-3.5 py-3">
+              {t("mcp.manual")}
+            </Accordion.Control>
             <Accordion.Panel>
               <Stack className="min-w-0">
                 <Text size="sm">{t("mcp.serverName")}: GameNode</Text>
@@ -293,8 +309,10 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
               </Stack>
             </Accordion.Panel>
           </Accordion.Item>
-          <Accordion.Item value="trouble">
-            <Accordion.Control>{t("mcp.troubleshooting")}</Accordion.Control>
+          <Accordion.Item value="trouble" className="gn-row">
+            <Accordion.Control className="px-3.5 py-3">
+              {t("mcp.troubleshooting")}
+            </Accordion.Control>
             <Accordion.Panel>
               <Text size="sm">{t("mcp.troubleHelp")}</Text>
             </Accordion.Panel>

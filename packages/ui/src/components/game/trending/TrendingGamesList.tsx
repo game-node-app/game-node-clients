@@ -3,6 +3,7 @@ import {
   TRENDING_HERO_MAX_GAMES,
   TrendingGamesHero,
 } from "#@/components/game/trending/TrendingGamesHero";
+import { TrendingGamesError } from "#@/components/game/trending/TrendingGamesError";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
 import { Skeleton } from "@mantine/core";
@@ -29,15 +30,17 @@ const TrendingGamesList = () => {
     relations: {
       cover: true,
       genres: true,
-      videos: true,
       artworks: true,
+      screenshots: true,
     },
   });
 
   const isLoading = trendingGames.isLoading || gamesQuery.isLoading;
 
+  const hasError = trendingGames.isError || gamesQuery.isError;
   const isEmpty =
     !isLoading &&
+    !hasError &&
     (gamesQuery.data == undefined || gamesQuery.data.length === 0);
 
   const games = (gamesIds ?? [])
@@ -53,8 +56,17 @@ const TrendingGamesList = () => {
         className: "",
       }}
     >
-      {isLoading ? (
-        <Skeleton className={"h-[347px] w-full"} radius={20} />
+      {hasError ? (
+        <TrendingGamesError
+          retrying={trendingGames.isFetching || gamesQuery.isFetching}
+          onRetry={() =>
+            trendingGames.isError
+              ? trendingGames.refetch()
+              : gamesQuery.refetch()
+          }
+        />
+      ) : isLoading ? (
+        <Skeleton className={"h-[350px] w-full"} radius={20} />
       ) : (
         <TrendingGamesHero games={games} />
       )}

@@ -2,4 +2,4 @@
 "mobile": minor
 ---
 
-Redesign the Settings screen: grouped cards with icon rows, a highlighted supporter entry and compact connection actions.
+Redesign the Settings screen: four grouped cards (Account, Library & display, Platforms & import, Apps & tools) with icon rows, a violet supporter entry and 44px connection actions.

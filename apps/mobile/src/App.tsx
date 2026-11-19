@@ -159,9 +159,13 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // The edge-to-edge plugin only exists on Android; on web and iOS its
+    // methods reject with "plugin is not implemented".
+    if (Capacitor.getPlatform() !== "android") return;
+
     (async () => {
       const info = await Device.getInfo();
-      if (info.platform === "android" && Number(info.osVersion) >= 14) {
+      if (Number(info.osVersion) >= 14) {
         if (splashDone) {
           await EdgeToEdge.enable();
           await EdgeToEdge.setBackgroundColor({
@@ -175,7 +179,7 @@ const App: React.FC = () => {
       } else {
         await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
       }
-    })();
+    })().catch(console.error);
   }, [splashDone]);
 
   useEffect(() => {

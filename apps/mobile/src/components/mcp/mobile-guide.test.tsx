@@ -23,14 +23,64 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 
+beforeEach(() => {
+  setupDom();
+  setProjectContext({
+    client: "mobile",
+    serverUrl: "https://staging.example/base/",
+    searchUrl: "",
+    s3BucketUrl: "",
+  });
+});
+afterEach(cleanup);
+
 describe("mobile MCP guide", () => {
+  it("preselects the hosted client that matches the primary call to action", () => {
+    renderMcp(<MobileMcpGuideScreen />, "en", true);
+    const claude = screen.getByRole("button", { name: "Claude.ai" });
+    expect(claude.getAttribute("aria-pressed")).toBe("true");
+    expect(screen.getByRole("region", { name: "Claude.ai" })).toBeTruthy();
+    // No terminal instructions up front on a phone.
+    expect(
+      screen.queryByText(/Run these commands in your terminal/),
+    ).toBeNull();
+  });
+
+  it("lists hosted assistants first and keeps terminal ones in a collapsed disclosure", () => {
+    renderMcp(<MobileMcpGuideScreen />, "en", true);
+    const names = screen
+      .getAllByRole("button", { pressed: false })
+      .concat(screen.getAllByRole("button", { pressed: true }))
+      .map((button) => button.textContent);
+    expect(names).toContain("ChatGPT");
+    const disclosure = screen.getByRole("button", {
+      name: "Other assistants",
+    });
+    expect(disclosure.getAttribute("aria-expanded")).toBe("false");
+    // Terminal clients are not exposed until the disclosure is opened.
+    expect(screen.queryByRole("button", { name: "Codex" })).toBeNull();
+    fireEvent.click(disclosure);
+    expect(disclosure.getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("button", { name: "Codex" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Claude Code" })).toBeTruthy();
+  });
+
+  it("shows the setup heading once, without the protocol eyebrow", () => {
+    renderMcp(<MobileMcpGuideScreen />, "en", true);
+    expect(screen.getAllByText("Add GameNode — Claude.ai")).toHaveLength(1);
+    expect(screen.queryByText("Model Context Protocol")).toBeNull();
+  });
+
   it.each(["en", "pt-BR"] as const)(
     "shows each client's instructions and documentation in %s",
     (language) => {
       const t = createI18nInstance({ language }).t;
-      renderMcp(<MobileMcpGuideScreen />, language);
+      renderMcp(<MobileMcpGuideScreen />, language, true);
       expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
         t("mcp.title"),
+      );
+      fireEvent.click(
+        screen.getByRole("button", { name: t("mcp.otherAssistants") }),
       );
       for (const client of Object.values(MCP_CLIENTS)) {
         const picker = screen.getByRole("button", { name: client.name });
@@ -71,11 +121,12 @@ describe("mobile MCP guide", () => {
       configurable: true,
       value: { writeText },
     });
-    renderMcp(<MobileMcpGuideScreen />);
+    renderMcp(<MobileMcpGuideScreen />, "en", true);
     fireEvent.click(screen.getByRole("button", { name: "ChatGPT" }));
     fireEvent.click(screen.getByRole("button", { name: "Copy prompt" }));
     await screen.findByText("Copied");
     expect(writeText.mock.calls[0][0]).toContain("provider’s graphical setup");
+    fireEvent.click(screen.getByRole("button", { name: "Other assistants" }));
     fireEvent.click(screen.getByRole("button", { name: "Claude Code" }));
     expect(screen.queryByText("Copied")).toBeNull();
   });

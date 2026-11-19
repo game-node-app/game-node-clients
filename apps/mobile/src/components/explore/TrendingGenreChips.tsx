@@ -1,6 +1,5 @@
 import { Button } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { cn } from "@repo/ui";
 
 export interface TrendingGenreChip {
   id: number;
@@ -30,11 +29,13 @@ const TrendingGenreChips = ({
       role={"group"}
       aria-label={t("explore.filters.genres")}
       // the right edge fades out to hint that the row scrolls
-      className={cn(
+      className={[
         "flex gap-2 overflow-x-auto pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         "[mask-image:linear-gradient(to_right,black_calc(100%-32px),transparent)]",
         className,
-      )}
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {chips.map((chip) => {
         const isActive = chip.id === selectedGenreId;

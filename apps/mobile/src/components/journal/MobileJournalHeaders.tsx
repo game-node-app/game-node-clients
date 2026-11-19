@@ -1,6 +1,6 @@
 import { Badge } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { JournalMonthHeaderProps, JournalYearHeaderProps } from "@repo/ui";
-import dayjs from "dayjs";
 
 /** Big year with a games-count chip. */
 const MobileJournalYearHeader = ({
@@ -16,10 +16,17 @@ const MobileJournalYearHeader = ({
 );
 
 /** Small caption for a month. */
-const MobileJournalMonthHeader = ({ year, month }: JournalMonthHeaderProps) => (
-  <h3 className="m-0 px-1 pt-2 text-xs font-semibold uppercase tracking-wider text-dimmed-1">
-    {dayjs(new Date(year, month, 1)).format("MMMM")}
-  </h3>
-);
+const MobileJournalMonthHeader = ({ year, month }: JournalMonthHeaderProps) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.resolvedLanguage || i18n.language;
+
+  return (
+    <h3 className="m-0 px-1 pt-2 text-xs font-semibold uppercase tracking-wider text-dimmed-1">
+      {new Intl.DateTimeFormat(locale, { month: "long" }).format(
+        new Date(year, month, 1),
+      )}
+    </h3>
+  );
+};
 
 export { MobileJournalYearHeader, MobileJournalMonthHeader };

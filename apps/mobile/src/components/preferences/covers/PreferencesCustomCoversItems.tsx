@@ -1,7 +1,4 @@
-import {
-  CardRow,
-  CardSection,
-} from "@/components/general/card";
+import { CardRow } from "@/components/general/card";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import { Modal, SettingsCustomCoversSection } from "@repo/ui";
@@ -16,21 +13,19 @@ const PreferencesCustomCoversItems = () => {
   const [opened, { open, close }] = useDisclosure();
 
   return (
-    <CardSection title={t("settings.tabs.appearance.label")}>
-      <CardRow
-        icon={<IconPalette size={20} />}
+    <CardRow
+      icon={<IconPalette size={20} />}
+      title={t("settings.appearance.customCovers.title")}
+      onClick={open}
+    >
+      <Modal
+        opened={opened}
+        onClose={close}
         title={t("settings.appearance.customCovers.title")}
-        onClick={open}
       >
-        <Modal
-          opened={opened}
-          onClose={close}
-          title={t("settings.appearance.customCovers.title")}
-        >
-          <SettingsCustomCoversSection showHeader={false} />
-        </Modal>
-      </CardRow>
-    </CardSection>
+        <SettingsCustomCoversSection showHeader={false} />
+      </Modal>
+    </CardRow>
   );
 };
 

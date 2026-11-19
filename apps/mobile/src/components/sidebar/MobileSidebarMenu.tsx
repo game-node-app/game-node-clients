@@ -5,6 +5,7 @@ import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.ts
 import { MobileSidebarSection } from "@/components/sidebar/MobileSidebarSection.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { WRAPPED_TAB_PATH } from "@/util/getTabAwareHref";
+import { version as buildVersion } from "../../../package.json";
 import { App } from "@capacitor/app";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack, Text } from "@mantine/core";
@@ -64,9 +65,10 @@ const MobileSidebarMenu = () => {
     ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
     : undefined;
 
-  const [appVersion, setAppVersion] = useState<string>();
+  // The native build version replaces the bundled one once known; on web/PWA
+  // `App.getInfo` fails, so the version the bundle was built from stays.
+  const [appVersion, setAppVersion] = useState<string>(buildVersion);
   useEffect(() => {
-    // native build version; unavailable in the browser, where the row is simply hidden
     App.getInfo()
       .then((info) => setAppVersion(info.version))
       .catch(() => undefined);
@@ -240,15 +242,6 @@ const MobileSidebarMenu = () => {
               href={"/preferences"}
               onClick={closeMenu}
             />
-            <div className={"mx-6 mt-2 mb-1 border-t border-white/10"} />
-            <div className={"flex flex-col items-start gap-2 px-6 py-5"}>
-              <GameNodeLogo style={{ width: 84 }} />
-              {appVersion && (
-                <Text size={"xs"} c={"dimmed"} fw={500}>
-                  {t("navigation.sidebar.version", { version: appVersion })}
-                </Text>
-              )}
-            </div>
             <MobileSidebarButton
               title={t("actions.logout")}
               Icon={IconLogout}
@@ -263,6 +256,18 @@ const MobileSidebarMenu = () => {
               textProps={{ className: "text-red-400" }}
             />
           </MobileSidebarSection>
+          <div
+            className={
+              "mt-auto flex flex-col items-center gap-1.5 px-6 pt-4 pb-6"
+            }
+          >
+            <GameNodeLogo style={{ width: 56, opacity: 0.45 }} />
+            {appVersion && (
+              <Text size={"xs"} c={"dimmed"} fw={500}>
+                {t("navigation.sidebar.version", { version: appVersion })}
+              </Text>
+            )}
+          </div>
         </Stack>
       </IonContent>
     </>

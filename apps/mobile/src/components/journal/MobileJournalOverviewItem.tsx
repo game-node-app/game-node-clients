@@ -29,7 +29,7 @@ const MobileJournalOverviewItem = ({
   }
 
   return (
-    <CardSection className="px-0">
+    <CardSection>
       <GameRow
         game={gameQuery.data}
         leading={targetDay}

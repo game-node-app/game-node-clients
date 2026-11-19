@@ -9,14 +9,23 @@ import {
 
 export interface UseMcpGuideOptions {
   openExternal?: (url: string) => Promise<void>;
+  /**
+   * Client whose instructions are shown first. Web keeps the terminal client (`codex`); phones
+   * have no terminal, so mobile preselects a hosted client.
+   * @default "codex"
+   */
+  defaultClient?: McpClient;
 }
 
 /**
  * State and launch logic of the MCP guide, shared by the default screen and per-app presenters.
  */
-export function useMcpGuide({ openExternal }: UseMcpGuideOptions) {
+export function useMcpGuide({
+  openExternal,
+  defaultClient = "codex",
+}: UseMcpGuideOptions) {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState<McpClient>("codex");
+  const [selected, setSelected] = useState<McpClient>(defaultClient);
   const [launchError, setLaunchError] = useState<string>();
   const connection = getMcpConnection();
   const client = selected === "manual" ? null : MCP_CLIENTS[selected];

@@ -4,7 +4,6 @@ import {
   GameRating,
   ItemLikesButton,
   ProfileReviewListItemProps,
-  TextLink,
   useProfileReviewGame,
 } from "@repo/ui";
 import { StatisticsSourceRequestDto } from "@repo/wrapper/server";
@@ -19,7 +18,10 @@ function getReviewExcerpt(html: string | null | undefined): string {
   return (doc.body.textContent ?? "").replace(/\s+/g, " ").trim();
 }
 
-/** Own/other user's review in the reviews list: game row, short excerpt, "View more" and likes. */
+/**
+ * Own/other user's review in the reviews list: game row (the single link to the review), short
+ * excerpt and likes.
+ */
 const MobileProfileReviewListItem = ({
   review,
 }: ProfileReviewListItemProps) => {
@@ -29,21 +31,18 @@ const MobileProfileReviewListItem = ({
   const reviewHref = `/game/${review.gameId}?tab=reviews&reviewId=${review.id}`;
 
   return (
-    <CardSection className="px-0">
+    <CardSection>
       <GameRow
         game={gameQuery.data ?? review.game}
         title={gameQuery.data?.name ?? review.game?.name}
         meta={<GameRating value={review.rating} size="xs" />}
         href={reviewHref}
       />
-      <div className="flex flex-col gap-2 px-3 pb-3">
+      <div className="gn-row flex flex-col gap-2 px-3 pb-3 pt-3">
         <p className="m-0 line-clamp-3 text-sm leading-5 text-neutral-300 [overflow-wrap:anywhere]">
           {excerpt || t("review.messages.noContent")}
         </p>
-        <div className="flex items-center justify-between">
-          <TextLink href={reviewHref} className="text-sm text-dimmed-1">
-            {t("actions.viewMore")}
-          </TextLink>
+        <div className="flex items-center justify-end">
           <ItemLikesButton
             sourceId={review.id}
             sourceType={StatisticsSourceRequestDto.sourceType.REVIEW}

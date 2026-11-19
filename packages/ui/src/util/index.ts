@@ -3,6 +3,7 @@
  */
 
 export * from "./cn";
+export * from "./colors";
 export * from "./createErrorNotification";
 export * from "./downloadFile";
 export * from "./getCapitalizedText";
