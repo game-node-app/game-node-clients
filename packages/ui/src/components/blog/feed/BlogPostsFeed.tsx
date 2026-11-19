@@ -2,6 +2,7 @@ import {
   BlogPostsCategorySection,
   BlogPostsFeatured,
   DetailsBox,
+  useBlogCategories,
 } from "#@/components";
 import { ActionIcon, Box, Popover, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -9,6 +10,7 @@ import { IconQuestionMark } from "@tabler/icons-react";
 
 const BlogPostsFeed = () => {
   const { t } = useTranslation();
+  const categories = useBlogCategories();
 
   return (
     <DetailsBox
@@ -36,19 +38,9 @@ const BlogPostsFeed = () => {
     >
       <BlogPostsFeatured />
       <Stack className={"w-full gap-8 mt-4"}>
-        <BlogPostsCategorySection tag="news" title={t("blog.nav.news")} />
-        <BlogPostsCategorySection
-          tag="review"
-          title={t("blog.nav.reviews")}
-        />
-        <BlogPostsCategorySection
-          tag="article"
-          title={t("blog.nav.articles")}
-        />
-        <BlogPostsCategorySection
-          tag="gamenode"
-          title={t("blog.nav.gameNode")}
-        />
+        {categories.map(({ id, title }) => (
+          <BlogPostsCategorySection key={id} tag={id} title={title} />
+        ))}
       </Stack>
     </DetailsBox>
   );

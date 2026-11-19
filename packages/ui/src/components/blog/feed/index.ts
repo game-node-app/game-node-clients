@@ -4,5 +4,4 @@
 
 export * from "./BlogPostsCategorySection";
 export * from "./BlogPostsFeatured";
-export * from "./BlogPostsFeaturedReviews";
 export * from "./BlogPostsFeed";

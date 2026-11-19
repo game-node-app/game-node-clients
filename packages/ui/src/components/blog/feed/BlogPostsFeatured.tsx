@@ -1,4 +1,5 @@
 import {
+  BLOG_FEATURED_POSTS_LIMIT,
   BlogPostCompactCard,
   CenteredErrorMessage,
   CenteredLoading,
@@ -14,13 +15,13 @@ import { useTranslation } from "@repo/locales";
 const BlogPostsFeatured = () => {
   const { t } = useTranslation();
   const { data, isLoading, error, refetch } = useBlogPosts({
-    limit: 3,
+    limit: BLOG_FEATURED_POSTS_LIMIT,
   });
 
   if (isLoading) {
     return <CenteredLoading />;
   }
-  if (error) {
+  if (error && !data) {
     return (
       <>
         <CenteredErrorMessage message={getErrorMessage(error)} />

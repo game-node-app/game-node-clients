@@ -1,6 +1,7 @@
 import { cn, Link, useRouter } from "#@/util";
 import { Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useBlogCategories } from "./hooks/useBlogCategories";
 
 interface NavbarLink {
   label: string;
@@ -12,52 +13,45 @@ interface NavbarLink {
 const BlogPostsNavHeader = () => {
   const { t } = useTranslation();
   const { pathname, query } = useRouter();
+  const categories = useBlogCategories();
   const currentTag = query?.get("tag") ?? undefined;
+  const isArchive =
+    pathname === "/blog/archive" || pathname === "/blog/archive/";
 
-  const LINKS: NavbarLink[] = [
+  const links: NavbarLink[] = [
     { label: t("blog.nav.home"), href: "/blog" },
     { label: t("blog.nav.archive"), href: "/blog/archive" },
-    { label: t("blog.nav.news"), href: "/blog/archive?tag=news", tag: "news" },
-    {
-      label: t("blog.nav.reviews"),
-      href: "/blog/archive?tag=review",
-      tag: "review",
-    },
-    {
-      label: t("blog.nav.articles"),
-      href: "/blog/archive?tag=article",
-      tag: "article",
-    },
-    {
-      label: t("blog.nav.gameNode"),
-      href: "/blog/archive?tag=gamenode",
-      tag: "gamenode",
-    },
+    ...categories.map(({ id, title }) => ({
+      label: title,
+      href: `/blog/archive?tag=${encodeURIComponent(id)}`,
+      tag: id,
+    })),
   ];
 
   const isActive = (link: NavbarLink) => {
     if (link.tag) {
-      return pathname.startsWith("/blog/archive") && currentTag === link.tag;
+      return isArchive && currentTag === link.tag;
     }
     if (link.href === "/blog/archive") {
-      return pathname.startsWith("/blog/archive") && !currentTag;
+      return isArchive && !currentTag;
     }
     return pathname === "/blog";
   };
 
   return (
     <nav
-      aria-label="Blog"
+      aria-label={t("navigation.blog")}
       className={
-        "flex w-full gap-2 flex-nowrap overflow-x-auto whitespace-nowrap pb-1 justify-start lg:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        "flex w-full gap-2 flex-nowrap overflow-x-auto whitespace-nowrap pb-1 justify-start lg:[justify-content:safe_center] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       }
     >
-      {LINKS.map((config) => {
+      {links.map((config) => {
         const active = isActive(config);
         return (
           <Link
             key={config.href}
             href={config.href}
+            replace={isArchive && config.href.startsWith("/blog/archive")}
             className={"min-h-min shrink-0"}
             aria-current={active ? "page" : undefined}
           >

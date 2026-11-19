@@ -939,6 +939,7 @@ export type TranslationSchema = {
   };
   blog: {
     buttons: {
+      browseBlog: string;
       seeMore: string;
     };
     contentNotice: string;

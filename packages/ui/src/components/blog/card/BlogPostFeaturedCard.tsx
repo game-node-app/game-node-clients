@@ -1,8 +1,11 @@
-import { BlogPostCategoryLabel, UserAvatarGroup } from "#@/components";
+import {
+  BlogPostCategoryLabel,
+  BlogPostDate,
+  UserAvatarGroup,
+} from "#@/components";
 import { Link } from "#@/util";
 import { Box, Group, Image, Stack, Text, Title } from "@mantine/core";
 import { BlogArticleDto } from "@repo/wrapper/server";
-import dayjs from "dayjs";
 
 interface Props {
   post: BlogArticleDto;
@@ -32,7 +35,10 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(0,0,0,0)_25%,_rgba(10,10,10,0.78)_62%,_rgba(0,0,0,0.96)_100%)]"
       />
-      <Stack className={"absolute inset-x-0 bottom-0 gap-2 p-4 text-gray-100"}>
+      <Stack
+        className={"absolute inset-0 gap-2 p-4 text-gray-100"}
+        justify="flex-end"
+      >
         <BlogPostCategoryLabel tags={post.tags} />
         {/* The title link's ::after covers the whole card, so all of it opens the post. The
             author avatar is a profile link, so it sits above that overlay instead. */}
@@ -58,9 +64,11 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
               userId={post.profileUserId}
             />
           </Box>
-          <Text size="xs" className={"shrink-0 text-gray-400"}>
-            {dayjs(post.publishedAt).format("DD/MM/YYYY")}
-          </Text>
+          <BlogPostDate
+            publishedAt={post.publishedAt}
+            className={"shrink-0"}
+            c="gray.4"
+          />
         </Group>
       </Stack>
     </Box>

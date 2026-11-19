@@ -1,4 +1,9 @@
-import { BlogPostCard, useBlogPosts } from "#@/components";
+import {
+  BLOG_CATEGORY_POSTS_LIMIT,
+  BlogPostCard,
+  BlogPostsFeaturedReviewCard,
+  useBlogPosts,
+} from "#@/components";
 import { Link } from "#@/util";
 import { Box, Group, Skeleton, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -8,18 +13,20 @@ interface Props {
   /** Tag id to filter by (`news`, `review`, ...). */
   tag: string;
   title: string;
-  limit?: number;
 }
 
 /**
  * One category of the blog home: a header with a "see all" link and a horizontally scrolling
  * row of cards. Renders nothing when the category has no posts.
  */
-const BlogPostsCategorySection = ({ tag, title, limit = 8 }: Props) => {
+const BlogPostsCategorySection = ({ tag, title }: Props) => {
   const { t } = useTranslation();
-  const { data, isLoading, isError } = useBlogPosts({ tag, limit });
+  const { data, isLoading } = useBlogPosts({
+    tag,
+    limit: BLOG_CATEGORY_POSTS_LIMIT,
+  });
 
-  if (isError || (!isLoading && (data?.data.length ?? 0) === 0)) return null;
+  if (!isLoading && !data?.data.length) return null;
 
   return (
     <section className={"w-full"}>
@@ -55,7 +62,15 @@ const BlogPostsCategorySection = ({ tag, title, limit = 8 }: Props) => {
           ))}
         {data?.data.map((post) => (
           <Box key={post.id} className={"w-64 shrink-0 snap-start"}>
-            <BlogPostCard post={post} blogRoutePrefix="/blog" />
+            {tag === "review" && post.review ? (
+              <BlogPostsFeaturedReviewCard post={post} />
+            ) : (
+              <BlogPostCard
+                post={post}
+                categoryId={tag}
+                blogRoutePrefix="/blog"
+              />
+            )}
           </Box>
         ))}
       </Box>

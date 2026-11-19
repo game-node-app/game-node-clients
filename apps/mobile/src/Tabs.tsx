@@ -8,8 +8,9 @@ import LibraryPage from "@/pages/library/library";
 import NotFoundPage from "@/pages/not_found";
 import NotificationsPage from "@/pages/notifications";
 import ProfilePage from "@/pages/profile/profile";
-import { getCommonRoutes } from "@/pages/routes/getCommonRoutes";
+import { BLOG_ROUTES, getCommonRoutes } from "@/pages/routes/getCommonRoutes";
 import GameSearchPage from "@/pages/search.tsx";
+import { MOBILE_TABS } from "@/util/getTabAwareHref";
 import {
   IonMenu,
   IonRouterOutlet,
@@ -24,7 +25,7 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
-import { Redirect, Route, useLocation } from "react-router-dom";
+import { matchPath, Redirect, Route, useLocation } from "react-router-dom";
 import AuthPage from "./pages/auth";
 
 /**
@@ -33,11 +34,17 @@ import AuthPage from "./pages/auth";
  * not on whatever page content is underneath.
  */
 const DIM_LINGER_MS = 400;
+const BLOG_TAB_PATHS = Object.values(BLOG_ROUTES).map(
+  (route) => `/:tab(${MOBILE_TABS.join("|")})${route}`,
+);
 
 const Tabs = () => {
   const [dimmed, setDimmed] = useState(false);
   const hideTimer = useRef<number>(undefined);
   const location = useLocation();
+  const hideTabBar = Boolean(
+    matchPath(location.pathname, { path: BLOG_TAB_PATHS, exact: true }),
+  );
 
   // Any navigation (a menu item, a deep link, back) closes the side menu. Relying only on the
   // item's onClick is fragile: the close can be dropped while the route transition starts.
@@ -79,7 +86,7 @@ const Tabs = () => {
             }}
           />
         )}
-        <IonTabs>
+        <IonTabs className={hideTabBar ? "gn-hide-tabbar" : undefined}>
           <IonRouterOutlet
             id="main-outlet"
             animation={tabSlideAnimation}
@@ -128,7 +135,11 @@ const Tabs = () => {
         */}
             <Route render={() => <NotFoundPage />} />
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
+          <IonTabBar
+            slot="bottom"
+            inert={hideTabBar}
+            aria-hidden={hideTabBar || undefined}
+          >
             <IonTabButton tab="library" href="/library">
               <IconLibrary />
             </IonTabButton>
