@@ -43,6 +43,10 @@ vi.mock("@/components/general/AppPage.tsx", () => ({
   ),
 }));
 
+vi.mock("@/components/notifications/NotificationsIcon.tsx", () => ({
+  default: () => null,
+}));
+
 vi.mock("@/components/sidebar/MobileSidebarMenu.tsx", () => ({
   MobileSidebarMenu: () => null,
 }));

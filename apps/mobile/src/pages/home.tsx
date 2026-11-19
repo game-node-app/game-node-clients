@@ -1,13 +1,12 @@
 import { useUserId } from "@repo/ui";
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { HomeActivityShelf } from "@/components/home/HomeActivityShelf";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
-import { SimpleGrid, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
-  DetailsCard,
   HomeEventsSection,
-  RecentActivityList,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   ReleaseStrip,
@@ -86,14 +85,14 @@ const HomePage = () => {
           withControls={false}
         />
         <RecentBlogPostsCarousel />
-        <SimpleGrid cols={{ base: 1, xs: 2 }} className={"w-full"}>
-          <DetailsCard title={t("home.recentActivity")}>
-            <RecentActivityList limit={10} />
-          </DetailsCard>
-          <DetailsCard title={t("home.lastReviews")}>
-            <RecentActivityList limit={10} type={ActivityType.REVIEW} />
-          </DetailsCard>
-        </SimpleGrid>
+        <HomeActivityShelf
+          title={t("home.recentActivity")}
+          seeMoreHref={"/activity"}
+        />
+        <HomeActivityShelf
+          title={t("home.lastReviews")}
+          type={ActivityType.REVIEW}
+        />
         <ReleaseStrip />
       </Stack>
     </AppPage>
