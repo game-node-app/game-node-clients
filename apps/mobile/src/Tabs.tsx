@@ -1,3 +1,5 @@
+import NotificationsIcon from "@/components/notifications/NotificationsIcon.tsx";
+import { tabSlideAnimation } from "@/util/tabSlideAnimation";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
 import ExplorePage from "@/pages/explore";
@@ -16,11 +18,10 @@ import {
   IonTabs,
 } from "@ionic/react";
 import {
-  IconBell,
   IconHome,
+  IconLayout2,
   IconLibrary,
   IconTrendingUp,
-  IconUser,
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
@@ -81,6 +82,7 @@ const Tabs = () => {
         <IonTabs>
           <IonRouterOutlet
             id="main-outlet"
+            animation={tabSlideAnimation}
             onScroll={(evt) => {
               console.log("onScroll: ", evt);
             }}
@@ -137,10 +139,11 @@ const Tabs = () => {
               <IconHome />
             </IonTabButton>
             <IonTabButton tab="notifications" href="/notifications">
-              <IconBell />
+              <NotificationsIcon />
             </IonTabButton>
-            <IonTabButton tab="profile" href="/profile">
-              <IconUser />
+            {/* Keeps the "profile" tab id so /profile/* routes stay inside this tab; the tab itself opens the Wrapped. */}
+            <IonTabButton tab="profile" href="/profile/wrapped">
+              <IconLayout2 />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

@@ -187,7 +187,8 @@ describe("MobileSidebarMenu · seasonal entries", () => {
 
     expect(screen.getByText("Wrapped")).toBeTruthy();
     expect(menuHref("Wrapped")).toBe("/home/wrapped");
-    expect(screen.getByText("Novo")).toBeTruthy();
+    // Wrapped, Daily and GameNode + AI always carry the translated badge.
+    expect(screen.getAllByText("Novo")).toHaveLength(3);
     expect(screen.getByText("Retrospectiva")).toBeTruthy();
     expect(screen.getByText("Nova")).toBeTruthy();
     expect(menuHref("Retrospectiva")).toBe("/home/recap/2026/user-1");
@@ -220,8 +221,8 @@ describe("MobileSidebarMenu · seasonal entries", () => {
 
     renderMenu();
 
-    // Wrapped carries its own "Novo" badge, next to the Awards one.
-    expect(screen.getAllByText("Novo")).toHaveLength(2);
+    // Wrapped, Daily and GameNode + AI carry their own "Novo" badge, next to the Awards one.
+    expect(screen.getAllByText("Novo")).toHaveLength(4);
     expect(menuHref("Awards 2026")).toBe("/home/awards/2026/result");
   });
 });

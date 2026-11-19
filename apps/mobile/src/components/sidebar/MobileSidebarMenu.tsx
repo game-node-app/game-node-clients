@@ -2,6 +2,7 @@
 // prettier-ignore
 "use no memo";
 import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.tsx";
+import { MobileSidebarSection } from "@/components/sidebar/MobileSidebarSection.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
 import { Stack } from "@mantine/core";
@@ -23,7 +24,7 @@ import {
   IconCloudDownload,
   IconDeviceGamepad2,
   IconHistory,
-  IconLayout2Filled,
+  IconLayout2,
   IconLibrary,
   IconLogout,
   IconMessage,
@@ -92,116 +93,126 @@ const MobileSidebarMenu = () => {
         </IonHeader>
       )}
       <IonContent>
-        <Stack className={"w-full min-h-full gap-0"}>
-          <MobileSidebarButton
-            title={t("navigation.collections")}
-            Icon={IconLibrary}
-            href={`/library/${userId}/collections`}
-            onClick={closeMenu}
-          />
-          <MobileSidebarButton
-            title={t("navigation.reviews")}
-            Icon={IconStars}
-            onClick={closeMenu}
-            href={`/profile/${userId}/reviews`}
-          />
-          <MobileSidebarButton
-            title={t("navigation.journal")}
-            Icon={IconNotebook}
-            onClick={closeMenu}
-            href={`/journal/${userId}`}
-          />
-          <MobileSidebarButton
-            title={t("navigation.posts")}
-            Icon={IconMessage}
-            onClick={closeMenu}
-            href={`/posts`}
-          />
-          <MobileSidebarButton
-            title={t("navigation.stats")}
-            Icon={IconDeviceGamepad2}
-            onClick={closeMenu}
-            href={`/profile/${userId}/stats`}
-          />
-          <MobileSidebarButton
-            title={t("mobile.wrapped.title")}
-            Icon={IconLayout2Filled}
-            href={"/wrapped"}
-            onClick={closeMenu}
-            withBadge
-            badgeLabel={t("navigation.new")}
-          />
-          {showRecapEntry && recapHref && (
+        <Stack className={"w-full min-h-full gap-2 bg-[#0F0F0F] p-2"}>
+          <MobileSidebarSection title={t("navigation.sidebar.groups.yourSpace")}>
             <MobileSidebarButton
-              title={t("navigation.recap")}
-              Icon={IconHistory}
-              href={recapHref}
+              title={t("navigation.collections")}
+              Icon={IconLibrary}
+              href={`/library/${userId}/collections`}
               onClick={closeMenu}
-              withBadge={!recapVisited}
-              badgeLabel={t("navigation.dock.badgeNewFeminine")}
             />
-          )}
-          {awardsEntry && awardsEvent && (
             <MobileSidebarButton
-              title={t("navigation.awards", { year: awardsEvent.year })}
-              Icon={IconAward}
-              href={awardsEntry.href}
+              title={t("navigation.reviews")}
+              Icon={IconStars}
               onClick={closeMenu}
-              withBadge={!!awardsEntry.dockBadge}
-              badgeLabel={
-                awardsEntry.dockBadge === "live"
-                  ? t("navigation.dock.badgeLive")
-                  : awardsEntry.dockBadge === "new"
-                    ? t("navigation.new")
-                    : undefined
-              }
+              href={`/profile/${userId}/reviews`}
             />
-          )}
-          <MobileSidebarButton
-            title={t("navigation.daily")}
-            Icon={IconPuzzle}
-            onClick={closeMenu}
-            href={"/daily"}
-            withBadge
-          />
-          <MobileSidebarButton
-            title={t("navigation.activity")}
-            Icon={IconActivity}
-            href={"/activity"}
-            onClick={closeMenu}
-          />
-          <MobileSidebarButton
-            title={t("navigation.blog")}
-            Icon={IconNews}
-            href={"/blog"}
-            onClick={closeMenu}
-          />
-          <MobileSidebarButton
-            title={t("navigation.achievements")}
-            Icon={IconTrophy}
-            onClick={closeMenu}
-            href={`/achievements/${userId}`}
-          />
-          <MobileSidebarButton
-            title={t("navigation.feats")}
-            Icon={IconMilitaryAward}
-            onClick={closeMenu}
-            href={`/feats/${userId}`}
-          />
-          <MobileSidebarButton
-            title={t("mcp.title")}
-            Icon={IconRobot}
-            onClick={closeMenu}
-            href={"/mcp"}
-            withBadge
-          />
-          <MobileSidebarButton
-            title={t("library.buttons.importGames")}
-            Icon={IconCloudDownload}
-            onClick={closeMenu}
-            href={`/importer`}
-          />
-          <Stack className={"mt-auto gap-0"}>
+            <MobileSidebarButton
+              title={t("navigation.journal")}
+              Icon={IconNotebook}
+              onClick={closeMenu}
+              href={`/journal/${userId}`}
+            />
+            <MobileSidebarButton
+              title={t("navigation.stats")}
+              Icon={IconDeviceGamepad2}
+              onClick={closeMenu}
+              href={`/profile/${userId}/stats`}
+            />
+            <MobileSidebarButton
+              title={t("library.buttons.importGames")}
+              Icon={IconCloudDownload}
+              onClick={closeMenu}
+              href={`/importer`}
+            />
+          </MobileSidebarSection>
+          <MobileSidebarSection title={t("navigation.sidebar.groups.highlights")}>
+            <MobileSidebarButton
+              title={t("mobile.wrapped.title")}
+              Icon={IconLayout2}
+              href={"/wrapped"}
+              onClick={closeMenu}
+              withBadge
+              badgeLabel={t("navigation.new")}
+            />
+            {showRecapEntry && recapHref && (
+              <MobileSidebarButton
+                title={t("navigation.recap")}
+                Icon={IconHistory}
+                href={recapHref}
+                onClick={closeMenu}
+                withBadge={!recapVisited}
+                badgeLabel={t("navigation.dock.badgeNewFeminine")}
+              />
+            )}
+            {awardsEntry && awardsEvent && (
+              <MobileSidebarButton
+                title={t("navigation.awards", { year: awardsEvent.year })}
+                Icon={IconAward}
+                href={awardsEntry.href}
+                onClick={closeMenu}
+                withBadge={!!awardsEntry.dockBadge}
+                badgeLabel={
+                  awardsEntry.dockBadge === "live"
+                    ? t("navigation.dock.badgeLive")
+                    : awardsEntry.dockBadge === "new"
+                      ? t("navigation.new")
+                      : undefined
+                }
+              />
+            )}
+            <MobileSidebarButton
+              title={t("navigation.daily")}
+              Icon={IconPuzzle}
+              onClick={closeMenu}
+              href={"/daily"}
+              withBadge
+              badgeLabel={t("navigation.new")}
+            />
+            <MobileSidebarButton
+              title={t("navigation.achievements")}
+              Icon={IconTrophy}
+              onClick={closeMenu}
+              href={`/achievements/${userId}`}
+            />
+            <MobileSidebarButton
+              title={t("navigation.feats")}
+              Icon={IconMilitaryAward}
+              onClick={closeMenu}
+              href={`/feats/${userId}`}
+            />
+          </MobileSidebarSection>
+          <MobileSidebarSection title={t("navigation.sidebar.groups.community")}>
+            <MobileSidebarButton
+              title={t("navigation.posts")}
+              Icon={IconMessage}
+              onClick={closeMenu}
+              href={`/posts`}
+            />
+            <MobileSidebarButton
+              title={t("navigation.activity")}
+              Icon={IconActivity}
+              href={"/activity"}
+              onClick={closeMenu}
+            />
+            <MobileSidebarButton
+              title={t("navigation.blog")}
+              Icon={IconNews}
+              href={"/blog"}
+              onClick={closeMenu}
+            />
+          </MobileSidebarSection>
+          <MobileSidebarSection title={t("navigation.sidebar.groups.tools")}>
+            <MobileSidebarButton
+              title={t("mcp.title")}
+              Icon={IconRobot}
+              onClick={closeMenu}
+              href={"/mcp"}
+              withBadge
+              badgeLabel={t("navigation.new")}
+            />
+          </MobileSidebarSection>
+          <MobileSidebarSection title={t("navigation.sidebar.groups.account")}>
             <MobileSidebarButton
               title={t("navigation.settings")}
               Icon={IconSettings}
@@ -212,20 +223,16 @@ const MobileSidebarMenu = () => {
               title={t("actions.logout")}
               Icon={IconLogout}
               href={"#"}
+              hideChevron
               onClick={() => {
                 signOut(queryClient).then(() => {
                   closeMenu();
                 });
               }}
-              iconProps={{
-                className: "text-[#1D1D1D]",
-              }}
-              textProps={{
-                className: "text-[#1A1A1A] font-medium",
-              }}
-              className={"bg-[#DDA4A4]"}
+              iconProps={{ className: "text-red-400" }}
+              textProps={{ className: "text-red-400" }}
             />
-          </Stack>
+          </MobileSidebarSection>
         </Stack>
       </IonContent>
     </>

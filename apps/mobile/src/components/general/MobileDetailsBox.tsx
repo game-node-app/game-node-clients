@@ -32,7 +32,7 @@ export const MobileDetailsBox = ({
           className={
             withDimmedTitle
               ? "text-dimmed text-sm font-medium mb-1"
-              : "text-md font-medium mb-1"
+              : "text-lg font-semibold leading-tight mb-1"
           }
         >
           {title}
