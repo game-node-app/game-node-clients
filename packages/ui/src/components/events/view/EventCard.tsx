@@ -429,7 +429,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
               </Link>,
             )}
       </>,
-      covers.some(Boolean) ? <EventCardCovers games={covers} /> : trophyVisual,
+      covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : trophyVisual,
     );
   }
 
@@ -487,7 +487,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
           ) : undefined,
         )}
       </>,
-      covers.some(Boolean) ? <EventCardCovers games={covers} /> : trophyVisual,
+      covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : trophyVisual,
     );
   }
 
@@ -532,6 +532,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
         monthlyPlaytimeSeconds={recap?.calendar?.monthlyPlaytimeSeconds}
         year={recapYear}
         fill={isHalf}
+        stretch={layout === "mobile"}
       />
     );
 
@@ -567,7 +568,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
         )}
       </>,
       !isHalf && covers.some(Boolean) ? (
-        <EventCardCovers games={covers} />
+        <EventCardCovers games={covers} stretch={layout === "mobile"} />
       ) : null,
       isHalf ? stats : undefined,
     );
@@ -616,6 +617,6 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
         </Link>,
       )}
     </>,
-    covers.some(Boolean) ? <EventCardCovers games={covers} /> : null,
+    covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : null,
   );
 }

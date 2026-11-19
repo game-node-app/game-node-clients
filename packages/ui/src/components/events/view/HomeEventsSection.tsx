@@ -27,7 +27,8 @@ const AWARDS_CARD_KIND: Record<string, EventCardKind> = {
  * - 0 cards: the section is not rendered at all (no empty gap);
  * - 1 card: Wide on web;
  * - 2 cards: Half + Half on web, Awards first;
- * - below `md`: horizontal carousel with a 300 px card and a peek of the next.
+ * - below `md`: horizontal carousel with a 300 px card and a peek of the next
+ *   (a single card fills the full width instead).
  *
  * It replaces the old `DynamicAwardsOverview`/`DynamicRecapOverview` blocks.
  */
@@ -76,7 +77,7 @@ export function HomeEventsSection({ className }: HomeEventsSectionProps) {
           <Carousel
             data-testid={"home-events-carousel"}
             aria-label={t("events.home.carouselLabel")}
-            slideSize={300}
+            slideSize={kinds.length === 1 ? "100%" : 300}
             slideGap={"md"}
             withControls={false}
             withIndicators

@@ -15,6 +15,8 @@ export interface RecapMonthlyBarsProps {
    * and the months still to come are drawn as dashed placeholders.
    */
   year?: number | null;
+  /** Fills the card width instead of the 196 px design cap (mobile card). */
+  stretch?: boolean;
   className?: string;
 }
 
@@ -30,6 +32,7 @@ const MAX_BAR_HEIGHT = 76;
 export function RecapMonthlyBars({
   values,
   year,
+  stretch = false,
   className,
 }: RecapMonthlyBarsProps) {
   const { t } = useTranslation();
@@ -58,7 +61,11 @@ export function RecapMonthlyBars({
       data-testid={"recap-monthly-bars"}
       role={"img"}
       aria-label={t("events.card.recap.monthlyLabel")}
-      className={cn("grid w-full max-w-[196px] grid-cols-12 gap-1", className)}
+      className={cn(
+        "grid w-full grid-cols-12",
+        stretch ? "gap-1.5" : "max-w-[196px] gap-1",
+        className,
+      )}
     >
       {months.map((value, index) => {
         const isFuture = currentMonth != null && index > currentMonth;
