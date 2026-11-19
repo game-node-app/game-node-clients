@@ -969,6 +969,7 @@ export type TranslationSchema = {
     recentPosts: string;
     recentReviews: string;
     read: {
+      alsoAvailable: string;
       fallback: string;
       missing: string;
       error: string;

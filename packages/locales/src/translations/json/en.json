@@ -965,7 +965,8 @@
     "recentPosts": "Recent blog posts",
     "recentReviews": "Recent reviews",
     "read": {
-      "fallback": "This article is available in English.",
+      "alsoAvailable": "Also available in",
+      "fallback": "Translation unavailable.",
       "missing": "Article not found.",
       "error": "Articles are currently unavailable.",
       "retry": "Try again"

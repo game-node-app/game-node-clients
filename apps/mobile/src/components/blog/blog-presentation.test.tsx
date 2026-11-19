@@ -3,10 +3,11 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 import { afterEach, expect, it, vi } from "vitest";
 import type { BlogArticleDto, BlogListResponseDto } from "@repo/wrapper/server";
+import { MobileBlogArticleLanguageLink } from "./MobileBlogArticleLanguageLink";
 import { BlogArticleView } from "../../../../../packages/ui/src/components/blog/view/BlogArticleView";
 import { BlogPostsCategorySection } from "../../../../../packages/ui/src/components/blog/feed/BlogPostsCategorySection";
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
-import { draft, english, fallback } from "./fixtures";
+import { draft, english, fallback, portuguese } from "./fixtures";
 const reading = vi.hoisted(() => ({
   query: {} as {
     data?: import("@repo/wrapper/server").BlogArticleDto;
@@ -46,9 +47,24 @@ vi.mock("@mantine/core", async (importOriginal) => {
     Button: ({
       children,
       onClick,
-    }: import("react").ComponentProps<"button">) => (
-      <button onClick={onClick}>{children}</button>
-    ),
+      component,
+      href,
+      hrefLang,
+      lang,
+    }: import("react").ComponentProps<"button"> & {
+      component?: "a";
+      href?: string;
+      hrefLang?: string;
+    }) =>
+      component === "a" ? (
+        <a href={href} hrefLang={hrefLang} lang={lang}>
+          {children}
+        </a>
+      ) : (
+        <button onClick={onClick} lang={lang}>
+          {children}
+        </button>
+      ),
     Image: (props: import("react").ComponentProps<"img">) => <img {...props} />,
   };
 });
@@ -100,7 +116,40 @@ it("includes sanitized article markup in SSR and expands images by keyboard", ()
   );
   expect(screen.getByText("Rating 0")).toBeTruthy();
 });
-it("shows fallback with only published language links and the resolved language", () => {
+it.each([
+  {
+    post: english,
+    label: "Português (Brasil)",
+    locale: "pt-BR",
+    prefix: "/pt-BR",
+  },
+  { post: portuguese, label: "English", locale: "en", prefix: "" },
+])(
+  "links to the alternate $locale version using its full language name",
+  ({ post, label, locale, prefix }) => {
+    render(<BlogArticleView post={post as BlogArticleDto} />);
+
+    const link = screen.getByRole("link", { name: /English|Português/ });
+    expect(link.textContent).toBe(label);
+    expect(link.getAttribute("href")).toBe(`${prefix}/blog/post/${post.id}`);
+    expect(link.getAttribute("hreflang")).toBe(locale);
+    expect(link.getAttribute("lang")).toBe(locale);
+    expect(screen.getByText("blog.read.alsoAvailable")).toBeTruthy();
+  },
+);
+
+it("hides the language prompt when the requested version is the only one", () => {
+  render(
+    <BlogArticleView
+      post={{ ...english, availableLocales: ["en"] } as BlogArticleDto}
+    />,
+  );
+
+  expect(screen.queryByText("blog.read.alsoAvailable")).toBeNull();
+  expect(screen.queryByRole("link", { name: /English|Português/ })).toBeNull();
+});
+
+it("explains a fallback and links to the published version", () => {
   render(
     <BlogArticleView
       post={
@@ -111,10 +160,10 @@ it("shows fallback with only published language links and the resolved language"
     />,
   );
   expect(screen.getByRole("status").textContent).toBe("blog.read.fallback");
-  expect(screen.queryByRole("link", { name: "pt-BR" })).toBeNull();
+  expect(screen.queryByRole("link", { name: "Português (Brasil)" })).toBeNull();
   expect(
-    screen.getByRole("link", { name: "en" }).getAttribute("href"),
-  ).toContain(`/blog/post/${english.id}`);
+    screen.getByRole("link", { name: "English" }).getAttribute("href"),
+  ).toBe(`/blog/post/${english.id}`);
 });
 it("presents an unpublished exact-locale preview with its real draft state", () => {
   const html = renderToString(
@@ -129,10 +178,10 @@ it("presents an unpublished exact-locale preview with its real draft state", () 
   expect(html).toContain("Rascunho privado");
   expect(html).toContain("blog.labels.draft");
   expect(html).toContain('lang="pt-BR"');
+  expect(html).toContain('href="?locale=en"');
 });
 
 import { BlogPostDetailView } from "../../../../../packages/ui/src/components/blog/view/BlogPostDetailView";
-import { setProjectContext } from "../../../../../packages/ui/src/util/projectContext";
 it("distinguishes loading, missing and failed detail reads with retry", () => {
   reading.query = { isLoading: true };
   const view = render(<BlogPostDetailView postId="article" />);
@@ -189,21 +238,21 @@ it("keeps category posts and their archive link when a background refresh fails"
   expect(screen.queryByText("News")).toBeNull();
 });
 it("changes mobile language on the current UUID article", () => {
-  setProjectContext({
-    client: "mobile",
-    s3BucketUrl: "",
-    serverUrl: "",
-    searchUrl: "",
-  });
   render(
-    <BlogArticleView
-      post={
-        english as unknown as
-          | import("@repo/wrapper/server").BlogArticleDto
-          | import("@repo/wrapper/server").BlogPreviewDto
-      }
-    />,
+    <UIProvider
+      presenters={{ BlogArticleLanguageLink: MobileBlogArticleLanguageLink }}
+      hooks={{
+        useRouter: () => ({
+          pathname: "/blog/post",
+          query: new URLSearchParams(),
+          back: () => {},
+          push: async () => {},
+        }),
+      }}
+    >
+      <BlogArticleView post={english as BlogArticleDto} />
+    </UIProvider>,
   );
-  fireEvent.click(screen.getByRole("link", { name: "pt-BR" }));
+  fireEvent.click(screen.getByRole("button", { name: "Português (Brasil)" }));
   expect(reading.setLanguage).toHaveBeenCalledWith("pt-BR");
 });
