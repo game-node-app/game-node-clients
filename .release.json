@@ -1,0 +1,22 @@
+{
+  "source": "65345407b55d060377364dc3f427bf318a73daf4",
+  "changesets": [
+    ".changeset/xbox-splash-colors.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[40bb692542e352eaa935a6bb1ebaabb5b65f39a1...65345407b55d060377364dc3f427bf318a73daf4]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/65345407b55d060377364dc3f427bf318a73daf4",
+  "versions": {
+    "mobile": "1.26.1"
+  }
+}
