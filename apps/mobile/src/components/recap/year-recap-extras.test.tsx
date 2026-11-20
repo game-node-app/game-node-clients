@@ -346,9 +346,9 @@ describe("RecapFooter", () => {
           })}`,
         ),
       ).toBeTruthy();
-      expect(screen.queryByText("recap.playtime.syncTitle")).toBeNull();
-      expect(screen.queryByText("recap.playtime.syncDelay")).toBeNull();
-      expect(screen.queryByText("recap.playtime.afterConnection")).toBeNull();
+      expect(
+        screen.queryByRole("region", { name: "recap.playtime.syncTitle" }),
+      ).toBeNull();
       expect(screen.queryByText("Xbox Live")).toBeNull();
       expect(
         screen.getByTestId("recap-footer").querySelector("time"),
@@ -381,8 +381,10 @@ describe("RecapFooter", () => {
       />,
     );
 
-    expect(await screen.findByText("recap.playtime.syncTitle")).toBeTruthy();
-    expect(screen.getByText("recap.playtime.syncDelay")).toBeTruthy();
+    const section = await screen.findByRole("region", {
+      name: "recap.playtime.syncTitle",
+    });
+    expect(section.textContent).toContain("recap.playtime.syncDelay");
     expect(
       screen
         .getByText("Playstation Network")
@@ -392,8 +394,8 @@ describe("RecapFooter", () => {
       "recap.playtime.noSync",
     );
     expect(screen.getByText("Xbox Live, Epic Games, and GOG.")).toBeTruthy();
-    expect(screen.getAllByText("recap.playtime.afterConnection")).toHaveLength(
-      1,
-    );
+    expect(
+      section.textContent?.split("recap.playtime.afterConnection"),
+    ).toHaveLength(2);
   });
 });
