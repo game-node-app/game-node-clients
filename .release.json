@@ -1,0 +1,28 @@
+{
+  "source": "31128059e56a14a62e5dac573e1201a11b473d36",
+  "changesets": [
+    ".changeset/xbox-theme.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6f3f4e89174791db9ebbef6c16386014c7ea32ca...31128059e56a14a62e5dac573e1201a11b473d36]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/31128059e56a14a62e5dac573e1201a11b473d36",
+  "versions": {
+    "web": "1.26.0",
+    "mobile": "1.25.0"
+  }
+}
