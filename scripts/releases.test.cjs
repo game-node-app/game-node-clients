@@ -84,7 +84,7 @@ test("release jobs reuse the checks dependency cache and install on a miss", () 
   assert.deepEqual(caches[0], caches[2]);
 });
 
-test("mobile delivery requires signing and R2 configuration before release reservation", () => {
+test("mobile delivery requires signing, R2 and Play configuration before release reservation", () => {
   const keys = [
     "RELEASE_KEYSTORE",
     "RELEASE_KEYSTORE_PASS",
@@ -95,6 +95,7 @@ test("mobile delivery requires signing and R2 configuration before release reser
     "R2_ACCOUNT_ID",
     "R2_BUCKET",
     "LIVE_UPDATE_PUBLIC_URL",
+    "PLAY_SERVICE_ACCOUNT_JSON",
   ];
   const env = Object.fromEntries(keys.map((key) => [key, "configured"]));
   validateDelivery(["mobile"], env);

@@ -121,6 +121,7 @@ test("selected targets require their own configuration before release reservatio
     R2_ACCOUNT_ID: "x",
     R2_BUCKET: "x",
     LIVE_UPDATE_PUBLIC_URL: "https://updates.example.test",
+    PLAY_SERVICE_ACCOUNT_JSON: "{}",
   };
   validateDelivery(["mobile"], signing);
   assert.throws(() => validateDelivery(["web"], signing), /DOCKER_USERNAME/);
