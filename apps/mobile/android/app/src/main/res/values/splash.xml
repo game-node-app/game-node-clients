@@ -2,4 +2,13 @@
 <resources>
     <!-- Same colour as the web/Kotlin EntrySplash and the page background in index.html. -->
     <color name="splash_background">#1A1A1A</color>
+    <color name="splash_brand">#F15025</color>
+    <color name="splash_logo_inner">#FFFFFF</color>
+
+    <!--
+        Xbox theme (packages/ui/src/theme/themes/xbox.ts): its background and accent tokens. SplashPalette picks
+        these when the user chose that theme; splash-palette.test.ts keeps them in sync with the definition.
+    -->
+    <color name="splash_xbox_background">#0F0F0F</color>
+    <color name="splash_xbox_brand">#107C10</color>
 </resources>

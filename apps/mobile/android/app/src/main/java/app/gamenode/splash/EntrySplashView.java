@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -26,8 +25,8 @@ import java.util.List;
 /**
  * Entry animation, drawn natively over the whole window (WebView included) from the activity's first frame:
  * it continues the launch splash (same logo, size and position), so there is no blank screen while the
- * WebView boots. The logo pulses on #1A1A1A, brand orange grows out of it and fills the screen while the
- * app loads, and once the web app has painted ({@link #reveal()}, from the EntrySplash plugin) the logo
+ * WebView boots. The logo pulses on the splash background, the brand color (orange, or the theme's accent;
+ * see {@link SplashPalette}) grows out of it and fills the screen while the app loads, and once the web app has painted ({@link #reveal()}, from the EntrySplash plugin) the logo
  * zooms into its hole, which is transparent, so the app shows through it from the inside out.
  *
  * It is native, not part of the web app, because the web app can only draw once its first (long) frame is
@@ -38,9 +37,6 @@ import java.util.List;
  * centre of its hole on the centre of the screen.
  */
 public final class EntrySplashView extends View {
-
-    private static final int BG_COLOR = Color.parseColor("#1A1A1A");
-    private static final int BRAND_COLOR = Color.parseColor("#F15025");
 
     private static final String LOGO_OUTER_PATH =
         "M159 210V681.146L270.871 789.169L842 790V318.023L730.129 210H159ZM670.409 619.656H340.685L330.591 609.685V379.513H660.315L670.409 388.653V619.656Z";
@@ -71,11 +67,12 @@ public final class EntrySplashView extends View {
     private final Path frame = new Path();
     private final Path screen = new Path();
     private final Matrix matrix = new Matrix();
-    private final Paint brandPaint = paint(BRAND_COLOR);
-    private final Paint whitePaint = paint(Color.WHITE);
-    private final Paint bgPaint = paint(BG_COLOR);
+    private final int bgColor;
+    private final Paint brandPaint;
+    private final Paint whitePaint;
+    private final Paint bgPaint;
     /** Nearly invisible: draws the zoom's shapes while waiting, see {@link #onDraw}. */
-    private final Paint warmPaint = paint(BRAND_COLOR);
+    private final Paint warmPaint;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final boolean animated;
 
@@ -96,17 +93,22 @@ public final class EntrySplashView extends View {
     @Nullable
     private static EntrySplashView current;
 
-    private EntrySplashView(@NonNull Context context) {
+    private EntrySplashView(@NonNull Context context, @NonNull SplashPalette palette) {
         super(context);
+        bgColor = palette.background;
+        brandPaint = paint(palette.brand);
+        whitePaint = paint(palette.logoInner);
+        bgPaint = paint(palette.background);
+        warmPaint = paint(palette.brand);
         warmPaint.setAlpha(1);
         // with animations turned off in the system settings, the splash only fades out
         animated = Settings.Global.getFloat(context.getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f;
     }
 
     /** Covers the activity's window with the splash. Call right after the content view is set. */
-    public static void attach(@NonNull Activity activity) {
+    public static void attach(@NonNull Activity activity, @NonNull SplashPalette palette) {
         if (current != null) current.remove();
-        EntrySplashView view = new EntrySplashView(activity);
+        EntrySplashView view = new EntrySplashView(activity, palette);
         ((ViewGroup) activity.getWindow().getDecorView()).addView(
                 view,
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -260,7 +262,7 @@ public final class EntrySplashView extends View {
         float h = getHeight();
 
         if (!zooming) {
-            canvas.drawColor(BG_COLOR);
+            canvas.drawColor(bgColor);
             if (fill > 0f) {
                 float radius = (float) Math.hypot(w, h) / 2f + 2f;
                 canvas.drawCircle(w / 2f, h / 2f, radius * fill, brandPaint);
@@ -278,7 +280,7 @@ public final class EntrySplashView extends View {
             return;
         }
 
-        // Zoom: orange everywhere except the hole, which shows the app, and the white ring around it.
+        // Zoom: brand color everywhere except the hole, which shows the app, and the white ring around it.
         setLogoMatrix(zoom);
         drawFrame(canvas, w, h, brandPaint);
         drawClipped(canvas, logoInner, whitePaint);

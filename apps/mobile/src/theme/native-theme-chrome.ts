@@ -15,6 +15,13 @@ export function statusBarStyleForCatalogStyle(
   return style === "light" ? Style.Dark : Style.Light;
 }
 
+/**
+ * Preferences key holding the theme the app last rendered (not the saved
+ * preference, which a signed-out or lapsed Supporter keeps but cannot use).
+ * The Android splash (`SplashPalette`) reads it on the next launch.
+ */
+export const SPLASH_THEME_STORAGE_KEY = "gn-splash-theme";
+
 export type NativeThemeChromeDeviceInfo = {
   platform: string;
   osVersion: string;
@@ -27,6 +34,8 @@ export type NativeThemeChromeDeps = {
   disableEdgeToEdge(): Promise<void>;
   setEdgeToEdgeBackground(color: string): Promise<void>;
   setStatusBarStyle(style: Style): Promise<void>;
+  /** Persists the rendered theme for the next launch's native splash. */
+  saveSplashTheme(themeId: string): Promise<void>;
 };
 
 type PlatformKind = "web" | "android" | "android-legacy" | "ios" | "unknown";
@@ -58,6 +67,7 @@ export function createNativeThemeChrome(
 ): NativeThemeChromeController {
   let platform: Promise<PlatformKind> | null = null;
   let queue: Promise<void> = Promise.resolve();
+  let savedSplashTheme: string | null = null;
 
   const resolvePlatform = (): Promise<PlatformKind> => {
     if (platform) return platform;
@@ -105,6 +115,15 @@ export function createNativeThemeChrome(
           statusBarStyleForCatalogStyle(entry.native.statusBarStyle),
         ),
       );
+
+      if (kind !== "ios" && entry.id !== savedSplashTheme) {
+        try {
+          await deps.saveSplashTheme(entry.id);
+          savedSplashTheme = entry.id;
+        } catch {
+          // The splash keeps its last colors; the next apply retries.
+        }
+      }
     });
 
     queue = run.catch(() => undefined);
