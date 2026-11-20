@@ -1,0 +1,28 @@
+{
+  "source": "440e532c5a871a87680df15726c8a0476c348a43",
+  "changesets": [
+    ".changeset/collection-create-entry-points.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[2579684b07a0dc1cfd7eddf762933e086d110834...440e532c5a871a87680df15726c8a0476c348a43]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/440e532c5a871a87680df15726c8a0476c348a43",
+  "versions": {
+    "web": "1.25.2",
+    "mobile": "1.24.2"
+  }
+}
