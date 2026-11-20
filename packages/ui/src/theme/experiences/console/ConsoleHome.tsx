@@ -211,17 +211,30 @@ const ConsoleHome = ({ search, extras }: HomeViewProps) => {
   return (
     <Stack className={classes.home} data-console-home>
       <section className={classes.hero} data-console-hero>
-        <div
-          className={classes.backdrop}
-          data-console-backdrop
-          style={backdrop ? { backgroundImage: `url(${backdrop})` } : undefined}
-          aria-hidden
-        />
-        {videoId && !reduceMotion && trailerGameId === focused?.id && (
-          <div className={classes.trailer} data-console-trailer aria-hidden>
-            <TrailerFrame videoId={videoId} title={focused?.name} />
-          </div>
-        )}
+        <div className={classes.media} aria-hidden>
+          {backdrop && (
+            <div
+              className={classes.backdrop}
+              style={
+                {
+                  "--console-artwork": `url(${backdrop})`,
+                } as React.CSSProperties
+              }
+            >
+              <img
+                className={classes.backdropImage}
+                data-console-backdrop
+                src={backdrop}
+                alt=""
+              />
+            </div>
+          )}
+          {videoId && !reduceMotion && trailerGameId === focused?.id && (
+            <div className={classes.trailer} data-console-trailer>
+              <TrailerFrame videoId={videoId} title={focused?.name} />
+            </div>
+          )}
+        </div>
         <Title order={2} className={classes.focusedTitle}>
           {focused?.name ?? <>&nbsp;</>}
         </Title>

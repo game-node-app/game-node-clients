@@ -46,7 +46,7 @@ function fakeStorage(initial = "gamenode") {
   return storage;
 }
 
-function renderTab(storage = fakeStorage()) {
+function renderTab(storage = fakeStorage(), hasSupporterThemeAccess = true) {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false, retryDelay: 0 } },
   });
@@ -56,6 +56,7 @@ function renderTab(storage = fakeStorage()) {
       <QueryClientProvider client={client}>
         <AppThemeProvider
           themeStorage={storage}
+          hasSupporterThemeAccess={hasSupporterThemeAccess}
           packStore={packStore}
           suspendOnInitialPack={false}
         >
@@ -87,6 +88,22 @@ afterEach(() => {
 });
 
 describe("SettingsAppearanceTab themes", () => {
+  it("locks Xbox without Supporter access, including with a saved preference", () => {
+    const storage = renderTab(fakeStorage("xbox"), false);
+    const option = radio(LABELS.xbox);
+
+    expect(isChecked(LABELS.dark)).toBe(true);
+    expect(option.hasAttribute("disabled")).toBe(true);
+    expect(
+      within(option).getByText("settings.appearance.theme.supporterOnly"),
+    ).toBeTruthy();
+
+    fireEvent.click(option);
+    expect(storage.set).not.toHaveBeenCalled();
+    expect(storage.get()).toBe("xbox");
+    expect(document.documentElement.dataset.theme).toBe("gamenode");
+  });
+
   it("selects Xbox, persists it and moves the current state", () => {
     const storage = renderTab();
 

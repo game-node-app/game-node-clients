@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
+  defaultShouldDehydrateQuery,
   MutationCache,
   onlineManager,
   QueryCache,
@@ -22,12 +23,12 @@ import WrappedWidgetSync from "@/components/wrapped/WrappedWidgetSync";
 import DailyWidgetSync from "@/components/daily/DailyWidgetSync";
 import EntrySplash from "@/components/general/splash/EntrySplash";
 import {
-  AppThemeProvider,
   getAuthClientOptions,
   handleAuthError,
   setProjectContext,
   SettingsModal,
   setupAuthClient,
+  SupporterThemeProvider,
   UIProvider,
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
@@ -188,6 +189,10 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
         persister,
         // 30 days
         maxAge: 1000 * 60 * 60 * 24 * 30,
+        dehydrateOptions: {
+          shouldDehydrateQuery: (query) =>
+            query.meta?.persist !== false && defaultShouldDehydrateQuery(query),
+        },
       }}
     >
       <IonApp>
@@ -203,7 +208,7 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
               presenters={UI_PRESENTER_REGISTRY}
               hooks={UI_HOOK_REGISTRY}
             >
-              <AppThemeProvider
+              <SupporterThemeProvider
                 initialTheme={initialTheme}
                 themeStorage={mobileThemeStorage}
                 fallbackPresenters={THEME_FALLBACK_PRESENTERS}
@@ -233,7 +238,7 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
                     <SettingsModal />
                   </IonReactRouter>
                 </PostHogProvider>
-              </AppThemeProvider>
+              </SupporterThemeProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

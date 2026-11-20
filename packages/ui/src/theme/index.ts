@@ -3,6 +3,7 @@
  */
 
 export * from "./AppThemeProvider";
+export * from "./SupporterThemeProvider";
 export * from "./defineTheme";
 export * from "./definitions";
 export * from "./runtime";

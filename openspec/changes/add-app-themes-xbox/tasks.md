@@ -30,9 +30,9 @@ Reference implementation for porting: `origin/feat/settings-modal-themes` (Thiag
 
 - [x] 4.1 Add `AppThemeProvider`, `useAppTheme()` (`[theme, setTheme]`) and `useAppExperience()` in `packages/ui/src/theme/`. Add `themeStorage` to `UIHookRegistry` and fall back to `gamenode` for invalid ids. Verify with vitest tests: default, set and persist via a fake storage, invalid stored value, and `data-theme`/`data-experience` updates on `<html>`.
 - [x] 4.2 Add the web storage adapter (cookie `gn-theme`, 1 year, `SameSite=Lax`, host-only, path `/`, mirrored to localStorage) and wire the provider in `apps/web/src/pages/_app.tsx`. Verify in the browser that switching sets the cookie and survives reload.
-- [x] 4.3 Add `_document` `getInitialProps` reading `gn-theme` from `ctx.req` to render `<Html data-theme data-theme-ssr>`, pass `initialTheme` to `_app` via `enhanceApp`, and add the catalog-generated inline head script (static pages, `theme-color` meta). Verify: an SSR page (game) has `data-theme="xbox"` in raw HTML with the cookie set; a static page (home) gets it before first paint; `next build` still reports the static pages as static.
-- [x] 4.4 Make the provider's first client render use `data-theme-ssr` and switch to the stored theme after hydration. Add the `html[data-experience-pending] main` gate with its timeout. Verify there are no hydration warnings in the console on static and SSR pages with Xbox stored.
-- [ ] 4.5 Add the mobile storage adapter (Capacitor Preferences mirrored to localStorage) and restore the theme plus preload its experience in `apps/mobile/src/main.tsx` before rendering (bounded timeout). Verify with a vitest test of the restore function and a cold start on Android.
+- [x] 4.3 Read `gn-theme` in `_document`, pass it to `_app` via `enhanceApp`, and emit the matching browser tint without waiting on auth or billing. Verify the cookie controls the server-rendered theme and preserve static optimization.
+- [x] 4.4 Restore the saved theme before the background Supporter check. Verify slow or failed status checks leave the theme and interface visible, confirmed loss of access returns the app to GameNode, and SSR and static pages hydrate cleanly.
+- [ ] 4.5 Restore Capacitor Preferences mirrored to localStorage and preload the saved layout on mobile without waiting for authentication or billing. The mounted provider checks eligibility. Verify the restore in vitest and with a cold start on Android.
 - [ ] 4.6 Add `useNativeThemeChrome` in `apps/mobile` (EdgeToEdge background + StatusBar style from the catalog on start and on change), replacing the fixed `#1f1f1f`. Verify with a vitest test mocking the plugins and on an Android device that bars change without restart.
 - [x] 4.7 Keep admin on `gamenode` (no storage adapter, provider pinned). Verify admin renders the default theme with an `xbox` cookie on the web domain.
 
@@ -67,7 +67,7 @@ Reference implementation for porting: `origin/feat/settings-modal-themes` (Thiag
 
 ## 8. Appearance settings
 
-- [x] 8.1 Drive `SettingsAppearanceTab` from the catalog: Dark (`gamenode`) and Xbox are selectable, and the preview palettes come from tokens (remove the hard-coded `BASE_THEMES`/`SPECIAL_THEMES` palettes). PlayStation, Nintendo, Steam, Light and System stay disabled, the disclaimer stays, and no sound plays. Verify with a component test in `apps/mobile`: selecting Xbox calls `setTheme("xbox")`, the disabled options can't be selected, and the current badge follows the theme.
+- [x] 8.1 Drive `SettingsAppearanceTab` from the catalog. Dark (`gamenode`) is available to everyone and Xbox requires verified Supporter status. Show a Supporter badge on locked Xbox and use token preview palettes. Keep PlayStation, Nintendo, Steam, Light and System disabled and keep the disclaimer. Verify with component tests that Supporters can select Xbox and see the current badge, and accounts without confirmed access cannot select Xbox.
 - [x] 8.2 Add/adjust theme label strings in `en.json` and `pt-BR.json`, run `pnpm locales:generate-types`, and verify type-check passes.
 
 ## 9. Integration and release

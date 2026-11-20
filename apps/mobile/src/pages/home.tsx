@@ -81,6 +81,10 @@ const HomePage = () => {
       contentProps={{
         ref: contentRef,
         fixedSlotPlacement: "before",
+        style: {
+          containerType: "inline-size",
+          "--console-backdrop-pull": "var(--ion-padding, 16px)",
+        },
       }}
     >
       <IonRefresher

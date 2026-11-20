@@ -72,16 +72,14 @@ See proposal.md (Why) and the three specs for behavior. Current state that shape
 - **Provider and storage.** `AppThemeProvider` (`@repo/ui`) owns the state and takes a `ThemeStorage` adapter (`get(): string | null` sync, `set(id)`), injected through `UIHookRegistry` as `themeStorage`.
   - Web adapter: writes the cookie `gn-theme` (1 year, `SameSite=Lax`, path `/`, host-only so admin is unaffected) and mirrors it to `localStorage`.
   - Mobile adapter: writes Capacitor Preferences and mirrors to `localStorage` for synchronous reads.
-  - Invalid ids resolve to `gamenode`.
+  - Invalid ids resolve to `gamenode`. Selecting a non-default theme requires the active account's Supporter benefit from the authenticated billing endpoint. At startup, a saved non-default theme can render before the account check settles. The provider falls back on confirmed denial or sign-out and retains the device preference. The live entitlement query is scoped to the signed-in user and excluded from the mobile disk cache.
 - **Web pre-paint.**
-  - `_document` gets a `getInitialProps` that reads `gn-theme` from `ctx.req` when present (dynamic pages) and renders `<Html data-theme=… data-theme-ssr=…>`. This does not affect Automatic Static Optimization (only `App.getInitialProps` does).
+  - `_document` reads `gn-theme` from `ctx.req` on dynamic pages and renders `<Html data-theme=… data-theme-ssr=…>` without contacting the billing API. Responses with non-default themes are private and non-cacheable. Static pages remain eligible for Automatic Static Optimization.
   - `enhanceApp` passes the same value to `_app` as `initialTheme`, so dynamic pages SSR the right experience.
-  - An inline head script (from the catalog) sets `data-theme` from the cookie/localStorage on static pages and also sets `<meta name="theme-color">`.
+  - `<meta name="theme-color">` follows the saved palette and subsequent theme changes.
 - **Hydration.**
-  - The provider's first client render uses `data-theme-ssr` (the value the server rendered with). It then switches to the stored theme in an effect, avoiding hydration mismatches.
-  - On static pages a console user therefore gets correct colors immediately. For the layout, a CSS rule hides `main` content while `html[data-experience-pending]` is set, for at most ~300 ms or until the experience mounts.
-- **Experience preload.** The head script/`main.tsx` sets `data-experience` and starts `import()` of the experience chunk before React renders when the stored theme needs one.
-- **Mobile pre-render.** `main.tsx` awaits Preferences + the experience preload (bounded by a short timeout), then renders. This keeps Thiago's approach, plus the chunk preload.
+  - The inline startup script restores the saved palette before paint, while the first client render matches SSR. Layout packs load with the page visible. The account check runs in the background and leaves the palette active while the result is unknown.
+- **Mobile pre-render.** `main.tsx` restores local Preferences and starts loading the saved experience without waiting on auth or billing. If preloading takes too long, the saved palette applies and the default layout renders until the pack loads. The mounted provider checks the active account.
 - **Native chrome.** A `useNativeThemeChrome` hook in `apps/mobile` applies the catalog's hex to `EdgeToEdge.setBackgroundColor` and `StatusBar.setStyle` on start and on change. It replaces the fixed `#1f1f1f`.
 - **Admin.** No adapter and no provider state: it always uses `gamenode`. The admin app keeps importing the generated CSS for the default variables.
 - *Alternatives:*

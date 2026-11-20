@@ -1,5 +1,5 @@
 import { ColorSchemeScript } from "@mantine/core";
-import { getThemeCatalogEntry } from "@repo/ui";
+import { DEFAULT_THEME_ID, getThemeCatalogEntry } from "@repo/ui";
 import Document, {
   Head,
   Html,
@@ -31,6 +31,9 @@ export default class GameNodeDocument extends Document<ThemeDocumentProps> {
     ctx: DocumentContext,
   ): Promise<ThemeDocumentProps> {
     const initialTheme = readRequestThemeId(ctx.req);
+    if (initialTheme !== DEFAULT_THEME_ID) {
+      ctx.res?.setHeader("Cache-Control", "private, no-store");
+    }
     const originalRenderPage = ctx.renderPage;
 
     ctx.renderPage = () =>

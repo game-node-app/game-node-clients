@@ -60,7 +60,7 @@ import { WebThemeRuntime } from "@/components/theme/WebThemeRuntime";
 import type { DehydrationResult } from "@/util/types/hydration";
 import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import {
-  AppThemeProvider,
+  SupporterThemeProvider,
   DEFAULT_MANTINE_THEME,
   ErrorBoundaryFallback,
   getAuthClientOptions,
@@ -134,9 +134,6 @@ setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
-
-// Start the stored theme's lazy packs as early as the client bundle allows.
-// Conditional: `gamenode` and first visits import nothing.
 preloadStoredTheme();
 
 type WebAppProps = AppProps<DehydrationResult> & {
@@ -251,7 +248,7 @@ export default function WebApp({
                 themeStorage: webThemeStorage,
               }}
             >
-              <AppThemeProvider initialTheme={initialTheme}>
+              <SupporterThemeProvider initialTheme={initialTheme}>
                 <WebThemeRuntime />
                 <ThemePackStyles />
                 <Head>
@@ -293,7 +290,7 @@ export default function WebApp({
                     </ErrorBoundary>
                   </GlobalAppShell>
                 </HydrationBoundary>
-              </AppThemeProvider>
+              </SupporterThemeProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

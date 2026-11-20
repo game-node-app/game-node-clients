@@ -3896,6 +3896,7 @@ export type TranslationSchema = {
         light: string;
         system: string;
         systemDescription: string;
+        supporterOnly: string;
         xbox: string;
       };
       specialThemes: {

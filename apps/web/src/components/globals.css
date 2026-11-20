@@ -38,14 +38,3 @@
     --gn-font: var(--gn-font-roboto, Roboto, Roboto Fallback, sans-serif);
     --mantine-font-family: var(--gn-font);
 }
-
-/*
- * Cold-start gate (design decision 5). The head script sets the attribute
- * before the first paint when a stored theme needs a lazy experience; the
- * runtime removes it when the pack resolves or after its 300 ms cap.
- * Interactive theme switches never set it, so changing themes never hides the
- * page.
- */
-html[data-experience-pending] main {
-    visibility: hidden;
-}

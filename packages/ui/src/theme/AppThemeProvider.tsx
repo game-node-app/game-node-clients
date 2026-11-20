@@ -135,6 +135,7 @@ function createInitialPackGates(
 export type AppThemeContextValue = {
   themeId: ThemeId;
   setTheme: (theme: ThemeId) => void;
+  hasSupporterThemeAccess: boolean;
   /** Experience currently rendered. Stays on the current one while a pack loads. */
   experience: ThemeExperienceId;
   /** Theme screens currently rendered (null while the target has none). */
@@ -155,6 +156,10 @@ export type AppThemeProviderProps = {
    * When omitted, `data-theme-ssr` on `<html>` is used on the client.
    */
   initialTheme?: string | null;
+  /** True only when the current account has a verified Supporter benefit. */
+  hasSupporterThemeAccess?: boolean;
+  /** At startup, apply the saved theme while Supporter status is unknown. */
+  restoreUnverifiedPreference?: boolean;
   /** Ignores storage and makes `setTheme` a no-op (admin stays on the default). */
   pinned?: boolean;
   /** Overrides the app hook. `null` disables persistence. */
@@ -194,8 +199,8 @@ function persistTheme(storage: ThemeStorage | null, themeId: ThemeId) {
 /**
  * Owns the active theme and resolves the active experience/screen packs.
  *
- * SSR contract: with `initialTheme` set (dynamic pages pass the cookie value
- * through `_app`), the provider suspends on the theme's `import()` inside its
+ * SSR contract: with a saved `initialTheme`, the provider suspends on
+ * the theme's `import()` inside its
  * `Suspense` boundary. Next's Pages Router renderPage reads the stream with
  * `allReady`, so the server waits for the pack and renders the final layout.
  *
@@ -207,6 +212,8 @@ function persistTheme(storage: ThemeStorage | null, themeId: ThemeId) {
 export function AppThemeProvider({
   children,
   initialTheme,
+  hasSupporterThemeAccess = false,
+  restoreUnverifiedPreference = false,
   pinned = false,
   themeStorage,
   fallbackPresenters,
@@ -219,9 +226,13 @@ export function AppThemeProvider({
   const storage =
     themeStorage === undefined ? (hooks.themeStorage ?? null) : themeStorage;
 
-  const [themeId, setThemeId] = useState<ThemeId>(() =>
+  const [preferredThemeId, setPreferredThemeId] = useState<ThemeId>(() =>
     resolveInitialTheme(catalog, initialTheme),
   );
+  const canUseSupporterTheme = !pinned && hasSupporterThemeAccess;
+  const canApplyPreferredTheme =
+    !pinned && (hasSupporterThemeAccess || restoreUnverifiedPreference);
+  const themeId = canApplyPreferredTheme ? preferredThemeId : catalog.defaultId;
   const entry = catalog.get(themeId);
 
   // Re-render when a pack settles (success or cached failure).
@@ -290,66 +301,44 @@ export function AppThemeProvider({
     });
   }, [appliedStore, targetExperience, targetLoaded, targetScreens]);
 
+  const restoredRef = useRef(false);
   const setTheme = useCallback(
     (next: ThemeId) => {
       if (pinned) return;
 
       const resolved = catalog.get(next).id;
-      if (resolved === themeId) return;
+      if (resolved !== catalog.defaultId && !canUseSupporterTheme) return;
+      if (resolved === preferredThemeId) return;
 
-      setThemeId(resolved);
+      restoredRef.current = true;
+      setPreferredThemeId(resolved);
       persistTheme(storage, resolved);
     },
-    [catalog, pinned, storage, themeId],
+    [canUseSupporterTheme, catalog, pinned, preferredThemeId, storage],
   );
 
   const [mounted, setMounted] = useState(!suspendOnInitialPack);
 
-  // The first client render must match the server-rendered theme. The stored
-  // value wins after hydration, in a layout effect, before paint where possible.
-  const restoredRef = useRef(false);
-  const pendingStoredRef = useRef<ThemeId | null>(null);
+  // Static pages match their HTML on the first render, then apply the palette.
+  // The pack gate loads the saved layout while the app remains visible.
   useIsomorphicLayoutEffect(() => {
-    if (restoredRef.current) return;
+    if (restoredRef.current || !canApplyPreferredTheme || !storage) return;
     restoredRef.current = true;
-    if (pinned) return;
-    if (!storage) return;
-
-    let stored: string | null = null;
     try {
-      stored = storage.get();
+      const stored = storage.get();
+      if (stored !== null) setPreferredThemeId(catalog.get(stored).id);
     } catch {
-      return;
+      // Storage may be unavailable.
     }
-    if (stored == null) return;
-
-    const resolved = catalog.get(stored).id;
-    if (resolved === themeId) return;
-
-    pendingStoredRef.current = resolved;
-    if (!suspendOnInitialPack || targetLoaded) {
-      // The initial packs are already rendered; switch without blanking.
-      setMounted(true);
-      setThemeId(resolved);
-    }
-  }, [catalog, pinned, storage, suspendOnInitialPack, targetLoaded, themeId]);
+  }, [catalog, canApplyPreferredTheme, storage]);
 
   useIsomorphicLayoutEffect(() => {
     if (mounted || !targetLoaded) return;
     setMounted(true);
-
-    const pending = pendingStoredRef.current;
-    if (pending && pending !== themeId) {
-      setThemeId(pending);
-    }
-  }, [mounted, targetLoaded, themeId]);
+  }, [mounted, targetLoaded]);
 
   useIsomorphicLayoutEffect(() => {
     if (typeof document === "undefined") return;
-    // Leave the pre-paint palette in place during the first hydration commit.
-    const pending = pendingStoredRef.current;
-    if (pending && pending !== themeId) return;
-    pendingStoredRef.current = null;
     document.documentElement.dataset.theme = themeId;
   }, [themeId]);
 
@@ -375,12 +364,14 @@ export function AppThemeProvider({
     () => ({
       themeId,
       setTheme,
+      hasSupporterThemeAccess: canUseSupporterTheme,
       experience: effectiveExperience,
       screens: effectiveScreens,
       isExperiencePending,
       shell,
     }),
     [
+      canUseSupporterTheme,
       effectiveExperience,
       effectiveScreens,
       isExperiencePending,
@@ -523,6 +514,10 @@ function useAppThemeContext(): AppThemeContextValue {
 export function useAppTheme(): readonly [ThemeId, (theme: ThemeId) => void] {
   const context = useAppThemeContext();
   return [context.themeId, context.setTheme];
+}
+
+export function useHasSupporterThemeAccess(): boolean {
+  return useAppThemeContext().hasSupporterThemeAccess;
 }
 
 /**

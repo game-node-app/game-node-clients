@@ -10,7 +10,10 @@ import {
   SettingsThemeOptionCard,
   SettingsThemePalette,
 } from "#@/components/settings/tabs/appearance/SettingsThemeOptionCard";
-import { useAppTheme } from "#@/theme/AppThemeProvider";
+import {
+  useAppTheme,
+  useHasSupporterThemeAccess,
+} from "#@/theme/AppThemeProvider";
 import {
   DEFAULT_THEME_ID,
   isThemeId,
@@ -45,6 +48,7 @@ type AppearanceThemeOption = {
   description?: string;
   palette: SettingsThemePalette;
   disabled: boolean;
+  locked?: boolean;
 };
 
 const UNAVAILABLE_THEME_LABELS = {
@@ -114,17 +118,20 @@ export function SettingsAppearanceTab() {
   const { t } = useTranslation();
   const { language, setLanguage } = useI18nContext();
   const [themeId, setTheme] = useAppTheme();
+  const hasSupporterThemeAccess = useHasSupporterThemeAccess();
 
   const optionFor = (value: ThemeValue): AppearanceThemeOption => {
     if (isThemeId(value)) {
       const entry = THEMES_BY_ID[value];
+      const locked = !entry.isDefault && !hasSupporterThemeAccess;
       return {
         value,
         label: t(entry.labelKey),
         description:
           value === "xbox" ? t(THEME_DESCRIPTION_KEYS.xbox) : undefined,
         palette: entry.preview,
-        disabled: false,
+        disabled: locked,
+        locked,
       };
     }
 
@@ -251,6 +258,7 @@ export function SettingsAppearanceTab() {
                   palette={option.palette}
                   checked={option.value === themeId}
                   disabled={option.disabled}
+                  locked={option.locked}
                 />
               ))}
             </Box>
@@ -278,6 +286,7 @@ export function SettingsAppearanceTab() {
                   palette={option.palette}
                   checked={option.value === themeId}
                   disabled={option.disabled}
+                  locked={option.locked}
                 />
               ))}
             </Box>

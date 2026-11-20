@@ -2,6 +2,7 @@
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -129,7 +130,11 @@ function renderApp({
 } = {}) {
   return render(
     <UIProvider hooks={hooks} presenters={presenters}>
-      <AppThemeProvider catalog={testCatalog} {...props}>
+      <AppThemeProvider
+        catalog={testCatalog}
+        hasSupporterThemeAccess
+        {...props}
+      >
         <ThemeHarness />
       </AppThemeProvider>
     </UIProvider>,
@@ -172,6 +177,26 @@ afterEach(() => {
 });
 
 describe("AppThemeProvider", () => {
+  it("blocks restricted selections and pack loading without access", () => {
+    const storage = fakeStorage("test-console");
+    const load = vi.fn(async () => experiencePack);
+    renderApp({
+      props: {
+        hasSupporterThemeAccess: false,
+        initialTheme: "test-console",
+        themeStorage: storage,
+        packStore: storeWith({ experience: { console: load } }),
+      },
+    });
+
+    fireEvent.click(screen.getByText("to-console"));
+    expect(screen.getByTestId("theme").textContent).toBe("gamenode");
+    expect(screen.getByTestId("experience").textContent).toBe("default");
+    expect(document.documentElement.dataset.theme).toBe("gamenode");
+    expect(load).not.toHaveBeenCalled();
+    expect(storage.set).not.toHaveBeenCalled();
+  });
+
   it("defaults to gamenode and publishes data-theme/data-experience", async () => {
     const storage = fakeStorage(null);
     renderApp({
@@ -245,27 +270,29 @@ describe("AppThemeProvider", () => {
       screens: { xbox: async () => screensPack },
     });
     const storage = fakeStorage("test-console");
-    const root = document.documentElement;
-    root.dataset.theme = "test-console";
-    const observer = new MutationObserver(() => {});
-    observer.observe(root, {
-      attributeFilter: ["data-theme"],
-      attributeOldValue: true,
-    });
     renderApp({ props: { packStore: store, themeStorage: storage } });
-    const previousThemes = observer
-      .takeRecords()
-      .map((record) => record.oldValue);
-    observer.disconnect();
-
-    // The first render uses the default (what the server would have sent).
-    expect(screen.getByTestId("experience").textContent).toBe("default");
-    expect(previousThemes).not.toContain("gamenode");
-    expect(root.dataset.theme).toBe("test-console");
     await waitFor(() => {
       expect(screen.getByTestId("theme").textContent).toBe("test-console");
       expect(screen.getByTestId("experience").textContent).toBe("console");
     });
+  });
+
+  it("applies the saved palette while the layout is loading", async () => {
+    const storage = fakeStorage("test-console");
+    const experience = deferred<ThemePack>();
+    const store = storeWith({
+      experience: { console: () => experience.promise },
+    });
+    renderApp({ props: { packStore: store, themeStorage: storage } });
+    expect(screen.getByTestId("theme").textContent).toBe("test-console");
+    expect(screen.getByTestId("experience").textContent).toBe("default");
+
+    await act(async () => {
+      experience.resolve(experiencePack);
+      await store.load("experience", "console");
+    });
+    expect(screen.getByTestId("theme").textContent).toBe("test-console");
+    expect(screen.getByTestId("experience").textContent).toBe("console");
   });
 
   it("falls back to gamenode for an unknown stored value", async () => {

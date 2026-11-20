@@ -5,7 +5,7 @@ import { useDisclosure, useLocalStorage, useMediaQuery } from "@mantine/hooks";
 import GlobalShellFooter from "@/components/general/shell/GlobalShellFooter";
 import { Dock } from "@/components/general/shell/navbar/Dock";
 import { useRouter } from "next/router";
-import { SettingsModal, useAppExperience } from "@repo/ui";
+import { cn, SettingsModal, useAppExperience } from "@repo/ui";
 import dynamic from "next/dynamic";
 
 /**
@@ -129,7 +129,12 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
           onClick={sidebarOpenedUtils.close}
         />
       )}
-      <AppShell.Main className={isConsole ? "overflow-x-clip" : undefined}>
+      <AppShell.Main
+        className={cn(
+          isConsole && "overflow-x-clip",
+          isConsole && pathname === "/home" && "[container-type:inline-size]",
+        )}
+      >
         <Container fluid className={"max-w-screen-xl"}>
           {children}
         </Container>

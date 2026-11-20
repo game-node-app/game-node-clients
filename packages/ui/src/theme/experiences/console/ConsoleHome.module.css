@@ -1,82 +1,97 @@
 .home {
-  position: relative;
   width: 100%;
-  /* the backdrop is full-bleed (100vw) inside padded page containers; never let it add a horizontal scrollbar */
-  overflow-x: clip;
-  /* the outside focus ring and its halo sit past the last tile/button edge */
-  overflow-clip-margin: 8px;
 }
 
 .hero {
+  /* The web shell's query container excludes its padding from 100cqw. */
+  --console-media-width: calc(100cqw + 2 * var(--app-shell-padding, 0px));
+  --console-media-height: min(
+    calc(var(--console-media-width) * 9 / 16),
+    100svh
+  );
+  --console-media-pull: var(
+    --console-backdrop-pull,
+    calc(var(--app-shell-header-offset, 0px) + var(--app-shell-padding, 0px))
+  );
   position: relative;
-  /* keeps the backdrop's negative z-index behind the hero's content only */
   isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: var(--mantine-spacing-lg);
   justify-content: flex-end;
-  min-height: min(72vh, 620px);
+  padding-top: max(
+    0px,
+    calc(var(--console-media-height) * 0.72 - var(--console-media-pull))
+  );
   padding-bottom: var(--mantine-spacing-md);
 }
 
-.backdrop {
-  /* full-bleed past the page container, behind the hero */
+.media {
   position: absolute;
   z-index: -1;
+  top: calc(-1 * var(--console-media-pull));
   left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  top: calc(-1 * var(--console-backdrop-pull, 6rem));
-  /* only compensates the top offset: going lower would cover the next, unpositioned sections */
-  height: calc(100% + var(--console-backdrop-pull, 6rem));
-  background-color: var(--gn-surface);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-/* darkens the art so the rows and title stay readable, and blends it into the page */
-.backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--gn-body) 10%, transparent) 0%,
-    color-mix(in srgb, var(--gn-body) 60%, transparent) 34%,
-    var(--gn-body) 87%
+  width: var(--console-media-width);
+  height: min(
+    var(--console-media-height),
+    calc(100% + var(--console-media-pull))
   );
-}
-
-/* Trailer over the backdrop's box, cropped like background-size: cover and faded the same way. */
-.trailer {
-  /* same full-bleed box as the backdrop */
-  position: absolute;
-  z-index: -1;
-  left: 50%;
   transform: translateX(-50%);
-  width: 100vw;
-  top: calc(-1 * var(--console-backdrop-pull, 6rem));
-  height: calc(100% + var(--console-backdrop-pull, 6rem));
   overflow: hidden;
   pointer-events: none;
   container-type: size;
-  /* the delay hides YouTube's loading frame and the pause button it flashes for ~3s after starting */
+  background-color: var(--gn-body);
+}
+
+.backdrop,
+.trailer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Extend the artwork's colors into the space left by its aspect ratio. */
+.backdrop::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--console-artwork) center / cover no-repeat;
+  filter: blur(32px);
+  opacity: 0.45;
+}
+
+.backdropImage {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin-inline: auto;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--gn-text) min(4vw, 32px),
+    var(--gn-text) calc(100% - min(4vw, 32px)),
+    transparent
+  );
+}
+
+.trailer {
+  background-color: var(--gn-body);
+  /* Let the player settle before fading over the art. */
   animation: console-trailer-in 600ms ease 3500ms both;
 }
 
 .trailer iframe {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 50%;
-  width: max(100cqw, 100cqh * 16 / 9);
+  width: min(100cqw, 100cqh * 16 / 9);
   aspect-ratio: 16 / 9;
-  /* zoom crops the title/channel overlay YouTube draws at the top of embeds (no official param hides it) */
-  transform: translate(-50%, -50%) scale(1.35);
+  transform: translateX(-50%);
   border: 0;
 }
 
-.trailer::after {
+/* Keep the title and its row readable over both media types. */
+.media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -142,6 +157,7 @@
   .hero {
     /* viewport minus the shell header and the page's top margin */
     min-height: calc(100vh - var(--app-shell-header-height, 0px) - 3rem);
+    padding-top: 0;
   }
 }
 

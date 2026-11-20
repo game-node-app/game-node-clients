@@ -110,6 +110,7 @@ describe("AppThemeProvider SSR", () => {
           catalog={testCatalog}
           packStore={store}
           initialTheme="test-console"
+          hasSupporterThemeAccess
           themeStorage={null}
         >
           <ServerProbe />

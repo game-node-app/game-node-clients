@@ -184,7 +184,7 @@ describe("console home", () => {
       expect(
         document
           .querySelector("[data-console-backdrop]")
-          ?.getAttribute("style"),
+          ?.getAttribute("src"),
       ).toContain("art2.jpg"),
     );
   });

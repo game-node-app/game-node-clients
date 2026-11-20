@@ -40,11 +40,19 @@ New code in `@repo/ui`, web and mobile SHALL NOT introduce color literals in com
 - **THEN** lint accepts it and the color stays fixed across themes
 
 ### Requirement: Theme selection in Appearance settings
-The Appearance tab of the settings SHALL let the user select available themes on web and mobile. Selecting a theme SHALL apply it immediately. Themes not yet available (other store themes, Light, System) SHALL be shown as disabled. The non-affiliation disclaimer SHALL remain visible under store-inspired themes.
+The Appearance tab SHALL let anyone select Dark (GameNode) on web and mobile. Selecting any other available theme SHALL require a signed-in account whose Supporter entitlement is confirmed by the API. Selecting an available theme SHALL apply it immediately. Themes not yet available (other store themes, Light, System) SHALL be shown as disabled. The non-affiliation disclaimer SHALL remain visible under store-inspired themes.
 
 #### Scenario: Switch to Xbox
-- **WHEN** a user picks Xbox in Appearance
+- **WHEN** a verified Supporter picks Xbox in Appearance
 - **THEN** the whole app switches to the Xbox theme immediately and the Xbox option shows as current
+
+#### Scenario: Supporter entitlement required
+- **WHEN** the user is signed out, lacks the benefit or cannot verify it
+- **THEN** Xbox is shown as a locked Supporter option and cannot be selected
+
+#### Scenario: Loss of Supporter access
+- **WHEN** the active account signs out or stops qualifying
+- **THEN** the app returns to `gamenode` and retains the device preference for future verified access
 
 #### Scenario: Back to default
 - **WHEN** a user on Xbox picks Dark (GameNode)
@@ -58,8 +66,8 @@ The Appearance tab of the settings SHALL let the user select available themes on
 The chosen theme SHALL persist on the device (browser or app install) across reloads and restarts and SHALL NOT be stored on the server. An unknown or invalid stored value SHALL fall back to `gamenode`.
 
 #### Scenario: Reload keeps the theme
-- **WHEN** a user selects Xbox and reloads the web page or restarts the mobile app
-- **THEN** Xbox is still active
+- **WHEN** a Supporter selects Xbox and reloads the web page or restarts the mobile app
+- **THEN** Xbox is restored on startup and remains active when the background check confirms the benefit
 
 #### Scenario: Other device unaffected
 - **WHEN** the same account signs in on another browser or device
@@ -69,15 +77,19 @@ The chosen theme SHALL persist on the device (browser or app install) across rel
 - **WHEN** the stored value names a theme that no longer exists
 - **THEN** the app uses `gamenode` without errors
 
-### Requirement: No flash of the wrong theme
-The stored theme SHALL be applied before the first paint on web (including server-rendered HTML when the preference is available to the server) and before the first render on mobile.
+### Requirement: Restore the saved theme at startup
+Startup SHALL apply a valid stored theme without waiting for the Supporter check. The app SHALL keep the interface visible and check the active account in the background. It SHALL revert to `gamenode` when the check confirms the account is signed out or lacks access, preserving the saved device preference. A delayed or failed check SHALL keep the current theme.
 
 #### Scenario: Web SSR
-- **WHEN** a web user with Xbox stored requests any server-rendered page
+- **WHEN** a web user with Xbox stored in the theme cookie requests a server-rendered page
 - **THEN** the initial HTML already carries the Xbox theme and no GameNode-orange frame is shown
 
+#### Scenario: Static web page
+- **WHEN** a static page starts with a saved Xbox preference
+- **THEN** the head script applies the Xbox palette before paint and the layout loads without waiting for account verification
+
 #### Scenario: Mobile cold start
-- **WHEN** the mobile app starts with Xbox stored
+- **WHEN** the mobile app starts with Xbox stored and the account check is still pending
 - **THEN** the first rendered screen uses the Xbox theme
 
 ### Requirement: Native and browser chrome follow the theme

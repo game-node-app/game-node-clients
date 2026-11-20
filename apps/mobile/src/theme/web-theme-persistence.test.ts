@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { getThemeInitScript } from "../../../../apps/web/src/components/theme/themeInitScript";
 import {
   GN_THEME_COOKIE,
@@ -68,7 +68,7 @@ describe("web theme persistence", () => {
   });
 });
 
-describe("web theme before hydration", () => {
+describe("web startup with a saved theme", () => {
   const root = document.documentElement;
 
   beforeEach(() => {
@@ -78,33 +78,23 @@ describe("web theme before hydration", () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
     delete root.dataset.theme;
     delete root.dataset.themeSsr;
-    delete root.dataset.experiencePending;
     document.querySelector('meta[name="theme-color"]')?.remove();
   });
 
-  it("updates the existing tint and removes the startup gate at its deadline", () => {
-    vi.useFakeTimers();
-    webThemeStorage.set("xbox");
-    const meta = document.createElement("meta");
-    meta.name = "theme-color";
-    meta.content = "#111111";
-    document.head.append(meta);
+  it("applies the saved palette and browser tint before hydration", () => {
+    const tint = document.createElement("meta");
+    tint.name = "theme-color";
+    document.head.append(tint);
+    window.localStorage.setItem(GN_THEME_STORAGE_KEY, "xbox");
 
     new Function(getThemeInitScript())();
 
     expect(root.dataset.theme).toBe("xbox");
     expect(root.dataset.themeSsr).toBe("gamenode");
-    expect(meta.content).toBe("#0F0F0F");
-    expect(document.querySelectorAll('meta[name="theme-color"]')).toHaveLength(
-      1,
-    );
-    expect(root.dataset.experiencePending).toBe("");
-
-    root.dataset.theme = "gamenode";
-    vi.advanceTimersByTime(300);
-    expect(root.dataset.experiencePending).toBeUndefined();
+    expect(tint.content.toLowerCase()).toBe("#0f0f0f");
+    expect(root.hasAttribute("data-theme-checking")).toBe(false);
+    expect(root.hasAttribute("data-experience-pending")).toBe(false);
   });
 });

@@ -11,8 +11,8 @@ The Appearance tab already advertises store-inspired themes, but GameNode has no
 - **Color hygiene.** An ESLint rule rejects new hex and `rgb()` literals in `packages/ui` and the apps (with explicit exemptions such as game art and recap/awards artwork). Literals on the surfaces the Xbox theme covers, and every accent/brand literal, are migrated to tokens.
 - **Experiences (layouts) as a separate layer.** A theme may opt into an experience. The first one is `console`: a console web shell with a top header and a bottom navigation on narrow screens, and a console home with a hero backdrop/trailer, focusable tile rows, a review row, releases and a blog section. An experience provides presenters and its own CSS Modules and is loaded on demand, so users of other themes do not download it.
 - **Xbox theme (MVP, full scope).** Xbox palette (black and green), the console experience, and Xbox screens for activity items, game page, profile (gamercard), profile stats, posts feed and items, recent blog posts, explore, home releases and the notifications panel, ported from Thiago's branch onto current `main` and the new structure.
-- **Theme runtime.** An `AppThemeProvider` with a storage adapter injected per app. Web uses a cookie (so SSR renders `data-theme`) with an inline head script fallback. Mobile uses Capacitor Preferences restored before first render. On mobile, theme changes also drive the native chrome (status bar, Android edge-to-edge background); on web they set `<meta name="theme-color">`. The selection is per device.
-- **Appearance tab.** The existing "Special themes" section becomes functional for Xbox. Other store themes stay listed but disabled, and Light/System stay disabled.
+- **Theme runtime.** An `AppThemeProvider` with a storage adapter injected per app. Web uses a cookie mirrored to local storage and mobile uses Capacitor Preferences. Both apply the saved theme on startup and switch to GameNode if a background check confirms the account is signed out or lacks Supporter access. On mobile, theme changes also drive the native chrome (status bar, Android edge-to-edge background). On web they set `<meta name="theme-color">`. The selection is per device.
+- **Appearance tab.** The existing "Special themes" section unlocks Xbox for verified Supporters. Dark stays available to everyone. Other store themes stay listed but disabled, and Light/System stay disabled.
 - Not in scope: server-side persistence of the choice, light mode, and the PlayStation/Switch/Steam themes. Official logos and startup sounds also stay out; the existing "not affiliated" disclaimer remains.
 
 ## Capabilities
@@ -31,7 +31,7 @@ The Appearance tab already advertises store-inspired themes, but GameNode has no
 - **packages/config-tailwind**: palette entries point to CSS variables.
 - **packages/config-eslint**: new no-hard-coded-colors rule.
 - **packages/locales**: theme labels and console/Xbox strings in `en.json` and `pt-BR.json`.
-- **apps/web**: `_document.tsx` (cookie-based `data-theme`, head script), `_app.tsx` (provider, fonts, presenters), `GlobalAppShell` (console shell), home/explore/posts pages switching via presenters instead of `isConsole` branches.
+- **apps/web**: `_document.tsx` (`data-theme` from the stored preference), `_app.tsx` (provider, fonts, presenters), `GlobalAppShell` (console shell), home/explore/posts pages switching via presenters instead of `isConsole` branches.
 - **apps/mobile**: `main.tsx` (restore before render), `App.tsx` (provider, presenters, native chrome sync replacing the fixed `#1f1f1f` edge-to-edge color), `theme/variables.css` (Ionic tokens become generated), home page.
 - **apps/admin**: consumes the new Mantine theme but stays on `gamenode` with no picker.
 - **Dependencies**: a build-time color library for scale and contrast computation (e.g. `culori`), dev-only.

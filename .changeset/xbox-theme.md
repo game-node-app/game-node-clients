@@ -3,4 +3,4 @@
 "mobile": minor
 ---
 
-Choose Dark (GameNode) or the Xbox-inspired theme in Appearance on web and mobile. The Xbox theme adds a console layout and themed screens. Your selection stays on the device across reloads and restarts.
+Supporters can choose the Xbox-inspired theme in Appearance on web and mobile. It adds a console layout and themed screens. The selection stays on the device across reloads and restarts. Dark (GameNode) stays available to everyone.

@@ -82,8 +82,8 @@ interface Props {
   palette: SettingsThemePalette;
   checked: boolean;
   disabled?: boolean;
-  /** Shows a "Coming soon" badge over the preview. Defaults to `disabled`. */
-  withComingSoonBadge?: boolean;
+  /** The theme is available to Supporters. */
+  locked?: boolean;
 }
 
 /** Selectable theme card with a drawn preview (Figma "Tema" / "Settings / Tema especial"). */
@@ -94,7 +94,7 @@ export function SettingsThemeOptionCard({
   palette,
   checked,
   disabled = false,
-  withComingSoonBadge = disabled,
+  locked = false,
 }: Props) {
   const { t } = useTranslation();
   return (
@@ -124,7 +124,11 @@ export function SettingsThemeOptionCard({
             <SettingsPill className={"absolute right-1.5 top-1.5"}>
               {t("settings.badges.current")}
             </SettingsPill>
-          ) : withComingSoonBadge ? (
+          ) : locked ? (
+            <SettingsPill className={"absolute right-1.5 top-1.5"}>
+              {t("settings.appearance.theme.supporterOnly")}
+            </SettingsPill>
+          ) : disabled ? (
             <SettingsComingSoonBadge className={"absolute right-1.5 top-1.5"} />
           ) : null}
         </Box>

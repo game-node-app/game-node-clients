@@ -3892,6 +3892,7 @@
         "light": "Light",
         "system": "Automatic",
         "systemDescription": "Follows your system",
+        "supporterOnly": "Supporter only",
         "xbox": "Xbox"
       },
       "specialThemes": {
