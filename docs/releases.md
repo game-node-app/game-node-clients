@@ -43,9 +43,9 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
   automated Coolify deployments always select the immutable SHA tag.
 - Mobile: build signed APK/AAB artifacts using the app's semantic version and an
   increasing Android build code, publish the web bundle to R2 for compatible
-  installs, and publish the AAB to the Google Play production track (status
-  `completed`). The APK/AAB also remain downloadable from the workflow run and
-  are attached to the app's GitHub release.
+  installs, and submit the AAB to Google Play production when its native
+  fingerprint differs from the latest submitted build. The APK/AAB remain
+  downloadable from the workflow run and are attached to the app's GitHub release.
 
 Actions are pinned to exact commit SHAs. Dependency installs skip package
 lifecycle scripts; builds and native synchronization run explicitly. Checks,
@@ -123,12 +123,17 @@ Mobile uses the existing `RELEASE_KEYSTORE`, `RELEASE_KEYSTORE_PASS`,
 
 ## Google Play
 
-The Android delivery job publishes `app.gamenode` to Play production with
-`scripts/publish-play.cjs` (no dependencies; it talks to the Android Publisher
-API directly). It uploads the signed AAB, sets the production track to a single
-`completed` release for that version code, and commits the edit. Any failure
-leaves the edit uncommitted. A retried release reuses an AAB already uploaded
-with the same code, since Play rejects re-uploads.
+The Android delivery job uses `scripts/publish-play.cjs` to compare the OTA
+fingerprint with the highest version code on the `app.gamenode` production track
+that is published, in review, or approved for publication. CI records the
+fingerprint in the Play Console release name when it submits a signed AAB for
+full rollout. A matching fingerprint skips the Play upload and continues to
+GitHub release publishing. If the latest submitted release has no recorded
+fingerprint, CI submits one build to establish the baseline.
+
+The fingerprint is committed in the same Play edit as the production release.
+A retry can skip a release already submitted or reuse an AAB already uploaded
+with the same version code.
 
 Play release notes are always the generic "Bug fixes and improvements." (`en-US`)
 and "Correções de bugs e melhorias." (`pt-BR`); the detailed changelog lives in
@@ -151,9 +156,9 @@ authenticated reads of both configured Coolify applications.
 
 ## GitHub releases
 
-After each successful delivery (Coolify deploy for web/admin, Play publish for
-mobile), `scripts/github-release.cjs <app> [assets…]` creates or updates the
-GitHub release for the reserved `app@version` tag, titled `Web 1.25.0`,
+After each successful delivery, `scripts/github-release.cjs <app> [assets…]`
+creates or updates the GitHub release for the reserved `app@version` tag,
+titled `Web 1.25.0`,
 `Mobile 1.24.0` and so on. The body is the version's `CHANGELOG.md` section
 (the changeset summaries) followed by GitHub's generated notes ("What's Changed",
 new contributors, full-changelog link), compared against the same app's previous

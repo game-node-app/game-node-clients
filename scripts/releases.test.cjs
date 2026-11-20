@@ -128,6 +128,14 @@ test("OTA workflow packages root assets and never publishes a manifest after a f
   const step = workflow.jobs.deliver.steps.find(
     (step) => step.name === "Publish compatible live update",
   );
+  const play = workflow.jobs.deliver.steps.find((step) =>
+    step.run?.includes("node scripts/publish-play.cjs"),
+  );
+  assert.equal(
+    play.env.NATIVE_FINGERPRINT,
+    `\${{ steps.${step.id}.outputs.fingerprint }}`,
+  );
+  assert.match(play.run, /"\$NATIVE_FINGERPRINT"/);
   write(
     cwd,
     "scripts/native-fingerprint.cjs",
@@ -154,6 +162,7 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
     ...process.env,
     PATH: `${join(cwd, "bin")}:${process.env.PATH}`,
     RUNNER_TEMP: temporary,
+    GITHUB_OUTPUT: join(temporary, "github-output"),
     OTA_TEST_LOG: log,
     R2_ACCOUNT_ID: "account",
     R2_BUCKET: "bucket",
@@ -167,6 +176,11 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
   run(env);
   const calls = readFileSync(log, "utf8").trim().split("\n").map(JSON.parse);
   assert.equal(calls.length, 4);
+  const match = readFileSync(env.GITHUB_OUTPUT, "utf8").match(
+    /^fingerprint=([a-f0-9]{16})\n$/,
+  );
+  assert.ok(match);
+  assert.ok(calls[0][3].startsWith(`s3://bucket/ota/${match[1]}/`));
   const manifest = JSON.parse(readFileSync(calls[1][2], "utf8"));
   const legacyManifest = JSON.parse(readFileSync(calls[3][2], "utf8"));
   assert.equal(

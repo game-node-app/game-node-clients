@@ -8,6 +8,11 @@ const RELEASE_NOTES = {
   "en-US": "Bug fixes and improvements.",
   "pt-BR": "Correções de bugs e melhorias.",
 };
+const SUBMITTED_RELEASE_STATES = new Set([
+  "RELEASE_LIFECYCLE_STATE_PUBLISHED",
+  "RELEASE_LIFECYCLE_STATE_IN_REVIEW",
+  "RELEASE_LIFECYCLE_STATE_APPROVED_NOT_PUBLISHED",
+]);
 
 async function accessToken(credentials, request = fetch) {
   const { client_email, private_key, token_uri } = credentials;
@@ -43,14 +48,15 @@ async function accessToken(credentials, request = fetch) {
 }
 
 /**
- * Uploads the bundle and rolls it out fully on `track` in one edit.
- * Play keeps the edit uncommitted if any step fails.
+ * Returns false if the latest submitted release already has this native shell.
+ * Otherwise uploads the bundle and submits a full rollout in one edit.
  */
 async function publishBundle(
   {
     credentials,
     bundle,
     versionCode,
+    fingerprint,
     notes = RELEASE_NOTES,
     track = "production",
   },
@@ -58,8 +64,10 @@ async function publishBundle(
 ) {
   if (!/^\d+$/.test(String(versionCode)))
     throw new Error("Invalid Android version code.");
+  if (!/^[a-f0-9]{16}$/.test(fingerprint))
+    throw new Error("Invalid Android native fingerprint.");
   const token = await accessToken(credentials, request);
-  const base = `/androidpublisher/v3/applications/${PACKAGE_NAME}/edits`;
+  const base = `/androidpublisher/v3/applications/${PACKAGE_NAME}`;
   async function api(path, { method = "GET", body, upload } = {}) {
     const response = await request(
       `${API}${upload ? "/upload" : ""}${base}${path}${upload ? "?uploadType=media" : ""}`,
@@ -84,8 +92,22 @@ async function publishBundle(
     }
     return response.json();
   }
-  const { id } = await api("", { method: "POST", body: {} });
-  const edit = `/${encodeURIComponent(id)}`;
+  const trackId = encodeURIComponent(track);
+  const { releases = [] } = await api(`/tracks/${trackId}/releases`);
+  const [latest] = releases
+    .filter((release) =>
+      SUBMITTED_RELEASE_STATES.has(release.releaseLifecycleState),
+    )
+    .flatMap(({ releaseName, activeArtifacts = [] }) =>
+      activeArtifacts.map(({ versionCode }) => ({ releaseName, versionCode })),
+    )
+    .sort((a, b) => b.versionCode - a.versionCode);
+  // The Play Console name is committed with the bundle and survives CI retries.
+  const fingerprintSuffix = ` (native ${fingerprint})`;
+  if (latest?.releaseName?.endsWith(fingerprintSuffix)) return false;
+
+  const { id } = await api("/edits", { method: "POST", body: {} });
+  const edit = `/edits/${encodeURIComponent(id)}`;
   // A retried release already uploaded this code; Play rejects re-uploads.
   const { bundles = [] } = await api(`${edit}/bundles`);
   if (!bundles.some((b) => String(b.versionCode) === String(versionCode))) {
@@ -98,12 +120,13 @@ async function publishBundle(
         `Uploaded bundle has version code ${uploaded.versionCode}, expected ${versionCode}.`,
       );
   }
-  await api(`${edit}/tracks/${encodeURIComponent(track)}`, {
+  await api(`${edit}/tracks/${trackId}`, {
     method: "PUT",
     body: {
       track,
       releases: [
         {
+          name: `${versionCode}${fingerprintSuffix}`,
           versionCodes: [String(versionCode)],
           status: "completed",
           releaseNotes: Object.entries(notes).map(([language, text]) => ({
@@ -115,19 +138,30 @@ async function publishBundle(
     },
   });
   await api(`${edit}:commit`, { method: "POST" });
+  return true;
 }
 
 if (require.main === module) {
-  const [bundlePath, versionCode] = process.argv.slice(2);
-  if (!bundlePath || !versionCode)
-    throw new Error("Usage: publish-play.cjs <bundle.aab> <versionCode>");
+  const [bundlePath, versionCode, fingerprint] = process.argv.slice(2);
+  if (!bundlePath || !versionCode || !fingerprint)
+    throw new Error(
+      "Usage: publish-play.cjs <bundle.aab> <versionCode> <fingerprint>",
+    );
+  const track = process.env.PLAY_TRACK || "production";
   publishBundle({
     credentials: JSON.parse(process.env.PLAY_SERVICE_ACCOUNT_JSON || "{}"),
     bundle: readFileSync(bundlePath),
     versionCode,
-    track: process.env.PLAY_TRACK || "production",
+    fingerprint,
+    track,
   })
-    .then(() => console.log(`Published version code ${versionCode} to Play.`))
+    .then((published) => {
+      console.log(
+        published
+          ? `Submitted version code ${versionCode} to Play ${track}.`
+          : `Skipped Play ${track} upload. Native fingerprint ${fingerprint} is already submitted.`,
+      );
+    })
     .catch((error) => {
       console.error(error.message);
       process.exitCode = 1;

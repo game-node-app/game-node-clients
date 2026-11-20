@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   deliver:
-    name: Build signed APK and AAB, publish to Google Play
+    name: Deliver Android release
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -59,6 +59,7 @@ jobs:
         env:
           VITE_PUBLIC_LIVE_UPDATE_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
       - name: Publish compatible live update
+        id: ota
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -68,6 +69,7 @@ jobs:
           LIVE_UPDATE_PUBLIC_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
         run: |
           fingerprint=$(node scripts/native-fingerprint.cjs)
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
           version=$(node -p 'require("./apps/mobile/package.json").version')
           bundle_id="$version-$(git rev-parse --short=12 HEAD)"
           archive="$RUNNER_TEMP/$bundle_id.zip"
@@ -125,13 +127,15 @@ jobs:
           path: |
             apps/mobile/android/app/build/outputs/apk/release/
             apps/mobile/android/app/build/outputs/bundle/release/
-      - name: Publish to Google Play production
+      - name: Publish native changes to Google Play production
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          NATIVE_FINGERPRINT: ${{ steps.ota.outputs.fingerprint }}
         run: |
           code=$(sed -n 's/^VERSION_CODE=//p' apps/mobile/android/version.properties)
           node scripts/publish-play.cjs \
-            apps/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab "$code"
+            apps/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab \
+            "$code" "$NATIVE_FINGERPRINT"
       - name: Publish GitHub release with APK and AAB
         env:
           GH_TOKEN: ${{ github.token }}
