@@ -832,7 +832,7 @@
       "signInToNominate": "Entrar para indicar",
       "signInToSee": "Entre para ver suas indicações",
       "skipCategory": "Pular categoria",
-      "skipHint": "Escolha até {{limit}}. Você pode pular ou seguir com menos.",
+      "skipHint": "Você pode pular esta categoria ou indicar menos de {{limit}} jogos.",
       "subtitle": "Indique até {{count}} jogos por categoria.",
       "subtitleClosed": "Veja os indicados finais e suas indicações.",
       "title": "Indicações",

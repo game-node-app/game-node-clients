@@ -1,5 +1,7 @@
 import { useAwardEvent } from "#@/components/awards/hooks/useAwardEvent";
 import { useAwardEventCategories } from "#@/components/awards/hooks/useAwardEventCategories";
+import { useAwardsMobileLayout } from "#@/components/awards/shared/useAwardsMobileLayout";
+import { useAwardsCategoryNavigation } from "#@/components/awards/hooks/useAwardsCategoryNavigation";
 import { useAwardsNominations } from "#@/components/awards/hooks/useAwardsNominations";
 import { useAwardsNominationsMutation } from "#@/components/awards/hooks/useAwardsNominationsMutation";
 import { AwardsEligibleGameSearch } from "#@/components/awards/search/AwardsEligibleGameSearch";
@@ -21,13 +23,12 @@ import {
 } from "#@/components/events/util/format";
 import { SeasonEventHeader } from "#@/components/events/view/SeasonEventHeader";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
-import { useScrollPosition } from "#@/components/general/hooks/useScrollPosition";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import type { Game, VotableAwardsCategoryDto } from "@repo/wrapper/server";
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /** Maximum number of games a user may nominate in one category. */
 export const AWARDS_NOMINATIONS_LIMIT = 3;
@@ -71,7 +72,7 @@ const AwardsNominationsScreen = ({
   const locale = useFormatLocale();
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
-  const [, scrollTo] = useScrollPosition();
+  const isMobileLayout = useAwardsMobileLayout();
 
   const eventQuery = useAwardEvent({ eventYear });
   const event = eventQuery.data;
@@ -95,27 +96,13 @@ const AwardsNominationsScreen = ({
   );
   const nominationsMutation = useAwardsNominationsMutation(event?.id);
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<
-    number | undefined
-  >(undefined);
-
-  const activeCategory =
-    categories.find((category) => category.id === selectedCategoryId) ??
-    categories[0];
-  const activeIndex = activeCategory
-    ? categories.findIndex((category) => category.id === activeCategory.id)
-    : -1;
-
-  const previousCategory =
-    activeIndex > 0 ? categories[activeIndex - 1] : undefined;
-  const nextCategory =
-    activeIndex >= 0 ? categories[activeIndex + 1] : undefined;
-
-  const goToCategory = (categoryId: number) => {
-    setSelectedCategoryId(categoryId);
-    // The next category opens at its top, not where the previous one ended.
-    scrollTo({ y: 0 });
-  };
+  const {
+    activeCategory,
+    activeIndex,
+    previousCategory,
+    nextCategory,
+    selectCategory,
+  } = useAwardsCategoryNavigation(categories);
 
   const nominations = nominationsQuery.data;
 
@@ -268,6 +255,7 @@ const AwardsNominationsScreen = ({
                 <Text fw={600}>{t("awards.nominations.searchTitle")}</Text>
                 <Text
                   data-awards-nominations-counter
+                  aria-live={"polite"}
                   size={"sm"}
                   fw={700}
                   c={limitReached ? "brand" : "dimmed"}
@@ -385,27 +373,26 @@ const AwardsNominationsScreen = ({
     previousCategory || nextCategory ? (
       <Group
         data-awards-nominations-navigation
-        justify={"space-between"}
+        grow={isMobileLayout}
         wrap={"nowrap"}
         gap={"sm"}
       >
-        {previousCategory ? (
+        {previousCategory && (
           <Button
             data-awards-nominations-previous
             variant={"default"}
             leftSection={<IconChevronLeft size={16} />}
-            onClick={() => goToCategory(previousCategory.id)}
+            onClick={() => selectCategory(previousCategory.id)}
           >
             {t("awards.nominations.previousCategory")}
           </Button>
-        ) : (
-          <span />
         )}
         {nextCategory && (
           <Button
             data-awards-nominations-next
+            className={"ml-auto"}
             rightSection={<IconChevronRight size={16} />}
-            onClick={() => goToCategory(nextCategory.id)}
+            onClick={() => selectCategory(nextCategory.id)}
           >
             {skipping
               ? t("awards.nominations.skipCategory")
@@ -448,7 +435,7 @@ const AwardsNominationsScreen = ({
       {activeCategory ? (
         <AwardsCategoryLayout
           categories={categoryRows}
-          onSelectCategory={setSelectedCategoryId}
+          onSelectCategory={selectCategory}
           title={t("awards.nominations.categories")}
           current={progress}
           total={categories.length}

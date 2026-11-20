@@ -832,7 +832,7 @@
       "signInToNominate": "Sign in to nominate",
       "signInToSee": "Sign in to see your nominations",
       "skipCategory": "Skip category",
-      "skipHint": "Pick up to {{limit}}. You can skip or move on with fewer.",
+      "skipHint": "You can skip this category or nominate fewer than {{limit}}.",
       "subtitle": "Pick up to {{count}} games per category.",
       "subtitleClosed": "See the final nominees and your nominations.",
       "title": "Nominations",

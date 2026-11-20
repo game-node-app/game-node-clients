@@ -600,6 +600,8 @@ describe("AwardsNominationsScreen", () => {
     fireEvent.click(next()!);
     await waitFor(() => expect(panelName()).toContain("Narrativa"));
     expect(previous()).toBeTruthy();
+    // The new category opens at the top of the page.
+    expect(window.scrollTo).toHaveBeenCalled();
 
     fireEvent.click(next()!);
     await waitFor(() => expect(panelName()).toContain("Arte"));
