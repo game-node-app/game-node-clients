@@ -2,6 +2,7 @@ import { getBallotGameMetadata } from "#@/components/awards/ballot/AwardsBallotC
 import { AwardsBallotShareModal } from "#@/components/awards/ballot/AwardsBallotShareScreen";
 import { useAwardEvent } from "#@/components/awards/hooks/useAwardEvent";
 import { useAwardEventCategories } from "#@/components/awards/hooks/useAwardEventCategories";
+import { useAwardsCategoryNavigation } from "#@/components/awards/hooks/useAwardsCategoryNavigation";
 import { useAwardsBallot } from "#@/components/awards/hooks/useAwardsBallot";
 import { useAwardsVoteMutation } from "#@/components/awards/hooks/useAwardsVoteMutation";
 import { AwardsEligibleGameSearch } from "#@/components/awards/search/AwardsEligibleGameSearch";
@@ -109,9 +110,6 @@ const AwardsBallotScreen = ({
   const voteMutation = useAwardsVoteMutation(event?.id);
   const profileQuery = useUserProfile(userId);
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<
-    number | undefined
-  >(undefined);
   const [pending, setPending] = useState<{
     categoryId: number;
     gameId: number;
@@ -149,16 +147,12 @@ const AwardsBallotScreen = ({
     };
   });
 
-  const activeCategory =
-    displayCategories.find((category) => category.id === selectedCategoryId) ??
-    displayCategories[0];
-  const activeIndex = activeCategory
-    ? displayCategories.findIndex(
-        (category) => category.id === activeCategory.id,
-      )
-    : -1;
-  const nextCategory =
-    activeIndex >= 0 ? displayCategories[activeIndex + 1] : undefined;
+  const {
+    activeCategory,
+    activeIndex,
+    nextCategory,
+    selectCategory: openCategory,
+  } = useAwardsCategoryNavigation(displayCategories);
 
   const screenGameIds = new Set<number>();
   for (const category of displayCategories) {
@@ -195,7 +189,7 @@ const AwardsBallotScreen = ({
 
   const selectCategory = (categoryId: number) => {
     setPending(null);
-    setSelectedCategoryId(categoryId);
+    openCategory(categoryId);
   };
 
   const selectGame = (gameId: number) => {
@@ -216,7 +210,7 @@ const AwardsBallotScreen = ({
     const next = displayCategories[index + 1];
     setPending(null);
     if (next) {
-      setSelectedCategoryId(next.id);
+      openCategory(next.id);
     }
   };
 

@@ -9,6 +9,7 @@ export * from "./useAwardEventCategories";
 export * from "./useAwardEventRedirect";
 export * from "./useAwardEvents";
 export * from "./useAwardsBallot";
+export * from "./useAwardsCategoryNavigation";
 export * from "./useAwardsNominations";
 export * from "./useAwardsNominationsMutation";
 export * from "./useAwardsResults";

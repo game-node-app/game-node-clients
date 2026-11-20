@@ -361,6 +361,8 @@ describe("AwardsNominationsScreen", () => {
 
     expect(screen.getAllByText("Jogo do Ano").length).toBeGreaterThan(0);
     expect(screen.getByText("1 de 2")).toBeTruthy();
+    expect(screen.getByText("2/3 indicações feitas")).toBeTruthy();
+    expect(screen.getByText("Próxima categoria")).toBeTruthy();
     expect(screen.queryByText("Seu GOTY pessoal")).toBeNull();
     expect(screen.getAllByText("Sua indicação")).toHaveLength(2);
 
@@ -374,6 +376,7 @@ describe("AwardsNominationsScreen", () => {
 
     await waitFor(() => expect(screen.getByText("Pragmata")).toBeTruthy());
     expect(screen.getAllByText("Sua indicação")).toHaveLength(3);
+    expect(screen.getByText("3/3 indicações feitas")).toBeTruthy();
     expect(
       screen.getByText("Você atingiu o limite de 3 jogos nesta categoria."),
     ).toBeTruthy();
@@ -552,6 +555,62 @@ describe("AwardsNominationsScreen", () => {
       container.querySelector("[data-awards-eligible-game-search]"),
     ).toBeNull();
     expect(getNominations).not.toHaveBeenCalled();
+  });
+
+  it("moves between categories with the previous and next buttons", async () => {
+    session.userId = "user-1";
+    window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
+    loadEvent({
+      phase: "nominations",
+      categories: [
+        ...BASE_CATEGORIES,
+        buildCategory({ id: 42, name: "Arte", order: 3 }),
+      ],
+    });
+
+    const { container } = renderScreen();
+
+    const panelName = () =>
+      container.querySelector("[data-awards-category-panel]")?.textContent ??
+      "";
+    const next = () =>
+      container.querySelector<HTMLButtonElement>(
+        "[data-awards-nominations-next]",
+      );
+    const previous = () =>
+      container.querySelector<HTMLButtonElement>(
+        "[data-awards-nominations-previous]",
+      );
+
+    await waitFor(() => expect(next()).toBeTruthy());
+
+    // No picks yet: the counter shows it and Next is an explicit skip.
+    expect(
+      container.querySelector("[data-awards-nominations-counter]")?.textContent,
+    ).toBe("0/3 indicações feitas");
+    expect(
+      container.querySelector("[data-awards-nominations-skip-hint]"),
+    ).toBeTruthy();
+    expect(next()?.textContent).toContain("Pular categoria");
+
+    // First category: nothing to go back to.
+    expect(previous()).toBeNull();
+    expect(panelName()).toContain("Jogo do Ano");
+
+    fireEvent.click(next()!);
+    await waitFor(() => expect(panelName()).toContain("Narrativa"));
+    expect(previous()).toBeTruthy();
+    // The new category opens at the top of the page.
+    expect(window.scrollTo).toHaveBeenCalled();
+
+    fireEvent.click(next()!);
+    await waitFor(() => expect(panelName()).toContain("Arte"));
+
+    // Last category: nothing to advance to.
+    expect(next()).toBeNull();
+
+    fireEvent.click(previous()!);
+    await waitFor(() => expect(panelName()).toContain("Narrativa"));
   });
 
   it("shows the localized category name and description", async () => {
