@@ -1,0 +1,22 @@
+{
+  "source": "403fd90d99b38daece3906593b29d99fac68c329",
+  "changesets": [
+    ".changeset/mobile-keyboard-visibility.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[c9a1fb4c1427b1360a201e576b4efad52dc84ad5...403fd90d99b38daece3906593b29d99fac68c329]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/403fd90d99b38daece3906593b29d99fac68c329",
+  "versions": {
+    "mobile": "1.25.2"
+  }
+}
