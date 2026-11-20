@@ -44,11 +44,17 @@ type CreateCollectionFormValues = z.infer<
 
 interface ICollectionCreateOrUpdateFormProps extends BaseModalChildrenProps {
   collectionId: string | undefined | null;
+  /**
+   * Called after a new collection is created, with the created collection.
+   * Not called on updates.
+   */
+  onCreated?: (collection: Collection) => void;
 }
 
 const CollectionCreateOrUpdateForm = ({
   onClose,
   collectionId,
+  onCreated,
 }: ICollectionCreateOrUpdateFormProps) => {
   const { t } = useTranslation();
   const userId = useUserId();
@@ -81,9 +87,22 @@ const CollectionCreateOrUpdateForm = ({
         );
         return;
       }
+      const previousIds = new Set(
+        userLibraryQuery.data?.collections.map((collection) => collection.id),
+      );
+      // The create endpoint returns no body, so the new collection is found by
+      // diffing the refreshed library against the ids known before.
       await CollectionsService.collectionsControllerCreateV1(data);
+      if (!onCreated) return;
+      const refreshed = await userLibraryQuery.refetch();
+      return refreshed.data?.collections.find(
+        (collection) => !previousIds.has(collection.id),
+      );
     },
-    onSuccess: () => {
+    onSuccess: (created) => {
+      if (created) {
+        onCreated?.(created);
+      }
       notifications.show({
         color: "green",
         message:
@@ -120,7 +139,12 @@ const CollectionCreateOrUpdateForm = ({
   return (
     <form
       className="w-full h-full"
-      onSubmit={handleSubmit((data) => collectionMutation.mutate(data))}
+      onSubmit={(evt) => {
+        // This form can be rendered (through a modal portal) inside another
+        // form. React bubbles submit events through portals, so stop it here.
+        evt.stopPropagation();
+        return handleSubmit((data) => collectionMutation.mutate(data))(evt);
+      }}
     >
       <Stack gap="lg">
         {collectionMutation.isError &&

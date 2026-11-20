@@ -1,6 +1,7 @@
 import {
   CenteredErrorMessage,
   CenteredLoading,
+  CollectionCreateButton,
   CollectionThumbnailCard,
   DetailsBox,
   LibraryHiddenState,
@@ -8,7 +9,7 @@ import {
   useUserLibrary,
 } from "#@/components";
 import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
-import { Divider, SimpleGrid, Stack } from "@mantine/core";
+import { Divider, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
 interface Props {
@@ -37,8 +38,20 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
   const nonFeaturedCollections =
     visibleCollections?.filter((collection) => !collection.isFeatured) ?? [];
 
+  const showEmptyState =
+    isOwner &&
+    !isLoading &&
+    !isError &&
+    data != undefined &&
+    (visibleCollections?.length ?? 0) === 0;
+
   return (
     <Stack className={"w-full h-full"}>
+      {isOwner && !showEmptyState && (
+        <Group justify="flex-end">
+          <CollectionCreateButton variant="light" />
+        </Group>
+      )}
       {isLoading && (
         <CenteredLoading message={t("profile.collections.loading")} />
       )}
@@ -62,7 +75,19 @@ const ProfileCollectionsPage = ({ userId }: Props) => {
         </SimpleGrid>
         <Divider className={"w-full my-4"} />
       </DetailsBox>
-      <DetailsBox title={t("profile.collections.public")} enabled={!isError}>
+      {showEmptyState && (
+        <Stack align="center" gap="xs" className="w-full py-10 text-center">
+          <Title order={4}>{t("collection.empty.title")}</Title>
+          <Text c="dimmed" size="sm" className="max-w-md">
+            {t("collection.empty.description")}
+          </Text>
+          <CollectionCreateButton mt="sm" />
+        </Stack>
+      )}
+      <DetailsBox
+        title={t("profile.collections.public")}
+        enabled={!isError && !showEmptyState}
+      >
         <SimpleGrid
           cols={{
             base: 1,

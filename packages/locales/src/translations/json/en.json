@@ -989,7 +989,8 @@
       "discard": "Discard",
       "moveGames": "Move games to another collection",
       "reorderGames": "Reorder games",
-      "updateDetails": "Update title and description"
+      "updateDetails": "Update title and description",
+      "create": "New collection"
     },
     "create": "Create collection",
     "descriptions": {
@@ -1049,6 +1050,10 @@
     "update": "Update collection",
     "validation": {
       "featuredMustBePublic": "Featured collections must be public"
+    },
+    "empty": {
+      "title": "No collections yet",
+      "description": "Group your games however you like: a backlog, your favorites, the best of the year."
     }
   },
   "collectionEntry": {
