@@ -19,9 +19,25 @@ export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {
   period: period.MONTH,
 };
 
-const TrendingGamesList = ({ cols }: { cols?: SimpleGridProps["cols"] }) => {
+const RESPONSIVE_HERO_MAX_GAMES = 15;
+
+const TrendingGamesList = ({
+  cols,
+  responsiveHero,
+}: {
+  cols?: SimpleGridProps["cols"];
+  responsiveHero?: boolean;
+}) => {
   const { t } = useTranslation();
-  const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
+  const expandHero = responsiveHero && !cols;
+  const trendingGames = useTrendingGames(
+    expandHero
+      ? {
+          ...DEFAULT_SEARCH_TRENDING_GAMES_DTO,
+          limit: RESPONSIVE_HERO_MAX_GAMES,
+        }
+      : DEFAULT_SEARCH_TRENDING_GAMES_DTO,
+  );
 
   const gamesIds = trendingGames.data?.items
     .map((item) => item.sourceId)
@@ -47,7 +63,7 @@ const TrendingGamesList = ({ cols }: { cols?: SimpleGridProps["cols"] }) => {
   const games = (gamesIds ?? [])
     .map((id) => gamesQuery.data?.find((game) => game.id === id))
     .filter((game) => game !== undefined)
-    .slice(0, TRENDING_HERO_MAX_GAMES);
+    .slice(0, expandHero ? RESPONSIVE_HERO_MAX_GAMES : TRENDING_HERO_MAX_GAMES);
 
   return (
     <DetailsBox
@@ -86,7 +102,7 @@ const TrendingGamesList = ({ cols }: { cols?: SimpleGridProps["cols"] }) => {
           ))}
         </SimpleGrid>
       ) : (
-        <TrendingGamesHero games={games} />
+        <TrendingGamesHero games={games} responsive={expandHero} />
       )}
     </DetailsBox>
   );

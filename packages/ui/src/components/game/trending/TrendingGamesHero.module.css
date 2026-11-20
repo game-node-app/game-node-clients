@@ -222,7 +222,7 @@
 .thumbs {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: var(--hero-thumb-gap);
 }
 
 .thumb {
@@ -239,6 +239,10 @@
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 200ms ease;
+}
+
+.responsiveThumbs .thumb {
+  min-width: 0;
 }
 
 .thumb:hover,

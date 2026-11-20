@@ -168,7 +168,7 @@ const HomePage = () => {
                 className="motion-safe:animate-gn-fade-up"
               >
                 {eventsSection}
-                <TrendingGamesList />
+                <TrendingGamesList responsiveHero />
                 {userId && <RecommendationCarousel criteria="played" />}
                 <TrendingReviewCarousel />
                 <RecentBlogPostsPresenter />

@@ -1,5 +1,9 @@
 import { CSSProperties, FocusEvent, useEffect, useState } from "react";
-import { useIntersection, useReducedMotion } from "@mantine/hooks";
+import {
+  useElementSize,
+  useIntersection,
+  useReducedMotion,
+} from "@mantine/hooks";
 import {
   IconArrowRight,
   IconPlayerPauseFilled,
@@ -20,9 +24,12 @@ import classes from "./TrendingGamesHero.module.css";
 export const TRENDING_HERO_ROTATE_MS = 10_000;
 /** Featured game + small covers that rotate through the spotlight. */
 export const TRENDING_HERO_MAX_GAMES = 5;
+const THUMB_GAP = 10;
+const THUMB_TARGET_WIDTH = 76;
 
 interface TrendingGamesHeroProps {
   games: Game[];
+  responsive?: boolean;
 }
 
 const GameCoverImg = ({ game, size }: { game: Game; size: ImageSize }) => {
@@ -65,10 +72,12 @@ function isKeyboardFocus(target: EventTarget): boolean {
   }
 }
 
-const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
+const TrendingGamesHero = ({ games, responsive }: TrendingGamesHeroProps) => {
   const { t } = useTranslation();
   const reducedMotion = useReducedMotion();
   const { ref, entry } = useIntersection<HTMLDivElement>({ threshold: 0.4 });
+  const { ref: thumbsRef, width: thumbsWidth } =
+    useElementSize<HTMLDivElement>();
   const [activeIndex, setActiveIndex] = useState(0);
   const [held, setHeld] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -77,15 +86,21 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
   // Random screenshot index; stays 0 until mounted so SSR/hydration match.
   const [pick, setPick] = useState(0);
 
-  const activeGameId = games[activeIndex % Math.max(games.length, 1)]?.id;
+  const visibleCount = Math.max(
+    TRENDING_HERO_MAX_GAMES,
+    Math.floor((thumbsWidth + THUMB_GAP) / (THUMB_TARGET_WIDTH + THUMB_GAP)),
+  );
+  const visibleGames = responsive ? games.slice(0, visibleCount) : games;
+  const total = visibleGames.length;
+  const featuredIndex = activeIndex % Math.max(total, 1);
+  const game = visibleGames[featuredIndex];
+  const activeGameId = game?.id;
   useEffect(() => {
     // client-only on purpose: Math.random() during render would break SSR hydration
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPick(Math.floor(Math.random() * 1000));
   }, [activeGameId]);
 
-  const total = games.length;
-  const game = games[activeIndex % Math.max(total, 1)];
   if (!game) return null;
 
   const inView = entry?.isIntersecting ?? true;
@@ -129,6 +144,7 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
       style={
         {
           "--hero-rotate-ms": `${TRENDING_HERO_ROTATE_MS}ms`,
+          "--hero-thumb-gap": `${THUMB_GAP}px`,
         } as CSSProperties
       }
       // hold the rotation while the user is touching or hovering the spotlight
@@ -150,7 +166,7 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
       <div className={classes.content}>
         <div className={classes.topRow}>
           <span className={`${classes.chip} ${classes.chipRank}`}>
-            {t("home.trendingRank", { rank: activeIndex + 1 })}
+            {t("home.trendingRank", { rank: featuredIndex + 1 })}
           </span>
           {canRotate && (
             <button
@@ -180,7 +196,10 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
             tabIndex={-1}
             aria-hidden={true}
           >
-            <GameCoverImg game={game} size={ImageSize.COVER_BIG} />
+            <GameCoverImg
+              game={game}
+              size={responsive ? ImageSize.COVER_BIG_2X : ImageSize.COVER_BIG}
+            />
           </Link>
           <div className={classes.details}>
             <h3 className={classes.title}>{game.name}</h3>
@@ -202,9 +221,12 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
         </div>
 
         {total > 1 && (
-          <div className={classes.thumbs}>
-            {games.map((item, index) => {
-              const active = index === activeIndex % total;
+          <div
+            ref={responsive ? thumbsRef : undefined}
+            className={`${classes.thumbs} ${responsive ? classes.responsiveThumbs : ""}`}
+          >
+            {visibleGames.map((item, index) => {
+              const active = index === featuredIndex;
               return (
                 <button
                   key={item.id}
@@ -215,13 +237,20 @@ const TrendingGamesHero = ({ games }: TrendingGamesHeroProps) => {
                   onClick={() => setActiveIndex(index)}
                 >
                   <span className={classes.thumbCover}>
-                    <GameCoverImg game={item} size={ImageSize.COVER_SMALL} />
+                    <GameCoverImg
+                      game={item}
+                      size={
+                        responsive
+                          ? ImageSize.COVER_SMALL_2X
+                          : ImageSize.COVER_SMALL
+                      }
+                    />
                   </span>
                   <span className={classes.track}>
                     {active && (
                       <span
                         // new key per featured game restarts the 10s animation
-                        key={`${item.id}-${activeIndex}`}
+                        key={`${item.id}-${featuredIndex}`}
                         className={`${classes.fill} ${
                           canRotate ? "" : classes.fillStatic
                         }`}
