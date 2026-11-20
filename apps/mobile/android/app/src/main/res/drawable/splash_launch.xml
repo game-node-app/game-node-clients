@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Launch background before Android 12 (where the system splash is not available): the logo centred on
-    #1A1A1A, drawn at the same size as the web EntrySplash so the animated one picks up from it.
+    #1A1A1A, drawn at the same size as the native EntrySplashView so the animated one picks up from it.
 -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splash_background" />

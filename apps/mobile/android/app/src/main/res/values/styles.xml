@@ -19,8 +19,8 @@
 
 
     <!--
-        Launch theme. Android 12+ shows the logo on #1A1A1A through the system splash; the React EntrySplash
-        (src/components/general/splash) then continues the same visual with the pulse, fill and zoom.
+        Launch theme. Android 12+ shows the logo on #1A1A1A through the system splash; the native EntrySplashView
+        (app.gamenode.splash) then continues the same visual over the WebView with the pulse, fill and zoom.
     -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
