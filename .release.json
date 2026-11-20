@@ -1,0 +1,28 @@
+{
+  "source": "40bb692542e352eaa935a6bb1ebaabb5b65f39a1",
+  "changesets": [
+    ".changeset/library-game-search.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[403fd90d99b38daece3906593b29d99fac68c329...40bb692542e352eaa935a6bb1ebaabb5b65f39a1]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/40bb692542e352eaa935a6bb1ebaabb5b65f39a1",
+  "versions": {
+    "web": "1.27.0",
+    "mobile": "1.26.0"
+  }
+}
