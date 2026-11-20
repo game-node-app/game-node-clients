@@ -80,13 +80,19 @@
   animation: console-trailer-in 600ms ease 3500ms both;
 }
 
+/*
+ * YouTube paints its own chrome (title/channel bar at the top, branding and
+ * end-screen suggestions at the bottom) and the embed has no parameter to turn
+ * it off. The player is enlarged and centered so those bands fall outside the
+ * clipped `.media` box and only the footage stays visible.
+ */
 .trailer iframe {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 50%;
-  width: min(100cqw, 100cqh * 16 / 9);
+  width: calc(min(100cqw, 100cqh * 16 / 9) * 1.3);
   aspect-ratio: 16 / 9;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   border: 0;
 }
 
