@@ -1,0 +1,29 @@
+{
+  "source": "c2160248b03ac51845a0b6212b6de2dae500be68",
+  "changesets": [
+    ".changeset/carry-over-151-153.md",
+    ".changeset/native-entry-splash.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[26dc7307af966656e285b14414218abddfbfd937...c2160248b03ac51845a0b6212b6de2dae500be68]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/c2160248b03ac51845a0b6212b6de2dae500be68",
+  "versions": {
+    "web": "1.25.0",
+    "mobile": "1.24.0"
+  }
+}
