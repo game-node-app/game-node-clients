@@ -20,6 +20,7 @@ function createDeps(
     disableEdgeToEdge: vi.fn(async () => {}),
     setEdgeToEdgeBackground: vi.fn(async () => {}),
     setStatusBarStyle: vi.fn(async () => {}),
+    saveSplashTheme: vi.fn(async () => {}),
     ...overrides,
   };
 }
@@ -123,6 +124,54 @@ describe("createNativeThemeChrome", () => {
 
     await expect(chrome.apply("xbox")).resolves.toBeUndefined();
     expect(deps.setStatusBarStyle).toHaveBeenCalledWith(Style.Dark);
+  });
+
+  it("saves the rendered theme for the next launch's splash on Android", async () => {
+    const deps = createDeps();
+    const chrome = createNativeThemeChrome(deps);
+
+    await chrome.apply("xbox");
+    await chrome.apply("xbox");
+    expect(deps.saveSplashTheme).toHaveBeenCalledTimes(1);
+    expect(deps.saveSplashTheme).toHaveBeenLastCalledWith("xbox");
+
+    await chrome.apply("gamenode");
+    expect(deps.saveSplashTheme).toHaveBeenLastCalledWith("gamenode");
+
+    const legacy = createDeps({
+      getDeviceInfo: vi.fn(async () => ({
+        platform: "android",
+        osVersion: "12",
+      })),
+    });
+    await createNativeThemeChrome(legacy).apply("xbox");
+    expect(legacy.saveSplashTheme).toHaveBeenCalledWith("xbox");
+  });
+
+  it("does not save a splash theme outside Android", async () => {
+    const ios = createDeps({
+      getDeviceInfo: vi.fn(async () => ({ platform: "ios", osVersion: "18" })),
+    });
+    await createNativeThemeChrome(ios).apply("xbox");
+    expect(ios.saveSplashTheme).not.toHaveBeenCalled();
+
+    const web = createDeps({ isNativePlatform: vi.fn(() => false) });
+    await createNativeThemeChrome(web).apply("xbox");
+    expect(web.saveSplashTheme).not.toHaveBeenCalled();
+  });
+
+  it("retries the splash theme after a failed save", async () => {
+    const saveSplashTheme = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("disk full"))
+      .mockResolvedValue(undefined);
+    const deps = createDeps({ saveSplashTheme });
+    const chrome = createNativeThemeChrome(deps);
+
+    await expect(chrome.apply("xbox")).resolves.toBeUndefined();
+    await chrome.apply("xbox");
+
+    expect(saveSplashTheme).toHaveBeenCalledTimes(2);
   });
 
   it("survives an initialization failure", async () => {

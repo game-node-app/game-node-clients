@@ -28,4 +28,13 @@
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
         <item name="android:background">@drawable/splash_launch</item>
     </style>
+
+    <!--
+        System splash for the Xbox theme. Android 13+ only: MainActivity hands it to
+        SplashScreen#setSplashScreenTheme for the next launches; older versions keep the default above.
+    -->
+    <style name="AppTheme.NoActionBarLaunch.Xbox">
+        <item name="windowSplashScreenBackground">@color/splash_xbox_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo_xbox</item>
+    </style>
 </resources>
