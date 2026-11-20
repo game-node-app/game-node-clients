@@ -1,0 +1,28 @@
+{
+  "source": "c9a1fb4c1427b1360a201e576b4efad52dc84ad5",
+  "changesets": [
+    ".changeset/xbox-header-contrast-trailer-crop.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[31128059e56a14a62e5dac573e1201a11b473d36...c9a1fb4c1427b1360a201e576b4efad52dc84ad5]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/c9a1fb4c1427b1360a201e576b4efad52dc84ad5",
+  "versions": {
+    "web": "1.26.1",
+    "mobile": "1.25.1"
+  }
+}
