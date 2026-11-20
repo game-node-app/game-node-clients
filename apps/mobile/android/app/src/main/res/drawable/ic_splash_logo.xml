@@ -2,7 +2,7 @@
 <!--
     GameNode node logo (node_icon.svg, 1000x1000) for the launch splash. Android 12+ draws an icon without a
     background in a 288dp box, so the viewport is 1440 units wide: 1 unit = 0.2dp exactly like the web EntrySplash
-    (and the React one that continues this visual). The group centres the logo's hole in the box.
+    (and the native EntrySplashView that continues this visual). The group centres the logo's hole in the box.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="288dp"
