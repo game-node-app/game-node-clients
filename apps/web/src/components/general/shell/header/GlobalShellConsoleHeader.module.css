@@ -14,19 +14,47 @@
   border-bottom: 1px solid transparent;
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--gn-scrim) 45%, transparent) 0%,
-    transparent 100%
+    color-mix(in srgb, var(--gn-scrim) 80%, transparent) 0%,
+    color-mix(in srgb, var(--gn-scrim) 55%, transparent) 100%
   );
+  /*
+   * See-through over artwork the muted nav tone (#9A9A9A on Xbox) drops below
+   * readable contrast, so the idle controls brighten until the bar turns opaque.
+   */
+  --gn-nav-muted: color-mix(in srgb, var(--gn-nav-text) 88%, transparent);
+  --gn-border: color-mix(in srgb, var(--gn-nav-text) 30%, transparent);
   transition:
     background 200ms ease,
     border-color 200ms ease,
     backdrop-filter 200ms ease;
 }
 
+.header::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 32px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gn-scrim) 55%, transparent) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
 .header[data-scrolled] {
+  --gn-nav-muted: inherit;
+  --gn-border: inherit;
   border-bottom-color: var(--gn-border);
   background: color-mix(in srgb, var(--gn-body) 92%, transparent);
   backdrop-filter: blur(12px);
+}
+
+.header[data-scrolled]::after {
+  opacity: 0;
 }
 
 .side {
@@ -122,7 +150,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .header {
+  .header,
+  .header::after {
     transition: none;
   }
 }
