@@ -74,6 +74,17 @@ export function useAuthPath() {
   return useHooks().authPath ?? "/auth";
 }
 
+const useNoGameSearch = (): undefined => undefined;
+
+/**
+ * Opens the game search, or `undefined` when the app has no search to open. The registered hook
+ * never changes for the lifetime of an app, so choosing it here keeps hook order stable.
+ */
+export function useOpenGameSearch(): (() => void) | undefined {
+  const { useOpenGameSearch: override } = useHooks();
+  return (override ?? useNoGameSearch)();
+}
+
 /** Whether game reads may resolve the viewer's custom covers. Defaults to true. */
 export function usePersonalizeGameCovers() {
   return useHooks().personalizeGameCovers ?? true;

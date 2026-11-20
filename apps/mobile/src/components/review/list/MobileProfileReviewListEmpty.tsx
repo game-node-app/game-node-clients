@@ -1,7 +1,10 @@
-import { ListEmptyState } from "@/components/general/card";
 import { IonButton } from "@ionic/react";
 import { useTranslation } from "@repo/locales";
-import { ProfileReviewListEmptyProps, useRouter } from "@repo/ui";
+import {
+  ListEmptyState,
+  ProfileReviewListEmptyProps,
+  useRouter,
+} from "@repo/ui";
 import { IconMessageStar } from "@tabler/icons-react";
 
 /** Empty reviews list. The owner gets a call to action that leads to the game search. */

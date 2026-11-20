@@ -16,7 +16,7 @@ vi.mock("@repo/ui", async (importOriginal) => ({
 }));
 
 import { GameRow } from "./GameRow";
-import { ListEmptyState } from "./ListEmptyState";
+import { ListEmptyState } from "@repo/ui";
 
 describe("GameRow", () => {
   afterEach(cleanup);

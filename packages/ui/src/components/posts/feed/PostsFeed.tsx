@@ -3,6 +3,10 @@ import {
   PostsFeedCriteria,
   useInfinitePostsFeed,
 } from "#@/components/posts/hooks/useInfinitePostsFeed.ts";
+import {
+  PostsFeedEmpty,
+  PostsFeedSkeleton,
+} from "#@/components/posts/feed/PostsFeedStates.tsx";
 import { PostsList } from "#@/components/posts/PostsList.tsx";
 import { Stack } from "@mantine/core";
 import { type ReactNode, useMemo, useState } from "react";
@@ -55,6 +59,10 @@ const PostsFeed = ({
         onEnabledChange={setEditorEnabled}
       />
       {postsFeedQuery.data && <PostsList items={items} />}
+      {postsFeedQuery.isPending && <PostsFeedSkeleton />}
+      {postsFeedQuery.data && items.length === 0 && (
+        <PostsFeedEmpty onCreate={() => setEditorEnabled(true)} />
+      )}
       {children({
         fetchNextPage: async () => {
           if (hardLimit != undefined) return;

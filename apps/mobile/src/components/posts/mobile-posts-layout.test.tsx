@@ -3,9 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import { I18nProvider } from "@repo/locales";
-import { MobilePostsFeedEmpty } from "./MobilePostsFeedEmpty";
+import { PostsFeedEmpty, PostsFeedSkeleton } from "@repo/ui";
 import { MobilePostsFeedLayout } from "./MobilePostsFeedLayout";
-import { MobilePostsFeedSkeleton } from "./MobilePostsFeedSkeleton";
 
 afterEach(cleanup);
 
@@ -24,14 +23,6 @@ describe("MobilePostsFeedLayout", () => {
   });
 });
 
-const feed = vi.hoisted(() => ({
-  state: { isPending: true, data: undefined as unknown },
-}));
-vi.mock("@repo/ui", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@repo/ui")>()),
-  useInfinitePostsFeed: () => feed.state,
-}));
-
 describe("posts feed states", () => {
   beforeEach(() => {
     window.matchMedia = vi.fn().mockReturnValue({
@@ -41,34 +32,24 @@ describe("posts feed states", () => {
     });
   });
 
-  it("shows a skeleton while the first page is pending", () => {
-    feed.state = { isPending: true, data: undefined };
+  it("shows a loading placeholder while the first page is pending", () => {
     render(
       <I18nProvider language="en">
         <MantineProvider>
-          <MobilePostsFeedSkeleton criteria="all" />
+          <PostsFeedSkeleton />
         </MantineProvider>
       </I18nProvider>,
     );
     expect(screen.getByRole("status")).toBeTruthy();
-    cleanup();
-    feed.state = { isPending: false, data: { pages: [{ data: [] }] } };
-    const { container } = render(
-      <I18nProvider language="en">
-        <MantineProvider>
-          <MobilePostsFeedSkeleton criteria="all" />
-        </MantineProvider>
-      </I18nProvider>,
-    );
-    expect(container.querySelector("[role=status]")).toBeNull();
   });
 
   it("offers a Create post action in the empty state", () => {
-    feed.state = { isPending: false, data: { pages: [{ data: [] }] } };
     const onCreate = vi.fn();
     render(
       <I18nProvider language="en">
-        <MobilePostsFeedEmpty criteria="all" onCreate={onCreate} />
+        <MantineProvider>
+          <PostsFeedEmpty onCreate={onCreate} />
+        </MantineProvider>
       </I18nProvider>,
     );
     fireEvent.click(screen.getByText("Create post"));
