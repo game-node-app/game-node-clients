@@ -21,9 +21,11 @@ import {
 } from "#@/components/events/util/format";
 import { SeasonEventHeader } from "#@/components/events/view/SeasonEventHeader";
 import { CenteredLoading } from "#@/components/general/CenteredLoading";
+import { useScrollPosition } from "#@/components/general/hooks/useScrollPosition";
 import { useGames } from "#@/components/game/hooks/useGames";
-import { Button, SimpleGrid, Stack, Text } from "@mantine/core";
+import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import type { Game, VotableAwardsCategoryDto } from "@repo/wrapper/server";
 import { useState, type ReactNode } from "react";
 
@@ -69,6 +71,7 @@ const AwardsNominationsScreen = ({
   const locale = useFormatLocale();
   const userId = useUserId();
   const redirectToAuth = useRedirectToAuth();
+  const [, scrollTo] = useScrollPosition();
 
   const eventQuery = useAwardEvent({ eventYear });
   const event = eventQuery.data;
@@ -102,6 +105,17 @@ const AwardsNominationsScreen = ({
   const activeIndex = activeCategory
     ? categories.findIndex((category) => category.id === activeCategory.id)
     : -1;
+
+  const previousCategory =
+    activeIndex > 0 ? categories[activeIndex - 1] : undefined;
+  const nextCategory =
+    activeIndex >= 0 ? categories[activeIndex + 1] : undefined;
+
+  const goToCategory = (categoryId: number) => {
+    setSelectedCategoryId(categoryId);
+    // The next category opens at its top, not where the previous one ended.
+    scrollTo({ y: 0 });
+  };
 
   const nominations = nominationsQuery.data;
 
@@ -339,6 +353,38 @@ const AwardsNominationsScreen = ({
     );
   }
 
+  const categoryNavigation =
+    previousCategory || nextCategory ? (
+      <Group
+        data-awards-nominations-navigation
+        justify={"space-between"}
+        wrap={"nowrap"}
+        gap={"sm"}
+      >
+        {previousCategory ? (
+          <Button
+            data-awards-nominations-previous
+            variant={"default"}
+            leftSection={<IconChevronLeft size={16} />}
+            onClick={() => goToCategory(previousCategory.id)}
+          >
+            {t("awards.nominations.previousCategory")}
+          </Button>
+        ) : (
+          <span />
+        )}
+        {nextCategory && (
+          <Button
+            data-awards-nominations-next
+            rightSection={<IconChevronRight size={16} />}
+            onClick={() => goToCategory(nextCategory.id)}
+          >
+            {t("awards.nominations.nextCategory")}
+          </Button>
+        )}
+      </Group>
+    ) : null;
+
   const activeNomineeCardProps: AwardsNomineeCardProps[] =
     isNominationsPhase && userId && activeCategory
       ? activePickedIds.map((gameId) => pickCardProps(gameId, true))
@@ -386,6 +432,7 @@ const AwardsNominationsScreen = ({
             }
             nominees={activeNomineeCardProps}
             showPlayedFilter={false}
+            footer={categoryNavigation}
           >
             {nominationsPending ? <CenteredLoading /> : panelContent}
           </AwardsCategoryPanel>

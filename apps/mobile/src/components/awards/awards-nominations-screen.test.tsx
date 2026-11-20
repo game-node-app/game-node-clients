@@ -554,6 +554,51 @@ describe("AwardsNominationsScreen", () => {
     expect(getNominations).not.toHaveBeenCalled();
   });
 
+  it("moves between categories with the previous and next buttons", async () => {
+    session.userId = "user-1";
+    window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
+    loadEvent({
+      phase: "nominations",
+      categories: [
+        ...BASE_CATEGORIES,
+        buildCategory({ id: 42, name: "Arte", order: 3 }),
+      ],
+    });
+
+    const { container } = renderScreen();
+
+    const panelName = () =>
+      container.querySelector("[data-awards-category-panel]")?.textContent ??
+      "";
+    const next = () =>
+      container.querySelector<HTMLButtonElement>(
+        "[data-awards-nominations-next]",
+      );
+    const previous = () =>
+      container.querySelector<HTMLButtonElement>(
+        "[data-awards-nominations-previous]",
+      );
+
+    await waitFor(() => expect(next()).toBeTruthy());
+
+    // First category: nothing to go back to.
+    expect(previous()).toBeNull();
+    expect(panelName()).toContain("Jogo do Ano");
+
+    fireEvent.click(next()!);
+    await waitFor(() => expect(panelName()).toContain("Narrativa"));
+    expect(previous()).toBeTruthy();
+
+    fireEvent.click(next()!);
+    await waitFor(() => expect(panelName()).toContain("Arte"));
+
+    // Last category: nothing to advance to.
+    expect(next()).toBeNull();
+
+    fireEvent.click(previous()!);
+    await waitFor(() => expect(panelName()).toContain("Narrativa"));
+  });
+
   it("shows the localized category name and description", async () => {
     session.userId = "user-1";
     loadEvent({

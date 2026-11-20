@@ -825,10 +825,12 @@ export type TranslationSchema = {
       finalNominees: string;
       limitReached: string;
       loadError: string;
+      nextCategory: string;
       noCategories: string;
       noFinalNominees: string;
       noPicks: string;
       pickCount: string;
+      previousCategory: string;
       searchTitle: string;
       signInToNominate: string;
       signInToSee: string;
