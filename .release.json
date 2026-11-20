@@ -1,0 +1,28 @@
+{
+  "source": "2579684b07a0dc1cfd7eddf762933e086d110834",
+  "changesets": [
+    ".changeset/mobile-nominations-next-button.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[034531ec75587167c8104f7f69f8bd542284e3e9...2579684b07a0dc1cfd7eddf762933e086d110834]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/2579684b07a0dc1cfd7eddf762933e086d110834",
+  "versions": {
+    "web": "1.25.1",
+    "mobile": "1.24.1"
+  }
+}
