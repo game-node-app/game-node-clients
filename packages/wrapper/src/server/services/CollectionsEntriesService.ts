@@ -175,6 +175,7 @@ export class CollectionsEntriesService {
     }
     /**
      * @param id
+     * @param search
      * @param orderBy
      * @param status
      * @param gameFilters
@@ -186,6 +187,7 @@ export class CollectionsEntriesService {
      */
     public static collectionsEntriesControllerFindAllByLibraryIdV1(
         id: string,
+        search?: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
@@ -200,6 +202,7 @@ export class CollectionsEntriesService {
                 'id': id,
             },
             query: {
+                'search': search,
                 'orderBy': orderBy,
                 'status': status,
                 'gameFilters': gameFilters,
@@ -207,10 +210,14 @@ export class CollectionsEntriesService {
                 'offset': offset,
                 'limit': limit,
             },
+            errors: {
+                400: `Invalid query`,
+            },
         });
     }
     /**
      * @param userId
+     * @param search
      * @param orderBy
      * @param status
      * @param gameFilters
@@ -222,6 +229,7 @@ export class CollectionsEntriesService {
      */
     public static collectionsEntriesControllerFindFavoritesByLibraryIdV1(
         userId: string,
+        search?: string,
         orderBy?: FindCollectionEntriesOrderBy,
         status?: 'playing' | 'finished' | 'planned' | 'dropped' | 'ongoing',
         gameFilters?: FindCollectionEntriesGameFilterDto,
@@ -236,12 +244,16 @@ export class CollectionsEntriesService {
                 'userId': userId,
             },
             query: {
+                'search': search,
                 'orderBy': orderBy,
                 'status': status,
                 'gameFilters': gameFilters,
                 'hasCustomCover': hasCustomCover,
                 'offset': offset,
                 'limit': limit,
+            },
+            errors: {
+                400: `Invalid query`,
             },
         });
     }
@@ -263,6 +275,9 @@ export class CollectionsEntriesService {
             },
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                400: `Invalid body`,
+            },
         });
     }
 }

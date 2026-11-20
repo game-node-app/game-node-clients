@@ -131,8 +131,8 @@ it("toggling the custom cover chip in a library sends the filter and returns to 
   render(<LibraryView libraryUserId="owner-1" />, { wrapper: Providers });
 
   await waitFor(() => expect(findSpy).toHaveBeenCalledTimes(1));
-  expect(findSpy.mock.calls[0][4]).toBeUndefined();
-  expect(findSpy.mock.calls[0][5]).toBe(24);
+  expect(findSpy.mock.calls[0][5]).toBeUndefined();
+  expect(findSpy.mock.calls[0][6]).toBe(24);
 
   fireEvent.click(
     screen.getByRole("checkbox", { name: "library.labels.customCovers" }),
@@ -140,8 +140,8 @@ it("toggling the custom cover chip in a library sends the filter and returns to 
 
   await waitFor(() => expect(findSpy).toHaveBeenCalledTimes(2));
   const filteredCall = findSpy.mock.calls[1];
-  expect(filteredCall[4]).toBe(true);
-  expect(filteredCall[5]).toBe(0);
+  expect(filteredCall[5]).toBe(true);
+  expect(filteredCall[6]).toBe(0);
 
   expect(router.push).toHaveBeenCalled();
   const pushedUrl = (

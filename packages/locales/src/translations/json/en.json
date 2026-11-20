@@ -2132,6 +2132,15 @@
     "placeholders": {
       "selectCollection": "Select a collection"
     },
+    "search": {
+      "clear": "Clear search",
+      "label": "Search games",
+      "noResultsHintCollection": "Search looks at titles and alternative names in this collection.",
+      "noResultsHintLibrary": "Search looks at titles and alternative names in this tab.",
+      "noResultsTitle": "No games match “{{query}}”",
+      "placeholderCollection": "Search this collection",
+      "placeholderLibrary": "Search this library"
+    },
     "sorts": {
       "addedDate": "Added Date",
       "releaseDate": "Release Date",

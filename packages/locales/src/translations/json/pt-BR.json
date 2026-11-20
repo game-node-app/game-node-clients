@@ -2132,6 +2132,15 @@
     "placeholders": {
       "selectCollection": "Selecione uma coleção"
     },
+    "search": {
+      "clear": "Limpar busca",
+      "label": "Buscar jogos",
+      "noResultsHintCollection": "A busca considera títulos e nomes alternativos nesta coleção.",
+      "noResultsHintLibrary": "A busca considera títulos e nomes alternativos nesta aba.",
+      "noResultsTitle": "Nenhum jogo corresponde a “{{query}}”",
+      "placeholderCollection": "Buscar nesta coleção",
+      "placeholderLibrary": "Buscar nesta biblioteca"
+    },
     "sorts": {
       "addedDate": "Data de Adição",
       "releaseDate": "Data de Lançamento",

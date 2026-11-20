@@ -10,8 +10,8 @@ export type ProfileMetricsSummaryResponseDto = {
     current: ProfileMetricsSummaryWindowDto;
     /**
      * The window of the same length that ends where the current one starts.
-     * A Steam library first observed shortly after this end can still
-     * contribute its recent-time overlap.
+     * A game first observed after this end can still contribute the part of
+     * its first-observation estimate that falls inside it.
      */
     previous: ProfileMetricsSummaryWindowDto;
     /**

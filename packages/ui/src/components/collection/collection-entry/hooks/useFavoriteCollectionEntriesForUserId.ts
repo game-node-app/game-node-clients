@@ -38,6 +38,7 @@ export function useFavoriteCollectionEntriesForUserId(
       queryFn: () => {
         return CollectionsEntriesService.collectionsEntriesControllerFindFavoritesByLibraryIdV1(
           userId!,
+          undefined,
           orderBy,
           undefined,
           undefined,

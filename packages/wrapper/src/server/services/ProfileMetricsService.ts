@@ -72,7 +72,7 @@ export class ProfileMetricsService {
      * Playtime summary for the recap share card over a rolling week, month or
      * year, with the previous window of the same length for comparison.
      * Playtime is estimated from observed totals; `estimatedPlaytimeSeconds`
-     * reports the part inferred from first Steam observations.
+     * reports the part inferred from games' first observations.
      * @param userId
      * @param period
      * @returns ProfileMetricsSummaryResponseDto

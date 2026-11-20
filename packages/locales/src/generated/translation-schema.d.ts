@@ -2136,6 +2136,15 @@ export type TranslationSchema = {
     placeholders: {
       selectCollection: string;
     };
+    search: {
+      clear: string;
+      label: string;
+      noResultsHintCollection: string;
+      noResultsHintLibrary: string;
+      noResultsTitle: string;
+      placeholderCollection: string;
+      placeholderLibrary: string;
+    };
     sorts: {
       addedDate: string;
       releaseDate: string;

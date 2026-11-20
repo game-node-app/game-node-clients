@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   CollectionEntry,
   CollectionsEntriesService,
@@ -15,6 +15,7 @@ export interface UseCollectionEntriesForUserIdProps {
   status?: CollectionEntry.status;
   gameFilters?: FindCollectionEntriesGameFilterDto;
   hasCustomCover?: boolean;
+  search?: string;
 }
 
 export function useCollectionEntriesForUserId({
@@ -25,8 +26,10 @@ export function useCollectionEntriesForUserId({
   status,
   gameFilters,
   hasCustomCover,
+  search,
 }: UseCollectionEntriesForUserIdProps) {
   const viewerId = useUserId();
+  const hasSearch = !!search?.trim();
 
   return useQuery({
     queryKey: [
@@ -39,12 +42,14 @@ export function useCollectionEntriesForUserId({
       gameFilters,
       status,
       ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
+      hasSearch ? search : null,
       // Hidden entries are filtered per viewer, so the viewer id belongs to the key.
       viewerId ?? null,
     ],
     queryFn: async () => {
       return CollectionsEntriesService.collectionsEntriesControllerFindAllByLibraryIdV1(
         userId!,
+        hasSearch ? search : undefined,
         orderBy,
         status,
         gameFilters,
@@ -54,5 +59,6 @@ export function useCollectionEntriesForUserId({
       );
     },
     enabled: !!userId,
+    placeholderData: keepPreviousData,
   });
 }

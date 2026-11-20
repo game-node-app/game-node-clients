@@ -5,6 +5,8 @@ import {
   GameView,
   GameViewLayoutOption,
   LibraryHiddenState,
+  LibrarySearchEmptyState,
+  LibrarySearchInput,
   LibraryViewActions,
   LibraryViewTabs,
   useCollectionEntriesForUserId,
@@ -15,8 +17,9 @@ import {
   toLibraryVisibilityLevel,
 } from "#@/components";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
-import { Group, Stack } from "@mantine/core";
+import { Flex, Group, Stack } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import { CollectionEntry } from "@repo/wrapper/server";
 import { useMemo } from "react";
 
@@ -33,7 +36,10 @@ const LibraryView = ({ libraryUserId }: Props) => {
     return <LibraryHiddenState profile={profile} />;
   }
 
-  return <LibraryViewContent libraryUserId={libraryUserId} />;
+  // Keyed so a search typed in one library never carries over to another owner's.
+  return (
+    <LibraryViewContent key={libraryUserId} libraryUserId={libraryUserId} />
+  );
 };
 
 /**
@@ -41,6 +47,7 @@ const LibraryView = ({ libraryUserId }: Props) => {
  * fire the (empty) listing reads before the hidden state replaces them.
  */
 const LibraryViewContent = ({ libraryUserId }: Props) => {
+  const { t } = useTranslation();
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
     defaultValue: "grid",
@@ -56,9 +63,19 @@ const LibraryViewContent = ({ libraryUserId }: Props) => {
     },
     includeExtraContent: false,
     hasCustomCover: false,
+    search: "",
   });
 
   const { status, offset, includeExtraContent, hasCustomCover } = params;
+  const search = params.search ?? "";
+  const hasSearch = search.trim() !== "";
+
+  const setSearch = (value: string) =>
+    setParams((prev) => ({
+      ...prev,
+      search: value.trim() ? value : undefined,
+      offset: 0,
+    }));
 
   const ownUserId = useUserId();
   const isOwner = libraryUserId === ownUserId;
@@ -85,7 +102,7 @@ const LibraryViewContent = ({ libraryUserId }: Props) => {
         cover: true,
       },
     },
-    false,
+    true,
     { ownerUserId: libraryUserId },
   );
 
@@ -117,6 +134,12 @@ const LibraryViewContent = ({ libraryUserId }: Props) => {
   const isEmpty =
     !isLoading && gamesQuery.data != undefined && gamesQuery.data.length === 0;
 
+  const hasNoSearchResults =
+    hasSearch &&
+    collectionEntriesQuery.isSuccess &&
+    !collectionEntriesQuery.isPlaceholderData &&
+    collectionEntriesQuery.data.pagination.totalItems === 0;
+
   const shouldShowPagination =
     (collectionEntriesQuery.data?.pagination.totalPages ?? 0) > 1;
 
@@ -133,46 +156,70 @@ const LibraryViewContent = ({ libraryUserId }: Props) => {
           }}
         />
 
-        <Group
-          className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
-        >
-          <LibraryViewActions
-            libraryUserId={libraryUserId}
-            collectionId={undefined}
-            includeExtraContent={includeExtraContent}
-            hasCustomCover={hasCustomCover}
-            onExtraContentChange={(value) => {
-              setParams((prev) => ({
-                ...prev,
-                includeExtraContent: value,
-              }));
-            }}
-            onHasCustomCoverChange={(value) => {
-              setParams((prev) => ({
-                ...prev,
-                hasCustomCover: value,
-                offset: 0,
-              }));
-            }}
-            sortValue={{
-              value: Object.keys(params.orderBy)[0],
-              ordering: Object.values(params.orderBy)[0] as never,
-            }}
-            onSort={(updatedValue) => {
-              const orderBy = {
-                [updatedValue.value]: updatedValue.ordering,
-              };
-              setParams((prev) => ({
-                ...prev,
-                orderBy: orderBy as never,
-              }));
-            }}
-            onLayoutChange={setLayout}
+        <Flex className={"w-full flex-col gap-xs md:flex-row md:items-center"}>
+          <LibrarySearchInput
+            className={"md:w-[280px] md:shrink-0"}
+            value={search}
+            onSearchChange={setSearch}
+            placeholder={t("library.search.placeholderLibrary")}
+            isLoading={
+              collectionEntriesQuery.isPlaceholderData ||
+              (collectionEntriesQuery.isFetching && hasSearch)
+            }
           />
-        </Group>
+          <Group
+            className={
+              "w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0 md:w-auto md:flex-1 md:min-w-0"
+            }
+          >
+            <LibraryViewActions
+              libraryUserId={libraryUserId}
+              collectionId={undefined}
+              includeExtraContent={includeExtraContent}
+              hasCustomCover={hasCustomCover}
+              onExtraContentChange={(value) => {
+                setParams((prev) => ({
+                  ...prev,
+                  includeExtraContent: value,
+                }));
+              }}
+              onHasCustomCoverChange={(value) => {
+                setParams((prev) => ({
+                  ...prev,
+                  hasCustomCover: value,
+                  offset: 0,
+                }));
+              }}
+              sortValue={{
+                value: Object.keys(params.orderBy)[0],
+                ordering: Object.values(params.orderBy)[0] as never,
+              }}
+              onSort={(updatedValue) => {
+                const orderBy = {
+                  [updatedValue.value]: updatedValue.ordering,
+                };
+                setParams((prev) => ({
+                  ...prev,
+                  orderBy: orderBy as never,
+                }));
+              }}
+              onLayoutChange={setLayout}
+            />
+          </Group>
+        </Flex>
 
-        {isEmpty && (
+        {collectionEntriesQuery.isError && (
+          <CenteredErrorMessage error={collectionEntriesQuery.error} />
+        )}
+        {isEmpty && !hasSearch && (
           <CenteredErrorMessage message={"No games in this category."} />
+        )}
+        {hasNoSearchResults && (
+          <LibrarySearchEmptyState
+            query={search.trim()}
+            scope={"library"}
+            onClear={() => setSearch("")}
+          />
         )}
         <GameView.Content items={games}>
           <GameView.LoadingSkeletons isVisible={isLoading} />
