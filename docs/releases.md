@@ -44,7 +44,8 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
 - Mobile: build signed APK/AAB artifacts using the app's semantic version and an
   increasing Android build code, publish the web bundle to R2 for compatible
   installs, and publish the AAB to the Google Play production track (status
-  `completed`). The APK/AAB also remain downloadable from the workflow run.
+  `completed`). The APK/AAB also remain downloadable from the workflow run and
+  are attached to the app's GitHub release.
 
 Actions are pinned to exact commit SHAs. Dependency installs skip package
 lifecycle scripts; builds and native synchronization run explicitly. Checks,
@@ -129,12 +130,9 @@ API directly). It uploads the signed AAB, sets the production track to a single
 leaves the edit uncommitted. A retried release reuses an AAB already uploaded
 with the same code, since Play rejects re-uploads.
 
-Release notes come from the version's section of `apps/mobile/CHANGELOG.md`
-(the changeset summaries, without commit hashes or intro lines that end in `:`),
-truncated to Play's 500-character limit, as `en-US`. Changesets are English, so
-`pt-BR` always gets the generic "Correções de bugs e melhorias."; a release with
-no entries uses that generic text in both languages. Write mobile changeset
-summaries as user-facing notes: they show up in the store.
+Play release notes are always the generic "Bug fixes and improvements." (`en-US`)
+and "Correções de bugs e melhorias." (`pt-BR`); the detailed changelog lives in
+the GitHub release.
 
 Configure the repository secret `PLAY_SERVICE_ACCOUNT_JSON`: the JSON key of a
 Google Cloud service account (project with the Google Play Android Developer API
@@ -150,6 +148,20 @@ that encrypted the values with this repository's GitHub public key. Their plaint
 was never returned to the local session. The transfer artifact and source branch
 were deleted. A separate Actions access check verified Docker Hub login and
 authenticated reads of both configured Coolify applications.
+
+## GitHub releases
+
+After each successful delivery (Coolify deploy for web/admin, Play publish for
+mobile), `scripts/github-release.cjs <app> [assets…]` creates or updates the
+GitHub release for the reserved `app@version` tag, titled `Web 1.25.0`,
+`Mobile 1.24.0` and so on. The body is the version's `CHANGELOG.md` section
+(the changeset summaries) followed by GitHub's generated notes ("What's Changed",
+new contributors, full-changelog link), compared against the same app's previous
+tag. Mobile attaches `GameNode-<version>.apk` and `GameNode-<version>.aab` and
+holds the repository's "Latest" badge; web and admin releases never take it.
+Retries edit the existing release and replace its assets. The delivery jobs need
+`contents: write` for this, granted per job in `ci.yml` and the reusable
+workflows.
 
 ## Mobile live updates
 

@@ -16,6 +16,8 @@ permissions:
 jobs:
   deliver:
     name: Build signed APK and AAB, publish to Google Play
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 45
     environment: production
@@ -127,11 +129,19 @@ jobs:
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
-          version=$(node -p 'require("./apps/mobile/package.json").version')
           code=$(sed -n 's/^VERSION_CODE=//p' apps/mobile/android/version.properties)
           node scripts/publish-play.cjs \
-            apps/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab \
-            apps/mobile/CHANGELOG.md "$version" "$code"
+            apps/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab "$code"
+      - name: Publish GitHub release with APK and AAB
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p 'require("./apps/mobile/package.json").version')
+          outputs=apps/mobile/android/app/build/outputs
+          cp "$outputs/apk/release/app-release-signed.apk" "$RUNNER_TEMP/GameNode-$version.apk"
+          cp "$outputs/bundle/release/app-release-signed.aab" "$RUNNER_TEMP/GameNode-$version.aab"
+          node scripts/github-release.cjs mobile \
+            "$RUNNER_TEMP/GameNode-$version.apk" "$RUNNER_TEMP/GameNode-$version.aab"
       - name: Remove signing key
         if: always()
         run: rm -f apps/mobile/android/release.decrypted.jks

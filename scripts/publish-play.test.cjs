@@ -1,50 +1,7 @@
 const assert = require("node:assert/strict");
 const { generateKeyPairSync } = require("node:crypto");
 const { test } = require("node:test");
-const {
-  releaseNotes,
-  publishBundle,
-  GENERIC_NOTES,
-} = require("./publish-play.cjs");
-
-const changelog = `# mobile
-
-## 1.24.0
-
-### Minor Changes
-
-- c216024: Ship the changes merged in #151:
-
-  - Redesign the trending section.
-  - Add the Aura Story template.
-
-### Patch Changes
-
-- c216024: Faster app opening.
-
-## 1.23.0
-
-### Minor Changes
-
-- 6eed7a3: Older entry.
-`;
-
-test("release notes use the version's changeset entries in English", () => {
-  const notes = releaseNotes(changelog, "1.24.0");
-  assert.equal(
-    notes["en-US"],
-    "• Redesign the trending section.\n• Add the Aura Story template.\n• Faster app opening.",
-  );
-  assert.equal(notes["pt-BR"], GENERIC_NOTES["pt-BR"]);
-});
-
-test("release notes fall back to generic text and respect Play's limit", () => {
-  assert.deepEqual(releaseNotes(changelog, "9.9.9"), GENERIC_NOTES);
-  const long = `## 2.0.0\n\n- abcdef1: ${"x".repeat(800)}\n`;
-  const text = releaseNotes(long, "2.0.0")["en-US"];
-  assert.equal(Array.from(text).length, 500);
-  assert.ok(text.endsWith("…"));
-});
+const { publishBundle, RELEASE_NOTES } = require("./publish-play.cjs");
 
 function mockPlay({ existing = [], uploadedCode = 107 } = {}) {
   const calls = [];
@@ -75,10 +32,9 @@ const config = {
   },
   bundle: Buffer.from("aab"),
   versionCode: "107",
-  notes: { "en-US": "New", "pt-BR": "Novo" },
 };
 
-test("publishes a completed production release and commits the edit", async () => {
+test("publishes a completed production release with generic notes", async () => {
   const { calls, request } = mockPlay();
   await publishBundle(config, request);
   assert.ok(calls.some((c) => c.url.includes("/upload/")));
@@ -88,8 +44,8 @@ test("publishes a completed production release and commits the edit", async () =
       versionCodes: ["107"],
       status: "completed",
       releaseNotes: [
-        { language: "en-US", text: "New" },
-        { language: "pt-BR", text: "Novo" },
+        { language: "en-US", text: RELEASE_NOTES["en-US"] },
+        { language: "pt-BR", text: RELEASE_NOTES["pt-BR"] },
       ],
     },
   ]);

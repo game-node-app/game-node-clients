@@ -133,6 +133,8 @@ jobs:
 
   docker:
     name: Docker delivery
+    permissions:
+      contents: write
     needs: [checks, prepare]
     if: needs.checks.outputs.docker != '[]'
     uses: ./.github/workflows/release-docker.yml
@@ -143,6 +145,8 @@ jobs:
 
   mobile:
     name: Android delivery
+    permissions:
+      contents: write
     needs: [checks, prepare]
     if: needs.checks.outputs.mobile == 'true'
     uses: ./.github/workflows/release-mobile.yml

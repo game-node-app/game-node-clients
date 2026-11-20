@@ -3,43 +3,11 @@ const { readFileSync } = require("node:fs");
 
 const PACKAGE_NAME = "app.gamenode";
 const API = "https://androidpublisher.googleapis.com";
-const NOTES_LIMIT = 500;
-const GENERIC_NOTES = {
+// Play shows these for every release; the full changelog lives in GitHub Releases.
+const RELEASE_NOTES = {
   "en-US": "Bug fixes and improvements.",
   "pt-BR": "Correções de bugs e melhorias.",
 };
-
-/** Release notes for `version` from the Changesets-generated CHANGELOG. */
-function releaseNotes(changelog, version) {
-  const lines = changelog.split("\n");
-  const start = lines.findIndex((line) => line.trim() === `## ${version}`);
-  const entries = [];
-  if (start !== -1) {
-    for (const line of lines.slice(start + 1)) {
-      if (/^## /.test(line)) break;
-      // Skip headings, blanks and intro lines that only lead into a sub-list.
-      if (/^#/.test(line) || !line.trim() || /:\s*$/.test(line)) continue;
-      const text = line
-        .replace(/^\s*[-*]\s+/, "")
-        .replace(/^[a-f0-9]{7,40}:\s*/, "")
-        .trim();
-      if (text) entries.push(text);
-    }
-  }
-  if (!entries.length) return { ...GENERIC_NOTES };
-  const text = truncate(entries.map((entry) => `• ${entry}`).join("\n"));
-  // Changesets are written in English; Portuguese gets the generic text.
-  return { "en-US": text, "pt-BR": GENERIC_NOTES["pt-BR"] };
-}
-
-function truncate(text) {
-  const chars = Array.from(text);
-  if (chars.length <= NOTES_LIMIT) return text;
-  return `${chars
-    .slice(0, NOTES_LIMIT - 1)
-    .join("")
-    .trimEnd()}…`;
-}
 
 async function accessToken(credentials, request = fetch) {
   const { client_email, private_key, token_uri } = credentials;
@@ -79,7 +47,13 @@ async function accessToken(credentials, request = fetch) {
  * Play keeps the edit uncommitted if any step fails.
  */
 async function publishBundle(
-  { credentials, bundle, versionCode, notes, track = "production" },
+  {
+    credentials,
+    bundle,
+    versionCode,
+    notes = RELEASE_NOTES,
+    track = "production",
+  },
   request = fetch,
 ) {
   if (!/^\d+$/.test(String(versionCode)))
@@ -144,25 +118,20 @@ async function publishBundle(
 }
 
 if (require.main === module) {
-  const [bundlePath, changelogPath, version, versionCode] =
-    process.argv.slice(2);
-  if (!bundlePath || !changelogPath || !version || !versionCode)
-    throw new Error(
-      "Usage: publish-play.cjs <bundle.aab> <CHANGELOG.md> <version> <versionCode>",
-    );
-  const notes = releaseNotes(readFileSync(changelogPath, "utf8"), version);
+  const [bundlePath, versionCode] = process.argv.slice(2);
+  if (!bundlePath || !versionCode)
+    throw new Error("Usage: publish-play.cjs <bundle.aab> <versionCode>");
   publishBundle({
     credentials: JSON.parse(process.env.PLAY_SERVICE_ACCOUNT_JSON || "{}"),
     bundle: readFileSync(bundlePath),
     versionCode,
-    notes,
     track: process.env.PLAY_TRACK || "production",
   })
-    .then(() => console.log(`Published ${version} (${versionCode}) to Play.`))
+    .then(() => console.log(`Published version code ${versionCode} to Play.`))
     .catch((error) => {
       console.error(error.message);
       process.exitCode = 1;
     });
 }
 
-module.exports = { releaseNotes, publishBundle, GENERIC_NOTES };
+module.exports = { publishBundle, RELEASE_NOTES };
