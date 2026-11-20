@@ -3,4 +3,4 @@
 "mobile": patch
 ---
 
-Add Previous and Next category buttons to the Awards nominations screen, so mobile users can move between categories without opening the category list.
+Add Previous and Next category buttons and a "1/3 nominations picked" counter to the Awards nominations screen. Categories can be skipped or left with fewer than three picks.

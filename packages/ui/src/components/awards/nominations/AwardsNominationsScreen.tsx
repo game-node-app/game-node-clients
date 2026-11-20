@@ -264,14 +264,38 @@ const AwardsNominationsScreen = ({
             </Text>
           ) : nominationsLoaded && activeCategory ? (
             <>
-              {limitReached && (
+              <Group justify={"space-between"} wrap={"nowrap"} gap={"sm"}>
+                <Text fw={600}>{t("awards.nominations.searchTitle")}</Text>
+                <Text
+                  data-awards-nominations-counter
+                  size={"sm"}
+                  fw={700}
+                  c={limitReached ? "brand" : "dimmed"}
+                  className={"shrink-0"}
+                >
+                  {t("awards.nominations.pickCounter", {
+                    count: activePickedIds.length,
+                    limit: AWARDS_NOMINATIONS_LIMIT,
+                  })}
+                </Text>
+              </Group>
+              {limitReached ? (
                 <Text data-awards-nominations-limit size={"sm"} c={"dimmed"}>
                   {t("awards.nominations.limitReached", {
                     count: AWARDS_NOMINATIONS_LIMIT,
                   })}
                 </Text>
+              ) : (
+                <Text
+                  data-awards-nominations-skip-hint
+                  size={"sm"}
+                  c={"dimmed"}
+                >
+                  {t("awards.nominations.skipHint", {
+                    limit: AWARDS_NOMINATIONS_LIMIT,
+                  })}
+                </Text>
               )}
-              <Text fw={600}>{t("awards.nominations.searchTitle")}</Text>
               <AwardsEligibleGameSearch
                 key={activeCategory.id}
                 year={event.year}
@@ -353,6 +377,10 @@ const AwardsNominationsScreen = ({
     );
   }
 
+  // Nominating with no picks: Next is a skip, which is always allowed.
+  const skipping =
+    isNominationsPhase && !!userId && activePickedIds.length === 0;
+
   const categoryNavigation =
     previousCategory || nextCategory ? (
       <Group
@@ -379,7 +407,9 @@ const AwardsNominationsScreen = ({
             rightSection={<IconChevronRight size={16} />}
             onClick={() => goToCategory(nextCategory.id)}
           >
-            {t("awards.nominations.nextCategory")}
+            {skipping
+              ? t("awards.nominations.skipCategory")
+              : t("awards.nominations.nextCategory")}
           </Button>
         )}
       </Group>

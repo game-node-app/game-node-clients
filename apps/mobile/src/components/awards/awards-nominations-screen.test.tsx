@@ -361,6 +361,8 @@ describe("AwardsNominationsScreen", () => {
 
     expect(screen.getAllByText("Jogo do Ano").length).toBeGreaterThan(0);
     expect(screen.getByText("1 de 2")).toBeTruthy();
+    expect(screen.getByText("2/3 indicações feitas")).toBeTruthy();
+    expect(screen.getByText("Próxima categoria")).toBeTruthy();
     expect(screen.queryByText("Seu GOTY pessoal")).toBeNull();
     expect(screen.getAllByText("Sua indicação")).toHaveLength(2);
 
@@ -374,6 +376,7 @@ describe("AwardsNominationsScreen", () => {
 
     await waitFor(() => expect(screen.getByText("Pragmata")).toBeTruthy());
     expect(screen.getAllByText("Sua indicação")).toHaveLength(3);
+    expect(screen.getByText("3/3 indicações feitas")).toBeTruthy();
     expect(
       screen.getByText("Você atingiu o limite de 3 jogos nesta categoria."),
     ).toBeTruthy();
@@ -580,6 +583,15 @@ describe("AwardsNominationsScreen", () => {
       );
 
     await waitFor(() => expect(next()).toBeTruthy());
+
+    // No picks yet: the counter shows it and Next is an explicit skip.
+    expect(
+      container.querySelector("[data-awards-nominations-counter]")?.textContent,
+    ).toBe("0/3 indicações feitas");
+    expect(
+      container.querySelector("[data-awards-nominations-skip-hint]"),
+    ).toBeTruthy();
+    expect(next()?.textContent).toContain("Pular categoria");
 
     // First category: nothing to go back to.
     expect(previous()).toBeNull();
