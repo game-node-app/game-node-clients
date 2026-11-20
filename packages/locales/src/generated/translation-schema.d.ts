@@ -994,6 +994,7 @@ export type TranslationSchema = {
       moveGames: string;
       reorderGames: string;
       updateDetails: string;
+      create: string;
     };
     create: string;
     descriptions: {
@@ -1053,6 +1054,10 @@ export type TranslationSchema = {
     update: string;
     validation: {
       featuredMustBePublic: string;
+    };
+    empty: {
+      title: string;
+      description: string;
     };
   };
   collectionEntry: {

@@ -1,19 +1,9 @@
-import { CollectionCreateOrUpdateModal, useUserId } from "#@/components";
+import { CollectionCreateButton, useUserId } from "#@/components";
 import { LibraryViewSidebarCollection } from "#@/components/library/view/sidebar/LibraryViewSidebarCollection.tsx";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { Link } from "#@/util";
-import {
-  Accordion,
-  ActionIcon,
-  Button,
-  Group,
-  Paper,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Accordion, Button, Paper, Stack, Title } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { IconPlus } from "@tabler/icons-react";
 
 interface ILibraryViewSidebarProps {
   userId: string | undefined;
@@ -26,36 +16,17 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
   const username = userProfileQuery.data?.username;
   const isOwnLibrary = ownUserId != undefined && ownUserId === userId;
 
-  const [collectionCreateModalOpened, collectionCreateModalUtils] =
-    useDisclosure();
-
   if (!userId) return null;
 
   return (
     <nav>
-      <CollectionCreateOrUpdateModal
-        collectionId={undefined}
-        opened={collectionCreateModalOpened}
-        onClose={collectionCreateModalUtils.close}
-      />
       <Paper className={"bg-[#42424233] p-5"}>
         <Stack className={"w-full"}>
-          <Group className={"justify-between flex-nowrap"}>
-            <Link href={`/library/${userId}`}>
-              <Title size={"h5"}>
-                {t("profile.titles.library", { username })}
-              </Title>
-            </Link>
-            {isOwnLibrary && (
-              <ActionIcon
-                variant={"default"}
-                className={"rounded-sm"}
-                onClick={collectionCreateModalUtils.open}
-              >
-                <IconPlus size={"1rem"} />
-              </ActionIcon>
-            )}
-          </Group>
+          <Link href={`/library/${userId}`}>
+            <Title size={"h5"}>
+              {t("profile.titles.library", { username })}
+            </Title>
+          </Link>
           <Stack className={""}>
             <Accordion variant={"default"} defaultValue={"featured"}>
               <LibraryViewSidebarCollection userId={userId} type={"all"} />
@@ -63,11 +34,14 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
             </Accordion>
           </Stack>
           {isOwnLibrary && (
-            <Link href={"/importer"} className={"w-full"}>
-              <Button className={"w-full"}>
-                {t("library.buttons.importGames")}
-              </Button>
-            </Link>
+            <Stack gap={"xs"}>
+              <CollectionCreateButton fullWidth />
+              <Link href={"/importer"} className={"w-full"}>
+                <Button variant={"default"} fullWidth>
+                  {t("library.buttons.importGames")}
+                </Button>
+              </Link>
+            </Stack>
           )}
         </Stack>
       </Paper>

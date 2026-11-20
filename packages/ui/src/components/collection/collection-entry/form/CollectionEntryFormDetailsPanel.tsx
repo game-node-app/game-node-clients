@@ -1,4 +1,5 @@
 import {
+  CollectionCreateButton,
   CollectionEntryPlatformSelect,
   CollectionEntryStatusSelect,
   DEFAULT_GAME_INFO_VIEW_DTO,
@@ -79,6 +80,7 @@ const CollectionEntryFormDetailsPanel = ({
     watch,
     register,
     setValue,
+    getValues,
     formState: { errors },
   } = useFormContext<TGameAddOrUpdateValues>();
 
@@ -210,6 +212,19 @@ const CollectionEntryFormDetailsPanel = ({
           searchable
           limit={10}
           description={t("collectionEntry.descriptions.collectionsOptional")}
+        />
+        <CollectionCreateButton
+          variant="subtle"
+          size="compact-sm"
+          className="self-end -mt-1"
+          onCreated={(collection) => {
+            // Reading from the form avoids a stale closure if the user changed
+            // the selection while the modal was open.
+            const current = getValues("collectionIds") ?? [];
+            if (!current.includes(collection.id)) {
+              setValue("collectionIds", [...current, collection.id]);
+            }
+          }}
         />
         <CollectionEntryStatusSelect
           selectedCollectionIds={collectionsIdsValue}

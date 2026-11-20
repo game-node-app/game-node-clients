@@ -1,8 +1,10 @@
+import { CollectionCreateButton } from "#@/components/collection/form/CollectionCreateButton";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { LibraryViewCollectionsSelect } from "#@/components/library/view/sidebar/LibraryViewCollectionsSelect";
 import { LibraryViewSidebar } from "#@/components/library/view/sidebar/LibraryViewSidebar";
 import { useRouter } from "#@/util";
-import { Flex, Grid, Stack } from "@mantine/core";
+import { Grid, Group, Stack } from "@mantine/core";
 import { PropsWithChildren } from "react";
 
 interface ILibraryViewProps extends PropsWithChildren {
@@ -25,12 +27,15 @@ const LibraryViewLayout = ({
 }: ILibraryViewProps) => {
   const router = useRouter();
   const onMobile = useOnMobile();
+  const ownUserId = useUserId();
+  const isOwnLibrary = ownUserId != undefined && ownUserId === userId;
 
   return (
     <Stack className={"w-full"} id={"library-view"}>
       {onMobile && (
-        <Flex w={"100%"} justify={"center"}>
+        <Group w={"100%"} wrap={"nowrap"}>
           <LibraryViewCollectionsSelect
+            className={"flex-1 min-w-0"}
             userId={userId}
             value={collectionId}
             onChange={(value) => {
@@ -49,7 +54,8 @@ const LibraryViewLayout = ({
               router.push(`/library/${userId}`);
             }}
           />
-        </Flex>
+          {isOwnLibrary && <CollectionCreateButton variant={"light"} />}
+        </Group>
       )}
       <Grid columns={12} w={"100%"} h={"100%"}>
         <Grid.Col
