@@ -1,0 +1,24 @@
+{
+  "source": "86e936dc77dbb0db5f700f068f4ceb6e75ffde6a",
+  "changesets": [
+    ".changeset/web-trending-games-layout.md"
+  ],
+  "apps": [
+    "web"
+  ],
+  "filters": [
+    "--filter=...[65345407b55d060377364dc3f427bf318a73daf4...86e936dc77dbb0db5f700f068f4ceb6e75ffde6a]",
+    "--filter=web..."
+  ],
+  "bumps": {
+    "web": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": false,
+  "ref": "releases/86e936dc77dbb0db5f700f068f4ceb6e75ffde6a",
+  "versions": {
+    "web": "1.27.1"
+  }
+}
