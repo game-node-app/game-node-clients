@@ -1,6 +1,8 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
-import { JournalObtainedAchievementsView, useUserId } from "@repo/ui";
+import { MobileJournalAchievements } from "@/components/journal/MobileJournalAchievements";
+import { useUserId } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { SessionAuth } from "@repo/ui";
 
@@ -9,12 +11,13 @@ interface Props {
 }
 
 const JournalAchievementsPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const ownUserId = useUserId();
   const userIdToUse = userId || ownUserId;
 
   return (
-    <AppPage withSearch>
+    <AppPage title={t("navigation.achievements")} withSearch>
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {
@@ -33,7 +36,7 @@ const JournalAchievementsPage = ({ userId }: Props) => {
       </IonRefresher>
       <SessionAuth requireAuth={userId == undefined || userId === "undefined"}>
         {userIdToUse && (
-          <JournalObtainedAchievementsView userId={userIdToUse} withUserInfo />
+          <MobileJournalAchievements userId={userIdToUse} withUserInfo />
         )}
       </SessionAuth>
     </AppPage>

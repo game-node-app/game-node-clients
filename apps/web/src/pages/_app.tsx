@@ -48,6 +48,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/styles.css";
 
 import { useNextRouterWrapper } from "@/components/general/hooks/useNextRouterWrapper";
+import { useOpenSpotlight } from "@/components/general/hooks/useOpenSpotlight";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import NotificationsManager from "@/components/general/NotificationsManager";
 import { OpenGraph } from "@/components/general/OpenGraph";
@@ -245,6 +246,7 @@ export default function WebApp({
               }}
               hooks={{
                 useRouter: useNextRouterWrapper,
+                useOpenGameSearch: useOpenSpotlight,
                 authPath: "/auth",
                 themeStorage: webThemeStorage,
               }}

@@ -1,6 +1,7 @@
 import NotificationsIcon from "@/components/notifications/NotificationsIcon.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { MobileSidebarMenu } from "@/components/sidebar/MobileSidebarMenu.tsx";
+import { markAppReady } from "@/components/general/splash/appReady";
 import ExplorePage from "@/pages/explore";
 import HomePage from "@/pages/home";
 import LibraryPage from "@/pages/library/library";
@@ -46,6 +47,7 @@ const BLOG_TAB_PATHS = Object.values(BLOG_ROUTES).map(
 const Tabs = () => {
   const { t } = useTranslation();
   const [dimmed, setDimmed] = useState(false);
+  const [closing, setClosing] = useState(false);
   const hideTimer = useRef<number>(undefined);
   const location = useLocation();
   const { outletRef, onIonTabsWillChange } = useTabSlideAnimation(
@@ -54,6 +56,11 @@ const Tabs = () => {
   const hideTabBar = Boolean(
     matchPath(location.pathname, { path: BLOG_TAB_PATHS, exact: true }),
   );
+
+  // The first route has rendered: the entry splash can reveal the app.
+  useEffect(() => {
+    markAppReady();
+  }, []);
 
   // Any navigation (a menu item, a deep link, back) closes the side menu. Relying only on the
   // item's onClick is fragile: the close can be dropped while the route transition starts.
@@ -74,8 +81,11 @@ const Tabs = () => {
         type="push"
         onIonWillOpen={() => {
           window.clearTimeout(hideTimer.current);
+          setClosing(false);
           setDimmed(true);
         }}
+        // the shade fades with the close animation; the layer itself stays a bit longer (below)
+        onIonWillClose={() => setClosing(true)}
         onIonDidClose={() => {
           hideTimer.current = window.setTimeout(
             () => setDimmed(false),
@@ -89,7 +99,9 @@ const Tabs = () => {
         {dimmed && (
           <div
             aria-hidden
-            className="gn-menu-dim"
+            className={
+              closing ? "gn-menu-dim gn-menu-dim--closing" : "gn-menu-dim"
+            }
             onClick={() => {
               closeMainMenu().catch(console.error);
             }}

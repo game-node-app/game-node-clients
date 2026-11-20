@@ -1,23 +1,18 @@
-import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { CommentEditorView } from "#@/components/comment/editor/CommentEditorView";
 import { CommentsListView } from "#@/components/comment/view/CommentsListView";
 import { CommentsView } from "#@/components/comment/view/CommentsView";
 import { ActionConfirm } from "#@/components/general/ActionConfirm";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
-import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants";
 import { ReportCreateFormModal } from "#@/components/report/modal/ReportCreateFormModal";
-import { createErrorNotification } from "#@/util/createErrorNotification";
 import { Modal } from "#@/util/modal";
-import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
   CreateReportRequestDto,
   FindAllCommentsDto,
   Post,
-  PostsService,
 } from "@repo/wrapper/server";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEditor, type Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
+import { usePostsListItem } from "./usePostsListItem";
 import type { ReactNode } from "react";
 
 export interface PostsListItemActions {
@@ -41,36 +36,18 @@ export interface PostsListItemActions {
  */
 export function usePostsListItemActions(item: Post): PostsListItemActions {
   const { t } = useTranslation();
-  const userId = useUserId();
   const onMobile = useOnMobile();
-  const queryClient = useQueryClient();
-  const [commentsOpened, commentsOpenedUtils] = useDisclosure();
-  const [reportModalOpened, reportModalUtils] = useDisclosure();
-  const [removeModalOpened, removeModalUtils] = useDisclosure();
-
-  const editor = useEditor(
-    {
-      extensions: POST_EDITOR_EXTENSIONS,
-      immediatelyRender: typeof window !== "undefined",
-      content: item.content,
-      editable: false,
-    },
-    [item.content],
-  );
-
-  const deletePostMutation = useMutation({
-    mutationFn: async () => {
-      return PostsService.postsControllerDeleteV1(item.id);
-    },
-    onError: createErrorNotification,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["posts", "feed"],
-      });
-    },
-  });
-
-  const isOwnPost = userId === item.profileUserId;
+  const {
+    editor,
+    commentsOpened,
+    commentsOpenedUtils,
+    reportModalOpened,
+    reportModalUtils,
+    removeModalOpened,
+    removeModalUtils,
+    deletePostMutation,
+    isOwnPost,
+  } = usePostsListItem(item);
 
   const dialogs = (
     <>

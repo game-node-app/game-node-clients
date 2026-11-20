@@ -125,6 +125,7 @@ jobs:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           LIVE_UPDATE_PUBLIC_URL: ${{ secrets.LIVE_UPDATE_PUBLIC_URL }}
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: node scripts/release-plan.cjs --check-env
       - name: Version selected apps and reserve retryable snapshot
         id: release
@@ -134,6 +135,8 @@ jobs:
 
   docker:
     name: Docker delivery
+    permissions:
+      contents: write
     needs: [checks, prepare]
     if: needs.checks.outputs.docker != '[]'
     uses: ./.github/workflows/release-docker.yml
@@ -144,6 +147,8 @@ jobs:
 
   mobile:
     name: Android delivery
+    permissions:
+      contents: write
     needs: [checks, prepare]
     if: needs.checks.outputs.mobile == 'true'
     uses: ./.github/workflows/release-mobile.yml

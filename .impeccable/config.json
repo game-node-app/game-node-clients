@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "roboto",
+        "createdAt": "2026-11-19T21:59:15.346Z",
+        "reason": "User confirmed: DESIGN.md pins Roboto as the GameNode typeface"
+      }
+    ]
+  }
+}

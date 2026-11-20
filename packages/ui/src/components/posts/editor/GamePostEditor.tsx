@@ -19,7 +19,7 @@ import { notifications } from "@mantine/notifications";
 import { RichTextEditor, RichTextEditorContentProps } from "@mantine/tiptap";
 import { useTranslation } from "@repo/locales";
 import { PostsService } from "@repo/wrapper/server";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto, IconPlus } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEditor } from "@tiptap/react";
 import { useState } from "react";
@@ -35,13 +35,20 @@ interface GamePostEditorProps {
    * If the editor should initially be hidden, and a button should be shown to enable it.
    */
   withEnableButton?: boolean;
+  /**
+   * Controls whether the editor is shown (only meaningful with `withEnableButton`), so a parent
+   * can open it from somewhere else (e.g. an empty state). Pair with `onEnabledChange`.
+   */
+  enabled?: boolean;
+  onEnabledChange?: (enabled: boolean) => void;
 }
 
 const GamePostEditor = (props: GamePostEditorProps) => {
   const { t } = useTranslation();
-  const [editorEnabled, editorEnabledUtils] = useDisclosure(
+  const [internalEnabled, editorEnabledUtils] = useDisclosure(
     props.withEnableButton == undefined || !props.withEnableButton,
   );
+  const editorEnabled = props.enabled ?? internalEnabled;
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -151,7 +158,17 @@ const GamePostEditor = (props: GamePostEditorProps) => {
 
   if (!editorEnabled) {
     return (
-      <Button variant={"default"} onClick={editorEnabledUtils.open}>
+      <Button
+        variant={"light"}
+        radius={"xl"}
+        size={"md"}
+        fullWidth
+        rightSection={<IconPlus size={18} />}
+        onClick={() => {
+          editorEnabledUtils.open();
+          props.onEnabledChange?.(true);
+        }}
+      >
         {t("actions.create")}
       </Button>
     );

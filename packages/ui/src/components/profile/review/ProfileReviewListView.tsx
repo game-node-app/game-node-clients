@@ -1,10 +1,11 @@
 import { ProfileReviewListItem } from "#@/components";
+import { ProfileReviewListEmpty } from "#@/components/profile/review/ProfileReviewListEmpty";
 import { useUserId } from "#@/components/auth/hooks/useUserId.tsx";
 import { GameView } from "#@/components/game/view/GameView.tsx";
 import { CenteredErrorMessage } from "#@/components/general/CenteredErrorMessage.tsx";
 import { CenteredLoading } from "#@/components/general/CenteredLoading.tsx";
 import { useReviewsForUserId } from "#@/components/review/hooks/useReviewsForUserId.ts";
-import { Stack, Text } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useMemo, useState } from "react";
 
@@ -50,15 +51,10 @@ const ProfileReviewListView = ({ userId }: IUserViewListView) => {
       />
     );
   } else if (isEmpty) {
-    if (userId != undefined && userId === ownUserId) {
-      return (
-        <Text className={"text-center"}>
-          {t("profile.messages.noReviewsOwn")}
-        </Text>
-      );
-    }
     return (
-      <Text className={"text-center"}>{t("profile.messages.noReviews")}</Text>
+      <ProfileReviewListEmpty
+        isOwn={userId != undefined && userId === ownUserId}
+      />
     );
   }
   return (

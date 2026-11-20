@@ -612,7 +612,8 @@
       "addedTo": "Added to {{collection}}",
       "completedAllAchievements": "Completed all achievements",
       "followed": "Followed",
-      "obtainedAchievements": "Obtained {{count}} achievement{{suffix}}",
+      "obtainedAchievements_one": "Obtained {{count}} achievement",
+      "obtainedAchievements_other": "Obtained {{count}} achievements",
       "obtainedAllAndPlatinum": "Obtained platinum trophy and completed all achievements",
       "obtainedPlatinum": "Obtained platinum trophy",
       "postedAbout": "Posted about",
@@ -820,13 +821,18 @@
       "finalNominees": "Final nominees",
       "limitReached": "You reached the limit of {{count}} games in this category.",
       "loadError": "Could not load your nominations.",
+      "nextCategory": "Next category",
       "noCategories": "This event has no categories to show.",
       "noFinalNominees": "No final nominees in this category.",
       "noPicks": "You haven't nominated games in this category.",
       "pickCount": "{{count}} of {{limit}}",
+      "pickCounter": "{{count}}/{{limit}} nominations picked",
+      "previousCategory": "Previous category",
       "searchTitle": "Search eligible games",
       "signInToNominate": "Sign in to nominate",
       "signInToSee": "Sign in to see your nominations",
+      "skipCategory": "Skip category",
+      "skipHint": "You can skip this category or nominate fewer than {{limit}}.",
       "subtitle": "Pick up to {{count}} games per category.",
       "subtitleClosed": "See the final nominees and your nominations.",
       "title": "Nominations",
@@ -983,7 +989,8 @@
       "discard": "Discard",
       "moveGames": "Move games to another collection",
       "reorderGames": "Reorder games",
-      "updateDetails": "Update title and description"
+      "updateDetails": "Update title and description",
+      "create": "New collection"
     },
     "create": "Create collection",
     "descriptions": {
@@ -1043,6 +1050,10 @@
     "update": "Update collection",
     "validation": {
       "featuredMustBePublic": "Featured collections must be public"
+    },
+    "empty": {
+      "title": "No collections yet",
+      "description": "Group your games however you like: a backlog, your favorites, the best of the year."
     }
   },
   "collectionEntry": {
@@ -1821,7 +1832,13 @@
     "noResultsTryAgain": "No results found. Please try again.",
     "recentActivity": "Recent Activity",
     "trendingGames": "Trending Games",
-    "trendingReviews": "Trending Reviews"
+    "trendingReviews": "Trending Reviews",
+    "trendingRank": "#{{rank}} trending",
+    "trendingSelectGame": "Show {{name}}",
+    "trendingViewGame": "View game",
+    "trendingPause": "Pause featured games rotation",
+    "trendingPlay": "Resume featured games rotation",
+    "trendingError": "Couldn't load trending games."
   },
   "importer": {
     "buttons": {
@@ -1907,9 +1924,13 @@
   "journal": {
     "achievements": {
       "autoUpdate": "This information is automatically updated periodically* from the gaming platforms you connect to your GameNode profile, such as Steam, Xbox and PlayStation.",
-      "count": "{{count}} achievement{{suffix}}",
+      "count_one": "{{count}} achievement",
+      "count_other": "{{count}} achievements",
       "description": "This section of the journal is dedicated to showcasing the achievements you've obtained in the games you play. It's a way to celebrate your gaming milestones and share your accomplishments with the community.",
+      "completed": "Completed",
       "hover": "Hover",
+      "helpLabel": "About achievements",
+      "platinum": "Platinum",
       "loading": "Loading achievements...",
       "tap": "Tap",
       "tipAction": "{{action}} the achievements to show details. Latest achievements are shown first.",
@@ -1918,7 +1939,11 @@
     },
     "loading": "Loading Journal...",
     "overview": {
-      "gamesCount": "{{count}} games"
+      "emptyAction": "Add a game to your library",
+      "emptyDescription": "Games you start, finish or drop will show up here, month by month.",
+      "emptyTitle": "Your journal is empty",
+      "gamesCount_one": "{{count}} game",
+      "gamesCount_other": "{{count}} games"
     }
   },
   "landing": {
@@ -2196,6 +2221,10 @@
       "editProfileDetails": "Edit profile details",
       "setAppLanguage": "Set app language",
       "importerSystem": "Importer system",
+      "libraryAndDisplay": "Library & display",
+      "platformsAndImport": "Platforms & import",
+      "appsAndTools": "Apps & tools",
+      "connectionLoadFailed": "Couldn't load this connection",
       "misc": "Misc",
       "profile": "Profile"
     },
@@ -2248,6 +2277,7 @@
         },
         "reviewed": "Reviews",
         "started": "Started",
+        "secondGame": "Second game",
         "topGame": "Top game",
         "topGameShare": "{{percent}}% of your time",
         "topGames": "Top games",
@@ -2318,6 +2348,7 @@
       "shareDescription": "Share your wrapped with friends!",
       "sharePrompt": "This is my GameNode Wrapped!",
       "templates": {
+        "aura": "Aura",
         "bento": "Bento",
         "dash": "Dash",
         "poster": "Poster",
@@ -2462,7 +2493,8 @@
         "highlights": "Highlights",
         "tools": "Tools",
         "yourSpace": "Your space"
-      }
+      },
+      "version": "Version {{version}}"
     },
     "stats": "Stats",
     "terms": "Terms",
@@ -2632,6 +2664,11 @@
     "labels": {
       "postedAbout": "posted about",
       "sharedImage": "shared an image of"
+    },
+    "empty": {
+      "title": "No posts yet",
+      "description": "Posts from the community will show up here.",
+      "create": "Create post"
     },
     "messages": {
       "linkCopied": "Link copied!",
@@ -2865,6 +2902,7 @@
       "noFeaturedAchievements": "No featured achievements found.",
       "noReviews": "User has no reviews.",
       "noReviewsOwn": "You have no reviews. Make your first one!",
+      "reviewAGame": "Review a game",
       "usernameUpdateCooldown": "You have updated your username in the last 30 days. Please try again later.",
       "usernameUpdated": "Your username has been updated!"
     },
@@ -2876,6 +2914,7 @@
       "backlogTracking": "Backlog tracking",
       "collectionsLabel": "Collections",
       "estimatedPlaytime": "Estimated playtime (in hours)*",
+      "playtimeShort": "Hours played",
       "finishYear": "Finish Year",
       "finishedGames": "Finished games",
       "finishedGamesLabel": "Finished Games",
@@ -2883,6 +2922,12 @@
       "gamesByYear": "Games by year",
       "gamesLabel": "Games",
       "libraryDistribution": "Library distribution",
+      "distributionBy": {
+        "status": "Status",
+        "genre": "Genre",
+        "theme": "Theme",
+        "mode": "Mode"
+      },
       "playedThisYear": "Played this year",
       "playtime": "Playtime",
       "playtimeNote1": "Based on data from available connections (e.g. Steam, PSN).",
@@ -3519,6 +3564,7 @@
     "read": "Read access",
     "write": "Changes to your account",
     "choose": "Choose your assistant",
+    "otherAssistants": "Other assistants",
     "add": "Add GameNode",
     "authorizeStep": "Sign in and authorize",
     "verify": "Check the connection",

@@ -112,6 +112,7 @@ function validateDelivery(selected, env = process.env) {
       "R2_ACCOUNT_ID",
       "R2_BUCKET",
       "LIVE_UPDATE_PUBLIC_URL",
+      "PLAY_SERVICE_ACCOUNT_JSON",
     );
   const missing = required.filter((key) => !env[key]?.trim());
   if (missing.length)

@@ -148,7 +148,7 @@ These come from `SettingsPill` (`packages/ui/src/components/settings/common/Sett
 
 ## Elevation & depth
 
-- No drop shadows on standard UI. Separate layers with surface lightness and 1px `#2A2A2A` borders.
+- No drop shadows on standard UI. Separate layers with surface lightness and 1px `#2A2A2A` borders. The one exception is the Home hero cover (see "Mobile redesign decisions").
 - The only glows are premium (violet, above) and focus rings.
 - Modals: web uses Mantine `Modal`, mobile renders an `ion-modal` through the `Modal` presenter. The settings modal sits on `#0B0B0B` with a sidebar/panel split that becomes two separate screens on mobile.
 - Focus: visible 2px outline (`outline: 2px solid white; outline-offset: 5px` on landing links). Never remove focus styles without a replacement.
@@ -183,7 +183,7 @@ Reuse these before building new ones. All are in `packages/ui/src/components`.
 
 ## Motion
 
-Keep it minimal. Use `transition-colors` on hover/active surfaces, Mantine's default modal/drawer transitions, and the NProgress bar on route changes (web `RouterTransition`). No decorative animation in core flows. Celebratory moments (Daily results, Recap/Wrapped) may use more.
+Keep it minimal. Use `transition-colors` on hover/active surfaces, Mantine's default modal/drawer transitions, and the NProgress bar on route changes (web `RouterTransition`). No decorative animation in core flows. Celebratory moments (Daily results, Recap/Wrapped) may use more, and so may the mobile Home (see "Mobile redesign decisions").
 
 ## Content & copy
 
@@ -206,6 +206,19 @@ Keep it minimal. Use `transition-colors` on hover/active surfaces, Mantine's def
 - Add drop shadows to cards.
 - Import `next/link`, `next/router` or Ionic components directly in `@repo/ui`.
 - Hard-code user-facing strings.
+
+## Mobile redesign decisions
+
+Notes on what the mobile redesign ships, so later work doesn't "fix" it back.
+
+- **Grouped cards are 16px.** Mobile `gn-card` groups (`CardSection`, `apps/mobile/src/components/general/card`) use `rounded-2xl` (16px), not the 12px `rounded-xl` of `SettingsCard` on web. Stat tiles, empty states and post/journal cards match. Dividers inside them come from one system: `.gn-card` in `globals.css` (IonItem inset hairline, plus `gn-row` for non-Ionic rows). Don't add per-component `border-t`/`border-b` dividers.
+- **Hero radius and cover shadow are Home-only.** The trending hero (`TrendingGamesHero`) uses a 20px radius and its featured cover a 14px radius with a `0 10px 24px rgb(0 0 0 / 0.55)` shadow. Both are allowed only on this expressive hero. Everywhere else covers stay `sm` (4px) with no shadow.
+- **Home motion is scoped.** On first launch each Home section fades up in sequence (`.gn-home-enter`, 520ms ease-out, 80ms stagger, once per app launch), and the hero rotates its featured game every 10s (`TRENDING_HERO_ROTATE_MS`). Rotation pauses on touch, focus, when off screen, and through an explicit pause/play button. Both the entrance and the rotation are off under `prefers-reduced-motion`. No other mobile screen gets entrance animation.
+- **Filled brand uses dark text.** White on `#F15025` fails contrast, so `variantColorResolver` renders filled brand components (buttons, badges, `ThemeIcon`, `Chip`, step numbers) with `#111111` text, and lightens the `light` variant text. `Chip` defaults to `color="brand"` so it goes through the resolver, and `SegmentedControl` (which never calls it) uses `autoContrast` with the theme `luminanceThreshold` set to the 4.5:1 crossover. Use a Mantine filled component rather than `bg-brand text-white`.
+- **Rating star colour.** Stars use `RATING_STAR_COLOR` (`#F5C518`, `packages/ui/src/util/colors.ts`), the one gold in the system. Don't use brand orange for ratings.
+- **Success is green, never red.** Charts show "finished" with `SUCCESS_COLOR` (`#3DD68C`, same file). Red is for errors and destructive actions only.
+- **Premium violet on mobile Settings.** The Supporter card in Settings (`CardSection premium`, `CardRow premium`) uses the violet treatment from "Semantic" above. It is still the only violet entry point on the screen.
+- **Don't ship disabled controls.** A segmented control with an unavailable option (e.g. Posts "Following") is removed until the feature exists.
 
 ## Known gaps
 

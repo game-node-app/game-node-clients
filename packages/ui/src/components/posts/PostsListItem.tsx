@@ -1,17 +1,25 @@
 import {
+  CommentEditorView,
+  CommentsListView,
   GameTitleWithFigure,
   ItemCommentsButton,
   ItemDropdown,
   ItemLikesButton,
   PostImageLightboxContext,
-  UserAvatarGroup,
+  ReportCreateFormModal,
   useOnMobile,
+  UserAvatarGroup,
+  usePostsListItem,
 } from "#@/components";
-import { usePostsListItemActions } from "#@/components/posts/hooks/usePostsListItemActions";
+import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
+import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
+import { buildPresenterComponent } from "#@/context";
+import { Modal } from "#@/util";
 import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
+  CreateReportRequestDto,
   FindAllCommentsDto,
   Post,
   StatisticsSourceRequestDto,
@@ -24,21 +32,59 @@ export interface PostsListItemProps {
   withGameInfo?: boolean;
 }
 
-const PostsListItem = ({
+const DEFAULT_PostsListItem = ({
   item,
   withUserProfile = true,
   withGameInfo = true,
 }: PostsListItemProps) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
-  const { editor, isOwnPost, dialogs, openComments, openReport, openRemove } =
-    usePostsListItemActions(item);
+  const {
+    editor,
+    commentsOpened,
+    commentsOpenedUtils,
+    reportModalOpened,
+    reportModalUtils,
+    removeModalOpened,
+    removeModalUtils,
+    deletePostMutation,
+    isOwnPost,
+  } = usePostsListItem(item);
 
   if (!editor) return null;
 
   return (
     <Group className={"w-full"} wrap={"nowrap"} align={"start"} gap={0}>
-      {dialogs}
+      <ReportCreateFormModal
+        opened={reportModalOpened}
+        onClose={reportModalUtils.close}
+        sourceId={item.id}
+        sourceType={CreateReportRequestDto.sourceType.POST}
+      />
+      <Modal
+        title={t("comment.titles.commentsInPost")}
+        opened={commentsOpened}
+        onClose={commentsOpenedUtils.close}
+        fullScreen={onMobile}
+        size={"xl"}
+        initialBreakpoint={1}
+        breakpoints={[0.5, 0.75, 0.85, 1]}
+        classNames={{
+          body: "flex flex-col min-h-[92vh]",
+        }}
+      >
+        <CommentsView>
+          <CommentsListView
+            sourceId={item.id}
+            sourceType={FindAllCommentsDto.sourceType.POST}
+          />
+          <CommentEditorView
+            sourceId={item.id}
+            sourceType={FindAllCommentsDto.sourceType.POST}
+          />
+        </CommentsView>
+      </Modal>
+
       <Box className={withUserProfile ? "hidden lg:block lg:w-2/12" : "hidden"}>
         <UserAvatarGroup
           avatarProps={{
@@ -77,12 +123,21 @@ const PostsListItem = ({
           )}
 
           <Box className={"ms-auto"}>
+            <ActionConfirm
+              onConfirm={() => deletePostMutation.mutate()}
+              opened={removeModalOpened}
+              onClose={removeModalUtils.close}
+              title={t("posts.titles.confirmRemove")}
+              message={t("posts.messages.removeWarning")}
+            />
             <ItemDropdown>
               <ItemDropdown.ReportButton
-                onClick={openReport}
+                onClick={reportModalUtils.open}
                 disabled={isOwnPost}
               />
-              {isOwnPost && <ItemDropdown.RemoveButton onClick={openRemove} />}
+              {isOwnPost && (
+                <ItemDropdown.RemoveButton onClick={removeModalUtils.open} />
+              )}
             </ItemDropdown>
           </Box>
         </Group>
@@ -104,7 +159,9 @@ const PostsListItem = ({
             className={"me-auto"}
           />
           <ItemCommentsButton
-            onClick={openComments}
+            onClick={() => {
+              commentsOpenedUtils.toggle();
+            }}
             sourceId={item.id}
             sourceType={FindAllCommentsDto.sourceType.POST}
           />
@@ -117,5 +174,10 @@ const PostsListItem = ({
     </Group>
   );
 };
+
+const PostsListItem = buildPresenterComponent(
+  "PostsListItem",
+  DEFAULT_PostsListItem,
+);
 
 export { PostsListItem };

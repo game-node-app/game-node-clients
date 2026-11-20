@@ -312,6 +312,28 @@ describe("AppThemeProvider", () => {
     });
   });
 
+  it("uses platform screen defaults until a theme pack replaces them", async () => {
+    const MobileActivity = () => <span>presenter:mobile-activity</span>;
+    const store = storeWith({
+      experience: { console: async () => experiencePack },
+      screens: { xbox: async () => screensPack },
+    });
+    renderApp({
+      props: {
+        packStore: store,
+        fallbackPresenters: { ActivityItem: MobileActivity },
+      },
+      presenters: appPresenters,
+    });
+
+    expect(screen.getByText("presenter:mobile-activity")).toBeTruthy();
+    fireEvent.click(screen.getByText("to-console"));
+    await screen.findByText("presenter:screens-activity");
+    expect(screen.getByText("presenter:app-details")).toBeTruthy();
+    fireEvent.click(screen.getByText("to-default"));
+    await screen.findByText("presenter:mobile-activity");
+  });
+
   it("keeps the current presenters while the next pack loads", async () => {
     const experience = deferred<ThemePack>();
     const screens = deferred<ThemePack>();

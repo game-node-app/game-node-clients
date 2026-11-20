@@ -45,7 +45,7 @@ vi.mock("@/components/home/HomeActivityShelf", () => ({
 vi.mock("@ionic/react", () => ({
   IonRefresher: ({ children }: { children?: ReactNode }) => <>{children}</>,
   IonRefresherContent: () => null,
-  IonSelect: ({ label }: { label?: string }) => (
+  IonSelect: ({ "aria-label": label }: { "aria-label"?: string }) => (
     <button type="button">{label}</button>
   ),
   IonSelectOption: () => null,
@@ -109,6 +109,8 @@ vi.mock("@repo/ui", async () => {
   return {
     BackToTopButton: () => null,
     buildPresenterComponent: () => Probe,
+    cn: (...classes: Array<string | false>) =>
+      classes.filter(Boolean).join(" "),
     CenteredErrorMessage: ({ message }: { message: string }) =>
       React.createElement("div", null, message),
     ExploreTrendingGames: () => null,

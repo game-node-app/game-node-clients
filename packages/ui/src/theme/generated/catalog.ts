@@ -59,7 +59,7 @@ export const THEME_CATALOG = [
       "accent": "#F15025"
     },
     "native": {
-      "background": "#1F1F1F",
+      "background": "#111111",
       "statusBarStyle": "light"
     }
   },

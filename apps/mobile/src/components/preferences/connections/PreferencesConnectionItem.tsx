@@ -4,15 +4,15 @@ import {
   UserConnectionDto,
 } from "@repo/wrapper/server";
 import { useDisclosure } from "@mantine/hooks";
-import { Button, Group, Image, Stack, Text } from "@mantine/core";
+import { Button, Image } from "@mantine/core";
 import { Browser } from "@capacitor/browser";
 import { Capacitor } from "@capacitor/core";
-import { IonItem, IonLabel } from "@ionic/react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
+import { CARD_BUTTON_PROPS, CardRow } from "@/components/general/card";
 import {
   getConnectionName,
-  getErrorMessage,
   getServerStoredIcon,
   PreferencesConnectionModal,
   useOwnUserConnectionByType,
@@ -27,6 +27,7 @@ interface Props {
 const PreferencesConnectionItem = ({ type }: Props) => {
   const { t } = useTranslation();
   const userConnection = useOwnUserConnectionByType(type);
+  const refetchConnection = userConnection.refetch;
   const [modalOpened, modalUtils] = useDisclosure();
 
   const isLookupError =
@@ -42,9 +43,110 @@ const PreferencesConnectionItem = ({ type }: Props) => {
 
   const isConnected = userConnection.data != null;
   const isEligible = Boolean(userConnection.data?.isImporterViable);
+  const canImport = isConnected && !requiresReauth && isEligible;
+
+  // The raw error is only logged; the user sees a plain message and a retry action.
+  useEffect(() => {
+    if (isLookupError) console.error(userConnection.error);
+  }, [isLookupError, userConnection.error]);
+
+  const description = isConnected ? (
+    <>
+      <span className="text-neutral-200">
+        {userConnection.data!.sourceUsername}
+      </span>
+      {" · "}
+      <span className={requiresReauth ? "text-yellow-500" : "text-teal-400"}>
+        {requiresReauth
+          ? t("preferences.statuses.reauthRequired")
+          : t("preferences.statuses.connected")}
+      </span>
+    </>
+  ) : isLookupError ? (
+    <span className="text-red-400">
+      {t("mobile.preferences.connectionLoadFailed")}
+    </span>
+  ) : (
+    t("preferences.statuses.notConnected")
+  );
+
+  // Primary action sits on the row; secondary ones (reconnect/import) go under the text so a
+  // long username never has to compete with two buttons for the same line.
+  const trailing = isConnected ? (
+    <Button
+      {...CARD_BUTTON_PROPS}
+      variant="default"
+      onClick={modalUtils.open}
+      aria-label={t("importer.connection.configure")}
+    >
+      {t("importer.connection.configure")}
+    </Button>
+  ) : !isLookupError ? (
+    <Button
+      {...CARD_BUTTON_PROPS}
+      variant="light"
+      onClick={modalUtils.open}
+      aria-label={t("importer.connection.connect")}
+    >
+      {t("importer.connection.connect")}
+    </Button>
+  ) : (
+    <Button
+      {...CARD_BUTTON_PROPS}
+      variant="default"
+      loading={userConnection.isFetching}
+      onClick={() => {
+        refetchConnection().catch(console.error);
+      }}
+      aria-label={t("actions.retry")}
+    >
+      {t("actions.retry")}
+    </Button>
+  );
+
+  const footer =
+    requiresReauth || canImport ? (
+      <div className="mt-2 flex flex-wrap gap-3">
+        {requiresReauth && (
+          <Button
+            {...CARD_BUTTON_PROPS}
+            color="yellow"
+            variant="light"
+            onClick={modalUtils.open}
+            aria-label={t("importer.connection.reconnect")}
+          >
+            {t("importer.connection.reconnect")}
+          </Button>
+        )}
+        {canImport && (
+          <Button
+            component={Link}
+            to={getTabAwareHref(`/importer/${type.valueOf()}`)}
+            {...CARD_BUTTON_PROPS}
+            variant="light"
+          >
+            {t("importer.connection.importGames")}
+          </Button>
+        )}
+      </div>
+    ) : undefined;
 
   return (
-    <IonItem className="[--padding-start:12px] [--inner-padding-end:12px] sm:[--padding-start:16px] sm:[--inner-padding-end:16px]">
+    <CardRow
+      icon={
+        <Image
+          alt={t("preferences.labels.connectionIcon")}
+          src={getServerStoredIcon(type.valueOf())}
+          className="shrink-0 object-contain"
+          w={24}
+          h={24}
+        />
+      }
+      title={getConnectionName(type)}
+      description={description}
+      trailing={trailing}
+      footer={footer}
+    >
       <PreferencesConnectionModal
         type={type}
         opened={modalOpened}
@@ -57,85 +159,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
             : undefined
         }
       />
-      <Group gap={8} className="w-full min-w-0 py-2">
-        <Group gap={8} wrap="nowrap" className="min-w-0 flex-1 basis-36">
-          <Image
-            alt={t("preferences.labels.connectionIcon")}
-            src={getServerStoredIcon(type.valueOf())}
-            className="shrink-0 object-contain"
-            w={28}
-            h={28}
-          />
-          <Stack gap={2} className="min-w-0 [overflow-wrap:anywhere]">
-            <IonLabel>{getConnectionName(type)}</IonLabel>
-            {isConnected ? (
-              <>
-                <Text size="sm" fw={500}>
-                  {userConnection.data!.sourceUsername}
-                </Text>
-                <Text size="xs" c={requiresReauth ? "orange" : "dimmed"}>
-                  {requiresReauth
-                    ? t("preferences.statuses.reauthRequired")
-                    : t("preferences.statuses.connected")}
-                </Text>
-              </>
-            ) : isLookupError ? (
-              <Text size="xs" c="red">
-                {getErrorMessage(userConnection.error)}
-              </Text>
-            ) : (
-              <Text size="xs" c="dimmed">
-                {t("preferences.statuses.notConnected")}
-              </Text>
-            )}
-          </Stack>
-        </Group>
-
-        <Group gap={6} justify="flex-end" className="ms-auto max-w-full">
-          {requiresReauth && (
-            <Button
-              size="xs"
-              color="yellow"
-              variant="outline"
-              onClick={modalUtils.open}
-              aria-label={t("importer.connection.reconnect")}
-            >
-              {t("importer.connection.reconnect")}
-            </Button>
-          )}
-
-          {isConnected && !requiresReauth && isEligible && (
-            <Button
-              component={Link}
-              to={getTabAwareHref(`/importer/${type.valueOf()}`)}
-              size="xs"
-              variant="outline"
-            >
-              {t("importer.connection.importGames")}
-            </Button>
-          )}
-
-          {isConnected ? (
-            <Button
-              size="xs"
-              variant="default"
-              onClick={modalUtils.open}
-              aria-label={t("importer.connection.configure")}
-            >
-              {t("importer.connection.configure")}
-            </Button>
-          ) : !isLookupError ? (
-            <Button
-              size="xs"
-              onClick={modalUtils.open}
-              aria-label={t("importer.connection.connect")}
-            >
-              {t("importer.connection.connect")}
-            </Button>
-          ) : null}
-        </Group>
-      </Group>
-    </IonItem>
+    </CardRow>
   );
 };
 

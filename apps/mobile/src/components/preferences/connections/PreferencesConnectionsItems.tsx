@@ -1,29 +1,25 @@
 import PreferencesConnectionItem from "@/components/preferences/connections/PreferencesConnectionItem";
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { useTranslation } from "@repo/locales";
 import { UserConnectionDto } from "@repo/wrapper/server";
 
-import { getTabAwareHref } from "@/util/getTabAwareHref";
+const CONNECTION_TYPES = [
+  UserConnectionDto.type.STEAM,
+  UserConnectionDto.type.PSN,
+  UserConnectionDto.type.XBOX,
+  UserConnectionDto.type.EPICGAMES,
+  UserConnectionDto.type.NINTENDO,
+  UserConnectionDto.type.GOG,
+];
 
-const PreferencesConnectionsItems = () => {
-  const { t } = useTranslation();
-
-  return (
-    <IonItemGroup>
-      <IonItemDivider>
-        <IonLabel>{t("preferences.categories.connections")}</IonLabel>
-      </IonItemDivider>
-      <PreferencesConnectionItem type={UserConnectionDto.type.STEAM} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.PSN} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.XBOX} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.EPICGAMES} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.NINTENDO} />
-      <PreferencesConnectionItem type={UserConnectionDto.type.GOG} />
-      <IonItem routerLink={getTabAwareHref("/mcp")} button detail>
-        <IonLabel>{t("mcp.title")}</IonLabel>
-      </IonItem>
-    </IonItemGroup>
-  );
-};
+/**
+ * One row per game platform connection. Each connected platform carries its own "Import games"
+ * action, so there is no separate importer entry in Preferences.
+ */
+const PreferencesConnectionsItems = () => (
+  <>
+    {CONNECTION_TYPES.map((type) => (
+      <PreferencesConnectionItem key={type} type={type} />
+    ))}
+  </>
+);
 
 export default PreferencesConnectionsItems;

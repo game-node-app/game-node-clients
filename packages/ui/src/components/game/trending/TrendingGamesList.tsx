@@ -1,10 +1,14 @@
 import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { useGames } from "#@/components/game/hooks/useGames";
+import {
+  TRENDING_HERO_MAX_GAMES,
+  TrendingGamesHero,
+} from "#@/components/game/trending/TrendingGamesHero";
+import { TrendingGamesError } from "#@/components/game/trending/TrendingGamesError";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
 import { SimpleGrid, Skeleton, type SimpleGridProps } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
-import { useMemo } from "react";
 import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import period = StatisticsRankingsRequestDto.period;
 
@@ -15,16 +19,7 @@ export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {
   period: period.MONTH,
 };
 
-const DEFAULT_COLS: SimpleGridProps["cols"] = { base: 3, lg: 6 };
-
-interface TrendingGamesListProps {
-  /** Column layout; the Xbox feed's side column uses three across. */
-  cols?: SimpleGridProps["cols"];
-}
-
-const TrendingGamesList = ({
-  cols = DEFAULT_COLS,
-}: TrendingGamesListProps = {}) => {
+const TrendingGamesList = ({ cols }: { cols?: SimpleGridProps["cols"] }) => {
   const { t } = useTranslation();
   const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
 
@@ -35,22 +30,24 @@ const TrendingGamesList = ({
     gameIds: gamesIds || [],
     relations: {
       cover: true,
+      genres: true,
+      artworks: true,
+      screenshots: true,
     },
   });
 
   const isLoading = trendingGames.isLoading || gamesQuery.isLoading;
 
+  const hasError = trendingGames.isError || gamesQuery.isError;
   const isEmpty =
     !isLoading &&
+    !hasError &&
     (gamesQuery.data == undefined || gamesQuery.data.length === 0);
 
-  const elementsSkeletons = useMemo(() => {
-    return Array(DEFAULT_SEARCH_TRENDING_GAMES_DTO.limit)
-      .fill(0)
-      .map((v, i) => {
-        return <Skeleton className={"h-36 lg:h-60"} key={i} />;
-      });
-  }, []);
+  const games = (gamesIds ?? [])
+    .map((id) => gamesQuery.data?.find((game) => game.id === id))
+    .filter((game) => game !== undefined)
+    .slice(0, TRENDING_HERO_MAX_GAMES);
 
   return (
     <DetailsBox
@@ -60,15 +57,37 @@ const TrendingGamesList = ({
         className: "",
       }}
     >
-      <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
-        {isLoading && elementsSkeletons}
-        {gamesIds
-          ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
-          .filter((game) => game !== undefined)
-          .map((game) => {
-            return <GameGridItem key={game.id} game={game} />;
-          })}
-      </SimpleGrid>
+      {hasError ? (
+        <TrendingGamesError
+          retrying={trendingGames.isFetching || gamesQuery.isFetching}
+          onRetry={() =>
+            trendingGames.isError
+              ? trendingGames.refetch()
+              : gamesQuery.refetch()
+          }
+        />
+      ) : isLoading ? (
+        cols ? (
+          <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
+            {Array.from(
+              { length: DEFAULT_SEARCH_TRENDING_GAMES_DTO.limit },
+              (_, index) => (
+                <Skeleton key={index} className={"h-36 lg:h-60"} />
+              ),
+            )}
+          </SimpleGrid>
+        ) : (
+          <Skeleton className={"h-[350px] w-full"} radius={20} />
+        )
+      ) : cols ? (
+        <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
+          {games.map((game) => (
+            <GameGridItem key={game.id} game={game} />
+          ))}
+        </SimpleGrid>
+      ) : (
+        <TrendingGamesHero games={games} />
+      )}
     </DetailsBox>
   );
 };

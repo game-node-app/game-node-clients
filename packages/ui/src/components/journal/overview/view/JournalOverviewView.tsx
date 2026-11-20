@@ -2,6 +2,7 @@ import {
   BackToTopButton,
   CenteredLoading,
   JournalMonthHeader,
+  JournalOverviewEmpty,
   JournalOverviewItem,
   JournalYearHeader,
   LibraryHiddenState,
@@ -93,6 +94,9 @@ const JournalOverviewView = ({ userId }: Props) => {
     <Stack className={"gap-2"}>
       <BackToTopButton />
       {isLoading && <CenteredLoading message={t("journal.loading")} />}
+      {!isLoading && rows.length === 0 && (
+        <JournalOverviewEmpty userId={userId} />
+      )}
       {rows.slice(0, visibleCount).map((row) => {
         switch (row.type) {
           case "year":

@@ -7,7 +7,17 @@ import {
   GameAchievementsListItemProps,
   GameInfoActionsProps,
   GameInfoTitleFigureProps,
+  JournalMonthHeaderProps,
+  JournalOverviewEmptyProps,
+  JournalOverviewItemProps,
+  JournalYearHeaderProps,
+  ProfileReviewListEmptyProps,
+  ProfileReviewListItemProps,
   ReviewCardProps,
+  McpGuideScreenProps,
+  PostsFeedLayoutProps,
+  JournalAchievementsGameGroupViewProps,
+  UserAvatarWithLevelInfoProps,
 } from "#@/components";
 import {
   LinkComponentProps,
@@ -57,6 +67,14 @@ export type UIPresenterRegistry = {
   PostsListItem: React.ComponentType<PostsListItemProps>;
   PostsFeedView: React.ComponentType<PostsFeedViewProps>;
   NotificationsPanel: React.ComponentType<NotificationsPanelProps>;
+  JournalOverviewItem: React.ComponentType<JournalOverviewItemProps>;
+  JournalMonthHeader: React.ComponentType<JournalMonthHeaderProps>;
+  JournalYearHeader: React.ComponentType<JournalYearHeaderProps>;
+  JournalOverviewEmpty: React.ComponentType<JournalOverviewEmptyProps>;
+  ProfileReviewListItem: React.ComponentType<ProfileReviewListItemProps>;
+  ProfileReviewListEmpty: React.ComponentType<ProfileReviewListEmptyProps>;
+  McpGuideScreen: React.ComponentType<McpGuideScreenProps>;
+  PostsFeedLayout: React.ComponentType<PostsFeedLayoutProps>;
   BlogArticleLanguageLink: React.ComponentType<{
     href: string;
     locale: SupportedLanguage;
@@ -67,6 +85,8 @@ export type UIPresenterRegistry = {
       ),
     ) => React.ReactElement;
   }>;
+  UserLevelHeader: React.ComponentType<UserAvatarWithLevelInfoProps>;
+  JournalAchievementsGameGroup: React.ComponentType<JournalAchievementsGameGroupViewProps>;
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
 };
@@ -94,6 +114,12 @@ export type UIHookRegistry = {
   useScrollPosition?: () => UseScrollPositionReturn;
   /** Whether a cached page is active. Defaults to true. */
   useIsViewActive?: () => boolean;
+  /**
+   * Returns a function that opens the app's game search (the command palette on web, the search
+   * page on mobile). When an app doesn't register it, calls to action that lead to the search
+   * are not rendered.
+   */
+  useOpenGameSearch?: () => () => void;
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
   /** Route of the settings Supporter surface. Defaults to `/home?settings=premium`. */

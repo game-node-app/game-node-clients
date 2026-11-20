@@ -12,6 +12,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { UIProvider, useHooks, usePresenters } from "#@/context/UIProvider";
+import type { UIPresenterRegistry } from "#@/context/registry";
 import type {
   ThemeExperienceId,
   ThemeId,
@@ -158,6 +159,8 @@ export type AppThemeProviderProps = {
   pinned?: boolean;
   /** Overrides the app hook. `null` disables persistence. */
   themeStorage?: ThemeStorage | null;
+  /** App-specific defaults that experience and screen packs can replace. */
+  fallbackPresenters?: Partial<UIPresenterRegistry>;
   /** Catalog override for tests/experiments; defaults to the generated catalog. */
   catalog?: ThemeCatalog;
   /** Isolated pack store for tests; defaults to the app-wide store. */
@@ -206,6 +209,7 @@ export function AppThemeProvider({
   initialTheme,
   pinned = false,
   themeStorage,
+  fallbackPresenters,
   catalog = DEFAULT_THEME_CATALOG,
   packStore = defaultThemePackStore,
   suspendOnInitialPack = true,
@@ -400,6 +404,7 @@ export function AppThemeProvider({
             experience={effectiveExperience}
             screens={effectiveScreens}
             store={packStore}
+            fallbackPresenters={fallbackPresenters}
           >
             {children}
           </ThemePresenterHost>
@@ -460,18 +465,20 @@ function ThemePackGate({
 }
 
 /**
- * Merges presenters in the documented order: experience, theme screens, then
- * the app's platform presenters (Ionic adaptations win).
+ * A pack may replace a platform's screen defaults. Explicit platform overrides
+ * still win (for example, the Ionic modal and routing link).
  */
 function ThemePresenterHost({
   experience,
   screens,
   store,
+  fallbackPresenters,
   children,
 }: {
   experience: ThemeExperienceId;
   screens: ThemeScreensId | null;
   store: ThemePackStore;
+  fallbackPresenters?: Partial<UIPresenterRegistry>;
   children: React.ReactNode;
 }) {
   const appPresenters = usePresenters();
@@ -484,11 +491,17 @@ function ThemePresenterHost({
 
   const presenters = useMemo(
     () => ({
+      ...fallbackPresenters,
       ...experiencePack.presenters,
       ...screensPack.presenters,
       ...appPresenters,
     }),
-    [appPresenters, experiencePack.presenters, screensPack.presenters],
+    [
+      appPresenters,
+      fallbackPresenters,
+      experiencePack.presenters,
+      screensPack.presenters,
+    ],
   );
 
   return (

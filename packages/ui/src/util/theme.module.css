@@ -1,0 +1,3 @@
+.segmentedControlLabel[data-active][style*="--gn-segmented-label-color"] {
+  color: var(--gn-segmented-label-color);
+}

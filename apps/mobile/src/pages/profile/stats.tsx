@@ -1,19 +1,16 @@
 import { AppPage } from "@/components/general/AppPage";
-import { buildPresenterComponent, ProfileStatsView } from "@repo/ui";
-
-const ProfileStatsPresenter = buildPresenterComponent(
-  "ProfileStatsView",
-  ProfileStatsView,
-);
+import { useTranslation } from "@repo/locales";
+import { ProfileStatsView } from "@repo/ui";
 
 interface Props {
   userId: string;
 }
 
 const ProfileStatsPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   return (
-    <AppPage>
-      <ProfileStatsPresenter userId={userId} />
+    <AppPage title={t("navigation.stats")}>
+      <ProfileStatsView userId={userId} />
     </AppPage>
   );
 };

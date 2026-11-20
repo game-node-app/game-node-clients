@@ -89,30 +89,30 @@ const ExploreGamesFilters = ({ state }: { state: ExploreGamesViewState }) => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <Flex className={"w-full justify-end"}>
-        <IonSelect
-          label={t("explore.filters.trendingIn")}
-          interface="action-sheet"
-          placeholder={t("explore.placeholders.selectPeriod")}
-          onIonChange={(evt) => state.setSelectedPeriod(evt.detail.value)}
-          value={state.selectedPeriod}
-        >
-          {state.periodSelectOptions.map((option) => {
-            return (
-              <IonSelectOption key={option.value} value={option.value}>
-                {option.label}
-              </IonSelectOption>
-            );
-          })}
-        </IonSelect>
-      </Flex>
+    <Flex className={"w-full items-center gap-2"} wrap={"nowrap"}>
+      <IonSelect
+        className={"gn-period-select"}
+        aria-label={t("explore.filters.trendingIn")}
+        interface="action-sheet"
+        interfaceOptions={{ header: t("explore.filters.trendingIn") }}
+        placeholder={t("explore.placeholders.selectPeriod")}
+        onIonChange={(evt) => state.setSelectedPeriod(evt.detail.value)}
+        value={state.selectedPeriod}
+      >
+        {state.periodSelectOptions.map(({ label, value }) => (
+          <IonSelectOption key={value} value={value}>
+            {label}
+          </IonSelectOption>
+        ))}
+      </IonSelect>
+      <div aria-hidden className={"h-5 w-px shrink-0 bg-white/15"} />
       <TrendingGenreChips
+        className={"min-w-0 flex-1"}
         genres={state.genres}
         selectedGenreId={state.selectedGenreId}
         onSelect={state.onSelectGenre}
       />
-    </>
+    </Flex>
   );
 };
 

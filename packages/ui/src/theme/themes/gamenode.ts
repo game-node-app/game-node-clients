@@ -115,7 +115,7 @@ export const gamenodeTheme = defineTheme({
       menuCanvas: "#0F0F0F",
       menuDanger: "#F87171",
       splashBackground: "#1A1A1A",
-      systemBarBackground: "#1F1F1F",
+      systemBarBackground: "#111111",
     },
     state: {
       played: "#4fd1a5",

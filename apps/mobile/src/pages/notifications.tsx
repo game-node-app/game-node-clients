@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import {
   buildPresenterComponent,
@@ -19,11 +20,13 @@ const NotificationsPanelPresenter = buildPresenterComponent(
  * invalidation and completes the Ionic gesture when the requests settle.
  */
 const NotificationsPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const settings = useSettingsModalState();
 
   return (
     <AppPage
+      title={t("notifications.title")}
       contentProps={{
         fixedSlotPlacement: "before",
       }}

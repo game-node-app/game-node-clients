@@ -169,6 +169,15 @@ function contrastRatio(a: string, b: string): number {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+function getTintText(base: string, surface: string): string {
+  const background = blend(surface, base, 0.15);
+  for (let step = 0; step <= 100; step++) {
+    const candidate = blend(base, "white", step / 100);
+    if (contrastRatio(candidate, background) >= 4.5) return candidate;
+  }
+  return "white";
+}
+
 function autoContrast(background: string): string {
   // Named CSS colors keep the contrast math out of the hard-coded-color rule.
   return contrastRatio(background, "black") >=
@@ -403,6 +412,19 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-secondary-rgb", rgbTriplet(secondary)],
     ["--gn-tertiary", tertiary],
     ["--gn-tertiary-rgb", rgbTriplet(tertiary)],
+    ...Object.entries({ brand: brand[5], secondary, tertiary }).flatMap(
+      ([name, color]): [string, string][] => [
+        [
+          `--gn-${name}-filled-text`,
+          contrastRatio(color, "white") >= 4.5
+            ? formatHex(parseColor("white", "filled text"))
+            : contrastRatio(color, tokens.background) >= 4.5
+              ? tokens.background
+              : formatHex(parseColor("black", "filled text")),
+        ],
+        [`--gn-${name}-light-text`, getTintText(color, secondary)],
+      ],
+    ),
     ["--gn-brand-tint", brandTint],
     ...PAPER_STEPS.map(
       (step) => [`--gn-paper-${step}`, paper[step]] as [string, string],
@@ -443,8 +465,14 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
       overrides?.mobile?.buttonBorder ?? tokens.border,
     ],
     ["--gn-mobile-tab-text", overrides?.mobile?.tabText ?? tokens.text],
-    ["--gn-mobile-menu-canvas", overrides?.mobile?.menuCanvas ?? tokens.background],
-    ["--gn-mobile-menu-danger", overrides?.mobile?.menuDanger ?? status.dangerText],
+    [
+      "--gn-mobile-menu-canvas",
+      overrides?.mobile?.menuCanvas ?? tokens.background,
+    ],
+    [
+      "--gn-mobile-menu-danger",
+      overrides?.mobile?.menuDanger ?? status.dangerText,
+    ],
     [
       "--gn-mobile-splash-background",
       overrides?.mobile?.splashBackground ?? tokens.background,

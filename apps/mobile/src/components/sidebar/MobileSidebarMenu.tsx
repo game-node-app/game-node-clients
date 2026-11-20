@@ -5,9 +5,12 @@ import { MobileSidebarButton } from "@/components/sidebar/MobileSidebarButton.ts
 import { MobileSidebarSection } from "@/components/sidebar/MobileSidebarSection.tsx";
 import { closeMainMenu } from "@/util/closeMainMenu";
 import { WRAPPED_TAB_PATH } from "@/util/getTabAwareHref";
+import { version as buildVersion } from "../../../package.json";
+import { App } from "@capacitor/app";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
-import { Stack } from "@mantine/core";
+import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   getS3StoredUpload,
@@ -18,6 +21,7 @@ import {
   UserButton,
   useUserId,
   signOut,
+  GameNodeLogo,
 } from "@repo/ui";
 import {
   IconActivity,
@@ -61,6 +65,15 @@ const MobileSidebarMenu = () => {
     ? getS3StoredUpload(`${banner.filename}.${banner.extension}`)
     : undefined;
 
+  // The native build version replaces the bundled one once known; on web/PWA
+  // `App.getInfo` fails, so the version the bundle was built from stays.
+  const [appVersion, setAppVersion] = useState<string>(buildVersion);
+  useEffect(() => {
+    App.getInfo()
+      .then((info) => setAppVersion(info.version))
+      .catch(() => undefined);
+  }, []);
+
   const closeMenu = () => {
     closeMainMenu().catch(console.error);
   };
@@ -91,13 +104,26 @@ const MobileSidebarMenu = () => {
               }}
             />
           </Link>
+          {/* soft fade into the menu background below the banner */}
+          <div
+            aria-hidden
+            className={"pointer-events-none absolute inset-x-0 bottom-0 h-8"}
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent, var(--gn-mobile-menu-canvas))",
+            }}
+          />
         </IonHeader>
       )}
       <IonContent>
         <Stack
-          className={"w-full min-h-full gap-2 bg-[var(--gn-mobile-menu-canvas)] p-2"}
+          className={
+            "w-full min-h-full gap-2 bg-[var(--gn-mobile-menu-canvas)] p-2"
+          }
         >
-          <MobileSidebarSection title={t("navigation.sidebar.groups.yourSpace")}>
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.yourSpace")}
+          >
             <MobileSidebarButton
               title={t("navigation.collections")}
               Icon={IconLibrary}
@@ -129,7 +155,9 @@ const MobileSidebarMenu = () => {
               href={`/importer`}
             />
           </MobileSidebarSection>
-          <MobileSidebarSection title={t("navigation.sidebar.groups.highlights")}>
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.highlights")}
+          >
             <MobileSidebarButton
               title={t("mobile.wrapped.title")}
               Icon={IconLayout2}
@@ -186,7 +214,9 @@ const MobileSidebarMenu = () => {
               href={`/feats/${userId}`}
             />
           </MobileSidebarSection>
-          <MobileSidebarSection title={t("navigation.sidebar.groups.community")}>
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.community")}
+          >
             <MobileSidebarButton
               title={t("navigation.posts")}
               Icon={IconMessage}
@@ -237,6 +267,18 @@ const MobileSidebarMenu = () => {
               textProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
             />
           </MobileSidebarSection>
+          <div
+            className={
+              "mt-auto flex flex-col items-center gap-1.5 px-6 pt-4 pb-6"
+            }
+          >
+            <GameNodeLogo style={{ width: 56, opacity: 0.45 }} />
+            {appVersion && (
+              <Text size={"xs"} c={"dimmed"} fw={500}>
+                {t("navigation.sidebar.version", { version: appVersion })}
+              </Text>
+            )}
+          </div>
         </Stack>
       </IonContent>
     </>

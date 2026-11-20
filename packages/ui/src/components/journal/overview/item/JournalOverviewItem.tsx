@@ -6,6 +6,7 @@ import {
   useGame,
   useReviewForUserIdAndGameId,
 } from "#@/components";
+import { buildPresenterComponent } from "#@/context";
 import { isNotFoundApiError, Link } from "#@/util";
 import { ActionIcon, Box, Center, Group, Skeleton, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -13,7 +14,7 @@ import { JournalEntryStatusDto } from "@repo/wrapper/server";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useMemo } from "react";
 
-interface Props {
+export interface JournalOverviewItemProps {
   /**
    * Owner of the journal (and of the collection entry).
    * Known upfront, so game/review requests don't wait for the collection entry.
@@ -23,11 +24,12 @@ interface Props {
   item: JournalEntryStatusDto;
 }
 
-const JournalOverviewItem = ({ userId, item, targetDay }: Props) => {
-  const { t } = useTranslation();
+/**
+ * Data needed by a journal overview row. Shared by the default (web) item and
+ * the presenters registered by the apps.
+ */
+function useJournalOverviewItem(userId: string, item: JournalEntryStatusDto) {
   const collectionEntryQuery = useCollectionEntry(item.collectionEntryId);
-
-  const targetUserId = userId;
 
   const gameQuery = useGame(
     item.gameId,
@@ -36,16 +38,29 @@ const JournalOverviewItem = ({ userId, item, targetDay }: Props) => {
         cover: true,
       },
     },
-    { ownerUserId: targetUserId },
+    { ownerUserId: userId },
   );
 
-  const reviewQuery = useReviewForUserIdAndGameId(targetUserId, item.gameId);
+  const reviewQuery = useReviewForUserIdAndGameId(userId, item.gameId);
 
   const platformNames = useMemo(() => {
     return collectionEntryQuery.data?.ownedPlatforms
       .map((platform) => platform.abbreviation)
       .join(" / ");
   }, [collectionEntryQuery.data?.ownedPlatforms]);
+
+  return { collectionEntryQuery, gameQuery, reviewQuery, platformNames };
+}
+
+const DEFAULT_JournalOverviewItem = ({
+  userId,
+  item,
+  targetDay,
+}: JournalOverviewItemProps) => {
+  const { t } = useTranslation();
+  const targetUserId = userId;
+  const { collectionEntryQuery, gameQuery, reviewQuery, platformNames } =
+    useJournalOverviewItem(userId, item);
 
   if (isNotFoundApiError(collectionEntryQuery.error)) {
     // The entry became hidden after the overview was cached: omit the row
@@ -109,4 +124,9 @@ const JournalOverviewItem = ({ userId, item, targetDay }: Props) => {
   );
 };
 
-export { JournalOverviewItem };
+const JournalOverviewItem = buildPresenterComponent(
+  "JournalOverviewItem",
+  DEFAULT_JournalOverviewItem,
+);
+
+export { JournalOverviewItem, useJournalOverviewItem };

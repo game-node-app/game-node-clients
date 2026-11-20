@@ -1,5 +1,6 @@
 import { Box, Group, Image, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
 import { useTranslation } from "@repo/locales";
 import {
   FindAvailableConnectionsResponseDto,
@@ -17,7 +18,7 @@ import { SettingsPill } from "#@/components/settings/common/SettingsPill";
 import { SettingsRow } from "#@/components/settings/common/SettingsRow";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
 import { useSettingsModalState } from "#@/components/settings/hooks/useSettingsModalState";
-import { getErrorMessage, getServerStoredIcon, Link } from "#@/util";
+import { getServerStoredIcon, Link } from "#@/util";
 
 type AvailableConnection = FindAvailableConnectionsResponseDto;
 
@@ -43,6 +44,11 @@ function SettingsConnectionRow({
     isEligible,
   } = usePreferencesConnectionStatus(type);
 
+  // The raw error is only logged; the user sees a plain message and a retry action.
+  useEffect(() => {
+    if (isLookupError) console.error(userConnection.error);
+  }, [isLookupError, userConnection.error]);
+
   const description = isLookupError ? (
     <Text
       component={"span"}
@@ -50,7 +56,7 @@ function SettingsConnectionRow({
       c={"inherit"}
       className={"text-status-danger-text"}
     >
-      {getErrorMessage(userConnection.error)}
+      {t("mobile.preferences.connectionLoadFailed")}
     </Text>
   ) : requiresReauth ? (
     t("preferences.messages.reauthRequired")
@@ -128,7 +134,17 @@ function SettingsConnectionRow({
               <SettingsButton variant={"primary"} onClick={modalUtils.open}>
                 {t("importer.connection.connect")}
               </SettingsButton>
-            ) : null}
+            ) : (
+              <SettingsButton
+                variant={"secondary"}
+                loading={userConnection.isFetching}
+                onClick={() => {
+                  userConnection.refetch().catch(console.error);
+                }}
+              >
+                {t("actions.retry")}
+              </SettingsButton>
+            )}
           </Group>
         }
       />

@@ -30,7 +30,7 @@ const ProfileViewNavbarItem = ({
       <Text
         component="span"
         c="dimmed"
-        className="flex items-center text-center text-[clamp(0.5rem,2.5vw,0.75rem)] [overflow-wrap:anywhere] sm:gap-1 sm:text-sm"
+        className="flex items-center text-center text-[clamp(0.5rem,2.3vw,0.75rem)] [overflow-wrap:normal] sm:gap-1 sm:text-sm"
       >
         {label}
         <IconChevronRight

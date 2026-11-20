@@ -4,4 +4,5 @@
 
 export * from "./PostsFeed";
 export * from "./PostsFeedLayout";
+export * from "./PostsFeedStates";
 export * from "./PostsFeedView";

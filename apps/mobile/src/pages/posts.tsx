@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import { useSearchParameters } from "@/components/general/hooks/useSearchParameters.ts";
 import {
   IonInfiniteScroll,
@@ -9,7 +10,6 @@ import {
 import { Stack } from "@mantine/core";
 import {
   buildPresenterComponent,
-  InfiniteLoaderProps,
   PostsFeedTabValue,
   PostsFeedView,
 } from "@repo/ui";
@@ -22,6 +22,7 @@ const PostsFeedViewPresenter = buildPresenterComponent(
 );
 
 const PostsPage = () => {
+  const { t } = useTranslation();
   const params = useSearchParameters();
   const postId = params.get("postId") as string | undefined;
 
@@ -35,6 +36,7 @@ const PostsPage = () => {
 
   return (
     <AppPage
+      title={t("navigation.posts")}
       withSearch
       contentProps={{
         ref: contentRef,
@@ -57,7 +59,7 @@ const PostsPage = () => {
           onTabChange={setCurrentTab}
           targetedPostId={postId}
         >
-          {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+          {({ fetchNextPage, hasNextPage }) => (
             <IonInfiniteScroll
               disabled={!hasNextPage}
               onIonInfinite={async (evt) => {

@@ -40,6 +40,11 @@ function SettingsModalContent({
   const [showMobileMenu, setShowMobileMenu] = useState(
     () => !section && !router.query.has(SUPPORTER_CHECKOUT_QUERY_PARAM),
   );
+  /**
+   * Deep links (e.g. "Edit profile" on the profile page) never showed the tab
+   * list, so "back" must return to where the user came from, not reveal it.
+   */
+  const [openedDirectly] = useState(() => !showMobileMenu);
 
   const spyKey = `${tab}:${section ?? ""}`;
   const activeSection = spy?.key === spyKey ? spy.section : section;
@@ -117,7 +122,13 @@ function SettingsModalContent({
             )
           }
           onClose={close}
-          onBack={onMobile ? () => setShowMobileMenu(true) : undefined}
+          onBack={
+            onMobile
+              ? openedDirectly
+                ? close
+                : () => setShowMobileMenu(true)
+              : undefined
+          }
         >
           <SettingsTabContent tab={tab} />
         </SettingsPanel>

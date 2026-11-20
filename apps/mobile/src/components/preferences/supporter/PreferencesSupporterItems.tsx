@@ -1,9 +1,8 @@
+import { CardRow, CardSection } from "@/components/general/card";
 import { getTabAwareHref } from "@/util/getTabAwareHref";
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
-import { Group } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useSupporterStatus } from "@repo/ui";
-import { IconHeart } from "@tabler/icons-react";
+import { IconHeartFilled } from "@tabler/icons-react";
 
 const PreferencesSupporterItems = () => {
   const { t } = useTranslation();
@@ -15,20 +14,15 @@ const PreferencesSupporterItems = () => {
     : t("supporter.preferences.freeStatus");
 
   return (
-    <IonItemGroup>
-      <IonItemDivider>
-        <IonLabel>{t("supporter.preferences.title")}</IonLabel>
-      </IonItemDivider>
-      <IonItem button routerLink={getTabAwareHref("/preferences/supporter")}>
-        <Group className={"gap-2"}>
-          <IconHeart />
-          <IonLabel>
-            <h3>{t("supporter.preferences.title")}</h3>
-            <p>{statusLabel}</p>
-          </IonLabel>
-        </Group>
-      </IonItem>
-    </IonItemGroup>
+    <CardSection premium>
+      <CardRow
+        premium
+        icon={<IconHeartFilled size={20} />}
+        title={t("supporter.preferences.title")}
+        description={statusLabel}
+        href={getTabAwareHref("/preferences/supporter")}
+      />
+    </CardSection>
   );
 };
 

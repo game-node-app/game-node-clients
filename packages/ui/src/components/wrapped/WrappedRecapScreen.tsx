@@ -7,6 +7,7 @@ import {
 } from "#@/components";
 import { RecapStoreSync } from "#@/components/recap/RecapStoreSync";
 import { RecapCardPreview } from "#@/components/wrapped/card/RecapCardPreview";
+import { RecapAuraCard } from "#@/components/wrapped/card/RecapAuraCard";
 import { RecapBentoCard } from "#@/components/wrapped/card/RecapBentoCard";
 import { RecapDashCard } from "#@/components/wrapped/card/RecapDashCard";
 import { RecapPosterCard } from "#@/components/wrapped/card/RecapPosterCard";
@@ -86,7 +87,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /** Story has the editorial templates; Feed keeps the wide summary. */
 const TEMPLATES_BY_FORMAT: Record<RecapCardFormat, RecapTemplate[]> = {
-  story: ["poster", "dash", "bento"],
+  story: ["poster", "dash", "bento", "aura"],
   feed: ["summary"],
 };
 
@@ -328,6 +329,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
     }
     if (target === "dash") return <RecapDashCard {...props} />;
     if (target === "bento") return <RecapBentoCard {...props} />;
+    if (target === "aura") return <RecapAuraCard {...props} />;
     return <RecapPosterCard {...props} />;
   };
 
@@ -601,7 +603,6 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
         {!sheetOpen && <Title order={2}>{t("mobile.wrapped.title")}</Title>}
         {periodControl("w-full")}
         {emptyMessage}
-        {userId && <RecapStoreSync />}
 
         <div
           className={"flex flex-1 flex-col justify-center touch-pan-y min-h-40"}
@@ -696,6 +697,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
               </Group>
               {exportStatus}
             </Stack>
+            {userId && <RecapStoreSync />}
           </>
         )}
 

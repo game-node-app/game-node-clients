@@ -616,7 +616,8 @@ export type TranslationSchema = {
       addedTo: string;
       completedAllAchievements: string;
       followed: string;
-      obtainedAchievements: string;
+      obtainedAchievements_one: string;
+      obtainedAchievements_other: string;
       obtainedAllAndPlatinum: string;
       obtainedPlatinum: string;
       postedAbout: string;
@@ -824,13 +825,18 @@ export type TranslationSchema = {
       finalNominees: string;
       limitReached: string;
       loadError: string;
+      nextCategory: string;
       noCategories: string;
       noFinalNominees: string;
       noPicks: string;
       pickCount: string;
+      pickCounter: string;
+      previousCategory: string;
       searchTitle: string;
       signInToNominate: string;
       signInToSee: string;
+      skipCategory: string;
+      skipHint: string;
       subtitle: string;
       subtitleClosed: string;
       title: string;
@@ -988,6 +994,7 @@ export type TranslationSchema = {
       moveGames: string;
       reorderGames: string;
       updateDetails: string;
+      create: string;
     };
     create: string;
     descriptions: {
@@ -1047,6 +1054,10 @@ export type TranslationSchema = {
     update: string;
     validation: {
       featuredMustBePublic: string;
+    };
+    empty: {
+      title: string;
+      description: string;
     };
   };
   collectionEntry: {
@@ -1826,6 +1837,12 @@ export type TranslationSchema = {
     recentActivity: string;
     trendingGames: string;
     trendingReviews: string;
+    trendingRank: string;
+    trendingSelectGame: string;
+    trendingViewGame: string;
+    trendingPause: string;
+    trendingPlay: string;
+    trendingError: string;
   };
   importer: {
     buttons: {
@@ -1911,9 +1928,13 @@ export type TranslationSchema = {
   journal: {
     achievements: {
       autoUpdate: string;
-      count: string;
+      count_one: string;
+      count_other: string;
       description: string;
+      completed: string;
       hover: string;
+      helpLabel: string;
+      platinum: string;
       loading: string;
       tap: string;
       tipAction: string;
@@ -1922,7 +1943,11 @@ export type TranslationSchema = {
     };
     loading: string;
     overview: {
-      gamesCount: string;
+      emptyAction: string;
+      emptyDescription: string;
+      emptyTitle: string;
+      gamesCount_one: string;
+      gamesCount_other: string;
     };
   };
   landing: {
@@ -2200,6 +2225,10 @@ export type TranslationSchema = {
       editProfileDetails: string;
       setAppLanguage: string;
       importerSystem: string;
+      libraryAndDisplay: string;
+      platformsAndImport: string;
+      appsAndTools: string;
+      connectionLoadFailed: string;
       misc: string;
       profile: string;
     };
@@ -2252,6 +2281,7 @@ export type TranslationSchema = {
         };
         reviewed: string;
         started: string;
+        secondGame: string;
         topGame: string;
         topGameShare: string;
         topGames: string;
@@ -2322,6 +2352,7 @@ export type TranslationSchema = {
       shareDescription: string;
       sharePrompt: string;
       templates: {
+        aura: string;
         bento: string;
         dash: string;
         poster: string;
@@ -2467,6 +2498,7 @@ export type TranslationSchema = {
         tools: string;
         yourSpace: string;
       };
+      version: string;
     };
     stats: string;
     terms: string;
@@ -2636,6 +2668,11 @@ export type TranslationSchema = {
     labels: {
       postedAbout: string;
       sharedImage: string;
+    };
+    empty: {
+      title: string;
+      description: string;
+      create: string;
     };
     messages: {
       linkCopied: string;
@@ -2869,6 +2906,7 @@ export type TranslationSchema = {
       noFeaturedAchievements: string;
       noReviews: string;
       noReviewsOwn: string;
+      reviewAGame: string;
       usernameUpdateCooldown: string;
       usernameUpdated: string;
     };
@@ -2880,6 +2918,7 @@ export type TranslationSchema = {
       backlogTracking: string;
       collectionsLabel: string;
       estimatedPlaytime: string;
+      playtimeShort: string;
       finishYear: string;
       finishedGames: string;
       finishedGamesLabel: string;
@@ -2887,6 +2926,12 @@ export type TranslationSchema = {
       gamesByYear: string;
       gamesLabel: string;
       libraryDistribution: string;
+      distributionBy: {
+        status: string;
+        genre: string;
+        theme: string;
+        mode: string;
+      };
       playedThisYear: string;
       playtime: string;
       playtimeNote1: string;
@@ -3523,6 +3568,7 @@ export type TranslationSchema = {
     read: string;
     write: string;
     choose: string;
+    otherAssistants: string;
     add: string;
     authorizeStep: string;
     verify: string;

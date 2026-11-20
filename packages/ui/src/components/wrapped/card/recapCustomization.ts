@@ -45,6 +45,7 @@ export const RECAP_BACKDROP_OPACITY = {
   poster: 0.9,
   dash: 0.9,
   bento: 0.85,
+  aura: 0.4,
   summary: 0.8,
 } as const;
 
@@ -53,6 +54,7 @@ export const RECAP_BACKDROP_BLUR = {
   poster: 35,
   dash: 35,
   bento: 50,
+  aura: 60,
   summary: 80,
 } as const;
 

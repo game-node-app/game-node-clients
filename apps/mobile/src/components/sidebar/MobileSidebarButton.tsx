@@ -45,7 +45,7 @@ const MobileSidebarButton = ({
     <Link
       to={absolute ? href : getTabAwareHref(href)}
       onClick={onClick}
-      className={"w-full relative ion-activatable"}
+      className={"block w-full relative ion-activatable"}
     >
       <IonRippleEffect />
       <Group

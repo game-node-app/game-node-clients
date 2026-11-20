@@ -38,8 +38,15 @@ import {
   getCapacitorAuthToken,
   withCapacitor,
 } from "better-auth-capacitor/client";
-import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
-import { UI_HOOK_REGISTRY, UI_PRESENTER_REGISTRY } from "@/components/registry";
+import {
+  createCapacitorAsyncStorage,
+  holdWritesUntilSplashDone,
+} from "@/util/asyncStorage";
+import {
+  THEME_FALLBACK_PRESENTERS,
+  UI_HOOK_REGISTRY,
+  UI_PRESENTER_REGISTRY,
+} from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
 import { mobileThemeStorage } from "@/theme/theme-storage";
 import { NativeThemeChrome } from "@/theme/use-native-theme-chrome";
@@ -152,7 +159,7 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
   );
   const [persister] = useState(() =>
     createAsyncStoragePersister({
-      storage: createCapacitorAsyncStorage(),
+      storage: holdWritesUntilSplashDone(createCapacitorAsyncStorage()),
       throttleTime: 1000,
     }),
   );
@@ -199,6 +206,7 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
               <AppThemeProvider
                 initialTheme={initialTheme}
                 themeStorage={mobileThemeStorage}
+                fallbackPresenters={THEME_FALLBACK_PRESENTERS}
                 suspendOnInitialPack={false}
               >
                 <NativeThemeChrome />

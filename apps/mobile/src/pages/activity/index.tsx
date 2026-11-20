@@ -23,7 +23,7 @@ const ActivityPage = () => {
     useState<ActivityFeedTabValue>("all");
 
   return (
-    <AppPage withSearch>
+    <AppPage title={t("navigation.activity")} withSearch>
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {

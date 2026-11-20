@@ -39,7 +39,7 @@ describe("createNativeThemeChrome", () => {
     await chrome.apply("gamenode");
 
     expect(deps.enableEdgeToEdge).toHaveBeenCalledTimes(1);
-    expect(deps.setEdgeToEdgeBackground).toHaveBeenLastCalledWith("#1F1F1F");
+    expect(deps.setEdgeToEdgeBackground).toHaveBeenLastCalledWith("#111111");
     expect(deps.setStatusBarStyle).toHaveBeenLastCalledWith(Style.Dark);
 
     await chrome.apply("xbox");
@@ -101,7 +101,7 @@ describe("createNativeThemeChrome", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(setEdgeToEdgeBackground).toHaveBeenCalledTimes(1);
-    expect(setEdgeToEdgeBackground).toHaveBeenNthCalledWith(1, "#1F1F1F");
+    expect(setEdgeToEdgeBackground).toHaveBeenNthCalledWith(1, "#111111");
 
     releaseFirst();
     await Promise.all([first, second]);

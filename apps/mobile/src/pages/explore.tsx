@@ -4,6 +4,7 @@ import {
   ExploreGamesResults,
   useExploreGamesViewState,
 } from "@/components/explore/ExploreGamesPageView";
+import { useTranslation } from "@repo/locales";
 import { AppPage } from "@/components/general/AppPage.tsx";
 import {
   buildPresenterComponent,
@@ -22,6 +23,7 @@ const ExploreTrendingGamesPresenter = buildPresenterComponent(
 const CONSOLE_CATEGORY_LIMIT = 12;
 
 const ExplorePage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const viewState = useExploreGamesViewState();
   const consoleDto = useMemo<InfiniteQueryTrendingGamesDto>(
@@ -37,7 +39,7 @@ const ExplorePage = () => {
   const filtered = viewState.selection !== "overview";
 
   return (
-    <AppPage withMenuButton>
+    <AppPage title={t("navigation.explore")} withMenuButton>
       <IonRefresher
         slot={"fixed"}
         onIonRefresh={async (evt) => {

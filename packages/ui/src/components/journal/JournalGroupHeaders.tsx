@@ -1,7 +1,8 @@
 import { Divider, Group, Text, Title } from "@mantine/core";
-import dayjs from "dayjs";
+import { buildPresenterComponent } from "#@/context";
+import { useJournalMonthName } from "#@/components/journal/hooks/useJournalMonthName";
 
-interface JournalYearHeaderProps {
+export interface JournalYearHeaderProps {
   year: number;
   /**
    * Already-formatted subtitle, e.g. "12 games".
@@ -12,7 +13,10 @@ interface JournalYearHeaderProps {
 /**
  * Year heading used by the flattened (progressively rendered) journal lists.
  */
-const JournalYearHeader = ({ year, subtitle }: JournalYearHeaderProps) => {
+const DEFAULT_JournalYearHeader = ({
+  year,
+  subtitle,
+}: JournalYearHeaderProps) => {
   return (
     <div>
       <Group className={"gap-3"}>
@@ -26,7 +30,7 @@ const JournalYearHeader = ({ year, subtitle }: JournalYearHeaderProps) => {
   );
 };
 
-interface JournalMonthHeaderProps {
+export interface JournalMonthHeaderProps {
   year: number;
   /**
    * Zero-based month index.
@@ -34,12 +38,27 @@ interface JournalMonthHeaderProps {
   month: number;
 }
 
-const JournalMonthHeader = ({ year, month }: JournalMonthHeaderProps) => {
+const DEFAULT_JournalMonthHeader = ({
+  year,
+  month,
+}: JournalMonthHeaderProps) => {
+  const monthName = useJournalMonthName(year, month);
+
   return (
-    <Title size={"h5"} className={"text-white mt-1"}>
-      {dayjs(new Date(year, month, 1)).format("MMMM")}
+    <Title size={"h5"} className={"text-white mt-1 first-letter:uppercase"}>
+      {monthName}
     </Title>
   );
 };
+
+const JournalYearHeader = buildPresenterComponent(
+  "JournalYearHeader",
+  DEFAULT_JournalYearHeader,
+);
+
+const JournalMonthHeader = buildPresenterComponent(
+  "JournalMonthHeader",
+  DEFAULT_JournalMonthHeader,
+);
 
 export { JournalYearHeader, JournalMonthHeader };

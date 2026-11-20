@@ -1,5 +1,6 @@
 import { RadarChart } from "@mantine/charts";
 import type { ProfileMetricsTypeDistributionItem } from "@repo/wrapper/server";
+import { SUCCESS_COLOR } from "#@/util";
 
 /**
  * Converted distribution item - necessary because RadarChart doesn't have a 'valueFormatter' or a 'label' prop on
@@ -37,7 +38,7 @@ const ProfileStatsDistributionRadarByTypeChart = ({ distribution }: Props) => {
         { name: "Total", color: "var(--gn-chart-primary)", opacity: 1 },
         {
           name: "Finished",
-          color: "red",
+          color: SUCCESS_COLOR,
           opacity: 0.4,
         },
       ]}

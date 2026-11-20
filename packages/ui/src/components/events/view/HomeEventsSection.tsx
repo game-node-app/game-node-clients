@@ -70,7 +70,7 @@ export function HomeEventsSection({ className }: HomeEventsSectionProps) {
       className={cn("w-full", className)}
     >
       <Stack gap={"sm"} className={"w-full"}>
-        <Title order={2} size={"h4"}>
+        <Title order={2} fz={22} fw={700} lh={1.25} lts={"-0.01em"} c={"white"}>
           {t("events.home.title")}
         </Title>
         {isCarousel ? (

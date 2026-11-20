@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage";
+import { useTranslation } from "@repo/locales";
 import {
   CenteredLoading,
   ProfileReviewListView,
@@ -10,9 +11,10 @@ interface Props {
 }
 
 const ProfileReviewListPage = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   return (
-    <AppPage>
+    <AppPage title={t("navigation.reviews")}>
       {profileQuery.isLoading && <CenteredLoading />}
       <ProfileReviewListView userId={userId} />
     </AppPage>

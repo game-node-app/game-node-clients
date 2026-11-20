@@ -1,23 +1,24 @@
 import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { UserLevelInfo } from "#@/components/user-level/UserLevelInfo";
+import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { AvatarProps, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
-interface Props {
+export interface UserAvatarWithLevelInfoProps {
   userId: string;
   showJoinDate?: boolean;
   enableLink?: boolean;
   avatarProps?: AvatarProps;
 }
 
-const UserAvatarWithLevelInfo = ({
+const DEFAULT_UserAvatarWithLevelInfo = ({
   userId,
   showJoinDate = true,
   enableLink = true,
   avatarProps,
-}: Props) => {
+}: UserAvatarWithLevelInfoProps) => {
   const { t, i18n } = useTranslation();
   const profileQuery = useUserProfile(userId);
 
@@ -55,5 +56,10 @@ const UserAvatarWithLevelInfo = ({
     </Link>
   );
 };
+
+const UserAvatarWithLevelInfo = buildPresenterComponent(
+  "UserLevelHeader",
+  DEFAULT_UserAvatarWithLevelInfo,
+);
 
 export { UserAvatarWithLevelInfo };

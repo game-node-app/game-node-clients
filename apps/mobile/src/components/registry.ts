@@ -7,12 +7,26 @@ import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
 import { MobileGameAchievementListItem } from "@/components/achievement/MobileGameAchievementListItem.tsx";
+import { MobileUserLevelHeader } from "@/components/general/MobileUserLevelHeader";
+import { MobileJournalAchievementsGameGroup } from "@/components/journal/MobileJournalAchievementsGameGroup";
+import { MobileProfileStatsView } from "@/components/profile/MobileProfileStatsView";
 import { MobileBlogArticleLanguageLink } from "@/components/blog/MobileBlogArticleLanguageLink";
+import { MobileMcpGuideScreen } from "@/components/mcp/MobileMcpGuideScreen";
+import { MobilePostsFeedLayout } from "@/components/posts/MobilePostsFeedLayout";
+import { MobilePostsListItem } from "@/components/posts/MobilePostsListItem";
+import {
+  MobileJournalMonthHeader,
+  MobileJournalYearHeader,
+} from "@/components/journal/MobileJournalHeaders";
+import { MobileJournalOverviewItem } from "@/components/journal/MobileJournalOverviewItem";
+import { MobileProfileReviewListEmpty } from "@/components/review/list/MobileProfileReviewListEmpty";
+import { MobileProfileReviewListItem } from "@/components/review/list/MobileProfileReviewListItem";
 import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrapper";
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { useIonScrollPosition } from "@/components/general/hooks/useIonScrollPosition";
 import { useIonViewActive } from "@/components/general/hooks/useIonViewActive";
+import { useOpenGameSearch } from "@/components/general/hooks/useOpenGameSearch";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
@@ -21,8 +35,24 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
   GameAchievementsListItem: MobileGameAchievementListItem,
   BlogArticleLanguageLink: MobileBlogArticleLanguageLink,
+  McpGuideScreen: MobileMcpGuideScreen,
+  PostsFeedLayout: MobilePostsFeedLayout,
+  UserLevelHeader: MobileUserLevelHeader,
+  JournalAchievementsGameGroup: MobileJournalAchievementsGameGroup,
+  JournalOverviewItem: MobileJournalOverviewItem,
+  JournalMonthHeader: MobileJournalMonthHeader,
+  JournalYearHeader: MobileJournalYearHeader,
+  ProfileReviewListItem: MobileProfileReviewListItem,
+  ProfileReviewListEmpty: MobileProfileReviewListEmpty,
   Link: LinkWrapper,
   Modal: IonModalWrapper,
+};
+
+// These are complete mobile screens that a theme can replace. The platform
+// presenters above supply primitives and adaptations used inside theme screens.
+export const THEME_FALLBACK_PRESENTERS: Partial<UIPresenterRegistry> = {
+  PostsListItem: MobilePostsListItem,
+  ProfileStatsView: MobileProfileStatsView,
 };
 
 export const UI_HOOK_REGISTRY: UIHookRegistry = {
@@ -31,6 +61,7 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
   supporterSettingsHref: "/preferences/supporter",
   useScrollPosition: useIonScrollPosition,
   useIsViewActive: useIonViewActive,
+  useOpenGameSearch,
   shareText: async (text) => {
     try {
       await Share.share({ text });

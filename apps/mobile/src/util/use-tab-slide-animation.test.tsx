@@ -40,8 +40,8 @@ afterEach(() => {
 });
 
 it.each([
-  ["/home", "/explore", "explore", -32],
-  ["/explore", "/wrapped/preferences", "wrapped", 32],
+  ["/home", "/explore", "explore", "-100%"],
+  ["/explore", "/wrapped/preferences", "wrapped", "100%"],
 ])("slides from %s to %s in tab-bar order", (from, to, nextTab, offset) => {
   vi.stubGlobal("matchMedia", () => ({ matches: false }));
   const cancel = vi.fn();
@@ -58,7 +58,7 @@ it.each([
   fireEvent(screen.getByTestId("page"), new CustomEvent("ionViewWillEnter"));
   expect(animate).toHaveBeenCalledWith(
     expect.arrayContaining([
-      expect.objectContaining({ transform: `translateX(${offset}px)` }),
+      expect.objectContaining({ transform: `translateX(${offset})` }),
     ]),
     expect.objectContaining({ duration: 280 }),
   );

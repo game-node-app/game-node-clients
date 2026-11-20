@@ -41,6 +41,12 @@
   --gn-secondary-rgb: 26,26,26;
   --gn-tertiary: #872C13;
   --gn-tertiary-rgb: 135,44,19;
+  --gn-brand-filled-text: #111111;
+  --gn-brand-light-text: #f25e36;
+  --gn-secondary-filled-text: #ffffff;
+  --gn-secondary-light-text: #838383;
+  --gn-tertiary-filled-text: #ffffff;
+  --gn-tertiary-light-text: #b37a6a;
   --gn-brand-tint: #2e150f;
   --gn-paper-0: #161616;
   --gn-paper-1: #262525;
@@ -248,6 +254,12 @@
   --gn-secondary-rgb: 20,20,20;
   --gn-tertiary: #004600;
   --gn-tertiary-rgb: 0,70,0;
+  --gn-brand-filled-text: #ffffff;
+  --gn-brand-light-text: #459945;
+  --gn-secondary-filled-text: #ffffff;
+  --gn-secondary-light-text: #7e7e7e;
+  --gn-tertiary-filled-text: #ffffff;
+  --gn-tertiary-light-text: #618c61;
   --gn-brand-tint: #0f1c0f;
   --gn-paper-0: #141414;
   --gn-paper-1: #232323;
