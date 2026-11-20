@@ -32,8 +32,11 @@ const config: CapacitorConfig = {
     },
     SystemBars: {
       style: "DARK",
-      // Insets are handled by @capawesome/capacitor-android-edge-to-edge-support.
-      insetsHandling: "disable",
+      // Pads the window by the soft keyboard so the WebView shrinks above it (Android 15+ no longer resizes
+      // edge-to-edge windows). With `viewport-fit=cover` the system bar insets still reach the WebView, where
+      // @capawesome/capacitor-android-edge-to-edge-support applies them as margins and paints the bar colors.
+      insetsHandling: "native",
+      initialViewportFitValueHint: "cover",
     },
   },
 };
