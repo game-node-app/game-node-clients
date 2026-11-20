@@ -92,7 +92,7 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
           classNames={{
             root: "group w-full",
             input:
-              "!rounded-full !border-transparent text-base transition-[border-color,box-shadow] duration-150 hover:!border-white/20 focus:!border-brand focus:!shadow-[0_0_0_3px_rgb(241_80_37/0.3)] [&::-webkit-search-cancel-button]:appearance-none",
+              "!rounded-full !border-transparent text-base transition-[border-color,box-shadow] duration-150 hover:!border-white/20 focus:!border-brand focus:!shadow-[0_0_0_3px_color-mix(in_srgb,var(--gn-accent)_30%,transparent)] [&::-webkit-search-cancel-button]:appearance-none",
             section:
               "text-dimmed transition-colors duration-150 group-focus-within:text-brand",
           }}

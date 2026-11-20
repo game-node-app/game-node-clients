@@ -4,6 +4,7 @@ import {
   createTheme,
   DEFAULT_THEME,
   defaultVariantColorsResolver,
+  type MantineColorsTuple,
   mergeMantineTheme,
   parseThemeColor,
   VariantColorsResolver,
@@ -11,7 +12,7 @@ import {
 
 /**
  * Mantine derives the dark "light" variant from shades 9 (bg) and 0 (text).
- * Our flat colorsTuple palettes make that orange-on-brown, so tint with the color itself instead.
+ * Our flat token palettes make that orange-on-brown, so tint with the color itself instead.
  */
 export const variantColorResolver: VariantColorsResolver = (input) => {
   const defaults = defaultVariantColorsResolver(input);
@@ -29,12 +30,32 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   };
 };
 
+/**
+ * Saturated palettes stay flat on purpose (as before the token system): every
+ * shade resolves to the active theme's brand/secondary/tertiary token, while
+ * the Tailwind `brand-0…9` ramp keeps the generated steps.
+ */
+const darkColors = [
+  "var(--gn-dark-0)",
+  "var(--gn-dark-1)",
+  "var(--gn-dark-2)",
+  "var(--gn-dark-3)",
+  "var(--gn-dark-4)",
+  "var(--gn-dark-5)",
+  "var(--gn-dark-6)",
+  "var(--gn-dark-7)",
+  "var(--gn-dark-8)",
+  "var(--gn-dark-9)",
+] as const satisfies MantineColorsTuple;
+
 const themeOverride = createTheme({
-  fontFamily: "Roboto, Roboto Fallback",
+  fontFamily: "var(--gn-font)",
+  defaultRadius: "var(--gn-radius)",
   colors: {
-    brand: colorsTuple("#F15025"),
-    secondary: colorsTuple("#1A1A1A"),
-    tertiary: colorsTuple("#872C13"),
+    brand: colorsTuple("var(--gn-brand)"),
+    secondary: colorsTuple("var(--gn-secondary)"),
+    tertiary: colorsTuple("var(--gn-tertiary)"),
+    dark: darkColors,
   },
   primaryColor: "brand",
   variantColorResolver,

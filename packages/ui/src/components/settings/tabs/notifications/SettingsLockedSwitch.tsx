@@ -27,8 +27,8 @@ export function SettingsLockedSwitch({
       aria-label={label}
       className={cn("opacity-60", className)}
       classNames={{
-        track: "!bg-[#2a2a2a]",
-        thumb: checked ? "!bg-[#f15025]" : "!bg-[#7a7a7a]",
+        track: "!bg-line",
+        thumb: checked ? "!bg-brand" : "!bg-dimmed-3",
       }}
     />
   );

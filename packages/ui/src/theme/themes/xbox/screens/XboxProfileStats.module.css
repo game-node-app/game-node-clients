@@ -1,0 +1,84 @@
+/* Xbox profile stats summary: headline numbers split by thin rules. */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  border-radius: var(--gn-radius);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 20px 24px;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--gn-border);
+}
+
+.value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--gn-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: var(--gn-text-muted);
+}
+
+.note {
+  font-size: 0.75rem;
+  color: var(--gn-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.meter {
+  width: 100%;
+  height: 6px;
+  margin: 8px 0 4px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--gn-text) 18%, transparent);
+}
+
+.meterFill {
+  display: block;
+  height: 100%;
+  background: var(--gn-brand);
+}
+
+@media (max-width: 61.99em) {
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    padding: 16px;
+  }
+
+  .stat + .stat {
+    border-left: 0;
+  }
+
+  .stat:nth-child(even) {
+    border-left: 1px solid var(--gn-border);
+  }
+
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid var(--gn-border);
+  }
+}

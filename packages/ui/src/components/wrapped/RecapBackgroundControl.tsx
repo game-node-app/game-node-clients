@@ -245,7 +245,7 @@ function BackdropGallery({
               className={cn(
                 "aspect-video overflow-hidden rounded-md bg-black/40 transition-shadow",
                 active
-                  ? "ring-2 ring-[#F15025]"
+                  ? "ring-2 ring-brand"
                   : "ring-1 ring-white/10 hover:ring-white/30",
               )}
             >
@@ -369,7 +369,7 @@ export function RecapBackgroundControl({
               className={cn(
                 "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-xs transition-colors",
                 active
-                  ? "border-[#F15025] bg-[#F15025]/10 font-semibold text-white"
+                  ? "border-brand bg-brand/10 font-semibold text-white"
                   : "border-white/10 bg-white/[0.03] text-[#9A9A9A] hover:border-white/25 hover:text-white",
               )}
             >

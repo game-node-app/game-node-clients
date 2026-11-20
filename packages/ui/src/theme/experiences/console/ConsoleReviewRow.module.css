@@ -1,0 +1,198 @@
+.reviewGroup {
+  width: 100%;
+  gap: var(--mantine-spacing-xs);
+}
+
+.reviewTitle {
+  font-weight: 600;
+  color: var(--gn-text);
+}
+
+.reviewRow {
+  display: grid;
+  grid-auto-flow: column;
+  /* gap == side padding: a bigger padding would show a sliver of the next card inside it */
+  gap: 20px;
+  grid-auto-columns: calc(
+    (100% - (var(--console-review-cols, 1.15) - 1) * 20px) /
+      var(--console-review-cols, 1.15)
+  );
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 20px;
+  margin-inline: -8px;
+  scroll-padding-inline: 20px;
+  mask-image: linear-gradient(
+    to right,
+    var(--gn-text) calc(100% - 48px),
+    transparent
+  );
+  scrollbar-width: none;
+}
+
+.reviewRow::-webkit-scrollbar {
+  display: none;
+}
+
+/* keep the focused card's ring outside the edge fade */
+.reviewRow:has(:focus-visible) {
+  mask-image: none;
+}
+
+.reviewCard {
+  /* taller than the shot's 16:9 so author, game and four lines of review fit without hiding the art */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--gn-radius);
+  overflow: hidden;
+  background-color: var(--gn-paper-1);
+  scroll-snap-align: start;
+  outline: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.reviewCard:hover,
+.reviewCard:focus-visible {
+  transform: scale(1.03);
+  /* the dark gap keeps the green ring legible over bright screenshots */
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 4px var(--gn-focus);
+  z-index: 1;
+}
+
+.reviewShot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.reviewCard:hover .reviewShot,
+.reviewCard:focus-visible .reviewShot {
+  transform: scale(1.04);
+}
+
+/* who wrote it and how they rated it, read first, like the default theme's review cards */
+.reviewHead {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 32px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gn-body) 75%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+/* no glass box: a deep scrim lets the shot breathe on top and keeps the text readable below */
+.reviewBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding: 48px 18px 16px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--gn-body) 72%, transparent) 38%,
+    color-mix(in srgb, var(--gn-body) 92%, transparent) 100%
+  );
+}
+
+.reviewGame {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--gn-text);
+}
+
+.reviewText {
+  position: relative;
+  padding-left: 12px;
+  border-left: 2px solid var(--gn-brand);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--gn-text) 88%, transparent);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* reviews are rich text: flatten headings, bold and margins so every card reads the same */
+.reviewText * {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* tiptap keeps empty paragraphs as a lone <br>; they would eat one of the clamped lines */
+.reviewText p:has(> br:only-child) {
+  display: none;
+}
+
+.reviewAuthor {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gn-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 48em) {
+  .reviewRow {
+    --console-review-cols: 2;
+    scroll-snap-type: x mandatory;
+    mask-image: none;
+  }
+}
+
+@media (min-width: 62em) {
+  .reviewRow {
+    --console-review-cols: 3;
+  }
+}
+
+@media (min-width: 75em) {
+  .reviewRow {
+    --console-review-cols: 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reviewCard,
+  .reviewShot {
+    transition: none;
+  }
+
+  .reviewCard:hover,
+  .reviewCard:focus-visible {
+    transform: none;
+  }
+
+  .reviewCard:hover .reviewShot,
+  .reviewCard:focus-visible .reviewShot {
+    transform: none;
+  }
+}

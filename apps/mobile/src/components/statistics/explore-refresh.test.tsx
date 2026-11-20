@@ -20,6 +20,19 @@ import ExplorePage from "../../pages/explore";
 const completed = vi.hoisted(() => vi.fn());
 vi.mock("../../components/explore/ExploreGamesPageView", () => ({
   ExploreGamesPageView: () => null,
+  ExploreGamesFilters: () => null,
+  ExploreGamesResults: () => null,
+  useExploreGamesViewState: () => ({
+    selectedPeriod: "month",
+    setSelectedPeriod: () => {},
+    selection: "overview",
+    isOverview: true,
+    selectedGenreId: undefined,
+    genres: [],
+    onSelectGenre: () => {},
+    onSelectOverall: () => {},
+    periodSelectOptions: [],
+  }),
 }));
 vi.mock("../../components/general/AppPage.tsx", async () => {
   const React = await import("react");

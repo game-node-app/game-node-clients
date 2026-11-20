@@ -36,7 +36,7 @@ export function SettingsSection({
             {title}
           </Text>
           {description && (
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {description}
             </Text>
           )}

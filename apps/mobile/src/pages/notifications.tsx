@@ -1,11 +1,17 @@
 import { AppPage } from "@/components/general/AppPage";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import {
+  buildPresenterComponent,
   NotificationsPanel,
   SessionAuth,
   useSettingsModalState,
 } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
+
+const NotificationsPanelPresenter = buildPresenterComponent(
+  "NotificationsPanel",
+  NotificationsPanel,
+);
 
 /**
  * Mobile notifications page, sharing the panel used by the web popover and
@@ -37,7 +43,7 @@ const NotificationsPage = () => {
       </IonRefresher>
       <SessionAuth>
         <div className={"w-full pb-4"}>
-          <NotificationsPanel
+          <NotificationsPanelPresenter
             variant={"page"}
             onOpenSettings={() => settings.open("notifications")}
           />

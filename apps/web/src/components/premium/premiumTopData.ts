@@ -13,7 +13,7 @@ export const HERO_PROFILE = {
     premiumAsset("f2027.jpg"),
     premiumAsset("7f694.jpg"),
   ],
-  chipColors: ["#9747ff", "#f15025", "#3dd68c", "#2f9bff"],
+  chipColors: ["#9747ff", "var(--gn-brand)", "#3dd68c", "#2f9bff"],
 } as const;
 
 export const EXTRAS_ITEMS = [
@@ -64,7 +64,7 @@ export const ACCENT_PROFILES = [
 
 export const ACCENT_SWATCHES = [
   "#9747ff",
-  "#f15025",
+  "var(--gn-brand)",
   "#3dd68c",
   "#2f9bff",
   "#ffc53d",

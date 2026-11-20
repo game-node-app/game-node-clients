@@ -3,11 +3,15 @@
   position: relative;
   overflow: hidden;
   padding: 32px 24px;
-  border: 1px solid #292929;
+  border: 1px solid var(--gn-line);
   border-radius: 12px;
   background:
-    radial-gradient(70% 90% at 100% 0%, rgba(241, 80, 37, 0.22), transparent),
-    #0b0b0b;
+    radial-gradient(
+      70% 90% at 100% 0%,
+      color-mix(in srgb, var(--gn-brand) 22%, transparent),
+      transparent
+    ),
+    var(--gn-nav-canvas);
 }
 
 @media (min-width: 48em) {
@@ -17,7 +21,7 @@
 }
 
 .eyebrow {
-  color: var(--mantine-color-brand-6, #f15025);
+  color: var(--mantine-color-brand-6);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -25,9 +29,9 @@
 }
 
 .card {
-  border: 1px solid #292929;
+  border: 1px solid var(--gn-line);
   border-radius: 12px;
-  background: #0f0f0f;
+  background: var(--gn-background);
 }
 
 .tile {
@@ -36,9 +40,9 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-  border: 1px solid #292929;
+  border: 1px solid var(--gn-line);
   border-radius: 12px;
-  background: #0f0f0f;
+  background: var(--gn-background);
   font-weight: 600;
   transition:
     border-color 150ms ease,
@@ -46,15 +50,15 @@
 }
 
 .tile:hover {
-  border-color: #3a3a3a;
+  border-color: var(--gn-line-strong);
 }
 
 .tile[aria-pressed="true"] {
-  border-color: var(--mantine-color-brand-6, #f15025);
-  background: rgba(241, 80, 37, 0.08);
+  border-color: var(--mantine-color-brand-6);
+  background: color-mix(in srgb, var(--gn-brand) 8%, transparent);
 }
 
 .tile:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--gn-text);
   outline-offset: 3px;
 }

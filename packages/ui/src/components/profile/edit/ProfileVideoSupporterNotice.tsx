@@ -20,7 +20,7 @@ export function ProfileVideoSupporterNotice() {
     >
       <Stack gap={4}>
         <Text fw={600}>{t("profileVideo.supporter.title")}</Text>
-        <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+        <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
           {t("profileVideo.supporter.description")}
         </Text>
         <Link

@@ -1,0 +1,107 @@
+/* Xbox feed: posts beside a side column on wide screens, create button in the corner. */
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.title {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+  align-items: start;
+  gap: 48px;
+  min-width: 0;
+}
+
+.main,
+.aside,
+.asideSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.aside {
+  gap: 32px;
+}
+
+.asideTitle {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* new post: a round button in the corner, under the bottom nav and drawers */
+.fab {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: var(--gn-brand);
+  color: var(--gn-accent-contrast);
+  box-shadow: 0 8px 24px
+    color-mix(in srgb, var(--gn-background) 45%, transparent);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.fab:hover {
+  transform: scale(1.06);
+}
+
+/* ring inside, clear of the viewport edge and the safe area */
+.fab:focus-visible {
+  outline: 3px solid var(--gn-focus);
+  outline-offset: -3px;
+}
+
+@media (max-width: 61.99em) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  /* clears the bottom navigation bar on web and the mobile tab bar */
+  .fab {
+    right: 16px;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab {
+    transition: none;
+  }
+
+  .fab:hover {
+    transform: none;
+  }
+}

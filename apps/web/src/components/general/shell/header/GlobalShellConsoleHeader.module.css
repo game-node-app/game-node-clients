@@ -1,0 +1,128 @@
+/*
+ * Console header (web). The inner bar paints the whole AppShell header so it
+ * can be see-through over the hero and turn opaque after scrolling. Colors
+ * come from the active theme's tokens; the structure is theme-agnostic.
+ */
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+  width: 100%;
+  height: 100%;
+  padding-inline: var(--mantine-spacing-xl);
+  border-bottom: 1px solid transparent;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gn-scrim) 45%, transparent) 0%,
+    transparent 100%
+  );
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    backdrop-filter 200ms ease;
+}
+
+.header[data-scrolled] {
+  border-bottom-color: var(--gn-border);
+  background: color-mix(in srgb, var(--gn-body) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.side {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+  min-width: 0;
+}
+
+.sideEnd {
+  justify-content: flex-end;
+}
+
+.logo {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+/* Navigation sits in the free space and scrolls itself when the row is wide. */
+.center {
+  display: none;
+  flex: 1 1 0;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.center::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileProfile {
+  display: flex;
+  min-width: 0;
+}
+
+.desktopProfile {
+  display: none;
+}
+
+/*
+ * Every header control shares the theme's focus token. The ring is inside for
+ * the icon, nav and account buttons (the nav row scrolls), except filled
+ * buttons: a green ring inside the green fill would be invisible.
+ */
+.header
+  :is(
+    a[href],
+    button,
+    [role="tab"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.header :is(button, a)[data-variant="filled"]:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+@media (min-width: 62em) {
+  .logo {
+    display: flex;
+  }
+
+  .center {
+    display: flex;
+  }
+
+  .mobileProfile {
+    display: none;
+  }
+
+  .desktopProfile {
+    display: flex;
+  }
+}
+
+@media (max-width: 61.99em) {
+  .header {
+    gap: var(--mantine-spacing-sm);
+    padding-inline: var(--mantine-spacing-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
+}

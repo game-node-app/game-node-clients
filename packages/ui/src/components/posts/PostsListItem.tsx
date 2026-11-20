@@ -1,35 +1,24 @@
 import {
-  CommentEditorView,
-  CommentsListView,
   GameTitleWithFigure,
   ItemCommentsButton,
   ItemDropdown,
   ItemLikesButton,
   PostImageLightboxContext,
-  ReportCreateFormModal,
-  useOnMobile,
   UserAvatarGroup,
-  useUserId,
+  useOnMobile,
 } from "#@/components";
-import { CommentsView } from "#@/components/comment/view/CommentsView.tsx";
-import { ActionConfirm } from "#@/components/general/ActionConfirm.tsx";
+import { usePostsListItemActions } from "#@/components/posts/hooks/usePostsListItemActions";
 import { RelativeDate } from "#@/components/general/RelativeDate.tsx";
-import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
-import { createErrorNotification, Modal } from "#@/util";
 import { Box, Divider, Group, Spoiler, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
-  CreateReportRequestDto,
   FindAllCommentsDto,
   Post,
-  PostsService,
   StatisticsSourceRequestDto,
 } from "@repo/wrapper/server";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 
-interface Props {
+export interface PostsListItemProps {
   item: Post;
   withUserProfile?: boolean;
   withGameInfo?: boolean;
@@ -39,73 +28,17 @@ const PostsListItem = ({
   item,
   withUserProfile = true,
   withGameInfo = true,
-}: Props) => {
+}: PostsListItemProps) => {
   const { t } = useTranslation();
-  const userId = useUserId();
   const onMobile = useOnMobile();
-  const queryClient = useQueryClient();
-  const [commentsOpened, commentsOpenedUtils] = useDisclosure();
-  const [reportModalOpened, reportModalUtils] = useDisclosure();
-  const [removeModalOpened, removeModalUtils] = useDisclosure();
-
-  const editor = useEditor(
-    {
-      extensions: POST_EDITOR_EXTENSIONS,
-      immediatelyRender: window != undefined,
-      content: item.content,
-      editable: false,
-    },
-    [item.content],
-  );
-
-  const deletePostMutation = useMutation({
-    mutationFn: async () => {
-      return PostsService.postsControllerDeleteV1(item.id);
-    },
-    onError: createErrorNotification,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["posts", "feed"],
-      });
-    },
-  });
-
-  const isOwnPost = userId === item.profileUserId;
+  const { editor, isOwnPost, dialogs, openComments, openReport, openRemove } =
+    usePostsListItemActions(item);
 
   if (!editor) return null;
 
   return (
     <Group className={"w-full"} wrap={"nowrap"} align={"start"} gap={0}>
-      <ReportCreateFormModal
-        opened={reportModalOpened}
-        onClose={reportModalUtils.close}
-        sourceId={item.id}
-        sourceType={CreateReportRequestDto.sourceType.POST}
-      />
-      <Modal
-        title={t("comment.titles.commentsInPost")}
-        opened={commentsOpened}
-        onClose={commentsOpenedUtils.close}
-        fullScreen={onMobile}
-        size={"xl"}
-        initialBreakpoint={1}
-        breakpoints={[0.5, 0.75, 0.85, 1]}
-        classNames={{
-          body: "flex flex-col min-h-[92vh]",
-        }}
-      >
-        <CommentsView>
-          <CommentsListView
-            sourceId={item.id}
-            sourceType={FindAllCommentsDto.sourceType.POST}
-          />
-          <CommentEditorView
-            sourceId={item.id}
-            sourceType={FindAllCommentsDto.sourceType.POST}
-          />
-        </CommentsView>
-      </Modal>
-
+      {dialogs}
       <Box className={withUserProfile ? "hidden lg:block lg:w-2/12" : "hidden"}>
         <UserAvatarGroup
           avatarProps={{
@@ -144,21 +77,12 @@ const PostsListItem = ({
           )}
 
           <Box className={"ms-auto"}>
-            <ActionConfirm
-              onConfirm={() => deletePostMutation.mutate()}
-              opened={removeModalOpened}
-              onClose={removeModalUtils.close}
-              title={t("posts.titles.confirmRemove")}
-              message={t("posts.messages.removeWarning")}
-            />
             <ItemDropdown>
               <ItemDropdown.ReportButton
-                onClick={reportModalUtils.open}
+                onClick={openReport}
                 disabled={isOwnPost}
               />
-              {isOwnPost && (
-                <ItemDropdown.RemoveButton onClick={removeModalUtils.open} />
-              )}
+              {isOwnPost && <ItemDropdown.RemoveButton onClick={openRemove} />}
             </ItemDropdown>
           </Box>
         </Group>
@@ -180,9 +104,7 @@ const PostsListItem = ({
             className={"me-auto"}
           />
           <ItemCommentsButton
-            onClick={() => {
-              commentsOpenedUtils.toggle();
-            }}
+            onClick={openComments}
             sourceId={item.id}
             sourceType={FindAllCommentsDto.sourceType.POST}
           />

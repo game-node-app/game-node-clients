@@ -1,6 +1,10 @@
 import { Box, Radio, Text } from "@mantine/core";
 import { ReactNode } from "react";
-import { SettingsComingSoonBadge } from "#@/components/settings/common/SettingsPill";
+import { useTranslation } from "@repo/locales";
+import {
+  SettingsComingSoonBadge,
+  SettingsPill,
+} from "#@/components/settings/common/SettingsPill";
 import { cn } from "#@/util";
 
 /** Colors of the mini app mock drawn in a theme card. */
@@ -23,8 +27,8 @@ export function SettingsRadioDot({ checked }: { checked: boolean }) {
       className={cn(
         "block size-[18px] shrink-0 rounded-full border-solid transition-[border-width,border-color]",
         checked
-          ? "border-[5px] border-[#f15025] bg-white"
-          : "border-[1.5px] border-[#7a7a7a]",
+          ? "border-[5px] border-brand bg-white"
+          : "border-[1.5px] border-dimmed-3",
       )}
     />
   );
@@ -37,7 +41,7 @@ function ThemePreview({ palette }: { palette: SettingsThemePalette }) {
       component={"span"}
       className={cn(
         "flex h-[72px] w-full gap-1.5 overflow-hidden rounded-md pl-2 pt-2",
-        palette.bordered && "border border-solid border-[#2a2a2a]",
+        palette.bordered && "border border-solid border-line",
       )}
       style={{ backgroundColor: palette.background }}
     >
@@ -92,6 +96,7 @@ export function SettingsThemeOptionCard({
   disabled = false,
   withComingSoonBadge = disabled,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Radio.Card
       value={value}
@@ -103,11 +108,9 @@ export function SettingsThemeOptionCard({
       <Box
         component={"span"}
         className={cn(
-          "flex h-full flex-col gap-2.5 rounded-[10px] border-solid bg-[#1a1a1a] px-2.5 pb-3 pt-2.5 text-left transition-colors",
-          checked
-            ? "border-[1.5px] border-[#f15025]"
-            : "border border-[#2a2a2a]",
-          !disabled && !checked && "hover:border-[#3a3a3a]",
+          "flex h-full flex-col gap-2.5 rounded-[10px] border-solid bg-paper-8 px-2.5 pb-3 pt-2.5 text-left transition-colors",
+          checked ? "border-[1.5px] border-brand" : "border border-line",
+          !disabled && !checked && "hover:border-line-strong",
         )}
       >
         <Box component={"span"} className={"relative block"}>
@@ -117,9 +120,13 @@ export function SettingsThemeOptionCard({
           >
             <ThemePreview palette={palette} />
           </Box>
-          {withComingSoonBadge && (
+          {checked ? (
+            <SettingsPill className={"absolute right-1.5 top-1.5"}>
+              {t("settings.badges.current")}
+            </SettingsPill>
+          ) : withComingSoonBadge ? (
             <SettingsComingSoonBadge className={"absolute right-1.5 top-1.5"} />
-          )}
+          ) : null}
         </Box>
         <Box
           component={"span"}
@@ -146,7 +153,7 @@ export function SettingsThemeOptionCard({
                 fz={12}
                 lh={"normal"}
                 truncate
-                className={"text-[#7a7a7a]"}
+                className={"text-dimmed-3"}
               >
                 {description}
               </Text>

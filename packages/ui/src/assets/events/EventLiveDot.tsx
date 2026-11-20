@@ -10,7 +10,9 @@ export const EventLiveDot = (props: SVGProps<SVGSVGElement>) => (
     aria-hidden
     {...props}
   >
+    {/* theme-exempt: event artwork */}
     <circle cx="7" cy="7" r="7" fill="#F15025" />
+    {/* theme-exempt: event artwork */}
     <circle cx="7" cy="7" r="3" fill="#F15025" />
   </svg>
 );

@@ -225,6 +225,7 @@ export function AwardsBallotShareScreen({
             fontWeight: 700,
             fontSize: 12,
             letterSpacing: "0.72px",
+            // theme-exempt: awards share artwork
             color: "#f7896d",
             textTransform: "uppercase",
             width: "100%",
@@ -274,6 +275,7 @@ export function AwardsBallotShareScreen({
             aria-busy={shareMutation.isPending || undefined}
             onClick={() => shareMutation.mutate()}
             style={{
+              // theme-exempt: awards share artwork
               backgroundColor: "#f15025",
               color: "#0b0b0b",
               borderRadius: 10,

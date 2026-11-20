@@ -38,7 +38,11 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
         opened={collectionCreateModalOpened}
         onClose={collectionCreateModalUtils.close}
       />
-      <Paper className={"bg-[#42424233] p-5"}>
+      <Paper
+        className={
+          "bg-[color-mix(in_srgb,var(--gn-dark-4)_20%,transparent)] p-5"
+        }
+      >
         <Stack className={"w-full"}>
           <Group className={"justify-between flex-nowrap"}>
             <Link href={`/library/${userId}`}>

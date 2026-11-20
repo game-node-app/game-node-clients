@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { Stack } from "@mantine/core";
 import {
   BackToTopButton,
+  buildPresenterComponent,
   InfiniteLoaderProps,
-  PostsFeed,
-  PostsFeedLayout,
   PostsFeedTabValue,
+  PostsFeedView,
   SimpleInfiniteLoader,
 } from "@repo/ui";
 import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
 import { OpenGraph } from "@/components/general/OpenGraph";
+
+const PostsFeedViewPresenter = buildPresenterComponent(
+  "PostsFeedView",
+  PostsFeedView,
+);
 
 const PostsPage = () => {
   const { t } = useTranslation();
@@ -23,14 +28,13 @@ const PostsPage = () => {
       <OpenGraph title={t("seo.feed.postsTitle")} />
       <BackToTopButton />
 
-      <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
-        <PostsFeed
-          criteria={currentTab}
-          targetedPostId={postId as string | undefined}
-        >
-          {(props: InfiniteLoaderProps) => <SimpleInfiniteLoader {...props} />}
-        </PostsFeed>
-      </PostsFeedLayout>
+      <PostsFeedViewPresenter
+        currentTab={currentTab}
+        onTabChange={setCurrentTab}
+        targetedPostId={postId as string | undefined}
+      >
+        {(props: InfiniteLoaderProps) => <SimpleInfiniteLoader {...props} />}
+      </PostsFeedViewPresenter>
     </Stack>
   );
 };

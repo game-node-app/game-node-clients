@@ -50,7 +50,7 @@ function SettingsProfileFavoriteItem({
 
   return (
     <Stack gap={6} className={"w-[90px] shrink-0"}>
-      <Box className={`${COVER_CLASSNAME} bg-[#222]`}>
+      <Box className={`${COVER_CLASSNAME} bg-nav-raised`}>
         <Image
           src={coverUrl ?? GAME_COVER_PLACEHOLDER}
           onError={onError}
@@ -63,7 +63,7 @@ function SettingsProfileFavoriteItem({
           fz={12}
           fw={500}
           lh={"normal"}
-          className={"min-w-0 flex-1 text-[#adadad]"}
+          className={"min-w-0 flex-1 text-dimmed-2"}
         >
           {position}
         </Text>
@@ -75,7 +75,7 @@ function SettingsProfileFavoriteItem({
           onClick={() => onRemove(game.id)}
           aria-label={removeLabel}
           title={removeLabel}
-          className={"border-0 bg-[#222] text-[#d9d9d9] hover:bg-[#2a2a2a]"}
+          className={"border-0 bg-nav-raised text-[var(--gn-text-color)] hover:bg-line"}
         >
           <IconX size={14} />
         </ActionIcon>
@@ -159,7 +159,7 @@ export function SettingsProfileFavorites({
         <Link
           href={`/library/${userId}`}
           className={
-            "flex aspect-[264/354] w-[90px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-[#2a2a2a] text-[#adadad] no-underline transition-colors hover:border-[#7a7a7a] hover:text-white"
+            "flex aspect-[264/354] w-[90px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-line text-dimmed-2 no-underline transition-colors hover:border-dimmed-3 hover:text-white"
           }
         >
           <IconPlus size={18} />
@@ -180,7 +180,7 @@ export function SettingsProfileFavorites({
       <SettingsCard>
         <Stack gap={16} className={"p-5"}>
           {!isLoading && !isError && (
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {visibleTotal === 0
                 ? t("settings.profile.favorites.empty")
                 : countLabel}
@@ -191,7 +191,7 @@ export function SettingsProfileFavorites({
             </Text>
           )}
           {isError ? (
-            <Text fz={13} lh={"18px"} className={"text-[#ff6369]"}>
+            <Text fz={13} lh={"18px"} className={"text-status-danger-text"}>
               {t("profile.messages.fetchFailed")}
             </Text>
           ) : (
@@ -199,7 +199,7 @@ export function SettingsProfileFavorites({
               {renderGrid()}
             </Box>
           )}
-          <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+          <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
             {t("settings.profile.favorites.addHint")}
           </Text>
         </Stack>

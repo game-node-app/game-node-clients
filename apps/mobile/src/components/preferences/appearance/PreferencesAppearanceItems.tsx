@@ -2,16 +2,21 @@ import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from "@ionic/react";
 import { Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
-import { Modal, SettingsCustomCoversSection } from "@repo/ui";
-import { IconPalette } from "@tabler/icons-react";
+import {
+  Modal,
+  SettingsCustomCoversSection,
+  useSettingsModalState,
+} from "@repo/ui";
+import { IconColorSwatch, IconPalette } from "@tabler/icons-react";
 
 /**
- * Custom cover display mode entry for the mobile Preferences page. The
- * setting itself is the shared appearance section, rendered in a modal.
+ * Appearance entries for mobile Preferences. Theme and cover settings are
+ * rendered through the shared settings components.
  */
-const PreferencesCustomCoversItems = () => {
+const PreferencesAppearanceItems = () => {
   const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure();
+  const { open: openSettings } = useSettingsModalState();
 
   return (
     <IonItemGroup>
@@ -25,6 +30,12 @@ const PreferencesCustomCoversItems = () => {
       <IonItemDivider>
         <IonLabel>{t("settings.tabs.appearance.label")}</IonLabel>
       </IonItemDivider>
+      <IonItem button onClick={() => openSettings("appearance", "theme")}>
+        <Group className={"gap-2"}>
+          <IconColorSwatch />
+          <IonLabel>{t("settings.appearance.theme.title")}</IonLabel>
+        </Group>
+      </IonItem>
       <IonItem button onClick={open}>
         <Group className={"gap-2"}>
           <IconPalette />
@@ -35,4 +46,4 @@ const PreferencesCustomCoversItems = () => {
   );
 };
 
-export default PreferencesCustomCoversItems;
+export default PreferencesAppearanceItems;

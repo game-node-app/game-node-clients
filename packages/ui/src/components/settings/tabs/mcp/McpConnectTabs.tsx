@@ -84,7 +84,7 @@ function Step({
       <Box
         aria-hidden
         className={
-          "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-[#222]"
+          "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-nav-raised"
         }
       >
         <Text fz={12} fw={600} c={"white"} lh={"normal"}>
@@ -103,7 +103,7 @@ function Step({
 
 function StepText({ children }: { children: ReactNode }) {
   return (
-    <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+    <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
       {children}
     </Text>
   );
@@ -199,7 +199,7 @@ export function McpConnectTabs() {
           >
             <Tabs.List
               className={
-                "flex flex-nowrap gap-5 overflow-x-auto border-0 border-b border-solid border-[#2a2a2a] px-5"
+                "flex flex-nowrap gap-5 overflow-x-auto border-0 border-b border-solid border-line px-5"
               }
             >
               {CONNECT_TABS.map(({ value, name, untested }) => (
@@ -207,7 +207,7 @@ export function McpConnectTabs() {
                   key={value}
                   value={value}
                   className={
-                    "flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap border-0 border-b-2 border-solid border-transparent bg-transparent px-0 pb-2.5 pt-3 text-[14px] leading-normal text-[#adadad] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#f15025] data-[active]:border-[#f15025] data-[active]:font-semibold data-[active]:text-white"
+                    "flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap border-0 border-b-2 border-solid border-transparent bg-transparent px-0 pb-2.5 pt-3 text-[14px] leading-normal text-dimmed-2 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand data-[active]:border-brand data-[active]:font-semibold data-[active]:text-white"
                   }
                 >
                   {name ?? t("settings.mcp.connect.others")}
@@ -217,7 +217,7 @@ export function McpConnectTabs() {
                         component={"span"}
                         aria-hidden
                         className={
-                          "ms-1.5 inline-block size-1.5 shrink-0 rounded-full bg-[#f5a524] align-middle"
+                          "ms-1.5 inline-block size-1.5 shrink-0 rounded-full bg-status-warning-text align-middle"
                         }
                       />
                       <VisuallyHidden>
@@ -249,7 +249,7 @@ export function McpConnectTabs() {
             ))}
           </Tabs>
         </SettingsCard>
-        <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
           {t("settings.mcp.connect.untestedLegend")}
         </Text>
       </Stack>

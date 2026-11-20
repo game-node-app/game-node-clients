@@ -19,16 +19,39 @@ import period = StatisticsRankingsRequestDto.period;
 
 const DEFAULT_LIMIT = 48;
 
-const ExploreGamesPageView = () => {
+type ExploreSelection = "overview" | "overall" | number;
+
+/**
+ * State shared by the page (which hands the filter UI to a theme experience)
+ * and the default view (which keeps it inline). Lifting it lets the console
+ * explore keep the same filters mounted while it swaps the content below them.
+ */
+const useExploreGamesViewState = () => {
   const { t } = useTranslation();
-  const [selectedPeriod, setSelectedPeriod] = useState(period.MONTH);
-  const [selection, setSelection] = useState<"overview" | "overall" | number>(
-    "overview",
-  );
+  const [selectedPeriod, setSelectedPeriod] = useState<period>(period.MONTH);
+  const [selection, setSelection] = useState<ExploreSelection>("overview");
   const isOverview = selection === "overview";
   const selectedGenreId = typeof selection === "number" ? selection : undefined;
 
-  const SELECT_PERIOD_DATA = useMemo(
+  const { data: genresResource } = useGamesResource("genres");
+  const genres = useMemo(
+    () =>
+      TRENDING_GENRE_IDS.map((id) => {
+        const genre = genresResource?.find((item) => item.id === id);
+        return genre?.name ? { id, name: genre.name } : undefined;
+      }).filter((genre) => genre !== undefined),
+    [genresResource],
+  );
+
+  const onSelectGenre = (genreId: number | undefined) => {
+    setSelection(genreId ?? "overview");
+  };
+
+  const onSelectOverall = () => {
+    setSelection("overall");
+  };
+
+  const periodSelectOptions = useMemo(
     () => [
       { label: t("explore.periods.week"), value: period.WEEK },
       { label: t("explore.periods.month"), value: period.MONTH },
@@ -40,27 +63,63 @@ const ExploreGamesPageView = () => {
         label: t("explore.periods.sixMonths"),
         value: period.HALF_YEAR,
       },
-      {
-        label: t("explore.periods.year"),
-        value: period.YEAR,
-      },
-      {
-        label: t("explore.periods.allTime"),
-        value: period.ALL,
-      },
+      { label: t("explore.periods.year"), value: period.YEAR },
+      { label: t("explore.periods.allTime"), value: period.ALL },
     ],
     [t],
   );
 
-  const { data: genresResource } = useGamesResource("genres");
-  const genres = useMemo(
-    () =>
-      TRENDING_GENRE_IDS.map((id) => {
-        const genre = genresResource?.find((item) => item.id === id);
-        return genre?.name ? { id, name: genre.name } : undefined;
-      }).filter((genre) => genre !== undefined),
-    [genresResource],
+  return {
+    selectedPeriod,
+    setSelectedPeriod,
+    selection,
+    isOverview,
+    selectedGenreId,
+    genres,
+    onSelectGenre,
+    onSelectOverall,
+    periodSelectOptions,
+  };
+};
+
+type ExploreGamesViewState = ReturnType<typeof useExploreGamesViewState>;
+
+/** Period picker and genre chips, kept above whichever content the view shows. */
+const ExploreGamesFilters = ({ state }: { state: ExploreGamesViewState }) => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <Flex className={"w-full justify-end"}>
+        <IonSelect
+          label={t("explore.filters.trendingIn")}
+          interface="action-sheet"
+          placeholder={t("explore.placeholders.selectPeriod")}
+          onIonChange={(evt) => state.setSelectedPeriod(evt.detail.value)}
+          value={state.selectedPeriod}
+        >
+          {state.periodSelectOptions.map((option) => {
+            return (
+              <IonSelectOption key={option.value} value={option.value}>
+                {option.label}
+              </IonSelectOption>
+            );
+          })}
+        </IonSelect>
+      </Flex>
+      <TrendingGenreChips
+        genres={state.genres}
+        selectedGenreId={state.selectedGenreId}
+        onSelect={state.onSelectGenre}
+      />
+    </>
   );
+};
+
+/** Category shelves in the overview, or the paginated ranking for a selection. */
+const ExploreGamesResults = ({ state }: { state: ExploreGamesViewState }) => {
+  const { t } = useTranslation();
+  const { isOverview, selectedGenreId, selectedPeriod, onSelectGenre } = state;
 
   const trendingGamesQuery = useInfiniteTrendingGames(
     {
@@ -73,10 +132,6 @@ const ExploreGamesPageView = () => {
     },
     !isOverview,
   );
-
-  const onSelectGenre = (genreId: number | undefined) => {
-    setSelection(genreId ?? "overview");
-  };
 
   const gamesIds = useMemo(() => {
     if (isOverview || !trendingGamesQuery.data) return undefined;
@@ -101,82 +156,88 @@ const ExploreGamesPageView = () => {
     true,
   );
 
-  const periodSelectOptions = useMemo(() => {
-    return SELECT_PERIOD_DATA.map((option) => {
-      return (
-        <IonSelectOption key={option.value} value={option.value}>
-          {option.label}
-        </IonSelectOption>
-      );
-    });
-  }, [SELECT_PERIOD_DATA]);
-
   const isFetching = trendingGamesQuery.isFetching || gamesQuery.isFetching;
   const games = gamesIds
     ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
     .filter((game) => game !== undefined);
   const hasError = trendingGamesQuery.isError || gamesQuery.isError;
 
-  return (
-    <Stack className={"w-full"}>
-      <Flex className={"w-full justify-end"}>
-        <IonSelect
-          label={t("explore.filters.trendingIn")}
-          interface="action-sheet"
-          placeholder={t("explore.placeholders.selectPeriod")}
-          onIonChange={(evt) => setSelectedPeriod(evt.detail.value)}
-          value={selectedPeriod}
-        >
-          {periodSelectOptions}
-        </IonSelect>
-      </Flex>
-      <TrendingGenreChips
-        genres={genres}
-        selectedGenreId={selectedGenreId}
-        onSelect={onSelectGenre}
-      />
-      {isOverview ? (
-        <Stack gap={"lg"} className={"w-full"}>
+  if (isOverview) {
+    return (
+      <Stack gap={"lg"} className={"w-full"}>
+        <TrendingShelf
+          ranked
+          title={t("explore.sections.topOverall")}
+          period={selectedPeriod}
+          onSeeAll={state.onSelectOverall}
+        />
+        {state.genres.map((genre) => (
           <TrendingShelf
-            ranked
-            title={t("explore.sections.topOverall")}
+            key={genre.id}
+            title={genre.name}
+            genreId={genre.id}
             period={selectedPeriod}
-            onSeeAll={() => setSelection("overall")}
+            onSeeAll={() => onSelectGenre(genre.id)}
           />
-          {genres.map((genre) => (
-            <TrendingShelf
-              key={genre.id}
-              title={genre.name}
-              genreId={genre.id}
-              period={selectedPeriod}
-              onSeeAll={() => onSelectGenre(genre.id)}
-            />
-          ))}
-        </Stack>
-      ) : (
-        <GameView layout={"grid"}>
-          {hasError && (
-            <CenteredErrorMessage message={t("explore.fetchError")} />
-          )}
-          {!hasError && !isFetching && games?.length === 0 && (
-            <CenteredErrorMessage message={t("game.search.noGamesFound")} />
-          )}
-          <GameView.Content items={games}>
-            <GameView.LoadingSkeletons isVisible={isFetching} />
-          </GameView.Content>
-          <SimpleInfiniteLoader
-            key={gamesQuery.data?.map((game) => game.id).join(",")}
-            fetchNextPage={async () => {
-              if (isFetching) return;
-              await trendingGamesQuery.fetchNextPage();
-            }}
-            isFetching={isFetching}
-            hasNextPage={!hasError && trendingGamesQuery.hasNextPage}
-          />
-        </GameView>
+        ))}
+      </Stack>
+    );
+  }
+
+  return (
+    <GameView layout={"grid"}>
+      {hasError && <CenteredErrorMessage message={t("explore.fetchError")} />}
+      {!hasError && !isFetching && games?.length === 0 && (
+        <CenteredErrorMessage message={t("game.search.noGamesFound")} />
       )}
-    </Stack>
+      <GameView.Content items={games}>
+        <GameView.LoadingSkeletons isVisible={isFetching} />
+      </GameView.Content>
+      <SimpleInfiniteLoader
+        key={gamesQuery.data?.map((game) => game.id).join(",")}
+        fetchNextPage={async () => {
+          if (isFetching) return;
+          await trendingGamesQuery.fetchNextPage();
+        }}
+        isFetching={isFetching}
+        hasNextPage={!hasError && trendingGamesQuery.hasNextPage}
+      />
+    </GameView>
   );
 };
 
-export { ExploreGamesPageView };
+const ExploreGamesPageContent = ({
+  state,
+}: {
+  state: ExploreGamesViewState;
+}) => (
+  <Stack className={"w-full"}>
+    <ExploreGamesFilters state={state} />
+    <ExploreGamesResults state={state} />
+  </Stack>
+);
+
+interface ExploreGamesPageViewProps {
+  /** Page-owned state; omitted, the view keeps its own state (default usage). */
+  state?: ExploreGamesViewState;
+}
+
+const ExploreGamesPageViewInternal = () => {
+  const state = useExploreGamesViewState();
+  return <ExploreGamesPageContent state={state} />;
+};
+
+const ExploreGamesPageView = ({ state }: ExploreGamesPageViewProps = {}) =>
+  state ? (
+    <ExploreGamesPageContent state={state} />
+  ) : (
+    <ExploreGamesPageViewInternal />
+  );
+
+export {
+  ExploreGamesFilters,
+  ExploreGamesPageView,
+  ExploreGamesResults,
+  useExploreGamesViewState,
+};
+export type { ExploreGamesViewState };

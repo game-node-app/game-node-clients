@@ -47,7 +47,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
         }
         style={{
           background:
-            "radial-gradient(circle, rgba(241, 80, 37, 0.22) 0%, rgba(241, 80, 37, 0) 70%)",
+            "radial-gradient(circle, color-mix(in srgb, var(--gn-brand) 22%, transparent) 0%, color-mix(in srgb, var(--gn-brand) 0%, transparent) 70%)",
         }}
       />
 
@@ -62,7 +62,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
               "h-[76px] w-[76px] rounded-full p-[3px] sm:h-[112px] sm:w-[112px]"
             }
             style={{
-              background: `conic-gradient(#f15025 ${levelProgress}%, #2a2a2a ${levelProgress}% 100%)`,
+              background: `conic-gradient(var(--gn-brand) ${levelProgress}%, var(--gn-line) ${levelProgress}% 100%)`,
             }}
           >
             <Box

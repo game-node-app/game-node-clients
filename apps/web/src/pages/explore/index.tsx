@@ -2,11 +2,14 @@ import { ActionIcon, Affix, Stack, Transition } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
+  buildPresenterComponent,
   CenteredErrorMessage,
+  ExploreTrendingGames,
   GameView,
   getInfiniteTrendingGamesKey,
   getInfiniteTrendingGamesRequest,
   SimpleInfiniteLoader,
+  useAppExperience,
   useGames,
   useInfiniteTrendingGames,
 } from "@repo/ui";
@@ -26,6 +29,11 @@ import {
   exploreScreenUrlQueryToDto,
 } from "../../components/explore/utils";
 import { OpenGraph } from "../../components/general/OpenGraph";
+
+const ExploreTrendingGamesPresenter = buildPresenterComponent(
+  "ExploreTrendingGames",
+  ExploreTrendingGames,
+);
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const query = context.query;
@@ -81,6 +89,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
 const Index = () => {
   const { t } = useTranslation();
+  const experience = useAppExperience();
   const [scroll, scrollTo] = useWindowScroll();
   const [hasLoadedQueryParams, setHasLoadedQueryParams] =
     useState<boolean>(false);
@@ -131,6 +140,11 @@ const Index = () => {
 
   const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
   const isError = trendingGamesQuery.isError || gamesQuery.isError;
+  // A period change re-queries the console category sections; criteria (genre,
+  // platform, ...) make the platform's paginated results the meaningful view.
+  const hasActiveFilters = Object.values(trendingGamesDto.criteria ?? {}).some(
+    (values) => (values?.length ?? 0) > 0,
+  );
 
   if (isError) {
     return (
@@ -138,44 +152,65 @@ const Index = () => {
     );
   }
 
+  const filtersContent = (
+    <ExploreScreenFilters
+      hasLoadedQueryParams={hasLoadedQueryParams}
+      onFilterChange={(stateAction) => {
+        setTrendingGamesDto(stateAction);
+        setHasLoadedQueryParams(true);
+      }}
+    />
+  );
+
+  // The default keeps the filters inside the GameView; the console keeps the
+  // same paginated results (without filters) below its own filters slot.
+  const renderExploreContent = (withFilters: boolean) => (
+    <Stack className={"w-full"}>
+      <GameView
+        layout={"grid"}
+        cols={{
+          base: 4,
+          lg: 8,
+        }}
+      >
+        {withFilters && filtersContent}
+        <GameView.Content items={games}>
+          <GameView.LoadingSkeletons
+            isVisible={isFetching || isLoading}
+            itemCount={games.length}
+          />
+        </GameView.Content>
+      </GameView>
+
+      <SimpleInfiniteLoader
+        key={gamesQuery.data?.map((game) => game.id).join(",")}
+        fetchNextPage={async () => {
+          await trendingGamesQuery.fetchNextPage();
+        }}
+        isFetching={isFetching}
+        hasNextPage={trendingGamesQuery.hasNextPage}
+      />
+    </Stack>
+  );
+
   return (
-    <Stack className={"w-full mb-8"} align={"center"}>
+    <Stack
+      className={"w-full mb-8"}
+      align={"center"}
+      data-xbox-focus-color={experience === "console" ? "true" : undefined}
+    >
       <OpenGraph
         title={t("explore.metaTitle")}
         description={t("seo.explore.description")}
       />
-      <Stack className={"w-full"}>
-        <GameView
-          layout={"grid"}
-          cols={{
-            base: 4,
-            lg: 8,
-          }}
-        >
-          <ExploreScreenFilters
-            hasLoadedQueryParams={hasLoadedQueryParams}
-            onFilterChange={(stateAction) => {
-              setTrendingGamesDto(stateAction);
-              setHasLoadedQueryParams(true);
-            }}
-          />
-          <GameView.Content items={games}>
-            <GameView.LoadingSkeletons
-              isVisible={isFetching || isLoading}
-              itemCount={games.length}
-            />
-          </GameView.Content>
-        </GameView>
-
-        <SimpleInfiniteLoader
-          key={gamesQuery.data?.map((game) => game.id).join(",")}
-          fetchNextPage={async () => {
-            await trendingGamesQuery.fetchNextPage();
-          }}
-          isFetching={isFetching}
-          hasNextPage={trendingGamesQuery.hasNextPage}
-        />
-      </Stack>
+      <ExploreTrendingGamesPresenter
+        filters={filtersContent}
+        results={renderExploreContent(false)}
+        dto={trendingGamesDto}
+        filtered={hasActiveFilters}
+      >
+        {renderExploreContent(true)}
+      </ExploreTrendingGamesPresenter>
       <Affix position={{ bottom: 20, right: 20 }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>
           {(transitionStyles) => (

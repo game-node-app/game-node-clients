@@ -68,7 +68,7 @@ const AboutProgressSection = () => {
                   className={styles.trackFill}
                   style={{
                     width: `${XP_PROGRESS}%`,
-                    backgroundColor: "#f15025",
+                    backgroundColor: "var(--gn-brand)",
                   }}
                 />
               </div>

@@ -98,6 +98,7 @@ const TrendingShelf = ({
           >
             <GameGridItem game={game} />
             {ranked && (
+              // theme-exempt: rank label legibility over game artwork
               <span
                 className={
                   "pointer-events-none absolute bottom-7 left-1 text-5xl font-black leading-none text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.9)]"

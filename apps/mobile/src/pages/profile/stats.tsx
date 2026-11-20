@@ -1,5 +1,10 @@
 import { AppPage } from "@/components/general/AppPage";
-import { ProfileStatsView } from "@repo/ui";
+import { buildPresenterComponent, ProfileStatsView } from "@repo/ui";
+
+const ProfileStatsPresenter = buildPresenterComponent(
+  "ProfileStatsView",
+  ProfileStatsView,
+);
 
 interface Props {
   userId: string;
@@ -8,7 +13,7 @@ interface Props {
 const ProfileStatsPage = ({ userId }: Props) => {
   return (
     <AppPage>
-      <ProfileStatsView userId={userId} />
+      <ProfileStatsPresenter userId={userId} />
     </AppPage>
   );
 };

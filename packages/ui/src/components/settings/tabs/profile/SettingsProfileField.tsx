@@ -3,16 +3,16 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { PropsWithChildren, ReactNode } from "react";
 import { cn } from "#@/util";
 
-/** Figma input look (bg #0b0b0b, subtle border, red 1.5px border on error). */
+/** Figma input look (bg-nav-canvas, subtle border, red 1.5px border on error). */
 export function getSettingsProfileInputClassNames(error = false) {
   return {
     input: cn(
-      "border-solid bg-[#0b0b0b] text-[14px] text-white transition-colors placeholder:text-[#7a7a7a]",
+      "border-solid bg-nav-canvas text-[14px] text-white transition-colors placeholder:text-dimmed-3",
       error
-        ? "border-[1.5px] border-[#e5484d] focus:border-[#e5484d]"
-        : "border border-[#2a2a2a] focus:border-[#f15025]",
+        ? "border-[1.5px] border-status-danger-strong focus:border-status-danger-strong"
+        : "border border-line focus:border-brand",
     ),
-    section: "text-[#7a7a7a]",
+    section: "text-dimmed-3",
   };
 }
 
@@ -23,8 +23,16 @@ export function SettingsProfileFieldError({
 }: PropsWithChildren<{ id?: string }>) {
   return (
     <Group id={id} gap={6} wrap={"nowrap"} role={"alert"}>
-      <IconAlertCircle size={14} className={"shrink-0 text-[#e5484d]"} />
-      <Text fz={12} fw={500} lh={"normal"} className={"text-[#e5484d]"}>
+      <IconAlertCircle
+        size={14}
+        className={"shrink-0 text-status-danger-strong"}
+      />
+      <Text
+        fz={12}
+        fw={500}
+        lh={"normal"}
+        className={"text-status-danger-strong"}
+      >
         {children}
       </Text>
     </Group>
@@ -88,7 +96,7 @@ export function SettingsProfileField({
             fz={13}
             lh={"18px"}
             className={cn(
-              "min-w-0 flex-1 text-[#adadad]",
+              "min-w-0 flex-1 text-dimmed-2",
               disabled && "opacity-60",
             )}
           >
@@ -98,7 +106,7 @@ export function SettingsProfileField({
             <Text
               fz={12}
               lh={"normal"}
-              className={"shrink-0 whitespace-nowrap text-[#7a7a7a]"}
+              className={"shrink-0 whitespace-nowrap text-dimmed-3"}
             >
               {counter}
             </Text>

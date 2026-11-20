@@ -15,7 +15,7 @@
     "preview": "vite preview",
     "test.unit": "vitest",
     "test": "vitest run --threads=false",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src --ext .ts,.tsx && node ../../packages/config-eslint/bin/lint-css-colors.js src",
     "sync:native": "node ../../scripts/sync-mobile.cjs"
   },
   "dependencies": {

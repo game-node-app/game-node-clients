@@ -86,7 +86,7 @@ const LIBRARY_SHELVES = [
   {
     id: "finished",
     labelKey: LIBRARY_STATUS_KEYS.finished,
-    dotColor: "#f15025",
+    dotColor: "var(--gn-brand)",
     count: 64,
     games: [
       {
@@ -188,7 +188,7 @@ const TIME_TO_BEAT = [
     labelKey: "about.journal.timeToBeat.main",
     value: "27 h",
     width: "43%",
-    color: "#f15025",
+    color: "var(--gn-brand)",
   },
   {
     id: "extras",

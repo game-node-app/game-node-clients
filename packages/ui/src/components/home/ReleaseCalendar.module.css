@@ -23,7 +23,7 @@
 
 .calendarWeekday {
   padding: 8px;
-  background: #161616;
+  background: var(--gn-paper-0);
   color: var(--mantine-color-dimmed);
   font-size: 0.75rem;
   font-weight: 600;
@@ -54,13 +54,13 @@
   min-width: 0;
   min-height: 72px;
   padding: 6px 2px;
-  background: #1d1d1d;
+  background: var(--gn-paper-2);
   transition: background 150ms ease;
 }
 
 .calendarDay[data-outside],
 .calendarDay[data-past] {
-  background: #161616;
+  background: var(--gn-paper-0);
 }
 
 .calendarDay[data-outside] .calendarDate,
@@ -83,7 +83,7 @@
 
 .calendarDay[data-today] .calendarDate {
   background: var(--mantine-primary-color-filled);
-  color: #ffffff;
+  color: var(--gn-text);
 }
 
 /* the day's select button covers the whole cell */
@@ -118,7 +118,7 @@
   background: color-mix(
     in srgb,
     var(--mantine-primary-color-filled) 10%,
-    #1d1d1d
+    var(--gn-paper-2)
   );
 }
 
@@ -141,7 +141,7 @@
     var(--mantine-primary-color-filled) 35%,
     transparent
   );
-  color: #ffffff;
+  color: var(--gn-text);
   font-size: 0.7rem;
   font-weight: 600;
   line-height: 1.4;
@@ -163,7 +163,7 @@
   padding: 20px;
   border: 1px solid var(--mantine-color-default-border);
   border-radius: var(--mantine-radius-default);
-  background: #161616;
+  background: var(--gn-paper-0);
   overflow: hidden;
   isolation: isolate;
 }
@@ -250,7 +250,7 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: var(--mantine-radius-default);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 28px color-mix(in srgb, black 45%, transparent);
   transition: transform 200ms ease;
 }
 
@@ -443,7 +443,7 @@
 .stripDay[data-today] .stripDayDot {
   border-color: var(--mantine-primary-color-filled);
   background: var(--mantine-primary-color-filled);
-  color: #ffffff;
+  color: var(--gn-text);
   box-shadow: 0 0 0 4px
     color-mix(in srgb, var(--mantine-primary-color-filled) 25%, transparent);
 }

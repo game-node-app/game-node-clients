@@ -9,10 +9,11 @@ const resolve = (color: string) =>
   });
 
 describe("light variant colors", () => {
-  it("tints flat brand palette instead of orange-on-brown", () => {
+  it("tints flat token palette instead of orange-on-brown", () => {
     expect(resolve("brand")).toMatchObject({
-      background: "rgba(241, 80, 37, 0.15)",
-      color: "#F15025",
+      background: "color-mix(in srgb, var(--gn-brand), transparent 85%)",
+      hover: "color-mix(in srgb, var(--gn-brand), transparent 75%)",
+      color: "var(--gn-brand)",
     });
   });
 

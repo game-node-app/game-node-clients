@@ -24,8 +24,8 @@ export function SettingsCard({
   return (
     <Box
       className={cn(
-        "w-full overflow-hidden rounded-xl border border-solid bg-[#1a1a1a]",
-        danger ? "border-[#e5484d]" : "border-[#2a2a2a]",
+        "w-full overflow-hidden rounded-xl border border-solid bg-paper-8",
+        danger ? "border-status-danger-strong" : "border-line",
         className,
       )}
       {...others}
@@ -43,5 +43,5 @@ export function SettingsCard({
 }
 
 export function SettingsDivider({ className }: { className?: string }) {
-  return <Box className={cn("h-px w-full bg-[#2a2a2a]", className)} />;
+  return <Box className={cn("h-px w-full bg-line", className)} />;
 }

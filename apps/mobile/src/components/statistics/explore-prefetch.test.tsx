@@ -109,6 +109,12 @@ vi.mock("@repo/ui", async () => {
   return {
     ...infinite,
     ...games,
+    useAppExperience: () => "default",
+    buildPresenterComponent: (
+      _name: string,
+      Fallback: import("react").ComponentType<never>,
+    ) => Fallback,
+    ExploreTrendingGames: C,
     GameView: C,
     CenteredErrorMessage: C,
     SimpleInfiniteLoader: ({

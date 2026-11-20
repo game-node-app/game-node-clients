@@ -20,7 +20,7 @@ const ItemDropdown = ({ children }: PropsWithChildren) => {
       <Menu.Target>
         <ActionIcon
           variant="subtle"
-          c="#878787"
+          c="dimmed"
           size="lg"
           aria-label={t("common.actions")}
         >

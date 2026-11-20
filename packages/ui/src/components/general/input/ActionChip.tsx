@@ -16,7 +16,7 @@ const ActionChip = forwardRef((props: Props, ref) => {
         ...props.classNames,
         iconWrapper: "me-1",
       }}
-      color={"#262525"}
+      color={"var(--gn-paper-1)"}
     />
   );
 });

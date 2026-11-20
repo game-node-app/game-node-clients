@@ -970,13 +970,13 @@ a.wallCard:hover {
 .wallRing1 {
   background: conic-gradient(
     from 90deg,
-    rgb(241, 80, 37) 0%,
-    rgba(241, 80, 37, 0.53) 33%,
+    rgb(var(--gn-brand-rgb)) 0%,
+    rgba(var(--gn-brand-rgb), 0.53) 33%,
     rgba(248, 168, 146, 0.43) 49.5%,
     rgba(255, 255, 255, 0.33) 66%,
     rgba(252, 211, 201, 0.498) 74.5%,
     rgba(248, 168, 146, 0.665) 83%,
-    rgb(241, 80, 37) 100%
+    rgb(var(--gn-brand-rgb)) 100%
   );
 }
 

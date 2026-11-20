@@ -45,6 +45,7 @@ export function RecapStoryFrame({
         style={{
           position: "absolute",
           inset: 0,
+          // theme-exempt: recap story artwork backdrop
           background:
             "radial-gradient(760px 540px at 100% 0%, rgba(241,80,37,0.22), transparent 70%), linear-gradient(180deg, rgba(15,14,13,0.25) 0%, rgba(15,14,13,0.86) 58%, #0F0E0D 100%)",
         }}

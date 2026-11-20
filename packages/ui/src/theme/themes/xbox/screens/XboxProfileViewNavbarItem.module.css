@@ -1,0 +1,88 @@
+/* Xbox pill tabs, shared by the profile tabs, the stats year tabs and the feed. */
+.list {
+  display: flex;
+  gap: 8px;
+  padding: 4px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gn-text) 8%, transparent);
+  color: var(--gn-text-muted);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.tab:hover {
+  background: color-mix(in srgb, var(--gn-text) 16%, transparent);
+  color: var(--gn-text);
+}
+
+/* the focus ring is drawn inside, so a clipping tab row never cuts it */
+.tab:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.tab[data-active] {
+  background: var(--gn-text);
+  color: var(--gn-background);
+}
+
+.tab[data-active]:hover {
+  background: var(--gn-text);
+  color: var(--gn-background);
+}
+
+.tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.65;
+}
+
+/*
+ * `ProfileViewContent` wraps the items in a 5-column grid below `sm` and a
+ * wrapping flex row above it. Xbox tabs are a single scrolling pill row, so
+ * this widens the wrapper only when it contains our pill; no shared class is
+ * targeted and the page itself still never scrolls horizontally.
+ */
+:global(nav):has(> .tab) {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+:global(nav):has(> .tab)::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab {
+    transition: none;
+  }
+}

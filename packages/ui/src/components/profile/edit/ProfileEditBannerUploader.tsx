@@ -476,7 +476,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
                     <Text
                       fz={13}
                       lh={"18px"}
-                      className={"text-[#adadad]"}
+                      className={"text-dimmed-2"}
                       data-testid={"profile-video-center-crop-notice"}
                     >
                       {t("profileVideo.crop.centerCropNotice")}

@@ -1,6 +1,6 @@
 import { AppPage } from "@/components/general/AppPage";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
-import PreferencesCustomCoversItems from "@/components/preferences/covers/PreferencesCustomCoversItems";
+import PreferencesAppearanceItems from "@/components/preferences/appearance/PreferencesAppearanceItems";
 import PreferencesImporterItems from "@/components/preferences/importer/PreferencesImporterItems";
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
@@ -23,7 +23,7 @@ const PreferencesPage = () => {
           <PreferencesSupporterItems />
           <PreferencesProfileItems />
           <PreferencesLibraryItems />
-          <PreferencesCustomCoversItems />
+          <PreferencesAppearanceItems />
           <PreferencesConnectionsItems />
           <PreferencesImporterItems />
           <PreferencesSignInMethodsItems />

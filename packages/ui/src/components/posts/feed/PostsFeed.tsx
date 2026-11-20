@@ -20,6 +20,11 @@ interface Props {
    * Pagination will be disabled if this is set.
    */
   hardLimit?: number;
+  /**
+   * Whether the inline create editor is rendered above the posts. Theme packs
+   * that open the editor from their own control pass `false`.
+   */
+  withEditor?: boolean;
 }
 
 const PostsFeed = ({
@@ -27,6 +32,7 @@ const PostsFeed = ({
   targetedPostId,
   limit = 20,
   hardLimit,
+  withEditor = true,
   children,
 }: Props) => {
   const postsFeedQuery = useInfinitePostsFeed({
@@ -43,7 +49,7 @@ const PostsFeed = ({
 
   return (
     <Stack>
-      <GamePostEditor withEnableButton />
+      {withEditor && <GamePostEditor withEnableButton />}
       {postsFeedQuery.data && <PostsList items={items} />}
       {children({
         fetchNextPage: async () => {

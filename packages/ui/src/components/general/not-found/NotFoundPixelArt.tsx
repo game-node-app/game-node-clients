@@ -15,7 +15,9 @@ import { cn } from "#@/util";
  */
 type PixelCell = "X" | "." | "M" | "C1" | "C2" | "C3";
 
+// theme-exempt: 404 pixel artwork
 const BRAND_COLOR = "#F15025";
+// theme-exempt: 404 pixel artwork
 const MISSING_PIXEL_BORDER = "#2A2A2A";
 const CELL_BORDER_RADIUS = 4;
 const DIGIT_COLUMNS = 4;

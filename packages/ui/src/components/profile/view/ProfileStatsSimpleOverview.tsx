@@ -3,11 +3,13 @@ import { BarChart } from "@mantine/charts";
 import { Group, Popover, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 
-interface Props {
+export interface ProfileStatsSimpleOverviewProps {
   userId: string;
 }
 
-const ProfileStatsSimpleOverview = ({ userId }: Props) => {
+const ProfileStatsSimpleOverview = ({
+  userId,
+}: ProfileStatsSimpleOverviewProps) => {
   const { t } = useTranslation();
   const metricsOverviewQuery = useProfileMetricsOverview(userId);
 

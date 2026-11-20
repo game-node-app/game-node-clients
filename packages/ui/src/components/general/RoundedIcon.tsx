@@ -14,7 +14,7 @@ const RoundedIcon = (props: RoundedIconProps) => {
       radius={"50%"}
       variant={"outline"}
       p={12}
-      className={"w-fit h-fit min-w-fit bg-[#161616] border-[#161616]"}
+      className={"w-fit h-fit min-w-fit bg-paper-0 border-paper-0"}
       {...props.wrapperProps}
     >
       <props.icon size={"3rem"} {...props.iconProps} />

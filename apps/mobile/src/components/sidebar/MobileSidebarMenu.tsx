@@ -71,9 +71,9 @@ const MobileSidebarMenu = () => {
         <IonHeader
           className={"relative ion-activatable ion-no-border"}
           style={{
-            backgroundColor: "#161616",
+            backgroundColor: "var(--gn-surface)",
             backgroundImage: bannerSrc
-              ? `linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.45)), url(${bannerSrc})`
+              ? `linear-gradient(to top, color-mix(in srgb, var(--gn-scrim) 85%, transparent), color-mix(in srgb, var(--gn-scrim) 45%, transparent)), url(${bannerSrc})`
               : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -94,7 +94,9 @@ const MobileSidebarMenu = () => {
         </IonHeader>
       )}
       <IonContent>
-        <Stack className={"w-full min-h-full gap-2 bg-[#0F0F0F] p-2"}>
+        <Stack
+          className={"w-full min-h-full gap-2 bg-[var(--gn-mobile-menu-canvas)] p-2"}
+        >
           <MobileSidebarSection title={t("navigation.sidebar.groups.yourSpace")}>
             <MobileSidebarButton
               title={t("navigation.collections")}
@@ -231,8 +233,8 @@ const MobileSidebarMenu = () => {
                   closeMenu();
                 });
               }}
-              iconProps={{ className: "text-red-400" }}
-              textProps={{ className: "text-red-400" }}
+              iconProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
+              textProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
             />
           </MobileSidebarSection>
         </Stack>

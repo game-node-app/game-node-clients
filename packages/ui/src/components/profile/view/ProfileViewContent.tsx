@@ -7,7 +7,6 @@ import {
   ProfileCollectionsPage,
   ProfileGamesListView,
   ProfileReviewListView,
-  ProfileStatsView,
   useIsLibraryHidden,
   useReviewsForUserId,
   useUserLibrary,
@@ -20,11 +19,26 @@ import { useInfinitePosts } from "#@/components/posts/hooks/useInfinitePosts";
 import { ProfileUserInfoWithBanner } from "#@/components/profile/view/ProfileUserInfoWithBanner";
 import { ProfileViewNavbarItem } from "#@/components/profile/view/navbar/ProfileViewNavbarItem";
 import { ProfileViewMainPage } from "#@/components/profile/view/pages/ProfileViewMainPage";
+import { ProfileStatsView } from "#@/components/profile/view/stats/ProfileStatsView";
 import { useRouter } from "#@/util";
+import { buildPresenterComponent } from "#@/context";
 import { Box, Button, Divider, Stack } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useEffect, useRef } from "react";
+
+const ProfileUserInfoPresenter = buildPresenterComponent(
+  "ProfileUserInfoWithBanner",
+  (props) => <ProfileUserInfoWithBanner {...props} />,
+);
+const ProfileNavbarItemPresenter = buildPresenterComponent(
+  "ProfileViewNavbarItem",
+  (props) => <ProfileViewNavbarItem {...props} />,
+);
+const ProfileStatsPresenter = buildPresenterComponent(
+  "ProfileStatsView",
+  (props) => <ProfileStatsView {...props} />,
+);
 
 const PROFILE_TABS = [
   "games",
@@ -136,7 +150,7 @@ const ProfileViewContent = ({ userId }: { userId: string }) => {
     achievements: <JournalObtainedAchievementsView userId={userId} />,
     feats: <AchievementsScreen targetUserId={userId} withUserLevel={false} />,
     journal: <JournalOverviewView userId={userId} />,
-    stats: <ProfileStatsView userId={userId} withUserLevel={false} />,
+    stats: <ProfileStatsPresenter userId={userId} withUserLevel={false} />,
   };
 
   const isLibraryPanel = ["games", "collections", "journal", "stats"].includes(
@@ -144,7 +158,7 @@ const ProfileViewContent = ({ userId }: { userId: string }) => {
   );
 
   return (
-    <ProfileUserInfoWithBanner
+    <ProfileUserInfoPresenter
       userId={userId}
       navigation={
         <>
@@ -155,7 +169,7 @@ const ProfileViewContent = ({ userId }: { userId: string }) => {
             className="grid grid-cols-5 gap-0.5 sm:flex sm:flex-wrap sm:gap-2"
           >
             {navigation.map(({ tab: value, label, count }) => (
-              <ProfileViewNavbarItem
+              <ProfileNavbarItemPresenter
                 key={value}
                 label={label}
                 count={count}
@@ -196,7 +210,7 @@ const ProfileViewContent = ({ userId }: { userId: string }) => {
           </Stack>
         )}
       </Box>
-    </ProfileUserInfoWithBanner>
+    </ProfileUserInfoPresenter>
   );
 };
 

@@ -6,7 +6,9 @@ import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
+  buildPresenterComponent,
   HomeEventsSection,
+  HomeView,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   ReleaseStrip,
@@ -18,6 +20,16 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import ActivityType = Activity.type;
 
+const HomeViewPresenter = buildPresenterComponent("HomeView", HomeView);
+const RecentBlogPostsPresenter = buildPresenterComponent(
+  "RecentBlogPostsCarousel",
+  RecentBlogPostsCarousel,
+);
+const HomeReleasesPresenter = buildPresenterComponent(
+  "HomeReleases",
+  ReleaseStrip,
+);
+
 const HomePage = () => {
   const { t } = useTranslation();
   const contentRef =
@@ -28,6 +40,29 @@ const HomePage = () => {
   const queryClient = useQueryClient();
 
   const userId = useUserId();
+
+  const eventsSection = <HomeEventsSection />;
+  const recentActivityShelf = (
+    <HomeActivityShelf
+      title={t("home.recentActivity")}
+      seeMoreHref={"/activity"}
+    />
+  );
+  const lastReviewsShelf = (
+    <HomeActivityShelf
+      title={t("home.lastReviews")}
+      type={ActivityType.REVIEW}
+    />
+  );
+  // The console home renders its own rows/releases/blog, so only the sections
+  // it does not replace are passed through as extras.
+  const platformExtras = (
+    <>
+      {eventsSection}
+      {recentActivityShelf}
+      {lastReviewsShelf}
+    </>
+  );
 
   return (
     <AppPage
@@ -74,27 +109,23 @@ const HomePage = () => {
       </IonRefresher>
       {/*<HomeFab contentRef={contentRef} />*/}
       <BackToTopButton />
-      <Stack className={"w-full gap-8 my-4"}>
-        <HomeEventsSection />
-        {userId && <RecommendationCarousel criteria={"finished"} />}
-        <TrendingGamesList />
-        <TrendingReviewCarousel
-          slideSize={210}
-          height={260}
-          withIndicators={false}
-          withControls={false}
-        />
-        <RecentBlogPostsCarousel />
-        <HomeActivityShelf
-          title={t("home.recentActivity")}
-          seeMoreHref={"/activity"}
-        />
-        <HomeActivityShelf
-          title={t("home.lastReviews")}
-          type={ActivityType.REVIEW}
-        />
-        <ReleaseStrip />
-      </Stack>
+      <HomeViewPresenter extras={platformExtras}>
+        <Stack className={"w-full gap-8 my-4"}>
+          {eventsSection}
+          {userId && <RecommendationCarousel criteria={"finished"} />}
+          <TrendingGamesList />
+          <TrendingReviewCarousel
+            slideSize={210}
+            height={260}
+            withIndicators={false}
+            withControls={false}
+          />
+          <RecentBlogPostsPresenter />
+          {recentActivityShelf}
+          {lastReviewsShelf}
+          <HomeReleasesPresenter />
+        </Stack>
+      </HomeViewPresenter>
     </AppPage>
   );
 };

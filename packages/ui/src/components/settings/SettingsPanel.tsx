@@ -86,7 +86,7 @@ export function SettingsPanel({
         wrap={"nowrap"}
         align={"flex-start"}
         className={
-          "gap-3 border-0 border-b border-solid border-[#2a2a2a] px-3 py-3 sm:gap-6 sm:pb-4 sm:pe-4 sm:ps-8 sm:pt-[18px]"
+          "gap-3 border-0 border-b border-solid border-line px-3 py-3 sm:gap-6 sm:pb-4 sm:pe-4 sm:ps-8 sm:pt-[18px]"
         }
       >
         {onBack && (
@@ -96,7 +96,7 @@ export function SettingsPanel({
             variant={"default"}
             onClick={onBack}
             aria-label={t("navigation.back")}
-            className={"border-0 bg-[#222] hover:bg-[#2a2a2a]"}
+            className={"border-0 bg-nav-raised hover:bg-line"}
           >
             <IconChevronLeft size={18} />
           </ActionIcon>
@@ -116,7 +116,7 @@ export function SettingsPanel({
             {title}
           </Text>
           {subtitle && (
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {subtitle}
             </Text>
           )}
@@ -125,7 +125,7 @@ export function SettingsPanel({
           <Kbd
             visibleFrom={"sm"}
             className={
-              "border-[#2a2a2a] bg-[#222] px-1.5 py-0.5 text-[11px] font-medium text-[#adadad]"
+              "border-line bg-nav-raised px-1.5 py-0.5 text-[11px] font-medium text-dimmed-2"
             }
           >
             Esc
@@ -136,7 +136,7 @@ export function SettingsPanel({
             variant={"default"}
             onClick={onClose}
             aria-label={t("settings.close")}
-            className={"border-0 bg-[#222] hover:bg-[#2a2a2a]"}
+            className={"border-0 bg-nav-raised hover:bg-line"}
           >
             <IconX size={16} />
           </ActionIcon>
@@ -155,7 +155,7 @@ export function SettingsPanel({
         </ScrollArea>
         <Box
           className={
-            "pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0b0b0b] to-transparent"
+            "pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-nav-canvas to-transparent"
           }
         />
       </Box>

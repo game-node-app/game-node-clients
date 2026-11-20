@@ -23,6 +23,7 @@ interface Props {
   locale: string;
 }
 
+// theme-exempt: recap calendar artwork heatmap
 const CELL_BACKGROUND: Record<RecapMonthCell["level"], string> = {
   0: "rgba(244, 239, 232, 0.06)",
   1: "rgba(241, 80, 37, 0.28)",

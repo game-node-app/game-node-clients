@@ -12,6 +12,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProfileResponseDto, ProfileService } from "@repo/wrapper/server";
 import { setupDom } from "@/components/mcp/testUtils";
 import { SettingsAppearanceTab } from "../../../../../packages/ui/src/components/settings/tabs/SettingsAppearanceTab";
+import { AppThemeProvider } from "../../../../../packages/ui/src/theme/AppThemeProvider";
+import { createThemePackStore } from "../../../../../packages/ui/src/theme/packs/store";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -33,6 +35,7 @@ vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
 }));
 
 const VIEWER_ID = "viewer";
+const packStore = createThemePackStore();
 
 const LABELS = {
   title: "settings.appearance.customCovers.title",
@@ -82,7 +85,13 @@ function renderTab(client: QueryClient) {
   return render(
     <MantineProvider>
       <QueryClientProvider client={client}>
-        <SettingsAppearanceTab />
+        <AppThemeProvider
+          themeStorage={null}
+          packStore={packStore}
+          suspendOnInitialPack={false}
+        >
+          <SettingsAppearanceTab />
+        </AppThemeProvider>
       </QueryClientProvider>
     </MantineProvider>,
   );

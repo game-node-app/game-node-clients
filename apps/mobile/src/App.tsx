@@ -22,6 +22,7 @@ import WrappedWidgetSync from "@/components/wrapped/WrappedWidgetSync";
 import DailyWidgetSync from "@/components/daily/DailyWidgetSync";
 import EntrySplash from "@/components/general/splash/EntrySplash";
 import {
+  AppThemeProvider,
   getAuthClientOptions,
   handleAuthError,
   setProjectContext,
@@ -31,8 +32,6 @@ import {
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
-import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
-import { Device } from "@capacitor/device";
 import { Capacitor } from "@capacitor/core";
 import { Preferences } from "@capacitor/preferences";
 import {
@@ -42,6 +41,8 @@ import {
 import { createCapacitorAsyncStorage } from "@/util/asyncStorage";
 import { UI_HOOK_REGISTRY, UI_PRESENTER_REGISTRY } from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
+import { mobileThemeStorage } from "@/theme/theme-storage";
+import { NativeThemeChrome } from "@/theme/use-native-theme-chrome";
 import { PostHogProvider } from "@repo/analytics";
 
 /**
@@ -55,11 +56,6 @@ import "@mantine/dates/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
 
-/**
- * Includes tailwind styles
- */
-import "@/components/globals.css";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -71,8 +67,19 @@ import "@ionic/react/css/core.css";
  */
 import "@ionic/react/css/palettes/dark.always.css";
 import "@ionic/react/css/padding.css";
-/* Theme variables */
+/**
+ * Theme tokens for every Mantine, Ionic and Tailwind variable. Must come after
+ * the Ionic stylesheets so `:root[data-theme]` wins over `:root.md`/`:root.ios`
+ * and before the app globals (`globals.css`) and overrides (`variables.css`).
+ */
+import "@repo/ui/themes.css";
+/* Non-themed Ionic settings; the palette is generated in @repo/ui/themes.css. */
 import "./theme/variables.css";
+
+/**
+ * Includes tailwind styles. Last, so utilities override Ionic/theme defaults.
+ */
+import "@/components/globals.css";
 /*
  * YARL
  */
@@ -126,7 +133,7 @@ setupIonicReact({
   backButtonIcon: "/img/icon/icon_back_button.svg",
 });
 
-const App: React.FC = () => {
+const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -155,20 +162,6 @@ const App: React.FC = () => {
   useEffect(() => {
     // Stale key from the previous auth provider; harmless, but no reason to keep it.
     Preferences.remove({ key: "frontendCookies" }).catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const info = await Device.getInfo();
-      if (info.platform === "android" && Number(info.osVersion) >= 14) {
-        await EdgeToEdge.enable();
-        await EdgeToEdge.setBackgroundColor({
-          color: "#1f1f1f",
-        });
-      } else {
-        await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
-      }
-    })();
   }, []);
 
   useEffect(() => {
@@ -203,29 +196,36 @@ const App: React.FC = () => {
               presenters={UI_PRESENTER_REGISTRY}
               hooks={UI_HOOK_REGISTRY}
             >
-              <PostHogProvider
-                appName={"mobile"}
-                posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
-                posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
-                // CapacitorHttp sends binary bodies as text, which breaks gzip.
-                disableCompression={isNative}
+              <AppThemeProvider
+                initialTheme={initialTheme}
+                themeStorage={mobileThemeStorage}
+                suspendOnInitialPack={false}
               >
-                <IonReactRouter>
-                  <AppUrlListener />
-                  <AppUpdateListener />
-                  <LiveUpdateListener />
-                  <WrappedWidgetSync />
-                  <DailyWidgetSync />
-                  <NotificationsManager />
-                  <Tabs />
-                  {/*
-                    Mobile host for `?settings=<tab>` links, including the
-                    notifications gear: the web shell mounts the same shared
-                    modal once.
-                  */}
-                  <SettingsModal />
-                </IonReactRouter>
-              </PostHogProvider>
+                <NativeThemeChrome />
+                <PostHogProvider
+                  appName={"mobile"}
+                  posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+                  posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+                  // CapacitorHttp sends binary bodies as text, which breaks gzip.
+                  disableCompression={isNative}
+                >
+                  <IonReactRouter>
+                    <AppUrlListener />
+                    <AppUpdateListener />
+                    <LiveUpdateListener />
+                    <WrappedWidgetSync />
+                    <DailyWidgetSync />
+                    <NotificationsManager />
+                    <Tabs />
+                    {/*
+                      Mobile host for `?settings=<tab>` links, including the
+                      notifications gear: the web shell mounts the same shared
+                      modal once.
+                    */}
+                    <SettingsModal />
+                  </IonReactRouter>
+                </PostHogProvider>
+              </AppThemeProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

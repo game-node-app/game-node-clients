@@ -10,6 +10,7 @@ export const EventDeadlineDot = (props: SVGProps<SVGSVGElement>) => (
     aria-hidden
     {...props}
   >
+    {/* theme-exempt: event artwork */}
     <circle cx="3" cy="3" r="3" fill="#F7896D" />
   </svg>
 );

@@ -140,7 +140,7 @@
   align-items: center;
   justify-content: center;
   background: #171717;
-  box-shadow: 0 0 36px 2px #f1502533;
+  box-shadow: 0 0 36px 2px rgba(var(--gn-brand-rgb), 0.2);
 }
 .hub img {
   width: 70.83%;
@@ -207,7 +207,7 @@
 }
 .planSupporter {
   border: 2px solid var(--mantine-color-brand-6);
-  box-shadow: 0 8px 28px #f1502547;
+  box-shadow: 0 8px 28px rgba(var(--gn-brand-rgb), 0.278431);
 }
 .outlineCta {
   border: 1.5px solid #ffffff52;
@@ -242,7 +242,7 @@
       transparent 0 104px,
       #ffffff17 104px 105px
     ),
-    linear-gradient(90deg, #f15025, #d42912 56%, #5c0b06);
+    linear-gradient(90deg, var(--gn-brand), #d42912 56%, #5c0b06); /* theme-exempt: brand shades without tokens; landing artwork */
 }
 .footerPanel a {
   color: white;
@@ -335,7 +335,7 @@
   border: 1px solid #292929;
   border-radius: 18px;
   background:
-    radial-gradient(60% 80% at 100% 0%, #f1502533, transparent),
+    radial-gradient(60% 80% at 100% 0%, rgba(var(--gn-brand-rgb), 0.2), transparent),
     #090909;
 }
 .chat {

@@ -83,8 +83,8 @@ function SupporterPlanOption({
       className={cn(
         "rounded-xl border border-solid px-4 py-3 text-left transition-colors",
         isSelected
-          ? "border-[#f15025] bg-[rgba(241,80,37,0.1)]"
-          : "border-[#2a2a2a] bg-[#1a1a1a] hover:border-[#3a3a3a]",
+          ? "border-brand bg-brand/10"
+          : "border-line bg-paper-8 hover:border-line-strong",
         disabled && "cursor-not-allowed opacity-60",
       )}
     >

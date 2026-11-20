@@ -19,6 +19,7 @@ import {
   GameInfoTabs,
   GameInfoTabValue,
   GameInfoView,
+  buildPresenterComponent,
   useGame,
   useUrlState,
   useUserView,
@@ -39,6 +40,11 @@ const TAB_ICONS: GameInfoTabIcons = {
   discussion: <IconMessage size={20} />,
   achievements: <IconMedal2 size={20} />,
 };
+
+const GameInfoViewPresenter = buildPresenterComponent(
+  "GameInfoView",
+  GameInfoView,
+);
 
 interface Props {
   gameId: number;
@@ -121,7 +127,7 @@ const GamePage = ({ gameId }: Props) => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <GameInfoView id={gameId} />
+      <GameInfoViewPresenter id={gameId} />
       <GameInfoTabs
         currentTab={currentTab}
         onChange={onChange}

@@ -71,7 +71,7 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
         "relative w-full h-full flex flex-col justify-between items-start bg-cover bg-center p-xl rounded-md shadow-md z-0"
       }
     >
-      <Overlay color="#000" backgroundOpacity={0.75} className={"z-10"} />
+      <Overlay color="black" backgroundOpacity={0.75} className={"z-10"} />
       <div className="z-20 relative w-full">
         <Group className={"w-full justify-between flex-nowrap"}>
           <Box className={"max-w-64"}>

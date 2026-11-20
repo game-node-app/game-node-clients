@@ -19,12 +19,15 @@ import {
   IconStack2,
 } from "@tabler/icons-react";
 
-interface Props {
+export interface ProfileStatsViewProps {
   userId: string;
   withUserLevel?: boolean;
 }
 
-const ProfileStatsView = ({ userId, withUserLevel = true }: Props) => {
+const ProfileStatsView = ({
+  userId,
+  withUserLevel = true,
+}: ProfileStatsViewProps) => {
   const { t } = useTranslation();
   const { isHidden, profile } = useIsLibraryHidden(userId);
   const metricsOverviewQuery = useProfileMetricsOverview(userId);

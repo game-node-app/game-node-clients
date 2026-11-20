@@ -45,11 +45,11 @@ function SettingsSidebarItem({
         "flex min-h-8 w-full items-center gap-2.5 rounded-md border border-solid px-2.5 py-1.5 text-left transition-colors",
         highlight
           ? active
-            ? "border-[rgba(185,138,255,0.95)] bg-gradient-to-r from-[rgba(151,71,255,0.26)] via-[rgba(151,71,255,0.12)] via-60% to-[rgba(241,80,37,0.1)] shadow-[0_0_16px_0_rgba(151,71,255,0.32)]"
-            : "border-[rgba(151,71,255,0.45)] bg-gradient-to-r from-[rgba(151,71,255,0.12)] to-[rgba(151,71,255,0)] hover:border-[rgba(185,138,255,0.75)]"
+            ? "border-premium-soft/95 bg-gradient-to-r from-premium/[0.26] via-premium/[0.12] via-60% to-brand/10 shadow-[0_0_16px_0_color-mix(in_srgb,var(--gn-premium)_32%,transparent)]"
+            : "border-premium/45 bg-gradient-to-r from-premium/[0.12] to-premium/0 hover:border-premium-soft/75"
           : active
-            ? "border-transparent bg-[#222]"
-            : "border-transparent hover:bg-[#1a1a1a]",
+            ? "border-transparent bg-nav-raised"
+            : "border-transparent hover:bg-paper-8",
       )}
     >
       <Icon
@@ -57,10 +57,10 @@ function SettingsSidebarItem({
         className={cn(
           "shrink-0",
           highlight
-            ? "text-[#c7a6ff]"
+            ? "text-premium-text"
             : active
-              ? "text-[#f15025]"
-              : "text-[#adadad]",
+              ? "text-brand"
+              : "text-dimmed-2",
         )}
       />
       <Text
@@ -72,8 +72,8 @@ function SettingsSidebarItem({
           active
             ? "text-white"
             : highlight
-              ? "text-[#e4d5ff]"
-              : "text-[#adadad]",
+              ? "text-premium-bright"
+              : "text-dimmed-2",
         )}
       >
         {t(`settings.tabs.${tab}.label`)}
@@ -106,13 +106,13 @@ function SettingsSidebarSubItems({
             onClick={() => onSelect(tab, section)}
             className={cn(
               "w-full border-0 border-l-2 border-solid py-[5px] ps-2.5 text-left",
-              active ? "border-[#f15025]" : "border-[#2a2a2a]",
+              active ? "border-brand" : "border-line",
             )}
           >
             <Text
               fz={13}
               lh={"18px"}
-              className={active ? "text-white" : "text-[#7a7a7a]"}
+              className={active ? "text-white" : "text-dimmed-3"}
             >
               {t(`settings.privacy.sections.${section}`)}
             </Text>
@@ -140,7 +140,7 @@ export function SettingsSidebar({
     <Stack
       gap={14}
       className={cn(
-        "h-full w-full overflow-y-auto border-0 border-r border-solid border-[#2a2a2a] bg-[#111] px-2.5 py-4",
+        "h-full w-full overflow-y-auto border-0 border-r border-solid border-line bg-paper-7 px-2.5 py-4",
         className,
       )}
     >
@@ -151,19 +151,19 @@ export function SettingsSidebar({
             {profile?.username}
           </Text>
           {email && (
-            <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"} truncate>
+            <Text fz={12} lh={"normal"} className={"text-dimmed-3"} truncate>
               {email}
             </Text>
           )}
         </Stack>
       </Box>
-      <Box className={"h-px w-full bg-[#2a2a2a]"} />
+      <Box className={"h-px w-full bg-line"} />
       <Stack gap={2} component={"nav"} aria-label={t("settings.title")}>
         <Text
           fz={11}
           fw={600}
           lh={"normal"}
-          className={"pb-1.5 ps-2.5 uppercase tracking-[0.6px] text-[#7a7a7a]"}
+          className={"pb-1.5 ps-2.5 uppercase tracking-[0.6px] text-dimmed-3"}
         >
           {t("settings.sectionLabel")}
         </Text>
@@ -196,15 +196,15 @@ export function SettingsSidebar({
           target={"_blank"}
           rel={"noreferrer"}
           className={
-            "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-[#1a1a1a]"
+            "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-paper-8"
           }
         >
-          <IconBug size={16} className={"text-[#adadad]"} />
-          <Text fz={14} lh={"normal"} className={"text-[#adadad]"}>
+          <IconBug size={16} className={"text-dimmed-2"} />
+          <Text fz={14} lh={"normal"} className={"text-dimmed-2"}>
             {t("settings.reportBug")}
           </Text>
         </UnstyledButton>
-        <Text fz={12} lh={"normal"} className={"ps-2.5 pt-1.5 text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"ps-2.5 pt-1.5 text-dimmed-3"}>
           GameNode
         </Text>
       </Stack>

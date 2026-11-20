@@ -20,7 +20,7 @@ export function SettingsDisabledSelect({ label }: { label: ReactNode }) {
       variant={"secondary"}
       disabled
       className={"pe-2.5 ps-3 font-normal"}
-      rightSection={<IconChevronDown size={14} className={"text-[#adadad]"} />}
+      rightSection={<IconChevronDown size={14} className={"text-dimmed-2"} />}
       classNames={{ section: "ms-2" }}
     >
       {label}

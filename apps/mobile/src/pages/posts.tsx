@@ -8,13 +8,18 @@ import {
 } from "@ionic/react";
 import { Stack } from "@mantine/core";
 import {
+  buildPresenterComponent,
   InfiniteLoaderProps,
-  PostsFeed,
-  PostsFeedLayout,
   PostsFeedTabValue,
+  PostsFeedView,
 } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+
+const PostsFeedViewPresenter = buildPresenterComponent(
+  "PostsFeedView",
+  PostsFeedView,
+);
 
 const PostsPage = () => {
   const params = useSearchParameters();
@@ -47,21 +52,23 @@ const PostsPage = () => {
         <IonRefresherContent />
       </IonRefresher>
       <Stack className={"w-full my-4"}>
-        <PostsFeedLayout currentTab={currentTab} onChange={setCurrentTab}>
-          <PostsFeed criteria={currentTab} targetedPostId={postId}>
-            {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
-              <IonInfiniteScroll
-                disabled={!hasNextPage}
-                onIonInfinite={async (evt) => {
-                  await fetchNextPage();
-                  await evt.target.complete();
-                }}
-              >
-                <IonInfiniteScrollContent />
-              </IonInfiniteScroll>
-            )}
-          </PostsFeed>
-        </PostsFeedLayout>
+        <PostsFeedViewPresenter
+          currentTab={currentTab}
+          onTabChange={setCurrentTab}
+          targetedPostId={postId}
+        >
+          {({ fetchNextPage, hasNextPage }: InfiniteLoaderProps) => (
+            <IonInfiniteScroll
+              disabled={!hasNextPage}
+              onIonInfinite={async (evt) => {
+                await fetchNextPage();
+                await evt.target.complete();
+              }}
+            >
+              <IonInfiniteScrollContent />
+            </IonInfiniteScroll>
+          )}
+        </PostsFeedViewPresenter>
       </Stack>
     </AppPage>
   );

@@ -13,13 +13,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProfileResponseDto, ProfileService } from "@repo/wrapper/server";
 import { UIProvider } from "../../../../../../packages/ui/src/context/UIProvider";
 import type { ModalComponentProps } from "../../../../../../packages/ui/src/util/modal";
-import PreferencesCustomCoversItems from "./PreferencesCustomCoversItems";
+import PreferencesAppearanceItems from "./PreferencesAppearanceItems";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 const mocks = vi.hoisted(() => ({
+  push: vi.fn(async () => {}),
   session: {
     data: null as { user: { id: string } } | null,
     isPending: false,
@@ -33,6 +34,7 @@ vi.mock("../../../../../../packages/ui/src/components/auth/authClient", () => ({
 const VIEWER_ID = "viewer";
 
 const LABELS = {
+  theme: "settings.appearance.theme.title",
   item: "settings.appearance.customCovers.title",
   any: "settings.appearance.customCovers.any.label",
   preferYours: "settings.appearance.customCovers.prefer_yours.label",
@@ -64,12 +66,12 @@ function renderItems(client: QueryClient) {
               pathname: "/",
               query: new URLSearchParams(),
               back: vi.fn(),
-              push: vi.fn(async () => {}),
+              push: mocks.push,
             }),
           }}
           presenters={{ Modal: ModalPresenter }}
         >
-          <PreferencesCustomCoversItems />
+          <PreferencesAppearanceItems />
         </UIProvider>
       </QueryClientProvider>
     </MantineProvider>,
@@ -87,8 +89,8 @@ function isChecked(name: string) {
   return radio(name).getAttribute("aria-checked") === "true";
 }
 
-async function openModal(container: HTMLElement) {
-  fireEvent.click(container.querySelector("ion-item")!);
+async function openModal() {
+  fireEvent.click(screen.getByText(LABELS.item).closest("ion-item")!);
   await waitFor(() => expect(screen.getByTestId("covers-modal")).toBeTruthy());
 }
 
@@ -104,18 +106,33 @@ afterEach(() => {
   mocks.session = { data: null, isPending: false };
 });
 
-describe("PreferencesCustomCoversItems", () => {
+describe("PreferencesAppearanceItems", () => {
+  it("opens the shared Appearance picker from the Theme entry", () => {
+    renderItems(createClient());
+
+    fireEvent.click(screen.getByText(LABELS.theme).closest("ion-item")!);
+
+    expect(mocks.push).toHaveBeenCalledWith(
+      "/?settings=appearance&section=theme",
+      {
+        replace: false,
+        shallow: true,
+        scroll: false,
+      },
+    );
+  });
+
   it("shows the entry and opens the modal with the current mode selected", async () => {
     const profileSpy = vi
       .spyOn(ProfileService, "profileControllerFindOneByIdV1")
       .mockResolvedValue(profile("prefer_yours"));
 
-    const { container } = renderItems(createClient());
+    renderItems(createClient());
 
     expect(screen.getByText(LABELS.item)).toBeTruthy();
     expect(screen.queryByTestId("covers-modal")).toBeNull();
 
-    await openModal(container);
+    await openModal();
 
     await waitFor(() => expect(profileSpy).toHaveBeenCalledWith(VIEWER_ID));
     await waitFor(() => expect(isChecked(LABELS.preferYours)).toBe(true));
@@ -132,9 +149,9 @@ describe("PreferencesCustomCoversItems", () => {
       .spyOn(ProfileService, "profileControllerUpdateV1")
       .mockResolvedValue(undefined as never);
 
-    const { container } = renderItems(createClient());
+    renderItems(createClient());
 
-    await openModal(container);
+    await openModal();
     await waitFor(() => expect(isChecked(LABELS.preferYours)).toBe(true));
 
     fireEvent.click(radio(LABELS.none));

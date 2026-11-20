@@ -2,7 +2,7 @@ import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { useGames } from "#@/components/game/hooks/useGames";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
-import { SimpleGrid, Skeleton } from "@mantine/core";
+import { SimpleGrid, Skeleton, type SimpleGridProps } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useMemo } from "react";
 import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
@@ -15,7 +15,16 @@ export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {
   period: period.MONTH,
 };
 
-const TrendingGamesList = () => {
+const DEFAULT_COLS: SimpleGridProps["cols"] = { base: 3, lg: 6 };
+
+interface TrendingGamesListProps {
+  /** Column layout; the Xbox feed's side column uses three across. */
+  cols?: SimpleGridProps["cols"];
+}
+
+const TrendingGamesList = ({
+  cols = DEFAULT_COLS,
+}: TrendingGamesListProps = {}) => {
   const { t } = useTranslation();
   const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
 
@@ -51,7 +60,7 @@ const TrendingGamesList = () => {
         className: "",
       }}
     >
-      <SimpleGrid cols={{ base: 3, lg: 6 }} h={"100%"} w={"100%"}>
+      <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
         {isLoading && elementsSkeletons}
         {gamesIds
           ?.map((id) => gamesQuery.data?.find((game) => game.id === id))

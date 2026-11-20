@@ -270,6 +270,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 24,
               letterSpacing: "1.5px",
+              // theme-exempt: awards ballot artwork
               color: "#f7896d",
               textTransform: "uppercase",
               lineHeight: "normal",
@@ -306,6 +307,7 @@ export function AwardsBallotCard({
             style={{
               width: 936,
               backgroundColor: "#2e150f",
+              // theme-exempt: awards ballot artwork
               border: "2px solid #f15025",
               borderRadius: 40,
               padding: 32,
@@ -337,6 +339,7 @@ export function AwardsBallotCard({
                   fontWeight: 700,
                   fontSize: 24,
                   letterSpacing: "1.6px",
+                  // theme-exempt: awards ballot artwork
                   color: "#f7896d",
                   textTransform: "uppercase",
                   lineHeight: "normal",
@@ -548,6 +551,7 @@ export function AwardsBallotCard({
           data-awards-ballot-card-pill
           style={{
             backgroundColor: "#2e150f",
+            // theme-exempt: awards ballot artwork
             border: "2px solid #f15025",
             borderRadius: 999,
             padding: "16px 28px",
@@ -562,6 +566,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 24,
               letterSpacing: "1.4px",
+              // theme-exempt: awards ballot artwork
               color: "#f7896d",
               whiteSpace: "nowrap",
               lineHeight: "normal",

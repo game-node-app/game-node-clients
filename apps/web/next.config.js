@@ -36,6 +36,11 @@ const nextConfig = {
     agentUpgrade: "security",
     optimizePackageImports: ["@tabler/icons-react"],
     turbopackFileSystemCacheForDev: true,
+    // Lazy theme packs own their CSS. Turbopack's default ("loose") chunking
+    // merges those CSS Modules into the initial route CSS even though the JS
+    // stays lazy; the graph strategy keeps route-irrelevant CSS in its async
+    // chunk. `ThemePackStyles` re-adds the active pack's CSS to SSR.
+    cssChunking: { type: "graph", requestCost: 0 },
   },
   reactCompiler: true,
   redirects() {

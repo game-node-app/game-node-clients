@@ -38,7 +38,7 @@ export function McpRevokeDialog({
       aria-label={title}
       classNames={{
         content:
-          "overflow-hidden border border-solid border-[#2a2a2a] bg-[#1a1a1a] shadow-[0_24px_64px_0_rgba(0,0,0,0.6)]",
+          "overflow-hidden border border-solid border-line bg-paper-8 shadow-[0_24px_64px_0_color-mix(in_srgb,black_60%,transparent)]",
         body: "p-0",
       }}
     >
@@ -57,17 +57,17 @@ export function McpRevokeDialog({
           </Text>
           <Kbd
             className={
-              "shrink-0 border-[#2a2a2a] bg-[#222] px-1.5 py-0.5 text-[11px] font-medium text-[#adadad] max-sm:hidden"
+              "shrink-0 border-line bg-nav-raised px-1.5 py-0.5 text-[11px] font-medium text-dimmed-2 max-sm:hidden"
             }
           >
             Esc
           </Kbd>
         </Group>
-        <Text fz={14} lh={"normal"} className={"text-[#adadad]"}>
+        <Text fz={14} lh={"normal"} className={"text-dimmed-2"}>
           {t("settings.mcp.revoke.description")}
         </Text>
       </Stack>
-      <Group justify={"flex-end"} gap={8} className={"bg-[#0b0b0b] px-6 py-4"}>
+      <Group justify={"flex-end"} gap={8} className={"bg-nav-canvas px-6 py-4"}>
         <SettingsButton
           variant={"secondary"}
           onClick={onClose}

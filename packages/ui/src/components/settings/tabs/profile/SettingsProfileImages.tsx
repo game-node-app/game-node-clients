@@ -66,7 +66,7 @@ export function SettingsProfileImages({ userId }: Props) {
         <Stack gap={12} className={"p-5"}>
           <Box
             className={
-              "relative h-[132px] w-full overflow-hidden rounded-[10px] bg-[#222]"
+              "relative h-[132px] w-full overflow-hidden rounded-[10px] bg-nav-raised"
             }
           >
             {bannerSrc && (
@@ -93,7 +93,7 @@ export function SettingsProfileImages({ userId }: Props) {
               </SettingsButton>
             </Box>
           </Box>
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
             {t("settings.profile.images.bannerHelp")}
           </Text>
           <ProfileVideoUploadStatus slot={"banner"} />
@@ -104,7 +104,7 @@ export function SettingsProfileImages({ userId }: Props) {
             <Text fz={14} fw={600} c={"white"} lh={"normal"}>
               {t("settings.profile.images.avatarTitle")}
             </Text>
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {t("settings.profile.images.avatarDescription")}
             </Text>
             <ProfileVideoUploadStatus slot={"avatar"} />

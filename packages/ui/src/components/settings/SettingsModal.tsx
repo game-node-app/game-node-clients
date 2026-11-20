@@ -157,7 +157,7 @@ export function SettingsModal() {
         aria-label={t("settings.title")}
         classNames={{
           content:
-            "overflow-hidden border border-solid border-[#2a2a2a] bg-[#0b0b0b] shadow-[0_32px_80px_0_rgba(0,0,0,0.55)] sm:h-[720px] sm:max-h-[calc(100dvh-4rem)]",
+            "overflow-hidden border border-solid border-line bg-nav-canvas shadow-[0_32px_80px_0_color-mix(in_srgb,black_55%,transparent)] sm:h-[720px] sm:max-h-[calc(100dvh-4rem)]",
           body: "h-full p-0",
         }}
       >

@@ -1,0 +1,126 @@
+/* Xbox feed row: cover, one-line title, who/what underneath; the title link
+   stretches over the row like the console dashboard's activity column. */
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 8px 12px;
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-2);
+  transition:
+    background-color 150ms ease,
+    outline-color 150ms ease;
+}
+
+.row:hover,
+.row:focus-within {
+  background: var(--gn-paper-4);
+  /* inside: activity rows sit in a horizontal scroll area with no padding */
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.cover {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+/* game covers keep their portrait shape inside the square slot */
+.coverImage {
+  width: 36px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: calc(var(--gn-radius) - 1px);
+}
+
+.body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gn-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* stretch the title link over the whole row, so a review row opens the review */
+a.title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 0.75rem;
+  color: var(--gn-text-muted);
+  white-space: nowrap;
+}
+
+/* keep the profile link and the like button clickable above the stretched link */
+.user,
+.rating,
+.actions {
+  position: relative;
+  z-index: 1;
+}
+
+.user {
+  flex: none;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--gn-text);
+}
+
+.user:hover {
+  text-decoration: underline;
+}
+
+.rating {
+  flex: none;
+}
+
+.action {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* achievement activities render their own bold text; keep the meta line uniform */
+.action * {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.action::before {
+  content: "·";
+  margin-inline-end: 6px;
+}
+
+.actions {
+  flex: none;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    transition: none;
+  }
+}

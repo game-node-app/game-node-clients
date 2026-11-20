@@ -15,6 +15,7 @@ export const EventGlow = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <g opacity="0.16" filter="url(#event-glow-blur)">
+      {/* theme-exempt: event artwork */}
       <circle cx="378" cy="378" r="210" fill="#F15025" />
     </g>
     <defs>

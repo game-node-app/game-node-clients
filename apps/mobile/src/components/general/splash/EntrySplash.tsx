@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 
 type SplashPhase = "pulse" | "fill" | "zoom" | "fade" | "done";
 
-const BG_COLOR = "#1A1A1A";
-const BRAND_COLOR = "#F15025";
+const BG_COLOR = "var(--gn-mobile-splash-background)";
+const BRAND_COLOR = "var(--gn-brand)";
+const LOGO_INNER_COLOR = "var(--gn-text)";
 // minimum time the pulsing logo stays on screen
 const MIN_PULSE_MS = 1200;
 // gives up waiting for the page to finish loading after this
@@ -37,7 +38,7 @@ const LOGO_OUTER_PATH =
   "M159 210V681.146L270.871 789.169L842 790V318.023L730.129 210H159ZM670.409 619.656H340.685L330.591 609.685V379.513H660.315L670.409 388.653V619.656Z";
 const LOGO_INNER_PATH =
   "M212 256V653.225L306.509 744.299L789 745V347.075L694.491 256H212ZM644.039 601.383H365.488L356.961 592.976V398.917H635.512L644.039 406.623V601.383Z";
-// orange around the zoom frame, in px at scale 1: must reach past the viewport edges
+// brand accent around the zoom frame, in px at scale 1: must reach past the viewport edges
 const FRAME_REACH = 3000;
 
 // hole centre inside the logo box, in px: everything is positioned so it sits on the screen centre
@@ -61,16 +62,17 @@ function coverScales() {
 }
 
 /**
- * Entry animation: the logo pulses on #1A1A1A while the app loads, brand orange grows out of
- * the logo until it fills the screen, then the logo zooms into its hole so the app shows
- * through. Same colours, geometry and timings as the web and Kotlin EntrySplash, and it picks
- * up where the Android launch theme (`windowSplashScreenAnimatedIcon`) leaves off.
+ * Entry animation: the logo pulses on the theme background while the app loads, the theme's
+ * brand accent grows out of the logo until it fills the screen, then the logo zooms into its
+ * hole so the app shows through. Same geometry and timings as the web and Kotlin EntrySplash,
+ * and it picks up where the Android launch theme (`windowSplashScreenAnimatedIcon`) leaves off.
+ * Colors come from the generated tokens, so the animation follows the active theme.
  *
  * It runs while the app is still booting, so every moving part is an HTML layer animated
  * only through `transform` and `opacity` with plain-number keyframes: the compositor plays
  * them on its own thread without repainting, however busy the main thread is. No SVG mask
  * or SVG-internal animation, which repaint the whole screen on the main thread each frame.
- * The hole reveal uses a "frame" layer instead of a mask: orange everywhere except the
+ * The hole reveal uses a "frame" layer instead of a mask: brand everywhere except the
  * transparent hole, which is swapped in once the fill has covered the screen and scaled up.
  */
 export default function EntrySplash() {
@@ -239,14 +241,14 @@ export default function EntrySplash() {
         style={logoBox}
       >
         <svg viewBox="0 0 1000 1000" width={LOGO_PX} height={LOGO_PX}>
-          <path d={HOLE_PATH} fill={BG_COLOR} />
-          <path d={LOGO_OUTER_PATH} fill={BRAND_COLOR} />
-          <path d={LOGO_INNER_PATH} fill="#FFFFFF" />
+          <path d={HOLE_PATH} style={{ fill: BG_COLOR }} />
+          <path d={LOGO_OUTER_PATH} style={{ fill: BRAND_COLOR }} />
+          <path d={LOGO_INNER_PATH} style={{ fill: LOGO_INNER_COLOR }} />
         </svg>
       </div>
 
       <div className="gn-entry-splash__frame">
-        {/* orange beyond the logo box: a thick border around a box 1px smaller than it, so the
+        {/* brand beyond the logo box: a thick border around a box 1px smaller than it, so the
             two overlap instead of leaving a seam */}
         <div
           style={{
@@ -265,13 +267,13 @@ export default function EntrySplash() {
           height={LOGO_PX}
           style={{ position: "absolute", left: -HOLE_X, top: -HOLE_Y }}
         >
-          {/* orange square with the hole cut out, then the white ring on top */}
+          {/* brand square with the hole cut out, then the contrast ring on top */}
           <path
             d={`M0 0H1000V1000H0Z${HOLE_PATH}`}
-            fill={BRAND_COLOR}
+            style={{ fill: BRAND_COLOR }}
             fillRule="evenodd"
           />
-          <path d={LOGO_INNER_PATH} fill="#FFFFFF" />
+          <path d={LOGO_INNER_PATH} style={{ fill: LOGO_INNER_COLOR }} />
         </svg>
         <svg
           className="gn-entry-splash__plug"
@@ -280,7 +282,7 @@ export default function EntrySplash() {
           height={LOGO_PX}
           style={{ position: "absolute", left: -HOLE_X, top: -HOLE_Y }}
         >
-          <path d={HOLE_PATH} fill={BG_COLOR} />
+          <path d={HOLE_PATH} style={{ fill: BG_COLOR }} />
         </svg>
       </div>
     </div>

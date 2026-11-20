@@ -1172,6 +1172,17 @@
     "message": "Tem certeza de que deseja fazer isso?",
     "title": "Confirmar ação"
   },
+  "console": {
+    "a11y": {
+      "row": "Use as setas esquerda e direita para navegar nesta fileira."
+    },
+    "explore": {
+      "bestRated": "Mais bem avaliados"
+    },
+    "search": {
+      "title": "Buscar jogos"
+    }
+  },
   "daily": {
     "subtitle": "Quatro jogos novos todo dia. Mesmo puzzle para todo mundo.",
     "fetchError": "Não foi possível carregar os desafios do dia.",
@@ -2618,12 +2629,18 @@
     }
   },
   "posts": {
+    "labels": {
+      "postedAbout": "postou sobre",
+      "sharedImage": "compartilhou uma imagem de"
+    },
     "messages": {
+      "linkCopied": "Link copiado!",
       "published": "Postagem publicada com sucesso!",
       "removeWarning": "Esta postagem será excluída permanentemente. Você não pode desfazer esta ação."
     },
     "titles": {
-      "confirmRemove": "Confirmar remoção da postagem"
+      "confirmRemove": "Confirmar remoção da postagem",
+      "create": "Nova postagem"
     }
   },
   "preferences": {
@@ -3828,7 +3845,8 @@
         "dark": "Escuro",
         "light": "Claro",
         "system": "Automático",
-        "systemDescription": "Segue o sistema"
+        "systemDescription": "Segue o sistema",
+        "xbox": "Xbox"
       },
       "specialThemes": {
         "title": "Temas especiais",

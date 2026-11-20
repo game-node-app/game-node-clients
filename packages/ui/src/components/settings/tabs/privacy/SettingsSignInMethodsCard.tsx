@@ -50,10 +50,10 @@ export function SettingsSignInMethodsCard() {
         <Box
           role={"alert"}
           className={
-            "rounded-lg border border-solid border-[rgba(229,72,77,0.4)] bg-[rgba(229,72,77,0.12)] px-4 py-3"
+            "rounded-lg border border-solid border-status-danger-strong/40 bg-status-danger-strong/[0.12] px-4 py-3"
           }
         >
-          <Text fz={13} lh={"18px"} className={"text-[#ff6369]"}>
+          <Text fz={13} lh={"18px"} className={"text-status-danger-text"}>
             {t(
               `auth.errors.${errorKey === "default" ? "unable_to_link_account" : errorKey}.body`,
             )}
@@ -106,9 +106,9 @@ export function SettingsSignInMethodsCard() {
             />
           );
         })}
-        <Group gap={8} wrap={"nowrap"} className={"bg-[#0b0b0b] px-5 py-3"}>
-          <IconLock size={14} className={"shrink-0 text-[#7a7a7a]"} />
-          <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Group gap={8} wrap={"nowrap"} className={"bg-nav-canvas px-5 py-3"}>
+          <IconLock size={14} className={"shrink-0 text-dimmed-3"} />
+          <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
             {t("settings.privacy.signIn.note")}
           </Text>
         </Group>

@@ -4,7 +4,9 @@ import { LinkWrapper } from "@/components/general/LinkWrapper";
 import { MantineProvider } from "@mantine/core";
 import { I18nProvider } from "@repo/locales";
 import {
+  AppThemeProvider,
   DEFAULT_MANTINE_THEME,
+  DEFAULT_THEME_ID,
   getAuthClientOptions,
   handleAuthError,
   NotificationsManager,
@@ -39,6 +41,12 @@ import "@mantine/dropzone/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/tiptap/styles.css";
 import "mantine-react-table/styles.css";
+
+/**
+ * Theme tokens for every Mantine, Ionic and Tailwind variable. Must come after
+ * Mantine and before the app globals so `:root[data-theme]` wins.
+ */
+import "@repo/ui/themes.css";
 
 /**
  * Includes tailwind styles
@@ -111,21 +119,23 @@ export default function App({
           theme={DEFAULT_MANTINE_THEME}
           forceColorScheme={"dark"}
         >
-          <Head>
-            <title>GameNode</title>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-          </Head>
-          <QueryClientProvider client={queryClient}>
-            <NotificationsManager />
-            <DashboardLayout>
-              <HydrationBoundary state={pageProps.dehydratedState}>
-                <Component {...pageProps} />
-              </HydrationBoundary>
-            </DashboardLayout>
-          </QueryClientProvider>
+          <AppThemeProvider pinned initialTheme={DEFAULT_THEME_ID}>
+            <Head>
+              <title>GameNode</title>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+              />
+            </Head>
+            <QueryClientProvider client={queryClient}>
+              <NotificationsManager />
+              <DashboardLayout>
+                <HydrationBoundary state={pageProps.dehydratedState}>
+                  <Component {...pageProps} />
+                </HydrationBoundary>
+              </DashboardLayout>
+            </QueryClientProvider>
+          </AppThemeProvider>
         </MantineProvider>
       </I18nProvider>
     </UIProvider>

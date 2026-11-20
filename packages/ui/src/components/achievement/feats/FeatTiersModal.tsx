@@ -225,7 +225,7 @@ const FeatTiersModal = ({
                   style={{
                     backgroundColor:
                       state === "progress"
-                        ? "rgba(241, 80, 37, 0.06)"
+                        ? "color-mix(in srgb, var(--gn-brand) 6%, transparent)"
                         : undefined,
                   }}
                 >
@@ -297,7 +297,7 @@ const FeatTiersModal = ({
                     style={{
                       backgroundColor:
                         state === "progress"
-                          ? "rgba(241, 80, 37, 0.06)"
+                          ? "color-mix(in srgb, var(--gn-brand) 6%, transparent)"
                           : undefined,
                     }}
                   >

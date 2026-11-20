@@ -18,6 +18,8 @@
     "wrapper:generate": "pnpm build -F @repo/wrapper",
     "locales:generate-types": "pnpm --filter @repo/locales translations:types",
     "locales:watch-types": "pnpm --filter @repo/locales translations:types:watch",
+    "themes:generate": "pnpm --filter @repo/ui themes:generate",
+    "themes:check": "pnpm --filter @repo/ui themes:check",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

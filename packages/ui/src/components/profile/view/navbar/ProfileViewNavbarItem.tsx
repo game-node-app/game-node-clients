@@ -1,14 +1,19 @@
 import { Stack, Text, UnstyledButton } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
-interface Props {
+export interface ProfileViewNavbarItemProps {
   label: string;
   count?: string;
   active: boolean;
   onClick: () => void;
 }
 
-const ProfileViewNavbarItem = ({ label, count, active, onClick }: Props) => (
+const ProfileViewNavbarItem = ({
+  label,
+  count,
+  active,
+  onClick,
+}: ProfileViewNavbarItemProps) => (
   <UnstyledButton
     onClick={onClick}
     aria-current={active ? "page" : undefined}

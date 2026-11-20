@@ -23,23 +23,22 @@
 }
 
 :root {
-    --text-color: #FFFFFF;
-    --bg-color: #111111;
     --ion-padding: var(--mantine-spacing-md) !important;
-    --ion-font-family: Roboto, Roboto Fallback;
-    --ion-text-color: var(--text-color) !important;
-    --ion-background-color: var(--bg-color) !important;
-    --ion-toolbar-background: var(--bg-color) !important;
-    --ion-modal-background: var(--bg-color) !important;
+}
 
-    @mixin dark-root {
-        --mantine-color-text: var(--text-color);
-        --mantine-color-body: var(--bg-color);
-    }
+/*
+ * Before the runtime sets `data-theme` (or without it), Mantine's dark scheme
+ * rules would otherwise win over the generated `:root` defaults. Keep the
+ * default theme's values token-based and stop applying once a theme is set.
+ */
+:root:not([data-theme]) {
+    --mantine-color-body: var(--gn-body);
+    --mantine-color-text: var(--gn-text);
+    --mantine-color-dimmed: var(--gn-dimmed);
 }
 
 ion-tab-button:not(.tab-selected) {
-    color: #FAF4F4;
+    color: var(--gn-mobile-tab-text);
 }
 
 /*
@@ -47,9 +46,9 @@ ion-tab-button:not(.tab-selected) {
  * (web's selected nav item) instead of just changing colour.
  */
 ion-tab-bar {
-    --background: #161616;
+    --background: var(--ion-tab-bar-background);
     --border: 0;
-    /* floating pill with the web dock border (nav-border #2A2A2A) */
+    /* floating pill with the web dock border (nav-border token) */
     /* floats over the page: the area around the pill is see-through */
     position: absolute !important;
     left: 16px;
@@ -60,7 +59,7 @@ ion-tab-bar {
     height: 64px;
     min-height: 64px;
     padding: 0 8px !important;
-    border: 1px solid #2a2a2a !important;
+    border: 1px solid var(--gn-border) !important;
     border-radius: 9999px !important;
     overflow: hidden;
     gap: 4px;
@@ -109,12 +108,12 @@ ion-tab-button::part(native) {
 }
 
 ion-tab-button.tab-selected::part(native) {
-    background: #f15025; /* brand, solid pill like the reference */
+    background: var(--gn-brand); /* brand, solid pill like the reference */
 }
 
 ion-tab-button.tab-selected {
-    --color-selected: #ffffff;
-    color: #ffffff;
+    --color-selected: var(--gn-text);
+    color: var(--gn-text);
 }
 
 /*
@@ -135,7 +134,7 @@ ion-menu {
     position: absolute;
     inset: 0;
     z-index: 10000;
-    background: rgba(0, 0, 0, 0.5);
+    background: color-mix(in srgb, var(--gn-scrim) 50%, transparent);
     pointer-events: auto;
     animation: gn-menu-dim-in 200ms ease-out;
 }

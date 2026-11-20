@@ -3,14 +3,30 @@ import { Popover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
+  buildPresenterComponent,
   NavBellIcon,
   NotificationsPanel,
+  useAppThemeScreens,
   useNotificationsInbox,
   useSettingsModalState,
 } from "@repo/ui";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 const MAX_BADGE_COUNT = 99;
+
+const NotificationsPanelPresenter = buildPresenterComponent(
+  "NotificationsPanel",
+  NotificationsPanel,
+);
+
+/**
+ * Xbox-only skin for the panel. `useAppThemeScreens()` selects it, and the
+ * dynamic import keeps its CSS Module out of the `gamenode` bundle.
+ */
+const XboxNotificationsSkin = dynamic(
+  () => import("@/components/general/shell/header/XboxNotificationsSkin"),
+);
 
 /**
  * Topbar/Notification button (design node 5202:2220): bell with the unread
@@ -20,6 +36,7 @@ const GlobalShellHeaderNotifications = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const settings = useSettingsModalState();
+  const screens = useAppThemeScreens();
   const [opened, popoverUtils] = useDisclosure(false);
   const { unreadCount } = useNotificationsInbox({ filter: "all" });
 
@@ -29,8 +46,24 @@ const GlobalShellHeaderNotifications = () => {
   const label = hasUnread
     ? t("notifications.bellLabel", { count: unreadCount })
     : t("notifications.title");
+  const isXbox = screens === "xbox";
 
   const close = popoverUtils.close;
+
+  const panel = (
+    <NotificationsPanelPresenter
+      variant={"popover"}
+      onSeeAll={() => {
+        close();
+        void router.push("/notifications");
+      }}
+      onOpenSettings={() => {
+        close();
+        settings.open("notifications");
+      }}
+      onItemNavigate={close}
+    />
+  );
 
   return (
     <Popover
@@ -64,21 +97,18 @@ const GlobalShellHeaderNotifications = () => {
       </Popover.Target>
       <Popover.Dropdown
         className={
-          "flex h-[556px] flex-col gap-1 rounded-md border border-nav-border bg-nav-surface p-2 [@media(max-width:431px)]:!w-[calc(100vw-32px)]"
+          isXbox
+            ? "flex h-[556px] max-h-[calc(100dvh-88px)] flex-col border-0 bg-transparent p-0 shadow-none [@media(max-width:431px)]:!w-[calc(100vw-32px)]"
+            : "flex h-[556px] flex-col gap-1 rounded-md border border-nav-border bg-nav-surface p-2 [@media(max-width:431px)]:!w-[calc(100vw-32px)]"
         }
       >
-        <NotificationsPanel
-          variant={"popover"}
-          onSeeAll={() => {
-            close();
-            void router.push("/notifications");
-          }}
-          onOpenSettings={() => {
-            close();
-            settings.open("notifications");
-          }}
-          onItemNavigate={close}
-        />
+        {isXbox ? (
+          <XboxNotificationsSkin className={"h-full w-full"}>
+            {panel}
+          </XboxNotificationsSkin>
+        ) : (
+          panel
+        )}
       </Popover.Dropdown>
     </Popover>
   );

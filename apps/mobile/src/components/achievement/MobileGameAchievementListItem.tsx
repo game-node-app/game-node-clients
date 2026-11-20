@@ -92,6 +92,7 @@ const MobileGameAchievementListItem = ({
                 alt={achievement.name}
               />
               {!achievement.isObtained && (
+                // theme-exempt: unobtained achievement art scrim
                 <Overlay
                   className={"z-0 rounded-md"}
                   color="#000"

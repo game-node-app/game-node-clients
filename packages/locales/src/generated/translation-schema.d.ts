@@ -1176,6 +1176,17 @@ export type TranslationSchema = {
     message: string;
     title: string;
   };
+  console: {
+    a11y: {
+      row: string;
+    };
+    explore: {
+      bestRated: string;
+    };
+    search: {
+      title: string;
+    };
+  };
   daily: {
     subtitle: string;
     fetchError: string;
@@ -2622,12 +2633,18 @@ export type TranslationSchema = {
     };
   };
   posts: {
+    labels: {
+      postedAbout: string;
+      sharedImage: string;
+    };
     messages: {
+      linkCopied: string;
       published: string;
       removeWarning: string;
     };
     titles: {
       confirmRemove: string;
+      create: string;
     };
   };
   preferences: {
@@ -3833,6 +3850,7 @@ export type TranslationSchema = {
         light: string;
         system: string;
         systemDescription: string;
+        xbox: string;
       };
       specialThemes: {
         title: string;

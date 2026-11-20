@@ -44,7 +44,12 @@ function SettingsConnectionRow({
   } = usePreferencesConnectionStatus(type);
 
   const description = isLookupError ? (
-    <Text component={"span"} fz={13} c={"inherit"} className={"text-[#ff6369]"}>
+    <Text
+      component={"span"}
+      fz={13}
+      c={"inherit"}
+      className={"text-status-danger-text"}
+    >
       {getErrorMessage(userConnection.error)}
     </Text>
   ) : requiresReauth ? (
@@ -70,7 +75,7 @@ function SettingsConnectionRow({
         leftSection={
           <Box
             className={
-              "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-[#222]"
+              "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-nav-raised"
             }
           >
             <Image
@@ -146,12 +151,15 @@ export function SettingsConnectionsTab() {
         <SettingsCard>
           {isLoading && <CenteredLoading className={"py-8"} />}
           {isError && (
-            <Text fz={13} className={"px-5 py-6 text-center text-[#ff6369]"}>
+            <Text
+              fz={13}
+              className={"px-5 py-6 text-center text-status-danger-text"}
+            >
               {t("preferences.messages.availableConnectionsError")}
             </Text>
           )}
           {data?.length === 0 && (
-            <Text fz={13} className={"px-5 py-6 text-center text-[#adadad]"}>
+            <Text fz={13} className={"px-5 py-6 text-center text-dimmed-2"}>
               {t("settings.connections.platforms.empty")}
             </Text>
           )}
