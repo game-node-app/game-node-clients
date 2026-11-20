@@ -1,0 +1,146 @@
+.explore {
+  width: 100%;
+  gap: var(--mantine-spacing-xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.grid {
+  padding-inline: 12px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: 16 / 9;
+  padding: 12px 18px;
+  overflow: hidden;
+  border-radius: var(--gn-radius);
+  background-color: var(--gn-paper-1);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--gn-text);
+  outline: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: scale(1.03);
+  /* the dark gap keeps the green ring legible over bright art */
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 4px var(--gn-focus);
+  z-index: 1;
+}
+
+/* keeps labels readable over art */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 45%,
+    color-mix(in srgb, var(--gn-body) 70%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.cardShot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cardBadge {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gn-brand) 30%, transparent);
+  color: var(--gn-text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+ * Shared controls the console explore embeds (the platform's period Select,
+ * filter action, chip labels and the filtered result cards). Image cards keep
+ * their ring inside (CLIPPED CAROUSELS); text links, buttons and fields get an
+ * outer ring with a dark halo, legible over brand-filled controls too. Console
+ * tiles/cards already draw their own ring and opt out through
+ * `data-console-tile`.
+ */
+.explore :is(a[href]:has(img)):where(:not([data-console-tile])):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.explore
+  :is(
+    a[href]:not(:has(img)),
+    button,
+    [contenteditable="true"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):where(:not([data-console-tile])):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+.explore
+  :is(input[type="radio"], input[type="checkbox"]):focus-visible
+  + label {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
+}

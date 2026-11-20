@@ -37,10 +37,8 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   BlogArticleLanguageLink: MobileBlogArticleLanguageLink,
   McpGuideScreen: MobileMcpGuideScreen,
   PostsFeedLayout: MobilePostsFeedLayout,
-  PostsListItem: MobilePostsListItem,
   UserLevelHeader: MobileUserLevelHeader,
   JournalAchievementsGameGroup: MobileJournalAchievementsGameGroup,
-  ProfileStatsView: MobileProfileStatsView,
   JournalOverviewItem: MobileJournalOverviewItem,
   JournalMonthHeader: MobileJournalMonthHeader,
   JournalYearHeader: MobileJournalYearHeader,
@@ -48,6 +46,13 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   ProfileReviewListEmpty: MobileProfileReviewListEmpty,
   Link: LinkWrapper,
   Modal: IonModalWrapper,
+};
+
+// These are complete mobile screens that a theme can replace. The platform
+// presenters above supply primitives and adaptations used inside theme screens.
+export const THEME_FALLBACK_PRESENTERS: Partial<UIPresenterRegistry> = {
+  PostsListItem: MobilePostsListItem,
+  ProfileStatsView: MobileProfileStatsView,
 };
 
 export const UI_HOOK_REGISTRY: UIHookRegistry = {

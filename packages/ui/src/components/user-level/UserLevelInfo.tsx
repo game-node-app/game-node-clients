@@ -22,7 +22,7 @@ const UserLevelInfo = ({ targetUserId }: Props) => {
           </Text>
         </Group>
         <Progress
-          className={"w-full border-2 border-[#9A9A9A]"}
+          className={"w-full border-2 border-level-border"}
           size="lg"
           value={progress}
         />

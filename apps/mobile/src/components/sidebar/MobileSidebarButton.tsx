@@ -56,7 +56,7 @@ const MobileSidebarButton = ({
           size={22}
           stroke={1.6}
           {...iconProps}
-          className={cn("text-[#E3E3E3] shrink-0", iconProps?.className)}
+          className={cn("text-emphasis shrink-0", iconProps?.className)}
         />
         <Text span className={"flex-1 truncate"} {...textProps}>
           {title}

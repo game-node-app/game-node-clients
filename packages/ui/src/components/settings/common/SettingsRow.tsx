@@ -18,11 +18,11 @@ export function SettingsIconTile({
   return (
     <Box
       className={cn(
-        "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-[#222]",
+        "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-nav-raised",
         className,
       )}
     >
-      <Icon size={18} className={cn("text-[#d9d9d9]", iconClassName)} />
+      <Icon size={18} className={cn("text-[var(--gn-text-color)]", iconClassName)} />
     </Box>
   );
 }
@@ -72,7 +72,7 @@ export function SettingsRow({
         <Text
           fz={13}
           lh={"18px"}
-          className={"text-[#adadad] [overflow-wrap:anywhere]"}
+          className={"text-dimmed-2 [overflow-wrap:anywhere]"}
         >
           {description}
         </Text>

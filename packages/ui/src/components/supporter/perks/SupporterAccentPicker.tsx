@@ -9,13 +9,14 @@ import {
 import { useTranslation } from "@repo/locales";
 import { IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
+import { getThemeCatalogEntry } from "#@/theme/generated/catalog";
 import { cn } from "#@/util";
 import { getOnAccentText, normalizeAccentHex } from "./accentColor";
 
-/** Preset accents offered before the free color input (design D7). */
+/** Presets stored as hex colors by the profile accent picker. */
 export const SUPPORTER_ACCENT_PRESETS = [
   "#9747FF",
-  "#F15025",
+  getThemeCatalogEntry(undefined).preview.accent,
   "#FF8800",
   "#F5C542",
   "#3DD68C",

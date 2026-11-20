@@ -82,7 +82,7 @@
 .connectorArc {
   width: 70%;
   height: 24px;
-  border: 1px solid rgba(241, 80, 37, 0.55);
+  border: 1px solid rgba(var(--gn-brand-rgb), 0.55);
   border-top: 0;
   border-radius: 0 0 22px 22px;
 }
@@ -90,7 +90,7 @@
 .connectorStem {
   width: 1px;
   height: 26px;
-  background: #f15025;
+  background: var(--gn-brand);
 }
 
 .hub {
@@ -102,9 +102,9 @@
   margin-inline: auto;
   padding: 16px;
   background: #141414;
-  border: 1px solid #f15025;
+  border: 1px solid var(--gn-brand);
   border-radius: 16px;
-  box-shadow: 0 0 30px rgba(241, 80, 37, 0.25);
+  box-shadow: 0 0 30px rgba(var(--gn-brand-rgb), 0.25);
 }
 
 .hubLogo {
@@ -326,7 +326,7 @@
 }
 
 .toggleOn {
-  background: #f15025;
+  background: var(--gn-brand);
 }
 
 .toggleOff {
@@ -594,10 +594,10 @@
   align-items: center;
   height: 20px;
   padding-inline: 7px;
-  border: 1px solid rgba(241, 80, 37, 0.5);
+  border: 1px solid rgba(var(--gn-brand-rgb), 0.5);
   border-radius: 5px;
-  background: rgba(241, 80, 37, 0.14);
-  color: #ff8a66;
+  background: rgba(var(--gn-brand-rgb), 0.14);
+  color: var(--gn-accent-text);
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -627,8 +627,8 @@
   border-radius: 20px;
   background: radial-gradient(
     60% 55% at 50% 60%,
-    rgba(241, 80, 37, 0.35),
-    rgba(241, 80, 37, 0) 65%
+    rgba(var(--gn-brand-rgb), 0.35),
+    rgba(var(--gn-brand-rgb), 0) 65%
   );
 }
 

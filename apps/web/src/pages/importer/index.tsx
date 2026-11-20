@@ -45,7 +45,7 @@ const Index = () => {
           <Stack className={"w-full h-full items-center"}>
             <Title size={"h4"}>
               {t("importer.titlePrimary")}{" "}
-              <span className={"text-[#F15025]"}>
+              <span className={"text-brand"}>
                 {t("importer.titleAccent")}
               </span>
             </Title>

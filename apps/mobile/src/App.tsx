@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
+  defaultShouldDehydrateQuery,
   MutationCache,
   onlineManager,
   QueryCache,
@@ -27,12 +28,11 @@ import {
   setProjectContext,
   SettingsModal,
   setupAuthClient,
+  SupporterThemeProvider,
   UIProvider,
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
 import { setupWrapper } from "@repo/wrapper";
-import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
-import { Device } from "@capacitor/device";
 import { Capacitor } from "@capacitor/core";
 import { Preferences } from "@capacitor/preferences";
 import {
@@ -43,8 +43,14 @@ import {
   createCapacitorAsyncStorage,
   holdWritesUntilSplashDone,
 } from "@/util/asyncStorage";
-import { UI_HOOK_REGISTRY, UI_PRESENTER_REGISTRY } from "@/components/registry";
+import {
+  THEME_FALLBACK_PRESENTERS,
+  UI_HOOK_REGISTRY,
+  UI_PRESENTER_REGISTRY,
+} from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
+import { mobileThemeStorage } from "@/theme/theme-storage";
+import { NativeThemeChrome } from "@/theme/use-native-theme-chrome";
 import { PostHogProvider } from "@repo/analytics";
 
 /**
@@ -58,11 +64,6 @@ import "@mantine/dates/styles.css";
 import "@mantine/tiptap/styles.css";
 import "@mantine/charts/styles.css";
 
-/**
- * Includes tailwind styles
- */
-import "@/components/globals.css";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -74,8 +75,19 @@ import "@ionic/react/css/core.css";
  */
 import "@ionic/react/css/palettes/dark.always.css";
 import "@ionic/react/css/padding.css";
-/* Theme variables */
+/**
+ * Theme tokens for every Mantine, Ionic and Tailwind variable. Must come after
+ * the Ionic stylesheets so `:root[data-theme]` wins over `:root.md`/`:root.ios`
+ * and before the app globals (`globals.css`) and overrides (`variables.css`).
+ */
+import "@repo/ui/themes.css";
+/* Non-themed Ionic settings; the palette is generated in @repo/ui/themes.css. */
 import "./theme/variables.css";
+
+/**
+ * Includes tailwind styles. Last, so utilities override Ionic/theme defaults.
+ */
+import "@/components/globals.css";
 /*
  * YARL
  */
@@ -129,7 +141,7 @@ setupIonicReact({
   backButtonIcon: "/img/icon/icon_back_button.svg",
 });
 
-const App: React.FC = () => {
+const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -161,24 +173,6 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // The edge-to-edge plugin only exists on Android; on web and iOS its
-    // methods reject with "plugin is not implemented".
-    if (Capacitor.getPlatform() !== "android") return;
-
-    (async () => {
-      const info = await Device.getInfo();
-      if (Number(info.osVersion) >= 14) {
-        await EdgeToEdge.enable();
-        await EdgeToEdge.setBackgroundColor({
-          color: "#111111",
-        });
-      } else {
-        await EdgeToEdge.disable(); // Prevents layout issues on older Android versions
-      }
-    })().catch(console.error);
-  }, []);
-
-  useEffect(() => {
     Network.addListener("networkStatusChange", (status) => {
       onlineManager.setOnline(status.connected);
     }).catch(console.error);
@@ -195,6 +189,10 @@ const App: React.FC = () => {
         persister,
         // 30 days
         maxAge: 1000 * 60 * 60 * 24 * 30,
+        dehydrateOptions: {
+          shouldDehydrateQuery: (query) =>
+            query.meta?.persist !== false && defaultShouldDehydrateQuery(query),
+        },
       }}
     >
       <IonApp>
@@ -210,29 +208,37 @@ const App: React.FC = () => {
               presenters={UI_PRESENTER_REGISTRY}
               hooks={UI_HOOK_REGISTRY}
             >
-              <PostHogProvider
-                appName={"mobile"}
-                posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
-                posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
-                // CapacitorHttp sends binary bodies as text, which breaks gzip.
-                disableCompression={isNative}
+              <SupporterThemeProvider
+                initialTheme={initialTheme}
+                themeStorage={mobileThemeStorage}
+                fallbackPresenters={THEME_FALLBACK_PRESENTERS}
+                suspendOnInitialPack={false}
               >
-                <IonReactRouter>
-                  <AppUrlListener />
-                  <AppUpdateListener />
-                  <LiveUpdateListener />
-                  <WrappedWidgetSync />
-                  <DailyWidgetSync />
-                  <NotificationsManager />
-                  <Tabs />
-                  {/*
-                    Mobile host for `?settings=<tab>` links, including the
-                    notifications gear: the web shell mounts the same shared
-                    modal once.
-                  */}
-                  <SettingsModal />
-                </IonReactRouter>
-              </PostHogProvider>
+                <NativeThemeChrome />
+                <PostHogProvider
+                  appName={"mobile"}
+                  posthogKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+                  posthogHost={import.meta.env.VITE_PUBLIC_POSTHOG_HOST!}
+                  // CapacitorHttp sends binary bodies as text, which breaks gzip.
+                  disableCompression={isNative}
+                >
+                  <IonReactRouter>
+                    <AppUrlListener />
+                    <AppUpdateListener />
+                    <LiveUpdateListener />
+                    <WrappedWidgetSync />
+                    <DailyWidgetSync />
+                    <NotificationsManager />
+                    <Tabs />
+                    {/*
+                      Mobile host for `?settings=<tab>` links, including the
+                      notifications gear: the web shell mounts the same shared
+                      modal once.
+                    */}
+                    <SettingsModal />
+                  </IonReactRouter>
+                </PostHogProvider>
+              </SupporterThemeProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

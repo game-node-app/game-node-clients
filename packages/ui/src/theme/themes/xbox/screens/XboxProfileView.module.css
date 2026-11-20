@@ -1,0 +1,225 @@
+/* Xbox gamercard: banner behind the gamerpic, identity, actions and achievements. */
+.profileView {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  min-width: 0;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+  min-height: 320px;
+  padding: 32px;
+  overflow: hidden;
+  border-radius: var(--gn-radius);
+  isolation: isolate;
+  background:
+    radial-gradient(
+      120% 90% at 85% 0%,
+      color-mix(in srgb, var(--gn-brand) 45%, transparent) 0%,
+      transparent 60%
+    ),
+    var(--gn-surface);
+}
+
+.heroArt {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.heroArt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--gn-background) 92%, transparent) 0%,
+      color-mix(in srgb, var(--gn-background) 55%, transparent) 55%,
+      transparent 90%
+    ),
+    linear-gradient(
+      0deg,
+      var(--gn-background) 0%,
+      color-mix(in srgb, var(--gn-background) 70%, transparent) 25%,
+      transparent 65%
+    );
+}
+
+.heroVideo {
+  position: absolute;
+  inset: 0;
+}
+
+.addBanner {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+}
+
+.avatar {
+  position: relative;
+  align-self: end;
+  flex: none;
+}
+
+.gamerpic {
+  --avatar-size: clamp(96px, 12vw, 160px);
+  border: 4px solid var(--gn-brand);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--gn-background) 45%, transparent),
+    0 24px 48px color-mix(in srgb, var(--gn-background) 60%, transparent);
+}
+
+.levelChip {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  padding: 2px 12px;
+  border: 2px solid var(--gn-brand);
+  border-radius: 999px;
+  background: var(--gn-surface);
+  color: var(--gn-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.gamertag {
+  overflow-wrap: anywhere;
+  color: var(--gn-text);
+  font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px
+    color-mix(in srgb, var(--gn-background) 80%, transparent);
+}
+
+/* level + XP bar, in the place of Xbox's gamerscore */
+.level {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+
+.levelValue {
+  color: var(--gn-focus);
+  font-weight: 700;
+}
+
+.xp {
+  width: min(220px, 50vw);
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--gn-text) 18%, transparent);
+}
+
+.xpFill {
+  display: block;
+  height: 100%;
+  background: var(--gn-brand);
+}
+
+.xpLabel {
+  color: color-mix(in srgb, var(--gn-text) 70%, transparent);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* followers | following | member since, split by thin rules */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  color: color-mix(in srgb, var(--gn-text) 80%, transparent);
+  font-size: 0.95rem;
+}
+
+.metaItem + .metaItem {
+  padding-left: 16px;
+  border-left: 1px solid
+    color-mix(in srgb, var(--gn-text) 25%, transparent);
+}
+
+.since {
+  color: color-mix(in srgb, var(--gn-text) 70%, transparent);
+}
+
+.bio {
+  max-width: 60ch;
+  color: color-mix(in srgb, var(--gn-text) 85%, transparent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 4px;
+}
+
+.connections {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.featured {
+  align-self: end;
+}
+
+.featured:empty {
+  display: none;
+}
+
+.content {
+  min-width: 0;
+}
+
+@media (max-width: 61.99em) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    justify-items: start;
+    gap: 16px;
+    min-height: 0;
+    padding: 24px 16px;
+  }
+
+  .featured {
+    align-self: start;
+  }
+}

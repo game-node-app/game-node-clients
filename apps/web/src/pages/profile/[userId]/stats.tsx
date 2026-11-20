@@ -1,8 +1,13 @@
 import { useTranslation } from "@repo/locales";
-import { ProfileStatsView } from "@repo/ui";
+import { buildPresenterComponent, ProfileStatsView } from "@repo/ui";
 import { useRouter } from "next/router";
 import { ProfileOpenGraph } from "@/components/general/ProfileOpenGraph";
 import { getSeoProfileProps, SeoProfileProps } from "@/util/seo";
+
+const ProfileStatsPresenter = buildPresenterComponent(
+  "ProfileStatsView",
+  ProfileStatsView,
+);
 
 export const getServerSideProps = getSeoProfileProps();
 
@@ -20,7 +25,7 @@ const ProfileStatsPage = ({ seoProfile }: SeoProfileProps) => {
           username: seoProfile?.username,
         })}
       />
-      <ProfileStatsView userId={userId as string} />
+      <ProfileStatsPresenter userId={userId as string} />
     </>
   );
 };

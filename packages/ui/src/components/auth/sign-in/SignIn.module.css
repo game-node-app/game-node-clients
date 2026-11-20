@@ -4,8 +4,10 @@
   --auth-border: #292929;
   --auth-text: #fafafa;
   --auth-muted: #a6a6a6;
-  --auth-brand: var(--mantine-color-brand-6, #f15025);
+  --auth-brand: var(--mantine-color-brand-6);
+  /* theme-exempt: sign-in hero artwork */
   --auth-hero: linear-gradient(135deg, #f15025 0%, #d42912 56%, #5c0b06 100%);
+  /* theme-exempt: sign-in glow artwork */
   --auth-glow: radial-gradient(
     70% 30% at 50% 35%,
     rgba(241, 80, 37, 0.16),

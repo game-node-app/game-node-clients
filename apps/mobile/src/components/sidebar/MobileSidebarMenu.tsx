@@ -84,9 +84,9 @@ const MobileSidebarMenu = () => {
         <IonHeader
           className={"relative ion-activatable ion-no-border"}
           style={{
-            backgroundColor: "#161616",
+            backgroundColor: "var(--gn-surface)",
             backgroundImage: bannerSrc
-              ? `linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.45)), url(${bannerSrc})`
+              ? `linear-gradient(to top, color-mix(in srgb, var(--gn-scrim) 85%, transparent), color-mix(in srgb, var(--gn-scrim) 45%, transparent)), url(${bannerSrc})`
               : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -109,14 +109,21 @@ const MobileSidebarMenu = () => {
             aria-hidden
             className={"pointer-events-none absolute inset-x-0 bottom-0 h-8"}
             style={{
-              background: "linear-gradient(to bottom, transparent, #0F0F0F)",
+              background:
+                "linear-gradient(to bottom, transparent, var(--gn-mobile-menu-canvas))",
             }}
           />
         </IonHeader>
       )}
       <IonContent>
-        <Stack className={"w-full min-h-full gap-2 bg-[#0F0F0F] p-2"}>
-          <MobileSidebarSection title={t("navigation.sidebar.groups.yourSpace")}>
+        <Stack
+          className={
+            "w-full min-h-full gap-2 bg-[var(--gn-mobile-menu-canvas)] p-2"
+          }
+        >
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.yourSpace")}
+          >
             <MobileSidebarButton
               title={t("navigation.collections")}
               Icon={IconLibrary}
@@ -148,7 +155,9 @@ const MobileSidebarMenu = () => {
               href={`/importer`}
             />
           </MobileSidebarSection>
-          <MobileSidebarSection title={t("navigation.sidebar.groups.highlights")}>
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.highlights")}
+          >
             <MobileSidebarButton
               title={t("mobile.wrapped.title")}
               Icon={IconLayout2}
@@ -205,7 +214,9 @@ const MobileSidebarMenu = () => {
               href={`/feats/${userId}`}
             />
           </MobileSidebarSection>
-          <MobileSidebarSection title={t("navigation.sidebar.groups.community")}>
+          <MobileSidebarSection
+            title={t("navigation.sidebar.groups.community")}
+          >
             <MobileSidebarButton
               title={t("navigation.posts")}
               Icon={IconMessage}
@@ -252,8 +263,8 @@ const MobileSidebarMenu = () => {
                   closeMenu();
                 });
               }}
-              iconProps={{ className: "text-red-400" }}
-              textProps={{ className: "text-red-400" }}
+              iconProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
+              textProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
             />
           </MobileSidebarSection>
           <div

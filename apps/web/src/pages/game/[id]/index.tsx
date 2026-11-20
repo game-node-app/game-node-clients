@@ -10,6 +10,8 @@ import {
   GameInfoTabs,
   GameInfoTabValue,
   GameInfoView,
+  buildPresenterComponent,
+  useAppExperience,
   useGame,
   useUrlState,
   useUserView,
@@ -34,6 +36,11 @@ import {
   SITE_URL,
 } from "../../../util/seo";
 import sourceType = StatisticsSourceRequestDto.sourceType;
+
+const GameInfoViewPresenter = buildPresenterComponent(
+  "GameInfoView",
+  GameInfoView,
+);
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
@@ -139,6 +146,7 @@ const GameInfoPage = ({
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const experience = useAppExperience();
   const { id, reviewId } = router.query;
   const [, , incrementView] = useUserView(
     typeof id === "string" ? id : undefined,
@@ -191,6 +199,7 @@ const GameInfoPage = ({
       className="mb-12 mt-4"
       mih={"100vh"}
       p={0}
+      data-xbox-focus-scope={experience === "console" ? "true" : undefined}
     >
       {gameQuery.data != undefined && (
         <OpenGraph
@@ -207,7 +216,7 @@ const GameInfoPage = ({
         />
       )}
       <Stack className={"w-full h-full"}>
-        <GameInfoView id={idAsNumber} />
+        <GameInfoViewPresenter id={idAsNumber} />
         <GameInfoTabs currentTab={currentTab} onChange={onChange}>
           <Tabs.Panel value={GameInfoTabValue.overview}>
             <Box className={"w-full mt-4"}>

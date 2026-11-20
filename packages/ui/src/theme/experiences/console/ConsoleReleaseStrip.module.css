@@ -1,0 +1,213 @@
+.strip {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stripHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stripHeader :is(button, a):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.stripTitle {
+  font-weight: 600;
+  color: var(--gn-text);
+}
+
+.stripDays {
+  --console-strip-gap: 16px;
+  --console-strip-dot: 36px;
+  display: flex;
+  gap: var(--console-strip-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.stripDays::-webkit-scrollbar {
+  display: none;
+}
+
+.stripDayColumn {
+  /* the whole week fits on desktop, the next day peeking on phones */
+  flex: 0 0 calc((100% - 6 * var(--console-strip-gap)) / 7);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-snap-align: start;
+}
+
+.stripDayHead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* the timeline: each day draws the segment to the next marker, across the gap */
+.stripDayHead::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: var(--console-strip-dot);
+  right: calc(-1 * var(--console-strip-gap));
+  height: 2px;
+  background: var(--gn-border);
+  transform: translateY(-50%);
+}
+
+.stripDayColumn:last-child .stripDayHead::before {
+  display: none;
+}
+
+.stripDayDot {
+  position: relative;
+  flex: none;
+  width: var(--console-strip-dot);
+  height: var(--console-strip-dot);
+  display: grid;
+  place-items: center;
+  border: 2px solid color-mix(in srgb, var(--gn-brand) 70%, transparent);
+  border-radius: 999px;
+  background: var(--gn-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--gn-text);
+}
+
+.stripDayLabel {
+  position: relative;
+  padding-right: 6px;
+  /* masks the timeline behind the label */
+  background: var(--gn-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gn-text-muted);
+}
+
+.stripDayColumn[data-today] .stripDayDot {
+  border-color: var(--gn-brand);
+  background: var(--gn-brand);
+  color: var(--gn-accent-contrast);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gn-brand) 25%, transparent);
+}
+
+.stripDayColumn[data-today] .stripDayLabel {
+  color: var(--gn-text);
+}
+
+.stripDayColumn[data-empty] .stripDayDot {
+  border-color: var(--gn-border);
+  color: var(--gn-text-muted);
+}
+
+.stripDayEmpty {
+  font-size: 0.75rem;
+  color: var(--gn-text-muted);
+}
+
+.stripGame {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  padding: 2px;
+  border-radius: var(--gn-radius);
+  color: inherit;
+  text-decoration: none;
+}
+
+.stripGame:hover,
+.stripGame:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  /* inside: the week row scrolls, so an offset ring would be clipped */
+  outline-offset: -2px;
+}
+
+.stripGame img {
+  flex: 0 0 auto;
+  width: 48px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.stripGameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stripGameName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--gn-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stripGamePlatforms {
+  font-size: 0.7rem;
+  color: var(--gn-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stripGameBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--gn-text);
+  background: color-mix(in srgb, var(--gn-brand) 45%, transparent);
+}
+
+.stripMore {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 2px 8px;
+  border: 1px solid var(--gn-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gn-text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.stripMore:hover {
+  color: var(--gn-text);
+}
+
+.stripMore:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  /* inside: the week row scrolls, so an offset ring would be clipped */
+  outline-offset: -2px;
+  color: var(--gn-text);
+}
+
+@media (max-width: 48em) {
+  .stripDayColumn {
+    flex-basis: 45%;
+  }
+}

@@ -16,9 +16,7 @@ import {
   ReviewCardProps,
   McpGuideScreenProps,
   PostsFeedLayoutProps,
-  PostsListItemProps,
   JournalAchievementsGameGroupViewProps,
-  ProfileStatsViewProps,
   UserAvatarWithLevelInfoProps,
 } from "#@/components";
 import {
@@ -27,6 +25,18 @@ import {
   RouterHookProps,
 } from "#@/util";
 import { UseScrollPositionReturn } from "#@/components/general/hooks/useScrollPosition";
+import type { ExploreTrendingGamesProps } from "#@/components/explore/ExploreTrendingGames";
+import type { GameInfoViewProps } from "#@/components/game/info/GameInfoView";
+import type { HomeViewProps } from "#@/components/home/HomeView";
+import type { ReleaseStrip } from "#@/components/home/ReleaseStrip";
+import type { NotificationsPanelProps } from "#@/components/notifications/view/NotificationsPanel";
+import type { PostsFeedViewProps } from "#@/components/posts/feed/PostsFeedView";
+import type { PostsListItemProps } from "#@/components/posts/PostsListItem";
+import type { ProfileStatsViewProps } from "#@/components/profile/view/stats/ProfileStatsView";
+import type { ProfileStatsSimpleOverviewProps } from "#@/components/profile/view/ProfileStatsSimpleOverview";
+import type { ProfileUserInfoWithBannerProps } from "#@/components/profile/view/ProfileUserInfoWithBanner";
+import type { ProfileViewNavbarItemProps } from "#@/components/profile/view/navbar/ProfileViewNavbarItem";
+import type { ThemeStorage } from "#@/theme/runtime";
 
 /**
  * The registry of components that can be replaced at runtime
@@ -40,6 +50,23 @@ export type UIPresenterRegistry = {
   TrendingReviewCard: React.ComponentType<ReviewCardProps>;
   CollectionThumbnailCard: React.ComponentType<CollectionThumbnailCardProps>;
   GameAchievementsListItem: React.ComponentType<GameAchievementsListItemProps>;
+  /**
+   * Themeable screens. The defaults are today's components; an experience or
+   * theme screen pack loaded by `AppThemeProvider` can replace any of them.
+   * App platform presenters win over packs (Ionic modals/links keep working).
+   */
+  GameInfoView: React.ComponentType<GameInfoViewProps>;
+  ProfileUserInfoWithBanner: React.ComponentType<ProfileUserInfoWithBannerProps>;
+  ProfileViewNavbarItem: React.ComponentType<ProfileViewNavbarItemProps>;
+  ProfileStatsSimpleOverview: React.ComponentType<ProfileStatsSimpleOverviewProps>;
+  ProfileStatsView: React.ComponentType<ProfileStatsViewProps>;
+  RecentBlogPostsCarousel: React.ComponentType;
+  HomeView: React.ComponentType<HomeViewProps>;
+  HomeReleases: React.ComponentType<React.ComponentProps<typeof ReleaseStrip>>;
+  ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;
+  PostsListItem: React.ComponentType<PostsListItemProps>;
+  PostsFeedView: React.ComponentType<PostsFeedViewProps>;
+  NotificationsPanel: React.ComponentType<NotificationsPanelProps>;
   JournalOverviewItem: React.ComponentType<JournalOverviewItemProps>;
   JournalMonthHeader: React.ComponentType<JournalMonthHeaderProps>;
   JournalYearHeader: React.ComponentType<JournalYearHeaderProps>;
@@ -48,7 +75,6 @@ export type UIPresenterRegistry = {
   ProfileReviewListEmpty: React.ComponentType<ProfileReviewListEmptyProps>;
   McpGuideScreen: React.ComponentType<McpGuideScreenProps>;
   PostsFeedLayout: React.ComponentType<PostsFeedLayoutProps>;
-  PostsListItem: React.ComponentType<PostsListItemProps>;
   BlogArticleLanguageLink: React.ComponentType<{
     href: string;
     locale: SupportedLanguage;
@@ -61,7 +87,6 @@ export type UIPresenterRegistry = {
   }>;
   UserLevelHeader: React.ComponentType<UserAvatarWithLevelInfoProps>;
   JournalAchievementsGameGroup: React.ComponentType<JournalAchievementsGameGroupViewProps>;
-  ProfileStatsView: React.ComponentType<ProfileStatsViewProps>;
   Link: React.ComponentType<LinkComponentProps>;
   Modal: React.ComponentType<ModalComponentProps>;
 };
@@ -123,4 +148,9 @@ export type UIHookRegistry = {
    * in-app browser (`Browser.open` on mobile).
    */
   openExternalUrl?: (url: string) => Promise<void> | void;
+  /**
+   * Per-device theme persistence (cookie/localStorage on web, Capacitor
+   * Preferences on mobile). Apps without one (admin) keep the default theme.
+   */
+  themeStorage?: ThemeStorage;
 };

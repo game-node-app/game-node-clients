@@ -13,7 +13,7 @@ export function McpAppTile({ name, size = 36, className }: Props) {
     <Box
       aria-hidden
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-[10px] bg-[#222]",
+        "flex shrink-0 items-center justify-center rounded-[10px] bg-nav-raised",
         size === 40 ? "size-10" : "size-9",
         className,
       )}

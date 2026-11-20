@@ -1,0 +1,97 @@
+.rowGroup {
+  width: 100%;
+  gap: var(--mantine-spacing-xs);
+}
+
+.rowTitle {
+  font-weight: 600;
+  color: var(--gn-text);
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  /* room for the focus scale and ring inside the scroll clip */
+  padding: 20px 20px 24px;
+  margin: -8px -12px;
+  /* a tile cut by the row's edge fades out instead of ending in a hard slice */
+  mask-image: linear-gradient(
+    to right,
+    var(--gn-text) calc(100% - 48px),
+    transparent
+  );
+  scroll-padding-inline: 20px;
+  scrollbar-width: none;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+/* keep the ring and art of the tile being navigated fully painted: the edge fade is only for the tiles at rest */
+.row:has(:focus-visible) {
+  mask-image: none;
+}
+
+.tile {
+  flex: 0 0 auto;
+  display: block;
+  position: relative;
+  width: 150px;
+  aspect-ratio: 264 / 354;
+  border-radius: var(--gn-radius);
+  overflow: hidden;
+  scroll-snap-align: start;
+  outline: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tile:hover,
+.tile:focus-visible {
+  transform: scale(1.08);
+  /* the dark gap keeps the green ring legible over bright cover art */
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 4px var(--gn-focus);
+  z-index: 1;
+}
+
+.tileLabel {
+  display: none;
+}
+
+/* Read by screen readers, not drawn. */
+.hint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none;
+  }
+
+  .tile:hover,
+  .tile:focus-visible {
+    transform: none;
+  }
+}

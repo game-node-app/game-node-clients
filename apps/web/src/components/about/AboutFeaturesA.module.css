@@ -239,7 +239,7 @@
 }
 
 .barHighlighted {
-  background: #f15025;
+  background: var(--gn-brand);
 }
 
 .barLabel {
@@ -550,7 +550,7 @@
 
 .achievementXp {
   flex-shrink: 0;
-  color: #f15025;
+  color: var(--gn-brand);
   font-size: 13px;
   font-weight: 700;
   line-height: normal;
@@ -562,9 +562,10 @@
   flex-direction: column;
   overflow: hidden;
   padding: 32px;
+  /* theme-exempt: brand shades without tokens; about-page artwork gradient */
   background: linear-gradient(
     149.81deg,
-    #f15025 3.67%,
+    var(--gn-brand) 3.67%,
     #c2380f 54.63%,
     #5f0c07 96.33%
   );
@@ -829,8 +830,8 @@
 
 .periodActive {
   color: #fff;
-  background: #f15025;
-  border-color: #f15025;
+  background: var(--gn-brand);
+  border-color: var(--gn-brand);
 }
 
 .ranking {

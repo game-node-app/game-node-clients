@@ -3,6 +3,18 @@ import prose from "@tailwindcss/typography";
 import containerQueries from "@tailwindcss/container-queries";
 import plugin from "tailwindcss/plugin";
 
+function themeColor(token: string) {
+  const color = `var(--gn-${token})`;
+
+  return ({ opacityValue = 1 }: { opacityValue?: string | number } = {}) => {
+    const opacity = String(opacityValue);
+    if (opacity === "1") return color;
+
+    const weight = opacity.endsWith("%") ? opacity : `calc(${opacity} * 100%)`;
+    return `color-mix(in srgb, ${color} ${weight}, transparent)`;
+  };
+}
+
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
   corePlugins: {
@@ -57,61 +69,99 @@ const config: Omit<Config, "content"> = {
         "gn-fade-in": "gn-fade-in 300ms ease-out both",
         "gn-fade-up": "gn-fade-up 450ms cubic-bezier(0.22, 1, 0.36, 1) both",
       },
-      textColor: "#D9D9D9",
+      textColor: themeColor("text-color"),
       colors: {
-        body: "var(--mantine-color-body)",
+        body: themeColor("body"),
+        // Every value below lives in @repo/ui/themes.css so a theme can swap it.
         paper: {
-          DEFAULT: "#161616",
-          0: "#161616",
-          1: "#262525",
-          2: "#1D1D1D",
-          3: "#191919",
-          4: "#242424",
-          5: "#1C1C1C",
-          6: "#212121",
-          7: "#111111",
-          8: "#1A1A1A",
+          DEFAULT: themeColor("paper-0"),
+          0: themeColor("paper-0"),
+          1: themeColor("paper-1"),
+          2: themeColor("paper-2"),
+          3: themeColor("paper-3"),
+          4: themeColor("paper-4"),
+          5: themeColor("paper-5"),
+          6: themeColor("paper-6"),
+          7: themeColor("paper-7"),
+          8: themeColor("paper-8"),
+        },
+        surface: {
+          DEFAULT: themeColor("surface"),
+          0: themeColor("paper-0"),
+          1: themeColor("paper-1"),
+          2: themeColor("paper-2"),
+          3: themeColor("paper-3"),
+          4: themeColor("paper-4"),
+          5: themeColor("paper-5"),
+          6: themeColor("paper-6"),
+          7: themeColor("paper-7"),
+          8: themeColor("paper-8"),
         },
         line: {
-          DEFAULT: "#2A2A2A",
-          strong: "#3D3D3D",
+          DEFAULT: themeColor("line"),
+          strong: themeColor("line-strong"),
         },
         dimmed: {
-          DEFAULT: "var(--mantine-color-dimmed)",
-          0: "var(--mantine-color-dimmed)",
-          1: "#808080",
+          DEFAULT: themeColor("dimmed"),
+          0: themeColor("dimmed"),
+          1: themeColor("dimmed-1"),
+          2: themeColor("dimmed-2"),
+          3: themeColor("dimmed-3"),
         },
+        "text-muted": themeColor("text-muted"),
+        muted: themeColor("text-muted"),
+        emphasis: themeColor("text-emphasis"),
+        accent: themeColor("accent"),
+        "accent-contrast": themeColor("accent-contrast"),
+        focus: themeColor("focus"),
+        premium: {
+          DEFAULT: themeColor("premium"),
+          text: themeColor("premium-text"),
+          soft: themeColor("premium-soft"),
+          bright: themeColor("premium-bright"),
+        },
+        chart: {
+          primary: themeColor("chart-primary"),
+        },
+        level: {
+          text: themeColor("level-text"),
+          border: themeColor("level-border"),
+        },
+        "status-success-text": themeColor("status-success-text"),
+        "status-warning-text": themeColor("status-warning-text"),
+        "status-danger-strong": themeColor("status-danger-strong"),
+        "status-danger-text": themeColor("status-danger-text"),
         brand: {
-          DEFAULT: "#f15025",
-          0: "#ffede5",
-          1: "#ffd9cf",
-          2: "#fbb3a0",
-          3: "#f7896d",
-          4: "#f36742",
-          5: "#f15025",
-          6: "#f14517",
-          7: "#d6360b",
-          8: "#c02d06",
-          9: "#a82301",
+          DEFAULT: themeColor("brand"),
+          0: themeColor("brand-0"),
+          1: themeColor("brand-1"),
+          2: themeColor("brand-2"),
+          3: themeColor("brand-3"),
+          4: themeColor("brand-4"),
+          5: themeColor("brand-5"),
+          6: themeColor("brand-6"),
+          7: themeColor("brand-7"),
+          8: themeColor("brand-8"),
+          9: themeColor("brand-9"),
           // Selected/"your vote" surface of the Awards (design `brand/tint`).
-          tint: "#2e150f",
+          tint: themeColor("brand-tint"),
         },
         // Play-status colors of the Awards chips and notes.
         state: {
-          played: "#4fd1a5",
-          "played-tint": "#0f2620",
+          played: themeColor("state-played"),
+          "played-tint": themeColor("state-played-tint"),
         },
-        secondary: "#1A1A1A",
-        tertiary: "#872C13",
+        secondary: themeColor("secondary"),
+        tertiary: themeColor("tertiary"),
         nav: {
-          canvas: "#0B0B0B",
-          surface: "#111111",
-          raised: "#222222",
-          border: "#2A2A2A",
-          text: "#FFFFFF",
-          muted: "#ADADAD",
-          danger: "#DDA4A4",
-          "accent-subtle": "rgba(241, 80, 37, 0.12)",
+          canvas: themeColor("nav-canvas"),
+          surface: themeColor("nav-surface"),
+          raised: themeColor("nav-raised"),
+          border: themeColor("nav-border"),
+          text: themeColor("nav-text"),
+          muted: themeColor("nav-muted"),
+          danger: themeColor("nav-danger"),
+          "accent-subtle": themeColor("nav-accent-subtle"),
         },
       },
     },

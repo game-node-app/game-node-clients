@@ -34,7 +34,10 @@ const LABEL_COLUMN = "2.5rem";
 const levelStyle = (level: number) =>
   level === 0
     ? { backgroundColor: "#1c1c1c" }
-    : { backgroundColor: `rgba(241, 80, 37, ${LEVEL_OPACITY[level - 1]})` };
+    : {
+        // theme-exempt: recap calendar artwork heatmap
+        backgroundColor: `rgba(241, 80, 37, ${LEVEL_OPACITY[level - 1]})`,
+      };
 
 /**
  * "Playing calendar" (frame 5418:941): the top month sentence, a heatmap with

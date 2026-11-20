@@ -1,0 +1,136 @@
+/* Xbox feed post: a dark panel with author, game, content and actions. */
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: var(--gn-radius);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
+}
+
+.postHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.avatarLink {
+  flex: none;
+  border-radius: 999px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.user,
+.gameName {
+  overflow: hidden;
+  color: var(--gn-text);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user:hover,
+.gameLink:hover .gameName {
+  text-decoration: underline;
+}
+
+.avatarLink:focus-visible,
+.user:focus-visible,
+.gameLink:focus-visible,
+.content :focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.level {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gn-brand) 25%, transparent);
+  color: var(--gn-focus);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.date {
+  margin-left: auto;
+  color: var(--gn-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.gameLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: inherit;
+}
+
+.gameCover {
+  flex: none;
+  width: 40px;
+  aspect-ratio: 264 / 374;
+  object-fit: cover;
+  border-radius: var(--gn-radius);
+}
+
+.gameText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.gameAction {
+  color: var(--gn-text-muted);
+  font-size: 0.8rem;
+}
+
+.content {
+  color: var(--gn-text);
+}
+
+/* shared screenshots fill the column */
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--gn-radius);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gn-border);
+}
+
+@media (max-width: 61.99em) {
+  .post {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 36em) {
+  .postHead {
+    gap: 8px;
+  }
+
+  .author {
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+  }
+
+  .user {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}

@@ -35,7 +35,7 @@ const ProfileStatsDistributionRadarByTypeChart = ({ distribution }: Props) => {
       dataKey={"criteriaName"}
       withPolarRadiusAxis
       series={[
-        { name: "Total", color: "#DD6747", opacity: 1 },
+        { name: "Total", color: "var(--gn-chart-primary)", opacity: 1 },
         {
           name: "Finished",
           color: SUCCESS_COLOR,

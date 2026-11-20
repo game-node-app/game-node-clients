@@ -1,7 +1,7 @@
-import { PostsListItem } from "#@/components";
 import { Stack } from "@mantine/core";
 import { Post } from "@repo/wrapper/server";
 import { useMemo } from "react";
+import { PostsListItem } from "./PostsListItem";
 
 interface Props {
   items: Post[];

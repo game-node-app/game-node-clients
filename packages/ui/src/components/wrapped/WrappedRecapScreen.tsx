@@ -638,7 +638,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
                 className={cn(
                   "h-1.5 rounded-full border-0 p-0 transition-all",
                   index === templateIndex
-                    ? "w-4 bg-[#F15025]"
+                    ? "w-4 bg-brand"
                     : "w-1.5 bg-white/25",
                 )}
               />
@@ -782,6 +782,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
             "rounded-2xl p-6 min-h-48 flex flex-col gap-4 border border-white/[0.06] lg:sticky lg:top-sticky-safe"
           }
           style={{
+            // theme-exempt: recap artwork background
             background:
               "radial-gradient(700px 500px at 50% 0%, rgba(241,80,37,0.2), transparent), #1A1A1A",
           }}

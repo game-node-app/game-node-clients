@@ -36,6 +36,7 @@ export interface RecapNodesChartProps {
   todayLabel?: string | null;
 }
 
+// theme-exempt: recap chart artwork palette
 const COLORS = {
   grid: "#2a2a2a",
   path: "#3d3d3d",

@@ -11,11 +11,11 @@ export type SettingsPillTone =
   | "premium";
 
 const TONE_CLASSNAMES: Record<SettingsPillTone, string> = {
-  accent: "bg-[rgba(241,80,37,0.12)] text-[#f15025]",
-  neutral: "bg-[#222] text-[#adadad]",
-  success: "bg-[rgba(61,214,140,0.12)] text-[#3dd68c]",
-  danger: "bg-[rgba(229,72,77,0.12)] text-[#ff6369]",
-  premium: "bg-[rgba(151,71,255,0.16)] text-[#c7a6ff]",
+  accent: "bg-brand/[0.12] text-brand",
+  neutral: "bg-nav-raised text-dimmed-2",
+  success: "bg-status-success-text/[0.12] text-status-success-text",
+  danger: "bg-status-danger-strong/[0.12] text-status-danger-text",
+  premium: "bg-premium/[0.16] text-premium-text",
 };
 
 interface Props extends PropsWithChildren {

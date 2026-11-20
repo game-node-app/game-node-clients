@@ -8,7 +8,7 @@ export const PROFILE_BANNER_DESKTOP_ASPECT =
 
 /** Shared by the published profile and the upload previews. */
 export const PROFILE_BANNER_IMAGE_STYLE: CSSProperties = {
-  backgroundColor: "#161616",
+  backgroundColor: "var(--gn-paper-0)",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",

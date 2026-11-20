@@ -69,7 +69,7 @@ export function SettingsProfileImages({ userId }: Props) {
             onClick={bannerModal.open}
             aria-label={t("settings.profile.images.changeBanner")}
             className={
-              "group relative block h-[140px] w-full cursor-pointer overflow-hidden border-0 bg-[#222] p-0"
+              "group relative block h-[140px] w-full cursor-pointer overflow-hidden border-0 bg-nav-raised p-0"
             }
           >
             {bannerSrc && (
@@ -101,13 +101,13 @@ export function SettingsProfileImages({ userId }: Props) {
             onClick={avatarModal.open}
             aria-label={t("settings.profile.images.changeAvatar")}
             className={
-              "absolute -bottom-9 left-4 cursor-pointer rounded-full border-4 border-solid border-[#1a1a1a] bg-[#1a1a1a] p-0"
+              "absolute -bottom-9 left-4 cursor-pointer rounded-full border-4 border-solid border-secondary bg-secondary p-0"
             }
           >
             <UserAvatar userId={userId} size={80} className={"shrink-0"} />
             <span
               className={
-                "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-solid border-[#1a1a1a] bg-[#2a2a2a] text-white"
+                "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-solid border-secondary bg-line text-white"
               }
             >
               <IconCamera size={14} />
@@ -115,7 +115,7 @@ export function SettingsProfileImages({ userId }: Props) {
           </Box>
         </Box>
         <Stack gap={8} className={"px-4 pb-4 pt-12"}>
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
             {t("settings.profile.images.bannerHelp")}
           </Text>
           <ProfileVideoUploadStatus slot={"banner"} />

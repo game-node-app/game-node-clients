@@ -294,7 +294,9 @@ export function RecapStoriesScreen({
                 ...BAR_FILL_STYLE,
                 width: storyIndex <= index ? "100%" : "0%",
                 background:
-                  storyIndex === index ? "#F15025" : "rgba(241, 80, 37, 0.6)",
+                  storyIndex === index
+                    ? "var(--gn-brand)"
+                    : "color-mix(in srgb, var(--gn-brand) 60%, transparent)",
               }}
             />
           </div>

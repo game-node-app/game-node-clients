@@ -1,0 +1,26 @@
+.root {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  height: calc(60px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-top: 1px solid var(--gn-border);
+  background: color-mix(in srgb, var(--gn-body) 88%, transparent);
+  backdrop-filter: blur(12px);
+  scrollbar-width: none;
+}
+
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 62em) {
+  .root {
+    display: none;
+  }
+}

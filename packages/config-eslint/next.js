@@ -3,6 +3,10 @@
  * Next.js apps.
  */
 
+const { registerGamenodePlugin } = require("./plugin-resolver");
+
+registerGamenodePlugin();
+
 module.exports = {
   env: {
     browser: true,
@@ -29,6 +33,7 @@ module.exports = {
     "react-hooks",
     "react-refresh",
     "@next/eslint-plugin-next",
+    "gamenode",
   ],
 
   rules: {
@@ -45,6 +50,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": ["off", { endOfLine: "auto" }],
+    "gamenode/no-hard-coded-colors": "warn",
   },
   overrides: [
     {

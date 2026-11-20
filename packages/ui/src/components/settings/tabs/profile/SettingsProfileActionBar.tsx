@@ -20,13 +20,13 @@ export function SettingsProfileActionBar({ saving, onDiscard, onSave }: Props) {
       gap={8}
       justify={"flex-end"}
       className={
-        "sticky bottom-0 z-10 -mx-8 -mb-10 border-0 border-t border-solid border-[#2a2a2a] bg-[#0b0b0b] px-8 py-3 max-sm:-mx-4 max-sm:px-4"
+        "sticky bottom-0 z-10 -mx-8 -mb-10 border-0 border-t border-solid border-line bg-nav-canvas px-8 py-3 max-sm:-mx-4 max-sm:px-4"
       }
     >
       <Text
         fz={13}
         lh={"normal"}
-        className={"text-[#f5a524]"}
+        className={"text-status-warning-text"}
         role={"status"}
         aria-live={"polite"}
       >

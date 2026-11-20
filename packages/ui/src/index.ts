@@ -5,4 +5,5 @@
 export * from "./assets/index";
 export * from "./components/index";
 export * from "./context/index";
+export * from "./theme/index";
 export * from "./util/index";

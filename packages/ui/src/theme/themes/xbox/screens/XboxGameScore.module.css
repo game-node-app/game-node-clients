@@ -1,0 +1,105 @@
+.box {
+  gap: 14px;
+}
+
+.skeleton {
+  height: 96px;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.median {
+  min-width: 2ch;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--gn-text);
+}
+
+.summaryText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* histogram: columns share a baseline; the most voted star is the solid one */
+.bars {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bar {
+  display: grid;
+  grid-template-rows: auto 88px auto;
+  justify-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.barValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gn-text-muted);
+}
+
+.bar[data-top] .barValue {
+  color: var(--gn-text);
+}
+
+.barTrack {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 36px;
+  border-bottom: 2px solid var(--gn-border);
+  background: var(--gn-paper-3);
+  border-radius: var(--gn-radius) var(--gn-radius) 0 0;
+}
+
+.barFill {
+  display: block;
+  width: 100%;
+  /* a stub keeps 0% columns visible on the baseline */
+  min-height: 2px;
+  border-radius: var(--gn-radius) var(--gn-radius) 0 0;
+  background: color-mix(in srgb, var(--gn-brand) 45%, transparent);
+  transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bar[data-top] .barFill {
+  background: var(--gn-brand);
+}
+
+.bars[data-empty] .barTrack {
+  background: transparent;
+}
+
+.barLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gn-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barFill {
+    transition: none;
+  }
+}

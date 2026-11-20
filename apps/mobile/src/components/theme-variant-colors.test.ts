@@ -13,11 +13,11 @@ const resolve = (color: string) =>
   });
 
 describe("light variant colors", () => {
-  it("tints flat brand palette instead of orange-on-brown", () => {
+  it("tints flat token palette instead of orange-on-brown", () => {
     expect(resolve("brand")).toMatchObject({
-      background: "rgba(241, 80, 37, 0.15)",
-      // brand lightened just enough to reach 4.5:1 on its own tint
-      color: "#f25e36",
+      background: "color-mix(in srgb, var(--gn-brand), transparent 85%)",
+      hover: "color-mix(in srgb, var(--gn-brand), transparent 75%)",
+      color: "var(--gn-brand-light-text)",
     });
   });
 
@@ -66,12 +66,14 @@ describe("SegmentedControl on a flat brand palette", () => {
   };
 
   it("uses dark text on the orange indicator instead of white", () => {
-    expect(label("brand").style.getPropertyValue("--sc-label-color")).toBe(
-      "var(--mantine-color-black)",
-    );
+    expect(
+      label("brand").style.getPropertyValue("--gn-segmented-label-color"),
+    ).toBe("var(--gn-brand-filled-text)");
   });
 
   it("leaves an uncoloured control on Mantine's own label colour", () => {
-    expect(label().style.getPropertyValue("--sc-label-color")).toBe("");
+    expect(label().style.getPropertyValue("--gn-segmented-label-color")).toBe(
+      "",
+    );
   });
 });

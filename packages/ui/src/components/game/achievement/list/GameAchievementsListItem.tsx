@@ -82,7 +82,7 @@ const DEFAULT_GameAchievementsListItem = ({
             alt={achievement.name}
           ></Image>
           {!achievement.isObtained && (
-            <Overlay className={"z-0"} color="#000" backgroundOpacity={0.5} />
+            <Overlay className={"z-0"} color="black" backgroundOpacity={0.5} />
           )}
         </AspectRatio>
         <Box className={"block lg:hidden"}>{renderRightSideDetail()}</Box>

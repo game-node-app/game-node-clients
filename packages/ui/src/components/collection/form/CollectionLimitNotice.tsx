@@ -28,15 +28,16 @@ export function CollectionLimitNotice({
       p={"md"}
       data-testid={"collection-limit-notice"}
       style={{
-        border: "1px solid rgba(151,71,255,0.45)",
-        background: "rgba(151,71,255,0.08)",
+        border:
+          "1px solid color-mix(in srgb, var(--gn-premium) 45%, transparent)",
+        background: "color-mix(in srgb, var(--gn-premium) 8%, transparent)",
       }}
     >
       <Group wrap={"nowrap"} align={"flex-start"} gap={12}>
         <SettingsIconTile
           Icon={IconStack2}
-          className={"bg-[rgba(151,71,255,0.16)]"}
-          iconClassName={"text-[#c7a6ff]"}
+          className={"bg-premium/[0.16]"}
+          iconClassName={"text-premium-text"}
         />
         <Stack gap={4}>
           <Text fw={600}>
@@ -44,7 +45,7 @@ export function CollectionLimitNotice({
               ? t("collection.limit.titleNoCount")
               : t("collection.limit.title", { limit })}
           </Text>
-          <Text fz={13} className={"text-[#adadad]"}>
+          <Text fz={13} className={"text-dimmed-2"}>
             {t("collection.limit.description")}
           </Text>
           <Button

@@ -53,8 +53,8 @@ export function SettingsMcpTab() {
         <Stack gap={10}>
           <McpCodeField value={connection.url} />
           <Group gap={8} wrap={"nowrap"}>
-            <IconLock size={12} className={"shrink-0 text-[#7a7a7a]"} />
-            <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+            <IconLock size={12} className={"shrink-0 text-dimmed-3"} />
+            <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
               {t("settings.mcp.server.noPassword")}
             </Text>
           </Group>
@@ -73,7 +73,7 @@ export function SettingsMcpTab() {
                 wrap={"nowrap"}
                 gap={10}
                 className={
-                  "w-full rounded-lg border border-solid border-[#2a2a2a] bg-[#1a1a1a] py-[5px] pe-1.5 ps-3.5"
+                  "w-full rounded-lg border border-solid border-line bg-paper-8 py-[5px] pe-1.5 ps-3.5"
                 }
               >
                 <Text
@@ -126,15 +126,15 @@ export function SettingsMcpTab() {
         align={"flex-start"}
         gap={10}
         className={
-          "w-full rounded-lg border border-solid border-[#2a2a2a] bg-[#0b0b0b] px-3.5 py-3"
+          "w-full rounded-lg border border-solid border-line bg-nav-canvas px-3.5 py-3"
         }
       >
-        <IconShield size={16} className={"mt-px shrink-0 text-[#d9d9d9]"} />
+        <IconShield size={16} className={"mt-px shrink-0 text-[var(--gn-text-color)]"} />
         <Stack gap={4} className={"min-w-0 flex-1"}>
           <Text fz={14} fw={600} c={"white"} lh={"normal"}>
             {t("settings.mcp.notice.title")}
           </Text>
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
             {t("settings.mcp.notice.description")}
           </Text>
         </Stack>

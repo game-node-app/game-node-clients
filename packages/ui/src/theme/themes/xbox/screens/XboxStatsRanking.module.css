@@ -1,0 +1,144 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px 24px;
+  border-radius: var(--gn-radius);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* legend: a swatch + label, text stays in the theme's ink */
+.legend {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  color: var(--gn-text-muted);
+  font-size: 0.8rem;
+  list-style: none;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend li::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend [data-series="total"]::before {
+  background: color-mix(in srgb, var(--gn-brand) 45%, transparent);
+}
+
+.legend [data-series="finished"]::before {
+  background: var(--gn-success);
+}
+
+.ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rank {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+}
+
+.rankName {
+  overflow: hidden;
+  color: var(--gn-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--gn-text) 6%, transparent);
+}
+
+.total {
+  display: flex;
+  min-width: 4px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--gn-brand) 45%, transparent);
+}
+
+.finished {
+  height: 100%;
+  background: var(--gn-success);
+}
+
+.value {
+  color: var(--gn-text);
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sub {
+  color: var(--gn-text-muted);
+  font-weight: 400;
+}
+
+.note {
+  color: var(--gn-text-muted);
+  font-size: 0.75rem;
+}
+
+.more {
+  align-self: flex-start;
+  color: var(--gn-focus);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.more:hover {
+  text-decoration: underline;
+}
+
+.more:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+@media (max-width: 61.99em) {
+  .card {
+    padding: 16px;
+  }
+
+  .rank {
+    grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) 4rem;
+  }
+}

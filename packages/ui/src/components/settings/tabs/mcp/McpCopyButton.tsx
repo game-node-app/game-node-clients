@@ -42,7 +42,10 @@ export function McpCopyButton({ value, iconOnly = false }: Props) {
   const label = copied ? t("mcp.copied") : t("mcp.copy");
   const Icon = copied ? IconCheck : IconCopy;
   const icon = (
-    <Icon size={14} className={copied ? "text-[#3dd68c]" : undefined} />
+    <Icon
+      size={14}
+      className={copied ? "text-status-success-text" : undefined}
+    />
   );
 
   return (
@@ -64,7 +67,7 @@ export function McpCopyButton({ value, iconOnly = false }: Props) {
             onClick={() => void copy()}
             aria-label={label}
             className={
-              "shrink-0 text-[#adadad] hover:bg-[#222] hover:text-white"
+              "shrink-0 text-dimmed-2 hover:bg-nav-raised hover:text-white"
             }
           >
             {icon}

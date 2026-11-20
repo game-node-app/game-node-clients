@@ -1,4 +1,4 @@
-import { useUserId } from "#@/components";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { POST_EDITOR_EXTENSIONS } from "#@/components/posts/editor/constants.ts";
 import { createErrorNotification } from "#@/util";
 import { useDisclosure } from "@mantine/hooks";
@@ -20,7 +20,7 @@ export function usePostsListItem(item: Post) {
   const editor = useEditor(
     {
       extensions: POST_EDITOR_EXTENSIONS,
-      immediatelyRender: window != undefined,
+      immediatelyRender: typeof window !== "undefined",
       content: item.content,
       editable: false,
     },

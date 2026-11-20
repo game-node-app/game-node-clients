@@ -11,12 +11,16 @@ import { useTranslation } from "@repo/locales";
 import { IconCrown, IconPhoto } from "@tabler/icons-react";
 import type { CSSProperties, PropsWithChildren, ReactNode } from "react";
 
-interface Props extends PropsWithChildren {
+export interface ProfileUserInfoWithBannerProps extends PropsWithChildren {
   userId: string;
   navigation?: ReactNode;
 }
 
-const ProfileUserInfoWithBanner = ({ userId, navigation, children }: Props) => {
+const ProfileUserInfoWithBanner = ({
+  userId,
+  navigation,
+  children,
+}: ProfileUserInfoWithBannerProps) => {
   const { t } = useTranslation();
   const settings = useSettingsModalState();
   const isOwner = useUserId() === userId;

@@ -1,3 +1,7 @@
+const { registerGamenodePlugin } = require("./plugin-resolver");
+
+registerGamenodePlugin();
+
 module.exports = {
   env: {
     browser: true,
@@ -21,7 +25,13 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "react-hooks", "react-refresh"],
+  plugins: [
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "react-refresh",
+    "gamenode",
+  ],
   rules: {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
@@ -30,6 +40,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "error",
     "import/prefer-default-export": "off",
     "prettier/prettier": ["warn", { endOfLine: "auto" }],
+    "gamenode/no-hard-coded-colors": "warn",
   },
   overrides: [
     {

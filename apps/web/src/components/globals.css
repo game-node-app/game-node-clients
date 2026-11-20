@@ -16,11 +16,25 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --text-color: #FFFFFF;
+/*
+ * Before the runtime sets `data-theme` (or without it), Mantine's dark scheme
+ * rules would otherwise win over the generated `:root` defaults. Keep the
+ * default theme's values token-based and stop applying once a theme is set.
+ */
+:root:not([data-theme]) {
+    --mantine-color-body: var(--gn-body);
+    --mantine-color-text: var(--gn-text);
+    --mantine-color-dimmed: var(--gn-dimmed);
+}
 
-    @mixin dark-root {
-        --mantine-color-text: var(--text-color);
-        --mantine-color-body: #111111;
-    }
+/*
+ * Web font bridge. The generated `gamenode` font token is "Roboto, Roboto
+ * Fallback" and the app self-hosts Roboto through `next/font`, whose family
+ * names only exist at build time (`--gn-font-roboto` on `:root`). Point the
+ * token at that family so GameNode keeps rendering with the bundled Roboto.
+ * Xbox is untouched and keeps its generated Segoe UI -> Inter -> Roboto stack.
+ */
+:root[data-theme="gamenode"] {
+    --gn-font: var(--gn-font-roboto, Roboto, Roboto Fallback, sans-serif);
+    --mantine-font-family: var(--gn-font);
 }

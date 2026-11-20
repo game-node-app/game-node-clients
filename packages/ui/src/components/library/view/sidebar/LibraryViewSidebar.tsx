@@ -20,7 +20,11 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
 
   return (
     <nav>
-      <Paper className={"bg-[#42424233] p-5"}>
+      <Paper
+        className={
+          "bg-[color-mix(in_srgb,var(--gn-dark-4)_20%,transparent)] p-5"
+        }
+      >
         <Stack className={"w-full"}>
           <Link href={`/library/${userId}`}>
             <Title size={"h5"}>

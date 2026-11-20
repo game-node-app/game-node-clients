@@ -32,40 +32,41 @@ const VARIANT_CONFIG: Record<SettingsButtonVariant, VariantConfig> = {
   primary: {
     mantineVariant: "filled",
     vars: {
-      "--button-bg": "#f15025",
-      "--button-hover": "#d6360b",
-      "--button-color": "#ffffff",
-      "--button-hover-color": "#ffffff",
+      "--button-bg": "var(--gn-brand)",
+      "--button-hover": "var(--gn-brand-7)",
+      "--button-color": "var(--gn-text)",
+      "--button-hover-color": "var(--gn-text)",
       "--button-bd": "1px solid transparent",
     },
   },
   secondary: {
     mantineVariant: "filled",
     vars: {
-      "--button-bg": "#222222",
-      "--button-hover": "#2a2a2a",
-      "--button-color": "#ffffff",
-      "--button-hover-color": "#ffffff",
-      "--button-bd": "1px solid #2a2a2a",
+      "--button-bg": "var(--gn-nav-raised)",
+      "--button-hover": "var(--gn-line)",
+      "--button-color": "var(--gn-text)",
+      "--button-hover-color": "var(--gn-text)",
+      "--button-bd": "1px solid var(--gn-line)",
     },
   },
   ghost: {
     mantineVariant: "subtle",
     vars: {
       "--button-bg": "transparent",
-      "--button-hover": "#222222",
-      "--button-color": "#adadad",
-      "--button-hover-color": "#adadad",
+      "--button-hover": "var(--gn-nav-raised)",
+      "--button-color": "var(--gn-dimmed-2)",
+      "--button-hover-color": "var(--gn-dimmed-2)",
       "--button-bd": "1px solid transparent",
     },
   },
   danger: {
     mantineVariant: "filled",
     vars: {
-      "--button-bg": "#e5484d",
-      "--button-hover": "#d13d42",
-      "--button-color": "#ffffff",
-      "--button-hover-color": "#ffffff",
+      "--button-bg": "var(--gn-status-danger-strong)",
+      "--button-hover":
+        "color-mix(in srgb, var(--gn-status-danger-strong) 85%, black)",
+      "--button-color": "var(--gn-text)",
+      "--button-hover-color": "var(--gn-text)",
       "--button-bd": "1px solid transparent",
     },
   },
@@ -73,10 +74,11 @@ const VARIANT_CONFIG: Record<SettingsButtonVariant, VariantConfig> = {
     mantineVariant: "outline",
     vars: {
       "--button-bg": "transparent",
-      "--button-hover": "rgba(229, 72, 77, 0.1)",
-      "--button-color": "#ff6369",
-      "--button-hover-color": "#ff6369",
-      "--button-bd": "1px solid #e5484d",
+      "--button-hover":
+        "color-mix(in srgb, var(--gn-status-danger-strong) 10%, transparent)",
+      "--button-color": "var(--gn-status-danger-text)",
+      "--button-hover-color": "var(--gn-status-danger-text)",
+      "--button-bd": "1px solid var(--gn-status-danger-strong)",
     },
   },
 };

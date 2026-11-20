@@ -72,7 +72,7 @@ const GameSelectViewFigure = ({
     <GameFigureImage {...figureProps} game={game} onClick={onClick}>
       {(isSelected || isExcluded) && (
         <Overlay
-          color="#000"
+          color="black"
           backgroundOpacity={0.85}
           className={"z-10 h-full"}
         />

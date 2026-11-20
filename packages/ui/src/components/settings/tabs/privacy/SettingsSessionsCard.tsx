@@ -157,7 +157,7 @@ export function SettingsSessionsCard() {
           />
         )}
         {sessionsQuery.isError && !isNotFresh && (
-          <Text fz={13} className={"px-5 py-4 text-[#ff6369]"}>
+          <Text fz={13} className={"px-5 py-4 text-status-danger-text"}>
             {t("settings.privacy.sessions.error")}
           </Text>
         )}

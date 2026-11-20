@@ -16,10 +16,10 @@ import { useState } from "react";
 
 const DATE_KEY = "YYYY-MM-DD";
 const COLORS = [
-  "color-mix(in srgb, var(--profile-accent, #f15025) 30%, #222)",
-  "color-mix(in srgb, var(--profile-accent, #f15025) 65%, #222)",
-  "var(--profile-accent, #f15025)",
-  "color-mix(in srgb, var(--profile-accent, #f15025) 55%, white)",
+  "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 30%, var(--gn-nav-raised))",
+  "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 65%, var(--gn-nav-raised))",
+  "var(--profile-accent, var(--gn-brand))",
+  "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 55%, white)",
 ];
 
 const JournalHeatmap = ({ userId }: { userId: string }) => {

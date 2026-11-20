@@ -1,0 +1,10 @@
+{
+  "directory": "./src",
+  "location": "all",
+  "delete": true,
+  "exclude": [
+    "/theme/experiences/console(/|$)",
+    "/theme/themes/[^/]+/screens(/|$)",
+    "/theme/packs/anchors(/|$)"
+  ]
+}

@@ -6,3 +6,4 @@ export * from "./useInfinitePosts";
 export * from "./useInfinitePostsFeed";
 export * from "./usePost";
 export * from "./usePostsListItem";
+export * from "./usePostsListItemActions";

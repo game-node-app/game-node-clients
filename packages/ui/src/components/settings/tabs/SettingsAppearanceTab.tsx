@@ -2,10 +2,7 @@ import { Box, Radio, Text } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { LANGUAGE_OPTIONS } from "#@/components/general/LanguagePickerMenu/LanguageSwitcherMenu";
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
-import {
-  SettingsComingSoonBadge,
-  SettingsPill,
-} from "#@/components/settings/common/SettingsPill";
+import { SettingsPill } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
 import { SettingsCustomCoversSection } from "#@/components/settings/tabs/appearance/SettingsCustomCoversSection";
 import {
@@ -13,111 +10,172 @@ import {
   SettingsThemeOptionCard,
   SettingsThemePalette,
 } from "#@/components/settings/tabs/appearance/SettingsThemeOptionCard";
+import {
+  useAppTheme,
+  useHasSupporterThemeAccess,
+} from "#@/theme/AppThemeProvider";
+import {
+  DEFAULT_THEME_ID,
+  isThemeId,
+  THEME_CATALOG,
+  THEMES_BY_ID,
+  type ThemeId,
+} from "#@/theme/generated/catalog";
 
-/** The only theme that exists today (apps force the dark color scheme). */
-const CURRENT_THEME = "dark";
+type UnavailableThemeValue =
+  | "light"
+  | "system"
+  | "steam"
+  | "playstation"
+  | "nintendo";
+type ThemeValue = ThemeId | UnavailableThemeValue;
 
-const BASE_THEMES: {
-  value: "dark" | "light" | "system";
+const BASE_THEME_ORDER = [DEFAULT_THEME_ID, "light", "system"] as const;
+const SPECIAL_THEME_ORDER = Array.from(
+  new Set<ThemeValue>([
+    "steam",
+    ...THEME_CATALOG.filter((entry) => !entry.isDefault).map(
+      (entry) => entry.id,
+    ),
+    "playstation",
+    "nintendo",
+  ]),
+);
+
+type AppearanceThemeOption = {
+  value: ThemeValue;
+  label: string;
+  description?: string;
   palette: SettingsThemePalette;
-}[] = [
-  {
-    value: "dark",
-    palette: {
-      background: "#0e0e0e",
-      sidebar: "#1a1a1a",
-      title: "#ffffff",
-      text: "#7a7a7a",
-      accent: "#f15025",
-    },
-  },
-  {
-    value: "light",
-    palette: {
-      background: "#f4f4f5",
-      sidebar: "#e4e4e7",
-      title: "#18181b",
-      text: "#7a7a7a",
-      accent: "#f15025",
-    },
-  },
-  {
-    value: "system",
-    palette: {
-      background: "#2a2a2a",
-      sidebar: "#1a1a1a",
-      title: "#ffffff",
-      text: "#7a7a7a",
-      accent: "#f15025",
-    },
-  },
-];
+  disabled: boolean;
+  locked?: boolean;
+};
 
-/** Store-inspired palettes. Store names are proper nouns and are not translated. */
-const SPECIAL_THEMES: {
-  value: "steam" | "xbox" | "playstation" | "nintendo";
-  name: string;
-  palette: SettingsThemePalette;
-}[] = [
-  {
-    value: "steam",
-    name: "Steam",
-    palette: {
-      background: "#1b2838",
-      sidebar: "#171a21",
-      title: "#ffffff",
-      text: "#8f98a0",
-      accent: "#66c0f4",
-    },
-  },
-  {
-    value: "xbox",
-    name: "Xbox",
-    palette: {
-      background: "#0e0e0e",
-      sidebar: "#1f1f1f",
-      title: "#ffffff",
-      text: "#9a9a9a",
-      accent: "#107c10",
-    },
-  },
-  {
-    value: "playstation",
-    name: "PlayStation",
-    palette: {
-      background: "#001d4a",
-      sidebar: "#00439c",
-      title: "#ffffff",
-      text: "#a9c4eb",
-      accent: "#0070d1",
-    },
-  },
-  {
-    value: "nintendo",
-    name: "Nintendo",
-    palette: {
-      background: "#ffffff",
-      sidebar: "#e6e6e6",
-      title: "#1a1a1a",
-      text: "#8a8a8a",
-      accent: "#e60012",
-      bordered: true,
-    },
-  },
-];
+const UNAVAILABLE_THEME_LABELS = {
+  light: "settings.appearance.theme.light",
+  system: "settings.appearance.theme.system",
+} as const;
 
-/**
- * Appearance and language tab. The language picker is functional; themes have no
- * implementation yet, so only "Dark" (the current look) is selected and the rest is disabled.
- */
+/** Store names are proper nouns and are not translated. */
+const STORE_THEME_NAMES = {
+  steam: "Steam",
+  playstation: "PlayStation",
+  nintendo: "Nintendo",
+} as const;
+
+const THEME_DESCRIPTION_KEYS = {
+  system: "settings.appearance.theme.systemDescription",
+  xbox: "settings.appearance.specialThemes.xbox",
+  steam: "settings.appearance.specialThemes.steam",
+  playstation: "settings.appearance.specialThemes.playstation",
+  nintendo: "settings.appearance.specialThemes.nintendo",
+} as const;
+
+// theme-exempt: fixed swatches illustrate the miniature previews of unavailable themes.
+const UNAVAILABLE_THEME_PREVIEWS: Record<
+  UnavailableThemeValue,
+  SettingsThemePalette
+> = {
+  light: {
+    background: "#f4f4f5",
+    sidebar: "#e4e4e7",
+    title: "#18181b",
+    text: "#7a7a7a",
+    accent: THEMES_BY_ID[DEFAULT_THEME_ID].preview.accent,
+  },
+  system: {
+    background: "#2a2a2a",
+    sidebar: "#1a1a1a",
+    title: "#ffffff",
+    text: "#7a7a7a",
+    accent: THEMES_BY_ID[DEFAULT_THEME_ID].preview.accent,
+  },
+  steam: {
+    background: "#1b2838",
+    sidebar: "#171a21",
+    title: "#ffffff",
+    text: "#8f98a0",
+    accent: "#66c0f4",
+  },
+  playstation: {
+    background: "#001d4a",
+    sidebar: "#00439c",
+    title: "#ffffff",
+    text: "#a9c4eb",
+    accent: "#0070d1",
+  },
+  nintendo: {
+    background: "#ffffff",
+    sidebar: "#e6e6e6",
+    title: "#1a1a1a",
+    text: "#8a8a8a",
+    accent: "#e60012",
+    bordered: true,
+  },
+};
+
 export function SettingsAppearanceTab() {
   const { t } = useTranslation();
   const { language, setLanguage } = useI18nContext();
+  const [themeId, setTheme] = useAppTheme();
+  const hasSupporterThemeAccess = useHasSupporterThemeAccess();
 
-  const themeLabels: Record<(typeof BASE_THEMES)[number]["value"], string> = {
-    dark: t("settings.appearance.theme.dark"),
-    light: t("settings.appearance.theme.light"),
-    system: t("settings.appearance.theme.system"),
+  const optionFor = (value: ThemeValue): AppearanceThemeOption => {
+    if (isThemeId(value)) {
+      const entry = THEMES_BY_ID[value];
+      const locked = !entry.isDefault && !hasSupporterThemeAccess;
+      return {
+        value,
+        label: t(entry.labelKey),
+        description:
+          value === "xbox" ? t(THEME_DESCRIPTION_KEYS.xbox) : undefined,
+        palette: entry.preview,
+        disabled: locked,
+        locked,
+      };
+    }
+
+    if (value === "light") {
+      return {
+        value,
+        label: t(UNAVAILABLE_THEME_LABELS.light),
+        palette: UNAVAILABLE_THEME_PREVIEWS.light,
+        disabled: true,
+      };
+    }
+
+    if (value === "system") {
+      return {
+        value,
+        label: t(UNAVAILABLE_THEME_LABELS.system),
+        description: t(THEME_DESCRIPTION_KEYS.system),
+        palette: UNAVAILABLE_THEME_PREVIEWS.system,
+        disabled: true,
+      };
+    }
+
+    return {
+      value,
+      label: STORE_THEME_NAMES[value],
+      description: t(THEME_DESCRIPTION_KEYS[value]),
+      palette: UNAVAILABLE_THEME_PREVIEWS[value],
+      disabled: true,
+    };
+  };
+
+  const baseOptions = BASE_THEME_ORDER.map(optionFor);
+  const specialOptions = SPECIAL_THEME_ORDER.map(optionFor);
+  const baseValue = baseOptions.some((option) => option.value === themeId)
+    ? themeId
+    : null;
+  const specialValue = specialOptions.some((option) => option.value === themeId)
+    ? themeId
+    : null;
+
+  const selectTheme = (value: string | null) => {
+    if (value && isThemeId(value)) {
+      setTheme(value);
+    }
   };
 
   return (
@@ -147,7 +205,7 @@ export function SettingsAppearanceTab() {
                   withBorder={false}
                   radius={0}
                   className={
-                    "transition-colors hover:bg-[#1f1f1f] focus-visible:!outline-offset-[-2px]"
+                    "transition-colors hover:bg-[var(--gn-dark-8)] focus-visible:!outline-offset-[-2px]"
                   }
                 >
                   <Box
@@ -179,29 +237,28 @@ export function SettingsAppearanceTab() {
         </Radio.Group>
       </SettingsSection>
       <SettingsSection
+        sectionId={"theme"}
         title={t("settings.appearance.theme.title")}
         description={t("settings.appearance.theme.description")}
       >
         <Radio.Group
-          value={CURRENT_THEME}
+          value={baseValue}
+          onChange={selectTheme}
           label={t("settings.appearance.theme.title")}
           classNames={{ root: "w-full", label: "sr-only" }}
         >
           <Box className={"@container w-full"}>
             <Box className={"grid grid-cols-1 gap-3 @[480px]:grid-cols-3"}>
-              {BASE_THEMES.map((theme) => (
+              {baseOptions.map((option) => (
                 <SettingsThemeOptionCard
-                  key={theme.value}
-                  value={theme.value}
-                  label={themeLabels[theme.value]}
-                  description={
-                    theme.value === "system"
-                      ? t("settings.appearance.theme.systemDescription")
-                      : undefined
-                  }
-                  palette={theme.palette}
-                  checked={theme.value === CURRENT_THEME}
-                  disabled={theme.value !== CURRENT_THEME}
+                  key={option.value}
+                  value={option.value}
+                  label={option.label}
+                  description={option.description}
+                  palette={option.palette}
+                  checked={option.value === themeId}
+                  disabled={option.disabled}
+                  locked={option.locked}
                 />
               ))}
             </Box>
@@ -211,33 +268,31 @@ export function SettingsAppearanceTab() {
       <SettingsSection
         title={t("settings.appearance.specialThemes.title")}
         description={t("settings.appearance.specialThemes.description")}
-        rightSection={<SettingsComingSoonBadge />}
       >
         <Radio.Group
-          value={null}
+          value={specialValue}
+          onChange={selectTheme}
           label={t("settings.appearance.specialThemes.title")}
           classNames={{ root: "w-full", label: "sr-only" }}
         >
           <Box className={"@container w-full"}>
             <Box className={"grid grid-cols-2 gap-3 @[560px]:grid-cols-4"}>
-              {SPECIAL_THEMES.map((theme) => (
+              {specialOptions.map((option) => (
                 <SettingsThemeOptionCard
-                  key={theme.value}
-                  value={theme.value}
-                  label={theme.name}
-                  description={t(
-                    `settings.appearance.specialThemes.${theme.value}`,
-                  )}
-                  palette={theme.palette}
-                  checked={false}
-                  disabled
-                  withComingSoonBadge={false}
+                  key={option.value}
+                  value={option.value}
+                  label={option.label}
+                  description={option.description}
+                  palette={option.palette}
+                  checked={option.value === themeId}
+                  disabled={option.disabled}
+                  locked={option.locked}
                 />
               ))}
             </Box>
           </Box>
         </Radio.Group>
-        <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
           {t("settings.appearance.specialThemes.disclaimer")}
         </Text>
       </SettingsSection>

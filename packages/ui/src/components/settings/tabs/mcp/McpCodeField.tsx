@@ -14,7 +14,7 @@ export function McpCodeField({ value, label, className }: Props) {
   return (
     <Stack gap={6} className={cn("w-full min-w-0", className)}>
       {label && (
-        <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
           {label}
         </Text>
       )}
@@ -23,7 +23,7 @@ export function McpCodeField({ value, label, className }: Props) {
         align={"flex-start"}
         gap={12}
         className={
-          "w-full rounded-lg border border-solid border-[#2a2a2a] bg-[#0b0b0b] py-1.5 pe-1.5 ps-3.5"
+          "w-full rounded-lg border border-solid border-line bg-nav-canvas py-1.5 pe-1.5 ps-3.5"
         }
       >
         <Box

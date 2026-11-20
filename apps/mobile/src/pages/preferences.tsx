@@ -2,7 +2,7 @@ import { AppPage } from "@/components/general/AppPage";
 import { CardSection } from "@/components/general/card";
 import PreferencesSignInMethodsItems from "@/components/preferences/auth/PreferencesSignInMethodsItems";
 import PreferencesConnectionsItems from "@/components/preferences/connections/PreferencesConnectionsItems";
-import PreferencesCustomCoversItems from "@/components/preferences/covers/PreferencesCustomCoversItems";
+import PreferencesAppearanceItems from "@/components/preferences/appearance/PreferencesAppearanceItems";
 import PreferencesLibraryItems from "@/components/preferences/library/PreferencesLibraryItems";
 import { PreferencesMiscItems } from "@/components/preferences/misc/PreferencesMiscItems";
 import PreferencesProfileItems from "@/components/preferences/profile/PreferencesProfileItems";
@@ -29,7 +29,7 @@ const PreferencesPage = () => {
           </CardSection>
           <CardSection title={t("mobile.preferences.libraryAndDisplay")}>
             <PreferencesLibraryItems />
-            <PreferencesCustomCoversItems />
+            <PreferencesAppearanceItems />
           </CardSection>
           <CardSection title={t("mobile.preferences.platformsAndImport")}>
             <PreferencesConnectionsItems />

@@ -73,7 +73,7 @@ const LibraryViewTabs = ({ status, onStatusChange }: Props) => {
               value={value}
               className={cn(
                 onMobile &&
-                  "shrink-0 px-4 h-9 text-sm font-medium border border-[#2a2a2a] data-[active=true]:border-transparent [&:not([data-active])]:bg-[#161616]",
+                  "shrink-0 px-4 h-9 text-sm font-medium border border-line data-[active=true]:border-transparent [&:not([data-active])]:bg-paper-0",
               )}
             >
               {t(labelKey)}

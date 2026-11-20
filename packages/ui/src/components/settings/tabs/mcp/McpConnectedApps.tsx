@@ -97,7 +97,7 @@ function ConnectedAppRow({
           {(domain || verified) && (
             <Group gap={6} wrap={"wrap"}>
               {domain && domain !== name && (
-                <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+                <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
                   {domain}
                 </Text>
               )}
@@ -110,7 +110,7 @@ function ConnectedAppRow({
           )}
         </Group>
         {details.length > 0 && (
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
             {details.join(" · ")}
           </Text>
         )}
@@ -179,7 +179,11 @@ export function McpConnectedApps() {
             role={"alert"}
             className={"w-full px-5 py-4"}
           >
-            <Text fz={13} lh={"18px"} className={"flex-1 text-[#ff6369]"}>
+            <Text
+              fz={13}
+              lh={"18px"}
+              className={"flex-1 text-status-danger-text"}
+            >
               {t("settings.mcp.apps.loadError")}
             </Text>
             <SettingsButton
@@ -202,7 +206,7 @@ export function McpConnectedApps() {
             <Text fz={14} fw={600} c={"white"} lh={"normal"}>
               {t("settings.mcp.apps.empty")}
             </Text>
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {t("settings.mcp.apps.emptyHint")}
             </Text>
           </Stack>

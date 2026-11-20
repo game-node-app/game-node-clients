@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
  * native size, so everything here is in plain pixels / hex values and never
  * depends on the app theme or the screen.
  */
+// theme-exempt: recap export card artwork (rasterised fixed palette)
 export const RECAP_COLORS = {
   brand: "#F15025",
   ground: "#0F0E0D",

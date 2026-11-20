@@ -31,6 +31,12 @@ import "@mantine/spotlight/styles.css";
 import "@mantine/tiptap/styles.css";
 
 /**
+ * Theme tokens for every Mantine, Ionic and Tailwind variable. Must come after
+ * Mantine and before the app globals so `:root[data-theme]` wins.
+ */
+import "@repo/ui/themes.css";
+
+/**
  * Includes tailwind styles
  */
 import "@/components/globals.css";
@@ -47,9 +53,14 @@ import { LinkWrapper } from "@/components/general/LinkWrapper";
 import NotificationsManager from "@/components/general/NotificationsManager";
 import { OpenGraph } from "@/components/general/OpenGraph";
 import OpenInAppDialog from "@/components/general/OpenInAppDialog";
+import { preloadStoredTheme } from "@/components/theme/preloadStoredTheme";
+import { ThemePackStyles } from "@/components/theme/ThemePackStyles";
+import { webThemeStorage } from "@/components/theme/themeStorage";
+import { WebThemeRuntime } from "@/components/theme/WebThemeRuntime";
 import type { DehydrationResult } from "@/util/types/hydration";
 import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import {
+  SupporterThemeProvider,
   DEFAULT_MANTINE_THEME,
   ErrorBoundaryFallback,
   getAuthClientOptions,
@@ -59,7 +70,7 @@ import {
   UIProvider,
 } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
-import { Roboto } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import { useCallback, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -90,6 +101,18 @@ const roboto = Roboto({
 });
 
 /**
+ * Xbox falls back to Inter after Segoe UI (see the generated `--gn-font`).
+ * `preload: false` keeps it off the critical path: the font file is requested
+ * only when a theme's stack actually reaches it, so `gamenode` never downloads
+ * it. The family name is exposed as `--gn-font-inter` on `:root` below.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+
+/**
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
@@ -111,12 +134,19 @@ setupWrapper({
   searchBaseURL: process.env.NEXT_PUBLIC_SEARCH_URL!,
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
+preloadStoredTheme();
+
+type WebAppProps = AppProps<DehydrationResult> & {
+  /** Server-rendered theme from `_document`; absent on static/client renders. */
+  initialTheme?: string;
+};
 
 export default function WebApp({
   Component,
   pageProps,
   router,
-}: AppProps<DehydrationResult>) {
+  initialTheme,
+}: WebAppProps) {
   useEffect(() => {
     router.events.on("routeChangeStart", protectOAuthPage);
     router.events.on("routeChangeComplete", protectOAuthPage);
@@ -215,36 +245,52 @@ export default function WebApp({
                 useRouter: useNextRouterWrapper,
                 useOpenGameSearch: useOpenSpotlight,
                 authPath: "/auth",
+                themeStorage: webThemeStorage,
               }}
             >
-              <Head>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1"
-                />
-              </Head>
-              {/* Default title and link-preview tags; pages override them. */}
-              <OpenGraph title="GameNode" links={false} />
-              <NotificationsManager />
-              <OpenInAppDialog />
-              <HydrationBoundary state={pageProps.dehydratedState}>
-                <GlobalAppShell>
-                  <RouterTransition />
-                  <ErrorBoundary
-                    fallbackRender={({ error }) => (
-                      <ErrorBoundaryFallback error={error as Error} />
-                    )}
-                  >
-                    {/* keyed by pathname so each page fades in, but query changes (search) don't replay it */}
-                    <div
-                      key={router.asPath.split(/[?#]/)[0]}
-                      className="motion-safe:animate-gn-fade-in"
+              <SupporterThemeProvider initialTheme={initialTheme}>
+                <WebThemeRuntime />
+                <ThemePackStyles />
+                <Head>
+                  <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                  />
+                  {/*
+                   * Font variables must be on `:root` (the element where the
+                   * generated `--gn-font` resolves); a wrapper div would not
+                   * reach it. GameNode points at the self-hosted Roboto family
+                   * from `globals.css`; Xbox uses the generated stack.
+                   */}
+                  <style
+                    dangerouslySetInnerHTML={{
+                      __html: `:root{--gn-font-inter:${inter.style.fontFamily};--gn-font-roboto:${roboto.style.fontFamily}}`,
+                    }}
+                  />
+                </Head>
+                {/* Default title and link-preview tags; pages override them. */}
+                <OpenGraph title="GameNode" links={false} />
+                <NotificationsManager />
+                <OpenInAppDialog />
+                <HydrationBoundary state={pageProps.dehydratedState}>
+                  <GlobalAppShell>
+                    <RouterTransition />
+                    <ErrorBoundary
+                      fallbackRender={({ error }) => (
+                        <ErrorBoundaryFallback error={error as Error} />
+                      )}
                     >
-                      <Component {...pageProps} />
-                    </div>
-                  </ErrorBoundary>
-                </GlobalAppShell>
-              </HydrationBoundary>
+                      {/* keyed by pathname so each page fades in, but query changes (search) don't replay it */}
+                      <div
+                        key={router.asPath.split(/[?#]/)[0]}
+                        className="motion-safe:animate-gn-fade-in"
+                      >
+                        <Component {...pageProps} />
+                      </div>
+                    </ErrorBoundary>
+                  </GlobalAppShell>
+                </HydrationBoundary>
+              </SupporterThemeProvider>
             </UIProvider>
           </MantineProvider>
         </I18nProvider>

@@ -52,7 +52,7 @@ export function SettingsCustomCoversSection({ showHeader = true }: Props = {}) {
               withBorder={false}
               radius={0}
               className={
-                "transition-colors hover:bg-[#1f1f1f] focus-visible:!outline-offset-[-2px]"
+                "transition-colors hover:bg-[var(--gn-dark-8)] focus-visible:!outline-offset-[-2px]"
               }
             >
               <Box
@@ -77,7 +77,7 @@ export function SettingsCustomCoversSection({ showHeader = true }: Props = {}) {
                     component={"span"}
                     fz={13}
                     lh={"18px"}
-                    className={"text-[#adadad]"}
+                    className={"text-dimmed-2"}
                   >
                     {t(
                       `settings.appearance.customCovers.${option}.description`,

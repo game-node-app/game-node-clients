@@ -38,7 +38,7 @@ const GameHoverEditFigure = ({
         >
           <Overlay
             gradient={
-              "linear-gradient(180deg, rgba(28, 28, 28, 0) 33%, #1C1C1C 100%)"
+              "linear-gradient(180deg, transparent 33%, var(--gn-paper-5) 100%)"
             }
             opacity={1}
             className={"z-10"}

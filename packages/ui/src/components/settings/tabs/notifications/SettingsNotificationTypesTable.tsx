@@ -66,7 +66,7 @@ function NotificationCell({
       return <SettingsLockedSwitch label={label} checked={state === "on"} />;
     case "always":
       return (
-        <Group gap={4} wrap={"nowrap"} className={"text-[#7a7a7a]"}>
+        <Group gap={4} wrap={"nowrap"} className={"text-dimmed-3"}>
           <IconLock size={12} aria-hidden />
           <Text component={"span"} fz={12} lh={"normal"} c={"inherit"}>
             {t("settings.notifications.types.always")}
@@ -79,7 +79,7 @@ function NotificationCell({
           component={"span"}
           fz={12}
           lh={"normal"}
-          className={"text-[#7a7a7a]"}
+          className={"text-dimmed-3"}
         >
           <span aria-hidden>—</span>
           <span className={"sr-only"}>
@@ -105,13 +105,13 @@ export function SettingsNotificationTypesTable() {
       <SettingsCard withDividers={false}>
         <Box
           className={
-            "hidden items-center border-0 border-b border-solid border-[#2a2a2a] px-5 py-3 @[480px]:flex"
+            "hidden items-center border-0 border-b border-solid border-line px-5 py-3 @[480px]:flex"
           }
         >
           <Text
             fz={12}
             lh={"normal"}
-            className={"min-w-0 flex-1 text-[#7a7a7a]"}
+            className={"min-w-0 flex-1 text-dimmed-3"}
           >
             {t("settings.notifications.types.columns.type")}
           </Text>
@@ -121,7 +121,7 @@ export function SettingsNotificationTypesTable() {
               fz={12}
               lh={"normal"}
               ta={"center"}
-              className={"w-[76px] shrink-0 text-[#7a7a7a]"}
+              className={"w-[76px] shrink-0 text-dimmed-3"}
             >
               {channelLabels[channel]}
             </Text>
@@ -134,14 +134,14 @@ export function SettingsNotificationTypesTable() {
             <Box
               key={key}
               className={
-                "flex flex-col gap-3 border-0 border-solid border-[#2a2a2a] px-5 py-3.5 [&+&]:border-t @[480px]:flex-row @[480px]:items-center @[480px]:gap-0"
+                "flex flex-col gap-3 border-0 border-solid border-line px-5 py-3.5 [&+&]:border-t @[480px]:flex-row @[480px]:items-center @[480px]:gap-0"
               }
             >
               <Stack gap={4} className={"min-w-0 flex-1"}>
                 <Text fz={14} fw={600} c={"white"} lh={"normal"}>
                   {title}
                 </Text>
-                <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+                <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
                   {t(`settings.notifications.types.items.${key}.description`)}
                 </Text>
               </Stack>
@@ -157,7 +157,7 @@ export function SettingsNotificationTypesTable() {
                       fz={12}
                       lh={"normal"}
                       aria-hidden
-                      className={"text-[#7a7a7a] @[480px]:hidden"}
+                      className={"text-dimmed-3 @[480px]:hidden"}
                     >
                       {channelLabels[channel]}
                     </Text>

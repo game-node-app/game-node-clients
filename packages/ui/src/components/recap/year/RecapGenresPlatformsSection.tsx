@@ -16,8 +16,10 @@ export interface RecapGenresPlatformsSectionProps {
 }
 
 /** Genre segments, from the design: brand tones, then neutrals. */
+// theme-exempt: recap chart artwork palette
 const GENRE_COLORS = ["#f15025", "#f7896d", "#ffd9cf", "#adadad", "#808080"];
 /** Platform segments and percentages, from the design: white, then greys. */
+// theme-exempt: recap chart artwork palette
 const PLATFORM_COLORS = ["#ffffff", "#adadad", "#808080"];
 /** Extra genres past the design's five share the last neutral. */
 const colorAt = (colors: string[], index: number) =>

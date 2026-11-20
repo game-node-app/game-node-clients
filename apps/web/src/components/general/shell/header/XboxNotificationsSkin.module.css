@@ -1,0 +1,152 @@
+/*
+ * Xbox notifications skin (web). Wraps the shared NotificationsPanel, so the
+ * inbox data, read state and actions stay exactly the same as `gamenode`.
+ * Only the look changes: a dark panel, a plain heading, pill tabs and rows as
+ * rounded tiles with the green focus ring inside the clipped scroll area.
+ */
+.skin {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gn-text) 10%, transparent);
+  border-radius: 8px;
+  background: var(--gn-surface);
+  box-shadow: 0 24px 48px color-mix(in srgb, var(--gn-scrim) 60%, transparent);
+  color: var(--gn-text);
+}
+
+.popover {
+  width: 100%;
+  height: 100%;
+}
+
+.page {
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+  padding-bottom: 8px;
+}
+
+/* Panel header: the guide's plain heading and round console buttons. */
+.skin > div > div:first-child {
+  gap: 2px;
+  padding: 12px 8px 8px 16px;
+}
+
+.skin > div > div:first-child > span:first-child {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.skin > div > div:first-child > :global(.mantine-UnstyledButton-root) {
+  border-radius: 999px;
+}
+
+.skin > div > div:first-child > :global(.mantine-UnstyledButton-root):hover {
+  background: var(--gn-nav-raised);
+}
+
+.skin
+  > div
+  > div:first-child
+  > :global(.mantine-UnstyledButton-root):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+/* Mark all as read: the check keeps the theme green, as on the reference. */
+.skin
+  > div
+  > div:first-child
+  > :global(.mantine-UnstyledButton-root):first-of-type
+  path:last-child {
+  stroke: var(--gn-brand);
+}
+
+/* Tabs: full-width pills, the selected one filled like a console tab. */
+.skin [role="tablist"] {
+  width: 100%;
+  padding: 3px;
+  border-radius: var(--gn-radius);
+  background: var(--gn-nav-canvas);
+}
+
+.skin [role="tab"] {
+  flex: 1 1 0;
+  height: 32px;
+  border-radius: calc(var(--gn-radius) - 1px);
+}
+
+.skin [role="tab"][aria-selected="true"] {
+  background: var(--gn-nav-raised);
+  color: var(--gn-text);
+}
+
+.skin [role="tab"]:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+/* Rows: same dark tile for every entry, one step above the panel surface. */
+.skin :global(.mantine-ScrollArea-root) :global(.mantine-UnstyledButton-root) {
+  width: calc(100% - 16px);
+  margin: 2px 8px;
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  box-shadow: inset 0 0 0 2px transparent;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.skin
+  :global(.mantine-ScrollArea-root)
+  :global(.mantine-UnstyledButton-root):hover {
+  background: var(--gn-nav-raised);
+  box-shadow: inset 0 0 0 2px var(--gn-focus);
+}
+
+.skin
+  :global(.mantine-ScrollArea-root)
+  :global(.mantine-UnstyledButton-root):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 2px var(--gn-focus);
+}
+
+/* Skeletons keep the tile geometry while loading. */
+.skin :global(.mantine-Skeleton-root) {
+  width: calc(100% - 16px);
+  margin: 2px 8px;
+  border-radius: var(--gn-radius);
+}
+
+/* Empty state: the same quiet dashed card the reference uses. */
+.skin :global(.mantine-ScrollArea-root) p {
+  width: calc(100% - 16px);
+  margin: 4px 8px;
+  padding: 24px 16px;
+  border: 1px dashed color-mix(in srgb, var(--gn-text) 14%, transparent);
+  border-radius: var(--gn-radius);
+  background: color-mix(in srgb, var(--gn-text) 3%, transparent);
+  color: var(--gn-dimmed);
+  text-align: center;
+}
+
+/* Footer "See all" keeps the panel edge. */
+.skin :global(.border-t) {
+  border-color: color-mix(in srgb, var(--gn-text) 10%, transparent);
+}
+
+.skin :global(.border-t) > :global(.mantine-UnstyledButton-root) {
+  border-radius: 0 0 8px 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skin
+    :global(.mantine-ScrollArea-root)
+    :global(.mantine-UnstyledButton-root) {
+    transition: none;
+  }
+}

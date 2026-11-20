@@ -149,7 +149,7 @@ export function SettingsProfileUsernameField({ userId }: Props) {
               <Stack
                 gap={6}
                 className={
-                  "rounded-lg border border-solid border-[#2a2a2a] bg-[#0b0b0b] px-3.5 py-3"
+                  "rounded-lg border border-solid border-line bg-nav-canvas px-3.5 py-3"
                 }
               >
                 <Text fz={14} fw={600} c={"white"} lh={"normal"}>
@@ -167,7 +167,7 @@ export function SettingsProfileUsernameField({ userId }: Props) {
                     key={rule}
                     fz={13}
                     lh={"18px"}
-                    className={"text-[#adadad]"}
+                    className={"text-dimmed-2"}
                   >
                     {rule}
                   </Text>
@@ -210,7 +210,7 @@ export function SettingsProfileUsernameField({ userId }: Props) {
           error={hasError}
           aria-describedby={hasError ? errorId : undefined}
           leftSection={
-            <Text fz={14} lh={"normal"} className={"text-[#7a7a7a]"}>
+            <Text fz={14} lh={"normal"} className={"text-dimmed-3"}>
               @
             </Text>
           }
@@ -218,7 +218,10 @@ export function SettingsProfileUsernameField({ userId }: Props) {
           leftSectionPointerEvents={"none"}
           rightSection={
             hasError ? (
-              <IconAlertCircle size={16} className={"text-[#e5484d]"} />
+              <IconAlertCircle
+                size={16}
+                className={"text-status-danger-strong"}
+              />
             ) : undefined
           }
           rightSectionPointerEvents={"none"}

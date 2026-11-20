@@ -4,148 +4,31 @@ import {
   ActivityItemProps,
   GameFigureImage,
   GameRating,
-  ObtainedAchievementActivityContent,
-  useCollection,
-  useCollectionEntry,
-  useGame,
-  useObtainedGameAchievementActivity,
-  usePost,
   UserAvatar,
-  useReview,
-  useUserProfile,
 } from "#@/components";
+import { useActivityItemData } from "#@/components/activity/item/useActivityItemData";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
 import { Box, Group, Stack, Text } from "@mantine/core";
-import { useTranslation } from "@repo/locales";
-import { AchievementIconDto, Activity } from "@repo/wrapper/server";
-import { useMemo } from "react";
-import { match } from "ts-pattern";
+import { Activity, AchievementIconDto } from "@repo/wrapper/server";
 
 const DEFAULT_ActivityItem = ({
   activity,
   variant = "default",
 }: ActivityItemProps) => {
-  const { t } = useTranslation();
-
-  const hasEmbeddedProfile = activity.profile !== undefined;
-  const hasEmbeddedCollectionEntry = activity.collectionEntry !== undefined;
-  const hasEmbeddedCollection = activity.collection !== undefined;
-  const hasEmbeddedReview = activity.review !== undefined;
-  const hasEmbeddedPost = activity.post !== undefined;
-  const hasEmbeddedGameAchievementActivity =
-    activity.obtainedGameAchievementActivity !== undefined;
-  const hasEmbeddedGame = activity.game !== undefined;
-
-  const collectionEntryQuery = useCollectionEntry(activity.collectionEntryId, {
-    enabled: !hasEmbeddedCollectionEntry,
-  });
-  const collectionQuery = useCollection(activity.collectionId, {
-    enabled: !hasEmbeddedCollection,
-  });
-  const reviewQuery = useReview(activity.reviewId, {
-    enabled: !hasEmbeddedReview,
-  });
-  const postQuery = usePost(activity.postId, {
-    enabled: !hasEmbeddedPost,
-  });
-  const profileQuery = useUserProfile(activity.profileUserId, {
-    enabled: !hasEmbeddedProfile,
-  });
-  const gameAchievementActivityQuery = useObtainedGameAchievementActivity(
-    activity.obtainedGameAchievementActivityId,
-    { enabled: !hasEmbeddedGameAchievementActivity },
-  );
-
-  const profile = hasEmbeddedProfile ? activity.profile : profileQuery.data;
-  const collectionEntry = hasEmbeddedCollectionEntry
-    ? activity.collectionEntry
-    : collectionEntryQuery.data;
-  const collection = hasEmbeddedCollection
-    ? activity.collection
-    : collectionQuery.data;
-  const review = hasEmbeddedReview ? activity.review : reviewQuery.data;
-  const post = hasEmbeddedPost ? activity.post : postQuery.data;
-  const gameAchievementActivity = hasEmbeddedGameAchievementActivity
-    ? activity.obtainedGameAchievementActivity
-    : gameAchievementActivityQuery.data;
-
-  const unlockedTier = activity.obtainedAchievement?.tier ?? 0;
-  const unlockedAchievement = activity.obtainedAchievement?.definition;
-
-  const gameId =
-    collectionEntry?.gameId ||
-    review?.gameId ||
-    post?.gameId ||
-    gameAchievementActivity?.externalGame?.gameId ||
-    activity.game?.id;
-
-  const actionText = useMemo(() => {
-    return match(activity.type)
-      .with(Activity.type.COLLECTION_ENTRY, () => {
-        return (
-          <>
-            {t("activity.items.addedTo", {
-              collection: collection?.name ?? "",
-            })}
-          </>
-        );
-      })
-      .with(Activity.type.REVIEW, () => {
-        return <>{t("activity.items.reviewed")}</>;
-      })
-      .with(Activity.type.POST, () => {
-        return <>{t("activity.items.postedAbout")}</>;
-      })
-      .with(Activity.type.FOLLOW, () => {
-        return <>{t("activity.items.followed")}</>;
-      })
-      .with(Activity.type.OBTAINED_GAME_ACHIEVEMENT, () => (
-        <ObtainedAchievementActivityContent
-          activity={gameAchievementActivity ?? undefined}
-          hasEmbeddedGame={hasEmbeddedGame}
-        />
-      ))
-      .with(Activity.type.ACHIEVEMENT_UNLOCKED, () =>
-        unlockedAchievement
-          ? t("activity.items.achievementUnlocked", {
-              name: unlockedAchievement.name ?? "",
-              tier: unlockedTier,
-            })
-          : t("activity.items.unknown"),
-      )
-      .otherwise(() => {
-        return t("activity.items.unknown");
-      });
-  }, [
-    activity.type,
-    collection?.name,
-    gameAchievementActivity,
-    hasEmbeddedGame,
+  const {
+    actionText,
+    game,
+    gameHref,
+    profile,
+    review,
     unlockedAchievement,
     unlockedTier,
-    t,
-  ]);
-
-  const gameQuery = useGame(
-    gameId,
-    {
-      relations: {
-        cover: true,
-      },
-    },
-    "off",
-    { enabled: !hasEmbeddedGame },
-  );
-
-  const game = hasEmbeddedGame ? activity.game : gameQuery.data;
+  } = useActivityItemData(activity);
 
   if (variant === "card") {
     const isAchievementUnlocked =
       activity.type === Activity.type.ACHIEVEMENT_UNLOCKED;
-    const gameHref = review
-      ? `/game/${gameId}?reviewId=${review.id}`
-      : `/game/${gameId}`;
     return (
       <Stack className={"w-full h-full gap-2 p-3 rounded-lg bg-paper-2"}>
         <Group className={"w-full flex-nowrap justify-between gap-2"}>
@@ -218,7 +101,7 @@ const DEFAULT_ActivityItem = ({
           />
           <Stack className={"gap-1"}>
             <Link href={`/profile/${activity.profileUserId}`}>
-              <Text className={"text-xs text-[#808080] line-clamp-2"}>
+              <Text className={"text-xs text-dimmed-1 line-clamp-2"}>
                 {profile?.username}
               </Text>
             </Link>
@@ -240,11 +123,7 @@ const DEFAULT_ActivityItem = ({
           </Box>
         ) : (
           <Link
-            href={
-              review
-                ? `/game/${gameId}?reviewId=${review.id}`
-                : `/game/${gameId}`
-            }
+            href={gameHref}
             className={"flex flex-col w-fit items-center ms-auto"}
           >
             <Text

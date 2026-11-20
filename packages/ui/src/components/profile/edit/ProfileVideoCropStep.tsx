@@ -46,7 +46,7 @@ export function ProfileVideoCropStep({
     <Stack gap={"sm"} className={"w-full"}>
       <Stack gap={2}>
         <Text fw={600}>{t("profileVideo.crop.title")}</Text>
-        <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+        <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
           {t("profileVideo.crop.help")}
         </Text>
       </Stack>
@@ -70,7 +70,7 @@ export function ProfileVideoCropStep({
         />
       </Box>
       <Stack gap={4}>
-        <Text fz={12} lh={"16px"} className={"text-[#adadad]"}>
+        <Text fz={12} lh={"16px"} className={"text-dimmed-2"}>
           {t("profileVideo.crop.zoom")}
         </Text>
         <Slider

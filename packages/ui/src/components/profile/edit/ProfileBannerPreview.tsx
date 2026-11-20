@@ -44,7 +44,7 @@ function DevicePreview({
         width: avatarSize,
         height: avatarSize,
         minWidth: avatarSize,
-        border: perks?.border ? undefined : "4px solid #161616",
+        border: perks?.border ? undefined : "4px solid var(--gn-paper-0)",
       }}
     />
   );
@@ -71,7 +71,7 @@ function DevicePreview({
             paddingBottom: 16,
             transform: `scale(${scale})`,
             transformOrigin: "top left",
-            background: "#161616",
+            background: "var(--gn-paper-0)",
           }}
         >
           <Box

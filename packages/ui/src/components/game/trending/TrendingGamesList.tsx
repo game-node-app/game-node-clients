@@ -1,3 +1,4 @@
+import { GameGridItem } from "#@/components/game/figure/GameGridItem";
 import { useGames } from "#@/components/game/hooks/useGames";
 import {
   TRENDING_HERO_MAX_GAMES,
@@ -6,7 +7,7 @@ import {
 import { TrendingGamesError } from "#@/components/game/trending/TrendingGamesError";
 import { DetailsBox } from "#@/components/general/DetailsBox";
 import { useTrendingGames } from "#@/components/statistics/hooks/useTrendingGames";
-import { Skeleton } from "@mantine/core";
+import { SimpleGrid, Skeleton, type SimpleGridProps } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { StatisticsRankingsRequestDto } from "../../../../../wrapper/src/server";
 import period = StatisticsRankingsRequestDto.period;
@@ -18,7 +19,7 @@ export const DEFAULT_SEARCH_TRENDING_GAMES_DTO = {
   period: period.MONTH,
 };
 
-const TrendingGamesList = () => {
+const TrendingGamesList = ({ cols }: { cols?: SimpleGridProps["cols"] }) => {
   const { t } = useTranslation();
   const trendingGames = useTrendingGames(DEFAULT_SEARCH_TRENDING_GAMES_DTO);
 
@@ -66,7 +67,24 @@ const TrendingGamesList = () => {
           }
         />
       ) : isLoading ? (
-        <Skeleton className={"h-[350px] w-full"} radius={20} />
+        cols ? (
+          <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
+            {Array.from(
+              { length: DEFAULT_SEARCH_TRENDING_GAMES_DTO.limit },
+              (_, index) => (
+                <Skeleton key={index} className={"h-36 lg:h-60"} />
+              ),
+            )}
+          </SimpleGrid>
+        ) : (
+          <Skeleton className={"h-[350px] w-full"} radius={20} />
+        )
+      ) : cols ? (
+        <SimpleGrid cols={cols} h={"100%"} w={"100%"}>
+          {games.map((game) => (
+            <GameGridItem key={game.id} game={game} />
+          ))}
+        </SimpleGrid>
       ) : (
         <TrendingGamesHero games={games} />
       )}

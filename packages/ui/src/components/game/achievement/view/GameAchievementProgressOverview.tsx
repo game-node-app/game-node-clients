@@ -32,6 +32,7 @@ interface Props {
 
 const TROPHY_TYPES = ["platinum", "gold", "silver", "bronze"] as const;
 
+// theme-exempt: platform trophy colors (platform brand marks)
 const TROPHY_TYPE_TO_COLOR = {
   platinum: "#7a96d1",
   gold: "#cd9a46",

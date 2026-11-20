@@ -38,8 +38,8 @@ export function SettingsPrivacyBlockedSection() {
             ]}
             radius={8}
             classNames={{
-              root: "gap-0.5 border border-solid border-[#2a2a2a] bg-[#0b0b0b] p-[3px]",
-              indicator: "rounded-md bg-[#222] shadow-none",
+              root: "gap-0.5 border border-solid border-line bg-nav-canvas p-[3px]",
+              indicator: "rounded-md bg-nav-raised shadow-none",
               label: "px-3 py-[5px] text-[13px] font-medium",
             }}
           />
@@ -50,7 +50,7 @@ export function SettingsPrivacyBlockedSection() {
             <Text fz={14} fw={600} c={"white"} lh={"normal"}>
               {t("settings.privacy.blocked.empty.title")}
             </Text>
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
               {t("settings.privacy.blocked.empty.description")}
             </Text>
           </Stack>

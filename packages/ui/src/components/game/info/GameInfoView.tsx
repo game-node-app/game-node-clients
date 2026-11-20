@@ -21,11 +21,11 @@ export const DEFAULT_GAME_INFO_VIEW_DTO: GameRepositoryFindOneDto = {
   },
 };
 
-interface IGameInfoViewProps {
+export interface GameInfoViewProps {
   id: number;
 }
 
-const GameInfoView = ({ id }: IGameInfoViewProps) => {
+const GameInfoView = ({ id }: GameInfoViewProps) => {
   const gameQuery = useGame(id, DEFAULT_GAME_INFO_VIEW_DTO);
   const game = gameQuery.data;
 

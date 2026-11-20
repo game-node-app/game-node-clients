@@ -6,7 +6,9 @@ import { Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import {
   BackToTopButton,
+  buildPresenterComponent,
   HomeEventsSection,
+  HomeView,
   RecentBlogPostsCarousel,
   RecommendationCarousel,
   ReleaseStrip,
@@ -18,6 +20,16 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import ActivityType = Activity.type;
+
+const HomeViewPresenter = buildPresenterComponent("HomeView", HomeView);
+const RecentBlogPostsPresenter = buildPresenterComponent(
+  "RecentBlogPostsCarousel",
+  RecentBlogPostsCarousel,
+);
+const HomeReleasesPresenter = buildPresenterComponent(
+  "HomeReleases",
+  ReleaseStrip,
+);
 
 // Entrance animation plays only on the first Home mount after the app opens.
 let homeEntrancePlayed = false;
@@ -38,6 +50,29 @@ const HomePage = () => {
 
   const userId = useUserId();
 
+  const eventsSection = <HomeEventsSection />;
+  const recentActivityShelf = (
+    <HomeActivityShelf
+      title={t("home.recentActivity")}
+      seeMoreHref={"/activity"}
+    />
+  );
+  const lastReviewsShelf = (
+    <HomeActivityShelf
+      title={t("home.lastReviews")}
+      type={ActivityType.REVIEW}
+    />
+  );
+  // The console home renders its own rows/releases/blog, so only the sections
+  // it does not replace are passed through as extras.
+  const platformExtras = (
+    <>
+      {eventsSection}
+      {recentActivityShelf}
+      {lastReviewsShelf}
+    </>
+  );
+
   return (
     <AppPage
       title={t("navigation.home")}
@@ -46,6 +81,10 @@ const HomePage = () => {
       contentProps={{
         ref: contentRef,
         fixedSlotPlacement: "before",
+        style: {
+          containerType: "inline-size",
+          "--console-backdrop-pull": "var(--ion-padding, 16px)",
+        },
       }}
     >
       <IonRefresher
@@ -84,29 +123,28 @@ const HomePage = () => {
       </IonRefresher>
       {/*<HomeFab contentRef={contentRef} />*/}
       <BackToTopButton />
-      <Stack
-        className={cn("w-full gap-8 my-4", animateEntrance && "gn-home-enter")}
-      >
-        <HomeEventsSection />
-        {userId && <RecommendationCarousel criteria={"finished"} />}
-        <TrendingGamesList />
-        <TrendingReviewCarousel
-          slideSize={210}
-          height={260}
-          withIndicators={false}
-          withControls={false}
-        />
-        <RecentBlogPostsCarousel />
-        <HomeActivityShelf
-          title={t("home.recentActivity")}
-          seeMoreHref={"/activity"}
-        />
-        <HomeActivityShelf
-          title={t("home.lastReviews")}
-          type={ActivityType.REVIEW}
-        />
-        <ReleaseStrip />
-      </Stack>
+      <HomeViewPresenter extras={platformExtras}>
+        <Stack
+          className={cn(
+            "w-full gap-8 my-4",
+            animateEntrance && "gn-home-enter",
+          )}
+        >
+          {eventsSection}
+          {userId && <RecommendationCarousel criteria={"finished"} />}
+          <TrendingGamesList />
+          <TrendingReviewCarousel
+            slideSize={210}
+            height={260}
+            withIndicators={false}
+            withControls={false}
+          />
+          <RecentBlogPostsPresenter />
+          {recentActivityShelf}
+          {lastReviewsShelf}
+          <HomeReleasesPresenter />
+        </Stack>
+      </HomeViewPresenter>
     </AppPage>
   );
 };

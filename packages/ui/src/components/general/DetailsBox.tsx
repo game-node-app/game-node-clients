@@ -40,7 +40,7 @@ const DEFAULT_DetailsBox = ({
           {
             "bg-paper-3": withBackground,
             "p-3": withPadding,
-            "border-2 border-[#1F1F1F] rounded-xs": withBorder,
+            "border-2 border-[var(--gn-dark-8)] rounded-xs": withBorder,
           },
           stackProps?.className,
         )}

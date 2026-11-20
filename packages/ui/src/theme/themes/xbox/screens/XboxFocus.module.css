@@ -1,0 +1,69 @@
+/*
+ * Xbox focus ring for the shared controls below the Xbox game view (tabs,
+ * overview, achievements, DLC and related carousels). The web game page sets
+ * `data-xbox-focus-scope` only while the console experience is active, so the
+ * default theme never renders it; this module ships with the lazy Xbox pack.
+ *
+ * Image links are cards inside carousels that clip their content: their ring
+ * is drawn inside. Text links, buttons and fields get the ring outside with a
+ * dark halo on both sides, so it stays legible over brand-filled tags and art.
+ *
+ * Shared default components on the console home and explore pages only get
+ * their Mantine focus color raised to the focus token (`data-xbox-focus-color`):
+ * their offsets stay untouched, so the console modules that already draw a
+ * ring inside a scroll clip keep doing it.
+ */
+:global([data-xbox-focus-scope])
+  :is(
+    a[href],
+    button,
+    [role="tab"],
+    [contenteditable="true"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):focus-visible,
+:global([data-xbox-focus-color])
+  :is(
+    a[href],
+    button,
+    [role="tab"],
+    [contenteditable="true"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):focus-visible {
+  outline-color: var(--gn-focus);
+}
+
+:global([data-xbox-focus-scope]) :is(a[href]:has(img)):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+:global([data-xbox-focus-scope])
+  :is(
+    a[href]:not(:has(img)),
+    button,
+    [contenteditable="true"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  /* two dark bands: one between ring and fill, one between ring and parent */
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+:global([data-xbox-focus-scope])
+  :is(input[type="radio"], input[type="checkbox"]):focus-visible
+  + label {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}

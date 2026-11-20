@@ -20,6 +20,8 @@
     "lint": {},
     "type-check": { "dependsOn": ["^build"] },
     "test": { "dependsOn": ["^build"] },
+    "themes:generate": { "cache": false, "outputs": [] },
+    "themes:check": { "cache": false, "outputs": [] },
     "dev": {
       "cache": false,
       "persistent": true,

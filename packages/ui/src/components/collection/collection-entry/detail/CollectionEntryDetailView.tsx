@@ -137,7 +137,7 @@ const CollectionEntryDetailView = ({
           width: "100%",
           height: "80vh",
           backgroundImage: `
-              linear-gradient(180deg,rgba(0, 0, 0, 0.1) 0%, rgba(10, 10, 10, 0.6) 34%, rgba(25, 25, 25, 1) 87%), 
+              linear-gradient(180deg,color-mix(in srgb, black 10%, transparent) 0%, color-mix(in srgb, black 60%, transparent) 34%, var(--gn-paper-3) 87%),
               url(${backgroundImageUrl})
             `,
           backgroundSize: "cover",

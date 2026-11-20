@@ -49,6 +49,8 @@ jobs:
           key: modules-pnpm-v1-${{ runner.os }}-${{ runner.arch }}-${{ steps.node.outputs.node-version }}-${{ hashFiles('pnpm-lock.yaml', 'package.json', 'apps/*/package.json', 'packages/*/package.json', 'pnpm-workspace.yaml', '.npmrc') }}
       - run: pnpm install --frozen-lockfile --ignore-scripts
         if: steps.dependencies.outputs.cache-hit != 'true'
+      - name: Check generated theme files
+        run: pnpm themes:check
       - name: Validate explicit release decision
         id: plan
         env:

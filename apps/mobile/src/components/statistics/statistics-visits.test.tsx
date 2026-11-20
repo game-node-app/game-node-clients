@@ -39,6 +39,10 @@ vi.mock("@repo/ui", () => {
   const C = () => null;
   return {
     DEFAULT_GAME_INFO_VIEW_DTO: {},
+    buildPresenterComponent: (
+      _name: string,
+      Fallback: import("react").ComponentType<never>,
+    ) => Fallback,
     GameExtraInfoView: C,
     GameInfoAchievementsScreen: C,
     GameInfoContentTitle: C,
@@ -52,6 +56,7 @@ vi.mock("@repo/ui", () => {
       discussion: "discussion",
       achievements: "achievements",
     },
+    useAppExperience: () => "default",
     useGame: () => ({}),
     useUrlState: () => [{ tab: "overview" }, vi.fn()],
     useUserView: () => [0, false, state.increment],

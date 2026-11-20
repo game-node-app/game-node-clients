@@ -5,6 +5,7 @@ import {
   createTheme,
   DEFAULT_THEME,
   defaultVariantColorsResolver,
+  type MantineColorsTuple,
   mergeMantineTheme,
   MantineTheme,
   parseThemeColor,
@@ -12,78 +13,7 @@ import {
   ThemeIcon,
   VariantColorsResolver,
 } from "@mantine/core";
-
-const MIN_TEXT_CONTRAST = 4.5;
-/** Text on filled flat palettes when white is too weak: the app background. */
-const DARK_TEXT = "#111111";
-/**
- * The lightest dark surface a tinted ("light") control normally sits on (the
- * `secondary` card colour); checking against it also covers the app background.
- */
-const TINT_SURFACE = "#1A1A1A";
-
-type Rgb = [number, number, number];
-
-function hexToRgb(hex: string): Rgb | null {
-  const match = /^#?([0-9a-f]{6})$/i.exec(hex);
-  if (!match) return null;
-  const value = parseInt(match[1]!, 16);
-  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
-}
-
-function rgbToHex([r, g, b]: Rgb): string {
-  return `#${[r, g, b]
-    .map((channel) => Math.round(channel).toString(16).padStart(2, "0"))
-    .join("")}`;
-}
-
-function luminance([r, g, b]: Rgb): number {
-  const [lr, lg, lb] = [r, g, b].map((channel) => {
-    const value = channel / 255;
-    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
-  }) as Rgb;
-  return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
-}
-
-/** WCAG 2.x contrast ratio between two colours. */
-function getContrastRatio(a: Rgb, b: Rgb): number {
-  const [la, lb] = [luminance(a), luminance(b)];
-  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
-}
-
-function mixRgb(from: Rgb, to: Rgb, amount: number): Rgb {
-  return from.map(
-    (channel, index) => channel + (to[index]! - channel) * amount,
-  ) as Rgb;
-}
-
-/** Text colour for a solid fill: white while it reaches 4.5:1, otherwise the dark app background. */
-function getFilledTextColor(fill: string): string | null {
-  const rgb = hexToRgb(fill);
-  if (!rgb) return null;
-  return getContrastRatio(rgb, [255, 255, 255]) >= MIN_TEXT_CONTRAST
-    ? "#FFFFFF"
-    : DARK_TEXT;
-}
-
-/**
- * Text colour for a tinted ("light") control: the palette colour, lightened
- * toward white only as far as needed to reach 4.5:1 on its own tint over the
- * dark surface.
- */
-function getLightTextColor(color: string, tintAlpha: number): string | null {
-  const rgb = hexToRgb(color);
-  const surface = hexToRgb(TINT_SURFACE);
-  if (!rgb || !surface) return null;
-  const background = mixRgb(surface, rgb, tintAlpha);
-  for (let step = 0; step <= 100; step++) {
-    const candidate = mixRgb(rgb, [255, 255, 255], step / 100);
-    if (getContrastRatio(candidate, background) >= MIN_TEXT_CONTRAST) {
-      return rgbToHex(candidate);
-    }
-  }
-  return "#FFFFFF";
-}
+import classes from "./theme.module.css";
 
 const LIGHT_TINT_ALPHA = 0.15;
 
@@ -98,12 +28,12 @@ function getFlatPaletteColor(
   return shades[0] ?? null;
 }
 
-/**
- * Mantine derives the dark "light" variant from shades 9 (bg) and 0 (text).
- * Our flat colorsTuple palettes make that orange-on-brown, so tint with the color itself instead.
- * Both variants also pick their text colour by WCAG contrast (4.5:1), since the
- * brand orange is too light for white text and too dark for itself on its tint.
- */
+function getContrastToken(color: string, variant: "filled" | "light") {
+  const token = /^var\((--gn-(?:brand|secondary|tertiary))\)$/.exec(color)?.[1];
+  return token ? `var(${token}-${variant}-text)` : undefined;
+}
+
+/** Use the active theme's contrast colors with Mantine's flat palettes. */
 export const variantColorResolver: VariantColorsResolver = (input) => {
   const defaults = defaultVariantColorsResolver(input);
   if (
@@ -114,24 +44,45 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   }
   const flat = getFlatPaletteColor(input.color, input.theme);
   if (!flat) return defaults;
+
+  const color = getContrastToken(flat, input.variant);
   if (input.variant === "filled") {
-    const color = getFilledTextColor(flat);
     return color ? { ...defaults, color } : defaults;
   }
   return {
     ...defaults,
     background: alpha(flat, LIGHT_TINT_ALPHA),
     hover: alpha(flat, 0.25),
-    color: getLightTextColor(flat, LIGHT_TINT_ALPHA) ?? flat,
+    color: color ?? flat,
   };
 };
 
+/**
+ * Saturated palettes stay flat on purpose (as before the token system): every
+ * shade resolves to the active theme's brand/secondary/tertiary token, while
+ * the Tailwind `brand-0…9` ramp keeps the generated steps.
+ */
+const darkColors = [
+  "var(--gn-dark-0)",
+  "var(--gn-dark-1)",
+  "var(--gn-dark-2)",
+  "var(--gn-dark-3)",
+  "var(--gn-dark-4)",
+  "var(--gn-dark-5)",
+  "var(--gn-dark-6)",
+  "var(--gn-dark-7)",
+  "var(--gn-dark-8)",
+  "var(--gn-dark-9)",
+] as const satisfies MantineColorsTuple;
+
 const themeOverride = createTheme({
-  fontFamily: "Roboto, Roboto Fallback",
+  fontFamily: "var(--gn-font)",
+  defaultRadius: "var(--gn-radius)",
   colors: {
-    brand: colorsTuple("#F15025"),
-    secondary: colorsTuple("#1A1A1A"),
-    tertiary: colorsTuple("#872C13"),
+    brand: colorsTuple("var(--gn-brand)"),
+    secondary: colorsTuple("var(--gn-secondary)"),
+    tertiary: colorsTuple("var(--gn-tertiary)"),
+    dark: darkColors,
   },
   primaryColor: "brand",
   // 0.179 is where white text drops below 4.5:1 (Mantine's default is 0.3), so `autoContrast`
@@ -144,11 +95,18 @@ const themeOverride = createTheme({
     ThemeIcon: ThemeIcon.extend({ defaultProps: { color: "brand" } }),
     // Same for Chip: with no `color`/`variant` it keeps white text on the primary fill.
     Chip: Chip.extend({ defaultProps: { color: "brand" } }),
-    // SegmentedControl never calls the resolver: its active label colour comes from
-    // `getContrastColor`, which is white unless `autoContrast` is on. Mantine's luminance
-    // threshold (set above) is where white drops below 4.5:1, so the orange gets dark text.
+    // SegmentedControl handles its own active label and can't measure CSS variables.
     SegmentedControl: SegmentedControl.extend({
       defaultProps: { autoContrast: true },
+      classNames: { label: classes.segmentedControlLabel },
+      styles: (theme, { autoContrast, color }) => {
+        if (autoContrast === false || !color) return {};
+        const flat = getFlatPaletteColor(color, theme);
+        const contrast = flat && getContrastToken(flat, "filled");
+        return contrast
+          ? { label: { "--gn-segmented-label-color": contrast } }
+          : {};
+      },
     }),
   },
 });

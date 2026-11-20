@@ -84,7 +84,10 @@ export function ProfileFooter({ profile }: { profile: ProfileResponseDto }) {
             )}
             {profile.isSupporter &&
               profile.supporterPreferences?.showOnSupportersWall && (
-                <Text size="sm" c="var(--profile-accent-text, #c7a6ff)">
+                <Text
+                  size="sm"
+                  c="var(--profile-accent-text, var(--gn-premium-text))"
+                >
                   {t("profile.overview.onSupportersWall")}
                 </Text>
               )}

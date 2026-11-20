@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { DEFAULT_THEME, mergeMantineTheme } from "@mantine/core";
 import { describe, expect, it } from "vitest";
 import {
@@ -25,15 +26,6 @@ const contrast = (a: Rgb, b: Rgb) => {
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 };
 
-/** `rgba(r, g, b, a)` composited over an opaque surface. */
-const flatten = (rgba: string, surface: Rgb): Rgb => {
-  const [r, g, b, a] = /rgba\(([^)]+)\)/
-    .exec(rgba)![1]!
-    .split(",")
-    .map(Number) as [number, number, number, number];
-  return [r, g, b].map((c, i) => c * a + surface[i]! * (1 - a)) as Rgb;
-};
-
 const resolve = (color: string, variant: "filled" | "light") =>
   variantColorResolver({
     color,
@@ -43,37 +35,48 @@ const resolve = (color: string, variant: "filled" | "light") =>
     autoContrast: false,
   });
 
-const colorOf = (value: string): Rgb =>
-  value.startsWith("#") ? hex(value) : flatten(value, [0, 0, 0]);
+const themeCss = readFileSync(
+  new URL(
+    "../../../../packages/ui/src/theme/generated/themes.css",
+    import.meta.url,
+  ),
+  "utf8",
+);
+
+const readToken = (theme: "gamenode" | "xbox", token: string) => {
+  const block = themeCss
+    .split(`:root[data-theme="${theme}"] {`)[1]!
+    .split("}")[0];
+  const value = block.match(
+    new RegExp(`--gn-${token}: (#[0-9a-f]{6});`, "i"),
+  )?.[1];
+  if (!value) throw new Error(`Missing ${token} for ${theme}`);
+  return hex(value);
+};
 
 describe("variantColorResolver", () => {
-  it("uses dark text on the brand fill (white is only 3.6:1)", () => {
-    const result = resolve("brand", "filled");
-
-    expect(result.color).toBe("#111111");
-    expect(contrast(hex("#111111"), hex("#F15025"))).toBeGreaterThanOrEqual(
-      4.5,
-    );
-    expect(contrast(hex("#FFFFFF"), hex("#F15025"))).toBeLessThan(4.5);
-  });
-
-  it("keeps white text on fills where it already reaches 4.5:1", () => {
-    expect(resolve("tertiary", "filled").color).toBe("#FFFFFF");
-    expect(resolve("secondary", "filled").color).toBe("#FFFFFF");
-  });
-
-  it("lifts the brand light text to 4.5:1 on its tint over the surfaces", () => {
-    const result = resolve("brand", "light");
-    const text = colorOf(result.color);
-
-    for (const surface of ["#111111", "#1A1A1A"]) {
-      const tint = flatten(result.background, hex(surface));
-      expect(contrast(text, tint)).toBeGreaterThanOrEqual(4.5);
-    }
-    // Brand-ish, only lightened a little (the plain #F15025 gives 4.1:1).
-    expect(result.color).not.toBe("#f15025");
-    expect(hex(result.color)[0]).toBeGreaterThanOrEqual(0xf1);
-  });
+  it.each(["gamenode", "xbox"] as const)(
+    "keeps text readable on filled and tinted controls in %s",
+    (theme) => {
+      for (const palette of ["brand", "secondary", "tertiary"]) {
+        const base = readToken(theme, palette);
+        const filled = readToken(theme, `${palette}-filled-text`);
+        const light = readToken(theme, `${palette}-light-text`);
+        const tintSurface = readToken(theme, "secondary");
+        const tint = base.map((channel, index) =>
+          Math.round(channel * 0.15 + tintSurface[index]! * 0.85),
+        ) as Rgb;
+        expect(resolve(palette, "filled").color).toBe(
+          `var(--gn-${palette}-filled-text)`,
+        );
+        expect(resolve(palette, "light").color).toBe(
+          `var(--gn-${palette}-light-text)`,
+        );
+        expect(contrast(filled, base)).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(light, tint)).toBeGreaterThanOrEqual(4.5);
+      }
+    },
+  );
 
   it("leaves non-flat palettes and other variants on Mantine defaults", () => {
     const theme = mergeMantineTheme(DEFAULT_THEME, {});

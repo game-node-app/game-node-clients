@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
 
 export type RecapTemplate = "poster" | "dash" | "bento" | "aura" | "summary";
 
-const BRAND = "bg-[#F15025]";
+const BRAND = "bg-brand";
 const INK = "bg-[#0B0A09]/70";
 const LINE = "bg-white/30";
 const FILL = "bg-white/15";
@@ -139,7 +139,7 @@ function Thumb({
       className={cn(
         "relative w-full overflow-hidden rounded-lg bg-[#0F0E0D] transition-shadow",
         active
-          ? "ring-2 ring-[#F15025]"
+          ? "ring-2 ring-brand"
           : "ring-1 ring-white/10 group-hover:ring-white/25",
       )}
       style={{ aspectRatio: `${size.width} / ${size.height}` }}

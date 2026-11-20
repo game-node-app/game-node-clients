@@ -48,8 +48,8 @@ const GameInfoSharePreview = ({
       styles={{
         root: {
           backgroundColor: transparentBackground
-            ? "rgba(255,255,255,0)"
-            : "#1A1A1A",
+            ? "transparent"
+            : "var(--gn-paper-8)",
         },
       }}
     >

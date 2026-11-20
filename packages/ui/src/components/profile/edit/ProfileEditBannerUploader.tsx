@@ -468,7 +468,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
                     <Text
                       fz={13}
                       lh={"18px"}
-                      className={"text-[#adadad]"}
+                      className={"text-dimmed-2"}
                       data-testid={"profile-video-center-crop-notice"}
                     >
                       {t("profileVideo.crop.centerCropNotice")}
@@ -548,7 +548,7 @@ const ProfileEditBannerUploader = ({ onClose }: BaseModalChildrenProps) => {
             className={
               step <= currentStep
                 ? "h-1 flex-1 rounded-full bg-brand-5"
-                : "h-1 flex-1 rounded-full bg-[#2a2a2a]"
+                : "h-1 flex-1 rounded-full bg-line"
             }
           />
         ))}

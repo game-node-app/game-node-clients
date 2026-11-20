@@ -1,0 +1,168 @@
+.home {
+  width: 100%;
+}
+
+.hero {
+  /* The web shell's query container excludes its padding from 100cqw. */
+  --console-media-width: calc(100cqw + 2 * var(--app-shell-padding, 0px));
+  --console-media-height: min(
+    calc(var(--console-media-width) * 9 / 16),
+    100svh
+  );
+  --console-media-pull: var(
+    --console-backdrop-pull,
+    calc(var(--app-shell-header-offset, 0px) + var(--app-shell-padding, 0px))
+  );
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-lg);
+  justify-content: flex-end;
+  padding-top: max(
+    0px,
+    calc(var(--console-media-height) * 0.72 - var(--console-media-pull))
+  );
+  padding-bottom: var(--mantine-spacing-md);
+}
+
+.media {
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--console-media-pull));
+  left: 50%;
+  width: var(--console-media-width);
+  height: min(
+    var(--console-media-height),
+    calc(100% + var(--console-media-pull))
+  );
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  container-type: size;
+  background-color: var(--gn-body);
+}
+
+.backdrop,
+.trailer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Extend the artwork's colors into the space left by its aspect ratio. */
+.backdrop::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--console-artwork) center / cover no-repeat;
+  filter: blur(32px);
+  opacity: 0.45;
+}
+
+.backdropImage {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin-inline: auto;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--gn-text) min(4vw, 32px),
+    var(--gn-text) calc(100% - min(4vw, 32px)),
+    transparent
+  );
+}
+
+.trailer {
+  background-color: var(--gn-body);
+  /* Let the player settle before fading over the art. */
+  animation: console-trailer-in 600ms ease 3500ms both;
+}
+
+.trailer iframe {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(100cqw, 100cqh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  transform: translateX(-50%);
+  border: 0;
+}
+
+/* Keep the title and its row readable over both media types. */
+.media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gn-body) 10%, transparent) 0%,
+    color-mix(in srgb, var(--gn-body) 60%, transparent) 34%,
+    var(--gn-body) 87%
+  );
+}
+
+@keyframes console-trailer-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.focusedTitle {
+  color: var(--gn-text);
+  text-shadow: 0 2px 12px color-mix(in srgb, var(--gn-body) 60%, transparent);
+}
+
+.search {
+  width: 100%;
+}
+
+/*
+ * Shared search controls and result cards embedded in the console hero.
+ * Image cards keep their ring inside (the result grid can clip), while text
+ * links, buttons and fields get an outer ring with a dark halo so it stays
+ * legible over the search field and brand-filled controls.
+ */
+.search :is(a[href]:has(img)):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.search
+  :is(
+    a[href]:not(:has(img)),
+    button,
+    [contenteditable="true"],
+    input:not([type="radio"], [type="checkbox"]),
+    textarea,
+    select
+  ):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+.search :is(input[type="radio"], input[type="checkbox"]):focus-visible + label {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+@media (min-width: 62em) {
+  .hero {
+    /* viewport minus the shell header and the page's top margin */
+    min-height: calc(100vh - var(--app-shell-header-height, 0px) - 3rem);
+    padding-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trailer {
+    animation: none;
+  }
+}

@@ -1,0 +1,336 @@
+/*
+ * Console releases: a "coming soon" spotlight over its cover row, and a
+ * recently-released banner. Colors come from tokens, so another palette only
+ * changes the variables.
+ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+/* coming soon: art banner with the selected game's info over the cover row */
+.upcomingHero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--mantine-spacing-md);
+  min-height: 0;
+  padding: 24px 20px 8px;
+  border-radius: calc(var(--gn-radius) * 2);
+  border: 1px solid var(--gn-border);
+  background: var(--gn-surface);
+}
+
+.upcomingArt {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-position: center 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation: console-release-art-in 400ms ease both;
+}
+
+/* dark side for the text, plus the theme accent glow rising from the bottom-left corner */
+.upcomingArt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 60% 70% at 0% 100%,
+      color-mix(in srgb, var(--gn-brand) 45%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--gn-body) 35%, transparent) 0%,
+      color-mix(in srgb, var(--gn-body) 60%, transparent) 45%,
+      color-mix(in srgb, var(--gn-body) 92%, transparent) 100%
+    );
+}
+
+.upcomingInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 220px;
+  justify-content: flex-end;
+}
+
+.upcomingEyebrow {
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: var(--gn-brand);
+  color: var(--gn-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.upcomingTitle {
+  color: var(--gn-text);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 12px color-mix(in srgb, var(--gn-body) 60%, transparent);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.upcomingDate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  color: color-mix(in srgb, var(--gn-text) 85%, transparent);
+}
+
+/* same bright accent as the selection ring, readable on the dark art */
+.upcomingCountdown {
+  color: var(--gn-focus);
+  font-weight: 600;
+}
+
+.upcomingCountdown::before {
+  content: "·";
+  margin-right: 10px;
+  color: color-mix(in srgb, var(--gn-text) 50%, transparent);
+}
+
+.upcomingCta {
+  margin-top: 6px;
+}
+
+/* filled CTAs sit over art: the focus token needs a dark halo to stay readable */
+.upcomingInfo .upcomingCta:focus-visible,
+.recentHeroInfo .upcomingCta:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+/* desktop: info on the left, the cover row on the right, both sitting on the banner's bottom edge */
+@media (min-width: 62em) {
+  .upcomingHero {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: end;
+    gap: 40px;
+    min-height: 460px;
+    padding: 40px 32px 20px 44px;
+  }
+
+  .upcomingArt::after {
+    background:
+      radial-gradient(
+        ellipse 50% 80% at 0% 100%,
+        color-mix(in srgb, var(--gn-brand) 45%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--gn-body) 85%, transparent) 0%,
+        color-mix(in srgb, var(--gn-body) 55%, transparent) 40%,
+        color-mix(in srgb, var(--gn-body) 10%, transparent) 75%
+      ),
+      linear-gradient(
+        0deg,
+        color-mix(in srgb, var(--gn-body) 75%, transparent) 0%,
+        transparent 45%
+      );
+  }
+
+  .upcomingInfo {
+    padding-bottom: 28px;
+  }
+
+  .upcomingTitle {
+    font-size: 2.5rem;
+  }
+}
+
+/* recently released: one hero banner, art behind cover + info, paged by dots */
+.recentHero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  width: 100%;
+  min-height: clamp(320px, 42vw, 460px);
+  padding: 40px;
+  border-radius: var(--gn-radius);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.recentHero .upcomingArt::after {
+  background:
+    radial-gradient(
+      ellipse 50% 80% at 0% 100%,
+      color-mix(in srgb, var(--gn-brand) 45%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--gn-body) 88%, transparent) 0%,
+      color-mix(in srgb, var(--gn-body) 60%, transparent) 40%,
+      color-mix(in srgb, var(--gn-body) 10%, transparent) 80%
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--gn-body) 70%, transparent) 0%,
+      transparent 45%
+    );
+}
+
+.recentHeroCover {
+  flex: none;
+  width: clamp(120px, 14vw, 190px);
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--gn-radius);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gn-text) 12%, transparent),
+    0 24px 48px color-mix(in srgb, var(--gn-body) 60%, transparent);
+}
+
+.recentHeroInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  max-width: 60ch;
+  /* clear of the pager in the bottom-right corner */
+  padding-bottom: 8px;
+}
+
+.recentHeroTitle {
+  font-size: clamp(1.75rem, 1.1rem + 2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--gn-text);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.recentHeroSummary {
+  color: color-mix(in srgb, var(--gn-text) 80%, transparent);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.releaseCardDate {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gn-brand);
+}
+
+.recentHeroPager {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 24px hit area around an 8px dot */
+.recentHeroDot {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.recentHeroDot::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: auto;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--gn-text) 40%, transparent);
+  transition:
+    width 200ms ease,
+    background-color 200ms ease;
+}
+
+.recentHeroDot[data-active]::before {
+  width: 20px;
+  background: var(--gn-text);
+}
+
+.recentHeroDot:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+  border-radius: 12px;
+  /* dark backing so the inside ring never sits directly on the hero art */
+  background: var(--gn-background);
+}
+
+/* the pager arrows sit inside the clipped hero: keep their ring clear of the edge */
+.recentHeroPager > button:not(.recentHeroDot):focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--gn-background),
+    0 0 0 6px var(--gn-background);
+}
+
+@keyframes console-release-art-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upcomingArt {
+    animation: none;
+  }
+
+  .recentHeroDot::before {
+    transition: none;
+  }
+}
+
+/* phones: the cover moves above the text, the pager gets its own line */
+@media (max-width: 47.99em) {
+  .recentHero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 20px 56px;
+  }
+
+  .recentHeroCover {
+    width: 96px;
+  }
+
+  .recentHeroPager {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    justify-content: center;
+  }
+}
