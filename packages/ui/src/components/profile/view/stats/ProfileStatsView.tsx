@@ -1,4 +1,5 @@
 import { buildPresenterComponent } from "#@/context";
+import { SUCCESS_COLOR } from "#@/util/colors";
 import { BarChart } from "@mantine/charts";
 import { Box, Group, Paper, SimpleGrid, Stack } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -111,15 +112,16 @@ const DEFAULT_ProfileStatsView = ({
               series={[
                 {
                   name: "totalGames",
-                  color: "blue",
+                  color: "gray.6",
                   label: t("profile.stats.total"),
                 },
                 {
                   name: "totalFinishedGames",
-                  color: "red",
+                  color: SUCCESS_COLOR,
                   label: t("profile.stats.finishedGames"),
                 },
               ]}
+              withLegend
               gridAxis={"y"}
               barProps={{
                 barSize: 20,

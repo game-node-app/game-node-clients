@@ -1,11 +1,14 @@
 import {
   alpha,
+  Chip,
   colorsTuple,
   createTheme,
   DEFAULT_THEME,
   defaultVariantColorsResolver,
   mergeMantineTheme,
+  MantineTheme,
   parseThemeColor,
+  SegmentedControl,
   ThemeIcon,
   VariantColorsResolver,
 } from "@mantine/core";
@@ -84,6 +87,17 @@ function getLightTextColor(color: string, tintAlpha: number): string | null {
 
 const LIGHT_TINT_ALPHA = 0.15;
 
+/** The single colour of a flat palette (`brand`, `secondary`, ...), or null for real palettes. */
+function getFlatPaletteColor(
+  color: string,
+  theme: MantineTheme,
+): string | null {
+  const parsed = parseThemeColor({ color, theme });
+  const shades = theme.colors[parsed.color];
+  if (!parsed.isThemeColor || !shades || new Set(shades).size > 1) return null;
+  return shades[0] ?? null;
+}
+
 /**
  * Mantine derives the dark "light" variant from shades 9 (bg) and 0 (text).
  * Our flat colorsTuple palettes make that orange-on-brown, so tint with the color itself instead.
@@ -98,20 +112,17 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   ) {
     return defaults;
   }
-  const parsed = parseThemeColor({ color: input.color, theme: input.theme });
-  const shades = input.theme.colors[parsed.color];
-  if (!parsed.isThemeColor || !shades || new Set(shades).size > 1) {
-    return defaults;
-  }
+  const flat = getFlatPaletteColor(input.color, input.theme);
+  if (!flat) return defaults;
   if (input.variant === "filled") {
-    const color = getFilledTextColor(shades[0]!);
+    const color = getFilledTextColor(flat);
     return color ? { ...defaults, color } : defaults;
   }
   return {
     ...defaults,
-    background: alpha(shades[0]!, LIGHT_TINT_ALPHA),
-    hover: alpha(shades[0]!, 0.25),
-    color: getLightTextColor(shades[0]!, LIGHT_TINT_ALPHA) ?? shades[0]!,
+    background: alpha(flat, LIGHT_TINT_ALPHA),
+    hover: alpha(flat, 0.25),
+    color: getLightTextColor(flat, LIGHT_TINT_ALPHA) ?? flat,
   };
 };
 
@@ -123,11 +134,22 @@ const themeOverride = createTheme({
     tertiary: colorsTuple("#872C13"),
   },
   primaryColor: "brand",
+  // 0.179 is where white text drops below 4.5:1 (Mantine's default is 0.3), so `autoContrast`
+  // agrees with `getFilledTextColor`.
+  luminanceThreshold: 0.179,
   variantColorResolver,
   components: {
     // Without a `color`, ThemeIcon skips `variantColorResolver` and falls back to
     // Mantine's CSS defaults (white on the primary fill, orange-on-brown light).
     ThemeIcon: ThemeIcon.extend({ defaultProps: { color: "brand" } }),
+    // Same for Chip: with no `color`/`variant` it keeps white text on the primary fill.
+    Chip: Chip.extend({ defaultProps: { color: "brand" } }),
+    // SegmentedControl never calls the resolver: its active label colour comes from
+    // `getContrastColor`, which is white unless `autoContrast` is on. Mantine's luminance
+    // threshold (set above) is where white drops below 4.5:1, so the orange gets dark text.
+    SegmentedControl: SegmentedControl.extend({
+      defaultProps: { autoContrast: true },
+    }),
   },
 });
 

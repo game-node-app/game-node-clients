@@ -18,7 +18,6 @@ import {
   MobileJournalMonthHeader,
   MobileJournalYearHeader,
 } from "@/components/journal/MobileJournalHeaders";
-import { MobileJournalOverviewEmpty } from "@/components/journal/MobileJournalOverviewEmpty";
 import { MobileJournalOverviewItem } from "@/components/journal/MobileJournalOverviewItem";
 import { MobileProfileReviewListEmpty } from "@/components/review/list/MobileProfileReviewListEmpty";
 import { MobileProfileReviewListItem } from "@/components/review/list/MobileProfileReviewListItem";
@@ -27,6 +26,7 @@ import { useIonRouterWrapper } from "@/components/general/hooks/useIonRouterWrap
 import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { useIonScrollPosition } from "@/components/general/hooks/useIonScrollPosition";
 import { useIonViewActive } from "@/components/general/hooks/useIonViewActive";
+import { useOpenGameSearch } from "@/components/general/hooks/useOpenGameSearch";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
@@ -44,7 +44,6 @@ export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   JournalOverviewItem: MobileJournalOverviewItem,
   JournalMonthHeader: MobileJournalMonthHeader,
   JournalYearHeader: MobileJournalYearHeader,
-  JournalOverviewEmpty: MobileJournalOverviewEmpty,
   ProfileReviewListItem: MobileProfileReviewListItem,
   ProfileReviewListEmpty: MobileProfileReviewListEmpty,
   Link: LinkWrapper,
@@ -57,6 +56,7 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
   supporterSettingsHref: "/preferences/supporter",
   useScrollPosition: useIonScrollPosition,
   useIsViewActive: useIonViewActive,
+  useOpenGameSearch,
   shareText: async (text) => {
     try {
       await Share.share({ text });

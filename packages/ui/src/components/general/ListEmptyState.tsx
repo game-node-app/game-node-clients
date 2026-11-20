@@ -1,4 +1,4 @@
-import { cn } from "@repo/ui";
+import { cn } from "#@/util";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 /**
- * Empty state shared by mobile lists (reviews, posts, journal): icon tile, short title, one line of
+ * Empty state shared by lists (reviews, posts, journal): icon tile, short title, one line of
  * help and an optional call to action.
  */
 const ListEmptyState = ({

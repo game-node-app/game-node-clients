@@ -1,6 +1,6 @@
 import { Divider, Group, Text, Title } from "@mantine/core";
 import { buildPresenterComponent } from "#@/context";
-import dayjs from "dayjs";
+import { useJournalMonthName } from "#@/components/journal/hooks/useJournalMonthName";
 
 export interface JournalYearHeaderProps {
   year: number;
@@ -42,9 +42,11 @@ const DEFAULT_JournalMonthHeader = ({
   year,
   month,
 }: JournalMonthHeaderProps) => {
+  const monthName = useJournalMonthName(year, month);
+
   return (
-    <Title size={"h5"} className={"text-white mt-1"}>
-      {dayjs(new Date(year, month, 1)).format("MMMM")}
+    <Title size={"h5"} className={"text-white mt-1 first-letter:uppercase"}>
+      {monthName}
     </Title>
   );
 };
