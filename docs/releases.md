@@ -42,9 +42,9 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
   Preserve `latest` as a compatibility alias for the existing Compose examples;
   automated Coolify deployments always select the immutable SHA tag.
 - Mobile: build signed APK/AAB artifacts using the app's semantic version and an
-  increasing Android build code, and publish the web bundle to R2 for compatible
-  installs. Download the artifacts from the workflow run; Play Store submission
-  remains manual.
+  increasing Android build code, publish the web bundle to R2 for compatible
+  installs, and publish the AAB to the Google Play production track (status
+  `completed`). The APK/AAB also remain downloadable from the workflow run.
 
 Actions are pinned to exact commit SHAs. Dependency installs skip package
 lifecycle scripts; builds and native synchronization run explicitly. Checks,
@@ -118,7 +118,30 @@ update mechanism is different and is not used here. Configure registry pull
 credentials in Coolify if the images are private.
 
 Mobile uses the existing `RELEASE_KEYSTORE`, `RELEASE_KEYSTORE_PASS`,
-`RELEASE_KEYSTORE_KEY_ALIAS`, and `RELEASE_KEYSTORE_KEY_PASS` secrets. The `production`
+`RELEASE_KEYSTORE_KEY_ALIAS`, and `RELEASE_KEYSTORE_KEY_PASS` secrets.
+
+## Google Play
+
+The Android delivery job publishes `app.gamenode` to Play production with
+`scripts/publish-play.cjs` (no dependencies; it talks to the Android Publisher
+API directly). It uploads the signed AAB, sets the production track to a single
+`completed` release for that version code, and commits the edit. Any failure
+leaves the edit uncommitted. A retried release reuses an AAB already uploaded
+with the same code, since Play rejects re-uploads.
+
+Release notes come from the version's section of `apps/mobile/CHANGELOG.md`
+(the changeset summaries, without commit hashes or intro lines that end in `:`),
+truncated to Play's 500-character limit, as `en-US`. Changesets are English, so
+`pt-BR` always gets the generic "Correções de bugs e melhorias."; a release with
+no entries uses that generic text in both languages. Write mobile changeset
+summaries as user-facing notes: they show up in the store.
+
+Configure the repository secret `PLAY_SERVICE_ACCOUNT_JSON`: the JSON key of a
+Google Cloud service account (project with the Google Play Android Developer API
+enabled) that was invited under Play Console → Users and permissions with release
+permissions for the app. The current account is
+`ci-android-release@gamenode.iam.gserviceaccount.com`. The Play listing must
+include `en-US` and `pt-BR`. The `production`
 environment is shared by the delivery jobs; any environment approvals also apply.
 Configuration for every selected target is checked before reserving versions.
 
