@@ -4,6 +4,8 @@ import { afterEach, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
 import { TrendingGamesHero } from "../../../../../packages/ui/src/components/game/trending/TrendingGamesHero";
 
+let thumbsWidth = 0;
+
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
     t: (key: string, o?: Record<string, unknown>) =>
@@ -11,6 +13,7 @@ vi.mock("@repo/locales", () => ({
   }),
 }));
 vi.mock("@mantine/hooks", () => ({
+  useElementSize: () => ({ ref: () => {}, width: thumbsWidth }),
   useReducedMotion: () => false,
   useIntersection: () => ({ ref: () => {}, entry: undefined }),
 }));
@@ -38,6 +41,7 @@ const games = [game(1, "One"), game(2, "Two"), game(3, "Three")];
 
 afterEach(() => {
   cleanup();
+  thumbsWidth = 0;
   vi.restoreAllMocks();
 });
 
@@ -78,6 +82,31 @@ const fillOf = (container: HTMLElement) =>
   container.querySelector<HTMLElement>(
     '[aria-current="true"] span:last-child span',
   )!;
+
+it("fits ranked thumbnails to the row width and rotates through the visible games", () => {
+  const rankedGames = Array.from({ length: 15 }, (_, index) =>
+    game(index + 1, `Game ${index + 1}`),
+  );
+  thumbsWidth = 1300;
+  const { container, rerender } = render(
+    <TrendingGamesHero games={rankedGames} responsive />,
+  );
+  expect(screen.getAllByLabelText(/home\.trendingSelectGame/)).toHaveLength(15);
+  fireEvent.click(screen.getByLabelText("home.trendingSelectGame:Game 15"));
+
+  thumbsWidth = 850;
+  rerender(<TrendingGamesHero games={rankedGames} responsive />);
+  expect(screen.getAllByLabelText(/home\.trendingSelectGame/)).toHaveLength(10);
+  expect(screen.getByText("home.trendingRank:5")).toBeDefined();
+
+  fireEvent.click(screen.getByLabelText("home.trendingSelectGame:Game 10"));
+  fireEvent.animationEnd(fillOf(container));
+  expect(screen.getByRole("heading").textContent).toBe("Game 1");
+
+  thumbsWidth = 224;
+  rerender(<TrendingGamesHero games={rankedGames} responsive />);
+  expect(screen.getAllByLabelText(/home\.trendingSelectGame/)).toHaveLength(5);
+});
 
 it("hides the thumbnails and the pause toggle when there is a single game", () => {
   const { container } = render(<TrendingGamesHero games={[games[0]]} />);
