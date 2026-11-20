@@ -6,6 +6,8 @@ import {
   GameView,
   GameViewLayoutOption,
   LibraryHiddenState,
+  LibrarySearchEmptyState,
+  LibrarySearchInput,
   LibraryViewActions,
   useCollection,
   useCollectionEntriesForCollectionId,
@@ -15,8 +17,17 @@ import {
   toLibraryVisibilityLevel,
 } from "#@/components";
 import { getOffsetAsPage, getPageAsOffset, isNotFoundApiError } from "#@/util";
-import { Divider, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
+import {
+  Divider,
+  Flex,
+  Group,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import { useMemo } from "react";
 
 interface ICollectionViewProps {
@@ -30,6 +41,7 @@ const CollectionView = ({
   collectionId,
   libraryUserId,
 }: ICollectionViewProps) => {
+  const { t } = useTranslation();
   const [layout, setLayout] = useLocalStorage<GameViewLayoutOption>({
     key: "library-game-view-layout",
     defaultValue: "grid",
@@ -40,12 +52,22 @@ const CollectionView = ({
     includeExtraContent: false,
     offset: 0,
     hasCustomCover: false,
+    search: "",
     orderBy: {
       userCustom: "ASC",
     },
   });
 
   const { offset, includeExtraContent, hasCustomCover } = params;
+  const search = params.search ?? "";
+  const hasSearch = search.trim() !== "";
+
+  const setSearch = (value: string) =>
+    setParams((prev) => ({
+      ...prev,
+      search: value.trim() ? value : undefined,
+      offset: 0,
+    }));
 
   const ownUserId = useUserId();
 
@@ -75,7 +97,7 @@ const CollectionView = ({
         cover: true,
       },
     },
-    false,
+    true,
     { ownerUserId: libraryUserId },
   );
   const games = useMemo(() => {
@@ -117,6 +139,12 @@ const CollectionView = ({
     collectionEntriesQuery.isSuccess &&
     gamesQuery.isSuccess;
 
+  const hasNoSearchResults =
+    hasSearch &&
+    collectionEntriesQuery.isSuccess &&
+    !collectionEntriesQuery.isPlaceholderData &&
+    collectionEntriesQuery.data?.pagination.totalItems === 0;
+
   const enablePagination =
     paginationInfo != undefined && (paginationInfo.totalPages ?? 1) > 1;
 
@@ -152,49 +180,74 @@ const CollectionView = ({
       <Divider className={"w-full"} my={"sm"} variant={"dashed"} />
       <Stack className={"w-full"}>
         <GameView layout={layout}>
-          <Group
-            className={"w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0"}
+          <Flex
+            className={"w-full flex-col gap-xs md:flex-row md:items-center"}
           >
-            {isOwnCollection && (
-              <CollectionViewActions collectionId={collectionId} />
-            )}
-            <LibraryViewActions
-              libraryUserId={libraryUserId}
-              collectionId={collectionId}
-              includeExtraContent={includeExtraContent}
-              hasCustomCover={hasCustomCover}
-              sortValue={{
-                value: Object.keys(params.orderBy)[0],
-                ordering: Object.values(params.orderBy)[0] as never,
-              }}
-              onSort={(updatedValue) => {
-                const orderBy = {
-                  [updatedValue.value]: updatedValue.ordering,
-                };
-
-                setParams((prev) => ({ ...prev, orderBy: orderBy as never }));
-              }}
-              onLayoutChange={setLayout}
-              onExtraContentChange={(value) =>
-                setParams((prev) => ({ ...prev, includeExtraContent: value }))
-              }
-              onHasCustomCoverChange={(value) =>
-                setParams((prev) => ({
-                  ...prev,
-                  hasCustomCover: value,
-                  offset: 0,
-                }))
+            <LibrarySearchInput
+              className={"md:w-[280px] md:shrink-0"}
+              value={search}
+              onSearchChange={setSearch}
+              placeholder={t("library.search.placeholderCollection")}
+              isLoading={
+                collectionEntriesQuery.isPlaceholderData ||
+                (collectionEntriesQuery.isFetching && hasSearch)
               }
             />
-          </Group>
+            <Group
+              className={
+                "w-full flex-nowrap overflow-x-auto gap-xs pb-2 md:pb-0 md:w-auto md:flex-1 md:min-w-0"
+              }
+            >
+              {isOwnCollection && (
+                <CollectionViewActions collectionId={collectionId} />
+              )}
+              <LibraryViewActions
+                libraryUserId={libraryUserId}
+                collectionId={collectionId}
+                includeExtraContent={includeExtraContent}
+                hasCustomCover={hasCustomCover}
+                sortValue={{
+                  value: Object.keys(params.orderBy)[0],
+                  ordering: Object.values(params.orderBy)[0] as never,
+                }}
+                onSort={(updatedValue) => {
+                  const orderBy = {
+                    [updatedValue.value]: updatedValue.ordering,
+                  };
+
+                  setParams((prev) => ({ ...prev, orderBy: orderBy as never }));
+                }}
+                onLayoutChange={setLayout}
+                onExtraContentChange={(value) =>
+                  setParams((prev) => ({ ...prev, includeExtraContent: value }))
+                }
+                onHasCustomCoverChange={(value) =>
+                  setParams((prev) => ({
+                    ...prev,
+                    hasCustomCover: value,
+                    offset: 0,
+                  }))
+                }
+              />
+            </Group>
+          </Flex>
 
           {isError && (
             <CenteredErrorMessage
               message={"An error occurred. Please try again."}
             />
           )}
-          {isSuccess && (games == undefined || games.length === 0) && (
-            <CenteredErrorMessage message={"This collection is empty."} />
+          {isSuccess &&
+            !hasSearch &&
+            (games == undefined || games.length === 0) && (
+              <CenteredErrorMessage message={"This collection is empty."} />
+            )}
+          {hasNoSearchResults && (
+            <LibrarySearchEmptyState
+              query={search.trim()}
+              scope={"collection"}
+              onClear={() => setSearch("")}
+            />
           )}
           <GameView.Content items={games!}>
             <GameView.LoadingSkeletons isVisible={isLoading} />

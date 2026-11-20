@@ -55,10 +55,7 @@ const Collection = ({ seoProfile, seoCollection }: Props) => {
           t("seo.collection.description", { username })
         }
       />
-      <LibraryViewLayout
-        userId={userId as string | undefined}
-        collectionId={collectionId as string | undefined}
-      >
+      <LibraryViewLayout userId={userId as string | undefined}>
         <CollectionView
           libraryUserId={userId as string}
           collectionId={collectionId as string}

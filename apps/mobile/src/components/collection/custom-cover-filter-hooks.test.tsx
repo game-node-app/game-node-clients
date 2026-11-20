@@ -72,6 +72,7 @@ it("sends no hasCustomCover and keeps the existing key when the library filter i
     undefined,
     undefined,
     undefined,
+    undefined,
     0,
     20,
   );
@@ -85,6 +86,7 @@ it("sends no hasCustomCover and keeps the existing key when the library filter i
       undefined,
       undefined,
       undefined,
+      null,
       null,
     ],
   ]);
@@ -116,6 +118,7 @@ it("sends hasCustomCover=true in the right positional argument when the library 
     undefined,
     undefined,
     undefined,
+    undefined,
     true,
     48,
     20,
@@ -131,6 +134,7 @@ it("sends hasCustomCover=true in the right positional argument when the library 
       undefined,
       undefined,
       { hasCustomCover: true },
+      null,
       null,
     ],
   ]);
@@ -154,6 +158,7 @@ it("keeps favorites requests and keys unchanged when the filter is off", async (
 
   expect(findSpy).toHaveBeenCalledWith(
     "user-1",
+    undefined,
     undefined,
     undefined,
     undefined,
@@ -199,6 +204,7 @@ it("sends hasCustomCover=true in the right positional argument for favorites whe
 
   expect(findSpy).toHaveBeenCalledWith(
     "user-1",
+    undefined,
     { addedDate: "DESC" },
     undefined,
     undefined,
@@ -249,6 +255,7 @@ it("omits hasCustomCover from the collection body and key when the filter is off
       undefined,
       undefined,
       null,
+      null,
     ],
   ]);
 });
@@ -293,6 +300,85 @@ it("sends hasCustomCover in the collection body and key when the filter is on", 
       undefined,
       { hasCustomCover: true },
       null,
+      null,
     ],
+  ]);
+});
+
+it("sends a library search as the second argument and a blank one as undefined", async () => {
+  const { wrapper } = createWrapper();
+  const findSpy = vi
+    .spyOn(
+      CollectionsEntriesService,
+      "collectionsEntriesControllerFindAllByLibraryIdV1",
+    )
+    .mockResolvedValue(EMPTY_PAGE);
+
+  const { result, rerender } = renderHook(
+    ({ search }: { search: string }) =>
+      useCollectionEntriesForUserId({ userId: "user-1", search }),
+    { wrapper, initialProps: { search: "zelda" } },
+  );
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(findSpy.mock.calls[0][1]).toBe("zelda");
+
+  rerender({ search: "   " });
+  await waitFor(() => expect(findSpy).toHaveBeenCalledTimes(2));
+  expect(findSpy.mock.calls[1][1]).toBeUndefined();
+});
+
+it("changes the library key with the search and keeps the previous page while loading", async () => {
+  const { client, wrapper } = createWrapper();
+  const first = { ...EMPTY_PAGE, data: [] };
+  vi.spyOn(
+    CollectionsEntriesService,
+    "collectionsEntriesControllerFindAllByLibraryIdV1",
+  )
+    .mockResolvedValueOnce(first)
+    .mockReturnValueOnce(new Promise(() => {}) as never);
+
+  const { result, rerender } = renderHook(
+    ({ search }: { search: string }) =>
+      useCollectionEntriesForUserId({ userId: "user-1", search }),
+    { wrapper, initialProps: { search: "" } },
+  );
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+  rerender({ search: "zelda" });
+  expect(result.current.data).toBe(first);
+  expect(result.current.isPlaceholderData).toBe(true);
+  expect(getQueryKeys(client)).toHaveLength(2);
+  expect(getQueryKeys(client).map((key) => key.at(-2))).toEqual([
+    null,
+    "zelda",
+  ]);
+});
+
+it("sends search in the collection body and key only when nonblank", async () => {
+  const { client, wrapper } = createWrapper();
+  const findSpy = vi
+    .spyOn(
+      CollectionsEntriesService,
+      "collectionsEntriesControllerFindAllByCollectionIdV1",
+    )
+    .mockResolvedValue(EMPTY_PAGE);
+
+  const { result, rerender } = renderHook(
+    ({ search }: { search: string }) =>
+      useCollectionEntriesForCollectionId({
+        collectionId: "collection-1",
+        search,
+      }),
+    { wrapper, initialProps: { search: "zelda" } },
+  );
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(findSpy.mock.calls[0][1]).toMatchObject({ search: "zelda" });
+
+  rerender({ search: " " });
+  await waitFor(() => expect(findSpy).toHaveBeenCalledTimes(2));
+  expect(findSpy.mock.calls[1][1]).not.toHaveProperty("search");
+  expect(getQueryKeys(client).map((key) => key.at(-2))).toEqual([
+    "zelda",
+    null,
   ]);
 });

@@ -22,6 +22,11 @@ export function useUrlState<T extends object>(
     Object.keys(defaultState).forEach((key) => {
       const raw = query.get(key);
       if (raw !== null) {
+        // A string default means the param is text: "123" or "true" must not become a number/boolean.
+        if (typeof defaultState[key as keyof T] === "string") {
+          parsed[key as keyof T] = raw as never;
+          return;
+        }
         try {
           parsed[key as keyof T] = JSON.parse(raw);
         } catch {

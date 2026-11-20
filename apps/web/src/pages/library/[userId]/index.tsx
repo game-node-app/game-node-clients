@@ -31,7 +31,7 @@ const Index = ({ seoProfile }: SeoProfileProps) => {
           username: seoProfile?.username,
         })}
       />
-      <LibraryViewLayout userId={userId as string} collectionId={undefined}>
+      <LibraryViewLayout userId={userId as string}>
         <LibraryView libraryUserId={userId as string} />
       </LibraryViewLayout>
     </Stack>

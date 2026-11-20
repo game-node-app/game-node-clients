@@ -5,8 +5,10 @@
 export type ProfileMetricsSummaryWindowDto = {
     totalPlaytimeSeconds: number;
     /**
-     * Part of `totalPlaytimeSeconds` estimated by spreading Steam's recent
-     * total over the 14 days before its first observation.
+     * Part of `totalPlaytimeSeconds` estimated from games' first observations:
+     * Steam's recent total spread over the 14 days before it, or the first
+     * total spread over the provider's played dates (PSN, Nintendo) or since
+     * the previous sync (Xbox games new to a syncing connection).
      */
     estimatedPlaytimeSeconds: number;
     /**

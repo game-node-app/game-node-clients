@@ -34,7 +34,7 @@ const CollectionPage = ({ userId, collectionId }: Props) => {
       <SessionAuth requireAuth={userId == undefined}>
         <LibraryViewRefresher userId={userId} collectionId={collectionId} />
         {isOwnLibrary && <LibraryViewFab />}
-        <LibraryViewLayout userId={userId} collectionId={collectionId}>
+        <LibraryViewLayout userId={userId}>
           <CollectionView libraryUserId={userId} collectionId={collectionId} />
         </LibraryViewLayout>
       </SessionAuth>

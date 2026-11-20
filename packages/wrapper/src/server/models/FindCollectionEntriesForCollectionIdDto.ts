@@ -5,6 +5,7 @@
 import type { FindCollectionEntriesGameFilterDto } from './FindCollectionEntriesGameFilterDto';
 import type { FindCollectionEntriesOrderBy } from './FindCollectionEntriesOrderBy';
 export type FindCollectionEntriesForCollectionIdDto = {
+    search?: string;
     orderBy?: FindCollectionEntriesOrderBy;
     status?: FindCollectionEntriesForCollectionIdDto.status;
     gameFilters?: FindCollectionEntriesGameFilterDto;

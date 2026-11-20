@@ -4,7 +4,11 @@ import {
   CollectionsEntriesService,
   type FindCollectionEntriesForCollectionIdDto,
 } from "@repo/wrapper/server";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
 
 interface UseCollectionEntriesForCollectionIdProps
@@ -28,11 +32,13 @@ export function useCollectionEntriesForCollectionId({
   status,
   gameFilters,
   hasCustomCover,
+  search,
 }: UseCollectionEntriesForCollectionIdProps): ExtendedUseQueryResult<
   CollectionEntriesPaginatedResponseDto | undefined
 > {
   const queryClient = useQueryClient();
   const viewerId = useUserId();
+  const hasSearch = !!search?.trim();
   const queryKey = [
     "collection-entries",
     collectionId,
@@ -42,6 +48,7 @@ export function useCollectionEntriesForCollectionId({
     status,
     gameFilters,
     ...(hasCustomCover ? [{ hasCustomCover: true }] : []),
+    hasSearch ? search : null,
     // Entries of a collection are filtered per viewer (private entries/lists).
     viewerId ?? null,
   ];
@@ -63,11 +70,13 @@ export function useCollectionEntriesForCollectionId({
             orderBy,
             status,
             gameFilters,
+            ...(hasSearch ? { search } : {}),
             ...(hasCustomCover ? { hasCustomCover: true } : {}),
           },
         );
       },
       enabled: !!collectionId,
+      placeholderData: keepPreviousData,
     }),
     queryKey,
     invalidate,
