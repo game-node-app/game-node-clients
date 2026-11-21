@@ -20,7 +20,7 @@ const state = vi.hoisted(() => ({
       category: "0,14",
     },
     isReady: true,
-    replace: vi.fn(),
+    replace: vi.fn().mockResolvedValue(true),
   },
 }));
 vi.mock("next/router", () => ({ useRouter: () => state.router }));
@@ -29,7 +29,18 @@ vi.mock("@repo/locales", () => ({
 }));
 vi.mock(
   "../../../../web/src/components/explore/ExploreScreenResourceSelector",
-  () => ({ default: () => null }),
+  () => ({
+    default: ({
+      resourceName,
+      onChange,
+    }: {
+      resourceName: string;
+      onChange: (value: string[]) => void;
+    }) =>
+      resourceName === "genres" ? (
+        <button onClick={() => onChange(["5"])}>Change genres</button>
+      ) : null,
+  }),
 );
 vi.mock("@mantine/hooks", async () => ({
   ...(await vi.importActual<typeof import("@mantine/hooks")>("@mantine/hooks")),
@@ -62,7 +73,7 @@ afterEach(() => {
   state.router.replace.mockClear();
 });
 
-it("retains selected criteria when only the period changes", async () => {
+it("applies period and genre changes immediately without rerunning SSR", async () => {
   function Fixture() {
     const [dto, setDto] = useState(DEFAULT_EXPLORE_TRENDING_GAMES_DTO);
     const [loaded, setLoaded] = useState(false);
@@ -91,5 +102,25 @@ it("retains selected criteria when only the period changes", async () => {
       criteria: { ids: [7], status: [0, 2], category: [0, 14], genres: [2, 3] },
     }),
   );
-  expect(state.router.replace).toHaveBeenCalled();
+  expect(state.router.replace).toHaveBeenCalledTimes(1);
+  expect(state.router.replace).toHaveBeenLastCalledWith(
+    { query: "period=all&ids=7&status=0%2C2&category=0%2C14&genres=2%2C3" },
+    undefined,
+    { shallow: true, scroll: false },
+  );
+
+  fireEvent.click(screen.getByText("Change genres"));
+  await waitFor(() =>
+    expect(JSON.parse(screen.getByTestId("dto").textContent!)).toEqual({
+      limit: 20,
+      period: "all",
+      criteria: { ids: [7], status: [0, 2], category: [0, 14], genres: [5] },
+    }),
+  );
+  expect(state.router.replace).toHaveBeenCalledTimes(2);
+  expect(state.router.replace).toHaveBeenLastCalledWith(
+    { query: "period=all&ids=7&status=0%2C2&category=0%2C14&genres=5" },
+    undefined,
+    { shallow: true, scroll: false },
+  );
 });

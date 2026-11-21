@@ -108,24 +108,24 @@ const ExploreScreenFilters = ({
   /** Every filter (including the period) applies as soon as it changes. */
   const applyFilters = (data: FilterFormValues) => {
     const { period, ...criteria } = data;
-    onFilterChange((previousState) => {
-      const query: Record<string, string> = {
-        period,
-        ...Object.fromEntries(
-          Object.entries(criteria)
-            .filter(([, value]) => value != null)
-            .map(([key, value]) => [key, String(value)]),
-        ),
-      };
-      if (previousState.criteria?.ids)
-        query.ids = previousState.criteria.ids.join(",");
-      const updatedState = exploreScreenUrlQueryToDto(query);
-      const searchParams = exploreScreenDtoToSearchParams(updatedState);
-      router.replace({ query: searchParams.toString() }, undefined, {
-        shallow: false,
-      });
-      return updatedState;
+    const updatedState = exploreScreenUrlQueryToDto({
+      period,
+      ids: router.query.ids,
+      ...Object.fromEntries(
+        Object.entries(criteria)
+          .filter(([, value]) => value != null)
+          .map(([key, value]) => [key, String(value)]),
+      ),
     });
+    onFilterChange(updatedState);
+
+    const searchParams = exploreScreenDtoToSearchParams(updatedState);
+    router
+      .replace({ query: searchParams.toString() }, undefined, {
+        shallow: true,
+        scroll: false,
+      })
+      .catch(console.error);
   };
 
   useEffect(() => {

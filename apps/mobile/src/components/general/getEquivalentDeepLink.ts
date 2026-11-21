@@ -21,13 +21,13 @@ export function getEquivalentDeepLink(slug: string) {
   }
 
   const pathname = slug.split(/[?#]/, 1)[0];
+  const tab = pathname.replace(/\/$/, "").slice(1);
+  if (MOBILE_TABS.includes(tab)) return slug;
+
   if (matchPath(pathname, { path: LEGACY_WRAPPED_PATH, exact: true })) {
     return WRAPPED_TAB_PATH + slug.slice(pathname.length);
   }
-  if (
-    pathname === WRAPPED_TAB_PATH ||
-    pathname.startsWith(`${WRAPPED_TAB_PATH}/`)
-  ) {
+  if (pathname.startsWith(`${WRAPPED_TAB_PATH}/`)) {
     return slug;
   }
 

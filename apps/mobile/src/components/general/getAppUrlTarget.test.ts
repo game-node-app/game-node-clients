@@ -111,7 +111,7 @@ describe("supporter settings navigation", () => {
   });
 });
 
-describe("Wrapped widget links", () => {
+describe("tab and Wrapped widget links", () => {
   beforeEach(() => {
     window.history.replaceState({}, "", "/library/game/1");
   });
@@ -119,6 +119,17 @@ describe("Wrapped widget links", () => {
   afterEach(() => {
     window.history.replaceState({}, "", "/");
   });
+
+  it.each(["home", "library", "explore", "notifications", "wrapped"])(
+    "opens the %s tab directly and preserves the query and fragment",
+    (tab) => {
+      const slug = getAppUrlTarget(
+        `https://gamenode.app/pt-BR/${tab}?source=web#top`,
+      );
+
+      expect(getEquivalentDeepLink(slug!)).toBe(`/${tab}?source=web#top`);
+    },
+  );
 
   it.each(["week", "month", "year"])(
     "opens the Wrapped tab on the %s period",

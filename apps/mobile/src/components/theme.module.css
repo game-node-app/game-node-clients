@@ -4,12 +4,6 @@
     }
 }
 
-.badge {
-    &[data-variant='filled']{
-        @apply bg-tertiary
-    }
-}
-
 .input {
     &[data-variant='default']{
         @apply border-0 outline-1;

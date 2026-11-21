@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Badge,
   Button,
   Input,
   mergeMantineTheme,
@@ -18,14 +17,6 @@ export const MANTINE_THEME = mergeMantineTheme(DEFAULT_MANTINE_THEME, {
     ActionIcon: ActionIcon.extend({
       classNames: {
         root: classes.actionIcon,
-      },
-    }),
-    Badge: Badge.extend({
-      classNames: {
-        root: classes.badge,
-      },
-      defaultProps: {
-        variant: "filled",
       },
     }),
     Timeline: Timeline.extend({

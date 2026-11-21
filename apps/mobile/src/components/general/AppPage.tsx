@@ -10,13 +10,13 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonRouter,
 } from "@ionic/react";
 import { openMainMenu } from "@/util/closeMainMenu";
 import {
   authClient,
   ErrorBoundaryFallback,
   UserAvatar,
+  useRedirectToAuth,
   useUserId,
 } from "@repo/ui";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -62,7 +62,7 @@ const AppPage = ({
 }: Props) => {
   const userId = useUserId();
   const { t } = useTranslation();
-  const ionRouter = useIonRouter();
+  const redirectToAuth = useRedirectToAuth();
   const { isPending } = authClient.useSession();
   const signedOut = !isPending && userId == undefined;
   return (
@@ -103,7 +103,7 @@ const AppPage = ({
                     "h-8 text-sm font-bold normal-case tracking-[0.01em] [--border-radius:9999px] [--box-shadow:none] [--padding-end:14px] [--padding-start:14px]"
                   }
                   onClick={() => {
-                    ionRouter.push("/m/auth", "forward");
+                    redirectToAuth().catch(console.error);
                   }}
                 >
                   {t("actions.loginCta")}
