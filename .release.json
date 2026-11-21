@@ -1,0 +1,22 @@
+{
+  "source": "cefc5d5926ca157b731c40deead1166412a38e28",
+  "changesets": [
+    ".changeset/lucky-zoos-raise.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[86e936dc77dbb0db5f700f068f4ceb6e75ffde6a...cefc5d5926ca157b731c40deead1166412a38e28]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/cefc5d5926ca157b731c40deead1166412a38e28",
+  "versions": {
+    "mobile": "1.26.2"
+  }
+}
