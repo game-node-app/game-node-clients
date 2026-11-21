@@ -65,7 +65,9 @@ const OpenInAppDialog = () => {
     return null;
   }
 
-  const isAndroid = /Android/i.test(navigator.userAgent);
+  const appUrl = /Android/i.test(navigator.userAgent)
+    ? getAndroidIntentUrl()
+    : window.location.href;
 
   return (
     <Paper
@@ -97,17 +99,15 @@ const OpenInAppDialog = () => {
           <IconX size={18} />
         </ActionIcon>
       </Group>
-      <Group gap="sm" wrap="nowrap" mt={4}>
-        {isAndroid && (
-          <Button
-            component="a"
-            href={getAndroidIntentUrl()}
-            h={40}
-            onClick={() => setDismissed(true)}
-          >
-            {t("app.openInApp")}
-          </Button>
-        )}
+      <Group gap="sm" mt={4}>
+        <Button
+          component="a"
+          href={appUrl}
+          h={40}
+          onClick={() => setDismissed(true)}
+        >
+          {t("app.openInApp")}
+        </Button>
         <Anchor href={GOOGLE_PLAY_URL} className="block h-10 shrink-0">
           <Image
             src={"/img/google_play_badge_english.png"}

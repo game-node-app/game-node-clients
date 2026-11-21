@@ -251,7 +251,6 @@
   padding: 24px 32px;
 }
 .footerPanel {
-  border: 1px solid var(--gn-line);
   border-radius: 24px;
   margin-top: -5px;
   padding: 94px min(9vw, 128px) 50px;
@@ -259,15 +258,12 @@
     repeating-linear-gradient(
       90deg,
       transparent 0 104px,
-      color-mix(in srgb, var(--gn-text) 5%, transparent) 104px 105px
+      color-mix(in srgb, var(--mantine-color-white) 9%, transparent) 104px 105px
     ),
-    linear-gradient(135deg, var(--gn-brand-tint), var(--gn-paper-0) 55%);
-}
-.footerTitle {
-  color: var(--gn-brand-light-text);
+    linear-gradient(90deg, var(--gn-brand), #d42912 56%, #5c0b06); /* theme-exempt: landing footer artwork */
 }
 .footerPanel a {
-  color: var(--gn-text);
+  color: var(--mantine-color-white);
   font-size: 15px;
 }
 @media (max-width: 62em) {
