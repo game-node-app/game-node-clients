@@ -8,6 +8,7 @@ import {
   OwnUserConnectionDto,
   type UserConnectionDto,
 } from "@repo/wrapper/server";
+import { Fragment } from "react";
 
 const storesWithoutHistory = new Set([
   OwnUserConnectionDto.type.XBOX,
@@ -42,25 +43,28 @@ export function RecapStoreSync() {
     >
       <Group gap={6} wrap="nowrap" align="flex-start" c="dimmed">
         <IconRefresh size={14} className="mt-[3px] shrink-0" aria-hidden />
-        <Text size="xs" c="dimmed" component="div">
+        <Text size="xs" c="dimmed" component="div" className="min-w-0">
           <span className="font-medium">{t("recap.playtime.syncTitle")}:</span>{" "}
           {connections.map(({ type, lastSyncedAt }, index) => {
             const date = lastSyncedAt ? new Date(lastSyncedAt) : null;
 
             return (
-              <span key={type} className="whitespace-nowrap">
-                {index > 0 && " · "}
-                <span className="text-white/80">
-                  {getConnectionName(type as UserConnectionDto.type)}
-                </span>{" "}
-                {date && Number.isFinite(date.getTime()) ? (
-                  <time dateTime={date.toISOString()}>
-                    {dateFormat.format(date)}
-                  </time>
-                ) : (
-                  t("recap.playtime.noSync")
-                )}
-              </span>
+              <Fragment key={type}>
+                {index > 0 && " "}
+                <span className="inline-block max-w-full align-top">
+                  {index > 0 && "·\u00a0"}
+                  <span className="text-white/80">
+                    {getConnectionName(type as UserConnectionDto.type)}
+                  </span>{" "}
+                  {date && Number.isFinite(date.getTime()) ? (
+                    <time dateTime={date.toISOString()}>
+                      {dateFormat.format(date)}
+                    </time>
+                  ) : (
+                    t("recap.playtime.noSync")
+                  )}
+                </span>
+              </Fragment>
             );
           })}
         </Text>
