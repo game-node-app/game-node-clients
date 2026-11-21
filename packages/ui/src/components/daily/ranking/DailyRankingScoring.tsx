@@ -32,13 +32,13 @@ const DailyRankingScoringContent = () => {
 
   return (
     <Stack className={"gap-2.5"}>
-      <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+      <Text fz={13} lh={"19px"} c={"var(--gn-dimmed-2)"}>
         {t("daily.ranking.scoring.intro")}
       </Text>
       <dl className={"m-0 flex flex-col gap-2.5"}>
         {rows.map((row) => (
           <div key={row.key} className={"flex items-center justify-between"}>
-            <Text component={"dt"} fz={13} c={"#ADADAD"}>
+            <Text component={"dt"} fz={13} c={"var(--gn-dimmed-2)"}>
               {row.label}
             </Text>
             <Text
@@ -53,10 +53,10 @@ const DailyRankingScoringContent = () => {
           </div>
         ))}
       </dl>
-      <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+      <Text fz={13} lh={"19px"} c={"var(--gn-dimmed-2)"}>
         {t("daily.ranking.scoring.specs")}
       </Text>
-      <Text fz={12} lh={"18px"} className={"text-[#7A7A7A]"}>
+      <Text fz={12} lh={"18px"} className={"text-dimmed"}>
         {t("daily.ranking.scoring.footer")}
       </Text>
     </Stack>
@@ -99,7 +99,7 @@ const DailyRankingScoring = ({
           size={16}
           aria-hidden
           className={cn(
-            "text-[#7A7A7A] transition-transform",
+            "text-dimmed transition-transform",
             opened && "rotate-180",
           )}
         />

@@ -60,8 +60,8 @@ const BlogPostsNavHeader = () => {
               className={cn(
                 "rounded-full border px-4 py-1.5 font-semibold transition-colors",
                 active
-                  ? "border-brand-5 bg-brand-5 text-white"
-                  : "border-white/15 text-gray-300 hover:bg-white/5",
+                  ? "border-brand bg-brand text-accent-contrast"
+                  : "border-line-strong text-dimmed-2 hover:bg-paper-4",
               )}
             >
               {config.label}

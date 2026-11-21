@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DATE_KEY = "YYYY-MM-DD";
 const COLORS = [
@@ -22,12 +22,18 @@ const COLORS = [
   "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 55%, white)",
 ];
 
+/** Empty cell fill: the same raised surface the lowest activity level blends into. */
+const EMPTY_CELL_COLOR = "var(--gn-nav-raised)";
+/** A cell is 16 viewBox units; below this scale (about 12px a cell) the grid scrolls instead of shrinking. */
+const MIN_GRID_SCALE = 0.75;
+
 const JournalHeatmap = ({ userId }: { userId: string }) => {
   const { t } = useTranslation();
   const { language } = useI18nContext();
   const { data: journal, isLoading, isError } = useJournalOverview(userId);
   const today = dayjs().startOf("day");
   const [period, setPeriod] = useState("rolling");
+  const gridScrollRef = useRef<HTMLDivElement>(null);
 
   const start =
     period === "rolling"
@@ -82,6 +88,25 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
     timeZone: "UTC",
   });
   const weeks = Math.ceil((start.day() + end.diff(start, "day") + 1) / 7);
+  const gridWidth = weeks * 20 + 44;
+
+  // On narrow screens the grid scrolls; start at the most recent weeks.
+  useEffect(() => {
+    const el = gridScrollRef.current;
+    if (el) el.scrollLeft = el.scrollWidth;
+  }, [isLoading, isError, period, weeks]);
+
+  const activitySummary = [
+    t("profile.overview.activityTitle"),
+    t(
+      period === "rolling"
+        ? "profile.overview.rollingTotal"
+        : "profile.overview.yearTotal",
+      { count: total, year: period },
+    ),
+    `${t("profile.overview.activeDays")}: ${counts.length.toLocaleString(language)}`,
+    `${t("profile.overview.longestStreak")}: ${t("profile.overview.days", { count: longestStreak })}`,
+  ].join(". ");
 
   return (
     <Paper
@@ -174,49 +199,63 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
                   ),
               )}
             </Group>
-            <Heatmap
-              aria-label={t("profile.overview.activityTitle")}
-              role="img"
-              renderRoot={(props) => (
-                <svg {...props} viewBox={`0 0 ${weeks * 20 + 44} 165`} />
-              )}
-              className="h-auto w-full"
-              startDate={startKey}
-              endDate={endKey}
-              firstDayOfWeek={0}
-              data={data}
-              colors={COLORS}
-              domain={[1, Math.max(COLORS.length, ...counts)]}
-              style={{ "--heatmap-empty-rect-bg": "#222" }}
-              withOutsideDates={false}
-              withTooltip
-              withMonthLabels
-              withWeekdayLabels
-              monthLabels={Array.from({ length: 12 }, (_, month) =>
-                monthFormatter.format(Date.UTC(2024, month, 1)),
-              )}
-              weekdayLabels={Array.from({ length: 7 }, (_, day) =>
-                [1, 3, 5].includes(day)
-                  ? weekdayFormatter.format(Date.UTC(2024, 0, day + 7))
-                  : "",
-              )}
-              weekdaysLabelsWidth={40}
-              monthsLabelsHeight={21}
-              rectSize={16}
-              gap={4}
-              rectRadius={3}
-              classNames={{
-                monthLabel:
-                  "text-[26px] [&:nth-of-type(even)]:hidden sm:text-xs sm:[&:nth-of-type(even)]:inline",
-                weekdayLabel: "hidden sm:inline",
-              }}
-              getTooltipLabel={({ date, value }) =>
-                t("profile.overview.dayActivity", {
-                  date: dateFormatter.format(new Date(date)),
-                  count: value ?? 0,
-                })
-              }
-            />
+            {/* Cells keep a readable minimum size; narrower screens scroll sideways. The grid is
+                a picture, so the summary label carries the numbers the hover tooltip shows. */}
+            <div
+              ref={gridScrollRef}
+              role="region"
+              tabIndex={0}
+              aria-label={activitySummary}
+              className="overflow-x-auto rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+            >
+              <div
+                aria-hidden
+                style={{
+                  minWidth: `${Math.round(gridWidth * MIN_GRID_SCALE)}px`,
+                }}
+              >
+                <Heatmap
+                  renderRoot={(props) => (
+                    <svg {...props} viewBox={`0 0 ${gridWidth} 165`} />
+                  )}
+                  className="h-auto w-full"
+                  startDate={startKey}
+                  endDate={endKey}
+                  firstDayOfWeek={0}
+                  data={data}
+                  colors={COLORS}
+                  domain={[1, Math.max(COLORS.length, ...counts)]}
+                  style={{ "--heatmap-empty-rect-bg": EMPTY_CELL_COLOR }}
+                  withOutsideDates={false}
+                  withTooltip
+                  withMonthLabels
+                  withWeekdayLabels
+                  monthLabels={Array.from({ length: 12 }, (_, month) =>
+                    monthFormatter.format(Date.UTC(2024, month, 1)),
+                  )}
+                  weekdayLabels={Array.from({ length: 7 }, (_, day) =>
+                    [1, 3, 5].includes(day)
+                      ? weekdayFormatter.format(Date.UTC(2024, 0, day + 7))
+                      : "",
+                  )}
+                  weekdaysLabelsWidth={40}
+                  monthsLabelsHeight={21}
+                  rectSize={16}
+                  gap={4}
+                  rectRadius={3}
+                  classNames={{
+                    monthLabel: "text-[15px]",
+                    weekdayLabel: "hidden sm:inline",
+                  }}
+                  getTooltipLabel={({ date, value }) =>
+                    t("profile.overview.dayActivity", {
+                      date: dateFormatter.format(new Date(date)),
+                      count: value ?? 0,
+                    })
+                  }
+                />
+              </div>
+            </div>
             <Group justify="space-between" gap="xs">
               <Text size="xs" c="dimmed">
                 {t("profile.overview.activityHint")}
@@ -225,7 +264,7 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
                 <Text size="xs" c="dimmed">
                   {t("profile.overview.less")}
                 </Text>
-                {["#222", ...COLORS].map((color) => (
+                {[EMPTY_CELL_COLOR, ...COLORS].map((color) => (
                   <Box
                     key={color}
                     className="size-2.5 rounded-sm"

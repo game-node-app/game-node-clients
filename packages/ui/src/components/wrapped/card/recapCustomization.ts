@@ -4,11 +4,11 @@ import type { ProfileMetricsSummaryResponseDto } from "@repo/wrapper/server";
 /** Accent colors the user can pick; `brand` is the GameNode orange. */
 export const RECAP_ACCENTS = {
   brand: RECAP_COLORS.brand,
-  teal: "#2DD4A4",
-  violet: "#8B7CF6",
-  blue: "#4C9AF5",
-  gold: "#F2B83B",
-  pink: "#F0629A",
+  teal: "#2DD4A4", // theme-exempt: recap card accent artwork
+  violet: "#8B7CF6", // theme-exempt: recap card accent artwork
+  blue: "#4C9AF5", // theme-exempt: recap card accent artwork
+  gold: "#F2B83B", // theme-exempt: recap card accent artwork
+  pink: "#F0629A", // theme-exempt: recap card accent artwork
 } as const;
 
 export type RecapAccent = keyof typeof RECAP_ACCENTS;

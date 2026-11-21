@@ -1,7 +1,16 @@
 import { getConnectionName } from "#@/components";
 import { Link } from "#@/util";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { Badge, Box, Button, Group, Image, Stack, Text, Title } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Button,
+  Group,
+  Image,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { OwnUserConnectionDto } from "@repo/wrapper/server";
@@ -60,12 +69,12 @@ const ImporterPlatform = ({ connection }: Props) => {
       wrap="nowrap"
       gap="md"
       className={
-        "w-full max-w-xl rounded-xl border border-solid border-[#2a2a2a] bg-[#141414] p-4"
+        "w-full max-w-xl rounded-xl border border-solid border-line bg-paper-7 p-4"
       }
     >
       <Box
         className={
-          "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#1f1f1f]"
+          "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-paper-2"
         }
       >
         <Image

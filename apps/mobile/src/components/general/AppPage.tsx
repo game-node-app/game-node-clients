@@ -19,6 +19,7 @@ import {
   UserAvatar,
   useUserId,
 } from "@repo/ui";
+import { IconMenu2 } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import React, { PropsWithChildren } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -73,45 +74,41 @@ const AppPage = ({
           }
         >
           <IonButtons slot={"start"}>
-            {withMenuButton && signedOut ? (
+            {withMenuButton ? (
               <IonButton
-                fill={"solid"}
-                color={"primary"}
-                shape={"round"}
-                className={"ion-margin-start"}
-                style={{
-                  "--padding-start": "18px",
-                  "--padding-end": "18px",
-                  "--border-radius": "9999px",
-                  "--box-shadow": "none",
-                  height: "40px",
-                  minWidth: "88px",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  letterSpacing: "0.01em",
-                  textTransform: "none",
-                }}
-                onClick={() => {
-                  ionRouter.push("/m/auth", "forward");
-                }}
-              >
-                {t("actions.loginCta")}
-              </IonButton>
-            ) : withMenuButton ? (
-              <IonButton
+                aria-label={t("navigation.menu")}
                 onClick={() => {
                   openMainMenu().catch(console.error);
                 }}
               >
-                <UserAvatar userId={userId} size={32} radius={"xl"} />
+                {signedOut ? (
+                  <IconMenu2 size={26} className={"text-emphasis"} />
+                ) : (
+                  <UserAvatar userId={userId} size={32} radius={"xl"} />
+                )}
               </IonButton>
             ) : (
               <IonBackButton />
             )}
           </IonButtons>
           {title != undefined && <IonTitle>{title}</IonTitle>}
-          {(withSearch || endButtons) && (
+          {(withSearch || endButtons || (withMenuButton && signedOut)) && (
             <IonButtons slot={"end"}>
+              {withMenuButton && signedOut && (
+                <IonButton
+                  fill={"solid"}
+                  color={"primary"}
+                  shape={"round"}
+                  className={
+                    "h-8 text-sm font-bold normal-case tracking-[0.01em] [--border-radius:9999px] [--box-shadow:none] [--padding-end:14px] [--padding-start:14px]"
+                  }
+                  onClick={() => {
+                    ionRouter.push("/m/auth", "forward");
+                  }}
+                >
+                  {t("actions.loginCta")}
+                </IonButton>
+              )}
               {endButtons}
               {withSearch && <HeaderSearchButton />}
             </IonButtons>

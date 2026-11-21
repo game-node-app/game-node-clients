@@ -29,7 +29,7 @@ export const DAILY_RANKING_COLUMNS = {
   mode: "@[720px]:grid-cols-[64px_minmax(0,1fr)_80px_90px_100px_100px_70px]",
 } as const;
 
-const MUTED = "text-[#7A7A7A]";
+const MUTED = "text-dimmed";
 
 const Dash = () => <span className={MUTED}>–</span>;
 
@@ -121,14 +121,26 @@ const DailyRankingRow = ({ row, mode, isViewer }: Props) => {
 
   const cells: ReactNode[] = mode
     ? [
-        <Text key={"wins"} component={"span"} fz={13} fw={500} c={"#ADADAD"}>
+        <Text
+          key={"wins"}
+          component={"span"}
+          fz={13}
+          fw={500}
+          c={"var(--gn-dimmed-2)"}
+        >
           {row.wins == undefined ? (
             <Dash />
           ) : (
             formatDailyCount(row.wins, language)
           )}
         </Text>,
-        <Text key={"avg"} component={"span"} fz={13} fw={500} c={"#ADADAD"}>
+        <Text
+          key={"avg"}
+          component={"span"}
+          fz={13}
+          fw={500}
+          c={"var(--gn-dimmed-2)"}
+        >
           {points(row.averageAttempts)}
         </Text>,
         <Streak key={"streak"} value={streak} />,
@@ -148,7 +160,7 @@ const DailyRankingRow = ({ row, mode, isViewer }: Props) => {
                 className={"inline-flex items-center gap-1"}
                 title={t(`daily.modes.${dailyMode}.name`)}
               >
-                <Icon size={13} className={"text-[#ADADAD]"} aria-hidden />
+                <Icon size={13} className={"text-dimmed-2"} aria-hidden />
                 <Text
                   component={"span"}
                   fz={12}
@@ -206,7 +218,7 @@ const DailyRankingRow = ({ row, mode, isViewer }: Props) => {
         component={"span"}
         fz={13}
         fw={500}
-        c={"#ADADAD"}
+        c={"var(--gn-dimmed-2)"}
         className={"hidden text-right @[720px]:block"}
       >
         {winRate}

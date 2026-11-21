@@ -34,7 +34,6 @@ import { pickBackdropImage } from "#@/components/wrapped/card/recapBackdropImage
 import { getPlatformShortName } from "#@/components/wrapped/util/recapPlatform";
 import { useTranslation } from "@repo/locales";
 
-const GROUND = "15, 14, 13";
 const COVER_SHADOW = "0 28px 56px rgba(0, 0, 0, 0.5)";
 const THUMB_SHADOW = "0 14px 32px rgba(0, 0, 0, 0.45)";
 
@@ -168,7 +167,7 @@ export function RecapPosterCard({
           <div
             style={{
               ...at(0, 0, 1080, 1300),
-              background: `linear-gradient(to bottom, rgba(${GROUND}, 0.1) 0%, rgba(${GROUND}, 0.45) 50%, rgba(${GROUND}, 1) 100%)`,
+              background: `linear-gradient(to bottom, ${RECAP_COLORS.ground}1A 0%, ${RECAP_COLORS.ground}73 50%, ${RECAP_COLORS.ground} 100%)`,
             }}
           />
         </>
@@ -184,7 +183,7 @@ export function RecapPosterCard({
             padding: "12px 22px",
             border: `2px solid ${RECAP_COLORS.cream}`,
             borderRadius: 999,
-            background: `rgba(${GROUND}, 0.6)`,
+            background: `${RECAP_COLORS.ground}99`,
             whiteSpace: "nowrap",
           }}
         >

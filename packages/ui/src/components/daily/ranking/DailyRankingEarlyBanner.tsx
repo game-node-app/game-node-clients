@@ -29,7 +29,7 @@ const DailyRankingEarlyBanner = ({
             { count: totalPlayers },
           )}
         </Text>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-dimmed-2)"}>
           {t("daily.ranking.early.description")}
         </Text>
       </div>
@@ -40,7 +40,7 @@ const DailyRankingEarlyBanner = ({
         h={40}
         px={16}
         fz={14}
-        className={"!text-[#0B0B0B]"}
+        className={"!text-accent-contrast"}
         rightSection={<IconArrowRight size={16} />}
       >
         {t("daily.ranking.early.action")}

@@ -65,9 +65,9 @@ const SegmentGroup = ({
             : "px-3 text-[13px]",
           option.active
             ? variant === "accent"
-              ? "border-transparent bg-brand-5 text-[#0B0B0B]"
+              ? "border-transparent bg-brand-5 text-accent-contrast"
               : "border-line bg-nav-raised font-semibold text-white"
-            : "border-transparent bg-transparent text-[#ADADAD] hover:text-white",
+            : "border-transparent bg-transparent text-dimmed-2 hover:text-white",
           variant === "raised" && !option.active && "font-medium",
         )}
       >
@@ -96,8 +96,8 @@ const ChipRow = ({ label, options }: { label: string; options: Option[] }) => (
         className={cn(
           "flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full border border-solid px-3 py-2 font-[inherit] text-[13px] font-semibold disabled:cursor-not-allowed disabled:opacity-50",
           option.active
-            ? "border-brand-5 bg-brand-5 text-[#0B0B0B]"
-            : "border-line bg-paper-8 text-[#ADADAD]",
+            ? "border-brand-5 bg-brand-5 text-accent-contrast"
+            : "border-line bg-paper-8 text-dimmed-2",
         )}
       >
         {option.icon}

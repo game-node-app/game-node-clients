@@ -13,7 +13,13 @@ export const HERO_PROFILE = {
     premiumAsset("f2027.jpg"),
     premiumAsset("7f694.jpg"),
   ],
-  chipColors: ["#9747ff", "var(--gn-brand)", "#3dd68c", "#2f9bff"],
+  // theme-exempt: demo accent chips are illustrative profile artwork
+  chipColors: [
+    "var(--gn-premium)",
+    "var(--gn-brand)",
+    "var(--gn-status-success-text)",
+    "#2f9bff",
+  ],
 } as const;
 
 export const EXTRAS_ITEMS = [
@@ -35,9 +41,9 @@ export const ACCENT_PROFILES = [
     username: "ThePrado",
     titleKey: "completionist",
     avatar: premiumAsset("9a908.jpg"),
-    color: "#9747ff",
-    tint: "rgba(151, 71, 255, 0.15)",
-    border: "rgba(151, 71, 255, 0.45)",
+    color: "var(--gn-premium)",
+    tint: "color-mix(in srgb, var(--gn-premium) 15%, transparent)",
+    border: "color-mix(in srgb, var(--gn-premium) 45%, transparent)",
     desktopOnly: false,
   },
   {
@@ -45,9 +51,10 @@ export const ACCENT_PROFILES = [
     username: "nina.cozy",
     titleKey: "cozy",
     avatar: premiumAsset("c393a.jpg"),
-    color: "#3dd68c",
-    tint: "rgba(61, 214, 140, 0.15)",
-    border: "rgba(61, 214, 140, 0.45)",
+    color: "var(--gn-status-success-text)",
+    tint: "color-mix(in srgb, var(--gn-status-success-text) 15%, transparent)",
+    border:
+      "color-mix(in srgb, var(--gn-status-success-text) 45%, transparent)",
     desktopOnly: false,
   },
   {
@@ -55,22 +62,24 @@ export const ACCENT_PROFILES = [
     username: "rafa_speed",
     titleKey: "speedrunner",
     avatar: premiumAsset("16ccc.jpg"),
+    // theme-exempt: demo accent option is an illustrative blue swatch
     color: "#2f9bff",
-    tint: "rgba(47, 155, 255, 0.15)",
-    border: "rgba(47, 155, 255, 0.45)",
+    tint: "rgba(47, 155, 255, 0.15)", // theme-exempt: tint of the blue demo accent swatch
+    border: "rgba(47, 155, 255, 0.45)", // theme-exempt: border of the blue demo accent swatch
     desktopOnly: true,
   },
 ] as const;
 
 export const ACCENT_SWATCHES = [
-  "#9747ff",
+  "var(--gn-premium)",
   "var(--gn-brand)",
-  "#3dd68c",
-  "#2f9bff",
-  "#ffc53d",
-  "#ff4fa3",
+  "var(--gn-status-success-text)",
+  "#2f9bff", // theme-exempt: selectable accent swatch is demo artwork
+  "#ffc53d", // theme-exempt: selectable accent swatch is demo artwork
+  "#ff4fa3", // theme-exempt: selectable accent swatch is demo artwork
 ] as const;
 
+// theme-exempt: displayed label of the default accent hex in the demo pill
 export const ACCENT_DEFAULT_HEX = "#9747FF";
 
 export const BADGE_TITLE_OPTIONS = [

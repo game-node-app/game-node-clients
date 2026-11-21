@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/general/AppPage.tsx";
+import { SignedOutTabPlaceholder } from "@/components/general/SignedOutTabPlaceholder.tsx";
 import { useTranslation } from "@repo/locales";
 import LibraryViewFab from "@/components/library/fab/LibraryViewFab";
 import { LibraryViewRefresher } from "@/components/library/LibraryViewRefresher.tsx";
@@ -9,7 +10,6 @@ import {
   useUserId,
   useUserProfile,
 } from "@repo/ui";
-import { SessionAuth } from "@repo/ui";
 
 interface Props {
   userId?: string;
@@ -35,7 +35,8 @@ const LibraryPage = (props: Props) => {
         fixedSlotPlacement: "before",
       }}
     >
-      <SessionAuth
+      <SignedOutTabPlaceholder
+        screen={"library"}
         requireAuth={props.userId == undefined || props.userId === "undefined"}
       >
         <LibraryViewRefresher userId={targetUserId!} />
@@ -43,7 +44,7 @@ const LibraryPage = (props: Props) => {
         <LibraryViewLayout userId={targetUserId}>
           <LibraryView libraryUserId={targetUserId!} />
         </LibraryViewLayout>
-      </SessionAuth>
+      </SignedOutTabPlaceholder>
     </AppPage>
   );
 };

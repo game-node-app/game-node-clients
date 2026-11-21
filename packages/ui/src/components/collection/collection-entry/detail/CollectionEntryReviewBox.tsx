@@ -58,7 +58,9 @@ const CollectionEntryReviewBox = ({
       {isLoading && <CenteredLoading />}
       {reviewQuery.data && (
         <Modal
-          title={`${profileQuery.data?.username}'s review`}
+          title={t("collection.messages.reviewTitle", {
+            username: profileQuery.data?.username ?? "",
+          })}
           opened={reviewOpened}
           onClose={reviewOpenedUtils.close}
           size={"xl"}

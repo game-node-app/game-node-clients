@@ -56,7 +56,7 @@ const FeatsEvents = ({
           <Title order={2} fz={18} fw={600} className={"text-white"}>
             {t("achievements.events.title")}
           </Title>
-          <Text fz={14} lh={"normal"} className={"text-[#8c8c8c]"}>
+          <Text fz={14} lh={"normal"} className={"text-dimmed-1"}>
             {t("achievements.events.subtitle")}
           </Text>
         </Stack>
@@ -65,7 +65,7 @@ const FeatsEvents = ({
           <UnstyledButton
             onClick={openPastEvents}
             className={
-              "flex shrink-0 items-center gap-1.5 text-sm text-[#d0d0d0] hover:text-white"
+              "flex shrink-0 items-center gap-1.5 text-sm text-emphasis hover:text-white"
             }
           >
             {t("achievements.events.pastEvents")}
@@ -99,11 +99,11 @@ const FeatsEvents = ({
                   <Text fz={17} fw={600} lh={"normal"} className={"text-white"}>
                     {group.event.name}
                   </Text>
-                  <Text fz={14} lh={"normal"} className={"text-[#a6a6a6]"}>
+                  <Text fz={14} lh={"normal"} className={"text-dimmed-2"}>
                     {group.event.description}
                   </Text>
                   <Group gap={8} mt={4} wrap={"wrap"}>
-                    <Text fz={13} lh={"normal"} className={"text-[#8c8c8c]"}>
+                    <Text fz={13} lh={"normal"} className={"text-dimmed-1"}>
                       {group.isPast
                         ? t("achievements.events.ended")
                         : t("achievements.events.endsAt", {

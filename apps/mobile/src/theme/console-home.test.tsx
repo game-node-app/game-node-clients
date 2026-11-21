@@ -143,10 +143,10 @@ describe("console home", () => {
     render(<ConsoleHome />, { wrapper });
 
     expect(
-      await screen.findByRole("heading", { name: "Trending Games" }),
+      await screen.findByRole("heading", { name: "Trending games" }),
     ).toBeTruthy();
     expect(
-      screen.queryByRole("heading", { name: "Recently Played" }),
+      screen.queryByRole("heading", { name: "Recently played" }),
     ).toBeNull();
     expect(
       screen.queryByRole("heading", {
@@ -162,7 +162,7 @@ describe("console home", () => {
     render(<ConsoleHome />, { wrapper });
 
     expect(
-      await screen.findByRole("heading", { name: "Recently Played" }),
+      await screen.findByRole("heading", { name: "Recently played" }),
     ).toBeTruthy();
     expect(
       screen.getByRole("heading", { name: "Based on your played games" }),

@@ -43,21 +43,22 @@ const MobileGameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
         className={"absolute inset-0"}
         style={{
           background:
-            "linear-gradient(to bottom, rgba(11,11,11,0.55) 0%, rgba(11,11,11,0) 35%, #0b0b0b 100%)",
+            "linear-gradient(to bottom, color-mix(in srgb, var(--gn-scrim) 55%, transparent) 0%, transparent 35%, var(--gn-body) 100%)",
         }}
       />
       <Stack className={"relative gap-3 pb-2"}>
         <Center className={"w-full"}>
           <Box
             className={"w-44 rounded-lg overflow-hidden"}
-            style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.6)" }}
+            style={{
+              boxShadow:
+                "0 16px 40px color-mix(in srgb, var(--gn-scrim) 60%, transparent)",
+            }}
           >
             <GameFigureImage game={game} imageSize={ImageSize.COVER_BIG_2X} />
           </Box>
         </Center>
-        <Text
-          className={"text-center text-white font-semibold text-lg px-4"}
-        >
+        <Text className={"text-center text-white font-semibold text-lg px-4"}>
           {game.name}
         </Text>
       </Stack>

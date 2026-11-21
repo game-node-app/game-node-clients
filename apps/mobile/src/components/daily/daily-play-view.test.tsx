@@ -83,7 +83,7 @@ describe("DailyPlayView", () => {
     expect(
       screen.getByRole("navigation", { name: "GameNode Daily" }),
     ).toBeTruthy();
-    expect(screen.getByText("GameNode Daily", { selector: "h1" })).toBeTruthy();
+    expect(screen.getByText("daily.title", { selector: "h1" })).toBeTruthy();
     expect(
       screen.getByText("daily.modes.cover.name", { selector: "h1 + p" }),
     ).toBeTruthy();

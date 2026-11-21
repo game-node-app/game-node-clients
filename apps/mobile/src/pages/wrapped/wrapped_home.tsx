@@ -1,9 +1,10 @@
 import { AppPage } from "@/components/general/AppPage";
+import { SignedOutTabPlaceholder } from "@/components/general/SignedOutTabPlaceholder";
 import { blobToBase64 } from "@/util/imageUtils";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Share } from "@capacitor/share";
 import { useTranslation } from "@repo/locales";
-import { SessionAuth, WrappedRecapScreen, type RecapPeriod } from "@repo/ui";
+import { WrappedRecapScreen, type RecapPeriod } from "@repo/ui";
 import { useLocation } from "react-router-dom";
 
 const RECAP_PERIODS: RecapPeriod[] = ["week", "month", "year"];
@@ -16,7 +17,7 @@ const WrappedHomePage = () => {
 
   return (
     <AppPage title={t("navigation.wrapped")} withMenuButton>
-      <SessionAuth>
+      <SignedOutTabPlaceholder screen={"wrapped"}>
         <WrappedRecapScreen
           initialPeriod={initialPeriod}
           onShare={async (file) => {
@@ -35,7 +36,7 @@ const WrappedHomePage = () => {
             });
           }}
         />
-      </SessionAuth>
+      </SignedOutTabPlaceholder>
     </AppPage>
   );
 };

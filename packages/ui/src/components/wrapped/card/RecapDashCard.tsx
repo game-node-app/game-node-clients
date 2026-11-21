@@ -69,8 +69,8 @@ function StatTile({
       style={{
         ...at(x, STATS_TOP, width, STATS_HEIGHT),
         borderRadius: 28,
-        background: "rgba(28, 26, 24, 0.92)",
-        border: "2px solid rgba(244, 239, 232, 0.08)",
+        background: `${RECAP_COLORS.panel}EB`,
+        border: `2px solid ${RECAP_COLORS.cream}14`,
         padding: `22px ${STAT_PADDING_X - 2}px`,
       }}
       className={"flex flex-col justify-between overflow-hidden"}
@@ -176,8 +176,7 @@ export function RecapDashCard({
           <div
             style={{
               ...at(0, 0, 1080, 1250),
-              background:
-                "linear-gradient(to bottom, rgba(15,14,13,0.1) 0%, rgba(15,14,13,0.45) 50%, rgba(15,14,13,1) 100%)",
+              background: `linear-gradient(to bottom, ${RECAP_COLORS.ground}1A 0%, ${RECAP_COLORS.ground}73 50%, ${RECAP_COLORS.ground} 100%)`,
             }}
           />
         </>
@@ -194,9 +193,9 @@ export function RecapDashCard({
           right: 60,
           boxSizing: "content-box",
           padding: "12px 22px",
-          border: "2px solid rgba(244, 239, 232, 0.2)",
+          border: `2px solid ${RECAP_COLORS.cream}33`,
           borderRadius: 999,
-          background: "rgba(15, 14, 13, 0.6)",
+          background: `${RECAP_COLORS.ground}99`,
         }}
       >
         <span
@@ -212,7 +211,7 @@ export function RecapDashCard({
       <div
         style={{
           ...at(56, 214),
-          ...displayStyle(88, "rgba(244, 239, 232, 0.7)"),
+          ...displayStyle(88, `${RECAP_COLORS.cream}B3`),
           letterSpacing: "-0.03em",
           whiteSpace: "nowrap",
         }}
@@ -264,15 +263,14 @@ export function RecapDashCard({
                 position: "absolute",
                 left: x,
                 top: COVERS_TOP,
-                boxShadow: "0 24px 48px rgba(0, 0, 0, 0.6)",
+                boxShadow: "0 24px 48px rgba(0, 0, 0, 0.6)", // theme-exempt: recap card artwork shadow
               }}
             />
             <div
               style={{
                 ...at(x, COVERS_TOP + 180, COVER_WIDTH, 240),
                 borderRadius: COVER_RADIUS,
-                background:
-                  "linear-gradient(to bottom, rgba(11,10,9,0) 0%, rgba(11,10,9,0.78) 100%)",
+                background: `linear-gradient(to bottom, ${RECAP_COLORS.ink}00 0%, ${RECAP_COLORS.ink}C7 100%)`,
               }}
             />
             <div
@@ -280,7 +278,7 @@ export function RecapDashCard({
                 ...at(x + 10, 1186),
                 ...displayStyle(150, RECAP_COLORS.cream),
                 letterSpacing: "-0.04em",
-                textShadow: "0 4px 16px rgba(0, 0, 0, 0.6)",
+                textShadow: "0 4px 16px rgba(0, 0, 0, 0.6)", // theme-exempt: recap card artwork shadow
               }}
             >
               {index + 1}

@@ -75,7 +75,7 @@ const DailyHubLinkCard = ({
       <Text component={"span"} fz={16} fw={600} c={"white"}>
         {title}
       </Text>
-      <Text component={"span"} fz={13} c={"#ADADAD"}>
+      <Text component={"span"} fz={13} c={"var(--gn-dimmed-2)"}>
         {description}
       </Text>
     </span>

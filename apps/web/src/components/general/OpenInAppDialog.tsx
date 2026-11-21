@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useOnMobile from "@/components/general/hooks/useOnMobile";
 import { useRouter } from "next/router";
-import { Anchor, Button, Divider, Drawer, Image, Stack } from "@mantine/core";
-import {
-  useDisclosure,
-  useIsFirstRender,
-  useSessionStorage,
-} from "@mantine/hooks";
+import { ActionIcon, Anchor, Button, Group, Image, Paper } from "@mantine/core";
+import { useLocalStorage, useMounted } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
+import { useAppExperience } from "@repo/ui";
+import { IconX } from "@tabler/icons-react";
 
 const EXCLUDED_ROUTES = [
   "/",
@@ -20,90 +18,106 @@ const EXCLUDED_ROUTES = [
   "/connections/callback/[type]",
 ];
 
+const ANDROID_PACKAGE = "app.gamenode";
+const GOOGLE_PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}&pcampaignid=web_share`;
+/** Height of the console experience's fixed bottom navigation. */
+const CONSOLE_BOTTOM_NAV_HEIGHT = 60;
+
 /**
- * Component that shows an 'open in app' dialog for mobile users.
+ * Builds an Android intent URL that opens the current page in the app (the app
+ * claims https://gamenode.app links) and falls back to Google Play when the app
+ * is not installed.
+ */
+function getAndroidIntentUrl(): string {
+  const { protocol, host, pathname, search, hash } = window.location;
+  return `intent://${host}${pathname}${search}${hash}#Intent;scheme=${protocol.replace(":", "")};package=${ANDROID_PACKAGE};S.browser_fallback_url=${encodeURIComponent(GOOGLE_PLAY_URL)};end`;
+}
+
+/**
+ * Compact banner that suggests the Android app to mobile visitors. Dismissal is
+ * remembered across sessions.
  * @constructor
  */
 const OpenInAppDialog = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const onMobile = useOnMobile();
+  const experience = useAppExperience();
 
   /**
-   * Necessary because 'useOnMobile' returns true by default for SSR
+   * 'useOnMobile' returns true by default for SSR, so nothing is shown until
+   * the component mounted and the media query was resolved on the client.
    */
-  const isFirstRender = useIsFirstRender();
+  const mounted = useMounted();
 
-  const [hasBeenClosed, setHasBeenClosed] = useSessionStorage({
+  const [dismissed, setDismissed] = useLocalStorage({
     key: "open-in-app-dialog-closed",
     defaultValue: false,
-    getInitialValueInEffect: false,
+    getInitialValueInEffect: true,
   });
 
-  const [opened, { close, open }] = useDisclosure();
+  if (
+    !mounted ||
+    !onMobile ||
+    dismissed ||
+    EXCLUDED_ROUTES.includes(router.pathname)
+  ) {
+    return null;
+  }
 
-  useEffect(() => {
-    if (
-      !isFirstRender &&
-      onMobile &&
-      !EXCLUDED_ROUTES.includes(router.pathname) &&
-      !hasBeenClosed
-    ) {
-      open();
-    }
-  }, [
-    hasBeenClosed,
-    isFirstRender,
-    onMobile,
-    open,
-    router.pathname,
-    setHasBeenClosed,
-  ]);
+  const isAndroid = /Android/i.test(navigator.userAgent);
 
   return (
-    <Drawer
-      opened={opened}
-      onClose={() => {
-        close();
-        setHasBeenClosed(true);
-      }}
-      withCloseButton
-      size="30vh"
+    <Paper
+      component="aside"
+      aria-label={t("app.betterInApp")}
+      withBorder
+      shadow="md"
       radius="md"
-      position={"bottom"}
-      title={t("app.betterInApp")}
+      p="sm"
+      className="fixed inset-x-3 z-[150]"
+      style={{
+        bottom: `calc(12px + env(safe-area-inset-bottom) + ${
+          experience === "console" ? CONSOLE_BOTTOM_NAV_HEIGHT : 0
+        }px)`,
+      }}
     >
-      <Stack className={"w-full items-center"}>
-        <Anchor
-          href={
-            typeof window != "undefined"
-              ? window.location.href
-              : process.env.NEXT_PUBLIC_DOMAIN_WEBSITE
-          }
-          onClick={() => {
-            setHasBeenClosed(true);
-          }}
+      <Group justify="space-between" wrap="nowrap" align="flex-start" gap="xs">
+        <div className="text-sm font-semibold leading-snug pt-2">
+          {t("app.betterInApp")}
+        </div>
+        <ActionIcon
+          variant="subtle"
+          color="gray"
+          size={40}
+          aria-label={t("app.closeBanner")}
+          onClick={() => setDismissed(true)}
+          className="-mt-1 -mr-1 shrink-0"
         >
-          <Button size={"md"}>{t("app.openInApp")}</Button>
-        </Anchor>
-        <Divider
-          label={t("common.or")}
-          orientation={"horizontal"}
-          className={"w-full"}
-        />
-        <Anchor
-          className={"w-40"}
-          href={
-            "https://play.google.com/store/apps/details?id=app.gamenode&pcampaignid=web_share"
-          }
-        >
+          <IconX size={18} />
+        </ActionIcon>
+      </Group>
+      <Group gap="sm" wrap="nowrap" mt={4}>
+        {isAndroid && (
+          <Button
+            component="a"
+            href={getAndroidIntentUrl()}
+            h={40}
+            onClick={() => setDismissed(true)}
+          >
+            {t("app.openInApp")}
+          </Button>
+        )}
+        <Anchor href={GOOGLE_PLAY_URL} className="block h-10 shrink-0">
           <Image
             src={"/img/google_play_badge_english.png"}
-            alt={"Get it on Google Play badge"}
+            alt={t("app.googlePlayAlt")}
+            h={40}
+            w="auto"
           />
         </Anchor>
-      </Stack>
-    </Drawer>
+      </Group>
+    </Paper>
   );
 };
 

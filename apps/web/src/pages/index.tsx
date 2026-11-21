@@ -65,10 +65,10 @@ const Home = () => {
           <Title order={1} className={styles.headline}>
             {t("landing.presentation.heroTitle")}
           </Title>
-          <Text size="xl" fw={700} maw={527} mt={30}>
+          <Text size="xl" fw={500} maw={527} mt={30}>
             {t("landing.presentation.heroDescription")}
           </Text>
-          <Button component={Link} href="/home" size="lg" radius={8} mt={36}>
+          <Button component={Link} href="/auth" size="lg" radius={8} mt={36}>
             {t("landing.presentation.start")}
           </Button>
           <Box className={styles.mockups}>
@@ -144,9 +144,6 @@ const Home = () => {
                 align="center"
                 justify="center"
               >
-                <Text fz={64} fw={700} lh={1.4}>
-                  4.8
-                </Text>
                 <img src={asset("86dc6.svg")} alt="" loading="lazy" />
               </Stack>
               <Title order={3}>{t("landing.presentation.reviewsTitle")}</Title>
@@ -260,8 +257,8 @@ const Home = () => {
               ["Xbox", "24331.svg"],
               ["PlayStation", "1255f.svg"],
               ["Epic Games", "317b0.svg"],
+              ["Nintendo", "/img/about/icon-nintendo.svg"],
               ["GOG", "b5a83.svg"],
-              ["Ubisoft", "7fdb2.svg"],
             ].map(([name, file], i) => (
               <Box
                 className={styles.platform}
@@ -272,7 +269,11 @@ const Home = () => {
                 }}
               >
                 <Box className={styles.platformIcon}>
-                  <img src={asset(file!)} alt="" loading="lazy" />
+                  <img
+                    src={file!.startsWith("/") ? file : asset(file!)}
+                    alt=""
+                    loading="lazy"
+                  />
                 </Box>
                 <Text size="sm" mt={9}>
                   {name}

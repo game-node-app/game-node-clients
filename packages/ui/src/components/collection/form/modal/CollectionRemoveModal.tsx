@@ -3,6 +3,7 @@ import { useCollectionEntriesForCollectionId } from "#@/components/collection/co
 import { useCollection } from "#@/components/collection/hooks/useCollection";
 import { useUserLibrary } from "#@/components/library/hooks/useUserLibrary";
 import { Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 import { BaseModalProps } from "#@/util/types/modal-props";
 import { Button, Group, Stack, Text } from "@mantine/core";
 import { CollectionsService } from "@repo/wrapper/server";
@@ -13,6 +14,7 @@ interface Props extends BaseModalProps {
 }
 
 const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   useQueryClient();
   const libraryQuery = useUserLibrary(userId);
@@ -37,21 +39,21 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Remove collection"}
+      title={t("collection.remove")}
       centered
     >
       <Stack w={"100%"} justify={"center"}>
         <Text fz={"xl"} className={"text-center"}>
-          Are you sure you want to remove your &#34;{collectionQuery.data?.name}
-          &#34; collection?
+          {t("collection.messages.removeConfirm", {
+            name: collectionQuery.data?.name ?? "",
+          })}
         </Text>
         <Text fw={"bold"} className={"text-center"}>
-          The games in this collection will remain intact in your library, and
-          you may add them to other collections later.
+          {t("collection.messages.removeNote")}
         </Text>
         <Group wrap={"nowrap"} justify={"center"}>
           <Button onClick={onClose} color={"blue"}>
-            Go back
+            {t("actions.goBack")}
           </Button>
           <Button
             onClick={() => {
@@ -60,7 +62,7 @@ const CollectionRemoveModal = ({ collectionId, opened, onClose }: Props) => {
             }}
             color={"red"}
           >
-            Confirm
+            {t("actions.confirm")}
           </Button>
         </Group>
       </Stack>

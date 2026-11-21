@@ -220,7 +220,7 @@ describe("console explore", () => {
     render(<ConsoleExplore />, { wrapper });
 
     expect(
-      screen.getByRole("heading", { name: "Trending Games" }),
+      screen.getByRole("heading", { name: "Trending games" }),
     ).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Adventure" })).toBeTruthy();
 
@@ -286,7 +286,7 @@ describe("console explore", () => {
     expect(screen.getByText("filters-slot")).toBeTruthy();
     expect(screen.getByText("results-slot")).toBeTruthy();
     expect(
-      screen.queryByRole("heading", { name: "Trending Games" }),
+      screen.queryByRole("heading", { name: "Trending games" }),
     ).toBeNull();
     expect(document.querySelector("[data-console-top-rated]")).toBeNull();
     expect(state.trendingCalls).toHaveLength(0);

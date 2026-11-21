@@ -9,6 +9,7 @@ import {
   Text,
   ThemeIcon,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
@@ -119,17 +120,19 @@ const DailyModeRow = ({ puzzle, result }: ModeRowProps) => {
           {status}
         </Text>
       </Stack>
-      <ActionIcon
-        component={Link}
-        href={`/daily/${puzzle.mode}/archive`}
-        variant={"default"}
-        size={36}
-        radius={8}
-        className={"relative z-10"}
-        aria-label={t("daily.archive.title", { mode: name })}
-      >
-        <IconCalendar size={16} />
-      </ActionIcon>
+      <Tooltip label={t("daily.archive.pastDays")}>
+        <ActionIcon
+          component={Link}
+          href={`/daily/${puzzle.mode}/archive`}
+          variant={"default"}
+          size={36}
+          radius={8}
+          className={"relative z-10"}
+          aria-label={t("daily.archive.title", { mode: name })}
+        >
+          <IconCalendar size={16} />
+        </ActionIcon>
+      </Tooltip>
     </Paper>
   );
 };
@@ -155,7 +158,7 @@ const DailyHomeView = () => {
     <Group className={"justify-between items-end flex-nowrap"}>
       <Stack className={"gap-1.5"}>
         <Title order={1} fz={{ base: 22, sm: 36 }}>
-          GameNode Daily
+          {t("daily.title")}
         </Title>
         <Text fz={15} c={"dimmed"} visibleFrom={"sm"}>
           {t("daily.subtitle")}
@@ -171,17 +174,19 @@ const DailyHomeView = () => {
         >
           {t("daily.ranking.button")}
         </Button>
-        <ActionIcon
-          component={Link}
-          href={"/daily/ranking"}
-          variant={"subtle"}
-          color={"gray"}
-          size={"lg"}
-          hiddenFrom={"sm"}
-          aria-label={t("daily.ranking.button")}
-        >
-          <IconTrophy size={20} />
-        </ActionIcon>
+        <Tooltip label={t("daily.ranking.button")}>
+          <ActionIcon
+            component={Link}
+            href={"/daily/ranking"}
+            variant={"subtle"}
+            color={"gray"}
+            size={"lg"}
+            hiddenFrom={"sm"}
+            aria-label={t("daily.ranking.button")}
+          >
+            <IconTrophy size={20} />
+          </ActionIcon>
+        </Tooltip>
         <Button
           variant={"default"}
           leftSection={<IconHelp size={16} />}
@@ -190,16 +195,18 @@ const DailyHomeView = () => {
         >
           {t("daily.howToPlay.button")}
         </Button>
-        <ActionIcon
-          variant={"subtle"}
-          color={"gray"}
-          size={"lg"}
-          onClick={howToPlay.open}
-          hiddenFrom={"sm"}
-          aria-label={t("daily.howToPlay.button")}
-        >
-          <IconHelp size={20} />
-        </ActionIcon>
+        <Tooltip label={t("daily.howToPlay.button")}>
+          <ActionIcon
+            variant={"subtle"}
+            color={"gray"}
+            size={"lg"}
+            onClick={howToPlay.open}
+            hiddenFrom={"sm"}
+            aria-label={t("daily.howToPlay.button")}
+          >
+            <IconHelp size={20} />
+          </ActionIcon>
+        </Tooltip>
         <Button
           component={Link}
           href={ARCHIVE_HREF}
@@ -209,17 +216,19 @@ const DailyHomeView = () => {
         >
           {t("daily.archive.link")}
         </Button>
-        <ActionIcon
-          component={Link}
-          href={ARCHIVE_HREF}
-          variant={"subtle"}
-          color={"gray"}
-          size={"lg"}
-          hiddenFrom={"sm"}
-          aria-label={t("daily.archive.link")}
-        >
-          <IconCalendar size={20} />
-        </ActionIcon>
+        <Tooltip label={t("daily.archive.pastDays")}>
+          <ActionIcon
+            component={Link}
+            href={ARCHIVE_HREF}
+            variant={"subtle"}
+            color={"gray"}
+            size={"lg"}
+            hiddenFrom={"sm"}
+            aria-label={t("daily.archive.pastDays")}
+          >
+            <IconCalendar size={20} />
+          </ActionIcon>
+        </Tooltip>
       </Group>
     </Group>
   );

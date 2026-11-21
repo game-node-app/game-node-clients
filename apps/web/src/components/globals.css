@@ -38,3 +38,40 @@
     --gn-font: var(--gn-font-roboto, Roboto, Roboto Fallback, sans-serif);
     --mantine-font-family: var(--gn-font);
 }
+
+/*
+ * Typographic defaults: balanced headings, no widows in paragraphs.
+ */
+h1, h2, h3 {
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+/*
+ * Browser surfaces, themed from the active palette. Mantine's placeholder is dark-3, which
+ * is 2.5:1 on input backgrounds; the dimmed-2 token clears 4.5:1.
+ */
+:root[data-theme][data-mantine-color-scheme],
+:root:not([data-theme]) {
+    --mantine-color-placeholder: var(--gn-dimmed-2);
+}
+
+::selection {
+    background: color-mix(in srgb, var(--gn-brand) 45%, transparent);
+    color: var(--gn-text);
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+    caret-color: var(--gn-brand);
+}
+
+/* Only fills the gap for controls Mantine does not ring itself (links, raw buttons, tabs). */
+:where(a, button, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--gn-focus);
+    outline-offset: 2px;
+}

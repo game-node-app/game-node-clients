@@ -6,7 +6,7 @@ import { GameInfoPlatforms } from "#@/components/game/info/GameInfoPlatforms";
 import { GameInfoScore } from "#@/components/game/info/GameInfoScore";
 import { getLocalizedFirstReleaseDate } from "#@/components/game/util/getLocalizedFirstReleaseDate";
 import { DetailsBox } from "#@/components/general/DetailsBox";
-import { SimpleGrid, Text } from "@mantine/core";
+import { Box, SimpleGrid, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { Game } from "@repo/wrapper/server";
 
@@ -58,17 +58,22 @@ const GameInfoDetails = ({ game }: IGameInfoDetailsProps) => {
         <GameInfoExternalStores gameId={game.id} className={"my-4 gap-5"} />
       </DetailsBox>
 
-      <DetailsBox
-        withBorder
-        withDimmedTitle
-        title={t("game.details.summary")}
-        withPadding
-        withBackground
-        withRipple
-      >
-        {game.summary ?? t("game.details.notAvailable")}
-      </DetailsBox>
-      <GameInfoScore gameId={game.id} />
+      {/* On narrow screens the summary and rating come before the metadata. */}
+      <Box className={"order-[-2] lg:order-none"}>
+        <DetailsBox
+          withBorder
+          withDimmedTitle
+          title={t("game.details.summary")}
+          withPadding
+          withBackground
+          withRipple
+        >
+          {game.summary ?? t("game.details.notAvailable")}
+        </DetailsBox>
+      </Box>
+      <Box className={"order-[-1] lg:order-none"}>
+        <GameInfoScore gameId={game.id} />
+      </Box>
       <GameInfoTimeToBeat gameId={game.id} />
     </SimpleGrid>
   );

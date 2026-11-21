@@ -99,12 +99,12 @@
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: rgb(0 0 0 / 0.5);
+  background: color-mix(in srgb, var(--gn-scrim) 50%, transparent);
   transition: background-color 150ms ease;
 }
 
 .pause:hover .pauseIcon {
-  background: rgb(0 0 0 / 0.7);
+  background: color-mix(in srgb, var(--gn-scrim) 70%, transparent);
 }
 
 .pause:focus-visible,
@@ -130,7 +130,7 @@
   height: 100%;
   overflow: hidden;
   border-radius: 14px;
-  box-shadow: 0 10px 24px rgb(0 0 0 / 0.55);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--gn-scrim) 55%, transparent);
   background: #1a1a1a;
 }
 

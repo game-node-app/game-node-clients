@@ -15,15 +15,15 @@ import { getOnAccentText, normalizeAccentHex } from "./accentColor";
 
 /** Presets stored as hex colors by the profile accent picker. */
 export const SUPPORTER_ACCENT_PRESETS = [
-  "#9747FF",
+  "#9747FF", // theme-exempt: selectable accent swatch, stored as hex
   getThemeCatalogEntry(undefined).preview.accent,
-  "#FF8800",
-  "#F5C542",
-  "#3DD68C",
-  "#2EB8E6",
-  "#4C7DFF",
-  "#FF5FA2",
-  "#E5484D",
+  "#FF8800", // theme-exempt: selectable accent swatch, stored as hex
+  "#F5C542", // theme-exempt: selectable accent swatch, stored as hex
+  "#3DD68C", // theme-exempt: selectable accent swatch, stored as hex
+  "#2EB8E6", // theme-exempt: selectable accent swatch, stored as hex
+  "#4C7DFF", // theme-exempt: selectable accent swatch, stored as hex
+  "#FF5FA2", // theme-exempt: selectable accent swatch, stored as hex
+  "#E5484D", // theme-exempt: selectable accent swatch, stored as hex
 ] as const;
 
 export interface SupporterAccentPickerProps {
@@ -60,7 +60,7 @@ export function SupporterAccentPicker({
 
   const selected = normalizeAccentHex(accentColor);
   const value =
-    draft && draft.base === accentColor ? draft.text : accentColor ?? "";
+    draft && draft.base === accentColor ? draft.text : (accentColor ?? "");
   const isInvalid = Boolean(invalid && invalid.base === accentColor);
 
   const commit = () => {
@@ -108,7 +108,7 @@ export function SupporterAccentPicker({
               className={cn(
                 "flex size-6 shrink-0 items-center justify-center rounded-full disabled:cursor-not-allowed disabled:opacity-50",
                 isSelected &&
-                  "ring-2 ring-white ring-offset-2 ring-offset-[#1a1a1a]",
+                  "ring-2 ring-white ring-offset-2 ring-offset-paper-8",
               )}
               style={{ backgroundColor: hex }}
             >
@@ -155,7 +155,7 @@ export function SupporterAccentPicker({
         )}
       </Group>
       {isInvalid && (
-        <Text fz={12} lh={"normal"} className={"text-[#ff6369]"}>
+        <Text fz={12} lh={"normal"} className={"text-status-danger-text"}>
           {t("supporter.perks.accent.invalid")}
         </Text>
       )}

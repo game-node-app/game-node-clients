@@ -1,5 +1,4 @@
 import { CardSection, GameRow } from "@/components/general/card";
-import { useTranslation } from "@repo/locales";
 import {
   GameRating,
   ItemLikesButton,
@@ -25,7 +24,6 @@ function getReviewExcerpt(html: string | null | undefined): string {
 const MobileProfileReviewListItem = ({
   review,
 }: ProfileReviewListItemProps) => {
-  const { t } = useTranslation();
   const gameQuery = useProfileReviewGame(review);
   const excerpt = getReviewExcerpt(review.content);
   const reviewHref = `/game/${review.gameId}?tab=reviews&reviewId=${review.id}`;
@@ -39,9 +37,11 @@ const MobileProfileReviewListItem = ({
         href={reviewHref}
       />
       <div className="gn-row flex flex-col gap-2 px-3 pb-3 pt-3">
-        <p className="m-0 line-clamp-3 text-sm leading-5 text-neutral-300 [overflow-wrap:anywhere]">
-          {excerpt || t("review.messages.noContent")}
-        </p>
+        {excerpt && (
+          <p className="m-0 line-clamp-3 text-sm leading-5 text-neutral-300 [overflow-wrap:anywhere]">
+            {excerpt}
+          </p>
+        )}
         <div className="flex items-center justify-end">
           <ItemLikesButton
             sourceId={review.id}

@@ -13,7 +13,8 @@ interface Props {
 
 /**
  * Hero card: tall cover on phones (so the text has room), wide from `lg`. A strong bottom
- * gradient keeps the headline and excerpt legible on any cover.
+ * scrim (about 90% opaque behind the text, clear by the upper fifth) keeps the headline and excerpt
+ * legible over cover artwork that carries its own lettering.
  */
 const BlogPostFeaturedCard = ({ post }: Props) => {
   const imageUrl = post.cover.url;
@@ -33,7 +34,7 @@ const BlogPostFeaturedCard = ({ post }: Props) => {
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,_transparent_25%,_color-mix(in_srgb,var(--gn-background)_78%,transparent)_62%,_color-mix(in_srgb,var(--gn-background)_96%,transparent)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,_transparent_20%,_color-mix(in_srgb,var(--gn-background)_70%,transparent)_45%,_color-mix(in_srgb,var(--gn-background)_92%,transparent)_65%,_color-mix(in_srgb,var(--gn-background)_97%,transparent)_100%)]"
       />
       <Stack
         className={"absolute inset-0 gap-2 p-4 text-gray-100"}

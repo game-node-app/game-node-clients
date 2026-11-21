@@ -148,13 +148,13 @@ export function AwardsBallotShareScreen({
     <div
       data-awards-ballot-share-screen
       style={{
-        backgroundColor: "#0b0b0b",
+        backgroundColor: "var(--gn-nav-canvas)",
         minHeight: "100%",
         width: "100%",
         display: "flex",
         flexDirection: "column",
         fontFamily: AWARDS_BALLOT_FONT_FAMILY,
-        color: "#ffffff",
+        color: "var(--gn-text)",
       }}
     >
       <AwardsBallotFonts />
@@ -243,7 +243,7 @@ export function AwardsBallotShareScreen({
           frameClassName={"shrink-0 overflow-hidden"}
           frameStyle={{
             borderRadius: 14,
-            border: "1px solid #3d3d3d",
+            border: "1px solid var(--gn-line-strong)",
             boxSizing: "content-box",
           }}
           testId={"awards-ballot-card"}
@@ -277,7 +277,7 @@ export function AwardsBallotShareScreen({
             style={{
               // theme-exempt: awards share artwork
               backgroundColor: "#f15025",
-              color: "#0b0b0b",
+              color: "var(--gn-nav-canvas)",
               borderRadius: 10,
               padding: "14px 22px",
               height: 48,
@@ -294,7 +294,9 @@ export function AwardsBallotShareScreen({
               width: "100%",
             }}
           >
-            {shareMutation.isPending && <Loader size={16} color={"#0b0b0b"} />}
+            {shareMutation.isPending && (
+              <Loader size={16} color={"var(--gn-nav-canvas)"} />
+            )}
             <span>{t("awards.ballot.shareModal.shareStories")}</span>
           </button>
 
@@ -305,9 +307,9 @@ export function AwardsBallotShareScreen({
             aria-busy={downloadMutation.isPending || undefined}
             onClick={() => downloadMutation.mutate()}
             style={{
-              backgroundColor: "#262525",
-              color: "#ffffff",
-              border: "1px solid #3d3d3d",
+              backgroundColor: "var(--gn-paper-1)",
+              color: "var(--gn-text)",
+              border: "1px solid var(--gn-line-strong)",
               borderRadius: 10,
               padding: "14px 22px",
               height: 50,
@@ -325,7 +327,7 @@ export function AwardsBallotShareScreen({
             }}
           >
             {downloadMutation.isPending && (
-              <Loader size={16} color={"#ffffff"} />
+              <Loader size={16} color={"var(--gn-text)"} />
             )}
             <span>{t("awards.ballot.shareModal.downloadImage")}</span>
           </button>
@@ -336,7 +338,7 @@ export function AwardsBallotShareScreen({
             onClick={() => void copyLink()}
             style={{
               backgroundColor: "transparent",
-              color: "#ffffff",
+              color: "var(--gn-text)",
               border: "none",
               borderRadius: 10,
               padding: "14px 22px",
@@ -389,9 +391,9 @@ export function AwardsBallotShareModal({
       aria-label={t("awards.ballot.shareModal.eyebrow")}
       classNames={{
         content: isMobileLayout
-          ? "overflow-hidden bg-[#0b0b0b]"
-          : "overflow-hidden border border-solid border-[#2a2a2a] bg-[#0b0b0b] sm:max-h-[calc(100dvh-2rem)]",
-        body: "h-full overflow-y-auto bg-[#0b0b0b] p-0",
+          ? "overflow-hidden bg-nav-canvas"
+          : "overflow-hidden border border-solid border-line bg-nav-canvas sm:max-h-[calc(100dvh-2rem)]",
+        body: "h-full overflow-y-auto bg-nav-canvas p-0",
       }}
     >
       {opened && <AwardsBallotShareScreen onClose={onClose} {...screenProps} />}

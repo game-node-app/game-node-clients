@@ -255,7 +255,7 @@ export function RecapBentoCard({
             width={340}
             height={454}
             radius={26}
-            style={{ boxShadow: "0 24px 48px rgba(0, 0, 0, 0.6)" }}
+            style={{ boxShadow: "0 24px 48px rgba(0, 0, 0, 0.6)" }} // theme-exempt: recap card artwork shadow
           />
         </div>
         <div
@@ -337,7 +337,7 @@ export function RecapBentoCard({
                     width={213}
                     height={284}
                     radius={20}
-                    style={{ boxShadow: "0 12px 24px rgba(0, 0, 0, 0.45)" }}
+                    style={{ boxShadow: "0 12px 24px rgba(0, 0, 0, 0.45)" }} // theme-exempt: recap card artwork shadow
                   />
                 </div>
                 <div

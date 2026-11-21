@@ -79,8 +79,8 @@ export interface SupporterPerksSettingsProps {
   className?: string;
 }
 
-const TILE_CLASS = "bg-[rgba(151,71,255,0.16)]";
-const TILE_ICON_CLASS = "text-[#c7a6ff]";
+const TILE_CLASS = "bg-premium/[0.16]";
+const TILE_ICON_CLASS = "text-premium-text";
 
 interface PerkIconTileProps {
   Icon: ComponentType<IconProps>;
@@ -116,7 +116,7 @@ function PerkSwitch({
         <IconLock
           data-testid={"supporter-perk-lock"}
           size={14}
-          color={"#adadad"}
+          color={"var(--gn-dimmed-2)"}
           aria-hidden
         />
         <Switch size={"md"} checked={checked} disabled {...others} />
@@ -152,7 +152,7 @@ function LiveProfileDescription() {
 
   return (
     <>
-      <Text component={"span"} fz={13} lh={"18px"} className={"text-[#adadad]"}>
+      <Text component={"span"} fz={13} lh={"18px"} className={"text-dimmed-2"}>
         {t("supporter.perks.live.description")}
       </Text>
       {hasNoConnection && (
@@ -160,7 +160,7 @@ function LiveProfileDescription() {
           component={"span"}
           fz={13}
           lh={"18px"}
-          className={"block text-[#ffb224]"}
+          className={"block text-status-warning-text"}
         >
           {t("supporter.perks.live.needsSteam")}
         </Text>
@@ -196,7 +196,8 @@ export function SupporterPerksSettings({
   const isLocked = mode === "locked";
   const isUnavailable = mode === "unavailable";
   const values = prefs ?? DEFAULT_SUPPORTER_PREFERENCES;
-  const update = (patch: UpdateSupporterPreferencesDto) => mutation.mutate(patch);
+  const update = (patch: UpdateSupporterPreferencesDto) =>
+    mutation.mutate(patch);
 
   const isSaving = mutationStatuses.includes("pending");
   const lastStatus = mutationStatuses[mutationStatuses.length - 1];
@@ -211,9 +212,7 @@ export function SupporterPerksSettings({
   ];
 
   const switchLabel = (title: string) =>
-    isLocked
-      ? `${title}, ${t("supporter.perks.locked.label")}`
-      : title;
+    isLocked ? `${title}, ${t("supporter.perks.locked.label")}` : title;
 
   return (
     <SettingsSection
@@ -222,13 +221,17 @@ export function SupporterPerksSettings({
       rightSection={
         mode === "edit" ? (
           isSaving ? (
-            <Text fz={12} lh={"normal"} className={"text-[#adadad]"}>
+            <Text fz={12} lh={"normal"} className={"text-dimmed-2"}>
               {t("supporter.perks.saving")}
             </Text>
           ) : isSaved ? (
             <Group gap={6} wrap={"nowrap"}>
-              <IconCheck size={14} color={"#3dd68c"} aria-hidden />
-              <Text fz={12} lh={"normal"} className={"text-[#adadad]"}>
+              <IconCheck
+                size={14}
+                color={"var(--gn-status-success-text)"}
+                aria-hidden
+              />
+              <Text fz={12} lh={"normal"} className={"text-dimmed-2"}>
                 {t("supporter.perks.saved")}
               </Text>
             </Group>
@@ -249,18 +252,18 @@ export function SupporterPerksSettings({
               <SettingsCard
                 withDividers={false}
                 role={"alert"}
-                className={"border-[rgba(229,72,77,0.4)]"}
+                className={"border-status-danger-strong/40"}
               >
                 <Group gap={16} wrap={"nowrap"} align={"flex-start"} p={"md"}>
                   <Box
                     aria-hidden
                     className={
-                      "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-[rgba(229,72,77,0.12)]"
+                      "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-status-danger-strong/[0.12]"
                     }
                   >
                     <IconAlertTriangle
                       size={18}
-                      className={"text-[#ff6369]"}
+                      className={"text-status-danger-text"}
                     />
                   </Box>
                   <Stack gap={8} className={"min-w-0 flex-1"}>
@@ -340,7 +343,7 @@ export function SupporterPerksSettings({
                       <IconLock
                         data-testid={"supporter-perk-lock"}
                         size={14}
-                        color={"#adadad"}
+                        color={"var(--gn-dimmed-2)"}
                         aria-hidden
                       />
                       <Select
@@ -397,7 +400,7 @@ export function SupporterPerksSettings({
                         <Link
                           href={"/about#supporters"}
                           className={
-                            "text-[#c7a6ff] underline hover:text-white"
+                            "text-premium-text underline hover:text-white"
                           }
                         >
                           {t("supporter.perks.wall.seeWall")}
@@ -434,29 +437,29 @@ export function SupporterPerksSettings({
                     locked={isLocked}
                     disabled={isUnavailable}
                     aria-label={switchLabel(t("supporter.perks.live.title"))}
-                    onChange={(checked) =>
-                      update({ showLiveProfile: checked })
-                    }
+                    onChange={(checked) => update({ showLiveProfile: checked })}
                   />
                 }
               />
             </SettingsCard>
 
             {isLocked && (
-              <Text fz={12} lh={"18px"} className={"text-[#adadad]"}>
+              <Text fz={12} lh={"18px"} className={"text-dimmed-2"}>
                 {t("supporter.perks.locked.note")}
               </Text>
             )}
 
             <Stack gap={8}>
-              <Text fz={13} fw={600} lh={"normal"} className={"text-[#adadad]"}>
+              <Text fz={13} fw={600} lh={"normal"} className={"text-dimmed-2"}>
                 {t("supporter.perks.groups.library")}
               </Text>
               <SettingsCard>
                 <SettingsRow
                   leftSection={<PerkIconTile Icon={IconStack2} />}
                   title={t("supporter.perks.collections.title")}
-                  description={t("supporter.features.collectionLimit.description")}
+                  description={t(
+                    "supporter.features.collectionLimit.description",
+                  )}
                   rightSection={
                     isLocked ? (
                       <SettingsPill tone={"premium"}>

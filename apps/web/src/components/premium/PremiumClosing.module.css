@@ -31,8 +31,8 @@
   align-items: flex-start;
   min-width: 0;
   padding: 28px;
-  background: #101010;
-  border: 1px solid #222;
+  background: var(--gn-paper-7);
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 18px;
 }
 
@@ -176,7 +176,7 @@
 
 .freeForeverInner {
   padding-block: 64px;
-  border-top: 1px solid #1c1c1c;
+  border-top: 1px solid var(--gn-paper-5);
 }
 
 .freeForeverTitle {
@@ -220,7 +220,7 @@
   height: 50px;
   padding-inline: 20px;
   background-color: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   border-radius: 8px;
   color: var(--premium-text);
   font-size: 16px;
@@ -228,7 +228,7 @@
 }
 
 .freeForeverActions .freeForeverButton:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
   color: var(--premium-text);
 }
 
@@ -282,22 +282,22 @@
 .finalActions .finalPrimary {
   background-color: var(--premium-violet);
   border: 1px solid transparent;
-  color: #fff;
+  color: var(--gn-text);
 }
 
 .finalActions .finalPrimary:hover {
-  background-color: #873cef;
-  color: #fff;
+  background-color: color-mix(in srgb, var(--gn-premium) 85%, var(--gn-scrim));
+  color: var(--gn-text);
 }
 
 .finalActions .finalSecondary {
   background-color: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   color: var(--premium-text);
 }
 
 .finalActions .finalSecondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
   color: var(--premium-text);
 }
 

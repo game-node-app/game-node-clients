@@ -9,7 +9,7 @@
       "titleHighlight": "a place.",
       "description": "GameNode brings together your Steam, PlayStation, Xbox, Epic Games, Nintendo and GOG libraries, keeps your hours, reviews and achievements, and shows what your friends are playing.",
       "primaryCta": "Create my free account",
-      "secondaryCta": "Explore Premium",
+      "secondaryCta": "Explore the Supporter plan",
       "footnote": "Free to organize. Open source.",
       "footnoteLogin": "Already have an account? Sign in",
       "playing": "Playing",
@@ -31,7 +31,7 @@
         },
         "community": {
           "title": "Kept alive by the community",
-          "description": "Everyone who subscribes to Premium pays for servers and development and keeps the project online for everyone."
+          "description": "Everyone who becomes a Supporter pays for servers and development and keeps the project online for everyone."
         }
       }
     },
@@ -89,7 +89,7 @@
           "description": "Vote on the games of the year with the community and see the results."
         },
         "retrospective": {
-          "title": "Year in review",
+          "title": "Yearly recap",
           "description": "Your year in hours, finished games and favorite genres, ready to share."
         },
         "mobile": {
@@ -101,8 +101,8 @@
           "description": "Know when someone follows you, likes your review or comments on a post."
         },
         "premium": {
-          "title": "Premium",
-          "description": "Theme, badge, video cover, unlimited collections and your name on the Premium Wall."
+          "title": "Supporter",
+          "description": "Theme, badge, video cover, unlimited collections and your name on the Supporters wall."
         }
       }
     },
@@ -163,9 +163,9 @@
       }
     },
     "progress": {
-      "eyebrow": "Achievements, levels and the year in review",
+      "eyebrow": "Achievements, levels and the yearly recap",
       "title": "Using GameNode also levels you up.",
-      "description": "Achievements of your own, with XP and levels, and a year in review with everything you played.",
+      "description": "Achievements of your own, with XP and levels, and a yearly recap with everything you played.",
       "level": {
         "label": "Level",
         "nextLevel": "Next level",
@@ -189,7 +189,7 @@
         }
       },
       "retrospective": {
-        "eyebrow": "YEAR IN REVIEW",
+        "eyebrow": "YEARLY RECAP",
         "title": "This year on GameNode you...",
         "stats": {
           "hours": "hours played",
@@ -203,7 +203,7 @@
           "platform": "Platformer",
           "metroidvania": "Metroidvania"
         },
-        "note": "Example year in review. Based on your connected platforms and your library."
+        "note": "Example yearly recap. Based on your connected platforms and your library."
       }
     },
     "community": {
@@ -368,12 +368,12 @@
       "appStore": "Coming soon to the App Store"
     },
     "premium": {
-      "eyebrow": "Premium",
+      "eyebrow": "Supporter",
       "title": "Your profile, your way. And GameNode online.",
-      "description": "Organizing your games stays free. Premium adds extras for your profile and pays for servers and development.",
-      "badge": "Premium",
+      "description": "Organizing your games stays free. The Supporter plan adds extras for your profile and pays for servers and development.",
+      "badge": "Supporter",
       "profile": {
-        "premiumSince": "Premium since {{year}}",
+        "premiumSince": "Supporter since {{year}}",
         "level": "Level {{level}} · {{followers}} followers · {{following}} following",
         "playingNow": "PLAYING ON STEAM NOW"
       },
@@ -382,7 +382,7 @@
           "title": "Your profile, your way",
           "videoCover": "Video cover on your profile",
           "animatedBorder": "Animated border on your avatar",
-          "theme": "Premium theme in your accent color"
+          "theme": "Supporter theme in your accent color"
         },
         "library": {
           "title": "Your library, without limits",
@@ -394,11 +394,11 @@
         },
         "supporter": {
           "title": "Show your support",
-          "badge": "Premium badge and title next to your name",
-          "wall": "Your name on the Premium Wall"
+          "badge": "Supporter badge and title next to your name",
+          "wall": "Your name on the Supporters wall"
         }
       },
-      "cta": "Explore Premium",
+      "cta": "Explore the Supporter plan",
       "freeCta": "Start free",
       "guarantees": {
         "cancel": "Cancel whenever you want, right in the app",
@@ -406,14 +406,14 @@
       }
     },
     "wall": {
-      "eyebrow": "Premium Wall",
+      "eyebrow": "Supporters wall",
       "title": "The people keeping GameNode online.",
       "description": "Every name here pays for a piece of the server and the development. Thank you, truly.",
-      "pill": "Premium",
-      "note": "The wall shows everyone who subscribes to Premium and kept the Premium List option on.",
+      "pill": "Supporter",
+      "note": "The wall shows everyone who becomes a Supporter and kept the Supporters wall option on.",
       "emptyCard": {
         "title": "Your name here",
-        "cta": "Subscribe to Premium"
+        "cta": "Become a Supporter"
       }
     },
     "promise": {
@@ -586,9 +586,9 @@
     "delete": "Delete",
     "edit": "Edit",
     "goBack": "Go back",
-    "login": "Log in",
-    "loginCta": "Log in",
-    "logout": "Log out",
+    "login": "Sign in",
+    "loginCta": "Sign in",
+    "logout": "Sign out",
     "no": "No",
     "remove": "Remove",
     "save": "Save",
@@ -601,7 +601,7 @@
     "submit": "Submit",
     "tapHere": "Press here",
     "update": "Update",
-    "viewMore": "View More",
+    "viewMore": "View more",
     "yes": "Yes",
     "use": "Use",
     "toOpenDialogAnytime": "to open this dialog anytime",
@@ -633,6 +633,8 @@
   },
   "app": {
     "betterInApp": "GameNode is (even) better in the app!",
+    "closeBanner": "Dismiss app suggestion",
+    "googlePlayAlt": "Get it on Google Play",
     "metaDescription": "GameNode is the ideal platform to manage your game collection virtually.",
     "openInApp": "Open in app",
     "title": "GameNode"
@@ -678,8 +680,8 @@
       "title": "This account can't sign in right now",
       "useAnother": "Use a different account"
     },
-    "loginPrompt": "Please log in to continue.",
-    "loginRequired": "This action requires you to be logged in.",
+    "loginPrompt": "Please sign in to continue.",
+    "loginRequired": "This action requires you to be signed in.",
     "methods": {
       "description": "The accounts you can use to sign in to GameNode.",
       "lastMethod": "At least one sign-in method is required.",
@@ -795,7 +797,7 @@
       "shareVotes": "Share your votes!"
     },
     "categoriesCount": "{{count}} Categories",
-    "currentPhase": "Current Phase",
+    "currentPhase": "Current phase",
     "indicatedBy": "Indicated by",
     "labels": {
       "layout": "Layout",
@@ -885,9 +887,9 @@
       "votingStartsIn": "Voting starts in {{time}}"
     },
     "phases": {
-      "countingVotes": "Counting of Votes",
-      "eventEnded": "Event Ended",
-      "startingSoon": "Starting Soon",
+      "countingVotes": "Counting of votes",
+      "eventEnded": "Event ended",
+      "startingSoon": "Starting soon",
       "voting": "Voting"
     },
     "resultsDate": "Results {{date}}",
@@ -895,10 +897,10 @@
       "excludingGames": "Excluding {{count}} games not eligible in {{year}}."
     },
     "share": {
-      "linkCopied": "Link Copied!",
+      "linkCopied": "Link copied!",
       "scrollHint": "Scroll/swipe to see full image.",
-      "shareWithImage": "Share with Image",
-      "shareWithLink": "Share with Link",
+      "shareWithImage": "Share with image",
+      "shareWithLink": "Share with link",
       "title": "Share your votes!"
     },
     "shared": {
@@ -934,12 +936,13 @@
     "title": "AWARDS",
     "titles": {
       "recentVotes": "Recent votes",
-      "yourVotes": "Your Votes"
+      "yourVotes": "Your votes"
     },
     "voteNow": "Vote now",
     "votedByPublic": "Voted by the public"
   },
   "blog": {
+    "about": "About the blog",
     "buttons": {
       "browseBlog": "Browse blog",
       "seeMore": "See more"
@@ -948,7 +951,7 @@
     "disclaimer": "Our blog posts are published by independent contributors as a way to give visibility to the great writers and editors of our community. You too can write for us if interested!",
     "labels": {
       "draft": "Draft",
-      "reviewedGame": "Reviewed Game",
+      "reviewedGame": "Reviewed game",
       "tags": "Tags",
       "published": "Published"
     },
@@ -1018,11 +1021,16 @@
       "atLeastOneGame": "At least one game must be selected.",
       "changesCount": "{{count}} changes",
       "createSuccess": "Successfully created collection.",
+      "emptyCollection": "This collection is empty.",
+      "fetchFailed": "We couldn't load this collection. Please try again.",
       "gamesToMove": "Games to move",
       "gamesToMoveHint": "Select which games you want to move. You can search by typing a game's name.",
       "orderingHint": "Drag and drop elements to reorder games in this collection. This ordering will be shown when a visitor selects \"User Order\" (default) as sorting option.",
       "orderingUpdated": "Your collection ordering has been updated.",
       "relevantFilteringFailed": "Relevant collection entry filtering is failing. Please contact support.",
+      "removeConfirm": "Are you sure you want to remove your \"{{name}}\" collection?",
+      "removeNote": "The games in this collection will remain intact in your library, and you may add them to other collections later.",
+      "reviewTitle": "{{username}}'s review",
       "syncFailed": "Failed to sync changes!",
       "targetCollectionStringError": "Target collections returned as string. Please contact support.",
       "targetCollections": "Target collections",
@@ -1036,15 +1044,16 @@
     "remove": "Remove collection",
     "removeGame": "Remove game",
     "sorts": {
-      "addedDate": "Added Date",
-      "releaseDate": "Release Date",
-      "userOrder": "User Order"
+      "addedDate": "Added date",
+      "releaseDate": "Release date",
+      "userOrder": "User order"
     },
     "titles": {
-      "all": "All Collections",
+      "all": "All collections",
       "createModal": "Create collection",
-      "featured": "Featured Collections",
-      "new": "New Collection",
+      "featured": "Featured collections",
+      "moveGames": "Move games",
+      "new": "New collection",
       "updateModal": "Update collection"
     },
     "update": "Update collection",
@@ -1062,7 +1071,7 @@
       "editInLibrary": "Edit in library",
       "removeFromLibrary": "Remove from library",
       "update": "Update",
-      "viewGame": "View Game"
+      "viewGame": "View game"
     },
     "descriptions": {
       "collectionsOptional": "Optional. Which collections do you want to save it on?",
@@ -1100,7 +1109,7 @@
     },
     "related": {
       "description": "Owned DLCs and expansions",
-      "title": "Related Content"
+      "title": "Related content"
     },
     "review": {
       "optionalDescription": "Optional. Leave empty to create a score-only review.",
@@ -1126,7 +1135,7 @@
       "addedWishlist": "Added game to Wishlist",
       "droppedGame": "Dropped game",
       "markedFinished": "Marked game as finished",
-      "startedPlaying": "Started Playing",
+      "startedPlaying": "Started playing",
       "unknown": "Unknown"
     },
     "titles": {
@@ -1195,6 +1204,7 @@
     }
   },
   "daily": {
+    "title": "GameNode Daily",
     "subtitle": "Four new games every day. The same puzzle for everyone.",
     "fetchError": "Couldn't load the daily puzzles.",
     "fetchErrorDescription": "Check your connection and try again. If it keeps happening, come back in a few minutes.",
@@ -1304,6 +1314,7 @@
     },
     "archive": {
       "link": "Archive",
+      "pastDays": "Past days",
       "title": "{{mode}} archive",
       "empty": "No past puzzles yet."
     },
@@ -1481,6 +1492,7 @@
       "button": "Ranking",
       "result": {
         "points": "+{{points}} pts in the ranking",
+        "pointsOne": "+{{points}} pt in the ranking",
         "rose": "you rose to #{{position}}",
         "entered": "you entered at #{{position}}",
         "same": "you're at #{{position}}",
@@ -1514,11 +1526,11 @@
       "section": "Unlimited",
       "noLimit": "No daily limit",
       "cover": {
-        "title": "Unlimited Cover",
+        "title": "Unlimited cover",
         "description": "Random covers from the catalog, without waiting for tomorrow"
       },
       "specs": {
-        "title": "Unlimited Specs",
+        "title": "Unlimited specs",
         "description": "Practice the comparison with random games"
       },
       "playAgain": "Play again",
@@ -1638,6 +1650,7 @@
       "modes": "Modes",
       "platforms": "Platforms",
       "themes": "Themes",
+      "title": "Filters",
       "trendingIn": "Trending in"
     },
     "metaTitle": "Explore - GameNode",
@@ -1667,7 +1680,7 @@
   "game": {
     "achievement": {
       "achievements": "Achievements",
-      "notAvailable": "Not Available",
+      "notAvailable": "Not available",
       "obtainedAt": "Obtained at {{date}}",
       "overviewTitle": "Achievements",
       "ownedBy": "Owned by",
@@ -1696,7 +1709,7 @@
       }
     },
     "collectionTypes": {
-      "recentReleases": "Recent Releases",
+      "recentReleases": "Recent releases",
       "upcoming": "Upcoming"
     },
     "releaseCalendar": {
@@ -1717,6 +1730,7 @@
       "notAvailable": "Not available",
       "publishers": "Publisher(s)",
       "summary": "Summary",
+      "tags": "Tags",
       "whereToBuy": "Where to buy",
       "whereToPlay": "Where to play"
     },
@@ -1731,18 +1745,25 @@
       "similarGames": "Similar games"
     },
     "labels": {
-      "externalStore": "External Store",
+      "externalStore": "External store",
+      "fromUsers": "From our users",
       "gridView": "Grid",
+      "imageAlt": "Game image",
+      "images": "Images",
       "inLibrary": "In your library",
       "listView": "List",
       "playedIn": "Played in",
       "share": "Share",
       "tip": "Tip",
-      "userRating": "User Rating"
+      "userRating": "User rating"
     },
     "messages": {
       "noEntry": "No entry found.",
-      "notEnoughReviews": "We do not have enough reviews for this game."
+      "noReviewsYet": "No reviews yet.",
+      "notEnoughReviews": "We do not have enough reviews for this game.",
+      "reviewCount_one": "{{count}} review",
+      "reviewCount_other": "{{count}} reviews",
+      "reviewsFetchFailed": "Failed to fetch reviews. Please try again."
     },
     "progress": {
       "added": "Added",
@@ -1757,7 +1778,7 @@
       "forcedStatusMessage": "This game is in one or more collections which have mandatory status for entries. Please remove these collections before proceeding.",
       "forcedStatusTitle": "Unable to perform update.",
       "menuActionLabel": "Add as",
-      "menuLabel": "Quick Actions",
+      "menuLabel": "Quick actions",
       "noPreferredPlatformMessage": "You need to have a preferred platform set up to use this feature.",
       "noPreferredPlatformTitle": "No preferred platform available",
       "preferredPlatformSetupSuffix": "to set one up.",
@@ -1811,10 +1832,13 @@
       "basedOnIgdb": "Based on {{count}} submissions to",
       "completionist": "100%",
       "completionistDesc": "Average time to finish the game to 100% completion.",
+      "hours_one": "{{count}} hour",
+      "hours_other": "{{count}} hours",
       "mainExtras": "Main + Extras",
       "mainExtrasDesc": "Average time to finish the game while mixing in some extras such as side quests without being overly thorough.",
-      "mainStory": "Main Story",
+      "mainStory": "Main story",
       "mainStoryDesc": "Average time to finish the game to its credits without spending notable time on extras such as side quests.",
+      "notAvailable": "N/A",
       "notEnoughSubmissions": "Not enough submissions.",
       "title": "How long to beat"
     },
@@ -1830,9 +1854,9 @@
   "home": {
     "lastReviews": "Last reviews",
     "noResultsTryAgain": "No results found. Please try again.",
-    "recentActivity": "Recent Activity",
-    "trendingGames": "Trending Games",
-    "trendingReviews": "Trending Reviews",
+    "recentActivity": "Recent activity",
+    "trendingGames": "Trending games",
+    "trendingReviews": "Trending reviews",
     "trendingRank": "#{{rank}} trending",
     "trendingSelectGame": "Show {{name}}",
     "trendingViewGame": "View game",
@@ -1955,7 +1979,7 @@
       "premium": "Supporter",
       "downloads": "Downloads",
       "blog": "Blog",
-      "login": "Log in",
+      "login": "Sign in",
       "signup": "Sign up",
       "menu": "Navigation",
       "features": "Features",
@@ -2024,7 +2048,7 @@
         },
         "features": {
           "library": "Library, reviews and game journal",
-          "import": "Steam, PSN and Xbox import",
+          "import": "Steam, PSN, Xbox, Epic, Nintendo and GOG import",
           "achievements": "Achievements and yearly recap",
           "videoCover": "Video profile cover",
           "animatedBorder": "Animated avatar border",
@@ -2077,10 +2101,10 @@
       "cookiesWeSetTitle": "The cookies we set",
       "dataRemoval": "If you with to stop using our services and to have your data removed from our end (e.g. data we actually have access and control of), please feel free to contact us.",
       "disablingContent": "You can prevent the setting of cookies by adjusting the settings on your browser (see your browser Help for how to do this). Be aware that disabling cookies will affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in also disabling certain functionality and features of this site. Therefore it is recommended that you do not disable cookies.",
-      "disablingTitle": "Disabling Cookies",
+      "disablingTitle": "Disabling cookies",
       "here": "here",
       "howWeUseContent": "We use cookies for a variety of reasons detailed below. Unfortunately in most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave on all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use.",
-      "howWeUseTitle": "How We Use Cookies",
+      "howWeUseTitle": "How we use cookies",
       "intro": "Your privacy is important to us. It is GameNode's policy to respect your privacy regarding any information we may collect from you across our website, GameNode, and other sites we own and operate. We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we're collecting it and how it will be used. We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we'll protect within commercially acceptable means to prevent loss and theft, as well as unauthorised access, disclosure, copying, use or modification. We don't share any personally identifying information publicly or with third-parties, except when required to by law. Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies. You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services. Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.",
       "matomoNote": "Previously, we used Matomo as our analytics tool of choice. We discontinued this service because of the maintenance cost of keeping our own instance.",
       "posthog": "Posthog",
@@ -2091,7 +2115,7 @@
       "title": "Privacy Policy",
       "weUse": "We use",
       "whatAreCookiesContent": "As is common practice with almost all professional websites this site uses cookies, which are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored however this may downgrade or break certain elements of the sites functionality.",
-      "whatAreCookiesTitle": "What Are Cookies"
+      "whatAreCookiesTitle": "What are cookies"
     },
     "tos": {
       "section1Content": "By accessing the website at GameNode you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.",
@@ -2126,7 +2150,7 @@
     },
     "labels": {
       "customCovers": "Custom covers",
-      "management": "Library Management",
+      "management": "Library management",
       "showDLCs": "Show DLCs/Extras"
     },
     "placeholders": {
@@ -2142,9 +2166,9 @@
       "placeholderLibrary": "Search this library"
     },
     "sorts": {
-      "addedDate": "Added Date",
-      "releaseDate": "Release Date",
-      "userOrder": "User Order"
+      "addedDate": "Added date",
+      "releaseDate": "Release date",
+      "userOrder": "User order"
     }
   },
   "libraryVisibility": {
@@ -2202,8 +2226,8 @@
       "tip": "Tip: press and hold to show actions."
     },
     "awards": {
-      "nominationsTitle": "Awards Nominations",
-      "resultsTitle": "Awards Results",
+      "nominationsTitle": "Awards nominations",
+      "resultsTitle": "Awards results",
       "shareCreate": "Create yours at https://gamenode.app",
       "sharePrompt": "These are my GameNode Awards nominees!"
     },
@@ -2246,6 +2270,12 @@
       "noResults": "No results.",
       "placeholder": "Search for users or games",
       "startTyping": "Start typing to see results."
+    },
+    "signedOut": {
+      "description": "Sign in or create an account to keep track of your games.",
+      "library": "Sign in to see your library",
+      "notifications": "Sign in to see your notifications",
+      "wrapped": "Sign in to see your Wrapped"
     },
     "wrapped": {
       "background": {
@@ -2454,7 +2484,7 @@
     "account": {
       "caption": "My account",
       "downloads": "Downloads",
-      "logout": "Log out",
+      "logout": "Sign out",
       "settings": "Settings",
       "themes": "Themes",
       "viewProfile": "View profile"
@@ -2467,7 +2497,7 @@
     "blog": "Blog",
     "collections": "Collections",
     "daily": "Daily",
-    "dailyNodes": "Daily Nodes",
+    "dailyNodes": "GameNode Daily",
     "dock": {
       "badgeLive": "Live",
       "badgeNewFeminine": "New",
@@ -2488,7 +2518,7 @@
     "new": "New",
     "posts": "Posts",
     "preferences": "Preferences",
-    "premium": "Premium",
+    "premium": "Supporter",
     "privacy": "Privacy",
     "profile": "Profile",
     "recap": "Recap",
@@ -2503,6 +2533,7 @@
         "tools": "Tools",
         "yourSpace": "Your space"
       },
+      "signInPrompt": "Sign in to track your games, reviews and more.",
       "version": "Version {{version}}"
     },
     "stats": "Stats",
@@ -2511,7 +2542,7 @@
   },
   "notFoundPage": {
     "backHome": "Back to home",
-    "description": "The page you're looking for didn't load. Ready to get back in the game?",
+    "description": "This page doesn't exist or may have moved. Ready to get back in the game?",
     "eyebrow": "Error 404 · Level not found",
     "searchGames": "Search games",
     "title": "This level doesn't exist.",
@@ -2626,7 +2657,7 @@
   },
   "playtime": {
     "buttons": {
-      "addSession": "Add Session"
+      "addSession": "Add session"
     },
     "descriptions": {
       "lastPlayedDate": "This is the last time you played this game. This is optional.",
@@ -2750,9 +2781,9 @@
       "autoImport": "Enable automatic importing",
       "confirmUsername": "Confirm with your username",
       "connectionIcon": "Connection icon",
-      "dangerZone": "Danger Zone",
-      "gamertag": "Your Gamertag",
-      "preferredPlatforms": "Preferred Platforms",
+      "dangerZone": "Danger zone",
+      "gamertag": "Your gamertag",
+      "preferredPlatforms": "Preferred platforms",
       "psnOnlineId": "Your PSN online id",
       "steamProfileUrl": "Your public Steam profile URL",
       "targetCollection": "Target collection (optional)",
@@ -2769,7 +2800,7 @@
       "connectionSetup": "Successfully set up {{type}} connection!",
       "irreversible": "This action is irreversible. We won't be able to restore your account if you restart it.",
       "noPlatforms": "No preferred platform added.",
-      "restartLogout": "After using this service, you will be logged off, and will be able to log-in again with a brand new account.",
+      "restartLogout": "After using this service, you will be signed out, and will be able to sign in again with a brand new account.",
       "restartNote1": "This won't remove your email and it's user id association from our databases. Nor will it remove collected analytic data.",
       "restartNote2": "If you want to completely remove this data, please reach out to us through Discord or email (support@gamenode.app).",
       "connectionUnsupported": "This connection does not support account setup yet.",
@@ -2783,9 +2814,9 @@
     },
     "platforms": {
       "addSuccess": "Preferred platform has been added successfully.",
-      "addTitle": "Add Preferred Platform",
+      "addTitle": "Add preferred platform",
       "description": "These platforms will be used automatically when adding new games that support these platforms.",
-      "editTitle": "Edit Preferred Platform",
+      "editTitle": "Edit preferred platform",
       "enabled": "Enabled",
       "labelDescription": "Optional. This helps you identify this platform. It doesn't affect functionality. Only shown to you.",
       "labelField": "Label",
@@ -2812,7 +2843,7 @@
     },
     "titles": {
       "editPreferredPlatforms": "Edit your preferred platforms",
-      "restartAccount": "Restart Account",
+      "restartAccount": "Restart account",
       "connectionSetup": "Set up connection"
     },
     "validation": {
@@ -2876,7 +2907,7 @@
       "connections": "Linked accounts",
       "noConnections": "No linked accounts yet.",
       "linkAccount": "Link account",
-      "onSupportersWall": "On the Supporters Wall",
+      "onSupportersWall": "On the Supporters wall",
       "copyLink": "Copy link",
       "shareProfile": "Share profile",
       "editAccounts": "Edit accounts",
@@ -2893,7 +2924,7 @@
     "collections": {
       "featured": "Featured",
       "loading": "Loading collections...",
-      "public": "Public Collections"
+      "public": "Public collections"
     },
     "labels": {
       "newUsername": "Select a new username",
@@ -2905,6 +2936,7 @@
     "messages": {
       "achievementsUpdated": "Successfully updated featured achievement!",
       "bioUpdated": "Successfully updated your bio!",
+      "featuredAchievementsHint": "Click to edit. Only the first achievement will be shown on your profile.",
       "fetchFailed": "We couldn't fetch this data. Please try again.",
       "noAchievements": "You have not obtained any achievements. Come back later, adventurer!",
       "noFavoriteGames": "This user has no favorite games yet.",
@@ -2917,16 +2949,16 @@
     },
     "recent": {
       "recentActivity": "Recent activity",
-      "recentlyPlayed": "Recently Played"
+      "recentlyPlayed": "Recently played"
     },
     "stats": {
       "backlogTracking": "Backlog tracking",
       "collectionsLabel": "Collections",
       "estimatedPlaytime": "Estimated playtime (in hours)*",
       "playtimeShort": "Hours played",
-      "finishYear": "Finish Year",
+      "finishYear": "Finish year",
       "finishedGames": "Finished games",
-      "finishedGamesLabel": "Finished Games",
+      "finishedGamesLabel": "Finished games",
       "gamesByPlatform": "Games by platform",
       "gamesByYear": "Games by year",
       "gamesLabel": "Games",
@@ -2945,7 +2977,7 @@
       "reviewed": "Reviewed",
       "total": "Total",
       "totalGames": "Total games",
-      "totalGamesPlayed": "Total Games Played",
+      "totalGamesPlayed": "Total games played",
       "totalPlaytime": "Total estimated playtime (in hours)*",
       "year": "Year"
     },
@@ -2959,9 +2991,11 @@
       "reviews": "Reviews"
     },
     "titles": {
-      "activity": "{{username}}'s Activity",
-      "favoriteGames": "Favorite Games",
+      "activity": "{{username}}'s activity",
+      "favoriteGames": "Favorite games",
+      "featuredAchievements": "Featured achievements",
       "library": "{{username}}'s library",
+      "updateUsername": "Update username",
       "selectAchievements": "Select featured achievements"
     },
     "usernameRules": {
@@ -3039,7 +3073,7 @@
       "syncTitle": "Last sync by store"
     },
     "buttons": {
-      "availableSoon": "Available Soon",
+      "availableSoon": "Available soon",
       "create": "Create my Recap"
     },
     "goal": {
@@ -3062,9 +3096,9 @@
       }
     },
     "labels": {
-      "hoursPlayed": "Hours Played",
+      "hoursPlayed": "Hours played",
       "period": "Period",
-      "playedGames": "Played Games",
+      "playedGames": "Played games",
       "preview": "Preview",
       "topGenresStyles": "Most played genres and styles"
     },
@@ -3500,7 +3534,7 @@
       "comingSoon": "Coming soon",
       "available": {
         "library": "Game library",
-        "imports": "Steam, PSN and Xbox imports",
+        "imports": "Steam, PSN, Xbox, Epic, Nintendo and GOG imports",
         "achievements": "Achievements",
         "reviews": "Reviews",
         "journal": "Game journal",
@@ -3559,8 +3593,8 @@
     }
   },
   "view": {
-    "compact": "Compact View",
-    "detailed": "Detailed View",
+    "compact": "Compact view",
+    "detailed": "Detailed view",
     "grid": "Grid",
     "list": "List"
   },
@@ -3601,7 +3635,7 @@
     "json": "Claude Code — project .mcp.json",
     "scopes": "Supported permissions (you review the requested subset at consent)",
     "troubleshooting": "Troubleshooting",
-    "troubleHelp": "If login expires, restart the connection from your assistant. If custom connections are missing, check your account/workspace permissions and use the provider’s web surface. If copying fails, select the text and copy it manually.",
+    "troubleHelp": "If sign-in expires, restart the connection from your assistant. If custom connections are missing, check your account/workspace permissions and use the provider’s web surface. If copying fails, select the text and copy it manually.",
     "copy": "Copy",
     "copied": "Copied",
     "copyError": "Clipboard unavailable or denied. Select and copy the text below.",
@@ -3811,7 +3845,7 @@
     "userMenu": {
       "settings": "Settings",
       "downloads": "Downloads",
-      "logout": "Log out"
+      "logout": "Sign out"
     },
     "premium": {
       "hero": {
@@ -4074,29 +4108,29 @@
       "mobile": {
         "title": "Mobile app",
         "description": "The Android app is in Downloads, in your avatar menu.",
-        "open": "Open Downloads"
+        "open": "Open downloads"
       }
     }
   },
   "premium": {
     "meta": {
-      "title": "GameNode Premium — Your profile, your way",
+      "title": "GameNode Supporter — Your profile, your way",
       "description": "Video cover, animated border, your accent color, live Steam game, and unlimited collections. Every subscription funds servers and development."
     },
     "hero": {
-      "eyebrow": "GameNode Premium",
+      "eyebrow": "GameNode Supporter",
       "titleStart": "Your profile, your way.",
       "titleHighlight": "And GameNode online.",
       "description": "Video cover, animated border, your color on your profile, live Steam game, and unlimited collections. Every subscription pays for servers and development.",
       "fallbackMonthlyPrice": "$1.90",
       "fallbackYearlyPrice": "$19.00",
       "priceSuffix": "per month · or {{yearly}} per year",
-      "primaryCta": "Subscribe to Premium",
+      "primaryCta": "Become a Supporter",
       "secondaryCta": "See what's included",
       "guarantee": "Cancel anytime, straight in the app. ",
       "guaranteeHighlight": "Organizing your games stays free.",
       "profile": {
-        "badge": "Premium",
+        "badge": "Supporter",
         "title": "Completionist",
         "stats": "Level 14 · 10 followers · 15 following",
         "steamPlaying": "PLAYING NOW ON STEAM",
@@ -4108,7 +4142,7 @@
       }
     },
     "extras": {
-      "eyebrow": "What comes in Premium",
+      "eyebrow": "What comes with the Supporter plan",
       "title": "Eight perks. Every one toggles on and off.",
       "items": {
         "video": {
@@ -4124,7 +4158,7 @@
           "description": "A strip in your color under the banner."
         },
         "badge": {
-          "title": "Premium badge",
+          "title": "Supporter badge",
           "description": "On your profile, reviews, and comments."
         },
         "title": {
@@ -4140,7 +4174,7 @@
           "description": "Free goes up to 5. No cap here."
         },
         "wall": {
-          "title": "Premium Wall",
+          "title": "Supporters wall",
           "description": "Your name and avatar on the public wall."
         }
       }
@@ -4167,15 +4201,15 @@
     "featureAccent": {
       "number": "02",
       "title": "Your color, everywhere on your profile.",
-      "description": "Choose your accent color. It paints your animated avatar border, your badge, and the Premium theme strip under your banner.",
+      "description": "Choose your accent color. It paints your animated avatar border, your badge, and the Supporter theme strip under your banner.",
       "bullets": {
         "palette": "Preset palette or custom hex color",
         "toggles": "Animated border and theme with their own toggles",
         "preview": "Live preview before saving"
       },
       "mockup": {
-        "stripLabel": "PREMIUM",
-        "badge": "Premium",
+        "stripLabel": "SUPPORTER",
+        "badge": "Supporter",
         "pickerTitle": "Accent color",
         "pickerHint": "Used on the border, badge, and theme",
         "titles": {
@@ -4188,14 +4222,14 @@
     "featureBadge": {
       "number": "03",
       "title": "Badge beside your name. Title underneath.",
-      "description": "The Premium badge shows up on your profile, reviews, and comments. Your title sits right below your name.",
+      "description": "The Supporter badge shows up on your profile, reviews, and comments. Your title sits right below your name.",
       "bullets": {
         "choices": "9 titles to choose from, or none",
         "toggle": "Hide the badge whenever you want"
       },
       "mockup": {
         "selectorHeader": "Title",
-        "badge": "Premium",
+        "badge": "Supporter",
         "reviewQuote": "“Platinumed after 63 hours. Path of Pain nearly made me quit, and it was the best part.”",
         "replyBody": "Path of Pain deathless is legendary. Congrats!",
         "titles": {
@@ -4225,7 +4259,7 @@
       },
       "collections": {
         "title": "Unlimited collections",
-        "description": "Free accounts can create up to 5 collections. On Premium, create as many as you want.",
+        "description": "Free accounts can create up to 5 collections. As a Supporter, create as many as you want.",
         "gameCount": "{{count}} games",
         "items": {
           "platinums": "Platinumed",
@@ -4236,11 +4270,11 @@
         },
         "sixthCollection": "6th collection",
         "freeLimitPill": "Free: up to 5",
-        "premiumLimitPill": "Premium: unlimited"
+        "premiumLimitPill": "Supporter: unlimited"
       },
       "toggles": {
         "title": "You decide what shows up",
-        "description": "Each perk has its own toggle in Settings, under the Premium tab. We save right away, with no save button.",
+        "description": "Each perk has its own toggle in Settings, under the Supporter tab. We save right away, with no save button.",
         "saved": "Saved",
         "items": {
           "badge": {
@@ -4252,7 +4286,7 @@
             "description": "An animated ring around your avatar."
           },
           "theme": {
-            "title": "Premium theme",
+            "title": "Supporter theme",
             "description": "A strip in your accent color under your banner."
           },
           "live": {
@@ -4260,19 +4294,19 @@
             "description": "The Steam game you're playing right now."
           },
           "wall": {
-            "title": "Premium Wall",
+            "title": "Supporters wall",
             "description": "Show me on the public wall."
           }
         }
       }
     },
     "comparison": {
-      "eyebrow": "Free & Premium",
-      "title": "Free organizes everything. Premium makes your profile yours.",
+      "eyebrow": "Free & Supporter",
+      "title": "Free organizes everything. The Supporter plan makes your profile yours.",
       "columns": {
         "feature": "Feature",
         "free": "Free",
-        "premium": "Premium"
+        "premium": "Supporter"
       },
       "included": "Included",
       "notIncluded": "Not included",
@@ -4282,17 +4316,17 @@
       },
       "rows": {
         "library": "Library, reviews, and game journal",
-        "import": "Steam, PSN, and Xbox import",
-        "achievements": "Achievements and yearly wrapped",
+        "import": "Steam, PSN, Xbox, Epic, Nintendo and GOG import",
+        "achievements": "Achievements and yearly recap",
         "collections": "Collections",
         "collectionsFree": "Up to 5",
         "collectionsPremium": "Unlimited",
         "video": "Video cover and avatar",
         "border": "Animated avatar border",
-        "theme": "Premium theme in your accent color",
+        "theme": "Supporter theme in your accent color",
         "badge": "Badge and title next to your name",
         "live": "Live Steam game on your profile",
-        "wall": "Your name on the Premium Wall"
+        "wall": "Your name on the Supporters wall"
       }
     },
     "pricing": {
@@ -4314,14 +4348,14 @@
         "cta": "Start free",
         "features": {
           "library": "Library, reviews, and game journal",
-          "import": "Steam, PSN, and Xbox import",
-          "achievements": "Achievements and yearly wrapped",
+          "import": "Steam, PSN, Xbox, Epic, Nintendo and GOG import",
+          "achievements": "Achievements and yearly recap",
           "collections": "Up to 5 collections"
         }
       },
       "premium": {
-        "title": "Premium",
-        "badge": "Premium",
+        "title": "Supporter",
+        "badge": "Supporter",
         "tag": "Keeps GameNode online",
         "description": "Everything in Free, plus unlimited collections and extras for your profile.",
         "monthlyFallback": "$1.90",
@@ -4330,16 +4364,16 @@
         "perYear": "per year",
         "yearlyAlt": "or {{price}} per year, 2 months free",
         "monthlyAlt": "or {{price}} per month · 2 months free on annual",
-        "cta": "Subscribe to Premium",
+        "cta": "Become a Supporter",
         "listHeading": "Everything in Free, plus",
         "features": {
           "video": "Video cover and avatar",
           "border": "Animated avatar border",
-          "theme": "Premium theme in your accent color",
+          "theme": "Supporter theme in your accent color",
           "badge": "Badge and title next to your name",
           "live": "Live Steam game on your profile",
           "collections": "Unlimited collections",
-          "wall": "Your name on the Premium Wall"
+          "wall": "Your name on the Supporters wall"
         }
       },
       "footnotes": {
@@ -4349,13 +4383,13 @@
       }
     },
     "wall": {
-      "eyebrow": "Premium Wall",
+      "eyebrow": "Supporters wall",
       "title": "The people keeping GameNode online.",
       "description": "Every name here pays for a piece of the server and the development. Thank you, truly.",
-      "pill": "Premium",
+      "pill": "Supporter",
       "ctaTitle": "Your name here",
-      "ctaLink": "Subscribe to Premium",
-      "note": "The wall only shows the name and avatar of those who subscribe and kept the Premium Wall on."
+      "ctaLink": "Become a Supporter",
+      "note": "The wall only shows the name and avatar of those who subscribe and kept the Supporters wall on."
     },
     "money": {
       "eyebrow": "Where the money goes",
@@ -4386,7 +4420,7 @@
         },
         "collections": {
           "question": "Do I lose my collections if I cancel?",
-          "answer": "No. Everything you created stays intact. With more than 5 collections, you just can't create new ones until you return to Premium."
+          "answer": "No. Everything you created stays intact. With more than 5 collections, you just can't create new ones until you become a Supporter again."
         },
         "video": {
           "question": "Which videos can I use on my profile?",
@@ -4398,7 +4432,7 @@
         },
         "wall": {
           "question": "Can I stay off the Supporters Wall?",
-          "answer": "Yes. In Settings under the Premium tab, you can turn off the Premium Wall anytime without losing any other perks."
+          "answer": "Yes. In Settings under the Supporter tab, you can turn off the Supporters wall anytime without losing any other perks."
         },
         "payment": {
           "question": "How does payment work?",
@@ -4409,7 +4443,7 @@
     "freeForever": {
       "titleStart": "Nothing that is free today will ",
       "titleHighlight": "become paid.",
-      "description": "Your library, imports, reviews and achievements stay free. Premium only adds extras.",
+      "description": "Your library, imports, reviews and achievements stay free. The Supporter plan only adds extras.",
       "github": "View on GitHub",
       "discord": "Join the Discord"
     },
@@ -4418,7 +4452,7 @@
       "titleHighlight": "Your color on your profile.",
       "fallbackPrice": "$1.90",
       "subtitle": "{{price}} per month. Cancel anytime.",
-      "primaryCta": "Subscribe to Premium",
+      "primaryCta": "Become a Supporter",
       "secondaryCta": "Start for free"
     }
   },

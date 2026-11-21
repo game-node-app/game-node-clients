@@ -91,7 +91,7 @@ const DailyPlayView = ({ mode, puzzleId }: Props) => {
       maw={specs ? 1080 : 760}
     >
       <DailyPlayHeader
-        title={"GameNode Daily"}
+        title={t("daily.title")}
         subtitle={t(`daily.modes.${data.mode}.name`)}
         countdown={
           todayQuery.data && {

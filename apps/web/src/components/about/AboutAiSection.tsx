@@ -13,8 +13,8 @@ import { AboutSectionHeader } from "./common/AboutSectionHeader";
 
 const outlineButtonStyle = {
   backgroundColor: "transparent",
-  borderColor: "#3a3a3a",
-  color: "#fafafa",
+  borderColor: "var(--gn-line-strong)",
+  color: "var(--gn-text)",
 } as const;
 
 /**

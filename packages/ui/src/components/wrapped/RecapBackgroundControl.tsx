@@ -370,7 +370,7 @@ export function RecapBackgroundControl({
                 "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-xs transition-colors",
                 active
                   ? "border-brand bg-brand/10 font-semibold text-white"
-                  : "border-white/10 bg-white/[0.03] text-[#9A9A9A] hover:border-white/25 hover:text-white",
+                  : "border-white/10 bg-white/[0.03] text-dimmed-2 hover:border-white/25 hover:text-white",
               )}
             >
               {BACKGROUND_ICONS[option]}

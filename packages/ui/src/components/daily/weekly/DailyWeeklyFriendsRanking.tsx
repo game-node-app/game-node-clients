@@ -19,7 +19,7 @@ const DailyWeeklyFriendsRanking = () => {
   if (query.isError) {
     body = (
       <div className={"flex items-center justify-between gap-3"}>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-dimmed-2)"}>
           {t("daily.fetchError")}
         </Text>
         <Button
@@ -57,11 +57,11 @@ const DailyWeeklyFriendsRanking = () => {
                     { count: row.attempts },
                   )
                 ) : row.status === "lost" ? (
-                  <span className={"font-medium text-[#7A7A7A]"}>
+                  <span className={"font-medium text-dimmed"}>
                     {t("daily.weekly.friends.notGuessed")}
                   </span>
                 ) : (
-                  <span className={"font-medium text-[#7A7A7A]"}>
+                  <span className={"font-medium text-dimmed"}>
                     {t("daily.status.inProgress")}
                   </span>
                 )
@@ -70,7 +70,7 @@ const DailyWeeklyFriendsRanking = () => {
           ))}
         </div>
         {rows.every((row) => row.userId === userId) && (
-          <Text fz={13} c={"#ADADAD"}>
+          <Text fz={13} c={"var(--gn-dimmed-2)"}>
             {t("daily.weekly.friends.invite")}
           </Text>
         )}

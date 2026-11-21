@@ -26,8 +26,8 @@ import {
 import { useTranslation } from "@repo/locales";
 import {
   IconHome,
-  IconLayout2,
   IconLibrary,
+  IconSparkles,
   IconTrendingUp,
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
@@ -111,13 +111,7 @@ const Tabs = () => {
           className={hideTabBar ? "gn-hide-tabbar" : undefined}
           onIonTabsWillChange={onIonTabsWillChange}
         >
-          <IonRouterOutlet
-            id="main-outlet"
-            ref={outletRef}
-            onScroll={(evt) => {
-              console.log("onScroll: ", evt);
-            }}
-          >
+          <IonRouterOutlet id="main-outlet" ref={outletRef}>
             <Redirect exact from="/" to="/home" />
             <Route exact path={"/m/auth"} render={() => <AuthPage />} />
             {/* ---- LIBRARY ROUTES ---- */}
@@ -196,7 +190,11 @@ const Tabs = () => {
             >
               <IconHome />
             </IonTabButton>
-            <IonTabButton tab="notifications" href="/notifications">
+            <IonTabButton
+              tab="notifications"
+              href="/notifications"
+              aria-label={t("notifications.title")}
+            >
               <NotificationsIcon />
             </IonTabButton>
             <IonTabButton
@@ -204,7 +202,7 @@ const Tabs = () => {
               href={WRAPPED_TAB_PATH}
               aria-label={t("mobile.wrapped.title")}
             >
-              <IconLayout2 />
+              <IconSparkles />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

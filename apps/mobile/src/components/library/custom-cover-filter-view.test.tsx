@@ -206,7 +206,7 @@ it("toggling the custom cover chip in a collection sends the filter and shows th
 
   await waitFor(() => expect(collectionSpy).toHaveBeenCalled());
   await waitFor(() =>
-    expect(screen.getByText("This collection is empty.")).toBeTruthy(),
+    expect(screen.getByText("collection.messages.emptyCollection")).toBeTruthy(),
   );
 });
 

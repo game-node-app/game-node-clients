@@ -1,3 +1,4 @@
+import { RECAP_COLORS } from "#@/components/wrapped/card/recapCardTheme";
 import {
   RECAP_ACCENTS,
   type RecapAccent,
@@ -55,7 +56,7 @@ export function RecapCustomizePanel({ value, onChange }: Props) {
                 cursor: "pointer",
                 outline:
                   value.accent === key
-                    ? "2px solid #F4EFE8"
+                    ? `2px solid ${RECAP_COLORS.cream}`
                     : "2px solid transparent",
                 outlineOffset: 2,
               }}

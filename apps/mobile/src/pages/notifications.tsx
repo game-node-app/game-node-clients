@@ -1,10 +1,10 @@
 import { AppPage } from "@/components/general/AppPage";
+import { SignedOutTabPlaceholder } from "@/components/general/SignedOutTabPlaceholder";
 import { useTranslation } from "@repo/locales";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import {
   buildPresenterComponent,
   NotificationsPanel,
-  SessionAuth,
   useSettingsModalState,
 } from "@repo/ui";
 import { useQueryClient } from "@tanstack/react-query";
@@ -44,14 +44,14 @@ const NotificationsPage = () => {
       >
         <IonRefresherContent />
       </IonRefresher>
-      <SessionAuth>
+      <SignedOutTabPlaceholder screen={"notifications"}>
         <div className={"w-full pb-4"}>
           <NotificationsPanelPresenter
             variant={"page"}
             onOpenSettings={() => settings.open("notifications")}
           />
         </div>
-      </SessionAuth>
+      </SignedOutTabPlaceholder>
     </AppPage>
   );
 };

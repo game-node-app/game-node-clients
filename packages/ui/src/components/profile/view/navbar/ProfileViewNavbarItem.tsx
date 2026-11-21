@@ -17,7 +17,7 @@ const ProfileViewNavbarItem = ({
   <UnstyledButton
     onClick={onClick}
     aria-current={active ? "page" : undefined}
-    className="min-w-0 rounded-md px-0.5 py-1 text-white transition-colors hover:bg-paper-3 aria-[current=page]:bg-paper-4 sm:px-4"
+    className="shrink-0 rounded-md px-0.5 py-1 text-white transition-colors hover:bg-paper-3 aria-[current=page]:bg-paper-4 sm:px-4"
   >
     <Stack gap={2} align="center">
       <Text
@@ -30,7 +30,7 @@ const ProfileViewNavbarItem = ({
       <Text
         component="span"
         c="dimmed"
-        className="flex items-center text-center text-[clamp(0.5rem,2.3vw,0.75rem)] [overflow-wrap:normal] sm:gap-1 sm:text-sm"
+        className="flex items-center text-center text-[0.6875rem] leading-tight [overflow-wrap:normal] sm:gap-1 sm:text-sm"
       >
         {label}
         <IconChevronRight

@@ -1,7 +1,6 @@
 import {
   Anchor,
   Box,
-  Group,
   SimpleGrid,
   Stack,
   Text,
@@ -29,19 +28,10 @@ const LandingFooter = () => {
       <Box className={styles.footerPanel}>
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing={60}>
           <Stack gap={30}>
-            <Title order={2} fz={25} maw={390}>
+            <Title order={2} fz={25} maw={390} className={styles.footerTitle}>
               {t("landing.presentation.footerTitle")}
             </Title>
-            <Group mt={40}>
-              <Anchor c="white" href="https://x.com/gamenodeapp">
-                X
-              </Anchor>
-              <Anchor c="white" href="https://discord.gg/kcAT562B5A">
-                DISCORD
-              </Anchor>
-              <Text>INSTAGRAM</Text>
-            </Group>
-            <Text size="xs">{t("landing.presentation.copyright")}</Text>
+            <Text size="xs" mt={40}>{t("landing.presentation.copyright")}</Text>
           </Stack>
           <SimpleGrid cols={{ base: 2, sm: 3 }} spacing={24}>
             <Stack>
@@ -53,13 +43,13 @@ const LandingFooter = () => {
                 {t("landing.presentation.premium")}
               </Anchor>
               <Anchor component={Link} href="/mcp">
-                GameNode + AI
+                {t("navigation.ai")}
               </Anchor>
               <Anchor href="https://play.google.com/store/apps/details?id=app.gamenode">
                 {t("landing.presentation.downloads")}
               </Anchor>
               <Anchor component={Link} href="/blog">
-                Blog
+                {t("landing.presentation.blog")}
               </Anchor>
               <Anchor href="https://discord.gg/kcAT562B5A">
                 {t("landing.presentation.help")}
@@ -76,6 +66,9 @@ const LandingFooter = () => {
               <Anchor href="mailto:support@gamenode.app">
                 {t("landing.presentation.contact")}
               </Anchor>
+              <Anchor component={Link} href="/tos">
+                {t("navigation.terms")}
+              </Anchor>
               <Anchor component={Link} href="/privacy">
                 {t("landing.presentation.privacy")}
               </Anchor>
@@ -84,7 +77,7 @@ const LandingFooter = () => {
               <Text fw={600}>{t("landing.presentation.social")}</Text>
               <Anchor href="https://x.com/gamenodeapp">X / Twitter</Anchor>
               <Anchor href="https://discord.gg/kcAT562B5A">Discord</Anchor>
-              <Text>Instagram</Text>
+              <Anchor href="https://github.com/game-node-app">GitHub</Anchor>
             </Stack>
           </SimpleGrid>
         </SimpleGrid>

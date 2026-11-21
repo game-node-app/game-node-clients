@@ -55,7 +55,7 @@ export const THEME_CATALOG = [
       "background": "#111111",
       "sidebar": "#161616",
       "title": "#FFFFFF",
-      "text": "#828282",
+      "text": "#8F8F8F",
       "accent": "#F15025"
     },
     "native": {

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { aboutAsset } from "./aboutAssets";
 
 /**
@@ -134,6 +135,39 @@ const WALL_INITIAL_VISIBLE = 7;
 /** Skeleton cards shown while the wall request resolves. */
 const WALL_SKELETONS = 8;
 
+/**
+ * Wall columns per breakpoint (tablet, laptop, desktop) as the CSS grid
+ * declares them. `getWallColumnStyle` may deviate by a column so the closing
+ * "Your name here" card never sits alone on a last row.
+ */
+const WALL_BASE_COLUMNS = { md: 3, lg: 4, xl: 6 } as const;
+
+const pickWallColumns = (total: number, base: number) => {
+  const candidates = [
+    base,
+    ...(total <= base + 1 ? [base + 1] : []),
+    base - 1,
+    base - 2,
+  ].filter((columns) => columns >= 2);
+
+  const fit = candidates.find(
+    (columns) => total <= columns || total % columns !== 1,
+  );
+
+  return fit ?? base;
+};
+
+/**
+ * Inline CSS variables for the wall grid. `total` counts every tile,
+ * including the closing CTA card.
+ */
+const getWallColumnStyle = (total: number): CSSProperties =>
+  ({
+    "--wall-cols-md": pickWallColumns(total, WALL_BASE_COLUMNS.md),
+    "--wall-cols-lg": pickWallColumns(total, WALL_BASE_COLUMNS.lg),
+    "--wall-cols-xl": pickWallColumns(total, WALL_BASE_COLUMNS.xl),
+  }) as CSSProperties;
+
 const ABOUT_CLOSING_LINKS = {
   github: "https://github.com/game-node-app",
   discord: "https://discord.gg/kcAT562B5A",
@@ -141,6 +175,7 @@ const ABOUT_CLOSING_LINKS = {
 
 export {
   ABOUT_CLOSING_LINKS,
+  getWallColumnStyle,
   PREMIUM_GROUPS,
   PREMIUM_GUARANTEES,
   PREMIUM_PROFILE,

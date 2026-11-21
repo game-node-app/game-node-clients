@@ -9,7 +9,7 @@
       "titleHighlight": "um lugar.",
       "description": "O GameNode junta sua biblioteca da Steam, PlayStation, Xbox, Epic Games, Nintendo e GOG, guarda suas horas, reviews e conquistas e mostra o que seus amigos estão jogando.",
       "primaryCta": "Criar minha conta grátis",
-      "secondaryCta": "Conhecer o Premium",
+      "secondaryCta": "Conhecer o plano Apoiador",
       "footnote": "Grátis para organizar. Código aberto.",
       "footnoteLogin": "Já tem conta? Entrar",
       "playing": "Jogando",
@@ -31,7 +31,7 @@
         },
         "community": {
           "title": "Mantido pela comunidade",
-          "description": "Quem assina o Premium paga servidores e desenvolvimento e mantém o projeto no ar para todo mundo."
+          "description": "Quem é Apoiador paga servidores e desenvolvimento e mantém o projeto no ar para todo mundo."
         }
       }
     },
@@ -101,8 +101,8 @@
           "description": "Saiba quando alguém segue você, curte sua review ou comenta um post."
         },
         "premium": {
-          "title": "Premium",
-          "description": "Tema, selo, capa em vídeo, coleções ilimitadas e seu nome no Mural Premium."
+          "title": "Apoiador",
+          "description": "Tema, selo, capa em vídeo, coleções ilimitadas e seu nome no mural de apoiadores."
         }
       }
     },
@@ -368,12 +368,12 @@
       "appStore": "Em breve na App Store"
     },
     "premium": {
-      "eyebrow": "Premium",
+      "eyebrow": "Apoiador",
       "title": "Seu perfil com a sua cara. E o GameNode no ar.",
-      "description": "Organizar seus jogos continua grátis. O Premium adiciona extras para o seu perfil e paga servidores e desenvolvimento.",
-      "badge": "Premium",
+      "description": "Organizar seus jogos continua grátis. O plano Apoiador adiciona extras para o seu perfil e paga servidores e desenvolvimento.",
+      "badge": "Apoiador",
       "profile": {
-        "premiumSince": "Premium desde {{year}}",
+        "premiumSince": "Apoiador desde {{year}}",
         "level": "Nível {{level}} · {{followers}} seguidores · {{following}} seguindo",
         "playingNow": "JOGANDO AGORA NA STEAM"
       },
@@ -382,7 +382,7 @@
           "title": "Seu perfil, do seu jeito",
           "videoCover": "Capa do perfil em vídeo",
           "animatedBorder": "Borda animada no avatar",
-          "theme": "Tema Premium na sua cor de destaque"
+          "theme": "Tema de Apoiador na sua cor de destaque"
         },
         "library": {
           "title": "Sua biblioteca, sem limites",
@@ -394,11 +394,11 @@
         },
         "supporter": {
           "title": "Mostre que você apoia",
-          "badge": "Selo e título Premium ao lado do nome",
-          "wall": "Seu nome no Mural Premium"
+          "badge": "Selo e título de Apoiador ao lado do nome",
+          "wall": "Seu nome no mural de apoiadores"
         }
       },
-      "cta": "Conhecer o Premium",
+      "cta": "Conhecer o plano Apoiador",
       "freeCta": "Começar grátis",
       "guarantees": {
         "cancel": "Cancele quando quiser, direto no app",
@@ -406,14 +406,14 @@
       }
     },
     "wall": {
-      "eyebrow": "Mural Premium",
+      "eyebrow": "Mural de apoiadores",
       "title": "As pessoas que mantêm o GameNode online.",
       "description": "Cada nome aqui paga um pedaço do servidor e do desenvolvimento. Obrigado de verdade.",
-      "pill": "Premium",
-      "note": "O mural mostra quem assina o Premium e deixou a opção Lista Premium ativada.",
+      "pill": "Apoiador",
+      "note": "O mural mostra quem é Apoiador e deixou a opção do mural de apoiadores ativada.",
       "emptyCard": {
         "title": "Seu nome aqui",
-        "cta": "Assinar o Premium"
+        "cta": "Seja Apoiador"
       }
     },
     "promise": {
@@ -633,6 +633,8 @@
   },
   "app": {
     "betterInApp": "GameNode é (ainda) melhor no app!",
+    "closeBanner": "Dispensar sugestão do app",
+    "googlePlayAlt": "Disponível no Google Play",
     "metaDescription": "GameNode é a plataforma ideal para gerenciar sua coleção de jogos virtualmente.",
     "openInApp": "Abrir no app",
     "title": "GameNode"
@@ -940,6 +942,7 @@
     "votedByPublic": "Votado pelo público"
   },
   "blog": {
+    "about": "Sobre o blog",
     "buttons": {
       "browseBlog": "Explorar o blog",
       "seeMore": "Ver mais"
@@ -1018,11 +1021,16 @@
       "atLeastOneGame": "Pelo menos um jogo deve ser selecionado.",
       "changesCount": "{{count}} alterações",
       "createSuccess": "Coleção criada com sucesso.",
+      "emptyCollection": "Esta coleção está vazia.",
+      "fetchFailed": "Não foi possível carregar esta coleção. Tente novamente.",
       "gamesToMove": "Jogos para mover",
       "gamesToMoveHint": "Selecione quais jogos você quer mover. Você pode pesquisar digitando o nome de um jogo.",
       "orderingHint": "Arraste e solte elementos para reordenar jogos nesta coleção. Esta ordenação será mostrada quando um visitante selecionar \"Ordem do Usuário\" (padrão) como opção de ordenação.",
       "orderingUpdated": "A ordenação da sua coleção foi atualizada.",
       "relevantFilteringFailed": "A filtragem de entradas relevantes da coleção está falhando. Por favor, contate o suporte.",
+      "removeConfirm": "Tem certeza de que quer remover a coleção \"{{name}}\"?",
+      "removeNote": "Os jogos desta coleção continuam na sua biblioteca e você pode adicioná-los a outras coleções depois.",
+      "reviewTitle": "Análise de {{username}}",
       "syncFailed": "Falha ao sincronizar alterações!",
       "targetCollectionStringError": "Coleções de destino retornadas como string. Por favor, contate o suporte.",
       "targetCollections": "Coleções de destino",
@@ -1044,6 +1052,7 @@
       "all": "Todas as Coleções",
       "createModal": "Criar coleção",
       "featured": "Coleções em Destaque",
+      "moveGames": "Mover jogos",
       "new": "Nova Coleção",
       "updateModal": "Atualizar coleção"
     },
@@ -1195,6 +1204,7 @@
     }
   },
   "daily": {
+    "title": "GameNode Daily",
     "subtitle": "Quatro jogos novos todo dia. Mesmo puzzle para todo mundo.",
     "fetchError": "Não foi possível carregar os desafios do dia.",
     "fetchErrorDescription": "Verifique sua conexão e tente de novo. Se continuar, volte em alguns minutos.",
@@ -1304,6 +1314,7 @@
     },
     "archive": {
       "link": "Arquivo",
+      "pastDays": "Dias anteriores",
       "title": "Arquivo: {{mode}}",
       "empty": "Ainda não há desafios anteriores."
     },
@@ -1481,6 +1492,7 @@
       "button": "Ranking",
       "result": {
         "points": "+{{points}} pts no ranking",
+        "pointsOne": "+{{points}} pt no ranking",
         "rose": "você subiu para #{{position}}",
         "entered": "você entrou em #{{position}}",
         "same": "você está em #{{position}}",
@@ -1638,6 +1650,7 @@
       "modes": "Modos",
       "platforms": "Plataformas",
       "themes": "Temas",
+      "title": "Filtros",
       "trendingIn": "Em alta em"
     },
     "metaTitle": "Explorar - GameNode",
@@ -1717,6 +1730,7 @@
       "notAvailable": "Não disponível",
       "publishers": "Editora(s)",
       "summary": "Resumo",
+      "tags": "Tags",
       "whereToBuy": "Onde comprar",
       "whereToPlay": "Onde jogar"
     },
@@ -1732,17 +1746,24 @@
     },
     "labels": {
       "externalStore": "Loja externa",
+      "fromUsers": "De nossos usuários",
       "gridView": "Grade",
+      "imageAlt": "Imagem do jogo",
+      "images": "Imagens",
       "inLibrary": "Na sua biblioteca",
       "listView": "Lista",
       "playedIn": "Jogado em",
       "share": "Compartilhar",
       "tip": "Dica",
-      "userRating": "Avaliação dos Usuários"
+      "userRating": "Avaliação dos usuários"
     },
     "messages": {
       "noEntry": "Nenhuma entrada encontrada.",
-      "notEnoughReviews": "Não temos avaliações suficientes para este jogo."
+      "noReviewsYet": "Ainda não há avaliações.",
+      "notEnoughReviews": "Não temos avaliações suficientes para este jogo.",
+      "reviewCount_one": "{{count}} avaliação",
+      "reviewCount_other": "{{count}} avaliações",
+      "reviewsFetchFailed": "Falha ao carregar as avaliações. Tente novamente."
     },
     "progress": {
       "added": "Adicionado",
@@ -1811,10 +1832,13 @@
       "basedOnIgdb": "Baseado em {{count}} envios para a",
       "completionist": "100%",
       "completionistDesc": "Tempo médio para terminar o jogo com 100% de conclusão.",
+      "hours_one": "{{count}} hora",
+      "hours_other": "{{count}} horas",
       "mainExtras": "Principal + Extras",
       "mainExtrasDesc": "Tempo médio para terminar o jogo incluindo alguns extras como missões secundárias, sem ser totalmente minucioso.",
       "mainStory": "História principal",
       "mainStoryDesc": "Tempo médio para terminar o jogo até os créditos sem gastar tempo relevante em extras como missões secundárias.",
+      "notAvailable": "N/D",
       "notEnoughSubmissions": "Sem envios suficientes.",
       "title": "Tempo para zerar"
     },
@@ -2024,7 +2048,7 @@
         },
         "features": {
           "library": "Biblioteca, avaliações e diário de jogos",
-          "import": "Importação da Steam, PSN e Xbox",
+          "import": "Importação da Steam, PSN, Xbox, Epic, Nintendo e GOG",
           "achievements": "Conquistas e retrospectiva anual",
           "videoCover": "Capa do perfil em vídeo",
           "animatedBorder": "Borda animada no avatar",
@@ -2238,14 +2262,20 @@
       "profile": "Perfil"
     },
     "recap": {
-      "titleFor": "Recap de {{year}} para {{username}}",
-      "titleOwn": "Seu Recap de {{year}}"
+      "titleFor": "Retrospectiva de {{year}} para {{username}}",
+      "titleOwn": "Sua Retrospectiva de {{year}}"
     },
     "search": {
       "fetchFailed": "Falha ao buscar resultados.",
       "noResults": "Sem resultados.",
       "placeholder": "Buscar usuários ou jogos",
       "startTyping": "Comece a digitar para ver resultados."
+    },
+    "signedOut": {
+      "description": "Entre ou crie uma conta para acompanhar seus jogos.",
+      "library": "Entre para ver sua biblioteca",
+      "notifications": "Entre para ver suas notificações",
+      "wrapped": "Entre para ver seu Wrapped"
     },
     "wrapped": {
       "background": {
@@ -2444,7 +2474,7 @@
         "posterTagline": "jogadas nos últimos 12 meses",
         "top3Title": "TOP 3 JOGOS",
         "topGameBadge": "JOGO #1",
-        "viewRecap": "Ver recap →"
+        "viewRecap": "Ver retrospectiva →"
       },
       "yearly": "Wrapped Anual"
     }
@@ -2467,7 +2497,7 @@
     "blog": "Blog",
     "collections": "Coleções",
     "daily": "Daily",
-    "dailyNodes": "Daily Nodes",
+    "dailyNodes": "GameNode Daily",
     "dock": {
       "badgeLive": "Ao vivo",
       "badgeNewFeminine": "Nova",
@@ -2488,7 +2518,7 @@
     "new": "Novo",
     "posts": "Postagens",
     "preferences": "Preferências",
-    "premium": "Premium",
+    "premium": "Apoiador",
     "privacy": "Privacidade",
     "profile": "Perfil",
     "recap": "Retrospectiva",
@@ -2503,6 +2533,7 @@
         "tools": "Ferramentas",
         "yourSpace": "Seu espaço"
       },
+      "signInPrompt": "Entre para acompanhar seus jogos, avaliações e mais.",
       "version": "Versão {{version}}"
     },
     "stats": "Estatísticas",
@@ -2511,7 +2542,7 @@
   },
   "notFoundPage": {
     "backHome": "Voltar ao início",
-    "description": "A página que você procurou não carregou. Bora voltar pro jogo?",
+    "description": "Esta página não existe ou pode ter mudado de lugar. Bora voltar pro jogo?",
     "eyebrow": "Erro 404 · Fase não encontrada",
     "searchGames": "Buscar jogos",
     "title": "Essa fase não existe.",
@@ -2876,7 +2907,7 @@
       "connections": "Contas vinculadas",
       "noConnections": "Nenhuma conta vinculada ainda.",
       "linkAccount": "Vincular conta",
-      "onSupportersWall": "Na Lista Premium",
+      "onSupportersWall": "No mural de apoiadores",
       "copyLink": "Copiar link",
       "shareProfile": "Compartilhar perfil",
       "editAccounts": "Editar contas",
@@ -2905,6 +2936,7 @@
     "messages": {
       "achievementsUpdated": "Conquista em destaque atualizada com sucesso!",
       "bioUpdated": "Biografia atualizada com sucesso!",
+      "featuredAchievementsHint": "Clique para editar. Só a primeira conquista aparece no seu perfil.",
       "fetchFailed": "Não foi possível buscar esses dados. Tente novamente.",
       "noAchievements": "Você ainda não obteve nenhuma conquista. Volte aqui mais tarde, aventureiro!",
       "noFavoriteGames": "Este usuário ainda não tem jogos favoritos.",
@@ -2961,7 +2993,9 @@
     "titles": {
       "activity": "Atividade de {{username}}",
       "favoriteGames": "Jogos favoritos",
+      "featuredAchievements": "Conquistas em destaque",
       "library": "Biblioteca de {{username}}",
+      "updateUsername": "Alterar nome de usuário",
       "selectAchievements": "Selecionar conquistas em destaque"
     },
     "usernameRules": {
@@ -3500,7 +3534,7 @@
       "comingSoon": "Em breve",
       "available": {
         "library": "Biblioteca de jogos",
-        "imports": "Importação da Steam, PSN e Xbox",
+        "imports": "Importação da Steam, PSN, Xbox, Epic, Nintendo e GOG",
         "achievements": "Conquistas",
         "reviews": "Avaliações",
         "journal": "Diário de jogos",
@@ -4080,23 +4114,23 @@
   },
   "premium": {
     "meta": {
-      "title": "GameNode Premium — Seu perfil com a sua cara",
+      "title": "GameNode Apoiador — Seu perfil com a sua cara",
       "description": "Capa em vídeo, borda animada, sua cor no perfil, o jogo da Steam ao vivo e coleções sem limite. Cada assinatura paga servidores e desenvolvimento."
     },
     "hero": {
-      "eyebrow": "GameNode Premium",
+      "eyebrow": "GameNode Apoiador",
       "titleStart": "Seu perfil com a sua cara.",
       "titleHighlight": "E o GameNode no ar.",
       "description": "Capa em vídeo, borda animada, sua cor no perfil, o jogo da Steam ao vivo e coleções sem limite. Cada assinatura paga servidores e desenvolvimento.",
       "fallbackMonthlyPrice": "R$ 9,90",
       "fallbackYearlyPrice": "R$ 99,00",
       "priceSuffix": "por mês · ou {{yearly}} por ano",
-      "primaryCta": "Assinar o Premium",
+      "primaryCta": "Seja Apoiador",
       "secondaryCta": "Ver o que vem junto",
       "guarantee": "Cancele quando quiser, direto no app. ",
       "guaranteeHighlight": "Organizar seus jogos continua grátis.",
       "profile": {
-        "badge": "Premium",
+        "badge": "Apoiador",
         "title": "Completista",
         "stats": "Nível 14 · 10 seguidores · 15 seguindo",
         "steamPlaying": "JOGANDO AGORA NA STEAM",
@@ -4108,7 +4142,7 @@
       }
     },
     "extras": {
-      "eyebrow": "O que vem no Premium",
+      "eyebrow": "O que vem no plano Apoiador",
       "title": "Oito extras. Todos ligam e desligam na hora.",
       "items": {
         "video": {
@@ -4124,7 +4158,7 @@
           "description": "Uma faixa na sua cor sob o banner."
         },
         "badge": {
-          "title": "Selo Premium",
+          "title": "Selo de Apoiador",
           "description": "No perfil, nas reviews e nos comentários."
         },
         "title": {
@@ -4140,7 +4174,7 @@
           "description": "O grátis vai até 5. Aqui não tem teto."
         },
         "wall": {
-          "title": "Mural Premium",
+          "title": "Mural de apoiadores",
           "description": "Seu nome e avatar no mural público."
         }
       }
@@ -4167,15 +4201,15 @@
     "featureAccent": {
       "number": "02",
       "title": "Uma cor sua, em todo lugar do perfil.",
-      "description": "Escolha a cor de destaque. Ela pinta a borda animada do avatar, o selo e a faixa do tema Premium sob o banner.",
+      "description": "Escolha a cor de destaque. Ela pinta a borda animada do avatar, o selo e a faixa do tema de Apoiador sob o banner.",
       "bullets": {
         "palette": "Paleta pronta ou cor personalizada em hex",
         "toggles": "Borda animada e tema com interruptor próprio",
         "preview": "Prévia ao vivo antes de salvar"
       },
       "mockup": {
-        "stripLabel": "PREMIUM",
-        "badge": "Premium",
+        "stripLabel": "APOIADOR",
+        "badge": "Apoiador",
         "pickerTitle": "Cor de destaque",
         "pickerHint": "Usada na borda, no selo e no tema",
         "titles": {
@@ -4188,14 +4222,14 @@
     "featureBadge": {
       "number": "03",
       "title": "Selo ao lado do nome. Título embaixo.",
-      "description": "O selo Premium aparece no seu perfil, nas suas reviews e nos seus comentários. O título fica logo abaixo do nome.",
+      "description": "O selo de Apoiador aparece no seu perfil, nas suas reviews e nos seus comentários. O título fica logo abaixo do nome.",
       "bullets": {
         "choices": "9 títulos para escolher, ou nenhum",
         "toggle": "Esconda o selo quando quiser"
       },
       "mockup": {
         "selectorHeader": "Título",
-        "badge": "Premium",
+        "badge": "Apoiador",
         "reviewQuote": "“Platinei depois de 63 horas. O Caminho da Dor quase me fez desistir, e foi a melhor parte.”",
         "replyBody": "Caminho da Dor sem morrer é lenda. Parabéns!",
         "titles": {
@@ -4225,7 +4259,7 @@
       },
       "collections": {
         "title": "Coleções sem limite",
-        "description": "Contas grátis criam até 5 coleções. No Premium, crie quantas quiser.",
+        "description": "Contas grátis criam até 5 coleções. Como Apoiador, crie quantas quiser.",
         "gameCount": "{{count}} jogos",
         "items": {
           "platinums": "Platinados",
@@ -4236,11 +4270,11 @@
         },
         "sixthCollection": "6ª coleção",
         "freeLimitPill": "Grátis: até 5",
-        "premiumLimitPill": "Premium: sem limite"
+        "premiumLimitPill": "Apoiador: sem limite"
       },
       "toggles": {
         "title": "Você decide o que aparece",
-        "description": "Cada extra tem seu próprio interruptor em Configurações, na aba Premium. Salvamos na hora, sem botão de salvar.",
+        "description": "Cada extra tem seu próprio interruptor em Configurações, na aba Apoiador. Salvamos na hora, sem botão de salvar.",
         "saved": "Salvo",
         "items": {
           "badge": {
@@ -4252,7 +4286,7 @@
             "description": "Um anel animado ao redor do avatar."
           },
           "theme": {
-            "title": "Tema Premium",
+            "title": "Tema de Apoiador",
             "description": "Uma faixa na sua cor sob o banner."
           },
           "live": {
@@ -4260,19 +4294,19 @@
             "description": "O jogo da Steam que você está jogando."
           },
           "wall": {
-            "title": "Mural Premium",
+            "title": "Mural de apoiadores",
             "description": "Mostre-me no mural público."
           }
         }
       }
     },
     "comparison": {
-      "eyebrow": "Grátis e Premium",
-      "title": "O grátis organiza tudo. O Premium deixa o perfil com a sua cara.",
+      "eyebrow": "Grátis e Apoiador",
+      "title": "O grátis organiza tudo. O plano Apoiador deixa o perfil com a sua cara.",
       "columns": {
         "feature": "Recurso",
         "free": "Grátis",
-        "premium": "Premium"
+        "premium": "Apoiador"
       },
       "included": "Incluído",
       "notIncluded": "Não incluído",
@@ -4282,17 +4316,17 @@
       },
       "rows": {
         "library": "Biblioteca, avaliações e diário de jogos",
-        "import": "Importação da Steam, PSN e Xbox",
+        "import": "Importação da Steam, PSN, Xbox, Epic, Nintendo e GOG",
         "achievements": "Conquistas e retrospectiva anual",
         "collections": "Coleções",
         "collectionsFree": "Até 5",
         "collectionsPremium": "Ilimitadas",
         "video": "Capa e avatar em vídeo",
         "border": "Borda animada no avatar",
-        "theme": "Tema Premium na sua cor de destaque",
+        "theme": "Tema de Apoiador na sua cor de destaque",
         "badge": "Selo e título ao lado do nome",
         "live": "O jogo da Steam ao vivo no perfil",
-        "wall": "Seu nome no Mural Premium"
+        "wall": "Seu nome no mural de apoiadores"
       }
     },
     "pricing": {
@@ -4314,14 +4348,14 @@
         "cta": "Começar grátis",
         "features": {
           "library": "Biblioteca, avaliações e diário de jogos",
-          "import": "Importação da Steam, PSN e Xbox",
+          "import": "Importação da Steam, PSN, Xbox, Epic, Nintendo e GOG",
           "achievements": "Conquistas e retrospectiva anual",
           "collections": "Até 5 coleções"
         }
       },
       "premium": {
-        "title": "Premium",
-        "badge": "Premium",
+        "title": "Apoiador",
+        "badge": "Apoiador",
         "tag": "Mantém o GameNode no ar",
         "description": "Tudo do plano Grátis, mais coleções ilimitadas e extras para o seu perfil.",
         "monthlyFallback": "R$ 9,90",
@@ -4330,16 +4364,16 @@
         "perYear": "por ano",
         "yearlyAlt": "ou {{price}} por ano, 2 meses grátis",
         "monthlyAlt": "ou {{price}} por mês · 2 meses grátis no anual",
-        "cta": "Assinar o Premium",
+        "cta": "Seja Apoiador",
         "listHeading": "Tudo do Grátis, mais",
         "features": {
           "video": "Capa e avatar em vídeo",
           "border": "Borda animada no avatar",
-          "theme": "Tema Premium na sua cor de destaque",
+          "theme": "Tema de Apoiador na sua cor de destaque",
           "badge": "Selo e título ao lado do seu nome",
           "live": "O jogo da Steam ao vivo no perfil",
           "collections": "Coleções ilimitadas",
-          "wall": "Seu nome no Mural Premium"
+          "wall": "Seu nome no mural de apoiadores"
         }
       },
       "footnotes": {
@@ -4349,13 +4383,13 @@
       }
     },
     "wall": {
-      "eyebrow": "Mural Premium",
+      "eyebrow": "Mural de apoiadores",
       "title": "As pessoas que mantêm o GameNode online.",
       "description": "Cada nome aqui paga um pedaço do servidor e do desenvolvimento. Obrigado de verdade.",
-      "pill": "Premium",
+      "pill": "Apoiador",
       "ctaTitle": "Seu nome aqui",
-      "ctaLink": "Assinar o Premium",
-      "note": "O mural mostra só nome e avatar de quem assina e deixou o Mural Premium ligado."
+      "ctaLink": "Seja Apoiador",
+      "note": "O mural mostra só nome e avatar de quem assina e deixou o mural de apoiadores ligado."
     },
     "money": {
       "eyebrow": "Para onde vai o dinheiro",
@@ -4386,7 +4420,7 @@
         },
         "collections": {
           "question": "Perco minhas coleções se eu sair?",
-          "answer": "Não. Tudo o que você criou continua lá. Com mais de 5 coleções, só não dá para criar novas até voltar ao Premium."
+          "answer": "Não. Tudo o que você criou continua lá. Com mais de 5 coleções, só não dá para criar novas até se tornar Apoiador de novo."
         },
         "video": {
           "question": "Qual vídeo posso usar no perfil?",
@@ -4397,8 +4431,8 @@
           "answer": "Com a Steam. Conecte sua conta da Steam em Conexões e o perfil mostra o jogo aberto agora, atualizado a cada minuto."
         },
         "wall": {
-          "question": "Posso ficar fora do Mural Premium?",
-          "answer": "Sim. Em Configurações, na aba Premium, você desliga o Mural Premium quando quiser sem perder nenhum outro extra."
+          "question": "Posso ficar fora do mural de apoiadores?",
+          "answer": "Sim. Em Configurações, na aba Apoiador, você desliga o mural de apoiadores quando quiser sem perder nenhum outro extra."
         },
         "payment": {
           "question": "Como funciona o pagamento?",
@@ -4409,7 +4443,7 @@
     "freeForever": {
       "titleStart": "Nada do que é grátis hoje vai ",
       "titleHighlight": "passar a ser pago.",
-      "description": "Sua biblioteca, importações, análises e conquistas continuam grátis. O Premium só adiciona extras.",
+      "description": "Sua biblioteca, importações, análises e conquistas continuam grátis. O plano Apoiador só adiciona extras.",
       "github": "Ver no GitHub",
       "discord": "Entrar no Discord"
     },
@@ -4418,7 +4452,7 @@
       "titleHighlight": "Sua cor no perfil.",
       "fallbackPrice": "R$ 9,90",
       "subtitle": "{{price}} por mês. Cancele quando quiser.",
-      "primaryCta": "Assinar o Premium",
+      "primaryCta": "Seja Apoiador",
       "secondaryCta": "Começar grátis"
     }
   },

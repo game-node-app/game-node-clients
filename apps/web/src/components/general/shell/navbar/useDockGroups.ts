@@ -1,9 +1,11 @@
-import { useRecapVisited, useSeasonEvents } from "@repo/ui";
+import { useRecapVisited, useSeasonEvents, useUserId } from "@repo/ui";
 import { buildDockGroups } from "./dockGroups";
 import type { DockGroupDefinition } from "./dockItems";
 
 /**
  * Dock groups with the seasonal entries (design §5).
+ *
+ * Visitors do not get "Your space" (its pages need an account).
  *
  * The "Nova" marker of the Retrospectiva is read through `useRecapVisited`, an
  * external-store snapshot: it refreshes when the viewer returns from the Recap
@@ -12,8 +14,9 @@ import type { DockGroupDefinition } from "./dockItems";
  */
 export function useDockGroups(): DockGroupDefinition[] {
   const season = useSeasonEvents();
+  const signedIn = Boolean(useUserId());
   const recapYear = season.recapEntry?.year ?? null;
   const recapVisited = useRecapVisited(recapYear);
 
-  return buildDockGroups(season, { recapVisited });
+  return buildDockGroups(season, { recapVisited, signedIn });
 }

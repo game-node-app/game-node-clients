@@ -1,5 +1,6 @@
 import {
   alpha,
+  Badge,
   Chip,
   colorsTuple,
   createTheme,
@@ -10,6 +11,7 @@ import {
   MantineTheme,
   parseThemeColor,
   SegmentedControl,
+  Tabs,
   ThemeIcon,
   VariantColorsResolver,
 } from "@mantine/core";
@@ -93,6 +95,21 @@ const themeOverride = createTheme({
     // Without a `color`, ThemeIcon skips `variantColorResolver` and falls back to
     // Mantine's CSS defaults (white on the primary fill, orange-on-brown light).
     ThemeIcon: ThemeIcon.extend({ defaultProps: { color: "brand" } }),
+    // Same for Badge: a colour-less filled badge would keep white text on the brand fill.
+    // `sm` is 10px by default, too small for uppercase labels.
+    Badge: Badge.extend({
+      defaultProps: { color: "brand" },
+      classNames: { root: classes.badge },
+    }),
+    // Pills read `--tabs-text-color` for the active label, which Mantine only fills in through
+    // `autoContrast` (it can't measure CSS variables), so it would stay white on the brand fill.
+    Tabs: Tabs.extend({
+      styles: (theme, { color }) => {
+        const flat = getFlatPaletteColor(color ?? theme.primaryColor, theme);
+        const contrast = flat && getContrastToken(flat, "filled");
+        return contrast ? { root: { "--tabs-text-color": contrast } } : {};
+      },
+    }),
     // Same for Chip: with no `color`/`variant` it keeps white text on the primary fill.
     Chip: Chip.extend({ defaultProps: { color: "brand" } }),
     // SegmentedControl handles its own active label and can't measure CSS variables.

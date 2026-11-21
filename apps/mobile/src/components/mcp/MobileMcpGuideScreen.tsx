@@ -93,7 +93,9 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
         <span
           className={cn(
             "flex size-10 shrink-0 items-center justify-center rounded-xl",
-            active ? "bg-brand text-[#111111]" : "bg-paper-4 text-neutral-300",
+            active
+              ? "bg-brand text-accent-contrast"
+              : "bg-paper-4 text-neutral-300",
           )}
         >
           {icon}

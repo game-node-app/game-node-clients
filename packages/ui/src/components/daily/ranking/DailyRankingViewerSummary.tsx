@@ -23,7 +23,7 @@ const Tile = ({ value, label }: { value: string; label: string }) => (
     <Text fz={18} fw={700} c={"white"} lh={1.3}>
       {value}
     </Text>
-    <Text fz={11} className={"text-[#7A7A7A]"}>
+    <Text fz={11} className={"text-dimmed"}>
       {label}
     </Text>
   </div>
@@ -74,7 +74,7 @@ const DailyRankingViewerSummary = ({
             />
           </div>
           {pointsToTop100 != null && (
-            <Text fz={12} c={"#ADADAD"}>
+            <Text fz={12} c={"var(--gn-dimmed-2)"}>
               {t("daily.ranking.summary.gap", {
                 points: formatDailyPoints(pointsToTop100, language),
               })}
@@ -82,7 +82,7 @@ const DailyRankingViewerSummary = ({
           )}
         </>
       ) : (
-        <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+        <Text fz={13} lh={"19px"} c={"var(--gn-dimmed-2)"}>
           {t("daily.ranking.summary.empty")}
         </Text>
       )}

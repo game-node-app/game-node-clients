@@ -33,7 +33,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
         <Title order={2} fz={18} fw={600} className={"text-white"}>
           {t("achievements.almostThere.title")}
         </Title>
-        <Text fz={14} lh={"normal"} className={"text-[#8c8c8c]"}>
+        <Text fz={14} lh={"normal"} className={"text-dimmed-1"}>
           {t("achievements.almostThere.subtitle")}
         </Text>
       </Stack>
@@ -57,7 +57,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
               }
               style={{
                 backgroundImage:
-                  "linear-gradient(158deg, #1a120f 0%, #121212 60%)",
+                  "linear-gradient(158deg, color-mix(in srgb, var(--gn-brand) 4%, var(--gn-paper-7)) 0%, var(--gn-paper-7) 60%)",
               }}
             >
               <Group gap={16} align={"center"} wrap={"nowrap"}>
@@ -79,7 +79,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
                   <Text
                     fz={13}
                     lh={"normal"}
-                    className={"text-[#a6a6a6]"}
+                    className={"text-dimmed-2"}
                     lineClamp={2}
                   >
                     {item.achievement.description}
@@ -95,7 +95,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
                   </Box>
 
                   <Group justify={"space-between"} gap={8} mt={6}>
-                    <Text fz={12} lh={"normal"} className={"text-[#a6a6a6]"}>
+                    <Text fz={12} lh={"normal"} className={"text-dimmed-2"}>
                       {t("achievements.almostThere.progress", {
                         value: formatFeatNumber(value, locale),
                         threshold: formatFeatNumber(threshold, locale),

@@ -58,9 +58,9 @@ const DEFAULT_ProfileReviewListItem = ({ review, preview = false }: Props) => {
       extensions: DEFAULT_REVIEW_EDITOR_EXTENSIONS,
       editable: false,
       immediatelyRender: false,
-      content: review.content ?? `<p>${t("review.messages.noContent")}</p>`,
+      content: review.content ?? "",
     },
-    [review.content, t],
+    [review.content],
   );
 
   const gameReviewsHref = `/game/${review.gameId}?tab=reviews`;
@@ -115,15 +115,12 @@ const DEFAULT_ProfileReviewListItem = ({ review, preview = false }: Props) => {
             />
           </Group>
           <Box px="xs" pb={6} className="flex-1 text-sm text-dimmed">
-            {review.content ? (
+            {/* Rating-only reviews have no body: leave the space empty rather than say so. */}
+            {review.content && (
               <EditorContent
                 editor={editor}
                 className="line-clamp-2 break-words"
               />
-            ) : (
-              <Text size="sm" c="dimmed">
-                {t("review.messages.noContent")}
-              </Text>
             )}
           </Box>
           <Divider />
@@ -153,7 +150,9 @@ const DEFAULT_ProfileReviewListItem = ({ review, preview = false }: Props) => {
         </Title>
       </Stack>
       <Stack className={"w-9/12 lg:w-10/12 px-2 gap-2 min-h-64"}>
-        <EditorContent editor={editor} className={"line-clamp-[12]"} />
+        {review.content && (
+          <EditorContent editor={editor} className={"line-clamp-[12]"} />
+        )}
         <Divider className={"w-full mt-auto"} />
         <Group className={"w-full justify-between flex-nowrap"}>
           <TextLink href={reviewHref} className={"text-dimmed"}>

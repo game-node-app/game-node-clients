@@ -162,7 +162,7 @@ export function AwardsEventBand({
                 {step.state === "done" ? (
                   <span
                     className={
-                      "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-state-played text-[#0b0b0b]"
+                      "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-state-played text-accent-contrast"
                     }
                   >
                     <IconCheck size={14} stroke={3} aria-hidden={"true"} />

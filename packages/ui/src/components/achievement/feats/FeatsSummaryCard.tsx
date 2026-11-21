@@ -33,7 +33,7 @@ const SummaryStat = ({ value, label }: SummaryStatProps) => (
     >
       {value}
     </Text>
-    <Text fz={12} lh={"normal"} className={"text-[#a6a6a6]"}>
+    <Text fz={12} lh={"normal"} className={"text-dimmed-2"}>
       {label}
     </Text>
   </Stack>
@@ -69,7 +69,7 @@ const FeatsSummaryCard = ({
               </span>
               <span
                 className={
-                  "text-[13px] font-medium sm:text-[16px] text-[#7a7a7a]"
+                  "text-[13px] font-medium sm:text-[16px] text-dimmed-1"
                 }
               >
                 {" / "}

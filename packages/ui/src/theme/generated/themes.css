@@ -10,7 +10,7 @@
   --gn-surface: #161616;
   --gn-surface-rgb: 22,22,22;
   --gn-text: #FFFFFF;
-  --gn-text-muted: #828282;
+  --gn-text-muted: #8F8F8F;
   --gn-border: #2A2A2A;
   --gn-accent: #F15025;
   --gn-accent-rgb: 241,80,37;
@@ -59,10 +59,10 @@
   --gn-paper-8: #1A1A1A;
   --gn-line: #2A2A2A;
   --gn-line-strong: #3D3D3D;
-  --gn-dimmed: #828282;
-  --gn-dimmed-1: #808080;
+  --gn-dimmed: #8F8F8F;
+  --gn-dimmed-1: #8C8C8C;
   --gn-dimmed-2: #ADADAD;
-  --gn-dimmed-3: #7A7A7A;
+  --gn-dimmed-3: #8C8C8C;
   --gn-premium: #9747FF;
   --gn-premium-text: #C7A6FF;
   --gn-premium-soft: #B98AFF;
@@ -95,7 +95,7 @@
   --gn-mobile-splash-background: #1A1A1A;
   --gn-dark-0: #C9C9C9;
   --gn-dark-1: #b8b8b8;
-  --gn-dark-2: #828282;
+  --gn-dark-2: #8F8F8F;
   --gn-dark-3: #696969;
   --gn-dark-4: #424242;
   --gn-dark-5: #3b3b3b;
@@ -145,7 +145,7 @@
   --mantine-color-tertiary-9: var(--gn-tertiary);
   --mantine-color-body: #111111;
   --mantine-color-text: #FFFFFF;
-  --mantine-color-dimmed: #828282;
+  --mantine-color-dimmed: #8F8F8F;
   --mantine-font-family: Roboto, Roboto Fallback;
   --mantine-font-family-headings: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
   --mantine-radius-default: 0.5rem;

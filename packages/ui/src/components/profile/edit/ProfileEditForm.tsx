@@ -9,6 +9,7 @@ import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { ProfileBanner } from "#@/components/profile/view/ProfileBanner";
 import { useSupporterStatus } from "#@/components/supporter/hooks/useSupporterStatus";
 import { Modal } from "#@/util";
+import { useTranslation } from "@repo/locales";
 import {
   ActionIcon,
   Box,
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const ProfileEditForm = ({ userId }: Props) => {
+  const { t } = useTranslation();
   const profileQuery = useUserProfile(userId);
   /*
    * Warm this before the avatar uploader mounts: the uploader waits for the
@@ -50,7 +52,7 @@ const ProfileEditForm = ({ userId }: Props) => {
         opened={editUserNameModalOpen}
         onClose={editUserNameModalUtils.close}
         size={"xl"}
-        title={"Update username"}
+        title={t("profile.titles.updateUsername")}
       >
         <ProfileEditUsernameUpdate onClose={editUserNameModalUtils.close} />
       </Modal>
@@ -97,14 +99,12 @@ const ProfileEditForm = ({ userId }: Props) => {
         </Stack>
       </Stack>
       <Stack className={"w-full relative -top-20"}>
-        <DetailsBox title={"Bio"}>
+        <DetailsBox title={t("settings.profile.bio.label")}>
           <ProfileEditBioForm />
         </DetailsBox>
         <DetailsBox
-          title={"Featured achievements"}
-          description={
-            "Click to edit. Only the first achievement will be shown on your profile."
-          }
+          title={t("profile.titles.featuredAchievements")}
+          description={t("profile.messages.featuredAchievementsHint")}
         >
           <Flex className={"w-full justify-center"}>
             <ProfileEditFeaturedAchievement />

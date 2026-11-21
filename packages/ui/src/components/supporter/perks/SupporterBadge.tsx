@@ -13,9 +13,9 @@ export interface SupporterBadgeProps {
 }
 
 const PREMIUM_COLORS = {
-  backgroundColor: "rgba(151,71,255,0.16)",
-  borderColor: "rgba(151,71,255,0.45)",
-  color: "#c7a6ff",
+  backgroundColor: "color-mix(in srgb, var(--gn-premium) 16%, transparent)",
+  borderColor: "color-mix(in srgb, var(--gn-premium) 45%, transparent)",
+  color: "var(--gn-premium-text)",
 } as const;
 
 /**

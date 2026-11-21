@@ -50,7 +50,7 @@ const LIBRARY_SHELVES = [
   {
     id: "playing",
     labelKey: LIBRARY_STATUS_KEYS.playing,
-    dotColor: "#3dd68c",
+    dotColor: "var(--gn-status-success-text)",
     count: 3,
     games: [
       {
@@ -68,6 +68,7 @@ const LIBRARY_SHELVES = [
   {
     id: "planned",
     labelKey: LIBRARY_STATUS_KEYS.planned,
+    // theme-exempt: library status dot hue is illustrative mock UI artwork
     dotColor: "#5b9bff",
     count: 27,
     games: [
@@ -104,7 +105,7 @@ const LIBRARY_SHELVES = [
   {
     id: "dropped",
     labelKey: LIBRARY_STATUS_KEYS.dropped,
-    dotColor: "#6f6f6f",
+    dotColor: "var(--gn-dark-3)",
     count: 5,
     games: [
       {
@@ -195,14 +196,14 @@ const TIME_TO_BEAT = [
     labelKey: "about.journal.timeToBeat.extras",
     value: "42 h",
     width: "67%",
-    color: "#c2380f",
+    color: "color-mix(in srgb, var(--gn-brand) 78%, var(--gn-scrim))",
   },
   {
     id: "completionist",
     labelKey: "about.journal.timeToBeat.completionist",
     value: "63 h",
     width: "100%",
-    color: "#7a1e0b",
+    color: "color-mix(in srgb, var(--gn-brand) 50%, var(--gn-scrim))",
   },
 ] as const;
 

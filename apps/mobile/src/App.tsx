@@ -94,6 +94,7 @@ import "@/components/globals.css";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
+import { shouldRetryQuery } from "@/util/shouldRetryQuery";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
 
 /**
@@ -152,7 +153,7 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
             refetchOnWindowFocus: false,
             refetchOnMount: true,
             refetchOnReconnect: true,
-            retry: 3,
+            retry: shouldRetryQuery,
             gcTime: Infinity,
           },
         },

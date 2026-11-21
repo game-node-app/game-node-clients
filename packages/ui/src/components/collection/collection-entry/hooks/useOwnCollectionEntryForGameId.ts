@@ -4,6 +4,7 @@ import {
   CollectionEntry,
   CollectionsEntriesService,
 } from "@repo/wrapper/server";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 /**
@@ -17,7 +18,8 @@ export function useOwnCollectionEntryForGameId(
   enabled = true,
 ): ExtendedUseQueryResult<CollectionEntry | null> {
   const queryClient = useQueryClient();
-  const queryKey = ["collection-entries", "own", gameId];
+  const userId = useUserId();
+  const queryKey = ["collection-entries", "own", userId ?? null, gameId];
   const invalidate = () =>
     queryClient.invalidateQueries({ queryKey: queryKey.slice(0, 2) });
   return {
@@ -36,7 +38,8 @@ export function useOwnCollectionEntryForGameId(
           throw err;
         }
       },
-      enabled: enabled && gameId != undefined,
+      // Visitors have no library: skip the request instead of waiting on a 401.
+      enabled: enabled && gameId != undefined && !!userId,
     }),
     queryKey,
     invalidate,

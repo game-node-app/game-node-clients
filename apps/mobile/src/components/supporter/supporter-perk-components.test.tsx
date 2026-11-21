@@ -154,7 +154,10 @@ describe("SupporterTitle", () => {
       <SupporterTitle titleKey={"patron"} perks={themeOffPerks} />,
     );
 
-    expect(screen.getByText("Patron").style.color).toBe(rgb("#adadad"));
+    const title = screen.getByText("Patron");
+
+    expect(title.style.color).toBe("");
+    expect(title.className).toContain("text-dimmed-2");
   });
 });
 

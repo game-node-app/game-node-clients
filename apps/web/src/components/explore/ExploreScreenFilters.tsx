@@ -4,9 +4,7 @@ import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ActionIcon,
   Button,
-  Center,
   ComboboxItem,
   Drawer,
   Group,
@@ -97,18 +95,18 @@ const ExploreScreenFilters = ({
     },
   ];
 
-  const { handleSubmit, register, setValue, control, getValues, formState } =
-    useForm<FilterFormValues>({
-      resolver: zodResolver(FilterFormSchema),
-      mode: "onBlur",
-      defaultValues: {
-        period: DEFAULT_EXPLORE_SCREEN_PERIOD,
-      },
-    });
+  const { register, setValue, control, getValues } = useForm<FilterFormValues>({
+    resolver: zodResolver(FilterFormSchema),
+    mode: "onBlur",
+    defaultValues: {
+      period: DEFAULT_EXPLORE_SCREEN_PERIOD,
+    },
+  });
 
   const watchedValues = useWatch({ control });
 
-  const onSubmit = (data: FilterFormValues) => {
+  /** Every filter (including the period) applies as soon as it changes. */
+  const applyFilters = (data: FilterFormValues) => {
     const { period, ...criteria } = data;
     onFilterChange((previousState) => {
       const query: Record<string, string> = {
@@ -128,7 +126,6 @@ const ExploreScreenFilters = ({
       });
       return updatedState;
     });
-    drawerUtils.close();
   };
 
   useEffect(() => {
@@ -162,13 +159,13 @@ const ExploreScreenFilters = ({
   ]);
 
   return (
-    <Group justify={"space-between"} align={"center"} w={"100%"}>
+    <Group justify={"space-between"} align={"flex-end"} w={"100%"} mt={"md"}>
       <Drawer
         onClose={drawerUtils.close}
         opened={drawerOpened}
-        title={t("common.actions")}
+        title={t("explore.filters.title")}
       >
-        <form className={"w-full h-full"} onSubmit={handleSubmit(onSubmit)}>
+        <div className={"w-full h-full"}>
           <SimpleGrid cols={2}>
             {resources.map((resourceReference) => {
               const valueName = resourceReference.resource;
@@ -180,21 +177,22 @@ const ExploreScreenFilters = ({
                   value={watchedValues[valueName]}
                   onChange={(value) => {
                     setValue(valueName, value);
+                    applyFilters({ ...getValues(), [valueName]: value });
                   }}
                 />
               );
             })}
           </SimpleGrid>
-          <Center className={"mt-8"}>
-            <Button type="submit" loading={formState.isSubmitting}>
-              {t("common.search")}
-            </Button>
-          </Center>
-        </form>
+        </div>
       </Drawer>
-      <ActionIcon className="mt-4 mb-2" onClick={() => drawerUtils.open()}>
-        <IconAdjustments />
-      </ActionIcon>
+      <Button
+        variant="default"
+        leftSection={<IconAdjustments size={18} />}
+        aria-haspopup="dialog"
+        onClick={() => drawerUtils.open()}
+      >
+        {t("explore.filters.title")}
+      </Button>
       <Select
         {...register("period")}
         description={t("explore.filters.trendingIn")}
@@ -204,7 +202,7 @@ const ExploreScreenFilters = ({
         onChange={(v) => {
           const value = v ?? period.MONTH.valueOf();
           setValue("period", value);
-          onSubmit({ ...getValues(), period: value });
+          applyFilters({ ...getValues(), period: value });
         }}
       />
     </Group>

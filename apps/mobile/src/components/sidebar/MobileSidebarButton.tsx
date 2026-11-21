@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import React, { MouseEventHandler } from "react";
 import { Badge, Group, GroupProps, Text, TextProps } from "@mantine/core";
 import { cn } from "@repo/ui";
+import { useTranslation } from "@repo/locales";
 import { IonRippleEffect } from "@ionic/react";
 import { IconChevronRight, IconProps } from "@tabler/icons-react";
 
@@ -22,7 +23,7 @@ interface Props extends Omit<GroupProps, "onClick"> {
   iconProps?: IconProps;
   textProps?: TextProps;
   withBadge?: boolean;
-  /** Label of the badge; defaults to the legacy "NEW" pill. */
+  /** Label of the badge; defaults to the translated "New" pill. */
   badgeLabel?: string;
   /** Hides the trailing chevron (e.g. for actions that do not navigate). */
   hideChevron?: boolean;
@@ -41,6 +42,7 @@ const MobileSidebarButton = ({
   hideChevron,
   ...others
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <Link
       to={absolute ? href : getTabAwareHref(href)}
@@ -63,7 +65,7 @@ const MobileSidebarButton = ({
         </Text>
         {withBadge && (
           <Badge size={"xs"} variant={"light"}>
-            {badgeLabel ?? "NEW"}
+            {badgeLabel ?? t("navigation.new")}
           </Badge>
         )}
         {!hideChevron && (

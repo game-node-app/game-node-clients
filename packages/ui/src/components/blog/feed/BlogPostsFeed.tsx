@@ -4,7 +4,7 @@ import {
   DetailsBox,
   useBlogCategories,
 } from "#@/components";
-import { ActionIcon, Box, Popover, Stack, Text } from "@mantine/core";
+import { ActionIcon, Box, Popover, Stack, Text, Tooltip } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconQuestionMark } from "@tabler/icons-react";
 
@@ -21,9 +21,15 @@ const BlogPostsFeed = () => {
       rightSide={
         <Popover position={"left-end"}>
           <Popover.Target>
-            <ActionIcon>
-              <IconQuestionMark />
-            </ActionIcon>
+            <Tooltip label={t("blog.about")}>
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                aria-label={t("blog.about")}
+              >
+                <IconQuestionMark />
+              </ActionIcon>
+            </Tooltip>
           </Popover.Target>
           <Popover.Dropdown>
             <Box className={"w-full max-w-60"}>

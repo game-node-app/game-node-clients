@@ -59,7 +59,7 @@ const AwardsVoteBarContent = ({
       fullWidth={compact}
       styles={{
         root: {
-          "--button-color": "#0b0b0b",
+          "--button-color": "var(--gn-nav-canvas)",
           height: "auto",
           padding: "14px 22px",
         },

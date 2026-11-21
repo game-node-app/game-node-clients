@@ -8,11 +8,11 @@
 
 const HEX_PATTERN = /^#?([0-9a-f]{6})$/i;
 
-const ON_ACCENT_LIGHT = "#FFFFFF";
-const ON_ACCENT_DARK = "#141414";
+const ON_ACCENT_LIGHT = "#FFFFFF"; // theme-exempt: contrast math needs concrete hex values
+const ON_ACCENT_DARK = "#141414"; // theme-exempt: contrast math needs concrete hex values
 
 /** Default dark surface used by the profile header and the settings preview. */
-export const ACCENT_SURFACE = "#161616";
+export const ACCENT_SURFACE = "#161616"; // theme-exempt: contrast math needs concrete hex values
 
 /** `#RRGGBB` uppercase, or null when the value is not a 6-digit hex color. */
 export function normalizeAccentHex(value: unknown): string | null {
@@ -89,7 +89,7 @@ export function getReadableAccent(
     if (getContrastRatio(candidate, surface) >= minRatio) return candidate;
   }
 
-  return "#FFFFFF";
+  return "#FFFFFF"; // theme-exempt: contrast math fallback
 }
 
 /** `rgba(r, g, b, alpha)` for a `#RRGGBB` color, alpha clamped to 0…1. */

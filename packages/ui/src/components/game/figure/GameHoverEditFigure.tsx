@@ -34,7 +34,7 @@ const GameHoverEditFigure = ({
           onClose={addModalUtils.close}
         />
         <Box
-          className={`absolute w-full h-full top-0 transition-opacity ease-in-out duration-300 opacity-0 pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100`}
+          className={`absolute w-full h-full top-0 transition-opacity ease-in-out duration-300 opacity-0 pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100`}
         >
           <Overlay
             gradient={

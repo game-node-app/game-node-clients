@@ -11,7 +11,7 @@ import {
 } from "./accentColor";
 import { isSupporterTitleKey, type SupporterTitleKey } from "./supporterTitles";
 
-export const DEFAULT_SUPPORTER_ACCENT = "#9747FF";
+export const DEFAULT_SUPPORTER_ACCENT = "#9747FF"; // theme-exempt: stored accent value must be a concrete hex
 
 /**
  * The defaults the server applies for a supporter. Also used to render the

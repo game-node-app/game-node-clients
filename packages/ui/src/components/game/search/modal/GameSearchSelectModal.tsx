@@ -12,6 +12,7 @@ import { GameSearchSuggestions } from "#@/components/game/search/modal/GameSearc
 import { BaseModalProps, getErrorMessage, Modal } from "#@/util";
 import { Stack } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
+import { useTranslation } from "@repo/locales";
 import { useState } from "react";
 
 interface Props extends BaseModalProps {
@@ -19,6 +20,7 @@ interface Props extends BaseModalProps {
 }
 
 const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
+  const { t } = useTranslation();
   const userId = useUserId();
   const onMobile = useOnMobile();
   const [value, setValue] = useState("");
@@ -47,7 +49,7 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title={"Find and select a game"}
+      title={t("game.selectGame")}
       fullScreen={onMobile}
       size={"lg"}
       breakpoints={[0.5, 0.75, 1]}
@@ -55,7 +57,7 @@ const GameSearchSelectModal = ({ onClose, opened, onSelected }: Props) => {
     >
       <Stack className={"w-full"}>
         <SearchBar
-          label={"Search for a game"}
+          label={t("game.searchLabel")}
           value={value}
           onChange={(evt) => setValue(evt.currentTarget.value)}
           className={"my-4"}

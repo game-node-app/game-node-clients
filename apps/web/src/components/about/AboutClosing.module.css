@@ -15,8 +15,8 @@
   flex-direction: column;
   gap: 32px;
   padding: 24px;
-  background: linear-gradient(180deg, #141018 0%, #0e0e0e 100%);
-  border: 1px solid #2a2140;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gn-premium) 5%, var(--gn-nav-canvas)) 0%, var(--gn-nav-canvas) 100%);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 20%, var(--gn-nav-canvas));
   border-radius: 18px;
 }
 
@@ -37,7 +37,7 @@
 
 .premiumEyebrow {
   margin: 0;
-  color: var(--about-violet-soft, #b98aff);
+  color: var(--about-violet-soft, var(--gn-premium-soft));
   font-size: 13px;
   font-weight: 700;
   line-height: normal;
@@ -47,7 +47,7 @@
 
 .premiumTitle {
   margin: 16px 0 0;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 30px;
   font-weight: 600;
   line-height: 36px;
@@ -56,7 +56,7 @@
 
 .premiumDescription {
   margin: 18px 0 0;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   font-size: 16px;
   line-height: 25px;
 }
@@ -75,7 +75,7 @@
 
 .premiumGroupTitle {
   margin: 0;
-  color: #8c8c8c;
+  color: var(--gn-dimmed-1);
   font-size: 12px;
   font-weight: 700;
   line-height: normal;
@@ -108,7 +108,7 @@
 }
 
 .premiumGroupText {
-  color: #e6e6e6;
+  color: var(--gn-text-emphasis);
   font-size: 16px;
   line-height: 24px;
   min-width: 0;
@@ -133,22 +133,22 @@
 }
 
 .premiumActions .premiumPrimary {
-  background-color: var(--about-violet, #9747ff);
-  color: #fff;
+  background-color: var(--about-violet, var(--gn-premium));
+  color: var(--gn-text);
 }
 
 .premiumActions .premiumPrimary:hover {
-  background-color: #873cef;
+  background-color: color-mix(in srgb, var(--gn-premium) 85%, var(--gn-scrim));
 }
 
 .premiumActions .premiumSecondary {
   background-color: transparent;
-  border: 1px solid #3a3a3a;
-  color: #fafafa;
+  border: 1px solid var(--gn-line-strong);
+  color: var(--gn-text);
 }
 
 .premiumActions .premiumSecondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 .premiumGuarantees {
@@ -162,7 +162,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #8c8c8c;
+  color: var(--gn-dimmed-1);
   font-size: 13px;
   line-height: 1.4;
   min-width: 0;
@@ -180,15 +180,15 @@
 .profileCard {
   position: relative;
   overflow: hidden;
-  background: #121212;
-  border: 1px solid #262626;
+  background: var(--gn-background);
+  border: 1px solid var(--gn-paper-1);
   border-radius: 16px;
 }
 
 .profileCover {
   position: relative;
   height: 150px;
-  background: #1a1a1a;
+  background: var(--gn-paper-8);
 }
 
 .profileCoverImage {
@@ -204,7 +204,7 @@
   bottom: 0;
   left: 0;
   height: 8px;
-  background: var(--about-violet, #9747ff);
+  background: var(--about-violet, var(--gn-premium));
 }
 
 .profileBody {
@@ -218,9 +218,10 @@
   height: 104px;
   margin-top: -52px;
   border-radius: 52px;
+  /* theme-exempt: aurora sparkle gradient is brand artwork */
   background: conic-gradient(
     from 90deg,
-    #9747ff 0%,
+    var(--gn-premium) 0%,
     #ad49c8 8.75%,
     #c44b92 17.5%,
     #da4e5b 26.25%,
@@ -230,9 +231,9 @@
     #e35f5b 43.75%,
     #d56d92 52.5%,
     #c77bc8 61.25%,
-    #b98aff 70%,
-    #a868ff 85%,
-    #9747ff 100%
+    var(--gn-premium-soft) 70%,
+    var(--gn-premium-soft) 85%,
+    var(--gn-premium) 100%
   );
 }
 
@@ -240,8 +241,8 @@
   position: absolute;
   inset: 4px;
   overflow: hidden;
-  background: #1a1a1a;
-  border: 4px solid #121212;
+  background: var(--gn-paper-8);
+  border: 4px solid var(--gn-background);
   border-radius: 48px;
 }
 
@@ -261,7 +262,7 @@
 }
 
 .profileName {
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
@@ -273,10 +274,10 @@
   gap: 4px;
   height: 20px;
   padding-inline: 7px;
-  background: rgba(151, 71, 255, 0.16);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  background: color-mix(in srgb, var(--gn-premium) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 5px;
-  color: #c9a6ff;
+  color: var(--gn-premium-text);
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -292,7 +293,7 @@
 .profileSince {
   display: block;
   margin-top: 4px;
-  color: #b98aff;
+  color: var(--gn-premium-soft);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
@@ -301,7 +302,7 @@
 .profileLevel {
   display: block;
   margin-top: 6px;
-  color: #8c8c8c;
+  color: var(--gn-dimmed-1);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -312,8 +313,8 @@
   gap: 12px;
   margin-top: 18px;
   padding: 12px;
-  background: rgba(151, 71, 255, 0.1);
-  border: 1px solid rgba(151, 71, 255, 0.35);
+  background: color-mix(in srgb, var(--gn-premium) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium) 35%, transparent);
   border-radius: 10px;
 }
 
@@ -336,7 +337,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #c9a6ff;
+  color: var(--gn-premium-text);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
@@ -347,12 +348,12 @@
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background: #3dd68c;
+  background: var(--gn-status-success-text);
 }
 
 .playingTitle {
   margin-top: 2px;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
@@ -387,7 +388,7 @@
 
 .wallEyebrow {
   margin: 0;
-  color: var(--about-violet-soft, #b98aff);
+  color: var(--about-violet-soft, var(--gn-premium-soft));
   font-size: 13px;
   font-weight: 700;
   line-height: normal;
@@ -398,7 +399,7 @@
 .wallTitle {
   max-width: 825px;
   margin: 16px 0 0;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 30px;
   font-weight: 600;
   line-height: 36px;
@@ -407,7 +408,7 @@
 
 .wallDescription {
   margin: 14px 0 0;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   font-size: 16px;
   line-height: 25px;
 }
@@ -433,19 +434,19 @@
   color: inherit;
   text-align: center;
   text-decoration: none;
-  background: #121212;
-  border: 1px solid #222;
+  background: var(--gn-background);
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 14px;
   transition: border-color 150ms ease;
 }
 
 a.wallCard:hover {
-  border-color: #4a3a66;
+  border-color: color-mix(in srgb, var(--gn-premium-soft) 35%, var(--gn-background));
 }
 
 a.wallCard:focus-visible,
 .wallCta:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--gn-text);
   outline-offset: 4px;
 }
 
@@ -455,23 +456,23 @@ a.wallCard:focus-visible,
   width: 64px;
   height: 64px;
   border-radius: 32px;
-  background: linear-gradient(135deg, #b98aff 0%, #9747ff 60%, #5b21b6 100%);
+  background: linear-gradient(135deg, var(--gn-premium-soft) 0%, var(--gn-premium) 60%, color-mix(in srgb, var(--gn-premium) 65%, var(--gn-scrim)) 100%);
 }
 
 .wallAvatarImage {
   position: absolute;
   top: 3px;
   left: 3px;
-  border: 3px solid #121212;
+  border: 3px solid var(--gn-background);
   border-radius: 29px;
-  background: #1a1a1a;
+  background: var(--gn-paper-8);
 }
 
 .wallName {
   max-width: 100%;
   margin-top: 12px;
   overflow: hidden;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -486,10 +487,10 @@ a.wallCard:focus-visible,
   height: 20px;
   margin-top: 10px;
   padding-inline: 7px;
-  background: rgba(151, 71, 255, 0.16);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  background: color-mix(in srgb, var(--gn-premium) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 5px;
-  color: #c9a6ff;
+  color: var(--gn-premium-text);
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -513,13 +514,13 @@ a.wallCard:focus-visible,
   color: inherit;
   text-align: center;
   text-decoration: none;
-  border: 1px dashed #4a3a66;
+  border: 1px dashed color-mix(in srgb, var(--gn-premium-soft) 35%, var(--gn-background));
   border-radius: 14px;
   transition: border-color 150ms ease;
 }
 
 .wallCta:hover {
-  border-color: #6b54a0;
+  border-color: color-mix(in srgb, var(--gn-premium-soft) 50%, var(--gn-background));
 }
 
 .wallCtaPlus {
@@ -528,9 +529,9 @@ a.wallCard:focus-visible,
   justify-content: center;
   width: 64px;
   height: 64px;
-  border: 1px dashed #6b54a0;
+  border: 1px dashed color-mix(in srgb, var(--gn-premium-soft) 50%, var(--gn-background));
   border-radius: 32px;
-  color: #b98aff;
+  color: var(--gn-premium-soft);
   font-size: 30px;
   font-weight: 300;
   line-height: 1;
@@ -538,7 +539,7 @@ a.wallCard:focus-visible,
 
 .wallCtaTitle {
   margin-top: 12px;
-  color: #e6e6e6;
+  color: var(--gn-text-emphasis);
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -546,7 +547,7 @@ a.wallCard:focus-visible,
 
 .wallCtaLink {
   margin-top: 10px;
-  color: #c9a6ff;
+  color: var(--gn-premium-text);
   font-size: 13px;
   font-weight: 700;
   line-height: normal;
@@ -567,13 +568,13 @@ a.wallCard:focus-visible,
   margin-top: 28px;
   padding: 24px;
   text-align: center;
-  border: 1px dashed #333;
+  border: 1px dashed var(--gn-line-strong);
   border-radius: 14px;
 }
 
 .wallStateText {
   margin: 0;
-  color: #adadad;
+  color: var(--gn-dimmed-2);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -589,7 +590,7 @@ a.wallCard:focus-visible,
 
 .wallInlineErrorText {
   margin: 0;
-  color: #adadad;
+  color: var(--gn-dimmed-2);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -604,15 +605,15 @@ a.wallCard:focus-visible,
   height: 40px;
   padding-inline: 18px;
   background: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   border-radius: 8px;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 14px;
   font-weight: 700;
 }
 
 .wallSeeMore:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 .wallLoadMore {
@@ -623,7 +624,7 @@ a.wallCard:focus-visible,
 
 .wallNote {
   margin: 20px 0 0;
-  color: #6f6f6f;
+  color: var(--gn-text-muted);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -632,13 +633,13 @@ a.wallCard:focus-visible,
 
 .promise {
   padding-block: 64px;
-  border-top: 1px solid #1c1c1c;
+  border-top: 1px solid var(--gn-paper-5);
 }
 
 .promiseTitle {
   max-width: 342px;
   margin: 0;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 34px;
   font-weight: 700;
   line-height: 40px;
@@ -659,7 +660,7 @@ a.wallCard:focus-visible,
 .promiseDescription {
   max-width: 560px;
   margin: 0;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   font-size: 16px;
   line-height: 25px;
 }
@@ -676,15 +677,15 @@ a.wallCard:focus-visible,
   height: 50px;
   padding-inline: 20px;
   background-color: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   border-radius: 8px;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 16px;
   font-weight: 700;
 }
 
 .promiseActions .promiseButton:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 /* Final CTA */
@@ -697,7 +698,7 @@ a.wallCard:focus-visible,
 .finalTitle {
   max-width: 342px;
   margin: 0 auto;
-  color: #fafafa;
+  color: var(--gn-text);
   font-size: 34px;
   font-weight: 600;
   line-height: 40px;
@@ -707,7 +708,7 @@ a.wallCard:focus-visible,
 .finalDescription {
   max-width: 342px;
   margin: 18px auto 0;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   font-size: 16px;
   line-height: 25px;
 }
@@ -732,17 +733,17 @@ a.wallCard:focus-visible,
 
 .finalActions .finalSecondary {
   background-color: transparent;
-  border: 1px solid #3a3a3a;
-  color: #fafafa;
+  border: 1px solid var(--gn-line-strong);
+  color: var(--gn-text);
 }
 
 .finalActions .finalSecondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 @media (min-width: 48em) {
   .wallGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-md, 3), minmax(0, 1fr));
     gap: 14px;
     margin-top: 40px;
   }
@@ -768,7 +769,7 @@ a.wallCard:focus-visible,
 
 @media (min-width: 62em) {
   .wallGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-lg, 4), minmax(0, 1fr));
   }
 
   .profileCoverThumb {
@@ -883,7 +884,7 @@ a.wallCard:focus-visible,
   }
 
   .wallGrid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-xl, 6), minmax(0, 1fr));
     margin-top: 48px;
   }
 

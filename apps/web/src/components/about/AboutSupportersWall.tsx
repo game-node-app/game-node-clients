@@ -11,6 +11,7 @@ import { useState } from "react";
 import styles from "./AboutClosing.module.css";
 import { aboutAsset } from "./aboutAssets";
 import {
+  getWallColumnStyle,
   WALL_INITIAL_VISIBLE,
   WALL_LIMIT,
   WALL_SKELETONS,
@@ -118,7 +119,11 @@ const AboutSupportersWall = () => {
   ) : wall.isError && items.length === 0 ? (
     errorState
   ) : items.length === 0 ? (
-    <div id="about-wall-grid" className={styles.wallGrid}>
+    <div
+      id="about-wall-grid"
+      className={styles.wallGrid}
+      style={getWallColumnStyle(1)}
+    >
       <WallCtaCard href={supporterHref} />
     </div>
   ) : (
@@ -126,6 +131,7 @@ const AboutSupportersWall = () => {
       <div
         id="about-wall-grid"
         className={styles.wallGrid}
+        style={getWallColumnStyle(items.length + 1)}
         data-expanded={expanded}
       >
         {visibleItems.map((item) => (

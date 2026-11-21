@@ -73,7 +73,7 @@ export function RecapLead({
   return (
     <p
       className={cn(
-        "m-0 text-base leading-normal text-[#adadad] md:text-xl",
+        "m-0 text-base leading-normal text-dimmed-2 md:text-xl",
         className,
       )}
     >
@@ -91,7 +91,7 @@ export function RecapSurface({
     <div
       {...props}
       className={cn(
-        "rounded-2xl border border-[#2a2a2a] bg-paper-0 p-5 md:p-7",
+        "rounded-2xl border border-line bg-paper-0 p-5 md:p-7",
         className,
       )}
     />

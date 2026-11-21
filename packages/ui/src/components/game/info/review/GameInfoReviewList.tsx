@@ -10,6 +10,7 @@ import { useReviews } from "#@/components/review/hooks/useReviews";
 import { useTrendingReviews } from "#@/components/statistics/hooks/useTrendingReviews";
 import { getOffsetAsPage, getPageAsOffset } from "#@/util";
 import { Group, Pagination, Stack } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
 import { useMemo, useState } from "react";
 import period = StatisticsRankingsRequestDto.period;
@@ -34,6 +35,7 @@ const GameInfoReviewList = ({
   gameId,
   targetReviewId,
 }: IGameInfoReviewListProps) => {
+  const { t } = useTranslation();
   const actor = useUserId();
   const [selection, setSelection] = useState({
     gameId,
@@ -97,16 +99,14 @@ const GameInfoReviewList = ({
     return <CenteredLoading className={"mt-6 mb-6"} />;
   } else if (isError) {
     return (
-      <CenteredErrorMessage
-        message={"Failed to fetch reviews. Please try again."}
-      />
+      <CenteredErrorMessage message={t("game.messages.reviewsFetchFailed")} />
     );
   } else if (content == undefined || content.length === 0) {
-    return <CenteredErrorMessage message={"No reviews yet."} />;
+    return <CenteredErrorMessage message={t("game.messages.noReviewsYet")} />;
   }
 
   return (
-    <DetailsBox title={"From our users"}>
+    <DetailsBox title={t("game.labels.fromUsers")}>
       <ReviewListItemModal reviewId={targetReviewId} />
       <Stack w={"100%"} justify={"space-between"}>
         <Stack w={"100%"} align={"start"} gap={"xs"}>

@@ -355,7 +355,7 @@ export function RecapNodesChart({
             data-testid={"recap-hero-chip"}
             style={{ left: chip.left, top: chip.top }}
             className={
-              "absolute flex items-center gap-2 overflow-hidden rounded-lg border border-[#2a2a2a] bg-paper-5 py-1 pr-2.5 pl-1 whitespace-nowrap"
+              "absolute flex items-center gap-2 overflow-hidden rounded-lg border border-line bg-paper-5 py-1 pr-2.5 pl-1 whitespace-nowrap"
             }
           >
             <div
@@ -376,7 +376,7 @@ export function RecapNodesChart({
               {hours && (
                 <span
                   className={
-                    "text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+                    "text-xs leading-none font-bold tracking-[0.06em] text-dimmed-2 uppercase"
                   }
                 >
                   {t("events.card.recap.hours", { hours })}

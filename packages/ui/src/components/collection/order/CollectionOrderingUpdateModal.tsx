@@ -1,6 +1,7 @@
 import { CollectionOrderingUpdateForm, useOnMobile } from "#@/components";
 import { BaseModalProps } from "#@/util";
 import { Modal } from "@mantine/core";
+import { useTranslation } from "@repo/locales";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends BaseModalProps {
@@ -12,11 +13,12 @@ const CollectionOrderingUpdateModal = ({
   onClose,
   collectionId,
 }: Props) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const onMobile = useOnMobile();
   return (
     <Modal
-      title={"Reorder Games"}
+      title={t("collection.actions.reorderGames")}
       opened={opened}
       fullScreen={onMobile}
       onClose={async () => {

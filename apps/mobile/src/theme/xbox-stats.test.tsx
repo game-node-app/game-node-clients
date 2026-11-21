@@ -258,7 +258,7 @@ describe("Xbox stats page", () => {
     expect(screen.getByTestId("line-chart").getAttribute("data-series")).toBe(
       "count,reviewedCount",
     );
-    expect(screen.getByRole("tab", { name: "Finish Year" })).toBeTruthy();
+    expect(screen.getByRole("tab", { name: "Finish year" })).toBeTruthy();
   });
 
   it("switches the year chart to playtime hours from the pill tabs", () => {

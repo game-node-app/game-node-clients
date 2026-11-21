@@ -58,36 +58,36 @@ const TONE_CONFIG: Record<SupporterSettingsBannerTone, ToneConfig> = {
   success: {
     role: "status",
     Icon: IconCircleCheck,
-    cardClassName: "border-[rgba(61,214,140,0.4)]",
-    iconTileClassName: "bg-[rgba(61,214,140,0.12)]",
-    iconClassName: "text-[#3dd68c]",
+    cardClassName: "border-status-success-text/40",
+    iconTileClassName: "bg-status-success-text/[0.12]",
+    iconClassName: "text-status-success-text",
     titleKey: "supporter.checkout.success.title",
     descriptionKey: "supporter.checkout.success.description",
   },
   pending: {
     role: "status",
     Icon: IconClock,
-    cardClassName: "border-[rgba(151,71,255,0.45)]",
-    iconTileClassName: "bg-[rgba(151,71,255,0.16)]",
-    iconClassName: "text-[#c7a6ff]",
+    cardClassName: "border-premium/[0.45]",
+    iconTileClassName: "bg-premium/[0.16]",
+    iconClassName: "text-premium-text",
     titleKey: "supporter.checkout.pending.title",
     descriptionKey: "supporter.checkout.pending.description",
   },
   cancel: {
     role: "status",
     Icon: IconInfoCircle,
-    cardClassName: "border-[#2a2a2a]",
-    iconTileClassName: "bg-[#222]",
-    iconClassName: "text-[#adadad]",
+    cardClassName: "border-line",
+    iconTileClassName: "bg-nav-raised",
+    iconClassName: "text-dimmed-2",
     titleKey: "supporter.checkout.cancel.title",
     descriptionKey: "supporter.checkout.cancel.description",
   },
   error: {
     role: "alert",
     Icon: IconAlertTriangle,
-    cardClassName: "border-[rgba(229,72,77,0.4)]",
-    iconTileClassName: "bg-[rgba(229,72,77,0.12)]",
-    iconClassName: "text-[#ff6369]",
+    cardClassName: "border-status-danger-strong/40",
+    iconTileClassName: "bg-status-danger-strong/[0.12]",
+    iconClassName: "text-status-danger-text",
     titleKey: "supporter.banner.errorTitle",
     descriptionKey: "supporter.errors.generic",
   },
@@ -133,7 +133,7 @@ function SupporterPendingCheck({
 
   return (
     <Stack gap={8}>
-      <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
         {t("supporter.checkout.pending.stillConfirming")}
       </Text>
       <Box>
@@ -184,7 +184,7 @@ export function SupporterSettingsBanner({
           <Text fz={14} fw={600} c={"white"} lh={"normal"}>
             {title ?? t(config.titleKey)}
           </Text>
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>
             {description ?? t(config.descriptionKey)}
           </Text>
           {tone === "pending" && onCheckAgain && (

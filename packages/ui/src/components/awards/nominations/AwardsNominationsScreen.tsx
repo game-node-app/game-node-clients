@@ -299,7 +299,6 @@ const AwardsNominationsScreen = ({
         ) : (
           <Button
             data-awards-nominations-sign-in
-            variant={"light"}
             className={"self-start"}
             onClick={() => void redirectToAuth()}
           >
@@ -354,7 +353,6 @@ const AwardsNominationsScreen = ({
         {!userId && (
           <Button
             data-awards-nominations-sign-in
-            variant={"light"}
             className={"self-start"}
             onClick={() => void redirectToAuth()}
           >
@@ -390,6 +388,8 @@ const AwardsNominationsScreen = ({
         {nextCategory && (
           <Button
             data-awards-nominations-next
+            // Signed out, "Sign in" is the primary action and Next steps back to secondary.
+            variant={userId ? "filled" : "default"}
             className={"ml-auto"}
             rightSection={<IconChevronRight size={16} />}
             onClick={() => selectCategory(nextCategory.id)}

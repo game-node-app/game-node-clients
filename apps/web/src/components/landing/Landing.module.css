@@ -1,6 +1,6 @@
 .page {
-  background: #0b0b0b;
-  color: #fafafa;
+  background: var(--gn-body);
+  color: var(--gn-text);
 }
 .page a:focus-visible {
   outline: 2px solid white;
@@ -9,7 +9,7 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: #161616;
+  background: var(--gn-paper-0);
 }
 .headline {
   max-width: 680px;
@@ -72,8 +72,8 @@
   font-weight: 700;
 }
 .card {
-  background: #090909;
-  border: 1px solid #292929;
+  background: var(--gn-paper-0);
+  border: 1px solid var(--gn-line);
   border-radius: 12px;
   padding: 24px 28px;
   min-height: 370px;
@@ -87,7 +87,7 @@
 }
 .card > p,
 .wideCard > div > p {
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   line-height: 1.4;
 }
 .visual {
@@ -139,7 +139,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #171717;
+  background: var(--gn-paper-0);
   box-shadow: 0 0 36px 2px rgba(var(--gn-brand-rgb), 0.2);
 }
 .hub img {
@@ -153,8 +153,8 @@
 .platformIcon {
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid #3b3b3b;
-  background: #161616;
+  border: 1px solid var(--gn-line-strong);
+  background: var(--gn-paper-0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,51 +167,69 @@
   position: relative;
   left: -50%;
   width: 200%;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
 }
 .muted {
-  color: #adadad;
+  color: var(--gn-dimmed-2);
 }
 .pill {
   background: var(--mantine-color-brand-6);
-  color: #0b0b0b;
+  color: var(--gn-brand-filled-text);
   border-radius: 999px;
   padding: 2px 8px;
   white-space: nowrap;
 }
 .toggle {
-  background: #1a1a1a;
-  border: 1px solid #ffffff1f;
+  background: var(--gn-paper-8);
+  border: 1px solid color-mix(in srgb, var(--gn-text) 12%, transparent);
   padding: 4px;
 }
 .toggleIndicator {
-  background: #333;
+  background: var(--gn-line-strong);
 }
 .toggleLabel {
   height: 40px;
-  color: #adadad;
+  color: var(--gn-dimmed-2);
   font-size: 15px;
   font-weight: 700;
 }
 .toggleLabel[data-active] {
-  color: white;
+  color: var(--gn-text);
 }
 .plan {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 40px;
-  background: #1a1a1a;
-  border: 1px solid #ffffff1f;
+  background: var(--gn-paper-8);
+  border: 1px solid color-mix(in srgb, var(--gn-text) 12%, transparent);
   border-radius: 20px;
 }
 .planSupporter {
-  border: 2px solid var(--mantine-color-brand-6);
-  box-shadow: 0 8px 28px rgba(var(--gn-brand-rgb), 0.278431);
+  border: 1px solid var(--gn-premium-soft);
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--gn-premium) 26%, transparent),
+      transparent 60%,
+      color-mix(in srgb, var(--gn-brand) 8%, transparent)
+    ),
+    var(--gn-paper-8);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--gn-premium) 32%, transparent);
+}
+.pillPremium {
+  background: color-mix(in srgb, var(--gn-premium) 16%, transparent);
+  color: var(--gn-premium-text);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+.premiumText {
+  color: var(--gn-premium-text);
 }
 .outlineCta {
-  border: 1.5px solid #ffffff52;
-  color: white;
+  border: 1.5px solid color-mix(in srgb, var(--gn-text) 32%, transparent);
+  color: var(--gn-text);
 }
 .featureList {
   list-style: none;
@@ -225,7 +243,7 @@
   text-transform: uppercase;
 }
 .trust {
-  border: 1px solid #ffffff1f;
+  border: 1px solid color-mix(in srgb, var(--gn-text) 12%, transparent);
   border-radius: 20px;
   padding: 24px 32px;
 }
@@ -233,6 +251,7 @@
   padding: 24px 32px;
 }
 .footerPanel {
+  border: 1px solid var(--gn-line);
   border-radius: 24px;
   margin-top: -5px;
   padding: 94px min(9vw, 128px) 50px;
@@ -240,12 +259,15 @@
     repeating-linear-gradient(
       90deg,
       transparent 0 104px,
-      #ffffff17 104px 105px
+      color-mix(in srgb, var(--gn-text) 5%, transparent) 104px 105px
     ),
-    linear-gradient(90deg, var(--gn-brand), #d42912 56%, #5c0b06); /* theme-exempt: brand shades without tokens; landing artwork */
+    linear-gradient(135deg, var(--gn-brand-tint), var(--gn-paper-0) 55%);
+}
+.footerTitle {
+  color: var(--gn-brand-light-text);
 }
 .footerPanel a {
-  color: white;
+  color: var(--gn-text);
   font-size: 15px;
 }
 @media (max-width: 62em) {
@@ -332,17 +354,17 @@
   gap: 48px;
   align-items: center;
   padding: 56px;
-  border: 1px solid #292929;
+  border: 1px solid var(--gn-line);
   border-radius: 18px;
   background:
     radial-gradient(60% 80% at 100% 0%, rgba(var(--gn-brand-rgb), 0.2), transparent),
-    #090909;
+    var(--gn-paper-0);
 }
 .chat {
   padding: 24px;
-  border: 1px solid #292929;
+  border: 1px solid var(--gn-line);
   border-radius: 12px;
-  background: #121212;
+  background: var(--gn-paper-7);
 }
 .userBubble,
 .assistantBubble {
@@ -357,13 +379,13 @@
   border-bottom-right-radius: 4px;
 }
 .assistantBubble {
-  background: #1f1f1f;
+  background: var(--gn-paper-6);
   border-bottom-left-radius: 4px;
 }
 .tool {
   align-self: flex-start;
   padding: 6px 10px;
-  border: 1px dashed #3b3b3b;
+  border: 1px dashed var(--gn-line-strong);
   border-radius: 8px;
 }
 @media (max-width: 62em) {
@@ -376,7 +398,7 @@
 
 .marquee {
   overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, var(--gn-body) 6%, var(--gn-body) 94%, transparent);
 }
 .marqueeTrack {
   display: flex;
@@ -386,7 +408,8 @@
 .marqueeReverse {
   animation-direction: reverse;
 }
-.marquee:hover .marqueeTrack {
+.marquee:hover .marqueeTrack,
+.marquee:focus-within .marqueeTrack {
   animation-play-state: paused;
 }
 .marqueeSet {
@@ -429,8 +452,8 @@
   width: 340px;
   height: 220px;
   padding: 12px;
-  background: #1a1a1a;
-  border: 1px solid #292929;
+  background: var(--gn-paper-8);
+  border: 1px solid var(--gn-line);
   border-radius: 8px;
   overflow: hidden;
   text-align: left;
@@ -460,7 +483,7 @@
 .reviewContent {
   margin-top: 8px;
   font-size: 14px;
-  color: #a6a6a6;
+  color: var(--gn-dimmed-2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;

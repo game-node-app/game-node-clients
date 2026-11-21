@@ -179,7 +179,7 @@ export function AwardsBallotCard({
       style={{
         width: 1080,
         height: 1920,
-        backgroundColor: "#0b0b0b",
+        backgroundColor: "var(--gn-nav-canvas)",
         overflow: "hidden",
         position: "relative",
         display: "flex",
@@ -189,7 +189,7 @@ export function AwardsBallotCard({
         padding: "80px 72px 72px 72px",
         boxSizing: "border-box",
         fontFamily: AWARDS_BALLOT_FONT_FAMILY,
-        color: "#ffffff",
+        color: "var(--gn-text)",
       }}
     >
       <img
@@ -247,7 +247,7 @@ export function AwardsBallotCard({
                 fontWeight: 700,
                 fontSize: 28,
                 letterSpacing: "1.7px",
-                color: "#adadad",
+                color: "var(--gn-dimmed-2)",
                 lineHeight: "normal",
                 whiteSpace: "nowrap",
               }}
@@ -283,7 +283,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 124,
               letterSpacing: "-2.4px",
-              color: "#ffffff",
+              color: "var(--gn-text)",
               lineHeight: "normal",
             }}
           >
@@ -293,7 +293,7 @@ export function AwardsBallotCard({
             style={{
               fontWeight: 400,
               fontSize: 32,
-              color: "#adadad",
+              color: "var(--gn-dimmed-2)",
               lineHeight: "normal",
             }}
           >
@@ -306,7 +306,7 @@ export function AwardsBallotCard({
             data-awards-ballot-card-hero
             style={{
               width: 936,
-              backgroundColor: "#2e150f",
+              backgroundColor: "var(--gn-brand-tint)",
               // theme-exempt: awards ballot artwork
               border: "2px solid #f15025",
               borderRadius: 40,
@@ -323,7 +323,7 @@ export function AwardsBallotCard({
               width={200}
               height={266}
               radius={16}
-              backgroundColor={"#161616"}
+              backgroundColor={"var(--gn-paper-0)"}
             />
             <div
               style={{
@@ -352,7 +352,7 @@ export function AwardsBallotCard({
                   fontWeight: 700,
                   fontSize: 88,
                   letterSpacing: "-1.8px",
-                  color: "#ffffff",
+                  color: "var(--gn-text)",
                   lineHeight: "normal",
                   overflowWrap: "break-word",
                   display: "-webkit-box",
@@ -368,7 +368,7 @@ export function AwardsBallotCard({
                   style={{
                     fontWeight: 400,
                     fontSize: 28,
-                    color: "#adadad",
+                    color: "var(--gn-dimmed-2)",
                     lineHeight: "normal",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -402,8 +402,8 @@ export function AwardsBallotCard({
                   data-category-id={category.id}
                   style={{
                     width: 458,
-                    backgroundColor: "#161616",
-                    border: "1.5px solid #3d3d3d",
+                    backgroundColor: "var(--gn-paper-0)",
+                    border: "1.5px solid var(--gn-line-strong)",
                     borderRadius: 24,
                     padding: 18,
                     display: "flex",
@@ -418,7 +418,7 @@ export function AwardsBallotCard({
                     width={88}
                     height={118}
                     radius={10}
-                    backgroundColor={"#262525"}
+                    backgroundColor={"var(--gn-paper-1)"}
                   />
                   <div
                     style={{
@@ -434,7 +434,7 @@ export function AwardsBallotCard({
                         fontWeight: 700,
                         fontSize: 20,
                         letterSpacing: "1.2px",
-                        color: "#808080",
+                        color: "var(--gn-dimmed-1)",
                         textTransform: "uppercase",
                         lineHeight: "normal",
                       }}
@@ -446,7 +446,7 @@ export function AwardsBallotCard({
                         fontWeight: 700,
                         fontSize: 34,
                         letterSpacing: "-0.5px",
-                        color: "#ffffff",
+                        color: "var(--gn-text)",
                         lineHeight: "normal",
                         overflowWrap: "break-word",
                         display: "-webkit-box",
@@ -469,7 +469,7 @@ export function AwardsBallotCard({
             data-awards-ballot-card-remaining
             style={{
               width: 936,
-              border: "2px dashed #3d3d3d",
+              border: "2px dashed var(--gn-line-strong)",
               borderRadius: 28,
               padding: "36px 40px",
               display: "flex",
@@ -483,7 +483,7 @@ export function AwardsBallotCard({
                 fontWeight: 700,
                 fontSize: 44,
                 letterSpacing: "-0.6px",
-                color: "#ffffff",
+                color: "var(--gn-text)",
                 lineHeight: "normal",
               }}
             >
@@ -493,7 +493,7 @@ export function AwardsBallotCard({
               style={{
                 fontWeight: 400,
                 fontSize: 28,
-                color: "#adadad",
+                color: "var(--gn-dimmed-2)",
                 lineHeight: "normal",
               }}
             >
@@ -529,7 +529,7 @@ export function AwardsBallotCard({
               fontWeight: 600,
               fontSize: 36,
               letterSpacing: "-0.3px",
-              color: "#ffffff",
+              color: "var(--gn-text)",
               lineHeight: "normal",
             }}
           >
@@ -539,7 +539,7 @@ export function AwardsBallotCard({
             style={{
               fontWeight: 400,
               fontSize: 26,
-              color: "#adadad",
+              color: "var(--gn-dimmed-2)",
               lineHeight: "normal",
             }}
           >
@@ -550,7 +550,7 @@ export function AwardsBallotCard({
         <div
           data-awards-ballot-card-pill
           style={{
-            backgroundColor: "#2e150f",
+            backgroundColor: "var(--gn-brand-tint)",
             // theme-exempt: awards ballot artwork
             border: "2px solid #f15025",
             borderRadius: 999,

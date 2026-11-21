@@ -51,6 +51,8 @@ vi.mock("@mantine/core", async () => {
     Affix: C,
     Skeleton: C,
     Stack: C,
+    Title: ({ children }: import("react").PropsWithChildren) =>
+      React.createElement("h1", null, children),
     Transition: () => null,
   };
 });

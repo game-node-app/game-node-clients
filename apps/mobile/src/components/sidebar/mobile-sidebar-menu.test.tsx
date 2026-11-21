@@ -21,6 +21,7 @@ vi.mock("@repo/ui", () => ({
   useUserId: () => state.userId,
   useSeasonEvents: () => state.season,
   useRecapVisited: () => state.recapVisited,
+  useRedirectToAuth: () => vi.fn(async () => {}),
   useUserProfile: () => ({ data: undefined }),
   getS3StoredUpload: (name: string) => `/uploads/${name}`,
   signOut: vi.fn(async () => {}),
@@ -151,6 +152,20 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+});
+
+describe("MobileSidebarMenu · visitors", () => {
+  it("offers sign-in instead of account links and log out", () => {
+    state.userId = undefined;
+    state.season = season();
+
+    renderMenu();
+
+    expect(screen.getByText("Fazer login")).toBeTruthy();
+    expect(screen.queryByText("Sair")).toBeNull();
+    expect(screen.queryByText("Seu espaço")).toBeNull();
+    expect(document.body.innerHTML).not.toContain("undefined");
+  });
 });
 
 describe("MobileSidebarMenu · seasonal entries", () => {

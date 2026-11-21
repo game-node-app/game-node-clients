@@ -52,7 +52,7 @@ const BAR_STYLE = {
   height: 4,
   flex: 1,
   borderRadius: 999,
-  background: "rgba(255, 255, 255, 0.16)",
+  background: "color-mix(in srgb, var(--gn-text) 16%, transparent)",
   overflow: "hidden",
 } as const;
 

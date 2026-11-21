@@ -138,7 +138,7 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
             component={Link}
             href={getRecapStoriesHref(year, recap.profileUserId)}
             variant={"default"}
-            className={"border-[#333] bg-[#262626]"}
+            className={"border-line-strong bg-paper-1"}
           >
             {t("recap.page.hero.stories")}
           </Button>
@@ -153,7 +153,7 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
         >
           <h2
             className={
-              "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+              "m-0 text-xs leading-none font-bold tracking-[0.06em] text-dimmed-2 uppercase"
             }
           >
             {chartTitle}
@@ -164,7 +164,7 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
                 aria-hidden={"true"}
                 className={"size-2.5 shrink-0 rounded-full bg-brand"}
               />
-              <span className={"text-sm text-[#adadad]"}>
+              <span className={"text-sm text-dimmed-2"}>
                 {t("recap.page.hero.chartSize")}
               </span>
             </div>
@@ -172,11 +172,11 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
               <div className={"flex items-center gap-2"}>
                 <span
                   aria-hidden={"true"}
-                  className={"h-3 w-0.5 shrink-0 bg-[#adadad]"}
+                  className={"h-3 w-0.5 shrink-0 bg-dimmed-2"}
                 />
                 <span
                   data-testid={"recap-hero-updates"}
-                  className={"text-sm text-[#adadad]"}
+                  className={"text-sm text-dimmed-2"}
                 >
                   {t("recap.page.hero.updates")}
                 </span>

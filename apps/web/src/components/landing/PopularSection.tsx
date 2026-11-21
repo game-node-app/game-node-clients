@@ -85,6 +85,8 @@ const ReviewCard = ({ reviewId }: { reviewId: string }) => {
   );
 
   if (!review || !game) return <Skeleton className={styles.reviewCard} />;
+  // Ratings without a written review would render an empty card.
+  if (!review.content?.replace(/<[^>]*>/g, "").trim()) return null;
 
   return (
     <Box className={styles.reviewCard}>

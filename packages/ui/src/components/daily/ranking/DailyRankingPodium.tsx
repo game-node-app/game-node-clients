@@ -11,6 +11,7 @@ import { cn } from "#@/util/cn";
 import { Link } from "#@/util/link";
 
 /** Gold, silver and bronze, from the frame. */
+// theme-exempt: medal gold, silver and bronze are fixed artwork colors.
 const MEDAL_COLORS = ["#F5C542", "#C9CED6", "#D08A54"];
 
 /** Card heights by place (card layout, table layout). */
@@ -23,7 +24,7 @@ const HEIGHTS = [
 const Medal = ({ place }: { place: number }) => (
   <span
     className={
-      "flex h-[22px] w-[22px] items-center justify-center rounded-full text-[12px] font-bold text-[#0B0B0B] @[720px]:h-7 @[720px]:w-7 @[720px]:text-[13px]"
+      "flex h-[22px] w-[22px] items-center justify-center rounded-full text-[12px] font-bold text-nav-canvas @[720px]:h-7 @[720px]:w-7 @[720px]:text-[13px]"
     }
     style={{ backgroundColor: MEDAL_COLORS[place - 1] }}
   >
@@ -94,12 +95,17 @@ const PodiumPlayer = ({
       >
         <span className={"@[720px]:hidden"}>{points}</span>
         <span className={"hidden @[720px]:inline"}>
-          {t("daily.ranking.points", { points })}
+          {t(
+            row.points === 1
+              ? "daily.ranking.pointsOne"
+              : "daily.ranking.points",
+            { points },
+          )}
         </span>
       </Text>
       <span
         className={
-          "hidden items-center gap-1 text-[12px] font-medium text-[#ADADAD] @[720px]:flex"
+          "hidden items-center gap-1 text-[12px] font-medium text-dimmed-2 @[720px]:flex"
         }
       >
         <IconFlame size={13} className={"text-brand-5"} aria-hidden />
@@ -121,7 +127,7 @@ const OpenSpot = ({ place }: { place: number }) => {
       <Medal place={place} />
       <span
         className={
-          "flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-line-strong text-[#7A7A7A] @[720px]:h-[60px] @[720px]:w-[60px]"
+          "flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-line-strong text-dimmed @[720px]:h-[60px] @[720px]:w-[60px]"
         }
       >
         <IconPlus size={20} aria-hidden />
@@ -129,15 +135,13 @@ const OpenSpot = ({ place }: { place: number }) => {
       <Text
         component={"span"}
         fw={700}
-        className={"text-[12px] text-[#ADADAD] @[720px]:text-[15px]"}
+        className={"text-[12px] text-dimmed-2 @[720px]:text-[15px]"}
       >
         {t("daily.ranking.openSpot")}
       </Text>
       <Text
         component={"span"}
-        className={
-          "hidden text-center text-[12px] text-[#7A7A7A] @[720px]:block"
-        }
+        className={"hidden text-center text-[12px] text-dimmed @[720px]:block"}
       >
         {t("daily.ranking.openSpotHint")}
       </Text>

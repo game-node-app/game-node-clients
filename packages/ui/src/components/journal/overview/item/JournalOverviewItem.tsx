@@ -75,14 +75,12 @@ const DEFAULT_JournalOverviewItem = ({
   return (
     <Group
       className={
-        "w-full flex-nowrap items-center bg-[#212121] border-[#2B2A2A] rounded-md border p-3"
+        "w-full flex-nowrap items-center bg-paper-6 border-line rounded-md border p-3"
       }
     >
       <Group className={"flex-nowrap h-full"}>
         <Center className={"w-4 lg:w-6"}>
-          <Text className={"text-lg text-[#A2A2A2] font-bold"}>
-            {targetDay}
-          </Text>
+          <Text className={"text-lg text-dimmed-2 font-bold"}>{targetDay}</Text>
         </Center>
         <Box className={"w-16 lg:w-20"}>
           <GameFigureImage game={gameQuery.data} />

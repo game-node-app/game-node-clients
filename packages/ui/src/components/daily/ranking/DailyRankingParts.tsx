@@ -74,7 +74,7 @@ export const DailyRankingChange = ({
         component={"span"}
         fz={12}
         fw={600}
-        className={"text-[#7A7A7A]"}
+        className={"text-dimmed"}
         aria-label={t("daily.ranking.change.same")}
       >
         –
@@ -109,7 +109,7 @@ export const DailyRankingYouPill = () => {
   return (
     <span
       className={
-        "shrink-0 rounded bg-brand-5 px-1.5 py-0.5 text-[10px] font-bold leading-none text-[#0B0B0B]"
+        "shrink-0 rounded bg-brand-5 px-1.5 py-0.5 text-[10px] font-bold leading-none text-accent-contrast"
       }
     >
       {t("daily.ranking.you")}

@@ -637,6 +637,8 @@ export type TranslationSchema = {
   };
   app: {
     betterInApp: string;
+    closeBanner: string;
+    googlePlayAlt: string;
     metaDescription: string;
     openInApp: string;
     title: string;
@@ -944,6 +946,7 @@ export type TranslationSchema = {
     votedByPublic: string;
   };
   blog: {
+    about: string;
     buttons: {
       browseBlog: string;
       seeMore: string;
@@ -1022,11 +1025,16 @@ export type TranslationSchema = {
       atLeastOneGame: string;
       changesCount: string;
       createSuccess: string;
+      emptyCollection: string;
+      fetchFailed: string;
       gamesToMove: string;
       gamesToMoveHint: string;
       orderingHint: string;
       orderingUpdated: string;
       relevantFilteringFailed: string;
+      removeConfirm: string;
+      removeNote: string;
+      reviewTitle: string;
       syncFailed: string;
       targetCollectionStringError: string;
       targetCollections: string;
@@ -1048,6 +1056,7 @@ export type TranslationSchema = {
       all: string;
       createModal: string;
       featured: string;
+      moveGames: string;
       new: string;
       updateModal: string;
     };
@@ -1199,6 +1208,7 @@ export type TranslationSchema = {
     };
   };
   daily: {
+    title: string;
     subtitle: string;
     fetchError: string;
     fetchErrorDescription: string;
@@ -1308,6 +1318,7 @@ export type TranslationSchema = {
     };
     archive: {
       link: string;
+      pastDays: string;
       title: string;
       empty: string;
     };
@@ -1485,6 +1496,7 @@ export type TranslationSchema = {
       button: string;
       result: {
         points: string;
+        pointsOne: string;
         rose: string;
         entered: string;
         same: string;
@@ -1642,6 +1654,7 @@ export type TranslationSchema = {
       modes: string;
       platforms: string;
       themes: string;
+      title: string;
       trendingIn: string;
     };
     metaTitle: string;
@@ -1721,6 +1734,7 @@ export type TranslationSchema = {
       notAvailable: string;
       publishers: string;
       summary: string;
+      tags: string;
       whereToBuy: string;
       whereToPlay: string;
     };
@@ -1736,7 +1750,10 @@ export type TranslationSchema = {
     };
     labels: {
       externalStore: string;
+      fromUsers: string;
       gridView: string;
+      imageAlt: string;
+      images: string;
       inLibrary: string;
       listView: string;
       playedIn: string;
@@ -1746,7 +1763,11 @@ export type TranslationSchema = {
     };
     messages: {
       noEntry: string;
+      noReviewsYet: string;
       notEnoughReviews: string;
+      reviewCount_one: string;
+      reviewCount_other: string;
+      reviewsFetchFailed: string;
     };
     progress: {
       added: string;
@@ -1815,10 +1836,13 @@ export type TranslationSchema = {
       basedOnIgdb: string;
       completionist: string;
       completionistDesc: string;
+      hours_one: string;
+      hours_other: string;
       mainExtras: string;
       mainExtrasDesc: string;
       mainStory: string;
       mainStoryDesc: string;
+      notAvailable: string;
       notEnoughSubmissions: string;
       title: string;
     };
@@ -2251,6 +2275,12 @@ export type TranslationSchema = {
       placeholder: string;
       startTyping: string;
     };
+    signedOut: {
+      description: string;
+      library: string;
+      notifications: string;
+      wrapped: string;
+    };
     wrapped: {
       background: {
         art: string;
@@ -2507,6 +2537,7 @@ export type TranslationSchema = {
         tools: string;
         yourSpace: string;
       };
+      signInPrompt: string;
       version: string;
     };
     stats: string;
@@ -2909,6 +2940,7 @@ export type TranslationSchema = {
     messages: {
       achievementsUpdated: string;
       bioUpdated: string;
+      featuredAchievementsHint: string;
       fetchFailed: string;
       noAchievements: string;
       noFavoriteGames: string;
@@ -2965,7 +2997,9 @@ export type TranslationSchema = {
     titles: {
       activity: string;
       favoriteGames: string;
+      featuredAchievements: string;
       library: string;
+      updateUsername: string;
       selectAchievements: string;
     };
     usernameRules: {

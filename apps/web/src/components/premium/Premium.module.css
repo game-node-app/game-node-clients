@@ -1,19 +1,19 @@
 /* Shared tokens for the public Premium page. Section styles live in the
    per-group modules (PremiumTop / PremiumMiddle / PremiumClosing). */
 .page {
-  --premium-canvas: #0b0b0b;
-  --premium-surface: #121212;
-  --premium-surface-raised: #1a1a1a;
-  --premium-border: #262626;
-  --premium-border-subtle: #1f1f1f;
-  --premium-text: #fafafa;
-  --premium-muted: #8c8c8c;
-  --premium-body: #a6a6a6;
-  --premium-violet: #9747ff;
-  --premium-violet-text: #b98aff;
-  --premium-violet-soft: #c9a6ff;
-  --premium-violet-subtle: rgba(151, 71, 255, 0.16);
-  --premium-success: #3dd68c;
+  --premium-canvas: var(--gn-nav-canvas);
+  --premium-surface: var(--gn-background);
+  --premium-surface-raised: var(--gn-paper-8);
+  --premium-border: var(--gn-paper-1);
+  --premium-border-subtle: var(--gn-dark-8);
+  --premium-text: var(--gn-text);
+  --premium-muted: var(--gn-dimmed-1);
+  --premium-body: var(--gn-dimmed-2);
+  --premium-violet: var(--gn-premium);
+  --premium-violet-text: var(--gn-premium-soft);
+  --premium-violet-soft: var(--gn-premium-text);
+  --premium-violet-subtle: color-mix(in srgb, var(--gn-premium) 16%, transparent);
+  --premium-success: var(--gn-status-success-text);
   background: var(--premium-canvas);
   color: var(--premium-text);
   overflow-x: clip;

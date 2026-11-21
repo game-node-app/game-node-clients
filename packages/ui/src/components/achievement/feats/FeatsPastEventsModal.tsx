@@ -32,7 +32,7 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
             {t("achievements.card.secretBadge")}
           </Badge>
         </Group>
-        <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"text-dimmed-1"}>
           {t("achievements.events.noLongerObtainable")}
         </Text>
       </Stack>
@@ -70,7 +70,7 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
             <Text
               fz={12}
               lh={"normal"}
-              className={obtained ? "text-teal-400" : "text-[#7a7a7a]"}
+              className={obtained ? "text-teal-400" : "text-dimmed-1"}
               ta={"right"}
             >
               {obtained
@@ -110,7 +110,7 @@ const FeatsPastEventsModal = ({
       initialBreakpoint={0.75}
     >
       <Stack gap={16}>
-        <Text fz={14} lh={"normal"} className={"text-[#a6a6a6]"}>
+        <Text fz={14} lh={"normal"} className={"text-dimmed-2"}>
           {t("achievements.events.pastEventsDescription")}
         </Text>
 
@@ -130,7 +130,7 @@ const FeatsPastEventsModal = ({
                 <Text fz={16} fw={600} lh={"normal"} className={"text-white"}>
                   {group.event.name}
                 </Text>
-                <Text fz={13} lh={"normal"} className={"text-[#a6a6a6]"}>
+                <Text fz={13} lh={"normal"} className={"text-dimmed-2"}>
                   {group.event.description}
                 </Text>
               </Stack>

@@ -70,20 +70,20 @@ export function SupportersWall({ variant }: SupportersWallProps) {
     >
       <Box
         className={
-          "flex shrink-0 items-center justify-center rounded-[10px] bg-[rgba(151,71,255,0.16)]"
+          "flex shrink-0 items-center justify-center rounded-[10px] bg-premium/[0.16]"
         }
         style={{ width: isPage ? 44 : 36, height: isPage ? 44 : 36 }}
       >
         <IconCrown
           size={isPage ? 22 : 18}
-          className={"text-[#c7a6ff]"}
+          className={"text-premium-text"}
           aria-hidden
         />
       </Box>
       <Text fz={isPage ? 16 : 14} fw={600} lh={"normal"} c={"white"}>
         {t("supporter.wall.empty.title")}
       </Text>
-      <Text fz={13} lh={"normal"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"normal"} className={"text-dimmed-2"}>
         {t("supporter.wall.empty.description")}
       </Text>
       <Button
@@ -105,7 +105,7 @@ export function SupportersWall({ variant }: SupportersWallProps) {
       data-testid={"supporters-wall-error"}
       className={cn(isPage ? "mt-12" : "py-4")}
     >
-      <Text fz={13} lh={"normal"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"normal"} className={"text-dimmed-2"}>
         {t("supporter.wall.error")}
       </Text>
       <Button
@@ -166,7 +166,7 @@ export function SupportersWall({ variant }: SupportersWallProps) {
     <Box
       component={"section"}
       id={"supporters"}
-      className={"w-full bg-[#101010] px-4 py-24"}
+      className={"w-full bg-paper-7 px-4 py-24"}
     >
       <Box className={"mx-auto w-full max-w-[1100px]"}>
         <Box className={"text-center"}>
@@ -175,7 +175,7 @@ export function SupportersWall({ variant }: SupportersWallProps) {
           </h2>
           <Text
             component={"p"}
-            className={"mt-2 font-light text-base text-[#adadad] sm:text-xl"}
+            className={"mt-2 font-light text-base text-dimmed-2 sm:text-xl"}
           >
             {t("supporter.wall.description")}
           </Text>

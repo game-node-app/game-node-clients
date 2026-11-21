@@ -19,12 +19,12 @@
   -webkit-mask: radial-gradient(
     farthest-side,
     transparent calc(100% - 3px),
-    #000 calc(100% - 3px)
+    var(--gn-scrim) calc(100% - 3px)
   );
   mask: radial-gradient(
     farthest-side,
     transparent calc(100% - 3px),
-    #000 calc(100% - 3px)
+    var(--gn-scrim) calc(100% - 3px)
   );
   animation: spin 6s linear infinite;
 }
@@ -47,6 +47,6 @@
 
 .inner {
   border-radius: 9999px;
-  background: #161616;
+  background: var(--gn-paper-0);
   padding: 3px;
 }

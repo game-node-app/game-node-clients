@@ -139,7 +139,7 @@ const FeatCard = ({ item, onOpenTiers }: FeatCardProps) => {
           gap={"xs"}
           wrap={"nowrap"}
         >
-          <Text fz={12} fw={600} className={"text-[#e6e6e6]"}>
+          <Text fz={12} fw={600} className={"text-emphasis"}>
             {t("achievements.card.progress", {
               value: formatNumber(value),
               threshold: threshold != null ? formatNumber(threshold) : "—",

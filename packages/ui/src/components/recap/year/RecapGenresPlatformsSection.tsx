@@ -77,7 +77,7 @@ export function RecapGenresPlatformsSection({
                 <span className={"text-sm text-white"}>{genre.name}</span>
                 <span
                   className={
-                    "text-xs font-bold tracking-[0.06em] text-[#808080]"
+                    "text-xs font-bold tracking-[0.06em] text-dimmed-1"
                   }
                 >
                   {formatPercentage(genre.share, locale) ?? "0%"}
@@ -123,7 +123,7 @@ export function RecapGenresPlatformsSection({
                   >
                     {formatPercentage(entry.share, locale) ?? "0%"}
                   </span>
-                  <span className={"text-sm text-[#adadad]"}>
+                  <span className={"text-sm text-dimmed-2"}>
                     {t("recap.page.genres.platformDetail", {
                       name,
                       hours: hours ?? "0",
@@ -143,7 +143,7 @@ function CardLabel({ children }: { children: string }) {
   return (
     <h3
       className={
-        "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+        "m-0 text-xs leading-none font-bold tracking-[0.06em] text-dimmed-2 uppercase"
       }
     >
       {children}

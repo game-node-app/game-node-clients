@@ -63,9 +63,9 @@ const CardRow = ({
             className={cn(
               "flex size-10 shrink-0 items-center justify-center rounded-xl",
               premium
-                ? "bg-[#9747FF] text-white"
+                ? "bg-premium text-white"
                 : accent
-                  ? "bg-brand text-[#111111]"
+                  ? "bg-brand text-accent-contrast"
                   : "bg-paper-4 text-neutral-300",
             )}
           >
@@ -82,7 +82,7 @@ const CardRow = ({
                 <p
                   className={cn(
                     "m-0 mt-0.5 text-[13px] leading-4 [overflow-wrap:anywhere]",
-                    premium ? "text-[#C7A6FF]" : "text-dimmed-1",
+                    premium ? "text-premium-text" : "text-dimmed-1",
                   )}
                 >
                   {description}
@@ -98,7 +98,7 @@ const CardRow = ({
                 size={18}
                 className={cn(
                   "shrink-0",
-                  premium ? "text-[#C7A6FF]" : "text-dimmed-1",
+                  premium ? "text-premium-text" : "text-dimmed-1",
                 )}
               />
             )}

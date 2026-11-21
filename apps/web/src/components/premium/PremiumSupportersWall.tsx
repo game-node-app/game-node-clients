@@ -9,6 +9,7 @@ import type { SupporterWallItemDto } from "@repo/wrapper/server";
 import Link from "next/link";
 import { useState } from "react";
 import {
+  getWallColumnStyle,
   WALL_INITIAL_VISIBLE,
   WALL_LIMIT,
   WALL_SKELETONS,
@@ -131,7 +132,11 @@ const PremiumSupportersWall = () => {
   ) : wall.isError && items.length === 0 ? (
     errorState
   ) : items.length === 0 ? (
-    <div id="premium-wall-grid" className={styles.wallGrid}>
+    <div
+      id="premium-wall-grid"
+      className={styles.wallGrid}
+      style={getWallColumnStyle(1)}
+    >
       <WallCtaCard href={supporterHref} />
     </div>
   ) : (
@@ -139,6 +144,7 @@ const PremiumSupportersWall = () => {
       <div
         id="premium-wall-grid"
         className={styles.wallGrid}
+        style={getWallColumnStyle(items.length + 1)}
         data-expanded={expanded}
       >
         {visibleItems.map((item, index) => (

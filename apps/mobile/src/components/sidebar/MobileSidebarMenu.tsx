@@ -8,7 +8,7 @@ import { WRAPPED_TAB_PATH } from "@/util/getTabAwareHref";
 import { version as buildVersion } from "../../../package.json";
 import { App } from "@capacitor/app";
 import { IonContent, IonHeader, IonRippleEffect } from "@ionic/react";
-import { Stack, Text } from "@mantine/core";
+import { Button, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -16,6 +16,7 @@ import {
   getS3StoredUpload,
   Link,
   useRecapVisited,
+  useRedirectToAuth,
   useSeasonEvents,
   useUserProfile,
   UserButton,
@@ -29,7 +30,6 @@ import {
   IconCloudDownload,
   IconDeviceGamepad2,
   IconHistory,
-  IconLayout2,
   IconLibrary,
   IconLogout,
   IconMessage,
@@ -39,6 +39,7 @@ import {
   IconPuzzle,
   IconRobot,
   IconSettings,
+  IconSparkles,
   IconStars,
   IconTrophy,
 } from "@tabler/icons-react";
@@ -48,6 +49,7 @@ const MobileSidebarMenu = () => {
   const { t } = useTranslation();
   const userId = useUserId();
   const queryClient = useQueryClient();
+  const redirectToAuth = useRedirectToAuth();
   const season = useSeasonEvents();
   // Subscribes to navigation so the "Nova" marker is re-read after the Recap
   // page writes it; the page and this menu can stay mounted between routes.
@@ -121,46 +123,66 @@ const MobileSidebarMenu = () => {
             "w-full min-h-full gap-2 bg-[var(--gn-mobile-menu-canvas)] p-2"
           }
         >
-          <MobileSidebarSection
-            title={t("navigation.sidebar.groups.yourSpace")}
-          >
-            <MobileSidebarButton
-              title={t("navigation.collections")}
-              Icon={IconLibrary}
-              href={`/library/${userId}/collections`}
-              onClick={closeMenu}
-            />
-            <MobileSidebarButton
-              title={t("navigation.reviews")}
-              Icon={IconStars}
-              onClick={closeMenu}
-              href={`/profile/${userId}/reviews`}
-            />
-            <MobileSidebarButton
-              title={t("navigation.journal")}
-              Icon={IconNotebook}
-              onClick={closeMenu}
-              href={`/journal/${userId}`}
-            />
-            <MobileSidebarButton
-              title={t("navigation.stats")}
-              Icon={IconDeviceGamepad2}
-              onClick={closeMenu}
-              href={`/profile/${userId}/stats`}
-            />
-            <MobileSidebarButton
-              title={t("library.buttons.importGames")}
-              Icon={IconCloudDownload}
-              onClick={closeMenu}
-              href={`/importer`}
-            />
-          </MobileSidebarSection>
+          {!userId && (
+            <Stack className={"gap-3 px-4 pt-10 pb-3"}>
+              <Text size={"sm"} c={"dimmed"}>
+                {t("navigation.sidebar.signInPrompt")}
+              </Text>
+              <Button
+                fullWidth
+                radius={"xl"}
+                size={"md"}
+                onClick={() => {
+                  closeMenu();
+                  redirectToAuth().catch(console.error);
+                }}
+              >
+                {t("actions.loginCta")}
+              </Button>
+            </Stack>
+          )}
+          {userId && (
+            <MobileSidebarSection
+              title={t("navigation.sidebar.groups.yourSpace")}
+            >
+              <MobileSidebarButton
+                title={t("navigation.collections")}
+                Icon={IconLibrary}
+                href={`/library/${userId}/collections`}
+                onClick={closeMenu}
+              />
+              <MobileSidebarButton
+                title={t("navigation.reviews")}
+                Icon={IconStars}
+                onClick={closeMenu}
+                href={`/profile/${userId}/reviews`}
+              />
+              <MobileSidebarButton
+                title={t("navigation.journal")}
+                Icon={IconNotebook}
+                onClick={closeMenu}
+                href={`/journal/${userId}`}
+              />
+              <MobileSidebarButton
+                title={t("navigation.stats")}
+                Icon={IconDeviceGamepad2}
+                onClick={closeMenu}
+                href={`/profile/${userId}/stats`}
+              />
+              <MobileSidebarButton
+                title={t("library.buttons.importGames")}
+                Icon={IconCloudDownload}
+                onClick={closeMenu}
+                href={`/importer`}
+              />
+            </MobileSidebarSection>
+          )}
           <MobileSidebarSection
             title={t("navigation.sidebar.groups.highlights")}
           >
             <MobileSidebarButton
               title={t("mobile.wrapped.title")}
-              Icon={IconLayout2}
+              Icon={IconSparkles}
               href={WRAPPED_TAB_PATH}
               absolute
               onClick={closeMenu}
@@ -201,18 +223,22 @@ const MobileSidebarMenu = () => {
               withBadge
               badgeLabel={t("navigation.new")}
             />
-            <MobileSidebarButton
-              title={t("navigation.achievements")}
-              Icon={IconTrophy}
-              onClick={closeMenu}
-              href={`/achievements/${userId}`}
-            />
-            <MobileSidebarButton
-              title={t("navigation.feats")}
-              Icon={IconMilitaryAward}
-              onClick={closeMenu}
-              href={`/feats/${userId}`}
-            />
+            {userId && (
+              <>
+                <MobileSidebarButton
+                  title={t("navigation.achievements")}
+                  Icon={IconTrophy}
+                  onClick={closeMenu}
+                  href={`/achievements/${userId}`}
+                />
+                <MobileSidebarButton
+                  title={t("navigation.feats")}
+                  Icon={IconMilitaryAward}
+                  onClick={closeMenu}
+                  href={`/feats/${userId}`}
+                />
+              </>
+            )}
           </MobileSidebarSection>
           <MobileSidebarSection
             title={t("navigation.sidebar.groups.community")}
@@ -253,19 +279,21 @@ const MobileSidebarMenu = () => {
               href={"/preferences"}
               onClick={closeMenu}
             />
-            <MobileSidebarButton
-              title={t("actions.logout")}
-              Icon={IconLogout}
-              href={"#"}
-              hideChevron
-              onClick={() => {
-                signOut(queryClient).then(() => {
-                  closeMenu();
-                });
-              }}
-              iconProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
-              textProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
-            />
+            {userId && (
+              <MobileSidebarButton
+                title={t("actions.logout")}
+                Icon={IconLogout}
+                href={"#"}
+                hideChevron
+                onClick={() => {
+                  signOut(queryClient).then(() => {
+                    closeMenu();
+                  });
+                }}
+                iconProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
+                textProps={{ className: "text-[var(--gn-mobile-menu-danger)]" }}
+              />
+            )}
           </MobileSidebarSection>
           <div
             className={

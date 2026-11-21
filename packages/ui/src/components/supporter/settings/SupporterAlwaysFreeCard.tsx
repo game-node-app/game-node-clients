@@ -45,7 +45,7 @@ export function SupporterAlwaysFreeCard({
                 aria-hidden
                 className={"mt-0.5 shrink-0 text-brand-5"}
               />
-              <Text fz={13} lh={"18px"} className={"text-[#d9d9d9]"}>
+              <Text fz={13} lh={"18px"} className={"text-emphasis"}>
                 {t(key)}
               </Text>
             </Group>

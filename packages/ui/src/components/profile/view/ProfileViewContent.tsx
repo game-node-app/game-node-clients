@@ -166,7 +166,7 @@ const ProfileViewContent = ({ userId }: { userId: string }) => {
           <Box
             component="nav"
             aria-label={t("profile.overview.sections")}
-            className="grid grid-cols-5 gap-0.5 sm:flex sm:flex-wrap sm:gap-2"
+            className="flex justify-between gap-0.5 sm:flex-wrap sm:justify-start sm:gap-2"
           >
             {navigation.map(({ tab: value, label, count }) => (
               <ProfileNavbarItemPresenter

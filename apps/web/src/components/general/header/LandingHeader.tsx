@@ -53,26 +53,24 @@ const LandingHeader = () => {
         <Group gap="sm" wrap="nowrap">
           <Button
             component={Link}
-            href="/home"
-            variant="outline"
-            color="gray"
-            size="xs"
+            href="/auth"
+            h={40}
             visibleFrom="sm"
           >
             {t("landing.presentation.signup")}
           </Button>
           <Button
             component={Link}
-            href="/home"
+            href="/auth"
             variant="outline"
             color="gray"
-            size="xs"
+            h={40}
           >
             {t("landing.presentation.login")}
           </Button>
           <Menu>
             <Menu.Target>
-              <Button hiddenFrom="md" variant="subtle" color="gray" size="xs">
+              <Button hiddenFrom="md" variant="subtle" color="gray" h={40}>
                 {t("landing.presentation.menu")}
               </Button>
             </Menu.Target>
@@ -88,7 +86,7 @@ const LandingHeader = () => {
                   {label}
                 </Menu.Item>
               ))}
-              <Menu.Item component={Link} href="/home">
+              <Menu.Item component={Link} href="/auth">
                 {t("landing.presentation.signup")}
               </Menu.Item>
             </Menu.Dropdown>

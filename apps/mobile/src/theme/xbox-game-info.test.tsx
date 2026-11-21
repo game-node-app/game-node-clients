@@ -216,7 +216,7 @@ describe("xbox game info view", () => {
     expect(screen.getByText("A space adventure.")).toBeTruthy();
     expect(screen.getByText("Bethesda Game Studios")).toBeTruthy();
     expect(screen.getByAltText("Steam")).toBeTruthy();
-    expect(screen.getByText("User Rating")).toBeTruthy();
+    expect(screen.getByText("User rating")).toBeTruthy();
     expect(screen.getAllByText("4.5").length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText("Role-playing").length).toBeGreaterThanOrEqual(
       2,

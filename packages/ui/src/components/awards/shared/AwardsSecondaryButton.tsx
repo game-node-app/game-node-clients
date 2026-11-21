@@ -7,7 +7,7 @@ export type AwardsSecondaryButtonProps = Omit<ButtonProps, "variant"> &
 
 /**
  * Secondary action of the Awards frames ("Compartilhar minha cédula",
- * "Compartilhar meu placar", "Ver categorias"): `#262525` fill, `#3d3d3d`
+ * "Compartilhar meu placar", "Ver categorias"): `paper-1` fill, `line-strong`
  * border, 10 px radius and the 15 px semibold button label.
  */
 const AwardsSecondaryButton = (props: AwardsSecondaryButtonProps) => {
@@ -19,9 +19,9 @@ const AwardsSecondaryButton = (props: AwardsSecondaryButtonProps) => {
         root: {
           height: "auto",
           padding: "14px 22px",
-          backgroundColor: "#262525",
-          borderColor: "#3d3d3d",
-          color: "#fff",
+          backgroundColor: "var(--gn-paper-1)",
+          borderColor: "var(--gn-line-strong)",
+          color: "var(--gn-text)",
         },
         label: { fontSize: 15, fontWeight: 600, lineHeight: 1.33 },
       }}

@@ -46,7 +46,7 @@ export function RecapCover({
         width,
         height,
         borderRadius: radius,
-        background: "#2A2622",
+        background: "#2A2622", // theme-exempt: recap card cover placeholder artwork
         ...style,
       }}
     >

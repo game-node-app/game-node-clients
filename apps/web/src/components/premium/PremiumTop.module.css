@@ -5,8 +5,8 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: var(--premium-canvas, #0b0b0b);
-  color: var(--premium-text, #fafafa);
+  background: var(--premium-canvas, var(--gn-nav-canvas));
+  color: var(--premium-text, var(--gn-text));
 }
 
 .heroGlow {
@@ -28,9 +28,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    #0b0b0b 45%,
-    rgba(11, 11, 11, 0.35) 75%,
-    rgba(11, 11, 11, 0.6) 100%
+    var(--gn-nav-canvas) 45%,
+    color-mix(in srgb, var(--gn-nav-canvas) 35%, transparent) 75%,
+    color-mix(in srgb, var(--gn-nav-canvas) 60%, transparent) 100%
   );
   pointer-events: none;
 }
@@ -41,7 +41,7 @@
   bottom: 0;
   left: 0;
   height: 180px;
-  background: linear-gradient(180deg, rgba(11, 11, 11, 0) 0%, #0b0b0b 100%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gn-nav-canvas) 0%, transparent) 0%, var(--gn-nav-canvas) 100%);
   pointer-events: none;
 }
 
@@ -61,7 +61,7 @@
 
 h1.heroTitle {
   margin-top: 18px;
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 36px;
   font-weight: 700;
   line-height: 42px;
@@ -70,13 +70,13 @@ h1.heroTitle {
 
 .heroTitleAccent {
   display: block;
-  color: var(--premium-violet-text, #b98aff);
+  color: var(--premium-violet-text, var(--gn-premium-soft));
 }
 
 p.heroDescription {
   max-width: 540px;
   margin: 18px 0 0;
-  color: #c4c4c4;
+  color: var(--gn-dark-0);
   font-size: 16px;
   line-height: 25px;
 }
@@ -90,14 +90,14 @@ p.heroDescription {
 }
 
 .heroPriceAmount {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 30px;
   font-weight: 700;
   line-height: 1.15;
 }
 
 .heroPriceSuffix {
-  color: var(--premium-body, #a6a6a6);
+  color: var(--premium-body, var(--gn-dimmed-2));
   font-size: 15px;
   font-weight: 400;
   line-height: 1.3;
@@ -121,33 +121,33 @@ p.heroDescription {
 }
 
 .heroActions .heroPrimary {
-  background-color: var(--premium-violet, #9747ff);
-  color: #ffffff;
+  background-color: var(--premium-violet, var(--gn-premium));
+  color: var(--gn-text);
 }
 
 .heroActions .heroPrimary:hover {
-  background-color: #873cef;
+  background-color: color-mix(in srgb, var(--gn-premium) 85%, var(--gn-scrim));
 }
 
 .heroActions .heroSecondary {
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   background-color: transparent;
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
 }
 
 .heroActions .heroSecondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 p.heroGuarantee {
   margin: 20px 0 0;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 14px;
   line-height: 1.4;
 }
 
 .heroGuaranteeHighlight {
-  color: #e6e6e6;
+  color: var(--gn-text-emphasis);
   font-weight: 600;
 }
 
@@ -163,16 +163,16 @@ p.heroGuarantee {
 .heroProfileCard {
   position: relative;
   overflow: hidden;
-  background: var(--premium-surface, #121212);
-  border: 1px solid var(--premium-border, #262626);
+  background: var(--premium-surface, var(--gn-background));
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 16px;
-  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 40px 90px color-mix(in srgb, var(--gn-scrim) 60%, transparent);
 }
 
 .heroBanner {
   position: relative;
   height: 130px;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .heroBannerImage {
@@ -200,7 +200,7 @@ p.heroGuarantee {
   width: 30px;
   height: 30px;
   border-radius: 15px;
-  background: rgba(0, 0, 0, 0.55);
+  background: color-mix(in srgb, var(--gn-scrim) 55%, transparent);
 }
 
 .videoProgressTrack {
@@ -209,22 +209,22 @@ p.heroGuarantee {
   height: 4px;
   overflow: hidden;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.3);
+  background: color-mix(in srgb, var(--gn-text) 30%, transparent);
 }
 
 .videoProgressFill {
   width: 38%;
   height: 100%;
   border-radius: 3px;
-  background: #ffffff;
+  background: var(--gn-text);
 }
 
 .videoDuration {
   flex-shrink: 0;
   padding: 3px 6px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.55);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--gn-scrim) 55%, transparent);
+  color: var(--gn-text);
   font-size: 11px;
   font-weight: 600;
   line-height: 1.2;
@@ -236,7 +236,7 @@ p.heroGuarantee {
   bottom: 0;
   left: 0;
   height: 8px;
-  background: var(--premium-violet, #9747ff);
+  background: var(--premium-violet, var(--gn-premium));
 }
 
 .heroCardBody {
@@ -250,9 +250,10 @@ p.heroGuarantee {
   height: 96px;
   margin-top: -48px;
   border-radius: 50%;
+  /* theme-exempt: aurora sparkle gradient is brand artwork */
   background: conic-gradient(
     from 90deg,
-    #9747ff 0%,
+    var(--gn-premium) 0%,
     #ae49c9 8.25%,
     #c44c92 16.5%,
     #db4e5c 24.75%,
@@ -262,9 +263,9 @@ p.heroGuarantee {
     #e35f5b 41.25%,
     #d56d92 49.5%,
     #c77cc9 57.75%,
-    #b98aff 66%,
-    #a869ff 83%,
-    #9747ff 100%
+    var(--gn-premium-soft) 66%,
+    var(--gn-premium-soft) 83%,
+    var(--gn-premium) 100%
   );
 }
 
@@ -272,9 +273,9 @@ p.heroGuarantee {
   position: absolute;
   inset: 4px;
   overflow: hidden;
-  border: 4px solid var(--premium-surface, #121212);
+  border: 4px solid var(--premium-surface, var(--gn-background));
   border-radius: 50%;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .heroAvatarInner img {
@@ -293,7 +294,7 @@ p.heroGuarantee {
 }
 
 .heroProfileName {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
@@ -305,10 +306,10 @@ p.heroGuarantee {
   gap: 4px;
   height: 20px;
   padding-inline: 7px;
-  background: var(--premium-violet-subtle, rgba(151, 71, 255, 0.16));
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  background: var(--premium-violet-subtle, color-mix(in srgb, var(--gn-premium) 16%, transparent));
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 5px;
-  color: var(--premium-violet-soft, #c9a6ff);
+  color: var(--premium-violet-soft, var(--gn-premium-text));
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -324,7 +325,7 @@ p.heroGuarantee {
 .heroProfileTitle {
   display: block;
   margin-top: 4px;
-  color: var(--premium-violet-text, #b98aff);
+  color: var(--premium-violet-text, var(--gn-premium-soft));
   font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
@@ -333,7 +334,7 @@ p.heroGuarantee {
 .heroProfileStats {
   display: block;
   margin-top: 6px;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 13px;
   line-height: 1.2;
 }
@@ -344,8 +345,8 @@ p.heroGuarantee {
   gap: 12px;
   margin-top: 18px;
   padding: 12px;
-  background: rgba(151, 71, 255, 0.1);
-  border: 1px solid rgba(151, 71, 255, 0.35);
+  background: color-mix(in srgb, var(--gn-premium) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium) 35%, transparent);
   border-radius: 10px;
 }
 
@@ -369,7 +370,7 @@ p.heroGuarantee {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--premium-violet-soft, #c9a6ff);
+  color: var(--premium-violet-soft, var(--gn-premium-text));
   font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
@@ -380,11 +381,11 @@ p.heroGuarantee {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background: var(--premium-success, #3dd68c);
+  background: var(--premium-success, var(--gn-status-success-text));
 }
 
 .steamLiveGame {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 600;
   line-height: 1.2;
@@ -413,7 +414,7 @@ p.heroGuarantee {
 }
 
 .chipTitle {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
@@ -421,7 +422,7 @@ p.heroGuarantee {
 
 .chipSubtitle {
   margin-top: 2px;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 11px;
   font-weight: 500;
   line-height: 1.2;
@@ -450,7 +451,7 @@ p.heroGuarantee {
 h2.extrasTitle {
   max-width: 960px;
   margin-top: 16px;
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 30px;
   font-weight: 600;
   line-height: 36px;
@@ -470,7 +471,7 @@ h2.extrasTitle {
   align-items: flex-start;
   min-width: 0;
   padding: 16px;
-  border: 1px solid var(--premium-border-subtle, #1f1f1f);
+  border: 1px solid var(--premium-border-subtle, var(--gn-dark-8));
   border-radius: 12px;
 }
 
@@ -482,7 +483,7 @@ h2.extrasTitle {
 
 h3.extraTitle {
   margin: 10px 0 0;
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 600;
   line-height: 1.25;
@@ -490,7 +491,7 @@ h3.extraTitle {
 
 p.extraDescription {
   margin: 6px 0 0;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 13px;
   line-height: 19px;
 }
@@ -514,7 +515,7 @@ p.extraDescription {
 
 .featureNumber {
   margin: 0;
-  color: #6f6f6f;
+  color: var(--gn-text-muted);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.78px;
@@ -523,7 +524,7 @@ p.extraDescription {
 
 h2.featureTitle {
   margin-top: 18px;
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 30px;
   font-weight: 600;
   line-height: 36px;
@@ -532,7 +533,7 @@ h2.featureTitle {
 
 p.featureDescription {
   margin: 20px 0 0;
-  color: var(--premium-body, #a6a6a6);
+  color: var(--premium-body, var(--gn-dimmed-2));
   font-size: 16px;
   line-height: 25px;
 }
@@ -561,7 +562,7 @@ p.featureDescription {
 }
 
 .featureBullet span {
-  color: #d0d0d0;
+  color: var(--gn-text-color);
   font-size: 15px;
   line-height: 22px;
 }
@@ -569,12 +570,12 @@ p.featureDescription {
 .featureSurface {
   overflow: hidden;
   padding: 16px;
-  border: 1px solid #221b2e;
+  border: 1px solid color-mix(in srgb, var(--gn-premium) 8%, var(--gn-paper-8));
   border-radius: 18px;
   background: radial-gradient(
     120% 90% at 70% 0%,
-    #1c1428 0%,
-    #101010 60%
+    color-mix(in srgb, var(--gn-premium) 10%, var(--gn-background)) 0%,
+    var(--gn-paper-7) 60%
   );
 }
 
@@ -590,9 +591,9 @@ p.featureDescription {
   position: relative;
   height: 150px;
   overflow: hidden;
-  border: 1px solid #2e2e2e;
+  border: 1px solid var(--gn-dark-6);
   border-radius: 14px;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .videoBannerBox img.videoBannerImage {
@@ -623,9 +624,10 @@ p.featureDescription {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  /* theme-exempt: aurora sparkle gradient is brand artwork */
   background: conic-gradient(
     from 90deg,
-    #9747ff 0%,
+    var(--gn-premium) 0%,
     #ae49c9 8.25%,
     #c44c92 16.5%,
     #db4e5c 24.75%,
@@ -635,9 +637,9 @@ p.featureDescription {
     #e35f5b 41.25%,
     #d56d92 49.5%,
     #c77cc9 57.75%,
-    #b98aff 66%,
-    #a869ff 83%,
-    #9747ff 100%
+    var(--gn-premium-soft) 66%,
+    var(--gn-premium-soft) 83%,
+    var(--gn-premium) 100%
   );
 }
 
@@ -649,9 +651,9 @@ p.featureDescription {
   position: absolute;
   inset: 4px;
   overflow: hidden;
-  border: 4px solid #101010;
+  border: 4px solid var(--gn-paper-7);
   border-radius: 50%;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .videoAvatarInner img {
@@ -667,8 +669,8 @@ p.featureDescription {
   left: 50%;
   padding: 4px 10px;
   border-radius: 999px;
-  background: var(--premium-violet, #9747ff);
-  color: #ffffff;
+  background: var(--premium-violet, var(--gn-premium));
+  color: var(--gn-text);
   font-size: 11px;
   font-weight: 700;
   line-height: normal;
@@ -679,9 +681,9 @@ p.featureDescription {
 .videoCropCard {
   margin-top: 12px;
   padding: 16px;
-  border: 1px solid var(--premium-border, #262626);
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 14px;
-  background: #141414;
+  background: var(--gn-dark-9);
 }
 
 .videoCropHeader {
@@ -693,7 +695,7 @@ p.featureDescription {
 }
 
 .videoCropTitle {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -704,10 +706,10 @@ p.featureDescription {
   align-items: center;
   height: 24px;
   padding-inline: 12px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--gn-line);
   border-radius: 999px;
-  background: var(--premium-surface-raised, #1a1a1a);
-  color: #d0d0d0;
+  background: var(--premium-surface-raised, var(--gn-paper-8));
+  color: var(--gn-text-color);
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
@@ -716,7 +718,7 @@ p.featureDescription {
 
 .videoCropHint {
   margin: 4px 0 0;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 13px;
   line-height: normal;
 }
@@ -731,7 +733,7 @@ p.featureDescription {
 .zoomLabel,
 .zoomValue {
   flex-shrink: 0;
-  color: var(--premium-body, #a6a6a6);
+  color: var(--premium-body, var(--gn-dimmed-2));
   font-size: 12px;
   line-height: normal;
 }
@@ -742,14 +744,14 @@ p.featureDescription {
   min-width: 0;
   height: 4px;
   border-radius: 3px;
-  background: #2a2a2a;
+  background: var(--gn-line);
 }
 
 .zoomFill {
   width: 46%;
   height: 100%;
   border-radius: 3px;
-  background: var(--premium-violet, #9747ff);
+  background: var(--premium-violet, var(--gn-premium));
 }
 
 .zoomThumb {
@@ -759,7 +761,7 @@ p.featureDescription {
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--gn-text);
   transform: translate(-50%, -50%);
 }
 
@@ -776,10 +778,10 @@ p.featureDescription {
   align-items: center;
   height: 28px;
   padding-inline: 12px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--gn-line);
   border-radius: 999px;
-  background: var(--premium-surface-raised, #1a1a1a);
-  color: #d0d0d0;
+  background: var(--premium-surface-raised, var(--gn-paper-8));
+  color: var(--gn-text-color);
   font-size: 13px;
   line-height: normal;
   white-space: nowrap;
@@ -800,9 +802,9 @@ p.featureDescription {
 .miniProfileCard {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--premium-border, #262626);
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 14px;
-  background: #141414;
+  background: var(--gn-dark-9);
 }
 
 .miniProfileCardExtra {
@@ -812,7 +814,7 @@ p.featureDescription {
 .miniProfileBanner {
   position: relative;
   height: 84px;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .miniProfileBannerImage {
@@ -831,8 +833,8 @@ p.featureDescription {
   align-items: center;
   height: 22px;
   padding-left: 96px;
-  background: var(--accent-color, #9747ff);
-  color: #ffffff;
+  background: var(--accent-color, var(--gn-premium));
+  color: var(--gn-text);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.4px;
@@ -852,10 +854,10 @@ p.featureDescription {
   border-radius: 35px;
   background: conic-gradient(
     from 90deg,
-    var(--accent-color, #9747ff) 0%,
-    color-mix(in srgb, var(--accent-color, #9747ff) 55%, transparent) 33%,
-    rgba(255, 255, 255, 0.35) 66%,
-    var(--accent-color, #9747ff) 100%
+    var(--accent-color, var(--gn-premium)) 0%,
+    color-mix(in srgb, var(--accent-color, var(--gn-premium)) 55%, transparent) 33%,
+    color-mix(in srgb, var(--gn-text) 35%, transparent) 66%,
+    var(--accent-color, var(--gn-premium)) 100%
   );
 }
 
@@ -863,9 +865,9 @@ p.featureDescription {
   position: absolute;
   inset: 3px;
   overflow: hidden;
-  border: 3px solid #141414;
+  border: 3px solid var(--gn-dark-9);
   border-radius: 32px;
-  background: var(--premium-surface-raised, #1a1a1a);
+  background: var(--premium-surface-raised, var(--gn-paper-8));
 }
 
 .miniProfileAvatarInner img {
@@ -884,7 +886,7 @@ p.featureDescription {
 }
 
 .miniProfileName {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 700;
   line-height: normal;
@@ -894,10 +896,10 @@ p.featureDescription {
   display: inline-flex;
   align-items: center;
   padding: 2px 6px;
-  border: 1px solid var(--accent-border, rgba(151, 71, 255, 0.45));
+  border: 1px solid var(--accent-border, color-mix(in srgb, var(--gn-premium) 45%, transparent));
   border-radius: 4px;
-  background: var(--accent-tint, rgba(151, 71, 255, 0.15));
-  color: var(--accent-color, #9747ff);
+  background: var(--accent-tint, color-mix(in srgb, var(--gn-premium) 15%, transparent));
+  color: var(--accent-color, var(--gn-premium));
   font-size: 10px;
   font-weight: 700;
   line-height: normal;
@@ -906,7 +908,7 @@ p.featureDescription {
 .miniProfileTitle {
   display: block;
   margin-top: 3px;
-  color: var(--accent-color, #9747ff);
+  color: var(--accent-color, var(--gn-premium));
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
@@ -915,9 +917,9 @@ p.featureDescription {
 .accentPickerCard {
   margin-top: 12px;
   padding: 16px;
-  border: 1px solid var(--premium-border, #262626);
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 14px;
-  background: #141414;
+  background: var(--gn-dark-9);
 }
 
 .accentPickerHeader {
@@ -929,7 +931,7 @@ p.featureDescription {
 }
 
 .accentPickerTitle {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 700;
   line-height: normal;
@@ -937,7 +939,7 @@ p.featureDescription {
 
 .accentPickerHint {
   display: none;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 13px;
   line-height: normal;
 }
@@ -966,17 +968,17 @@ p.featureDescription {
 
 .accentSwatchActive {
   box-shadow:
-    0 0 0 3px #101010,
-    0 0 0 5px #ffffff;
+    0 0 0 3px var(--gn-paper-7),
+    0 0 0 5px var(--gn-text);
 }
 
 .accentHexPill {
   margin-left: auto;
   padding: 6px 8px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--gn-line);
   border-radius: 8px;
-  background: #0e0e0e;
-  color: #d0d0d0;
+  background: var(--gn-nav-canvas);
+  color: var(--gn-text-color);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 12px;
   line-height: normal;
@@ -993,14 +995,14 @@ p.featureDescription {
 
 .titlePickerCard {
   padding: 8px;
-  border: 1px solid var(--premium-border, #262626);
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 14px;
-  background: #141414;
+  background: var(--gn-dark-9);
 }
 
 .titlePickerHeader {
   padding: 10px 12px 8px;
-  color: var(--premium-muted, #8c8c8c);
+  color: var(--premium-muted, var(--gn-dimmed-1));
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.72px;
@@ -1022,14 +1024,14 @@ p.featureDescription {
   justify-content: space-between;
   padding: 9px 12px;
   border-radius: 8px;
-  color: #d0d0d0;
+  color: var(--gn-text-color);
   font-size: 14px;
   line-height: normal;
 }
 
 .titleOptionSelected {
-  background: var(--premium-violet-subtle, rgba(151, 71, 255, 0.16));
-  color: #ffffff;
+  background: var(--premium-violet-subtle, color-mix(in srgb, var(--gn-premium) 16%, transparent));
+  color: var(--gn-text);
   font-weight: 600;
 }
 
@@ -1053,9 +1055,9 @@ p.featureDescription {
 .reviewCard,
 .replyCard {
   padding: 16px 18px;
-  border: 1px solid var(--premium-border, #262626);
+  border: 1px solid var(--premium-border, var(--gn-paper-1));
   border-radius: 14px;
-  background: #141414;
+  background: var(--gn-dark-9);
 }
 
 .reviewCard {
@@ -1074,9 +1076,10 @@ p.featureDescription {
   width: 48px;
   height: 48px;
   border-radius: 24px;
+  /* theme-exempt: aurora sparkle gradient is brand artwork */
   background: conic-gradient(
     from 90deg,
-    #9747ff 0%,
+    var(--gn-premium) 0%,
     #ae49c9 8.25%,
     #c44c92 16.5%,
     #db4e5c 24.75%,
@@ -1086,9 +1089,9 @@ p.featureDescription {
     #e35f5b 41.25%,
     #d56d92 49.5%,
     #c77cc9 57.75%,
-    #b98aff 66%,
-    #a869ff 83%,
-    #9747ff 100%
+    var(--gn-premium-soft) 66%,
+    var(--gn-premium-soft) 83%,
+    var(--gn-premium) 100%
   );
 }
 
@@ -1096,7 +1099,7 @@ p.featureDescription {
   position: absolute;
   inset: 2px;
   overflow: hidden;
-  border: 2px solid #141414;
+  border: 2px solid var(--gn-dark-9);
   border-radius: 22px;
 }
 
@@ -1119,7 +1122,7 @@ p.featureDescription {
 }
 
 .authorName {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 700;
   line-height: normal;
@@ -1128,7 +1131,7 @@ p.featureDescription {
 .reviewAuthorTitle {
   display: block;
   margin-top: 2px;
-  color: var(--premium-violet-text, #b98aff);
+  color: var(--premium-violet-text, var(--gn-premium-soft));
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
@@ -1151,7 +1154,7 @@ p.featureDescription {
 }
 
 .reviewGameTitle {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -1172,7 +1175,7 @@ p.featureDescription {
 
 .reviewQuote {
   margin: 14px 0 0;
-  color: #d0d0d0;
+  color: var(--gn-text-color);
   font-size: 14px;
   line-height: 22px;
 }
@@ -1197,7 +1200,7 @@ p.featureDescription {
 }
 
 .replyAuthorName {
-  color: var(--premium-text, #fafafa);
+  color: var(--premium-text, var(--gn-text));
   font-size: 14px;
   font-weight: 700;
   line-height: normal;
@@ -1205,7 +1208,7 @@ p.featureDescription {
 
 .replyText {
   margin: 4px 0 0;
-  color: #bdbdbd;
+  color: var(--gn-dark-1);
   font-size: 14px;
   line-height: 20px;
 }
@@ -1275,10 +1278,10 @@ p.featureDescription {
     align-items: center;
     gap: 10px;
     padding: 12px 14px;
-    border: 1px solid #2c2c2c;
+    border: 1px solid var(--gn-dark-6);
     border-radius: 12px;
-    background: rgba(18, 18, 18, 0.95);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+    background: color-mix(in srgb, var(--gn-background) 95%, transparent);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--gn-scrim) 50%, transparent);
   }
 
   .floatingChip img {
@@ -1465,7 +1468,7 @@ p.featureDescription {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0;
     margin-top: 36px;
-    border: 1px solid var(--premium-border-subtle, #1f1f1f);
+    border: 1px solid var(--premium-border-subtle, var(--gn-dark-8));
     border-radius: 16px;
     overflow: hidden;
   }
@@ -1473,8 +1476,8 @@ p.featureDescription {
   .extraCard {
     padding: 24px;
     border: 0;
-    border-right: 1px solid var(--premium-border-subtle, #1f1f1f);
-    border-bottom: 1px solid var(--premium-border-subtle, #1f1f1f);
+    border-right: 1px solid var(--premium-border-subtle, var(--gn-dark-8));
+    border-bottom: 1px solid var(--premium-border-subtle, var(--gn-dark-8));
     border-radius: 0;
   }
 
@@ -1528,9 +1531,9 @@ p.featureDescription {
     height: 820px;
     background: linear-gradient(
       90deg,
-      #0b0b0b 38%,
-      rgba(11, 11, 11, 0.55) 60%,
-      rgba(11, 11, 11, 0.15) 82%
+      var(--gn-nav-canvas) 38%,
+      color-mix(in srgb, var(--gn-nav-canvas) 55%, transparent) 60%,
+      color-mix(in srgb, var(--gn-nav-canvas) 15%, transparent) 82%
     );
   }
 

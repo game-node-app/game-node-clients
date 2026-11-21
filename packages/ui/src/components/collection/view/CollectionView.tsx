@@ -234,13 +234,15 @@ const CollectionView = ({
 
           {isError && (
             <CenteredErrorMessage
-              message={"An error occurred. Please try again."}
+              message={t("collection.messages.fetchFailed")}
             />
           )}
           {isSuccess &&
             !hasSearch &&
             (games == undefined || games.length === 0) && (
-              <CenteredErrorMessage message={"This collection is empty."} />
+              <CenteredErrorMessage
+                message={t("collection.messages.emptyCollection")}
+              />
             )}
           {hasNoSearchResults && (
             <LibrarySearchEmptyState

@@ -39,11 +39,11 @@ const FeatsSection = ({
           "rounded-2xl border border-dashed border-paper-4 bg-paper-7 px-6 py-10 text-center"
         }
       >
-        <IconSearch size={28} className={"text-[#7a7a7a]"} />
+        <IconSearch size={28} className={"text-dimmed-1"} />
         <Text fz={16} fw={600} className={"text-white"}>
           {t("achievements.filters.empty")}
         </Text>
-        <Text fz={13} className={"text-[#a6a6a6]"}>
+        <Text fz={13} className={"text-dimmed-2"}>
           {t("achievements.filters.emptyDescription")}
         </Text>
       </Stack>
@@ -79,7 +79,7 @@ const FeatsSection = ({
               : "achievements.sections.notObtained",
           )}
         </Title>
-        <Text fz={13} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={13} lh={"normal"} className={"text-dimmed-1"}>
           {countLabel}
         </Text>
       </Group>

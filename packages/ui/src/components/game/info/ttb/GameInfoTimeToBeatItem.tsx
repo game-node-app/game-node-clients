@@ -1,11 +1,11 @@
-import { useOnMobile, useOnMobilePlatform } from "#@/components";
-import { cn } from "#@/util";
+import { useOnMobile } from "#@/components";
 import { Box, Group, HoverCard, Popover, Skeleton, Text } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { useTranslation } from "@repo/locales";
+import { IconClock, IconInfoCircle } from "@tabler/icons-react";
 
 interface Props {
   title: string;
-  // Rendered "N/A" if 0
+  // Rendered as "not available" if 0
   seconds: number;
   /**
    * Description show on title click (popover).
@@ -20,15 +20,17 @@ const GameInfoTimeToBeatItem = ({
   description,
   isLoading,
 }: Props) => {
-  const isMobilePlatform = useOnMobilePlatform();
+  const { t } = useTranslation();
   const onMobile = useOnMobile();
   const renderedValue =
-    seconds === 0 ? "N/A" : `${Math.ceil(seconds / 3600)} Hours`;
+    seconds === 0
+      ? t("game.ttb.notAvailable")
+      : t("game.ttb.hours", { count: Math.ceil(seconds / 3600) });
 
   const TargetDescriptionElement = onMobile ? Popover : HoverCard;
 
   return (
-    <Group className={"gap-0.5 flex-nowrap w-full text-white"}>
+    <Group className={"gap-0.5 flex-nowrap w-full"}>
       <TargetDescriptionElement openDelay={500}>
         <TargetDescriptionElement.Target>
           <Box
@@ -50,16 +52,15 @@ const GameInfoTimeToBeatItem = ({
       {isLoading ? (
         <Skeleton className={"w-1/2 h-10"} />
       ) : (
-        <Box
-          className={cn(
-            "border-[var(--gn-dark-8)] border rounded-tr-md rounded-br-md bg-brand w-1/2 p-2",
-            {
-              "bg-tertiary": isMobilePlatform,
-            },
-          )}
+        <Group
+          className={
+            "border-[var(--gn-dark-8)] border rounded-tr-md rounded-br-md bg-paper-5 w-1/2 p-2 gap-1.5 flex-nowrap justify-center"
+          }
         >
+          {/* Neutral cell with a brand-colored icon: filled brand fills crowd the page. */}
+          <IconClock size={14} className={"text-brand shrink-0"} aria-hidden />
           <Text className={"text-center"}>{renderedValue}</Text>
-        </Box>
+        </Group>
       )}
     </Group>
   );

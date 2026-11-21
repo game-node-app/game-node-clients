@@ -16,7 +16,7 @@ export const gamenodeTheme = defineTheme({
     background: "#111111",
     surface: "#161616",
     text: "#FFFFFF",
-    textMuted: "#828282",
+    textMuted: "#8F8F8F",
     border: "#2A2A2A",
     accent: "#F15025",
     accentContrast: "#000000",
@@ -54,7 +54,7 @@ export const gamenodeTheme = defineTheme({
     dark: {
       0: "#C9C9C9",
       1: "#b8b8b8",
-      2: "#828282",
+      2: "#8F8F8F",
       3: "#696969",
       4: "#424242",
       5: "#3b3b3b",
@@ -71,10 +71,10 @@ export const gamenodeTheme = defineTheme({
       strong: "#3D3D3D",
     },
     dimmed: {
-      default: "#828282",
-      1: "#808080",
+      default: "#8F8F8F",
+      1: "#8C8C8C",
       2: "#ADADAD",
-      3: "#7A7A7A",
+      3: "#8C8C8C",
     },
     premium: {
       base: "#9747FF",
@@ -127,7 +127,7 @@ export const gamenodeTheme = defineTheme({
         "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji",
       body: "#111111",
       text: "#FFFFFF",
-      dimmed: "#828282",
+      dimmed: "#8F8F8F",
       radius: "0.5rem",
     },
     ionic: {

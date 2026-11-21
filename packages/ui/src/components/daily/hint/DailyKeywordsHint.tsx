@@ -31,13 +31,14 @@ const DailyKeywordsHint = ({
     <Stack className={"w-full gap-2.5"}>
       <div
         className={
-          "w-full rounded-[12px] border border-[var(--mantine-color-default-border)] bg-[#15130f] bg-[radial-gradient(#2e2a22_1px,transparent_1px)] bg-[length:24px_24px] p-5"
+          "w-full rounded-[12px] border border-[var(--mantine-color-default-border)] bg-paper-7 bg-[radial-gradient(var(--gn-line)_1px,transparent_1px)] bg-[length:24px_24px] p-5"
         }
       >
         <div className={"grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3"}>
           {keywords.map((keyword, index) => {
             const isNew = attempts > 0 && index === keywords.length - 1;
             return (
+              // theme-exempt: the clues are cream paper notes pinned on the board (illustration).
               <div
                 key={keyword}
                 className={cn(
@@ -69,8 +70,8 @@ const DailyKeywordsHint = ({
         </div>
         {remaining > 0 && (
           <Group className={"mt-5 gap-1.5"}>
-            <IconLock size={14} className={"text-[#8a8478]"} />
-            <Text fz={12} fw={500} c={"#8a8478"}>
+            <IconLock size={14} className={"text-dimmed"} />
+            <Text fz={12} fw={500} c={"dimmed"}>
               {t("daily.keywords.locked", { count: remaining })}
             </Text>
           </Group>

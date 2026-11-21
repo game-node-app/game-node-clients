@@ -16,6 +16,7 @@ const JournalAchievementsTags = ({ group, labels }: Props) => {
 
   const source = group.source as unknown as EGameExternalGameCategory;
 
+  // theme-exempt: Steam, Xbox and PlayStation brand marks keep their platform colors.
   const colorBySource = useMemo(() => {
     return (
       match(source)
@@ -60,6 +61,7 @@ const JournalAchievementsTags = ({ group, labels }: Props) => {
       )}
 
       {isPlatinum && (
+        // theme-exempt: the platinum trophy gradient is artwork, not UI chrome.
         <Badge
           size="sm"
           radius="sm"

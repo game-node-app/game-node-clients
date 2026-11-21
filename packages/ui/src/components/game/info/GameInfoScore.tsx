@@ -1,14 +1,6 @@
 import { GameRating } from "#@/components/general/input/GameRating";
 import { useReviewsScore } from "#@/components/review/hooks/useReviewsScore";
-import {
-  Center,
-  Divider,
-  Group,
-  HoverCard,
-  Popover,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Divider, Group, HoverCard, Popover, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconStar } from "@tabler/icons-react";
 import { useMemo } from "react";
@@ -60,15 +52,32 @@ const GameInfoScore = ({ gameId }: Props) => {
       });
   }, [score.data, t]);
 
+  const reviewCount = score.data?.distribution?.total ?? 0;
+
   const TargetPopoverElement = onMobile ? Popover : HoverCard;
 
   return (
     <DetailsCard title={t("game.labels.userRating")}>
       <TargetPopoverElement>
         <TargetPopoverElement.Target>
-          <Center className={"mt-6 mb-6"}>
+          <Stack className={"items-center gap-2 my-4"}>
             <GameRating value={score.data?.median} />
-          </Center>
+            {reviewCount > 0 && score.data != undefined ? (
+              <Text fz={"sm"} className={"text-center"}>
+                <Text span fw={600}>
+                  {score.data.median.toFixed(1)}
+                </Text>
+                <Text span c={"dimmed"}>
+                  {" · "}
+                  {t("game.messages.reviewCount", { count: reviewCount })}
+                </Text>
+              </Text>
+            ) : (
+              <Text fz={"sm"} c={"dimmed"} className={"text-center"}>
+                {t("game.messages.notEnoughReviews")}
+              </Text>
+            )}
+          </Stack>
         </TargetPopoverElement.Target>
         <TargetPopoverElement.Dropdown>
           <Stack>{scoreDistribution}</Stack>

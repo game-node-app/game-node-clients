@@ -26,7 +26,7 @@ const BlogPostCompactCard = ({ post, blogRoutePrefix = "/blog" }: Props) => {
           className={"after:absolute after:inset-0 after:content-['']"}
         >
           <Title
-            order={4}
+            order={3}
             lineClamp={3}
             className={"text-left text-white text-base leading-snug font-bold"}
           >

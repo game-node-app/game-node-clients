@@ -1,3 +1,4 @@
+import { RATING_STAR_COLOR } from "#@/util";
 import { Rating, RatingProps } from "@mantine/core";
 
 /**
@@ -8,7 +9,13 @@ import { Rating, RatingProps } from "@mantine/core";
  */
 const GameRating = (props: RatingProps) => {
   return (
-    <Rating fractions={2} size={"md"} color={"brand"} readOnly {...props} />
+    <Rating
+      fractions={2}
+      size={"md"}
+      color={RATING_STAR_COLOR}
+      readOnly
+      {...props}
+    />
   );
 };
 

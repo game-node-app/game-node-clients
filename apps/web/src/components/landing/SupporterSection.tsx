@@ -17,6 +17,7 @@ import {
   useSupporterEntryHref,
   useSupporterOffers,
 } from "@repo/ui";
+import { IconCheck } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "@/components/landing/Landing.module.css";
@@ -51,6 +52,42 @@ const TRUST = [
 
 type Period = "monthly" | "yearly";
 
+/**
+ * Feature line of a plan. `h` would clip wrapped lines on narrow screens, so the
+ * row only has a minimum height and keeps the check aligned to the first line.
+ */
+const FeatureRow = ({
+  label,
+  tone,
+  checkAlt = "",
+}: {
+  label: string;
+  tone: "free" | "supporter";
+  checkAlt?: string;
+}) => (
+  <Group component="li" gap={12} mih={32} wrap="nowrap" align="flex-start">
+    {tone === "supporter" ? (
+      <IconCheck
+        size={16}
+        stroke={2.5}
+        className={`${styles.premiumText} mt-1 shrink-0`}
+        {...(checkAlt
+          ? { role: "img", "aria-label": checkAlt }
+          : { "aria-hidden": true })}
+      />
+    ) : (
+      <img
+        src={icon("icon-check-white.svg")}
+        width={16}
+        height={16}
+        alt={checkAlt}
+        className="mt-1 shrink-0"
+      />
+    )}
+    <Text flex={1}>{label}</Text>
+  </Group>
+);
+
 const PlanCard = ({
   supporter,
   period,
@@ -83,7 +120,7 @@ const PlanCard = ({
             {t(`${prefix}.${plan}.name`)}
           </Text>
           {supporter && (
-            <Text className={styles.pill} fz={12} fw={700}>
+            <Text className={styles.pillPremium} fz={12} fw={700}>
               {t(`${prefix}.plan.badge`)}
             </Text>
           )}
@@ -161,59 +198,36 @@ const PlanCard = ({
           {t(`${prefix}.free.cta`)}
         </Button>
       )}
-      <Divider color="#ffffff1f" />
+      <Divider color="var(--gn-line-strong)" />
       <Stack gap={24}>
         <Stack gap={4}>
-          <Text className={styles.groupLabel} c="#adadad">
+          <Text className={`${styles.groupLabel} ${styles.muted}`}>
             {t(`${prefix}.groups.always`)}
           </Text>
           <Stack component="ul" gap={0} className={styles.featureList}>
             {INCLUDED_ITEMS.map((item) => (
-              <Group
+              <FeatureRow
                 key={item}
-                component="li"
-                gap={12}
-                h={32}
-                wrap="nowrap"
-              >
-                <img
-                  src={icon(
-                    supporter
-                      ? "icon-check-brand.svg"
-                      : "icon-check-white.svg",
-                  )}
-                  width={16}
-                  height={16}
-                  alt={t(`${prefix}.included`)}
-                />
-                <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
-              </Group>
+                tone={supporter ? "supporter" : "free"}
+                label={t(`${prefix}.features.${item}`)}
+                checkAlt={t(`${prefix}.included`)}
+              />
             ))}
           </Stack>
         </Stack>
         {supporter && (
           <Stack gap={12}>
             <Stack gap={4}>
-              <Text className={styles.groupLabel} c="brand">
+              <Text className={`${styles.groupLabel} ${styles.premiumText}`}>
                 {t(`${prefix}.groups.available`)}
               </Text>
               <Stack component="ul" gap={0} className={styles.featureList}>
                 {AVAILABLE_ITEMS.map((item) => (
-                  <Group
+                  <FeatureRow
                     key={item}
-                    component="li"
-                    gap={12}
-                    h={32}
-                    wrap="nowrap"
-                  >
-                    <img
-                      src={icon("icon-check-brand.svg")}
-                      width={16}
-                      height={16}
-                      alt=""
-                    />
-                    <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
-                  </Group>
+                    tone="supporter"
+                    label={t(`${prefix}.features.${item}`)}
+                  />
                 ))}
               </Stack>
             </Stack>
@@ -224,21 +238,11 @@ const PlanCard = ({
                 </Text>
                 <Stack component="ul" gap={0} className={styles.featureList}>
                   {group.items.map((item) => (
-                    <Group
+                    <FeatureRow
                       key={item}
-                      component="li"
-                      gap={12}
-                      h={32}
-                      wrap="nowrap"
-                    >
-                      <img
-                        src={icon("icon-check-brand.svg")}
-                        width={16}
-                        height={16}
-                        alt=""
-                      />
-                      <Text flex={1}>{t(`${prefix}.features.${item}`)}</Text>
-                    </Group>
+                      tone="supporter"
+                      label={t(`${prefix}.features.${item}`)}
+                    />
                   ))}
                 </Stack>
               </Stack>

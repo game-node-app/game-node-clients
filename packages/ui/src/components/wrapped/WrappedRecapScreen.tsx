@@ -711,7 +711,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
             <div
               style={transitionStyles}
               className={
-                "flex flex-col gap-3 rounded-t-2xl border border-b-0 border-white/[0.08] bg-[#1A1A1A] p-3"
+                "flex flex-col gap-3 rounded-t-2xl border border-b-0 border-white/[0.08] bg-paper-8 p-3"
               }
             >
               <Group justify={"space-between"}>
@@ -770,7 +770,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
       </div>
 
       {emptyMessage}
-        {userId && <RecapStoreSync />}
+      {userId && <RecapStoreSync />}
 
       <div
         className={
@@ -823,7 +823,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
 
         <div
           className={
-            "flex min-w-0 flex-col gap-6 rounded-2xl border border-white/[0.06] bg-[#1A1A1A] p-6"
+            "flex min-w-0 flex-col gap-6 rounded-2xl border border-white/[0.06] bg-paper-8 p-6"
           }
         >
           {/* An export reads the preview as it is now, so every control that
@@ -849,7 +849,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
           <Stack
             gap={"xs"}
             className={
-              "z-10 -mx-6 -mb-6 mt-auto rounded-b-2xl border-t border-white/[0.08] bg-[#1A1A1A] px-6 pb-6 pt-5 lg:sticky lg:bottom-0"
+              "z-10 -mx-6 -mb-6 mt-auto rounded-b-2xl border-t border-white/[0.08] bg-paper-8 px-6 pb-6 pt-5 lg:sticky lg:bottom-0"
             }
           >
             {exportProgress}

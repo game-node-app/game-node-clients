@@ -1,4 +1,9 @@
-import { CollectionCreateButton, useUserId } from "#@/components";
+import {
+  CollectionCreateButton,
+  useUserId,
+  useUserLibrary,
+} from "#@/components";
+import { filterVisibleCollections } from "#@/components/library/util/filterVisibleCollections";
 import { LibraryViewSidebarCollection } from "#@/components/library/view/sidebar/LibraryViewSidebarCollection.tsx";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { Link } from "#@/util";
@@ -15,6 +20,11 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
   const userProfileQuery = useUserProfile(userId);
   const username = userProfileQuery.data?.username;
   const isOwnLibrary = ownUserId != undefined && ownUserId === userId;
+  const userLibraryQuery = useUserLibrary(userId);
+  const hasFeatured = !!filterVisibleCollections(
+    userLibraryQuery.data?.collections,
+    isOwnLibrary,
+  )?.some((collection) => collection.isFeatured);
 
   if (!userId) return null;
 
@@ -32,7 +42,12 @@ const LibraryViewSidebar = ({ userId }: ILibraryViewSidebarProps) => {
             </Title>
           </Link>
           <Stack className={""}>
-            <Accordion variant={"default"} defaultValue={"featured"}>
+            <Accordion
+              // Re-mount once the library loads so the open section matches what exists.
+              key={hasFeatured ? "featured" : "all"}
+              variant={"default"}
+              defaultValue={hasFeatured ? "featured" : "all"}
+            >
               <LibraryViewSidebarCollection userId={userId} type={"all"} />
               <LibraryViewSidebarCollection userId={userId} type={"featured"} />
             </Accordion>

@@ -246,7 +246,7 @@ export function RecapAuraCard({
               306,
             ),
             transform: `rotate(${coverLayout[index]!.tilt}deg)`,
-            boxShadow: "0 24px 60px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 24px 60px rgba(0, 0, 0, 0.5)", // theme-exempt: recap card artwork shadow
             border: `3px solid ${RECAP_COLORS.cream}33`,
             borderRadius: 30,
           }}

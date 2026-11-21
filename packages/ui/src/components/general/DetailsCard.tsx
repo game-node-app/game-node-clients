@@ -25,7 +25,7 @@ const DetailsCard = ({
         "py-2 px-4 bg-paper-3 rounded-md": variant === "card",
       })}
     >
-      <Title order={5} className={"font-bold text-xs text-dimmed"}>
+      <Title order={2} size={"h5"} className={"font-bold text-xs text-dimmed"}>
         {title}
       </Title>
       {children}

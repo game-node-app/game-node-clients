@@ -44,7 +44,7 @@ const DailyRankingSignInCard = ({
         <Text fz={16} fw={700} c={"white"}>
           {title ?? t("daily.ranking.signIn.title")}
         </Text>
-        <Text fz={13} lh={"19px"} c={"#ADADAD"} maw={460}>
+        <Text fz={13} lh={"19px"} c={"var(--gn-dimmed-2)"} maw={460}>
           {description ?? t("daily.ranking.signIn.description")}
         </Text>
       </div>
@@ -68,7 +68,7 @@ const DailyRankingSignInCard = ({
           h={40}
           px={16}
           fz={14}
-          className={"!text-[#0B0B0B]"}
+          className={"!text-accent-contrast"}
         >
           {t("daily.ranking.signIn.signIn")}
         </Button>

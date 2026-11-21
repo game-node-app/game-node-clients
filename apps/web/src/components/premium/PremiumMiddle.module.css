@@ -39,7 +39,7 @@
 
 .restEyebrow {
   margin: 0;
-  color: #6f6f6f;
+  color: var(--gn-text-muted);
   font-size: 13px;
   font-weight: 700;
   line-height: normal;
@@ -66,7 +66,7 @@
   padding: 22px;
   overflow: hidden;
   background: var(--premium-surface);
-  border: 1px solid #232323;
+  border: 1px solid var(--gn-paper-4);
   border-radius: 20px;
 }
 
@@ -120,8 +120,8 @@
   gap: 12px;
   min-width: 0;
   padding: 12px 14px;
-  background: #0e0e0e;
-  border: 1px solid #222;
+  background: var(--gn-nav-canvas);
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 10px;
 }
 
@@ -165,8 +165,8 @@
   gap: 12px;
   min-width: 0;
   padding: 12px;
-  background: rgba(151, 71, 255, 0.1);
-  border: 1px solid rgba(151, 71, 255, 0.35);
+  background: color-mix(in srgb, var(--gn-premium) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium) 35%, transparent);
   border-radius: 10px;
 }
 
@@ -227,8 +227,8 @@
   min-width: 0;
   min-height: 103px;
   padding: 10px;
-  background: #0e0e0e;
-  border: 1px solid #222;
+  background: var(--gn-nav-canvas);
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 10px;
 }
 
@@ -274,7 +274,7 @@
   min-width: 0;
   min-height: 103px;
   padding: 10px;
-  border: 1px dashed #4a3a66;
+  border: 1px dashed color-mix(in srgb, var(--gn-premium-soft) 35%, var(--gn-background));
   border-radius: 10px;
   text-align: center;
 }
@@ -301,7 +301,7 @@
 
 .collectionPillFree {
   padding: 5px 10px;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--gn-line);
   border-radius: 999px;
   color: var(--premium-body);
   font-size: 12px;
@@ -310,8 +310,8 @@
 
 .collectionPillPremium {
   padding: 5px 10px;
-  background: rgba(151, 71, 255, 0.12);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  background: color-mix(in srgb, var(--gn-premium) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 999px;
   color: var(--premium-violet-soft);
   font-size: 12px;
@@ -334,8 +334,8 @@
 .toggleList {
   width: 100%;
   padding-block: 6px;
-  background: #0e0e0e;
-  border: 1px solid #222;
+  background: var(--gn-nav-canvas);
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 14px;
 }
 
@@ -345,7 +345,7 @@
   gap: 14px;
   min-width: 0;
   padding: 13px 18px;
-  border-bottom: 1px solid #1c1c1c;
+  border-bottom: 1px solid var(--gn-paper-5);
 }
 
 .toggleRow:last-child {
@@ -386,7 +386,7 @@
   width: 34px;
   height: 18px;
   border-radius: 999px;
-  background: #2a2a2a;
+  background: var(--gn-line);
 }
 
 .toggleTrack[data-checked="true"] {
@@ -400,12 +400,12 @@
   width: 14px;
   height: 14px;
   border-radius: 7px;
-  background: #8c8c8c;
+  background: var(--gn-dimmed-1);
 }
 
 .toggleTrack[data-checked="true"] .toggleThumb {
   left: 18px;
-  background: #ffffff;
+  background: var(--gn-text);
 }
 
 /* ==========================================================================
@@ -423,7 +423,7 @@
 .comparisonWrap {
   margin-top: 44px;
   overflow: hidden;
-  border: 1px solid #222;
+  border: 1px solid var(--gn-nav-raised);
   border-radius: 18px;
   background: var(--premium-canvas);
 }
@@ -447,14 +447,14 @@
 }
 
 .comparisonHeadRow {
-  background: #101010;
-  border-bottom: 1px solid #1c1c1c;
+  background: var(--gn-paper-7);
+  border-bottom: 1px solid var(--gn-paper-5);
 }
 
 .comparisonHeadCell {
   height: 52px;
   padding: 10px 8px;
-  color: #ffffff;
+  color: var(--gn-text);
   font-size: 14px;
   font-weight: 700;
   line-height: normal;
@@ -463,13 +463,13 @@
 }
 
 .comparisonHeadCellPremium {
-  background: rgba(151, 71, 255, 0.06);
+  background: color-mix(in srgb, var(--gn-premium) 6%, transparent);
   color: var(--premium-violet-soft);
 }
 
 .comparisonGroupRow {
-  background: #0f0f0f;
-  border-bottom: 1px solid #1c1c1c;
+  background: var(--gn-paper-7);
+  border-bottom: 1px solid var(--gn-paper-5);
 }
 
 .comparisonGroupHeader {
@@ -487,11 +487,11 @@
 
 .comparisonGroupPremiumSpacer {
   padding: 0;
-  background: rgba(151, 71, 255, 0.06);
+  background: color-mix(in srgb, var(--gn-premium) 6%, transparent);
 }
 
 .comparisonRow {
-  border-bottom: 1px solid #1c1c1c;
+  border-bottom: 1px solid var(--gn-paper-5);
 }
 
 .comparisonRow:last-child {
@@ -501,7 +501,7 @@
 .comparisonFeatureCell {
   min-height: 52px;
   padding: 12px;
-  color: #d6d6d6;
+  color: var(--gn-text-color);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.35;
@@ -517,7 +517,7 @@
 }
 
 .comparisonValueCellPremium {
-  background: rgba(151, 71, 255, 0.06);
+  background: color-mix(in srgb, var(--gn-premium) 6%, transparent);
 }
 
 .comparisonCheckIcon {
@@ -528,9 +528,15 @@
 }
 
 .comparisonDash {
-  color: #4a4a4a;
-  font-size: 20px;
-  line-height: 1;
+  /* Drawn bar instead of the en dash glyph so it centers on the 20px check line. */
+  display: block;
+  width: 10px;
+  height: 2px;
+  margin: 9px auto;
+  border-radius: 1px;
+  background: var(--gn-text-muted);
+  font-size: 0;
+  line-height: 0;
 }
 
 .comparisonTextFree {
@@ -580,8 +586,8 @@
   display: inline-flex;
   align-items: center;
   padding: 4px;
-  background: #141414;
-  border: 1px solid #262626;
+  background: var(--gn-dark-9);
+  border: 1px solid var(--gn-paper-1);
   border-radius: 999px;
 }
 
@@ -622,8 +628,8 @@
 }
 
 .pricingToggleButton[aria-pressed="true"] .pricingToggleBadge {
-  background: rgba(151, 71, 255, 0.16);
-  color: #6b21d6;
+  background: color-mix(in srgb, var(--gn-premium) 16%, transparent);
+  color: color-mix(in srgb, var(--gn-premium) 75%, var(--gn-scrim));
 }
 
 .pricingGrid {
@@ -642,13 +648,13 @@
   min-width: 0;
   padding: 24px;
   background: var(--premium-surface);
-  border: 1px solid #232323;
+  border: 1px solid var(--gn-paper-4);
   border-radius: 22px;
 }
 
 .planCardPremium {
-  background: linear-gradient(180deg, #1a1226 0%, #121212 70%);
-  border-color: #4a3a66;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gn-premium) 8%, var(--gn-background)) 0%, var(--gn-background) 70%);
+  border-color: color-mix(in srgb, var(--gn-premium-soft) 35%, var(--gn-background));
 }
 
 .planCardHeader {
@@ -681,7 +687,7 @@
   height: 20px;
   padding-inline: 7px;
   background: var(--premium-violet-subtle);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 5px;
   color: var(--premium-violet-soft);
   font-size: 11px;
@@ -699,7 +705,7 @@
 .planTag {
   padding: 5px 10px;
   background: var(--premium-violet-subtle);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 999px;
   color: var(--premium-violet-soft);
   font-size: 12px;
@@ -765,22 +771,22 @@
 
 .planCtaFree {
   background-color: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   color: var(--premium-text);
 }
 
 .planCtaFree:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 .planCtaPremium {
   background-color: var(--premium-violet);
   border: 0;
-  color: #ffffff;
+  color: var(--gn-text);
 }
 
 .planCtaPremium:hover {
-  background-color: #873cef;
+  background-color: color-mix(in srgb, var(--gn-premium) 85%, var(--gn-scrim));
 }
 
 .planListHeading {
@@ -827,7 +833,7 @@
 }
 
 .planListText {
-  color: #d6d6d6;
+  color: var(--gn-text-color);
   font-size: 15px;
   line-height: 22px;
 }
@@ -878,8 +884,8 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse 50% 50% at 50% 50%,
-    rgba(151, 71, 255, 0.16) 0%,
-    rgba(151, 71, 255, 0) 100%
+    color-mix(in srgb, var(--gn-premium) 16%, transparent) 0%,
+    color-mix(in srgb, var(--gn-premium) 0%, transparent) 100%
   );
 }
 
@@ -937,14 +943,14 @@
   text-align: center;
   text-decoration: none;
   background: var(--premium-surface);
-  border: 1px solid #222;
+  border: 1px solid var(--gn-nav-raised);
   border-top-width: 3px;
   border-radius: 16px;
   transition: border-color 150ms ease;
 }
 
 a.wallCard:hover {
-  border-color: #4a3a66;
+  border-color: color-mix(in srgb, var(--gn-premium-soft) 35%, var(--gn-background));
 }
 
 .wallAvatarRing {
@@ -956,24 +962,26 @@ a.wallCard:hover {
 }
 
 .wallRing0 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
-    rgb(151, 71, 255) 0%,
-    rgba(151, 71, 255, 0.53) 33%,
-    rgba(255, 255, 255, 0.33) 66%,
+    var(--gn-premium) 0%,
+    color-mix(in srgb, var(--gn-premium) 53%, transparent) 33%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(229, 209, 255, 0.498) 74.5%,
     rgba(203, 163, 255, 0.665) 83%,
-    rgb(151, 71, 255) 100%
+    var(--gn-premium) 100%
   );
 }
 
 .wallRing1 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
     rgb(var(--gn-brand-rgb)) 0%,
     rgba(var(--gn-brand-rgb), 0.53) 33%,
     rgba(248, 168, 146, 0.43) 49.5%,
-    rgba(255, 255, 255, 0.33) 66%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(252, 211, 201, 0.498) 74.5%,
     rgba(248, 168, 146, 0.665) 83%,
     rgb(var(--gn-brand-rgb)) 100%
@@ -981,25 +989,27 @@ a.wallCard:hover {
 }
 
 .wallRing2 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
-    rgb(61, 214, 140) 0%,
-    rgba(61, 214, 140, 0.53) 33%,
+    var(--gn-status-success-text) 0%,
+    color-mix(in srgb, var(--gn-status-success-text) 53%, transparent) 33%,
     rgba(158, 235, 198, 0.43) 49.5%,
-    rgba(255, 255, 255, 0.33) 66%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(207, 245, 226, 0.498) 74.5%,
     rgba(158, 235, 198, 0.665) 83%,
-    rgb(61, 214, 140) 100%
+    var(--gn-status-success-text) 100%
   );
 }
 
 .wallRing3 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
     rgb(47, 155, 255) 0%,
     rgba(47, 155, 255, 0.53) 33%,
     rgba(151, 205, 255, 0.43) 49.5%,
-    rgba(255, 255, 255, 0.33) 66%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(203, 230, 255, 0.498) 74.5%,
     rgba(151, 205, 255, 0.665) 83%,
     rgb(47, 155, 255) 100%
@@ -1007,12 +1017,13 @@ a.wallCard:hover {
 }
 
 .wallRing4 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
     rgb(255, 197, 61) 0%,
     rgba(255, 197, 61, 0.53) 33%,
     rgba(255, 226, 158, 0.43) 49.5%,
-    rgba(255, 255, 255, 0.33) 66%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(255, 241, 207, 0.498) 74.5%,
     rgba(255, 226, 158, 0.665) 83%,
     rgb(255, 197, 61) 100%
@@ -1020,12 +1031,13 @@ a.wallCard:hover {
 }
 
 .wallRing5 {
+  /* theme-exempt: supporter avatar ring palette is decorative artwork */
   background: conic-gradient(
     from 90deg,
     rgb(255, 79, 163) 0%,
     rgba(255, 79, 163, 0.53) 33%,
     rgba(255, 167, 209, 0.43) 49.5%,
-    rgba(255, 255, 255, 0.33) 66%,
+    color-mix(in srgb, var(--gn-text) 33%, transparent) 66%,
     rgba(255, 211, 232, 0.498) 74.5%,
     rgba(255, 167, 209, 0.665) 83%,
     rgb(255, 79, 163) 100%
@@ -1061,7 +1073,7 @@ a.wallCard:hover {
   margin-top: 9px;
   padding-inline: 7px;
   background: var(--premium-violet-subtle);
-  border: 1px solid rgba(185, 138, 255, 0.45);
+  border: 1px solid color-mix(in srgb, var(--gn-premium-soft) 45%, transparent);
   border-radius: 5px;
   color: var(--premium-violet-soft);
   font-size: 11px;
@@ -1089,16 +1101,16 @@ a.wallCard:hover {
   text-decoration: none;
   background: linear-gradient(
     180deg,
-    rgba(151, 71, 255, 0.12) 0%,
-    rgba(151, 71, 255, 0) 100%
+    color-mix(in srgb, var(--gn-premium) 12%, transparent) 0%,
+    color-mix(in srgb, var(--gn-premium) 0%, transparent) 100%
   );
-  border: 1px dashed #6b54a0;
+  border: 1px dashed color-mix(in srgb, var(--gn-premium-soft) 50%, var(--gn-background));
   border-radius: 16px;
   transition: border-color 150ms ease;
 }
 
 .wallCta:hover {
-  border-color: #8b6fd0;
+  border-color: color-mix(in srgb, var(--gn-premium-soft) 75%, var(--gn-background));
 }
 
 .wallCtaPlus {
@@ -1107,7 +1119,7 @@ a.wallCard:hover {
   justify-content: center;
   width: 72px;
   height: 72px;
-  border: 1px dashed #8b6fd0;
+  border: 1px dashed color-mix(in srgb, var(--gn-premium-soft) 75%, var(--gn-background));
   border-radius: 36px;
   color: var(--premium-violet-soft);
   font-size: 32px;
@@ -1117,7 +1129,7 @@ a.wallCard:hover {
 
 .wallCtaTitle {
   margin-top: 12px;
-  color: #ffffff;
+  color: var(--gn-text);
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -1146,13 +1158,13 @@ a.wallCard:hover {
   margin-top: 28px;
   padding: 24px;
   text-align: center;
-  border: 1px dashed #333;
+  border: 1px dashed var(--gn-line-strong);
   border-radius: 16px;
 }
 
 .wallStateText {
   margin: 0;
-  color: #adadad;
+  color: var(--gn-dimmed-2);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -1168,7 +1180,7 @@ a.wallCard:hover {
 
 .wallInlineErrorText {
   margin: 0;
-  color: #adadad;
+  color: var(--gn-dimmed-2);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -1183,7 +1195,7 @@ a.wallCard:hover {
   height: 40px;
   padding-inline: 18px;
   background: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   border-radius: 8px;
   color: var(--premium-text);
   font-size: 14px;
@@ -1191,7 +1203,7 @@ a.wallCard:hover {
 }
 
 .wallSeeMore:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 .wallFooter {
@@ -1204,7 +1216,7 @@ a.wallCard:hover {
 
 .wallNote {
   margin: 0;
-  color: #6f6f6f;
+  color: var(--gn-text-muted);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -1213,7 +1225,7 @@ a.wallCard:hover {
   height: 50px;
   padding-inline: 20px;
   background: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--gn-line-strong);
   border-radius: 6px;
   color: var(--premium-text);
   font-size: 16px;
@@ -1221,7 +1233,7 @@ a.wallCard:hover {
 }
 
 .wallLoadMoreButton:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--gn-text) 5%, transparent);
 }
 
 /* ==========================================================================
@@ -1286,7 +1298,7 @@ a.wallCard:hover {
   }
 
   .wallGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-md, 3), minmax(0, 1fr));
     gap: 14px;
     margin-top: 40px;
   }
@@ -1386,7 +1398,7 @@ a.wallCard:hover {
   }
 
   .wallGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-lg, 4), minmax(0, 1fr));
   }
 }
 
@@ -1455,7 +1467,7 @@ a.wallCard:hover {
   }
 
   .wallGrid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--wall-cols-xl, 6), minmax(0, 1fr));
     margin-top: 52px;
   }
 

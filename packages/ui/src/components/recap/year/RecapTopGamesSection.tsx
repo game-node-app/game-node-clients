@@ -119,10 +119,10 @@ export function RecapTopGamesSection({
             )}
           </div>
 
-          <div className={"mt-8 border-t border-[#2a2a2a] pt-8"}>
+          <div className={"mt-8 border-t border-line pt-8"}>
             <h3
               className={
-                "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+                "m-0 text-xs leading-none font-bold tracking-[0.06em] text-dimmed-2 uppercase"
               }
             >
               {t("recap.page.topGames.top5")}
@@ -157,7 +157,7 @@ export function RecapTopGamesSection({
                     <span
                       className={cn(
                         "w-5 shrink-0 text-xs font-bold tabular-nums",
-                        isFirst ? "text-brand" : "text-[#808080]",
+                        isFirst ? "text-brand" : "text-dimmed-1",
                       )}
                     >
                       {String(index + 1).padStart(2, "0")}
@@ -172,14 +172,14 @@ export function RecapTopGamesSection({
                         {gameLabel(entry.gameId)}
                       </span>
                       {platformNames.length > 0 && (
-                        <span className={"truncate text-sm text-[#808080]"}>
+                        <span className={"truncate text-sm text-dimmed-1"}>
                           {platformNames.join(", ")}
                         </span>
                       )}
                     </div>
                     <div
                       className={
-                        "hidden h-2 w-24 shrink-0 overflow-hidden rounded-full bg-[#262626] sm:block lg:w-40 xl:w-[220px]"
+                        "hidden h-2 w-24 shrink-0 overflow-hidden rounded-full bg-paper-1 sm:block lg:w-40 xl:w-[220px]"
                       }
                     >
                       <div
@@ -220,7 +220,7 @@ function TopGameStat({ value, label }: { value: string; label: string }) {
       >
         {value}
       </span>
-      <span className={"text-sm text-[#808080]"}>{label}</span>
+      <span className={"text-sm text-dimmed-1"}>{label}</span>
     </div>
   );
 }

@@ -33,7 +33,7 @@ const LABEL_COLUMN = "2.5rem";
 
 const levelStyle = (level: number) =>
   level === 0
-    ? { backgroundColor: "#1c1c1c" }
+    ? { backgroundColor: "var(--gn-paper-5)" }
     : {
         // theme-exempt: recap calendar artwork heatmap
         backgroundColor: `rgba(241, 80, 37, ${LEVEL_OPACITY[level - 1]})`,
@@ -207,7 +207,7 @@ function Heatmap({
               key={`month-${month.month}`}
               aria-hidden
               className={
-                "pb-2 text-xs leading-none font-bold tracking-[0.06em] whitespace-nowrap text-[#808080] uppercase"
+                "pb-2 text-xs leading-none font-bold tracking-[0.06em] whitespace-nowrap text-dimmed-1 uppercase"
               }
               style={{ gridRow: 1, gridColumn: month.week + 2 }}
             >
@@ -219,7 +219,7 @@ function Heatmap({
               key={`weekday-${weekday.row}`}
               aria-hidden
               className={
-                "text-xs leading-none font-bold tracking-[0.06em] text-[#808080] uppercase"
+                "text-xs leading-none font-bold tracking-[0.06em] text-dimmed-1 uppercase"
               }
               style={{ gridRow: weekday.row + 2, gridColumn: 1 }}
             >
@@ -247,7 +247,7 @@ function Heatmap({
                 }
                 className={
                   upcoming
-                    ? "aspect-square rounded border border-[#262626]"
+                    ? "aspect-square rounded border border-line"
                     : "aspect-square rounded"
                 }
                 style={{
@@ -264,7 +264,7 @@ function Heatmap({
       <div
         aria-hidden
         className={
-          "mt-3 flex items-center justify-end gap-1.5 text-sm text-[#808080]"
+          "mt-3 flex items-center justify-end gap-1.5 text-sm text-dimmed-1"
         }
       >
         <span>{less}</span>
@@ -297,7 +297,7 @@ function CalendarFact({
       >
         {value}
       </span>
-      <span className={"text-base leading-normal text-[#adadad]"}>{text}</span>
+      <span className={"text-base leading-normal text-dimmed-2"}>{text}</span>
     </RecapSurface>
   );
 }

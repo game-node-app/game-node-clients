@@ -88,7 +88,9 @@ it("counts January journal entries in January and switches to the selected year"
     await screen.findByText("profile.overview.rollingTotal:2"),
   ).toBeTruthy();
   expect(screen.getAllByText("profile.overview.days:2")).toHaveLength(2);
-  expect(screen.getByRole("img")).toBeTruthy();
+  expect(
+    screen.getByRole("region", { name: /profile\.overview\.activityTitle/ }),
+  ).toBeTruthy();
 
   // Only years that have journal data are offered (no 2024 here).
   expect(screen.queryByRole("radio", { name: "2024" })).toBeNull();

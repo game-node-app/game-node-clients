@@ -65,8 +65,8 @@ function Stat({
         ...at(1167, y, 377, 80),
         boxSizing: "border-box",
         borderRadius: 22,
-        background: "rgba(28,26,24,0.9)",
-        border: "2px solid rgba(244,239,232,0.08)",
+        background: `${RECAP_COLORS.panel}E6`,
+        border: `2px solid ${RECAP_COLORS.cream}14`,
       }}
     >
       <div style={{ ...at(22, 10, 330), ...monoStyle(15), ...TRUNCATE }}>
@@ -110,7 +110,7 @@ function RankedTile({
       style={{
         ...at(x, y, 181, 241),
         borderRadius: 24,
-        boxShadow: "0 16px 32px rgba(0,0,0,0.5)",
+        boxShadow: "0 16px 32px rgba(0,0,0,0.5)", // theme-exempt: recap card artwork shadow
       }}
     >
       <RecapCover game={game} width={181} height={241} radius={0} />
@@ -118,8 +118,7 @@ function RankedTile({
         className={"absolute inset-x-0 bottom-0"}
         style={{
           height: 92,
-          background:
-            "linear-gradient(to bottom, rgba(11,10,9,0), rgba(11,10,9,0.85))",
+          background: `linear-gradient(to bottom, ${RECAP_COLORS.ink}00, ${RECAP_COLORS.ink}D9)`,
         }}
       />
       <div
@@ -235,8 +234,7 @@ export function RecapSummaryCard({
           <div
             className={"absolute inset-0"}
             style={{
-              background:
-                "linear-gradient(to bottom, rgba(15,14,13,0.5) 0%, rgba(15,14,13,0.82) 40%, rgba(15,14,13,0.92) 100%)",
+              background: `linear-gradient(to bottom, ${RECAP_COLORS.ground}80 0%, ${RECAP_COLORS.ground}D1 40%, ${RECAP_COLORS.ground}EB 100%)`,
             }}
           />
         </>
@@ -254,8 +252,8 @@ export function RecapSummaryCard({
           alignItems: "center",
           padding: "0 20px",
           borderRadius: 999,
-          background: "rgba(15,14,13,0.6)",
-          border: "2px solid rgba(244,239,232,0.2)",
+          background: `${RECAP_COLORS.ground}99`,
+          border: `2px solid ${RECAP_COLORS.cream}33`,
           ...monoStyle(fitMonoSize(periodText, 192, 22), RECAP_COLORS.cream),
           whiteSpace: "nowrap",
         }}
@@ -311,7 +309,7 @@ export function RecapSummaryCard({
         style={{
           ...at(560, 56, 591, 788),
           borderRadius: 36,
-          boxShadow: "0 16px 32px rgba(0,0,0,0.5)",
+          boxShadow: "0 16px 32px rgba(0,0,0,0.5)", // theme-exempt: recap card artwork shadow
         }}
       >
         <RecapCover game={top?.game} width={591} height={788} radius={0} />
@@ -319,15 +317,14 @@ export function RecapSummaryCard({
           className={"absolute inset-x-0 bottom-0"}
           style={{
             height: 299,
-            background:
-              "linear-gradient(to bottom, rgba(11,10,9,0), rgba(11,10,9,0.85))",
+            background: `linear-gradient(to bottom, ${RECAP_COLORS.ink}00, ${RECAP_COLORS.ink}D9)`,
           }}
         />
         <div
           style={{
             ...at(14, 14, 56, 56),
             borderRadius: 28,
-            background: "rgba(11,10,9,0.78)",
+            background: `${RECAP_COLORS.ink}C7`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

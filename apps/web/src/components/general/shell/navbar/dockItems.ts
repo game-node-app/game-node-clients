@@ -66,6 +66,11 @@ interface DockItemBase {
    */
   icon: ComponentType<NavIconProps>;
   badge?: DockBadge;
+  /**
+   * Last day (ISO date, inclusive) the badge is shown, so "New" markers expire
+   * on their own. Without it the badge stays until removed.
+   */
+  badgeUntil?: string;
 }
 
 export interface DockLinkItem extends DockItemBase {
@@ -121,7 +126,6 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         labelKey: "navigation.dailyNodes",
         icon: NavDailyIcon,
         href: "/daily",
-        badge: "new",
       },
       {
         kind: "link",
@@ -129,7 +133,6 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         labelKey: "navigation.ai",
         icon: NavAiIcon,
         href: "/mcp",
-        badge: "new",
       },
       {
         kind: "link",
@@ -203,6 +206,7 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         icon: NavWrappedIcon,
         href: "/wrapped",
         badge: "new",
+        badgeUntil: "2027-01-31",
       },
     ],
   },

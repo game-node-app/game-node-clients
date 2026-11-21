@@ -17,6 +17,9 @@ const GameInfoProgressTimeline = ({ gameId }: Props) => {
   const collectionEntryQuery = useOwnCollectionEntryForGameId(gameId);
   const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
 
+  // Visitors have no progress to show; the milestones would read as done.
+  if (!userId) return null;
+
   const isInCollection = collectionEntryQuery.data != undefined;
   const isFinished =
     collectionEntryQuery.data != undefined &&

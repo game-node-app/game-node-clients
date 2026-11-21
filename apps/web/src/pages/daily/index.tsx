@@ -8,7 +8,7 @@ const DailyPage = () => {
   return (
     <>
       <OpenGraph
-        title={"GameNode Daily"}
+        title={t("daily.title")}
         description={t("seo.daily.description")}
       />
       <DailyHomeView />

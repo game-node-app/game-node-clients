@@ -62,10 +62,10 @@ export function SupporterTitle({
           className,
         )}
         style={{
-          color: perks?.theme ? perks.accentText : "#c7a6ff",
+          color: perks?.theme ? perks.accentText : "var(--gn-premium-text)",
           borderColor: perks?.theme
             ? perks.accentBorder
-            : "rgba(151, 71, 255, 0.45)",
+            : "color-mix(in srgb, var(--gn-premium) 45%, transparent)",
         }}
       >
         <Icon size={12} aria-hidden />
@@ -74,15 +74,13 @@ export function SupporterTitle({
     );
   }
 
-  const color = perks?.theme ? perks.accentText : "#adadad";
-
   return (
     <Text
       fz={13}
       fw={500}
       lh={"normal"}
-      className={className}
-      style={{ color }}
+      className={cn(!perks?.theme && "text-dimmed-2", className)}
+      style={perks?.theme ? { color: perks.accentText } : undefined}
     >
       {label}
     </Text>

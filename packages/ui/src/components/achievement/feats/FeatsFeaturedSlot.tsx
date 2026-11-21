@@ -39,7 +39,7 @@ const FeatsFeaturedSlot = ({
             variant={"tile"}
           />
           <Stack gap={2} className={"min-w-0 flex-1"}>
-            <Text fz={12} lh={"normal"} className={"text-[#8c8c8c]"}>
+            <Text fz={12} lh={"normal"} className={"text-dimmed-1"}>
               {title}
             </Text>
             <Text
@@ -67,7 +67,7 @@ const FeatsFeaturedSlot = ({
       ) : (
         <Group justify={"space-between"} gap={12} wrap={"nowrap"}>
           <Stack gap={2} className={"min-w-0"}>
-            <Text fz={12} lh={"normal"} className={"text-[#8c8c8c]"}>
+            <Text fz={12} lh={"normal"} className={"text-dimmed-1"}>
               {title}
             </Text>
             <Text fz={14} fw={600} lh={"normal"} className={"text-white"}>

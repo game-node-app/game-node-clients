@@ -33,8 +33,8 @@ export function SupporterPresenceChip({
         borderColor: perks.accentBorder,
       }
     : {
-        backgroundColor: "#1f1f1f",
-        borderColor: "#2a2a2a",
+        backgroundColor: "var(--gn-paper-2)",
+        borderColor: "var(--gn-line)",
       };
   const label = `${t("supporter.presence.playingNow")}: ${playing.name}`;
 
@@ -49,8 +49,14 @@ export function SupporterPresenceChip({
       aria-label={playing.gameId == null ? label : undefined}
     >
       <Box component={"span"} className={classes.dot} aria-hidden />
-      <IconBrandSteam size={14} color={"#adadad"} aria-hidden />
-      <Text component={"span"} fz={12} fw={500} lh={"normal"} c={"#adadad"}>
+      <IconBrandSteam size={14} color={"var(--gn-dimmed-2)"} aria-hidden />
+      <Text
+        component={"span"}
+        fz={12}
+        fw={500}
+        lh={"normal"}
+        c={"var(--gn-dimmed-2)"}
+      >
         {`${t("supporter.presence.playingNow")} · `}
       </Text>
       <Text

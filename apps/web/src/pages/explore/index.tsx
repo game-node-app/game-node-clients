@@ -1,4 +1,4 @@
-import { ActionIcon, Affix, Stack, Transition } from "@mantine/core";
+import { ActionIcon, Affix, Stack, Title, Transition } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
@@ -139,6 +139,9 @@ const Index = () => {
     gamesQuery.isFetching;
 
   const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
+  // One loading indicator at a time: skeletons while there is nothing to show
+  // yet, the infinite loader's spinner while appending to existing results.
+  const showSkeletons = (isFetching || isLoading) && games.length === 0;
   const isError = trendingGamesQuery.isError || gamesQuery.isError;
   // A period change re-queries the console category sections; criteria (genre,
   // platform, ...) make the platform's paginated results the meaningful view.
@@ -176,20 +179,22 @@ const Index = () => {
         {withFilters && filtersContent}
         <GameView.Content items={games}>
           <GameView.LoadingSkeletons
-            isVisible={isFetching || isLoading}
+            isVisible={showSkeletons}
             itemCount={games.length}
           />
         </GameView.Content>
       </GameView>
 
-      <SimpleInfiniteLoader
-        key={gamesQuery.data?.map((game) => game.id).join(",")}
-        fetchNextPage={async () => {
-          await trendingGamesQuery.fetchNextPage();
-        }}
-        isFetching={isFetching}
-        hasNextPage={trendingGamesQuery.hasNextPage}
-      />
+      {!showSkeletons && (
+        <SimpleInfiniteLoader
+          key={gamesQuery.data?.map((game) => game.id).join(",")}
+          fetchNextPage={async () => {
+            await trendingGamesQuery.fetchNextPage();
+          }}
+          isFetching={isFetching}
+          hasNextPage={trendingGamesQuery.hasNextPage}
+        />
+      )}
     </Stack>
   );
 
@@ -203,6 +208,9 @@ const Index = () => {
         title={t("explore.metaTitle")}
         description={t("seo.explore.description")}
       />
+      <Title order={1} className={"w-full"}>
+        {t("navigation.explore")}
+      </Title>
       <ExploreTrendingGamesPresenter
         filters={filtersContent}
         results={renderExploreContent(false)}

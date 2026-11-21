@@ -20,13 +20,13 @@ const FeatsHeader = ({ userId }: FeatsHeaderProps) => {
         <Link
           href={`/profile/${userId}`}
           className={
-            "text-[13px] leading-normal text-[#8c8c8c] hover:text-white"
+            "text-[13px] leading-normal text-dimmed-1 hover:text-white"
           }
         >
           {t("achievements.page.breadcrumbProfile")}
         </Link>
-        <IconChevronRight size={14} className={"text-[#8c8c8c]"} />
-        <Text fz={13} lh={"normal"} className={"text-[#d0d0d0]"} fw={500}>
+        <IconChevronRight size={14} className={"text-dimmed-1"} />
+        <Text fz={13} lh={"normal"} className={"text-emphasis"} fw={500}>
           {t("achievements.page.breadcrumbFeats")}
         </Text>
       </Group>
@@ -38,7 +38,7 @@ const FeatsHeader = ({ userId }: FeatsHeaderProps) => {
       >
         {t("achievements.page.title")}
       </Title>
-      <Text fz={14} lh={"21px"} className={"text-[#a6a6a6]"}>
+      <Text fz={14} lh={"21px"} className={"text-dimmed-2"}>
         {t("achievements.page.subtitle")}
       </Text>
     </Stack>

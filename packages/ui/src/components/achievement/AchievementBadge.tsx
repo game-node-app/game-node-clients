@@ -78,16 +78,16 @@ export const ACHIEVEMENT_GLYPHS: Record<string, TablerIcon> = {
 
 /** Frame color per tier level, index 0 is level 1. */
 export const ACHIEVEMENT_TIER_COLORS = [
-  "#b87333",
-  "#a8a9ad",
-  "#e0b341",
-  "#3fb6a8",
-  "#4a90e2",
-  "#7e57c2",
-  "#e05a9b",
-  "#e5533d",
-  "#f2994a",
-  "#f5e663",
+  "#b87333", // theme-exempt: achievement tier palette, one hue per tier level
+  "#a8a9ad", // theme-exempt: achievement tier palette, one hue per tier level
+  "#e0b341", // theme-exempt: achievement tier palette, one hue per tier level
+  "#3fb6a8", // theme-exempt: achievement tier palette, one hue per tier level
+  "#4a90e2", // theme-exempt: achievement tier palette, one hue per tier level
+  "#7e57c2", // theme-exempt: achievement tier palette, one hue per tier level
+  "#e05a9b", // theme-exempt: achievement tier palette, one hue per tier level
+  "#e5533d", // theme-exempt: achievement tier palette, one hue per tier level
+  "#f2994a", // theme-exempt: achievement tier palette, one hue per tier level
+  "#f5e663", // theme-exempt: achievement tier palette, one hue per tier level
 ];
 
 interface Props {
@@ -118,7 +118,7 @@ const AchievementBadge = ({
   const locked = tier <= 0;
   const isTile = variant === "tile";
   const color = locked
-    ? "#555555"
+    ? "var(--gn-dark-3)"
     : ACHIEVEMENT_TIER_COLORS[
         Math.min(tier, ACHIEVEMENT_TIER_COLORS.length) - 1
       ];

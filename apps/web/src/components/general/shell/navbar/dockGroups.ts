@@ -19,6 +19,27 @@ export interface BuildDockGroupsOptions {
    * reads the marker; the Recap page writes it.
    */
   recapVisited: boolean;
+  /**
+   * Whether the viewer is signed in. "Your space" only makes sense for an
+   * account, so visitors do not get that group. Defaults to true.
+   */
+  signedIn?: boolean;
+  /** Reference date for expiring badges (`badgeUntil`). Defaults to now. */
+  now?: Date;
+}
+
+/** Drops the badge of an item once its `badgeUntil` day has passed. */
+function withActiveBadge(
+  item: DockItemDefinition,
+  now: Date,
+): DockItemDefinition {
+  if (!item.badge || !item.badgeUntil) {
+    return item;
+  }
+
+  const lastDay = new Date(`${item.badgeUntil}T23:59:59`);
+
+  return now > lastDay ? { ...item, badge: undefined } : item;
 }
 
 function insertAfter(
@@ -103,23 +124,29 @@ export function buildDockGroups(
   const awardsItem = getAwardsDockItem(season);
   const recapItem = getRecapDockItem(season, options);
 
-  return DOCK_GROUPS.map((group) => {
-    if (group.id === "discover") {
-      return awardsItem
-        ? {
-            ...group,
-            items: insertAfter(group.items, "home", awardsItem),
-          }
-        : group;
-    }
+  const now = options.now ?? new Date();
+  const signedIn = options.signedIn ?? true;
 
-    if (group.id === "yourSpace" && recapItem) {
-      return {
-        ...group,
-        items: insertAfter(group.items, "wrapped", recapItem),
-      };
-    }
+  return DOCK_GROUPS.filter((group) => signedIn || group.id !== "yourSpace")
+    .map((group) => {
+      if (group.id === "discover" && awardsItem) {
+        return {
+          ...group,
+          items: insertAfter(group.items, "home", awardsItem),
+        };
+      }
 
-    return group;
-  });
+      if (group.id === "yourSpace" && recapItem) {
+        return {
+          ...group,
+          items: insertAfter(group.items, "wrapped", recapItem),
+        };
+      }
+
+      return group;
+    })
+    .map((group) => ({
+      ...group,
+      items: group.items.map((item) => withActiveBadge(item, now)),
+    }));
 }
