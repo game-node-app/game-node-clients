@@ -97,6 +97,20 @@ const CARD_GAP = 44;
 /** Height of the "N categories left" block in the Figma (node 5579:21733). */
 const REMAINING_BLOCK_HEIGHT = 171;
 
+// theme-exempt: the exported Awards ballot uses a fixed artwork palette across themes
+const BALLOT_ARTWORK_COLORS = {
+  canvas: "#0b0b0b",
+  text: "#ffffff",
+  mutedText: "#adadad",
+  categoryText: "#808080",
+  accentText: "#f7896d",
+  accentBorder: "#f15025",
+  accentBackground: "#2e150f",
+  panel: "#161616",
+  coverPlaceholder: "#262525",
+  border: "#3d3d3d",
+};
+
 /**
  * Native 1080×1920 Awards ballot share card matching the Figma design
  * (`node 5579:21617` / `5579:21691`). Rendered at native size inside
@@ -179,7 +193,7 @@ export function AwardsBallotCard({
       style={{
         width: 1080,
         height: 1920,
-        backgroundColor: "var(--gn-nav-canvas)",
+        backgroundColor: BALLOT_ARTWORK_COLORS.canvas,
         overflow: "hidden",
         position: "relative",
         display: "flex",
@@ -189,7 +203,7 @@ export function AwardsBallotCard({
         padding: "80px 72px 72px 72px",
         boxSizing: "border-box",
         fontFamily: AWARDS_BALLOT_FONT_FAMILY,
-        color: "var(--gn-text)",
+        color: BALLOT_ARTWORK_COLORS.text,
       }}
     >
       <img
@@ -247,7 +261,7 @@ export function AwardsBallotCard({
                 fontWeight: 700,
                 fontSize: 28,
                 letterSpacing: "1.7px",
-                color: "var(--gn-dimmed-2)",
+                color: BALLOT_ARTWORK_COLORS.mutedText,
                 lineHeight: "normal",
                 whiteSpace: "nowrap",
               }}
@@ -270,8 +284,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 24,
               letterSpacing: "1.5px",
-              // theme-exempt: awards ballot artwork
-              color: "#f7896d",
+              color: BALLOT_ARTWORK_COLORS.accentText,
               textTransform: "uppercase",
               lineHeight: "normal",
             }}
@@ -283,7 +296,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 124,
               letterSpacing: "-2.4px",
-              color: "var(--gn-text)",
+              color: BALLOT_ARTWORK_COLORS.text,
               lineHeight: "normal",
             }}
           >
@@ -293,7 +306,7 @@ export function AwardsBallotCard({
             style={{
               fontWeight: 400,
               fontSize: 32,
-              color: "var(--gn-dimmed-2)",
+              color: BALLOT_ARTWORK_COLORS.mutedText,
               lineHeight: "normal",
             }}
           >
@@ -306,9 +319,8 @@ export function AwardsBallotCard({
             data-awards-ballot-card-hero
             style={{
               width: 936,
-              backgroundColor: "var(--gn-brand-tint)",
-              // theme-exempt: awards ballot artwork
-              border: "2px solid #f15025",
+              backgroundColor: BALLOT_ARTWORK_COLORS.accentBackground,
+              border: `2px solid ${BALLOT_ARTWORK_COLORS.accentBorder}`,
               borderRadius: 40,
               padding: 32,
               display: "flex",
@@ -323,7 +335,7 @@ export function AwardsBallotCard({
               width={200}
               height={266}
               radius={16}
-              backgroundColor={"var(--gn-paper-0)"}
+              backgroundColor={BALLOT_ARTWORK_COLORS.panel}
             />
             <div
               style={{
@@ -339,8 +351,7 @@ export function AwardsBallotCard({
                   fontWeight: 700,
                   fontSize: 24,
                   letterSpacing: "1.6px",
-                  // theme-exempt: awards ballot artwork
-                  color: "#f7896d",
+                  color: BALLOT_ARTWORK_COLORS.accentText,
                   textTransform: "uppercase",
                   lineHeight: "normal",
                 }}
@@ -352,7 +363,7 @@ export function AwardsBallotCard({
                   fontWeight: 700,
                   fontSize: 88,
                   letterSpacing: "-1.8px",
-                  color: "var(--gn-text)",
+                  color: BALLOT_ARTWORK_COLORS.text,
                   lineHeight: "normal",
                   overflowWrap: "break-word",
                   display: "-webkit-box",
@@ -368,7 +379,7 @@ export function AwardsBallotCard({
                   style={{
                     fontWeight: 400,
                     fontSize: 28,
-                    color: "var(--gn-dimmed-2)",
+                    color: BALLOT_ARTWORK_COLORS.mutedText,
                     lineHeight: "normal",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -402,8 +413,8 @@ export function AwardsBallotCard({
                   data-category-id={category.id}
                   style={{
                     width: 458,
-                    backgroundColor: "var(--gn-paper-0)",
-                    border: "1.5px solid var(--gn-line-strong)",
+                    backgroundColor: BALLOT_ARTWORK_COLORS.panel,
+                    border: `1.5px solid ${BALLOT_ARTWORK_COLORS.border}`,
                     borderRadius: 24,
                     padding: 18,
                     display: "flex",
@@ -418,7 +429,7 @@ export function AwardsBallotCard({
                     width={88}
                     height={118}
                     radius={10}
-                    backgroundColor={"var(--gn-paper-1)"}
+                    backgroundColor={BALLOT_ARTWORK_COLORS.coverPlaceholder}
                   />
                   <div
                     style={{
@@ -434,7 +445,7 @@ export function AwardsBallotCard({
                         fontWeight: 700,
                         fontSize: 20,
                         letterSpacing: "1.2px",
-                        color: "var(--gn-dimmed-1)",
+                        color: BALLOT_ARTWORK_COLORS.categoryText,
                         textTransform: "uppercase",
                         lineHeight: "normal",
                       }}
@@ -446,7 +457,7 @@ export function AwardsBallotCard({
                         fontWeight: 700,
                         fontSize: 34,
                         letterSpacing: "-0.5px",
-                        color: "var(--gn-text)",
+                        color: BALLOT_ARTWORK_COLORS.text,
                         lineHeight: "normal",
                         overflowWrap: "break-word",
                         display: "-webkit-box",
@@ -469,7 +480,7 @@ export function AwardsBallotCard({
             data-awards-ballot-card-remaining
             style={{
               width: 936,
-              border: "2px dashed var(--gn-line-strong)",
+              border: `2px dashed ${BALLOT_ARTWORK_COLORS.border}`,
               borderRadius: 28,
               padding: "36px 40px",
               display: "flex",
@@ -483,7 +494,7 @@ export function AwardsBallotCard({
                 fontWeight: 700,
                 fontSize: 44,
                 letterSpacing: "-0.6px",
-                color: "var(--gn-text)",
+                color: BALLOT_ARTWORK_COLORS.text,
                 lineHeight: "normal",
               }}
             >
@@ -493,7 +504,7 @@ export function AwardsBallotCard({
               style={{
                 fontWeight: 400,
                 fontSize: 28,
-                color: "var(--gn-dimmed-2)",
+                color: BALLOT_ARTWORK_COLORS.mutedText,
                 lineHeight: "normal",
               }}
             >
@@ -529,7 +540,7 @@ export function AwardsBallotCard({
               fontWeight: 600,
               fontSize: 36,
               letterSpacing: "-0.3px",
-              color: "var(--gn-text)",
+              color: BALLOT_ARTWORK_COLORS.text,
               lineHeight: "normal",
             }}
           >
@@ -539,7 +550,7 @@ export function AwardsBallotCard({
             style={{
               fontWeight: 400,
               fontSize: 26,
-              color: "var(--gn-dimmed-2)",
+              color: BALLOT_ARTWORK_COLORS.mutedText,
               lineHeight: "normal",
             }}
           >
@@ -550,9 +561,8 @@ export function AwardsBallotCard({
         <div
           data-awards-ballot-card-pill
           style={{
-            backgroundColor: "var(--gn-brand-tint)",
-            // theme-exempt: awards ballot artwork
-            border: "2px solid #f15025",
+            backgroundColor: BALLOT_ARTWORK_COLORS.accentBackground,
+            border: `2px solid ${BALLOT_ARTWORK_COLORS.accentBorder}`,
             borderRadius: 999,
             padding: "16px 28px",
             display: "inline-flex",
@@ -566,8 +576,7 @@ export function AwardsBallotCard({
               fontWeight: 700,
               fontSize: 24,
               letterSpacing: "1.4px",
-              // theme-exempt: awards ballot artwork
-              color: "#f7896d",
+              color: BALLOT_ARTWORK_COLORS.accentText,
               whiteSpace: "nowrap",
               lineHeight: "normal",
               textTransform: "uppercase",

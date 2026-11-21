@@ -252,6 +252,8 @@ describe("AwardsBallotCard", () => {
     expect(card).toBeTruthy();
     expect(card.style.width).toBe("1080px");
     expect(card.style.height).toBe("1920px");
+    expect(card.style.backgroundColor).toBe("rgb(11, 11, 11)");
+    expect(card.style.color).toBe("rgb(255, 255, 255)");
 
     const images = Array.from(card.querySelectorAll("img")).map((img) =>
       img.getAttribute("src"),
@@ -263,17 +265,22 @@ describe("AwardsBallotCard", () => {
       card.querySelector("[data-awards-ballot-card-handle]")?.textContent,
     ).toBe("@marina");
 
-    const hero = card.querySelector("[data-awards-ballot-card-hero]");
+    const hero = card.querySelector<HTMLElement>(
+      "[data-awards-ballot-card-hero]",
+    );
     expect(hero).toBeTruthy();
+    expect(hero?.style.backgroundColor).toBe("rgb(46, 21, 15)");
+    expect(hero?.style.borderColor).toBe("#f15025");
     expect(hero?.textContent).toContain("Jogo do Ano");
     expect(hero?.textContent).toContain("Nioh 3");
     expect(hero?.textContent).toContain("Koei Tecmo · PS5, PC, XSX");
     expect(hero?.textContent).not.toContain("Switch");
 
     const rows = Array.from(
-      card.querySelectorAll("[data-awards-ballot-card-row]"),
+      card.querySelectorAll<HTMLElement>("[data-awards-ballot-card-row]"),
     );
     expect(rows).toHaveLength(10);
+    expect(rows[0]?.style.backgroundColor).toBe("rgb(22, 22, 22)");
     expect(rows.map((row) => row.getAttribute("data-category-id"))).toEqual([
       "2",
       "3",
@@ -291,7 +298,10 @@ describe("AwardsBallotCard", () => {
       card.querySelector("[data-awards-ballot-card-remaining]"),
     ).toBeNull();
 
-    const pill = card.querySelector("[data-awards-ballot-card-pill]");
+    const pill = card.querySelector<HTMLElement>(
+      "[data-awards-ballot-card-pill]",
+    );
+    expect(pill?.style.backgroundColor).toBe("rgb(46, 21, 15)");
     expect(pill?.textContent).toBe("11 de 11 categorias");
   });
 
