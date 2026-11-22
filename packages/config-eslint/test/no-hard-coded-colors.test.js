@@ -98,6 +98,9 @@ test("gamenode/no-hard-coded-colors", () => {
         "via-black/50",
         "text-gray-400",
         "bg-zinc-900",
+        "prose-invert",
+        "lg:prose-invert",
+        "prose-slate",
         "border-neutral-800",
         "ring-slate-700/40",
         "hover:text-white",
@@ -335,6 +338,10 @@ test("named color helpers", () => {
       "flex bg-black/60 text-paper-2 text-gray-400",
     ),
     ["bg-black/60", "text-gray-400"],
+  );
+  assert.deepEqual(
+    findNamedTailwindColorClasses("prose prose-gamenode dark:prose-invert"),
+    ["dark:prose-invert"],
   );
   assert.deepEqual(findNamedTailwindColorClasses("to-transparent text-white"), [
     "text-white",

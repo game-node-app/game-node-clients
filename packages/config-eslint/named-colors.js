@@ -98,6 +98,15 @@ const COLOR_UTILITY = new RegExp(
 );
 
 /**
+ * `@tailwindcss/typography` modifiers that pin the prose palette to fixed grays
+ * (`prose-invert` is always light text, `prose-slate` always dark). Light themes
+ * such as Ruins render them unreadable; use the token-based `prose-gamenode`.
+ */
+const FIXED_PROSE_PALETTE = new RegExp(
+  `^prose-(?:invert|${TAILWIND_DEFAULT_PALETTES.join("|")})$`,
+);
+
+/**
  * Splits `hover:[&>svg]:!text-white` and returns the utility part
  * (`!text-white`) by cutting at the last `:` that is outside brackets.
  */
@@ -122,7 +131,7 @@ function isNamedTailwindColorClass(token) {
     .replace(/^[!-]+/, "")
     .replace(/!$/, "");
 
-  return COLOR_UTILITY.test(utility);
+  return COLOR_UTILITY.test(utility) || FIXED_PROSE_PALETTE.test(utility);
 }
 
 /**
