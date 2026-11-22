@@ -134,7 +134,7 @@ const GameInfoReviewEditorView = ({
           <Text
             fz={"sm"}
             ml={{ base: 0, lg: "0.5rem" }}
-            className={"text-red-500"}
+            className={"text-status-danger-text"}
           >
             {error?.message}
           </Text>

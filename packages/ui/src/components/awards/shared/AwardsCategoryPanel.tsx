@@ -115,7 +115,7 @@ const AwardsCategoryPanel = ({
           </Text>
           <Text
             className={cn(
-              "font-bold text-white",
+              "font-bold text-foreground",
               compact
                 ? "text-[28px] leading-[34px] tracking-[-0.28px]"
                 : "text-[32px] leading-[38px] tracking-[-0.32px]",

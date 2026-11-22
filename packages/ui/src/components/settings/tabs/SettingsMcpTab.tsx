@@ -79,7 +79,7 @@ export function SettingsMcpTab() {
                 <Text
                   fz={13}
                   lh={"18px"}
-                  c={"white"}
+                  c="var(--gn-text)"
                   className={"min-w-0 flex-1 select-text py-1"}
                 >
                   “{example}”
@@ -129,9 +129,12 @@ export function SettingsMcpTab() {
           "w-full rounded-lg border border-solid border-line bg-nav-canvas px-3.5 py-3"
         }
       >
-        <IconShield size={16} className={"mt-px shrink-0 text-[var(--gn-text-color)]"} />
+        <IconShield
+          size={16}
+          className={"mt-px shrink-0 text-[var(--gn-text-color)]"}
+        />
         <Stack gap={4} className={"min-w-0 flex-1"}>
-          <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+          <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
             {t("settings.mcp.notice.title")}
           </Text>
           <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>

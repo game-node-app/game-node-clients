@@ -6,11 +6,12 @@ import type { ThemePackLoader } from "#@/theme/packs/types";
  * here does not register or enable the theme: the catalog decides which theme
  * is selectable and which screens id it uses.
  *
- * `themes/xbox/screens` is excluded from the barrelsby config: its `index.ts`
- * is the pack entry point, not a barrel.
+ * `themes/<id>/screens` (xbox, ruins) is excluded from the barrelsby config:
+ * its `index.ts` is the pack entry point, not a barrel.
  */
 export const SCREEN_PACK_LOADERS: Partial<
   Record<ThemeScreensId, ThemePackLoader>
 > = {
   xbox: () => import("./xbox/screens"),
+  ruins: () => import("./ruins/screens"),
 };

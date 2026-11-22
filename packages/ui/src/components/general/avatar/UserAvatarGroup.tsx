@@ -37,7 +37,7 @@ export const UserAvatarGroup = ({
         <UserAvatar {...avatarProps} userId={userId} />
         {withHorizontalBreak && <Break />}
         <Text
-          c={"white"}
+          c="var(--gn-text)"
           lineClamp={2}
           className={"break-words"}
           {...textProps}

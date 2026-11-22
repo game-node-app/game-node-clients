@@ -93,12 +93,14 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
         <span
           className={cn(
             "flex size-10 shrink-0 items-center justify-center rounded-xl",
-            active ? "bg-brand text-[#111111]" : "bg-paper-4 text-neutral-300",
+            active
+              ? "bg-brand text-on-brand-alt"
+              : "bg-paper-4 text-legacy-neutral-300",
           )}
         >
           {icon}
         </span>
-        <span className="min-w-0 flex-1 text-[15px] font-medium text-white">
+        <span className="min-w-0 flex-1 text-[15px] font-medium text-foreground">
           {name}
         </span>
         {active && <IconCheck size={18} className="shrink-0 text-brand" />}
@@ -114,7 +116,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             <div className="w-9 shrink-0">
               <GameNodeLogo />
             </div>
-            <h1 className="m-0 text-2xl font-bold leading-tight text-white">
+            <h1 className="m-0 text-2xl font-bold leading-tight text-foreground">
               {t("mcp.title")}
             </h1>
           </div>
@@ -207,7 +209,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             <div className="flex min-w-0 flex-col gap-2">
               <div className="flex items-center gap-2">
                 <StepNumber n={1} />
-                <h3 className="m-0 text-[15px] font-semibold text-white">
+                <h3 className="m-0 text-[15px] font-semibold text-foreground">
                   {t("mcp.add")} — {client?.name || t("mcp.manual")}
                 </h3>
               </div>
@@ -234,7 +236,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <StepNumber n={2} />
-                <h3 className="m-0 text-[15px] font-semibold text-white">
+                <h3 className="m-0 text-[15px] font-semibold text-foreground">
                   {t("mcp.authorizeStep")}
                 </h3>
               </div>
@@ -245,7 +247,7 @@ const MobileMcpGuideScreen = ({ openExternal }: McpGuideScreenProps) => {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <StepNumber n={3} />
-                <h3 className="m-0 text-[15px] font-semibold text-white">
+                <h3 className="m-0 text-[15px] font-semibold text-foreground">
                   {t("mcp.verify")}
                 </h3>
               </div>

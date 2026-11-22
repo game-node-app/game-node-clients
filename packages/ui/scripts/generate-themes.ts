@@ -3,6 +3,14 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import process from "node:process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  colorsTuple,
+  createTheme,
+  DEFAULT_THEME,
+  defaultCssVariablesResolver,
+  mergeMantineTheme,
+  type MantineColorsTuple,
+} from "@mantine/core";
 import { formatHex, oklch, parse, rgb, type Color } from "culori";
 import {
   THEME_IONIC_COLOR_NAMES,
@@ -36,6 +44,24 @@ const HEADER = [
   "Run `pnpm themes:generate` to update.",
 ];
 
+/** Default media pair of dark themes: the literals components hard-coded before the tokens. */
+const DARK_MEDIA = {
+  // theme-exempt: generator defaults for dark themes
+  scrim: "#000000",
+  // theme-exempt: generator defaults for dark themes
+  scrimStrong: "#0A0A0A",
+  // theme-exempt: generator defaults for dark themes
+  fade: "#0A0A0A",
+  // theme-exempt: generator defaults for dark themes
+  text: "#FFFFFF",
+  // theme-exempt: generator defaults for dark themes
+  textMuted: "#DBDBDB",
+  // theme-exempt: generator defaults for dark themes
+  textDim: "#B8B8B8",
+  // theme-exempt: generator defaults for dark themes
+  placeholder: "#1A1A1A",
+} as const;
+
 /** A fully resolved theme, ready to be serialized. */
 type ResolvedTheme = {
   definition: ThemeDefinition;
@@ -60,6 +86,7 @@ type CatalogEntry = {
   native: {
     background: string;
     statusBarStyle: "light" | "dark";
+    splash: { background: string; brand: string; logoInner: string };
   };
 };
 
@@ -169,13 +196,45 @@ function contrastRatio(a: string, b: string): number {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function getTintText(base: string, surface: string): string {
-  const background = blend(surface, base, 0.15);
-  for (let step = 0; step <= 100; step++) {
-    const candidate = blend(base, "white", step / 100);
-    if (contrastRatio(candidate, background) >= 4.5) return candidate;
+/**
+ * Readable label color on a solid `color` fill: white when it clears 4.5:1,
+ * otherwise the theme background (which usually matches the fill's scheme),
+ * otherwise black. Shared by the brand/secondary/tertiary, danger and
+ * play-state filled tokens so every `*-filled-text` pair resolves the same way.
+ */
+function getFilledText(color: string, background: string): string {
+  if (contrastRatio(color, "white") >= 4.5) {
+    return formatHex(parseColor("white", "filled text"));
   }
-  return "white";
+  if (contrastRatio(color, background) >= 4.5) return background;
+  return formatHex(parseColor("black", "filled text"));
+}
+
+/**
+ * Readable text on a 15% tint of `base`. Mantine's `light` variant paints that
+ * tint over whichever surface it sits on, and a theme's raised paper, page and
+ * `secondary` are different tones: checking only one of them left ruins at
+ * 3.7:1 on the page background. The returned candidate therefore has to clear
+ * 4.5:1 on EVERY surface in `surfaces`. Dark themes lighten toward white;
+ * light themes pass their text color as `toward` and darken instead.
+ */
+function getTintText(
+  base: string,
+  surfaces: readonly string[],
+  toward = "white",
+): string {
+  const backgrounds = surfaces.map((surface) => blend(surface, base, 0.15));
+  for (let step = 0; step <= 100; step++) {
+    const candidate = blend(base, toward, step / 100);
+    if (
+      backgrounds.every(
+        (background) => contrastRatio(candidate, background) >= 4.5,
+      )
+    ) {
+      return candidate;
+    }
+  }
+  return toward;
 }
 
 function autoContrast(background: string): string {
@@ -248,7 +307,12 @@ function paperDefaults(surface: string, background: string) {
   };
 }
 
-function darkDefaults(text: string, textMuted: string, surface: string) {
+function darkDefaults(
+  text: string,
+  textMuted: string,
+  surface: string,
+  colorScheme: "dark" | "light",
+) {
   return (step: ThemeScaleStep): string => {
     if (step === 0) return text;
     if (step === 1) return blend(text, surface, 0.25);
@@ -262,8 +326,58 @@ function darkDefaults(text: string, textMuted: string, surface: string) {
       7: 0.06,
       8: 0.03,
     };
+    // Light themes keep the ramp readable by moving from the (light) surface
+    // toward the text color instead of lightening toward white.
+    if (colorScheme === "light") return blend(surface, text, lightSteps[step]);
     return lighten(surface, lightSteps[step]);
   };
+}
+
+const DEFAULT_STYLE = {
+  fontMono: "ui-monospace, SFMono-Regular, Menlo, monospace",
+  headingTransform: "none",
+  headingTracking: "normal",
+  selectionShadow: "none",
+  coverFilter: "none",
+} as const;
+
+/**
+ * Mantine light-scheme core variables mapped to theme tokens. Mantine's own
+ * `:root[data-mantine-color-scheme='light']` block resolves them to white/black
+ * and its blue/gray ramps, which would break a tinted paper theme. Only light
+ * themes emit these; dark themes keep Mantine's dark defaults untouched.
+ */
+function mantineLightVariables(input: {
+  paper: ResolvedPaper;
+  text: string;
+  textMuted: string;
+  border: string;
+  danger: string;
+}): [string, string][] {
+  const { paper, text, textMuted, border, danger } = input;
+  // Paper → text ramp; Mantine reads gray-0 as the lightest hover tone and
+  // gray-9 as the strongest text tone.
+  const grayMix = [0.04, 0.1, 0.18, 0.28, 0.4, 0.55, 0.7, 0.82, 0.92, 1];
+  const gray = SCALE_STEPS.map((step) => blend(paper[0], text, grayMix[step]));
+  return [
+    ["color-scheme", "light"],
+    ["--mantine-color-bright", text],
+    ["--mantine-color-error", danger],
+    ["--mantine-color-placeholder", textMuted],
+    ["--mantine-color-anchor", text],
+    ["--mantine-color-default", paper[0]],
+    ["--mantine-color-default-hover", paper[1]],
+    ["--mantine-color-default-color", text],
+    ["--mantine-color-default-border", border],
+    ["--mantine-color-disabled", blend(paper[0], text, 0.08)],
+    ["--mantine-color-disabled-color", blend(paper[0], text, 0.45)],
+    ["--mantine-color-disabled-border", border],
+    ...SCALE_STEPS.map(
+      (step) =>
+        [`--mantine-color-gray-${step}`, gray[step]] as [string, string],
+    ),
+    ["--mantine-color-gray-outline-hover", rgba(text, 0.05)],
+  ];
 }
 
 function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
@@ -288,7 +402,12 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     overrides?.paper,
   );
   const dark = buildScale(
-    darkDefaults(tokens.text, tokens.textMuted, tokens.surface),
+    darkDefaults(
+      tokens.text,
+      tokens.textMuted,
+      tokens.surface,
+      definition.colorScheme,
+    ),
     overrides?.dark,
   );
 
@@ -296,6 +415,8 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
   const tertiary = overrides?.tertiary ?? darken(tokens.accent, 0.35);
   const brandTint =
     overrides?.brandTint ?? blend(tokens.background, tokens.accent, 0.12);
+  /** Surfaces a Mantine `light` tint may sit on; `getTintText` checks them all. */
+  const tintSurfaces = [secondary, tokens.surface, tokens.background] as const;
   const line = overrides?.line?.default ?? tokens.border;
   const lineStrong = overrides?.line?.strong ?? lighten(tokens.border, 0.2);
   const dimmed = overrides?.dimmed?.default ?? tokens.textMuted;
@@ -333,6 +454,68 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     danger: overrides?.nav?.danger ?? lighten(tokens.danger, 0.45),
     accentSubtle: overrides?.nav?.accentSubtle ?? rgba(tokens.accent, 0.12),
   };
+  const tones = {
+    pale: overrides?.textTones?.pale ?? tokens.text,
+    chalk:
+      overrides?.textTones?.chalk ?? blend(tokens.text, tokens.textMuted, 0.1),
+    bright:
+      overrides?.textTones?.bright ?? blend(tokens.text, tokens.textMuted, 0.2),
+    subtle: overrides?.textTones?.subtle ?? tokens.textMuted,
+    soft: overrides?.textTones?.soft ?? tokens.textMuted,
+    quiet: overrides?.textTones?.quiet ?? tokens.textMuted,
+    faint: overrides?.textTones?.faint ?? tokens.textMuted,
+  };
+  const toneGray300 = overrides?.textTones?.gray300 ?? tones.bright;
+  const toneNeutral300 = overrides?.textTones?.neutral300 ?? tones.bright;
+  const toneNeutral200 = overrides?.textTones?.neutral200 ?? tones.pale;
+  const toneGray100 = overrides?.textTones?.gray100 ?? tones.bright;
+  const toneMantineGray4 = overrides?.textTones?.mantineGray4 ?? tones.bright;
+  const category = {
+    news: overrides?.category?.news ?? tokens.textMuted,
+    review: overrides?.category?.review ?? tokens.textMuted,
+    article: overrides?.category?.article ?? tokens.textMuted,
+  };
+  const toneOnBrand = overrides?.textTones?.onBrand ?? tokens.accentContrast;
+  const toneOnBrandAlt =
+    overrides?.textTones?.onBrandAlt ?? tokens.accentContrast;
+  const panel = {
+    base: overrides?.panel?.base ?? tokens.surface,
+    deep: overrides?.panel?.deep ?? tokens.surface,
+    inset: overrides?.panel?.inset ?? lighten(tokens.surface, 0.09),
+    raised: overrides?.panel?.raised ?? lighten(tokens.surface, 0.14),
+    line: overrides?.panel?.line ?? tokens.border,
+    edge: overrides?.panel?.edge ?? tokens.border,
+    tint: overrides?.panel?.tint ?? blend(tokens.surface, tokens.accent, 0.06),
+    floor: overrides?.panel?.floor ?? tokens.background,
+    veil: overrides?.panel?.veil ?? tokens.surface,
+    rail: overrides?.panel?.rail ?? lighten(tokens.surface, 0.09),
+    board: overrides?.panel?.board ?? tokens.surface,
+    boardDot: overrides?.panel?.boardDot ?? lighten(tokens.surface, 0.09),
+  };
+  // Media surface pair (see `ThemeOverrides.media`). Dark themes pin the
+  // literals media components hard-coded (black scrim, #0A0A0A card, white
+  // text); light themes wash the imagery with paper and keep ink text.
+  const isDark = definition.colorScheme === "dark";
+  const media = {
+    scrim:
+      overrides?.media?.scrim ??
+      (isDark ? DARK_MEDIA.scrim : tokens.background),
+    scrimStrong:
+      overrides?.media?.scrimStrong ??
+      (isDark ? DARK_MEDIA.scrimStrong : tokens.surface),
+    fade:
+      overrides?.media?.fade ?? (isDark ? DARK_MEDIA.fade : tokens.background),
+    text: overrides?.media?.text ?? (isDark ? DARK_MEDIA.text : tokens.text),
+    textMuted:
+      overrides?.media?.textMuted ??
+      (isDark ? DARK_MEDIA.textMuted : tokens.textMuted),
+    textDim:
+      overrides?.media?.textDim ??
+      (isDark ? DARK_MEDIA.textDim : tokens.textMuted),
+    placeholder:
+      overrides?.media?.placeholder ??
+      (isDark ? DARK_MEDIA.placeholder : tokens.surface),
+  };
   const textColor = overrides?.textColor ?? tokens.text;
   const textEmphasis =
     overrides?.textEmphasis ?? blend(tokens.text, tokens.background, 0.1);
@@ -340,6 +523,8 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
   const statePlayedTint =
     overrides?.state?.playedTint ??
     blend(tokens.background, tokens.success, 0.1);
+
+  const style = { ...DEFAULT_STYLE, ...definition.style };
 
   const mantine = {
     fontFamily: overrides?.mantine?.fontFamily ?? definition.font,
@@ -403,6 +588,14 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-danger-rgb", rgbTriplet(tokens.danger)],
     ["--gn-radius", definition.radius],
     ["--gn-font", definition.font],
+    ["--gn-font-mono", style.fontMono],
+    ["--gn-heading-transform", style.headingTransform],
+    ["--gn-heading-tracking", style.headingTracking],
+    ["--gn-selection-shadow", style.selectionShadow],
+    ["--gn-cover-filter", style.coverFilter],
+    ["--gn-text-rgb", rgbTriplet(tokens.text)],
+    ["--gn-highlight", tertiary],
+    ["--gn-highlight-rgb", rgbTriplet(tertiary)],
     ["--gn-brand", brand[5]],
     ["--gn-brand-rgb", rgbTriplet(brand[5])],
     ...SCALE_STEPS.map(
@@ -412,19 +605,21 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-secondary-rgb", rgbTriplet(secondary)],
     ["--gn-tertiary", tertiary],
     ["--gn-tertiary-rgb", rgbTriplet(tertiary)],
-    ...Object.entries({ brand: brand[5], secondary, tertiary }).flatMap(
-      ([name, color]): [string, string][] => [
-        [
-          `--gn-${name}-filled-text`,
-          contrastRatio(color, "white") >= 4.5
-            ? formatHex(parseColor("white", "filled text"))
-            : contrastRatio(color, tokens.background) >= 4.5
-              ? tokens.background
-              : formatHex(parseColor("black", "filled text")),
-        ],
-        [`--gn-${name}-light-text`, getTintText(color, secondary)],
+    ...(
+      [
+        ["brand", brand[5]],
+        ["secondary", secondary],
+        ["tertiary", tertiary],
+      ] as const
+    ).flatMap(([name, color]): [string, string][] => [
+      [`--gn-${name}-filled-text`, getFilledText(color, tokens.background)],
+      [
+        `--gn-${name}-light-text`,
+        definition.colorScheme === "light"
+          ? getTintText(color, tintSurfaces, tokens.text)
+          : getTintText(color, tintSurfaces),
       ],
-    ),
+    ]),
     ["--gn-brand-tint", brandTint],
     ...PAPER_STEPS.map(
       (step) => [`--gn-paper-${step}`, paper[step]] as [string, string],
@@ -446,6 +641,51 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-status-warning-text", status.warningText],
     ["--gn-status-danger-strong", status.dangerStrong],
     ["--gn-status-danger-text", status.dangerText],
+    // Label on a solid danger fill (Mantine `filled` badges/buttons).
+    [
+      "--gn-danger-filled-text",
+      getFilledText(status.dangerStrong, tokens.background),
+    ],
+    ["--gn-text-pale", tones.pale],
+    ["--gn-text-chalk", tones.chalk],
+    ["--gn-text-bright", tones.bright],
+    ["--gn-text-subtle", tones.subtle],
+    ["--gn-text-soft", tones.soft],
+    ["--gn-text-quiet", tones.quiet],
+    ["--gn-text-faint", tones.faint],
+    ["--gn-text-gray-300", toneGray300],
+    ["--gn-text-neutral-300", toneNeutral300],
+    ["--gn-text-neutral-200", toneNeutral200],
+    ["--gn-text-gray-100", toneGray100],
+    ["--gn-text-gray-4", toneMantineGray4],
+    ["--gn-category-news", category.news],
+    ["--gn-category-review", category.review],
+    ["--gn-category-article", category.article],
+    ["--gn-text-on-brand", toneOnBrand],
+    ["--gn-text-on-brand-alt", toneOnBrandAlt],
+    ["--gn-panel", panel.base],
+    ["--gn-panel-deep", panel.deep],
+    ["--gn-panel-inset", panel.inset],
+    ["--gn-panel-raised", panel.raised],
+    ["--gn-panel-line", panel.line],
+    ["--gn-panel-edge", panel.edge],
+    ["--gn-panel-tint", panel.tint],
+    ["--gn-panel-floor", panel.floor],
+    ["--gn-panel-veil", panel.veil],
+    ["--gn-panel-rail", panel.rail],
+    ["--gn-panel-board", panel.board],
+    ["--gn-panel-board-dot", panel.boardDot],
+    ["--gn-media-scrim", media.scrim],
+    ["--gn-media-scrim-strong", media.scrimStrong],
+    [
+      "--gn-media-content-scrim",
+      rgba(media.scrimStrong, overrides?.media?.contentScrimOpacity ?? 0.8),
+    ],
+    ["--gn-media-fade", media.fade],
+    ["--gn-media-text", media.text],
+    ["--gn-media-text-muted", media.textMuted],
+    ["--gn-media-text-dim", media.textDim],
+    ["--gn-media-placeholder", media.placeholder],
     ["--gn-nav-canvas", nav.canvas],
     ["--gn-nav-surface", nav.surface],
     ["--gn-nav-raised", nav.raised],
@@ -455,6 +695,11 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-nav-danger", nav.danger],
     ["--gn-nav-accent-subtle", nav.accentSubtle],
     ["--gn-state-played", statePlayed],
+    // Label on the solid "played" chip color.
+    [
+      "--gn-state-played-filled-text",
+      getFilledText(statePlayed, tokens.background),
+    ],
     ["--gn-state-played-tint", statePlayedTint],
     ["--gn-text-color", textColor],
     ["--gn-text-emphasis", textEmphasis],
@@ -514,6 +759,15 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--mantine-font-family", mantine.fontFamily],
     ["--mantine-font-family-headings", mantine.fontFamilyHeadings],
     ["--mantine-radius-default", mantine.radius],
+    ...(definition.colorScheme === "light"
+      ? mantineLightVariables({
+          paper,
+          text: mantine.text,
+          textMuted: tokens.textMuted,
+          border: tokens.border,
+          danger: tokens.danger,
+        })
+      : []),
     ...THEME_IONIC_COLOR_NAMES.flatMap((name) => {
       const color = ionicColors[name];
       return [
@@ -557,6 +811,13 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     native: {
       background: overrides?.mobile?.systemBarBackground ?? tokens.background,
       statusBarStyle: definition.colorScheme === "dark" ? "light" : "dark",
+      splash: {
+        background: overrides?.mobile?.splashBackground ?? tokens.background,
+        brand: overrides?.mobile?.splashBrand ?? tokens.accent,
+        logoInner:
+          overrides?.mobile?.splashLogoInner ??
+          (definition.colorScheme === "dark" ? tokens.text : tokens.surface),
+      },
     },
   };
 
@@ -655,6 +916,65 @@ function sortDefinitions(
   return [defaultTheme, ...sorted];
 }
 
+/**
+ * Mantine resolves its color-scheme variables once, on `:root`, from the scheme
+ * of the *app*. A theme scope inside another theme therefore has to re-declare
+ * them, or `var()` chains such as `--mantine-color-default` would keep the
+ * outer theme's computed values. This resolves them with Mantine's own
+ * resolver and the same flat palettes `DEFAULT_MANTINE_THEME` uses
+ * (`packages/ui/src/util/theme.ts`), so the scope matches a real theme switch.
+ */
+function buildMantineScopeTheme() {
+  const darkRamp = SCALE_STEPS.map(
+    (step) => `var(--gn-dark-${step})`,
+  ) as unknown as MantineColorsTuple;
+  return mergeMantineTheme(
+    DEFAULT_THEME,
+    createTheme({
+      colors: {
+        brand: colorsTuple("var(--gn-brand)"),
+        secondary: colorsTuple("var(--gn-secondary)"),
+        tertiary: colorsTuple("var(--gn-tertiary)"),
+        dark: darkRamp,
+      },
+      primaryColor: "brand",
+      luminanceThreshold: 0.179,
+    }),
+  );
+}
+
+function mantineSchemeVariables(
+  colorScheme: "dark" | "light",
+): [string, string][] {
+  const resolved = defaultCssVariablesResolver(buildMantineScopeTheme());
+  // The theme block re-declares everything it owns; the primary-color aliases
+  // and the gray palette (light themes remap it) are the scheme-independent
+  // entries that have to be reset as well.
+  const shared = Object.entries(resolved.variables).filter(([name]) =>
+    /^--mantine-(primary-color-|color-gray-\d)/.test(name),
+  );
+  return [...shared, ...Object.entries(resolved[colorScheme])];
+}
+
+/** Dark themes have no `[data-gn-scope="dark"]` of their own: the alias points at one. */
+function getScopeAliases(themes: ResolvedTheme[]): Map<string, string[]> {
+  const aliases = new Map<string, string[]>();
+  const darkTheme =
+    themes.find(
+      (theme) =>
+        theme.definition.id === DEFAULT_REGISTERED_THEME_ID &&
+        theme.definition.colorScheme === "dark",
+    ) ?? themes.find((theme) => theme.definition.colorScheme === "dark");
+  if (darkTheme) aliases.set(darkTheme.definition.id, ["dark"]);
+  return aliases;
+}
+
+/**
+ * Root blocks switch the whole document (`:root[data-theme]`). Scope blocks
+ * (`[data-gn-scope]`) apply the same variables to one subtree, for surfaces
+ * that are dark (or light) by design whatever theme is active. The aliases are
+ * semantic names: `dark` is the default dark theme.
+ */
 function renderCss(themes: ResolvedTheme[]): string {
   const lines: string[] = [`/* ${HEADER[0]} */`, `/* ${HEADER[1]} */`, ""];
   for (const theme of themes) {
@@ -668,6 +988,40 @@ function renderCss(themes: ResolvedTheme[]): string {
     }
     lines.push("}", "");
   }
+
+  const aliases = getScopeAliases(themes);
+  lines.push(
+    '/* Theme scopes: `<ThemeScope theme="…">` re-applies a theme to a subtree. */',
+    "",
+  );
+  for (const theme of themes) {
+    const { id, colorScheme } = theme.definition;
+    const selector = [id, ...(aliases.get(id) ?? [])]
+      .map((scope) => `[data-gn-scope="${scope}"]`)
+      .join(",\n");
+    lines.push(`${selector} {`);
+    lines.push(`  color-scheme: ${colorScheme};`);
+    const emitted = new Set<string>();
+    const themeNames = new Set(theme.variables.map(([name]) => name));
+    // Mantine scheme variables first so the theme's own values win.
+    for (const [name, value] of mantineSchemeVariables(colorScheme)) {
+      if (themeNames.has(name) || emitted.has(name)) continue;
+      emitted.add(name);
+      lines.push(`  ${name}: ${value};`);
+    }
+    for (const [name, value] of theme.variables) {
+      if (name === "color-scheme") continue;
+      lines.push(`  ${name}: ${value};`);
+    }
+    lines.push("}", "");
+  }
+  // Zero specificity, so a page class (`.page { color: … }`) wins over it.
+  lines.push(
+    ":where([data-gn-scope]) {",
+    "  color: var(--mantine-color-text);",
+    "}",
+    "",
+  );
   return `${lines.join("\n").trimEnd()}\n`;
 }
 
@@ -701,11 +1055,22 @@ export type ThemePreviewPalette = {
   accent: string;
 };
 
+export type ThemeCatalogSplash = {
+  /** Splash background. */
+  background: string;
+  /** Outer ring of the splash logo. */
+  brand: string;
+  /** Inner frame of the splash logo. */
+  logoInner: string;
+};
+
 export type ThemeCatalogNative = {
   /** Hex used for Capacitor's edge-to-edge background. */
   background: string;
   /** Capacitor StatusBar style that keeps the icons readable. */
   statusBarStyle: ThemeStatusBarStyle;
+  /** Android launch splash colors (apps/mobile splash:generate turns them into resources). */
+  splash: ThemeCatalogSplash;
 };
 
 export type ThemeCatalogEntry = {

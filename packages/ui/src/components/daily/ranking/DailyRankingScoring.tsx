@@ -32,20 +32,20 @@ const DailyRankingScoringContent = () => {
 
   return (
     <Stack className={"gap-2.5"}>
-      <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+      <Text fz={13} lh={"19px"} c={"var(--gn-text-subtle)"}>
         {t("daily.ranking.scoring.intro")}
       </Text>
       <dl className={"m-0 flex flex-col gap-2.5"}>
         {rows.map((row) => (
           <div key={row.key} className={"flex items-center justify-between"}>
-            <Text component={"dt"} fz={13} c={"#ADADAD"}>
+            <Text component={"dt"} fz={13} c={"var(--gn-text-subtle)"}>
               {row.label}
             </Text>
             <Text
               component={"dd"}
               fz={13}
               fw={700}
-              c={"white"}
+              c="var(--gn-text)"
               className={"m-0"}
             >
               {row.value}
@@ -53,10 +53,10 @@ const DailyRankingScoringContent = () => {
           </div>
         ))}
       </dl>
-      <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+      <Text fz={13} lh={"19px"} c={"var(--gn-text-subtle)"}>
         {t("daily.ranking.scoring.specs")}
       </Text>
-      <Text fz={12} lh={"18px"} className={"text-[#7A7A7A]"}>
+      <Text fz={12} lh={"18px"} className={"text-faint"}>
         {t("daily.ranking.scoring.footer")}
       </Text>
     </Stack>
@@ -85,12 +85,12 @@ const DailyRankingScoring = ({
         aria-expanded={opened}
         className={"flex items-center gap-2"}
       >
-        <IconHelpCircle size={16} className={"text-white"} aria-hidden />
+        <IconHelpCircle size={16} className={"text-foreground"} aria-hidden />
         <Text
           component={"span"}
           fz={15}
           fw={700}
-          c={"white"}
+          c="var(--gn-text)"
           className={"flex-1"}
         >
           {t("daily.ranking.scoring.title")}
@@ -99,7 +99,7 @@ const DailyRankingScoring = ({
           size={16}
           aria-hidden
           className={cn(
-            "text-[#7A7A7A] transition-transform",
+            "text-faint transition-transform",
             opened && "rotate-180",
           )}
         />

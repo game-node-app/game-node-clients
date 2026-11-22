@@ -35,9 +35,7 @@ interface Props {
 export function DockItem({ item, collapsed, active, onActivate }: Props) {
   const { t } = useTranslation();
   const label = t(item.labelKey, item.labelParams);
-  const badgeLabel = item.badge
-    ? t(DOCK_BADGE_LABEL_KEYS[item.badge])
-    : null;
+  const badgeLabel = item.badge ? t(DOCK_BADGE_LABEL_KEYS[item.badge]) : null;
 
   const itemClassName = cn(
     "relative flex h-10 w-full items-center rounded-md text-[14px] leading-[normal]",
@@ -57,7 +55,10 @@ export function DockItem({ item, collapsed, active, onActivate }: Props) {
       />
       {!collapsed && <span className="flex-1 truncate text-left">{label}</span>}
       {!collapsed && badgeLabel && (
-        <span className="flex h-5 shrink-0 items-center rounded-sm bg-nav-accent-subtle px-1.5 text-[12px] font-normal leading-[normal] text-brand-5">
+        <span
+          data-slot="nav-badge"
+          className="flex h-5 shrink-0 items-center rounded-sm bg-nav-accent-subtle px-1.5 text-[12px] font-normal leading-[normal] text-brand-5"
+        >
           {badgeLabel}
         </span>
       )}
@@ -80,6 +81,9 @@ export function DockItem({ item, collapsed, active, onActivate }: Props) {
         href={item.href}
         aria-label={collapsed ? label : undefined}
         aria-current={active ? "page" : undefined}
+        data-slot="nav-item"
+        data-active={active ? "true" : undefined}
+        data-collapsed={collapsed ? "true" : undefined}
         className={itemClassName}
         onClick={handleActivate}
       >
@@ -88,6 +92,9 @@ export function DockItem({ item, collapsed, active, onActivate }: Props) {
     ) : (
       <UnstyledButton
         aria-label={collapsed ? label : undefined}
+        data-slot="nav-item"
+        data-active={active ? "true" : undefined}
+        data-collapsed={collapsed ? "true" : undefined}
         className={itemClassName}
         onClick={handleActivate}
       >

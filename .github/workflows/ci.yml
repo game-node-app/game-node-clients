@@ -51,6 +51,15 @@ jobs:
         if: steps.dependencies.outputs.cache-hit != 'true'
       - name: Check generated theme files
         run: pnpm themes:check
+      # Unconditional guards: the turbo filter below only lints affected
+      # packages, so token pairing, theme contrast and the config-eslint rules
+      # need their own always-on steps.
+      - name: Check color tokens and theme contrast rules
+        run: pnpm colors:check
+      - name: Test ESLint and CSS color/contrast guards
+        run: pnpm --filter @repo/eslint-config test
+      - name: Run theme contrast suite
+        run: pnpm --filter mobile exec vitest run src/theme/
       - name: Validate explicit release decision
         id: plan
         env:

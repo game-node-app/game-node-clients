@@ -104,7 +104,7 @@ const MobileCollectionThumbnailCard = ({
           Share
         </Menu.Item>
         <Menu.Item
-          className={"text-red-500"}
+          className={"text-status-danger-text"}
           leftSection={<IconTrash size={20} />}
           onClick={collectionRemoveUtils.open}
         >
@@ -117,7 +117,7 @@ const MobileCollectionThumbnailCard = ({
         <IonRippleEffect className={"z-10 rounded-md"} />
         <Group className={"w-full justify-between"}>
           <Title
-            className={"text-white text-2xl"}
+            className={"text-foreground text-2xl"}
             onClick={() => {
               router.push(getTabAwareHref(targetHref));
             }}
@@ -126,7 +126,11 @@ const MobileCollectionThumbnailCard = ({
           </Title>
           {isOwnCollection && (
             <Menu.Target>
-              <ActionIcon variant={"subtle"} color={"white"} className={"z-50"}>
+              <ActionIcon
+                variant={"subtle"}
+                color={"var(--gn-text)"}
+                className={"z-50"}
+              >
                 <IconDots />
               </ActionIcon>
             </Menu.Target>

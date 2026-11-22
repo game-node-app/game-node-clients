@@ -141,7 +141,7 @@ const AwardsCategoryList = ({
             </Text>
             <Text
               className={cn(
-                "min-w-0 flex-1 truncate text-[16px] font-medium leading-normal text-white",
+                "min-w-0 flex-1 truncate text-[16px] font-medium leading-normal text-foreground",
                 suggestion && !isVoted && "shrink-0 flex-none max-w-[62%]",
               )}
             >

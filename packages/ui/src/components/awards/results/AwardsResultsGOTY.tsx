@@ -82,7 +82,7 @@ export function AwardsResultsGOTY({
   const title = winnerName && (
     <h1
       className={cn(
-        "font-bold text-white",
+        "font-bold text-foreground",
         compact
           ? "text-[28px] leading-[34px] tracking-[-0.28px]"
           : "text-[40px] leading-[46px] tracking-[-0.4px]",
@@ -159,14 +159,14 @@ export function AwardsResultsGOTY({
         const nameClass = cn(
           "truncate",
           compact ? "text-[14px] leading-[1.43]" : "text-[16px] leading-normal",
-          isLeader ? "font-medium text-white" : "text-nav-muted",
+          isLeader ? "font-medium text-foreground" : "text-nav-muted",
         );
         const percentClass = cn(
           "shrink-0 text-right",
           isLeader
             ? compact
-              ? "text-[16px] font-medium text-white"
-              : "w-14 text-[20px] font-semibold text-white"
+              ? "text-[16px] font-medium text-foreground"
+              : "w-14 text-[20px] font-semibold text-foreground"
             : compact
               ? "text-[14px] font-medium text-nav-muted"
               : "w-14 text-[16px] font-medium text-nav-muted",

@@ -55,7 +55,7 @@ export function RecapCustomizePanel({ value, onChange }: Props) {
                 cursor: "pointer",
                 outline:
                   value.accent === key
-                    ? "2px solid #F4EFE8"
+                    ? "2px solid var(--gn-text)"
                     : "2px solid transparent",
                 outlineOffset: 2,
               }}

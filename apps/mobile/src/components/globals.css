@@ -24,6 +24,9 @@
 
 :root {
     --ion-padding: var(--mantine-spacing-md) !important;
+    /* @fontsource families (imported in main.tsx), used by the Ruins theme. */
+    --gn-font-zen: "Zen Kaku Gothic New";
+    --gn-font-share-tech-mono: "Share Tech Mono";
 }
 
 /*
@@ -111,9 +114,14 @@ ion-tab-button.tab-selected::part(native) {
     background: var(--gn-brand); /* brand, solid pill like the reference */
 }
 
+/*
+ * The selected pill is a solid `--gn-brand` fill, so its icon/label take the
+ * fill's label color instead of the page text: on light themes (Ruins) brand
+ * and text are both dark, which made the icon disappear into the pill.
+ */
 ion-tab-button.tab-selected {
-    --color-selected: var(--gn-text);
-    color: var(--gn-text);
+    --color-selected: var(--gn-brand-filled-text);
+    color: var(--gn-brand-filled-text);
 }
 
 /*

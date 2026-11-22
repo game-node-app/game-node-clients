@@ -34,8 +34,8 @@ const VARIANT_CONFIG: Record<SettingsButtonVariant, VariantConfig> = {
     vars: {
       "--button-bg": "var(--gn-brand)",
       "--button-hover": "var(--gn-brand-7)",
-      "--button-color": "var(--gn-text)",
-      "--button-hover-color": "var(--gn-text)",
+      "--button-color": "var(--gn-brand-filled-text)",
+      "--button-hover-color": "var(--gn-brand-filled-text)",
       "--button-bd": "1px solid transparent",
     },
   },
@@ -64,9 +64,9 @@ const VARIANT_CONFIG: Record<SettingsButtonVariant, VariantConfig> = {
     vars: {
       "--button-bg": "var(--gn-status-danger-strong)",
       "--button-hover":
-        "color-mix(in srgb, var(--gn-status-danger-strong) 85%, black)",
-      "--button-color": "var(--gn-text)",
-      "--button-hover-color": "var(--gn-text)",
+        "color-mix(in srgb, var(--gn-status-danger-strong) 85%, var(--gn-scrim))",
+      "--button-color": "var(--gn-danger-filled-text)",
+      "--button-hover-color": "var(--gn-danger-filled-text)",
       "--button-bd": "1px solid transparent",
     },
   },

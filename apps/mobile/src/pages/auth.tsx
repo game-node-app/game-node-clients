@@ -17,7 +17,7 @@ const AuthPage = () => {
         // and `fullscreen` lets it run behind the (transparent) header and status bar.
         className: "",
         fullscreen: true,
-        style: { "--background": "#0b0b0b" },
+        style: { "--background": "var(--gn-body)" },
       }}
     >
       <SignInScreen

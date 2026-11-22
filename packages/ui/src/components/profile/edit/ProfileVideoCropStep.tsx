@@ -52,7 +52,7 @@ export function ProfileVideoCropStep({
       </Stack>
       <Box
         className={
-          "relative h-[320px] w-full overflow-hidden rounded-[10px] bg-black"
+          "relative h-[320px] w-full overflow-hidden rounded-[10px] bg-media-scrim"
         }
       >
         <Cropper

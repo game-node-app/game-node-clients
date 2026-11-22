@@ -82,7 +82,11 @@ const DEFAULT_GameAchievementsListItem = ({
             alt={achievement.name}
           ></Image>
           {!achievement.isObtained && (
-            <Overlay className={"z-0"} color="black" backgroundOpacity={0.5} />
+            <Overlay
+              className={"z-0"}
+              color="var(--gn-media-scrim)"
+              backgroundOpacity={0.5}
+            />
           )}
         </AspectRatio>
         <Box className={"block lg:hidden"}>{renderRightSideDetail()}</Box>
@@ -90,7 +94,9 @@ const DEFAULT_GameAchievementsListItem = ({
 
       <Group className={"grow justify-between lg:justify-start"}>
         <Stack className={"grow gap-1"}>
-          <Text className={achievement.isObtained ? "text-white" : undefined}>
+          <Text
+            className={achievement.isObtained ? "text-foreground" : undefined}
+          >
             {achievement.name}
           </Text>
           <Text className={"text-dimmed max-w-60"}>

@@ -4,7 +4,7 @@
 
 export * from "./CollectionEntryAchievementTracker";
 export * from "./CollectionEntryDetailRelatedEntries";
-export * from "./CollectionEntryDetailsBox";
 export * from "./CollectionEntryDetailView";
+export * from "./CollectionEntryDetailsBox";
 export * from "./CollectionEntryPlaytimeTracker";
 export * from "./CollectionEntryReviewBox";

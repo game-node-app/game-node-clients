@@ -29,7 +29,7 @@ export function McpCodeField({ value, label, className }: Props) {
         <Box
           component={"pre"}
           className={
-            "m-0 min-w-0 flex-1 select-text overflow-x-auto whitespace-pre py-[7px] font-mono text-[13px] leading-[17px] text-white"
+            "m-0 min-w-0 flex-1 select-text overflow-x-auto whitespace-pre py-[7px] font-mono text-[13px] leading-[17px] text-foreground"
           }
         >
           {value}

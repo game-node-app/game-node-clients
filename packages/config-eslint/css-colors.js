@@ -28,9 +28,25 @@
  * exemptions are only for content artwork (game art, recap/awards artwork,
  * platform brand marks), same policy as the ESLint rule.
  *
- * Severity comes from `hard-coded-colors.js`: migrated files and new
- * experience/theme packs are `error`, the rest of the legacy styles are
- * `warn`. `bin/lint-css-colors.js` exits non-zero when any error is reported.
+ * Also covered: the CSS names `white`/`black` in color-bearing declarations
+ * (`color: white`, `background: black`), and Tailwind default-palette/named
+ * color utilities in `@apply` (`@apply bg-black text-gray-400`). `transparent`,
+ * `currentColor` and `inherit` are fine.
+ *
+ * Also covered: unsafe theme token pairs. A solid filled accent/brand/status
+ * surface (`background: var(--gn-brand)`, `--button-bg: var(--gn-accent)`, ...)
+ * carries its own foreground; pairing it with a body/muted text token
+ * (`color: var(--gn-text)`, `--color-selected: var(--gn-dimmed)`, ...) is
+ * reported as an error even in legacy baseline files, because it is a light
+ * theme contrast bug, not hard-coded color debt. Translucent fills
+ * (`color-mix(...)`, `transparent`) are allowed. `--color-selected` on
+ * `ion-tab-button.tab-selected` is reported even when the solid pill lives on
+ * `::part(native)` in a sibling rule.
+ *
+ * Severity comes from `hard-coded-colors.js`: every style is `error` except
+ * the files in the generated legacy baseline (`color-baseline.json`), which
+ * stay `warn`. Unsafe token pairs are always `error`. `bin/lint-css-colors.js`
+ * exits non-zero when any error is reported.
  */
 
 const fs = require("node:fs");
@@ -38,13 +54,50 @@ const path = require("node:path");
 const postcss = require("postcss");
 
 const {
-  MIGRATED_COLOR_FILES,
-  NEW_PACK_COLOR_PATTERNS,
+  LEGACY_COLOR_BASELINE,
   getCssColorSeverity,
   matchesColorPattern,
 } = require("./hard-coded-colors");
+const {
+  COLOR_DECLARATION_PROPERTY,
+  findNamedCssColor,
+  findNamedTailwindColorClasses,
+} = require("./named-colors");
 
 const RULE_ID = "gamenode/no-hard-coded-colors";
+
+// Semantic pair guard: a solid filled accent/brand/status surface has its own
+// foreground token (`*-filled-text`). Body/muted text tokens are for page
+// surfaces and become dark-on-dark (or light-on-light) in light themes.
+const SOLID_FILLED_TOKEN =
+  /var\(\s*--gn-(?:brand|brand-5|accent|tertiary|status-danger-strong|danger|state-played|premium)(?![\w-])/;
+
+const BODY_TEXT_TOKEN =
+  /var\(\s*--gn-(?:text|text-color|text-muted|dimmed|dimmed-1|dimmed-2|dimmed-3)(?![\w-])|var\(\s*--mantine-color-(?:text|dimmed)(?![\w-])/;
+
+const TRANSLUCENT_FILL = /color-mix\(|transparent/i;
+
+const UNSAFE_BACKGROUND_PROPERTIES = new Set([
+  "background",
+  "background-color",
+  "--background",
+  "--button-bg",
+]);
+
+const UNSAFE_TEXT_PROPERTIES = new Set([
+  "color",
+  "--color",
+  "--color-selected",
+  "--button-color",
+]);
+
+const IONIC_TAB_SELECTOR = /ion-tab-button\.tab-selected(?![\w-])/;
+
+const UNSAFE_PAIR_MESSAGE =
+  "Unsafe theme token pair: background '{{background}}' with text '{{text}}'. Body text tokens are meant for page surfaces; on a solid filled surface they become dark-on-dark (or light-on-light) in light themes such as Ruins. Use the matching filled-text token instead: var(--gn-brand-filled-text), var(--gn-danger-filled-text), var(--gn-state-played-filled-text) or var(--gn-accent-contrast).";
+
+const SELECTED_TAB_MESSAGE =
+  "Selected Ionic tab sets '{{text}}' while the selected pill is filled with a brand/accent token (often on ::part(native) in a sibling rule). Use the filled-text token for the selected label instead: var(--gn-brand-filled-text) or var(--gn-accent-contrast).";
 
 const HEX_COLOR =
   /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?![0-9a-fA-F])/g;
@@ -202,6 +255,22 @@ function isTokenizedColorFunction(match) {
     .replace(/,\s*[\d.]+%?\s*$/, "");
 
   return !/[0-9#]/.test(residue);
+}
+
+/**
+ * A value that is exactly one filled token (`var(--gn-brand)`, optional
+ * `!important`) is a solid fill. Grain gradients and multi-layer backgrounds
+ * built from the token are not a single solid surface, so they are not paired.
+ */
+function isSolidFilledValue(value) {
+  if (!SOLID_FILLED_TOKEN.test(value)) return false;
+  if (TRANSLUCENT_FILL.test(value)) return false;
+
+  return (
+    stripVarFunctions(value)
+      .replace(/!important\s*$/i, "")
+      .trim() === ""
+  );
 }
 
 /**
@@ -421,7 +490,11 @@ function lintCssSource({
       message:
         messageId === "class"
           ? `Hard-coded color in Tailwind class '${literal}'. Use a token utility (for example bg-paper-2, text-brand-5 or border-line) instead.`
-          : `Hard-coded color '${literal}' is not themeable. Use a theme token instead (for example var(--gn-brand) or var(--gn-surface-2)).`,
+          : messageId === "namedClass"
+            ? `Tailwind class '${literal}' uses a fixed color that ignores the theme (it breaks in light themes). Use a token utility (bg-paper-2, text-muted, border-line, text-on-brand) or, over imagery, the --gn-media-* pair.`
+            : messageId === "named"
+              ? `Fixed color '${literal}' ignores the theme (it breaks in light themes). Use a theme token (var(--gn-text), var(--gn-surface-2)) or, over imagery, var(--gn-media-text)/var(--gn-media-scrim).`
+              : `Hard-coded color '${literal}' is not themeable. Use a theme token instead (for example var(--gn-brand) or var(--gn-surface-2)).`,
     });
   }
 
@@ -433,6 +506,77 @@ function lintCssSource({
 
     for (const { index, literal } of collectColorLiterals(decl.value)) {
       pushColor(literal, valueOffset + index, "color");
+    }
+
+    if (COLOR_DECLARATION_PROPERTY.test(decl.prop)) {
+      const named = findNamedCssColor(decl.value);
+
+      if (named) {
+        const index = decl.value.toLowerCase().indexOf(named);
+        pushColor(named, valueOffset + Math.max(index, 0), "named");
+      }
+    }
+  });
+
+  function formatMessage(template, data) {
+    return template.replace(/\{\{(\w+)\}\}/g, (_, key) => data[key] ?? "");
+  }
+
+  /**
+   * Reports at the text declaration: the background is usually intentional, the
+   * label color is what must switch to the `*-filled-text` token.
+   */
+  function pushUnsafePair(text, template, data) {
+    if (exemptLines.has(text.source.start.line)) return;
+
+    messages.push({
+      file: relFile,
+      line: text.source.start.line,
+      column: text.source.start.column,
+      severity: "error",
+      ruleId: RULE_ID,
+      message: formatMessage(template, data),
+    });
+  }
+
+  root.walkRules((rule) => {
+    const declarations = (rule.nodes ?? []).filter(
+      (node) => node.type === "decl",
+    );
+
+    const background = declarations.find(
+      (decl) =>
+        UNSAFE_BACKGROUND_PROPERTIES.has(decl.prop.toLowerCase()) &&
+        isSolidFilledValue(decl.value),
+    );
+    const text = declarations.find(
+      (decl) =>
+        UNSAFE_TEXT_PROPERTIES.has(decl.prop.toLowerCase()) &&
+        BODY_TEXT_TOKEN.test(decl.value),
+    );
+
+    if (background && text) {
+      pushUnsafePair(text, UNSAFE_PAIR_MESSAGE, {
+        background: `${background.prop}: ${background.value}`,
+        text: `${text.prop}: ${text.value}`,
+      });
+    }
+
+    if (!IONIC_TAB_SELECTOR.test(rule.selector)) {
+      return;
+    }
+
+    // Ionic draws the selected pill on `::part(native)` in a sibling rule, so
+    // the block itself has no background; `--color-selected` still lands on the
+    // brand/accent fill and must not be a body text token.
+    for (const decl of declarations) {
+      if (decl.prop.toLowerCase() !== "--color-selected") continue;
+      if (!BODY_TEXT_TOKEN.test(decl.value)) continue;
+      if (background && decl === text) continue;
+
+      pushUnsafePair(decl, SELECTED_TAB_MESSAGE, {
+        text: `${decl.prop}: ${decl.value}`,
+      });
     }
   });
 
@@ -459,6 +603,16 @@ function lintCssSource({
       );
       if (!covered) pushColor(literal, paramsOffset + index, "color");
     }
+
+    if (atRule.name.toLowerCase() === "apply") {
+      for (const className of findNamedTailwindColorClasses(atRule.params)) {
+        pushColor(
+          className,
+          paramsOffset + Math.max(atRule.params.indexOf(className), 0),
+          "namedClass",
+        );
+      }
+    }
   });
 
   return messages.sort(
@@ -477,8 +631,7 @@ function lintCssSource({
 function lintCssColors({
   cwd = process.cwd(),
   roots = ["src"],
-  migratedFiles = MIGRATED_COLOR_FILES,
-  newPackPatterns = NEW_PACK_COLOR_PATTERNS,
+  baseline = LEGACY_COLOR_BASELINE,
   ignorePatterns = DEFAULT_IGNORE_PATTERNS,
   repoRoot = findRepoRoot(cwd),
 } = {}) {
@@ -500,10 +653,7 @@ function lintCssColors({
 
     checkedFiles += 1;
 
-    const severity = getCssColorSeverity(relFile, {
-      migratedFiles,
-      newPackPatterns,
-    });
+    const severity = getCssColorSeverity(relFile, { baseline });
 
     messages.push(
       ...lintCssSource({

@@ -81,7 +81,7 @@ const NotFoundView = ({
             fz={{ base: 28, md: 48 }}
             lh={{ base: "36px", md: "56px" }}
             fw={700}
-            c={"white"}
+            c="var(--gn-text)"
           >
             {t("notFoundPage.title")}
           </Title>
@@ -110,7 +110,7 @@ const NotFoundView = ({
                 fz={16}
                 fw={700}
                 className={
-                  "w-full text-nav-canvas hover:bg-brand-9 hover:text-white md:w-auto"
+                  "w-full text-nav-canvas hover:bg-brand-9 hover:text-foreground md:w-auto"
                 }
               >
                 {t("notFoundPage.backHome")}
@@ -126,7 +126,7 @@ const NotFoundView = ({
                 fw={700}
                 leftSection={<IconSearch size={20} />}
                 className={
-                  "w-full bg-paper-6 text-white hover:bg-paper-1 md:w-auto"
+                  "w-full bg-paper-6 text-foreground hover:bg-paper-1 md:w-auto"
                 }
               >
                 {t("notFoundPage.searchGames")}

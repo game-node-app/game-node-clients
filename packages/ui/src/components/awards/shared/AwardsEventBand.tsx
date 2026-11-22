@@ -132,7 +132,7 @@ export function AwardsEventBand({
         </p>
         <h1
           className={
-            "text-[40px] font-bold leading-[46px] tracking-[-0.4px] text-white"
+            "text-[40px] font-bold leading-[46px] tracking-[-0.4px] text-foreground"
           }
         >
           {t("awards.ballot.band.title", { year })}
@@ -162,7 +162,7 @@ export function AwardsEventBand({
                 {step.state === "done" ? (
                   <span
                     className={
-                      "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-state-played text-[#0b0b0b]"
+                      "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-state-played text-[var(--gn-state-played-filled-text)]"
                     }
                   >
                     <IconCheck size={14} stroke={3} aria-hidden={"true"} />
@@ -197,7 +197,9 @@ export function AwardsEventBand({
               <p
                 className={cn(
                   "text-[16px] font-medium leading-normal",
-                  step.state === "upcoming" ? "text-nav-muted" : "text-white",
+                  step.state === "upcoming"
+                    ? "text-nav-muted"
+                    : "text-foreground",
                 )}
               >
                 {step.label}

@@ -29,11 +29,11 @@ const SummaryStat = ({ value, label }: SummaryStatProps) => (
       fz={22}
       fw={700}
       lh={"normal"}
-      className={"text-white sm:text-[30px]"}
+      className={"text-foreground sm:text-[30px]"}
     >
       {value}
     </Text>
-    <Text fz={12} lh={"normal"} className={"text-[#a6a6a6]"}>
+    <Text fz={12} lh={"normal"} className={"text-soft"}>
       {label}
     </Text>
   </Stack>
@@ -68,9 +68,7 @@ const FeatsSummaryCard = ({
                 {formatFeatNumber(summary.obtainedCount, locale)}
               </span>
               <span
-                className={
-                  "text-[13px] font-medium sm:text-[16px] text-[#7a7a7a]"
-                }
+                className={"text-[13px] font-medium sm:text-[16px] text-faint"}
               >
                 {" / "}
                 {formatFeatNumber(summary.total, locale)}

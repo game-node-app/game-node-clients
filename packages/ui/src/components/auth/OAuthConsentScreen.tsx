@@ -191,7 +191,7 @@ export function OAuthConsentScreen() {
                   color="var(--mantine-color-dimmed)"
                 />
                 <Center w={44} h={44} bg="brand" style={{ borderRadius: 10 }}>
-                  <Text fz={20} fw={700} c="white">
+                  <Text fz={20} fw={700} c="var(--gn-text)">
                     G
                   </Text>
                 </Center>

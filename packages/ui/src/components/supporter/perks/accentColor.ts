@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 /**
  * Accent contrast math for supporter perks (design D3).
  *
@@ -113,4 +115,35 @@ export function getOnAccentText(hex: string): string {
     getContrastRatio(normalized, ON_ACCENT_LIGHT)
     ? ON_ACCENT_DARK
     : ON_ACCENT_LIGHT;
+}
+
+/**
+ * Custom property holding the theme-aware text color of a supporter accent, and
+ * the Tailwind class that paints text with it. Elements set the property inline
+ * (see {@link getAccentInkStyle}) and add the class.
+ */
+export const ACCENT_INK_VAR = "--supporter-ink";
+export const ACCENT_INK_CLASS = "text-[color:var(--supporter-ink)]";
+
+/** The premium violet used for supporter text when the profile theme is off. */
+// theme-exempt: fixed premium violet; light themes cap its lightness via getAccentInk
+export const PREMIUM_TEXT_HEX = "#c7a6ff";
+
+/**
+ * Accent as *text* on the active theme's surfaces.
+ *
+ * {@link getReadableAccent} only lightens, which is right for dark themes and
+ * wrong for light ones (a lightened violet on paper is ~2:1). This keeps the
+ * hue and chroma but caps OKLCH lightness at `--gn-ink-max-l`, a token only
+ * light themes define (Ruins sets it in its pack CSS). Without the token the cap
+ * is `1`, so dark themes render `hex` unchanged. Fills and borders keep the raw
+ * accent; only text goes through this.
+ */
+export function getAccentInk(hex: string): string {
+  return `oklch(from ${hex} min(l, var(--gn-ink-max-l, 1)) c h)`;
+}
+
+/** Inline style that exposes `ink` to {@link ACCENT_INK_CLASS}. */
+export function getAccentInkStyle(ink: string): CSSProperties {
+  return { [ACCENT_INK_VAR]: ink } as CSSProperties;
 }

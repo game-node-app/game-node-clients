@@ -75,7 +75,9 @@ function SettingsProfileFavoriteItem({
           onClick={() => onRemove(game.id)}
           aria-label={removeLabel}
           title={removeLabel}
-          className={"border-0 bg-nav-raised text-[var(--gn-text-color)] hover:bg-line"}
+          className={
+            "border-0 bg-nav-raised text-[var(--gn-text-color)] hover:bg-line"
+          }
         >
           <IconX size={14} />
         </ActionIcon>
@@ -159,7 +161,7 @@ export function SettingsProfileFavorites({
         <Link
           href={`/library/${userId}`}
           className={
-            "flex aspect-[264/354] w-[90px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-line text-dimmed-2 no-underline transition-colors hover:border-dimmed-3 hover:text-white"
+            "flex aspect-[264/354] w-[90px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-line text-dimmed-2 no-underline transition-colors hover:border-dimmed-3 hover:text-foreground"
           }
         >
           <IconPlus size={18} />

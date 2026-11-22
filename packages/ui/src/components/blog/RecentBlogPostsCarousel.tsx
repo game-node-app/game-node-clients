@@ -49,7 +49,7 @@ const RecentBlogPostsCarousel = () => {
         </Text>
         <Link
           href="/blog"
-          className="hidden min-h-9 shrink-0 items-center gap-1.5 rounded-md text-sm font-medium text-dimmed transition-colors hover:text-white md:inline-flex"
+          className="hidden min-h-9 shrink-0 items-center gap-1.5 rounded-md text-sm font-medium text-dimmed transition-colors hover:text-foreground md:inline-flex"
         >
           {t("blog.buttons.browseBlog")}
           <IconArrowRight aria-hidden size={16} />

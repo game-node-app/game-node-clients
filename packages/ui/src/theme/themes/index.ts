@@ -3,5 +3,6 @@
  */
 
 export * from "./gamenode";
+export * from "./ruins";
 export * from "./screens-registry";
 export * from "./xbox";

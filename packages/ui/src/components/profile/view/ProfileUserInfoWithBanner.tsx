@@ -36,7 +36,7 @@ const ProfileUserInfoWithBanner = ({
   const accentVars: CSSProperties | undefined = perks?.theme
     ? ({
         "--profile-accent": perks.accent,
-        "--profile-accent-text": perks.accentText,
+        "--profile-accent-text": perks.accentInk,
         "--profile-accent-soft": perks.accentSoft,
       } as CSSProperties)
     : undefined;

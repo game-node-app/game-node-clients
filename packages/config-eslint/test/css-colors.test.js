@@ -38,21 +38,17 @@ function colors(result) {
   return result.messages.map((message) => message.color).sort();
 }
 
-test("new packs and migrated styles are errors", (t) => {
+test("styles outside the legacy baseline are errors", (t) => {
   const directory = createFixture(t, {
     "packages/ui/src/theme/experiences/console/row.module.css":
       ".row { background: linear-gradient(#101010, rgb(0 0 0)); }",
     "packages/ui/src/theme/themes/xbox/screens/profile.module.css":
       ":root { --card: hsl(0 0% 4%); }",
-    "apps/web/src/components/colors-migrated.module.css":
+    "apps/web/src/components/colors-new.module.css":
       ".card { border-color: #f15025; }",
   });
 
-  const result = lintCssColors({
-    cwd: directory,
-    roots: ["."],
-    migratedFiles: ["apps/web/src/components/colors-migrated.module.css"],
-  });
+  const result = lintCssColors({ cwd: directory, roots: ["."], baseline: {} });
 
   assert.equal(result.errors, 4);
   assert.equal(result.warnings, 0);
@@ -65,17 +61,49 @@ test("new packs and migrated styles are errors", (t) => {
   ]);
 });
 
-test("legacy styles are warnings", (t) => {
+test("baseline styles and admin are warnings", (t) => {
   const directory = createFixture(t, {
     "apps/web/src/components/legacy.css": ".legacy { color: #fff; }",
+    "apps/admin/src/components/admin.css": ".admin { color: #fff; }",
   });
 
-  const result = lintCssColors({ cwd: directory, roots: ["."] });
+  const result = lintCssColors({
+    cwd: directory,
+    roots: ["."],
+    baseline: { "apps/web/src/components/legacy.css": 1 },
+  });
 
   assert.equal(result.errors, 0);
-  assert.equal(result.warnings, 1);
-  assert.equal(result.messages[0].severity, "warn");
-  assert.equal(result.messages[0].color, "#fff");
+  assert.equal(result.warnings, 2);
+  assert.ok(result.messages.every((message) => message.severity === "warn"));
+});
+
+test("fixed named colors are reported in color declarations and @apply", () => {
+  const messages = lintCssSource({
+    source: [
+      ".a { color: white; }",
+      ".b { background: linear-gradient(black, transparent); }",
+      ".c { border: 1px solid BLACK; }",
+      ".d { @apply bg-black/50 text-gray-400 hover:text-white; }",
+      ".e { @apply bg-paper-2 text-muted border-line text-legacy-gray-100; }",
+      ".f { color: transparent; background: currentColor; border-color: inherit; }",
+      '.g { white-space: nowrap; font-family: Black Sans; content: "white"; }',
+      ".h { color: var(--gn-white, white); background: url(white.png); }",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.color]),
+    [
+      [1, "white"],
+      [2, "black"],
+      [3, "black"],
+      [4, "bg-black/50"],
+      [4, "text-gray-400"],
+      [4, "hover:text-white"],
+    ],
+  );
 });
 
 test("tokens, var() and gradients built from tokens are accepted", (t) => {
@@ -268,28 +296,26 @@ test("literal positions point at the value line", () => {
   );
 });
 
-test("severity comes from the central migrated list and the new pack patterns", () => {
+test("severity comes from the legacy baseline", () => {
+  const baseline = { "apps/web/src/components/legacy.css": 3 };
+
   assert.equal(
-    getCssColorSeverity(
-      "packages/ui/src/theme/experiences/console/row.module.css",
-    ),
+    getCssColorSeverity("packages/ui/src/theme/experiences/console/row.css", {
+      baseline,
+    }),
     "error",
   );
   assert.equal(
-    getCssColorSeverity(
-      "packages/ui/src/theme/themes/xbox/screens/profile.module.css",
-    ),
-    "error",
-  );
-  assert.equal(
-    getCssColorSeverity("apps/web/src/components/legacy.css"),
+    getCssColorSeverity("apps/web/src/components/legacy.css", { baseline }),
     "warn",
   );
   assert.equal(
-    getCssColorSeverity("apps/mobile/src/components/migrated.css", {
-      migratedFiles: ["apps/mobile/src/components/migrated.css"],
-    }),
+    getCssColorSeverity("apps/web/src/components/new.css", { baseline }),
     "error",
+  );
+  assert.equal(
+    getCssColorSeverity("apps/admin/src/components/new.css", { baseline }),
+    "warn",
   );
   assert.equal(
     matchesColorPattern("packages/ui/src/theme/experiences/console/a.css", [
@@ -315,7 +341,7 @@ test("CLI fails on an error and passes with only legacy warnings", (t) => {
   assert.match(failed.stdout, /1 error\(s\), 0 warning\(s\)/);
 
   const warning = createFixture(t, {
-    "apps/web/src/components/legacy.css": ".legacy { color: #fff; }",
+    "apps/admin/src/components/legacy.css": ".legacy { color: #fff; }",
   });
 
   const warned = spawnSync(process.execPath, [CLI, "."], {
@@ -326,4 +352,103 @@ test("CLI fails on an error and passes with only legacy warnings", (t) => {
   assert.equal(warned.status, 0);
   assert.match(warned.stdout, /warn/);
   assert.match(warned.stdout, /0 error\(s\), 1 warning\(s\)/);
+});
+
+test("solid filled backgrounds paired with body text tokens are errors", () => {
+  const messages = lintCssSource({
+    source: [
+      ".brand { background: var(--gn-brand); color: var(--gn-text); }",
+      ".danger { --button-bg: var(--gn-status-danger-strong); --button-color: var(--gn-text-muted); }",
+      ".ok-fill { background: var(--gn-accent); color: var(--gn-accent-contrast); }",
+      ".ok-tint { background: color-mix(in srgb, var(--gn-brand) 15%, transparent); color: var(--gn-text); }",
+      ".ok-gradient { background: linear-gradient(var(--gn-brand), transparent); color: var(--gn-text); }",
+      ".ok-surface { background: var(--gn-nav-raised); color: var(--gn-text); }",
+      ".ok-bg-only { background: var(--gn-brand); }",
+      ".ok-text-only { color: var(--gn-text); }",
+      ".ok-sibling-bg { background: var(--gn-brand); }",
+      ".ok-sibling-text { color: var(--gn-text); }",
+      "/* theme-exempt: recap artwork eyebrow over brand art */",
+      ".art { background: var(--gn-brand); color: var(--gn-text); }",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.severity]),
+    [
+      [1, "error"],
+      [2, "error"],
+    ],
+  );
+  assert.match(
+    messages[0].message,
+    /Unsafe theme token pair: background 'background: var\(--gn-brand\)' with text 'color: var\(--gn-text\)'/,
+  );
+  assert.match(messages[0].message, /var\(--gn-brand-filled-text\)/);
+  assert.match(
+    messages[1].message,
+    /background '--button-bg: var\(--gn-status-danger-strong\)' with text '--button-color: var\(--gn-text-muted\)'/,
+  );
+});
+
+test("unsafe token pairs are errors even in legacy baseline files", (t) => {
+  const directory = createFixture(t, {
+    "apps/web/src/components/legacy.css":
+      ".row { background: var(--gn-brand); color: var(--gn-text); }",
+  });
+
+  const result = lintCssColors({
+    cwd: directory,
+    roots: ["."],
+    baseline: { "apps/web/src/components/legacy.css": 1 },
+  });
+
+  assert.equal(result.errors, 1);
+  assert.equal(result.warnings, 0);
+  assert.match(result.messages[0].message, /Unsafe theme token pair/);
+});
+
+test("selected ionic tabs must not take body text tokens", () => {
+  const messages = lintCssSource({
+    source: [
+      "ion-tab-button.tab-selected::part(native) {",
+      "  background: var(--gn-brand);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected {",
+      "  --color-selected: var(--gn-text);",
+      "  color: var(--gn-text);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .fill {",
+      "  --color-selected: var(--gn-brand-filled-text);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .contrast {",
+      "  --color-selected: var(--gn-accent-contrast);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .text-color {",
+      "  --color-selected: var(--gn-text-color);",
+      "}",
+      "",
+      "ion-tab-button:not(.tab-selected) {",
+      "  --color-selected: var(--gn-text);",
+      "}",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.severity]),
+    [
+      [6, "error"],
+      [19, "error"],
+    ],
+  );
+  assert.match(messages[0].message, /--color-selected: var\(--gn-text\)/);
+  assert.match(
+    messages[0].message,
+    /var\(--gn-brand-filled-text\) or var\(--gn-accent-contrast\)/,
+  );
 });

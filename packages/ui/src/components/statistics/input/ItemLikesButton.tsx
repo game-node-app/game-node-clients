@@ -36,7 +36,7 @@ const ItemLikesButton = ({
       }}
       variant={"subtle"}
       size={"xl"}
-      color={isLiked ? "brand.4" : "white"}
+      color={isLiked ? "brand.4" : "var(--gn-text)"}
       aria-label={t("actions.like")}
       aria-pressed={isLiked}
       data-disabled={!userId}

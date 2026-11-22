@@ -49,7 +49,7 @@ export function McpRevokeDialog({
             component={"h2"}
             fz={20}
             fw={500}
-            c={"white"}
+            c="var(--gn-text)"
             lh={"normal"}
             className={"m-0 min-w-0 flex-1 break-words"}
           >

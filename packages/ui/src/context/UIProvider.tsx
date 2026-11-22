@@ -85,6 +85,17 @@ export function useOpenGameSearch(): (() => void) | undefined {
   return (override ?? useNoGameSearch)();
 }
 
+const useSplashAlwaysDone = (): boolean => true;
+
+/**
+ * Whether the app's launch splash is gone. Always true unless the app registers `useEntrySplashDone`.
+ * The registered hook never changes for the lifetime of an app, so choosing it here keeps hook order stable.
+ */
+export function useEntrySplashDone(): boolean {
+  const { useEntrySplashDone: override } = useHooks();
+  return (override ?? useSplashAlwaysDone)();
+}
+
 /** Whether game reads may resolve the viewer's custom covers. Defaults to true. */
 export function usePersonalizeGameCovers() {
   return useHooks().personalizeGameCovers ?? true;

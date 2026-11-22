@@ -31,7 +31,7 @@ const BlogPostsCategorySection = ({ tag, title }: Props) => {
   return (
     <section className={"w-full"}>
       <Group className={"justify-between mb-3 flex-nowrap"}>
-        <Title order={3} className={"text-white text-xl font-bold"}>
+        <Title order={3} className={"text-foreground text-xl font-bold"}>
           {title}
         </Title>
         <Link

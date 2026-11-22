@@ -429,7 +429,11 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
               </Link>,
             )}
       </>,
-      covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : trophyVisual,
+      covers.some(Boolean) ? (
+        <EventCardCovers games={covers} stretch={layout === "mobile"} />
+      ) : (
+        trophyVisual
+      ),
     );
   }
 
@@ -487,7 +491,11 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
           ) : undefined,
         )}
       </>,
-      covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : trophyVisual,
+      covers.some(Boolean) ? (
+        <EventCardCovers games={covers} stretch={layout === "mobile"} />
+      ) : (
+        trophyVisual
+      ),
     );
   }
 
@@ -582,7 +590,7 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
       </EventCardHeadline>
       <Group align={"flex-end"} gap={"xs"}>
         {hours && (
-          <Text fz={32} fw={700} lh={1} className={"text-white"}>
+          <Text fz={32} fw={700} lh={1} className={"text-foreground"}>
             {t("events.card.recap.hours", { hours })}
           </Text>
         )}
@@ -617,6 +625,8 @@ export function EventCard({ kind, layout = "wide" }: EventCardProps) {
         </Link>,
       )}
     </>,
-    covers.some(Boolean) ? <EventCardCovers games={covers} stretch={layout === "mobile"} /> : null,
+    covers.some(Boolean) ? (
+      <EventCardCovers games={covers} stretch={layout === "mobile"} />
+    ) : null,
   );
 }

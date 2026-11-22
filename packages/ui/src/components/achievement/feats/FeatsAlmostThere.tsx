@@ -30,10 +30,10 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
   return (
     <Stack gap={16}>
       <Stack gap={4}>
-        <Title order={2} fz={18} fw={600} className={"text-white"}>
+        <Title order={2} fz={18} fw={600} className={"text-foreground"}>
           {t("achievements.almostThere.title")}
         </Title>
-        <Text fz={14} lh={"normal"} className={"text-[#8c8c8c]"}>
+        <Text fz={14} lh={"normal"} className={"text-quiet"}>
           {t("achievements.almostThere.subtitle")}
         </Text>
       </Stack>
@@ -57,7 +57,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
               }
               style={{
                 backgroundImage:
-                  "linear-gradient(158deg, #1a120f 0%, #121212 60%)",
+                  "linear-gradient(158deg, var(--gn-panel-tint) 0%, var(--gn-panel-floor) 60%)",
               }}
             >
               <Group gap={16} align={"center"} wrap={"nowrap"}>
@@ -72,14 +72,14 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
                     fz={16}
                     fw={600}
                     lh={"normal"}
-                    className={"truncate text-white"}
+                    className={"truncate text-foreground"}
                   >
                     {item.achievement.name}
                   </Text>
                   <Text
                     fz={13}
                     lh={"normal"}
-                    className={"text-[#a6a6a6]"}
+                    className={"text-soft"}
                     lineClamp={2}
                   >
                     {item.achievement.description}
@@ -95,7 +95,7 @@ const FeatsAlmostThere = ({ items, onOpenTiers }: FeatsAlmostThereProps) => {
                   </Box>
 
                   <Group justify={"space-between"} gap={8} mt={6}>
-                    <Text fz={12} lh={"normal"} className={"text-[#a6a6a6]"}>
+                    <Text fz={12} lh={"normal"} className={"text-soft"}>
                       {t("achievements.almostThere.progress", {
                         value: formatFeatNumber(value, locale),
                         threshold: formatFeatNumber(threshold, locale),

@@ -57,7 +57,7 @@ export function RecapAwardsCard({ year, userId }: RecapAwardsCardProps) {
     <div
       data-testid={"recap-awards-card"}
       className={
-        "flex flex-col gap-5 rounded-2xl border border-brand bg-[#2b130e] p-5 md:p-8"
+        "flex flex-col gap-5 rounded-2xl border border-brand bg-brand-tint p-5 md:p-8"
       }
     >
       <p
@@ -68,14 +68,14 @@ export function RecapAwardsCard({ year, userId }: RecapAwardsCardProps) {
         {t("recap.page.awards.title", { year })}
       </p>
       {gotyTotals && (
-        <h3 className={"m-0 text-2xl leading-8 font-medium text-white"}>
+        <h3 className={"m-0 text-2xl leading-8 font-medium text-foreground"}>
           {t("recap.page.awards.played", {
             played: formatNumber(gotyTotals.played, locale) ?? "0",
             total: formatNumber(gotyTotals.total, locale) ?? "0",
           })}
         </h3>
       )}
-      <p className={"m-0 text-base leading-normal text-[#adadad]"}>
+      <p className={"m-0 text-base leading-normal text-muted"}>
         {t("recap.page.awards.note", { year })}
       </p>
       {entry && (

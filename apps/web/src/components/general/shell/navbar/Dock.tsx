@@ -59,7 +59,10 @@ export function Dock({ collapsed, onToggleCollapsed, onNavigate }: Props) {
         )}
       >
         {!collapsed && (
-          <span className="flex-1 text-[14px] font-semibold leading-[normal] text-nav-text">
+          <span
+            data-slot="nav-title"
+            className="flex-1 text-[14px] font-semibold leading-[normal] text-nav-text"
+          >
             {t("navigation.dock.title")}
           </span>
         )}

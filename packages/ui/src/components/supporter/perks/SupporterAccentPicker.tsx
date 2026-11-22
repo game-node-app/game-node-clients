@@ -14,6 +14,7 @@ import { cn } from "#@/util";
 import { getOnAccentText, normalizeAccentHex } from "./accentColor";
 
 /** Presets stored as hex colors by the profile accent picker. */
+// theme-exempt: user-selectable supporter accent swatches (data, not UI chrome)
 export const SUPPORTER_ACCENT_PRESETS = [
   "#9747FF",
   getThemeCatalogEntry(undefined).preview.accent,
@@ -108,7 +109,7 @@ export function SupporterAccentPicker({
               className={cn(
                 "flex size-6 shrink-0 items-center justify-center rounded-full disabled:cursor-not-allowed disabled:opacity-50",
                 isSelected &&
-                  "ring-2 ring-white ring-offset-2 ring-offset-[#1a1a1a]",
+                  "ring-2 ring-foreground ring-offset-2 ring-offset-paper-0",
               )}
               style={{ backgroundColor: hex }}
             >
@@ -155,7 +156,7 @@ export function SupporterAccentPicker({
         )}
       </Group>
       {isInvalid && (
-        <Text fz={12} lh={"normal"} className={"text-[#ff6369]"}>
+        <Text fz={12} lh={"normal"} className={"text-status-danger-text"}>
           {t("supporter.perks.accent.invalid")}
         </Text>
       )}

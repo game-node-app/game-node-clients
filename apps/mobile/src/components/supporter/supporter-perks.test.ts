@@ -55,6 +55,9 @@ describe("getActiveSupporterPerks", () => {
     expect(perks!.titleKey).toBeNull();
     expect(perks!.accent).toBe(DEFAULT_SUPPORTER_ACCENT);
     expect(perks!.accentText).toBe("#A159FF");
+    expect(perks!.accentInk).toBe(
+      "oklch(from #A159FF min(l, var(--gn-ink-max-l, 1)) c h)",
+    );
     expect(perks!.accentDecor).toBe(DEFAULT_SUPPORTER_ACCENT);
     expect(perks!.accentSoft).toBe("rgba(151, 71, 255, 0.14)");
     expect(perks!.accentBorder).toBe("rgba(151, 71, 255, 0.45)");

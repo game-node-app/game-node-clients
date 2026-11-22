@@ -37,7 +37,7 @@ const CardSection = ({
       className={cn(
         "gn-card overflow-hidden rounded-2xl border",
         premium
-          ? "border-[rgba(185,138,255,0.95)] bg-gradient-to-r from-[rgba(151,71,255,0.26)] via-[rgba(151,71,255,0.12)] via-60% to-[rgba(241,80,37,0.1)] shadow-[0_0_16px_0_rgba(151,71,255,0.32)]"
+          ? "border-premium-soft/95 bg-gradient-to-r from-premium/[0.26] via-premium/[0.12] via-60% to-brand/10 shadow-[0_0_16px_0_color-mix(in_srgb,var(--gn-premium)_32%,transparent)]"
           : accent
             ? "border-brand/40 bg-gradient-to-br from-brand/20 via-brand/5 to-paper-8"
             : "border-line bg-paper-8",

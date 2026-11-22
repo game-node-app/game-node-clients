@@ -120,7 +120,7 @@ function MediaDropzone({
         <UnstyledButton
           {...props}
           className={
-            "flex min-h-24 w-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-white/20 bg-white/[0.03] px-4 py-3 text-center transition-colors hover:border-white/40 hover:bg-white/[0.06]"
+            "flex min-h-24 w-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-line-strong bg-panel-inset px-4 py-3 text-center transition-colors hover:border-brand hover:bg-panel-raised"
           }
         >
           {loading ? <Loader size={20} /> : icon}
@@ -162,7 +162,7 @@ function MediaRow({
     <Group wrap={"nowrap"} gap={"sm"} align={"center"}>
       <div
         className={
-          "h-14 w-24 shrink-0 overflow-hidden rounded-md border border-white/10 bg-black/40"
+          "h-14 w-24 shrink-0 overflow-hidden rounded-md border border-line bg-panel-inset"
         }
       >
         {preview}
@@ -243,10 +243,10 @@ function BackdropGallery({
               aria-label={getImageLabel(index + 1)}
               onClick={() => onSelect(image.url)}
               className={cn(
-                "aspect-video overflow-hidden rounded-md bg-black/40 transition-shadow",
+                "aspect-video overflow-hidden rounded-md bg-panel-inset transition-shadow",
                 active
                   ? "ring-2 ring-brand"
-                  : "ring-1 ring-white/10 hover:ring-white/30",
+                  : "ring-1 ring-line hover:ring-line-strong",
               )}
             >
               <img
@@ -369,8 +369,8 @@ export function RecapBackgroundControl({
               className={cn(
                 "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-xs transition-colors",
                 active
-                  ? "border-brand bg-brand/10 font-semibold text-white"
-                  : "border-white/10 bg-white/[0.03] text-[#9A9A9A] hover:border-white/25 hover:text-white",
+                  ? "border-brand bg-brand/10 font-semibold text-foreground"
+                  : "border-line bg-panel-inset text-muted hover:border-line-strong hover:text-foreground",
               )}
             >
               {BACKGROUND_ICONS[option]}

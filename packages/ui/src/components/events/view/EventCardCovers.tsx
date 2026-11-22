@@ -55,7 +55,8 @@ export function EventCardCovers({
           className={cn(
             "aspect-[3/4] overflow-hidden rounded-md border-2 border-paper-1 shadow-lg",
             stretch ? "w-full" : "w-16 shrink-0",
-            index > 0 && "shadow-black/40",
+            index > 0 &&
+              "shadow-[0_8px_24px_color-mix(in_srgb,var(--gn-scrim)_40%,transparent)]",
           )}
         >
           <AwardsGameCover

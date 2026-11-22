@@ -39,11 +39,11 @@ const FeatsSection = ({
           "rounded-2xl border border-dashed border-paper-4 bg-paper-7 px-6 py-10 text-center"
         }
       >
-        <IconSearch size={28} className={"text-[#7a7a7a]"} />
-        <Text fz={16} fw={600} className={"text-white"}>
+        <IconSearch size={28} className={"text-faint"} />
+        <Text fz={16} fw={600} className={"text-foreground"}>
           {t("achievements.filters.empty")}
         </Text>
-        <Text fz={13} className={"text-[#a6a6a6]"}>
+        <Text fz={13} className={"text-soft"}>
           {t("achievements.filters.emptyDescription")}
         </Text>
       </Stack>
@@ -72,14 +72,14 @@ const FeatsSection = ({
   return (
     <Stack gap={16}>
       <Group gap={10} align={"baseline"} wrap={"nowrap"}>
-        <Title order={3} fz={18} fw={600} className={"text-white"}>
+        <Title order={3} fz={18} fw={600} className={"text-foreground"}>
           {t(
             obtained
               ? "achievements.sections.obtained"
               : "achievements.sections.notObtained",
           )}
         </Title>
-        <Text fz={13} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={13} lh={"normal"} className={"text-faint"}>
           {countLabel}
         </Text>
       </Group>

@@ -107,7 +107,7 @@ export function SettingsPanel({
             component={"h2"}
             fz={20}
             fw={500}
-            c={"white"}
+            c="var(--gn-text)"
             lh={"normal"}
             tabIndex={-1}
             data-autofocus

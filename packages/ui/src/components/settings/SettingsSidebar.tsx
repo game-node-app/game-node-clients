@@ -41,6 +41,8 @@ function SettingsSidebarItem({
     <UnstyledButton
       onClick={onClick}
       aria-current={active ? "page" : undefined}
+      data-slot="nav-item"
+      data-active={active ? "true" : undefined}
       className={cn(
         "flex min-h-8 w-full items-center gap-2.5 rounded-md border border-solid px-2.5 py-1.5 text-left transition-colors",
         highlight
@@ -70,7 +72,7 @@ function SettingsSidebarItem({
         className={cn(
           "min-w-0 flex-1",
           active
-            ? "text-white"
+            ? "text-foreground"
             : highlight
               ? "text-premium-bright"
               : "text-dimmed-2",
@@ -112,7 +114,7 @@ function SettingsSidebarSubItems({
             <Text
               fz={13}
               lh={"18px"}
-              className={active ? "text-white" : "text-dimmed-3"}
+              className={active ? "text-foreground" : "text-dimmed-3"}
             >
               {t(`settings.privacy.sections.${section}`)}
             </Text>
@@ -147,7 +149,7 @@ export function SettingsSidebar({
       <Box className={"flex items-center gap-2.5 px-1.5 py-1 max-sm:pe-10"}>
         <UserAvatar userId={userId} size={32} />
         <Stack gap={2} className={"min-w-0 flex-1"}>
-          <Text fz={14} fw={600} c={"white"} lh={"normal"} truncate>
+          <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"} truncate>
             {profile?.username}
           </Text>
           {email && (
@@ -160,6 +162,7 @@ export function SettingsSidebar({
       <Box className={"h-px w-full bg-line"} />
       <Stack gap={2} component={"nav"} aria-label={t("settings.title")}>
         <Text
+          data-slot="nav-group-label"
           fz={11}
           fw={600}
           lh={"normal"}

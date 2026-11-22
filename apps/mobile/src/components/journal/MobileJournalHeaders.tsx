@@ -11,7 +11,9 @@ const MobileJournalYearHeader = ({
   subtitle,
 }: JournalYearHeaderProps) => (
   <div className="flex items-center justify-between gap-3 pt-3">
-    <h2 className="m-0 text-3xl font-bold leading-none text-white">{year}</h2>
+    <h2 className="m-0 text-3xl font-bold leading-none text-foreground">
+      {year}
+    </h2>
     <Badge size="md" variant="light" color="gray">
       {subtitle}
     </Badge>

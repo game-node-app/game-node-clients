@@ -14,7 +14,7 @@ import { PremiumPricing } from "@/components/premium/PremiumPricing";
 import { PremiumRest } from "@/components/premium/PremiumRest";
 import { PremiumSupportersWall } from "@/components/premium/PremiumSupportersWall";
 import premiumStyles from "@/components/premium/Premium.module.css";
-import { Box } from "@mantine/core";
+import { ThemeScope } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
 import { OpenGraph } from "@/components/general/OpenGraph";
 
@@ -27,7 +27,7 @@ const PremiumPage = () => {
   const { t } = useTranslation();
 
   return (
-    <Box className={premiumStyles.page}>
+    <ThemeScope className={premiumStyles.page}>
       <OpenGraph
         title={t("premium.meta.title")}
         description={t("premium.meta.description")}
@@ -52,7 +52,7 @@ const PremiumPage = () => {
       </main>
 
       <LandingFooter />
-    </Box>
+    </ThemeScope>
   );
 };
 

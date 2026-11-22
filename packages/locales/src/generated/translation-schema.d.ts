@@ -4120,6 +4120,9 @@ export type TranslationSchema = {
         systemDescription: string;
         supporterOnly: string;
         xbox: string;
+        ruins: string;
+        ruinsDescription: string;
+        ruinsDisclaimer: string;
       };
       specialThemes: {
         title: string;
@@ -4143,6 +4146,25 @@ export type TranslationSchema = {
         };
         none: {
           label: string;
+          description: string;
+        };
+      };
+      ruins: {
+        title: string;
+        description: string;
+        bootAnimation: {
+          title: string;
+          description: string;
+          always: string;
+          daily: string;
+          never: string;
+        };
+        paperTexture: {
+          title: string;
+          description: string;
+        };
+        scanline: {
+          title: string;
           description: string;
         };
       };
@@ -4732,6 +4754,82 @@ export type TranslationSchema = {
     };
     achievements: {
       title: string;
+    };
+  };
+  ruins: {
+    boot: {
+      sequence: string;
+      loaded: string;
+      pending: string;
+      offline: string;
+      stage: {
+        initializing: string;
+        modules: string;
+        assembling: string;
+        ready: string;
+      };
+      splash: {
+        waiting: string;
+        signal: string;
+      };
+      line: {
+        init: string;
+        memory: string;
+        core: string;
+        theme: string;
+        tokens: string;
+        unit: string;
+        unitDetail: string;
+        level: string;
+        levelDetail: string;
+        library: string;
+        libraryDetail: string;
+        collections: string;
+        collectionsDetail: string;
+        connections: string;
+        importer: string;
+        feats: string;
+        goal: string;
+        goalDetail: string;
+        daily: string;
+        awards: string;
+        awardsDetail: string;
+        notifications: string;
+        menu: string;
+      };
+      status: {
+        open: string;
+        closed: string;
+        soon: string;
+        results: string;
+        modes: string;
+      };
+      summary: {
+        done: string;
+        time: string;
+        cache: string;
+      };
+      panel: {
+        title: string;
+        unit: string;
+        level: string;
+        library: string;
+        connections: string;
+        importer: string;
+        feats: string;
+        daily: string;
+        goal: string;
+        awards: string;
+      };
+      lockup: {
+        systems: string;
+        welcome: string;
+      };
+      hint: {
+        tap: string;
+        skip: string;
+        continue: string;
+      };
     };
   };
 };

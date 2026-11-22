@@ -12,7 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { Game } from "@repo/wrapper/server";
-import { Link, RATING_STAR_COLOR } from "#@/util";
+import { Link } from "#@/util";
 import { useGameCoverImage } from "#@/components/game/hooks/useGameCoverImage";
 import {
   getSizedImageUrl,
@@ -207,7 +207,10 @@ const TrendingGamesHero = ({ games, responsive }: TrendingGamesHeroProps) => {
               {meta && <span className={classes.metaText}>{meta}</span>}
               {rating && (
                 <span className={classes.rating}>
-                  <IconStarFilled size={14} color={RATING_STAR_COLOR} />
+                  <IconStarFilled
+                    size={14}
+                    color="var(--gn-status-warning-text)"
+                  />
                   {rating}
                 </span>
               )}

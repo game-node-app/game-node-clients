@@ -45,10 +45,14 @@ const DEFAULT_DetailsBox = ({
           stackProps?.className,
         )}
       >
-        <Group className={"justify-between"}>
+        <Group
+          className={"justify-between"}
+          data-slot={withDimmedTitle ? undefined : "section-header"}
+        >
           <Group>
             {leftSide}
             <Text
+              data-slot={withDimmedTitle ? "meta" : "section-title"}
               className={
                 withDimmedTitle ? "text-dimmed text-sm" : "font-bold text-md"
               }

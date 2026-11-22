@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "pnpm lint && next build",
     "start": "next start",
-    "lint": "eslint src --ext .ts,.tsx && node ../../packages/config-eslint/bin/lint-css-colors.js src",
+    "lint": "eslint src --ext .ts,.tsx && node ../../packages/config-eslint/bin/lint-css-colors.js src && node ../../packages/config-eslint/bin/colors.js check",
     "type-check": "next typegen && tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },

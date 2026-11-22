@@ -13,6 +13,12 @@ import {
   IconStopwatch,
 } from "@tabler/icons-react";
 import { cn } from "#@/util";
+import {
+  ACCENT_INK_CLASS,
+  PREMIUM_TEXT_HEX,
+  getAccentInk,
+  getAccentInkStyle,
+} from "./accentColor";
 import type { ActiveSupporterPerks } from "./supporterPerks";
 import {
   getSupporterTitleLabelKey,
@@ -40,6 +46,8 @@ const TITLE_ICONS = {
   speedrunner: IconStopwatch,
   cozy_gamer: IconCoffee,
 } satisfies Record<SupporterTitleKey, typeof IconCrown>;
+const PREMIUM_INK = getAccentInk(PREMIUM_TEXT_HEX);
+
 export function SupporterTitle({
   titleKey,
   perks = null,
@@ -59,13 +67,14 @@ export function SupporterTitle({
         wrap="nowrap"
         className={cn(
           "w-fit rounded-md border border-solid px-2 py-1 text-[11px] font-semibold uppercase leading-none tracking-wider",
+          ACCENT_INK_CLASS,
           className,
         )}
         style={{
-          color: perks?.theme ? perks.accentText : "#c7a6ff",
+          ...getAccentInkStyle(perks?.theme ? perks.accentInk : PREMIUM_INK),
           borderColor: perks?.theme
             ? perks.accentBorder
-            : "rgba(151, 71, 255, 0.45)",
+            : "color-mix(in srgb, var(--gn-premium) 45%, transparent)",
         }}
       >
         <Icon size={12} aria-hidden />
@@ -74,15 +83,13 @@ export function SupporterTitle({
     );
   }
 
-  const color = perks?.theme ? perks.accentText : "#adadad";
-
   return (
     <Text
       fz={13}
       fw={500}
       lh={"normal"}
-      className={className}
-      style={{ color }}
+      className={cn(perks?.theme ? ACCENT_INK_CLASS : "text-subtle", className)}
+      style={perks?.theme ? getAccentInkStyle(perks.accentInk) : undefined}
     >
       {label}
     </Text>

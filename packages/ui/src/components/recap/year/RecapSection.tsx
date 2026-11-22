@@ -53,7 +53,7 @@ export function RecapHeading({
   return (
     <h2
       className={cn(
-        "m-0 text-3xl leading-[1.18] font-semibold tracking-[-0.01em] text-white md:text-[44px] md:leading-[52px]",
+        "m-0 text-3xl leading-[1.18] font-semibold tracking-[-0.01em] text-foreground md:text-[44px] md:leading-[52px]",
         className,
       )}
     >
@@ -73,7 +73,7 @@ export function RecapLead({
   return (
     <p
       className={cn(
-        "m-0 text-base leading-normal text-[#adadad] md:text-xl",
+        "m-0 text-base leading-normal text-muted md:text-xl",
         className,
       )}
     >
@@ -91,7 +91,7 @@ export function RecapSurface({
     <div
       {...props}
       className={cn(
-        "rounded-2xl border border-[#2a2a2a] bg-paper-0 p-5 md:p-7",
+        "rounded-2xl border border-line bg-paper-0 p-5 md:p-7",
         className,
       )}
     />

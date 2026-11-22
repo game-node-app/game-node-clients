@@ -52,18 +52,24 @@ const PreferencesConnectionItem = ({ type }: Props) => {
 
   const description = isConnected ? (
     <>
-      <span className="text-neutral-200">
+      <span className="text-legacy-neutral-200">
         {userConnection.data!.sourceUsername}
       </span>
       {" · "}
-      <span className={requiresReauth ? "text-yellow-500" : "text-teal-400"}>
+      <span
+        className={
+          requiresReauth
+            ? "text-status-warning-text"
+            : "text-status-success-text"
+        }
+      >
         {requiresReauth
           ? t("preferences.statuses.reauthRequired")
           : t("preferences.statuses.connected")}
       </span>
     </>
   ) : isLookupError ? (
-    <span className="text-red-400">
+    <span className="text-status-danger-text">
       {t("mobile.preferences.connectionLoadFailed")}
     </span>
   ) : (

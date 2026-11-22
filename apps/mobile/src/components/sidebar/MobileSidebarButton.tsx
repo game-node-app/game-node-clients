@@ -49,6 +49,7 @@ const MobileSidebarButton = ({
     >
       <IonRippleEffect />
       <Group
+        data-slot="nav-item"
         wrap={"nowrap"}
         className={cn("w-full h-12 px-6 gap-4", others.className)}
       >

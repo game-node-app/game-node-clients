@@ -4115,11 +4115,14 @@
         "system": "Automático",
         "systemDescription": "Segue o sistema",
         "supporterOnly": "Só para apoiadores",
-        "xbox": "Xbox"
+        "xbox": "Xbox",
+        "ruins": "Ruins",
+        "ruinsDescription": "Inspirado em NieR:Automata",
+        "ruinsDisclaimer": "O GameNode não tem vínculo com os detentores dos direitos de NieR:Automata."
       },
       "specialThemes": {
         "title": "Temas especiais",
-        "description": "Cores inspiradas nas lojas que você usa. Vale para este navegador ou aparelho.",
+        "description": "Exclusivos para Supporters: temas inspirados nas lojas e nos jogos que você joga. Vale para este navegador ou aparelho.",
         "disclaimer": "Só as cores são inspiradas nas lojas. O GameNode não tem vínculo com Valve, Microsoft, Sony ou Nintendo.",
         "steam": "Marinho e azul",
         "xbox": "Preto e verde",
@@ -4140,6 +4143,25 @@
         "none": {
           "label": "Somente capas padrão",
           "description": "Mostre sempre a capa original da IGDB. Suas escolhas continuam salvas."
+        }
+      },
+      "ruins": {
+        "title": "Opções do Ruins",
+        "description": "Aparecem só quando o tema Ruins está ativo.",
+        "bootAnimation": {
+          "title": "Animação de inicialização",
+          "description": "Mostra o terminal de inicialização ao abrir o GameNode. Fica desligada quando o sistema pede menos movimento.",
+          "always": "Sempre",
+          "daily": "1× por dia",
+          "never": "Nunca"
+        },
+        "paperTexture": {
+          "title": "Textura de papel",
+          "description": "Ruído e grade discretos no fundo das telas."
+        },
+        "scanline": {
+          "title": "Linha de varredura",
+          "description": "Faixa que percorre a tela durante carregamentos."
         }
       }
     },
@@ -4728,6 +4750,82 @@
     },
     "achievements": {
       "title": "Conquistas de {{username}} - GameNode"
+    }
+  },
+  "ruins": {
+    "boot": {
+      "sequence": "sequência de inicialização",
+      "loaded": "GameNode carregado",
+      "pending": "PENDENTE",
+      "offline": "OFFLINE",
+      "stage": {
+        "initializing": "Inicializando",
+        "modules": "Carregando módulos",
+        "assembling": "Montando interface",
+        "ready": "Pronto"
+      },
+      "splash": {
+        "waiting": "Aguardando unidade",
+        "signal": "Sinal de entrada"
+      },
+      "line": {
+        "init": "GN-OS {{version}} · inicialização",
+        "memory": "integridade da memória",
+        "core": "núcleo da interface",
+        "theme": "tema RUINS · esquema claro",
+        "tokens": "tokens de design",
+        "unit": "unidade",
+        "unitDetail": "unidade: {{name}}",
+        "level": "nível",
+        "levelDetail": "nível {{level}} · {{xp}} XP",
+        "library": "biblioteca",
+        "libraryDetail": "biblioteca: {{games}} jogos",
+        "collections": "coleções",
+        "collectionsDetail": "coleções: {{total}}",
+        "connections": "conexões",
+        "importer": "fila do importador",
+        "feats": "feitos obtidos",
+        "goal": "meta anual",
+        "goalDetail": "meta {{year}}: {{finished}} de {{target}}",
+        "daily": "daily nodes",
+        "awards": "awards",
+        "awardsDetail": "awards {{year}}",
+        "notifications": "notificações pendentes",
+        "menu": "montando menu principal"
+      },
+      "status": {
+        "open": "ABERTA",
+        "closed": "ENCERRADA",
+        "soon": "EM BREVE",
+        "results": "RESULTADOS",
+        "modes": "{{n}} MODOS"
+      },
+      "summary": {
+        "done": "> verificação concluída · 0 erros",
+        "time": "> tempo total {{time}}s",
+        "cache": "> dados servidos do cache local; rede confirmada em segundo plano"
+      },
+      "panel": {
+        "title": "Verificação de sistema",
+        "unit": "Unidade",
+        "level": "Nível {{level}}",
+        "library": "Biblioteca",
+        "connections": "Conexões",
+        "importer": "Importador",
+        "feats": "Feitos",
+        "daily": "Daily Nodes",
+        "goal": "Meta anual",
+        "awards": "Awards"
+      },
+      "lockup": {
+        "systems": "Todos os sistemas",
+        "welcome": "Bem-vindo de volta, {{name}}."
+      },
+      "hint": {
+        "tap": "Toque para continuar",
+        "skip": "Pular",
+        "continue": "Continuar"
+      }
     }
   }
 }

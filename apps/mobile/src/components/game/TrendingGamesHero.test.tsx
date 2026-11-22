@@ -1,4 +1,7 @@
 // @vitest-environment jsdom
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import process from "node:process";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
 import type { Game } from "@repo/wrapper/server";
@@ -172,4 +175,20 @@ it("exposes a single named link to the game: the cover link is hidden from tab o
   expect(cta.getAttribute("aria-hidden")).toBeNull();
   expect(screen.getAllByRole("link")).toHaveLength(1);
   expect(screen.getByRole("link").textContent).toBe("home.trendingViewGame");
+});
+
+it("paints the spotlight from the media surface pair, not fixed colors", () => {
+  const css = readFileSync(
+    resolve(
+      process.cwd(),
+      "../../packages/ui/src/components/game/trending/TrendingGamesHero.module.css",
+    ),
+    "utf8",
+  ).replace(/\/\*[\s\S]*?\*\//g, "");
+  expect(css).not.toMatch(/#[0-9a-f]{3,8}\b|rgba?\(|hsla?\(/i);
+  expect(css).toContain("var(--gn-media-fade)");
+  expect(css).toContain("var(--gn-media-scrim-strong)");
+  expect(css).toContain("var(--gn-media-text)");
+  expect(css).toContain("var(--gn-media-text-muted)");
+  expect(css).toContain("var(--gn-accent-contrast)");
 });

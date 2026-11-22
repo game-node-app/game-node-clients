@@ -1,4 +1,3 @@
-import { ColorSchemeScript } from "@mantine/core";
 import { DEFAULT_THEME_ID, getThemeCatalogEntry } from "@repo/ui";
 import Document, {
   Head,
@@ -55,19 +54,26 @@ export default class GameNodeDocument extends Document<ThemeDocumentProps> {
 
   render() {
     const { initialTheme } = this.props;
-    const themeColor = getThemeCatalogEntry(initialTheme).preview.background;
+    const { colorScheme, preview } = getThemeCatalogEntry(initialTheme);
+    const themeColor = preview.background;
 
     return (
-      <Html data-theme={initialTheme} data-theme-ssr={initialTheme}>
+      <Html
+        data-theme={initialTheme}
+        data-theme-ssr={initialTheme}
+        data-mantine-color-scheme={colorScheme}
+      >
         <Head>
           <meta name="theme-color" content={themeColor} />
           {/*
            * Runs before the first paint on static pages: restores the stored
-           * theme, records `data-theme-ssr` for hydration and updates
-           * `theme-color`. Generated from the catalog, so no request data.
+           * theme, records `data-theme-ssr` for hydration, updates
+           * `theme-color` and sets `data-mantine-color-scheme` from the
+           * theme's catalog scheme. Generated from the catalog, so no request
+           * data. Mantine's `ColorSchemeScript` is intentionally absent: it
+           * would reset the scheme to its default after this script.
            */}
           <script dangerouslySetInnerHTML={{ __html: getThemeInitScript() }} />
-          <ColorSchemeScript defaultColorScheme="dark" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"

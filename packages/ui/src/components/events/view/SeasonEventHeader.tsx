@@ -82,10 +82,10 @@ export function SeasonEventHeader({ year, screen }: SeasonEventHeaderProps) {
       className={"w-full"}
     >
       <Breadcrumbs separator={"›"} separatorMargin={"xs"}>
-        <Text size={"13px"} c={"#8c8c8c"}>
+        <Text size={"13px"} c={"var(--gn-text-quiet)"}>
           {t("events.header.breadcrumb", { year })}
         </Text>
-        <Text size={"13px"} fw={500} c={"#d0d0d0"}>
+        <Text size={"13px"} fw={500} c={"var(--gn-text-bright)"}>
           {t(SCREEN_LABEL_KEYS[screen])}
         </Text>
       </Breadcrumbs>
@@ -96,13 +96,16 @@ export function SeasonEventHeader({ year, screen }: SeasonEventHeaderProps) {
           size={"sm"}
           radius={"md"}
           className={"max-w-full"}
+          // The indicator fill is a class, not inline, so a theme pack can pair its
+          // own indicator with its own active label (Ruins: accent + accent-contrast).
+          classNames={{ indicator: "bg-[var(--gn-panel-rail)]" }}
           styles={{
             root: {
-              backgroundColor: "#121212",
-              border: "1px solid #262626",
+              backgroundColor: "var(--gn-panel-floor)",
+              border: "1px solid var(--gn-panel-rail)",
               padding: 3,
             },
-            indicator: { backgroundColor: "#262626", borderRadius: 6 },
+            indicator: { borderRadius: 6 },
             label: { fontSize: 13, fontWeight: 400 },
           }}
           value={screen === "recap" ? "recap" : "awards"}

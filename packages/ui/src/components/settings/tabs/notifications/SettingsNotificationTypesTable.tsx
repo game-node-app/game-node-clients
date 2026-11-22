@@ -138,7 +138,7 @@ export function SettingsNotificationTypesTable() {
               }
             >
               <Stack gap={4} className={"min-w-0 flex-1"}>
-                <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+                <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
                   {title}
                 </Text>
                 <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>

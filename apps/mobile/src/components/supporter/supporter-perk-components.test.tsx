@@ -46,16 +46,6 @@ function renderWithProvider(ui: ReactElement) {
   return render(<MantineProvider>{ui}</MantineProvider>);
 }
 
-/** jsdom normalizes inline hex colors to `rgb(r, g, b)`. */
-function rgb(hex: string) {
-  const value = hex.replace("#", "");
-
-  return `rgb(${parseInt(value.slice(0, 2), 16)}, ${parseInt(
-    value.slice(2, 4),
-    16,
-  )}, ${parseInt(value.slice(4, 6), 16)})`;
-}
-
 beforeEach(() => {
   mantineHooks.reducedMotion = false;
   setProjectContext({
@@ -101,7 +91,13 @@ describe("SupporterBadge", () => {
   it("renders the compact badge with the theme accent color", () => {
     renderWithProvider(<SupporterBadge variant={"compact"} perks={perks} />);
 
-    expect(screen.getByLabelText("Supporter").style.color).toBe(rgb("#A159FF"));
+    const badge = screen.getByLabelText("Supporter");
+
+    // jsdom drops `oklch(from …)` colors, so the ink is carried by a custom property.
+    expect(badge.style.getPropertyValue("--supporter-ink")).toBe(
+      perks!.accentInk,
+    );
+    expect(badge.className).toContain("text-[color:var(--supporter-ink)]");
   });
 
   it("renders the full badge with the translated label", () => {
@@ -109,6 +105,13 @@ describe("SupporterBadge", () => {
 
     expect(screen.getByText("Supporter")).toBeTruthy();
     expect(screen.queryByLabelText("Supporter")).toBeNull();
+
+    const badge = screen.getByTestId("supporter-badge");
+
+    expect(badge.style.getPropertyValue("--supporter-ink")).toBe(
+      perks!.accentInk,
+    );
+    expect(badge.className).toContain("text-[color:var(--supporter-ink)]");
   });
 
   it("renders nothing without active perks", () => {
@@ -130,7 +133,10 @@ describe("SupporterTitle", () => {
     const title = screen.getByText("Patron");
 
     expect(title).toBeTruthy();
-    expect(title.style.color).toBe(rgb(perks!.accentText));
+    expect(title.style.getPropertyValue("--supporter-ink")).toBe(
+      perks!.accentInk,
+    );
+    expect(title.className).toContain("text-[color:var(--supporter-ink)]");
   });
 
   it("renders nothing for a null title", () => {
@@ -154,7 +160,10 @@ describe("SupporterTitle", () => {
       <SupporterTitle titleKey={"patron"} perks={themeOffPerks} />,
     );
 
-    expect(screen.getByText("Patron").style.color).toBe(rgb("#adadad"));
+    const title = screen.getByText("Patron");
+    // The neutral tone is a theme token class, not an inline literal.
+    expect(title.classList.contains("text-subtle")).toBe(true);
+    expect(title.style.color).toBe("");
   });
 });
 

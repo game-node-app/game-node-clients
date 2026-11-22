@@ -29,10 +29,11 @@ export const MobileDetailsBox = ({
       >
         {withRipple && <IonRippleEffect className={"rounded-md"} />}
         <Text
+          data-slot={withDimmedTitle ? "meta" : "section-header section-title"}
           className={
             withDimmedTitle
               ? "text-dimmed text-sm font-medium mb-1"
-              : "text-[22px] font-bold leading-tight tracking-[-0.01em] text-white mb-1"
+              : "text-[22px] font-bold leading-tight tracking-[-0.01em] text-foreground mb-1"
           }
         >
           {title}

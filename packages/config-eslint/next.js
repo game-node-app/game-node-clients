@@ -50,7 +50,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": ["off", { endOfLine: "auto" }],
-    "gamenode/no-hard-coded-colors": "warn",
+    "gamenode/no-hard-coded-colors": "error",
+    "gamenode/no-unsafe-theme-pairs": "error",
   },
   overrides: [
     {

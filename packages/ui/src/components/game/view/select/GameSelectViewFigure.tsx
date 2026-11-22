@@ -3,7 +3,7 @@ import {
   GameFigureImage,
   IGameFigureImageProps,
 } from "#@/components/game/figure/GameFigureImage";
-import { Center, Overlay, Stack, Text } from "@mantine/core";
+import { Center, Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import React, { useMemo } from "react";
@@ -71,10 +71,9 @@ const GameSelectViewFigure = ({
   return (
     <GameFigureImage {...figureProps} game={game} onClick={onClick}>
       {(isSelected || isExcluded) && (
-        <Overlay
-          color="black"
-          backgroundOpacity={0.85}
-          className={"z-10 h-full"}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 bg-media-content-scrim"
         />
       )}
       {isSelected && (
@@ -94,7 +93,7 @@ const GameSelectViewFigure = ({
           }
           onClick={onClick}
         >
-          <Stack className={"items-center gap-0.5"}>
+          <Stack className={"items-center gap-0.5 media-ink"}>
             <IconCircleCheckFilled className={"w-8 h-8 z-20 text-brand-5"} />
             <Text className={"text-center text-sm"}>
               {t("game.labels.inLibrary")}

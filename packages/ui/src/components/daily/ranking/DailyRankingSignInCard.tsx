@@ -41,10 +41,10 @@ const DailyRankingSignInCard = ({
         <IconTrophy size={22} aria-hidden />
       </span>
       <div className={"flex min-w-[200px] flex-1 flex-col gap-0.5"}>
-        <Text fz={16} fw={700} c={"white"}>
+        <Text fz={16} fw={700} c="var(--gn-text)">
           {title ?? t("daily.ranking.signIn.title")}
         </Text>
-        <Text fz={13} lh={"19px"} c={"#ADADAD"} maw={460}>
+        <Text fz={13} lh={"19px"} c={"var(--gn-text-subtle)"} maw={460}>
           {description ?? t("daily.ranking.signIn.description")}
         </Text>
       </div>
@@ -68,7 +68,7 @@ const DailyRankingSignInCard = ({
           h={40}
           px={16}
           fz={14}
-          className={"!text-[#0B0B0B]"}
+          className={"!text-on-brand"}
         >
           {t("daily.ranking.signIn.signIn")}
         </Button>

@@ -18,6 +18,9 @@ const ConsolePackStyles = dynamic(
 const XboxScreenPackStyles = dynamic(
   () => import("@repo/ui/theme/anchors/xbox-screens"),
 );
+const RuinsScreenPackStyles = dynamic(
+  () => import("@repo/ui/theme/anchors/ruins-screens"),
+);
 
 export function ThemePackStyles() {
   const [themeId] = useAppTheme();
@@ -28,6 +31,7 @@ export function ThemePackStyles() {
     <>
       {experience === "console" ? <ConsolePackStyles /> : null}
       {screens === "xbox" ? <XboxScreenPackStyles /> : null}
+      {screens === "ruins" ? <RuinsScreenPackStyles /> : null}
     </>
   );
 }

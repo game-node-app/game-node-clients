@@ -25,7 +25,7 @@ const GameSearchViewActions = ({
         onChange={onExtraContentChange}
         classNames={{
           label:
-            "!border-transparent !bg-paper-1 data-[checked]:!border-brand/55 data-[checked]:!bg-brand/20 data-[checked]:!text-white",
+            "!border-transparent !bg-paper-1 data-[checked]:!border-brand/55 data-[checked]:!bg-brand/20 data-[checked]:!text-foreground",
         }}
       >
         {t("library.labels.showDLCs")}

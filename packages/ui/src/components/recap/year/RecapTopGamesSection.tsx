@@ -119,10 +119,10 @@ export function RecapTopGamesSection({
             )}
           </div>
 
-          <div className={"mt-8 border-t border-[#2a2a2a] pt-8"}>
+          <div className={"mt-8 border-t border-line pt-8"}>
             <h3
               className={
-                "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+                "m-0 text-xs leading-none font-bold tracking-[0.06em] text-muted uppercase"
               }
             >
               {t("recap.page.topGames.top5")}
@@ -157,7 +157,7 @@ export function RecapTopGamesSection({
                     <span
                       className={cn(
                         "w-5 shrink-0 text-xs font-bold tabular-nums",
-                        isFirst ? "text-brand" : "text-[#808080]",
+                        isFirst ? "text-brand" : "text-muted",
                       )}
                     >
                       {String(index + 1).padStart(2, "0")}
@@ -166,20 +166,20 @@ export function RecapTopGamesSection({
                     <div className={"flex min-w-0 flex-1 flex-col"}>
                       <span
                         className={
-                          "truncate text-base leading-6 font-medium text-white"
+                          "truncate text-base leading-6 font-medium text-foreground"
                         }
                       >
                         {gameLabel(entry.gameId)}
                       </span>
                       {platformNames.length > 0 && (
-                        <span className={"truncate text-sm text-[#808080]"}>
+                        <span className={"truncate text-sm text-muted"}>
                           {platformNames.join(", ")}
                         </span>
                       )}
                     </div>
                     <div
                       className={
-                        "hidden h-2 w-24 shrink-0 overflow-hidden rounded-full bg-[#262626] sm:block lg:w-40 xl:w-[220px]"
+                        "hidden h-2 w-24 shrink-0 overflow-hidden rounded-full bg-panel-inset sm:block lg:w-40 xl:w-[220px]"
                       }
                     >
                       <div
@@ -193,7 +193,7 @@ export function RecapTopGamesSection({
                     {entryHours && (
                       <span
                         className={
-                          "w-12 shrink-0 text-right text-xs font-bold tracking-[0.06em] text-white uppercase"
+                          "w-12 shrink-0 text-right text-xs font-bold tracking-[0.06em] text-foreground uppercase"
                         }
                       >
                         {t("events.card.recap.hours", { hours: entryHours })}
@@ -215,12 +215,12 @@ function TopGameStat({ value, label }: { value: string; label: string }) {
     <div className={"flex flex-col gap-1"}>
       <span
         className={
-          "text-[28px] leading-8 font-semibold tracking-[-0.01em] text-white"
+          "text-[28px] leading-8 font-semibold tracking-[-0.01em] text-foreground"
         }
       >
         {value}
       </span>
-      <span className={"text-sm text-[#808080]"}>{label}</span>
+      <span className={"text-sm text-muted"}>{label}</span>
     </div>
   );
 }

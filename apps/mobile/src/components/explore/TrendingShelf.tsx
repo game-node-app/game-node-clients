@@ -8,7 +8,6 @@ import {
   getSizedImageUrl,
   ImageSize,
   Link,
-  RATING_STAR_COLOR,
   TrendingGamesError,
   useGames,
   useTrendingGames,
@@ -56,7 +55,7 @@ const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
     <Link
       href={`/game/${game.id}`}
       className={
-        "relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-xl bg-paper-6"
+        "relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-xl bg-media-fade"
       }
     >
       {backdrop && (
@@ -68,44 +67,38 @@ const FeaturedGame = ({ game, label }: { game: Game; label: string }) => {
           className={"absolute inset-0 h-full w-full object-cover"}
         />
       )}
-      <div
-        aria-hidden={true}
-        className={
-          "absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
-        }
-      />
       <span
         className={
-          "absolute left-3 top-3 inline-flex h-[22px] items-center whitespace-nowrap rounded-full bg-brand-5 px-2.5 text-[11px] font-bold uppercase tracking-[0.04em] text-paper-7"
+          "absolute left-3 top-3 z-10 inline-flex h-[22px] items-center whitespace-nowrap rounded-full bg-accent px-2.5 text-[11px] font-bold uppercase tracking-[0.04em] text-accent-contrast"
         }
       >
         {label}
       </span>
-      <div className={"relative flex flex-col gap-1.5 p-3"}>
-        <Text fw={800} size={"xl"} lineClamp={2} c={"white"} lh={1.15}>
+      <div
+        className={
+          "media-ink relative flex flex-col gap-1.5 bg-media-content-scrim p-3 before:pointer-events-none before:absolute before:inset-x-0 before:bottom-full before:h-6 before:bg-gradient-to-t before:from-media-content-scrim before:to-transparent"
+        }
+      >
+        <Text fw={800} size={"xl"} lineClamp={2} lh={1.15}>
           {game.name}
         </Text>
-        <div className={"flex items-center gap-2 text-xs text-white/80"}>
+        <div className={"flex items-center gap-2 text-xs text-media-muted"}>
           {genres && <span className={"truncate"}>{genres}</span>}
           {rating && (
             <span className={"flex shrink-0 items-center gap-0.5"}>
-              <IconStarFilled size={12} color={RATING_STAR_COLOR} />
+              <IconStarFilled size={12} color="var(--gn-status-warning-text)" />
               {rating}
             </span>
           )}
         </div>
         {game.summary && (
-          <Text
-            size={"sm"}
-            lineClamp={3}
-            c={"color-mix(in srgb, var(--gn-text) 82%, transparent)"}
-          >
+          <Text size={"sm"} lineClamp={3} className={"text-media-muted"}>
             {game.summary}
           </Text>
         )}
         <span
           className={
-            "mt-1 inline-flex min-h-11 w-fit items-center justify-center gap-1.5 rounded-xl bg-brand-5 px-[18px] text-[13px] font-bold text-paper-7"
+            "mt-1 inline-flex min-h-11 w-fit items-center justify-center gap-1.5 rounded-xl bg-accent px-[18px] text-[13px] font-bold text-accent-contrast"
           }
         >
           {t("home.trendingViewGame")}
@@ -211,17 +204,14 @@ const TrendingShelf = ({
             key={game.id}
             className={cn("relative shrink-0 snap-start", cardWidth)}
           >
-            <GameGridItem game={game} />
-            {ranked && (
-              // theme-exempt: rank label legibility over game artwork
-              <span
-                className={
-                  "pointer-events-none absolute bottom-7 left-1 text-5xl font-black leading-none text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.9)]"
-                }
-              >
-                {rank}
-              </span>
-            )}
+            <div className="relative">
+              <GameGridItem game={game} />
+              {ranked && (
+                <span className="pointer-events-none absolute bottom-2 left-2 rounded-sm bg-media-content-scrim px-2 py-1 text-3xl font-black leading-none tabular-nums text-media">
+                  {rank}
+                </span>
+              )}
+            </div>
             <Text size={"xs"} fw={500} lineClamp={2} mt={4}>
               {game.name}
             </Text>

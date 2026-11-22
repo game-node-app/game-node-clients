@@ -1,15 +1,19 @@
 .card {
   /* Cover column width drives the (constant) height of the featured block. */
   --hero-cover-w: 136px;
-  /* Text on the brand fill: #111 is 5.3:1 on #F15025 (white is 3.55:1, fails AA). */
-  --hero-on-brand: #111;
+  /*
+   * The media wash keeps text legible even over the darkest or brightest
+   * poster. Filled accent chips and buttons use their own text token.
+   */
+  --hero-on-brand: var(--gn-accent-contrast);
+  --hero-shadow: color-mix(in srgb, var(--gn-scrim) 55%, transparent);
   position: relative;
   isolation: isolate;
   overflow: hidden;
   width: 100%;
   border-radius: 20px;
-  background: #0a0a0a;
-  color: #fff;
+  background: var(--gn-media-fade);
+  color: var(--gn-media-text);
 }
 
 /* Layers: blurred screenshot < scrim < content */
@@ -18,7 +22,7 @@
   inset: 0;
   z-index: -3;
   overflow: hidden;
-  background: #0a0a0a;
+  background: var(--gn-media-fade);
 }
 
 .poster {
@@ -37,9 +41,8 @@
   z-index: -2;
   background: linear-gradient(
     to bottom,
-    rgb(0 0 0 / 0.45) 0%,
-    rgb(0 0 0 / 0.72) 45%,
-    rgb(10 10 10 / 0.95) 100%
+    var(--gn-media-content-scrim) 0% 45%,
+    color-mix(in srgb, var(--gn-media-scrim-strong) 95%, transparent) 100%
   );
 }
 
@@ -71,7 +74,7 @@
 }
 
 .chipRank {
-  background: var(--mantine-primary-color-filled);
+  background: var(--gn-accent);
   color: var(--hero-on-brand);
   font-weight: 700;
 }
@@ -88,7 +91,7 @@
   border: 0;
   border-radius: 999px;
   background: none;
-  color: #fff;
+  color: var(--gn-media-text);
   cursor: pointer;
 }
 
@@ -99,19 +102,23 @@
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: rgb(0 0 0 / 0.5);
+  background: var(--gn-media-content-scrim);
   transition: background-color 150ms ease;
 }
 
 .pause:hover .pauseIcon {
-  background: rgb(0 0 0 / 0.7);
+  background: var(--gn-media-scrim-strong);
 }
 
-.pause:focus-visible,
 .cta:focus-visible,
 .thumb:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--gn-media-text);
   outline-offset: 2px;
+}
+
+.pause:focus-visible .pauseIcon {
+  outline: 2px solid var(--gn-media-text);
+  outline-offset: -2px;
 }
 
 .featured {
@@ -130,8 +137,8 @@
   height: 100%;
   overflow: hidden;
   border-radius: 14px;
-  box-shadow: 0 10px 24px rgb(0 0 0 / 0.55);
-  background: #1a1a1a;
+  box-shadow: 0 10px 24px var(--hero-shadow);
+  background: var(--gn-media-placeholder);
 }
 
 .cover img {
@@ -170,7 +177,7 @@
   max-width: 100%;
   font-size: 12px;
   line-height: 16px;
-  color: rgb(255 255 255 / 0.7);
+  color: var(--gn-media-text-dim);
 }
 
 .metaText {
@@ -186,14 +193,14 @@
   align-items: center;
   gap: 4px;
   font-weight: 700;
-  color: #fff;
+  color: var(--gn-media-text);
 }
 
 .summary {
   margin: 0;
   font-size: 12.5px;
   line-height: 17px;
-  color: rgb(255 255 255 / 0.85);
+  color: var(--gn-media-text-muted);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -212,7 +219,7 @@
   min-height: 44px;
   padding: 0 18px;
   border-radius: 12px;
-  background: var(--mantine-primary-color-filled);
+  background: var(--gn-accent);
   color: var(--hero-on-brand);
   font-size: 13px;
   font-weight: 700;
@@ -256,11 +263,11 @@
   aspect-ratio: 264 / 354;
   overflow: hidden;
   border-radius: 10px;
-  background: #1a1a1a;
+  background: var(--gn-media-placeholder);
 }
 
 .thumbActive .thumbCover {
-  outline: 2px solid var(--mantine-primary-color-filled);
+  outline: 2px solid var(--gn-accent);
   outline-offset: 0;
 }
 
@@ -277,14 +284,14 @@
   height: 3px;
   overflow: hidden;
   border-radius: 2px;
-  background: rgb(255 255 255 / 0.22);
+  background: color-mix(in srgb, var(--gn-media-text) 22%, transparent);
 }
 
 .fill {
   position: absolute;
   inset: 0;
   transform-origin: left center;
-  background: var(--mantine-primary-color-filled);
+  background: var(--gn-accent);
   animation: heroProgress var(--hero-rotate-ms, 10000ms) linear both;
 }
 
@@ -323,6 +330,27 @@
 @media (min-width: 48em) {
   .card {
     --hero-cover-w: 200px;
+    --hero-details-w: 27rem;
+  }
+
+  .scrim {
+    /* Reveal the poster beside the text, keeping the thumbnail rail shaded. */
+    background:
+      linear-gradient(
+        to top,
+        var(--gn-media-content-scrim) 0% 30%,
+        transparent 43%
+      ),
+      linear-gradient(
+        to right,
+        var(--gn-media-content-scrim)
+          min(100%, calc(var(--hero-cover-w) + var(--hero-details-w) + 52px)),
+        transparent 120%
+      );
+  }
+
+  .details {
+    max-width: var(--hero-details-w);
   }
 
   .content {

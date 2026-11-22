@@ -139,7 +139,7 @@ const FeatCard = ({ item, onOpenTiers }: FeatCardProps) => {
           gap={"xs"}
           wrap={"nowrap"}
         >
-          <Text fz={12} fw={600} className={"text-[#e6e6e6]"}>
+          <Text fz={12} fw={600} className={"text-pale"}>
             {t("achievements.card.progress", {
               value: formatNumber(value),
               threshold: threshold != null ? formatNumber(threshold) : "—",
@@ -230,7 +230,7 @@ const FeatCard = ({ item, onOpenTiers }: FeatCardProps) => {
           <UnstyledButton
             onClick={() => onOpenTiers(item)}
             className={
-              "flex shrink-0 items-center gap-1 text-xs font-semibold text-gray-300 hover:text-white"
+              "flex shrink-0 items-center gap-1 text-xs font-semibold text-legacy-gray-300 hover:text-foreground"
             }
           >
             {t("achievements.card.tiersAction")}

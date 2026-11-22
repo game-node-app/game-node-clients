@@ -45,7 +45,7 @@ const DailyRankingPanel = () => {
   if (query.isError) {
     body = (
       <div className={"flex items-center justify-between gap-3"}>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-text-subtle)"}>
           {t("daily.fetchError")}
         </Text>
         <Button
@@ -83,7 +83,7 @@ const DailyRankingPanel = () => {
           </div>
         )}
         {rows.length < 3 && (
-          <Text fz={13} c={"#ADADAD"}>
+          <Text fz={13} c={"var(--gn-text-subtle)"}>
             {t("daily.ranking.panel.invite")}
           </Text>
         )}

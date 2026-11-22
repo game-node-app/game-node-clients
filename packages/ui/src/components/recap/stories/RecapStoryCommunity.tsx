@@ -154,7 +154,7 @@ export function RecapStoryCommunity({ recap, games, locale }: Props) {
             style={{
               ...at(64, 950, 952),
               height: 2,
-              background: "rgba(244, 239, 232, 0.12)",
+              background: RECAP_COLORS.hairline,
             }}
           />
           <div style={at(64, 1010, 952)}>

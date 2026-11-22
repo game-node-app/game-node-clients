@@ -32,7 +32,13 @@ const DailyHubSection = ({
     )}
   >
     <div className={"flex items-center justify-between gap-3"}>
-      <Text component={"h2"} fz={20} fw={700} c={"white"} className={"m-0"}>
+      <Text
+        component={"h2"}
+        fz={20}
+        fw={700}
+        c="var(--gn-text)"
+        className={"m-0"}
+      >
         {title}
       </Text>
       {caption}
@@ -66,16 +72,16 @@ const DailyHubLinkCard = ({
   >
     <span
       className={
-        "flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-nav-raised text-white"
+        "flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-nav-raised text-foreground"
       }
     >
       <CardIcon size={20} aria-hidden />
     </span>
     <span className={"flex min-w-0 flex-1 flex-col gap-0.5"}>
-      <Text component={"span"} fz={16} fw={600} c={"white"}>
+      <Text component={"span"} fz={16} fw={600} c="var(--gn-text)">
         {title}
       </Text>
-      <Text component={"span"} fz={13} c={"#ADADAD"}>
+      <Text component={"span"} fz={13} c={"var(--gn-text-subtle)"}>
         {description}
       </Text>
     </span>

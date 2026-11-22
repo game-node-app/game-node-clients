@@ -12,7 +12,12 @@ const LibrarySearchEmptyState = ({ query, scope, onClear }: Props) => {
 
   return (
     <Stack align="center" gap="xs" className="w-full py-10 text-center">
-      <Title order={3} size="h4" c="white" className="break-words max-w-full">
+      <Title
+        order={3}
+        size="h4"
+        c="var(--gn-text)"
+        className="break-words max-w-full"
+      >
         {t("library.search.noResultsTitle", { query })}
       </Title>
       <Text c="dimmed">

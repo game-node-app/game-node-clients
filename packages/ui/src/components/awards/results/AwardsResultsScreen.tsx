@@ -239,7 +239,7 @@ export function AwardsResultsScreen({
         ) : (
           <h2
             className={cn(
-              "font-bold text-white",
+              "font-bold text-foreground",
               isMobileLayout ? "text-[20px]" : "text-[32px] leading-[38px]",
             )}
           >

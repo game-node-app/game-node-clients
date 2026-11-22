@@ -22,7 +22,9 @@ const config: Omit<Config, "content"> = {
   },
   theme: {
     extend: {
-      fontFamily: "var(--mantine-font-family)",
+      fontFamily: {
+        mono: "var(--gn-font-mono)",
+      },
       spacing: {
         xs: "var(--mantine-spacing-xs)",
         sm: "var(--mantine-spacing-sm)",
@@ -108,9 +110,53 @@ const config: Omit<Config, "content"> = {
           2: themeColor("dimmed-2"),
           3: themeColor("dimmed-3"),
         },
+        // Grey text tones of app chrome; dark themes keep the old literals.
+        pale: themeColor("text-pale"),
+        chalk: themeColor("text-chalk"),
+        bright: themeColor("text-bright"),
+        subtle: themeColor("text-subtle"),
+        soft: themeColor("text-soft"),
+        quiet: themeColor("text-quiet"),
+        faint: themeColor("text-faint"),
+        // Stand-ins for Tailwind's default grays used as secondary text.
+        "on-brand": themeColor("text-on-brand"),
+        "on-brand-alt": themeColor("text-on-brand-alt"),
+        "legacy-gray-100": themeColor("text-gray-100"),
+        "legacy-gray-300": themeColor("text-gray-300"),
+        "legacy-neutral-300": themeColor("text-neutral-300"),
+        "legacy-neutral-200": themeColor("text-neutral-200"),
+        // Fixed card fills and borders of app chrome.
+        panel: {
+          DEFAULT: themeColor("panel"),
+          deep: themeColor("panel-deep"),
+          inset: themeColor("panel-inset"),
+          raised: themeColor("panel-raised"),
+          line: themeColor("panel-line"),
+          edge: themeColor("panel-edge"),
+          tint: themeColor("panel-tint"),
+          floor: themeColor("panel-floor"),
+          veil: themeColor("panel-veil"),
+          rail: themeColor("panel-rail"),
+          board: themeColor("panel-board"),
+          "board-dot": themeColor("panel-board-dot"),
+        },
+        // Media surface pair: scrims over imagery and the text drawn on them.
+        // `text-media*` goes with `bg-media-scrim*`; never mix with theme text.
+        media: {
+          DEFAULT: themeColor("media-text"),
+          muted: themeColor("media-text-muted"),
+          dim: themeColor("media-text-dim"),
+          scrim: themeColor("media-scrim"),
+          "scrim-strong": themeColor("media-scrim-strong"),
+          "content-scrim": themeColor("media-content-scrim"),
+          fade: themeColor("media-fade"),
+          placeholder: themeColor("media-placeholder"),
+        },
         "text-muted": themeColor("text-muted"),
         muted: themeColor("text-muted"),
         emphasis: themeColor("text-emphasis"),
+        foreground: themeColor("text"),
+        highlight: themeColor("highlight"),
         accent: themeColor("accent"),
         "accent-contrast": themeColor("accent-contrast"),
         focus: themeColor("focus"),
@@ -131,6 +177,9 @@ const config: Omit<Config, "content"> = {
         "status-warning-text": themeColor("status-warning-text"),
         "status-danger-strong": themeColor("status-danger-strong"),
         "status-danger-text": themeColor("status-danger-text"),
+        // Labels on solid fills: pair `on-*` with the matching `bg-*`.
+        "on-danger": themeColor("danger-filled-text"),
+        "on-state-played": themeColor("state-played-filled-text"),
         brand: {
           DEFAULT: themeColor("brand"),
           0: themeColor("brand-0"),
@@ -146,6 +195,8 @@ const config: Omit<Config, "content"> = {
           // Selected/"your vote" surface of the Awards (design `brand/tint`).
           tint: themeColor("brand-tint"),
         },
+        // Label on the flat `bg-brand` fill (selected tab pill, badges).
+        "brand-filled-text": themeColor("brand-filled-text"),
         // Play-status colors of the Awards chips and notes.
         state: {
           played: themeColor("state-played"),
@@ -169,6 +220,18 @@ const config: Omit<Config, "content"> = {
   plugins: [
     prose(),
     containerQueries,
+    plugin(({ addUtilities }) => {
+      // Text surface of imagery: put it on the element that holds the
+      // `bg-media-scrim*` layer (or the text inside it) so Mantine `Text`,
+      // `dimmed` and inherited colors follow the media pair, not the theme.
+      addUtilities({
+        ".media-ink": {
+          color: "var(--gn-media-text)",
+          "--mantine-color-text": "var(--gn-media-text)",
+          "--mantine-color-dimmed": "var(--gn-media-text-muted)",
+        },
+      });
+    }),
     plugin(({ addVariant }) => {
       // Add custom conditional variants that are applied based on the root element's
       // classname.

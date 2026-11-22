@@ -13,6 +13,7 @@ import { useTranslation } from "@repo/locales";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
+  cn,
   getS3StoredUpload,
   Link,
   useGuildAccess,
@@ -86,11 +87,16 @@ const MobileSidebarMenu = () => {
     <>
       {userId && (
         <IonHeader
-          className={"relative ion-activatable ion-no-border"}
+          className={cn(
+            "relative ion-activatable ion-no-border",
+            bannerSrc && "media-ink",
+          )}
           style={{
-            backgroundColor: "var(--gn-surface)",
+            backgroundColor: bannerSrc
+              ? "var(--gn-media-fade)"
+              : "var(--gn-surface)",
             backgroundImage: bannerSrc
-              ? `linear-gradient(to top, color-mix(in srgb, var(--gn-scrim) 85%, transparent), color-mix(in srgb, var(--gn-scrim) 45%, transparent)), url(${bannerSrc})`
+              ? `linear-gradient(var(--gn-media-content-scrim), var(--gn-media-content-scrim)), url(${bannerSrc})`
               : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",

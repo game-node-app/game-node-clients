@@ -182,7 +182,7 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
     expect(screen.getByTestId("profile-avatar-frame")).toBeTruthy();
   });
 
-  it("renders the theme strip inside the banner and keeps the username white", () => {
+  it("renders the theme strip inside the banner and keeps the username on the text token", () => {
     setProfile(DEFAULT_SUPPORTER_PREFERENCES);
 
     renderHeader();
@@ -195,7 +195,7 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
 
     const username = screen.getByText("alice");
 
-    expect(username.className).toContain("text-white");
+    expect(username.className).toContain("text-foreground");
     expect(username.style.color).toBe("");
   });
 
@@ -261,7 +261,9 @@ describe("ProfileUserInfoWithBanner supporter perks", () => {
 
     expect(root).toBeTruthy();
     expect(root!.style.getPropertyValue("--profile-accent")).toBe("#FF8800");
-    expect(root!.style.getPropertyValue("--profile-accent-text")).not.toBe("");
+    expect(root!.style.getPropertyValue("--profile-accent-text")).toContain(
+      "var(--gn-ink-max-l, 1)",
+    );
     expect(root!.style.getPropertyValue("--profile-accent-soft")).not.toBe("");
   });
 });

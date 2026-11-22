@@ -89,7 +89,12 @@ function SupporterPlanOption({
       )}
     >
       <Group justify={"space-between"} gap={8} wrap={"nowrap"}>
-        <Text fz={14} fw={isSelected ? 700 : 500} c={"white"} lh={"normal"}>
+        <Text
+          fz={14}
+          fw={isSelected ? 700 : 500}
+          c="var(--gn-text)"
+          lh={"normal"}
+        >
           {t(INTERVAL_LABEL_KEYS[interval])}
         </Text>
         {interval === "yearly" && (
@@ -108,7 +113,7 @@ function SupporterPlanOption({
           />
         ) : (
           offerDisplayAmount && (
-            <Text fz={18} fw={700} c={"white"} lh={"normal"}>
+            <Text fz={18} fw={700} c="var(--gn-text)" lh={"normal"}>
               {offerDisplayAmount}
             </Text>
           )
@@ -179,10 +184,10 @@ export function SupporterHeroCard({
     <SettingsCard
       withDividers={false}
       data-testid={"supporter-hero-card"}
-      className={cn("@container border-[rgba(151,71,255,0.4)]", className)}
+      className={cn("@container border-premium/40", className)}
       style={{
         backgroundImage:
-          "linear-gradient(135deg, rgba(151,71,255,0.12), rgba(26,26,26,0) 60%)",
+          "linear-gradient(135deg, color-mix(in srgb, var(--gn-premium) 12%, transparent), transparent 60%)",
       }}
     >
       <Stack gap={20} className={"p-6"}>
@@ -201,16 +206,16 @@ export function SupporterHeroCard({
             <Box
               aria-hidden
               className={
-                "flex size-[52px] shrink-0 items-center justify-center rounded-[14px] border border-solid border-[rgba(151,71,255,0.4)] bg-[rgba(151,71,255,0.16)] text-[#c7a6ff]"
+                "flex size-[52px] shrink-0 items-center justify-center rounded-[14px] border border-solid border-premium/40 bg-premium/15 text-premium-text"
               }
             >
               <IconCrown size={24} />
             </Box>
             <Stack gap={6} className={"min-w-0 flex-1"}>
-              <Text fz={18} fw={600} c={"white"} lh={"normal"}>
+              <Text fz={18} fw={600} c="var(--gn-text)" lh={"normal"}>
                 {t("settings.premium.hero.title")}
               </Text>
-              <Text fz={13} lh={"19px"} className={"text-[#adadad]"}>
+              <Text fz={13} lh={"19px"} className={"text-subtle"}>
                 {t("settings.premium.hero.description")}
               </Text>
             </Stack>
@@ -225,7 +230,7 @@ export function SupporterHeroCard({
           </Stack>
         ) : isStatusError ? (
           <Stack gap={10}>
-            <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+            <Text fz={13} lh={"18px"} className={"text-subtle"}>
               {statusErrorMessage}
             </Text>
             {onRetryStatus && (
@@ -237,7 +242,7 @@ export function SupporterHeroCard({
             )}
           </Stack>
         ) : isSupporter ? (
-          <Text fz={13} lh={"19px"} className={"text-[#b98aff]"}>
+          <Text fz={13} lh={"19px"} className={"text-premium-text"}>
             {t("supporter.subscription.thankYou")} {summaryPieces.join(" · ")}
           </Text>
         ) : (
@@ -265,7 +270,7 @@ export function SupporterHeroCard({
 
             {isPriceUnavailable && (
               <Group gap={8}>
-                <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+                <Text fz={13} lh={"18px"} className={"text-subtle"}>
                   {t("supporter.plans.priceUnavailable")}
                 </Text>
                 {isOffersError && onRetryOffers && (
@@ -276,7 +281,7 @@ export function SupporterHeroCard({
               </Group>
             )}
 
-            <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+            <Text fz={12} lh={"normal"} className={"text-faint"}>
               {t("supporter.plans.priceNote")}
             </Text>
 

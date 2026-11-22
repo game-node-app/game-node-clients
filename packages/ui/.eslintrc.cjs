@@ -1,30 +1,15 @@
 const {
   colorRuleOffOverrides,
-  migratedColorOverrides,
+  legacyColorOverrides,
 } = require("@repo/eslint-config/hard-coded-colors");
 
 module.exports = {
   extends: ["@repo/eslint-config/react.js"],
   overrides: [
-    {
-      // Theme definitions pin today's values (`gamenode`) and generated files
-      // come from `pnpm themes:generate`; both are the token source, not
-      // consumers of it.
-      files: ["src/theme/themes/*.ts", "src/theme/generated/**"],
-      rules: {
-        "gamenode/no-hard-coded-colors": "off",
-      },
-    },
-    {
-      files: [
-        "src/theme/experiences/**/*.{ts,tsx}",
-        "src/theme/themes/*/screens/**/*.{ts,tsx}",
-      ],
-      rules: {
-        "gamenode/no-hard-coded-colors": "error",
-      },
-    },
+    // Legacy baseline files stay `warn`; everything else is `error`. The off
+    // overrides go last: tests, theme definitions (`src/theme/themes/*.ts`,
+    // the token source) and generated files are not consumers of the tokens.
+    ...legacyColorOverrides("packages/ui"),
     ...colorRuleOffOverrides(),
-    ...migratedColorOverrides("packages/ui"),
   ],
 };

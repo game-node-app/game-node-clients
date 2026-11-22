@@ -4115,11 +4115,14 @@
         "system": "Automatic",
         "systemDescription": "Follows your system",
         "supporterOnly": "Supporter only",
-        "xbox": "Xbox"
+        "xbox": "Xbox",
+        "ruins": "Ruins",
+        "ruinsDescription": "Inspired by NieR:Automata",
+        "ruinsDisclaimer": "GameNode has no affiliation with the rights holders of NieR:Automata."
       },
       "specialThemes": {
         "title": "Special themes",
-        "description": "Colors inspired by the stores you use. Applies to this browser or device.",
+        "description": "Exclusive to Supporters: themes inspired by the stores and games you play. Applies to this browser or device.",
         "disclaimer": "Only the colors are inspired by the stores. GameNode is not affiliated with Valve, Microsoft, Sony or Nintendo.",
         "steam": "Navy and blue",
         "xbox": "Black and green",
@@ -4140,6 +4143,25 @@
         "none": {
           "label": "Default covers only",
           "description": "Always show the original IGDB cover. Your choices are kept."
+        }
+      },
+      "ruins": {
+        "title": "Ruins options",
+        "description": "Only shown while the Ruins theme is active.",
+        "bootAnimation": {
+          "title": "Boot animation",
+          "description": "Shows the boot terminal when GameNode opens. Stays off when your system asks for reduced motion.",
+          "always": "Always",
+          "daily": "Once a day",
+          "never": "Never"
+        },
+        "paperTexture": {
+          "title": "Paper texture",
+          "description": "Subtle grain and grid behind screens."
+        },
+        "scanline": {
+          "title": "Scanline",
+          "description": "A band that sweeps the screen while loading."
         }
       }
     },
@@ -4728,6 +4750,82 @@
     },
     "achievements": {
       "title": "{{username}}'s achievements - GameNode"
+    }
+  },
+  "ruins": {
+    "boot": {
+      "sequence": "boot sequence",
+      "loaded": "GameNode loaded",
+      "pending": "PENDING",
+      "offline": "OFFLINE",
+      "stage": {
+        "initializing": "Initializing",
+        "modules": "Loading modules",
+        "assembling": "Assembling interface",
+        "ready": "Ready"
+      },
+      "splash": {
+        "waiting": "Waiting for unit",
+        "signal": "Input signal"
+      },
+      "line": {
+        "init": "GN-OS {{version}} · startup",
+        "memory": "memory integrity",
+        "core": "interface core",
+        "theme": "RUINS theme · light scheme",
+        "tokens": "design tokens",
+        "unit": "unit",
+        "unitDetail": "unit: {{name}}",
+        "level": "level",
+        "levelDetail": "level {{level}} · {{xp}} XP",
+        "library": "library",
+        "libraryDetail": "library: {{games}} games",
+        "collections": "collections",
+        "collectionsDetail": "collections: {{total}}",
+        "connections": "connections",
+        "importer": "importer queue",
+        "feats": "feats earned",
+        "goal": "yearly goal",
+        "goalDetail": "goal {{year}}: {{finished}} of {{target}}",
+        "daily": "daily nodes",
+        "awards": "awards",
+        "awardsDetail": "awards {{year}}",
+        "notifications": "pending notifications",
+        "menu": "assembling main menu"
+      },
+      "status": {
+        "open": "OPEN",
+        "closed": "CLOSED",
+        "soon": "SOON",
+        "results": "RESULTS",
+        "modes": "{{n}} MODES"
+      },
+      "summary": {
+        "done": "> check complete · 0 errors",
+        "time": "> total time {{time}}s",
+        "cache": "> data served from local cache; network confirmed in the background"
+      },
+      "panel": {
+        "title": "System check",
+        "unit": "Unit",
+        "level": "Level {{level}}",
+        "library": "Library",
+        "connections": "Connections",
+        "importer": "Importer",
+        "feats": "Feats",
+        "daily": "Daily Nodes",
+        "goal": "Yearly goal",
+        "awards": "Awards"
+      },
+      "lockup": {
+        "systems": "All systems",
+        "welcome": "Welcome back, {{name}}."
+      },
+      "hint": {
+        "tap": "Tap to continue",
+        "skip": "Skip",
+        "continue": "Continue"
+      }
     }
   }
 }

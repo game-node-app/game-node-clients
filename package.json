@@ -18,8 +18,10 @@
     "wrapper:generate": "pnpm build -F @repo/wrapper",
     "locales:generate-types": "pnpm --filter @repo/locales translations:types",
     "locales:watch-types": "pnpm --filter @repo/locales translations:types:watch",
-    "themes:generate": "pnpm --filter @repo/ui themes:generate",
-    "themes:check": "pnpm --filter @repo/ui themes:check",
+    "colors:check": "node packages/config-eslint/bin/colors.js check --all",
+    "colors:baseline": "node packages/config-eslint/bin/colors.js baseline",
+    "themes:generate": "pnpm --filter @repo/ui themes:generate && pnpm --filter mobile splash:generate",
+    "themes:check": "pnpm --filter @repo/ui themes:check && pnpm --filter mobile splash:check",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

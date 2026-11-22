@@ -13,12 +13,20 @@
  *  - strings that are exactly a color literal anywhere in the file, which is
  *    how design-token maps and CSS variable maps are usually written;
  *  - Tailwind arbitrary color classes (`bg-[#1a1a1a]`,
- *    `text-[rgb(…)]`, `[color:#fff]`), including variants (`hover:`).
+ *    `text-[rgb(…)]`, `[color:#fff]`), including variants (`hover:`);
+ *  - Tailwind utilities that point at a fixed color and so ignore the theme:
+ *    the default palettes (`text-gray-400`, `bg-zinc-900`,
+ *    `border-neutral-800/50`) and named colors (`bg-black`, `text-white`,
+ *    `from-black`, `via-black/50`), with variants and opacity. The repo's
+ *    token palettes are not default palettes, so they pass (see
+ *    `named-colors.js`);
+ *  - the CSS names `white`/`black` in style objects (`{ color: "white" }`) and
+ *    in Mantine/SVG color props (`c="white"`, `bg="black"`, `color="white"`).
+ *    `dark.*` and the other token-mapped scales are fine.
  *
  * Not reported: token references such as `var(--gn-brand)`,
- * `bg-paper-2`/`text-brand-5`, named CSS colors (the spec guard is about hex
- * and functional literals) and hash fragments inside larger strings (URLs,
- * prose).
+ * `bg-paper-2`/`text-brand-5`, `transparent`/`currentColor`/`inherit`, other
+ * named CSS colors and hash fragments inside larger strings (URLs, prose).
  *
  * Exemptions:
  *  `// theme-exempt: <reason>` or `{/* theme-exempt: <reason> *\/}` suppresses
@@ -30,6 +38,14 @@
  * CSS files (`.css`, CSS Modules) are not covered: this repo runs ESLint, not
  * stylelint. Keep those on generated variables by review.
  */
+
+const {
+  NAMED_COLOR_JSX_ATTRIBUTES,
+  findNamedCssColor,
+  findNamedTailwindColorClasses,
+} = require("../named-colors");
+
+const NAMED_COLOR_ATTRIBUTES = new Set(NAMED_COLOR_JSX_ATTRIBUTES);
 
 const HEX_COLOR =
   /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?![0-9a-fA-F])/;
@@ -115,7 +131,10 @@ function getPropertyKeyName(property) {
   if (!property || property.computed) return null;
 
   if (property.key.type === "Identifier") return property.key.name;
-  if (property.key.type === "Literal" && typeof property.key.value === "string") {
+  if (
+    property.key.type === "Literal" &&
+    typeof property.key.value === "string"
+  ) {
     return property.key.value;
   }
 
@@ -190,6 +209,10 @@ module.exports = {
         "Hard-coded color '{{color}}' is not themeable. Use a theme token instead (for example var(--gn-brand), var(--gn-surface-2) or a Tailwind token utility such as bg-paper-2/text-brand-5).",
       hardCodedColorClass:
         "Hard-coded color in Tailwind class '{{className}}'. Use a token utility (for example bg-paper-2, text-brand-5 or border-line) instead.",
+      namedColorClass:
+        "Tailwind class '{{className}}' uses a fixed color that ignores the theme (it breaks in light themes). Use a token utility (bg-paper-2, text-muted, border-line, text-on-brand) or, over imagery, the --gn-media-* pair.",
+      namedColor:
+        "Fixed color '{{color}}' ignores the theme (it breaks in light themes). Use a theme token (var(--gn-text), var(--gn-surface-2)) or, over imagery, var(--gn-media-text)/var(--gn-media-scrim).",
       exemptionNeedsReason:
         "A theme exemption needs an artwork reason: // theme-exempt: <reason>.",
     },
@@ -244,8 +267,28 @@ module.exports = {
         return;
       }
 
+      const namedClass = findNamedTailwindColorClasses(value)[0];
+
+      if (namedClass) {
+        pushViolation(node, "namedColorClass", { className: namedClass });
+        return;
+      }
+
       const color = findColorLiteral(value);
-      if (!color) return;
+
+      if (!color) {
+        const attributeName = jsxAttribute && jsxAttribute.name.name;
+        const namedColor =
+          (typeof attributeName === "string" &&
+            NAMED_COLOR_ATTRIBUTES.has(attributeName)) ||
+          isInsideStyleObject(node)
+            ? findNamedCssColor(value)
+            : null;
+
+        if (namedColor)
+          pushViolation(node, "namedColor", { color: namedColor });
+        return;
+      }
 
       const isColorOnly = COLOR_ONLY.test(value.trim());
       const inColorContext = jsxAttribute !== null || isInsideStyleObject(node);
