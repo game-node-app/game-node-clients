@@ -86,7 +86,7 @@ export function ProfileVideoUploadStatus({ slot, className }: Props) {
         data-testid={testId}
         className={className}
       >
-        <IconCheck size={12} className={"text-teal-400"} />
+        <IconCheck size={12} className={"text-status-success-text"} />
         <Text fz={12} lh={"16px"} className={"text-dimmed-2"}>
           {t("profileVideo.status.ready")}
         </Text>

@@ -92,7 +92,7 @@ const BlogPostsListView = ({ tag, onTagDeselect, ...others }: Props) => {
       )}
       {!isLoading && data != undefined && data.data.length === 0 && (
         <Center>
-          <Text className={"text-yellow-400"}>
+          <Text className={"text-status-warning-text"}>
             {t("blog.list.empty")}{" "}
             <Link href="/blog/archive" className="underline" replace>
               {t("actions.goBack")}

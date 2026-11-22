@@ -197,14 +197,42 @@ function contrastRatio(a: string, b: string): number {
 }
 
 /**
- * Readable text on a 15% tint of `base`. Dark themes lighten toward white;
+ * Readable label color on a solid `color` fill: white when it clears 4.5:1,
+ * otherwise the theme background (which usually matches the fill's scheme),
+ * otherwise black. Shared by the brand/secondary/tertiary, danger and
+ * play-state filled tokens so every `*-filled-text` pair resolves the same way.
+ */
+function getFilledText(color: string, background: string): string {
+  if (contrastRatio(color, "white") >= 4.5) {
+    return formatHex(parseColor("white", "filled text"));
+  }
+  if (contrastRatio(color, background) >= 4.5) return background;
+  return formatHex(parseColor("black", "filled text"));
+}
+
+/**
+ * Readable text on a 15% tint of `base`. Mantine's `light` variant paints that
+ * tint over whichever surface it sits on, and a theme's raised paper, page and
+ * `secondary` are different tones: checking only one of them left ruins at
+ * 3.7:1 on the page background. The returned candidate therefore has to clear
+ * 4.5:1 on EVERY surface in `surfaces`. Dark themes lighten toward white;
  * light themes pass their text color as `toward` and darken instead.
  */
-function getTintText(base: string, surface: string, toward = "white"): string {
-  const background = blend(surface, base, 0.15);
+function getTintText(
+  base: string,
+  surfaces: readonly string[],
+  toward = "white",
+): string {
+  const backgrounds = surfaces.map((surface) => blend(surface, base, 0.15));
   for (let step = 0; step <= 100; step++) {
     const candidate = blend(base, toward, step / 100);
-    if (contrastRatio(candidate, background) >= 4.5) return candidate;
+    if (
+      backgrounds.every(
+        (background) => contrastRatio(candidate, background) >= 4.5,
+      )
+    ) {
+      return candidate;
+    }
   }
   return toward;
 }
@@ -387,6 +415,8 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
   const tertiary = overrides?.tertiary ?? darken(tokens.accent, 0.35);
   const brandTint =
     overrides?.brandTint ?? blend(tokens.background, tokens.accent, 0.12);
+  /** Surfaces a Mantine `light` tint may sit on; `getTintText` checks them all. */
+  const tintSurfaces = [secondary, tokens.surface, tokens.background] as const;
   const line = overrides?.line?.default ?? tokens.border;
   const lineStrong = overrides?.line?.strong ?? lighten(tokens.border, 0.2);
   const dimmed = overrides?.dimmed?.default ?? tokens.textMuted;
@@ -575,24 +605,21 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-secondary-rgb", rgbTriplet(secondary)],
     ["--gn-tertiary", tertiary],
     ["--gn-tertiary-rgb", rgbTriplet(tertiary)],
-    ...Object.entries({ brand: brand[5], secondary, tertiary }).flatMap(
-      ([name, color]): [string, string][] => [
-        [
-          `--gn-${name}-filled-text`,
-          contrastRatio(color, "white") >= 4.5
-            ? formatHex(parseColor("white", "filled text"))
-            : contrastRatio(color, tokens.background) >= 4.5
-              ? tokens.background
-              : formatHex(parseColor("black", "filled text")),
-        ],
-        [
-          `--gn-${name}-light-text`,
-          definition.colorScheme === "light"
-            ? getTintText(color, secondary, tokens.text)
-            : getTintText(color, secondary),
-        ],
+    ...(
+      [
+        ["brand", brand[5]],
+        ["secondary", secondary],
+        ["tertiary", tertiary],
+      ] as const
+    ).flatMap(([name, color]): [string, string][] => [
+      [`--gn-${name}-filled-text`, getFilledText(color, tokens.background)],
+      [
+        `--gn-${name}-light-text`,
+        definition.colorScheme === "light"
+          ? getTintText(color, tintSurfaces, tokens.text)
+          : getTintText(color, tintSurfaces),
       ],
-    ),
+    ]),
     ["--gn-brand-tint", brandTint],
     ...PAPER_STEPS.map(
       (step) => [`--gn-paper-${step}`, paper[step]] as [string, string],
@@ -614,6 +641,11 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-status-warning-text", status.warningText],
     ["--gn-status-danger-strong", status.dangerStrong],
     ["--gn-status-danger-text", status.dangerText],
+    // Label on a solid danger fill (Mantine `filled` badges/buttons).
+    [
+      "--gn-danger-filled-text",
+      getFilledText(status.dangerStrong, tokens.background),
+    ],
     ["--gn-text-pale", tones.pale],
     ["--gn-text-chalk", tones.chalk],
     ["--gn-text-bright", tones.bright],
@@ -663,6 +695,11 @@ function resolveTheme(definition: ThemeDefinition): ResolvedTheme {
     ["--gn-nav-danger", nav.danger],
     ["--gn-nav-accent-subtle", nav.accentSubtle],
     ["--gn-state-played", statePlayed],
+    // Label on the solid "played" chip color.
+    [
+      "--gn-state-played-filled-text",
+      getFilledText(statePlayed, tokens.background),
+    ],
     ["--gn-state-played-tint", statePlayedTint],
     ["--gn-text-color", textColor],
     ["--gn-text-emphasis", textEmphasis],

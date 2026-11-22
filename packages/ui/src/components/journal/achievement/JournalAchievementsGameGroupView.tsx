@@ -41,7 +41,7 @@ const DEFAULT_JournalAchievementsGameGroupView = ({
   return (
     <Flex
       className={
-        "bg-paper-6 border rounded-md border-[#2B2A2A] gap-2 p-2 flex-col lg:flex-row lg:flex-nowrap"
+        "bg-paper-6 border rounded-md border-line gap-2 p-2 flex-col lg:flex-row lg:flex-nowrap"
       }
     >
       <Box className={"min-w-24 w-24 relative"}>

@@ -110,7 +110,7 @@ const NotFoundView = ({
                 fz={16}
                 fw={700}
                 className={
-                  "w-full text-nav-canvas hover:bg-brand-9 hover:text-white md:w-auto"
+                  "w-full text-nav-canvas hover:bg-brand-9 hover:text-foreground md:w-auto"
                 }
               >
                 {t("notFoundPage.backHome")}

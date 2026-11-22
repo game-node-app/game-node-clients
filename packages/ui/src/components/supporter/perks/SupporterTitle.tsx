@@ -74,7 +74,7 @@ export function SupporterTitle({
           ...getAccentInkStyle(perks?.theme ? perks.accentInk : PREMIUM_INK),
           borderColor: perks?.theme
             ? perks.accentBorder
-            : "rgba(151, 71, 255, 0.45)",
+            : "color-mix(in srgb, var(--gn-premium) 45%, transparent)",
         }}
       >
         <Icon size={12} aria-hidden />

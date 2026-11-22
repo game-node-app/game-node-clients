@@ -30,14 +30,14 @@ export function SupportersWallItem({ item, variant }: SupportersWallItemProps) {
           src={avatarSrc}
           size={isPage ? 72 : 48}
           className={
-            "shrink-0 ring-2 ring-transparent transition-[box-shadow] group-hover:ring-[#9747ff]"
+            "shrink-0 ring-2 ring-transparent transition-[box-shadow] group-hover:ring-premium"
           }
         />
         <Text
           fz={isPage ? 13 : 11}
           lh={"normal"}
           truncate
-          className={"w-full max-w-full text-center text-[#d9d9d9]"}
+          className={"w-full max-w-full text-center text-bright"}
         >
           {item.username}
         </Text>

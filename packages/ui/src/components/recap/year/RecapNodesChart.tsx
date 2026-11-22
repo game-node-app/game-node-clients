@@ -36,16 +36,19 @@ export interface RecapNodesChartProps {
   todayLabel?: string | null;
 }
 
-// theme-exempt: recap chart artwork palette
+/**
+ * Chart palette of the hero: theme variables, so the SVG repaints with the
+ * active theme (dark and light) instead of a fixed artwork palette.
+ */
 const COLORS = {
-  grid: "#2a2a2a",
-  path: "#3d3d3d",
-  muted: "#808080",
-  secondaryText: "#adadad",
-  primary: "#f15025",
-  secondary: "#f7896d",
-  hollow: "#0b0b0b",
-  surface: "#161616",
+  grid: "var(--gn-line)",
+  path: "var(--gn-line-strong)",
+  muted: "var(--gn-text-muted)",
+  secondaryText: "var(--gn-text-muted)",
+  primary: "var(--gn-brand)",
+  secondary: "var(--gn-tertiary)",
+  hollow: "var(--gn-paper-0)",
+  surface: "color-mix(in srgb, var(--gn-text) 7%, var(--gn-background))",
 } as const;
 
 const NODE_FILL: Record<RecapNodeLayout["tier"], string> = {
@@ -376,7 +379,7 @@ export function RecapNodesChart({
               {hours && (
                 <span
                   className={
-                    "text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+                    "text-xs leading-none font-bold tracking-[0.06em] text-muted uppercase"
                   }
                 >
                   {t("events.card.recap.hours", { hours })}

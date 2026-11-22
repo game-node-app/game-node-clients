@@ -73,7 +73,7 @@ export function RecapLead({
   return (
     <p
       className={cn(
-        "m-0 text-base leading-normal text-[#adadad] md:text-xl",
+        "m-0 text-base leading-normal text-muted md:text-xl",
         className,
       )}
     >

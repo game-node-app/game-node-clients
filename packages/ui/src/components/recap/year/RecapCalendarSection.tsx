@@ -31,12 +31,20 @@ const LEVEL_OPACITY = [0.3, 0.52, 0.76, 1] as const;
 const CELL_GAP = 4;
 const LABEL_COLUMN = "2.5rem";
 
+/**
+ * Heat cells mix the theme's text and brand colours with the surface, so the
+ * grid is visible on a beige light theme and subtle on a dark one.
+ */
 const levelStyle = (level: number) =>
   level === 0
-    ? { backgroundColor: "#1c1c1c" }
+    ? {
+        backgroundColor:
+          "color-mix(in srgb, var(--gn-text) 10%, var(--gn-surface))",
+      }
     : {
-        // theme-exempt: recap calendar artwork heatmap
-        backgroundColor: `rgba(241, 80, 37, ${LEVEL_OPACITY[level - 1]})`,
+        backgroundColor: `color-mix(in srgb, var(--gn-brand) ${Math.round(
+          LEVEL_OPACITY[level - 1] * 100,
+        )}%, transparent)`,
       };
 
 /**
@@ -207,7 +215,7 @@ function Heatmap({
               key={`month-${month.month}`}
               aria-hidden
               className={
-                "pb-2 text-xs leading-none font-bold tracking-[0.06em] whitespace-nowrap text-[#808080] uppercase"
+                "pb-2 text-xs leading-none font-bold tracking-[0.06em] whitespace-nowrap text-muted uppercase"
               }
               style={{ gridRow: 1, gridColumn: month.week + 2 }}
             >
@@ -219,7 +227,7 @@ function Heatmap({
               key={`weekday-${weekday.row}`}
               aria-hidden
               className={
-                "text-xs leading-none font-bold tracking-[0.06em] text-[#808080] uppercase"
+                "text-xs leading-none font-bold tracking-[0.06em] text-muted uppercase"
               }
               style={{ gridRow: weekday.row + 2, gridColumn: 1 }}
             >
@@ -247,7 +255,7 @@ function Heatmap({
                 }
                 className={
                   upcoming
-                    ? "aspect-square rounded border border-[#262626]"
+                    ? "aspect-square rounded border border-line"
                     : "aspect-square rounded"
                 }
                 style={{
@@ -264,7 +272,7 @@ function Heatmap({
       <div
         aria-hidden
         className={
-          "mt-3 flex items-center justify-end gap-1.5 text-sm text-[#808080]"
+          "mt-3 flex items-center justify-end gap-1.5 text-sm text-muted"
         }
       >
         <span>{less}</span>
@@ -297,7 +305,7 @@ function CalendarFact({
       >
         {value}
       </span>
-      <span className={"text-base leading-normal text-[#adadad]"}>{text}</span>
+      <span className={"text-base leading-normal text-muted"}>{text}</span>
     </RecapSurface>
   );
 }

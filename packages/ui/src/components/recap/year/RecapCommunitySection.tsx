@@ -126,8 +126,8 @@ const TONES = {
     dot: "bg-brand-3",
   },
   inTune: {
-    badge: "bg-[#4fd1a5]/15 text-[#4fd1a5]",
-    dot: "bg-[#4fd1a5]",
+    badge: "bg-state-played-tint text-status-success-text",
+    dot: "bg-state-played",
   },
 } as const;
 
@@ -206,12 +206,12 @@ function CommunityCard({
           <div className={"relative h-3"}>
             <div
               className={
-                "absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-[#262626]"
+                "absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-line"
               }
             />
             <span
               className={
-                "absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#adadad]"
+                "absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
               }
               style={{ left: position(highlight.communityAverage) }}
             />
@@ -225,7 +225,7 @@ function CommunityCard({
           <div className={"relative h-3"}>
             <span
               className={
-                "absolute top-0 -translate-x-1/2 text-xs leading-3 font-bold tracking-[0.06em] whitespace-nowrap text-[#adadad] uppercase"
+                "absolute top-0 -translate-x-1/2 text-xs leading-3 font-bold tracking-[0.06em] whitespace-nowrap text-muted uppercase"
               }
               style={{ left: labelPosition(highlight.communityAverage) }}
             >
@@ -235,9 +235,7 @@ function CommunityCard({
           </div>
         </div>
 
-        <p className={"m-0 mt-6 text-sm leading-normal text-[#adadad]"}>
-          {note}
-        </p>
+        <p className={"m-0 mt-6 text-sm leading-normal text-muted"}>{note}</p>
       </div>
     </RecapSurface>
   );

@@ -11,6 +11,7 @@ import { cn } from "#@/util/cn";
 import { Link } from "#@/util/link";
 
 /** Gold, silver and bronze, from the frame. */
+// theme-exempt: gold/silver/bronze medal artwork
 const MEDAL_COLORS = ["#F5C542", "#C9CED6", "#D08A54"];
 
 /** Card heights by place (card layout, table layout). */
@@ -20,6 +21,7 @@ const HEIGHTS = [
   "h-[140px] @[720px]:h-[200px]",
 ];
 
+// theme-exempt: dark ink on the gold/silver/bronze medal artwork
 const Medal = ({ place }: { place: number }) => (
   <span
     className={

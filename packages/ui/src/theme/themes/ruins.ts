@@ -79,7 +79,11 @@ export const ruinsTheme = defineTheme({
     },
     secondary: "#E4DFCA",
     tertiary: "#B0452F",
-    brandTint: "#BEB9A3",
+    // Selected/"your vote" paper tint. Pinned because the derived 12% accent
+    // mix is too close to paper-0 here: at #CFCAB4 both text (6.7:1) and
+    // text-muted (4.65:1) clear AA, while the tint stays distinct from
+    // paper-0 (#E4DFCA).
+    brandTint: "#CFCAB4",
     line: { default: "#A9A48E", strong: "#7F7A67" },
     // Text greys must stay at 4.5:1 on the background; #57534A is the lightest
     // tone that does, so the lesser tones collapse onto it.
@@ -143,7 +147,7 @@ export const ruinsTheme = defineTheme({
     chart: { primary: "#4E4B42" },
     level: { text: "#57534A", border: "#7F7A67" },
     status: {
-      successText: "#3F5532",
+      successText: "#3B502F",
       warningText: "#6B4E17",
       dangerStrong: "#9E3F2B",
       dangerText: "#8A3322",

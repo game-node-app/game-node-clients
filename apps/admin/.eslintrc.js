@@ -7,6 +7,7 @@ module.exports = {
   rules: {
     // Admin is pinned to the `gamenode` theme: colors only warn here.
     "gamenode/no-hard-coded-colors": "warn",
+    "gamenode/no-unsafe-theme-pairs": "warn",
   },
   overrides: [...colorRuleOffOverrides()],
 };

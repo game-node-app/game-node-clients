@@ -67,7 +67,7 @@
   padding: 3px 10px;
   border-radius: 2px;
   background: var(--gn-brand);
-  color: var(--gn-text);
+  color: var(--gn-brand-filled-text);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;

@@ -6,7 +6,10 @@
 
 .badge {
     &[data-variant='filled']{
-        @apply bg-tertiary
+        @apply bg-tertiary;
+        /* Solid tertiary fill: its label token keeps light themes readable. */
+        --badge-color: var(--gn-tertiary-filled-text);
+        color: var(--gn-tertiary-filled-text);
     }
 }
 

@@ -353,3 +353,102 @@ test("CLI fails on an error and passes with only legacy warnings", (t) => {
   assert.match(warned.stdout, /warn/);
   assert.match(warned.stdout, /0 error\(s\), 1 warning\(s\)/);
 });
+
+test("solid filled backgrounds paired with body text tokens are errors", () => {
+  const messages = lintCssSource({
+    source: [
+      ".brand { background: var(--gn-brand); color: var(--gn-text); }",
+      ".danger { --button-bg: var(--gn-status-danger-strong); --button-color: var(--gn-text-muted); }",
+      ".ok-fill { background: var(--gn-accent); color: var(--gn-accent-contrast); }",
+      ".ok-tint { background: color-mix(in srgb, var(--gn-brand) 15%, transparent); color: var(--gn-text); }",
+      ".ok-gradient { background: linear-gradient(var(--gn-brand), transparent); color: var(--gn-text); }",
+      ".ok-surface { background: var(--gn-nav-raised); color: var(--gn-text); }",
+      ".ok-bg-only { background: var(--gn-brand); }",
+      ".ok-text-only { color: var(--gn-text); }",
+      ".ok-sibling-bg { background: var(--gn-brand); }",
+      ".ok-sibling-text { color: var(--gn-text); }",
+      "/* theme-exempt: recap artwork eyebrow over brand art */",
+      ".art { background: var(--gn-brand); color: var(--gn-text); }",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.severity]),
+    [
+      [1, "error"],
+      [2, "error"],
+    ],
+  );
+  assert.match(
+    messages[0].message,
+    /Unsafe theme token pair: background 'background: var\(--gn-brand\)' with text 'color: var\(--gn-text\)'/,
+  );
+  assert.match(messages[0].message, /var\(--gn-brand-filled-text\)/);
+  assert.match(
+    messages[1].message,
+    /background '--button-bg: var\(--gn-status-danger-strong\)' with text '--button-color: var\(--gn-text-muted\)'/,
+  );
+});
+
+test("unsafe token pairs are errors even in legacy baseline files", (t) => {
+  const directory = createFixture(t, {
+    "apps/web/src/components/legacy.css":
+      ".row { background: var(--gn-brand); color: var(--gn-text); }",
+  });
+
+  const result = lintCssColors({
+    cwd: directory,
+    roots: ["."],
+    baseline: { "apps/web/src/components/legacy.css": 1 },
+  });
+
+  assert.equal(result.errors, 1);
+  assert.equal(result.warnings, 0);
+  assert.match(result.messages[0].message, /Unsafe theme token pair/);
+});
+
+test("selected ionic tabs must not take body text tokens", () => {
+  const messages = lintCssSource({
+    source: [
+      "ion-tab-button.tab-selected::part(native) {",
+      "  background: var(--gn-brand);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected {",
+      "  --color-selected: var(--gn-text);",
+      "  color: var(--gn-text);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .fill {",
+      "  --color-selected: var(--gn-brand-filled-text);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .contrast {",
+      "  --color-selected: var(--gn-accent-contrast);",
+      "}",
+      "",
+      "ion-tab-button.tab-selected .text-color {",
+      "  --color-selected: var(--gn-text-color);",
+      "}",
+      "",
+      "ion-tab-button:not(.tab-selected) {",
+      "  --color-selected: var(--gn-text);",
+      "}",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.severity]),
+    [
+      [6, "error"],
+      [19, "error"],
+    ],
+  );
+  assert.match(messages[0].message, /--color-selected: var\(--gn-text\)/);
+  assert.match(
+    messages[0].message,
+    /var\(--gn-brand-filled-text\) or var\(--gn-accent-contrast\)/,
+  );
+});

@@ -10,9 +10,9 @@ import type { ReactNode } from "react";
 export type RecapTemplate = "poster" | "dash" | "bento" | "aura" | "summary";
 
 const BRAND = "bg-brand";
-const INK = "bg-[#0B0A09]/70";
-const LINE = "bg-white/30";
-const FILL = "bg-white/15";
+const INK = "bg-media-scrim/70";
+const LINE = "bg-line-strong";
+const FILL = "bg-line";
 
 /** Little wireframes of each layout, so the choice is made by sight. */
 const WIREFRAMES: Record<RecapTemplate, ReactNode> = {
@@ -72,7 +72,7 @@ const WIREFRAMES: Record<RecapTemplate, ReactNode> = {
         className={"absolute inset-0"}
         style={{
           background:
-            "radial-gradient(circle at 9% 14%, rgba(241,80,37,0.75), transparent 72%), radial-gradient(circle at 93% 78%, rgba(241,80,37,0.3), transparent 72%)",
+            "radial-gradient(circle at 9% 14%, color-mix(in srgb, var(--gn-brand) 75%, transparent), transparent 72%), radial-gradient(circle at 93% 78%, color-mix(in srgb, var(--gn-brand) 30%, transparent), transparent 72%)",
         }}
       />
       <div className={"relative flex gap-0.5 h-5"}>
@@ -137,10 +137,10 @@ function Thumb({
     <div
       ref={ref}
       className={cn(
-        "relative w-full overflow-hidden rounded-lg bg-[#0F0E0D] transition-shadow",
+        "relative w-full overflow-hidden rounded-lg bg-panel-inset transition-shadow",
         active
           ? "ring-2 ring-brand"
-          : "ring-1 ring-white/10 group-hover:ring-white/25",
+          : "ring-1 ring-line group-hover:ring-line-strong",
       )}
       style={{ aspectRatio: `${size.width} / ${size.height}` }}
     >
@@ -205,7 +205,7 @@ export function RecapTemplatePicker({
             <Text
               size={"xs"}
               fw={active ? 600 : 500}
-              c={active ? "white" : "dimmed"}
+              c={active ? "var(--gn-text)" : "dimmed"}
             >
               {label}
             </Text>

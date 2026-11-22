@@ -125,7 +125,7 @@ const GlobalAppShell = ({ children }: { children: React.ReactNode }) => {
       {!isConsole && sidebarOpened && (
         <div
           aria-hidden="true"
-          className="fixed inset-0 z-[99] bg-black/40 md:hidden"
+          className="fixed inset-0 z-[99] bg-media-scrim/40 md:hidden"
           onClick={sidebarOpenedUtils.close}
         />
       )}

@@ -104,7 +104,7 @@ const MobileCollectionThumbnailCard = ({
           Share
         </Menu.Item>
         <Menu.Item
-          className={"text-red-500"}
+          className={"text-status-danger-text"}
           leftSection={<IconTrash size={20} />}
           onClick={collectionRemoveUtils.open}
         >

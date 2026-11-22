@@ -117,7 +117,7 @@ const ImageDropzone = ({
   return (
     <Dropzone
       className={
-        "h-full w-full rounded-xl border-2 border-dashed border-[#3a3a3a] bg-paper-8 hover:bg-[#222]"
+        "h-full w-full rounded-xl border-2 border-dashed border-line-strong bg-paper-8 hover:bg-paper-6"
       }
       accept={accept}
       maxSize={maxSize}

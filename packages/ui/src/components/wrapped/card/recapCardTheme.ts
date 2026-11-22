@@ -16,6 +16,8 @@ export const RECAP_COLORS = {
   dim: "#6E675E",
   positive: "#2DD4A4",
   negative: "#FF6B5E",
+  /** 12% cream, for the hairlines drawn between blocks. */
+  hairline: "#F4EFE81F",
 } as const;
 
 /**

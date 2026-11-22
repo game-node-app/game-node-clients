@@ -159,7 +159,7 @@ const PRIMARY_BUTTON_STYLE = {
   "--button-padding-x": "22px",
   "--button-fz": "15px",
   "--button-radius": "10px",
-  "--button-color": "#0b0b0b",
+  "--button-color": "var(--gn-brand-filled-text)",
 } as CSSProperties;
 
 const SECONDARY_BUTTON_STYLE = {

@@ -15,11 +15,14 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 const DATE_KEY = "YYYY-MM-DD";
+const EMPTY_CELL_COLOR =
+  "color-mix(in srgb, var(--gn-text) 10%, var(--gn-surface))";
+
 const COLORS = [
   "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 30%, var(--gn-nav-raised))",
   "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 65%, var(--gn-nav-raised))",
   "var(--profile-accent, var(--gn-brand))",
-  "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 55%, white)",
+  "color-mix(in srgb, var(--profile-accent, var(--gn-brand)) 75%, var(--gn-text))",
 ];
 
 const JournalHeatmap = ({ userId }: { userId: string }) => {
@@ -187,7 +190,7 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
               data={data}
               colors={COLORS}
               domain={[1, Math.max(COLORS.length, ...counts)]}
-              style={{ "--heatmap-empty-rect-bg": "#222" }}
+              style={{ "--heatmap-empty-rect-bg": EMPTY_CELL_COLOR }}
               withOutsideDates={false}
               withTooltip
               withMonthLabels
@@ -225,7 +228,7 @@ const JournalHeatmap = ({ userId }: { userId: string }) => {
                 <Text size="xs" c="dimmed">
                   {t("profile.overview.less")}
                 </Text>
-                {["#222", ...COLORS].map((color) => (
+                {[EMPTY_CELL_COLOR, ...COLORS].map((color) => (
                   <Box
                     key={color}
                     className="size-2.5 rounded-sm"

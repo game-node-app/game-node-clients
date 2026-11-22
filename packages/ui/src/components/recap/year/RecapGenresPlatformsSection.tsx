@@ -15,12 +15,35 @@ export interface RecapGenresPlatformsSectionProps {
   recap: YearRecap;
 }
 
-/** Genre segments, from the design: brand tones, then neutrals. */
-// theme-exempt: recap chart artwork palette
-const GENRE_COLORS = ["#f15025", "#f7896d", "#ffd9cf", "#adadad", "#808080"];
-/** Platform segments and percentages, from the design: white, then greys. */
-// theme-exempt: recap chart artwork palette
-const PLATFORM_COLORS = ["#ffffff", "#adadad", "#808080"];
+/**
+ * Genre segments: theme tokens with distinct hues in every theme (brand,
+ * tertiary, warning, success, muted) instead of a fixed palette.
+ */
+const GENRE_COLORS = [
+  "var(--gn-brand)",
+  "var(--gn-tertiary)",
+  "var(--gn-status-warning-text)",
+  "var(--gn-status-success-text)",
+  "var(--gn-text-muted)",
+];
+/**
+ * Platform segments: theme text tones, dark enough on a light surface and
+ * light enough on a dark one.
+ */
+const PLATFORM_COLORS = [
+  "var(--gn-text)",
+  "var(--gn-text-muted)",
+  "var(--gn-line-strong)",
+];
+/**
+ * Platform percentages: text tones instead of the bar tones, so every figure
+ * keeps AA contrast on the paper-0 card.
+ */
+const PLATFORM_TEXT_COLORS = [
+  "var(--gn-text)",
+  "var(--gn-text-muted)",
+  "var(--gn-dimmed-2)",
+];
 /** Extra genres past the design's five share the last neutral. */
 const colorAt = (colors: string[], index: number) =>
   colors[Math.min(index, colors.length - 1)]!;
@@ -76,9 +99,7 @@ export function RecapGenresPlatformsSection({
                 />
                 <span className={"text-sm text-foreground"}>{genre.name}</span>
                 <span
-                  className={
-                    "text-xs font-bold tracking-[0.06em] text-[#808080]"
-                  }
+                  className={"text-xs font-bold tracking-[0.06em] text-muted"}
                 >
                   {formatPercentage(genre.share, locale) ?? "0%"}
                 </span>
@@ -119,11 +140,11 @@ export function RecapGenresPlatformsSection({
                     className={
                       "text-4xl leading-10 font-bold tracking-[-0.01em]"
                     }
-                    style={{ color: colorAt(PLATFORM_COLORS, index) }}
+                    style={{ color: colorAt(PLATFORM_TEXT_COLORS, index) }}
                   >
                     {formatPercentage(entry.share, locale) ?? "0%"}
                   </span>
-                  <span className={"text-sm text-[#adadad]"}>
+                  <span className={"text-sm text-muted"}>
                     {t("recap.page.genres.platformDetail", {
                       name,
                       hours: hours ?? "0",
@@ -143,7 +164,7 @@ function CardLabel({ children }: { children: string }) {
   return (
     <h3
       className={
-        "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+        "m-0 text-xs leading-none font-bold tracking-[0.06em] text-muted uppercase"
       }
     >
       {children}

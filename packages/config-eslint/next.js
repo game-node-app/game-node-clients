@@ -51,6 +51,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": ["off", { endOfLine: "auto" }],
     "gamenode/no-hard-coded-colors": "error",
+    "gamenode/no-unsafe-theme-pairs": "error",
   },
   overrides: [
     {

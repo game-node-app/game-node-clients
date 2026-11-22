@@ -1109,3 +1109,19 @@
   --color-selected: var(--gn-accent-contrast);
   color: var(--gn-accent-contrast);
 }
+
+/* ------------------------------------------------------- pack anchor */
+
+/*
+ * The only local class of this file, and it must stay: every rule above is a
+ * `:global(...)` side effect, so a bare `import "./RuinsPrimitives.module.css"`
+ * exports nothing and Vite/Rollup tree-shook the whole stylesheet out of the
+ * production build. `RuinsOverlay` renders this class (and the pack anchor
+ * references it), which keeps the module reachable and the styles shipping with
+ * the lazy Ruins pack.
+ */
+.primitivesAnchor {
+  display: none;
+  width: 0;
+  height: 0;
+}

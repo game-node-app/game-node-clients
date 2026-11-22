@@ -46,7 +46,7 @@ export function RecapFooter({ year, recap, userId }: RecapFooterProps) {
     >
       <div
         className={
-          "flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#808080]"
+          "flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted"
         }
       >
         {start && end && (

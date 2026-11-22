@@ -177,6 +177,9 @@ const config: Omit<Config, "content"> = {
         "status-warning-text": themeColor("status-warning-text"),
         "status-danger-strong": themeColor("status-danger-strong"),
         "status-danger-text": themeColor("status-danger-text"),
+        // Labels on solid fills: pair `on-*` with the matching `bg-*`.
+        "on-danger": themeColor("danger-filled-text"),
+        "on-state-played": themeColor("state-played-filled-text"),
         brand: {
           DEFAULT: themeColor("brand"),
           0: themeColor("brand-0"),
@@ -192,6 +195,8 @@ const config: Omit<Config, "content"> = {
           // Selected/"your vote" surface of the Awards (design `brand/tint`).
           tint: themeColor("brand-tint"),
         },
+        // Label on the flat `bg-brand` fill (selected tab pill, badges).
+        "brand-filled-text": themeColor("brand-filled-text"),
         // Play-status colors of the Awards chips and notes.
         state: {
           played: themeColor("state-played"),
