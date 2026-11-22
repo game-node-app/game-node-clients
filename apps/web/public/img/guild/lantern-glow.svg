@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="220" height="220" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle id="Brilho da lanterna" cx="110" cy="110" r="110" fill="url(#paint0_radial_0_286)"/>
+<defs>
+<radialGradient id="paint0_radial_0_286" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110 110) scale(110)">
+<stop stop-color="#FFCC4D" stop-opacity="0.32"/>
+<stop offset="1" stop-color="#FFCC4D" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

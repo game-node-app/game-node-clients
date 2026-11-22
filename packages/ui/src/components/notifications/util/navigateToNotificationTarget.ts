@@ -55,5 +55,7 @@ export async function navigateToNotificationTarget(
     await router.push(`/recap/${target.year - 1}/${userId}#goal`);
   } else if (target.type === "achievement" && userId) {
     await router.push(`/feats/${userId}`);
+  } else if (target.type === "guild") {
+    await router.push("/guild?tab=accepted");
   }
 }

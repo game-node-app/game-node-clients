@@ -39,6 +39,7 @@ import DailyArchivePage from "@/pages/daily/archive";
 import DailyRankingPage from "@/pages/daily/ranking";
 import DailyWeeklyPage from "@/pages/daily/weekly";
 import DailyPracticePage from "@/pages/daily/practice";
+import GuildPage from "@/pages/guild";
 
 /**
  * Slugs accepted by the legacy `${prefix}/preferences/:category` deep link.
@@ -136,6 +137,12 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       key={`${prefix}-daily-practice`}
       path={`${prefix}/daily/${DAILY_MODE_PARAM}/practice`}
       render={({ match }) => <DailyPracticePage mode={match.params.mode} />}
+    />,
+    <Route
+      exact
+      key={`${prefix}-guild`}
+      path={`${prefix}/guild`}
+      render={() => <GuildPage />}
     />,
     <Route
       exact

@@ -79,6 +79,7 @@ async function loadCommonRoutes() {
     "daily/ranking",
     "daily/weekly",
     "daily/practice",
+    "guild",
     "mcp",
   ]) {
     vi.doMock(`@/pages/${page}`, () => ({ default: () => null }));

@@ -15,6 +15,7 @@ import { useLocation } from "react-router-dom";
 import {
   getS3StoredUpload,
   Link,
+  useGuildAccess,
   useRecapVisited,
   useSeasonEvents,
   useUserProfile,
@@ -39,6 +40,7 @@ import {
   IconPuzzle,
   IconRobot,
   IconSettings,
+  IconShield,
   IconStars,
   IconTrophy,
 } from "@tabler/icons-react";
@@ -49,6 +51,8 @@ const MobileSidebarMenu = () => {
   const userId = useUserId();
   const queryClient = useQueryClient();
   const season = useSeasonEvents();
+  const guildAccess = useGuildAccess();
+  const guildEarlyAccess = guildAccess.data?.mode === "supporters";
   // Subscribes to navigation so the "Nova" marker is re-read after the Recap
   // page writes it; the page and this menu can stay mounted between routes.
   useLocation();
@@ -200,6 +204,14 @@ const MobileSidebarMenu = () => {
               href={"/daily"}
               withBadge
               badgeLabel={t("navigation.new")}
+            />
+            <MobileSidebarButton
+              title={t("navigation.guild")}
+              Icon={IconShield}
+              onClick={closeMenu}
+              href={"/guild"}
+              withBadge={guildEarlyAccess}
+              badgeLabel={t("guild.earlyAccess.badge")}
             />
             <MobileSidebarButton
               title={t("navigation.achievements")}

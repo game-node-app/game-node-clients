@@ -16,6 +16,7 @@ export * from "./NavDownloadIcon";
 export * from "./NavExploreIcon";
 export * from "./NavFeatsIcon";
 export * from "./NavGearIcon";
+export * from "./NavGuildIcon";
 export * from "./NavHomeIcon";
 export * from "./NavIcon";
 export * from "./NavJournalIcon";

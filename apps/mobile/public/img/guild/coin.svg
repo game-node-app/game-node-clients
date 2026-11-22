@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="coin" clip-path="url(#clip0_0_376)">
+<path id="Vector" d="M4 0H12V2H4V0ZM2 2H4V4H2V2ZM12 2H14V4H12V2ZM0 4H2V6H0V4ZM14 4H16V6H14V4ZM0 6H2V8H0V6ZM14 6H16V8H14V6ZM0 8H2V10H0V8ZM14 8H16V10H14V8ZM2 10H4V12H2V10ZM12 10H14V12H12V10ZM4 12H12V14H4V12Z" fill="#1F120D"/>
+<path id="Vector_2" d="M4 2H12V4H4V2ZM2 4H6V6H2V4ZM8 4H10V6H8V4ZM2 6H6V8H2V6ZM8 6H10V8H8V6ZM2 8H10V10H2V8Z" fill="#FFCC4D"/>
+<path id="Vector_3" d="M6 4H8V6H6V4ZM6 6H8V8H6V6Z" fill="#FFF3C4"/>
+<path id="Vector_4" d="M10 4H14V6H10V4ZM10 6H14V8H10V6ZM10 8H14V10H10V8ZM4 10H12V12H4V10Z" fill="#B8860B"/>
+</g>
+<defs>
+<clipPath id="clip0_0_376">
+<rect width="16" height="14" fill="white"/>
+</clipPath>
+</defs>
+</svg>

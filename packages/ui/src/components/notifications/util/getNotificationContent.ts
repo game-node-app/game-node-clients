@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 import {
   NotificationActivityTargetDto,
   NotificationAvatarDto,
+  NotificationGameContextDto,
   NotificationInboxItemDto,
   NotificationImportPreviewDto,
   NotificationTextPreviewDto,
@@ -25,6 +26,7 @@ export type NotificationLeadingIcon =
   | "awards"
   | "recap"
   | "goal"
+  | "guild"
   | "notification";
 
 /**
@@ -134,6 +136,26 @@ function getSocialLeading(
   }
 
   return { kind: "avatar", avatar };
+}
+
+/**
+ * Guild notifications have no actor: the target game cover is the leading
+ * element when the server sent one, with the Guild shield as the fallback.
+ */
+function getGuildLeading(
+  game: NotificationGameContextDto | undefined,
+): NotificationLeading {
+  if (game?.coverUrl) {
+    const sizedUrl = getSizedImageUrl(game.coverUrl, ImageSize.COVER_SMALL);
+    return {
+      kind: "cover",
+      url: sizedUrl?.startsWith("http") ? sizedUrl : game.coverUrl,
+      alt: game.name,
+      avatar: null,
+    };
+  }
+
+  return { kind: "icon", icon: "guild" };
 }
 
 function getTargetLabel(target: NotificationTarget, t: TFunction): string {
@@ -435,6 +457,18 @@ export function getNotificationContent(
         };
       }
       break;
+    }
+
+    case "guild.contract-ready": {
+      const game = textPreview?.game;
+
+      return {
+        name: t("notifications.guild.title"),
+        message: game?.name
+          ? t("notifications.guild.contractReadyGame", { game: game.name })
+          : t("notifications.guild.contractReady"),
+        leading: getGuildLeading(game),
+      };
     }
 
     case "moderation.applied": {

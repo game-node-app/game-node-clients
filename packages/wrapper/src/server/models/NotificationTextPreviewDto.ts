@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { NotificationGameContextDto } from './NotificationGameContextDto';
 export type NotificationTextPreviewDto = {
     text: string;
     action?: NotificationTextPreviewDto.action;
@@ -18,6 +19,10 @@ export type NotificationTextPreviewDto = {
      * Milestone identifier, for awards.milestone and recap.milestone
      */
     milestone?: string;
+    /**
+     * Game context, for guild.contract-ready
+     */
+    game?: NotificationGameContextDto;
 };
 export namespace NotificationTextPreviewDto {
     export enum action {

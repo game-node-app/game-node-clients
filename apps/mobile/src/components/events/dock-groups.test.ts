@@ -29,6 +29,7 @@ vi.mock("@repo/ui", () => {
     NavDailyIcon: Icon,
     NavExploreIcon: Icon,
     NavFeatsIcon: Icon,
+    NavGuildIcon: Icon,
     NavHomeIcon: Icon,
     NavJournalIcon: Icon,
     NavLibraryIcon: Icon,
