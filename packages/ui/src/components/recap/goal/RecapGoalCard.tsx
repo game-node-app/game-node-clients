@@ -99,7 +99,7 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
     >
       <p
         className={
-          "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
+          "m-0 text-xs leading-none font-bold tracking-[0.06em] text-muted uppercase"
         }
       >
         {t("recap.goal.title", { year: goalYear })}
@@ -117,7 +117,7 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
             })}
       </h3>
 
-      <p className={"m-0 text-base leading-normal text-[#adadad]"}>
+      <p className={"m-0 text-base leading-normal text-muted"}>
         {t("recap.goal.reminder")}
       </p>
 
@@ -210,7 +210,6 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
               size={"md"}
               radius={"md"}
               variant={"default"}
-              className={"border-[#333] bg-[#262626]"}
               loading={goalMutation.isPending}
             >
               {t("recap.goal.save")}
@@ -235,7 +234,7 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
         )}
 
       {goalMutation.isSuccess && (
-        <Text size={"sm"} c={"teal"}>
+        <Text size={"sm"} className={"text-status-success-text"}>
           {t("recap.goal.saved")}
         </Text>
       )}

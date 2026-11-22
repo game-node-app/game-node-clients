@@ -80,6 +80,56 @@ default palettes, which no token palette shadows (a test checks
 `packages/config-tailwind/tailwind.config.ts`, so a new token palette is allowed
 automatically and a colliding name fails the test).
 
+### Theme token pairing (`gamenode/no-unsafe-theme-pairs`)
+
+`gamenode/no-hard-coded-colors` stops colors that bypass the theme; this rule
+stops valid tokens from being paired unsafely. A solid filled accent/brand/
+status surface carries its own foreground tokens (`text-on-brand`,
+`text-accent-contrast`, `var(--gn-brand-filled-text)`,
+`var(--gn-danger-filled-text)`, `var(--gn-state-played-filled-text)`).
+Body/muted text tokens (`text-foreground`, `text-muted`, `var(--gn-text)`,
+`var(--gn-dimmed)`, …) are for page surfaces: in a dark theme they happen to be
+light, so white-on-brand looks fine, but in a light theme such as Ruins they
+turn dark and the component becomes dark-on-dark.
+
+It reports:
+
+- Tailwind class lists that combine a solid filled background (`bg-brand`,
+  `bg-brand-5`, `bg-accent`, `bg-tertiary`, `bg-status-danger-strong`,
+  `bg-state-played`, `bg-premium`) with a body/muted text utility
+  (`text-foreground`, `text-body`, `text-muted`, `text-text-muted`,
+  `text-dimmed`/`text-dimmed-0..3`, `text-subtle`, `text-soft`, `text-quiet`,
+  `text-faint`, `text-bright`, `text-chalk`, `text-pale`). Classes only pair
+  within the same variant prefix (`hover:` with `hover:`,
+  `data-[active]:` with `data-[active]:`), and strings passed to one
+  `cn()`/`clsx()`/`twMerge()` call are one class list. Translucent tints
+  (`bg-brand/15`, `bg-premium/20`) are allowed.
+- Style/CSS-variable objects (Mantine `styles`/`vars`, `style={{ … }}`) that
+  set `background`, `backgroundColor`, `--button-bg`, `--badge-bg` or `--bg` to
+  a solid filled token and `color`, `--button-color`, `--button-hover-color`,
+  `--badge-color` or `--color-selected` to a body/muted token. Only a value
+  that is exactly one token counts as a solid fill; tints
+  (`color-mix(…)`), `transparent` and gradients are not paired.
+- In stylesheets (through `bin/lint-css-colors.js`) the same pair inside one
+  rule block, plus `--color-selected: var(--gn-text)` on
+  `ion-tab-button.tab-selected`, because the selected Ionic pill is filled from
+  a sibling `::part(native)` rule.
+
+```tsx
+// Flagged: text is meant for page surfaces, unreadable on the brand fill in Ruins.
+<Button styles={{ root: { "--button-bg": "var(--gn-brand)", "--button-color": "var(--gn-text)" } }} />
+// Fixed:
+<Button styles={{ root: { "--button-bg": "var(--gn-brand)", "--button-color": "var(--gn-brand-filled-text)" } }} />
+```
+
+The filled-text tokens are the only safe pairing; use the one that matches the
+fill (`text-on-brand`, `text-accent-contrast`, and the `--gn-*-filled-text`
+variables). The rule is `error` in `next.js`/`react.js`, `warn` in
+`apps/admin` (pinned to `gamenode`), and `off` with the same
+test/theme-definition overrides as `no-hard-coded-colors`
+(`colorRuleOffOverrides`). `// theme-exempt: <reason>` works the same way; it is
+only for content artwork.
+
 ### Rollout and legacy baseline
 
 The rule is `error` by default in `packages/ui`, `apps/web` and `apps/mobile`
@@ -120,7 +170,9 @@ node ../../packages/config-eslint/bin/lint-css-colors.js src
 
 The CLI prints `file:line:column severity message (rule)` for every finding and
 exits non-zero when there is an error. Warnings are legacy baseline files and
-never fail the run. Pass one or more directories (or a single `.css` file) to check a
+never fail the run. Unsafe theme token pairs are always errors, even in a
+baseline file, because they are a light-theme contrast bug rather than legacy
+hard-coded color debt. Pass one or more directories (or a single `.css` file) to check a
 subset:
 
 ```bash
@@ -142,3 +194,7 @@ checker only adds `postcss` (already in the workspace through Tailwind) as a
 dev dependency. ESLint 8 legacy configs cannot reference a local plugin by
 path, so `plugin-resolver.js` maps only the `eslint-plugin-gamenode` specifier
 to `plugins/gamenode.js`. Delete it when the repo moves to flat config.
+
+CI runs this suite, `pnpm colors:check` and the mobile theme contrast suite
+(`pnpm --filter mobile exec vitest run src/theme/`) unconditionally on every PR,
+next to the turbo affected-packages job.

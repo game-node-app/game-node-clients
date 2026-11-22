@@ -152,12 +152,19 @@ function legacyColorOverrides(packageRoot, baseline = LEGACY_COLOR_BASELINE) {
   ];
 }
 
+/**
+ * Tests and theme definitions are also off for `gamenode/no-unsafe-theme-pairs`:
+ * tests assert colors on purpose, and theme definitions are the token source
+ * (their generated `*-filled-text` pairs are what the rule points consumers
+ * at).
+ */
 function colorRuleOffOverrides() {
   return [
     {
       files: [...COLOR_RULE_OFF_PATTERNS],
       rules: {
         "gamenode/no-hard-coded-colors": "off",
+        "gamenode/no-unsafe-theme-pairs": "off",
       },
     },
   ];

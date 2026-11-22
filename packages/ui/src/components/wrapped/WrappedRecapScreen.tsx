@@ -400,51 +400,56 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
     <>
       {isLoading && <CenteredLoading />}
       {isReady && !isEmpty && (
-        <RecapCardPreview
-          format={format}
-          cardRef={cardRef}
-          maxHeight={
-            compact
-              ? sheetOpen
-                ? Math.max(140, viewportHeight * 0.26)
-                : Math.max(240, viewportHeight - 440)
-              : undefined
-          }
-        >
-          {hasVideo ? (
-            <div
-              className={"relative w-full h-full"}
-              style={{ background: RECAP_COLORS.ground }}
-            >
-              <video
-                src={videoUrl!}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={"object-cover"}
-                style={{
-                  ...at(
-                    mediaRect.x,
-                    mediaRect.y,
-                    mediaRect.width,
-                    mediaRect.height,
-                  ),
-                  borderRadius: mediaRect.radius,
-                }}
-              />
-              <div className={"absolute inset-0"}>{renderCard(true)}</div>
-            </div>
-          ) : (
-            renderCard()
-          )}
-        </RecapCardPreview>
+        // The card is rasterized as-is, so its subtree keeps the dark theme
+        // variables the exported artwork is designed against.
+        <div data-gn-scope={"dark"} className={"w-full"}>
+          <RecapCardPreview
+            format={format}
+            cardRef={cardRef}
+            maxHeight={
+              compact
+                ? sheetOpen
+                  ? Math.max(140, viewportHeight * 0.26)
+                  : Math.max(240, viewportHeight - 440)
+                : undefined
+            }
+          >
+            {hasVideo ? (
+              <div
+                className={"relative w-full h-full"}
+                style={{ background: RECAP_COLORS.ground }}
+              >
+                <video
+                  src={videoUrl!}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className={"object-cover"}
+                  style={{
+                    ...at(
+                      mediaRect.x,
+                      mediaRect.y,
+                      mediaRect.width,
+                      mediaRect.height,
+                    ),
+                    borderRadius: mediaRect.radius,
+                  }}
+                />
+                <div className={"absolute inset-0"}>{renderCard(true)}</div>
+              </div>
+            ) : (
+              renderCard()
+            )}
+          </RecapCardPreview>
+        </div>
       )}
       {hasVideo && isReady && (
         // Off-screen copy with a transparent hero: the encoder draws the
         // background and the clip underneath this image.
         <div
           aria-hidden
+          data-gn-scope={"dark"}
           style={{
             position: "fixed",
             left: -99999,
@@ -476,7 +481,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
           renderPreview={(option) => renderTemplate(option)}
         />
       </Stack>
-      <div className={"h-px bg-white/[0.08]"} />
+      <div className={"h-px bg-line/40"} />
     </>
   );
 
@@ -639,7 +644,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
                   "h-1.5 rounded-full border-0 p-0 transition-all",
                   index === templateIndex
                     ? "w-4 bg-brand"
-                    : "w-1.5 bg-white/25",
+                    : "w-1.5 bg-line-strong/50",
                 )}
               />
             ))}
@@ -711,7 +716,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
             <div
               style={transitionStyles}
               className={
-                "flex flex-col gap-3 rounded-t-2xl border border-b-0 border-white/[0.08] bg-[#1A1A1A] p-3"
+                "flex flex-col gap-3 rounded-t-2xl border border-b-0 border-line bg-paper-0 p-3"
               }
             >
               <Group justify={"space-between"}>
@@ -770,7 +775,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
       </div>
 
       {emptyMessage}
-        {userId && <RecapStoreSync />}
+      {userId && <RecapStoreSync />}
 
       <div
         className={
@@ -779,12 +784,11 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
       >
         <div
           className={
-            "rounded-2xl p-6 min-h-48 flex flex-col gap-4 border border-white/[0.06] lg:sticky lg:top-sticky-safe"
+            "rounded-2xl p-6 min-h-48 flex flex-col gap-4 border border-line lg:sticky lg:top-sticky-safe"
           }
           style={{
-            // theme-exempt: recap artwork background
             background:
-              "radial-gradient(700px 500px at 50% 0%, rgba(241,80,37,0.2), transparent), #1A1A1A",
+              "radial-gradient(700px 500px at 50% 0%, color-mix(in srgb, var(--gn-brand) 15%, transparent), transparent), var(--gn-paper-0)",
           }}
         >
           <div className={"flex items-center justify-between gap-4"}>
@@ -823,7 +827,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
 
         <div
           className={
-            "flex min-w-0 flex-col gap-6 rounded-2xl border border-white/[0.06] bg-[#1A1A1A] p-6"
+            "flex min-w-0 flex-col gap-6 rounded-2xl border border-line bg-paper-0 p-6"
           }
         >
           {/* An export reads the preview as it is now, so every control that
@@ -840,7 +844,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
               {templatePicker}
               {backgroundControl}
 
-              <div className={"h-px bg-white/[0.08]"} />
+              <div className={"h-px bg-line/40"} />
 
               <RecapCustomizePanel value={custom} onChange={setCustom} />
             </Stack>
@@ -849,7 +853,7 @@ const WrappedRecapScreen = ({ onShare, initialPeriod = "week" }: Props) => {
           <Stack
             gap={"xs"}
             className={
-              "z-10 -mx-6 -mb-6 mt-auto rounded-b-2xl border-t border-white/[0.08] bg-[#1A1A1A] px-6 pb-6 pt-5 lg:sticky lg:bottom-0"
+              "z-10 -mx-6 -mb-6 mt-auto rounded-b-2xl border-t border-line bg-paper-0 px-6 pb-6 pt-5 lg:sticky lg:bottom-0"
             }
           >
             {exportProgress}

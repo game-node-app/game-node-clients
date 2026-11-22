@@ -27,8 +27,8 @@ const MAX_UNITS = 156;
 type BacklogUnit = "finished" | "dropped" | "queued";
 
 const UNIT_STYLES: Record<BacklogUnit, string> = {
-  finished: "bg-[#4fd1a5]",
-  dropped: "bg-[#3a3a3a]",
+  finished: "bg-state-played",
+  dropped: "bg-line-strong",
   queued: "border border-line",
 };
 
@@ -110,7 +110,7 @@ export function RecapBacklogSection({
           </div>
           <ul
             className={
-              "m-0 mt-4 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-sm text-[#adadad]"
+              "m-0 mt-4 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-sm text-muted"
             }
           >
             {(["finished", "dropped", "queued"] as const).map((unit) => (

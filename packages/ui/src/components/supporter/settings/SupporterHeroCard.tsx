@@ -184,10 +184,10 @@ export function SupporterHeroCard({
     <SettingsCard
       withDividers={false}
       data-testid={"supporter-hero-card"}
-      className={cn("@container border-[rgba(151,71,255,0.4)]", className)}
+      className={cn("@container border-premium/40", className)}
       style={{
         backgroundImage:
-          "linear-gradient(135deg, rgba(151,71,255,0.12), rgba(26,26,26,0) 60%)",
+          "linear-gradient(135deg, color-mix(in srgb, var(--gn-premium) 12%, transparent), transparent 60%)",
       }}
     >
       <Stack gap={20} className={"p-6"}>
@@ -206,7 +206,7 @@ export function SupporterHeroCard({
             <Box
               aria-hidden
               className={
-                "flex size-[52px] shrink-0 items-center justify-center rounded-[14px] border border-solid border-[rgba(151,71,255,0.4)] bg-[rgba(151,71,255,0.16)] text-[#c7a6ff]"
+                "flex size-[52px] shrink-0 items-center justify-center rounded-[14px] border border-solid border-premium/40 bg-premium/15 text-premium-text"
               }
             >
               <IconCrown size={24} />
@@ -242,7 +242,7 @@ export function SupporterHeroCard({
             )}
           </Stack>
         ) : isSupporter ? (
-          <Text fz={13} lh={"19px"} className={"text-[#b98aff]"}>
+          <Text fz={13} lh={"19px"} className={"text-premium-text"}>
             {t("supporter.subscription.thankYou")} {summaryPieces.join(" · ")}
           </Text>
         ) : (

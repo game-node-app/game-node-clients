@@ -29,6 +29,7 @@ export function RecapStoryFrame({
   return (
     <div
       data-testid={`recap-story-${storyId}`}
+      data-gn-scope={"dark"}
       style={{
         position: "relative",
         width: "100%",

@@ -7,7 +7,8 @@ import { THEME_CATALOG } from "../../../../packages/ui/src/theme/generated/catal
  * generated `themes.css` (what components actually resolve), so a new theme is
  * covered without touching this file. It complements the definition-level
  * checks in `theme-catalog.test.ts` with the token pairs that components use:
- * Mantine's brand/secondary/tertiary filled and light variants, the text tones,
+ * Mantine's brand/secondary/tertiary filled and light variants, the text tones
+ * and dimmed tones on every paper/surface, danger and played filled labels,
  * navigation, status and premium text on the surfaces they sit on.
  */
 
@@ -60,6 +61,51 @@ const AA = 4.5;
 /** Large text and UI components (WCAG 1.4.3 / 1.4.11). */
 const LARGE = 3;
 
+/**
+ * `gamenode` is the byte-for-byte parity baseline (`themes/gamenode.ts`) pinned
+ * to the literals the apps shipped before the token system. Five of its pairs
+ * sit just under AA and cannot be raised without changing the default theme, so
+ * they carry their measured floor here: a further regression still fails, every
+ * other theme/pair is held to AA. Key: `<theme>:<foreground>@<background>`.
+ */
+const PARITY_FLOORS: Readonly<Record<string, number>> = {
+  "gamenode:text-muted@paper-5": 4.4, // 4.43
+  "gamenode:text-muted@brand-tint": 4.4, // 4.44
+  "gamenode:dimmed-3@background": 4.2, // 4.4
+  "gamenode:dimmed-3@surface": 4.2, // 4.22
+  "gamenode:dimmed-3@panel": 4.2, // 4.29
+};
+
+/** Text tokens that must read on every paper/surface a component may use. */
+const TEXT_SURFACES = [
+  "paper-0",
+  "paper-5",
+  "panel",
+  "brand-tint",
+  "surface",
+  "background",
+] as const;
+
+/** Secondary/tertiary tones that components draw as text on the app surfaces. */
+const TONE_SURFACES = ["background", "surface", "panel"] as const;
+
+/** [foreground token, background token] pairs held to AA (see PARITY_FLOORS). */
+const SURFACE_MATRIX: Array<[string, string]> = [
+  ...TEXT_SURFACES.flatMap(
+    (background): Array<[string, string]> => [
+      ["text", background],
+      ["text-muted", background],
+    ],
+  ),
+  ...TONE_SURFACES.flatMap(
+    (background): Array<[string, string]> =>
+      ["brand-3", "dimmed-1", "dimmed-2", "dimmed-3"].map((foreground) => [
+        foreground,
+        background,
+      ]),
+  ),
+];
+
 /** [foreground token, background token, minimum ratio] */
 const TEXT_ON_SURFACE: Array<[string, string, number]> = [
   ["text", "background", AA],
@@ -85,6 +131,7 @@ const TEXT_ON_SURFACE: Array<[string, string, number]> = [
   ["nav-text", "nav-canvas", AA],
   ["nav-muted", "nav-surface", AA],
   ["status-success-text", "background", AA],
+  ["status-success-text", "state-played-tint", AA],
   ["status-warning-text", "background", AA],
   ["status-danger-text", "background", AA],
   ["premium-text", "background", AA],
@@ -111,6 +158,34 @@ describe.each(THEME_CATALOG.map((theme) => theme.id))(
       ).toBeGreaterThanOrEqual(min);
     });
 
+    it.each(SURFACE_MATRIX)(
+      "%s on %s clears AA (or its pinned parity floor)",
+      (fg, bg) => {
+        const min = PARITY_FLOORS[`${themeId}:${fg}@${bg}`] ?? AA;
+        expect(
+          contrast(readToken(themeId, fg), readToken(themeId, bg)),
+          `${themeId}: --gn-${fg} on --gn-${bg}`,
+        ).toBeGreaterThanOrEqual(min);
+      },
+    );
+
+    it("keeps the danger and played filled labels readable", () => {
+      expect(
+        contrast(
+          readToken(themeId, "danger-filled-text"),
+          readToken(themeId, "status-danger-strong"),
+        ),
+        `${themeId}: danger-filled-text on status-danger-strong`,
+      ).toBeGreaterThanOrEqual(AA);
+      expect(
+        contrast(
+          readToken(themeId, "state-played-filled-text"),
+          readToken(themeId, "state-played"),
+        ),
+        `${themeId}: state-played-filled-text on state-played`,
+      ).toBeGreaterThanOrEqual(AA);
+    });
+
     it.each(["brand", "secondary", "tertiary"])(
       "Mantine %s filled and light variants stay readable",
       (palette) => {
@@ -125,13 +200,13 @@ describe.each(THEME_CATALOG.map((theme) => theme.id))(
           `${themeId}: ${palette}-filled-text on ${palette}`,
         ).toBeGreaterThanOrEqual(AA);
 
-        // `light`: the palette at 15% over the surface it sits on. Cards sit on
-        // `panel` (AA). `surface` and the page background use the large-text bar:
-        // ruins' secondary/tertiary `*-light-text` is 3.7-4.2:1 there today.
-        for (const [name, surface, min] of [
-          ["panel", panel, AA],
-          ["surface", paper, LARGE],
-          ["background", background, LARGE],
+        // `light`: the palette at 15% over the surface it sits on. The
+        // generator resolves the light-text candidate against the secondary,
+        // surface and background tints, so all three must clear AA.
+        for (const [name, surface] of [
+          ["panel", panel],
+          ["surface", paper],
+          ["background", background],
         ] as const) {
           expect(
             contrast(
@@ -139,7 +214,7 @@ describe.each(THEME_CATALOG.map((theme) => theme.id))(
               mix(base, surface, 0.15),
             ),
             `${themeId}: ${palette}-light-text on tinted ${name}`,
-          ).toBeGreaterThanOrEqual(min);
+          ).toBeGreaterThanOrEqual(AA);
         }
       },
     );

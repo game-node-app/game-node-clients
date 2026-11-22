@@ -38,7 +38,7 @@ const LandingHeader = () => {
             {links.map(({ href, label }) => (
               <Anchor
                 component={Link}
-                c="white"
+                c="var(--gn-text)"
                 size="sm"
                 href={href}
                 key={href}

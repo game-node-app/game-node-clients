@@ -109,7 +109,7 @@ function CoverTile({
             right={4}
             w={22}
             h={22}
-            className="rounded-full bg-brand text-white"
+            className="rounded-full bg-brand text-[var(--gn-brand-filled-text)]"
           >
             <IconCheck size={"0.9rem"} />
           </Center>

@@ -87,7 +87,7 @@ const DailyStatsPanel = ({ mode, maxAttempts, highlight }: Props) => {
                   className={cn(
                     "flex h-[22px] min-w-[28px] items-center justify-end rounded px-2 text-xs font-bold",
                     row.today
-                      ? "bg-brand-5 text-black"
+                      ? "bg-brand-5 text-[var(--gn-brand-filled-text)]"
                       : row.lost
                         ? "bg-[var(--mantine-color-red-light)] text-[var(--mantine-color-red-light-color)]"
                         : "bg-paper-4",

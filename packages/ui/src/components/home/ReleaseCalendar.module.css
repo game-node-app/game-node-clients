@@ -250,7 +250,8 @@
   aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: var(--mantine-radius-default);
-  box-shadow: 0 12px 28px color-mix(in srgb, black 45%, transparent);
+  box-shadow: 0 12px 28px
+    color-mix(in srgb, var(--gn-media-scrim) 45%, transparent);
   transition: transform 200ms ease;
 }
 

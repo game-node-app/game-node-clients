@@ -79,8 +79,8 @@ export interface SupporterPerksSettingsProps {
   className?: string;
 }
 
-const TILE_CLASS = "bg-[rgba(151,71,255,0.16)]";
-const TILE_ICON_CLASS = "text-[#c7a6ff]";
+const TILE_CLASS = "bg-premium/15";
+const TILE_ICON_CLASS = "text-premium-text";
 
 interface PerkIconTileProps {
   Icon: ComponentType<IconProps>;
@@ -160,7 +160,7 @@ function LiveProfileDescription() {
           component={"span"}
           fz={13}
           lh={"18px"}
-          className={"block text-[#ffb224]"}
+          className={"block text-status-warning-text"}
         >
           {t("supporter.perks.live.needsSteam")}
         </Text>
@@ -226,7 +226,11 @@ export function SupporterPerksSettings({
             </Text>
           ) : isSaved ? (
             <Group gap={6} wrap={"nowrap"}>
-              <IconCheck size={14} color={"#3dd68c"} aria-hidden />
+              <IconCheck
+                size={14}
+                className={"text-status-success-text"}
+                aria-hidden
+              />
               <Text fz={12} lh={"normal"} className={"text-subtle"}>
                 {t("supporter.perks.saved")}
               </Text>
@@ -248,16 +252,19 @@ export function SupporterPerksSettings({
               <SettingsCard
                 withDividers={false}
                 role={"alert"}
-                className={"border-[rgba(229,72,77,0.4)]"}
+                className={"border-status-danger-strong/40"}
               >
                 <Group gap={16} wrap={"nowrap"} align={"flex-start"} p={"md"}>
                   <Box
                     aria-hidden
                     className={
-                      "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-[rgba(229,72,77,0.12)]"
+                      "flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-status-danger-strong/15"
                     }
                   >
-                    <IconAlertTriangle size={18} className={"text-[#ff6369]"} />
+                    <IconAlertTriangle
+                      size={18}
+                      className={"text-status-danger-text"}
+                    />
                   </Box>
                   <Stack gap={8} className={"min-w-0 flex-1"}>
                     <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
@@ -393,7 +400,7 @@ export function SupporterPerksSettings({
                         <Link
                           href={"/about#supporters"}
                           className={
-                            "text-[#c7a6ff] underline hover:text-foreground"
+                            "text-premium-text underline hover:text-foreground"
                           }
                         >
                           {t("supporter.perks.wall.seeWall")}

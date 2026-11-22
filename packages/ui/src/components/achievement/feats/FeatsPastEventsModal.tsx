@@ -70,7 +70,7 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
             <Text
               fz={12}
               lh={"normal"}
-              className={obtained ? "text-teal-400" : "text-faint"}
+              className={obtained ? "text-status-success-text" : "text-faint"}
               ta={"right"}
             >
               {obtained

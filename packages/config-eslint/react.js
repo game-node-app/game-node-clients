@@ -41,6 +41,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "prettier/prettier": ["warn", { endOfLine: "auto" }],
     "gamenode/no-hard-coded-colors": "error",
+    "gamenode/no-unsafe-theme-pairs": "error",
   },
   overrides: [
     {
