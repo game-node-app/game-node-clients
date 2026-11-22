@@ -1,0 +1,28 @@
+{
+  "source": "d8a035fd584004e1b4e31bc7db87bfa7b75aa9e8",
+  "changesets": [
+    ".changeset/ruins-light-theme-contrast.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[3d5c36226334dd89112f2c6a2eaf89810423408e...d8a035fd584004e1b4e31bc7db87bfa7b75aa9e8]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/d8a035fd584004e1b4e31bc7db87bfa7b75aa9e8",
+  "versions": {
+    "web": "1.28.1",
+    "mobile": "1.27.1"
+  }
+}
