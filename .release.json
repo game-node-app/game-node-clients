@@ -1,0 +1,22 @@
+{
+  "source": "6a1a4c6875bd1a9b6150f4a53606b4323833e669",
+  "changesets": [
+    ".changeset/mobile-game-hero-backdrop.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[e6642d207a118de759213c61bf41d5975b266a93...6a1a4c6875bd1a9b6150f4a53606b4323833e669]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/6a1a4c6875bd1a9b6150f4a53606b4323833e669",
+  "versions": {
+    "mobile": "1.27.3"
+  }
+}
