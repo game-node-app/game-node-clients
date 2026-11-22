@@ -1,0 +1,28 @@
+{
+  "source": "3d5c36226334dd89112f2c6a2eaf89810423408e",
+  "changesets": [
+    ".changeset/ruins-release-retry.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[234e3ec7f630133d6788d372087fce4e9aeea005...3d5c36226334dd89112f2c6a2eaf89810423408e]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/3d5c36226334dd89112f2c6a2eaf89810423408e",
+  "versions": {
+    "web": "1.28.0",
+    "mobile": "1.27.0"
+  }
+}
