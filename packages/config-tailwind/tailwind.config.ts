@@ -72,6 +72,31 @@ const config: Omit<Config, "content"> = {
         "gn-fade-up": "gn-fade-up 450ms cubic-bezier(0.22, 1, 0.36, 1) both",
       },
       textColor: themeColor("text-color"),
+      // `prose-gamenode`: the typography palette from theme tokens. `prose-invert`
+      // hard-codes light-gray text, which is unreadable on light themes (Ruins).
+      typography: {
+        gamenode: {
+          css: {
+            "--tw-prose-body": "var(--gn-text-color)",
+            "--tw-prose-headings": "var(--gn-text-emphasis)",
+            "--tw-prose-lead": "var(--gn-text-muted)",
+            "--tw-prose-links": "var(--gn-brand-4)",
+            "--tw-prose-bold": "var(--gn-text-emphasis)",
+            "--tw-prose-counters": "var(--gn-text-muted)",
+            "--tw-prose-bullets": "var(--gn-text-muted)",
+            "--tw-prose-hr": "var(--gn-line)",
+            "--tw-prose-quotes": "var(--gn-text-emphasis)",
+            "--tw-prose-quote-borders": "var(--gn-line-strong)",
+            "--tw-prose-captions": "var(--gn-text-muted)",
+            "--tw-prose-kbd": "var(--gn-text-emphasis)",
+            "--tw-prose-code": "var(--gn-text-emphasis)",
+            "--tw-prose-pre-code": "var(--gn-text-color)",
+            "--tw-prose-pre-bg": "var(--gn-paper-2)",
+            "--tw-prose-th-borders": "var(--gn-line-strong)",
+            "--tw-prose-td-borders": "var(--gn-line)",
+          },
+        },
+      },
       colors: {
         body: themeColor("body"),
         // Every value below lives in @repo/ui/themes.css so a theme can swap it.
