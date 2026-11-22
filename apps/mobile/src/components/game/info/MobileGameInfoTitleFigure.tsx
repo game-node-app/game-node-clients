@@ -22,6 +22,12 @@ const MobileGameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
     <Box
       className={"relative overflow-hidden bg-media-fade"}
       style={{
+        // The parent is a shrink-to-fit flex item (cover-sized), so size the
+        // hero explicitly to the full page width, `ion-padding` included.
+        width:
+          "calc(100% + var(--padding-start, 16px) + var(--padding-end, 16px))",
+        maxWidth: "none",
+        flex: "none",
         margin:
           "calc(-1 * var(--padding-top, 16px)) calc(-1 * var(--padding-end, 16px)) 0 calc(-1 * var(--padding-start, 16px))",
         paddingTop: "calc(var(--ion-safe-area-top, 0px) + 72px)",
