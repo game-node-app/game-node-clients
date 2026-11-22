@@ -132,6 +132,7 @@ afterEach(() => {
 
 describe("theme driven color scheme", () => {
   it("manager reads the active theme's scheme and never persists", () => {
+    const storedPreferences = { ...window.localStorage };
     const manager = createThemeColorSchemeManager({ catalog: testCatalog });
 
     expect(manager.get("dark")).toBe("dark");
@@ -141,7 +142,7 @@ describe("theme driven color scheme", () => {
     expect(manager.get("dark")).toBe("dark");
 
     manager.set("light");
-    expect(window.localStorage.length).toBe(0);
+    expect({ ...window.localStorage }).toEqual(storedPreferences);
   });
 
   it("follows the theme between dark and light", async () => {
