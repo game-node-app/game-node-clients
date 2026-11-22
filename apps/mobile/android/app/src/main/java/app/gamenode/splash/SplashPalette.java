@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.core.content.ContextCompat;
-import app.gamenode.R;
 
 /**
  * Splash colors for the theme the app last rendered.
@@ -17,17 +16,16 @@ import app.gamenode.R;
  * SharedPreferences, so the native splash can read it synchronously before the WebView exists. It is the
  * rendered theme, not the saved preference: a signed-out or lapsed Supporter keeps "xbox" as their
  * preference but sees the default theme, and the splash must match what they see. An unknown or missing
- * id falls back to the GameNode colors.
+ * id falls back to the default (GameNode) colors.
  *
- * The colors live in res/values/splash.xml; `splash-palette.test.ts` checks them against the theme
- * definitions in packages/ui.
+ * The per-theme resources and the id lookup ({@link SplashThemes}) are generated from the theme catalog by
+ * `pnpm splash:generate` (apps/mobile/scripts/native-splash.ts); adding a theme needs no change here.
  */
 public final class SplashPalette {
 
     /** @capacitor/preferences' default group and the key NativeThemeChrome writes (SPLASH_THEME_STORAGE_KEY). */
     private static final String PREFERENCES_GROUP = "CapacitorStorage";
     private static final String THEME_KEY = "gn-splash-theme";
-    private static final String XBOX_THEME_ID = "xbox";
 
     @ColorInt
     public final int background;
@@ -51,20 +49,12 @@ public final class SplashPalette {
 
     @NonNull
     public static SplashPalette load(@NonNull Context context) {
-        int logoInner = ContextCompat.getColor(context, R.color.splash_logo_inner);
-        if (XBOX_THEME_ID.equals(readThemeId(context))) {
-            return new SplashPalette(
-                ContextCompat.getColor(context, R.color.splash_xbox_background),
-                ContextCompat.getColor(context, R.color.splash_xbox_brand),
-                logoInner,
-                R.style.AppTheme_NoActionBarLaunch_Xbox
-            );
-        }
+        SplashThemes theme = SplashThemes.forId(readThemeId(context));
         return new SplashPalette(
-            ContextCompat.getColor(context, R.color.splash_background),
-            ContextCompat.getColor(context, R.color.splash_brand),
-            logoInner,
-            R.style.AppTheme_NoActionBarLaunch
+            ContextCompat.getColor(context, theme.background),
+            ContextCompat.getColor(context, theme.brand),
+            ContextCompat.getColor(context, theme.logoInner),
+            theme.launchTheme
         );
     }
 

@@ -12,6 +12,8 @@ import { GN_THEME_COOKIE, GN_THEME_STORAGE_KEY } from "./themeStorage";
  *   generated catalog and sets `data-theme`, so colors are right immediately;
  * - records the server-rendered value in `data-theme-ssr` when it is missing,
  *   which is what `AppThemeProvider` uses for its first client render;
+ * - sets `data-mantine-color-scheme` to the theme's catalog color scheme (the
+ *   theme owns Mantine's light/dark; there is no `ColorSchemeScript`);
  * - keeps `<meta name="theme-color">` in sync with the selected theme.
  *
  * The script only contains ids/colors from the generated catalog, so it is
@@ -25,9 +27,13 @@ function buildThemeInitScript(): string {
     ),
   );
 
+  const schemes = JSON.stringify(
+    Object.fromEntries(THEME_CATALOG.map((e) => [e.id, e.colorScheme])),
+  );
+
   return `(function(){try{
 var d=document,root=d.documentElement;
-var ids=${ids},colors=${colors},def=${JSON.stringify(DEFAULT_THEME_ID)};
+var ids=${ids},colors=${colors},schemes=${schemes},def=${JSON.stringify(DEFAULT_THEME_ID)};
 function valid(v){return typeof v==="string"&&ids.indexOf(v)!==-1;}
 function fromCookie(){
   var m=d.cookie.match(/(?:^|;\\s*)${GN_THEME_COOKIE}=([^;]+)/);
@@ -45,6 +51,7 @@ var ssr=root.getAttribute("data-theme-ssr");
 if(!ssr){ssr=root.getAttribute("data-theme")||def;root.setAttribute("data-theme-ssr",ssr);}
 var theme=fromCookie()||fromStorage()||(valid(ssr)?ssr:def);
 root.setAttribute("data-theme",theme);
+root.setAttribute("data-mantine-color-scheme",schemes[theme]||schemes[def]||"dark");
 var meta=d.querySelector('meta[name="theme-color"]');
 if(meta)meta.setAttribute("content",colors[theme]||colors[def]);
 }catch(e){}})();`;

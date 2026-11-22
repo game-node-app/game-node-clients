@@ -18,7 +18,7 @@ export function McpAppTile({ name, size = 36, className }: Props) {
         className,
       )}
     >
-      <Text fz={16} fw={600} c={"white"} lh={"normal"}>
+      <Text fz={16} fw={600} c="var(--gn-text)" lh={"normal"}>
         {name.trim().charAt(0).toUpperCase() || "?"}
       </Text>
     </Box>

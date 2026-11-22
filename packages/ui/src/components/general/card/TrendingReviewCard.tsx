@@ -1,7 +1,8 @@
 import { useOnMobile } from "#@/components";
 import { buildPresenterComponent } from "#@/context";
 import { Link } from "#@/util";
-import { Box, Button, Group, Overlay, Paper, Skeleton } from "@mantine/core";
+import { MEDIA_BUTTON_STYLE } from "#@/theme/mediaSurface";
+import { Box, Button, Group, Paper, Skeleton } from "@mantine/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import {
   DEFAULT_REVIEW_EDITOR_EXTENSIONS,
@@ -66,13 +67,17 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
     <Paper
       style={{
         backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : "none",
+        backgroundColor: "var(--gn-media-fade)",
       }}
       className={
         "relative w-full h-full flex flex-col justify-between items-start bg-cover bg-center p-xl rounded-md shadow-md z-0"
       }
     >
-      <Overlay color="black" backgroundOpacity={0.75} className={"z-10"} />
-      <div className="z-20 relative w-full">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[inherit] bg-media-content-scrim"
+      />
+      <div className="relative w-full media-ink">
         <Group className={"w-full justify-between flex-nowrap"}>
           <Box className={"max-w-64"}>
             <UserAvatarGroup
@@ -80,6 +85,7 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
                 size: "lg",
               }}
               userId={profileUserId}
+              textProps={{ c: "var(--gn-media-text)" }}
             />
           </Box>
 
@@ -91,7 +97,12 @@ const DEFAULT_TrendingReviewCard = ({ reviewId }: ReviewCardProps) => {
         )}
       </div>
       <Link href={`/game/${gameId}`}>
-        <Button variant="white" color="dark" className={"z-10"}>
+        <Button
+          variant="white"
+          color="dark"
+          className={"z-10"}
+          style={MEDIA_BUTTON_STYLE}
+        >
           Visit
         </Button>
       </Link>

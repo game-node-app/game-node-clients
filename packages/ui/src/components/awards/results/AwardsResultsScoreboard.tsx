@@ -114,7 +114,7 @@ export function AwardsResultsScoreboard({
         <p
           data-awards-results-score-summary
           className={
-            "text-[32px] font-bold leading-[38px] tracking-[-0.32px] text-white"
+            "text-[32px] font-bold leading-[38px] tracking-[-0.32px] text-foreground"
           }
         >
           {summary}
@@ -163,7 +163,9 @@ export function AwardsResultsScoreCard({
         </p>
         <p
           data-awards-results-score-summary
-          className={"text-[20px] font-semibold leading-[normal] text-white"}
+          className={
+            "text-[20px] font-semibold leading-[normal] text-foreground"
+          }
         >
           {t("awards.results.scoreboard.hitsCompact", {
             hits: totals.hits,

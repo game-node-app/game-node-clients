@@ -82,7 +82,7 @@ function DevicePreview({
               backgroundImage: `url(${src})`,
             }}
           >
-            <Box className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <Box className="absolute inset-0 bg-gradient-to-t from-media-scrim/60 via-transparent to-transparent" />
             {perks?.theme && (
               <Box
                 className="absolute inset-x-0 bottom-0 flex items-center justify-end px-4"

@@ -4,6 +4,7 @@ import { LANGUAGE_OPTIONS } from "#@/components/general/LanguagePickerMenu/Langu
 import { SettingsCard } from "#@/components/settings/common/SettingsCard";
 import { SettingsPill } from "#@/components/settings/common/SettingsPill";
 import { SettingsSection } from "#@/components/settings/common/SettingsSection";
+import { SettingsRuinsOptionsSection } from "#@/components/settings/tabs/appearance/SettingsRuinsOptionsSection";
 import { SettingsCustomCoversSection } from "#@/components/settings/tabs/appearance/SettingsCustomCoversSection";
 import {
   SettingsRadioDot,
@@ -30,13 +31,17 @@ type UnavailableThemeValue =
   | "nintendo";
 type ThemeValue = ThemeId | UnavailableThemeValue;
 
+/** Themes shown in the main "Theme" selector next to the unavailable ones. */
 const BASE_THEME_ORDER = [DEFAULT_THEME_ID, "light", "system"] as const;
+const RUINS_THEME_ID = "ruins" satisfies ThemeId;
 const SPECIAL_THEME_ORDER = Array.from(
   new Set<ThemeValue>([
     "steam",
-    ...THEME_CATALOG.filter((entry) => !entry.isDefault).map(
-      (entry) => entry.id,
-    ),
+    ...THEME_CATALOG.filter(
+      (entry) =>
+        !entry.isDefault &&
+        !(BASE_THEME_ORDER as readonly ThemeValue[]).includes(entry.id),
+    ).map((entry) => entry.id),
     "playstation",
     "nintendo",
   ]),
@@ -49,6 +54,7 @@ type AppearanceThemeOption = {
   palette: SettingsThemePalette;
   disabled: boolean;
   locked?: boolean;
+  isNew?: boolean;
 };
 
 const UNAVAILABLE_THEME_LABELS = {
@@ -66,6 +72,7 @@ const STORE_THEME_NAMES = {
 const THEME_DESCRIPTION_KEYS = {
   system: "settings.appearance.theme.systemDescription",
   xbox: "settings.appearance.specialThemes.xbox",
+  ruins: "settings.appearance.theme.ruinsDescription",
   steam: "settings.appearance.specialThemes.steam",
   playstation: "settings.appearance.specialThemes.playstation",
   nintendo: "settings.appearance.specialThemes.nintendo",
@@ -128,10 +135,16 @@ export function SettingsAppearanceTab() {
         value,
         label: t(entry.labelKey),
         description:
-          value === "xbox" ? t(THEME_DESCRIPTION_KEYS.xbox) : undefined,
-        palette: entry.preview,
+          value === "xbox" || value === "ruins"
+            ? t(THEME_DESCRIPTION_KEYS[value])
+            : undefined,
+        palette:
+          entry.colorScheme === "light"
+            ? { ...entry.preview, bordered: true }
+            : entry.preview,
         disabled: locked,
         locked,
+        isNew: value === "ruins",
       };
     }
 
@@ -217,7 +230,7 @@ export function SettingsAppearanceTab() {
                       component={"span"}
                       fz={14}
                       fw={600}
-                      c={"white"}
+                      c={"var(--gn-text)"}
                       lh={"normal"}
                       lang={option.value}
                       className={"min-w-0 flex-1"}
@@ -248,7 +261,11 @@ export function SettingsAppearanceTab() {
           classNames={{ root: "w-full", label: "sr-only" }}
         >
           <Box className={"@container w-full"}>
-            <Box className={"grid grid-cols-1 gap-3 @[480px]:grid-cols-3"}>
+            <Box
+              className={
+                "grid grid-cols-1 gap-3 @[480px]:grid-cols-2 @[720px]:grid-cols-4"
+              }
+            >
               {baseOptions.map((option) => (
                 <SettingsThemeOptionCard
                   key={option.value}
@@ -259,6 +276,7 @@ export function SettingsAppearanceTab() {
                   checked={option.value === themeId}
                   disabled={option.disabled}
                   locked={option.locked}
+                  isNew={option.isNew}
                 />
               ))}
             </Box>
@@ -287,6 +305,7 @@ export function SettingsAppearanceTab() {
                   checked={option.value === themeId}
                   disabled={option.disabled}
                   locked={option.locked}
+                  isNew={option.isNew}
                 />
               ))}
             </Box>
@@ -295,7 +314,11 @@ export function SettingsAppearanceTab() {
         <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
           {t("settings.appearance.specialThemes.disclaimer")}
         </Text>
+        <Text fz={12} lh={"normal"} className={"text-dimmed-3"}>
+          {t("settings.appearance.theme.ruinsDisclaimer")}
+        </Text>
       </SettingsSection>
+      {themeId === RUINS_THEME_ID && <SettingsRuinsOptionsSection />}
       <SettingsCustomCoversSection />
     </>
   );

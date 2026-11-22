@@ -3,6 +3,12 @@ import { IconCrown } from "@tabler/icons-react";
 import { useTranslation } from "@repo/locales";
 import { useOnMobilePlatform } from "#@/components/general/hooks/useOnMobilePlatform";
 import { cn } from "#@/util";
+import {
+  ACCENT_INK_CLASS,
+  PREMIUM_TEXT_HEX,
+  getAccentInk,
+  getAccentInkStyle,
+} from "./accentColor";
 import type { ActiveSupporterPerks } from "./supporterPerks";
 
 export interface SupporterBadgeProps {
@@ -15,8 +21,9 @@ export interface SupporterBadgeProps {
 const PREMIUM_COLORS = {
   backgroundColor: "rgba(151,71,255,0.16)",
   borderColor: "rgba(151,71,255,0.45)",
-  color: "#c7a6ff",
 } as const;
+
+const PREMIUM_INK = getAccentInk(PREMIUM_TEXT_HEX);
 
 /**
  * Supporter badge (design D4). The caller decides whether the perk is on; the
@@ -34,13 +41,15 @@ export function SupporterBadge({
 
   if (!perks) return null;
 
-  const colors = perks.theme
+  const fills = perks.theme
     ? {
         backgroundColor: perks.accentSoft,
         borderColor: perks.accentBorder,
-        color: perks.accentText,
       }
     : PREMIUM_COLORS;
+  const inkStyle = getAccentInkStyle(
+    perks.theme ? perks.accentInk : PREMIUM_INK,
+  );
 
   if (variant === "compact") {
     const icon = (
@@ -49,8 +58,12 @@ export function SupporterBadge({
         role={"img"}
         aria-label={label}
         data-testid={"supporter-badge-compact"}
-        className={cn("inline-flex shrink-0 items-center", className)}
-        style={{ color: colors.color }}
+        className={cn(
+          "inline-flex shrink-0 items-center",
+          ACCENT_INK_CLASS,
+          className,
+        )}
+        style={inkStyle}
       >
         <IconCrown size={14} stroke={2} aria-hidden />
       </Box>
@@ -67,9 +80,10 @@ export function SupporterBadge({
       data-testid={"supporter-badge"}
       className={cn(
         "h-5 shrink-0 rounded border border-solid px-1.5",
+        ACCENT_INK_CLASS,
         className,
       )}
-      style={colors}
+      style={{ ...fills, ...inkStyle }}
     >
       <IconCrown size={13} stroke={2} aria-hidden />
       <Text component={"span"} fz={11} fw={600} lh={"normal"} c={"inherit"}>

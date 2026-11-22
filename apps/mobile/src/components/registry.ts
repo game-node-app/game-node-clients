@@ -27,6 +27,7 @@ import { IonModalWrapper } from "@/components/general/IonModalWrapper";
 import { useIonScrollPosition } from "@/components/general/hooks/useIonScrollPosition";
 import { useIonViewActive } from "@/components/general/hooks/useIonViewActive";
 import { useOpenGameSearch } from "@/components/general/hooks/useOpenGameSearch";
+import { useEntrySplashDone } from "@/components/general/splash/useEntrySplashDone";
 
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
@@ -62,6 +63,7 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
   useScrollPosition: useIonScrollPosition,
   useIsViewActive: useIonViewActive,
   useOpenGameSearch,
+  useEntrySplashDone,
   shareText: async (text) => {
     try {
       await Share.share({ text });

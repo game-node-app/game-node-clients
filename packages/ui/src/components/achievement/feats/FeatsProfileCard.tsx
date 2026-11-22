@@ -96,7 +96,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
             fz={{ base: 18, sm: 22 }}
             fw={700}
             lh={"normal"}
-            className={"text-white"}
+            className={"text-foreground"}
             lineClamp={1}
           >
             {profile?.username ?? ""}
@@ -111,7 +111,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
             >
               {t("achievements.page.level", { level: currentLevel })}
             </Text>
-            <Text fz={13} lh={"normal"} className={"text-[#a6a6a6]"}>
+            <Text fz={13} lh={"normal"} className={"text-soft"}>
               {t("achievements.page.xpToNextLevel", {
                 xp: formatFeatNumber(missingExp, locale),
                 level: currentLevel + 1,
@@ -121,10 +121,15 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
 
           <Flex justify={"flex-end"} mt={4}>
             <Group justify={"space-between"} gap={8} wrap={"nowrap"} w={"100%"}>
-              <Text fz={13} lh={"normal"} className={"text-[#a6a6a6]"}>
+              <Text fz={13} lh={"normal"} className={"text-soft"}>
                 {t("achievements.page.experience")}
               </Text>
-              <Text fz={13} fw={600} lh={"normal"} className={"text-white"}>
+              <Text
+                fz={13}
+                fw={600}
+                lh={"normal"}
+                className={"text-foreground"}
+              >
                 {t("achievements.page.xpProgress", {
                   current: formatFeatNumber(currentExp, locale),
                   required: formatFeatNumber(requiredExp, locale),
@@ -146,7 +151,7 @@ const FeatsProfileCard = ({ userId }: FeatsProfileCardProps) => {
           />
 
           {joinedAt && (
-            <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"} mt={4}>
+            <Text fz={12} lh={"normal"} className={"text-faint"} mt={4}>
               {t("achievements.page.joinedAt", { date: joinedAt })}
             </Text>
           )}

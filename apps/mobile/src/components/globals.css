@@ -24,6 +24,9 @@
 
 :root {
     --ion-padding: var(--mantine-spacing-md) !important;
+    /* @fontsource families (imported in main.tsx), used by the Ruins theme. */
+    --gn-font-zen: "Zen Kaku Gothic New";
+    --gn-font-share-tech-mono: "Share Tech Mono";
 }
 
 /*

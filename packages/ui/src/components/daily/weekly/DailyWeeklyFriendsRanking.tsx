@@ -19,7 +19,7 @@ const DailyWeeklyFriendsRanking = () => {
   if (query.isError) {
     body = (
       <div className={"flex items-center justify-between gap-3"}>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-text-subtle)"}>
           {t("daily.fetchError")}
         </Text>
         <Button
@@ -57,11 +57,11 @@ const DailyWeeklyFriendsRanking = () => {
                     { count: row.attempts },
                   )
                 ) : row.status === "lost" ? (
-                  <span className={"font-medium text-[#7A7A7A]"}>
+                  <span className={"font-medium text-faint"}>
                     {t("daily.weekly.friends.notGuessed")}
                   </span>
                 ) : (
-                  <span className={"font-medium text-[#7A7A7A]"}>
+                  <span className={"font-medium text-faint"}>
                     {t("daily.status.inProgress")}
                   </span>
                 )
@@ -70,7 +70,7 @@ const DailyWeeklyFriendsRanking = () => {
           ))}
         </div>
         {rows.every((row) => row.userId === userId) && (
-          <Text fz={13} c={"#ADADAD"}>
+          <Text fz={13} c={"var(--gn-text-subtle)"}>
             {t("daily.weekly.friends.invite")}
           </Text>
         )}
@@ -84,7 +84,13 @@ const DailyWeeklyFriendsRanking = () => {
         "flex w-full flex-col gap-2.5 rounded-[14px] border border-solid border-line bg-paper-7 p-4 sm:p-5"
       }
     >
-      <Text component={"h2"} fz={18} fw={700} c={"white"} className={"m-0"}>
+      <Text
+        component={"h2"}
+        fz={18}
+        fw={700}
+        c="var(--gn-text)"
+        className={"m-0"}
+      >
         {t("daily.weekly.friends.title")}
       </Text>
       {body}

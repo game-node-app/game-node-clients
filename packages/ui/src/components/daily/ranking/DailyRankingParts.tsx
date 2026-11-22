@@ -74,7 +74,7 @@ export const DailyRankingChange = ({
         component={"span"}
         fz={12}
         fw={600}
-        className={"text-[#7A7A7A]"}
+        className={"text-faint"}
         aria-label={t("daily.ranking.change.same")}
       >
         –
@@ -109,7 +109,7 @@ export const DailyRankingYouPill = () => {
   return (
     <span
       className={
-        "shrink-0 rounded bg-brand-5 px-1.5 py-0.5 text-[10px] font-bold leading-none text-[#0B0B0B]"
+        "shrink-0 rounded bg-brand-5 px-1.5 py-0.5 text-[10px] font-bold leading-none text-on-brand"
       }
     >
       {t("daily.ranking.you")}
@@ -131,7 +131,7 @@ export const DailyRankingName = ({
   children?: ReactNode;
 }) => (
   <span className={"flex min-w-0 items-center gap-1.5"}>
-    <Text component={"span"} fz={fz} fw={600} c={"white"} truncate>
+    <Text component={"span"} fz={fz} fw={600} c="var(--gn-text)" truncate>
       {username}
     </Text>
     {isViewer ? (

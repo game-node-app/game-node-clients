@@ -28,7 +28,7 @@ const GameInfoTimeToBeatItem = ({
   const TargetDescriptionElement = onMobile ? Popover : HoverCard;
 
   return (
-    <Group className={"gap-0.5 flex-nowrap w-full text-white"}>
+    <Group className={"gap-0.5 flex-nowrap w-full text-foreground"}>
       <TargetDescriptionElement openDelay={500}>
         <TargetDescriptionElement.Target>
           <Box
@@ -52,10 +52,10 @@ const GameInfoTimeToBeatItem = ({
       ) : (
         <Box
           className={cn(
-            "border-[var(--gn-dark-8)] border rounded-tr-md rounded-br-md bg-brand w-1/2 p-2",
-            {
-              "bg-tertiary": isMobilePlatform,
-            },
+            "border-[var(--gn-dark-8)] border rounded-tr-md rounded-br-md w-1/2 p-2",
+            isMobilePlatform
+              ? "bg-tertiary text-[color:var(--gn-tertiary-filled-text)]"
+              : "bg-brand text-on-brand",
           )}
         >
           <Text className={"text-center"}>{renderedValue}</Text>

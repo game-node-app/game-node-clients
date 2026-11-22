@@ -98,7 +98,10 @@ export function RecapMonthlyBars({
               lh={"12px"}
               ta={"center"}
               fw={isCurrent ? 700 : 500}
-              className={cn("mt-1", isCurrent ? "text-white" : "text-dimmed-1")}
+              className={cn(
+                "mt-1",
+                isCurrent ? "text-foreground" : "text-dimmed-1",
+              )}
             >
               {initials.format(new Date(Date.UTC(2000, index, 1)))}
             </Text>

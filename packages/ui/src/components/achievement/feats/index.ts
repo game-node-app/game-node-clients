@@ -4,6 +4,8 @@
 
 export * from "./FeatCard";
 export * from "./FeatFeaturedPicker";
+export * from "./FeatTierSegments";
+export * from "./FeatTiersModal";
 export * from "./FeatsAlmostThere";
 export * from "./FeatsEvents";
 export * from "./FeatsFeaturedSlot";
@@ -14,6 +16,4 @@ export * from "./FeatsProfileCard";
 export * from "./FeatsScreen";
 export * from "./FeatsSection";
 export * from "./FeatsSummaryCard";
-export * from "./FeatTierSegments";
-export * from "./FeatTiersModal";
 export * from "./RedeemFeatCodeModal";

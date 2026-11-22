@@ -4,6 +4,7 @@ import type {
 } from "@repo/wrapper/server";
 import {
   ACCENT_SURFACE,
+  getAccentInk,
   getOnAccentText,
   getReadableAccent,
   hexToRgba,
@@ -38,6 +39,12 @@ export interface ActiveSupporterPerks {
   accent: string;
   /** Readable on {@link ACCENT_SURFACE} (>= 4.5:1). */
   accentText: string;
+  /**
+   * `accentText` as a CSS color that also reads on light themes (see
+   * {@link getAccentInk}). Use this, via `ACCENT_INK_CLASS`, for text on theme
+   * surfaces; `accentText` assumes a dark surface.
+   */
+  accentInk: string;
   /** Readable on {@link ACCENT_SURFACE} (>= 3:1). */
   accentDecor: string;
   /** `rgba(accent, 0.14)` for tinted panels. */
@@ -76,6 +83,7 @@ export function getActiveSupporterPerks(
     liveProfile: !!preferences.showLiveProfile,
     accent,
     accentText: getReadableAccent(accent, ACCENT_SURFACE, 4.5),
+    accentInk: getAccentInk(getReadableAccent(accent, ACCENT_SURFACE, 4.5)),
     accentDecor: getReadableAccent(accent, ACCENT_SURFACE, 3),
     accentSoft: hexToRgba(accent, 0.14),
     accentBorder: hexToRgba(accent, 0.45),

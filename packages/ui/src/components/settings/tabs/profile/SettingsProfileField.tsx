@@ -7,7 +7,7 @@ import { cn } from "#@/util";
 export function getSettingsProfileInputClassNames(error = false) {
   return {
     input: cn(
-      "border-solid bg-nav-canvas text-[14px] text-white transition-colors placeholder:text-dimmed-3",
+      "border-solid bg-nav-canvas text-[14px] text-foreground transition-colors placeholder:text-dimmed-3",
       error
         ? "border-[1.5px] border-status-danger-strong focus:border-status-danger-strong"
         : "border border-line focus:border-brand",
@@ -76,7 +76,7 @@ export function SettingsProfileField({
           htmlFor={htmlFor}
           fz={14}
           fw={600}
-          c={"white"}
+          c="var(--gn-text)"
           lh={"normal"}
           className={cn("min-w-0 flex-1", disabled && "opacity-60")}
         >

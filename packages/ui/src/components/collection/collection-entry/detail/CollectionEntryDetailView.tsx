@@ -129,24 +129,15 @@ const CollectionEntryDetailView = ({
 
   return (
     <Stack className={"w-full"}>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "80vh",
-          backgroundImage: `
-              linear-gradient(180deg,color-mix(in srgb, black 10%, transparent) 0%, color-mix(in srgb, black 60%, transparent) 34%, var(--gn-paper-3) 87%),
-              url(${backgroundImageUrl})
-            `,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          zIndex: 9,
-          opacity: 0.6,
-        }}
-      />
+      {backgroundImageUrl && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-[9] h-[80vh] bg-cover bg-center"
+          style={{
+            backgroundImage: `linear-gradient(var(--gn-media-content-scrim) 0% 34%, var(--gn-paper-3) 87%), url(${backgroundImageUrl})`,
+          }}
+        />
+      )}
       <Stack className={"w-full z-10"} {...others}>
         <BackToTopButton />
         {gameId && (

@@ -129,7 +129,7 @@ const ProfileFavoriteGames = ({
                       href={`/library/${userId}`}
                       className={cn(
                         SLOT,
-                        "flex flex-col items-center justify-center gap-2 border border-dashed border-line px-2 text-center text-xs text-dimmed transition-colors hover:border-line-strong hover:text-white",
+                        "flex flex-col items-center justify-center gap-2 border border-dashed border-line px-2 text-center text-xs text-dimmed transition-colors hover:border-line-strong hover:text-foreground",
                       )}
                     >
                       <IconPlus size={18} aria-hidden />

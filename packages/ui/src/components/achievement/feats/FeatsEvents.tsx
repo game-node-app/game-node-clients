@@ -53,10 +53,10 @@ const FeatsEvents = ({
     <Stack gap={16}>
       <Group justify={"space-between"} align={"flex-end"} gap={12}>
         <Stack gap={4} className={"min-w-0"}>
-          <Title order={2} fz={18} fw={600} className={"text-white"}>
+          <Title order={2} fz={18} fw={600} className={"text-foreground"}>
             {t("achievements.events.title")}
           </Title>
-          <Text fz={14} lh={"normal"} className={"text-[#8c8c8c]"}>
+          <Text fz={14} lh={"normal"} className={"text-quiet"}>
             {t("achievements.events.subtitle")}
           </Text>
         </Stack>
@@ -65,7 +65,7 @@ const FeatsEvents = ({
           <UnstyledButton
             onClick={openPastEvents}
             className={
-              "flex shrink-0 items-center gap-1.5 text-sm text-[#d0d0d0] hover:text-white"
+              "flex shrink-0 items-center gap-1.5 text-sm text-bright hover:text-foreground"
             }
           >
             {t("achievements.events.pastEvents")}
@@ -96,14 +96,19 @@ const FeatsEvents = ({
                   variant={"tile"}
                 />
                 <Stack gap={4} className={"min-w-0 flex-1"}>
-                  <Text fz={17} fw={600} lh={"normal"} className={"text-white"}>
+                  <Text
+                    fz={17}
+                    fw={600}
+                    lh={"normal"}
+                    className={"text-foreground"}
+                  >
                     {group.event.name}
                   </Text>
-                  <Text fz={14} lh={"normal"} className={"text-[#a6a6a6]"}>
+                  <Text fz={14} lh={"normal"} className={"text-soft"}>
                     {group.event.description}
                   </Text>
                   <Group gap={8} mt={4} wrap={"wrap"}>
-                    <Text fz={13} lh={"normal"} className={"text-[#8c8c8c]"}>
+                    <Text fz={13} lh={"normal"} className={"text-quiet"}>
                       {group.isPast
                         ? t("achievements.events.ended")
                         : t("achievements.events.endsAt", {

@@ -80,16 +80,20 @@ const DailyRankingResultCard = ({
       <span
         className={cn(
           "flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-nav-canvas",
-          counted ? "text-brand-5" : "text-[#7A7A7A]",
+          counted ? "text-brand-5" : "text-faint",
         )}
       >
         <IconTrophy size={22} aria-hidden />
       </span>
       <div className={"flex min-w-[200px] flex-1 flex-col gap-0.5"}>
-        <Text fz={16} fw={700} c={counted ? "white" : "#ADADAD"}>
+        <Text
+          fz={16}
+          fw={700}
+          c={counted ? "var(--gn-text)" : "var(--gn-text-subtle)"}
+        >
           {title}
         </Text>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-text-subtle)"}>
           {subtitle.join(" ")}
         </Text>
       </div>

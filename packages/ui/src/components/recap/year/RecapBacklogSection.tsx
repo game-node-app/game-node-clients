@@ -29,7 +29,7 @@ type BacklogUnit = "finished" | "dropped" | "queued";
 const UNIT_STYLES: Record<BacklogUnit, string> = {
   finished: "bg-[#4fd1a5]",
   dropped: "bg-[#3a3a3a]",
-  queued: "border border-[#2a2a2a]",
+  queued: "border border-line",
 };
 
 function buildUnits(counts: Record<BacklogUnit, number>): BacklogUnit[] {

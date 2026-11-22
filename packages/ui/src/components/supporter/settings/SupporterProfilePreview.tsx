@@ -16,6 +16,7 @@ import { ProfileVideo } from "#@/components/profile/view/ProfileVideo";
 import { SettingsDivider } from "#@/components/settings/common/SettingsCard";
 import { cn } from "#@/util";
 import { getS3StoredUpload } from "#@/util/getServerStoredImages";
+import { ACCENT_INK_CLASS, getAccentInkStyle } from "../perks/accentColor";
 import presenceClasses from "../perks/SupporterPresenceChip.module.css";
 import { SupporterAvatarFrame } from "../perks/SupporterAvatarFrame";
 import { SupporterBadge } from "../perks/SupporterBadge";
@@ -54,7 +55,7 @@ function PreviewFollowStats({ userId }: { userId: string }) {
   if (followers == undefined || following == undefined) return null;
 
   return (
-    <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+    <Text fz={12} lh={"normal"} className={"text-faint"}>
       {t("supporter.features.preview.followers", { count: followers })}
       {" · "}
       {t("supporter.features.preview.following", { count: following })}
@@ -85,7 +86,7 @@ function PreviewFavoriteGames({ userId }: { userId: string }) {
 
   return (
     <Stack gap={14}>
-      <Text fz={11} fw={500} lh={"normal"} className={"text-[#7a7a7a]"}>
+      <Text fz={11} fw={500} lh={"normal"} className={"text-faint"}>
         {t("supporter.features.preview.favorites")}
       </Text>
       {/* Covers are decorative here: not links, not focusable. */}
@@ -114,8 +115,8 @@ function PreviewPresence({ perks }: { perks: ActiveSupporterPerks }) {
         borderColor: perks.accentBorder,
       }
     : {
-        backgroundColor: "#1f1f1f",
-        borderColor: "#2a2a2a",
+        backgroundColor: "var(--gn-panel-inset)",
+        borderColor: "var(--gn-line)",
       };
 
   return (
@@ -124,14 +125,18 @@ function PreviewPresence({ perks }: { perks: ActiveSupporterPerks }) {
       wrap={"nowrap"}
       align={"center"}
       data-testid={"supporter-preview-presence"}
-      className={
-        "h-7 w-fit max-w-full rounded-full border border-solid px-2.5"
-      }
+      className={"h-7 w-fit max-w-full rounded-full border border-solid px-2.5"}
       style={colors}
     >
       <Box component={"span"} className={presenceClasses.dot} aria-hidden />
-      <IconBrandSteam size={14} color={"#adadad"} aria-hidden />
-      <Text component={"span"} fz={12} fw={500} lh={"normal"} c={"#adadad"}>
+      <IconBrandSteam size={14} className={"text-subtle"} aria-hidden />
+      <Text
+        component={"span"}
+        fz={12}
+        fw={500}
+        lh={"normal"}
+        c={"var(--gn-text-subtle)"}
+      >
         {t("supporter.perks.preview.samplePresence")}
       </Text>
     </Group>
@@ -170,7 +175,7 @@ export function SupporterProfilePreview({
 
   return (
     <Stack gap={8} className={cn("w-full", className)}>
-      <Text fz={12} fw={500} lh={"normal"} className={"text-[#7a7a7a]"}>
+      <Text fz={12} fw={500} lh={"normal"} className={"text-faint"}>
         {caption}
       </Text>
       <Box
@@ -178,9 +183,9 @@ export function SupporterProfilePreview({
         inert
         data-testid={"supporter-profile-preview"}
         className={
-          "w-full overflow-hidden rounded-xl border border-solid bg-[#141414] opacity-90"
+          "w-full overflow-hidden rounded-xl border border-solid bg-panel opacity-90"
         }
-        style={{ borderColor: perks?.accentBorder ?? "#2a2a2a" }}
+        style={{ borderColor: perks?.accentBorder ?? "var(--gn-line)" }}
       >
         <Box
           className={"relative h-[76px] w-full bg-cover bg-center"}
@@ -189,8 +194,8 @@ export function SupporterProfilePreview({
               ? { backgroundImage: `url(${bannerSrc})` }
               : {
                   background: `linear-gradient(135deg, ${
-                    perks?.accentSoft ?? "#1f1f1f"
-                  }, #141414)`,
+                    perks?.accentSoft ?? "var(--gn-panel-inset)"
+                  }, var(--gn-panel))`,
                 }
           }
         >
@@ -224,7 +229,10 @@ export function SupporterProfilePreview({
         <Stack gap={14} className={"px-4 pb-4 pt-3.5"}>
           <Group gap={12} wrap={"nowrap"}>
             {perks?.border ? (
-              <SupporterAvatarFrame accent={perks.accent} className={"shrink-0"}>
+              <SupporterAvatarFrame
+                accent={perks.accent}
+                className={"shrink-0"}
+              >
                 <UserAvatar userId={userId} size={48} />
               </SupporterAvatarFrame>
             ) : (
@@ -238,7 +246,7 @@ export function SupporterProfilePreview({
                   <Text
                     fz={16}
                     fw={600}
-                    c={"white"}
+                    c={"var(--gn-text)"}
                     lh={"normal"}
                     truncate
                     className={"min-w-0"}
@@ -268,9 +276,12 @@ export function SupporterProfilePreview({
                   fz={12}
                   fw={500}
                   lh={"normal"}
-                  style={{
-                    color: perks?.theme ? perks.accentText : "#adadad",
-                  }}
+                  className={perks?.theme ? ACCENT_INK_CLASS : "text-subtle"}
+                  style={
+                    perks?.theme
+                      ? getAccentInkStyle(perks.accentInk)
+                      : undefined
+                  }
                 >
                   {t("supporter.features.preview.since", { year: sinceYear })}
                 </Text>
@@ -283,7 +294,7 @@ export function SupporterProfilePreview({
         </Stack>
       </Box>
       {onWall !== null && (
-        <Group gap={6} wrap={"nowrap"} className={"text-[#7a7a7a]"}>
+        <Group gap={6} wrap={"nowrap"} className={"text-faint"}>
           <IconHeart size={14} aria-hidden />
           <Text fz={12} lh={"normal"} c={"inherit"}>
             {t(

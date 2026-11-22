@@ -68,7 +68,7 @@ export function RecapAwardsCard({ year, userId }: RecapAwardsCardProps) {
         {t("recap.page.awards.title", { year })}
       </p>
       {gotyTotals && (
-        <h3 className={"m-0 text-2xl leading-8 font-medium text-white"}>
+        <h3 className={"m-0 text-2xl leading-8 font-medium text-foreground"}>
           {t("recap.page.awards.played", {
             played: formatNumber(gotyTotals.played, locale) ?? "0",
             total: formatNumber(gotyTotals.total, locale) ?? "0",

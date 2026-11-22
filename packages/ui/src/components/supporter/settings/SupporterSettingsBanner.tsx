@@ -76,9 +76,9 @@ const TONE_CONFIG: Record<SupporterSettingsBannerTone, ToneConfig> = {
   cancel: {
     role: "status",
     Icon: IconInfoCircle,
-    cardClassName: "border-[#2a2a2a]",
-    iconTileClassName: "bg-[#222]",
-    iconClassName: "text-[#adadad]",
+    cardClassName: "border-line",
+    iconTileClassName: "bg-panel-raised",
+    iconClassName: "text-subtle",
     titleKey: "supporter.checkout.cancel.title",
     descriptionKey: "supporter.checkout.cancel.description",
   },
@@ -133,7 +133,7 @@ function SupporterPendingCheck({
 
   return (
     <Stack gap={8}>
-      <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"18px"} className={"text-subtle"}>
         {t("supporter.checkout.pending.stillConfirming")}
       </Text>
       <Box>
@@ -181,10 +181,10 @@ export function SupporterSettingsBanner({
           <Icon size={18} className={config.iconClassName} />
         </Box>
         <Stack gap={4} className={"min-w-0 flex-1"}>
-          <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+          <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
             {title ?? t(config.titleKey)}
           </Text>
-          <Text fz={13} lh={"18px"} className={"text-[#adadad]"}>
+          <Text fz={13} lh={"18px"} className={"text-subtle"}>
             {description ?? t(config.descriptionKey)}
           </Text>
           {tone === "pending" && onCheckAgain && (

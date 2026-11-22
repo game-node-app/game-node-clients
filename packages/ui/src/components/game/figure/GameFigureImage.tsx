@@ -57,6 +57,7 @@ const GameFigureImage = ({
       >
         <Image
           radius={"sm"}
+          data-slot="game-cover"
           src={coverUrl ?? GAME_COVER_PLACEHOLDER}
           alt={game?.name ? game.name : "Game cover"}
           className="w-full h-auto max-h-full"

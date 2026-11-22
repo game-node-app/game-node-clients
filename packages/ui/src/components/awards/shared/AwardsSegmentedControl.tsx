@@ -62,8 +62,8 @@ export function AwardsSegmentedControl<TValue extends string>({
               "cursor-pointer whitespace-nowrap rounded-[7px] border border-transparent px-3 py-2 text-[14px] leading-[1.43] transition-colors md:px-[14px]",
               fullWidth && "flex-1",
               selected
-                ? "bg-paper-1 font-medium text-white"
-                : "font-normal text-nav-muted hover:text-white",
+                ? "bg-paper-1 font-medium text-foreground"
+                : "font-normal text-nav-muted hover:text-foreground",
               played &&
                 "border-state-played bg-state-played-tint text-state-played",
             )}

@@ -76,7 +76,7 @@ const PodiumPlayer = ({
         <Text
           component={"span"}
           fw={600}
-          c={"white"}
+          c="var(--gn-text)"
           truncate
           className={"text-[12px] @[720px]:text-[15px] @[720px]:font-bold"}
         >
@@ -99,7 +99,7 @@ const PodiumPlayer = ({
       </Text>
       <span
         className={
-          "hidden items-center gap-1 text-[12px] font-medium text-[#ADADAD] @[720px]:flex"
+          "hidden items-center gap-1 text-[12px] font-medium text-subtle @[720px]:flex"
         }
       >
         <IconFlame size={13} className={"text-brand-5"} aria-hidden />
@@ -121,7 +121,7 @@ const OpenSpot = ({ place }: { place: number }) => {
       <Medal place={place} />
       <span
         className={
-          "flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-line-strong text-[#7A7A7A] @[720px]:h-[60px] @[720px]:w-[60px]"
+          "flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-line-strong text-faint @[720px]:h-[60px] @[720px]:w-[60px]"
         }
       >
         <IconPlus size={20} aria-hidden />
@@ -129,15 +129,13 @@ const OpenSpot = ({ place }: { place: number }) => {
       <Text
         component={"span"}
         fw={700}
-        className={"text-[12px] text-[#ADADAD] @[720px]:text-[15px]"}
+        className={"text-[12px] text-subtle @[720px]:text-[15px]"}
       >
         {t("daily.ranking.openSpot")}
       </Text>
       <Text
         component={"span"}
-        className={
-          "hidden text-center text-[12px] text-[#7A7A7A] @[720px]:block"
-        }
+        className={"hidden text-center text-[12px] text-faint @[720px]:block"}
       >
         {t("daily.ranking.openSpotHint")}
       </Text>

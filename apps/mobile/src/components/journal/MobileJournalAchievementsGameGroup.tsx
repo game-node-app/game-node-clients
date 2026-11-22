@@ -35,7 +35,7 @@ export const MobileJournalAchievementsGameGroup = ({
           {isLoading ? (
             <Skeleton className="h-4 w-40" />
           ) : (
-            <p className="m-0 truncate text-[15px] font-semibold text-white">
+            <p className="m-0 truncate text-[15px] font-semibold text-foreground">
               {game?.name}
             </p>
           )}

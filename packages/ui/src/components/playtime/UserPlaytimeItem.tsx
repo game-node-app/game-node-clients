@@ -7,7 +7,7 @@ import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { cn, Link } from "#@/util";
 import { getCapitalizedText } from "#@/util/getCapitalizedText";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
-import { Box, Group, Image, Overlay, Text, Title } from "@mantine/core";
+import { Box, Group, Image, Text, Title } from "@mantine/core";
 import { UserPlaytimeDto } from "@repo/wrapper/server";
 
 interface Props {
@@ -42,19 +42,23 @@ const UserPlaytimeItem = ({ playtime, variant = "detailed" }: Props) => {
       style={
         variant === "detailed"
           ? {
-              backgroundImage: `url(${imageUrl})`,
+              backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
+              backgroundColor: "var(--gn-media-fade)",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
             }
           : undefined
       }
       className={cn("relative w-full min-h-11 px-4 py-2", {
-        "h-28 rounded-md": variant === "detailed",
+        "h-28 rounded-md media-ink": variant === "detailed",
         "bg-paper-4 rounded-md": variant === "simple",
       })}
     >
       {variant === "detailed" && (
-        <Overlay backgroundOpacity={0.8} className={"z-0 rounded-sm"}></Overlay>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-[inherit] bg-media-content-scrim"
+        />
       )}
       <Group className={"w-full h-full relative z-20 items-center flex-nowrap"}>
         {withTitle && (
@@ -85,13 +89,25 @@ const UserPlaytimeItem = ({ playtime, variant = "detailed" }: Props) => {
             <Text className={"text-sm lg:text-md"}>
               Recent
               <br />
-              <Text span className={"text-dimmed text-sm"}>
+              <Text
+                span
+                className={cn(
+                  "text-sm",
+                  withBackground ? "text-media-dim" : "text-dimmed",
+                )}
+              >
                 {Math.ceil(playtime.recentPlaytimeSeconds / 3600)}h
               </Text>
             </Text>
             <Text className={"text-sm lg:text-md"}>
               Total <br />
-              <Text span className={"text-dimmed text-sm"}>
+              <Text
+                span
+                className={cn(
+                  "text-sm",
+                  withBackground ? "text-media-dim" : "text-dimmed",
+                )}
+              >
                 {Math.ceil(playtime.totalPlaytimeSeconds / 3600)}h
               </Text>
             </Text>

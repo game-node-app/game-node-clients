@@ -20,7 +20,7 @@ const DEFAULT_JournalYearHeader = ({
   return (
     <div>
       <Group className={"gap-3"}>
-        <Title size={"h4"} fw={"bold"} className={"text-white"}>
+        <Title size={"h4"} fw={"bold"} className={"text-foreground"}>
           {year}
         </Title>
         <Text className={"text-sm text-dimmed"}>{subtitle}</Text>
@@ -45,7 +45,10 @@ const DEFAULT_JournalMonthHeader = ({
   const monthName = useJournalMonthName(year, month);
 
   return (
-    <Title size={"h5"} className={"text-white mt-1 first-letter:uppercase"}>
+    <Title
+      size={"h5"}
+      className={"text-foreground mt-1 first-letter:uppercase"}
+    >
       {monthName}
     </Title>
   );

@@ -63,7 +63,10 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
           }}
           onKeyDown={(event) => {
             // a highlighted suggestion is handled by the combobox instead
-            if (event.key === "Enter" && combobox.getSelectedOptionIndex() < 0) {
+            if (
+              event.key === "Enter" &&
+              combobox.getSelectedOptionIndex() < 0
+            ) {
               submit(query);
               combobox.closeDropdown();
             }
@@ -92,7 +95,7 @@ const GameSearchBar = ({ onChange, ...others }: Props) => {
           classNames={{
             root: "group w-full",
             input:
-              "!rounded-full !border-transparent text-base transition-[border-color,box-shadow] duration-150 hover:!border-white/20 focus:!border-brand focus:!shadow-[0_0_0_3px_color-mix(in_srgb,var(--gn-accent)_30%,transparent)] [&::-webkit-search-cancel-button]:appearance-none",
+              "!rounded-full !border-transparent text-base transition-[border-color,box-shadow] duration-150 hover:!border-foreground/20 focus:!border-brand focus:!shadow-[0_0_0_3px_color-mix(in_srgb,var(--gn-accent)_30%,transparent)] [&::-webkit-search-cancel-button]:appearance-none",
             section:
               "text-dimmed transition-colors duration-150 group-focus-within:text-brand",
           }}

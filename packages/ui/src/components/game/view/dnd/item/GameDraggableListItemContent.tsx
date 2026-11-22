@@ -28,7 +28,7 @@ const GameDraggableListItemContent = ({
           }}
         />
       </Box>
-      <Text className={"text-white w-48 text-wrap"}>{game.name}</Text>
+      <Text className={"text-foreground w-48 text-wrap"}>{game.name}</Text>
       <Box className={"ms-auto me-2"}>
         <IconGripHorizontal
           size={20}

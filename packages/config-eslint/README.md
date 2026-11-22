@@ -6,8 +6,8 @@ Collection of internal ESLint configurations.
 
 Local rule that keeps colors themeable (see the `add-app-themes-xbox` change,
 design decision 3). It lives in `rules/no-hard-coded-colors.js`, is exposed by
-the local plugin in `plugins/gamenode.js`, and is enabled as `warn` by both
-`next.js` and `react.js`. Authored stylesheets are covered by
+the local plugin in `plugins/gamenode.js`, and is enabled by both
+`next.js` and `react.js` (`error`; see "Rollout and legacy baseline"). Authored stylesheets are covered by
 `bin/lint-css-colors.js`, which parses them with the PostCSS already used by
 Tailwind and is wired into each package's `lint` script.
 
@@ -24,7 +24,7 @@ It reports:
   `@apply`/`@value` params.
 
 It accepts token references (`var(--gn-brand)`, `bg-paper-2`,
-`text-brand-5`), named CSS colors and hash fragments inside larger strings.
+`text-brand-5`), `transparent`/`currentColor`/`inherit`, other named CSS colors and hash fragments inside larger strings.
 
 Artwork may opt out on the line, the next line, or the whole following
 JSX element/object/statement:
@@ -55,31 +55,60 @@ The CSS checker ignores selectors, `url(...)` targets (SVG fragment ids,
 data URIs) and quoted strings such as `content: "#fff"`, and it skips the
 generated `packages/ui/src/theme/generated/**` styles.
 
-### Rollout
+### Named colors
 
-`hard-coded-colors.js` is the single checked-in list of migrated files. They
-are escalated to `error` through ESLint `overrides`; everything else stays
-`warn` until the follow-up migration. Add a repo-relative path to
-`MIGRATED_COLOR_FILES` after migrating that file (and confirming its lint is
-clean). The CSS checker reads the same list, so a migrated stylesheet belongs
-there too:
+Besides hex/`rgb()`/`hsl()` literals and arbitrary Tailwind colors, the rule
+(`named-colors.js`, shared with the CSS checker) reports colors that bypass
+the theme without being literals:
 
-```js
-"packages/ui/src/components/auth/sign-in/SignIn.module.css",
+- Tailwind default-palette and named-color utilities: `bg-black`, `text-white`,
+  `from-black`, `via-black/50`, `text-gray-400`, `bg-zinc-900`,
+  `border-neutral-800`, `ring-slate-700/40`, with variants (`hover:`, `md:`,
+  `[&>svg]:`) and the `!` modifier. `to-transparent` is fine.
+- Mantine/SVG color props with a fixed name: `c="white"`, `bg="black"`,
+  `color="white"` (also `bd`, `fill`, `stroke`). `dark.*` is token-mapped and
+  allowed.
+- The CSS names `white`/`black` in style objects and in CSS color
+  declarations (`color: white`, `background: linear-gradient(black, …)`) and in
+  `@apply`.
+
+`transparent`, `currentColor` and `inherit` are never reported. The repo's token
+palettes (`paper-*`, `surface-*`, `brand-*`, `line-*`, `nav-*`, `dimmed-*`,
+`panel*`, `state-*`, `text-subtle`, ...) are allowed without being listed: a
+utility is reported only when its color segment is exactly one of Tailwind's
+default palettes, which no token palette shadows (a test checks
+`packages/config-tailwind/tailwind.config.ts`, so a new token palette is allowed
+automatically and a colliding name fails the test).
+
+### Rollout and legacy baseline
+
+The rule is `error` by default in `packages/ui`, `apps/web` and `apps/mobile`
+(TS/TSX through `react.js`/`next.js`, CSS through `bin/lint-css-colors.js`);
+`apps/admin` is pinned to the `gamenode` theme and stays `warn`. Code that
+already violated the rule when the default was flipped is recorded in the
+generated `color-baseline.json` (repo-relative path -> violation count). Those
+files stay `warn` (`legacyColorOverrides("<package root>")` in each
+`.eslintrc`, `getCssColorSeverity` in the CSS checker).
+
+```bash
+pnpm colors:check     # fails on new violations or growth (also part of each lint)
+pnpm colors:baseline  # lock in progress after migrating files
 ```
 
-Each app config calls `migratedColorOverrides("<package root>")`, so JS/TS
-entries are only applied by the package that owns them; `eslintrc` override
-patterns must be relative to the config file. New experience and theme packs
-(`packages/ui/src/theme/experiences/**`, `packages/ui/src/theme/themes/*/**`)
-are new code and start as `error` without being listed.
+`colors:check` (`bin/colors.js check`) counts violations per file (independent
+of severity, honoring `theme-exempt`, tests and theme definitions being off) and
+fails when (1) a file outside the baseline has any violation, or (2) a
+baseline file has more violations than recorded. Fewer is fine. `colors:baseline`
+rewrites the JSON and refuses to record growth unless `--force` is passed, so
+it cannot be used to hide new violations. Do not edit the JSON by hand.
 
-While the rule is in `warn` mode, `web`'s lint script does not pass
-`--max-warnings=0` (otherwise legacy warnings would fail `pnpm lint`). Restore
-it when the follow-up migration flips the rule to `error` repo-wide.
+Each package's `lint` script runs `colors.js check` for its own package, so
+`pnpm lint` and `turbo lint` enforce it; the root `pnpm colors:check` checks all
+of them.
 
-Test files and the `packages/ui` theme definitions/generated files are exempt:
-tests assert colors on purpose, and theme definitions are the token source.
+Test files and the `packages/ui` theme definitions/generated files
+(`**/theme/themes/*.ts`, `**/theme/generated/**`) are off: tests assert colors
+on purpose, and theme definitions are the token source.
 
 ### CSS checker
 
@@ -90,8 +119,8 @@ node ../../packages/config-eslint/bin/lint-css-colors.js src
 ```
 
 The CLI prints `file:line:column severity message (rule)` for every finding and
-exits non-zero when there is an error. Warnings are legacy debt and never fail
-the run. Pass one or more directories (or a single `.css` file) to check a
+exits non-zero when there is an error. Warnings are legacy baseline files and
+never fail the run. Pass one or more directories (or a single `.css` file) to check a
 subset:
 
 ```bash
@@ -99,8 +128,8 @@ cd apps/web
 node ../../packages/config-eslint/bin/lint-css-colors.js src/components
 ```
 
-The nearest `pnpm-workspace.yaml` is used as the repo root, so the severity
-list also works when the command runs inside a package.
+The nearest `pnpm-workspace.yaml` is used as the repo root, so the baseline
+lookup also works when the command runs inside a package.
 
 ### Tests
 

@@ -21,7 +21,9 @@ const StatTile = ({ icon, value, label, className }: Props) => (
         {icon}
       </span>
     )}
-    <span className="text-2xl font-bold leading-none text-white">{value}</span>
+    <span className="text-2xl font-bold leading-none text-foreground">
+      {value}
+    </span>
     <span className="text-[13px] leading-4 text-dimmed-1">{label}</span>
   </div>
 );

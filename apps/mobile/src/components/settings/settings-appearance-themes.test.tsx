@@ -30,6 +30,7 @@ const LABELS = {
   light: "settings.appearance.theme.light",
   system: "settings.appearance.theme.system",
   xbox: "settings.appearance.theme.xbox",
+  ruins: "settings.appearance.theme.ruins",
   steam: "Steam",
   playstation: "PlayStation",
   nintendo: "Nintendo",
@@ -80,6 +81,7 @@ function isChecked(name: string) {
 beforeEach(() => {
   setupDom();
   delete document.documentElement.dataset.theme;
+  window.localStorage.removeItem("gn-ruins-prefs");
 });
 
 afterEach(() => {
@@ -139,6 +141,52 @@ describe("SettingsAppearanceTab themes", () => {
     expect(document.documentElement.dataset.theme).toBe("gamenode");
   });
 
+  it("lists Ruins in the special themes with a New badge and the disclaimer", () => {
+    renderTab();
+    const option = radio(LABELS.ruins);
+
+    expect(option.hasAttribute("disabled")).toBe(false);
+    expect(
+      within(option).getByText("settings.appearance.theme.ruinsDescription"),
+    ).toBeTruthy();
+    expect(within(option).getByText("settings.badges.new")).toBeTruthy();
+    expect(
+      screen.getByText("settings.appearance.theme.ruinsDisclaimer"),
+    ).toBeTruthy();
+    // Ruins is a Supporter theme: it lives in the special themes group.
+    const group = screen.getByRole("radiogroup", {
+      name: "settings.appearance.specialThemes.title",
+    });
+    expect(within(group).getByRole("radio", { name: /theme\.ruins/ })).toBe(
+      option,
+    );
+  });
+
+  it("locks Ruins without Supporter access", () => {
+    const storage = renderTab(fakeStorage(), false);
+    const option = radio(LABELS.ruins);
+
+    expect(option.hasAttribute("disabled")).toBe(true);
+    expect(
+      within(option).getByText("settings.appearance.theme.supporterOnly"),
+    ).toBeTruthy();
+
+    fireEvent.click(option);
+    expect(storage.set).not.toHaveBeenCalled();
+    expect(document.documentElement.dataset.theme).toBe("gamenode");
+  });
+
+  it("selects Ruins for Supporters", () => {
+    const storage = renderTab();
+
+    fireEvent.click(radio(LABELS.ruins));
+
+    expect(storage.set).toHaveBeenCalledWith("ruins");
+    expect(isChecked(LABELS.ruins)).toBe(true);
+    expect(isChecked(LABELS.dark)).toBe(false);
+    expect(document.documentElement.dataset.theme).toBe("ruins");
+  });
+
   it("keeps Light, System and the other store themes disabled", () => {
     const storage = renderTab();
     const unavailable = [
@@ -159,5 +207,75 @@ describe("SettingsAppearanceTab themes", () => {
     expect(storage.set).not.toHaveBeenCalled();
     expect(isChecked(LABELS.dark)).toBe(true);
     expect(document.documentElement.dataset.theme).toBe("gamenode");
+  });
+});
+
+describe("SettingsAppearanceTab Ruins options", () => {
+  const OPTIONS_TITLE = "settings.appearance.ruins.title";
+  const PREFS_KEY = "gn-ruins-prefs";
+
+  function savedPreferences() {
+    return JSON.parse(window.localStorage.getItem(PREFS_KEY) ?? "{}");
+  }
+
+  it("hides the options while GameNode is active", () => {
+    renderTab(fakeStorage("gamenode"));
+
+    expect(screen.queryByText(OPTIONS_TITLE)).toBeNull();
+    expect(screen.queryByRole("switch")).toBeNull();
+  });
+
+  it("shows the options once Ruins is active and hides them again", () => {
+    renderTab();
+    expect(screen.queryByText(OPTIONS_TITLE)).toBeNull();
+
+    fireEvent.click(radio(LABELS.ruins));
+    expect(screen.getByText(OPTIONS_TITLE)).toBeTruthy();
+
+    fireEvent.click(radio(LABELS.dark));
+    expect(screen.queryByText(OPTIONS_TITLE)).toBeNull();
+  });
+
+  it("shows the options for a saved Ruins preference", () => {
+    renderTab(fakeStorage("ruins"));
+
+    expect(screen.getByText(OPTIONS_TITLE)).toBeTruthy();
+  });
+
+  it("persists the paper texture and scanline switches", () => {
+    renderTab(fakeStorage("ruins"));
+    const paper = screen.getByRole("switch", {
+      name: "settings.appearance.ruins.paperTexture.title",
+    }) as HTMLInputElement;
+    const scanline = screen.getByRole("switch", {
+      name: "settings.appearance.ruins.scanline.title",
+    }) as HTMLInputElement;
+
+    expect(paper.checked).toBe(true);
+    expect(scanline.checked).toBe(false);
+
+    fireEvent.click(paper);
+    fireEvent.click(scanline);
+
+    expect(paper.checked).toBe(false);
+    expect(scanline.checked).toBe(true);
+    expect(savedPreferences()).toMatchObject({
+      paperTexture: false,
+      scanline: true,
+    });
+  });
+
+  it("changes the boot animation with the segmented control", () => {
+    renderTab(fakeStorage("ruins"));
+
+    fireEvent.click(
+      screen.getByLabelText("settings.appearance.ruins.bootAnimation.never"),
+    );
+    expect(savedPreferences().bootAnimation).toBe("never");
+
+    fireEvent.click(
+      screen.getByLabelText("settings.appearance.ruins.bootAnimation.always"),
+    );
+    expect(savedPreferences().bootAnimation).toBe("always");
   });
 });

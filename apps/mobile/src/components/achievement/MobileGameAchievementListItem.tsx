@@ -107,14 +107,14 @@ const MobileGameAchievementListItem = ({
             <Stack className={"gap-2 justify-start min-h-12 "}>
               <Text
                 className={cn("text-sm font-medium", {
-                  "text-white": achievement.isObtained,
+                  "text-foreground": achievement.isObtained,
                 })}
               >
                 {achievement.name}
               </Text>
               <Text
                 className={cn("text-xs", {
-                  "text-white": achievement.isObtained,
+                  "text-foreground": achievement.isObtained,
                 })}
               >
                 {achievement.description}

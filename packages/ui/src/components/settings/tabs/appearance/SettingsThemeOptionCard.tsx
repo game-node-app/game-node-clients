@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "@repo/locales";
 import {
   SettingsComingSoonBadge,
+  SettingsNewBadge,
   SettingsPill,
 } from "#@/components/settings/common/SettingsPill";
 import { cn } from "#@/util";
@@ -27,7 +28,7 @@ export function SettingsRadioDot({ checked }: { checked: boolean }) {
       className={cn(
         "block size-[18px] shrink-0 rounded-full border-solid transition-[border-width,border-color]",
         checked
-          ? "border-[5px] border-brand bg-white"
+          ? "border-[5px] border-brand bg-foreground"
           : "border-[1.5px] border-dimmed-3",
       )}
     />
@@ -84,6 +85,8 @@ interface Props {
   disabled?: boolean;
   /** The theme is available to Supporters. */
   locked?: boolean;
+  /** Shows a "New" badge next to the label. */
+  isNew?: boolean;
 }
 
 /** Selectable theme card with a drawn preview (Figma "Tema" / "Settings / Tema especial"). */
@@ -95,6 +98,7 @@ export function SettingsThemeOptionCard({
   checked,
   disabled = false,
   locked = false,
+  isNew = false,
 }: Props) {
   const { t } = useTranslation();
   return (
@@ -134,35 +138,36 @@ export function SettingsThemeOptionCard({
         </Box>
         <Box
           component={"span"}
-          className={cn("flex items-center gap-2", disabled && "opacity-60")}
+          className={cn(
+            "flex min-w-0 flex-col gap-0.5",
+            disabled && "opacity-60",
+          )}
         >
-          <SettingsRadioDot checked={checked} />
-          <Box
-            component={"span"}
-            className={"flex min-w-0 flex-1 flex-col gap-0.5"}
-          >
+          <Box component={"span"} className={"flex items-center gap-2"}>
+            <SettingsRadioDot checked={checked} />
             <Text
               component={"span"}
               fz={14}
               fw={600}
-              c={"white"}
+              c={"var(--gn-text)"}
               lh={"normal"}
               truncate
+              className={"min-w-0 flex-1"}
             >
               {label}
             </Text>
-            {description && (
-              <Text
-                component={"span"}
-                fz={12}
-                lh={"normal"}
-                truncate
-                className={"text-dimmed-3"}
-              >
-                {description}
-              </Text>
-            )}
+            {isNew && <SettingsNewBadge />}
           </Box>
+          {description && (
+            <Text
+              component={"span"}
+              fz={12}
+              lh={"normal"}
+              className={"break-words ps-[26px] text-dimmed-3"}
+            >
+              {description}
+            </Text>
+          )}
         </Box>
       </Box>
     </Radio.Card>

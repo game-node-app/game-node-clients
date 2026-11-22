@@ -40,7 +40,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "error",
     "import/prefer-default-export": "off",
     "prettier/prettier": ["warn", { endOfLine: "auto" }],
-    "gamenode/no-hard-coded-colors": "warn",
+    "gamenode/no-hard-coded-colors": "error",
   },
   overrides: [
     {

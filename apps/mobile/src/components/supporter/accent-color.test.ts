@@ -1,6 +1,10 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from "vitest";
 import {
+  ACCENT_INK_CLASS,
+  ACCENT_INK_VAR,
+  getAccentInk,
+  getAccentInkStyle,
   getContrastRatio,
   getOnAccentText,
   getReadableAccent,
@@ -96,5 +100,25 @@ describe("getOnAccentText", () => {
 
   it("uses near-black on a light accent", () => {
     expect(getOnAccentText("#F5C542")).toBe("#141414");
+  });
+});
+
+describe("getAccentInk", () => {
+  it("caps the OKLCH lightness at the theme token and is a no-op without it", () => {
+    const ink = getAccentInk("#A159FF");
+
+    expect(ink).toBe("oklch(from #A159FF min(l, var(--gn-ink-max-l, 1)) c h)");
+    // Dark themes never define the token, so the cap falls back to 1 (= no cap).
+    expect(ink).toContain("var(--gn-ink-max-l, 1)");
+  });
+
+  it("exposes the ink through a custom property read by the text class", () => {
+    const style = getAccentInkStyle("oklch(0.4 0.1 300)") as Record<
+      string,
+      string
+    >;
+
+    expect(style[ACCENT_INK_VAR]).toBe("oklch(0.4 0.1 300)");
+    expect(ACCENT_INK_CLASS).toBe(`text-[color:var(${ACCENT_INK_VAR})]`);
   });
 });

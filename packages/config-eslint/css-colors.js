@@ -28,9 +28,15 @@
  * exemptions are only for content artwork (game art, recap/awards artwork,
  * platform brand marks), same policy as the ESLint rule.
  *
- * Severity comes from `hard-coded-colors.js`: migrated files and new
- * experience/theme packs are `error`, the rest of the legacy styles are
- * `warn`. `bin/lint-css-colors.js` exits non-zero when any error is reported.
+ * Also covered: the CSS names `white`/`black` in color-bearing declarations
+ * (`color: white`, `background: black`), and Tailwind default-palette/named
+ * color utilities in `@apply` (`@apply bg-black text-gray-400`). `transparent`,
+ * `currentColor` and `inherit` are fine.
+ *
+ * Severity comes from `hard-coded-colors.js`: every style is `error` except
+ * the files in the generated legacy baseline (`color-baseline.json`), which
+ * stay `warn`. `bin/lint-css-colors.js` exits non-zero when any error is
+ * reported.
  */
 
 const fs = require("node:fs");
@@ -38,11 +44,15 @@ const path = require("node:path");
 const postcss = require("postcss");
 
 const {
-  MIGRATED_COLOR_FILES,
-  NEW_PACK_COLOR_PATTERNS,
+  LEGACY_COLOR_BASELINE,
   getCssColorSeverity,
   matchesColorPattern,
 } = require("./hard-coded-colors");
+const {
+  COLOR_DECLARATION_PROPERTY,
+  findNamedCssColor,
+  findNamedTailwindColorClasses,
+} = require("./named-colors");
 
 const RULE_ID = "gamenode/no-hard-coded-colors";
 
@@ -421,7 +431,11 @@ function lintCssSource({
       message:
         messageId === "class"
           ? `Hard-coded color in Tailwind class '${literal}'. Use a token utility (for example bg-paper-2, text-brand-5 or border-line) instead.`
-          : `Hard-coded color '${literal}' is not themeable. Use a theme token instead (for example var(--gn-brand) or var(--gn-surface-2)).`,
+          : messageId === "namedClass"
+            ? `Tailwind class '${literal}' uses a fixed color that ignores the theme (it breaks in light themes). Use a token utility (bg-paper-2, text-muted, border-line, text-on-brand) or, over imagery, the --gn-media-* pair.`
+            : messageId === "named"
+              ? `Fixed color '${literal}' ignores the theme (it breaks in light themes). Use a theme token (var(--gn-text), var(--gn-surface-2)) or, over imagery, var(--gn-media-text)/var(--gn-media-scrim).`
+              : `Hard-coded color '${literal}' is not themeable. Use a theme token instead (for example var(--gn-brand) or var(--gn-surface-2)).`,
     });
   }
 
@@ -433,6 +447,15 @@ function lintCssSource({
 
     for (const { index, literal } of collectColorLiterals(decl.value)) {
       pushColor(literal, valueOffset + index, "color");
+    }
+
+    if (COLOR_DECLARATION_PROPERTY.test(decl.prop)) {
+      const named = findNamedCssColor(decl.value);
+
+      if (named) {
+        const index = decl.value.toLowerCase().indexOf(named);
+        pushColor(named, valueOffset + Math.max(index, 0), "named");
+      }
     }
   });
 
@@ -459,6 +482,16 @@ function lintCssSource({
       );
       if (!covered) pushColor(literal, paramsOffset + index, "color");
     }
+
+    if (atRule.name.toLowerCase() === "apply") {
+      for (const className of findNamedTailwindColorClasses(atRule.params)) {
+        pushColor(
+          className,
+          paramsOffset + Math.max(atRule.params.indexOf(className), 0),
+          "namedClass",
+        );
+      }
+    }
   });
 
   return messages.sort(
@@ -477,8 +510,7 @@ function lintCssSource({
 function lintCssColors({
   cwd = process.cwd(),
   roots = ["src"],
-  migratedFiles = MIGRATED_COLOR_FILES,
-  newPackPatterns = NEW_PACK_COLOR_PATTERNS,
+  baseline = LEGACY_COLOR_BASELINE,
   ignorePatterns = DEFAULT_IGNORE_PATTERNS,
   repoRoot = findRepoRoot(cwd),
 } = {}) {
@@ -500,10 +532,7 @@ function lintCssColors({
 
     checkedFiles += 1;
 
-    const severity = getCssColorSeverity(relFile, {
-      migratedFiles,
-      newPackPatterns,
-    });
+    const severity = getCssColorSeverity(relFile, { baseline });
 
     messages.push(
       ...lintCssSource({

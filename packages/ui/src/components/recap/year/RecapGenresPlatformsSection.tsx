@@ -74,7 +74,7 @@ export function RecapGenresPlatformsSection({
                   className={"size-2.5 shrink-0 rounded-[3px]"}
                   style={{ backgroundColor: colorAt(GENRE_COLORS, index) }}
                 />
-                <span className={"text-sm text-white"}>{genre.name}</span>
+                <span className={"text-sm text-foreground"}>{genre.name}</span>
                 <span
                   className={
                     "text-xs font-bold tracking-[0.06em] text-[#808080]"

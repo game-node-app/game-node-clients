@@ -15,7 +15,10 @@ export function DockGroup({ label, collapsed, children }: Props) {
       {collapsed ? (
         <div aria-hidden="true" className="h-px w-full bg-nav-border" />
       ) : (
-        <span className="text-[12px] font-normal leading-[normal] text-nav-muted">
+        <span
+          data-slot="nav-group-label"
+          className="text-[12px] font-normal leading-[normal] text-nav-muted"
+        >
           {label}
         </span>
       )}

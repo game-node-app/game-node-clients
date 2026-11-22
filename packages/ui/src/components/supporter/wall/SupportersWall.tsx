@@ -80,10 +80,10 @@ export function SupportersWall({ variant }: SupportersWallProps) {
           aria-hidden
         />
       </Box>
-      <Text fz={isPage ? 16 : 14} fw={600} lh={"normal"} c={"white"}>
+      <Text fz={isPage ? 16 : 14} fw={600} lh={"normal"} c={"var(--gn-text)"}>
         {t("supporter.wall.empty.title")}
       </Text>
-      <Text fz={13} lh={"normal"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"normal"} className={"text-subtle"}>
         {t("supporter.wall.empty.description")}
       </Text>
       <Button
@@ -105,7 +105,7 @@ export function SupportersWall({ variant }: SupportersWallProps) {
       data-testid={"supporters-wall-error"}
       className={cn(isPage ? "mt-12" : "py-4")}
     >
-      <Text fz={13} lh={"normal"} className={"text-[#adadad]"}>
+      <Text fz={13} lh={"normal"} className={"text-subtle"}>
         {t("supporter.wall.error")}
       </Text>
       <Button

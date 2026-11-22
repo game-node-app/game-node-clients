@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -28,7 +28,10 @@ import {
   setProjectContext,
   SettingsModal,
   setupAuthClient,
+  createThemeColorSchemeManager,
   SupporterThemeProvider,
+  ThemeColorSchemeSync,
+  ThemeOverlayHost,
   UIProvider,
 } from "@repo/ui";
 import { I18nProvider } from "@repo/locales";
@@ -50,6 +53,7 @@ import {
 } from "@/components/registry";
 import { MANTINE_THEME } from "@/components/theme.tsx";
 import { mobileThemeStorage } from "@/theme/theme-storage";
+import { IonicPaletteSync } from "@/theme/ionic-palette";
 import { NativeThemeChrome } from "@/theme/use-native-theme-chrome";
 import { PostHogProvider } from "@repo/analytics";
 
@@ -70,10 +74,12 @@ import "@ionic/react/css/core.css";
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
+ * Class-based palette: `IonicPaletteSync` toggles `ion-palette-dark` on
+ * `<html>` so light themes (Ruins) are not forced into the dark palette.
  * For more info, please see:
  * https://ionicframework.com/docs/theming/dark-mode
  */
-import "@ionic/react/css/palettes/dark.always.css";
+import "@ionic/react/css/palettes/dark.class.css";
 import "@ionic/react/css/padding.css";
 /**
  * Theme tokens for every Mantine, Ionic and Tailwind variable. Must come after
@@ -95,6 +101,21 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { Network } from "@capacitor/network";
 import { useLanguagePreference } from "@/components/general/hooks/useLanguagePreference";
+
+/**
+ * Development-only contrast monitor (axe `color-contrast` + "dark blocks in a
+ * light theme"); on by default under a theme whose color scheme differs from
+ * GameNode's. `import.meta.env.DEV` is `false` in production builds, so the
+ * lazy import (and `axe-core`) is dropped from the bundle. See AGENTS.md,
+ * "UI colors".
+ */
+const ContrastMonitor = import.meta.env.DEV
+  ? lazy(() =>
+      import("@repo/ui/theme/dev/contrast-monitor").then((module) => ({
+        default: module.ContrastMonitor,
+      })),
+    )
+  : null;
 
 /**
  * dayjs setup
@@ -140,6 +161,9 @@ setupWrapper({
 setupIonicReact({
   backButtonIcon: "/img/icon/icon_back_button.svg",
 });
+
+/** Mantine's scheme follows the active theme; the manager never persists it. */
+const colorSchemeManager = createThemeColorSchemeManager();
 
 const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
   const [queryClient] = useState(
@@ -203,7 +227,11 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
             onLanguageChange(lang);
           }}
         >
-          <MantineProvider theme={MANTINE_THEME} forceColorScheme={"dark"}>
+          <MantineProvider
+            theme={MANTINE_THEME}
+            defaultColorScheme="dark"
+            colorSchemeManager={colorSchemeManager}
+          >
             <UIProvider
               presenters={UI_PRESENTER_REGISTRY}
               hooks={UI_HOOK_REGISTRY}
@@ -214,6 +242,8 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
                 fallbackPresenters={THEME_FALLBACK_PRESENTERS}
                 suspendOnInitialPack={false}
               >
+                <ThemeColorSchemeSync />
+                <IonicPaletteSync />
                 <NativeThemeChrome />
                 <PostHogProvider
                   appName={"mobile"}
@@ -222,6 +252,12 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
                   // CapacitorHttp sends binary bodies as text, which breaks gzip.
                   disableCompression={isNative}
                 >
+                  <ThemeOverlayHost />
+                  {ContrastMonitor ? (
+                    <Suspense fallback={null}>
+                      <ContrastMonitor />
+                    </Suspense>
+                  ) : null}
                   <IonReactRouter>
                     <AppUrlListener />
                     <AppUpdateListener />

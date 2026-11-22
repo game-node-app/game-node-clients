@@ -22,7 +22,10 @@ export function SettingsIconTile({
         className,
       )}
     >
-      <Icon size={18} className={cn("text-[var(--gn-text-color)]", iconClassName)} />
+      <Icon
+        size={18}
+        className={cn("text-[var(--gn-text-color)]", iconClassName)}
+      />
     </Box>
   );
 }
@@ -63,7 +66,7 @@ export function SettingsRow({
   const text = (
     <Stack gap={4} className={cn("min-w-0 flex-1", disabled && "opacity-60")}>
       <Group gap={8} wrap={"wrap"}>
-        <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+        <Text fz={14} fw={600} c={"var(--gn-text)"} lh={"normal"}>
           {title}
         </Text>
         {titleBadges}

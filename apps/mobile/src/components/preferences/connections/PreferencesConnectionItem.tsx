@@ -52,7 +52,7 @@ const PreferencesConnectionItem = ({ type }: Props) => {
 
   const description = isConnected ? (
     <>
-      <span className="text-neutral-200">
+      <span className="text-legacy-neutral-200">
         {userConnection.data!.sourceUsername}
       </span>
       {" · "}

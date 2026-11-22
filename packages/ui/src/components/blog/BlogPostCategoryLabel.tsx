@@ -3,18 +3,19 @@ import { Text } from "@mantine/core";
 import { BlogTagDto } from "@repo/wrapper/server";
 
 /**
- * Stock Mantine colors per well-known category (tag id). The brand palette is flat, so shaded
- * brand values would not differ; unknown tags fall back to gray.
+ * Theme category tokens per well-known category (tag id): the stock Mantine 4 shades on dark
+ * themes, darker tones on light ones. The brand palette is flat, so shaded brand values would not
+ * differ; unknown tags fall back to a grey token.
  */
 const CATEGORY_COLORS = new Map([
-  ["news", "blue.4"],
-  ["review", "grape.4"],
-  ["article", "teal.4"],
+  ["news", "var(--gn-category-news)"],
+  ["review", "var(--gn-category-review)"],
+  ["article", "var(--gn-category-article)"],
   ["gamenode", "brand"],
 ]);
 
 const getCategoryColor = (tagId: string | undefined) =>
-  CATEGORY_COLORS.get(tagId?.toLowerCase() ?? "") ?? "gray.4";
+  CATEGORY_COLORS.get(tagId?.toLowerCase() ?? "") ?? "var(--gn-text-gray-4)";
 
 interface Props {
   tags: BlogTagDto[];

@@ -68,7 +68,7 @@ export function SettingsCustomCoversSection({ showHeader = true }: Props = {}) {
                     component={"span"}
                     fz={14}
                     fw={600}
-                    c={"white"}
+                    c={"var(--gn-text)"}
                     lh={"normal"}
                   >
                     {t(`settings.appearance.customCovers.${option}.label`)}

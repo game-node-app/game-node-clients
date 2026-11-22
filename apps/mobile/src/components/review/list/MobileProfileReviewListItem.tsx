@@ -39,7 +39,7 @@ const MobileProfileReviewListItem = ({
         href={reviewHref}
       />
       <div className="gn-row flex flex-col gap-2 px-3 pb-3 pt-3">
-        <p className="m-0 line-clamp-3 text-sm leading-5 text-neutral-300 [overflow-wrap:anywhere]">
+        <p className="m-0 line-clamp-3 text-sm leading-5 text-legacy-neutral-300 [overflow-wrap:anywhere]">
           {excerpt || t("review.messages.noContent")}
         </p>
         <div className="flex items-center justify-end">

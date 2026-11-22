@@ -106,7 +106,7 @@ export function EventPhaseTimeline({
                 lh={"normal"}
                 fw={isActive ? 600 : 500}
                 truncate
-                className={isActive ? "text-white" : "text-nav-muted"}
+                className={isActive ? "text-foreground" : "text-nav-muted"}
               >
                 {step.label}
               </Text>

@@ -38,21 +38,17 @@ function colors(result) {
   return result.messages.map((message) => message.color).sort();
 }
 
-test("new packs and migrated styles are errors", (t) => {
+test("styles outside the legacy baseline are errors", (t) => {
   const directory = createFixture(t, {
     "packages/ui/src/theme/experiences/console/row.module.css":
       ".row { background: linear-gradient(#101010, rgb(0 0 0)); }",
     "packages/ui/src/theme/themes/xbox/screens/profile.module.css":
       ":root { --card: hsl(0 0% 4%); }",
-    "apps/web/src/components/colors-migrated.module.css":
+    "apps/web/src/components/colors-new.module.css":
       ".card { border-color: #f15025; }",
   });
 
-  const result = lintCssColors({
-    cwd: directory,
-    roots: ["."],
-    migratedFiles: ["apps/web/src/components/colors-migrated.module.css"],
-  });
+  const result = lintCssColors({ cwd: directory, roots: ["."], baseline: {} });
 
   assert.equal(result.errors, 4);
   assert.equal(result.warnings, 0);
@@ -65,17 +61,49 @@ test("new packs and migrated styles are errors", (t) => {
   ]);
 });
 
-test("legacy styles are warnings", (t) => {
+test("baseline styles and admin are warnings", (t) => {
   const directory = createFixture(t, {
     "apps/web/src/components/legacy.css": ".legacy { color: #fff; }",
+    "apps/admin/src/components/admin.css": ".admin { color: #fff; }",
   });
 
-  const result = lintCssColors({ cwd: directory, roots: ["."] });
+  const result = lintCssColors({
+    cwd: directory,
+    roots: ["."],
+    baseline: { "apps/web/src/components/legacy.css": 1 },
+  });
 
   assert.equal(result.errors, 0);
-  assert.equal(result.warnings, 1);
-  assert.equal(result.messages[0].severity, "warn");
-  assert.equal(result.messages[0].color, "#fff");
+  assert.equal(result.warnings, 2);
+  assert.ok(result.messages.every((message) => message.severity === "warn"));
+});
+
+test("fixed named colors are reported in color declarations and @apply", () => {
+  const messages = lintCssSource({
+    source: [
+      ".a { color: white; }",
+      ".b { background: linear-gradient(black, transparent); }",
+      ".c { border: 1px solid BLACK; }",
+      ".d { @apply bg-black/50 text-gray-400 hover:text-white; }",
+      ".e { @apply bg-paper-2 text-muted border-line text-legacy-gray-100; }",
+      ".f { color: transparent; background: currentColor; border-color: inherit; }",
+      '.g { white-space: nowrap; font-family: Black Sans; content: "white"; }',
+      ".h { color: var(--gn-white, white); background: url(white.png); }",
+    ].join("\n"),
+    severity: "error",
+  });
+
+  assert.deepEqual(
+    messages.map((message) => [message.line, message.color]),
+    [
+      [1, "white"],
+      [2, "black"],
+      [3, "black"],
+      [4, "bg-black/50"],
+      [4, "text-gray-400"],
+      [4, "hover:text-white"],
+    ],
+  );
 });
 
 test("tokens, var() and gradients built from tokens are accepted", (t) => {
@@ -268,28 +296,26 @@ test("literal positions point at the value line", () => {
   );
 });
 
-test("severity comes from the central migrated list and the new pack patterns", () => {
+test("severity comes from the legacy baseline", () => {
+  const baseline = { "apps/web/src/components/legacy.css": 3 };
+
   assert.equal(
-    getCssColorSeverity(
-      "packages/ui/src/theme/experiences/console/row.module.css",
-    ),
+    getCssColorSeverity("packages/ui/src/theme/experiences/console/row.css", {
+      baseline,
+    }),
     "error",
   );
   assert.equal(
-    getCssColorSeverity(
-      "packages/ui/src/theme/themes/xbox/screens/profile.module.css",
-    ),
-    "error",
-  );
-  assert.equal(
-    getCssColorSeverity("apps/web/src/components/legacy.css"),
+    getCssColorSeverity("apps/web/src/components/legacy.css", { baseline }),
     "warn",
   );
   assert.equal(
-    getCssColorSeverity("apps/mobile/src/components/migrated.css", {
-      migratedFiles: ["apps/mobile/src/components/migrated.css"],
-    }),
+    getCssColorSeverity("apps/web/src/components/new.css", { baseline }),
     "error",
+  );
+  assert.equal(
+    getCssColorSeverity("apps/admin/src/components/new.css", { baseline }),
+    "warn",
   );
   assert.equal(
     matchesColorPattern("packages/ui/src/theme/experiences/console/a.css", [
@@ -315,7 +341,7 @@ test("CLI fails on an error and passes with only legacy warnings", (t) => {
   assert.match(failed.stdout, /1 error\(s\), 0 warning\(s\)/);
 
   const warning = createFixture(t, {
-    "apps/web/src/components/legacy.css": ".legacy { color: #fff; }",
+    "apps/admin/src/components/legacy.css": ".legacy { color: #fff; }",
   });
 
   const warned = spawnSync(process.execPath, [CLI, "."], {

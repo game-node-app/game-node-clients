@@ -105,7 +105,7 @@ const ExploreGamesFilters = ({ state }: { state: ExploreGamesViewState }) => {
           </IonSelectOption>
         ))}
       </IonSelect>
-      <div aria-hidden className={"h-5 w-px shrink-0 bg-white/15"} />
+      <div aria-hidden className={"h-5 w-px shrink-0 bg-foreground/15"} />
       <TrendingGenreChips
         className={"min-w-0 flex-1"}
         genres={state.genres}

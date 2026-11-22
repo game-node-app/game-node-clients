@@ -24,7 +24,7 @@ const DailyPracticeSection = () => {
     <DailyHubSection
       title={t("daily.practice.section")}
       caption={
-        <Text component={"span"} fz={12} className={"text-[#7A7A7A]"}>
+        <Text component={"span"} fz={12} className={"text-faint"}>
           {t("daily.practice.noLimit")}
         </Text>
       }

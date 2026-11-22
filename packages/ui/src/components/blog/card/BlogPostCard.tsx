@@ -62,7 +62,7 @@ const BlogPostCard = ({
             lineClamp={2}
             order={3}
             className={
-              "text-left text-white text-xl leading-snug font-bold [overflow-wrap:anywhere]"
+              "text-left text-foreground text-xl leading-snug font-bold [overflow-wrap:anywhere]"
             }
           >
             {post.title}

@@ -37,8 +37,15 @@ const splashDone = new Promise<void>((resolve) => {
   finishSplash = resolve;
 });
 
+let splashFinished = false;
+
 export function markSplashDone() {
+  splashFinished = true;
   finishSplash();
+}
+
+export function isSplashDone() {
+  return splashFinished;
 }
 
 export function whenSplashDone(): Promise<void> {
