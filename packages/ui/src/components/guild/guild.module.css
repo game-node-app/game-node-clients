@@ -23,6 +23,16 @@
   --guild-dialog-dim: #b9ad94;
   --guild-shadow: rgba(0, 0, 0, 0.45);
 
+  /*
+   * Text and chips drawn on the artwork's FIXED surfaces (parchment cards, dark
+   * dialogue panel). --gn-* text tokens flip with the theme (--gn-text is dark
+   * in Ruins, --gn-brand-9 is a light shade there), so on these surfaces the
+   * theme only tints the hue and the ink keeps it readable in every theme.
+   */
+  --guild-brand-ink: color-mix(in srgb, var(--gn-brand) 55%, var(--guild-ink));
+  --guild-event-chip: color-mix(in srgb, var(--gn-premium) 30%, var(--guild-ink));
+  --guild-played-chip: color-mix(in srgb, var(--gn-state-played) 30%, var(--guild-ink));
+
   color: var(--gn-text);
   font-family: var(--gn-font, inherit);
 }
@@ -294,7 +304,7 @@
   line-height: 1;
 }
 
-/* ---- CategoryTag (D6): five variants, theme tokens only. ---- */
+/* ---- CategoryTag (D6): five variants; the chips on parchment mix the theme hue into the fixed ink. ---- */
 
 .categoryTag {
   display: inline-flex;
@@ -315,8 +325,8 @@
 }
 
 .categoryTagEvent {
-  color: var(--gn-premium-text);
-  background: var(--gn-premium-soft);
+  color: var(--guild-parchment);
+  background: var(--guild-event-chip);
 }
 
 .categoryTagWeekly {
@@ -324,14 +334,10 @@
   background: var(--guild-ink, var(--gn-text-color));
 }
 
-.categoryTagGamenode {
-  color: var(--gn-state-played);
-  background: var(--gn-state-played-tint);
-}
-
+.categoryTagGamenode,
 .categoryTagGoal {
-  color: var(--gn-success);
-  background: var(--gn-state-played-tint);
+  color: var(--guild-parchment);
+  background: var(--guild-played-chip);
 }
 
 /* ---- GameChip (D6): 16x20 cover + name + meta on parchment. ---- */
@@ -1461,7 +1467,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--gn-brand-9);
+  color: var(--guild-brand-ink);
   white-space: nowrap;
 }
 
@@ -2091,7 +2097,7 @@
 }
 
 .linaOption[data-active="true"] {
-  color: var(--gn-text);
+  color: var(--guild-dialog-text);
 }
 
 .linaOption:focus-visible {
@@ -2113,7 +2119,7 @@
   position: absolute;
   right: 27px;
   bottom: 19px;
-  color: var(--gn-brand);
+  color: var(--guild-gold);
   font-family: "Guild Pixel", var(--gn-font, monospace);
   font-size: 13px;
   font-weight: 700;
