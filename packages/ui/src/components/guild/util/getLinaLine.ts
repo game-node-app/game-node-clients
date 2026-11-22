@@ -95,8 +95,12 @@ export function getLinaLine(
   delete options.targetGameName;
 
   const candidateKeys: string[] = [];
-  if (trigger === "contract_accepted" && !gameName) {
-    candidateKeys.push("guild.lina.contract_accepted_no_game");
+  if (
+    (trigger === "contract_accepted" ||
+      trigger === "contract_ready_to_claim") &&
+    !gameName
+  ) {
+    candidateKeys.push(`guild.lina.${trigger}_no_game`);
   }
   candidateKeys.push(`guild.lina.${trigger}`);
   candidateKeys.push("guild.lina.default");

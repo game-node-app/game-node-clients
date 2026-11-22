@@ -1878,7 +1878,7 @@
     },
     "activeContracts": {
       "title": "CONTRATOS ATIVOS",
-      "empty": "Nenhum contrato ativo. O quadro está cheio de pedidos esperando por você.",
+      "empty": "Nenhum contrato ativo ainda. Escolha um pedido no quadro para começar.",
       "yearGoal": "Meta {{year}}: zerar {{target}} jogos",
       "yearGoalLeft_one": "Falta {{count}} jogo até 31/12",
       "yearGoalLeft_other": "Faltam {{count}} jogos até 31/12",
@@ -1887,7 +1887,7 @@
     },
     "contracts": {
       "emptyAccepted": "Nenhum contrato aceito ainda. Escolha um pedido no quadro!",
-      "emptyCompleted": "Nenhum contrato concluído ainda. A primeira entrega é sempre especial.",
+      "emptyCompleted": "Nenhum contrato concluído ainda. Quando você entregar o primeiro, ele aparece aqui.",
       "status": {
         "active": "Ativo",
         "readyToClaim": "Pronto para entregar",
@@ -1913,7 +1913,7 @@
       "adventurer": "Aventureiro",
       "target": "Alvo",
       "rank": "Rank",
-      "signature": "Assinatura da recepção — Lina",
+      "signature": "Assinado na recepção: Lina",
       "stamp": "ACEITO",
       "xpChip": "+{{xp}} XP ao concluir",
       "rankXp": "{{rank}} · +{{xp}} XP",
@@ -1967,19 +1967,19 @@
     "templates": {
       "forgotten_relic": {
         "title": "Relíquia Esquecida",
-        "description": "Zere um jogo que está no seu backlog há mais de um ano sem ser tocado."
+        "description": "Zere um jogo que está parado no seu backlog há mais de um ano."
       },
       "deep_dive": {
         "title": "Mergulho Profundo",
-        "description": "Finalize um jogo que você está jogando."
+        "description": "Zere um jogo que você já está jogando."
       },
       "short_caravan": {
         "title": "Caravana Curta",
-        "description": "Termine um jogo com menos de 8 horas de duração média."
+        "description": "Zere um jogo de até 8 horas de duração média."
       },
       "weekend_sprint": {
         "title": "Corrida de Fim de Semana",
-        "description": "Finalize qualquer jogo da sua biblioteca nesta semana."
+        "description": "Zere qualquer jogo da sua biblioteca nesta semana."
       },
       "captains_log": {
         "title": "Diário de Bordo",
@@ -1999,14 +1999,15 @@
         "quick": "Tem algum pedido mais rápido?",
         "goodbye": "Até mais, Lina"
       },
-      "contract_accepted": "Contrato assinado! Quando zerar {{gameName}}, volta aqui no balcão — vou deixar sua recompensa separadinha.",
-      "contract_accepted_no_game": "Contrato assinado! Quando terminar, volta aqui no balcão — vou deixar sua recompensa separadinha.",
-      "contract_claimed": "Você zerou! Deixa eu carimbar isso aqui… pronto, a recompensa é sua.",
-      "contract_ready_to_claim": "Seu contrato está pronto para entregar!",
-      "returning_after_inactivity": "Olha só quem voltou! A guilda estava quieta sem você por aqui.",
-      "weekly_board_refreshed": "Bom dia! O leite tá fresquinho e o quadro de pedidos também.",
-      "stale_backlog_game": "Que bom te ver de novo por aqui! Reparei que {{gameName}} está parado no seu backlog desde {{sinceYear}}…",
-      "default": "Bem-vindo à Guilda dos Aventureiros."
+      "contract_accepted": "Tudo certo! Quando terminar {{gameName}}, passa aqui no balcão pra pegar sua recompensa.",
+      "contract_accepted_no_game": "Tudo certo! Assim que concluir esse pedido, passa aqui no balcão pra pegar sua recompensa.",
+      "contract_claimed": "Mandou bem! Deixa eu carimbar seu contrato. Prontinho, a recompensa é sua.",
+      "contract_ready_to_claim": "Ei, você concluiu o pedido de {{gameName}}! Pode entregar aqui no balcão.",
+      "contract_ready_to_claim_no_game": "Ei, você tem um contrato pronto pra entregar! Passa aqui no balcão pra pegar sua recompensa.",
+      "returning_after_inactivity": "Olha só quem apareceu! Fazia um tempo que você não passava por aqui.",
+      "weekly_board_refreshed": "Acabei de atualizar o quadro de pedidos da semana. Quer dar uma olhada?",
+      "stale_backlog_game": "Oi! Vi aqui que {{gameName}} tá no seu backlog desde {{sinceYear}}. Que tal tirar a poeira dele?",
+      "default": "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali."
     },
     "actions": {
       "accept": "Aceitar",
@@ -2017,12 +2018,12 @@
     "earlyAccess": {
       "badge": "Acesso antecipado",
       "title": "A Guilda está em acesso antecipado",
-      "line": "A Guilda dos Aventureiros está em acesso antecipado para apoiadores. Quem apoia o GameNode senta primeiro no balcão da Lina — e mantém os servidores de pé.",
+      "line": "Por enquanto a Guilda tá aberta só para apoiadores. Se você apoiar o GameNode, já libera seu acesso por aqui e ainda ajuda a manter o projeto no ar.",
       "cta": "Quero apoiar"
     },
     "signIn": {
       "title": "Entre para visitar a Guilda",
-      "line": "Lina gosta de saber quem está chegando. Entre na sua conta para ver sua licença, seus pedidos e seus contratos.",
+      "line": "Ainda não te conheço por aqui! Entra na sua conta pra eu pegar sua licença e te mostrar os pedidos da semana.",
       "cta": "Entrar"
     },
     "errors": {

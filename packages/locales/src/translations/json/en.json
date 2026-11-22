@@ -1878,7 +1878,7 @@
     },
     "activeContracts": {
       "title": "ACTIVE CONTRACTS",
-      "empty": "No active contracts yet. The board is full of quests waiting for you.",
+      "empty": "No active contracts yet. Pick a quest from the board to get started.",
       "yearGoal": "{{year}} goal: finish {{target}} games",
       "yearGoalLeft_one": "{{count}} game left until 12/31",
       "yearGoalLeft_other": "{{count}} games left until 12/31",
@@ -1887,7 +1887,7 @@
     },
     "contracts": {
       "emptyAccepted": "No contracts accepted yet. Pick a quest from the board!",
-      "emptyCompleted": "No contracts completed yet. The first turn-in is always special.",
+      "emptyCompleted": "No completed contracts yet. Your finished contracts will show up here.",
       "status": {
         "active": "Active",
         "readyToClaim": "Ready to turn in",
@@ -1913,7 +1913,7 @@
       "adventurer": "Adventurer",
       "target": "Target",
       "rank": "Rank",
-      "signature": "Reception signature — Lina",
+      "signature": "Signed at reception: Lina",
       "stamp": "ACCEPTED",
       "xpChip": "+{{xp}} XP on completion",
       "rankXp": "{{rank}} · +{{xp}} XP",
@@ -1967,11 +1967,11 @@
     "templates": {
       "forgotten_relic": {
         "title": "Forgotten Relic",
-        "description": "Finish a game that has been waiting in your backlog for over a year."
+        "description": "Finish a game that's been sitting in your backlog for over a year."
       },
       "deep_dive": {
         "title": "Deep Dive",
-        "description": "Finish a game you are currently playing."
+        "description": "Finish a game you're currently playing."
       },
       "short_caravan": {
         "title": "Short Caravan",
@@ -1996,17 +1996,18 @@
       "namePlateShort": "Lina · Receptionist",
       "options": {
         "board": "Show me the quest board",
-        "quick": "Any quicker quest?",
+        "quick": "Got anything quicker?",
         "goodbye": "See you, Lina"
       },
-      "contract_accepted": "Contract signed! When you finish {{gameName}}, come back to the counter — I'll keep your reward tucked away.",
-      "contract_accepted_no_game": "Contract signed! When you finish it, come back to the counter — I'll keep your reward tucked away.",
-      "contract_claimed": "You finished it! Let me stamp this… there, the reward is yours.",
-      "contract_ready_to_claim": "Your contract is ready to turn in!",
-      "returning_after_inactivity": "Look who's back! The guild has been quiet without you.",
-      "weekly_board_refreshed": "Good morning! The milk is fresh and so is the quest board.",
-      "stale_backlog_game": "Good to see you again! I noticed {{gameName}} has been sitting in your backlog since {{sinceYear}}…",
-      "default": "Welcome to the Adventurers Guild."
+      "contract_accepted": "All set! When you finish {{gameName}}, swing by the counter for your reward.",
+      "contract_accepted_no_game": "All set! Once you finish this quest, swing by the counter for your reward.",
+      "contract_claimed": "Nicely done! Let me get this stamped for you. Here's your reward.",
+      "contract_ready_to_claim": "Hey, you finished the {{gameName}} quest! Bring it over to claim your reward.",
+      "contract_ready_to_claim_no_game": "Hey, you've got a contract ready to turn in! Come grab your reward.",
+      "returning_after_inactivity": "Look who's back! It's been a while since you last stopped by.",
+      "weekly_board_refreshed": "Just put new quests up on the board for the week. Want to take a look?",
+      "stale_backlog_game": "Hey! Saw that {{gameName}} has been in your backlog since {{sinceYear}}. Ready to dust it off?",
+      "default": "Hey! Make yourself at home, the quest board is right over there."
     },
     "actions": {
       "accept": "Accept",
@@ -2017,12 +2018,12 @@
     "earlyAccess": {
       "badge": "Early access",
       "title": "The Guild is in early access",
-      "line": "The Adventurers Guild is in early access for supporters. Supporters get the first seat at Lina's counter — and keep GameNode's servers running.",
+      "line": "The Guild is in early access for supporters right now. Supporting GameNode gets you in early and helps keep the project running.",
       "cta": "Become a supporter"
     },
     "signIn": {
       "title": "Sign in to visit the Guild",
-      "line": "Lina likes to know who's coming in. Sign in to see your license, your quests and your contracts.",
+      "line": "I don't think we've met yet! Sign in so I can pull up your license and show you this week's quests.",
       "cta": "Sign in"
     },
     "errors": {

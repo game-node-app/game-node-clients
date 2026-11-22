@@ -2007,6 +2007,7 @@ export type TranslationSchema = {
       contract_accepted_no_game: string;
       contract_claimed: string;
       contract_ready_to_claim: string;
+      contract_ready_to_claim_no_game: string;
       returning_after_inactivity: string;
       weekly_board_refreshed: string;
       stale_backlog_game: string;

@@ -258,12 +258,17 @@ describe("getRewardLabel", () => {
 describe("getLinaLine", () => {
   const templates = createTranslator({
     "guild.lina.stale_backlog_game":
-      "Que bom te ver de novo por aqui! Reparei que {{gameName}} está parado no seu backlog desde {{sinceYear}}…",
+      "Oi! Vi aqui que {{gameName}} tá no seu backlog desde {{sinceYear}}. Que tal tirar a poeira dele?",
     "guild.lina.contract_accepted":
-      "Contrato assinado! Quando zerar {{gameName}}, volta aqui no balcão.",
+      "Tudo certo! Quando terminar {{gameName}}, passa aqui no balcão pra pegar sua recompensa.",
     "guild.lina.contract_accepted_no_game":
-      "Contrato assinado! Volta aqui no balcão quando concluir.",
-    "guild.lina.default": "Bem-vindo à Guilda dos Aventureiros.",
+      "Tudo certo! Assim que concluir esse pedido, passa aqui no balcão pra pegar sua recompensa.",
+    "guild.lina.contract_ready_to_claim":
+      "Ei, você concluiu o pedido de {{gameName}}! Pode entregar aqui no balcão.",
+    "guild.lina.contract_ready_to_claim_no_game":
+      "Ei, você tem um contrato pronto pra entregar! Passa aqui no balcão pra pegar sua recompensa.",
+    "guild.lina.default":
+      "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali.",
   });
 
   it("splits a stale backlog game name into a gold highlight segment", () => {
@@ -276,9 +281,9 @@ describe("getLinaLine", () => {
     );
 
     expect(segments).toEqual([
-      { text: "Que bom te ver de novo por aqui! Reparei que " },
+      { text: "Oi! Vi aqui que " },
       { text: "Hollow Knight", highlight: true },
-      { text: " está parado no seu backlog desde 2023…" },
+      { text: " tá no seu backlog desde 2023. Que tal tirar a poeira dele?" },
     ]);
   });
 
@@ -289,19 +294,50 @@ describe("getLinaLine", () => {
     );
 
     expect(segments).toEqual([
-      { text: "Contrato assinado! Volta aqui no balcão quando concluir." },
+      {
+        text: "Tudo certo! Assim que concluir esse pedido, passa aqui no balcão pra pegar sua recompensa.",
+      },
+    ]);
+  });
+
+  it("highlights the game name or uses the no-game variant for contract_ready_to_claim", () => {
+    expect(
+      getLinaLine(
+        {
+          trigger: "contract_ready_to_claim",
+          context: { contractId: "c1", targetGameName: "Hollow Knight" },
+        },
+        templates,
+      ),
+    ).toEqual([
+      { text: "Ei, você concluiu o pedido de " },
+      { text: "Hollow Knight", highlight: true },
+      { text: "! Pode entregar aqui no balcão." },
+    ]);
+
+    expect(
+      getLinaLine(
+        { trigger: "contract_ready_to_claim", context: { contractId: "c1" } },
+        templates,
+      ),
+    ).toEqual([
+      {
+        text: "Ei, você tem um contrato pronto pra entregar! Passa aqui no balcão pra pegar sua recompensa.",
+      },
     ]);
   });
 
   it("falls back to the default line for unknown triggers", () => {
     expect(
       getLinaLine({ trigger: "brand_new_trigger", context: {} }, templates),
-    ).toEqual([{ text: "Bem-vindo à Guilda dos Aventureiros." }]);
+    ).toEqual([
+      { text: "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali." },
+    ]);
   });
 
   it("uses the default line for a missing lina payload", () => {
     expect(getLinaLine(null, templates)).toEqual([
-      { text: "Bem-vindo à Guilda dos Aventureiros." },
+      { text: "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali." },
     ]);
   });
 });
