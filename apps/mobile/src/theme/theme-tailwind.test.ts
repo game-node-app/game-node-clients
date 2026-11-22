@@ -69,3 +69,35 @@ it("compiles theme colors with and without opacity modifiers", async () => {
   // The utility holds both halves of the pair for Mantine text.
   expect(colors.get(".media-ink")).toContain("var(--gn-media-text)");
 });
+
+it("themes article prose from tokens instead of a fixed light palette", async () => {
+  const { root } = await postcss([
+    tailwindcss({
+      ...themeConfig,
+      content: [
+        {
+          raw: '<div class="prose prose-gamenode"></div>',
+          extension: "html",
+        },
+      ],
+    }) as unknown as Plugin,
+  ]).process("@tailwind components; @tailwind utilities;", {
+    from: undefined,
+  });
+
+  const vars = new Map<string, string>();
+  root.walkRules(".prose-gamenode", (rule) => {
+    rule.walkDecls(/^--tw-prose-/, (declaration) => {
+      vars.set(declaration.prop, declaration.value);
+    });
+  });
+
+  // `prose-invert` would pin body text to light gray, unreadable on Ruins.
+  expect(vars.get("--tw-prose-body")).toBe("var(--gn-text-color)");
+  expect(vars.get("--tw-prose-bold")).toBe("var(--gn-text-emphasis)");
+  expect(vars.get("--tw-prose-headings")).toBe("var(--gn-text-emphasis)");
+  expect(vars.size).toBeGreaterThan(10);
+  for (const [property, value] of vars) {
+    expect(value, property).toMatch(/^var\(--gn-[\w-]+\)$/);
+  }
+});
