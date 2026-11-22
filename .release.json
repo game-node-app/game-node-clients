@@ -1,0 +1,28 @@
+{
+  "source": "e6642d207a118de759213c61bf41d5975b266a93",
+  "changesets": [
+    ".changeset/blog-prose-theme-tokens.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[d8a035fd584004e1b4e31bc7db87bfa7b75aa9e8...e6642d207a118de759213c61bf41d5975b266a93]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/e6642d207a118de759213c61bf41d5975b266a93",
+  "versions": {
+    "web": "1.28.2",
+    "mobile": "1.27.2"
+  }
+}
