@@ -37,7 +37,7 @@ const GameRow = ({
 }: Props) => {
   const body = (
     <div className="flex min-w-0 flex-1 flex-col gap-1">
-      <p className="m-0 line-clamp-2 text-[15px] font-semibold leading-5 text-white [overflow-wrap:anywhere]">
+      <p className="m-0 line-clamp-2 text-[15px] font-semibold leading-5 text-foreground [overflow-wrap:anywhere]">
         {title}
       </p>
       {meta != undefined && (

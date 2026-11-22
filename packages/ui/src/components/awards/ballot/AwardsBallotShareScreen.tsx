@@ -11,6 +11,7 @@ import { useAwardsMobileLayout } from "#@/components/awards/shared/useAwardsMobi
 import { RecapCardPreview } from "#@/components/wrapped/card/RecapCardPreview";
 import { exportCardImage } from "#@/components/wrapped/util/exportCardImage";
 import { useShareText } from "#@/context";
+import { ThemeScope } from "#@/theme/ThemeScope";
 import { createErrorNotification, Modal } from "#@/util";
 import { Loader } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -145,7 +146,8 @@ export function AwardsBallotShareScreen({
   const pending = shareMutation.isPending || downloadMutation.isPending;
 
   return (
-    <div
+    // Dark by design: the whole share sheet renders in the default dark theme.
+    <ThemeScope
       data-awards-ballot-share-screen
       style={{
         backgroundColor: "#0b0b0b",
@@ -355,7 +357,7 @@ export function AwardsBallotShareScreen({
           </button>
         </div>
       </div>
-    </div>
+    </ThemeScope>
   );
 }
 

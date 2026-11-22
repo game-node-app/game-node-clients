@@ -25,7 +25,7 @@ const DailyWeeklyCard = ({ weekly }: { weekly: DailyWeeklyDto }) => {
     <DailyHubSection
       title={t("daily.weekly.section")}
       caption={
-        <Text component={"span"} fz={12} className={"text-[#7A7A7A]"}>
+        <Text component={"span"} fz={12} className={"text-faint"}>
           {t("daily.weekly.resets")}
         </Text>
       }

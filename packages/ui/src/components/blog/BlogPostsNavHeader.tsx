@@ -61,7 +61,7 @@ const BlogPostsNavHeader = () => {
                 "rounded-full border px-4 py-1.5 font-semibold transition-colors",
                 active
                   ? "border-brand-5 bg-brand-5 text-white"
-                  : "border-white/15 text-gray-300 hover:bg-white/5",
+                  : "border-foreground/15 text-legacy-gray-300 hover:bg-foreground/5",
               )}
             >
               {config.label}

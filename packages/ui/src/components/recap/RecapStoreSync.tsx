@@ -53,7 +53,7 @@ export function RecapStoreSync() {
                 {index > 0 && " "}
                 <span className="inline-block max-w-full align-top">
                   {index > 0 && "·\u00a0"}
-                  <span className="text-white/80">
+                  <span className="text-foreground/80">
                     {getConnectionName(type as UserConnectionDto.type)}
                   </span>{" "}
                   {date && Number.isFinite(date.getTime()) ? (

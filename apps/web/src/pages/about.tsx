@@ -15,7 +15,7 @@ import { AboutPremiumSection } from "@/components/about/AboutPremiumSection";
 import { AboutProgressSection } from "@/components/about/AboutProgressSection";
 import { AboutPromiseSection } from "@/components/about/AboutPromiseSection";
 import { AboutSupportersWall } from "@/components/about/AboutSupportersWall";
-import { Box } from "@mantine/core";
+import { ThemeScope } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
 import aboutStyles from "@/components/about/About.module.css";
 import { OpenGraph } from "@/components/general/OpenGraph";
@@ -29,7 +29,7 @@ const AboutPage = () => {
   const { t } = useTranslation();
 
   return (
-    <Box className={aboutStyles.page}>
+    <ThemeScope className={aboutStyles.page}>
       <OpenGraph
         title={t("about.meta.title")}
         description={t("about.meta.description")}
@@ -56,7 +56,7 @@ const AboutPage = () => {
       </main>
 
       <LandingFooter />
-    </Box>
+    </ThemeScope>
   );
 };
 

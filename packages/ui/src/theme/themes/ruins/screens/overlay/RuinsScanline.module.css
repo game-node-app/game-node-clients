@@ -1,0 +1,45 @@
+/* A soft band that sweeps the viewport while the app is talking to the API. */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 46px;
+  z-index: 2147482100;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--gn-text) 6%, transparent) 70%,
+    color-mix(in srgb, var(--gn-text) 14%, transparent) 98%,
+    transparent 100%
+  );
+  transform: translateY(-46px);
+  animation: sweep 1.6s linear infinite;
+  will-change: transform;
+}
+
+.scanline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: color-mix(in srgb, var(--gn-text) 14%, transparent);
+}
+
+@keyframes sweep {
+  from {
+    transform: translateY(-46px);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline {
+    display: none;
+  }
+}

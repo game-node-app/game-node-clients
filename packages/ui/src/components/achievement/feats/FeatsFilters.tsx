@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
+import { cn } from "#@/util";
 import {
   formatFeatNumber,
   type FeatsCategoryFilter,
@@ -92,7 +93,7 @@ const FeatsFilters = ({
           return (
             <Button
               key={`${option.value}`}
-              variant={active ? "white" : "default"}
+              variant={"default"}
               radius={"xl"}
               size={"sm"}
               px={12}
@@ -100,7 +101,13 @@ const FeatsFilters = ({
                 onChange({ category: option.value, query, status })
               }
               aria-pressed={active}
-              className={"shrink-0 font-semibold"}
+              // The active pill is an inverted chip (text on body) so it follows the
+              // theme; Mantine's `white` variant is a literal white fill.
+              className={cn(
+                "shrink-0 font-semibold",
+                active &&
+                  "!border-transparent !bg-foreground !text-body hover:!bg-foreground",
+              )}
             >
               {option.label}
               {option.value === "all" && (

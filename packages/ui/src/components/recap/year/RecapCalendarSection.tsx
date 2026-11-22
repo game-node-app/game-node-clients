@@ -293,7 +293,7 @@ function CalendarFact({
   return (
     <RecapSurface className={"flex flex-col gap-3 md:p-7"}>
       <span
-        className={`text-4xl leading-[46px] font-bold tracking-[-0.01em] text-white md:text-[40px] ${className ?? ""}`}
+        className={`text-4xl leading-[46px] font-bold tracking-[-0.01em] text-foreground md:text-[40px] ${className ?? ""}`}
       >
         {value}
       </span>

@@ -83,7 +83,7 @@
 
 .calendarDay[data-today] .calendarDate {
   background: var(--mantine-primary-color-filled);
-  color: var(--gn-text);
+  color: var(--gn-accent-contrast);
 }
 
 /* the day's select button covers the whole cell */
@@ -443,7 +443,7 @@
 .stripDay[data-today] .stripDayDot {
   border-color: var(--mantine-primary-color-filled);
   background: var(--mantine-primary-color-filled);
-  color: var(--gn-text);
+  color: var(--gn-accent-contrast);
   box-shadow: 0 0 0 4px
     color-mix(in srgb, var(--mantine-primary-color-filled) 25%, transparent);
 }
@@ -452,7 +452,8 @@
   color: var(--mantine-color-text);
 }
 
-.stripDay[data-empty] .stripDayDot {
+/* today keeps its filled dot (and the text paired with it) even with no releases */
+.stripDay[data-empty]:not([data-today]) .stripDayDot {
   border-color: var(--mantine-color-default-border);
   color: var(--mantine-color-dimmed);
 }

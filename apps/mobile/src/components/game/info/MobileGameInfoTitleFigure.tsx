@@ -20,7 +20,7 @@ const MobileGameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
 
   return (
     <Box
-      className={"relative overflow-hidden"}
+      className={"relative overflow-hidden bg-media-fade"}
       style={{
         margin:
           "calc(-1 * var(--padding-top, 16px)) calc(-1 * var(--padding-end, 16px)) 0 calc(-1 * var(--padding-start, 16px))",
@@ -33,30 +33,19 @@ const MobileGameInfoTitleFigure = ({ game }: GameInfoTitleFigureProps) => {
           className={"absolute inset-0 bg-cover bg-center"}
           style={{
             backgroundImage: `url(${backdropUrl})`,
-            filter: "blur(2px) brightness(0.6) saturate(1.1)",
+            filter: "blur(2px) saturate(1.1)",
             transform: "scale(1.05)",
           }}
         />
       )}
-      <Box
-        aria-hidden
-        className={"absolute inset-0"}
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(11,11,11,0.55) 0%, rgba(11,11,11,0) 35%, #0b0b0b 100%)",
-        }}
-      />
-      <Stack className={"relative gap-3 pb-2"}>
-        <Center className={"w-full"}>
-          <Box
-            className={"w-44 rounded-lg overflow-hidden"}
-            style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.6)" }}
-          >
+      <Stack className={"relative gap-3"}>
+        <Center className={"relative z-10 w-full"}>
+          <Box className={"w-44 rounded-lg overflow-hidden shadow-xl"}>
             <GameFigureImage game={game} imageSize={ImageSize.COVER_BIG_2X} />
           </Box>
         </Center>
         <Text
-          className={"text-center text-white font-semibold text-lg px-4"}
+          className="relative bg-media-fade px-4 pb-2 text-center text-lg font-semibold text-media before:pointer-events-none before:absolute before:inset-x-0 before:bottom-full before:h-16 before:bg-gradient-to-t before:from-media-fade before:to-transparent"
         >
           {game.name}
         </Text>

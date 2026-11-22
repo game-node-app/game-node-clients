@@ -31,7 +31,7 @@ interface Props {
 const TEXT_LINK =
   "self-start text-sm text-[var(--profile-accent-text,var(--mantine-color-brand-filled))] hover:underline";
 const TAB_STYLE =
-  "border-b-2 border-transparent px-1 py-2 text-sm text-dimmed data-[active]:border-[var(--profile-accent,var(--mantine-color-brand-filled))] data-[active]:font-semibold data-[active]:text-white";
+  "border-b-2 border-transparent px-1 py-2 text-sm text-dimmed data-[active]:border-[var(--profile-accent,var(--mantine-color-brand-filled))] data-[active]:font-semibold data-[active]:text-foreground";
 
 const ProfileViewMainPage = ({ userId, reviews, onNavigate }: Props) => {
   const { t } = useTranslation();

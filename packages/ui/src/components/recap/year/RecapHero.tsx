@@ -93,7 +93,7 @@ export function RecapHero({ year, recap, phase }: RecapHeroProps) {
           : t("recap.page.hero.eyebrow", { year })}
       </RecapEyebrow>
 
-      <h1 className="m-0 mt-4 text-5xl leading-[1.05] font-bold tracking-[-0.02em] text-white md:text-[64px] md:leading-[72px]">
+      <h1 className="m-0 mt-4 text-5xl leading-[1.05] font-bold tracking-[-0.02em] text-foreground md:text-[64px] md:leading-[72px]">
         {hoursIndex >= 0 ? (
           <>
             {title.slice(0, hoursIndex)}

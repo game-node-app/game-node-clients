@@ -37,7 +37,7 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
       onClick={onClick}
       variant={"subtle"}
       size={"xl"}
-      color={"white"}
+      color={"var(--gn-text)"}
       aria-label={t("actions.viewComments")}
       loading={commentsQuery.isLoading}
     >

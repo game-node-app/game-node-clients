@@ -75,7 +75,7 @@ const DEFAULT_JournalOverviewItem = ({
   return (
     <Group
       className={
-        "w-full flex-nowrap items-center bg-[#212121] border-[#2B2A2A] rounded-md border p-3"
+        "w-full flex-nowrap items-center bg-paper-6 border-[#2B2A2A] rounded-md border p-3"
       }
     >
       <Group className={"flex-nowrap h-full"}>

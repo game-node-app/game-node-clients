@@ -17,13 +17,15 @@
   "exports": {
     ".": "./src/index.ts",
     "./themes.css": "./src/theme/generated/themes.css",
+    "./theme/dev/contrast-monitor": "./src/theme/dev/ContrastMonitor.tsx",
     "./theme/anchors/console": "./src/theme/packs/anchors/console.tsx",
+    "./theme/anchors/ruins-screens": "./src/theme/packs/anchors/ruinsScreens.tsx",
     "./theme/anchors/xbox-screens": "./src/theme/packs/anchors/xboxScreens.tsx"
   },
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src --ext .ts,.tsx && node ../../packages/config-eslint/bin/lint-css-colors.js src",
+    "lint": "eslint src --ext .ts,.tsx && node ../../packages/config-eslint/bin/lint-css-colors.js src && node ../../packages/config-eslint/bin/colors.js check",
     "type-check": "tsc --noEmit",
     "themes:generate": "tsx scripts/generate-themes.ts",
     "themes:check": "tsx scripts/generate-themes.ts --check",
@@ -84,6 +86,7 @@
     "@types/culori": "4.0.1",
     "@types/react": "19.3.0",
     "autoprefixer": "^10.4.21",
+    "axe-core": "4.11.0",
     "barrelsby": "^2.8.1",
     "culori": "4.0.2",
     "postcss": "8.5.6",

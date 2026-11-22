@@ -61,7 +61,7 @@ const EndsIn = ({
   return (
     <span
       className={
-        "inline-flex items-center gap-1.5 self-start rounded-full bg-nav-raised px-2.5 py-1.5 text-[13px] font-semibold text-white @[900px]/page:self-end"
+        "inline-flex items-center gap-1.5 self-start rounded-full bg-nav-raised px-2.5 py-1.5 text-[13px] font-semibold text-foreground @[900px]/page:self-end"
       }
     >
       <IconClock size={14} aria-hidden />
@@ -144,7 +144,7 @@ const DailyRankingView = ({ initialFilters, withHeader = true }: Props) => {
           </Title>
           {helpButton}
         </div>
-        <Text fz={14} c={"#ADADAD"}>
+        <Text fz={14} c={"var(--gn-text-subtle)"}>
           {subtitle}
         </Text>
       </div>
@@ -208,7 +208,12 @@ const DailyRankingView = ({ initialFilters, withHeader = true }: Props) => {
         >
           <DailyRankingHeader mode={filters.mode} />
           {tableRows.length === 0 ? (
-            <Text fz={13} c={"#7A7A7A"} ta={"center"} className={"py-2"}>
+            <Text
+              fz={13}
+              c={"var(--gn-text-faint)"}
+              ta={"center"}
+              className={"py-2"}
+            >
               {t("daily.ranking.emptyTable")}
             </Text>
           ) : (
@@ -239,7 +244,7 @@ const DailyRankingView = ({ initialFilters, withHeader = true }: Props) => {
                 {t("daily.ranking.loadMore")}
               </Button>
             )}
-            <Text fz={12} className={"hidden text-[#7A7A7A] @[720px]:block"}>
+            <Text fz={12} className={"hidden text-faint @[720px]:block"}>
               {t("daily.ranking.showing", {
                 from: 4,
                 to: formatDailyCount(loadedCount, language),

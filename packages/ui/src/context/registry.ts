@@ -120,6 +120,11 @@ export type UIHookRegistry = {
    * are not rendered.
    */
   useOpenGameSearch?: () => () => void;
+  /**
+   * Whether the app's own launch splash (native mobile) is gone, so overlays that run on launch, like
+   * the Ruins boot sequence, can start after it. Defaults to `true` (web and admin have no such splash).
+   */
+  useEntrySplashDone?: () => boolean;
   /** Route of the sign-in screen. Defaults to `/auth`. */
   authPath?: string;
   /** Route of the settings Supporter surface. Defaults to `/home?settings=premium`. */

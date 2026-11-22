@@ -88,7 +88,7 @@ function ConnectedAppRow({
           <Text
             fz={14}
             fw={600}
-            c={"white"}
+            c="var(--gn-text)"
             lh={"normal"}
             className={"min-w-0 break-words"}
           >
@@ -203,7 +203,7 @@ export function McpConnectedApps() {
       ) : apps.length === 0 ? (
         <SettingsCard>
           <Stack gap={4} className={"w-full px-5 py-4"}>
-            <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+            <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
               {t("settings.mcp.apps.empty")}
             </Text>
             <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>

@@ -152,7 +152,7 @@ export function SettingsProfileUsernameField({ userId }: Props) {
                   "rounded-lg border border-solid border-line bg-nav-canvas px-3.5 py-3"
                 }
               >
-                <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+                <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
                   {t("settings.profile.username.rulesTitle")}
                 </Text>
                 {[

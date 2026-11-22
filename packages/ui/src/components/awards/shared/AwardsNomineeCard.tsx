@@ -152,7 +152,7 @@ const AwardsNomineeCard = ({
       data-awards-chip={"selected"}
       data-color={"brand"}
       className={cn(
-        "inline-flex items-center gap-1 bg-brand font-bold uppercase leading-[normal] tracking-[0.72px] text-[#0b0b0b]",
+        "inline-flex items-center gap-1 bg-brand font-bold uppercase leading-[normal] tracking-[0.72px] text-[var(--gn-brand-filled-text)]",
         "text-[12px]",
         compact ? "rounded-md px-2 py-1" : "rounded-full py-1.5 pl-2 pr-3",
         layout === "grid" && "absolute z-10",
@@ -222,7 +222,11 @@ const AwardsNomineeCard = ({
             imageProps={{ radius: 8 }}
           />
           {removeAction && (
-            <Box className={"absolute right-2 top-2 rounded-md bg-black/60"}>
+            <Box
+              className={
+                "absolute right-2 top-2 rounded-md bg-media-content-scrim [&_button]:text-media"
+              }
+            >
               {removeAction}
             </Box>
           )}
@@ -233,7 +237,7 @@ const AwardsNomineeCard = ({
         >
           <Text
             className={cn(
-              "break-words leading-[normal] text-white",
+              "break-words leading-[normal] text-foreground",
               compact ? "text-[16px] font-medium" : "text-[20px] font-semibold",
             )}
           >

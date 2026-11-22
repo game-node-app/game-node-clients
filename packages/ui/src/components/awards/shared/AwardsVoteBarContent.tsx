@@ -41,7 +41,7 @@ const AwardsVoteBarContent = ({
       onClick={onSkip}
       disabled={disabled}
       className={cn(
-        "shrink-0 rounded-[10px] px-[22px] py-[14px] text-[15px] font-semibold leading-[1.33] text-white transition-colors",
+        "shrink-0 rounded-[10px] px-[22px] py-[14px] text-[15px] font-semibold leading-[1.33] text-foreground transition-colors",
         "hover:bg-paper-1 disabled:cursor-not-allowed disabled:opacity-60",
       )}
     >
@@ -89,7 +89,7 @@ const AwardsVoteBarContent = ({
         </Text>
         <Text
           className={
-            "truncate text-[16px] font-medium leading-normal text-white"
+            "truncate text-[16px] font-medium leading-normal text-foreground"
           }
         >
           {gameName}

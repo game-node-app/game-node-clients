@@ -88,7 +88,7 @@ export function SettingsProfileImages({ userId }: Props) {
             )}
             <span
               className={
-                "absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm group-hover:bg-black/75"
+                "absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-media-content-scrim px-3 py-1.5 text-[12px] font-medium text-media group-hover:bg-media-scrim-strong"
               }
             >
               <IconCamera size={14} />
@@ -107,7 +107,7 @@ export function SettingsProfileImages({ userId }: Props) {
             <UserAvatar userId={userId} size={80} className={"shrink-0"} />
             <span
               className={
-                "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-solid border-secondary bg-line text-white"
+                "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-solid border-secondary bg-accent text-accent-contrast"
               }
             >
               <IconCamera size={14} />

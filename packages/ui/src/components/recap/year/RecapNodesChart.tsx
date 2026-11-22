@@ -355,7 +355,7 @@ export function RecapNodesChart({
             data-testid={"recap-hero-chip"}
             style={{ left: chip.left, top: chip.top }}
             className={
-              "absolute flex items-center gap-2 overflow-hidden rounded-lg border border-[#2a2a2a] bg-paper-5 py-1 pr-2.5 pl-1 whitespace-nowrap"
+              "absolute flex items-center gap-2 overflow-hidden rounded-lg border border-line bg-paper-5 py-1 pr-2.5 pl-1 whitespace-nowrap"
             }
           >
             <div
@@ -370,7 +370,7 @@ export function RecapNodesChart({
               )}
             </div>
             <div className={"flex flex-col"}>
-              <span className={"text-sm leading-5 font-medium text-white"}>
+              <span className={"text-sm leading-5 font-medium text-foreground"}>
                 {names.get(chip.node.gameId)}
               </span>
               {hours && (

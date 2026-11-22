@@ -21,7 +21,7 @@ const DailyRankingEarlyBanner = ({
     >
       <IconClock size={20} className={"shrink-0 text-brand-5"} aria-hidden />
       <div className={"flex min-w-[200px] flex-1 flex-col gap-0.5"}>
-        <Text fz={15} fw={700} c={"white"}>
+        <Text fz={15} fw={700} c="var(--gn-text)">
           {t(
             totalPlayers === 1
               ? "daily.ranking.early.titleOne"
@@ -29,7 +29,7 @@ const DailyRankingEarlyBanner = ({
             { count: totalPlayers },
           )}
         </Text>
-        <Text fz={13} c={"#ADADAD"}>
+        <Text fz={13} c={"var(--gn-text-subtle)"}>
           {t("daily.ranking.early.description")}
         </Text>
       </div>
@@ -40,7 +40,7 @@ const DailyRankingEarlyBanner = ({
         h={40}
         px={16}
         fz={14}
-        className={"!text-[#0B0B0B]"}
+        className={"!text-on-brand"}
         rightSection={<IconArrowRight size={16} />}
       >
         {t("daily.ranking.early.action")}

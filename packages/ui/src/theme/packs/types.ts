@@ -20,6 +20,12 @@ export type ThemePackShellSlotProps = {
 export type ThemePackShell = {
   header?: ComponentType<ThemePackShellSlotProps>;
   bottomNavigation?: ComponentType<ThemePackShellSlotProps>;
+  /**
+   * Rendered once at the app root while the theme is active, by
+   * `ThemeOverlayHost`. For atmosphere layers such as textures and boot
+   * sequences that sit above the app.
+   */
+  overlay?: ComponentType;
 };
 
 /** Module contract: `export const presenters = {...}` and an optional `shell`. */

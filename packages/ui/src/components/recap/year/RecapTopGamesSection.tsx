@@ -119,7 +119,7 @@ export function RecapTopGamesSection({
             )}
           </div>
 
-          <div className={"mt-8 border-t border-[#2a2a2a] pt-8"}>
+          <div className={"mt-8 border-t border-line pt-8"}>
             <h3
               className={
                 "m-0 text-xs leading-none font-bold tracking-[0.06em] text-[#adadad] uppercase"
@@ -166,7 +166,7 @@ export function RecapTopGamesSection({
                     <div className={"flex min-w-0 flex-1 flex-col"}>
                       <span
                         className={
-                          "truncate text-base leading-6 font-medium text-white"
+                          "truncate text-base leading-6 font-medium text-foreground"
                         }
                       >
                         {gameLabel(entry.gameId)}
@@ -193,7 +193,7 @@ export function RecapTopGamesSection({
                     {entryHours && (
                       <span
                         className={
-                          "w-12 shrink-0 text-right text-xs font-bold tracking-[0.06em] text-white uppercase"
+                          "w-12 shrink-0 text-right text-xs font-bold tracking-[0.06em] text-foreground uppercase"
                         }
                       >
                         {t("events.card.recap.hours", { hours: entryHours })}
@@ -215,7 +215,7 @@ function TopGameStat({ value, label }: { value: string; label: string }) {
     <div className={"flex flex-col gap-1"}>
       <span
         className={
-          "text-[28px] leading-8 font-semibold tracking-[-0.01em] text-white"
+          "text-[28px] leading-8 font-semibold tracking-[-0.01em] text-foreground"
         }
       >
         {value}

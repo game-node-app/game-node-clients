@@ -132,7 +132,7 @@ export function AwardsEventBand({
         </p>
         <h1
           className={
-            "text-[40px] font-bold leading-[46px] tracking-[-0.4px] text-white"
+            "text-[40px] font-bold leading-[46px] tracking-[-0.4px] text-foreground"
           }
         >
           {t("awards.ballot.band.title", { year })}
@@ -197,7 +197,9 @@ export function AwardsEventBand({
               <p
                 className={cn(
                   "text-[16px] font-medium leading-normal",
-                  step.state === "upcoming" ? "text-nav-muted" : "text-white",
+                  step.state === "upcoming"
+                    ? "text-nav-muted"
+                    : "text-foreground",
                 )}
               >
                 {step.label}

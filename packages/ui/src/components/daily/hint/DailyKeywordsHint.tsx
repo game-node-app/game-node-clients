@@ -31,7 +31,7 @@ const DailyKeywordsHint = ({
     <Stack className={"w-full gap-2.5"}>
       <div
         className={
-          "w-full rounded-[12px] border border-[var(--mantine-color-default-border)] bg-[#15130f] bg-[radial-gradient(#2e2a22_1px,transparent_1px)] bg-[length:24px_24px] p-5"
+          "w-full rounded-[12px] border border-[var(--mantine-color-default-border)] bg-panel-board bg-[radial-gradient(var(--gn-panel-board-dot)_1px,transparent_1px)] bg-[length:24px_24px] p-5"
         }
       >
         <div className={"grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3"}>

@@ -17,7 +17,7 @@ const ProfileViewNavbarItem = ({
   <UnstyledButton
     onClick={onClick}
     aria-current={active ? "page" : undefined}
-    className="min-w-0 rounded-md px-0.5 py-1 text-white transition-colors hover:bg-paper-3 aria-[current=page]:bg-paper-4 sm:px-4"
+    className="min-w-0 rounded-md px-0.5 py-1 text-foreground transition-colors hover:bg-paper-3 aria-[current=page]:bg-paper-4 sm:px-4"
   >
     <Stack gap={2} align="center">
       <Text

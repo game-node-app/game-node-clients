@@ -33,7 +33,16 @@ function getContrastToken(color: string, variant: "filled" | "light") {
   return token ? `var(${token}-${variant}-text)` : undefined;
 }
 
-/** Use the active theme's contrast colors with Mantine's flat palettes. */
+/**
+ * Use the active theme's contrast colors with Mantine's flat palettes.
+ *
+ * `autoContrast` (enabled on the theme) picks black/white text for real
+ * colors (Avatar initials on a random color, `color="yellow"` buttons), but it
+ * cannot measure `var(--gn-…)`: `isLightColor("var(…)")` is always false, which
+ * would paint white text on a light brand. So brand/secondary/tertiary (flat
+ * palettes or the raw `var(--gn-brand)` token) use the theme's explicit
+ * `--gn-<token>-filled-text` / `-light-text` contrast tokens instead.
+ */
 export const variantColorResolver: VariantColorsResolver = (input) => {
   const defaults = defaultVariantColorsResolver(input);
   if (
@@ -42,7 +51,9 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   ) {
     return defaults;
   }
-  const flat = getFlatPaletteColor(input.color, input.theme);
+  const flat =
+    getFlatPaletteColor(input.color, input.theme) ??
+    (getContrastToken(input.color, "filled") ? input.color : null);
   if (!flat) return defaults;
 
   const color = getContrastToken(flat, input.variant);
@@ -85,6 +96,10 @@ const themeOverride = createTheme({
     dark: darkColors,
   },
   primaryColor: "brand",
+  // Filled components pick readable text on their own: Avatar initials on random colors,
+  // `color="yellow"` buttons, ... CSS-variable colors can't be measured, so the resolver above
+  // handles the brand tokens explicitly.
+  autoContrast: true,
   // 0.179 is where white text drops below 4.5:1 (Mantine's default is 0.3), so `autoContrast`
   // agrees with `getFilledTextColor`.
   luminanceThreshold: 0.179,

@@ -32,7 +32,7 @@ export function SettingsSection({
     >
       <Group gap={12} wrap={"nowrap"} align={"flex-end"}>
         <Stack gap={4} className={"flex-1 min-w-0"}>
-          <Text fz={16} fw={500} c={"white"} lh={"normal"}>
+          <Text fz={16} fw={500} c={"var(--gn-text)"} lh={"normal"}>
             {title}
           </Text>
           {description && (

@@ -65,8 +65,8 @@ const CardRow = ({
               premium
                 ? "bg-[#9747FF] text-white"
                 : accent
-                  ? "bg-brand text-[#111111]"
-                  : "bg-paper-4 text-neutral-300",
+                  ? "bg-brand text-on-brand-alt"
+                  : "bg-paper-4 text-legacy-neutral-300",
             )}
           >
             {icon}
@@ -75,7 +75,7 @@ const CardRow = ({
         <div className="min-w-0 flex-1">
           <div className="flex min-h-10 items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="m-0 text-[15px] font-medium leading-5 text-white [overflow-wrap:anywhere]">
+              <p className="m-0 text-[15px] font-medium leading-5 text-foreground [overflow-wrap:anywhere]">
                 {title}
               </p>
               {description != undefined && (

@@ -3,4 +3,5 @@
  */
 
 export * from "./SettingsCustomCoversSection";
+export * from "./SettingsRuinsOptionsSection";
 export * from "./SettingsThemeOptionCard";

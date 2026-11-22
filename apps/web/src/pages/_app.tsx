@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import RelativeTime from "dayjs/plugin/relativeTime";
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -61,16 +62,24 @@ import type { DehydrationResult } from "@/util/types/hydration";
 import { I18nProvider, type SupportedLanguage } from "@repo/locales";
 import {
   SupporterThemeProvider,
+  createThemeColorSchemeManager,
   DEFAULT_MANTINE_THEME,
   ErrorBoundaryFallback,
   getAuthClientOptions,
   handleAuthError,
   setProjectContext,
   setupAuthClient,
+  ThemeColorSchemeSync,
+  ThemeOverlayHost,
   UIProvider,
 } from "@repo/ui";
 import { setupWrapper } from "@repo/wrapper";
-import { Inter, Roboto } from "next/font/google";
+import {
+  Inter,
+  Roboto,
+  Share_Tech_Mono,
+  Zen_Kaku_Gothic_New,
+} from "next/font/google";
 import { useCallback, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -113,6 +122,31 @@ const inter = Inter({
 });
 
 /**
+ * Ruins fonts (see the generated `--gn-font` / `--gn-font-mono`). Same
+ * contract as Inter: `preload: false` so only the Ruins theme requests them.
+ * Exposed as `--gn-font-zen` / `--gn-font-share-tech-mono` on `:root` below.
+ */
+const zenKakuGothicNew = Zen_Kaku_Gothic_New({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "700"],
+  preload: false,
+  display: "swap",
+});
+
+const shareTechMono = Share_Tech_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  preload: false,
+  display: "swap",
+});
+
+/**
+ * Mantine's color scheme follows the active theme (`ThemeColorSchemeSync`);
+ * the manager never persists it.
+ */
+const colorSchemeManager = createThemeColorSchemeManager();
+
+/**
  * dayjs setup
  */
 dayjs.extend(RelativeTime);
@@ -135,6 +169,23 @@ setupWrapper({
   serverBaseURL: process.env.NEXT_PUBLIC_SERVER_URL!,
 });
 preloadStoredTheme();
+
+/**
+ * Development-only contrast monitor (axe `color-contrast` + "dark blocks in a
+ * light theme"); on by default under a theme whose color scheme differs from
+ * GameNode's. The `NODE_ENV` guard is inlined at build time, so the import (and
+ * `axe-core`) is dropped from production bundles. See AGENTS.md, "UI colors".
+ */
+const ContrastMonitor =
+  process.env.NODE_ENV !== "production"
+    ? dynamic(
+        () =>
+          import("@repo/ui/theme/dev/contrast-monitor").then(
+            (module) => module.ContrastMonitor,
+          ),
+        { ssr: false },
+      )
+    : null;
 
 type WebAppProps = AppProps<DehydrationResult> & {
   /** Server-rendered theme from `_document`; absent on static/client renders. */
@@ -235,7 +286,8 @@ export default function WebApp({
             theme={mergeMantineTheme(DEFAULT_MANTINE_THEME, {
               fontFamily: roboto.style.fontFamily,
             })}
-            forceColorScheme={"dark"}
+            defaultColorScheme="dark"
+            colorSchemeManager={colorSchemeManager}
           >
             <UIProvider
               presenters={{
@@ -249,8 +301,11 @@ export default function WebApp({
               }}
             >
               <SupporterThemeProvider initialTheme={initialTheme}>
+                <ThemeColorSchemeSync />
                 <WebThemeRuntime />
+                <ThemeOverlayHost />
                 <ThemePackStyles />
+                {ContrastMonitor ? <ContrastMonitor /> : null}
                 <Head>
                   <meta
                     name="viewport"
@@ -264,7 +319,7 @@ export default function WebApp({
                    */}
                   <style
                     dangerouslySetInnerHTML={{
-                      __html: `:root{--gn-font-inter:${inter.style.fontFamily};--gn-font-roboto:${roboto.style.fontFamily}}`,
+                      __html: `:root{--gn-font-inter:${inter.style.fontFamily};--gn-font-roboto:${roboto.style.fontFamily};--gn-font-zen:${zenKakuGothicNew.style.fontFamily};--gn-font-share-tech-mono:${shareTechMono.style.fontFamily}}`,
                     }}
                   />
                 </Head>

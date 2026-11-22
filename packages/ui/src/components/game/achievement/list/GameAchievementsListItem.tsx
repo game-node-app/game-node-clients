@@ -90,7 +90,9 @@ const DEFAULT_GameAchievementsListItem = ({
 
       <Group className={"grow justify-between lg:justify-start"}>
         <Stack className={"grow gap-1"}>
-          <Text className={achievement.isObtained ? "text-white" : undefined}>
+          <Text
+            className={achievement.isObtained ? "text-foreground" : undefined}
+          >
             {achievement.name}
           </Text>
           <Text className={"text-dimmed max-w-60"}>

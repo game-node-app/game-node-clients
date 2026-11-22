@@ -238,13 +238,13 @@ export function SupporterSettingsView({
 
       <SupporterAlwaysFreeCard />
 
-      <Text fz={13} lh={"normal"} className={"text-[#7a7a7a]"}>
+      <Text fz={13} lh={"normal"} className={"text-faint"}>
         {t("settings.premium.billingHelp")}{" "}
         <Anchor
           href={`mailto:${supportEmail}`}
           inherit
           underline={"always"}
-          className={"text-[#adadad] hover:text-white"}
+          className={"text-subtle hover:text-foreground"}
         >
           {supportEmail}
         </Anchor>

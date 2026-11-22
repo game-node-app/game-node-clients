@@ -30,7 +30,7 @@ const ListEmptyState = ({
     <span className="flex size-14 items-center justify-center rounded-2xl bg-paper-4 text-dimmed-1">
       {icon}
     </span>
-    <p className="m-0 mt-2 text-base font-semibold text-white">{title}</p>
+    <p className="m-0 mt-2 text-base font-semibold text-foreground">{title}</p>
     {description != undefined && (
       <p className="m-0 max-w-xs text-sm text-dimmed-1">{description}</p>
     )}

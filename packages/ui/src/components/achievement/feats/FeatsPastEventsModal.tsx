@@ -25,14 +25,14 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
     return (
       <Stack gap={4}>
         <Group gap={8} wrap={"nowrap"}>
-          <Text fz={14} fw={600} lh={"normal"} className={"text-white"}>
+          <Text fz={14} fw={600} lh={"normal"} className={"text-foreground"}>
             {t("achievements.card.secretTitle")}
           </Text>
           <Badge variant={"light"} color={"gray"} size={"xs"}>
             {t("achievements.card.secretBadge")}
           </Badge>
         </Group>
-        <Text fz={12} lh={"normal"} className={"text-[#7a7a7a]"}>
+        <Text fz={12} lh={"normal"} className={"text-faint"}>
           {t("achievements.events.noLongerObtainable")}
         </Text>
       </Stack>
@@ -43,7 +43,7 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
 
   return (
     <Stack gap={6}>
-      <Text fz={14} fw={600} lh={"normal"} className={"text-white"}>
+      <Text fz={14} fw={600} lh={"normal"} className={"text-foreground"}>
         {item.achievement.name}
       </Text>
 
@@ -70,7 +70,7 @@ const PastEventFeat = ({ item, locale }: PastEventFeatProps) => {
             <Text
               fz={12}
               lh={"normal"}
-              className={obtained ? "text-teal-400" : "text-[#7a7a7a]"}
+              className={obtained ? "text-teal-400" : "text-faint"}
               ta={"right"}
             >
               {obtained
@@ -110,7 +110,7 @@ const FeatsPastEventsModal = ({
       initialBreakpoint={0.75}
     >
       <Stack gap={16}>
-        <Text fz={14} lh={"normal"} className={"text-[#a6a6a6]"}>
+        <Text fz={14} lh={"normal"} className={"text-soft"}>
           {t("achievements.events.pastEventsDescription")}
         </Text>
 
@@ -127,10 +127,15 @@ const FeatsPastEventsModal = ({
           >
             <Stack gap={12}>
               <Stack gap={2}>
-                <Text fz={16} fw={600} lh={"normal"} className={"text-white"}>
+                <Text
+                  fz={16}
+                  fw={600}
+                  lh={"normal"}
+                  className={"text-foreground"}
+                >
                   {group.event.name}
                 </Text>
-                <Text fz={13} lh={"normal"} className={"text-[#a6a6a6]"}>
+                <Text fz={13} lh={"normal"} className={"text-soft"}>
                   {group.event.description}
                 </Text>
               </Stack>

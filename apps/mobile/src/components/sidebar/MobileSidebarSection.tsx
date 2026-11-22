@@ -14,6 +14,7 @@ const MobileSidebarSection = ({ title, children }: Props) => {
   return (
     <section className={"w-full overflow-hidden rounded-3xl bg-paper-8"}>
       <Text
+        data-slot="nav-group-label"
         size={"xs"}
         fw={600}
         c={"dimmed"}

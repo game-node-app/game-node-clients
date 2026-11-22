@@ -18,7 +18,7 @@ const CommentsReplyButton = ({ comment }: Props) => {
     <ActionIcon
       variant={"subtle"}
       size={"xl"}
-      color={"white"}
+      color={"var(--gn-text)"}
       onClick={() => {
         context.updateContext({
           repliedCommentId: comment.id,

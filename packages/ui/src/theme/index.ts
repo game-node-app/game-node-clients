@@ -4,10 +4,16 @@
 
 export * from "./AppThemeProvider";
 export * from "./SupporterThemeProvider";
+export * from "./ThemeColorSchemeSync";
+export * from "./ThemeOverlayHost";
+export * from "./ThemeScope";
+export * from "./colorSchemeManager";
 export * from "./defineTheme";
 export * from "./definitions";
+export * from "./mediaSurface";
 export * from "./runtime";
 export * from "./experiences/index";
 export * from "./generated/index";
 export * from "./packs/index";
+export * from "./ruins/index";
 export * from "./themes/index";

@@ -47,7 +47,7 @@ export function SettingsPrivacyBlockedSection() {
         <Stack align={"center"} gap={8} className={"px-5 py-8 text-center"}>
           <SettingsIconTile Icon={IconUserOff} />
           <Stack gap={4} align={"center"}>
-            <Text fz={14} fw={600} c={"white"} lh={"normal"}>
+            <Text fz={14} fw={600} c="var(--gn-text)" lh={"normal"}>
               {t("settings.privacy.blocked.empty.title")}
             </Text>
             <Text fz={13} lh={"18px"} className={"text-dimmed-2"}>

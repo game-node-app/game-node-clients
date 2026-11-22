@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { LandingHeader } from "@/components/general/header/LandingHeader";
 import { useEffect } from "react";
-import { useUserId } from "@repo/ui";
+import { ThemeScope, useUserId } from "@repo/ui";
 import { useRouter } from "next/router";
 import { useTranslation } from "@repo/locales";
 import Link from "next/link";
@@ -33,7 +33,7 @@ const Home = () => {
   }, [router, userId]);
 
   return (
-    <Box className={styles.page}>
+    <ThemeScope className={styles.page}>
       <OpenGraph
         title={`GameNode - ${t("landing.presentation.heroTitle")}`}
         jsonLd={[
@@ -330,7 +330,7 @@ const Home = () => {
         <SupporterSection />
       </Box>
       <LandingFooter />
-    </Box>
+    </ThemeScope>
   );
 };
 export default Home;

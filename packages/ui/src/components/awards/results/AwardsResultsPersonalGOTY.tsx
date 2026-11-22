@@ -60,7 +60,7 @@ export function AwardsResultsPersonalGOTY({
         </p>
         <p
           className={
-            "break-words text-[16px] font-medium leading-normal text-white"
+            "break-words text-[16px] font-medium leading-normal text-foreground"
           }
         >
           {name}

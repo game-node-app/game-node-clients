@@ -32,7 +32,7 @@ const TrendingGameItem = ({ game }: { game: Game }) => {
         className={"rounded object-cover"}
         style={{ width: COVER_WIDTH, height: COVER_HEIGHT }}
       />
-      <Text fz={12} fw={700} c={"white"} lineClamp={1}>
+      <Text fz={12} fw={700} c="var(--gn-text)" lineClamp={1}>
         {game.name}
       </Text>
     </Link>
@@ -69,7 +69,7 @@ const NotFoundTrendingGames = ({
 
   return (
     <Box className={cn("w-full", className)}>
-      <Text fz={18} lh={"28px"} fw={700} c={"white"} mb={12}>
+      <Text fz={18} lh={"28px"} fw={700} c="var(--gn-text)" mb={12}>
         {t("notFoundPage.trending")}
       </Text>
       <Group

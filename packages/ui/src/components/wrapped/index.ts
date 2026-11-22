@@ -3,10 +3,10 @@
  */
 
 export * from "./RecapBackgroundControl";
-export * from "./recapControlStyles";
 export * from "./RecapCustomizePanel";
 export * from "./RecapTemplatePicker";
 export * from "./WrappedRecapScreen";
+export * from "./recapControlStyles";
 export * from "./card/index";
 export * from "./hooks/index";
 export * from "./util/index";

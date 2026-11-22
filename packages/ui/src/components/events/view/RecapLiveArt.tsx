@@ -45,7 +45,7 @@ export function RecapLiveArt({
             fz={52}
             fw={700}
             lh={1}
-            className={"tracking-[-0.03em] text-white"}
+            className={"tracking-[-0.03em] text-foreground"}
           >
             {t("events.card.recap.hours", { hours })}
           </Text>

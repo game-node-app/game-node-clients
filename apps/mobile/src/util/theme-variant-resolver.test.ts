@@ -78,6 +78,44 @@ describe("variantColorResolver", () => {
     },
   );
 
+  it("enables autoContrast on the theme", () => {
+    expect(DEFAULT_MANTINE_THEME.autoContrast).toBe(true);
+    expect(DEFAULT_MANTINE_THEME.luminanceThreshold).toBe(0.179);
+  });
+
+  it("uses the contrast tokens for raw brand variables, like the flat palettes", () => {
+    const input = {
+      theme: DEFAULT_MANTINE_THEME,
+      gradient: undefined,
+      autoContrast: true,
+    };
+
+    expect(
+      variantColorResolver({
+        ...input,
+        color: "var(--gn-brand)",
+        variant: "filled",
+      }).color,
+    ).toBe("var(--gn-brand-filled-text)");
+  });
+
+  it("lets autoContrast pick readable text for measurable colors", () => {
+    const input = {
+      theme: DEFAULT_MANTINE_THEME,
+      gradient: undefined,
+      autoContrast: true,
+    };
+
+    expect(
+      variantColorResolver({ ...input, color: "#ffd43b", variant: "filled" })
+        .color,
+    ).toBe("var(--mantine-color-black)");
+    expect(
+      variantColorResolver({ ...input, color: "#1c1c1c", variant: "filled" })
+        .color,
+    ).toBe("var(--mantine-color-white)");
+  });
+
   it("leaves non-flat palettes and other variants on Mantine defaults", () => {
     const theme = mergeMantineTheme(DEFAULT_THEME, {});
     const input = {

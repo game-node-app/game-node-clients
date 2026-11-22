@@ -55,7 +55,7 @@ const ProfileUserInfo = ({ profile, perks }: Props) => {
             component="span"
             size="xs"
             fw={600}
-            className="absolute -bottom-1.5 start-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-solid bg-body px-3 py-0.5 text-white"
+            className="absolute -bottom-1.5 start-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-solid bg-body px-3 py-0.5 text-foreground"
             style={{
               borderColor:
                 "var(--profile-accent, var(--mantine-color-brand-filled))",
@@ -71,7 +71,7 @@ const ProfileUserInfo = ({ profile, perks }: Props) => {
           <Group gap={10}>
             <Title
               order={1}
-              className="[overflow-wrap:anywhere] text-[32px] font-medium leading-none tracking-tight text-white"
+              className="[overflow-wrap:anywhere] text-[32px] font-medium leading-none tracking-tight text-foreground"
             >
               {username}
             </Title>

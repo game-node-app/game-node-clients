@@ -20,10 +20,10 @@ const Tile = ({ value, label }: { value: string; label: string }) => (
       "flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-[10px] bg-nav-canvas p-2.5"
     }
   >
-    <Text fz={18} fw={700} c={"white"} lh={1.3}>
+    <Text fz={18} fw={700} c="var(--gn-text)" lh={1.3}>
       {value}
     </Text>
-    <Text fz={11} className={"text-[#7A7A7A]"}>
+    <Text fz={11} className={"text-faint"}>
       {label}
     </Text>
   </div>
@@ -48,7 +48,13 @@ const DailyRankingViewerSummary = ({
         "flex flex-col gap-3 rounded-[14px] border border-solid border-line bg-paper-8 p-[18px]"
       }
     >
-      <Text component={"h2"} fz={15} fw={700} c={"white"} className={"m-0"}>
+      <Text
+        component={"h2"}
+        fz={15}
+        fw={700}
+        c="var(--gn-text)"
+        className={"m-0"}
+      >
         {t(`daily.ranking.summary.title.${period}`)}
       </Text>
       {viewer ? (
@@ -74,7 +80,7 @@ const DailyRankingViewerSummary = ({
             />
           </div>
           {pointsToTop100 != null && (
-            <Text fz={12} c={"#ADADAD"}>
+            <Text fz={12} c={"var(--gn-text-subtle)"}>
               {t("daily.ranking.summary.gap", {
                 points: formatDailyPoints(pointsToTop100, language),
               })}
@@ -82,7 +88,7 @@ const DailyRankingViewerSummary = ({
           )}
         </>
       ) : (
-        <Text fz={13} lh={"19px"} c={"#ADADAD"}>
+        <Text fz={13} lh={"19px"} c={"var(--gn-text-subtle)"}>
           {t("daily.ranking.summary.empty")}
         </Text>
       )}

@@ -3,6 +3,8 @@
     GameNode node logo (node_icon.svg, 1000x1000) for the launch splash. Android 12+ draws an icon without a
     background in a 288dp box, so the viewport is 1440 units wide: 1 unit = 0.2dp exactly like the web EntrySplash
     (and the native EntrySplashView that continues this visual). The group centres the logo's hole in the box.
+    This file is the geometry template: `pnpm splash:generate` copies it to ic_splash_logo_<theme>.xml for every
+    other theme, swapping the two color references. Keep the @color/splash_brand / @color/splash_logo_inner names.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="288dp"

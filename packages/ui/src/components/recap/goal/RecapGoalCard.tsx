@@ -94,7 +94,7 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
     <div
       id={"goal"}
       className={
-        "flex w-full scroll-mt-4 flex-col gap-5 rounded-2xl border border-[#2a2a2a] bg-paper-0 p-5 md:p-8"
+        "flex w-full scroll-mt-4 flex-col gap-5 rounded-2xl border border-line bg-paper-0 p-5 md:p-8"
       }
     >
       <p
@@ -104,7 +104,7 @@ const RecapGoalCard = ({ year, userId, finishedGames }: RecapGoalCardProps) => {
       >
         {t("recap.goal.title", { year: goalYear })}
       </p>
-      <h3 className={"m-0 text-2xl leading-8 font-medium text-white"}>
+      <h3 className={"m-0 text-2xl leading-8 font-medium text-foreground"}>
         {headlineTarget - finishedGames > 0
           ? t("recap.goal.suggestion", {
               target: headlineTarget,

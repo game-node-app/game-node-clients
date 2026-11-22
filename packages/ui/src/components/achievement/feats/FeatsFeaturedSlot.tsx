@@ -29,7 +29,9 @@ const FeatsFeaturedSlot = ({
   if (!item && !isOwner) return null;
 
   return (
-    <Box className={"rounded-xl border border-paper-4 bg-black/40 px-3.5 py-3"}>
+    <Box
+      className={"rounded-xl border border-paper-4 bg-panel-veil px-3.5 py-3"}
+    >
       {item ? (
         <Group gap={14} wrap={"nowrap"} align={"center"}>
           <AchievementBadge
@@ -39,14 +41,14 @@ const FeatsFeaturedSlot = ({
             variant={"tile"}
           />
           <Stack gap={2} className={"min-w-0 flex-1"}>
-            <Text fz={12} lh={"normal"} className={"text-[#8c8c8c]"}>
+            <Text fz={12} lh={"normal"} className={"text-quiet"}>
               {title}
             </Text>
             <Text
               fz={15}
               fw={600}
               lh={"normal"}
-              className={"truncate text-white"}
+              className={"truncate text-foreground"}
             >
               {item.achievement.name} ·{" "}
               {t("achievements.card.tier", { level: item.displayTier })}
@@ -67,10 +69,10 @@ const FeatsFeaturedSlot = ({
       ) : (
         <Group justify={"space-between"} gap={12} wrap={"nowrap"}>
           <Stack gap={2} className={"min-w-0"}>
-            <Text fz={12} lh={"normal"} className={"text-[#8c8c8c]"}>
+            <Text fz={12} lh={"normal"} className={"text-quiet"}>
               {title}
             </Text>
-            <Text fz={14} fw={600} lh={"normal"} className={"text-white"}>
+            <Text fz={14} fw={600} lh={"normal"} className={"text-foreground"}>
               {t("achievements.featured.empty")}
             </Text>
           </Stack>

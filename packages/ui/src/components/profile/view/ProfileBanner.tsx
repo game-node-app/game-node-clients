@@ -76,7 +76,7 @@ const ProfileBanner = ({
         {layout === "cover" && (
           <Box
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 to-transparent via-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-media-scrim/60 to-transparent via-transparent"
           />
         )}
         {editBannerModalOpen && (

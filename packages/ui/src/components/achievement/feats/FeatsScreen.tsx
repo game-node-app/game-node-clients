@@ -155,7 +155,7 @@ const FeatsScreenContent = ({
               <UnstyledButton
                 onClick={pastEventsModal.open}
                 className={
-                  "flex shrink-0 items-center gap-1.5 text-sm text-[#d0d0d0] hover:text-white"
+                  "flex shrink-0 items-center gap-1.5 text-sm text-bright hover:text-foreground"
                 }
               >
                 {t("achievements.events.pastEvents")}

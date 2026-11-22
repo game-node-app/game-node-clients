@@ -40,10 +40,10 @@ interface Props extends PropsWithChildren {
   /** Extra toolbar buttons at the end, before the search button. */
   endButtons?: React.ReactNode;
   /**
-   * Makes the toolbar transparent so the content (with `fullscreen`) shows behind it.
+   * Shows fullscreen content through the toolbar. Use "media" over artwork.
    * @default false
    */
-  transparentHeader?: boolean;
+  transparentHeader?: boolean | "media";
 }
 
 /**
@@ -69,7 +69,14 @@ const AppPage = ({
       <IonHeader className={"ion-no-border relative"}>
         <IonToolbar
           style={
-            transparentHeader ? { "--background": "transparent" } : undefined
+            transparentHeader === "media"
+              ? {
+                  "--background": "var(--gn-media-content-scrim)",
+                  "--color": "var(--gn-media-text)",
+                }
+              : transparentHeader
+                ? { "--background": "transparent" }
+                : undefined
           }
         >
           <IonButtons slot={"start"}>

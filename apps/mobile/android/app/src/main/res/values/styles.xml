@@ -19,22 +19,15 @@
 
 
     <!--
-        Launch theme. Android 12+ shows the logo on #1A1A1A through the system splash; the native EntrySplashView
-        (app.gamenode.splash) then continues the same visual over the WebView with the pulse, fill and zoom.
+        Launch theme for the default theme (colors generated into splash_themes.xml). Android 12+ shows the logo
+        on the splash background through the system splash; the native EntrySplashView (app.gamenode.splash) then
+        continues the same visual over the WebView with the pulse, fill and zoom. Every other theme gets a
+        generated AppTheme.NoActionBarLaunch.<Theme> style in splash_themes.xml (Android 13+ only).
     -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
         <item name="android:background">@drawable/splash_launch</item>
-    </style>
-
-    <!--
-        System splash for the Xbox theme. Android 13+ only: MainActivity hands it to
-        SplashScreen#setSplashScreenTheme for the next launches; older versions keep the default above.
-    -->
-    <style name="AppTheme.NoActionBarLaunch.Xbox">
-        <item name="windowSplashScreenBackground">@color/splash_xbox_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo_xbox</item>
     </style>
 </resources>

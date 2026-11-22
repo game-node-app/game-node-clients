@@ -50,6 +50,7 @@ export function EventCardShell({
     >
       <div
         aria-hidden={"true"}
+        data-slot={"decor-glow"}
         className={
           "pointer-events-none absolute -right-[119px] -top-[241px] size-[420px]"
         }
@@ -131,7 +132,7 @@ export function EventCardHeadline({
       fz={isMobile ? 20 : 26}
       lh={isMobile ? "26px" : "32px"}
       fw={700}
-      className={"tracking-[-0.01em] text-white"}
+      className={"tracking-[-0.01em] text-foreground"}
     >
       {children}
     </Title>
@@ -166,7 +167,7 @@ const SECONDARY_BUTTON_STYLE = {
   "--button-padding-x": "22px",
   "--button-fz": "15px",
   "--button-radius": "10px",
-  "--button-color": "#ffffff",
+  "--button-color": "var(--gn-text)",
 } as CSSProperties;
 
 type EventCardButtonProps = PolymorphicComponentProps<"button", ButtonProps> & {

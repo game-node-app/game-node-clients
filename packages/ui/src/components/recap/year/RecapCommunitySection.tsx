@@ -185,7 +185,9 @@ function CommunityCard({
           {badge}
         </span>
         {game && (
-          <span className={"mt-3 text-2xl leading-8 font-medium text-white"}>
+          <span
+            className={"mt-3 text-2xl leading-8 font-medium text-foreground"}
+          >
             {game.name}
           </span>
         )}

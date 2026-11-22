@@ -40,7 +40,11 @@ export function UserButton({
       <UserAvatar userId={userId} size={"lg"} {...avatarProps} />
 
       <div style={{ flex: 1 }}>
-        <Text size="md" c={"white"} fw={boldName ? 700 : undefined}>
+        <Text
+          size="md"
+          c="var(--mantine-color-text)"
+          fw={boldName ? 700 : undefined}
+        >
           {profile.data?.username}
         </Text>
 

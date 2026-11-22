@@ -1,5 +1,6 @@
 import type { ThemeDefinition } from "./defineTheme";
 import { gamenodeTheme } from "./themes/gamenode";
+import { ruinsTheme } from "./themes/ruins";
 import { xboxTheme } from "./themes/xbox";
 
 /**
@@ -14,4 +15,5 @@ export const DEFAULT_REGISTERED_THEME_ID = "gamenode";
 export const themeDefinitions: readonly ThemeDefinition[] = [
   gamenodeTheme,
   xboxTheme,
+  ruinsTheme,
 ];

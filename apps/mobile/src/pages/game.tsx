@@ -102,7 +102,7 @@ const GamePage = ({ gameId }: Props) => {
   return (
     <AppPage
       withSearch
-      transparentHeader
+      transparentHeader="media"
       title={game?.name}
       contentProps={{ fullscreen: true }}
     >

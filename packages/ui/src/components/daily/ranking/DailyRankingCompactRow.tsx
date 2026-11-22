@@ -42,7 +42,7 @@ const DailyRankingCompactRow = ({
       component={"span"}
       fz={13}
       fw={700}
-      className={"w-7 shrink-0 text-[#ADADAD]"}
+      className={"w-7 shrink-0 text-subtle"}
     >
       #{position}
     </Text>
@@ -69,7 +69,7 @@ const DailyRankingCompactRow = ({
       component={"span"}
       fz={13}
       fw={700}
-      c={"white"}
+      c="var(--gn-text)"
       className={"shrink-0"}
     >
       {value}

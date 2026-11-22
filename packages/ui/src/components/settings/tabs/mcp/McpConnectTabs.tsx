@@ -87,12 +87,12 @@ function Step({
           "flex size-[22px] shrink-0 items-center justify-center rounded-full bg-nav-raised"
         }
       >
-        <Text fz={12} fw={600} c={"white"} lh={"normal"}>
+        <Text fz={12} fw={600} c="var(--gn-text)" lh={"normal"}>
           {index}
         </Text>
       </Box>
       <Stack gap={8} className={"min-w-0 flex-1 pt-0.5"}>
-        <Text fz={13} fw={600} c={"white"} lh={"18px"}>
+        <Text fz={13} fw={600} c="var(--gn-text)" lh={"18px"}>
           {title}
         </Text>
         {children}
@@ -207,7 +207,7 @@ export function McpConnectTabs() {
                   key={value}
                   value={value}
                   className={
-                    "flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap border-0 border-b-2 border-solid border-transparent bg-transparent px-0 pb-2.5 pt-3 text-[14px] leading-normal text-dimmed-2 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand data-[active]:border-brand data-[active]:font-semibold data-[active]:text-white"
+                    "flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap border-0 border-b-2 border-solid border-transparent bg-transparent px-0 pb-2.5 pt-3 text-[14px] leading-normal text-dimmed-2 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand data-[active]:border-brand data-[active]:font-semibold data-[active]:text-foreground"
                   }
                 >
                   {name ?? t("settings.mcp.connect.others")}

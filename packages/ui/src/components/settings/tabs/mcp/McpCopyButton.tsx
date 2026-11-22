@@ -67,7 +67,7 @@ export function McpCopyButton({ value, iconOnly = false }: Props) {
             onClick={() => void copy()}
             aria-label={label}
             className={
-              "shrink-0 text-dimmed-2 hover:bg-nav-raised hover:text-white"
+              "shrink-0 text-dimmed-2 hover:bg-nav-raised hover:text-foreground"
             }
           >
             {icon}

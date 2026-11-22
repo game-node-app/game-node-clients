@@ -30,7 +30,7 @@ export const MobileUserLevelHeader = ({
   return (
     <Link
       href={`/profile/${userId}`}
-      className="flex items-center gap-4 rounded-2xl border border-line bg-paper-8 p-4 text-white no-underline"
+      className="flex items-center gap-4 rounded-2xl border border-line bg-paper-8 p-4 text-foreground no-underline"
       onClick={(evt) => {
         if (!enableLink) evt.preventDefault();
       }}
