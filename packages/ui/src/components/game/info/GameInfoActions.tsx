@@ -2,7 +2,6 @@ import {
   CollectionEntryVisibilityMenu,
   CollectionEntryVisibilitySubmenu,
   GameInfoQuickAddMenu,
-  GameInfoShare,
   PreferredPlatformsViewModal,
   toLibraryVisibilityLevel,
   useOnMobile,
@@ -12,8 +11,8 @@ import { CollectionEntryEditModal } from "#@/components/collection/collection-en
 import { CollectionEntryRemoveModal } from "#@/components/collection/collection-entry/form/modal/CollectionEntryRemoveModal";
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
 import { GameCoverPickerModal } from "#@/components/game/info/GameCoverPickerModal";
-import { buildPresenterComponent, useShareFile } from "#@/context";
-import { Modal } from "#@/util";
+import { GameShareModal } from "#@/components/game/share/GameShareModal";
+import { buildPresenterComponent } from "#@/context";
 import {
   ActionIcon,
   Button,
@@ -50,8 +49,9 @@ export interface GameInfoActionsProps {
  * Component that handles the library-related actions for a game.
  * The game add report is handled here.
  *
- * Shared by web and mobile: the only platform-specific piece is how the share
- * sheet opens, which comes from the `shareFile` hook registry.
+ * Shared by web and mobile. Sharing is open to everyone (signed out, not in the
+ * library, no review): the platform-specific pieces (native share sheet, saving
+ * the image) come from the `shareFile`/`saveFile` hook registry.
  * @constructor
  */
 const DEFAULT_GameInfoActions = ({
@@ -60,7 +60,6 @@ const DEFAULT_GameInfoActions = ({
 }: GameInfoActionsProps) => {
   const { t } = useTranslation();
   const onMobile = useOnMobile();
-  const shareFile = useShareFile();
   const [addUpdateModalOpened, addUpdateModalUtils] = useDisclosure();
   const [removeModalOpened, removeModalUtils] = useDisclosure();
   const [shareModalOpened, shareModalUtils] = useDisclosure();
@@ -117,23 +116,11 @@ const DEFAULT_GameInfoActions = ({
         onClose={coverPickerUtils.close}
         game={game}
       />
-      <Modal
+      <GameShareModal
+        gameId={game.id}
         opened={shareModalOpened}
         onClose={shareModalUtils.close}
-        title={t("game.labels.share")}
-      >
-        <GameInfoShare
-          gameId={game.id}
-          onShare={async (file) => {
-            await shareFile({
-              file,
-              title: t("game.share.title"),
-              text: t("game.share.seeMoreAt", { gameId: game.id }),
-              url: `https://gamenode.app/game/${game.id}`,
-            });
-          }}
-        />
-      </Modal>
+      />
 
       <Stack gap={"xs"} w={"100%"} maw={ACTIONS_MAX_WIDTH} {...wrapperProps}>
         {/* Primary action: the split button owns the full row. */}
@@ -214,19 +201,18 @@ const DEFAULT_GameInfoActions = ({
             />
           )}
 
-          {gameInLibrary && (
-            <Tooltip label={t("game.tooltips.share")}>
-              <ActionIcon
-                aria-label={t("game.tooltips.share")}
-                size={actionSize}
-                variant="default"
-                className="flex-1 w-auto"
-                onClick={shareModalUtils.open}
-              >
-                <IconShare size={"1.05rem"} />
-              </ActionIcon>
-            </Tooltip>
-          )}
+          {/* Not gated by the library: the card only needs the game. */}
+          <Tooltip label={t("game.tooltips.share")}>
+            <ActionIcon
+              aria-label={t("game.tooltips.share")}
+              size={actionSize}
+              variant="default"
+              className="flex-1 w-auto"
+              onClick={shareModalUtils.open}
+            >
+              <IconShare size={"1.05rem"} />
+            </ActionIcon>
+          </Tooltip>
 
           {/*
             Entry-only actions (visibility, remove) live in the overflow menu.

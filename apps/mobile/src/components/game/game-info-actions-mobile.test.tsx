@@ -238,6 +238,11 @@ it("does not offer entry-only actions for a game outside the library", async () 
   });
   expect(favorite.getAttribute("aria-disabled")).toBe("true");
 
+  // Sharing only needs the game, so it stays available without a library entry.
+  expect(
+    screen.getByRole("button", { name: "game.tooltips.share" }),
+  ).toBeTruthy();
+
   expect(
     screen.queryByRole("button", {
       name: "libraryVisibility.actions.changeVisibility",

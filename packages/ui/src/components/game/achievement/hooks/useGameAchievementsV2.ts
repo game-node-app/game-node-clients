@@ -14,9 +14,11 @@ export function useGameAchievementsV2(
   userId: string | undefined,
   gameId: number,
   withObtained = true,
+  options?: { enabled?: boolean },
 ) {
   return useQuery({
     queryKey: ["game", "achievements", gameId, userId],
+    enabled: options?.enabled ?? true,
     queryFn: async (): Promise<GameAchievementExtendedGroup[]> => {
       const availableAchievements =
         await GameAchievementService.gameAchievementV2ControllerFindAllByGameIdV2(

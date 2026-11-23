@@ -2,6 +2,7 @@ import { Browser } from "@capacitor/browser";
 import { Share } from "@capacitor/share";
 import { UIHookRegistry, UIPresenterRegistry } from "@repo/ui";
 import { shareGeneratedFile } from "@/util/shareGeneratedFile";
+import { saveGeneratedFile } from "@/util/saveGeneratedFile";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
 import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
@@ -75,6 +76,7 @@ export const UI_HOOK_REGISTRY: UIHookRegistry = {
     }
   },
   shareFile: shareGeneratedFile,
+  saveFile: saveGeneratedFile,
   openExternalUrl: async (url) => {
     await Browser.open({ url });
   },
