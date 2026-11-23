@@ -148,6 +148,13 @@ export type UIHookRegistry = {
    */
   shareFile?: (payload: ShareFilePayload) => Promise<boolean>;
   /**
+   * Saves a locally generated file (e.g. a game card image) on the device.
+   * Resolves to `true` when the app stored it somewhere the browser would not
+   * announce (the callers then confirm it), and `false` when it was handed to
+   * the browser's own download. Defaults to an `<a download>` click.
+   */
+  saveFile?: (file: File) => Promise<boolean>;
+  /**
    * Opens an external URL such as a Stripe Checkout or Customer Portal session.
    * Defaults to `window.location.assign`; native apps can override it with an
    * in-app browser (`Browser.open` on mobile).

@@ -4,6 +4,7 @@ import {
   UIHookRegistry,
   UIPresenterRegistry,
 } from "#@/context/registry.ts";
+import { downloadFile } from "#@/util/downloadFile";
 
 interface UIProviderContext {
   presenters: Partial<UIPresenterRegistry>;
@@ -151,6 +152,22 @@ export function useShareFile() {
         if ((error as Error).name === "AbortError") return false;
         throw error;
       }
+    })
+  );
+}
+
+/**
+ * Saves a generated file. On the web this is the browser download; the mobile
+ * app stores it in the documents folder instead (see `saveFile` in the hook
+ * registry) and resolves to `true` so the caller can confirm it.
+ */
+export function useSaveFile() {
+  const { saveFile } = useHooks();
+  return (
+    saveFile ??
+    (async (file: File) => {
+      downloadFile(file);
+      return false;
     })
   );
 }

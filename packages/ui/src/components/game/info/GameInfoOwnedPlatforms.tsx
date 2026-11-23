@@ -1,4 +1,5 @@
 import { useOwnCollectionEntryForGameId } from "#@/components/collection/collection-entry/hooks/useOwnCollectionEntryForGameId";
+import { useOwnedPlatformIcons } from "#@/components/game/hooks/useOwnedPlatformIcons";
 import { useOnMobile } from "#@/components/general/hooks/useOnMobile";
 import { getServerStoredIcon } from "#@/util/getServerStoredImages";
 import {
@@ -10,9 +11,7 @@ import {
   Skeleton,
   Text,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
-import { CollectionsEntriesService } from "../../../../../wrapper/src/server";
 
 interface IGameInfoOwnedPlatformsProps extends GroupProps {
   gameId: number | undefined;
@@ -26,27 +25,7 @@ const GameInfoOwnedPlatforms = ({
 }: IGameInfoOwnedPlatformsProps) => {
   const onMobile = useOnMobile();
   const collectionEntry = useOwnCollectionEntryForGameId(gameId);
-  const iconsQuery = useQuery({
-    queryKey: [
-      "game",
-      "owned-platforms",
-      "icon",
-      gameId,
-      collectionEntry.data?.id,
-    ],
-    queryFn: async () => {
-      if (!collectionEntry.data) return [];
-      if (!gameId) return [];
-      try {
-        return await CollectionsEntriesService.collectionsEntriesControllerGetIconsForOwnedPlatformsV1(
-          collectionEntry.data.id,
-        );
-      } catch (e) {
-        console.error(e);
-        return [];
-      }
-    },
-  });
+  const iconsQuery = useOwnedPlatformIcons(gameId, collectionEntry.data);
 
   const buildIconsSkeletons = useCallback(() => {
     return new Array(4).fill(0).map((_, i) => {

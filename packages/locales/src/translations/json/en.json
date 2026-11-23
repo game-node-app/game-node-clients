@@ -1772,17 +1772,43 @@
     },
     "selectGame": "Find and select a game",
     "share": {
+      "actions": {
+        "copyLink": "Copy link",
+        "downloadImage": "Download image"
+      },
+      "backgrounds": {
+        "art": "Game art",
+        "plain": "Plain",
+        "transparent": "Transparent"
+      },
+      "card": {
+        "achievements": "achievements",
+        "platforms": "platforms",
+        "playtime": "played"
+      },
+      "formats": {
+        "feed": "Feed",
+        "story": "Story"
+      },
       "messages": {
-        "generateFailed": "Failed to generate final image."
+        "generateFailed": "Failed to generate final image.",
+        "linkCopied": "Link copied to clipboard",
+        "saved": "Image saved to Documents!"
       },
       "myReview": "My review of this game",
       "options": {
-        "divider": "Divider",
-        "ownedPlatforms": "Owned platforms",
-        "rating": "Rating",
-        "transparentBackground": "Transparent background"
+        "achievements": "Achievements",
+        "ownedPlatforms": "Platforms",
+        "playtime": "Playtime",
+        "rating": "Rating"
       },
+      "previewLabel": "Preview of the {{name}} share image",
       "recentlyPlayed": "These are my recently played games!",
+      "sections": {
+        "background": "Background",
+        "format": "Format",
+        "onCard": "On the card"
+      },
       "seeMoreAt": "See more at https://gamenode.app/game/{{gameId}}",
       "shareReview": "Share your review with friends!",
       "title": "GameNode Share"
