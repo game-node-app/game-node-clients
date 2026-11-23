@@ -150,6 +150,7 @@ export function GuildScene({
         isMobile ? styles.sceneMobile : styles.sceneDesktop,
       )}
       data-variant={variant}
+      data-gn-artwork=""
     >
       <div
         className={cn(

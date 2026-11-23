@@ -96,7 +96,7 @@ export function GuildAcceptedState({
       classNames={{ content: styles.acceptedModalContent }}
     >
       <div className={styles.root}>
-        <div className={styles.acceptedShell}>
+        <div className={styles.acceptedShell} data-gn-artwork="">
           <div
             ref={sceneRef}
             className={styles.acceptedViewport}

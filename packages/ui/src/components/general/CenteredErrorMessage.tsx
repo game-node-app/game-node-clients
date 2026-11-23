@@ -9,7 +9,11 @@ interface Props extends CenterProps {
 const CenteredErrorMessage = ({ message, error, ...others }: Props) => {
   return (
     <Center className={"w-full"} {...others}>
-      <Title c={"red"} size={"h4"} className={"text-center"}>
+      <Title
+        c={"var(--gn-status-danger-text)"}
+        size={"h4"}
+        className={"text-center"}
+      >
         {error ? getErrorMessage(error) : message}
       </Title>
     </Center>

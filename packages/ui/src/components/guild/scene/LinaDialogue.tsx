@@ -185,6 +185,7 @@ export function LinaDialogue({
     <div
       className={cn(styles.linaDialogue, VARIANT_CLASSES[variant])}
       data-variant={variant}
+      data-gn-artwork=""
       data-typing={isTyping}
       data-collapsed="false"
       role="dialog"

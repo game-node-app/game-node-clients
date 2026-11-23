@@ -237,8 +237,10 @@ const DARK_BLOCK_MIN_ALPHA = 0.85;
 
 /**
  * Large opaque near-black elements while the theme is light. Elements inside
- * `[data-gn-scope]` (intentionally dark artwork), elements with an image
- * background, and media elements are skipped.
+ * `[data-gn-scope]` (a re-themed subtree) or `[data-gn-artwork]` (fixed-palette
+ * artwork that is dark by design but keeps the active theme's tokens, such as
+ * the Guild hall), elements with an image background, and media elements are
+ * skipped. Text inside them is still checked by axe.
  */
 export function findDarkBlocks(
   root: Document | Element,
@@ -248,7 +250,7 @@ export function findDarkBlocks(
 
   for (const element of Array.from(root.querySelectorAll("*"))) {
     if (SKIPPED_TAGS.has(element.tagName.toUpperCase())) continue;
-    if (element.closest("[data-gn-scope]")) continue;
+    if (element.closest("[data-gn-scope], [data-gn-artwork]")) continue;
 
     const style = win.getComputedStyle(element);
     if (style.display === "none" || style.visibility === "hidden") continue;
