@@ -25,7 +25,6 @@ import { GameAchievementsList } from "../../../../../packages/ui/src/components/
 import { GameInfoAchievementOverview } from "../../../../../packages/ui/src/components/game/info/achievement/GameInfoAchievementOverview";
 import { GameInfoAchievementsScreen } from "../../../../../packages/ui/src/components/game/info/achievement/GameInfoAchievementsScreen";
 import { CollectionEntryAchievementTracker } from "../../../../../packages/ui/src/components/collection/collection-entry/detail/CollectionEntryAchievementTracker";
-import { GameInfoShareAchievementProgress } from "../../../../../packages/ui/src/components/game/share/GameInfoShareAchievementProgress";
 import { MobileGameAchievementListItem } from "./MobileGameAchievementListItem";
 
 vi.mock("@repo/locales", () => ({
@@ -343,7 +342,6 @@ const views = [
       <GameAchievementProgressOverview userId="owner" gameId={7} source={5} />
     ),
   ],
-  ["sharing", () => <GameInfoShareAchievementProgress gameId={7} />],
 ] as const;
 it.each(views)(
   "%s shows initial failures and allows retry",

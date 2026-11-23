@@ -18,6 +18,12 @@ import {
   todayResponse,
 } from "./dailyTestUtils";
 
+/**
+ * Always ahead of the clock: a fixed date turns into a past one, the countdown
+ * then reads as expired and invalidates the Daily queries mid-test.
+ */
+const FAR_FUTURE = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
 const mocks = vi.hoisted(() => ({ userId: "me" as string | undefined }));
 
 vi.mock(
@@ -47,7 +53,7 @@ const weekly = (overrides: Partial<DailyWeeklyDto> = {}): DailyWeeklyDto => ({
   number: 3,
   mode: DailyWeeklyDto.mode.COVER,
   maxAttempts: 6,
-  endsAt: "2026-11-23T03:00:00.000Z",
+  endsAt: FAR_FUTURE,
   ...overrides,
 });
 

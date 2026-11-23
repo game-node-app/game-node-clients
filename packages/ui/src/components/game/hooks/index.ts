@@ -14,6 +14,7 @@ export * from "./useGames";
 export * from "./useGamesByCollectionType";
 export * from "./useGamesResource";
 export * from "./useInfiniteSearchGames";
+export * from "./useOwnedPlatformIcons";
 export * from "./useSearchGames";
 export * from "./useSearchGamesAutocomplete";
 export * from "./useSetGameCoverChoice";

@@ -1776,17 +1776,43 @@ export type TranslationSchema = {
     };
     selectGame: string;
     share: {
+      actions: {
+        copyLink: string;
+        downloadImage: string;
+      };
+      backgrounds: {
+        art: string;
+        plain: string;
+        transparent: string;
+      };
+      card: {
+        achievements: string;
+        platforms: string;
+        playtime: string;
+      };
+      formats: {
+        feed: string;
+        story: string;
+      };
       messages: {
         generateFailed: string;
+        linkCopied: string;
+        saved: string;
       };
       myReview: string;
       options: {
-        divider: string;
+        achievements: string;
         ownedPlatforms: string;
+        playtime: string;
         rating: string;
-        transparentBackground: string;
       };
+      previewLabel: string;
       recentlyPlayed: string;
+      sections: {
+        background: string;
+        format: string;
+        onCard: string;
+      };
       seeMoreAt: string;
       shareReview: string;
       title: string;
