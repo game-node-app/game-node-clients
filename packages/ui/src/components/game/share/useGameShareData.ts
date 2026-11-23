@@ -45,6 +45,13 @@ const GAME_SHARE_DTO: GameRepositoryFindOneDto = {
 export function useGameShareData(gameId: number): {
   data: GameShareData;
   isLoading: boolean;
+  /**
+   * A signed-in viewer's own data (review, library entry, playtime,
+   * achievements) is still being fetched, so blocks that depend on it may be
+   * missing for now. Always `false` while signed out, and settled (success,
+   * empty or failed) requests no longer count, so sharing never waits on them.
+   */
+  isPersonalLoading: boolean;
 } {
   const { t } = useTranslation();
   const userId = useUserId();
@@ -85,5 +92,16 @@ export function useGameShareData(gameId: number): {
       : null,
   };
 
-  return { data, isLoading: gameQuery.isLoading };
+  const isPersonalLoading =
+    signedIn &&
+    [
+      profileQuery,
+      reviewQuery,
+      entryQuery,
+      playtimeQuery,
+      achievementsQuery,
+      iconsQuery,
+    ].some((query) => query.isLoading);
+
+  return { data, isLoading: gameQuery.isLoading, isPersonalLoading };
 }

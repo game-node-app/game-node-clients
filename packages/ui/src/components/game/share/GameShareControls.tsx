@@ -45,6 +45,8 @@ interface SegmentedProps<T extends string> {
   /** Names the group for assistive tech. */
   ariaLabel: string;
   className?: string;
+  /** Locks the choice, e.g. while an export reads the current selection. */
+  disabled?: boolean;
 }
 
 /**
@@ -57,6 +59,7 @@ export function GameShareSegmented<T extends string>({
   options,
   ariaLabel,
   className,
+  disabled = false,
 }: SegmentedProps<T>) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -80,6 +83,7 @@ export function GameShareSegmented<T extends string>({
     <div
       role={"radiogroup"}
       aria-label={ariaLabel}
+      aria-disabled={disabled || undefined}
       className={cn(
         "flex w-full items-start gap-1 rounded-[10px] border border-solid border-line bg-paper-0 p-1",
         className,
@@ -96,11 +100,12 @@ export function GameShareSegmented<T extends string>({
             type={"button"}
             role={"radio"}
             aria-checked={selected}
+            disabled={disabled}
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(option.value)}
             onKeyDown={(event) => onKeyDown(event, index)}
             className={cn(
-              "flex min-w-0 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-[7px] py-[9px] text-sm transition-colors",
+              "flex min-w-0 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-[7px] py-[9px] text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60",
               selected
                 ? "bg-paper-1 font-semibold text-emphasis"
                 : "font-medium text-subtle hover:text-emphasis",

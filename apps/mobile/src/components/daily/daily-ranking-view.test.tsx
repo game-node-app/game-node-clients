@@ -16,6 +16,12 @@ import {
 import { DailyRankingView } from "../../../../../packages/ui/src/components/daily/ranking/DailyRankingView";
 import { renderDaily, stubMatchMedia } from "./dailyTestUtils";
 
+/**
+ * Always ahead of the clock: a fixed date turns into a past one, the countdown
+ * then reads as expired and invalidates the Daily queries mid-test.
+ */
+const FAR_FUTURE = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
 const mocks = vi.hoisted(() => ({ userId: "me" as string | undefined }));
 
 vi.mock(
@@ -58,7 +64,7 @@ const response = (
   period: "week" as never,
   mode: null,
   scope: "all" as never,
-  endsAt: "2026-11-23T03:00:00.000Z",
+  endsAt: FAR_FUTURE,
   totalPlayers: 3812,
   viewer: row(142, { userId: "me", username: "me" }),
   data: Array.from({ length: count }, (_, index) => row(index + 1)),

@@ -65,8 +65,10 @@ export function GameShareView({
   const cardRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
 
-  const { data, isLoading } = useGameShareData(gameId);
-  const ready = !!data.game;
+  const { data, isLoading, isPersonalLoading } = useGameShareData(gameId);
+  // Exporting before the viewer's own data arrives would silently drop blocks
+  // (the rating, say) that are switched on.
+  const ready = !!data.game && !isPersonalLoading;
 
   const [format, setFormat] = useState<RecapCardFormat>("story");
   const [background, setBackground] = useState<GameShareBackground>("art");
@@ -152,6 +154,9 @@ export function GameShareView({
       ariaLabel={t("game.share.sections.format")}
       value={format}
       onChange={setFormat}
+      // The export reads the live card after loading fonts, so the format
+      // must not change underneath it.
+      disabled={pending}
       className={compact ? undefined : "bg-body"}
       options={(Object.keys(RECAP_CARD_FORMATS) as RecapCardFormat[]).map(
         (key) => ({
@@ -175,7 +180,7 @@ export function GameShareView({
       aria-label={t("game.share.previewLabel", { name: data.name })}
       className={"flex w-full justify-center"}
     >
-      {ready ? (
+      {data.game ? (
         <RecapCardPreview
           format={format}
           cardRef={cardRef}
@@ -373,13 +378,15 @@ export function GameShareView({
     <div data-testid={"game-share-screen"} className={"flex w-full bg-body"}>
       <div
         className={cn(
-          "flex w-[436px] shrink-0 flex-col items-center gap-5 bg-paper-0 px-14 py-10",
+          // Columns shrink with the modal (816px wide at most) instead of
+          // overflowing it just above the compact breakpoint.
+          "flex min-w-0 shrink basis-[436px] flex-col items-center gap-5 bg-paper-0 px-10 py-10",
         )}
       >
-        <div className={"w-[300px]"}>{formatSwitch}</div>
+        <div className={"w-full max-w-[300px]"}>{formatSwitch}</div>
         {preview}
       </div>
-      <div className={"flex w-[380px] shrink-0 flex-col gap-7 p-8"}>
+      <div className={"flex min-w-0 shrink basis-[380px] flex-col gap-7 p-8"}>
         <div className={"flex items-start justify-between"}>
           <div className={"flex min-w-0 flex-col gap-1"}>
             <Text
