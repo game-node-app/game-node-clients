@@ -15,6 +15,7 @@ export * from "./GuildHallTitles";
 export * from "./GuildHeader";
 export * from "./GuildLicenseCard";
 export * from "./GuildQuestCard";
+export * from "./GuildReviewLengthHint";
 export * from "./GuildRewardsPanel";
 export * from "./GuildSignInPrompt";
 export * from "./GuildTabs";

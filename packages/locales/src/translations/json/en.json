@@ -1864,6 +1864,12 @@
       "quickEmpty": "No quick quests right now. Take a look at the full board.",
       "recommended": "★ Lina recommends",
       "xpReward": "+{{xp}} XP",
+      "duration_one": "{{count}} day to finish after accepting",
+      "duration_other": "{{count}} days to finish after accepting",
+      "rules": {
+        "review": "Only reviews with at least 80 characters count.",
+        "finish": "Only games you mark as finished after accepting count. Imports and re-finished games don't."
+      },
       "tags": {
         "library": "From your library",
         "event": "Curated event · {{days}} days",
@@ -1888,6 +1894,7 @@
     "contracts": {
       "emptyAccepted": "No contracts accepted yet. Pick a quest from the board!",
       "emptyCompleted": "No completed contracts yet. Your finished contracts will show up here.",
+      "deadline": "Expires in {{time}}",
       "status": {
         "active": "Active",
         "readyToClaim": "Ready to turn in",
@@ -1901,6 +1908,11 @@
         "confirm": "Abandon",
         "cancel": "Cancel"
       }
+    },
+    "reviewHint": {
+      "counter": "{{count}}/80",
+      "short": "Reviews under 80 characters don't count for your Guild contract yet.",
+      "ok": "This review counts for your Guild contract."
     },
     "targetGame": {
       "title": "Which game will complete this quest?",
@@ -1922,7 +1934,8 @@
     },
     "claim": {
       "title": "Contract complete",
-      "xp": "+{{xp}} XP",
+      "xp": "+{{xp}} Guild XP",
+      "accountXp": "+{{xp}} account XP",
       "rankChange": "Rank {{from}} → {{to}}",
       "newRewards": "New rewards",
       "chestBonus": "Chest bonus: +{{xp}} XP",
@@ -1954,7 +1967,13 @@
       "title_backlog_slayer": "Backlog Slayer",
       "title_guild_veteran": "Guild Veteran",
       "frame_parchment_seal": "Parchment Seal",
-      "frame_lantern_glow": "Lantern Glow"
+      "frame_lantern_glow": "Lantern Glow",
+      "title_relic_hunter": "Relic Hunter",
+      "title_night_owl": "Night Owl",
+      "title_completionist": "Completionist",
+      "frame_ember_rune": "Ember Rune",
+      "frame_moonlit_ivy": "Moonlit Ivy",
+      "frame_gilded_compass": "Gilded Compass"
     },
     "rank": {
       "E": "Novice",
@@ -1981,6 +2000,10 @@
         "title": "Weekend Sprint",
         "description": "Finish any game from your library this week."
       },
+      "double_feature": {
+        "title": "Double Feature",
+        "description": "Finish 2 games from your library this week."
+      },
       "captains_log": {
         "title": "Captain's Log",
         "description": "Write a review for a game you finished this month."
@@ -1988,6 +2011,10 @@
       "on_duty_critic": {
         "title": "On-Duty Critic",
         "description": "Write 3 reviews this week."
+      },
+      "quick_take": {
+        "title": "Quick Take",
+        "description": "Write a review for any game."
       }
     },
     "lina": {
@@ -2752,7 +2779,9 @@
     "guild": {
       "title": "Adventurers Guild",
       "contractReady": "Your Guild contract is ready to turn in.",
-      "contractReadyGame": "Your Guild contract for {{game}} is ready to turn in."
+      "contractReadyGame": "Your Guild contract for {{game}} is ready to turn in.",
+      "contractExpiring": "Your Guild contract expires in less than 24 hours.",
+      "contractExpiringGame": "Your Guild contract for {{game}} expires in less than 24 hours."
     },
     "recap": {
       "title": "Recap",

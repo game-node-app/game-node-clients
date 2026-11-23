@@ -4,7 +4,7 @@ import { cn } from "#@/util";
 
 import styles from "../guild.module.css";
 import { PixelButton } from "../scene/PixelButton";
-import { getQuestCopy } from "../util";
+import { formatTimeLeft, getQuestCopy } from "../util";
 
 export interface GuildContractRowProps {
   contract: GuildContractDto;
@@ -154,6 +154,19 @@ export function GuildContractRow({
     STATUS_LABEL_KEYS[status] ?? "guild.contracts.status.active",
   );
 
+  // The contract's own deadline (`acceptedAt` + duration / event end), not the
+  // board refresh. A `ready_to_claim` contract stays claimable after it passes,
+  // so only `active` rows show a countdown (design D10, spec guild-hall).
+  const deadline =
+    isActive && contract.expiresAt ? formatTimeLeft(contract.expiresAt) : null;
+
+  // Imported or re-finished games never move a `finish_game` bar (hand-off
+  // 7.6), so an untouched active contract explains why it is still at zero.
+  const showFinishHint =
+    isActive &&
+    contract.objectiveType === "finish_game" &&
+    contract.progressCurrent === 0;
+
   return (
     <article
       className={cn(
@@ -218,11 +231,25 @@ export function GuildContractRow({
         </div>
       </div>
 
+      {showFinishHint ? (
+        <p className={cn(styles.captionText, styles.subtleText, "m-0")}>
+          {t("guild.board.rules.finish")}
+        </p>
+      ) : null}
+
       <footer className={styles.contractListItemFooter}>
         <span className={styles.contractListItemTime}>
           {acceptedAt
             ? t("guild.activeContracts.acceptedAgo", { time: acceptedAt })
             : null}
+          {deadline ? (
+            <>
+              {acceptedAt ? " · " : null}
+              <span data-contract-deadline>
+                {t("guild.contracts.deadline", { time: deadline })}
+              </span>
+            </>
+          ) : null}
         </span>
         <div className={styles.contractListItemActions}>
           {/* A ready contract stays claimable after `expiresAt` (spec). */}

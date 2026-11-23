@@ -9,6 +9,10 @@ import type { LinaReceptionDto } from './LinaReceptionDto';
 export type ClaimGuildContractResponseDto = {
     contract: GuildContractDto;
     xpAwarded: number;
+    /**
+     * Global UserLevel XP credited: floor(xpAwarded × 0.25)
+     */
+    globalXpAwarded: number;
     rankBefore: ClaimGuildContractResponseDto.rankBefore;
     rankAfter: ClaimGuildContractResponseDto.rankAfter;
     unlockedRewards: Array<GuildRewardDescriptorDto>;

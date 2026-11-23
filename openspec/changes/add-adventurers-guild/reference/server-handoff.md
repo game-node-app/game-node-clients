@@ -10,7 +10,7 @@ Figma reference: `rvZfYT3eR8ktZAW6g3HO8C`, page `0:1`, components `2:62`.
 
 ## 1. Conventions
 
-- **Dates.** `weekStart` is a São Paulo calendar date (`YYYY-MM-DD`, Monday). `nextRefreshAt`, `acceptedAt`, `readyAt`, `claimedAt`, `expiresAt`, `startsAt`, `endsAt`, `publishedAt`, `unlockedAt`, `createdAt`, `updatedAt` and `lastBoardSeenAt` are ISO-8601 UTC instants. Do not apply the viewer's timezone to `weekStart`.
+- **Dates.** `weekStart` is a São Paulo calendar date (`YYYY-MM-DD`, Monday). `nextRefreshAt`, `acceptedAt`, `readyAt`, `claimedAt`, `expiresAt`, `startsAt`, `endsAt`, `publishedAt`, `unlockedAt`, `createdAt`, `updatedAt` and `lastBoardSeenAt` are ISO-8601 UTC instants. Do not apply the viewer's timezone to `weekStart`. `expiresAt` means two different things: on a **board quest** it is the last moment the quest can be accepted; on a **contract** it is the contract's own deadline (section 7).
 - **Enums.**
   - `rank`: `E`, `D`, `C`, `B`, `A`, `S` (hardest is `S`).
   - `category`: `library`, `event`, `weekly`, `gamenode`.
@@ -63,7 +63,7 @@ Validation errors are standard Nest `400` responses (`message` may be a string o
 | `UpdateGuildCosmeticsDto`, `GuildCosmeticsResponseDto` | `PATCH /v1/guild/cosmetics` |
 | `GuildEventTranslationDto`, `CreateGuildEventDto`, `UpdateGuildEventDto`, `GuildAdminEventResponseDto` | Admin events |
 | `CreateGuildRewardDto`, `UpdateGuildRewardDto`, `GuildAdminRewardResponseDto` | Admin rewards |
-| `NotificationGuildTargetDto`, `NotificationTextPreviewDto`, `NotificationInboxItemDto` | `GET /v1/notifications` (`guild.contract-ready`) |
+| `NotificationGuildTargetDto`, `NotificationTextPreviewDto`, `NotificationInboxItemDto` | `GET /v1/notifications` (`guild.contract-ready`, `guild.contract-expiring`) |
 | `ProfileResponseDto` (`guildTitleKey`, `guildFrameKey`) | `GET /v1/profile`, `GET /v1/profile/:id` |
 
 ## 2. Early-access rollout gate
@@ -220,6 +220,7 @@ Rank thresholds for client-side progress UI: `E 0`, `D 300`, `C 800`, `B 2,000`,
       },
       "isRecommended": true,
       "isQuick": false,
+      "contractDurationDays": 21,
       "expiresAt": "2026-11-23T03:00:00.000Z"
     }
   ]
@@ -250,11 +251,13 @@ Rank thresholds for client-side progress UI: `E 0`, `D 300`, `C 800`, `B 2,000`,
 | `reward` | descriptor \| null | `{ id, key, kind, achievementId, inChestPool, chestBonusXp }` |
 | `isRecommended` | boolean | At most one open quest |
 | `isQuick` | boolean | Rank `E`/`D` events are quick; templates carry their own flag |
-| `expiresAt` | date | Board refresh or event `endsAt` |
+| `contractDurationDays` | number \| null | Days an accepted contract stays open: `21` for `library` templates, `7` for `weekly`/`gamenode`; `null` for event quests (they end at `endsAt`) |
+| `expiresAt` | date | Last moment this quest can be **accepted**: next board refresh, or event `endsAt`. Not the accepted contract's deadline (section 7.1) |
 
 Behavior:
 
-- The server persists three non-event quests per `(user, weekStart)` and merges all active `published` events live on each read. Repeated reads in the same week return the same non-event quests.
+- The server persists three non-event quests per `(user, weekStart)` and merges all active `published` events live on each read. Repeated reads in the same week return the same non-event quests, but the template mix (and candidate chips) rotates between weeks; do not assume a fixed set of three `templateKey`s.
+- Accepting a board quest gives the contract its own deadline relative to `acceptedAt` (`contractDurationDays`), not the board refresh date. See section 7.1.
 - Open board excludes quests already `active`, `ready_to_claim` or `completed` for that board entry/event. `abandoned`/`expired` quests stay visible and re-acceptable while the week/event window is open.
 - `isRecommended` priority: first open `forgotten_relic` library quest → first open event → first open weekly quest. It is computed before `quick` filtering, so a quick response can have no recommended quest.
 - `candidateGames[].name/slug/coverUrl` may be omitted when the game row cannot be resolved. `sinceYear` appears on stale-backlog chips; `estimatedHours` appears on short-game chips.
@@ -306,13 +309,17 @@ Body `AcceptGuildContractDto`:
 - `eventId` must be a `published` event whose `[startsAt, endsAt)` contains now. Unknown/unpublished → 404; outside window → 400.
 - `targetGameId` is required when the quest has `requiresTargetGame: true`. If supplied on an optional-target quest, it must exist and satisfy the criteria. Target validation is 400 with a plain message:
   - game not in `game` table;
-  - already `finished` in the user's library;
+  - `finish_game` quest with `targetCount > 1` (multi-game finish quests such as `double_feature` cannot be bound to a single `targetGameId`);
+  - on a `finish_game` quest, ever `finished` in the user's library, even if the entry was later moved to another status (`"This game is already finished in your library."`); `write_review` quests may target finished games;
   - `forgotten_relic`: not a planned/dropped entry older than 365 days without recent playtime;
   - `deep_dive`: not in `playing` status;
   - `gameIds`/`genreIds`/`themeIds`/`keywordIds`/`maxTimeToBeatHours` mismatch.
 - Cap: 3 non-terminal contracts (`active` + `ready_to_claim`). A 4th accept is 409 `code: "guild_active_contract_limit_reached"`.
 - Duplicate: same `boardEntryId`/`eventId` already `active`, `ready_to_claim` or `completed` → 409 `code: "guild_contract_already_exists"`. Concurrent accepts are serialized per user; at most one wins.
-- Accepted contract starts `active`, `progressCurrent: 0`, `progressTarget` = quest `targetCount`, `acceptedAt` = now, `expiresAt` = board refresh or event `endsAt`.
+- Accepted contract starts `active`, `progressCurrent: 0`, `progressTarget` = quest `targetCount`, `acceptedAt` = now. Deadline:
+  - board quest: `expiresAt = acceptedAt + contractDurationDays × 24h` — 21 days for `library` (e.g. accepting Sunday 23:00 still gives the full 21 days), 7 days for `weekly`/`gamenode`;
+  - event quest: `expiresAt = event.endsAt`. If an editor later changes the event's `endsAt`, the event's `active` contracts adopt the new deadline; `ready_to_claim` and terminal contracts keep theirs.
+- An `active` contract past `expiresAt` becomes `expired` (hourly sweep plus a lazy check on reads). `ready_to_claim` is **not** expired: it stays claimable after the deadline (section 7.4).
 
 Response (201) `AcceptGuildContractResponseDto`: `{ contract: GuildContractDto, lina: LinaReceptionDto }`. `lina` is the acceptance confirmation: `trigger: "contract_accepted"`, `pose: "happy"`, `context: { contractId, category, templateKey, eventId, targetGameId, targetGameName? }` (`targetGameName` present when the bound target game resolves). Accepting does not change `lastVisitedAt`.
 
@@ -341,7 +348,7 @@ Response (201) `AcceptGuildContractResponseDto`: `{ contract: GuildContractDto, 
 | `acceptedAt` | date | |
 | `readyAt` | date \| null | Set when it becomes claimable |
 | `claimedAt` | date \| null | Set after claim |
-| `expiresAt` | date \| null | |
+| `expiresAt` | date \| null | Contract deadline, not the board refresh: board contract = `acceptedAt` + 21d (`library`) or 7d (`weekly`/`gamenode`); event contract = event `endsAt` (and moves if an editor changes it). Once it passes while `active`, the contract becomes `expired`; `ready_to_claim` remains claimable |
 | `createdAt`, `updatedAt` | date | |
 
 ### 7.3 `GET /v1/guild/contracts` — lists
@@ -367,18 +374,34 @@ Response (200) `ClaimGuildContractResponseDto`:
 | Field | Type | Notes |
 | --- | --- | --- |
 | `contract` | `GuildContractDto` | Now `completed`, `claimedAt` set, `claimPayload` filled |
-| `xpAwarded` | number | Contract XP + duplicate/chest bonus; credited to Guild XP and global `UserLevel` XP |
+| `xpAwarded` | number | **Guild XP**: contract XP + duplicate/chest bonus. `xpAwarded` no longer means global `UserLevel` XP |
+| `globalXpAwarded` | number | Global `UserLevel` XP credited: `floor(xpAwarded × 0.25)` |
 | `rankBefore` | rank | |
 | `rankAfter` | rank | |
 | `unlockedRewards` | descriptor[] | Only newly granted items; an already-owned title/frame/badge is not repeated |
 | `chestResult` | `{ bonusXp, unlockedCosmetic }` \| null | Non-null only for `weekly_chest`; `unlockedCosmetic` null when the pool is exhausted (extra +50 XP included) |
-| `lina` | `LinaReceptionDto` | Delivery celebration: `trigger: "contract_claimed"`, `pose: "happy"`, `context: { contractId, xpAwarded, rankBefore, rankAfter, rankedUp }`. Does not change `lastVisitedAt` |
+| `lina` | `LinaReceptionDto` | Delivery celebration: `trigger: "contract_claimed"`, `pose: "happy"`, `context: { contractId, xpAwarded, rankBefore, rankAfter, rankedUp }` (`xpAwarded` is Guild XP). Does not change `lastVisitedAt` |
 
-`claimPayload` persisted on the contract is exactly `{ xpAwarded, rankBefore, rankAfter, unlockedRewards, chestResult }`. A contract that became `ready_to_claim` before its deadline remains claimable after the deadline; do not hide it based on `expiresAt`.
+`claimPayload` persisted on the contract is exactly `{ xpAwarded, globalXpAwarded, rankBefore, rankAfter, unlockedRewards, chestResult }`. A contract that became `ready_to_claim` before its deadline remains claimable after the deadline; do not hide it based on `expiresAt`. Show the global XP amount separately from the Guild XP amount (e.g. “+330 Guild XP · +82 account XP”); `globalXpAwarded` can be `0` for small claims.
 
 ### 7.5 `POST /v1/guild/contracts/{id}/abandon`
 
 Only an owned `active` contract can be abandoned. Unknown/not owned → 404. Other status → 409 `code: "guild_contract_not_active"`. Response (200) is the updated `GuildContractDto` with `status: "abandoned"`. The quest reappears on the open board while its week/event window is still valid.
+
+### 7.6 Progress counting and user-facing copy
+
+`finish_game` progress counts a game at most once per contract, and only when its **first-ever finish** happened in the contract window:
+
+- Only manual library actions count. Steam/console imports, importer-created entries and related-entry propagation (DLCs inheriting the parent finish) never progress a contract, though they still establish the first finish.
+- Re-finishing, toggling status back to `finished`, or deleting and re-adding the entry does not count again.
+- A game finished at any point in the past cannot be bound as `targetGameId` on a `finish_game` quest (400, section 7.1), even if it is now `playing`/`planned`. `write_review` quests may target finished games.
+- Copy implication: say "finish a game" for manual completions only; do not promise credit for already-imported or re-finished games, and explain in the quest details/empty state why an imported completion did not move the bar.
+
+`write_review` progress counts **distinct games** whose review was created in the window and whose trimmed content has at least **80 characters**:
+
+- Two short reviews do not count; one review of 80+ characters does. Multiple reviews for the same game count once per contract.
+- Reviews written before `acceptedAt` do not count, even if edited afterwards.
+- Copy implication: show the 80-character minimum (e.g. helper text and a character counter) in the review composer reached from a Guild contract; a review saved below it should not be presented as contract progress.
 
 ## 8. Rewards and profile cosmetics
 
@@ -440,9 +463,13 @@ Rules:
 - Equipping/clearing a Guild cosmetic never mutates `supporterPreferences`; do not clear either system because the other changes.
 - Rendering: show `guildTitleKey`/`guildFrameKey` in Guild contexts (Guild License, Guild Hall, Guild reward surfaces). Show supporter `titleKey`, badge, animated border and theme from `supporterPreferences` independently. Both may be visible at once in the profile; neither replaces the other in data.
 
-## 9. Notification `guild.contract-ready`
+## 9. Guild notifications (`guild.contract-ready`, `guild.contract-expiring`)
 
-When a contract moves `active` → `ready_to_claim`, an event `guild.contract-ready` (version 1, no actor) is committed atomically and projected as one individual inbox item per contract.
+Both are system notifications (no actor, version 1) projected as one individual inbox item per contract with `subjectType: "guild_contract"` and `target: { type: "guild", contractId }`.
+
+### 9.1 `guild.contract-ready`
+
+When a contract moves `active` → `ready_to_claim`, an event `guild.contract-ready` is committed atomically and projected.
 
 `GET /v1/notifications` item:
 
@@ -472,6 +499,38 @@ When a contract moves `active` → `ready_to_claim`, an event `guild.contract-re
 - `target.type` is `"guild"` and `target.contractId` identifies the contract.
 - Duplicate evaluation/retries create at most one inbox item per contract.
 - Deep-link to the Guild's accepted/ready contracts. There is no single-contract GET endpoint; resolve `contractId` from `GET /v1/guild` (`activeContracts`) or `GET /v1/guild/contracts`. If the contract is no longer `ready_to_claim`, refresh the list instead of erroring.
+
+### 9.2 `guild.contract-expiring`
+
+When an `active` contract's deadline is within the next 24 hours, the hourly sweep emits `guild.contract-expiring` at most once per contract. Contracts that are no longer `active` are never notified.
+
+`GET /v1/notifications` item:
+
+```json
+{
+  "type": "guild.contract-expiring",
+  "actors": [],
+  "preview": {
+    "text": "A Guild contract expires in less than 24 hours.",
+    "game": {
+      "id": 1029,
+      "name": "Hollow Knight",
+      "slug": "hollow-knight",
+      "coverUrl": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1.jpg"
+    }
+  },
+  "target": { "type": "guild", "contractId": "6c5b4a39-2817-4f6e-8d9c-0b1a2c3d4e5f" },
+  "eventCount": 1,
+  "actorCount": 0,
+  "lastEventAt": "2026-11-21T12:00:00.000Z",
+  "version": 1,
+  "readVersion": 0
+}
+```
+
+- `preview.game` is optional, as in `guild.contract-ready`.
+- The event payload also carries `expiresAt` (ISO-8601), but the inbox item exposes the deadline through the contract (`GET /v1/guild/contracts`), not a separate field. Resolve the contract and show its `expiresAt`; if it is no longer `active`, refresh the list.
+- The reminder fires once per contract, including after an event `endsAt` extension moves the deadline back out of the window (it will not fire a second time).
 
 ## 10. Curated events and reward catalog (admin)
 
@@ -540,6 +599,7 @@ Criteria validation (`400` with `{ message: "Invalid quest rules.", errors: stri
 
 - `translations` omitted → preserve; `[]` → clear; non-empty array → replace atomically. Duplicate locale → 400.
 - If at least one contract exists for the event, changing `objectiveType`, `criteria`, `targetCount`, `xpReward` or `rewardId` returns 409 `code: "guild_event_rules_locked"`. Changes to any other field remain allowed as long as the resulting window still satisfies `endsAt > startsAt`.
+- Changing `endsAt` also moves `expiresAt` on the event's `active` contracts to the new `endsAt`; `ready_to_claim` and terminal contracts keep their deadline. Extending a deadline does not re-send the 24h expiry reminder.
 - Duplicate slug → 409 (no code). Unknown event → 404.
 - `status` is not writable through create/update; change it only with `publish`/`archive`.
 
@@ -580,7 +640,7 @@ Criteria validation (`400` with `{ message: "Invalid quest rules.", errors: stri
 | `chestBonusXp` | integer | no | default 0, `>= 0` |
 | `isActive` | boolean | no | default true |
 
-**Update** (`PATCH`, 200) accepts any subset; the same validations run against the merged state. Unknown reward → 404. No delete endpoint: deactivate with `isActive: false`.
+**Update** (`PATCH`, 200) accepts any subset; the same validations run against the merged state. Once a reward is referenced by any contract or unlocked cosmetic, changing `key`, `kind`, or `achievementId` fails with 409 `code: "guild_reward_identity_locked"` (catalog fields `isActive`, `inChestPool`, and `chestBonusXp` remain editable). Unknown reward → 404. No delete endpoint: deactivate with `isActive: false`.
 
 **List**: `GET /v1/guild/admin/rewards` ordered by `createdAt` DESC.
 
@@ -590,16 +650,18 @@ The server does **not** localize system quest copy, Lina prose or rank titles; c
 
 ### 11.1 `templateKey`
 
-The API also returns `rank`, `xpReward`, `objectiveType`, `targetCount`, `criteria`, `reward` — always use those values for logic and numbers; this table is for rendering and metadata.
+The API also returns `rank`, `xpReward`, `objectiveType`, `targetCount`, `criteria`, `reward` and `contractDurationDays` — always use those values for logic and numbers; this table is for rendering and metadata.
 
-| `templateKey` | Category | Rank | XP | Objective | Target | `requiresTargetGame` | `isQuick` | Reward key |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `forgotten_relic` | `library` | `B` | 250 | `finish_game` | 1 | true | false | `badge_archaeologist` |
-| `deep_dive` | `library` | `C` | 200 | `finish_game` | 1 | true | false | `weekly_chest` |
-| `short_caravan` | `weekly` | `D` | 150 | `finish_game` | 1 | false | true | `weekly_chest` |
-| `weekend_sprint` | `weekly` | `D` | 140 | `finish_game` | 1 | false | true | `weekly_chest` |
-| `captains_log` | `gamenode` | `E` | 80 | `write_review` | 1 | false | true | `title_chronist` |
-| `on_duty_critic` | `gamenode` | `D` | 120 | `write_review` | 3 | false | false | `weekly_chest` |
+| `templateKey` | Category | Rank | XP | Objective | Target | `requiresTargetGame` | `isQuick` | `contractDurationDays` | Reward key |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `forgotten_relic` | `library` | `B` | 250 | `finish_game` | 1 | true | false | 21 | `badge_archaeologist` |
+| `deep_dive` | `library` | `C` | 200 | `finish_game` | 1 | true | false | 21 | `weekly_chest` |
+| `short_caravan` | `weekly` | `D` | 150 | `finish_game` | 1 | false | true | 7 | `weekly_chest` |
+| `weekend_sprint` | `weekly` | `D` | 140 | `finish_game` | 1 | false | true | 7 | `weekly_chest` |
+| `double_feature` | `weekly` | `C` | 220 | `finish_game` | 2 | false | false | 7 | `weekly_chest` |
+| `captains_log` | `gamenode` | `E` | 80 | `write_review` | 1 | false | true | 7 | `title_chronist` |
+| `on_duty_critic` | `gamenode` | `D` | 120 | `write_review` | 3 | false | false | 7 | `weekly_chest` |
+| `quick_take` | `gamenode` | `E` | 60 | `write_review` | 1 | false | true | 7 | `weekly_chest` |
 
 | `templateKey` | `en` title / description | `pt-BR` title / description |
 | --- | --- | --- |
@@ -607,8 +669,13 @@ The API also returns `rank`, `xpReward`, `objectiveType`, `targetCount`, `criter
 | `deep_dive` | Deep Dive — Finish a game you are currently playing. | Mergulho Profundo — Finalize um jogo que você está jogando. |
 | `short_caravan` | Short Caravan — Finish a game that takes 8 hours or less. | Caravana Curta — Finalize um jogo de até 8 horas. |
 | `weekend_sprint` | Weekend Sprint — Finish any game from your library this week. | Corrida de Fim de Semana — Finalize qualquer jogo da sua biblioteca nesta semana. |
+| `double_feature` | Double Feature — Finish 2 games from your library this week. | Sessão Dupla — Finalize 2 jogos da sua biblioteca nesta semana. |
 | `captains_log` | Captain's Log — Write a review for a game you finished this month. | Diário de Bordo — Escreva uma review de um jogo que você finalizou neste mês. |
 | `on_duty_critic` | On-Duty Critic — Write 3 reviews this week. | Crítico de Plantão — Escreva 3 reviews esta semana. |
+| `quick_take` | Quick Take — Write a review for any game. | Crítica Rápida — Escreva uma review de qualquer jogo. |
+
+- `double_feature` has `targetCount: 2`, so it never accepts a `targetGameId`; render it as a multi-game quest.
+- Review templates only progress on reviews of 80+ trimmed characters (section 7.6); add the minimum-length helper in the composer instead of changing the title copy.
 
 ### 11.2 Lina `trigger`
 
@@ -622,7 +689,7 @@ The API also returns `rank`, `xpReward`, `objectiveType`, `targetCount`, `criter
 | `stale_backlog_game` | `neutral` | This one has been waiting a long time… | Esse aqui espera há muito tempo… |
 | `default` | `neutral` | Welcome to the Adventurers Guild. | Bem-vindo à Guilda dos Aventureiros. |
 
-Context fields by trigger: `contract_accepted` → `contractId`, `category`, `templateKey`, `eventId`, `targetGameId`, optional `targetGameName`; `contract_claimed` → `contractId`, `xpAwarded`, `rankBefore`, `rankAfter`, `rankedUp`; `contract_ready_to_claim` → `contractId`, `category`, `templateKey`, `eventId`, `targetGameId`, optional `targetGameName`; `returning_after_inactivity` → `inactiveDays`; `weekly_board_refreshed`/`default` → `{}`; `stale_backlog_game` → `gameId`, `gameName`, `sinceYear`. Animate poses by `trigger` + `pose`; treat unknown context keys as additive.
+Context fields by trigger: `contract_accepted` → `contractId`, `category`, `templateKey`, `eventId`, `targetGameId`, optional `targetGameName`; `contract_claimed` → `contractId`, `xpAwarded` (Guild XP; the account XP is `globalXpAwarded` on the claim receipt), `rankBefore`, `rankAfter`, `rankedUp`; `contract_ready_to_claim` → `contractId`, `category`, `templateKey`, `eventId`, `targetGameId`, optional `targetGameName`; `returning_after_inactivity` → `inactiveDays`; `weekly_board_refreshed`/`default` → `{}`; `stale_backlog_game` → `gameId`, `gameName`, `sinceYear`. Animate poses by `trigger` + `pose`; treat unknown context keys as additive.
 
 ### 11.3 Rank titles (`E`–`S`)
 
@@ -646,8 +713,14 @@ Context fields by trigger: `contract_accepted` → `contractId`, `category`, `te
 | `title_guild_veteran` | `title` | Guild Veteran | Veterano da Guilda |
 | `frame_parchment_seal` | `avatar_frame` | Parchment Seal | Selo de Pergaminho |
 | `frame_lantern_glow` | `avatar_frame` | Lantern Glow | Brilho de Lanterna |
+| `title_relic_hunter` | `title` | Relic Hunter | Caçador de Relíquias |
+| `title_night_owl` | `title` | Night Owl | Coruja Noturna |
+| `title_completionist` | `title` | Completionist | Completista |
+| `frame_ember_rune` | `avatar_frame` | Ember Rune | Runa de Brasa |
+| `frame_moonlit_ivy` | `avatar_frame` | Moonlit Ivy | Hera Enluarada |
+| `frame_gilded_compass` | `avatar_frame` | Gilded Compass | Bússola Dourada |
 
-`badge_archaeologist` is linked to the platform achievement `guild-archaeologist`; `weekly_chest` has `chestBonusXp: 75`. Treat unknown keys as forward-compatible and render a generic label.
+`badge_archaeologist` is linked to the platform achievement `guild-archaeologist`; `weekly_chest` has `chestBonusXp: 75`. The last six keys are chest-pool-only (`inChestPool: true`, no template links) and need client art/strings alongside the original four pool cosmetics (`title_backlog_slayer`, `title_guild_veteran`, `frame_parchment_seal`, `frame_lantern_glow`). Treat unknown keys as forward-compatible and render a generic label.
 
 Rendering rules:
 
@@ -671,6 +744,7 @@ Rendering rules:
 | 409 | `guild_contract_not_ready` | claim | Refresh contract; it may already be claimed/abandoned |
 | 409 | `guild_contract_not_active` | abandon | Refresh contract |
 | 409 | `guild_event_rules_locked` | admin event update | Show locked-rules explanation |
+| 409 | `guild_reward_identity_locked` | admin reward update | Show locked-identity explanation; create a new reward instead |
 | 409 | — (message only) | duplicate slug/key, publish archived, other admin conflicts | Show `message` |
 
 ## 13. Out of scope for this server change

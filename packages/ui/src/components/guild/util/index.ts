@@ -7,5 +7,6 @@ export * from "./formatTimeLeft";
 export * from "./getLinaLine";
 export * from "./getQuestCopy";
 export * from "./getRankProgress";
+export * from "./getReviewPlainTextLength";
 export * from "./getRewardLabel";
 export * from "./guildErrors";

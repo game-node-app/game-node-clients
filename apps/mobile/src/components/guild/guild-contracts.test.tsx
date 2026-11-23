@@ -220,6 +220,7 @@ const CLAIM_RESULT = {
     claimedAt: new Date().toISOString(),
   },
   xpAwarded: 325,
+  globalXpAwarded: 81,
   rankBefore: "C",
   rankAfter: "B",
   unlockedRewards: [],
@@ -247,6 +248,22 @@ const CLAIM_RESULT = {
     hasUnseenBoard: false,
   },
 } as unknown as ClaimGuildContractResponseDto;
+
+/** Small claim: `floor(xpAwarded × 0.25)` is zero, so no account XP line. */
+const CLAIM_RESULT_WITHOUT_ACCOUNT_XP = {
+  ...CLAIM_RESULT,
+  xpAwarded: 25,
+  globalXpAwarded: 0,
+} as unknown as ClaimGuildContractResponseDto;
+
+/** An `active` library contract accepted 5 days ago, 20 days left to finish. */
+const ACTIVE_DEADLINE_CONTRACT = {
+  ...CONTRACT,
+  id: "contract-deadline",
+  expiresAt: new Date(
+    Date.now() + 20 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000,
+  ).toISOString(),
+} as unknown as GuildContractDto;
 
 const REWARDS = {
   unlockedRewards: [
@@ -386,7 +403,7 @@ describe("GuildAcceptedState", () => {
 });
 
 describe("GuildClaimCelebration", () => {
-  it("counts the XP up to its final value and shows rank and chest rewards", async () => {
+  it("counts the Guild XP up and shows account XP, rank and chest rewards", async () => {
     const onClose = vi.fn();
 
     renderScreen(
@@ -397,16 +414,35 @@ describe("GuildClaimCelebration", () => {
     expect(screen.getByText("Contract complete")).toBeInTheDocument();
 
     await waitFor(
-      () => expect(screen.getByText("+325 XP")).toBeInTheDocument(),
+      () => expect(screen.getByText("+325 Guild XP")).toBeInTheDocument(),
       { timeout: 3000 },
     );
 
+    expect(screen.getByText("+81 account XP")).toBeInTheDocument();
     expect(screen.getByText(/C → B/)).toBeInTheDocument();
     expect(screen.getByText("Lantern Glow")).toBeInTheDocument();
     expect(screen.getByText("Chest bonus: +75 XP")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("hides the account XP line when the claim awarded none", async () => {
+    renderScreen(
+      <GuildClaimCelebration
+        opened
+        onClose={vi.fn()}
+        result={CLAIM_RESULT_WITHOUT_ACCOUNT_XP}
+      />,
+      "en",
+    );
+
+    await waitFor(
+      () => expect(screen.getByText("+25 Guild XP")).toBeInTheDocument(),
+      { timeout: 3000 },
+    );
+
+    expect(screen.queryByText(/account XP/)).not.toBeInTheDocument();
   });
 });
 
@@ -425,6 +461,60 @@ describe("GuildContractList", () => {
 
     await waitFor(() => expect(claim).toHaveBeenCalledWith(EXPIRED_READY.id));
     expect(await screen.findByText("Contrato concluído")).toBeInTheDocument();
+  });
+
+  it("shows the deadline on active rows but never on ready-to-claim ones", async () => {
+    mockContracts([ACTIVE_DEADLINE_CONTRACT, EXPIRED_READY]);
+
+    renderScreen(<GuildContractList tab="accepted" />);
+
+    const activeRow = await waitFor(() => {
+      const row = document.querySelector<HTMLElement>(
+        '[data-contract-id="contract-deadline"]',
+      );
+      expect(row).not.toBeNull();
+      return row as HTMLElement;
+    });
+
+    expect(within(activeRow).getByText(/Expira em 20d/)).toBeInTheDocument();
+    expect(
+      within(activeRow).getByText(/Só contam jogos que você marcar como zerados/),
+    ).toBeInTheDocument();
+
+    const readyRow = document.querySelector<HTMLElement>(
+      `[data-contract-id="${EXPIRED_READY.id}"]`,
+    ) as HTMLElement;
+
+    expect(
+      within(readyRow).getByText("Pronto para entregar"),
+    ).toBeInTheDocument();
+    expect(within(readyRow).queryByText(/Expira em/)).not.toBeInTheDocument();
+    expect(
+      within(readyRow).queryByText(/Só contam jogos que você marcar como zerados/),
+    ).not.toBeInTheDocument();
+    expect(
+      within(readyRow).getByRole("button", { name: "Entregar" }),
+    ).toBeInTheDocument();
+  });
+
+  it("explains manual finishes on an active finish_game contract without progress", async () => {
+    mockContracts([CONTRACT]);
+
+    renderScreen(<GuildContractList tab="accepted" />);
+
+    const row = await waitFor(() => {
+      const element = document.querySelector<HTMLElement>(
+        `[data-contract-id="${CONTRACT.id}"]`,
+      );
+      expect(element).not.toBeNull();
+      return element as HTMLElement;
+    });
+
+    expect(
+      within(row).getByText(
+        "Só contam jogos que você marcar como zerados depois de aceitar. Importações e jogos zerados de novo não contam.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("asks for confirmation before abandoning an active contract", async () => {

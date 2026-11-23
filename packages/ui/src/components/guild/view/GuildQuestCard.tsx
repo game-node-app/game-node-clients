@@ -100,6 +100,19 @@ export function GuildQuestCard({
           ? t("guild.board.tags.gamenode")
           : t("guild.board.tags.library");
 
+  // A board quest's `expiresAt` is only the accept deadline; the contract
+  // duration comes from `contractDurationDays` (D10). Events end at `endsAt`.
+  const contractDurationLabel =
+    quest.category !== "event" && quest.contractDurationDays != null
+      ? t("guild.board.duration", { count: quest.contractDurationDays })
+      : null;
+  const ruleCaption =
+    quest.objectiveType === "write_review"
+      ? t("guild.board.rules.review")
+      : quest.objectiveType === "finish_game"
+        ? t("guild.board.rules.finish")
+        : null;
+
   return (
     <article
       className={cn(
@@ -143,6 +156,21 @@ export function GuildQuestCard({
         <p className={cn(styles.bodyText, styles.questDescription)}>
           {copy.description}
         </p>
+      ) : null}
+
+      {contractDurationLabel || ruleCaption ? (
+        <div>
+          {contractDurationLabel ? (
+            <p className={cn(styles.captionText, styles.questDescription)}>
+              {contractDurationLabel}
+            </p>
+          ) : null}
+          {ruleCaption ? (
+            <p className={cn(styles.captionText, styles.questDescription)}>
+              {ruleCaption}
+            </p>
+          ) : null}
+        </div>
       ) : null}
 
       {quest.candidateGames.length > 0 ? (

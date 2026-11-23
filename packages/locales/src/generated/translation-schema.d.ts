@@ -1868,6 +1868,12 @@ export type TranslationSchema = {
       quickEmpty: string;
       recommended: string;
       xpReward: string;
+      duration_one: string;
+      duration_other: string;
+      rules: {
+        review: string;
+        finish: string;
+      };
       tags: {
         library: string;
         event: string;
@@ -1892,6 +1898,7 @@ export type TranslationSchema = {
     contracts: {
       emptyAccepted: string;
       emptyCompleted: string;
+      deadline: string;
       status: {
         active: string;
         readyToClaim: string;
@@ -1905,6 +1912,11 @@ export type TranslationSchema = {
         confirm: string;
         cancel: string;
       };
+    };
+    reviewHint: {
+      counter: string;
+      short: string;
+      ok: string;
     };
     targetGame: {
       title: string;
@@ -1927,6 +1939,7 @@ export type TranslationSchema = {
     claim: {
       title: string;
       xp: string;
+      accountXp: string;
       rankChange: string;
       newRewards: string;
       chestBonus: string;
@@ -1959,6 +1972,12 @@ export type TranslationSchema = {
       title_guild_veteran: string;
       frame_parchment_seal: string;
       frame_lantern_glow: string;
+      title_relic_hunter: string;
+      title_night_owl: string;
+      title_completionist: string;
+      frame_ember_rune: string;
+      frame_moonlit_ivy: string;
+      frame_gilded_compass: string;
     };
     rank: {
       E: string;
@@ -1985,11 +2004,19 @@ export type TranslationSchema = {
         title: string;
         description: string;
       };
+      double_feature: {
+        title: string;
+        description: string;
+      };
       captains_log: {
         title: string;
         description: string;
       };
       on_duty_critic: {
+        title: string;
+        description: string;
+      };
+      quick_take: {
         title: string;
         description: string;
       };
@@ -2757,6 +2784,8 @@ export type TranslationSchema = {
       title: string;
       contractReady: string;
       contractReadyGame: string;
+      contractExpiring: string;
+      contractExpiringGame: string;
     };
     recap: {
       title: string;

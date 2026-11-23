@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import { MantineProvider } from "@mantine/core";
+import { I18nProvider } from "@repo/locales";
+import type { GuildLicenseDto } from "@repo/wrapper/server";
 import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -18,9 +20,18 @@ import {
   type PixelButtonVariant,
 } from "../../../../../packages/ui/src/components/guild/scene/PixelButton";
 import { RankStamp } from "../../../../../packages/ui/src/components/guild/scene/RankStamp";
+import { GuildLicenseCard } from "../../../../../packages/ui/src/components/guild/view/GuildLicenseCard";
 
 function renderWithProvider(ui: ReactElement) {
   return render(<MantineProvider>{ui}</MantineProvider>);
+}
+
+function renderWithI18n(ui: ReactElement) {
+  return render(
+    <I18nProvider language="en">
+      <MantineProvider>{ui}</MantineProvider>
+    </I18nProvider>,
+  );
 }
 
 beforeEach(() => {
@@ -230,5 +241,67 @@ describe("GameChip", () => {
     expect(container.querySelector("img")).toBeNull();
     expect(container.querySelector("[data-empty-cover]")).toBeInTheDocument();
     expect(screen.getByText("Celeste")).toBeInTheDocument();
+  });
+});
+
+describe("GuildLicenseCard frames", () => {
+  const LICENSE: GuildLicenseDto = {
+    licenseNumber: 47,
+    rank: "C" as GuildLicenseDto["rank"],
+    xp: 1240,
+    currentRankMinXp: 800,
+    nextRank: "B" as GuildLicenseDto["nextRank"],
+    nextRankXp: 2000,
+    xpToNextRank: 760,
+    memberSince: "2024-05-01T00:00:00.000Z",
+    equippedTitleKey: null,
+    equippedFrameKey: null,
+    stats: { finishedGames: 12, backlogGames: 30, reviewsCount: 4 },
+  };
+
+  /** The five `avatar_frame` starter keys of hand-off table 11.4. */
+  const FRAME_CLASSES = [
+    ["frame_parchment_seal", guildClasses.licenseFrameParchment],
+    ["frame_lantern_glow", guildClasses.licenseFrameLantern],
+    ["frame_ember_rune", guildClasses.licenseFrameEmber],
+    ["frame_moonlit_ivy", guildClasses.licenseFrameIvy],
+    ["frame_gilded_compass", guildClasses.licenseFrameGilded],
+  ] as const;
+
+  function renderFrame(frameKey: string | null): HTMLElement | null {
+    const { container } = renderWithI18n(
+      <GuildLicenseCard license={{ ...LICENSE, equippedFrameKey: frameKey }} />,
+    );
+
+    return container.querySelector<HTMLElement>("[data-frame]");
+  }
+
+  it.each(FRAME_CLASSES)(
+    "gives %s its own frame class",
+    (frameKey, frameClass) => {
+      const frame = renderFrame(frameKey);
+
+      expect(frame).toHaveAttribute("data-frame", frameKey);
+      expect(frame?.className).toContain(guildClasses.licenseFrame);
+      expect(frame?.className).toContain(frameClass);
+    },
+  );
+
+  it("renders each starter frame with a distinct class", () => {
+    const renderedClasses = FRAME_CLASSES.map(
+      ([frameKey]) => renderFrame(frameKey)?.className ?? "",
+    );
+
+    expect(new Set(renderedClasses).size).toBe(FRAME_CLASSES.length);
+    expect(
+      new Set(FRAME_CLASSES.map(([, frameClass]) => frameClass)).size,
+    ).toBe(FRAME_CLASSES.length);
+  });
+
+  it("keeps the generic frame for an unknown key", () => {
+    const frame = renderFrame("frame_from_the_future");
+
+    expect(frame).toHaveAttribute("data-frame", "frame_from_the_future");
+    expect(frame?.className).toContain(guildClasses.licenseFrameGeneric);
   });
 });

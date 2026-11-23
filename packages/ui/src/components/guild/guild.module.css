@@ -17,6 +17,15 @@
   --guild-ink: #2b1a10;
   --guild-stamp: #c7362a;
   --guild-gold: #ffcc4d;
+  /* Chest-pool cosmetic frame hues (hand-off table 11.4, design D10). */
+  --guild-ember: #ff7a36;
+  --guild-ember-glow: color-mix(in srgb, var(--guild-ember) 55%, transparent);
+  --guild-moon-silver: #dce7de;
+  --guild-ivy: #a9d8b2;
+  --guild-ivy-glow: color-mix(in srgb, var(--guild-moon-silver) 60%, transparent);
+  --guild-gilded: #e8b84a;
+  --guild-gilded-deep: #8a5e1f;
+  --guild-gilded-glow: color-mix(in srgb, var(--guild-gilded) 55%, transparent);
   --guild-dialog-bg: #0d0a09;
   --guild-dialog-border: #e8d7a8;
   --guild-dialog-text: #f4ead2;
@@ -257,14 +266,25 @@
 }
 
 .pixelButton.pixelButtonGhostDark {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   background: transparent;
   border: 1px solid var(--gn-line-strong);
 }
 
 .pixelButton.pixelButtonGhostDark:hover:not(:disabled) {
   color: var(--gn-text);
-  border-color: var(--gn-text-muted);
+  border-color: var(--gn-text-subtle);
+}
+
+/* On the dialogue panel (fixed dark in every theme) the ghost uses the panel's own ink. */
+.linaDialogue .pixelButton.pixelButtonGhostDark {
+  color: var(--guild-dialog-dim);
+  border-color: var(--guild-dialog-dim);
+}
+
+.linaDialogue .pixelButton.pixelButtonGhostDark:hover:not(:disabled) {
+  color: var(--guild-dialog-text);
+  border-color: var(--guild-dialog-text);
 }
 
 .pixelButton.pixelButtonGhostDark:active:not(:disabled) {
@@ -878,7 +898,7 @@
 
 .headerSubtitle {
   margin: 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .headerRight {
@@ -940,7 +960,7 @@
 
 .xpValue {
   flex: none;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   white-space: nowrap;
 }
 
@@ -1011,11 +1031,11 @@
 }
 
 .licenseOverline {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .licenseNumber {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   white-space: nowrap;
 }
 
@@ -1060,6 +1080,29 @@
   box-shadow: inset 0 0 10px var(--guild-gold);
 }
 
+.licenseFrameEmber {
+  border: 2px solid var(--guild-ember);
+  box-shadow: inset 0 0 10px var(--guild-ember-glow);
+}
+
+.licenseFrameIvy {
+  border: 2px solid var(--guild-ivy);
+  box-shadow: inset 0 0 10px var(--guild-ivy-glow);
+}
+
+.licenseFrameGilded {
+  border: 2px solid var(--guild-gilded);
+  box-shadow:
+    inset 0 0 0 2px var(--guild-gilded-deep),
+    inset 0 0 10px var(--guild-gilded-glow);
+}
+
+/* The license card is a theme surface: its stamp uses the theme's readable red. */
+.licenseRankStamp {
+  color: var(--gn-status-danger-text);
+  border-color: var(--gn-status-danger-text);
+}
+
 .licenseNameBlock {
   display: flex;
   flex: 1;
@@ -1076,7 +1119,7 @@
 }
 
 .licenseMember {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .licenseStats {
@@ -1099,7 +1142,7 @@
 }
 
 .licenseStatLabel {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .licenseNextRow {
@@ -1111,7 +1154,7 @@
 }
 
 .licenseNext {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .licenseXpLeft {
@@ -1134,7 +1177,7 @@
 }
 
 .contractsTitle {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   white-space: nowrap;
 }
 
@@ -1146,7 +1189,7 @@
 
 .contractsEmpty {
   margin: 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .contractRow {
@@ -1180,12 +1223,12 @@
 
 .contractValue {
   flex: none;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   white-space: nowrap;
 }
 
 .contractCaption {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .contractBar {
@@ -1242,7 +1285,7 @@
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   font: inherit;
   font-size: 13px;
   line-height: 19px;
@@ -1294,7 +1337,7 @@
   gap: 6px;
   margin-left: auto;
   padding-bottom: 10px;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   white-space: nowrap;
 }
 
@@ -1356,7 +1399,7 @@
   padding: 32px 16px;
   border: 1px dashed var(--gn-line-strong);
   border-radius: 8px;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   text-align: center;
 }
 
@@ -1493,7 +1536,7 @@
 
 .targetBody {
   margin: 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .targetOptions {
@@ -1619,7 +1662,7 @@
 .hallMessage {
   margin: 0;
   padding: 48px 24px;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   text-align: center;
 }
 
@@ -2469,7 +2512,7 @@
 .contractListEmpty {
   margin: 0;
   padding: 24px 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   text-align: center;
 }
 
@@ -2516,7 +2559,7 @@
 }
 
 .contractListItemTime {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   font-size: 12px;
   line-height: 16px;
 }
@@ -2526,6 +2569,10 @@
   flex-wrap: wrap;
   gap: 6px;
   margin-left: auto;
+}
+
+.subtleText {
+  color: var(--gn-text-subtle);
 }
 
 .contractStatus {
@@ -2539,7 +2586,7 @@
 }
 
 .contractStatusActive {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   background: var(--gn-paper-2);
 }
 
@@ -2549,12 +2596,12 @@
 }
 
 .contractStatusCompleted {
-  color: var(--gn-state-played);
+  color: var(--gn-status-success-text);
   background: var(--gn-state-played-tint);
 }
 
 .contractStatusMuted {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   background: var(--gn-paper-2);
 }
 
@@ -2606,7 +2653,7 @@
 .contractProgressCaption {
   min-width: 0;
   overflow: hidden;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   font-size: 12px;
   line-height: 16px;
   text-overflow: ellipsis;
@@ -2677,7 +2724,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--guild-gold);
+  color: var(--gn-status-warning-text);
   font-size: 34px;
   font-weight: 700;
   line-height: 40px;
@@ -2685,9 +2732,9 @@
 
 .claimRank {
   padding: 4px 14px;
-  color: var(--guild-stamp);
+  color: var(--gn-status-danger-text);
   background: transparent;
-  border: 3px solid var(--guild-stamp);
+  border: 3px solid var(--gn-status-danger-text);
   border-radius: 4px;
   font-size: 18px;
   line-height: 22px;
@@ -2702,7 +2749,7 @@
 }
 
 .claimSectionTitle {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .claimRewards {
@@ -2741,14 +2788,14 @@
 
 .claimRewardKind {
   flex: none;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .claimChest {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--guild-gold);
+  color: var(--gn-status-warning-text);
 }
 
 .claimActions {
@@ -2772,7 +2819,7 @@
 }
 
 .rewardsPanelTitle {
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .rewardsPanelLine {
@@ -2789,7 +2836,7 @@
 
 .rewardsSectionTitle {
   margin: 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
   text-transform: uppercase;
   letter-spacing: 0.96px;
 }
@@ -2805,7 +2852,7 @@
 
 .rewardsEmpty {
   margin: 0;
-  color: var(--gn-text-muted);
+  color: var(--gn-text-subtle);
 }
 
 .rewardRow {

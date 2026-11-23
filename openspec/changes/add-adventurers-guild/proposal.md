@@ -21,7 +21,8 @@ The server now exposes the Adventurers Guild (server PR #270, change `add-advent
 - All Lina and scene animations from the Figma animation table (breathing, braids, blink, talk, typewriter, `!` bob, lantern flicker, `▼` blink, cards entering, stamp), with a `prefers-reduced-motion` fallback.
 - Early-access gate driven by `GET /v1/guild/access`: guests see a sign-in CTA, signed-in users without access see a supporter early-access CTA, and any `403 guild_early_access_required` switches to that CTA.
 - Navigation entries for the Guild in the web dock and the mobile sidebar, marked as early access.
-- `guild.contract-ready` notifications rendered in the inbox and deep-linking to the Guild's accepted contracts.
+- `guild.contract-ready` and `guild.contract-expiring` notifications rendered in the inbox and deep-linking to the Guild's accepted contracts.
+- Contract deadlines from the contract itself (`contractDurationDays` on quests), Guild XP vs. account XP (`globalXpAwarded`) on claims, progress-rule copy (manual finishes only, 80-character reviews) and a review-length hint in the review composers while a review contract is active.
 - Pixelify Sans and Silkscreen fonts (SIL OFL) self-hosted in each app; pixel-art SVG assets exported from Figma.
 - English and Brazilian Portuguese copy for every Guild string, template key, Lina trigger, rank title and starter cosmetic key.
 
@@ -35,7 +36,7 @@ Out of scope: the admin UI for curated events and the reward catalog (`/v1/guild
 - `guild-receptionist`: Lina, the receptionist NPC: trigger-driven dialogue, poses, the hall scene and every animation, including reduced motion.
 
 ### Modified Capabilities
-- `notification-inbox`: adds rendering and navigation for `guild.contract-ready` items.
+- `notification-inbox`: adds rendering and navigation for `guild.contract-ready` and `guild.contract-expiring` items.
 
 ## Impact
 

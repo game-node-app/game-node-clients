@@ -113,6 +113,9 @@ export function GuildClaimCelebration({
   const rewards = collectRewards(result);
   const rankedUp = String(result.rankBefore) !== String(result.rankAfter);
   const chest = result.chestResult;
+  // `globalXpAwarded` is account XP, separate from the Guild XP counter. The
+  // line is hidden at 0 (small claims), per spec guild-hall.
+  const accountXp = result.globalXpAwarded ?? 0;
   const translate = t as unknown as (
     key: string,
     options?: Record<string, unknown>,
@@ -141,6 +144,17 @@ export function GuildClaimCelebration({
           key={`${result.contract.id}-${result.xpAwarded}`}
           xpAwarded={result.xpAwarded}
         />
+
+        {accountXp > 0 ? (
+          <span
+            className={cn(styles.bodyMedium, "text-muted")}
+            data-claim-account-xp
+          >
+            {t("guild.claim.accountXp", {
+              xp: formatGuildXp(accountXp, locale),
+            })}
+          </span>
+        ) : null}
 
         {rankedUp ? (
           <span

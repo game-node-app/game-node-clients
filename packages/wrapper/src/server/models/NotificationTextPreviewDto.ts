@@ -20,7 +20,7 @@ export type NotificationTextPreviewDto = {
      */
     milestone?: string;
     /**
-     * Game context, for guild.contract-ready
+     * Game context, for guild.contract-ready and guild.contract-expiring
      */
     game?: NotificationGameContextDto;
 };

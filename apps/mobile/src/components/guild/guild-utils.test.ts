@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { TFunction } from "i18next";
 import { ApiError } from "@repo/wrapper/server";
-import type { GuildLicenseDto } from "@repo/wrapper/server";
+import type {
+  GuildLicenseDto,
+  GuildRewardDescriptorDto,
+} from "@repo/wrapper/server";
+import enTranslations from "../../../../../packages/locales/src/translations/json/en.json";
+import ptBRTranslations from "../../../../../packages/locales/src/translations/json/pt-BR.json";
 import {
   formatLicenseNumber,
   formatTimeLeft,
@@ -25,6 +30,30 @@ function createTranslator(messages: Record<string, string>): TFunction {
         if (!options || !(name in options)) return match;
         return String(options[name]);
       },
+    );
+  };
+
+  return translate as unknown as TFunction;
+}
+
+/** Translator backed by a real locale JSON, so the label tests read the shipped copy. */
+function createJsonTranslator(dictionary: unknown): TFunction {
+  const translate = (key: string, options?: Record<string, unknown>) => {
+    let value: unknown = dictionary;
+
+    for (const part of key.split(".")) {
+      value =
+        typeof value === "object" && value !== null
+          ? (value as Record<string, unknown>)[part]
+          : undefined;
+    }
+
+    if (typeof value !== "string") return key;
+
+    return value.replace(
+      /\{\{\s*(\w+)\s*\}\}/g,
+      (match: string, name: string) =>
+        options && name in options ? String(options[name]) : match,
     );
   };
 
@@ -252,6 +281,149 @@ describe("getRewardLabel", () => {
 
   it("returns an empty label without a reward", () => {
     expect(getRewardLabel(null, templates)).toBe("");
+  });
+});
+
+describe("getRewardLabel for the hand-off table 11.4", () => {
+  const en = createJsonTranslator(enTranslations);
+  const ptBR = createJsonTranslator(ptBRTranslations);
+
+  type RewardKind = `${GuildRewardDescriptorDto.kind}`;
+
+  const starterRewards: Array<{
+    key: string;
+    kind: RewardKind;
+    en: string;
+    ptBR: string;
+  }> = [
+    {
+      key: "badge_archaeologist",
+      kind: "badge",
+      en: "Archaeologist",
+      ptBR: "Arqueólogo",
+    },
+    {
+      key: "title_chronist",
+      kind: "title",
+      en: "Chronicler",
+      ptBR: "Cronista",
+    },
+    {
+      key: "weekly_chest",
+      kind: "weekly_chest",
+      en: "Weekly Chest",
+      ptBR: "Baú Semanal",
+    },
+    {
+      key: "title_backlog_slayer",
+      kind: "title",
+      en: "Backlog Slayer",
+      ptBR: "Caçador de Backlog",
+    },
+    {
+      key: "title_guild_veteran",
+      kind: "title",
+      en: "Guild Veteran",
+      ptBR: "Veterano da Guilda",
+    },
+    {
+      key: "frame_parchment_seal",
+      kind: "avatar_frame",
+      en: "Parchment Seal",
+      ptBR: "Selo de Pergaminho",
+    },
+    {
+      key: "frame_lantern_glow",
+      kind: "avatar_frame",
+      en: "Lantern Glow",
+      ptBR: "Brilho de Lanterna",
+    },
+    {
+      key: "title_relic_hunter",
+      kind: "title",
+      en: "Relic Hunter",
+      ptBR: "Caçador de Relíquias",
+    },
+    {
+      key: "title_night_owl",
+      kind: "title",
+      en: "Night Owl",
+      ptBR: "Coruja Noturna",
+    },
+    {
+      key: "title_completionist",
+      kind: "title",
+      en: "Completionist",
+      ptBR: "Completista",
+    },
+    {
+      key: "frame_ember_rune",
+      kind: "avatar_frame",
+      en: "Ember Rune",
+      ptBR: "Runa de Brasa",
+    },
+    {
+      key: "frame_moonlit_ivy",
+      kind: "avatar_frame",
+      en: "Moonlit Ivy",
+      ptBR: "Hera Enluarada",
+    },
+    {
+      key: "frame_gilded_compass",
+      kind: "avatar_frame",
+      en: "Gilded Compass",
+      ptBR: "Bússola Dourada",
+    },
+  ];
+
+  const genericLabels: Record<string, string> = {
+    badge: "Badge",
+    title: "Guild title",
+    avatar_frame: "Avatar frame",
+    weekly_chest: "Weekly chest",
+  };
+
+  function reward(key: string, kind: RewardKind): GuildRewardDescriptorDto {
+    return {
+      id: `reward-${key}`,
+      key,
+      kind: kind as GuildRewardDescriptorDto.kind,
+      achievementId: null,
+      inChestPool: true,
+      chestBonusXp: 0,
+    };
+  }
+
+  it("covers every starter key of table 11.4", () => {
+    expect(starterRewards).toHaveLength(13);
+  });
+
+  it("resolves every starter key to its own en label", () => {
+    for (const entry of starterRewards) {
+      const label = getRewardLabel(reward(entry.key, entry.kind), en);
+
+      expect(label, entry.key).toBe(entry.en);
+      expect(label, entry.key).not.toBe(entry.key);
+      expect(label, entry.key).not.toBe(genericLabels[entry.kind]);
+    }
+  });
+
+  it("spot-checks the chest-pool cosmetics in pt-BR", () => {
+    for (const key of [
+      "title_relic_hunter",
+      "title_night_owl",
+      "title_completionist",
+      "frame_ember_rune",
+      "frame_moonlit_ivy",
+      "frame_gilded_compass",
+    ]) {
+      const entry = starterRewards.find((reward) => reward.key === key);
+      if (!entry) throw new Error(`missing starter reward ${key}`);
+
+      expect(getRewardLabel(reward(entry.key, entry.kind), ptBR), key).toBe(
+        entry.ptBR,
+      );
+    }
   });
 });
 

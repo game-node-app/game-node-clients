@@ -30,6 +30,10 @@ export type GuildBoardQuestDto = {
     reward: GuildRewardDescriptorDto | null;
     isRecommended: boolean;
     isQuick: boolean;
+    /**
+     * Days an accepted contract stays open; null for event quests
+     */
+    contractDurationDays: number | null;
     expiresAt: string;
 };
 export namespace GuildBoardQuestDto {

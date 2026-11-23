@@ -19,6 +19,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { GuildReviewLengthHint } from "#@/components/guild/view/GuildReviewLengthHint";
+import { getReviewPlainTextLength } from "#@/components/guild/util/getReviewPlainTextLength";
 
 const ReviewFormSchema = z.object({
   rating: z.number().min(0).max(5),
@@ -38,6 +40,7 @@ const GameInfoReviewEditorView = ({
   const editReviewId = useRouter().query.get("editReviewId");
   const [isEditMode, setIsEditMode] = useState<boolean>(true);
   const hasSetEditMode = useRef<boolean>(false);
+  const [editorContentLength, setEditorContentLength] = useState<number>();
 
   const { watch, handleSubmit, formState, setValue } =
     useForm<TReviewFormValues>({
@@ -85,6 +88,10 @@ const GameInfoReviewEditorView = ({
   });
 
   const rating = watch("rating");
+  const content = watch("content");
+  const reviewLength =
+    editorContentLength ??
+    getReviewPlainTextLength(content ?? reviewQuery.data?.content);
   const error = formState.errors.content || formState.errors.rating;
 
   const ownReviewId = reviewQuery.data?.id;
@@ -128,7 +135,11 @@ const GameInfoReviewEditorView = ({
           onBlur={(html) => {
             setValue("content", html);
           }}
+          onUpdate={(html) =>
+            setEditorContentLength(getReviewPlainTextLength(html))
+          }
         />
+        <GuildReviewLengthHint length={reviewLength} />
         <Break />
         <Group mt={"md"} justify={"space-between"}>
           <Text

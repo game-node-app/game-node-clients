@@ -471,6 +471,18 @@ export function getNotificationContent(
       };
     }
 
+    case "guild.contract-expiring": {
+      const game = textPreview?.game;
+
+      return {
+        name: t("notifications.guild.title"),
+        message: game?.name
+          ? t("notifications.guild.contractExpiringGame", { game: game.name })
+          : t("notifications.guild.contractExpiring"),
+        leading: getGuildLeading(game),
+      };
+    }
+
     case "moderation.applied": {
       const action = textPreview?.action;
       const name =

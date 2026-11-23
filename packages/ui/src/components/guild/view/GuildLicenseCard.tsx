@@ -23,6 +23,9 @@ function getFrameClass(key: string | null): string | undefined {
   if (!key) return undefined;
   if (key === "frame_lantern_glow") return styles.licenseFrameLantern;
   if (key === "frame_parchment_seal") return styles.licenseFrameParchment;
+  if (key === "frame_ember_rune") return styles.licenseFrameEmber;
+  if (key === "frame_moonlit_ivy") return styles.licenseFrameIvy;
+  if (key === "frame_gilded_compass") return styles.licenseFrameGilded;
   return styles.licenseFrameGeneric;
 }
 
@@ -98,7 +101,11 @@ export function GuildLicenseCard({
             </span>
           ) : null}
         </div>
-        <RankStamp rank={license.rank} size={52} />
+        <RankStamp
+          rank={license.rank}
+          size={52}
+          className={styles.licenseRankStamp}
+        />
       </div>
 
       <div className={styles.licenseStats}>

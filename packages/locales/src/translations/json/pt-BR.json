@@ -1864,6 +1864,12 @@
       "quickEmpty": "Nenhum pedido rápido agora. Dê uma olhada no quadro completo.",
       "recommended": "★ Lina recomenda",
       "xpReward": "+{{xp}} XP",
+      "duration_one": "{{count}} dia para concluir depois de aceitar",
+      "duration_other": "{{count}} dias para concluir depois de aceitar",
+      "rules": {
+        "review": "Só contam reviews com pelo menos 80 caracteres.",
+        "finish": "Só contam jogos que você marcar como zerados depois de aceitar. Importações e jogos zerados de novo não contam."
+      },
       "tags": {
         "library": "Da sua biblioteca",
         "event": "Evento curado · {{days}} dias",
@@ -1888,6 +1894,7 @@
     "contracts": {
       "emptyAccepted": "Nenhum contrato aceito ainda. Escolha um pedido no quadro!",
       "emptyCompleted": "Nenhum contrato concluído ainda. Quando você entregar o primeiro, ele aparece aqui.",
+      "deadline": "Expira em {{time}}",
       "status": {
         "active": "Ativo",
         "readyToClaim": "Pronto para entregar",
@@ -1901,6 +1908,11 @@
         "confirm": "Abandonar",
         "cancel": "Cancelar"
       }
+    },
+    "reviewHint": {
+      "counter": "{{count}}/80",
+      "short": "Reviews com menos de 80 caracteres ainda não contam para o seu contrato da Guilda.",
+      "ok": "Esta review conta para o seu contrato da Guilda."
     },
     "targetGame": {
       "title": "Qual jogo vai cumprir este pedido?",
@@ -1922,7 +1934,8 @@
     },
     "claim": {
       "title": "Contrato concluído",
-      "xp": "+{{xp}} XP",
+      "xp": "+{{xp}} XP da Guilda",
+      "accountXp": "+{{xp}} XP da conta",
       "rankChange": "Rank {{from}} → {{to}}",
       "newRewards": "Novas recompensas",
       "chestBonus": "Bônus do baú: +{{xp}} XP",
@@ -1954,7 +1967,13 @@
       "title_backlog_slayer": "Caçador de Backlog",
       "title_guild_veteran": "Veterano da Guilda",
       "frame_parchment_seal": "Selo de Pergaminho",
-      "frame_lantern_glow": "Brilho de Lanterna"
+      "frame_lantern_glow": "Brilho de Lanterna",
+      "title_relic_hunter": "Caçador de Relíquias",
+      "title_night_owl": "Coruja Noturna",
+      "title_completionist": "Completista",
+      "frame_ember_rune": "Runa de Brasa",
+      "frame_moonlit_ivy": "Hera Enluarada",
+      "frame_gilded_compass": "Bússola Dourada"
     },
     "rank": {
       "E": "Novato",
@@ -1981,6 +2000,10 @@
         "title": "Corrida de Fim de Semana",
         "description": "Zere qualquer jogo da sua biblioteca nesta semana."
       },
+      "double_feature": {
+        "title": "Sessão Dupla",
+        "description": "Zere 2 jogos da sua biblioteca nesta semana."
+      },
       "captains_log": {
         "title": "Diário de Bordo",
         "description": "Escreva uma review de um jogo que você zerou este mês. Os outros aventureiros agradecem!"
@@ -1988,6 +2011,10 @@
       "on_duty_critic": {
         "title": "Crítico de Plantão",
         "description": "Escreva 3 reviews esta semana."
+      },
+      "quick_take": {
+        "title": "Crítica Rápida",
+        "description": "Escreva uma review de qualquer jogo."
       }
     },
     "lina": {
@@ -2752,7 +2779,9 @@
     "guild": {
       "title": "Guilda dos Aventureiros",
       "contractReady": "Seu contrato da Guilda está pronto para entregar.",
-      "contractReadyGame": "Seu contrato da Guilda para {{game}} está pronto para entregar."
+      "contractReadyGame": "Seu contrato da Guilda para {{game}} está pronto para entregar.",
+      "contractExpiring": "Seu contrato da Guilda expira em menos de 24 horas.",
+      "contractExpiringGame": "Seu contrato da Guilda para {{game}} expira em menos de 24 horas."
     },
     "recap": {
       "title": "Retrospectiva",

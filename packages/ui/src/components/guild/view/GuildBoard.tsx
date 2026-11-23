@@ -59,11 +59,18 @@ export function GuildBoard({
     useState<AcceptGuildContractResponseDto | null>(null);
 
   const submitAccept = (quest: GuildBoardQuestDto, targetGameId?: number) => {
+    // Multi-game quests (`targetCount > 1`, e.g. `double_feature`) can never be
+    // bound to a single target game, even if the caller passes one.
+    const targetGameIdForBody =
+      quest.targetCount > 1 ? undefined : targetGameId;
+
     accept.mutate(
       {
         ...(quest.boardEntryId ? { boardEntryId: quest.boardEntryId } : {}),
         ...(quest.eventId ? { eventId: quest.eventId } : {}),
-        ...(targetGameId !== undefined ? { targetGameId } : {}),
+        ...(targetGameIdForBody !== undefined
+          ? { targetGameId: targetGameIdForBody }
+          : {}),
       },
       {
         onSuccess: (response) => {
@@ -75,7 +82,11 @@ export function GuildBoard({
   };
 
   const handleAccept = (quest: GuildBoardQuestDto) => {
-    if (quest.requiresTargetGame && quest.candidateGames.length > 0) {
+    if (
+      quest.requiresTargetGame &&
+      quest.targetCount <= 1 &&
+      quest.candidateGames.length > 0
+    ) {
       setPickerQuest(quest);
       return;
     }
@@ -117,7 +128,7 @@ export function GuildBoard({
       ) : null}
 
       {board.isPending && !board.data ? (
-        <div className={styles.board} aria-busy="true">
+        <div className={styles.board} aria-busy="true" data-gn-artwork="">
           <span className={cn(styles.skeletonBlock, styles.skeletonCard)} />
           <span className={cn(styles.skeletonBlock, styles.skeletonCard)} />
         </div>
@@ -130,7 +141,7 @@ export function GuildBoard({
           {quick ? t("guild.board.quickEmpty") : t("guild.board.empty")}
         </p>
       ) : (
-        <div className={styles.board} key={renderKey}>
+        <div className={styles.board} key={renderKey} data-gn-artwork="">
           {quests.map((quest, index) => (
             <div key={getGuildQuestKey(quest)} className={styles.boardCardWrap}>
               <GuildQuestCard

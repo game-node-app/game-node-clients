@@ -156,3 +156,60 @@ describe("guild.contract-ready navigation", () => {
     expect(router.push).toHaveBeenCalledWith("/guild?tab=accepted");
   });
 });
+
+describe("guild.contract-expiring content", () => {
+  it("uses the target game cover and name when preview.game is present", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "guild.contract-expiring",
+        preview: {
+          text: "A Guild contract expires in less than 24 hours.",
+          game: hollowKnight,
+        },
+        target: guildTarget,
+      }),
+      en,
+    );
+
+    expect(result.name).toBe("Adventurers Guild");
+    expect(result.message).toBe(
+      "Your Guild contract for Hollow Knight expires in less than 24 hours.",
+    );
+    expect(result.leading).toEqual({
+      kind: "cover",
+      url: "https://images.igdb.com/igdb/image/upload/t_cover_small/co1.jpg",
+      alt: "Hollow Knight",
+      avatar: null,
+    });
+  });
+
+  it("falls back to the Guild shield and generic copy without preview.game", () => {
+    const result = getNotificationContent(
+      makeItem({
+        type: "guild.contract-expiring",
+        preview: {
+          text: "A Guild contract expires in less than 24 hours.",
+        },
+        target: guildTarget,
+      }),
+      en,
+    );
+
+    expect(result.name).toBe("Adventurers Guild");
+    expect(result.message).toBe(
+      "Your Guild contract expires in less than 24 hours.",
+    );
+    expect(result.leading).toEqual({ kind: "icon", icon: "guild" });
+  });
+});
+
+describe("guild.contract-expiring navigation", () => {
+  it("opens the accepted contracts tab of the Guild", async () => {
+    const router = { push: vi.fn().mockResolvedValue(undefined) };
+
+    await navigateToNotificationTarget(guildTarget, router, "user-1");
+
+    expect(router.push).toHaveBeenCalledTimes(1);
+    expect(router.push).toHaveBeenCalledWith("/guild?tab=accepted");
+  });
+});

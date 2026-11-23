@@ -347,7 +347,54 @@ const RECOMMENDED_QUEST = {
   },
   isRecommended: true,
   isQuick: false,
+  contractDurationDays: 21,
   expiresAt: "2026-11-23T03:00:00.000Z",
+} as unknown as GuildBoardQuestDto;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function daysFromNow(days: number): string {
+  return new Date(Date.now() + days * DAY_MS).toISOString();
+}
+
+// `expiresAt` is only the accept deadline (2 days); the contract lasts 21.
+const DURATION_QUEST = {
+  ...RECOMMENDED_QUEST,
+  isRecommended: false,
+  expiresAt: daysFromNow(2),
+} as GuildBoardQuestDto;
+
+// Weekly multi-game quest: `targetCount: 2` and no target to pick.
+const DOUBLE_FEATURE_QUEST = {
+  sourceType: "board_entry",
+  boardEntryId: "board-2",
+  eventId: null,
+  slug: null,
+  category: "weekly",
+  templateKey: "double_feature",
+  title: null,
+  description: null,
+  translations: [],
+  rank: "C",
+  xpReward: 220,
+  objectiveType: "finish_game",
+  targetCount: 2,
+  criteria: {},
+  candidateGames: [],
+  meta: null,
+  requiresTargetGame: false,
+  reward: {
+    id: "reward-2",
+    key: "weekly_chest",
+    kind: "weekly_chest",
+    achievementId: null,
+    inChestPool: true,
+    chestBonusXp: 0,
+  },
+  isRecommended: false,
+  isQuick: false,
+  contractDurationDays: 7,
+  expiresAt: daysFromNow(3),
 } as unknown as GuildBoardQuestDto;
 
 const BOARD = {
@@ -783,6 +830,51 @@ describe("Guild Hall", () => {
         "data-tab",
         "accepted",
       ),
+    );
+  });
+
+  it("states the contract duration from contractDurationDays, not the accept deadline", async () => {
+    mockGuildApi({ board: { ...BOARD, quests: [DURATION_QUEST] } });
+
+    renderView();
+
+    await screen.findByText("Relíquia Esquecida");
+
+    const card = screen.getByText("Relíquia Esquecida").closest("article");
+    expect(card).not.toBeNull();
+
+    expect(
+      within(card as HTMLElement).getByText(
+        "21 dias para concluir depois de aceitar",
+      ),
+    ).toBeInTheDocument();
+    expect(within(card as HTMLElement).queryByText(/2 dias/)).toBeNull();
+    expect(
+      within(card as HTMLElement).getByText(
+        /Só contam jogos que você marcar como zerados depois de aceitar/,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("accepts a multi-game quest without a picker or targetGameId", async () => {
+    const api = mockGuildApi({
+      board: { ...BOARD, quests: [DOUBLE_FEATURE_QUEST] },
+    });
+
+    renderView();
+
+    await screen.findByText("Sessão Dupla");
+
+    fireEvent.click(screen.getByRole("button", { name: "Aceitar" }));
+
+    expect(screen.queryByRole("dialog")).toBeNull();
+    await waitFor(() =>
+      expect(api.accept).toHaveBeenCalledWith({ boardEntryId: "board-2" }),
+    );
+    expect(api.accept).toHaveBeenCalledTimes(1);
+    expect(await screen.findByTestId("guild-accepted-state")).toHaveAttribute(
+      "data-contract-id",
+      "contract-1",
     );
   });
 
