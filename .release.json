@@ -1,0 +1,30 @@
+{
+  "source": "1a7268740c1b88468dceaca200fe1d14408ba55e",
+  "changesets": [
+    ".changeset/adventurers-guild.md",
+    ".changeset/guild-contract-deadlines.md",
+    ".changeset/guild-theme-contrast.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6c7d81333119e9f01e3e580a8400268b9cc5e444...1a7268740c1b88468dceaca200fe1d14408ba55e]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/1a7268740c1b88468dceaca200fe1d14408ba55e",
+  "versions": {
+    "web": "1.30.0",
+    "mobile": "1.29.0"
+  }
+}
