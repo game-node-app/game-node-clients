@@ -95,9 +95,12 @@ beforeEach(() => {
   );
 });
 
-afterEach(() => {
+afterEach(async () => {
   session.id = "user-123";
   cleanup();
+  // Statistics reads are batched on the next macrotask: let any queued read
+  // flush against this test's mocks, not the next test's.
+  await new Promise((resolve) => setTimeout(resolve, 0));
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
@@ -774,7 +777,8 @@ describe("activity embedded statistics (ActivityItemLikes & ItemLikesButton)", (
     session.id = undefined;
     renderComponent(<ActivityItemLikes activity={activity} />, mobileClient);
     await waitFor(() => expect(findSummarySpy).toHaveBeenCalledTimes(2));
-    await waitFor(() => expect(getStatusSpy).toHaveBeenCalledTimes(2));
+    // Signed out: the status is known without a request.
+    expect(getStatusSpy).toHaveBeenCalledTimes(1);
     expect(
       screen.getByRole("button").querySelector(".tabler-icon-thumb-up"),
     ).toBeTruthy();

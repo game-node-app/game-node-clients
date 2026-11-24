@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { FindAllProfileResponseItemDto } from '../models/FindAllProfileResponseItemDto';
+import type { FindProfilesByIdsDto } from '../models/FindProfilesByIdsDto';
 import type { ProfilePresenceResponseDto } from '../models/ProfilePresenceResponseDto';
 import type { ProfileResponseDto } from '../models/ProfileResponseDto';
 import type { SupporterPreferencesResponseDto } from '../models/SupporterPreferencesResponseDto';
@@ -63,6 +64,21 @@ export class ProfileService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/profile/all',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns ProfileResponseDto
+     * @throws ApiError
+     */
+    public static profileControllerFindManyByIdsV1(
+        requestBody: FindProfilesByIdsDto,
+    ): CancelablePromise<Array<ProfileResponseDto>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/profile/all',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**

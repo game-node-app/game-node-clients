@@ -10,6 +10,19 @@ import {
 } from "@repo/wrapper/server";
 import { GameCoverArg } from "#@/components/game/util/gameCoverRequest";
 import { useGameCoverRequest } from "#@/components/game/hooks/useGameCoverRequest";
+import { createBatchLoader } from "#@/util/createBatchLoader";
+
+/** Game cards mounted together share one `POST /game/repository` request. */
+const loadGame = createBatchLoader<number, Game, GameRepositoryFindOneDto>({
+  fetchMany: (gameIds, dto) =>
+    GameRepositoryService.gameRepositoryControllerFindAllByIdsV1({
+      ...dto,
+      gameIds,
+    }),
+  fetchOne: (id, dto) =>
+    GameRepositoryService.gameRepositoryControllerFindOneByIdV1(id, dto),
+  getId: (game) => game.id,
+});
 
 export function useGame(
   id: number | undefined,
@@ -33,10 +46,7 @@ export function useGame(
       if (!id) {
         return null;
       }
-      return GameRepositoryService.gameRepositoryControllerFindOneByIdV1(
-        id,
-        keyPart ? { ...dto, ...fields } : dto,
-      );
+      return loadGame(id, keyPart ? { ...dto, ...fields } : dto);
     },
     staleTime: 5 * 60 * 1000, // 5 minutes,
     enabled: (options?.enabled ?? true) && !!id,

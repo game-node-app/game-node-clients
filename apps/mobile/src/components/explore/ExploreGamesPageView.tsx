@@ -5,7 +5,7 @@ import {
   CenteredErrorMessage,
   GameView,
   SimpleInfiniteLoader,
-  useGames,
+  useGamesByPages,
   useGamesResource,
   useInfiniteTrendingGames,
 } from "@repo/ui";
@@ -133,28 +133,20 @@ const ExploreGamesResults = ({ state }: { state: ExploreGamesViewState }) => {
     !isOverview,
   );
 
-  const gamesIds = useMemo(() => {
+  const gamePages = useMemo(() => {
     if (isOverview || !trendingGamesQuery.data) return undefined;
-    return [
-      ...new Set(
-        trendingGamesQuery.data.pages.flatMap((page) =>
-          page.items
-            .map((item) => item.sourceId)
-            .filter((id): id is number => typeof id === "number"),
-        ),
-      ),
-    ];
+    return trendingGamesQuery.data.pages.map((page) =>
+      page.items
+        .map((item) => item.sourceId)
+        .filter((id): id is number => typeof id === "number"),
+    );
   }, [isOverview, trendingGamesQuery.data]);
-
-  const gamesQuery = useGames(
-    {
-      gameIds: gamesIds,
-      relations: {
-        cover: true,
-      },
-    },
-    true,
+  const gamesIds = useMemo(
+    () => (gamePages ? [...new Set(gamePages.flat())] : undefined),
+    [gamePages],
   );
+
+  const gamesQuery = useGamesByPages(gamePages, { cover: true });
 
   const isFetching = trendingGamesQuery.isFetching || gamesQuery.isFetching;
   const games = gamesIds

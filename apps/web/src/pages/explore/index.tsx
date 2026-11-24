@@ -10,7 +10,7 @@ import {
   getInfiniteTrendingGamesRequest,
   SimpleInfiniteLoader,
   useAppExperience,
-  useGames,
+  useGamesByPages,
   useInfiniteTrendingGames,
 } from "@repo/ui";
 import {
@@ -102,29 +102,21 @@ const Index = () => {
     hasLoadedQueryParams,
   );
 
-  const gamesIds = useMemo(() => {
+  const gamePages = useMemo(() => {
     if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
       return undefined;
-    return [
-      ...new Set(
-        trendingGamesQuery.data.pages.flatMap((page) =>
-          page.items
-            .map((item) => item.sourceId)
-            .filter((id): id is number => typeof id === "number"),
-        ),
-      ),
-    ];
+    return trendingGamesQuery.data.pages.map((page) =>
+      page.items
+        .map((item) => item.sourceId)
+        .filter((id): id is number => typeof id === "number"),
+    );
   }, [trendingGamesQuery.data, trendingGamesQuery.isError]);
-
-  const gamesQuery = useGames(
-    {
-      gameIds: gamesIds!,
-      relations: {
-        cover: true,
-      },
-    },
-    true,
+  const gamesIds = useMemo(
+    () => (gamePages ? [...new Set(gamePages.flat())] : undefined),
+    [gamePages],
   );
+
+  const gamesQuery = useGamesByPages(gamePages, { cover: true });
 
   const games =
     gamesIds

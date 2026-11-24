@@ -137,6 +137,20 @@ function pendingRequest<T>(): CancelablePromise<T> {
 const originalProjectContext = PROJECT_CONTEXT;
 
 beforeEach(() => {
+  // Profile reads that start together are batched: answer them like the
+  // single read each test mocks.
+  vi.spyOn(
+    ProfileService,
+    "profileControllerFindManyByIdsV1",
+  ).mockImplementation(
+    async ({ userIds }) =>
+      Promise.all(
+        userIds.map(async (userId) => ({
+          ...(await ProfileService.profileControllerFindOneByIdV1(userId)),
+          userId,
+        })),
+      ) as never,
+  );
   setProjectContext({
     client: "mobile",
     s3BucketUrl: "",

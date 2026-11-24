@@ -22,6 +22,28 @@ export function retryUnlessHidden(
   return !isNotFoundApiError(error) && failureCount < 2;
 }
 
+/**
+ * Default query retry for the apps: a 4xx (signed out, forbidden, not found,
+ * invalid) is a final answer, so only network errors, 5xx, 408 and 429 spend
+ * the retry budget. Retrying a 401 for a signed-out visitor only delayed the
+ * empty state and tripled the requests.
+ */
+export function retryTransientErrors(maxRetries: number) {
+  return (failureCount: number, error: unknown): boolean => {
+    const status = error instanceof ApiError ? error.status : undefined;
+    if (
+      status !== undefined &&
+      status >= 400 &&
+      status < 500 &&
+      status !== 408 &&
+      status !== 429
+    ) {
+      return false;
+    }
+    return failureCount < maxRetries;
+  };
+}
+
 export function createErrorNotification(err: Error) {
   console.error(err);
   notifications.show({

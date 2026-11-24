@@ -132,6 +132,8 @@ export type { FindExternalGamesResponseDto } from './models/FindExternalGamesRes
 export { FindGamesByCollectionTypeRequestDto } from './models/FindGamesByCollectionTypeRequestDto';
 export type { FindGamesByCollectionTypeResponseDto } from './models/FindGamesByCollectionTypeResponseDto';
 export type { FindObtainedAchievementsResponseDto } from './models/FindObtainedAchievementsResponseDto';
+export type { FindOwnCollectionEntriesByGameIdsDto } from './models/FindOwnCollectionEntriesByGameIdsDto';
+export type { FindProfilesByIdsDto } from './models/FindProfilesByIdsDto';
 export type { FindRelatedCollectionEntriesResponseDto } from './models/FindRelatedCollectionEntriesResponseDto';
 export type { FindReviewPaginatedDto } from './models/FindReviewPaginatedDto';
 export type { FindUnmappedExternalGamesResponseDto } from './models/FindUnmappedExternalGamesResponseDto';
@@ -317,6 +319,9 @@ export type { SearchUserDto } from './models/SearchUserDto';
 export type { SetGameCoverChoiceDto } from './models/SetGameCoverChoiceDto';
 export type { SimulateAchievementDefinitionDto } from './models/SimulateAchievementDefinitionDto';
 export type { SimulateAchievementDefinitionResponseDto } from './models/SimulateAchievementDefinitionResponseDto';
+export { StatisticsBatchSummaryItemDto } from './models/StatisticsBatchSummaryItemDto';
+export { StatisticsBatchSummaryRequestDto } from './models/StatisticsBatchSummaryRequestDto';
+export type { StatisticsBatchSummaryResponseDto } from './models/StatisticsBatchSummaryResponseDto';
 export { StatisticsRankingItemDto } from './models/StatisticsRankingItemDto';
 export type { StatisticsRankingPaginationDto } from './models/StatisticsRankingPaginationDto';
 export { StatisticsRankingResponseDto } from './models/StatisticsRankingResponseDto';

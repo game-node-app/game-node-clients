@@ -133,10 +133,15 @@ const GamePage = ({ gameId }: Props) => {
         <IonRefresherContent />
       </IonRefresher>
       <GameInfoViewPresenter id={gameId} />
+      {/*
+        Only the open tab is mounted: reviews, discussion and achievements
+        would otherwise render (and fetch) while the game page slides in.
+      */}
       <GameInfoTabs
         currentTab={currentTab}
         onChange={onChange}
         icons={TAB_ICONS}
+        keepMounted={false}
       >
         <Tabs.Panel value={GameInfoTabValue.overview}>
           <Box className={"w-full mt-4 mb-6"}>

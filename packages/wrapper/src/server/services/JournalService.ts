@@ -12,17 +12,22 @@ import { request as __request } from '../core/request';
 export class JournalService {
     /**
      * @param userId
+     * @param year Only include status dates from this calendar year. Omit for every year.
      * @returns JournalOverviewResponseDto
      * @throws ApiError
      */
     public static journalControllerGetJournalOverviewV1(
         userId: string,
+        year?: number,
     ): CancelablePromise<JournalOverviewResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/journal/overview/{userId}',
             path: {
                 'userId': userId,
+            },
+            query: {
+                'year': year,
             },
         });
     }

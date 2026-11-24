@@ -8,6 +8,10 @@ export type StatisticsSummaryDto = {
     sourceId: (string | number);
     viewsCount: number;
     likesCount: number;
+    /**
+     * Total comments including replies; 0 for non-commentable sources.
+     */
+    commentsCount: number;
     projectionLagSeconds: number;
     hasFailedEvents: boolean;
     historyComplete: boolean;

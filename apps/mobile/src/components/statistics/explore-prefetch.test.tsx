@@ -30,7 +30,7 @@ vi.mock("../../../../web/src/components/general/OpenGraph", () => ({
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
-// `useGames` reads the session to decide whether to personalize covers; this
+// `useGamesByPages` reads the session to decide whether to personalize covers; this
 // page is rendered signed out, so the hydrated default key is used as-is.
 vi.mock("../../../../../packages/ui/src/components/auth/authClient", () => ({
   authClient: { useSession: () => ({ data: null, isPending: false }) },
@@ -84,7 +84,7 @@ vi.mock("@repo/ui", async () => {
     "../../../../../packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames"
   );
   const games = await import(
-    "../../../../../packages/ui/src/components/game/hooks/useGames"
+    "../../../../../packages/ui/src/components/game/hooks/useGamesByPages"
   );
   const C = ({ children }: import("react").PropsWithChildren) =>
     React.createElement("div", null, children);
@@ -196,6 +196,11 @@ it("hydrates matching ranking and content keys and retains first-occurrence orde
     ),
   );
   await waitFor(() => expect(screen.getByText("3")).toBeTruthy());
+  // The next page reads only its own games, not every loaded one again.
+  expect(content).toHaveBeenCalledTimes(2);
+  expect(content).toHaveBeenLastCalledWith(
+    expect.objectContaining({ gameIds: [1, 3] }),
+  );
   const values = ["2", "1", "3"].map((value) => screen.getByText(value));
   expect(
     values[0].compareDocumentPosition(values[1]) &

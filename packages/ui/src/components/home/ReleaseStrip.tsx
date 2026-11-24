@@ -17,13 +17,13 @@ import {
 import {
   ReleaseCalendar,
   DAY_KEY,
+  STRIP_DAYS,
   useUpcomingReleasesByDay,
 } from "./ReleaseCalendar";
 
 // games listed per day column before collapsing into "+N"
 const GAMES_PER_DAY = 3;
 // the strip scrolls sideways; 7 columns are visible at once on desktop
-const STRIP_DAYS = 30;
 const VISIBLE_DAYS = 7;
 
 const StripGame = ({ game }: { game: Game }) => {

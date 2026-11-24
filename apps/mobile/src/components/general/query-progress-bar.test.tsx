@@ -9,9 +9,23 @@ import type { QueryFunction } from "@tanstack/react-query";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { QueryProgressBar } from "./QueryProgressBar";
 
-vi.mock("@ionic/react", () => ({
-  IonProgressBar: () => <div data-testid="query-progress-bar" />,
-}));
+const viewLifecycle = vi.hoisted(() => ({ entered: true }));
+
+vi.mock("@ionic/react", async () => {
+  const { useEffect } = await import("react");
+  return {
+    IonProgressBar: () => <div data-testid="query-progress-bar" />,
+    // Ionic fires `ionViewWillEnter` after the page mounts.
+    useIonViewWillEnter: (callback: () => void) => {
+      useEffect(() => {
+        if (viewLifecycle.entered) callback();
+        // Ionic registers the callback once per page, like this mock.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
+    },
+    useIonViewDidLeave: () => {},
+  };
+});
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -48,6 +62,20 @@ function renderBar(client: QueryClient, queryKey: string[]) {
 describe("QueryProgressBar", () => {
   afterEach(() => {
     cleanup();
+    viewLifecycle.entered = true;
+  });
+
+  it("stays hidden on a page that is not on screen", async () => {
+    viewLifecycle.entered = false;
+    const client = createClient();
+
+    renderBar(client, ["hidden-page-load"]);
+
+    await act(async () => {
+      await wait(200);
+    });
+
+    expect(screen.queryByTestId("query-progress-bar")).toBeNull();
   });
 
   it("shows when a query without data is loading", async () => {

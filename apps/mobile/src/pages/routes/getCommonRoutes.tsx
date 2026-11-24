@@ -40,6 +40,7 @@ import DailyRankingPage from "@/pages/daily/ranking";
 import DailyWeeklyPage from "@/pages/daily/weekly";
 import DailyPracticePage from "@/pages/daily/practice";
 import GuildPage from "@/pages/guild";
+import { freezeInactiveView } from "@/pages/routes/FreezeWhenInactive";
 
 /**
  * Slugs accepted by the legacy `${prefix}/preferences/:category` deep link.
@@ -100,7 +101,7 @@ export const UTILITY_ROUTES = {
 } as const;
 
 export function getCommonRoutes(prefix: string): React.ReactNode[] {
-  return [
+  const routes = [
     <Route
       exact
       key={`${prefix}-daily`}
@@ -421,4 +422,5 @@ export function getCommonRoutes(prefix: string): React.ReactNode[] {
       }}
     />,
   ];
+  return routes.map(freezeInactiveView);
 }

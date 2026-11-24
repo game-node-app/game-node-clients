@@ -18,8 +18,10 @@ import {
 } from "#@/components/game/util/getSizedImageUrl";
 import CollectionType = FindGamesByCollectionTypeRequestDto.collectionType;
 
-// shortcut: only the next 1000 upcoming games are placed; page the request if this month's later days look empty
+// safety cap: the date range below already bounds the request to about six weeks of releases
 const CALENDAR_LIMIT = 1000;
+// the strip (ReleaseStrip) shows this many days from today
+export const STRIP_DAYS = 30;
 export const DAY_KEY = "YYYY-MM-DD";
 
 /** Every day shown for `month`: whole weeks, Sunday first, so the grid starts and ends on full rows. */
@@ -35,8 +37,18 @@ export const getCalendarDays = (month: Dayjs): Dayjs[] => {
 
 /** Upcoming games grouped by release day, shared by the calendar and weekly strip. */
 export const useUpcomingReleasesByDay = () => {
+  // Only what the strip and this month's grid can show: from today to the later
+  // of the strip's last day and the grid's last cell. Whole days, so every
+  // visitor on the same day shares the server's cached answer.
+  const today = dayjs().startOf("day");
+  const lastStripDay = today.add(STRIP_DAYS, "day");
+  const lastGridDay = today.endOf("month").endOf("week").startOf("day");
+  const lastDay = lastStripDay.isAfter(lastGridDay) ? lastStripDay : lastGridDay;
   const query = useGamesByCollectionType({
     collectionType: CollectionType.UPCOMING,
+    // `to` is inclusive at midnight UTC: one more day keeps the last day's releases
+    from: today.format(DAY_KEY),
+    to: lastDay.add(1, "day").format(DAY_KEY),
     limit: CALENDAR_LIMIT,
     relations: { cover: true, platforms: true },
   });

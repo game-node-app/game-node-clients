@@ -9,7 +9,6 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MantineProvider } from "@mantine/core";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
@@ -25,6 +24,7 @@ import EntrySplash from "@/components/general/splash/EntrySplash";
 import {
   getAuthClientOptions,
   handleAuthError,
+  retryTransientErrors,
   setProjectContext,
   SettingsModal,
   setupAuthClient,
@@ -44,6 +44,7 @@ import {
 } from "better-auth-capacitor/client";
 import {
   createCapacitorAsyncStorage,
+  createDeferredPersister,
   holdWritesUntilSplashDone,
 } from "@/util/asyncStorage";
 import {
@@ -176,17 +177,16 @@ const App: React.FC<{ initialTheme?: string | null }> = ({ initialTheme }) => {
             refetchOnWindowFocus: false,
             refetchOnMount: true,
             refetchOnReconnect: true,
-            retry: 3,
+            retry: retryTransientErrors(3),
             gcTime: Infinity,
           },
         },
       }),
   );
   const [persister] = useState(() =>
-    createAsyncStoragePersister({
-      storage: holdWritesUntilSplashDone(createCapacitorAsyncStorage()),
-      throttleTime: 1000,
-    }),
+    createDeferredPersister(
+      holdWritesUntilSplashDone(createCapacitorAsyncStorage()),
+    ),
   );
 
   const [language, onLanguageChange] = useLanguagePreference();

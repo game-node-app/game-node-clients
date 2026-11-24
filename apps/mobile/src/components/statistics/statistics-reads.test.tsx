@@ -54,7 +54,8 @@ it("uses native IDs, zero counters and actor-specific status without requesting 
   });
   await waitFor(() => expect(hook.result.current.data?.likesCount).toBe(0));
   expect(summary).toHaveBeenCalledWith({ sourceType: "game", sourceId: 42 });
-  expect(status).toHaveBeenCalledWith("game", 42);
+  // Signed out, the status is known (all false) without a request.
+  expect(status).not.toHaveBeenCalled();
   expect(hook.result.current.data?.projectionLagSeconds).toBe(4);
   session.id = "actor";
   hook.rerender({ id: "42", type: StatisticsSourceRequestDto.sourceType.GAME });
@@ -290,7 +291,8 @@ it("never leaks seeded activity statistics across actor changes", async () => {
     { wrapper },
   );
   await waitFor(() => expect(summary).toHaveBeenCalledTimes(2));
-  expect(status).toHaveBeenCalledTimes(2);
+  // The signed-out read skips the status request.
+  expect(status).toHaveBeenCalledTimes(1);
 });
 
 it("falls back to fetching when initialStatistics is missing and leaves non-activity sources unaffected", async () => {

@@ -14,14 +14,17 @@ export function useGamesByCollectionType(
       "all",
       "collectionType",
       dto.collectionType,
+      dto.from ?? null,
+      dto.to ?? null,
       dto.offset,
       dto.limit,
       dto.relations,
     ],
     queryFn: async (): Promise<FindGamesByCollectionTypeResponseDto> => {
+      // the spec also lists an untyped 201 for this POST; the server answers 200
       return GameRepositoryService.gameRepositoryControllerGetGameIdsByCollectionTypeV1(
         dto,
-      );
+      ) as Promise<FindGamesByCollectionTypeResponseDto>;
     },
   });
 }
