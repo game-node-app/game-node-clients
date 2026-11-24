@@ -41,11 +41,14 @@ On a successful main push, the workflow reserves a versioned snapshot and then:
   for deployment completion, and check its fixed public HTTPS URL (gamenode.app or admin.gamenode.app).
   Preserve `latest` as a compatibility alias for the existing Compose examples;
   automated Coolify deployments always select the immutable SHA tag.
-- Mobile: build signed APK/AAB artifacts using the app's semantic version and an
-  increasing Android build code, publish the web bundle to R2 for compatible
-  installs, and submit the AAB to Google Play production when its native
-  fingerprint differs from the latest submitted build. The APK/AAB remain
-  downloadable from the workflow run and are attached to the app's GitHub release.
+- Mobile: publish the web bundle to R2 for compatible installs, then check the
+  native fingerprint against the latest submitted Play build. A changed shell
+  builds signed APK/AAB artifacts with the app's semantic version and an
+  increasing Android build code and submits the AAB to Google Play production;
+  those artifacts remain downloadable from the workflow run and are attached to
+  the app's GitHub release. An unchanged shell skips the signed build, the
+  artifacts, and the Play submission, and still publishes the OTA bundle and
+  GitHub release notes.
 
 Actions are pinned to exact commit SHAs. Dependency installs skip package
 lifecycle scripts; builds and native synchronization run explicitly. Checks,
@@ -123,13 +126,15 @@ Mobile uses the existing `RELEASE_KEYSTORE`, `RELEASE_KEYSTORE_PASS`,
 
 ## Google Play
 
-The Android delivery job uses `scripts/publish-play.cjs` to compare the OTA
-fingerprint with the highest version code on the `app.gamenode` production track
-that is published, in review, or approved for publication. CI records the
-fingerprint in the Play Console release name when it submits a signed AAB for
-full rollout. A matching fingerprint skips the Play upload and continues to
-GitHub release publishing. If the latest submitted release has no recorded
-fingerprint, CI submits one build to establish the baseline.
+The Android delivery job uses `scripts/publish-play.cjs --check` before the
+signed build to compare the OTA fingerprint with the newest `app.gamenode`
+production release that is published, in review, or approved for publication.
+CI records the fingerprint in the Play Console release name when it submits a
+signed AAB for full rollout. A matching fingerprint ends the native path before
+`cap build android`: CI decodes no signing key, produces and attaches no signed
+APK/AAB, and opens no Play edit. The OTA bundle and GitHub release still
+publish. If the latest submitted release has no recorded fingerprint, CI builds
+and submits one release to establish the baseline.
 
 The fingerprint is committed in the same Play edit as the production release.
 A retry can skip a release already submitted or reuse an AAB already uploaded
@@ -162,9 +167,13 @@ titled `Web 1.25.0`,
 `Mobile 1.24.0` and so on. The body is the version's `CHANGELOG.md` section
 (the changeset summaries) followed by GitHub's generated notes ("What's Changed",
 new contributors, full-changelog link), compared against the same app's previous
-tag. Mobile attaches `GameNode-<version>.apk` and `GameNode-<version>.aab` and
-holds the repository's "Latest" badge; web and admin releases never take it.
-Retries edit the existing release and replace its assets. The delivery jobs need
+tag. Mobile holds the repository's "Latest" badge; web and admin releases never
+take it. When the release contains a native change, Mobile also attaches
+`GameNode-<version>.apk` and `GameNode-<version>.aab`; a JS-only mobile release
+publishes the changelog and OTA bundle only. A JS-only mobile release has no
+installable binary of its own; fresh installs keep using the latest native
+release on Play. Retries edit the existing release
+and, when the native path runs, replace its assets. The delivery jobs need
 `contents: write` for this, granted per job in `ci.yml` and the reusable
 workflows.
 

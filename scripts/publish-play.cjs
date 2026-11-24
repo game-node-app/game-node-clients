@@ -47,28 +47,9 @@ async function accessToken(credentials, request = fetch) {
   return (await response.json()).access_token;
 }
 
-/**
- * Returns false if the latest submitted release already has this native shell.
- * Otherwise uploads the bundle and submits a full rollout in one edit.
- */
-async function publishBundle(
-  {
-    credentials,
-    bundle,
-    versionCode,
-    fingerprint,
-    notes = RELEASE_NOTES,
-    track = "production",
-  },
-  request = fetch,
-) {
-  if (!/^\d+$/.test(String(versionCode)))
-    throw new Error("Invalid Android version code.");
-  if (!/^[a-f0-9]{16}$/.test(fingerprint))
-    throw new Error("Invalid Android native fingerprint.");
-  const token = await accessToken(credentials, request);
+function playApi(token, request = fetch) {
   const base = `/androidpublisher/v3/applications/${PACKAGE_NAME}`;
-  async function api(path, { method = "GET", body, upload } = {}) {
+  return async function api(path, { method = "GET", body, upload } = {}) {
     const response = await request(
       `${API}${upload ? "/upload" : ""}${base}${path}${upload ? "?uploadType=media" : ""}`,
       {
@@ -91,21 +72,90 @@ async function publishBundle(
       );
     }
     return response.json();
-  }
-  const trackId = encodeURIComponent(track);
-  const { releases = [] } = await api(`/tracks/${trackId}/releases`);
-  const [latest] = releases
+  };
+}
+
+function fingerprintSuffix(fingerprint) {
+  return ` (native ${fingerprint})`;
+}
+
+/**
+ * The newest published, in-review, or approved release. Release summaries
+ * expose active artifacts instead of version codes, and a release that is not
+ * serving users yet can have none; read the code we record in its name then.
+ */
+function latestSubmitted(releases) {
+  return releases
     .filter((release) =>
       SUBMITTED_RELEASE_STATES.has(release.releaseLifecycleState),
     )
-    .flatMap(({ releaseName, activeArtifacts = [] }) =>
-      activeArtifacts.map(({ versionCode }) => ({ releaseName, versionCode })),
-    )
-    .sort((a, b) => b.versionCode - a.versionCode);
-  // The Play Console name is committed with the bundle and survives CI retries.
-  const fingerprintSuffix = ` (native ${fingerprint})`;
-  if (latest?.releaseName?.endsWith(fingerprintSuffix)) return false;
+    .flatMap(({ releaseName = "", activeArtifacts = [] }) => {
+      if (activeArtifacts.length)
+        return activeArtifacts.map(({ versionCode }) => ({
+          releaseName,
+          versionCode,
+        }));
+      const match = /^(\d+) \(native [a-f0-9]{16}\)$/.exec(releaseName);
+      // An unrecognized name can still be newer than every known code; treat
+      // it as the latest so the caller publishes instead of skipping it.
+      return [
+        {
+          releaseName,
+          versionCode: match ? Number(match[1]) : Number.POSITIVE_INFINITY,
+        },
+      ];
+    })
+    .sort((a, b) => b.versionCode - a.versionCode)[0];
+}
 
+async function latestRelease({ credentials, track }, request = fetch) {
+  const token = await accessToken(credentials, request);
+  const api = playApi(token, request);
+  const { releases = [] } = await api(
+    `/tracks/${encodeURIComponent(track)}/releases`,
+  );
+  return { api, latest: latestSubmitted(releases) };
+}
+
+/**
+ * Whether the latest submitted Play release lacks this native shell. The check
+ * runs before the signed build so an unchanged shell does not build or submit.
+ */
+async function shouldPublish(
+  { credentials, fingerprint, track = "production" },
+  request = fetch,
+) {
+  if (!/^[a-f0-9]{16}$/.test(fingerprint))
+    throw new Error("Invalid Android native fingerprint.");
+  const { latest } = await latestRelease({ credentials, track }, request);
+  return !latest?.releaseName?.endsWith(fingerprintSuffix(fingerprint));
+}
+
+/**
+ * Returns false if the latest submitted release already has this native shell.
+ * Otherwise uploads the bundle and submits a full rollout in one edit.
+ */
+async function publishBundle(
+  {
+    credentials,
+    bundle,
+    versionCode,
+    fingerprint,
+    notes = RELEASE_NOTES,
+    track = "production",
+  },
+  request = fetch,
+) {
+  if (!/^\d+$/.test(String(versionCode)))
+    throw new Error("Invalid Android version code.");
+  if (!/^[a-f0-9]{16}$/.test(fingerprint))
+    throw new Error("Invalid Android native fingerprint.");
+  const { api, latest } = await latestRelease({ credentials, track }, request);
+  // The Play Console name is committed with the bundle and survives CI retries.
+  const suffix = fingerprintSuffix(fingerprint);
+  if (latest?.releaseName?.endsWith(suffix)) return false;
+
+  const trackId = encodeURIComponent(track);
   const { id } = await api("/edits", { method: "POST", body: {} });
   const edit = `/edits/${encodeURIComponent(id)}`;
   // A retried release already uploaded this code; Play rejects re-uploads.
@@ -126,7 +176,7 @@ async function publishBundle(
       track,
       releases: [
         {
-          name: `${versionCode}${fingerprintSuffix}`,
+          name: `${versionCode}${suffix}`,
           versionCodes: [String(versionCode)],
           status: "completed",
           releaseNotes: Object.entries(notes).map(([language, text]) => ({
@@ -142,30 +192,42 @@ async function publishBundle(
 }
 
 if (require.main === module) {
-  const [bundlePath, versionCode, fingerprint] = process.argv.slice(2);
-  if (!bundlePath || !versionCode || !fingerprint)
-    throw new Error(
-      "Usage: publish-play.cjs <bundle.aab> <versionCode> <fingerprint>",
-    );
+  const args = process.argv.slice(2);
+  const credentials = JSON.parse(process.env.PLAY_SERVICE_ACCOUNT_JSON || "{}");
   const track = process.env.PLAY_TRACK || "production";
-  publishBundle({
-    credentials: JSON.parse(process.env.PLAY_SERVICE_ACCOUNT_JSON || "{}"),
-    bundle: readFileSync(bundlePath),
-    versionCode,
-    fingerprint,
-    track,
-  })
-    .then((published) => {
-      console.log(
-        published
-          ? `Submitted version code ${versionCode} to Play ${track}.`
-          : `Skipped Play ${track} upload. Native fingerprint ${fingerprint} is already submitted.`,
+  const fail = (error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  };
+  if (args[0] === "--check") {
+    const fingerprint = args[1];
+    if (!fingerprint)
+      throw new Error("Usage: publish-play.cjs --check <fingerprint>");
+    shouldPublish({ credentials, fingerprint, track })
+      .then((publish) => console.log(publish ? "true" : "false"))
+      .catch(fail);
+  } else {
+    const [bundlePath, versionCode, fingerprint] = args;
+    if (!bundlePath || !versionCode || !fingerprint)
+      throw new Error(
+        "Usage: publish-play.cjs <bundle.aab> <versionCode> <fingerprint>",
       );
+    publishBundle({
+      credentials,
+      bundle: readFileSync(bundlePath),
+      versionCode,
+      fingerprint,
+      track,
     })
-    .catch((error) => {
-      console.error(error.message);
-      process.exitCode = 1;
-    });
+      .then((published) => {
+        console.log(
+          published
+            ? `Submitted version code ${versionCode} to Play ${track}.`
+            : `Skipped Play ${track} upload. Native fingerprint ${fingerprint} is already submitted.`,
+        );
+      })
+      .catch(fail);
+  }
 }
 
-module.exports = { publishBundle, RELEASE_NOTES };
+module.exports = { publishBundle, shouldPublish, RELEASE_NOTES };

@@ -38,11 +38,6 @@ jobs:
         run: |
           node scripts/prepare-release.cjs --assert-current mobile
           node -e 'const r = require("./.release.json"); if (!r.mobile) throw Error("Mobile not selected")'
-      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
-        with:
-          distribution: temurin
-          java-version: "21"
-          cache: gradle
       # Version-only release manifest changes reuse the checked source's dependencies.
       - name: Restore installed dependencies
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -92,7 +87,26 @@ jobs:
               --endpoint-url "$endpoint" --no-progress --content-type application/json \
               --cache-control no-cache
           done
+      - name: Check native shell against Google Play
+        id: native
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          NATIVE_FINGERPRINT: ${{ steps.ota.outputs.fingerprint }}
+        run: |
+          publish=$(node scripts/publish-play.cjs --check "$NATIVE_FINGERPRINT")
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          if [ "$publish" != "true" ]; then
+            echo "Native shell $NATIVE_FINGERPRINT is already submitted; skipping the signed Android build."
+          fi
+      - name: Set up Java for the signed build
+        if: steps.native.outputs.publish == 'true'
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
       - name: Decode Android signing key
+        if: steps.native.outputs.publish == 'true'
         working-directory: apps/mobile
         env:
           RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
@@ -100,6 +114,7 @@ jobs:
           umask 077
           printf '%s' "$RELEASE_KEYSTORE" | base64 --decode > android/release.decrypted.jks
       - name: Build signed artifacts
+        if: steps.native.outputs.publish == 'true'
         working-directory: apps/mobile
         env:
           KEYSTORE_PASS: ${{ secrets.RELEASE_KEYSTORE_PASS }}
@@ -121,6 +136,7 @@ jobs:
           apksigner verify --min-sdk-version 36 "$apk"
           zipalign -c 4 "$apk"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: steps.native.outputs.publish == 'true'
         with:
           name: android-${{ github.sha }}
           if-no-files-found: error
@@ -128,6 +144,7 @@ jobs:
             apps/mobile/android/app/build/outputs/apk/release/
             apps/mobile/android/app/build/outputs/bundle/release/
       - name: Publish native changes to Google Play production
+        if: steps.native.outputs.publish == 'true'
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           NATIVE_FINGERPRINT: ${{ steps.ota.outputs.fingerprint }}
@@ -136,16 +153,20 @@ jobs:
           node scripts/publish-play.cjs \
             apps/mobile/android/app/build/outputs/bundle/release/app-release-signed.aab \
             "$code" "$NATIVE_FINGERPRINT"
-      - name: Publish GitHub release with APK and AAB
+      - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          NATIVE_PUBLISH: ${{ steps.native.outputs.publish }}
         run: |
           version=$(node -p 'require("./apps/mobile/package.json").version')
-          outputs=apps/mobile/android/app/build/outputs
-          cp "$outputs/apk/release/app-release-signed.apk" "$RUNNER_TEMP/GameNode-$version.apk"
-          cp "$outputs/bundle/release/app-release-signed.aab" "$RUNNER_TEMP/GameNode-$version.aab"
-          node scripts/github-release.cjs mobile \
-            "$RUNNER_TEMP/GameNode-$version.apk" "$RUNNER_TEMP/GameNode-$version.aab"
+          assets=()
+          if [ "$NATIVE_PUBLISH" = "true" ]; then
+            outputs=apps/mobile/android/app/build/outputs
+            cp "$outputs/apk/release/app-release-signed.apk" "$RUNNER_TEMP/GameNode-$version.apk"
+            cp "$outputs/bundle/release/app-release-signed.aab" "$RUNNER_TEMP/GameNode-$version.aab"
+            assets=("$RUNNER_TEMP/GameNode-$version.apk" "$RUNNER_TEMP/GameNode-$version.aab")
+          fi
+          node scripts/github-release.cjs mobile "${assets[@]}"
       - name: Remove signing key
         if: always()
         run: rm -f apps/mobile/android/release.decrypted.jks

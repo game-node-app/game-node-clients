@@ -1,7 +1,11 @@
 const assert = require("node:assert/strict");
 const { generateKeyPairSync } = require("node:crypto");
 const { test } = require("node:test");
-const { publishBundle, RELEASE_NOTES } = require("./publish-play.cjs");
+const {
+  publishBundle,
+  shouldPublish,
+  RELEASE_NOTES,
+} = require("./publish-play.cjs");
 
 function mockPlay({ existing = [], uploadedCode = 107, releases = [] } = {}) {
   const calls = [];
@@ -76,6 +80,81 @@ test("a JS-only release skips Play without opening an edit", async () => {
   assert.equal(await publishBundle(config, request), false);
   assert.equal(calls.length, 2);
   assert.ok(calls.at(-1).url.endsWith("/tracks/production/releases"));
+});
+
+test("the pre-build check never opens a Play edit", async () => {
+  const pending = mockPlay({ releases: [release(106, otherFingerprint)] });
+  assert.equal(
+    await shouldPublish(
+      { credentials: config.credentials, fingerprint },
+      pending.request,
+    ),
+    true,
+  );
+  assert.equal(pending.calls.length, 2);
+  assert.ok(!pending.calls.some((c) => c.url.includes("/edits")));
+
+  const current = mockPlay({ releases: [release(106, fingerprint)] });
+  assert.equal(
+    await shouldPublish(
+      { credentials: config.credentials, fingerprint },
+      current.request,
+    ),
+    false,
+  );
+  assert.ok(!current.calls.some((c) => c.url.includes("/edits")));
+});
+
+test("an in-review release without active artifacts still reports its shell", async () => {
+  const inReview = {
+    releaseName: `107 (native ${fingerprint})`,
+    releaseLifecycleState: "RELEASE_LIFECYCLE_STATE_IN_REVIEW",
+  };
+  const { request } = mockPlay({
+    releases: [release(106, otherFingerprint), inReview],
+  });
+  assert.equal(
+    await shouldPublish(
+      { credentials: config.credentials, fingerprint },
+      request,
+    ),
+    false,
+  );
+  assert.equal(await publishBundle(config, request), false);
+});
+
+test("a newer in-review shell has no active artifact but still suppresses an older match", async () => {
+  const inReview = {
+    releaseName: `107 (native ${otherFingerprint})`,
+    releaseLifecycleState: "RELEASE_LIFECYCLE_STATE_IN_REVIEW",
+  };
+  const { request } = mockPlay({
+    releases: [release(106, fingerprint), inReview],
+  });
+  assert.equal(
+    await shouldPublish(
+      { credentials: config.credentials, fingerprint },
+      request,
+    ),
+    true,
+  );
+});
+
+test("an unlabeled pending release is never mistaken for an older matching shell", async () => {
+  const pending = {
+    releaseName: "Manual review build",
+    releaseLifecycleState: "RELEASE_LIFECYCLE_STATE_IN_REVIEW",
+  };
+  const { request } = mockPlay({
+    releases: [release(106, fingerprint), pending],
+  });
+  assert.equal(
+    await shouldPublish(
+      { credentials: config.credentials, fingerprint },
+      request,
+    ),
+    true,
+  );
 });
 
 test("a retry skips a matching release already in review", async () => {

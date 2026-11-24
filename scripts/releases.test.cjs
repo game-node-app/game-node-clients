@@ -128,14 +128,42 @@ test("OTA workflow packages root assets and never publishes a manifest after a f
   const step = workflow.jobs.deliver.steps.find(
     (step) => step.name === "Publish compatible live update",
   );
-  const play = workflow.jobs.deliver.steps.find((step) =>
-    step.run?.includes("node scripts/publish-play.cjs"),
+  const check = workflow.jobs.deliver.steps.find(
+    (step) => step.name === "Check native shell against Google Play",
   );
+  const play = workflow.jobs.deliver.steps.find(
+    (step) => step.name === "Publish native changes to Google Play production",
+  );
+  assert.equal(
+    check.env.NATIVE_FINGERPRINT,
+    `\${{ steps.${step.id}.outputs.fingerprint }}`,
+  );
+  assert.match(check.run, /--check "\$NATIVE_FINGERPRINT"/);
   assert.equal(
     play.env.NATIVE_FINGERPRINT,
     `\${{ steps.${step.id}.outputs.fingerprint }}`,
   );
   assert.match(play.run, /"\$NATIVE_FINGERPRINT"/);
+  for (const name of [
+    "Set up Java for the signed build",
+    "Decode Android signing key",
+    "Build signed artifacts",
+    "Publish native changes to Google Play production",
+  ]) {
+    const gated = workflow.jobs.deliver.steps.find(
+      (step) => step.name === name,
+    );
+    assert.equal(gated.if, "steps.native.outputs.publish == 'true'", name);
+  }
+  const upload = workflow.jobs.deliver.steps.find((step) =>
+    step.uses?.startsWith("actions/upload-artifact"),
+  );
+  assert.equal(upload.if, "steps.native.outputs.publish == 'true'");
+  const release = workflow.jobs.deliver.steps.find(
+    (step) => step.name === "Publish GitHub release",
+  );
+  assert.match(release.run, /NATIVE_PUBLISH/);
+  assert.match(release.run, /github-release\.cjs mobile "\$\{assets\[@\]\}"/);
   write(
     cwd,
     "scripts/native-fingerprint.cjs",
@@ -205,7 +233,10 @@ if (process.env.OTA_TEST_FAIL && args[3].endsWith(".zip")) process.exit(1);
     calls[1][3],
     calls[0][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
   );
-  assert.match(calls[2][3], /\/ota\/851b7306d93e4022\/1\.8\.12-[a-f0-9]+\.zip$/);
+  assert.match(
+    calls[2][3],
+    /\/ota\/851b7306d93e4022\/1\.8\.12-[a-f0-9]+\.zip$/,
+  );
   assert.equal(
     calls[3][3],
     calls[2][3].replace(`${manifest.bundleId}.zip`, "latest.json"),
