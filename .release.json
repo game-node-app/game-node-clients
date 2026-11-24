@@ -1,0 +1,28 @@
+{
+  "source": "6c7d81333119e9f01e3e580a8400268b9cc5e444",
+  "changesets": [
+    ".changeset/game-share-card.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[6a1a4c6875bd1a9b6150f4a53606b4323833e669...6c7d81333119e9f01e3e580a8400268b9cc5e444]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/6c7d81333119e9f01e3e580a8400268b9cc5e444",
+  "versions": {
+    "web": "1.29.0",
+    "mobile": "1.28.0"
+  }
+}
