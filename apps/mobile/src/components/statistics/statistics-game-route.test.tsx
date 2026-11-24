@@ -73,6 +73,7 @@ it("rejects malformed mobile game routes before source reads or views", async ()
     "daily/practice",
     "daily/ranking",
     "daily/weekly",
+    "guild",
     "mcp",
   ])
     vi.doMock(`@/pages/${page}`, () => ({ default: () => null }));

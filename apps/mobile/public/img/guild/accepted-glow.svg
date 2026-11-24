@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle id="Brilho" cx="150" cy="150" r="150" fill="url(#paint0_radial_0_70)"/>
+<defs>
+<radialGradient id="paint0_radial_0_70" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(150 150) scale(150)">
+<stop stop-color="#FFCC4D" stop-opacity="0.28"/>
+<stop offset="1" stop-color="#FFCC4D" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

@@ -7,11 +7,13 @@ import {
   useReviewForUserIdAndGameId,
   useUserId,
 } from "#@/components";
+import { GuildReviewLengthHint } from "#@/components/guild/view/GuildReviewLengthHint";
+import { getReviewPlainTextLength } from "#@/components/guild/util/getReviewPlainTextLength";
 import { Input, Stack } from "@mantine/core";
 import { RichTextEditor } from "@mantine/tiptap";
 import { useTranslation } from "@repo/locales";
 import { useEditor } from "@tiptap/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 const CollectionEntryFormReviewPanel = ({
@@ -29,6 +31,11 @@ const CollectionEntryFormReviewPanel = ({
   const reviewQuery = useReviewForUserIdAndGameId(userId, gameId);
 
   const rating = watch("review.rating");
+  const reviewContent = watch("review.content");
+  const [editorContentLength, setEditorContentLength] = useState<number>();
+  const reviewLength =
+    editorContentLength ??
+    getReviewPlainTextLength(reviewContent ?? reviewQuery.data?.content);
 
   const quickReviewEditor = useEditor(
     {
@@ -40,6 +47,9 @@ const CollectionEntryFormReviewPanel = ({
         setValue("review.content", html, {
           shouldTouch: true,
         });
+      },
+      onUpdate: ({ editor }) => {
+        setEditorContentLength(getReviewPlainTextLength(editor.getHTML()));
       },
     },
     [reviewQuery.data?.content],
@@ -86,13 +96,16 @@ const CollectionEntryFormReviewPanel = ({
         />
       </Input.Wrapper>
       {rating != undefined && (
-        <Input.Wrapper
-          description={t("collectionEntry.review.optionalDescription")}
-        >
-          <RichTextEditor editor={quickReviewEditor}>
-            <RichTextEditor.Content mih={"20vh"} />
-          </RichTextEditor>
-        </Input.Wrapper>
+        <>
+          <Input.Wrapper
+            description={t("collectionEntry.review.optionalDescription")}
+          >
+            <RichTextEditor editor={quickReviewEditor}>
+              <RichTextEditor.Content mih={"20vh"} />
+            </RichTextEditor>
+          </Input.Wrapper>
+          <GuildReviewLengthHint length={reviewLength} />
+        </>
       )}
     </Stack>
   );

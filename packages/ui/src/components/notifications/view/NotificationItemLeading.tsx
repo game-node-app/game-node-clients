@@ -6,6 +6,7 @@ import {
   IconDownload,
   IconHistory,
   IconPlugConnected,
+  IconShield,
   IconTargetArrow,
   IconTrophy,
 } from "@tabler/icons-react";
@@ -30,6 +31,7 @@ const LEADING_ICONS: Record<NotificationLeadingIcon, Icon> = {
   awards: IconAward,
   recap: IconHistory,
   goal: IconTargetArrow,
+  guild: IconShield,
   notification: IconBell,
 };
 

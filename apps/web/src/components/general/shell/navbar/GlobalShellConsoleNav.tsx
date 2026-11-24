@@ -18,10 +18,12 @@ const DOCK_BADGE_LABEL_KEYS: Record<
   | "navigation.new"
   | "navigation.dock.badgeLive"
   | "navigation.dock.badgeNewFeminine"
+  | "guild.earlyAccess.badge"
 > = {
   new: "navigation.new",
   live: "navigation.dock.badgeLive",
   newFeminine: "navigation.dock.badgeNewFeminine",
+  earlyAccess: "guild.earlyAccess.badge",
 };
 
 export type ConsoleNavVariant = "header" | "bottom";

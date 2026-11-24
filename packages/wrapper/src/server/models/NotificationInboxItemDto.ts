@@ -9,6 +9,7 @@ import type { NotificationAwardsTargetDto } from './NotificationAwardsTargetDto'
 import type { NotificationConnectionTargetDto } from './NotificationConnectionTargetDto';
 import type { NotificationContentTargetDto } from './NotificationContentTargetDto';
 import type { NotificationGoalTargetDto } from './NotificationGoalTargetDto';
+import type { NotificationGuildTargetDto } from './NotificationGuildTargetDto';
 import type { NotificationImporterTargetDto } from './NotificationImporterTargetDto';
 import type { NotificationImportPreviewDto } from './NotificationImportPreviewDto';
 import type { NotificationProfileTargetDto } from './NotificationProfileTargetDto';
@@ -19,7 +20,7 @@ export type NotificationInboxItemDto = {
     type: string;
     actors: Array<NotificationActorDto>;
     preview: (NotificationTextPreviewDto | NotificationImportPreviewDto) | null;
-    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto | NotificationAchievementTargetDto | NotificationConnectionTargetDto | NotificationAwardsTargetDto | NotificationRecapTargetDto | NotificationGoalTargetDto) | null;
+    target: (NotificationContentTargetDto | NotificationActivityTargetDto | NotificationProfileTargetDto | NotificationImporterTargetDto | NotificationAchievementTargetDto | NotificationConnectionTargetDto | NotificationAwardsTargetDto | NotificationRecapTargetDto | NotificationGoalTargetDto | NotificationGuildTargetDto) | null;
     eventCount: number;
     actorCount: number;
     lastEventAt: string;

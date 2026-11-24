@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="hourglass" clip-path="url(#clip0_0_300)">
+<path id="Vector" d="M0 0H24V3H0V0ZM3 3H6V6H3V3ZM18 3H21V6H18V3ZM3 6H6V9H3V6ZM18 6H21V9H18V6ZM6 9H9V12H6V9ZM15 9H18V12H15V9ZM9 12H15V15H9V12ZM6 15H9V18H6V15ZM15 15H18V18H15V15ZM3 18H6V21H3V18ZM18 18H21V21H18V18ZM3 21H6V24H3V21ZM18 21H21V24H18V21ZM0 24H24V27H0V24Z" fill="#1F120D"/>
+<path id="Vector_2" d="M6 3H18V6H6V3ZM9 15H12V18H9V15ZM6 18H9V21H6V18ZM15 18H18V21H15V18Z" fill="#FFFAF0"/>
+<path id="Vector_3" d="M6 6H18V9H6V6ZM9 9H15V12H9V9ZM12 15H15V18H12V15ZM9 18H15V21H9V18ZM6 21H18V24H6V21Z" fill="#FFCC4D"/>
+</g>
+<defs>
+<clipPath id="clip0_0_300">
+<rect width="24" height="27" fill="white"/>
+</clipPath>
+</defs>
+</svg>

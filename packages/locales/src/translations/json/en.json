@@ -1853,6 +1853,241 @@
       "deselectAll": "Deselect all items"
     }
   },
+  "guild": {
+    "header": {
+      "title": "Adventurers Guild",
+      "subtitle": "Quest board refreshed every Monday · next round in {{timeLeft}}",
+      "rankBadge": "RANK {{rank}}",
+      "xp": "{{xp}} / {{max}} XP"
+    },
+    "license": {
+      "overline": "GUILD LICENSE",
+      "memberSince": "Guild member since {{year}}",
+      "maxRank": "Maximum rank reached",
+      "nextRank": "Next rank: {{rank}}",
+      "xpLeft": "{{xp}} XP left",
+      "stats": {
+        "finished": "Finished",
+        "backlog": "In backlog",
+        "reviews": "Reviews"
+      }
+    },
+    "rankLabel": "RANK",
+    "scene": {
+      "boardSign": "QUESTS"
+    },
+    "tabs": {
+      "board": "Quest board",
+      "boardShort": "Quests",
+      "accepted": "Accepted",
+      "completed": "Completed"
+    },
+    "board": {
+      "renewIn": "Refreshes in {{time}}",
+      "quickTitle": "Quick quests",
+      "backToFull": "Back to the full board",
+      "empty": "No quests on the board this week. Come back on Monday!",
+      "quickEmpty": "No quick quests right now. Take a look at the full board.",
+      "recommended": "★ Lina recommends",
+      "xpReward": "+{{xp}} XP",
+      "duration_one": "{{count}} day to finish after accepting",
+      "duration_other": "{{count}} days to finish after accepting",
+      "rules": {
+        "review": "Only reviews with at least 80 characters count.",
+        "finish": "Only games you mark as finished after accepting count. Imports and re-finished games don't."
+      },
+      "tags": {
+        "library": "From your library",
+        "event": "Curated event · {{days}} days",
+        "weekly": "Weekly",
+        "gamenode": "Using GameNode",
+        "goal": "Goal"
+      },
+      "chips": {
+        "since": "since {{year}}",
+        "hours": "~{{hours}}h"
+      }
+    },
+    "activeContracts": {
+      "title": "ACTIVE CONTRACTS",
+      "empty": "No active contracts yet. Pick a quest from the board to get started.",
+      "yearGoal": "{{year}} goal: finish {{target}} games",
+      "yearGoalLeft_one": "{{count}} game left until 12/31",
+      "yearGoalLeft_other": "{{count}} games left until 12/31",
+      "acceptedAgo": "Accepted {{time}} ago",
+      "playtime": "{{played}}h of {{estimated}}h"
+    },
+    "contracts": {
+      "emptyAccepted": "No contracts accepted yet. Pick a quest from the board!",
+      "emptyCompleted": "No completed contracts yet. Your finished contracts will show up here.",
+      "deadline": "Expires in {{time}}",
+      "status": {
+        "active": "Active",
+        "readyToClaim": "Ready to turn in",
+        "completed": "Completed",
+        "abandoned": "Abandoned",
+        "expired": "Expired"
+      },
+      "abandon": {
+        "title": "Abandon this contract?",
+        "body": "This returns \"{{title}}\" to the board. It stays available until the round resets.",
+        "confirm": "Abandon",
+        "cancel": "Cancel"
+      }
+    },
+    "reviewHint": {
+      "counter": "{{count}}/80",
+      "short": "Reviews under 80 characters don't count for your Guild contract yet.",
+      "ok": "This review counts for your Guild contract."
+    },
+    "targetGame": {
+      "title": "Which game will complete this quest?",
+      "body": "Pick a game from your library that matches the quest.",
+      "confirm": "Accept quest",
+      "cancel": "Cancel"
+    },
+    "accepted": {
+      "overline": "QUEST CONTRACT",
+      "adventurer": "Adventurer",
+      "target": "Target",
+      "rank": "Rank",
+      "signature": "Signed at reception: Lina",
+      "stamp": "ACCEPTED",
+      "xpChip": "+{{xp}} XP on completion",
+      "rankXp": "{{rank}} · +{{xp}} XP",
+      "backToBoard": "Back to the board",
+      "viewContracts": "View active contracts"
+    },
+    "claim": {
+      "title": "Contract complete",
+      "xp": "+{{xp}} Guild XP",
+      "accountXp": "+{{xp}} account XP",
+      "rankChange": "Rank {{from}} → {{to}}",
+      "newRewards": "New rewards",
+      "chestBonus": "Chest bonus: +{{xp}} XP",
+      "close": "Continue"
+    },
+    "rewardsPanel": {
+      "title": "Rewards",
+      "sections": {
+        "badges": "Badges",
+        "titles": "Titles",
+        "frames": "Frames"
+      },
+      "equip": "Equip",
+      "unequip": "Unequip",
+      "equipped": "Equipped",
+      "locked": "Locked",
+      "empty": "Complete contracts to unlock rewards."
+    },
+    "rewards": {
+      "generic": {
+        "badge": "Badge",
+        "title": "Guild title",
+        "frame": "Avatar frame",
+        "chest": "Weekly chest"
+      },
+      "badge_archaeologist": "Archaeologist",
+      "title_chronist": "Chronicler",
+      "weekly_chest": "Weekly Chest",
+      "title_backlog_slayer": "Backlog Slayer",
+      "title_guild_veteran": "Guild Veteran",
+      "frame_parchment_seal": "Parchment Seal",
+      "frame_lantern_glow": "Lantern Glow",
+      "title_relic_hunter": "Relic Hunter",
+      "title_night_owl": "Night Owl",
+      "title_completionist": "Completionist",
+      "frame_ember_rune": "Ember Rune",
+      "frame_moonlit_ivy": "Moonlit Ivy",
+      "frame_gilded_compass": "Gilded Compass"
+    },
+    "rank": {
+      "E": "Novice",
+      "D": "Apprentice",
+      "C": "Adventurer",
+      "B": "Veteran",
+      "A": "Elite",
+      "S": "Legend"
+    },
+    "templates": {
+      "forgotten_relic": {
+        "title": "Forgotten Relic",
+        "description": "Finish a game that's been sitting in your backlog for over a year."
+      },
+      "deep_dive": {
+        "title": "Deep Dive",
+        "description": "Finish a game you're currently playing."
+      },
+      "short_caravan": {
+        "title": "Short Caravan",
+        "description": "Finish a game that takes 8 hours or less."
+      },
+      "weekend_sprint": {
+        "title": "Weekend Sprint",
+        "description": "Finish any game from your library this week."
+      },
+      "double_feature": {
+        "title": "Double Feature",
+        "description": "Finish 2 games from your library this week."
+      },
+      "captains_log": {
+        "title": "Captain's Log",
+        "description": "Write a review for a game you finished this month."
+      },
+      "on_duty_critic": {
+        "title": "On-Duty Critic",
+        "description": "Write 3 reviews this week."
+      },
+      "quick_take": {
+        "title": "Quick Take",
+        "description": "Write a review for any game."
+      }
+    },
+    "lina": {
+      "name": "Lina",
+      "namePlate": "Lina · Guild Receptionist",
+      "namePlateShort": "Lina · Receptionist",
+      "options": {
+        "board": "Show me the quest board",
+        "quick": "Got anything quicker?",
+        "goodbye": "See you, Lina"
+      },
+      "contract_accepted": "All set! When you finish {{gameName}}, swing by the counter for your reward.",
+      "contract_accepted_no_game": "All set! Once you finish this quest, swing by the counter for your reward.",
+      "contract_claimed": "Nicely done! Let me get this stamped for you. Here's your reward.",
+      "contract_ready_to_claim": "Hey, you finished the {{gameName}} quest! Bring it over to claim your reward.",
+      "contract_ready_to_claim_no_game": "Hey, you've got a contract ready to turn in! Come grab your reward.",
+      "returning_after_inactivity": "Look who's back! It's been a while since you last stopped by.",
+      "weekly_board_refreshed": "Just put new quests up on the board for the week. Want to take a look?",
+      "stale_backlog_game": "Hey! Saw that {{gameName}} has been in your backlog since {{sinceYear}}. Ready to dust it off?",
+      "default": "Hey! Make yourself at home, the quest board is right over there."
+    },
+    "actions": {
+      "accept": "Accept",
+      "notNow": "Not now",
+      "turnIn": "Turn in",
+      "abandon": "Abandon"
+    },
+    "earlyAccess": {
+      "badge": "Early access",
+      "title": "The Guild is in early access",
+      "line": "The Guild is in early access for supporters right now. Supporting GameNode gets you in early and helps keep the project running.",
+      "cta": "Become a supporter"
+    },
+    "signIn": {
+      "title": "Sign in to visit the Guild",
+      "line": "I don't think we've met yet! Sign in so I can pull up your license and show you this week's quests.",
+      "cta": "Sign in"
+    },
+    "errors": {
+      "guild_active_contract_limit_reached": "You already have 3 active contracts. Complete or abandon one before accepting another.",
+      "guild_contract_already_exists": "You already accepted this quest. Check your active contracts.",
+      "guild_contract_not_ready": "This contract isn't ready to turn in yet. We refreshed your list.",
+      "guild_contract_not_active": "This contract is no longer active. We refreshed your list.",
+      "guild_cosmetic_not_owned": "You haven't unlocked this item yet. Your previous selection was kept.",
+      "guild_early_access_required": "The Adventurers Guild is in early access for supporters."
+    }
+  },
   "home": {
     "lastReviews": "Last reviews",
     "noResultsTryAgain": "No results found. Please try again.",
@@ -2507,6 +2742,7 @@
     },
     "explore": "Explore",
     "feats": "Feats",
+    "guild": "Guild",
     "home": "Home",
     "journal": "Journal",
     "library": "Library",
@@ -2565,6 +2801,13 @@
     "goal": {
       "title": "Year goal",
       "progress": "You finished {{finished}} of {{target}} games for your {{year}} goal."
+    },
+    "guild": {
+      "title": "Adventurers Guild",
+      "contractReady": "Your Guild contract is ready to turn in.",
+      "contractReadyGame": "Your Guild contract for {{game}} is ready to turn in.",
+      "contractExpiring": "Your Guild contract expires in less than 24 hours.",
+      "contractExpiringGame": "Your Guild contract for {{game}} expires in less than 24 hours."
     },
     "recap": {
       "title": "Recap",

@@ -8,6 +8,7 @@ import {
   NavDailyIcon,
   NavExploreIcon,
   NavFeatsIcon,
+  NavGuildIcon,
   NavHomeIcon,
   NavJournalIcon,
   NavLibraryIcon,
@@ -32,6 +33,7 @@ export type DockLabelKey =
   | "navigation.home"
   | "navigation.explore"
   | "navigation.dailyNodes"
+  | "navigation.guild"
   | "navigation.ai"
   | "navigation.activity"
   | "navigation.blog"
@@ -51,9 +53,10 @@ export type DockProfileTab = "main" | "collections" | "journal";
 /**
  * Client-local badge of a Dock item. The season entries use "live" for the
  * running Awards, "new" for its results and "newFeminine" for a Retrospectiva
- * the viewer has not opened yet.
+ * the viewer has not opened yet; "earlyAccess" marks the Guild while its
+ * server access mode is `supporters`.
  */
-export type DockBadge = "new" | "live" | "newFeminine";
+export type DockBadge = "new" | "live" | "newFeminine" | "earlyAccess";
 
 interface DockItemBase {
   id: string;
@@ -122,6 +125,13 @@ export const DOCK_GROUPS: DockGroupDefinition[] = [
         icon: NavDailyIcon,
         href: "/daily",
         badge: "new",
+      },
+      {
+        kind: "link",
+        id: "guild",
+        labelKey: "navigation.guild",
+        icon: NavGuildIcon,
+        href: "/guild",
       },
       {
         kind: "link",

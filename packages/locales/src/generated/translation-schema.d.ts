@@ -1857,6 +1857,241 @@ export type TranslationSchema = {
       deselectAll: string;
     };
   };
+  guild: {
+    header: {
+      title: string;
+      subtitle: string;
+      rankBadge: string;
+      xp: string;
+    };
+    license: {
+      overline: string;
+      memberSince: string;
+      maxRank: string;
+      nextRank: string;
+      xpLeft: string;
+      stats: {
+        finished: string;
+        backlog: string;
+        reviews: string;
+      };
+    };
+    rankLabel: string;
+    scene: {
+      boardSign: string;
+    };
+    tabs: {
+      board: string;
+      boardShort: string;
+      accepted: string;
+      completed: string;
+    };
+    board: {
+      renewIn: string;
+      quickTitle: string;
+      backToFull: string;
+      empty: string;
+      quickEmpty: string;
+      recommended: string;
+      xpReward: string;
+      duration_one: string;
+      duration_other: string;
+      rules: {
+        review: string;
+        finish: string;
+      };
+      tags: {
+        library: string;
+        event: string;
+        weekly: string;
+        gamenode: string;
+        goal: string;
+      };
+      chips: {
+        since: string;
+        hours: string;
+      };
+    };
+    activeContracts: {
+      title: string;
+      empty: string;
+      yearGoal: string;
+      yearGoalLeft_one: string;
+      yearGoalLeft_other: string;
+      acceptedAgo: string;
+      playtime: string;
+    };
+    contracts: {
+      emptyAccepted: string;
+      emptyCompleted: string;
+      deadline: string;
+      status: {
+        active: string;
+        readyToClaim: string;
+        completed: string;
+        abandoned: string;
+        expired: string;
+      };
+      abandon: {
+        title: string;
+        body: string;
+        confirm: string;
+        cancel: string;
+      };
+    };
+    reviewHint: {
+      counter: string;
+      short: string;
+      ok: string;
+    };
+    targetGame: {
+      title: string;
+      body: string;
+      confirm: string;
+      cancel: string;
+    };
+    accepted: {
+      overline: string;
+      adventurer: string;
+      target: string;
+      rank: string;
+      signature: string;
+      stamp: string;
+      xpChip: string;
+      rankXp: string;
+      backToBoard: string;
+      viewContracts: string;
+    };
+    claim: {
+      title: string;
+      xp: string;
+      accountXp: string;
+      rankChange: string;
+      newRewards: string;
+      chestBonus: string;
+      close: string;
+    };
+    rewardsPanel: {
+      title: string;
+      sections: {
+        badges: string;
+        titles: string;
+        frames: string;
+      };
+      equip: string;
+      unequip: string;
+      equipped: string;
+      locked: string;
+      empty: string;
+    };
+    rewards: {
+      generic: {
+        badge: string;
+        title: string;
+        frame: string;
+        chest: string;
+      };
+      badge_archaeologist: string;
+      title_chronist: string;
+      weekly_chest: string;
+      title_backlog_slayer: string;
+      title_guild_veteran: string;
+      frame_parchment_seal: string;
+      frame_lantern_glow: string;
+      title_relic_hunter: string;
+      title_night_owl: string;
+      title_completionist: string;
+      frame_ember_rune: string;
+      frame_moonlit_ivy: string;
+      frame_gilded_compass: string;
+    };
+    rank: {
+      E: string;
+      D: string;
+      C: string;
+      B: string;
+      A: string;
+      S: string;
+    };
+    templates: {
+      forgotten_relic: {
+        title: string;
+        description: string;
+      };
+      deep_dive: {
+        title: string;
+        description: string;
+      };
+      short_caravan: {
+        title: string;
+        description: string;
+      };
+      weekend_sprint: {
+        title: string;
+        description: string;
+      };
+      double_feature: {
+        title: string;
+        description: string;
+      };
+      captains_log: {
+        title: string;
+        description: string;
+      };
+      on_duty_critic: {
+        title: string;
+        description: string;
+      };
+      quick_take: {
+        title: string;
+        description: string;
+      };
+    };
+    lina: {
+      name: string;
+      namePlate: string;
+      namePlateShort: string;
+      options: {
+        board: string;
+        quick: string;
+        goodbye: string;
+      };
+      contract_accepted: string;
+      contract_accepted_no_game: string;
+      contract_claimed: string;
+      contract_ready_to_claim: string;
+      contract_ready_to_claim_no_game: string;
+      returning_after_inactivity: string;
+      weekly_board_refreshed: string;
+      stale_backlog_game: string;
+      default: string;
+    };
+    actions: {
+      accept: string;
+      notNow: string;
+      turnIn: string;
+      abandon: string;
+    };
+    earlyAccess: {
+      badge: string;
+      title: string;
+      line: string;
+      cta: string;
+    };
+    signIn: {
+      title: string;
+      line: string;
+      cta: string;
+    };
+    errors: {
+      guild_active_contract_limit_reached: string;
+      guild_contract_already_exists: string;
+      guild_contract_not_ready: string;
+      guild_contract_not_active: string;
+      guild_cosmetic_not_owned: string;
+      guild_early_access_required: string;
+    };
+  };
   home: {
     lastReviews: string;
     noResultsTryAgain: string;
@@ -2511,6 +2746,7 @@ export type TranslationSchema = {
     };
     explore: string;
     feats: string;
+    guild: string;
     home: string;
     journal: string;
     library: string;
@@ -2569,6 +2805,13 @@ export type TranslationSchema = {
     goal: {
       title: string;
       progress: string;
+    };
+    guild: {
+      title: string;
+      contractReady: string;
+      contractReadyGame: string;
+      contractExpiring: string;
+      contractExpiringGame: string;
     };
     recap: {
       title: string;

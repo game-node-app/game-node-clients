@@ -19,6 +19,8 @@ export interface BuildDockGroupsOptions {
    * reads the marker; the Recap page writes it.
    */
   recapVisited: boolean;
+  /** Whether the Guild still admits supporters only (spec guild-access). */
+  guildEarlyAccess?: boolean;
 }
 
 function insertAfter(
@@ -92,6 +94,23 @@ export function getRecapDockItem(
 }
 
 /**
+ * Applies the early-access badge to the Guild entry while its server access
+ * mode is `supporters` (spec guild-access). Every other item is untouched.
+ */
+function withGuildBadge(
+  items: DockItemDefinition[],
+  guildEarlyAccess: boolean,
+): DockItemDefinition[] {
+  if (!guildEarlyAccess) {
+    return items;
+  }
+
+  return items.map((item) =>
+    item.id === "guild" ? { ...item, badge: "earlyAccess" as const } : item,
+  );
+}
+
+/**
  * Applies the season entries to the static Dock groups. Pure so the visibility,
  * position, destination and badge of every phase can be unit-tested without
  * rendering the Dock.
@@ -102,24 +121,23 @@ export function buildDockGroups(
 ): DockGroupDefinition[] {
   const awardsItem = getAwardsDockItem(season);
   const recapItem = getRecapDockItem(season, options);
+  const guildEarlyAccess = options.guildEarlyAccess === true;
 
   return DOCK_GROUPS.map((group) => {
-    if (group.id === "discover") {
-      return awardsItem
-        ? {
-            ...group,
-            items: insertAfter(group.items, "home", awardsItem),
-          }
-        : group;
+    let items = group.items;
+
+    if (group.id === "discover" && awardsItem) {
+      items = insertAfter(items, "home", awardsItem);
+    } else if (group.id === "yourSpace" && recapItem) {
+      items = insertAfter(items, "wrapped", recapItem);
     }
 
-    if (group.id === "yourSpace" && recapItem) {
-      return {
-        ...group,
-        items: insertAfter(group.items, "wrapped", recapItem),
-      };
+    const decoratedItems = withGuildBadge(items, guildEarlyAccess);
+
+    if (decoratedItems === items && items === group.items) {
+      return group;
     }
 
-    return group;
+    return { ...group, items: decoratedItems };
   });
 }

@@ -146,12 +146,13 @@ describe("findDarkBlocks", () => {
     vi.restoreAllMocks();
   });
 
-  it("reports large opaque near-black blocks and skips scopes, media and light blocks", () => {
+  it("reports large opaque near-black blocks and skips scopes, artwork, media and light blocks", () => {
     document.body.innerHTML = `
       <div id="dark" style="background-color: rgb(5, 5, 5)"><p id="child" style="background-color: rgb(0, 0, 0)">x</p></div>
       <div id="light" style="background-color: rgb(240, 240, 240)"></div>
       <div id="scrim" style="background-color: rgba(0, 0, 0, 0.5)"></div>
       <div data-gn-scope="dark"><div id="scoped" style="background-color: rgb(0, 0, 0)"></div></div>
+      <div data-gn-artwork><div id="artwork" style="background-color: rgb(0, 0, 0)"></div></div>
       <img id="media" style="background-color: rgb(0, 0, 0)" />
       <div id="art" style="background-color: rgb(0, 0, 0); background-image: url(cover.png)"></div>
     `;

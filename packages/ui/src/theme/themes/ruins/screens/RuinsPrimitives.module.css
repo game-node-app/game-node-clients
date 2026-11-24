@@ -226,14 +226,15 @@
   outline-offset: 2px;
 }
 
-/* "NOVO" / "NOVA" / "AO VIVO": outlined mono tag in the highlight color. */
+/* "NOVO" / "NOVA" / "AO VIVO": outlined mono tag; the highlight outline, and
+   the nav red for the 10px label (the highlight is too light for text). */
 :global(:root[data-theme="ruins"] [data-slot="nav-badge"]) {
   height: auto;
   padding: 1px 6px;
   border: 1px solid var(--gn-highlight);
   border-radius: 0;
   background: transparent;
-  color: var(--gn-highlight);
+  color: var(--gn-nav-danger);
   font-family: var(--gn-font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;

@@ -11,6 +11,11 @@ export type ProfileResponseDto = {
     customCoverMode: ProfileResponseDto.customCoverMode;
     libraryVisibility: ProfileResponseDto.libraryVisibility;
     /**
+     * Equipped Guild cosmetic keys; permanent unlocks, independent of supporter status.
+     */
+    guildTitleKey: string | null;
+    guildFrameKey: string | null;
+    /**
      * Whether the current viewer may see this profile's library games.
      */
     canViewLibrary: boolean;

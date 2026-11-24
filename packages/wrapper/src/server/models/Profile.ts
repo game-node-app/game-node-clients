@@ -18,6 +18,11 @@ export type Profile = {
     avatar: ProfileAvatar | null;
     banner: ProfileBanner | null;
     usernameLastUpdatedAt: string | null;
+    /**
+     * Equipped Guild cosmetic keys; permanent unlocks, independent of supporter status.
+     */
+    guildTitleKey: string | null;
+    guildFrameKey: string | null;
     createdAt: string;
     updatedAt: string;
 };

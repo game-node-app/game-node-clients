@@ -13,6 +13,7 @@ interface IGameInfoReviewEditorProps
   editorRef?: MutableRefObject<Editor | null>;
   gameId: number;
   onBlur: (html: string) => void;
+  onUpdate?: (html: string) => void;
   stickyOffset?: number;
 }
 
@@ -30,6 +31,7 @@ const GameInfoReviewEditor = ({
   editorRef,
   gameId,
   onBlur,
+  onUpdate,
   stickyOffset = 78,
   ...others
 }: IGameInfoReviewEditorProps) => {
@@ -49,6 +51,9 @@ const GameInfoReviewEditor = ({
       onBlur: (e) => {
         const html = e.editor.getHTML();
         onBlur(html ?? "");
+      },
+      onUpdate: (e) => {
+        onUpdate?.(e.editor.getHTML() ?? "");
       },
       immediatelyRender: window != undefined,
     },

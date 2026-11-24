@@ -1853,6 +1853,241 @@
       "deselectAll": "Desmarcar todos os itens"
     }
   },
+  "guild": {
+    "header": {
+      "title": "Guilda dos Aventureiros",
+      "subtitle": "Quadro de pedidos renovado toda segunda · próxima rodada em {{timeLeft}}",
+      "rankBadge": "RANK {{rank}}",
+      "xp": "{{xp}} / {{max}} XP"
+    },
+    "license": {
+      "overline": "LICENÇA DA GUILDA",
+      "memberSince": "Membro da guilda desde {{year}}",
+      "maxRank": "Rank máximo alcançado",
+      "nextRank": "Próximo rank: {{rank}}",
+      "xpLeft": "faltam {{xp}} XP",
+      "stats": {
+        "finished": "Zerados",
+        "backlog": "No backlog",
+        "reviews": "Reviews"
+      }
+    },
+    "rankLabel": "RANK",
+    "scene": {
+      "boardSign": "PEDIDOS"
+    },
+    "tabs": {
+      "board": "Quadro de pedidos",
+      "boardShort": "Pedidos",
+      "accepted": "Aceitos",
+      "completed": "Concluídos"
+    },
+    "board": {
+      "renewIn": "Renova em {{time}}",
+      "quickTitle": "Pedidos rápidos",
+      "backToFull": "Voltar ao quadro completo",
+      "empty": "Nenhum pedido no quadro esta semana. Volte na segunda-feira!",
+      "quickEmpty": "Nenhum pedido rápido agora. Dê uma olhada no quadro completo.",
+      "recommended": "★ Lina recomenda",
+      "xpReward": "+{{xp}} XP",
+      "duration_one": "{{count}} dia para concluir depois de aceitar",
+      "duration_other": "{{count}} dias para concluir depois de aceitar",
+      "rules": {
+        "review": "Só contam reviews com pelo menos 80 caracteres.",
+        "finish": "Só contam jogos que você marcar como zerados depois de aceitar. Importações e jogos zerados de novo não contam."
+      },
+      "tags": {
+        "library": "Da sua biblioteca",
+        "event": "Evento curado · {{days}} dias",
+        "weekly": "Semanal",
+        "gamenode": "Uso do GameNode",
+        "goal": "Meta"
+      },
+      "chips": {
+        "since": "desde {{year}}",
+        "hours": "~{{hours}}h"
+      }
+    },
+    "activeContracts": {
+      "title": "CONTRATOS ATIVOS",
+      "empty": "Nenhum contrato ativo ainda. Escolha um pedido no quadro para começar.",
+      "yearGoal": "Meta {{year}}: zerar {{target}} jogos",
+      "yearGoalLeft_one": "Falta {{count}} jogo até 31/12",
+      "yearGoalLeft_other": "Faltam {{count}} jogos até 31/12",
+      "acceptedAgo": "Aceito há {{time}}",
+      "playtime": "{{played}}h de {{estimated}}h"
+    },
+    "contracts": {
+      "emptyAccepted": "Nenhum contrato aceito ainda. Escolha um pedido no quadro!",
+      "emptyCompleted": "Nenhum contrato concluído ainda. Quando você entregar o primeiro, ele aparece aqui.",
+      "deadline": "Expira em {{time}}",
+      "status": {
+        "active": "Ativo",
+        "readyToClaim": "Pronto para entregar",
+        "completed": "Concluído",
+        "abandoned": "Abandonado",
+        "expired": "Expirado"
+      },
+      "abandon": {
+        "title": "Abandonar contrato?",
+        "body": "Você vai devolver \"{{title}}\" ao quadro. O pedido continua disponível enquanto a rodada não virar.",
+        "confirm": "Abandonar",
+        "cancel": "Cancelar"
+      }
+    },
+    "reviewHint": {
+      "counter": "{{count}}/80",
+      "short": "Reviews com menos de 80 caracteres ainda não contam para o seu contrato da Guilda.",
+      "ok": "Esta review conta para o seu contrato da Guilda."
+    },
+    "targetGame": {
+      "title": "Qual jogo vai cumprir este pedido?",
+      "body": "Escolha um jogo da sua biblioteca que combine com o pedido.",
+      "confirm": "Aceitar pedido",
+      "cancel": "Cancelar"
+    },
+    "accepted": {
+      "overline": "CONTRATO DE PEDIDO",
+      "adventurer": "Aventureiro",
+      "target": "Alvo",
+      "rank": "Rank",
+      "signature": "Assinado na recepção: Lina",
+      "stamp": "ACEITO",
+      "xpChip": "+{{xp}} XP ao concluir",
+      "rankXp": "{{rank}} · +{{xp}} XP",
+      "backToBoard": "Voltar ao quadro",
+      "viewContracts": "Ver contratos ativos"
+    },
+    "claim": {
+      "title": "Contrato concluído",
+      "xp": "+{{xp}} XP da Guilda",
+      "accountXp": "+{{xp}} XP da conta",
+      "rankChange": "Rank {{from}} → {{to}}",
+      "newRewards": "Novas recompensas",
+      "chestBonus": "Bônus do baú: +{{xp}} XP",
+      "close": "Continuar"
+    },
+    "rewardsPanel": {
+      "title": "Recompensas",
+      "sections": {
+        "badges": "Insígnias",
+        "titles": "Títulos",
+        "frames": "Molduras"
+      },
+      "equip": "Equipar",
+      "unequip": "Desequipar",
+      "equipped": "Equipado",
+      "locked": "Bloqueado",
+      "empty": "Conclua contratos para desbloquear recompensas."
+    },
+    "rewards": {
+      "generic": {
+        "badge": "Insígnia",
+        "title": "Título da guilda",
+        "frame": "Moldura de perfil",
+        "chest": "Baú semanal"
+      },
+      "badge_archaeologist": "Arqueólogo",
+      "title_chronist": "Cronista",
+      "weekly_chest": "Baú Semanal",
+      "title_backlog_slayer": "Caçador de Backlog",
+      "title_guild_veteran": "Veterano da Guilda",
+      "frame_parchment_seal": "Selo de Pergaminho",
+      "frame_lantern_glow": "Brilho de Lanterna",
+      "title_relic_hunter": "Caçador de Relíquias",
+      "title_night_owl": "Coruja Noturna",
+      "title_completionist": "Completista",
+      "frame_ember_rune": "Runa de Brasa",
+      "frame_moonlit_ivy": "Hera Enluarada",
+      "frame_gilded_compass": "Bússola Dourada"
+    },
+    "rank": {
+      "E": "Novato",
+      "D": "Aprendiz",
+      "C": "Aventureiro",
+      "B": "Veterano",
+      "A": "Elite",
+      "S": "Lenda"
+    },
+    "templates": {
+      "forgotten_relic": {
+        "title": "Relíquia Esquecida",
+        "description": "Zere um jogo que está parado no seu backlog há mais de um ano."
+      },
+      "deep_dive": {
+        "title": "Mergulho Profundo",
+        "description": "Zere um jogo que você já está jogando."
+      },
+      "short_caravan": {
+        "title": "Caravana Curta",
+        "description": "Zere um jogo de até 8 horas de duração média."
+      },
+      "weekend_sprint": {
+        "title": "Corrida de Fim de Semana",
+        "description": "Zere qualquer jogo da sua biblioteca nesta semana."
+      },
+      "double_feature": {
+        "title": "Sessão Dupla",
+        "description": "Zere 2 jogos da sua biblioteca nesta semana."
+      },
+      "captains_log": {
+        "title": "Diário de Bordo",
+        "description": "Escreva uma review de um jogo que você zerou este mês. Os outros aventureiros agradecem!"
+      },
+      "on_duty_critic": {
+        "title": "Crítico de Plantão",
+        "description": "Escreva 3 reviews esta semana."
+      },
+      "quick_take": {
+        "title": "Crítica Rápida",
+        "description": "Escreva uma review de qualquer jogo."
+      }
+    },
+    "lina": {
+      "name": "Lina",
+      "namePlate": "Lina · Recepcionista da Guilda",
+      "namePlateShort": "Lina · Recepcionista",
+      "options": {
+        "board": "Me mostra o quadro de pedidos",
+        "quick": "Tem algum pedido mais rápido?",
+        "goodbye": "Até mais, Lina"
+      },
+      "contract_accepted": "Tudo certo! Quando terminar {{gameName}}, passa aqui no balcão pra pegar sua recompensa.",
+      "contract_accepted_no_game": "Tudo certo! Assim que concluir esse pedido, passa aqui no balcão pra pegar sua recompensa.",
+      "contract_claimed": "Mandou bem! Deixa eu carimbar seu contrato. Prontinho, a recompensa é sua.",
+      "contract_ready_to_claim": "Ei, você concluiu o pedido de {{gameName}}! Pode entregar aqui no balcão.",
+      "contract_ready_to_claim_no_game": "Ei, você tem um contrato pronto pra entregar! Passa aqui no balcão pra pegar sua recompensa.",
+      "returning_after_inactivity": "Olha só quem apareceu! Fazia um tempo que você não passava por aqui.",
+      "weekly_board_refreshed": "Acabei de atualizar o quadro de pedidos da semana. Quer dar uma olhada?",
+      "stale_backlog_game": "Oi! Vi aqui que {{gameName}} tá no seu backlog desde {{sinceYear}}. Que tal tirar a poeira dele?",
+      "default": "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali."
+    },
+    "actions": {
+      "accept": "Aceitar",
+      "notNow": "Agora não",
+      "turnIn": "Entregar",
+      "abandon": "Abandonar"
+    },
+    "earlyAccess": {
+      "badge": "Acesso antecipado",
+      "title": "A Guilda está em acesso antecipado",
+      "line": "Por enquanto a Guilda tá aberta só para apoiadores. Se você apoiar o GameNode, já libera seu acesso por aqui e ainda ajuda a manter o projeto no ar.",
+      "cta": "Quero apoiar"
+    },
+    "signIn": {
+      "title": "Entre para visitar a Guilda",
+      "line": "Ainda não te conheço por aqui! Entra na sua conta pra eu pegar sua licença e te mostrar os pedidos da semana.",
+      "cta": "Entrar"
+    },
+    "errors": {
+      "guild_active_contract_limit_reached": "Você já tem 3 contratos ativos. Conclua ou abandone um antes de aceitar outro.",
+      "guild_contract_already_exists": "Você já aceitou este pedido. Confira seus contratos ativos.",
+      "guild_contract_not_ready": "Este contrato ainda não está pronto para entregar. Atualizamos sua lista.",
+      "guild_contract_not_active": "Este contrato não está mais ativo. Atualizamos sua lista.",
+      "guild_cosmetic_not_owned": "Você ainda não desbloqueou este item. Sua escolha anterior foi mantida.",
+      "guild_early_access_required": "A Guilda dos Aventureiros está em acesso antecipado para apoiadores."
+    }
+  },
   "home": {
     "lastReviews": "Últimas avaliações",
     "noResultsTryAgain": "Nenhum resultado encontrado. Tente novamente.",
@@ -2507,6 +2742,7 @@
     },
     "explore": "Explorar",
     "feats": "Feitos",
+    "guild": "Guilda",
     "home": "Início",
     "journal": "Diário",
     "library": "Biblioteca",
@@ -2565,6 +2801,13 @@
     "goal": {
       "title": "Meta anual",
       "progress": "Você zerou {{finished}} de {{target}} jogos da meta de {{year}}."
+    },
+    "guild": {
+      "title": "Guilda dos Aventureiros",
+      "contractReady": "Seu contrato da Guilda está pronto para entregar.",
+      "contractReadyGame": "Seu contrato da Guilda para {{game}} está pronto para entregar.",
+      "contractExpiring": "Seu contrato da Guilda expira em menos de 24 horas.",
+      "contractExpiringGame": "Seu contrato da Guilda para {{game}} expira em menos de 24 horas."
     },
     "recap": {
       "title": "Retrospectiva",

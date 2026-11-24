@@ -1,0 +1,2894 @@
+/**
+ * Adventurers Guild: the only stylesheet shared by the hall, the scene and the
+ * dialogue. Everything visual is CSS; the palette below is the artwork's own
+ * (design D3) and every other color is a --gn-* theme token.
+ */
+
+/* theme-exempt: Adventurers Guild pixel-art palette from Figma rvZfYT3eR8ktZAW6g3HO8C */
+.root {
+  --guild-wall: #1c1411;
+  --guild-wall-dark: #0d0907;
+  --guild-wood-dark: #2e1c10;
+  --guild-wood: #5a3820;
+  --guild-wood-light: #8a5a36;
+  --guild-outline: #1f120d;
+  --guild-parchment: #efe0b5;
+  --guild-parchment-shade: #c4ad78;
+  --guild-ink: #2b1a10;
+  --guild-stamp: #c7362a;
+  --guild-gold: #ffcc4d;
+  /* Chest-pool cosmetic frame hues (hand-off table 11.4, design D10). */
+  --guild-ember: #ff7a36;
+  --guild-ember-glow: color-mix(in srgb, var(--guild-ember) 55%, transparent);
+  --guild-moon-silver: #dce7de;
+  --guild-ivy: #a9d8b2;
+  --guild-ivy-glow: color-mix(in srgb, var(--guild-moon-silver) 60%, transparent);
+  --guild-gilded: #e8b84a;
+  --guild-gilded-deep: #8a5e1f;
+  --guild-gilded-glow: color-mix(in srgb, var(--guild-gilded) 55%, transparent);
+  --guild-dialog-bg: #0d0a09;
+  --guild-dialog-border: #e8d7a8;
+  --guild-dialog-text: #f4ead2;
+  --guild-dialog-dim: #b9ad94;
+  --guild-shadow: rgba(0, 0, 0, 0.45);
+
+  /*
+   * Text and chips drawn on the artwork's FIXED surfaces (parchment cards, dark
+   * dialogue panel). --gn-* text tokens flip with the theme (--gn-text is dark
+   * in Ruins, --gn-brand-9 is a light shade there), so on these surfaces the
+   * theme only tints the hue and the ink keeps it readable in every theme.
+   */
+  --guild-brand-ink: color-mix(in srgb, var(--gn-brand) 55%, var(--guild-ink));
+  --guild-event-chip: color-mix(in srgb, var(--gn-premium) 30%, var(--guild-ink));
+  --guild-played-chip: color-mix(in srgb, var(--gn-state-played) 30%, var(--guild-ink));
+
+  color: var(--gn-text);
+  font-family: var(--gn-font, inherit);
+}
+
+/* ---- Typefaces (GuildFonts declares the faces; the apps serve the files). ---- */
+
+.pixel {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+}
+
+.stamp {
+  font-family: "Guild Stamp", var(--gn-font, monospace);
+}
+
+.pixelTitle {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.pixelCardTitle {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.pixelDialog {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+@media (max-width: 47.99em) {
+  .pixelDialog {
+    font-size: 15px;
+    line-height: 21px;
+  }
+}
+
+.pixelLabel {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.pixelOverline {
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+}
+
+.stampRank {
+  font-family: "Guild Stamp", var(--gn-font, monospace);
+  font-weight: 700;
+}
+
+.stampAccepted {
+  font-family: "Guild Stamp", var(--gn-font, monospace);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+/* Pixelify Sans maps the standard "fi" ligature to a wrong glyph that reads
+   as "A" ("first" renders as "Arst", "finish" as "Anish"). Every class that
+   selects a Guild pixel face opts out here, in one place, including the
+   dialogue and stamp classes declared further down. */
+.pixel,
+.stamp,
+.pixelTitle,
+.pixelCardTitle,
+.pixelDialog,
+.pixelLabel,
+.pixelOverline,
+.stampRank,
+.stampAccepted,
+.linaNamePlate,
+.linaOption,
+.linaNext,
+.linaCollapsedPlate {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+}
+
+.bodyText {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.bodyMedium {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.captionText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.captionMedium {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+/* Every Guild <img> keeps the pixel grid and ignores Tailwind's
+   `img { max-width: 100%; height: auto }` preflight (which collapses art
+   inside the zero-width absolutely positioned scene wrappers). */
+.pixelated {
+  image-rendering: pixelated;
+  display: block;
+  max-width: none;
+  height: auto;
+}
+
+/* ---- PixelButton (D6). ---- */
+
+/* UnstyledButton resets the box (`.m_87cf2631`: padding/background/border/
+   font-size, all at 0-1-0 weight). Mobile/Vite emits Mantine's stylesheet
+   after this module and web emits it before, so every PixelButton rule below
+   doubles its class to win on specificity instead of source order. */
+
+.pixelButton.pixelButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    filter 80ms linear,
+    transform 80ms linear,
+    background-color 120ms linear,
+    color 120ms linear;
+}
+
+.pixelButton.pixelButton:disabled,
+.pixelButton.pixelButton[data-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
+.pixelButton.pixelButton:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.pixelButton.pixelButtonSm {
+  padding: 7px 12px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.pixelButton.pixelButtonMd {
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.pixelButton.pixelButtonFullWidth {
+  width: 100%;
+}
+
+.pixelButtonSection {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.pixelButton.pixelButtonPrimary {
+  color: var(--gn-accent-contrast);
+  background: var(--gn-brand);
+  filter: drop-shadow(0 3px 0 var(--gn-brand-9));
+}
+
+.pixelButton.pixelButtonPrimary:hover:not(:disabled) {
+  background: var(--gn-brand-8);
+}
+
+.pixelButton.pixelButtonPrimary:active:not(:disabled) {
+  transform: translateY(2px);
+  filter: drop-shadow(0 1px 0 var(--gn-brand-9));
+}
+
+.pixelButton.pixelButtonGhost {
+  color: var(--guild-ink, var(--gn-text-color));
+  background: transparent;
+  border: 1px solid var(--guild-ink, var(--gn-text-color));
+}
+
+.pixelButton.pixelButtonGhost:hover:not(:disabled) {
+  background: color-mix(
+    in srgb,
+    var(--guild-ink, var(--gn-text-color)) 8%,
+    transparent
+  );
+}
+
+.pixelButton.pixelButtonGhost:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.pixelButton.pixelButtonGhostDark {
+  color: var(--gn-text-subtle);
+  background: transparent;
+  border: 1px solid var(--gn-line-strong);
+}
+
+.pixelButton.pixelButtonGhostDark:hover:not(:disabled) {
+  color: var(--gn-text);
+  border-color: var(--gn-text-subtle);
+}
+
+/* On the dialogue panel (fixed dark in every theme) the ghost uses the panel's own ink. */
+.linaDialogue .pixelButton.pixelButtonGhostDark {
+  color: var(--guild-dialog-dim);
+  border-color: var(--guild-dialog-dim);
+}
+
+.linaDialogue .pixelButton.pixelButtonGhostDark:hover:not(:disabled) {
+  color: var(--guild-dialog-text);
+  border-color: var(--guild-dialog-text);
+}
+
+.pixelButton.pixelButtonGhostDark:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* ---- RankStamp (D4/D6): 46 px circle, 8deg, Silkscreen. ---- */
+
+.rankStamp {
+  --guild-rank-stamp-size: 46px;
+
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: var(--guild-rank-stamp-size, 46px);
+  height: var(--guild-rank-stamp-size, 46px);
+  border: 2px solid var(--guild-stamp, var(--gn-danger));
+  border-radius: 50%;
+  color: var(--guild-stamp, var(--gn-danger));
+  line-height: 1;
+  transform: rotate(8deg);
+}
+
+.rankStampLabel {
+  font-size: calc(var(--guild-rank-stamp-size, 46px) * 0.152);
+  font-weight: 400;
+  letter-spacing: calc(var(--guild-rank-stamp-size, 46px) * 0.012);
+  line-height: 1;
+}
+
+.rankStampLetter {
+  font-size: calc(var(--guild-rank-stamp-size, 46px) * 0.391);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---- CategoryTag (D6): five variants; the chips on parchment mix the theme hue into the fixed ink. ---- */
+
+.categoryTag {
+  display: inline-flex;
+  align-self: flex-start;
+  max-width: 100%;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  white-space: normal;
+}
+
+.categoryTagLibrary {
+  color: var(--gn-accent-text);
+  background: var(--gn-brand-tint);
+}
+
+.categoryTagEvent {
+  color: var(--guild-parchment);
+  background: var(--guild-event-chip);
+}
+
+.categoryTagWeekly {
+  color: var(--guild-parchment, var(--gn-accent-contrast));
+  background: var(--guild-ink, var(--gn-text-color));
+}
+
+.categoryTagGamenode,
+.categoryTagGoal {
+  color: var(--guild-parchment);
+  background: var(--guild-played-chip);
+}
+
+/* ---- GameChip (D6): 16x20 cover + name + meta on parchment. ---- */
+
+.gameChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 3px 8px 3px 3px;
+  border-radius: 4px;
+  color: var(--guild-ink, var(--gn-text-color));
+  background: var(--guild-parchment-shade, var(--gn-paper-2));
+}
+
+.gameChipCover,
+.gameChipCoverFallback {
+  flex: none;
+  width: 16px;
+  height: 20px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.gameChipCoverFallback {
+  background: var(--guild-parchment, var(--gn-paper-1));
+}
+
+.gameChipName {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gameChipMeta {
+  flex: none;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+/* ---- D5 animations. ---- */
+
+@keyframes guildBreathe {
+  0%,
+  49.99% {
+    transform: translateY(0);
+  }
+
+  50%,
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+.animBreathe {
+  animation: guildBreathe 1.2s steps(1, end) infinite;
+}
+
+@keyframes guildBreatheMobile {
+  0%,
+  49.99% {
+    transform: translateY(0);
+  }
+
+  50%,
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+.animBreatheMobile {
+  animation: guildBreatheMobile 1.2s steps(1, end) infinite;
+}
+
+.animBraids {
+  animation: guildBreathe 1.2s steps(1, end) 100ms infinite;
+}
+
+.animBraidsMobile {
+  animation: guildBreatheMobile 1.2s steps(1, end) 100ms infinite;
+}
+
+@keyframes guildBlink {
+  0%,
+  96.5% {
+    opacity: 0;
+  }
+
+  96.6%,
+  99.9% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.animBlink {
+  opacity: 0;
+  animation: guildBlink 3.5s steps(1, end) infinite;
+}
+
+@keyframes guildTalk {
+  0%,
+  49.99% {
+    opacity: 0;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.animTalk {
+  opacity: 0;
+  animation: guildTalk 280ms steps(1, end) infinite;
+}
+
+@keyframes guildAlert {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animAlert {
+  animation: guildAlert 0.8s ease-in-out infinite;
+}
+
+@keyframes guildLantern {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animLantern {
+  animation: guildLantern 1.6s linear infinite;
+}
+
+@keyframes guildSway {
+  from {
+    transform: rotate(-1deg);
+  }
+
+  to {
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes guildSwayAlt {
+  from {
+    transform: rotate(1deg);
+  }
+
+  to {
+    transform: rotate(-1deg);
+  }
+}
+
+.animSway {
+  animation: guildSway 6s ease-in-out infinite alternate;
+}
+
+.animSwayAlt {
+  animation: guildSwayAlt 6s ease-in-out infinite alternate;
+}
+
+@keyframes guildNext {
+  0%,
+  49.99% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animNext {
+  animation: guildNext 1s steps(1, end) infinite;
+}
+
+@keyframes guildCursor {
+  0%,
+  49.99% {
+    transform: translateX(0);
+  }
+
+  50%,
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+.animCursor {
+  animation: guildCursor 1s steps(1, end) infinite;
+}
+
+@keyframes guildCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animCardEnter {
+  animation: guildCardEnter 340ms ease-out var(--guild-enter-delay, 0ms) 1 both;
+}
+
+@keyframes guildStampSlam {
+  0% {
+    opacity: 0;
+    transform: rotate(12deg) scale(2.2);
+    animation-timing-function: ease-in;
+  }
+
+  76.92% {
+    opacity: 1;
+    transform: rotate(12deg) scale(0.94);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  100% {
+    opacity: 0.92;
+    transform: rotate(12deg) scale(1);
+  }
+}
+
+.animStamp {
+  opacity: 0.92;
+  transform: rotate(12deg);
+  animation: guildStampSlam 260ms 300ms 1 both;
+}
+
+@keyframes guildShake {
+  0% {
+    translate: 0 0;
+  }
+
+  16.7% {
+    translate: 3px 2px;
+  }
+
+  33.3% {
+    translate: -3px 0;
+  }
+
+  50% {
+    translate: 2px 0;
+  }
+
+  66.7% {
+    translate: -1px 0;
+  }
+
+  83.3% {
+    translate: 0 0;
+  }
+
+  100% {
+    translate: 0 0;
+  }
+}
+
+.animShake {
+  animation: guildShake 300ms ease-in-out 500ms 1 both;
+}
+
+@keyframes guildHop {
+  0%,
+  12.49% {
+    transform: translateY(0);
+  }
+
+  12.5%,
+  24.99% {
+    transform: translateY(-6px);
+  }
+
+  25%,
+  37.49% {
+    transform: translateY(0);
+  }
+
+  37.5%,
+  49.99% {
+    transform: translateY(-6px);
+  }
+
+  50%,
+  62.49% {
+    transform: translateY(0);
+  }
+
+  62.5%,
+  74.99% {
+    transform: translateY(-6px);
+  }
+
+  75%,
+  87.49% {
+    transform: translateY(0);
+  }
+
+  87.5%,
+  99.99% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Four 200 ms hops, then the regular breathing loop. Use instead of
+   .animBreathe on Lina while the accepted state celebrates. */
+.animHop {
+  animation:
+    guildHop 800ms steps(1, end) 1 both,
+    guildBreathe 1.2s steps(1, end) 800ms infinite;
+}
+
+@keyframes guildSparkleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes guildTwinkle {
+  0%,
+  14% {
+    opacity: 1;
+  }
+
+  18%,
+  34% {
+    opacity: 0.2;
+  }
+
+  38%,
+  54% {
+    opacity: 1;
+  }
+
+  58%,
+  74% {
+    opacity: 0.3;
+  }
+
+  78%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Set --guild-sparkle-delay per star (550ms + n * 120ms). */
+.animSparkle {
+  opacity: 1;
+  animation:
+    guildSparkleIn 300ms cubic-bezier(0.45, 1.45, 0.8, 1)
+      var(--guild-sparkle-delay, 550ms) both,
+    guildTwinkle 2.6s steps(1, end)
+      calc(var(--guild-sparkle-delay, 550ms) + 300ms) infinite;
+}
+
+@keyframes guildXpChip {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.animXpChip {
+  opacity: 1;
+  animation: guildXpChip 350ms cubic-bezier(0.34, 1.56, 0.64, 1) 750ms 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animBreathe,
+  .animBreatheMobile,
+  .animBraids,
+  .animBraidsMobile,
+  .animBlink,
+  .animTalk,
+  .animAlert,
+  .animLantern,
+  .animSway,
+  .animSwayAlt,
+  .animNext,
+  .animCursor,
+  .animCardEnter,
+  .animStamp,
+  .animShake,
+  .animHop,
+  .animSparkle,
+  .animXpChip {
+    animation: none;
+  }
+
+  .animCardEnter,
+  .animXpChip,
+  .animSparkle {
+    opacity: 1;
+    transform: none;
+    translate: none;
+  }
+
+  .animShake {
+    translate: none;
+  }
+
+  .animStamp {
+    opacity: 0.92;
+    transform: rotate(12deg);
+  }
+}
+
+/* ==========================================================================
+   Guild Hall (wave 2 · hall, design D6)
+   Append-only section owned by the hall implementation. Every color is a
+   --guild-* artwork variable or a --gn-* theme token.
+   ========================================================================== */
+
+.view {
+  width: 100%;
+}
+
+.hall {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-background);
+}
+
+/* ---- Header (desktop 14x24, mobile 14/16/12). ---- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--gn-line);
+  background: var(--gn-surface);
+}
+
+.headerMobile {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 16px 12px;
+}
+
+.headerMobileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.headerCrest {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--gn-brand);
+  border-radius: 8px;
+  background: var(--gn-brand-tint);
+}
+
+.headerCrestMobile {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.headerTitleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.headerTitle {
+  margin: 0;
+  color: var(--gn-text);
+}
+
+.headerTitleMobile {
+  font-size: 19px;
+  line-height: 23px;
+}
+
+.headerSubtitle {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.headerRight {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.rankBadge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--gn-accent-contrast);
+  background: var(--gn-brand);
+  box-shadow: 0 3px 0 var(--gn-brand-9);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.rankBadgeMobile {
+  padding: 3px 7px;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.xpBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 240px;
+  min-width: 0;
+}
+
+.xpBlockMobile {
+  width: 100%;
+}
+
+.xpRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.xpTitle {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--gn-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xpValue {
+  flex: none;
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.xpBar {
+  height: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gn-line-strong);
+  border-radius: 2px;
+  background: var(--gn-paper-2);
+}
+
+.xpBarFill {
+  display: block;
+  height: 100%;
+  background: var(--gn-brand);
+}
+
+/* ---- Content. ---- */
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px 24px 32px;
+}
+
+.sidebar {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 20px;
+  width: 340px;
+  min-width: 0;
+}
+
+.boardColumn {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.mobileContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 16px;
+}
+
+/* ---- License card. ---- */
+
+.licenseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--gn-line);
+  border-radius: 8px;
+  background: var(--gn-surface);
+}
+
+.licenseTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.licenseOverline {
+  color: var(--gn-text-subtle);
+}
+
+.licenseNumber {
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.licenseIdentity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.licenseAvatar {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid var(--gn-line-strong);
+  border-radius: 8px;
+  background: var(--gn-paper-2);
+}
+
+.licenseFrame {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.licenseFrameGeneric {
+  border: 2px solid var(--gn-brand);
+}
+
+.licenseFrameParchment {
+  border: 2px solid var(--guild-parchment-shade);
+}
+
+.licenseFrameLantern {
+  border: 2px solid var(--guild-gold);
+  box-shadow: inset 0 0 10px var(--guild-gold);
+}
+
+.licenseFrameEmber {
+  border: 2px solid var(--guild-ember);
+  box-shadow: inset 0 0 10px var(--guild-ember-glow);
+}
+
+.licenseFrameIvy {
+  border: 2px solid var(--guild-ivy);
+  box-shadow: inset 0 0 10px var(--guild-ivy-glow);
+}
+
+.licenseFrameGilded {
+  border: 2px solid var(--guild-gilded);
+  box-shadow:
+    inset 0 0 0 2px var(--guild-gilded-deep),
+    inset 0 0 10px var(--guild-gilded-glow);
+}
+
+/* The license card is a theme surface: its stamp uses the theme's readable red. */
+.licenseRankStamp {
+  color: var(--gn-status-danger-text);
+  border-color: var(--gn-status-danger-text);
+}
+
+.licenseNameBlock {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.licenseName {
+  overflow: hidden;
+  color: var(--gn-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.licenseMember {
+  color: var(--gn-text-subtle);
+}
+
+.licenseStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.licenseStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: var(--gn-paper-1);
+}
+
+.licenseStatNumber {
+  color: var(--gn-text);
+}
+
+.licenseStatLabel {
+  color: var(--gn-text-subtle);
+}
+
+.licenseNextRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.licenseNext {
+  color: var(--gn-text-subtle);
+}
+
+.licenseXpLeft {
+  color: var(--gn-accent-text);
+  white-space: nowrap;
+}
+
+/* ---- Active contracts and the year goal. ---- */
+
+.contractsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contractsTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contractsTitle {
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.contractsRule {
+  flex: 1;
+  height: 1px;
+  background: var(--gn-line);
+}
+
+.contractsEmpty {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.contractRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--gn-line);
+  border-radius: 8px;
+  background: var(--gn-paper-1);
+}
+
+.contractRowReady {
+  border-color: var(--gn-brand);
+}
+
+.contractRowTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contractName {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--gn-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contractValue {
+  flex: none;
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.contractCaption {
+  color: var(--gn-text-subtle);
+}
+
+.contractBar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--gn-paper-2);
+}
+
+.contractBarFill {
+  display: block;
+  height: 100%;
+  background: var(--gn-brand);
+}
+
+.contractBarFillGoal {
+  background: var(--gn-success);
+}
+
+.contractClaim {
+  align-self: flex-start;
+}
+
+/* ---- Tabs and refresh countdown. ---- */
+
+.tabsBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 16px;
+  border-bottom: 1px solid var(--gn-line);
+}
+
+.tabsBarMobile {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 10px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--gn-text-subtle);
+  font: inherit;
+  font-size: 13px;
+  line-height: 19px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--gn-text);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: -2px;
+}
+
+.tabActive {
+  color: var(--gn-text);
+  border-bottom-color: var(--gn-brand);
+}
+
+.tabCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--gn-paper-2);
+  color: var(--gn-text);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.tabCountActive {
+  background: var(--gn-brand-tint);
+  color: var(--gn-accent-text);
+}
+
+.tabsBarMobile .tab {
+  padding: 8px 10px 10px;
+}
+
+.tabsRenew {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding-bottom: 10px;
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.tabsBarMobile .tabsRenew {
+  align-self: flex-end;
+  padding-bottom: 0;
+}
+
+/* ---- Cork board and quest cards. ---- */
+
+.boardSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.quickBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quickTitle {
+  color: var(--gn-text);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px 12px 20px;
+  border: 4px solid var(--guild-wood);
+  border-radius: 8px;
+  background: var(--guild-wood-dark);
+}
+
+/* Two columns only when the board itself is wide enough for readable cards;
+   the viewport breakpoint does not know about the 340 px hall sidebar. */
+@container (min-width: 640px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 20px;
+    padding: 32px 24px 28px;
+    border-width: 6px;
+  }
+}
+
+.boardCardWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.boardEmpty {
+  margin: 0;
+  padding: 32px 16px;
+  border: 1px dashed var(--gn-line-strong);
+  border-radius: 8px;
+  color: var(--gn-text-subtle);
+  text-align: center;
+}
+
+.skeletonCard {
+  height: 280px;
+  background: var(--guild-parchment-shade);
+}
+
+.questCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px 14px;
+  border: 1px solid var(--guild-parchment-shade);
+  border-radius: 4px;
+  background: var(--guild-parchment);
+  color: var(--guild-ink);
+  filter: drop-shadow(0 6px 0 var(--guild-shadow));
+}
+
+.questCardRecommended {
+  border: 2px solid var(--gn-brand);
+}
+
+.questPin {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%);
+}
+
+.questSeal {
+  position: absolute;
+  top: -18px;
+  left: 10px;
+  padding: 3px 8px;
+  border: 2px solid var(--guild-outline);
+  border-radius: 4px;
+  background: var(--gn-brand);
+  color: var(--gn-accent-contrast);
+  transform: rotate(-2deg);
+  white-space: nowrap;
+}
+
+.questHeader {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.questIcon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: var(--guild-parchment-shade);
+}
+
+.questHeading {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.questTitle {
+  margin: 0;
+  color: var(--guild-ink);
+}
+
+.questDescription {
+  margin: 0;
+  color: var(--guild-ink);
+}
+
+.questChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.questFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--guild-parchment-shade);
+}
+
+.questRewards {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.questXp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--guild-brand-ink);
+  white-space: nowrap;
+}
+
+.questRewardLabel {
+  color: var(--guild-ink);
+}
+
+.questActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* ---- Target-game picker. ---- */
+
+.targetPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.targetBody {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.targetOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.targetOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--gn-line);
+  border-radius: 8px;
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.targetOption:hover {
+  border-color: var(--gn-line-strong);
+}
+
+.targetOption:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.targetOptionActive {
+  border-color: var(--gn-brand);
+  background: var(--gn-brand-tint);
+}
+
+.targetOptionMain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.targetRadio {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--gn-line-strong);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.targetOptionActive .targetRadio {
+  border-color: var(--gn-brand);
+  background: var(--gn-brand);
+  box-shadow: inset 0 0 0 2px var(--gn-paper-1);
+}
+
+.targetActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ---- Loading skeleton. ---- */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonBlock {
+  display: block;
+  border-radius: 6px;
+  background: var(--gn-paper-2);
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--gn-line);
+  background: var(--gn-surface);
+}
+
+.skeletonTitle {
+  width: 260px;
+  height: 22px;
+}
+
+.skeletonRank {
+  width: 84px;
+  height: 26px;
+}
+
+.skeletonScene {
+  height: 280px;
+  border-radius: 0;
+  background: var(--guild-wall);
+}
+
+.skeletonContent {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+.skeletonSidebar {
+  flex: none;
+  width: 340px;
+  height: 320px;
+}
+
+.skeletonBoard {
+  flex: 1;
+  height: 420px;
+}
+
+.hallMessage {
+  margin: 0;
+  padding: 48px 24px;
+  color: var(--gn-text-subtle);
+  text-align: center;
+}
+
+@media (min-width: 48em) {
+  .skeletonScene {
+    height: 360px;
+  }
+}
+
+@media (max-width: 47.99em) {
+  .skeletonContent {
+    flex-direction: column;
+  }
+
+  .skeletonSidebar,
+  .skeletonBoard {
+    width: 100%;
+  }
+
+  .skeletonTitle {
+    width: 180px;
+  }
+}
+
+/* ==========================================================================
+   Scene and Lina (wave 2 · scene, design D5/D6)
+   Append-only section owned by the scene implementation. Every color is a
+   --guild-* artwork variable or a --gn-* theme token.
+   ========================================================================== */
+
+/* ---- Scene frame: planks, beam, wainscot, counter. ---- */
+
+.scene {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--guild-wall);
+}
+
+.sceneDesktop {
+  height: 360px;
+}
+
+.sceneMobile {
+  height: 280px;
+}
+
+.sceneStage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+/* Desktop: anchor the 1280 px stage so the left crop is capped. The hall is
+   narrower than the stage at real app widths; centering would cut Lina and the
+   lantern. Mobile keeps the centered 390 px stage. */
+.sceneStageDesktop {
+  left: max(calc((100% - 1280px) / 2), -56px);
+  width: 1280px;
+  transform: none;
+}
+
+.sceneStageMobile {
+  width: 390px;
+}
+
+.scenePlanks {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.scenePlanksDesktop {
+  top: 28px;
+  height: 268px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--guild-wall-dark) 0 4px,
+    transparent 4px 168px
+  );
+}
+
+.scenePlanksMobile {
+  top: 22px;
+  height: 200px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--guild-wall-dark) 0 4px,
+    transparent 4px 110px
+  );
+  background-position-x: 40px;
+}
+
+.sceneBeam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-wood-dark);
+}
+
+.sceneBeamDesktop {
+  top: 28px;
+  height: 14px;
+}
+
+.sceneBeamMobile {
+  top: 22px;
+  height: 12px;
+}
+
+.sceneWainscot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-wall-dark);
+}
+
+.sceneWainscotDesktop {
+  top: 200px;
+  height: 68px;
+}
+
+.sceneWainscotMobile {
+  top: 150px;
+  height: 60px;
+}
+
+.sceneRail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-wood-dark);
+}
+
+.sceneRailDesktop {
+  top: 196px;
+  height: 6px;
+}
+
+.sceneRailMobile {
+  top: 146px;
+  height: 6px;
+}
+
+/* ---- Positioned art on the fixed-width stage. ---- */
+
+.sceneArt {
+  position: absolute;
+  display: block;
+}
+
+.sceneBoard {
+  position: absolute;
+  top: 56px;
+  left: 400px;
+  box-sizing: border-box;
+  width: 228px;
+  height: 150px;
+  background: var(--guild-wood);
+  border: 6px solid var(--guild-outline);
+}
+
+.sceneBoardSign {
+  position: absolute;
+  top: -20px;
+  left: 72px;
+  padding: 2px 10px;
+  color: var(--guild-gold);
+  background: var(--guild-wood-dark);
+  border: 3px solid var(--guild-outline);
+  white-space: nowrap;
+}
+
+.scenePaperWrap {
+  position: absolute;
+}
+
+.scenePaper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--guild-parchment);
+  box-shadow: 0 2px 0 var(--guild-shadow);
+}
+
+.scenePaperBrand {
+  background: var(--gn-brand-3);
+}
+
+.scenePaperTack {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background: var(--guild-stamp);
+}
+
+.scenePaperLine {
+  position: absolute;
+  left: 8px;
+  height: 3px;
+  background: var(--guild-ink);
+}
+
+.scenePaperLine1 {
+  top: 12px;
+  width: calc(100% - 20px);
+}
+
+.scenePaperLine2 {
+  top: 21px;
+  width: calc(100% - 26px);
+}
+
+.scenePaperLine3 {
+  top: 30px;
+  width: calc(100% - 32px);
+}
+
+.sceneShelf {
+  height: 10px;
+  background: var(--guild-wood-light);
+}
+
+.sceneShelfDesktop {
+  top: 110px;
+  left: 690px;
+  width: 300px;
+}
+
+.sceneShelfMobile {
+  top: 120px;
+  left: 236px;
+  width: 140px;
+  height: 8px;
+}
+
+.sceneBracket {
+  width: 8px;
+  height: 18px;
+  background: var(--guild-wood-dark);
+}
+
+.sceneCounter {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.sceneCounterDesktop {
+  top: 264px;
+  height: 96px;
+}
+
+.sceneCounterMobile {
+  top: 214px;
+  height: 80px;
+}
+
+.sceneCounterFront {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-wood);
+}
+
+.sceneCounterFrontDesktop {
+  top: 18px;
+  height: 78px;
+}
+
+.sceneCounterFrontMobile {
+  top: 16px;
+  height: 64px;
+}
+
+.sceneCounterJointsDesktop {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--guild-wood-dark) 0 4px,
+    transparent 4px 80px
+  );
+  background-position-x: 60px;
+}
+
+.sceneCounterJointsMobile {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--guild-wood-dark) 0 4px,
+    transparent 4px 72px
+  );
+  background-position-x: 40px;
+}
+
+.sceneCounterEdge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-outline);
+}
+
+.sceneCounterEdgeDesktop {
+  top: 18px;
+  height: 6px;
+}
+
+.sceneCounterEdgeMobile {
+  top: 16px;
+  height: 5px;
+}
+
+.sceneCounterTop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--guild-wood-light);
+}
+
+.sceneCounterTopDesktop {
+  top: 0;
+  height: 18px;
+}
+
+.sceneCounterTopMobile {
+  top: 0;
+  height: 16px;
+}
+
+.sceneCounterOutline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--guild-outline);
+}
+
+/* Desktop only: the dialogue floats over the scene, anchored to its right. */
+.sceneDialogueSlot {
+  position: absolute;
+  top: 150px;
+  right: 40px;
+  width: min(560px, 46%);
+}
+
+/* ---- Lina's layered sprite. ---- */
+
+.linaSprite {
+  position: relative;
+  flex: none;
+}
+
+.linaLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+/* ---- Dialogue box (design D6). ---- */
+
+.linaDialogue {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px 16px;
+  color: var(--guild-dialog-text);
+  background: var(--guild-dialog-bg);
+  border: 3px solid var(--guild-dialog-border);
+  box-shadow: 0 9px 0 var(--guild-shadow);
+  outline: none;
+  cursor: pointer;
+}
+
+.linaDialogue:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.linaDialogueDesktop {
+  gap: 10px;
+}
+
+.linaDialogueMobile {
+  gap: 10px;
+  padding: 22px 16px 14px;
+  box-shadow: 0 8px 0 var(--guild-shadow);
+}
+
+.linaDialogueMobile .linaText {
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.linaDialogueModal {
+  gap: 14px;
+  padding: 24px 20px 16px;
+}
+
+.linaNamePlate {
+  position: absolute;
+  top: -19px;
+  left: 11px;
+  padding: 3px 10px;
+  color: var(--gn-accent-contrast);
+  background: var(--gn-brand);
+  border: 3px solid var(--guild-dialog-bg);
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.linaDialogueMobile .linaNamePlate {
+  left: 9px;
+}
+
+.linaText {
+  margin: 0;
+}
+
+.linaHidden {
+  visibility: hidden;
+}
+
+.linaSegmentHighlight {
+  color: var(--guild-gold);
+}
+
+.linaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.linaOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 8px;
+  border-top: 2px dashed var(--guild-dialog-dim);
+}
+
+.linaDialogueMobile .linaOptions {
+  gap: 8px;
+}
+
+.linaOption {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  color: var(--guild-dialog-dim);
+  background: transparent;
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 23px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.linaDialogueMobile .linaOption {
+  padding: 6px 0;
+}
+
+.linaOption[data-active="true"] {
+  color: var(--guild-dialog-text);
+}
+
+.linaOption:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.linaOptionCursor {
+  flex: none;
+}
+
+.linaOptionSpacer {
+  flex: none;
+  width: 10px;
+  height: 12px;
+}
+
+.linaNext {
+  position: absolute;
+  right: 27px;
+  bottom: 19px;
+  color: var(--guild-gold);
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+  pointer-events: none;
+}
+
+.linaCollapsed {
+  position: relative;
+  display: block;
+}
+
+.linaCollapsedPlate {
+  display: inline-block;
+  padding: 3px 10px;
+  color: var(--gn-accent-contrast);
+  background: var(--gn-brand);
+  border: 3px solid var(--guild-dialog-bg);
+  font-family: "Guild Pixel", var(--gn-font, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.linaCollapsedPlate:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+/* ---- Gate screens: early access and guest sign-in (design D2). ---- */
+
+.guildGate {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--gn-background);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+}
+
+.guildGateHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  background: var(--gn-surface);
+  border-bottom: 1px solid var(--gn-line);
+}
+
+.guildGateCrest {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--gn-brand-tint);
+  border: 1px solid var(--gn-brand);
+  border-radius: 8px;
+}
+
+.guildGateHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.guildGateBadge {
+  color: var(--gn-accent-text);
+}
+
+.guildGateDialogue {
+  padding: 24px 16px 16px;
+}
+
+@media (max-width: 47.99em) {
+  .guildGateHeader {
+    padding: 14px 16px;
+  }
+}
+
+/* ==========================================================================
+   Contracts (wave 2 · contracts, design D5/D6)
+   Accepted state (frame 9:387), contract lists, claim celebration and the
+   rewards panel. Append-only section; every color is a --guild-* artwork
+   variable or a --gn-* theme token.
+   ========================================================================== */
+
+/* ---- Accepted state (frame 9:387): 640x330 scene + dialogue. ---- */
+
+.acceptedModalContent {
+  background: var(--gn-background);
+}
+
+.acceptedShell {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: var(--gn-radius);
+  background: var(--guild-wall);
+}
+
+.acceptedViewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--guild-wall);
+}
+
+.acceptedStage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 640px;
+  height: 330px;
+  transform-origin: top center;
+}
+
+.acceptedPlank {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 250px;
+  background: var(--guild-wall-dark);
+}
+
+.acceptedBeam {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: var(--guild-wood-dark);
+}
+
+.acceptedRail {
+  position: absolute;
+  top: 186px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--guild-wood-dark);
+}
+
+.acceptedWainscot {
+  position: absolute;
+  top: 190px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: var(--guild-wall-dark);
+}
+
+.acceptedGlow {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+}
+
+.acceptedLina {
+  position: absolute;
+  top: 66px;
+  left: 60px;
+}
+
+.acceptedSparkle {
+  position: absolute;
+  display: block;
+  line-height: 0;
+}
+
+.acceptedCounter {
+  position: absolute;
+  top: 252px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+}
+
+.acceptedCounterOutline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--guild-outline);
+}
+
+.acceptedCounterTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: var(--guild-wood-light);
+}
+
+.acceptedCounterEdge {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--guild-outline);
+}
+
+.acceptedCounterFront {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--guild-wood);
+}
+
+.acceptedCounterJoint {
+  position: absolute;
+  top: 24px;
+  width: 4px;
+  height: 58px;
+  background: var(--guild-wood-dark);
+}
+
+.acceptedContract {
+  position: absolute;
+  top: 60px;
+  left: 320px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 290px;
+  padding: 18px 20px;
+  color: var(--guild-ink);
+  background: var(--guild-parchment);
+  border: 2px solid var(--guild-parchment-shade);
+  border-radius: 4px;
+  filter: drop-shadow(0 6px 0 var(--guild-shadow));
+  transform: rotate(-2deg);
+}
+
+.acceptedContractOverline {
+  margin: 0;
+  color: var(--guild-ink);
+  opacity: 0.72;
+}
+
+.acceptedContractTitle {
+  margin: 0;
+  color: var(--guild-ink);
+}
+
+.acceptedRows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 0;
+}
+
+.acceptedRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.acceptedRowLabel {
+  margin: 0;
+  color: var(--guild-ink);
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.acceptedRowValue {
+  margin: 0;
+  color: var(--guild-ink);
+  text-align: right;
+}
+
+.acceptedSignature {
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--guild-ink);
+  color: var(--guild-ink);
+  font-size: 11px;
+  line-height: 14px;
+  opacity: 0.8;
+}
+
+.acceptedStamp {
+  position: absolute;
+  top: 196px;
+  left: 391px;
+  padding: 4px 12px;
+  color: var(--guild-stamp);
+  background: transparent;
+  border: 4px solid var(--guild-stamp);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.acceptedXpChip {
+  position: absolute;
+  top: 24px;
+  left: 210px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  color: var(--guild-gold);
+  background: var(--guild-dialog-bg);
+  border: 2px solid var(--guild-gold);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.acceptedDialogue {
+  width: 100%;
+  padding: 25px 20px 20px;
+  background: var(--guild-wall);
+}
+
+@media (max-width: 47.99em) {
+  .acceptedDialogue {
+    padding: 25px 16px 16px;
+  }
+}
+
+/* ---- Contract lists (Accepted / Completed tabs). ---- */
+
+.contractList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contractListLoading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contractListEmpty {
+  margin: 0;
+  padding: 24px 0;
+  color: var(--gn-text-subtle);
+  text-align: center;
+}
+
+.contractListFooter {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.contractListItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: 8px;
+}
+
+.contractListItemReady {
+  background: var(--gn-brand-tint);
+  border-color: var(--gn-brand);
+}
+
+.contractListItemHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contractListItemTitle {
+  min-width: 0;
+  margin: 0;
+  color: var(--gn-text);
+}
+
+.contractListItemFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contractListItemTime {
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.contractListItemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.subtleText {
+  color: var(--gn-text-subtle);
+}
+
+.contractStatus {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.contractStatusActive {
+  color: var(--gn-text-subtle);
+  background: var(--gn-paper-2);
+}
+
+.contractStatusReady {
+  color: var(--gn-accent-text);
+  background: var(--gn-brand-tint);
+}
+
+.contractStatusCompleted {
+  color: var(--gn-status-success-text);
+  background: var(--gn-state-played-tint);
+}
+
+.contractStatusMuted {
+  color: var(--gn-text-subtle);
+  background: var(--gn-paper-2);
+}
+
+.contractTarget {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--gn-text);
+}
+
+.contractTargetCover,
+.contractTargetCoverFallback {
+  flex: none;
+  width: 16px;
+  height: 20px;
+  border-radius: 2px;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.contractTargetCoverFallback {
+  background: var(--gn-paper-2);
+}
+
+.contractTargetName {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contractProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contractProgressHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contractProgressCaption {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contractProgressValue {
+  flex: none;
+  color: var(--gn-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.contractProgressBar {
+  height: 6px;
+  overflow: hidden;
+  background: var(--gn-paper-2);
+  border: 1px solid var(--gn-line-strong);
+  border-radius: 2px;
+}
+
+.contractProgressFill {
+  display: block;
+  height: 100%;
+  background: var(--gn-brand);
+}
+
+.contractModalText {
+  margin: 0;
+}
+
+.contractModalActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* ---- Claim celebration. ---- */
+
+.claimModalContent {
+  background: var(--gn-background);
+}
+
+.claimContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 24px 20px;
+  text-align: center;
+}
+
+.claimLina {
+  display: flex;
+  justify-content: center;
+}
+
+.claimTitle {
+  margin: 0;
+  color: var(--gn-text);
+}
+
+.claimXp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gn-status-warning-text);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.claimRank {
+  padding: 4px 14px;
+  color: var(--gn-status-danger-text);
+  background: transparent;
+  border: 3px solid var(--gn-status-danger-text);
+  border-radius: 4px;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.claimRewardsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.claimSectionTitle {
+  color: var(--gn-text-subtle);
+}
+
+.claimRewards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.claimReward {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: 6px;
+  text-align: left;
+}
+
+.claimRewardLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.claimRewardKind {
+  flex: none;
+  color: var(--gn-text-subtle);
+}
+
+.claimChest {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gn-status-warning-text);
+}
+
+.claimActions {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+/* ---- Rewards panel (design D6). ---- */
+
+.rewardsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rewardsPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rewardsPanelTitle {
+  color: var(--gn-text-subtle);
+}
+
+.rewardsPanelLine {
+  flex: 1;
+  height: 1px;
+  background: var(--gn-line);
+}
+
+.rewardsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rewardsSectionTitle {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.96px;
+}
+
+.rewardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rewardsEmpty {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.rewardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: 6px;
+}
+
+.rewardLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rewardName {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--gn-text);
+  font-size: 13px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rewardEquipped {
+  flex: none;
+  padding: 1px 6px;
+  color: var(--gn-accent-text);
+  background: var(--gn-brand-tint);
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 14px;
+}
