@@ -42,10 +42,8 @@ describe("batched card reads", () => {
   it("reads the profiles of a list in one request", async () => {
     const findMany = vi
       .spyOn(ProfileService, "profileControllerFindManyByIdsV1")
-      .mockImplementation(
-        async ({ userIds }) =>
-          userIds.map((userId) => ({ userId })) as ProfileResponseDto[],
-      );
+      .mockImplementation((async ({ userIds }: { userIds: string[] }) =>
+        userIds.map((userId) => ({ userId }) as ProfileResponseDto)) as never);
     const findOne = vi.spyOn(ProfileService, "profileControllerFindOneByIdV1");
 
     const { result } = renderTogether([
@@ -95,7 +93,13 @@ describe("batched card reads", () => {
   it("reads statistics, status and comment counts of a list in one request", async () => {
     const findBatch = vi
       .spyOn(StatisticsService, "statisticsControllerFindBatchSummaryV1")
-      .mockImplementation(async ({ sourceType, sourceIds }) => ({
+      .mockImplementation((async ({
+        sourceType,
+        sourceIds,
+      }: {
+        sourceType: string;
+        sourceIds: (string | number)[];
+      }) => ({
         items: sourceIds.map((sourceId, index) => ({
           sourceType: sourceType as never,
           sourceId,
@@ -110,7 +114,7 @@ describe("batched card reads", () => {
         hasFailedEvents: false,
         historyComplete: true,
         completeSince: null,
-      }));
+      })) as never);
     const findSummary = vi.spyOn(
       StatisticsService,
       "statisticsControllerFindSummaryV1",

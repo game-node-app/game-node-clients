@@ -142,15 +142,13 @@ beforeEach(() => {
   vi.spyOn(
     ProfileService,
     "profileControllerFindManyByIdsV1",
-  ).mockImplementation(
-    async ({ userIds }) =>
-      Promise.all(
-        userIds.map(async (userId) => ({
-          ...(await ProfileService.profileControllerFindOneByIdV1(userId)),
-          userId,
-        })),
-      ) as never,
-  );
+  ).mockImplementation((async ({ userIds }) =>
+    Promise.all(
+      userIds.map(async (userId) => ({
+        ...(await ProfileService.profileControllerFindOneByIdV1(userId)),
+        userId,
+      })),
+    )) as never);
   setProjectContext({
     client: "mobile",
     s3BucketUrl: "",
