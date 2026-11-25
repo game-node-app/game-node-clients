@@ -117,7 +117,8 @@ it("rejects malformed mobile game routes before source reads or views", async ()
     open("0042");
     await waitFor(() => expect(view).toHaveBeenCalledTimes(1));
     expect(summary).toHaveBeenCalledWith({ sourceType: "game", sourceId: 42 });
-    expect(status).toHaveBeenCalledWith("game", 42);
+    // Signed out: no status request.
+    expect(status).not.toHaveBeenCalled();
     expect(view).toHaveBeenCalledWith({
       sourceType: "game",
       sourceId: 42,

@@ -10,6 +10,7 @@ import type { CreateUpdateCollectionEntryDto } from '../models/CreateUpdateColle
 import type { FindCollectionEntriesForCollectionIdDto } from '../models/FindCollectionEntriesForCollectionIdDto';
 import type { FindCollectionEntriesGameFilterDto } from '../models/FindCollectionEntriesGameFilterDto';
 import type { FindCollectionEntriesOrderBy } from '../models/FindCollectionEntriesOrderBy';
+import type { FindOwnCollectionEntriesByGameIdsDto } from '../models/FindOwnCollectionEntriesByGameIdsDto';
 import type { FindRelatedCollectionEntriesResponseDto } from '../models/FindRelatedCollectionEntriesResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -26,6 +27,21 @@ export class CollectionsEntriesService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/collections-entries',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns CollectionEntry
+     * @throws ApiError
+     */
+    public static collectionsEntriesControllerFindOwnEntriesByGameIdsV1(
+        requestBody: FindOwnCollectionEntriesByGameIdsDto,
+    ): CancelablePromise<Array<CollectionEntry>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/collections-entries/own',
             body: requestBody,
             mediaType: 'application/json',
         });

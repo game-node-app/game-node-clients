@@ -31,12 +31,11 @@ export class GameRepositoryService {
     /**
      * @param requestBody
      * @returns FindGamesByCollectionTypeResponseDto
-     * @returns any
      * @throws ApiError
      */
     public static gameRepositoryControllerGetGameIdsByCollectionTypeV1(
         requestBody: FindGamesByCollectionTypeRequestDto,
-    ): CancelablePromise<FindGamesByCollectionTypeResponseDto | any> {
+    ): CancelablePromise<FindGamesByCollectionTypeResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/game/repository/collection',

@@ -1,4 +1,8 @@
-import { AsyncStorage } from "@tanstack/react-query-persist-client";
+import type {
+  AsyncStorage,
+  PersistedClient,
+  Persister,
+} from "@tanstack/react-query-persist-client";
 import { Preferences } from "@capacitor/preferences";
 import { QueryCacheStorage } from "@/plugins/queryCacheStorage";
 import { whenSplashDone } from "@/components/general/splash/appReady";
@@ -56,5 +60,98 @@ export function holdWritesUntilSplashDone(
       await whenSplashDone();
       await storage.setItem(key, value);
     },
+  };
+}
+
+interface DeferredPersisterOptions {
+  /** Storage key of the cache. */
+  key?: string;
+  /** Write once the cache has been quiet this long. */
+  quietMs?: number;
+  /** Never hold a snapshot longer than this while the cache keeps changing. */
+  maxWaitMs?: number;
+}
+
+/**
+ * React Query persister that serializes and writes only the latest snapshot, once the cache
+ * settles or the app goes to the background, instead of on every throttle tick.
+ *
+ * Every navigation updates a handful of queries. With `createAsyncStoragePersister`'s 1 s throttle
+ * the whole cache (often megabytes) was `JSON.stringify`'d on the JS thread and handed to a native
+ * plugin, which decodes it on the UI thread, while the page transition was still running.
+ *
+ * React Query never mutates query data in place, so a snapshot can be serialized later. If the app
+ * is killed before a write, only the last few seconds of cache are lost.
+ */
+export function createDeferredPersister(
+  storage: AsyncStorage<string>,
+  {
+    key = "REACT_QUERY_OFFLINE_CACHE",
+    quietMs = 4000,
+    maxWaitMs = 30000,
+  }: DeferredPersisterOptions = {},
+): Persister & { flush: () => Promise<void> } {
+  let pending: PersistedClient | undefined;
+  let quietTimer: ReturnType<typeof setTimeout> | undefined;
+  let maxWaitTimer: ReturnType<typeof setTimeout> | undefined;
+  let writing: Promise<void> = Promise.resolve();
+
+  const clearTimers = () => {
+    clearTimeout(quietTimer);
+    clearTimeout(maxWaitTimer);
+    quietTimer = undefined;
+    maxWaitTimer = undefined;
+  };
+
+  const flush = () => {
+    clearTimers();
+    const snapshot = pending;
+    pending = undefined;
+    if (snapshot) {
+      writing = writing
+        .then(() => storage.setItem(key, JSON.stringify(snapshot)))
+        .then(
+          () => undefined,
+          (error) => console.error(error),
+        );
+    }
+    return writing;
+  };
+
+  const flushWhenIdle = () => {
+    clearTimers();
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => void flush(), { timeout: 2000 });
+    } else {
+      void flush();
+    }
+  };
+
+  if (typeof document !== "undefined") {
+    // Android pauses the WebView in the background and may kill it afterwards.
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") void flush();
+    });
+  }
+
+  return {
+    persistClient(client) {
+      pending = client;
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(flushWhenIdle, quietMs);
+      maxWaitTimer ??= setTimeout(flushWhenIdle, maxWaitMs);
+    },
+    async restoreClient() {
+      await writing;
+      const stored = await storage.getItem(key);
+      return stored ? (JSON.parse(stored) as PersistedClient) : undefined;
+    },
+    async removeClient() {
+      clearTimers();
+      pending = undefined;
+      await writing;
+      await storage.removeItem(key);
+    },
+    flush,
   };
 }

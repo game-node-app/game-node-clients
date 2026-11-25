@@ -4,6 +4,8 @@
 /* eslint-disable */
 export type FindGamesByCollectionTypeRequestDto = {
     collectionType: FindGamesByCollectionTypeRequestDto.collectionType;
+    from?: string;
+    to?: string;
     relations?: Record<string, any>;
     offset?: number;
     limit?: number;

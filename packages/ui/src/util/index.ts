@@ -4,6 +4,7 @@
 
 export * from "./cn";
 export * from "./colors";
+export * from "./createBatchLoader";
 export * from "./createErrorNotification";
 export * from "./downloadFile";
 export * from "./getCapitalizedText";

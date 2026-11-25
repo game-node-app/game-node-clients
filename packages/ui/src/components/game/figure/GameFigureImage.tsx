@@ -61,6 +61,10 @@ const GameFigureImage = ({
           src={coverUrl ?? GAME_COVER_PLACEHOLDER}
           alt={game?.name ? game.name : "Game cover"}
           className="w-full h-auto max-h-full"
+          // Covers fill long grids and carousels: fetch and decode them only
+          // near the viewport, off the main thread, so lists scroll smoothly.
+          loading="lazy"
+          decoding="async"
           {...imageProps}
           onError={(event) => {
             onError();

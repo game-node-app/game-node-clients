@@ -12,6 +12,7 @@ export * from "./useGameExternalStores";
 export * from "./useGamePlatformIcons";
 export * from "./useGames";
 export * from "./useGamesByCollectionType";
+export * from "./useGamesByPages";
 export * from "./useGamesResource";
 export * from "./useInfiniteSearchGames";
 export * from "./useOwnedPlatformIcons";

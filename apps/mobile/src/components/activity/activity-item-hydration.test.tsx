@@ -399,9 +399,13 @@ describe("ActivityItem hydration", () => {
       id: "post-legacy",
       gameId: 102,
     } as unknown as Post);
-    spies.game
-      .mockResolvedValueOnce({ id: 101, name: "Celeste" } as unknown as Game)
-      .mockResolvedValueOnce({ id: 102, name: "Balatro" } as unknown as Game);
+    // Both cards mount together, so their games come from one batch read.
+    const games = vi
+      .spyOn(GameRepositoryService, "gameRepositoryControllerFindAllByIdsV1")
+      .mockResolvedValue([
+        { id: 102, name: "Balatro" },
+        { id: 101, name: "Celeste" },
+      ] as unknown as Game[]);
 
     render(
       <>
@@ -438,6 +442,8 @@ describe("ActivityItem hydration", () => {
     expect(spies.review).toHaveBeenCalledWith("rev-legacy");
     expect(spies.post).toHaveBeenCalledWith("post-legacy");
     expect(spies.profile).not.toHaveBeenCalled();
+    expect(games).toHaveBeenCalledTimes(1);
+    expect(spies.game).not.toHaveBeenCalled();
   });
 
   it.each([undefined, []])(

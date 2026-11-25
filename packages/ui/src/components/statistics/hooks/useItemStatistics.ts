@@ -8,6 +8,7 @@ import {
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { createBatchLoader } from "#@/util/createBatchLoader";
 import { ExtendedUseQueryResult } from "#@/util/types/ExtendedUseQueryResult";
 
 export type StatisticsWithStatus = StatisticsSummaryDto & StatisticsStatusDto;
@@ -18,6 +19,57 @@ export interface InitialItemStatistics {
 }
 
 export type ItemStatisticsData = StatisticsWithStatus | InitialItemStatistics;
+
+interface StatisticsBatchParams {
+  sourceType: StatisticsSourceRequestDto.sourceType;
+  /** Groups the batch per viewer; the server reads the viewer from the session. */
+  actorKey: string;
+}
+
+async function findStatisticsWithStatus(
+  sourceId: string | number,
+  { sourceType, actorKey }: StatisticsBatchParams,
+): Promise<StatisticsWithStatus> {
+  const [summary, status] = await Promise.all([
+    StatisticsService.statisticsControllerFindSummaryV1({
+      sourceId,
+      sourceType,
+    }),
+    // Signed out, the server answers `false` for both without a lookup
+    // (the summary already validates the source), so skip the request.
+    actorKey !== "anonymous"
+      ? StatisticsService.statisticsControllerGetStatusV1(sourceType, sourceId)
+      : { isLiked: false, isViewed: false },
+  ]);
+  return { ...summary, ...status };
+}
+
+/**
+ * Every card in a list (reviews, activities, posts) reads its counts, likes
+ * and comment count together: one `POST /v1/statistics/batch` replaces a
+ * summary and a status request per card. Sources the batch leaves out (missing
+ * or hidden) are read alone, so they keep the single read's 404/403.
+ */
+const loadStatistics = createBatchLoader<
+  string | number,
+  StatisticsWithStatus,
+  StatisticsBatchParams
+>({
+  fetchMany: async (sourceIds, { sourceType }) => {
+    const { items, ...freshness } =
+      await StatisticsService.statisticsControllerFindBatchSummaryV1({
+        sourceType,
+        sourceIds,
+      });
+    return items.map((item) => ({
+      ...freshness,
+      ...item,
+      sourceType: item.sourceType as StatisticsSummaryDto.sourceType,
+    }));
+  },
+  fetchOne: findStatisticsWithStatus,
+  getId: (item) => item.sourceId,
+});
 
 const initialSeedClaims = new WeakMap<QueryClient, WeakMap<object, string>>();
 
@@ -142,17 +194,10 @@ export function useItemStatistics<
       queryFn: async (): Promise<ResultData> => {
         if (canonicalId === undefined)
           throw new Error("Invalid statistics source");
-        const [summary, status] = await Promise.all([
-          StatisticsService.statisticsControllerFindSummaryV1({
-            sourceId: canonicalId,
-            sourceType,
-          }),
-          StatisticsService.statisticsControllerGetStatusV1(
-            sourceType,
-            canonicalId,
-          ),
-        ]);
-        return { ...summary, ...status } as ResultData;
+        return (await loadStatistics(canonicalId, {
+          sourceType,
+          actorKey,
+        })) as ResultData;
       },
     }),
     invalidate,

@@ -106,8 +106,8 @@ vi.mock("@repo/ui", async () => {
         isFetching: false,
       };
     },
-    useGames: (dto: Parameters<typeof import("@repo/ui").useGames>[0]) => {
-      state.games(dto);
+    useGamesByPages: (pages: number[][] | undefined) => {
+      state.games(pages);
       return {
         data: [
           { id: 3, name: "3" },
@@ -132,9 +132,7 @@ it("shows category shelves by default without loading the flat grid", () => {
     "RPG",
     "Adventure",
   ]);
-  expect(state.games).toHaveBeenLastCalledWith(
-    expect.objectContaining({ gameIds: undefined }),
-  );
+  expect(state.games).toHaveBeenLastCalledWith(undefined);
   expect(state.request).not.toHaveBeenCalled();
 });
 

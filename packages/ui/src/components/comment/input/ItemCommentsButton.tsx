@@ -1,36 +1,26 @@
-import {
-  useComments,
-  UseCommentsProps,
-} from "#@/components/comment/hooks/useComments";
+import { UseCommentsProps } from "#@/components/comment/hooks/useComments";
+import { useItemStatistics } from "#@/components/statistics/hooks/useItemStatistics";
 import { ActionIcon, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
+import { StatisticsSourceRequestDto } from "@repo/wrapper/server";
 import { IconMessageCircle } from "@tabler/icons-react";
-import { useMemo } from "react";
 
-interface Props extends Omit<UseCommentsProps, "enabled"> {
+interface Props extends Pick<UseCommentsProps, "sourceId" | "sourceType"> {
   onClick: () => void;
 }
 
-const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
+/**
+ * The comment count comes from the source's statistics (`commentsCount`, with
+ * replies), the same query the like button already reads, instead of loading
+ * a page of comments per card just for its total.
+ */
+const ItemCommentsButton = ({ onClick, sourceId, sourceType }: Props) => {
   const { t } = useTranslation();
-  const commentsQuery = useComments({
-    orderBy: {
-      createdAt: "DESC",
-    },
-    enabled: true,
-    ...hookProps,
-  });
-
-  const totalCommentsCount = useMemo(() => {
-    if (
-      commentsQuery.data == undefined ||
-      commentsQuery.data.pagination == undefined
-    ) {
-      return 0;
-    }
-
-    return commentsQuery.data.pagination.totalItems;
-  }, [commentsQuery.data]);
+  const statisticsQuery = useItemStatistics(
+    sourceId,
+    sourceType as string as StatisticsSourceRequestDto.sourceType,
+  );
+  const totalCommentsCount = statisticsQuery.data?.commentsCount ?? 0;
 
   return (
     <ActionIcon
@@ -39,7 +29,7 @@ const ItemCommentsButton = ({ onClick, ...hookProps }: Props) => {
       size={"xl"}
       color={"var(--gn-text)"}
       aria-label={t("actions.viewComments")}
-      loading={commentsQuery.isLoading}
+      loading={statisticsQuery.isLoading}
     >
       <IconMessageCircle className={"me-0.5"} />
       {totalCommentsCount > 0 && <Text>{totalCommentsCount}</Text>}

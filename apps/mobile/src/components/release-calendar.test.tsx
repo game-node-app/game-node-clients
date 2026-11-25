@@ -28,11 +28,15 @@ const state = vi.hoisted(() => ({
     isError: false,
   },
   ownEntry: vi.fn(() => ({ data: null })),
+  dto: undefined as unknown,
 }));
 vi.mock(
   "../../../../packages/ui/src/components/game/hooks/useGamesByCollectionType",
   () => ({
-    useGamesByCollectionType: () => state.query,
+    useGamesByCollectionType: (dto: unknown) => {
+      state.dto = dto;
+      return state.query;
+    },
   }),
 );
 vi.mock("../../../../packages/ui/src/components/auth/hooks/useUserId", () => ({
@@ -107,6 +111,16 @@ describe("release calendar", () => {
     expect(
       result.current.gamesByDay.get("2026-11-03")?.map((game) => game.id),
     ).toEqual([1, 2]);
+  });
+
+  it("only asks for the days the strip and this month's grid show", () => {
+    renderHook(useUpcomingReleasesByDay);
+    // strip: Nov 3 + 30 days = Dec 3; grid: the week of Nov 30 ends Sat Dec 5
+    expect(state.dto).toMatchObject({
+      collectionType: "upcoming",
+      from: "2026-11-03",
+      to: "2026-12-06",
+    });
   });
 
   it("selects a release day and cycles through that day's games", () => {

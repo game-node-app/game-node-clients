@@ -1,4 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+// @vitest-environment jsdom
+import type { PersistedClient } from "@tanstack/react-query-persist-client";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const files = new Map<string, string>();
 const prefs = new Map<string, string>();
@@ -28,9 +30,11 @@ vi.mock("@capacitor/preferences", () => ({
   },
 }));
 
-const { createCapacitorAsyncStorage, holdWritesUntilSplashDone } = await import(
-  "./asyncStorage"
-);
+const {
+  createCapacitorAsyncStorage,
+  createDeferredPersister,
+  holdWritesUntilSplashDone,
+} = await import("./asyncStorage");
 const { markSplashDone } = await import("@/components/general/splash/appReady");
 
 describe("createCapacitorAsyncStorage", () => {
@@ -76,5 +80,87 @@ describe("createCapacitorAsyncStorage", () => {
     markSplashDone();
     await write;
     expect(files.get("CACHE.json")).toBe("value");
+  });
+});
+
+describe("createDeferredPersister", () => {
+  const snapshot = (timestamp: number): PersistedClient => ({
+    buster: "",
+    timestamp,
+    clientState: { queries: [], mutations: [] },
+  });
+
+  beforeEach(() => {
+    files.clear();
+    prefs.clear();
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("writes only the latest snapshot once the cache is quiet", async () => {
+    const storage = createCapacitorAsyncStorage();
+    const setItem = vi.spyOn(storage, "setItem");
+    const persister = createDeferredPersister(storage, {
+      key: "CACHE",
+      quietMs: 1000,
+    });
+
+    persister.persistClient(snapshot(1));
+    await vi.advanceTimersByTimeAsync(500);
+    persister.persistClient(snapshot(2));
+    await vi.advanceTimersByTimeAsync(500);
+    expect(setItem).not.toHaveBeenCalled();
+
+    await vi.advanceTimersByTimeAsync(600);
+    await persister.flush();
+
+    expect(setItem).toHaveBeenCalledTimes(1);
+    expect(await persister.restoreClient()).toEqual(snapshot(2));
+  });
+
+  it("writes a busy cache after the max wait", async () => {
+    const storage = createCapacitorAsyncStorage();
+    const setItem = vi.spyOn(storage, "setItem");
+    const persister = createDeferredPersister(storage, {
+      key: "CACHE",
+      quietMs: 1000,
+      maxWaitMs: 3000,
+    });
+
+    for (let i = 0; i < 8; i++) {
+      persister.persistClient(snapshot(i));
+      await vi.advanceTimersByTimeAsync(500);
+    }
+
+    expect(setItem).toHaveBeenCalledTimes(1);
+  });
+
+  it("flushes when the app goes to the background", async () => {
+    const storage = createCapacitorAsyncStorage();
+    const persister = createDeferredPersister(storage, { key: "CACHE" });
+
+    persister.persistClient(snapshot(7));
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      get: () => "hidden",
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(JSON.parse(files.get("CACHE.json")!)).toEqual(snapshot(7));
+  });
+
+  it("drops a pending snapshot when the cache is removed", async () => {
+    const storage = createCapacitorAsyncStorage();
+    const persister = createDeferredPersister(storage, { key: "CACHE" });
+
+    persister.persistClient(snapshot(1));
+    await persister.removeClient();
+    await vi.runAllTimersAsync();
+
+    expect(files.has("CACHE.json")).toBe(false);
   });
 });

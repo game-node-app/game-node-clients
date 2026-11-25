@@ -1,4 +1,9 @@
-import { IonProgressBar } from "@ionic/react";
+import {
+  IonProgressBar,
+  useIonViewDidLeave,
+  useIonViewWillEnter,
+} from "@ionic/react";
+import { useState } from "react";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import { useDelayedLoadingIndicator } from "@/components/general/hooks/useDelayedLoadingIndicator";
 
@@ -24,8 +29,24 @@ interface Props {
  * content down.
  * @constructor
  * @see @tanstack/react-query
+ *
+ * Ionic keeps every visited page mounted. Only the visible one subscribes to
+ * the query cache: the predicate below walks every query on each cache event,
+ * and hidden pages would repeat that work for nothing.
  */
-const QueryProgressBar = ({ showDelayMs, minVisibleMs }: Props) => {
+const QueryProgressBar = (props: Props) => {
+  const [isViewVisible, setIsViewVisible] = useState(false);
+  useIonViewWillEnter(() => setIsViewVisible(true));
+  useIonViewDidLeave(() => setIsViewVisible(false));
+
+  return (
+    <div className={"pointer-events-none absolute inset-x-0 bottom-0 z-10"}>
+      {isViewVisible && <QueryProgressIndicator {...props} />}
+    </div>
+  );
+};
+
+const QueryProgressIndicator = ({ showDelayMs, minVisibleMs }: Props) => {
   // Only the very first attempt of a query is loading something the user
   // cannot see. Background refetches, retries and reloads of queries that
   // already failed are silent: `errorUpdateCount` marks a query that failed
@@ -42,11 +63,7 @@ const QueryProgressBar = ({ showDelayMs, minVisibleMs }: Props) => {
     { showDelayMs, minVisibleMs },
   );
 
-  return (
-    <div className={"pointer-events-none absolute inset-x-0 bottom-0 z-10"}>
-      {isVisible && <IonProgressBar type={"indeterminate"} />}
-    </div>
-  );
+  return isVisible ? <IonProgressBar type={"indeterminate"} /> : null;
 };
 
 export { QueryProgressBar };

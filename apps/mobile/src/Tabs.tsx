@@ -33,6 +33,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { matchPath, Redirect, Route, useLocation } from "react-router-dom";
 import AuthPage from "./pages/auth";
+import { FreezeWhenInactive } from "@/pages/routes/FreezeWhenInactive";
 
 /**
  * Ionic closes the menu on `touchend` (its swipe gesture), but the browser dispatches the click a
@@ -111,48 +112,90 @@ const Tabs = () => {
           className={hideTabBar ? "gn-hide-tabbar" : undefined}
           onIonTabsWillChange={onIonTabsWillChange}
         >
-          <IonRouterOutlet
-            id="main-outlet"
-            ref={outletRef}
-            onScroll={(evt) => {
-              console.log("onScroll: ", evt);
-            }}
-          >
+          <IonRouterOutlet id="main-outlet" ref={outletRef}>
             <Redirect exact from="/" to="/home" />
-            <Route exact path={"/m/auth"} render={() => <AuthPage />} />
+            <Route
+              exact
+              path={"/m/auth"}
+              render={() => (
+                <FreezeWhenInactive>
+                  <AuthPage />
+                </FreezeWhenInactive>
+              )}
+            />
             {/* ---- LIBRARY ROUTES ---- */}
-            <Route exact path={"/library"} render={() => <LibraryPage />} />
+            <Route
+              exact
+              path={"/library"}
+              render={() => (
+                <FreezeWhenInactive>
+                  <LibraryPage />
+                </FreezeWhenInactive>
+              )}
+            />
             {getCommonRoutes("/library")}
 
             {/* ---- EXPLORE ROUTES ---- */}
-            <Route exact path={"/explore"} render={() => <ExplorePage />} />
+            <Route
+              exact
+              path={"/explore"}
+              render={() => (
+                <FreezeWhenInactive>
+                  <ExplorePage />
+                </FreezeWhenInactive>
+              )}
+            />
             <Route
               exact
               path={`/explore/search`}
-              render={() => <GameSearchPage />}
+              render={() => (
+                <FreezeWhenInactive>
+                  <GameSearchPage />
+                </FreezeWhenInactive>
+              )}
             />
             {getCommonRoutes("/explore")}
 
             {/* ---- HOME ROUTES ---- */}
-            <Route exact path={"/home"} render={() => <HomePage />} />
+            <Route
+              exact
+              path={"/home"}
+              render={() => (
+                <FreezeWhenInactive>
+                  <HomePage />
+                </FreezeWhenInactive>
+              )}
+            />
             <Route
               exact
               path={`/home/search`}
-              render={() => <GameSearchPage />}
+              render={() => (
+                <FreezeWhenInactive>
+                  <GameSearchPage />
+                </FreezeWhenInactive>
+              )}
             />
             {getCommonRoutes("/home")}
 
             <Route
               exact
               path="/notifications"
-              render={() => <NotificationsPage />}
+              render={() => (
+                <FreezeWhenInactive>
+                  <NotificationsPage />
+                </FreezeWhenInactive>
+              )}
             />
             {getCommonRoutes("/notifications")}
             {/* ---- WRAPPED ROUTES ---- */}
             <Route
               exact
               path={WRAPPED_TAB_PATH}
-              render={() => <WrappedHomePage />}
+              render={() => (
+                <FreezeWhenInactive>
+                  <WrappedHomePage />
+                </FreezeWhenInactive>
+              )}
             />
             {getCommonRoutes(WRAPPED_TAB_PATH)}
             <Route

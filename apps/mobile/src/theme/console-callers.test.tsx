@@ -131,6 +131,14 @@ vi.mock("@repo/ui", async () => {
       isLoading: false,
       isFetching: false,
     }),
+    useGamesByPages: (pages: number[][] | undefined) => ({
+      data: (pages ?? [])
+        .flat()
+        .map((id) => state.games.find((game) => game.id === id))
+        .filter(Boolean),
+      isLoading: false,
+      isFetching: false,
+    }),
     useGamesResource: () => ({ data: state.genres }),
     useInfiniteTrendingGames: () => ({
       data: {

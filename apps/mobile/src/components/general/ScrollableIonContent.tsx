@@ -44,7 +44,6 @@ const ScrollableIonContent = ({
   const onScrollChange = useDebouncedCallback(
     (scrollPosition: ScrollPosition) => {
       if (isRestoringRef.current) return;
-      console.log(`scroll position for ${pathname}: `, scrollPosition);
       setScrollPosition(pathname, scrollPosition);
     },
     300,

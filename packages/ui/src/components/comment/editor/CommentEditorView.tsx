@@ -90,6 +90,10 @@ const CommentEditorView = ({
       queryClient.invalidateQueries({
         queryKey: ["comments", sourceType, sourceId],
       });
+      // the comment count on the source's card comes from its statistics
+      void queryClient.invalidateQueries({
+        queryKey: ["statistics", sourceType, sourceId],
+      });
     },
     onSuccess: () => {
       if (commentId) {

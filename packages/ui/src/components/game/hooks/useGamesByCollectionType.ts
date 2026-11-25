@@ -14,6 +14,8 @@ export function useGamesByCollectionType(
       "all",
       "collectionType",
       dto.collectionType,
+      dto.from ?? null,
+      dto.to ?? null,
       dto.offset,
       dto.limit,
       dto.relations,

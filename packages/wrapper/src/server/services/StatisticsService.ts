@@ -5,6 +5,8 @@
 import type { Object } from '../models/Object';
 import type { ReactionRequestDto } from '../models/ReactionRequestDto';
 import type { ReactionResponseDto } from '../models/ReactionResponseDto';
+import type { StatisticsBatchSummaryRequestDto } from '../models/StatisticsBatchSummaryRequestDto';
+import type { StatisticsBatchSummaryResponseDto } from '../models/StatisticsBatchSummaryResponseDto';
 import type { StatisticsRankingResponseDto } from '../models/StatisticsRankingResponseDto';
 import type { StatisticsRankingsRequestDto } from '../models/StatisticsRankingsRequestDto';
 import type { StatisticsSeriesDto } from '../models/StatisticsSeriesDto';
@@ -59,6 +61,21 @@ export class StatisticsService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/statistics',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns StatisticsBatchSummaryResponseDto
+     * @throws ApiError
+     */
+    public static statisticsControllerFindBatchSummaryV1(
+        requestBody: StatisticsBatchSummaryRequestDto,
+    ): CancelablePromise<StatisticsBatchSummaryResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/statistics/batch',
             body: requestBody,
             mediaType: 'application/json',
         });
