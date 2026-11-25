@@ -1,0 +1,28 @@
+{
+  "source": "d0cd057ee772d47152c837cc8bc31d34773cb2a6",
+  "changesets": [
+    ".changeset/batched-reads-navigation-perf.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[5ad8447ed5a6295fa4b0fd1899cc720c86b1b2e3...d0cd057ee772d47152c837cc8bc31d34773cb2a6]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/d0cd057ee772d47152c837cc8bc31d34773cb2a6",
+  "versions": {
+    "web": "1.30.1",
+    "mobile": "1.29.1"
+  }
+}
