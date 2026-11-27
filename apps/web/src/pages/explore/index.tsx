@@ -2,16 +2,14 @@ import { ActionIcon, Affix, Stack, Transition } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useTranslation } from "@repo/locales";
 import {
-  buildPresenterComponent,
-  CenteredErrorMessage,
-  ExploreTrendingGames,
-  GameView,
+  ExploreView,
+  ExploreViewValue,
+  gamesResourceOptions,
+  getExploreRankingDto,
   getInfiniteTrendingGamesKey,
   getInfiniteTrendingGamesRequest,
-  SimpleInfiniteLoader,
+  prefetchTrendingShelf,
   useAppExperience,
-  useGamesByPages,
-  useInfiniteTrendingGames,
 } from "@repo/ui";
 import {
   GameRepositoryFindAllDto,
@@ -22,39 +20,34 @@ import {
 import { IconArrowUp } from "@tabler/icons-react";
 import { dehydrate, InfiniteData, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import ExploreScreenFilters from "../../components/explore/ExploreScreenFilters";
 import {
-  DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
-  exploreScreenUrlQueryToDto,
+  exploreUrlQueryToValue,
+  exploreValueToUrlQuery,
 } from "../../components/explore/utils";
 import { OpenGraph } from "../../components/general/OpenGraph";
 
-const ExploreTrendingGamesPresenter = buildPresenterComponent(
-  "ExploreTrendingGames",
-  ExploreTrendingGames,
-);
-
-export const getServerSideProps = async (context: NextPageContext) => {
-  const query = context.query;
-  const queryDto = exploreScreenUrlQueryToDto(query);
-  const queryClient = new QueryClient();
+const prefetchRanking = async (
+  queryClient: QueryClient,
+  value: ExploreViewValue,
+) => {
+  const dto = getExploreRankingDto(value);
+  const queryKey = getInfiniteTrendingGamesKey(dto);
   await queryClient.prefetchInfiniteQuery({
-    queryKey: getInfiniteTrendingGamesKey(queryDto),
-    queryFn: async ({ pageParam }) => {
-      const response =
-        await StatisticsService.statisticsControllerFindRankingsV1({
-          ...getInfiniteTrendingGamesRequest(queryDto),
-          offset: pageParam,
-        });
-      return response;
-    },
+    queryKey,
+    queryFn: ({ pageParam }) =>
+      StatisticsService.statisticsControllerFindRankingsV1({
+        ...getInfiniteTrendingGamesRequest(dto),
+        offset: pageParam,
+      }),
     initialPageParam: 0,
   });
 
-  const ranking = queryClient.getQueryData<
-    InfiniteData<StatisticsRankingResponseDto>
-  >(getInfiniteTrendingGamesKey(queryDto));
+  const ranking =
+    queryClient.getQueryData<InfiniteData<StatisticsRankingResponseDto>>(
+      queryKey,
+    );
   const gameIds = [
     ...new Set(
       ranking?.pages[0]?.items
@@ -62,23 +55,29 @@ export const getServerSideProps = async (context: NextPageContext) => {
         .filter((id): id is number => typeof id === "number") ?? [],
     ),
   ];
-  if (gameIds.length) {
-    const useGamesDto: GameRepositoryFindAllDto = {
-      gameIds: gameIds,
-      relations: {
-        cover: true,
-      },
-    };
+  if (!gameIds.length) return;
 
-    await queryClient.prefetchQuery({
-      queryKey: ["game", "all", useGamesDto.gameIds, useGamesDto.relations],
-      queryFn: () => {
-        return GameRepositoryService.gameRepositoryControllerFindAllByIdsV1(
-          useGamesDto,
-        );
-      },
-    });
-  }
+  const gamesDto: GameRepositoryFindAllDto = {
+    gameIds,
+    relations: { cover: true },
+  };
+  await queryClient.prefetchQuery({
+    queryKey: ["game", "all", gamesDto.gameIds, gamesDto.relations],
+    queryFn: () =>
+      GameRepositoryService.gameRepositoryControllerFindAllByIdsV1(gamesDto),
+  });
+};
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  const value = exploreUrlQueryToValue(context.query);
+  const queryClient = new QueryClient();
+  await Promise.all([
+    queryClient.prefetchQuery(gamesResourceOptions("genres")),
+    // only what is above the fold: the genre shelves load on the client
+    value.criteria
+      ? prefetchRanking(queryClient, value)
+      : prefetchTrendingShelf(queryClient, value.period),
+  ]);
 
   return {
     props: {
@@ -89,120 +88,42 @@ export const getServerSideProps = async (context: NextPageContext) => {
 
 const Index = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const experience = useAppExperience();
   const [scroll, scrollTo] = useWindowScroll();
-  const [hasLoadedQueryParams, setHasLoadedQueryParams] =
-    useState<boolean>(false);
-  const [trendingGamesDto, setTrendingGamesDto] = useState(
-    DEFAULT_EXPLORE_TRENDING_GAMES_DTO,
-  );
+  // the URL is the state, so selections can be shared and "back" undoes them
+  const value = exploreUrlQueryToValue(router.query);
 
-  const trendingGamesQuery = useInfiniteTrendingGames(
-    trendingGamesDto,
-    hasLoadedQueryParams,
-  );
-
-  const gamePages = useMemo(() => {
-    if (trendingGamesQuery.isError || trendingGamesQuery.data == undefined)
-      return undefined;
-    return trendingGamesQuery.data.pages.map((page) =>
-      page.items
-        .map((item) => item.sourceId)
-        .filter((id): id is number => typeof id === "number"),
+  const onChange = (next: ExploreViewValue) => {
+    // changing only the period doesn't deserve its own history entry
+    const sameSelection =
+      JSON.stringify(next.criteria) === JSON.stringify(value.criteria);
+    void router[sameSelection ? "replace" : "push"](
+      { pathname: router.pathname, query: exploreValueToUrlQuery(next) },
+      undefined,
+      { shallow: true },
     );
-  }, [trendingGamesQuery.data, trendingGamesQuery.isError]);
-  const gamesIds = useMemo(
-    () => (gamePages ? [...new Set(gamePages.flat())] : undefined),
-    [gamePages],
-  );
-
-  const gamesQuery = useGamesByPages(gamePages, { cover: true });
-
-  const games =
-    gamesIds
-      ?.map((id) => gamesQuery.data?.find((game) => game.id === id))
-      .filter((game) => game !== undefined) ?? [];
-
-  const isFetching =
-    trendingGamesQuery.isFetching ||
-    trendingGamesQuery.isFetchingNextPage ||
-    trendingGamesQuery.isPending ||
-    trendingGamesQuery.isFetchingPreviousPage ||
-    gamesQuery.isFetching;
-
-  const isLoading = trendingGamesQuery.isLoading || gamesQuery.isLoading;
-  const isError = trendingGamesQuery.isError || gamesQuery.isError;
-  // A period change re-queries the console category sections; criteria (genre,
-  // platform, ...) make the platform's paginated results the meaningful view.
-  const hasActiveFilters = Object.values(trendingGamesDto.criteria ?? {}).some(
-    (values) => (values?.length ?? 0) > 0,
-  );
-
-  if (isError) {
-    return (
-      <CenteredErrorMessage mt={"2rem"} message={t("explore.fetchError")} />
-    );
-  }
-
-  const filtersContent = (
-    <ExploreScreenFilters
-      hasLoadedQueryParams={hasLoadedQueryParams}
-      onFilterChange={(stateAction) => {
-        setTrendingGamesDto(stateAction);
-        setHasLoadedQueryParams(true);
-      }}
-    />
-  );
-
-  // The default keeps the filters inside the GameView; the console keeps the
-  // same paginated results (without filters) below its own filters slot.
-  const renderExploreContent = (withFilters: boolean) => (
-    <Stack className={"w-full"}>
-      <GameView
-        layout={"grid"}
-        cols={{
-          base: 4,
-          lg: 8,
-        }}
-      >
-        {withFilters && filtersContent}
-        <GameView.Content items={games}>
-          <GameView.LoadingSkeletons
-            isVisible={isFetching || isLoading}
-            itemCount={games.length}
-          />
-        </GameView.Content>
-      </GameView>
-
-      <SimpleInfiniteLoader
-        key={gamesQuery.data?.map((game) => game.id).join(",")}
-        fetchNextPage={async () => {
-          await trendingGamesQuery.fetchNextPage();
-        }}
-        isFetching={isFetching}
-        hasNextPage={trendingGamesQuery.hasNextPage}
-      />
-    </Stack>
-  );
+  };
 
   return (
     <Stack
-      className={"w-full mb-8"}
-      align={"center"}
+      className={"w-full mt-3 mb-8"}
       data-xbox-focus-color={experience === "console" ? "true" : undefined}
     >
       <OpenGraph
         title={t("explore.metaTitle")}
         description={t("seo.explore.description")}
       />
-      <ExploreTrendingGamesPresenter
-        filters={filtersContent}
-        results={renderExploreContent(false)}
-        dto={trendingGamesDto}
-        filtered={hasActiveFilters}
-      >
-        {renderExploreContent(true)}
-      </ExploreTrendingGamesPresenter>
+      <ExploreView
+        value={value}
+        onChange={onChange}
+        extraFilters={
+          <ExploreScreenFilters
+            criteria={value.criteria}
+            onApply={(criteria) => onChange({ ...value, criteria })}
+          />
+        }
+      />
       <Affix position={{ bottom: 20, right: 20 }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>
           {(transitionStyles) => (

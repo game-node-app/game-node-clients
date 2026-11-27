@@ -26,6 +26,7 @@ import {
 } from "#@/util";
 import { UseScrollPositionReturn } from "#@/components/general/hooks/useScrollPosition";
 import type { ExploreTrendingGamesProps } from "#@/components/explore/ExploreTrendingGames";
+import type { ExplorePeriodSelectProps } from "#@/components/explore/view/ExplorePeriodSelect";
 import type { GameInfoViewProps } from "#@/components/game/info/GameInfoView";
 import type { HomeViewProps } from "#@/components/home/HomeView";
 import type { ReleaseStrip } from "#@/components/home/ReleaseStrip";
@@ -64,6 +65,7 @@ export type UIPresenterRegistry = {
   HomeView: React.ComponentType<HomeViewProps>;
   HomeReleases: React.ComponentType<React.ComponentProps<typeof ReleaseStrip>>;
   ExploreTrendingGames: React.ComponentType<ExploreTrendingGamesProps>;
+  ExplorePeriodSelect: React.ComponentType<ExplorePeriodSelectProps>;
   PostsListItem: React.ComponentType<PostsListItemProps>;
   PostsFeedView: React.ComponentType<PostsFeedViewProps>;
   NotificationsPanel: React.ComponentType<NotificationsPanelProps>;

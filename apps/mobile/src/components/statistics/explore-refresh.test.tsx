@@ -18,21 +18,9 @@ import {
 import { useInfiniteTrendingGames } from "../../../../../packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames";
 import ExplorePage from "../../pages/explore";
 const completed = vi.hoisted(() => vi.fn());
-vi.mock("../../components/explore/ExploreGamesPageView", () => ({
-  ExploreGamesPageView: () => null,
-  ExploreGamesFilters: () => null,
-  ExploreGamesResults: () => null,
-  useExploreGamesViewState: () => ({
-    selectedPeriod: "month",
-    setSelectedPeriod: () => {},
-    selection: "overview",
-    isOverview: true,
-    selectedGenreId: undefined,
-    genres: [],
-    onSelectGenre: () => {},
-    onSelectOverall: () => {},
-    periodSelectOptions: [],
-  }),
+vi.mock("@repo/ui", async () => ({
+  ...(await vi.importActual<typeof import("@repo/ui")>("@repo/ui")),
+  ExploreView: () => null,
 }));
 vi.mock("../../components/general/AppPage.tsx", async () => {
   const React = await import("react");

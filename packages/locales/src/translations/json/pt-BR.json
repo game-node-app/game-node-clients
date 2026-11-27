@@ -1634,14 +1634,18 @@
     "fetchError": "Erro ao buscar jogos. Por favor, recarregue esta pagina.",
     "filters": {
       "all": "Todos",
+      "clear": "Limpar filtros",
       "genres": "Gêneros",
       "modes": "Modos",
       "platforms": "Plataformas",
       "themes": "Temas",
+      "title": "Filtros",
       "trendingIn": "Em alta em"
     },
     "metaTitle": "Explorar - GameNode",
     "sections": {
+      "scrollNext": "Rolar para frente",
+      "scrollPrevious": "Rolar para trás",
       "seeAll": "Ver tudo",
       "topOverall": "Top geral"
     },

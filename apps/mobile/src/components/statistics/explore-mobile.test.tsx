@@ -1,100 +1,82 @@
 // @vitest-environment jsdom
+import { MantineProvider } from "@mantine/core";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, expect, it, vi } from "vitest";
-import { ExploreGamesPageView } from "../explore/ExploreGamesPageView";
+import { ComponentProps, useState } from "react";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { ExploreView } from "../../../../../packages/ui/src/components/explore/view/ExploreView";
+import type { ExploreViewValue } from "../../../../../packages/ui/src/components/explore/util/exploreValue";
+import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
+import { MobileExplorePeriodSelect } from "../explore/MobileExplorePeriodSelect";
+import { setupDom } from "../mcp/testUtils";
+
 const state = vi.hoisted(() => ({ request: vi.fn(), games: vi.fn() }));
+
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
-vi.mock("@/components/explore/TrendingShelf", () => ({
-  TrendingShelf: ({
-    title,
-    onSeeAll,
+vi.mock("@ionic/react", () => ({
+  IonSelect: ({
+    onIonChange,
   }: {
-    title: string;
-    onSeeAll?: () => void;
+    onIonChange: (event: { detail: { value: string } }) => void;
   }) => (
-    <button data-testid="shelf" onClick={onSeeAll}>
-      {title}
+    <button onClick={() => onIonChange({ detail: { value: "all" } })}>
+      Period
     </button>
   ),
+  IonSelectOption: () => null,
 }));
-vi.mock("@ionic/react", async () => {
-  const React = await import("react");
-  return {
-    IonSelect: ({
-      onIonChange,
+vi.mock(
+  "../../../../../packages/ui/src/components/explore/shelf/TrendingShelf",
+  () => ({
+    TrendingShelf: ({
+      title,
+      onSeeAll,
     }: {
-      onIonChange: (event: { detail: { value: string } }) => void;
-    }) =>
-      React.createElement(
-        "button",
-        { onClick: () => onIonChange({ detail: { value: "all" } }) },
-        "Period",
-      ),
-    IonSelectOption: () => null,
-  };
-});
-vi.mock("@mantine/core", async () => {
-  const React = await import("react");
-  const actual =
-    await vi.importActual<typeof import("@mantine/core")>("@mantine/core");
-  const C = ({ children }: import("react").PropsWithChildren) =>
-    React.createElement("div", null, children);
-  const Button = ({
-    children,
-    onClick,
-    ...rest
-  }: import("react").PropsWithChildren<{
-    onClick?: () => void;
-    "aria-pressed"?: boolean;
-  }>) =>
-    React.createElement(
-      "button",
-      { onClick, "aria-pressed": rest["aria-pressed"] },
-      children,
-    );
-  return { ...actual, Flex: C, Stack: C, Button };
-});
-vi.mock("@repo/ui", async () => {
-  const React = await import("react");
-  const C = ({ children }: import("react").PropsWithChildren) =>
-    React.createElement("div", null, children);
-  C.Content = function MockContent({
+      title: string;
+      onSeeAll?: () => void;
+    }) => (
+      <button data-testid="shelf" onClick={onSeeAll}>
+        {title}
+      </button>
+    ),
+  }),
+);
+vi.mock("../../../../../packages/ui/src/components/game/view/GameView", () => {
+  function GameView({ children }: import("react").PropsWithChildren) {
+    return <div>{children}</div>;
+  }
+  GameView.Content = function Content({
     items,
-    children,
-  }: import("react").PropsWithChildren<{
-    items?: import("@repo/wrapper/server").Game[];
-  }>) {
-    return React.createElement(
-      "div",
-      null,
-      items?.map((game: import("@repo/wrapper/server").Game) =>
-        React.createElement("span", { key: game.id }, game.name),
-      ),
-      children,
-    );
+  }: {
+    items?: { id: number; name: string }[];
+  }) {
+    return <div>{items?.map((game) => game.name)}</div>;
   };
-  C.LoadingSkeletons = function MockLoadingSkeletons() {
+  GameView.LoadingSkeletons = function LoadingSkeletons() {
     return null;
   };
-  return {
-    CenteredErrorMessage: ({ message }: { message: string }) => (
-      <div>{message}</div>
-    ),
-    GameView: C,
+  return { GameView };
+});
+vi.mock(
+  "../../../../../packages/ui/src/components/feed/SimpleInfiniteLoader",
+  () => ({ SimpleInfiniteLoader: () => null }),
+);
+vi.mock(
+  "../../../../../packages/ui/src/components/game/hooks/useGamesResource",
+  () => ({
     useGamesResource: () => ({
       data: [
         { id: 12, name: "RPG" },
         { id: 31, name: "Adventure" },
       ],
     }),
-    SimpleInfiniteLoader: () => null,
-    useInfiniteTrendingGames: (
-      dto: Parameters<typeof import("@repo/ui").useInfiniteTrendingGames>[0],
-      enabled: boolean,
-    ) => {
-      if (!enabled) return { isFetching: false };
+  }),
+);
+vi.mock(
+  "../../../../../packages/ui/src/components/statistics/hooks/useInfiniteTrendingGames",
+  () => ({
+    useInfiniteTrendingGames: (dto: unknown) => {
       state.request(dto);
       return {
         data: {
@@ -106,6 +88,11 @@ vi.mock("@repo/ui", async () => {
         isFetching: false,
       };
     },
+  }),
+);
+vi.mock(
+  "../../../../../packages/ui/src/components/game/hooks/useGamesByPages",
+  () => ({
     useGamesByPages: (pages: number[][] | undefined) => {
       state.games(pages);
       return {
@@ -117,27 +104,53 @@ vi.mock("@repo/ui", async () => {
         isFetching: false,
       };
     },
-  };
-});
+  }),
+);
+
+beforeEach(() => setupDom());
 afterEach(() => {
   cleanup();
   state.request.mockClear();
   state.games.mockClear();
 });
 
+type Presenters = ComponentProps<typeof UIProvider>["presenters"];
+
+const Screen = () => {
+  const [value, setValue] = useState<ExploreViewValue>({
+    period: "month" as ExploreViewValue["period"],
+  });
+  return <ExploreView value={value} onChange={setValue} />;
+};
+
+const renderScreen = (presenters: Presenters = {}) =>
+  render(
+    <MantineProvider>
+      <UIProvider
+        hooks={{} as ComponentProps<typeof UIProvider>["hooks"]}
+        presenters={{
+          ExplorePeriodSelect: MobileExplorePeriodSelect,
+          ...presenters,
+        }}
+      >
+        <Screen />
+      </UIProvider>
+    </MantineProvider>,
+  );
+
 it("shows category shelves by default without loading the flat grid", () => {
-  render(<ExploreGamesPageView />);
+  renderScreen();
   expect(screen.getAllByTestId("shelf").map((el) => el.textContent)).toEqual([
     "explore.sections.topOverall",
     "RPG",
     "Adventure",
   ]);
-  expect(state.games).toHaveBeenLastCalledWith(undefined);
+  expect(state.games).not.toHaveBeenCalled();
   expect(state.request).not.toHaveBeenCalled();
 });
 
 it("opens the filtered ranking for a genre and keeps order and period", () => {
-  const page = render(<ExploreGamesPageView />);
+  const page = renderScreen();
   fireEvent.click(screen.getByRole("button", { name: "RPG", pressed: false }));
   expect(state.request).toHaveBeenLastCalledWith(
     expect.objectContaining({ criteria: { genres: [12] }, limit: 48 }),
@@ -153,7 +166,7 @@ it("opens the filtered ranking for a genre and keeps order and period", () => {
 });
 
 it("opens the full overall ranking from the top shelf", () => {
-  const page = render(<ExploreGamesPageView />);
+  const page = renderScreen();
   fireEvent.click(screen.getByText("Period"));
   fireEvent.click(
     screen.getByRole("button", { name: "explore.sections.topOverall" }),
@@ -161,9 +174,27 @@ it("opens the full overall ranking from the top shelf", () => {
 
   expect(state.request).toHaveBeenLastCalledWith({
     period: "all",
-    criteria: undefined,
     limit: 48,
   });
   expect(page.container.textContent).toContain("213");
   expect(screen.queryAllByTestId("shelf")).toHaveLength(0);
+});
+
+it("hands the filters and the selection to a theme's explore", () => {
+  renderScreen({
+    ExploreTrendingGames: ({ filters, results, filtered }) => (
+      <div data-testid="theme" data-filtered={String(filtered)}>
+        {filters}
+        {filtered && results}
+      </div>
+    ),
+  });
+  const theme = screen.getByTestId("theme");
+  expect(theme.dataset.filtered).toBe("false");
+
+  fireEvent.click(screen.getByRole("button", { name: "RPG" }));
+
+  expect(theme.dataset.filtered).toBe("true");
+  expect(screen.getByText("Period")).toBeTruthy();
+  expect(theme.textContent).toContain("213");
 });

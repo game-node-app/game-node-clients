@@ -1638,14 +1638,18 @@ export type TranslationSchema = {
     fetchError: string;
     filters: {
       all: string;
+      clear: string;
       genres: string;
       modes: string;
       platforms: string;
       themes: string;
+      title: string;
       trendingIn: string;
     };
     metaTitle: string;
     sections: {
+      scrollNext: string;
+      scrollPrevious: string;
       seeAll: string;
       topOverall: string;
     };

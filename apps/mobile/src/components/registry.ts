@@ -5,6 +5,7 @@ import { shareGeneratedFile } from "@/util/shareGeneratedFile";
 import { saveGeneratedFile } from "@/util/saveGeneratedFile";
 import { MobileGameInfoTitleFigure } from "@/components/game/info/MobileGameInfoTitleFigure.tsx";
 import { MobileDetailsBox } from "@/components/general/MobileDetailsBox.tsx";
+import { MobileExplorePeriodSelect } from "@/components/explore/MobileExplorePeriodSelect";
 import { MobileTrendingReviewCard } from "@/components/review/trending/MobileTrendingReviewCard.tsx";
 import { MobileCollectionThumbnailCard } from "@/components/collection/MobileCollectionThumbnailCard.tsx";
 import { MobileGameAchievementListItem } from "@/components/achievement/MobileGameAchievementListItem.tsx";
@@ -33,6 +34,7 @@ import { useEntrySplashDone } from "@/components/general/splash/useEntrySplashDo
 export const UI_PRESENTER_REGISTRY: Partial<UIPresenterRegistry> = {
   GameInfoTitleFigure: MobileGameInfoTitleFigure,
   DetailsBox: MobileDetailsBox,
+  ExplorePeriodSelect: MobileExplorePeriodSelect,
   TrendingReviewCard: MobileTrendingReviewCard,
   CollectionThumbnailCard: MobileCollectionThumbnailCard,
   GameAchievementsListItem: MobileGameAchievementListItem,
