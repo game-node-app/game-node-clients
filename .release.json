@@ -1,0 +1,28 @@
+{
+  "source": "dc62a594d132d907337d2081c7becdd60f5699ec",
+  "changesets": [
+    ".changeset/web-explore-screen.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[d0cd057ee772d47152c837cc8bc31d34773cb2a6...dc62a594d132d907337d2081c7becdd60f5699ec]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/dc62a594d132d907337d2081c7becdd60f5699ec",
+  "versions": {
+    "web": "1.31.0",
+    "mobile": "1.29.2"
+  }
+}
