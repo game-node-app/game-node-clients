@@ -5,6 +5,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { SimpleInfiniteLoader } from "../../../../../packages/ui/src/components/feed/SimpleInfiniteLoader";
 
 const observer = vi.hoisted(() => ({
+  options: null as IntersectionObserverInit | null,
   entry: null as {
     isIntersecting: boolean;
     time: number;
@@ -20,7 +21,10 @@ const observer = vi.hoisted(() => ({
   } | null,
 }));
 vi.mock("@mantine/hooks", () => ({
-  useIntersection: () => ({ ref: vi.fn(), entry: observer.entry }),
+  useIntersection: (options: IntersectionObserverInit) => {
+    observer.options = options;
+    return { ref: vi.fn(), entry: observer.entry };
+  },
 }));
 vi.mock("#@/components", () => ({ CenteredLoading: () => null }));
 
@@ -28,6 +32,28 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
   observer.entry = null;
+  observer.options = null;
+});
+
+it("forwards the prefetch margin to the intersection observer", () => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: false,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  render(
+    <SimpleInfiniteLoader
+      hasNextPage
+      isFetching={false}
+      fetchNextPage={vi.fn(async () => {})}
+      rootMargin={"0px 0px 150% 0px"}
+    />,
+    { wrapper: MantineProvider },
+  );
+  expect(observer.options).toEqual({
+    threshold: 0.5,
+    rootMargin: "0px 0px 150% 0px",
+  });
 });
 
 it("loads once per intersection, including when the callback changes during a fetch", () => {

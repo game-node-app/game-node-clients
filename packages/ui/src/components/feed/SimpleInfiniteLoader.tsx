@@ -6,9 +6,11 @@ const SimpleInfiniteLoader = ({
   hasNextPage,
   isFetching,
   fetchNextPage,
+  rootMargin,
 }: InfiniteLoaderProps) => {
   const { ref, entry } = useIntersection({
     threshold: 0.5,
+    rootMargin,
   });
   const handledEntry = useRef<IntersectionObserverEntry | null>(null);
 

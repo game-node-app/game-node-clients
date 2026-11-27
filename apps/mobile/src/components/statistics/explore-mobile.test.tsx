@@ -1,6 +1,12 @@
 // @vitest-environment jsdom
 import { MantineProvider } from "@mantine/core";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { ComponentProps, useState } from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ExploreView } from "../../../../../packages/ui/src/components/explore/view/ExploreView";
@@ -9,7 +15,13 @@ import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import { MobileExplorePeriodSelect } from "../explore/MobileExplorePeriodSelect";
 import { setupDom } from "../mcp/testUtils";
 
-const state = vi.hoisted(() => ({ request: vi.fn(), games: vi.fn() }));
+const state = vi.hoisted(() => ({
+  request: vi.fn(),
+  games: vi.fn(),
+  loader: vi.fn(),
+  gamesLoading: false,
+  gamesData: undefined as { id: number; name: string }[] | undefined,
+}));
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -60,7 +72,15 @@ vi.mock("../../../../../packages/ui/src/components/game/view/GameView", () => {
 });
 vi.mock(
   "../../../../../packages/ui/src/components/feed/SimpleInfiniteLoader",
-  () => ({ SimpleInfiniteLoader: () => null }),
+  () => ({
+    SimpleInfiniteLoader: (props: {
+      rootMargin?: string;
+      hasNextPage: boolean;
+    }) => {
+      state.loader(props);
+      return <div data-testid="infinite-loader" />;
+    },
+  }),
 );
 vi.mock(
   "../../../../../packages/ui/src/components/game/hooks/useGamesResource",
@@ -96,11 +116,13 @@ vi.mock(
     useGamesByPages: (pages: number[][] | undefined) => {
       state.games(pages);
       return {
-        data: [
-          { id: 3, name: "3" },
-          { id: 1, name: "1" },
-          { id: 2, name: "2" },
-        ],
+        data: state.gamesLoading
+          ? undefined
+          : (state.gamesData ?? [
+              { id: 3, name: "3" },
+              { id: 1, name: "1" },
+              { id: 2, name: "2" },
+            ]),
         isFetching: false,
       };
     },
@@ -112,6 +134,9 @@ afterEach(() => {
   cleanup();
   state.request.mockClear();
   state.games.mockClear();
+  state.loader.mockClear();
+  state.gamesLoading = false;
+  state.gamesData = undefined;
 });
 
 type Presenters = ComponentProps<typeof UIProvider>["presenters"];
@@ -149,20 +174,37 @@ it("shows category shelves by default without loading the flat grid", () => {
   expect(state.request).not.toHaveBeenCalled();
 });
 
-it("opens the filtered ranking for a genre and keeps order and period", () => {
+it("opens the filtered ranking for a genre and keeps order and period", async () => {
   const page = renderScreen();
   fireEvent.click(screen.getByRole("button", { name: "RPG", pressed: false }));
   expect(state.request).toHaveBeenLastCalledWith(
-    expect.objectContaining({ criteria: { genres: [12] }, limit: 48 }),
+    expect.objectContaining({ criteria: { genres: [12] }, limit: 96 }),
   );
   expect(screen.queryAllByTestId("shelf")).toHaveLength(0);
   expect(page.container.textContent).toContain("213");
+  await waitFor(() =>
+    expect(state.loader).toHaveBeenLastCalledWith(
+      expect.objectContaining({ rootMargin: "0px 0px 150% 0px" }),
+    ),
+  );
   fireEvent.click(screen.getByText("Period"));
   expect(state.request).toHaveBeenLastCalledWith(
     expect.objectContaining({ period: "all", criteria: { genres: [12] } }),
   );
   fireEvent.click(screen.getByRole("button", { name: "explore.filters.all" }));
   expect(screen.getAllByTestId("shelf")).toHaveLength(3);
+});
+
+it("does not mount the infinite loader before the first games page arrives", () => {
+  state.gamesLoading = true;
+  renderScreen();
+  fireEvent.click(screen.getByRole("button", { name: "RPG", pressed: false }));
+
+  expect(state.request).toHaveBeenLastCalledWith(
+    expect.objectContaining({ limit: 96 }),
+  );
+  // an empty grid puts the sentinel in view, which would chain page two
+  expect(screen.queryByTestId("infinite-loader")).toBeNull();
 });
 
 it("opens the full overall ranking from the top shelf", () => {
@@ -174,7 +216,7 @@ it("opens the full overall ranking from the top shelf", () => {
 
   expect(state.request).toHaveBeenLastCalledWith({
     period: "all",
-    limit: 48,
+    limit: 96,
   });
   expect(page.container.textContent).toContain("213");
   expect(screen.queryAllByTestId("shelf")).toHaveLength(0);
