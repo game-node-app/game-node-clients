@@ -2128,12 +2128,10 @@ export type TranslationSchema = {
     description: string;
     messages: {
       applyingChanges: string;
-      clickHere: string;
       importSuccess: string;
       invalidExternalGame: string;
       itemExcluded: string;
-      noConnectionsPrefix: string;
-      noConnectionsSuffix: string;
+      noPlatformsAvailable: string;
       overview: string;
       selectAtLeastOne: string;
       syncFailed: string;
@@ -2188,6 +2186,7 @@ export type TranslationSchema = {
       reconnect: string;
       connect: string;
       configure: string;
+      notConnected: string;
     };
   };
   journal: {
@@ -2479,8 +2478,6 @@ export type TranslationSchema = {
     importer: {
       clickHere: string;
       description: string;
-      noConnections: string;
-      setUpOne: string;
     };
     library: {
       collectionsTitle: string;

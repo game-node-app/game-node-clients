@@ -4,20 +4,31 @@ import {
   CenteredErrorMessage,
   CenteredLoading,
   ImporterPlatform,
-  TextLink,
+  useAvailableConnections,
   useOwnUserConnections,
 } from "@repo/ui";
-import { ConnectionsService } from "@repo/wrapper/server";
+import {
+  ConnectionsService,
+  OwnUserConnectionDto,
+  UserConnectionDto,
+} from "@repo/wrapper/server";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { NextPageContext } from "next";
 import { SessionAuth } from "@repo/ui";
 
 export const getServerSideProps = async (_context: NextPageContext) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["connections", "own"],
-    queryFn: () => ConnectionsService.connectionsControllerFindOwnV1(),
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["connections", "own"],
+      queryFn: () => ConnectionsService.connectionsControllerFindOwnV1(),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["connections", "available"],
+      queryFn: () =>
+        ConnectionsService.connectionsControllerFindAvailableConnectionsV1(),
+    }),
+  ]);
 
   return {
     props: {
@@ -28,15 +39,26 @@ export const getServerSideProps = async (_context: NextPageContext) => {
 
 const Index = () => {
   const { t } = useTranslation();
-  const { data, isLoading, isError, error } = useOwnUserConnections();
+  const availableConnections = useAvailableConnections();
+  const ownConnections = useOwnUserConnections();
 
-  const importerUsableConnections = data?.filter(
-    (connection) => connection.isImporterViable,
+  const importerConnections =
+    availableConnections.data?.filter(
+      (connection) => connection.isImporterViable,
+    ) ?? [];
+
+  const ownConnectionsByType = new Map<string, OwnUserConnectionDto>(
+    (ownConnections.data ?? []).map(
+      (connection): [string, OwnUserConnectionDto] => [
+        connection.type.valueOf(),
+        connection,
+      ],
+    ),
   );
 
-  const isImportingAvailable =
-    importerUsableConnections != undefined &&
-    importerUsableConnections.length > 0;
+  const isLoading = availableConnections.isLoading || ownConnections.isLoading;
+  const isError = availableConnections.isError || ownConnections.isError;
+  const error = availableConnections.error ?? ownConnections.error;
 
   return (
     <SessionAuth>
@@ -53,22 +75,27 @@ const Index = () => {
             <Text>{t("importer.messages.overview")}</Text>
             <Space h={"2rem"} />
             {isLoading && <CenteredLoading className={"mt-8"} />}
-            {isError && <CenteredErrorMessage message={error.message} />}
-            {!isLoading && !isError && !isImportingAvailable && (
-              <Text c={"red"}>
-                {t("importer.messages.noConnectionsPrefix")}{" "}
-                <TextLink href={"/preferences/connections"}>
-                  {t("importer.messages.clickHere")}
-                </TextLink>{" "}
-                {t("importer.messages.noConnectionsSuffix")}
+            {isError && error != undefined && (
+              <CenteredErrorMessage message={error.message} />
+            )}
+            {!isLoading && !isError && importerConnections.length === 0 && (
+              <Text c={"dimmed"}>
+                {t("importer.messages.noPlatformsAvailable")}
               </Text>
             )}
             <Group className={"w-full gap-5 justify-center"}>
-              {importerUsableConnections?.map((connection) => {
+              {importerConnections.map((connection) => {
                 return (
                   <ImporterPlatform
-                    key={connection.id}
-                    connection={connection}
+                    key={connection.type}
+                    type={
+                      connection.type as unknown as UserConnectionDto.type
+                    }
+                    name={connection.name}
+                    iconName={connection.iconName}
+                    connection={ownConnectionsByType.get(
+                      connection.type.valueOf(),
+                    )}
                   />
                 );
               })}

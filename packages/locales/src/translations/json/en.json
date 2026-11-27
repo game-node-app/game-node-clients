@@ -2124,12 +2124,10 @@
     "description": "Select one or multiple games which you want to bring to your GameNode library.",
     "messages": {
       "applyingChanges": "Applying changes...",
-      "clickHere": "Click here",
       "importSuccess": "Successfully imported {{count}} games!",
       "invalidExternalGame": "Error while inserting game. Invalid external game ID. Please contact support.",
       "itemExcluded": "Successfully excluded item already in your library.",
-      "noConnectionsPrefix": "It seems like you don't have any connection set up for importing.",
-      "noConnectionsSuffix": "to set one up.",
+      "noPlatformsAvailable": "No platforms are available for import right now.",
       "overview": "The importer system helps you bring games from other platforms to GameNode.",
       "selectAtLeastOne": "Select at least one game.",
       "syncFailed": "Failed to sync changes!",
@@ -2183,7 +2181,8 @@
       "importGames": "Import games",
       "reconnect": "Reconnect",
       "connect": "Connect",
-      "configure": "Configure"
+      "configure": "Configure",
+      "notConnected": "Not connected"
     }
   },
   "journal": {
@@ -2474,9 +2473,7 @@
     },
     "importer": {
       "clickHere": "Click here",
-      "description": "The importer system helps you bring games from other platforms to GameNode.",
-      "noConnections": "It seems like you don't have any connection set up for importing.",
-      "setUpOne": "to set one up."
+      "description": "The importer system helps you bring games from other platforms to GameNode."
     },
     "library": {
       "collectionsTitle": "Your collections",

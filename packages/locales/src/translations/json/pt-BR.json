@@ -2124,12 +2124,10 @@
     "description": "Selecione um ou múltiplos jogos que você deseja trazer para sua biblioteca GameNode.",
     "messages": {
       "applyingChanges": "Aplicando alterações...",
-      "clickHere": "Clique aqui",
       "importSuccess": "{{count}} jogos importados com sucesso!",
       "invalidExternalGame": "Erro ao inserir jogo. ID de jogo externo inválido. Por favor, contate o suporte.",
       "itemExcluded": "Item já na sua biblioteca excluído com sucesso.",
-      "noConnectionsPrefix": "Parece que voce nao tem nenhuma conexao configurada para importar.",
-      "noConnectionsSuffix": "para configurar uma.",
+      "noPlatformsAvailable": "Nenhuma plataforma disponível para importação no momento.",
       "overview": "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode.",
       "selectAtLeastOne": "Selecione pelo menos um jogo.",
       "syncFailed": "Falha ao sincronizar alterações!",
@@ -2183,7 +2181,8 @@
       "importGames": "Importar jogos",
       "reconnect": "Reconectar",
       "connect": "Conectar",
-      "configure": "Configurar"
+      "configure": "Configurar",
+      "notConnected": "Não conectado"
     }
   },
   "journal": {
@@ -2474,9 +2473,7 @@
     },
     "importer": {
       "clickHere": "Clique aqui",
-      "description": "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode.",
-      "noConnections": "Parece que voce nao tem nenhuma conexao configurada para importar.",
-      "setUpOne": "para configurar uma."
+      "description": "O sistema de importacao ajuda voce a trazer jogos de outras plataformas para o GameNode."
     },
     "library": {
       "collectionsTitle": "Suas colecoes",

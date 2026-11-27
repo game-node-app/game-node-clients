@@ -2,7 +2,13 @@ import { isValidElement } from "react";
 // @vitest-environment jsdom
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -39,6 +45,23 @@ vi.mock(
   () => ({
     useOwnUserConnectionByType: () => mocks.ownConnection,
   }),
+);
+
+vi.mock(
+  "../../../../../../packages/ui/src/components/connections/hooks/useAvailableConnections",
+  () => ({
+    useAvailableConnections: () => ({
+      data: [],
+      isLoading: false,
+      isError: false,
+      error: null,
+    }),
+  }),
+);
+
+vi.mock(
+  "../../../../../../packages/ui/src/components/auth/hooks/useUserId",
+  () => ({ useUserId: () => "test-user-id" }),
 );
 
 vi.mock("@capacitor/app", () => ({
@@ -154,7 +177,12 @@ describe("Task 4.1: ImporterPlatform", () => {
       lastSyncedAt: "2026-10-25T14:30:00Z",
     };
 
-    renderWithProviders(<ImporterPlatform connection={conn} />);
+    renderWithProviders(
+      <ImporterPlatform
+        type={conn.type as unknown as UserConnectionDto.type}
+        connection={conn}
+      />,
+    );
 
     expect(screen.getByText("15 games available")).toBeTruthy();
     expect(screen.getByText(/Last synced/)).toBeTruthy();
@@ -181,7 +209,12 @@ describe("Task 4.1: ImporterPlatform", () => {
       lastSyncedAt: null,
     };
 
-    renderWithProviders(<ImporterPlatform connection={conn} />);
+    renderWithProviders(
+      <ImporterPlatform
+        type={conn.type as unknown as UserConnectionDto.type}
+        connection={conn}
+      />,
+    );
 
     expect(screen.getByText("All caught up (0 pending)")).toBeTruthy();
     expect(screen.queryByText(/Last synced/i)).toBeNull();
@@ -206,7 +239,12 @@ describe("Task 4.1: ImporterPlatform", () => {
       lastSyncedAt: null,
     };
 
-    renderWithProviders(<ImporterPlatform connection={conn} />);
+    renderWithProviders(
+      <ImporterPlatform
+        type={conn.type as unknown as UserConnectionDto.type}
+        connection={conn}
+      />,
+    );
 
     expect(screen.queryByText(/games available/i)).toBeNull();
     expect(screen.queryByText(/pending/i)).toBeNull();
@@ -231,11 +269,29 @@ describe("Task 4.1: ImporterPlatform", () => {
       lastSyncedAt: "2026-10-20T10:00:00Z",
     };
 
-    renderWithProviders(<ImporterPlatform connection={conn} />);
+    renderWithProviders(
+      <ImporterPlatform
+        type={conn.type as unknown as UserConnectionDto.type}
+        connection={conn}
+      />,
+    );
 
     expect(screen.getByText("Reconnection required")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Reconnect" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Import" })).toBeNull();
+  });
+
+  it("renders an importable platform without a connection and offers setup in place", async () => {
+    renderWithProviders(<ImporterPlatform type={UserConnectionDto.type.GOG} />);
+
+    expect(screen.getByText("GOG")).toBeTruthy();
+    expect(screen.getByText("Not connected")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Import" })).toBeNull();
+    expect(screen.queryByText(/Last synced/i)).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Connect" }));
+
+    expect(await screen.findByText("Set up connection")).toBeTruthy();
   });
 });
 
