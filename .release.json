@@ -1,0 +1,28 @@
+{
+  "source": "fb7deb0057bd43953f64d1b7075c5fd2f5bfe9b3",
+  "changesets": [
+    ".changeset/importer-all-connections.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[dc62a594d132d907337d2081c7becdd60f5699ec...fb7deb0057bd43953f64d1b7075c5fd2f5bfe9b3]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "patch",
+    "mobile": "patch"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/fb7deb0057bd43953f64d1b7075c5fd2f5bfe9b3",
+  "versions": {
+    "web": "1.31.1",
+    "mobile": "1.29.3"
+  }
+}
