@@ -20,6 +20,20 @@ export const GUILD_CHAIN_RANK_REQUIRED = "guild_chain_rank_required";
 export const GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS = 3;
 
 /**
+ * Active-contract cap of a license. A payload can arrive without `perks`: the
+ * mobile app persists Guild reads for 30 days, and a new client can run against
+ * a server deployed before the Guild expansion. Those cases fall back to the
+ * rank E–C cap instead of crashing the hall.
+ */
+export function getGuildMaxActiveContracts(
+  license?: { perks?: { maxActiveContracts?: number } | null } | null,
+): number {
+  return (
+    license?.perks?.maxActiveContracts ?? GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS
+  );
+}
+
+/**
  * Business codes with dedicated copy under `guild.errors.<code>` (design D7 and
  * hand-off section 9). Everything else falls back to the API message through
  * `createErrorNotification`. `guild_early_access_required` is handled before
