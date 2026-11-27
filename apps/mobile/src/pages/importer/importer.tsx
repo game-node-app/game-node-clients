@@ -1,5 +1,4 @@
 import { AppPage } from "@/components/general/AppPage";
-import { getTabAwareHref } from "@/util/getTabAwareHref";
 import { IonRefresher, IonRefresherContent } from "@ionic/react";
 import { Stack, Text } from "@mantine/core";
 import { useTranslation } from "@repo/locales";
@@ -7,23 +6,35 @@ import {
   CenteredErrorMessage,
   CenteredLoading,
   ImporterPlatform,
+  useAvailableConnections,
   useOwnUserConnections,
 } from "@repo/ui";
+import { OwnUserConnectionDto, UserConnectionDto } from "@repo/wrapper/server";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 
 const ImporterPage = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { data, isLoading, isError, error } = useOwnUserConnections();
+  const availableConnections = useAvailableConnections();
+  const ownConnections = useOwnUserConnections();
 
-  const importerUsableConnections = data?.filter(
-    (connection) => connection.isImporterViable,
+  const importerConnections =
+    availableConnections.data?.filter(
+      (connection) => connection.isImporterViable,
+    ) ?? [];
+
+  const ownConnectionsByType = new Map<string, OwnUserConnectionDto>(
+    (ownConnections.data ?? []).map(
+      (connection): [string, OwnUserConnectionDto] => [
+        connection.type.valueOf(),
+        connection,
+      ],
+    ),
   );
 
-  const isImportingAvailable =
-    importerUsableConnections != undefined &&
-    importerUsableConnections.length > 0;
+  const isLoading = availableConnections.isLoading || ownConnections.isLoading;
+  const isError = availableConnections.isError || ownConnections.isError;
+  const error = availableConnections.error ?? ownConnections.error;
 
   return (
     <AppPage title={t("importer.title")} withSearch={false}>
@@ -31,7 +42,7 @@ const ImporterPage = () => {
         slot={"fixed"}
         onIonRefresh={async (evt) => {
           await queryClient.invalidateQueries({
-            queryKey: ["connections", "own"],
+            queryKey: ["connections"],
           });
           evt.detail.complete();
         }}
@@ -44,20 +55,26 @@ const ImporterPage = () => {
             {t("mobile.importer.description")}
           </Text>
           {isLoading && <CenteredLoading className={"mt-8"} />}
-          {isError && <CenteredErrorMessage message={error.message} />}
-          {!isLoading && !isError && !isImportingAvailable && (
-            <Text c={"red"}>
-              {t("mobile.importer.noConnections")}{" "}
-              <Link to={getTabAwareHref("/preferences/connections")}>
-                {t("mobile.importer.clickHere")}
-              </Link>{" "}
-              {t("mobile.importer.setUpOne")}
+          {isError && error != undefined && (
+            <CenteredErrorMessage message={error.message} />
+          )}
+          {!isLoading && !isError && importerConnections.length === 0 && (
+            <Text c={"dimmed"}>
+              {t("importer.messages.noPlatformsAvailable")}
             </Text>
           )}
           <Stack className={"w-full items-center gap-3"}>
-            {importerUsableConnections?.map((connection) => {
+            {importerConnections.map((connection) => {
               return (
-                <ImporterPlatform key={connection.id} connection={connection} />
+                <ImporterPlatform
+                  key={connection.type}
+                  type={connection.type as unknown as UserConnectionDto.type}
+                  name={connection.name}
+                  iconName={connection.iconName}
+                  connection={ownConnectionsByType.get(
+                    connection.type.valueOf(),
+                  )}
+                />
               );
             })}
           </Stack>
