@@ -88,6 +88,9 @@ const OVERVIEW = {
 const BOARD = {
   weekStart: "2026-11-16",
   nextRefreshAt: "2026-11-23T03:00:00.000Z",
+  rerollsRemaining: 1,
+  rerollChartersOwned: 0,
+  monthlyExpeditionLocked: false,
   quests: [],
 } as GuildBoardResponseDto;
 
@@ -100,6 +103,12 @@ const REWARDS = {
   unlockedRewards: [],
   equippedTitleKey: null,
   equippedFrameKey: null,
+  equippedLicenseThemeKey: null,
+  equippedStampStyleKey: null,
+  equippedDecorKeys: [],
+  showcaseBadgeIds: [],
+  sealsBalance: 150,
+  consumables: { hourglass: 0, reroll_charter: 0, extra_slot_permit: 0 },
 } as GuildRewardsResponseDto;
 
 const CONTRACT = {

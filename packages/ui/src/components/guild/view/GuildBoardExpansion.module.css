@@ -1,0 +1,172 @@
+/* Board expansion (Monthly Expeditions, bonus objectives, meta captions and
+   rerolls). Parchment surfaces use the theme-exempt Guild palette; captions on
+   the hall surface use theme text tokens. */
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.monthlyCard {
+  border-color: var(--guild-gold);
+}
+
+.acceptBy {
+  margin: 0;
+  color: var(--guild-ink);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.bonusBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px dashed var(--guild-parchment-shade);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--guild-parchment-shade) 22%, transparent);
+  color: var(--guild-ink);
+}
+
+.bonusLabel {
+  color: var(--guild-ink);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bonusCondition {
+  margin: 0;
+  color: var(--guild-ink);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.bonusReward {
+  margin: 0;
+  color: var(--guild-brand-ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+}
+
+.metaCaption {
+  margin: 0;
+  color: var(--guild-ink);
+  font-size: 11px;
+  line-height: 14px;
+  opacity: 0.72;
+}
+
+.sealsReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--guild-brand-ink);
+  white-space: nowrap;
+}
+
+.rerollToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.rerollStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-text-subtle);
+}
+
+.capBanner {
+  padding: 10px 12px;
+  border: 1px solid var(--gn-warning);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-status-warning-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.allHiddenText {
+  margin: 0 0 12px;
+  color: var(--gn-text-subtle);
+}
+
+.contractsReadyBadge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid var(--gn-brand);
+  border-radius: var(--gn-radius);
+  background: var(--gn-brand-tint);
+  color: var(--gn-accent-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.lockedTeaser {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 16px;
+  border: 2px dashed var(--guild-parchment-shade);
+  border-radius: 4px;
+  background: var(--guild-parchment);
+  color: var(--guild-ink);
+  filter: drop-shadow(0 6px 0 var(--guild-shadow));
+}
+
+.lockedTitle {
+  margin: 0;
+  color: var(--guild-ink);
+}
+
+.lockedHint {
+  margin: 0;
+  color: var(--guild-ink);
+  font-size: 12px;
+  line-height: 16px;
+  opacity: 0.72;
+}
+
+/* Accepted-state chips: the Seals group sits next to the XP group inside the
+   existing gold chip of the stamped contract. */
+.acceptedChips {
+  gap: 10px;
+}
+
+.acceptedChipGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.acceptedSeals {
+  padding-left: 10px;
+  border-left: 1px solid var(--guild-gold);
+}

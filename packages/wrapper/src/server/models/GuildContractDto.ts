@@ -14,8 +14,13 @@ export type GuildContractDto = {
     templateKey: string | null;
     rank: GuildContractDto.rank;
     xpReward: number;
+    sealsReward: number;
     objectiveType: GuildContractDto.objectiveType;
     criteria: Record<string, any>;
+    bonusObjective: Record<string, any> | null;
+    bonusCompleted: boolean;
+    extendedCount: number;
+    chainProgressId: string | null;
     targetGameId: number | null;
     targetGame: GuildContractTargetGameDto | null;
     progressCurrent: number;
@@ -38,6 +43,7 @@ export namespace GuildContractDto {
         EVENT = 'event',
         WEEKLY = 'weekly',
         GAMENODE = 'gamenode',
+        MONTHLY = 'monthly',
     }
     export enum rank {
         E = 'E',
@@ -50,6 +56,14 @@ export namespace GuildContractDto {
     export enum objectiveType {
         FINISH_GAME = 'finish_game',
         WRITE_REVIEW = 'write_review',
+        LOG_PLAYTIME = 'log_playtime',
+        PLAY_DISTINCT_DAYS = 'play_distinct_days',
+        DAILY_CHALLENGE = 'daily_challenge',
+        EARN_GAME_ACHIEVEMENTS = 'earn_game_achievements',
+        COMPLETE_GAME_100 = 'complete_game_100',
+        CURATE_COLLECTION = 'curate_collection',
+        PUBLISH_POST = 'publish_post',
+        TRIAGE_BACKLOG = 'triage_backlog',
     }
     export enum status {
         ACTIVE = 'active',

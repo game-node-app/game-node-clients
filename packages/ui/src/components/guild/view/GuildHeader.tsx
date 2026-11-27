@@ -1,11 +1,13 @@
+import type { TFunction } from "i18next";
 import type { GuildLicenseDto } from "@repo/wrapper/server";
 import { useI18nContext, useTranslation } from "@repo/locales";
 import { cn } from "#@/util/cn";
 
 import styles from "../guild.module.css";
+import progressionStyles from "./GuildProgression.module.css";
 import { GuildIcon } from "../scene/GuildIcon";
 import { formatTimeLeft } from "../util/formatTimeLeft";
-import { getRankProgress } from "../util/getRankProgress";
+import { formatGuildXp, getRankProgress } from "../util/getRankProgress";
 import { getGuildTitleLabel } from "./GuildHallTitles";
 
 export type GuildHeaderVariant = "desktop" | "mobile";
@@ -18,10 +20,46 @@ export interface GuildHeaderProps {
   className?: string;
 }
 
+interface PrestigeProgress {
+  level: number;
+  percent: number;
+  label: string;
+  valueLabel: string;
+}
+
 /**
- * Hall header (design D6): crest and title, Monday refresh subtitle, rank badge
- * and the rank XP bar. The mobile variant stacks the badge and puts the bar on
- * its own full-width row.
+ * Rank S with at least one Prestige star shows the star progress instead of the
+ * (always full) rank bar: `prestigeXpIntoCurrent / (prestigeXpIntoCurrent +
+ * xpToNextPrestige)` with the `Prestige N` label (design D8, spec guild-progression).
+ */
+function getPrestigeProgress(
+  license: GuildLicenseDto,
+  language: string,
+  t: TFunction,
+): PrestigeProgress | null {
+  const level = license.prestigeLevel ?? 0;
+  if (license.rank !== "S" || level <= 0) return null;
+
+  const intoCurrent = Math.max(0, license.prestigeXpIntoCurrent ?? 0);
+  const toNext = Math.max(0, license.xpToNextPrestige ?? 0);
+  const total = intoCurrent + toNext;
+  const percent = total > 0 ? Math.min(100, (intoCurrent / total) * 100) : 0;
+
+  return {
+    level,
+    percent,
+    label: t("guild.rank.prestige", { count: level }),
+    valueLabel: `${formatGuildXp(intoCurrent, language)} / ${formatGuildXp(
+      total,
+      language,
+    )} XP`,
+  };
+}
+
+/**
+ * Hall header (design D6 + D8): crest and title, Monday refresh subtitle, the
+ * Seals pill, rank badge, Prestige stars and the rank (or Prestige) XP bar. The
+ * mobile variant stacks the badge and puts the bar on its own full-width row.
  */
 export function GuildHeader({
   license,
@@ -37,20 +75,51 @@ export function GuildHeader({
   const subtitle = t("guild.header.subtitle", {
     timeLeft: formatTimeLeft(nextRefreshAt),
   });
+  const numberFormat = new Intl.NumberFormat(language);
+  const sealsBalance = license.sealsBalance ?? 0;
+  const prestige = getPrestigeProgress(license, language, t);
+
+  const sealsPill = (
+    <span
+      className={progressionStyles.headerSealsPill}
+      data-seals-balance={sealsBalance}
+      role="group"
+      aria-label={t("guild.seals.amount", { count: sealsBalance })}
+    >
+      <GuildIcon name="seal" size={16} />
+      <span className={progressionStyles.headerSealsValue}>
+        {numberFormat.format(sealsBalance)}
+      </span>
+    </span>
+  );
+
+  const prestigeStars = prestige ? (
+    <span
+      className={progressionStyles.prestigeStars}
+      data-prestige-level={prestige.level}
+      aria-hidden
+    >
+      {Array.from({ length: prestige.level }, (_, index) => (
+        <GuildIcon key={index} name="prestige-star" size={12} />
+      ))}
+    </span>
+  ) : null;
+
+  const xpTitle = prestige ? prestige.label : playerTitle;
+  const xpValue = prestige ? prestige.valueLabel : progress.xpLabel;
+  const xpPercent = prestige ? prestige.percent : progress.percent;
 
   const xpBar = (
     <div
       role="progressbar"
-      aria-label={progress.xpLabel}
+      aria-label={xpTitle}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuenow={Math.round(progress.percent)}
+      aria-valuenow={Math.round(xpPercent)}
       className={styles.xpBar}
+      data-prestige-bar={prestige ? "true" : undefined}
     >
-      <span
-        className={styles.xpBarFill}
-        style={{ width: `${progress.percent}%` }}
-      />
+      <span className={styles.xpBarFill} style={{ width: `${xpPercent}%` }} />
     </div>
   );
 
@@ -72,23 +141,27 @@ export function GuildHeader({
               {t("guild.header.title")}
             </h1>
           </div>
-          <span
-            className={cn(
-              styles.stamp,
-              styles.rankBadge,
-              styles.rankBadgeMobile,
-            )}
-          >
-            {rankBadge}
-          </span>
+          <div className={progressionStyles.headerBadges}>
+            {sealsPill}
+            <span
+              className={cn(
+                styles.stamp,
+                styles.rankBadge,
+                styles.rankBadgeMobile,
+              )}
+            >
+              {rankBadge}
+            </span>
+            {prestigeStars}
+          </div>
         </div>
         <div className={cn(styles.xpBlock, styles.xpBlockMobile)}>
           <div className={styles.xpRow}>
             <span className={cn(styles.captionMedium, styles.xpTitle)}>
-              {playerTitle}
+              {xpTitle}
             </span>
             <span className={cn(styles.captionMedium, styles.xpValue)}>
-              {progress.xpLabel}
+              {xpValue}
             </span>
           </div>
           {xpBar}
@@ -113,14 +186,16 @@ export function GuildHeader({
         </div>
       </div>
       <div className={styles.headerRight}>
+        {sealsPill}
         <span className={cn(styles.stamp, styles.rankBadge)}>{rankBadge}</span>
+        {prestigeStars}
         <div className={styles.xpBlock}>
           <div className={styles.xpRow}>
             <span className={cn(styles.captionMedium, styles.xpTitle)}>
-              {playerTitle}
+              {xpTitle}
             </span>
             <span className={cn(styles.captionMedium, styles.xpValue)}>
-              {progress.xpLabel}
+              {xpValue}
             </span>
           </div>
           {xpBar}

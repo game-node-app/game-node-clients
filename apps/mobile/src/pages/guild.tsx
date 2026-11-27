@@ -3,7 +3,14 @@ import { useSearchParameters } from "@/components/general/hooks/useSearchParamet
 import { useTranslation } from "@repo/locales";
 import { GuildView } from "@repo/ui";
 
-const GUILD_TABS = ["board", "accepted", "completed"] as const;
+const GUILD_TABS = [
+  "board",
+  "accepted",
+  "completed",
+  "arcs",
+  "bounties",
+  "emporium",
+] as const;
 
 type GuildTab = (typeof GUILD_TABS)[number];
 
@@ -15,12 +22,14 @@ const GuildPage = () => {
   const { t } = useTranslation();
   const searchParameters = useSearchParameters();
   const tab = searchParameters.get("tab");
+  const bountyId = searchParameters.get("bountyId");
 
   return (
     <AppPage title={t("navigation.guild")} withSearch={false}>
       <GuildView
         supporterHref="/preferences/supporter"
         initialTab={isGuildTab(tab) ? tab : undefined}
+        bountyId={bountyId ?? undefined}
       />
     </AppPage>
   );

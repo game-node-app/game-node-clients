@@ -10,6 +10,14 @@ export type UpdateGuildEventDto = {
     rank?: UpdateGuildEventDto.rank;
     xpReward?: number;
     objectiveType?: UpdateGuildEventDto.objectiveType;
+    /**
+     * Defaults to the rank economy payout (defaultSealsForRank).
+     */
+    sealsReward?: number;
+    /**
+     * Optional contract bonus objective; see validateGuildBonusObjective.
+     */
+    bonusObjective?: Record<string, any>;
     targetCount?: number;
     /**
      * Objective filters; see validateGuildQuestRules.
@@ -35,6 +43,14 @@ export namespace UpdateGuildEventDto {
     export enum objectiveType {
         FINISH_GAME = 'finish_game',
         WRITE_REVIEW = 'write_review',
+        LOG_PLAYTIME = 'log_playtime',
+        PLAY_DISTINCT_DAYS = 'play_distinct_days',
+        DAILY_CHALLENGE = 'daily_challenge',
+        EARN_GAME_ACHIEVEMENTS = 'earn_game_achievements',
+        COMPLETE_GAME_100 = 'complete_game_100',
+        CURATE_COLLECTION = 'curate_collection',
+        PUBLISH_POST = 'publish_post',
+        TRIAGE_BACKLOG = 'triage_backlog',
     }
 }
 

@@ -1,0 +1,405 @@
+/*
+ * Contracts expansion (tasks 5.1/5.2, design D6).
+ *
+ * Chest receipts, the "Extend +7 days" confirmation and the claim celebration
+ * additions. Every colour is a --gn-* theme token or a --guild-* artwork
+ * variable from guild.module.css, so the block works in GameNode and Ruins.
+ */
+
+/* ---- Contract rows. ---- */
+
+.contractsCap {
+  flex: none;
+  color: var(--gn-text-subtle);
+  white-space: nowrap;
+}
+
+.contractRewards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.contractReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.contractChain {
+  align-self: flex-start;
+  padding: 1px 7px;
+  color: var(--gn-accent-text);
+  background: var(--gn-brand-tint);
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.contractTargetLink {
+  text-decoration: none;
+}
+
+.contractTargetLink:hover {
+  text-decoration: underline;
+}
+
+.contractTargetLink:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+  border-radius: var(--gn-radius);
+}
+
+.contractTargetCover {
+  width: 20px;
+  height: 27px;
+  border-radius: var(--gn-radius);
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.contractBonus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.contractBonusDone {
+  color: var(--gn-status-success-text);
+}
+
+.contractCheck {
+  font-weight: 700;
+}
+
+.contractBonusSeparator {
+  opacity: 0.6;
+}
+
+.contractRowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ---- Extend confirmation. ---- */
+
+.extendBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.extendSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+}
+
+.extendContractTitle {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.extendGameName {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.extendDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.extendText {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.extendDone {
+  color: var(--gn-status-success-text);
+  font-weight: 600;
+}
+
+.extendDeadline {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.extendNewDeadline {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.extendCost {
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--gn-text);
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.extendActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dangerButton.dangerButton.dangerButton {
+  color: var(--gn-danger-filled-text);
+  background: var(--gn-status-danger-strong);
+  border: 1px solid var(--gn-status-danger-text);
+  filter: none;
+}
+
+.dangerButton.dangerButton.dangerButton:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--gn-danger-filled-text);
+}
+
+.dangerButton.dangerButton.dangerButton:active:not(:disabled) {
+  transform: translateY(1px);
+  filter: none;
+}
+
+/* ---- Chest receipt. ---- */
+
+.chest {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+}
+
+.chestCompact {
+  gap: 6px;
+  padding: 9px 10px;
+}
+
+.chestHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chestArt {
+  flex: none;
+}
+
+.chestHeadings {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chestTitle {
+  color: var(--gn-status-warning-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.chestBonuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chestBonus {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gn-text);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.chestCosmetic {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--guild-rarity, var(--gn-line));
+  border-radius: var(--gn-radius);
+  background: var(--guild-rarity-tint, var(--gn-paper-2));
+}
+
+.chestCosmeticLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+/* The rarity label sits on the chest receipt's theme paper, so the hue is
+   mixed toward the theme's text token: 20% keeps the rarity readable and
+   reaches 5.1:1 on the tinted paper in Ruins and 9.7:1 in GameNode. The border
+   and background of `.chestCosmetic` keep the full hue. */
+.chestRarity {
+  flex: none;
+  color: color-mix(
+    in srgb,
+    var(--guild-rarity, var(--gn-text-subtle)) 20%,
+    var(--gn-text)
+  );
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 14px;
+  text-transform: uppercase;
+}
+
+.chestConsumable {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.chestExhausted {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.chestConsumableName {
+  color: var(--gn-text);
+  font-weight: 500;
+}
+
+/* ---- Claim celebration additions. ---- */
+
+.claimLinaLine {
+  max-width: 420px;
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.claimLinaHighlight {
+  color: var(--gn-status-warning-text);
+  font-weight: 600;
+}
+
+.claimSeals {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gn-status-warning-text);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.claimBonus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-status-success-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.claimCheck {
+  font-weight: 700;
+}
+
+.celebrationSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.promotionPackage {
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.claimPassport {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.claimPassportCount {
+  color: var(--gn-text);
+  font-weight: 500;
+}
+
+.chainBonus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-status-warning-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.chainStage {
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}

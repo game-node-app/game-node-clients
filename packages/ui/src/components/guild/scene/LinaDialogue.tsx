@@ -188,17 +188,20 @@ export function LinaDialogue({
       data-gn-artwork=""
       data-typing={isTyping}
       data-collapsed="false"
-      role="dialog"
+      role="region"
       aria-label={speaker}
       tabIndex={0}
-      onClick={() => {
-        if (isTyping) complete();
-      }}
       onKeyDown={handleKeyDown}
     >
       <span className={styles.linaNamePlate}>{speaker}</span>
 
-      <p className={cn(styles.pixelDialog, styles.linaText)} aria-hidden="true">
+      <p
+        className={cn(styles.pixelDialog, styles.linaText)}
+        aria-hidden="true"
+        onClick={() => {
+          if (isTyping) complete();
+        }}
+      >
         {textNodes}
       </p>
       <VisuallyHidden>{fullText}</VisuallyHidden>

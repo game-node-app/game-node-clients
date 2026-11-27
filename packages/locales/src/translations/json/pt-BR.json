@@ -1870,7 +1870,12 @@
         "finished": "Zerados",
         "backlog": "No backlog",
         "reviews": "Reviews"
-      }
+      },
+      "prestige": "Prestígio",
+      "showcase": "Vitrine de troféus",
+      "showcaseEmpty": "Nenhum troféu em exposição ainda.",
+      "seals": "Selos da Guilda",
+      "perks": "Vantagens"
     },
     "rankLabel": "RANK",
     "scene": {
@@ -1880,14 +1885,22 @@
       "board": "Quadro de pedidos",
       "boardShort": "Pedidos",
       "accepted": "Aceitos",
-      "completed": "Concluídos"
+      "completed": "Concluídos",
+      "arcs": "Arcos",
+      "bounties": "Desafios",
+      "emporium": "Empório"
     },
     "board": {
       "renewIn": "Renova em {{time}}",
       "quickTitle": "Pedidos rápidos",
+      "quickToggle": "Missões rápidas",
       "backToFull": "Voltar ao quadro completo",
       "empty": "Nenhum pedido no quadro esta semana. Volte na segunda-feira!",
       "quickEmpty": "Nenhum pedido rápido agora. Dê uma olhada no quadro completo.",
+      "allHidden": "Você ocultou todas as missões do quadro.",
+      "showHidden_one": "Mostrar {{count}} missão oculta",
+      "showHidden_other": "Mostrar {{count}} missões ocultas",
+      "capReached": "{{active}} / {{max}} contratos ativos — conclua ou abandone um para aceitar outro.",
       "recommended": "★ Lina recomenda",
       "xpReward": "+{{xp}} XP",
       "duration_one": "{{count}} dia para concluir depois de aceitar",
@@ -1901,11 +1914,55 @@
         "event": "Evento curado · {{days}} dias",
         "weekly": "Semanal",
         "gamenode": "Uso do GameNode",
-        "goal": "Meta"
+        "goal": "Meta",
+        "monthly": "Expedição Mensal"
       },
       "chips": {
         "since": "desde {{year}}",
         "hours": "~{{hours}}h"
+      },
+      "monthly": {
+        "title": "Expedição Mensal",
+        "locked": "Desbloqueia no Rank C",
+        "acceptBy": "Aceite até {{date}}"
+      },
+      "bonus": {
+        "label": "Bônus opcional",
+        "also_write_review": "Escreva também uma review com {{chars}}+ caracteres",
+        "finish_before_half_deadline": "Finalize antes da metade do prazo",
+        "use_stale_backlog_game": "Use um jogo parado há {{days}}+ dias",
+        "reward": "Recompensa bônus",
+        "parts": {
+          "xp": "+{{xp}} XP",
+          "seals": "+{{seals}} Selos",
+          "chestUpgrade": "melhoria de baú"
+        }
+      },
+      "reroll": {
+        "action": "Renovar",
+        "free_one": "Renovação grátis ({{count}} restante)",
+        "free_other": "Renovações grátis ({{count}} restantes)",
+        "charter": "Renovar com uma carta",
+        "none": "Sem renovações disponíveis",
+        "done": "Renovado",
+        "charterConfirmTitle": "Usar uma Carta de Renovação?",
+        "charterConfirmBody_one": "Você não tem mais renovações grátis. Isso usa 1 Carta de Renovação ({{count}} restante depois) para trocar \"{{title}}\".",
+        "charterConfirmBody_other": "Você não tem mais renovações grátis. Isso usa 1 Carta de Renovação ({{count}} restantes depois) para trocar \"{{title}}\".",
+        "charterConfirmAction": "Usar carta"
+      },
+      "rerollsStatus": "{{free}} · {{charters}}",
+      "rerollsStatusFree_zero": "{{count}} renovações grátis",
+      "rerollsStatusFree_one": "{{count}} renovação grátis",
+      "rerollsStatusFree_other": "{{count}} renovações grátis",
+      "rerollsStatusCharters_zero": "{{count}} cartas",
+      "rerollsStatusCharters_one": "{{count}} carta",
+      "rerollsStatusCharters_other": "{{count}} cartas",
+      "meta": {
+        "genre": "Gênero: {{genre}}",
+        "franchise": "Franquia: {{franchise}}",
+        "theme": "Tema: {{theme}}",
+        "decade": "Década: {{decade}}",
+        "staleDays": "Parado há {{days}} dias"
       }
     },
     "activeContracts": {
@@ -1915,7 +1972,11 @@
       "yearGoalLeft_one": "Falta {{count}} jogo até 31/12",
       "yearGoalLeft_other": "Faltam {{count}} jogos até 31/12",
       "acceptedAgo": "Aceito há {{time}}",
-      "playtime": "{{played}}h de {{estimated}}h"
+      "playtime": "{{played}}h de {{estimated}}h",
+      "summary": "{{active}} / {{max}} ativos",
+      "readyCount_one": "{{count}} pronto para entregar",
+      "readyCount_other": "{{count}} prontos para entregar",
+      "manage": "Gerenciar contratos"
     },
     "contracts": {
       "emptyAccepted": "Nenhum contrato aceito ainda. Escolha um pedido no quadro!",
@@ -1931,13 +1992,30 @@
       "abandon": {
         "title": "Abandonar contrato?",
         "body": "Você vai devolver \"{{title}}\" ao quadro. O pedido continua disponível enquanto a rodada não virar.",
+        "bodyChain": "Isso cancela a etapa atual de \"{{title}}\". Você pode tentar novamente na aba Arcos.",
         "confirm": "Abandonar",
         "cancel": "Cancelar"
-      }
+      },
+      "extend": {
+        "action": "Estender +7 dias",
+        "confirmTitle": "Estender este contrato?",
+        "confirmBody": "Isso adiciona 7 dias ao contrato. Só é possível estender um contrato uma vez.",
+        "currentDeadline": "Prazo atual: {{date}}",
+        "newDeadline": "Novo prazo (+7 dias): {{date}}",
+        "free": "Ampulheta grátis do mês usada",
+        "consumable": "Ampulheta usada",
+        "done": "Estendido por 7 dias"
+      },
+      "bonus": {
+        "pending": "Bônus opcional pendente",
+        "completed": "Bônus opcional concluído"
+      },
+      "chainStage": "{{chain}} · etapa {{stage}}",
+      "cap": "{{active}} / {{max}} contratos"
     },
     "reviewHint": {
-      "counter": "{{count}}/80",
-      "short": "Reviews com menos de 80 caracteres ainda não contam para o seu contrato da Guilda.",
+      "counter": "{{count}}/{{min}}",
+      "short": "Escreva pelo menos {{min}} caracteres para este contrato da Guilda.",
       "ok": "Esta review conta para o seu contrato da Guilda."
     },
     "targetGame": {
@@ -1965,27 +2043,50 @@
       "rankChange": "Rank {{from}} → {{to}}",
       "newRewards": "Novas recompensas",
       "chestBonus": "Bônus do baú: +{{xp}} XP",
-      "close": "Continuar"
+      "close": "Continuar",
+      "seals": "+{{seals}} Selos",
+      "bonusCompleted": "Bônus opcional concluído",
+      "promotion": "Promoção de rank",
+      "prestige": "Nova estrela de Prestígio",
+      "chest": "Recompensas do baú",
+      "consumableDrop": "Consumível encontrado",
+      "passportStamp": "Carimbo adicionado ao passaporte",
+      "chainProgress": "Progresso do arco",
+      "chainCompleted": "Arco completo!",
+      "chainBonus": "+{{seals}} Selos de bônus"
     },
     "rewardsPanel": {
       "title": "Recompensas",
       "sections": {
         "badges": "Insígnias",
         "titles": "Títulos",
-        "frames": "Molduras"
+        "frames": "Molduras",
+        "licenseThemes": "Temas de licença",
+        "stampStyles": "Estilos de carimbo",
+        "decor": "Decoração da taverna",
+        "showcase": "Vitrine de troféus",
+        "consumables": "Consumíveis"
       },
       "equip": "Equipar",
       "unequip": "Desequipar",
       "equipped": "Equipado",
       "locked": "Bloqueado",
-      "empty": "Conclua contratos para desbloquear recompensas."
+      "empty": "Conclua contratos para desbloquear recompensas.",
+      "decorLimit": "Até 4 no balcão",
+      "showcaseLimit": "Até 3 insígnias",
+      "add": "Adicionar",
+      "remove": "Remover"
     },
     "rewards": {
       "generic": {
         "badge": "Insígnia",
         "title": "Título da guilda",
         "frame": "Moldura de perfil",
-        "chest": "Baú semanal"
+        "chest": "Baú semanal",
+        "license_theme": "Tema de licença",
+        "stamp_style": "Estilo de carimbo",
+        "tavern_decor": "Decoração da taverna",
+        "consumable": "Consumível"
       },
       "badge_archaeologist": "Arqueólogo",
       "title_chronist": "Cronista",
@@ -1999,7 +2100,72 @@
       "title_completionist": "Completista",
       "frame_ember_rune": "Runa de Brasa",
       "frame_moonlit_ivy": "Hera Enluarada",
-      "frame_gilded_compass": "Bússola Dourada"
+      "frame_gilded_compass": "Bússola Dourada",
+      "title_tavern_regular": "Freguês da Taverna",
+      "title_weekend_warrior": "Guerreiro de Fim de Semana",
+      "title_pixel_pilgrim": "Peregrino de Pixels",
+      "title_guild_initiate": "Iniciado da Guilda",
+      "title_field_scout": "Batedor de Campo",
+      "title_swift_scholar": "Erudito Veloz",
+      "title_dungeon_cartographer": "Cartógrafo de Masmorras",
+      "title_seasonal_explorer": "Explorador Sazonal",
+      "title_arcane_archivist": "Arquivista Arcano",
+      "title_pathfinder": "Desbravador",
+      "title_master_adventurer": "Mestre Aventureiro",
+      "title_curator_prime": "Curador-Mor",
+      "title_realm_warden": "Guardião do Reino",
+      "title_guild_legend": "Lenda da Guilda",
+      "title_relic_warden": "Guardião das Relíquias",
+      "title_lina_chosen": "Escolhido de Lina",
+      "frame_wooden_badge": "Distintivo de Madeira",
+      "frame_candle_glow": "Brilho de Vela",
+      "frame_copper_compass": "Bússola de Cobre",
+      "frame_silver_laurel": "Louro de Prata",
+      "frame_owl_wing": "Asa de Coruja",
+      "frame_ruby_sigil": "Sigilo de Rubi",
+      "frame_forged_steel": "Aço Forjado",
+      "frame_dragonbone": "Osso de Dragão",
+      "frame_harvest_crown": "Coroa da Colheita",
+      "frame_astral_crown": "Coroa Astral",
+      "frame_celestial_compass": "Bússola Celestial",
+      "license_travelers_ledger": "Registro do Viajante",
+      "license_mapmakers_ledger": "Registro do Cartógrafo",
+      "license_royal_archive": "Arquivo Real",
+      "license_tavern_ledger": "Registro da Taverna",
+      "license_autumn_ledger": "Registro de Outono",
+      "license_obsidian_ledger": "Registro de Obsidiana",
+      "license_winter_ledger": "Registro de Inverno",
+      "license_gilded_ledger": "Registro Dourado",
+      "stamp_inkwell": "Carimbo de Tinteiro",
+      "stamp_silver_quill": "Pena de Prata",
+      "stamp_pumpkin_wax": "Cera de Abóbora",
+      "stamp_ember_wax": "Cera de Brasa",
+      "stamp_royal_wax": "Cera Real",
+      "stamp_frost_seal": "Selo de Gelo",
+      "stamp_gold_seal": "Selo Dourado",
+      "stamp_obsidian_seal": "Selo de Obsidiana",
+      "decor_mug_of_ale": "Caneca de Cerveja",
+      "decor_brass_astrolabe": "Astrolábio de Latão",
+      "decor_herb_planter": "Vaso de Ervas",
+      "decor_oak_barrel": "Barril de Carvalho",
+      "decor_crystal_chandelier": "Lustre de Cristal",
+      "decor_ancient_globe": "Globo Antigo",
+      "decor_tavern_lantern": "Lanterna da Taverna",
+      "decor_curators_shelf": "Estante do Curador",
+      "decor_snowglobe": "Globo de Neve",
+      "decor_sleeping_cat": "Gato Dormindo",
+      "decor_autumn_wreath": "Guirlanda de Outono",
+      "decor_compass_rose": "Rosa dos Ventos",
+      "decor_enchanted_tapestry": "Tapeçaria Encantada",
+      "decor_golden_griffin": "Grifo Dourado",
+      "decor_relic_plinth": "Pedestal de Relíquias",
+      "hourglass": "Ampulheta",
+      "reroll_charter": "Carta de Renovação",
+      "extra_slot_permit": "Licença de Vaga Extra",
+      "chest_bronze": "Baú de Bronze",
+      "chest_silver": "Baú de Prata",
+      "chest_gold": "Baú de Ouro",
+      "chest_relic": "Baú de Relíquias"
     },
     "rank": {
       "E": "Novato",
@@ -2007,7 +2173,8 @@
       "C": "Aventureiro",
       "B": "Veterano",
       "A": "Elite",
-      "S": "Lenda"
+      "S": "Lenda",
+      "prestige": "Prestígio {{count}}"
     },
     "templates": {
       "forgotten_relic": {
@@ -2041,6 +2208,98 @@
       "quick_take": {
         "title": "Crítica Rápida",
         "description": "Escreva uma review de qualquer jogo."
+      },
+      "recent_dust": {
+        "title": "Poeira Recente",
+        "description": "Finalize um jogo do backlog parado há mais de 90 dias."
+      },
+      "off_the_map": {
+        "title": "Fora do Mapa",
+        "description": "Finalize um jogo de um gênero que você quase não joga."
+      },
+      "continue_the_saga": {
+        "title": "Continue a Saga",
+        "description": "Finalize outro jogo de uma franquia que você já começou."
+      },
+      "time_machine": {
+        "title": "Máquina do Tempo",
+        "description": "Finalize um jogo inacabado de uma década passada."
+      },
+      "return_to_the_world": {
+        "title": "Volte ao Mundo",
+        "description": "Finalize uma DLC, expansão ou remake de um jogo que você concluiu."
+      },
+      "hidden_gem": {
+        "title": "Joia Escondida",
+        "description": "Finalize um indie pouco jogado do seu backlog."
+      },
+      "field_vigil": {
+        "title": "Vigília de Campo",
+        "description": "Registre 4 horas de jogo nesta semana."
+      },
+      "backlog_taste_test": {
+        "title": "Teste de Sabor do Backlog",
+        "description": "Jogue 45 minutos de dois jogos planejados."
+      },
+      "campaign_rhythm": {
+        "title": "Ritmo de Campanha",
+        "description": "Jogue pelo menos 15 minutos em 4 dias diferentes."
+      },
+      "trophy_hunter": {
+        "title": "Caçador de Troféus",
+        "description": "Conquiste 10 conquistas sincronizadas."
+      },
+      "deep_critic": {
+        "title": "Crítico Profundo",
+        "description": "Escreva 2 reviews com 200+ caracteres."
+      },
+      "guild_oracle": {
+        "title": "Oráculo da Guilda",
+        "description": "Vença 3 desafios do GameNode Daily."
+      },
+      "eagle_eye": {
+        "title": "Olho de Águia",
+        "description": "Vença 2 desafios do Daily sem dicas e com no máximo 3 tentativas."
+      },
+      "cartographer": {
+        "title": "Cartógrafo",
+        "description": "Publique uma coleção pública com 5+ jogos e uma descrição."
+      },
+      "expedition_log": {
+        "title": "Registro de Expedição",
+        "description": "Publique um post de 80+ caracteres sobre um jogo."
+      },
+      "pack_cleanup": {
+        "title": "Arrumando a Mochila",
+        "description": "Faça a triagem de 3 jogos parados no backlog há 30+ dias."
+      },
+      "the_colossus": {
+        "title": "O Colosso",
+        "description": "Finalize uma epopeia de 35+ horas."
+      },
+      "ancient_fossil": {
+        "title": "Fóssil Ancestral",
+        "description": "Finalize um jogo intocado há 3+ anos."
+      },
+      "genre_marathon": {
+        "title": "Maratona de Gênero",
+        "description": "Finalize 3 jogos do mesmo gênero."
+      },
+      "deep_critic_anthology": {
+        "title": "Antologia do Crítico",
+        "description": "Escreva 5 reviews com 250+ caracteres."
+      },
+      "platinum_crown": {
+        "title": "Coroa de Platina",
+        "description": "Conquiste 100% das conquistas de um jogo com 5+ conquistas."
+      },
+      "colossus_legend": {
+        "title": "Lenda Colossal",
+        "description": "Finalize uma lenda de 60+ horas."
+      },
+      "saga_trilogy": {
+        "title": "Trilogia da Saga",
+        "description": "Finalize 3 jogos da mesma franquia ou tema."
       }
     },
     "lina": {
@@ -2050,7 +2309,9 @@
       "options": {
         "board": "Me mostra o quadro de pedidos",
         "quick": "Tem algum pedido mais rápido?",
-        "goodbye": "Até mais, Lina"
+        "goodbye": "Até mais, Lina",
+        "emporium": "Me mostra o Empório",
+        "bounties": "Me mostra o desafio da comunidade"
       },
       "contract_accepted": "Tudo certo! Quando terminar {{gameName}}, passa aqui no balcão pra pegar sua recompensa.",
       "contract_accepted_no_game": "Tudo certo! Assim que concluir esse pedido, passa aqui no balcão pra pegar sua recompensa.",
@@ -2060,7 +2321,11 @@
       "returning_after_inactivity": "Olha só quem apareceu! Fazia um tempo que você não passava por aqui.",
       "weekly_board_refreshed": "Acabei de atualizar o quadro de pedidos da semana. Quer dar uma olhada?",
       "stale_backlog_game": "Oi! Vi aqui que {{gameName}} tá no seu backlog desde {{sinceYear}}. Que tal tirar a poeira dele?",
-      "default": "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali."
+      "default": "Oi! Pode ficar à vontade, o quadro de pedidos tá logo ali.",
+      "rank_promoted": "Novo posto! Sua Licença da Guilda carrega um novo selo.",
+      "chain_completed": "O arco está completo! Lina guarda a relíquia final para você.",
+      "community_bounty_ready": "A Guilda inteira ajudou — o Desafio da Comunidade está pronto para resgatar!",
+      "monthly_expedition_refreshed": "Uma nova Expedição Mensal está fixada no seu quadro."
     },
     "actions": {
       "accept": "Aceitar",
@@ -2080,12 +2345,223 @@
       "cta": "Entrar"
     },
     "errors": {
-      "guild_active_contract_limit_reached": "Você já tem 3 contratos ativos. Conclua ou abandone um antes de aceitar outro.",
+      "retry": "Tentar novamente",
+      "accessUnavailable": "Não foi possível verificar seu acesso à Guilda agora. Tente novamente em instantes.",
+      "guild_active_contract_limit_reached": "Você já tem {{max}} contratos ativos. Conclua ou abandone um antes de aceitar outro.",
       "guild_contract_already_exists": "Você já aceitou este pedido. Confira seus contratos ativos.",
       "guild_contract_not_ready": "Este contrato ainda não está pronto para entregar. Atualizamos sua lista.",
       "guild_contract_not_active": "Este contrato não está mais ativo. Atualizamos sua lista.",
       "guild_cosmetic_not_owned": "Você ainda não desbloqueou este item. Sua escolha anterior foi mantida.",
-      "guild_early_access_required": "A Guilda dos Aventureiros está em acesso antecipado para apoiadores."
+      "guild_early_access_required": "A Guilda dos Aventureiros está em acesso antecipado para apoiadores.",
+      "guild_cosmetic_limit_exceeded": "Passou do limite: até 4 itens de decoração e 3 insígnias na vitrine. Sua escolha anterior foi mantida.",
+      "guild_passport_invalid_milestone": "Esse marco do passaporte não existe. Só é possível resgatar 2, 4 e 6.",
+      "guild_emporium_rank_required": "Este item requer Rank {{rank}}. Continue subindo!",
+      "guild_chain_rank_required": "Este arco desbloqueia no Rank {{rank}}.",
+      "guild_bounty_not_eligible": "Contribua com este Desafio da Comunidade antes de resgatar as recompensas.",
+      "guild_board_entry_not_found": "Esse pedido não está mais no quadro. Atualizamos para você.",
+      "guild_contract_expired": "Este contrato expirou. Atualizamos sua lista.",
+      "guild_contract_already_extended": "Este contrato já foi estendido uma vez.",
+      "guild_consumable_not_owned": "Você não tem o consumível necessário. Atualizamos suas recompensas.",
+      "guild_permit_already_active": "Uma Licença de Vaga Extra já está ativa até a próxima segunda-feira.",
+      "guild_insufficient_seals": "Selos da Guilda insuficientes. Atualizamos seu saldo.",
+      "guild_emporium_already_owned": "Você já possui este item.",
+      "guild_emporium_monthly_limit_reached": "Você atingiu o limite do mês para este item.",
+      "guild_reroll_not_available": "Só é possível renovar pedidos semanais abertos.",
+      "guild_reroll_unavailable": "Nenhuma renovação grátis ou carta disponível para este pedido.",
+      "guild_passport_milestone_not_reached": "Este marco do passaporte ainda não foi alcançado.",
+      "guild_passport_milestone_already_claimed": "Este marco do passaporte já foi resgatado.",
+      "guild_chain_already_started": "Você já está em um arco. Conclua-o antes de começar outro.",
+      "guild_chain_already_completed": "Este arco já foi concluído.",
+      "guild_chain_stage_active": "Conclua ou abandone a etapa atual antes de avançar.",
+      "guild_bounty_not_claimable": "Este desafio não está aberto para resgate agora.",
+      "guild_bounty_nothing_to_claim": "Não há novos marcos para resgatar. Atualizamos o desafio.",
+      "guild_bounty_rules_locked": "As regras deste desafio ficaram bloqueadas depois que as contribuições começaram.",
+      "guild_event_rules_locked": "As regras deste evento ficaram bloqueadas depois que o evento começou.",
+      "guild_reward_identity_locked": "A identidade desta recompensa está bloqueada. Crie uma recompensa nova.",
+      "guild_invalid_amount": "O valor de Selos é inválido."
+    },
+    "chains": {
+      "tabTitle": "Os Arcos da Lina",
+      "status": {
+        "locked": "Bloqueado",
+        "available": "Disponível",
+        "in_progress": "Em andamento",
+        "completed": "Concluído"
+      },
+      "stageOf": "Etapa {{current}} de {{total}}",
+      "minRank": "Desbloqueia no Rank {{rank}}",
+      "start": "Começar",
+      "advance": "Começar próxima etapa",
+      "retry": "Tentar etapa de novo",
+      "viewContract": "Ver contrato",
+      "boundGame": "Jogo escolhido: {{name}}",
+      "pickGame": "Escolher um jogo",
+      "pickGameHint": "Escolha o jogo que vai acompanhar este arco.",
+      "inLibrary": "Na sua biblioteca",
+      "libraryOnlyHint": "Mostrando jogos da sua biblioteca primeiro.",
+      "finalRewards": "Recompensas finais",
+      "finalSeals": "+{{seals}} Selos ao concluir",
+      "stageRewards": "+{{xp}} XP · +{{seals}} Selos · {{days}} dias",
+      "completedOn": "Arco concluído",
+      "empty": "Nenhum arco esperando por você agora. A Lina ainda está preparando o próximo.",
+      "pathfinders_arc": {
+        "title": "O Arco do Desbravador",
+        "description": "Trace uma trilha dos primeiros passos até um relatório de campo."
+      },
+      "curators_arc": {
+        "title": "O Arco do Curador",
+        "description": "Monte uma exposição, conclua-a e escreva sua história."
+      },
+      "relic_hunters_arc": {
+        "title": "O Arco do Caçador de Relíquias",
+        "description": "Limpe o cofre, recupere uma relíquia e registre sua história."
+      },
+      "stages": {
+        "trail_head": {
+          "title": "Início da Trilha",
+          "objective": "Jogue 2 horas do jogo escolhido."
+        },
+        "summit_push": {
+          "title": "Rumo ao Cume",
+          "objective": "Finalize o jogo escolhido."
+        },
+        "field_notes": {
+          "title": "Notas de Campo",
+          "objective": "Escreva uma review de 80+ caracteres para o jogo escolhido."
+        },
+        "first_exhibit": {
+          "title": "Primeira Exposição",
+          "objective": "Publique uma coleção com 5+ jogos e descrição de 20+ caracteres."
+        },
+        "curated_finish": {
+          "title": "Conclusão Curada",
+          "objective": "Finalize um jogo da sua biblioteca."
+        },
+        "curators_essay": {
+          "title": "Ensaio do Curador",
+          "objective": "Publique um post de 200+ caracteres sobre um jogo."
+        },
+        "relic_triage": {
+          "title": "Triagem de Relíquias",
+          "objective": "Faça a triagem de 3 jogos parados no backlog."
+        },
+        "relic_finish": {
+          "title": "Recuperação da Relíquia",
+          "objective": "Finalize um jogo do seu backlog."
+        },
+        "relic_chronicle": {
+          "title": "Crônica da Relíquia",
+          "objective": "Escreva 2 reviews com 150+ caracteres."
+        }
+      }
+    },
+    "rankPackages": {
+      "D": "Kit do Iniciado",
+      "C": "Kit do Batedor",
+      "B": "Kit do Veterano",
+      "A": "Kit do Mestre",
+      "S": "Kit da Lenda"
+    },
+    "perks": {
+      "title": "Vantagens",
+      "maxActiveContracts_one": "Até {{count}} contrato ativo",
+      "maxActiveContracts_other": "Até {{count}} contratos ativos",
+      "weeklyRerolls_one": "{{count}} renovação grátis por semana",
+      "weeklyRerolls_other": "{{count}} renovações grátis por semana",
+      "monthlyExpedition": "Expedições Mensais",
+      "monthlyExpeditionRankS": "Expedições Rank S",
+      "monthlyFreeHourglass_one": "{{count}} Ampulheta grátis por mês",
+      "monthlyFreeHourglass_other": "{{count}} Ampulhetas grátis por mês",
+      "legendaryContracts": "Contratos lendários"
+    },
+    "seals": {
+      "name": "Selos da Guilda",
+      "short": "Selos",
+      "amount_one": "{{count}} Selo",
+      "amount_other": "{{count}} Selos",
+      "reward": "+{{seals}} Selos"
+    },
+    "consumables": {
+      "title": "Consumíveis",
+      "owned": "Adquirido",
+      "activate": "Ativar",
+      "activeUntil": "Ativo até {{date}}",
+      "freeHourglass": "Os ranks A e S incluem uma Ampulheta grátis por mês.",
+      "hourglass": {
+        "name": "Ampulheta",
+        "effect": "Estende um contrato ativo em 7 dias (uma vez por contrato)."
+      },
+      "reroll_charter": {
+        "name": "Carta de Renovação",
+        "effect": "Renova uma missão semanal aberta quando as renovações grátis acabaram."
+      },
+      "extra_slot_permit": {
+        "name": "Licença de Vaga Extra",
+        "effect": "+1 vaga de contrato ativo até a próxima segunda-feira."
+      }
+    },
+    "chests": {
+      "chest_bronze": "Baú de Bronze",
+      "chest_silver": "Baú de Prata",
+      "chest_gold": "Baú de Ouro",
+      "chest_relic": "Baú de Relíquias",
+      "weekly_chest": "Baú Semanal (Prata legado)",
+      "poolExhausted": "Todos os cosméticos deste baú já eram seus — a vaga de cosmético virou XP e Selos extras."
+    },
+    "rarity": {
+      "common": "Comum",
+      "uncommon": "Incomum",
+      "rare": "Raro",
+      "epic": "Épico",
+      "legendary": "Lendário"
+    },
+    "passport": {
+      "title": "Passaporte Mensal da Guilda",
+      "stamps": "{{count}} / 6 contratos neste mês",
+      "resetsIn": "Renova em {{time}}",
+      "claim": "Resgatar",
+      "claimed": "Resgatado",
+      "locked": "Bloqueado",
+      "milestone": "Marco",
+      "rewards": "Recompensas",
+      "contractsNeeded_one": "Falta {{count}} contrato",
+      "contractsNeeded_other": "Faltam {{count}} contratos"
+    },
+    "emporium": {
+      "title": "Empório da Lina",
+      "subtitle": "Gaste seus Selos da Guilda em tesouros para a taverna.",
+      "balance": "Seu saldo",
+      "permanent": "Prateleira permanente",
+      "rotating": "Vitrine do mês",
+      "rotatesIn": "Troca em {{time}}",
+      "buy": "Comprar",
+      "owned": "Adquirido",
+      "soldOut": "Esgotado",
+      "monthlyLimit": "{{count}} / {{max}} neste mês",
+      "minRank": "Requer Rank {{rank}}",
+      "notEnoughSeals": "Selos insuficientes",
+      "confirmTitle": "Confirmar compra?",
+      "confirmBody": "Seus Selos da Guilda são gastos na hora.",
+      "confirm": "Comprar",
+      "cancel": "Cancelar",
+      "purchased": "Compra concluída!",
+      "empty": "As prateleiras estão vazias agora."
+    },
+    "bounties": {
+      "title": "Desafios da Comunidade",
+      "empty": "Nenhum Desafio da Comunidade agora. A Lina vai fixar o próximo aqui.",
+      "progress": "Progresso da Guilda",
+      "contribution": "Sua contribuição",
+      "minContribution": "Contribuição mínima",
+      "notEligible": "Contribua com este desafio antes de resgatar.",
+      "claim": "Resgatar recompensas",
+      "claimed": "Resgatado",
+      "claimWindow": "Janela de resgate até {{date}}",
+      "endsIn": "Termina em {{time}}",
+      "ended": "Encerrado",
+      "milestone": "Marco",
+      "overkill": "Excedente",
+      "claimedResult": "Recompensas resgatadas"
     }
   },
   "home": {
@@ -2807,7 +3283,8 @@
       "contractReady": "Seu contrato da Guilda está pronto para entregar.",
       "contractReadyGame": "Seu contrato da Guilda para {{game}} está pronto para entregar.",
       "contractExpiring": "Seu contrato da Guilda expira em menos de 24 horas.",
-      "contractExpiringGame": "Seu contrato da Guilda para {{game}} expira em menos de 24 horas."
+      "contractExpiringGame": "Seu contrato da Guilda para {{game}} expira em menos de 24 horas.",
+      "communityBountyReady": "Um Desafio da Comunidade atingiu a meta. Resgate sua recompensa."
     },
     "recap": {
       "title": "Retrospectiva",

@@ -31,7 +31,7 @@ export function useAcceptGuildContract() {
 
       return GuildService.guildControllerAcceptContractV1(body);
     },
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSettled: () => {
       void invalidateGuild(queryClient);
     },

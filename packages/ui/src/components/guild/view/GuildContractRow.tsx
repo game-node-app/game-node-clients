@@ -1,10 +1,13 @@
 import { GuildContractDto } from "@repo/wrapper/server";
 import { useTranslation } from "@repo/locales";
-import { cn } from "#@/util";
+import { cn, Link } from "#@/util";
 
 import styles from "../guild.module.css";
+import expansionStyles from "./GuildContractsExpansion.module.css";
+import { getBonusObjectiveCondition } from "./guildContractExpansion";
+import { GuildIcon } from "../scene/GuildIcon";
 import { PixelButton } from "../scene/PixelButton";
-import { formatTimeLeft, getQuestCopy } from "../util";
+import { formatGuildXp, formatTimeLeft, getQuestCopy } from "../util";
 
 export interface GuildContractRowProps {
   contract: GuildContractDto;
@@ -12,8 +15,15 @@ export interface GuildContractRowProps {
   onClaim?(contract: GuildContractDto): void;
   /** Only `active` rows render "Abandon". */
   onAbandon?(contract: GuildContractDto): void;
+  /** Only `active` rows render "Extend +7 days" when the rules allow it. */
+  onExtend?(contract: GuildContractDto): void;
+  /** `guild.contracts.chainStage` when the row belongs to the active chain. */
+  chainStageLabel?: string | null;
+  /** Hourglass/monthly allowance and `extendedCount` already checked by the owner. */
+  canExtend?: boolean;
   isClaiming?: boolean;
   isAbandoning?: boolean;
+  isExtending?: boolean;
   className?: string;
 }
 
@@ -112,8 +122,12 @@ export function GuildContractRow({
   contract,
   onClaim,
   onAbandon,
+  onExtend,
+  chainStageLabel,
+  canExtend = false,
   isClaiming = false,
   isAbandoning = false,
+  isExtending = false,
   className,
 }: GuildContractRowProps) {
   const { t, i18n } = useTranslation();
@@ -153,6 +167,12 @@ export function GuildContractRow({
   const statusLabel = (t as unknown as (key: string) => string)(
     STATUS_LABEL_KEYS[status] ?? "guild.contracts.status.active",
   );
+  const hasBonusObjective =
+    contract.bonusObjective !== null && contract.bonusObjective !== undefined;
+  const bonusCondition = hasBonusObjective
+    ? getBonusObjectiveCondition(contract.bonusObjective, t)
+    : null;
+  const sealsReward = contract.sealsReward ?? 0;
 
   // The contract's own deadline (`acceptedAt` + duration / event end), not the
   // board refresh. A `ready_to_claim` contract stays claimable after it passes,
@@ -166,6 +186,43 @@ export function GuildContractRow({
     isActive &&
     contract.objectiveType === "finish_game" &&
     contract.progressCurrent === 0;
+
+  const targetGameContent = contract.targetGame ? (
+    <>
+      {contract.targetGame.coverUrl ? (
+        <img
+          src={contract.targetGame.coverUrl}
+          alt=""
+          width={20}
+          height={27}
+          loading="lazy"
+          draggable={false}
+          className={cn(
+            styles.contractTargetCover,
+            expansionStyles.contractTargetCover,
+          )}
+          style={{
+            width: 20,
+            height: 27,
+            imageRendering: "auto",
+            objectFit: "cover",
+          }}
+        />
+      ) : (
+        <span
+          className={cn(
+            styles.contractTargetCoverFallback,
+            expansionStyles.contractTargetCover,
+          )}
+          style={{ width: 20, height: 27 }}
+          aria-hidden
+        />
+      )}
+      <span className={styles.contractTargetName}>
+        {contract.targetGame.name}
+      </span>
+    </>
+  ) : null;
 
   return (
     <article
@@ -189,25 +246,76 @@ export function GuildContractRow({
         </span>
       </header>
 
-      {contract.targetGame ? (
-        <span className={styles.contractTarget}>
-          {contract.targetGame.coverUrl ? (
-            <img
-              src={contract.targetGame.coverUrl}
-              alt=""
-              width={16}
-              height={20}
-              loading="lazy"
-              draggable={false}
-              className={styles.contractTargetCover}
-            />
-          ) : (
-            <span className={styles.contractTargetCoverFallback} aria-hidden />
-          )}
-          <span className={styles.contractTargetName}>
-            {contract.targetGame.name}
-          </span>
+      <div className={expansionStyles.contractRewards}>
+        <span className={expansionStyles.contractReward} data-contract-xp>
+          <GuildIcon name="coin" size={14} />
+          {t("guild.board.xpReward", {
+            xp: formatGuildXp(contract.xpReward, locale),
+          })}
         </span>
+        {sealsReward > 0 ? (
+          <span className={expansionStyles.contractReward} data-contract-seals>
+            <GuildIcon name="seal" size={14} />
+            {t("guild.seals.reward", {
+              seals: formatGuildXp(sealsReward, locale),
+            })}
+          </span>
+        ) : null}
+      </div>
+
+      {chainStageLabel ? (
+        <span className={expansionStyles.contractChain} data-chain-stage>
+          {chainStageLabel}
+        </span>
+      ) : null}
+
+      {hasBonusObjective ? (
+        <p
+          className={cn(
+            styles.captionText,
+            expansionStyles.contractBonus,
+            contract.bonusCompleted && expansionStyles.contractBonusDone,
+          )}
+          data-bonus-completed={String(Boolean(contract.bonusCompleted))}
+        >
+          {contract.bonusCompleted ? (
+            <span className={expansionStyles.contractCheck} aria-hidden>
+              ✓
+            </span>
+          ) : null}
+          {bonusCondition ? (
+            <span data-bonus-condition>{bonusCondition}</span>
+          ) : null}
+          {bonusCondition ? (
+            <span
+              className={expansionStyles.contractBonusSeparator}
+              aria-hidden
+            >
+              ·
+            </span>
+          ) : null}
+          <span>
+            {contract.bonusCompleted
+              ? t("guild.contracts.bonus.completed")
+              : t("guild.contracts.bonus.pending")}
+          </span>
+        </p>
+      ) : null}
+
+      {contract.targetGame ? (
+        contract.targetGameId != null ? (
+          <Link
+            href={`/game/${contract.targetGameId}`}
+            className={cn(
+              styles.contractTarget,
+              expansionStyles.contractTargetLink,
+            )}
+          >
+            {targetGameContent}
+          </Link>
+        ) : (
+          <span className={styles.contractTarget}>{targetGameContent}</span>
+        )
       ) : null}
 
       <div className={styles.contractProgress}>
@@ -260,6 +368,16 @@ export function GuildContractRow({
               disabled={isClaiming}
             >
               {t("guild.actions.turnIn")}
+            </PixelButton>
+          ) : null}
+          {isActive && canExtend ? (
+            <PixelButton
+              size="sm"
+              variant="ghost-dark"
+              onClick={() => onExtend?.(contract)}
+              disabled={isExtending}
+            >
+              {t("guild.contracts.extend.action")}
             </PixelButton>
           ) : null}
           {isActive ? (

@@ -16,6 +16,10 @@ export namespace LinaReceptionDto {
         RETURNING_AFTER_INACTIVITY = 'returning_after_inactivity',
         WEEKLY_BOARD_REFRESHED = 'weekly_board_refreshed',
         STALE_BACKLOG_GAME = 'stale_backlog_game',
+        RANK_PROMOTED = 'rank_promoted',
+        CHAIN_COMPLETED = 'chain_completed',
+        COMMUNITY_BOUNTY_READY = 'community_bounty_ready',
+        MONTHLY_EXPEDITION_REFRESHED = 'monthly_expedition_refreshed',
         DEFAULT = 'default',
     }
     export enum pose {

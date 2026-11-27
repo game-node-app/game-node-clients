@@ -1,7 +1,8 @@
 /**
- * Every SVG exported from Figma for the Guild, with the intrinsic size taken
- * from each file's root width/height (design D4). Paths are served by both
- * apps from `public/img/guild`; the files are artwork and are never edited.
+ * Every Guild SVG, with the intrinsic size taken from each file's root
+ * width/height (design D4). Paths are served by both apps from
+ * `public/img/guild`; the files are artwork and are never edited (the
+ * expansion assets are hand-authored in the same pixel-art style).
  */
 export const GUILD_ASSETS = {
   // Lina sprites (one 32x34 sprite at 6x).
@@ -48,6 +49,98 @@ export const GUILD_ASSETS = {
   bell: { src: "/img/guild/bell.svg", width: 48, height: 48 },
   mug: { src: "/img/guild/mug.svg", width: 54, height: 48 },
   plant: { src: "/img/guild/plant.svg", width: 48, height: 48 },
+
+  // Currency, chest tiers and consumables (design D4).
+  seal: { src: "/img/guild/seal.svg", width: 18, height: 18 },
+  "chest-bronze": { src: "/img/guild/chest-bronze.svg", width: 30, height: 24 },
+  "chest-silver": { src: "/img/guild/chest-silver.svg", width: 30, height: 24 },
+  "chest-gold": { src: "/img/guild/chest-gold.svg", width: 30, height: 24 },
+  "chest-relic": { src: "/img/guild/chest-relic.svg", width: 30, height: 24 },
+  "reroll-charter": {
+    src: "/img/guild/reroll-charter.svg",
+    width: 24,
+    height: 27,
+  },
+  "extra-slot-permit": {
+    src: "/img/guild/extra-slot-permit.svg",
+    width: 24,
+    height: 27,
+  },
+
+  // Tavern decor (design D4); the three props at the top reuse hall artwork.
+  "decor-brass-astrolabe": {
+    src: "/img/guild/decor-brass-astrolabe.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-oak-barrel": {
+    src: "/img/guild/decor-oak-barrel.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-crystal-chandelier": {
+    src: "/img/guild/decor-crystal-chandelier.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-ancient-globe": {
+    src: "/img/guild/decor-ancient-globe.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-curators-shelf": {
+    src: "/img/guild/decor-curators-shelf.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-snowglobe": {
+    src: "/img/guild/decor-snowglobe.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-sleeping-cat": {
+    src: "/img/guild/decor-sleeping-cat.svg",
+    width: 54,
+    height: 36,
+  },
+  "decor-autumn-wreath": {
+    src: "/img/guild/decor-autumn-wreath.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-compass-rose": {
+    src: "/img/guild/decor-compass-rose.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-enchanted-tapestry": {
+    src: "/img/guild/decor-enchanted-tapestry.svg",
+    width: 48,
+    height: 60,
+  },
+  "decor-golden-griffin": {
+    src: "/img/guild/decor-golden-griffin.svg",
+    width: 48,
+    height: 48,
+  },
+  "decor-relic-plinth": {
+    src: "/img/guild/decor-relic-plinth.svg",
+    width: 48,
+    height: 48,
+  },
+  // Unknown decor keys degrade to the crate so the counter never shows a hole.
+  "decor-generic": {
+    src: "/img/guild/decor-generic.svg",
+    width: 48,
+    height: 48,
+  },
+
+  // Progression.
+  "prestige-star": {
+    src: "/img/guild/prestige-star.svg",
+    width: 14,
+    height: 14,
+  },
 
   // Icons.
   book: { src: "/img/guild/book.svg", width: 30, height: 27 },

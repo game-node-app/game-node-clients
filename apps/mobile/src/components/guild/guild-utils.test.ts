@@ -257,6 +257,9 @@ describe("getRewardLabel", () => {
           achievementId: "guild-archaeologist",
           inChestPool: false,
           chestBonusXp: 0,
+          chestBonusSeals: 0,
+          rarity: "rare" as never,
+          consumableKey: null,
         },
         templates,
       ),
@@ -273,6 +276,9 @@ describe("getRewardLabel", () => {
           achievementId: null,
           inChestPool: true,
           chestBonusXp: 0,
+          chestBonusSeals: 0,
+          rarity: "common" as never,
+          consumableKey: null,
         },
         templates,
       ),
@@ -391,6 +397,9 @@ describe("getRewardLabel for the hand-off table 11.4", () => {
       achievementId: null,
       inChestPool: true,
       chestBonusXp: 0,
+      chestBonusSeals: 0,
+      rarity: "common" as GuildRewardDescriptorDto.rarity,
+      consumableKey: null,
     };
   }
 

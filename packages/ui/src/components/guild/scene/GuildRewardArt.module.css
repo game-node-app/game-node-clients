@@ -1,0 +1,173 @@
+/*
+ * Reward artwork (correction V2–V5). The cosmetic hues come from the
+ * `.stampStyle-*`, `.licenseTheme-*` and `.frame-*` classes in
+ * `guild.module.css`; this module only contributes the small layout and the
+ * two/three-pixel pixel-art steps, so nothing overrides those class
+ * definitions. Colours are theme tokens or the artwork's own `--guild-*`
+ * palette.
+ */
+
+/*
+ * ---- Stamp style: a miniature FILLED wax seal in the equipped style's hue. ----
+ * Three flat layers, no blur or gradient: the root is the darker rim (a stepped
+ * pixel disc), `::before` is the wax fill inset by the 2 px rim, and the glyph
+ * span sits on top with a one-pixel highlight nub (`::after`). The fill comes
+ * from `--guild-stamp-accent`, which each `.stampStyle-*` class sets in
+ * `guild.module.css`; the rim and the glyph ink are mixed from that hue and the
+ * artwork's own `--guild-ink`/`--guild-parchment`, so the seal reads the same on
+ * the parchment Emporium card, dark Rewards rows and light Ruins rows. Neither
+ * the rim nor the glyph depends on the `color`/`border-color` the stamp-style
+ * classes also set.
+ */
+.stamp {
+  --guild-seal-fill: var(--guild-stamp-accent, var(--guild-stamp));
+  --guild-seal-rim: color-mix(
+    in srgb,
+    var(--guild-seal-fill) 60%,
+    var(--guild-ink)
+  );
+  /* Light ink for dark waxes (inkwell, royal, the default red). */
+  --guild-seal-glyph: var(--guild-parchment);
+  --guild-seal-steps: polygon(
+    25% 0,
+    75% 0,
+    75% 8%,
+    92% 8%,
+    92% 25%,
+    100% 25%,
+    100% 75%,
+    92% 75%,
+    92% 92%,
+    75% 92%,
+    75% 100%,
+    25% 100%,
+    25% 92%,
+    8% 92%,
+    8% 75%,
+    0 75%,
+    0 25%,
+    8% 25%,
+    8% 8%,
+    25% 8%
+  );
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--guild-reward-art-size, 24px);
+  height: var(--guild-reward-art-size, 24px);
+  background: var(--guild-seal-rim);
+  clip-path: var(--guild-seal-steps);
+  font-family: "Guild Stamp", var(--gn-font, monospace);
+  font-size: calc(var(--guild-reward-art-size, 24px) * 0.46);
+  line-height: 1;
+}
+
+/* Wax: the stepped disc inside the 2 px rim. */
+.stamp::before {
+  position: absolute;
+  inset: 2px;
+  background: var(--guild-seal-fill);
+  clip-path: var(--guild-seal-steps);
+  content: "";
+}
+
+/* One-pixel-step highlight on the upper left of the wax. */
+.stamp::after {
+  position: absolute;
+  top: 3px;
+  left: 26%;
+  width: 2px;
+  height: 2px;
+  background: color-mix(
+    in srgb,
+    var(--guild-seal-fill) 55%,
+    var(--guild-parchment)
+  );
+  content: "";
+}
+
+.stampGlyph {
+  position: relative;
+  color: var(--guild-seal-glyph);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Light waxes need dark ink: 5.4-9.4:1 on pumpkin, ember, frost, gold, silver
+   and 4.1:1 on obsidian, against 1.4-3.1:1 for parchment ink. */
+.stamp[data-reward-stamp-style="stamp_silver_quill"],
+.stamp[data-reward-stamp-style="stamp_pumpkin_wax"],
+.stamp[data-reward-stamp-style="stamp_ember_wax"],
+.stamp[data-reward-stamp-style="stamp_frost_seal"],
+.stamp[data-reward-stamp-style="stamp_gold_seal"],
+.stamp[data-reward-stamp-style="stamp_obsidian_seal"] {
+  --guild-seal-glyph: var(--guild-ink);
+}
+
+/* ---- License theme: a tiny ledger card with the theme's paper and ink. ---- */
+.license {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  width: calc(var(--guild-reward-art-size, 24px) * 0.86);
+  height: var(--guild-reward-art-size, 24px);
+  padding: 0 1px;
+  border-color: currentColor;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0;
+  color: color-mix(
+    in srgb,
+    var(--guild-license-accent, var(--guild-parchment-shade)) 72%,
+    var(--gn-line)
+  );
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(
+          in srgb,
+          var(--guild-license-accent, transparent) 26%,
+          transparent
+        )
+        0%,
+      transparent 62%
+    ),
+    var(--gn-surface);
+}
+
+.licenseLine {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: color-mix(
+    in srgb,
+    var(--guild-license-accent, var(--guild-ink)) 45%,
+    var(--gn-text)
+  );
+}
+
+.licenseLineShort {
+  width: 58%;
+}
+
+/* ---- Avatar frame: the avatar silhouette wrapped in the frame's border/glow. ---- */
+.frame {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--guild-reward-art-size, 24px);
+  height: var(--guild-reward-art-size, 24px);
+  border-radius: 3px;
+}
+
+.frameFallback {
+  border: 2px solid var(--gn-line-strong);
+}

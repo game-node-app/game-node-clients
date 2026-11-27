@@ -4,7 +4,14 @@ import { useTranslation } from "@repo/locales";
 import { GuildView } from "@repo/ui";
 import { OpenGraph } from "@/components/general/OpenGraph";
 
-const GUILD_TABS = ["board", "accepted", "completed"] as const;
+const GUILD_TABS = [
+  "board",
+  "accepted",
+  "completed",
+  "arcs",
+  "bounties",
+  "emporium",
+] as const;
 
 type GuildTab = (typeof GUILD_TABS)[number];
 
@@ -17,18 +24,28 @@ function isGuildTab(value: unknown): value is GuildTab {
 
 interface Props {
   initialTab: GuildTab | null;
+  initialBountyId: string | null;
 }
 
-/** Reads `?tab=` so Guild notifications can deep-link the accepted contracts. */
+/** Reads `?tab=` and `?bountyId=` so Guild notifications can deep-link. */
 export const getServerSideProps = async ({
   query,
 }: GetServerSidePropsContext): Promise<{ props: Props }> => {
   const tab = Array.isArray(query.tab) ? query.tab[0] : query.tab;
+  const bountyId = Array.isArray(query.bountyId)
+    ? query.bountyId[0]
+    : query.bountyId;
 
-  return { props: { initialTab: isGuildTab(tab) ? tab : null } };
+  return {
+    props: {
+      initialTab: isGuildTab(tab) ? tab : null,
+      initialBountyId:
+        typeof bountyId === "string" && bountyId.length > 0 ? bountyId : null,
+    },
+  };
 };
 
-const GuildPage = ({ initialTab }: Props) => {
+const GuildPage = ({ initialTab, initialBountyId }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -37,6 +54,7 @@ const GuildPage = ({ initialTab }: Props) => {
       <GuildView
         supporterHref="/premium"
         initialTab={initialTab ?? undefined}
+        bountyId={initialBountyId ?? undefined}
       />
     </>
   );

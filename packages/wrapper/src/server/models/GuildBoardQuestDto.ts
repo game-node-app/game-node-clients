@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GuildBoardBonusObjectiveDto } from './GuildBoardBonusObjectiveDto';
 import type { GuildBoardCandidateGameDto } from './GuildBoardCandidateGameDto';
 import type { GuildBoardEventTranslationDto } from './GuildBoardEventTranslationDto';
 import type { GuildBoardQuestMetaDto } from './GuildBoardQuestMetaDto';
@@ -13,6 +14,10 @@ export type GuildBoardQuestDto = {
     slug: string | null;
     category: GuildBoardQuestDto.category;
     /**
+     * weekly for automatic board quests, monthly for expeditions, null for curated events
+     */
+    cycle: GuildBoardQuestDto.cycle | null;
+    /**
      * Stable system template key; clients localize the copy
      */
     templateKey: string | null;
@@ -21,11 +26,17 @@ export type GuildBoardQuestDto = {
     translations: Array<GuildBoardEventTranslationDto>;
     rank: GuildBoardQuestDto.rank;
     xpReward: number;
+    sealsReward: number;
     objectiveType: GuildBoardQuestDto.objectiveType;
     targetCount: number;
     criteria: Record<string, any>;
     candidateGames: Array<GuildBoardCandidateGameDto>;
     meta: GuildBoardQuestMetaDto | null;
+    bonusObjective: GuildBoardBonusObjectiveDto | null;
+    /**
+     * How many times this slot was rerolled this week
+     */
+    rerollCount: number;
     requiresTargetGame: boolean;
     reward: GuildRewardDescriptorDto | null;
     isRecommended: boolean;
@@ -46,6 +57,14 @@ export namespace GuildBoardQuestDto {
         EVENT = 'event',
         WEEKLY = 'weekly',
         GAMENODE = 'gamenode',
+        MONTHLY = 'monthly',
+    }
+    /**
+     * weekly for automatic board quests, monthly for expeditions, null for curated events
+     */
+    export enum cycle {
+        WEEKLY = 'weekly',
+        MONTHLY = 'monthly',
     }
     export enum rank {
         E = 'E',
@@ -58,6 +77,14 @@ export namespace GuildBoardQuestDto {
     export enum objectiveType {
         FINISH_GAME = 'finish_game',
         WRITE_REVIEW = 'write_review',
+        LOG_PLAYTIME = 'log_playtime',
+        PLAY_DISTINCT_DAYS = 'play_distinct_days',
+        DAILY_CHALLENGE = 'daily_challenge',
+        EARN_GAME_ACHIEVEMENTS = 'earn_game_achievements',
+        COMPLETE_GAME_100 = 'complete_game_100',
+        CURATE_COLLECTION = 'curate_collection',
+        PUBLISH_POST = 'publish_post',
+        TRIAGE_BACKLOG = 'triage_backlog',
     }
 }
 

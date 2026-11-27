@@ -22,10 +22,52 @@
   --guild-ember-glow: color-mix(in srgb, var(--guild-ember) 55%, transparent);
   --guild-moon-silver: #dce7de;
   --guild-ivy: #a9d8b2;
-  --guild-ivy-glow: color-mix(in srgb, var(--guild-moon-silver) 60%, transparent);
+  --guild-ivy-glow: color-mix(
+    in srgb,
+    var(--guild-moon-silver) 60%,
+    transparent
+  );
   --guild-gilded: #e8b84a;
   --guild-gilded-deep: #8a5e1f;
   --guild-gilded-glow: color-mix(in srgb, var(--guild-gilded) 55%, transparent);
+
+  /* Cosmetic hues (design D4): rarity, chest tiers, license themes, stamp
+     styles and avatar frames. The classes at the end of this file mix these
+     artwork hues with the active --gn-* surface/text tokens so labels stay
+     readable in both GameNode (dark) and Ruins (light). */
+  --guild-rarity-common: #8a8578;
+  --guild-rarity-uncommon: #3f8f63;
+  --guild-rarity-rare: #3f7fbf;
+  --guild-rarity-epic: #8f5fc0;
+  --guild-rarity-legendary: #b8791a;
+  --guild-chest-bronze: #a9743c;
+  --guild-chest-silver: #b9c4c9;
+  --guild-chest-gold: #e8b84a;
+  --guild-chest-relic: #8f5fd0;
+  --guild-license-travelers: #b99a5f;
+  --guild-license-mapmakers: #3f8f63;
+  --guild-license-royal: #4a6fb5;
+  --guild-license-tavern: #b4713a;
+  --guild-license-autumn: #d97428;
+  --guild-license-obsidian: #8f5fc0;
+  --guild-license-winter: #6fa8cc;
+  --guild-license-gilded: #e8b84a;
+  --guild-stamp-inkwell: #4a4458;
+  --guild-stamp-silver: #b9c4c9;
+  --guild-stamp-pumpkin: #d97a2b;
+  --guild-stamp-ember: #ff7a36;
+  --guild-stamp-royal: #b3324a;
+  --guild-stamp-frost: #6fa8cc;
+  --guild-stamp-gold: #e8b84a;
+  --guild-stamp-obsidian: #8f6fb8;
+  --guild-copper: #b87333;
+  --guild-steel: #8d9ba2;
+  --guild-bone: #e8dcc0;
+  --guild-owl-wing: #a08a68;
+  --guild-ruby: #c0395a;
+  --guild-harvest: #d98a2b;
+  --guild-astral: #9a6ad0;
+  --guild-celestial: #4a8dd9;
   --guild-dialog-bg: #0d0a09;
   --guild-dialog-border: #e8d7a8;
   --guild-dialog-text: #f4ead2;
@@ -39,8 +81,16 @@
    * theme only tints the hue and the ink keeps it readable in every theme.
    */
   --guild-brand-ink: color-mix(in srgb, var(--gn-brand) 55%, var(--guild-ink));
-  --guild-event-chip: color-mix(in srgb, var(--gn-premium) 30%, var(--guild-ink));
-  --guild-played-chip: color-mix(in srgb, var(--gn-state-played) 30%, var(--guild-ink));
+  --guild-event-chip: color-mix(
+    in srgb,
+    var(--gn-premium) 30%,
+    var(--guild-ink)
+  );
+  --guild-played-chip: color-mix(
+    in srgb,
+    var(--gn-state-played) 30%,
+    var(--guild-ink)
+  );
 
   color: var(--gn-text);
   font-family: var(--gn-font, inherit);
@@ -130,7 +180,9 @@
 .linaNext,
 .linaCollapsedPlate {
   font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "clig" 0;
+  font-feature-settings:
+    "liga" 0,
+    "clig" 0;
 }
 
 .bodyText {
@@ -180,7 +232,7 @@
   justify-content: center;
   gap: 6px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   font-family: inherit;
   font-weight: 500;
   text-align: center;
@@ -340,8 +392,8 @@
 }
 
 .categoryTagLibrary {
-  color: var(--gn-accent-text);
-  background: var(--gn-brand-tint);
+  color: var(--guild-parchment);
+  background: var(--guild-brand-ink);
 }
 
 .categoryTagEvent {
@@ -376,10 +428,11 @@
 .gameChipCover,
 .gameChipCoverFallback {
   flex: none;
-  width: 16px;
-  height: 20px;
-  border-radius: 2px;
+  width: 20px;
+  height: 27px;
+  border-radius: min(var(--gn-radius), 2px);
   object-fit: cover;
+  image-rendering: auto;
 }
 
 .gameChipCoverFallback {
@@ -765,7 +818,7 @@
 
 .animXpChip {
   opacity: 1;
-  animation: guildXpChip 350ms cubic-bezier(0.34, 1.56, 0.64, 1) 750ms 1 both;
+  animation: guildXpChip 350ms cubic-bezier(0.22, 1, 0.36, 1) 750ms 1 both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -849,15 +902,28 @@
 
 .headerMobileTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px 10px;
 }
 
 .headerBrand {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
+}
+
+/*
+ * At 390 px on web the header is only 326 px wide: the brand may shrink down
+ * to the title's longest word, but no further (the old `min-width: 0` let the
+ * title overflow into the Seals pill). Sizing the flex base as min-content
+ * makes the row wrap the badges below the title only when even the wrapped
+ * title does not fit; the taller mobile app keeps both on one row.
+ */
+.headerMobileTop .headerBrand {
+  flex-basis: min-content;
   min-width: 0;
 }
 
@@ -869,14 +935,14 @@
   width: 40px;
   height: 40px;
   border: 1px solid var(--gn-brand);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   background: var(--gn-brand-tint);
 }
 
 .headerCrestMobile {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: var(--gn-radius);
 }
 
 .headerTitleBlock {
@@ -914,7 +980,7 @@
   align-items: center;
   justify-content: center;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: var(--gn-radius);
   color: var(--gn-accent-contrast);
   background: var(--gn-brand);
   box-shadow: 0 3px 0 var(--gn-brand-9);
@@ -968,7 +1034,7 @@
   height: 8px;
   overflow: hidden;
   border: 1px solid var(--gn-line-strong);
-  border-radius: 2px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-2);
 }
 
@@ -991,7 +1057,7 @@
   display: flex;
   flex: none;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   width: 340px;
   min-width: 0;
 }
@@ -1019,7 +1085,7 @@
   gap: 14px;
   padding: 14px 16px 16px;
   border: 1px solid var(--gn-line);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   background: var(--gn-surface);
 }
 
@@ -1056,14 +1122,20 @@
   height: 56px;
   overflow: hidden;
   border: 1px solid var(--gn-line-strong);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-2);
+}
+
+.licenseAvatarImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
 }
 
 .licenseFrame {
   position: absolute;
   inset: 0;
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   pointer-events: none;
 }
 
@@ -1133,7 +1205,7 @@
   flex-direction: column;
   gap: 2px;
   padding: 8px 10px;
-  border-radius: 4px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-1);
 }
 
@@ -1198,7 +1270,7 @@
   gap: 6px;
   padding: 10px 12px;
   border: 1px solid var(--gn-line);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-1);
 }
 
@@ -1234,7 +1306,7 @@
 .contractBar {
   height: 8px;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-2);
 }
 
@@ -1269,19 +1341,88 @@
   gap: 8px;
 }
 
+/*
+ * The six tabs wrap on desktop instead of clipping the last label when the
+ * board column is narrow (1280 px with the nav expanded, longer pt-BR labels);
+ * the mobile strip keeps scrolling sideways (design D5).
+ */
+.tabsViewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
+}
+
+.tabsBarMobile .tabs {
+  flex-wrap: nowrap;
+}
+
+/*
+ * Edge fades mark the tabs hidden past each side of the scrolling strip. They
+ * use the hall background (the strip sits directly on it), so they blend in
+ * GameNode and Ruins, and `data-visible` hides them when the strip fits or the
+ * user reached that end.
+ */
+.tabsEdge {
+  position: absolute;
+  top: 0;
+  bottom: 1px;
+  width: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+/* Chevron so the fade also reads as "there is more this way". */
+.tabsEdge::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-top: 2px solid var(--gn-text-subtle);
+  border-right: 2px solid var(--gn-text-subtle);
+}
+
+.tabsEdgeStart {
+  left: 0;
+  background: linear-gradient(to right, var(--gn-background), transparent);
+}
+
+.tabsEdgeStart::after {
+  left: 7px;
+  transform: rotate(-135deg);
+}
+
+.tabsEdgeEnd {
+  right: 0;
+  background: linear-gradient(to left, var(--gn-background), transparent);
+}
+
+.tabsEdgeEnd::after {
+  right: 7px;
+  transform: rotate(45deg);
+}
+
+.tabsEdge[data-visible="true"] {
+  opacity: 1;
 }
 
 .tab {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px 10px;
+  gap: 5px;
+  padding: 8px 8px 10px;
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
@@ -1313,7 +1454,7 @@
   justify-content: center;
   min-width: 18px;
   padding: 1px 6px;
-  border-radius: 10px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-2);
   color: var(--gn-text);
   font-size: 11px;
@@ -1398,7 +1539,7 @@
   margin: 0;
   padding: 32px 16px;
   border: 1px dashed var(--gn-line-strong);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   color: var(--gn-text-subtle);
   text-align: center;
 }
@@ -1553,7 +1694,7 @@
   width: 100%;
   padding: 8px 10px;
   border: 1px solid var(--gn-line);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-1);
   color: var(--gn-text);
   text-align: left;
@@ -1612,7 +1753,7 @@
 
 .skeletonBlock {
   display: block;
-  border-radius: 6px;
+  border-radius: var(--gn-radius);
   background: var(--gn-paper-2);
 }
 
@@ -2012,6 +2153,17 @@
   width: min(560px, 46%);
 }
 
+/*
+ * Five options (a ready Community Bounty adds one) make the box taller than the
+ * 210 px left below the 150 px top anchor, which used to clip "See you, Lina"
+ * under the scene. Grow it upwards from the scene's bottom instead; three or
+ * four options keep the original top anchor and look.
+ */
+.sceneDialogueSlot:has(.linaOptions > .linaOption:nth-child(5)) {
+  top: auto;
+  bottom: 16px;
+}
+
 /* ---- Lina's layered sprite. ---- */
 
 .linaSprite {
@@ -2223,7 +2375,7 @@
   height: 40px;
   background: var(--gn-brand-tint);
   border: 1px solid var(--gn-brand);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
 }
 
 .guildGateHeading {
@@ -2529,7 +2681,7 @@
   padding: 12px 14px;
   background: var(--gn-paper-1);
   border: 1px solid var(--gn-line);
-  border-radius: 8px;
+  border-radius: var(--gn-radius);
 }
 
 .contractListItemReady {
@@ -2578,7 +2730,7 @@
 .contractStatus {
   flex: none;
   padding: 2px 7px;
-  border-radius: 4px;
+  border-radius: var(--gn-radius);
   font-size: 11px;
   font-weight: 500;
   line-height: 14px;
@@ -2616,11 +2768,11 @@
 .contractTargetCover,
 .contractTargetCoverFallback {
   flex: none;
-  width: 16px;
-  height: 20px;
-  border-radius: 2px;
+  width: 20px;
+  height: 27px;
+  border-radius: min(var(--gn-radius), 2px);
   object-fit: cover;
-  image-rendering: pixelated;
+  image-rendering: auto;
 }
 
 .contractTargetCoverFallback {
@@ -2674,7 +2826,7 @@
   overflow: hidden;
   background: var(--gn-paper-2);
   border: 1px solid var(--gn-line-strong);
-  border-radius: 2px;
+  border-radius: var(--gn-radius);
 }
 
 .contractProgressFill {
@@ -2735,7 +2887,7 @@
   color: var(--gn-status-danger-text);
   background: transparent;
   border: 3px solid var(--gn-status-danger-text);
-  border-radius: 4px;
+  border-radius: var(--gn-radius);
   font-size: 18px;
   line-height: 22px;
 }
@@ -2771,7 +2923,7 @@
   padding: 8px 12px;
   background: var(--gn-paper-1);
   border: 1px solid var(--gn-line);
-  border-radius: 6px;
+  border-radius: var(--gn-radius);
   text-align: left;
 }
 
@@ -2809,7 +2961,12 @@
 .rewardsPanel {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
+  padding: 14px 16px 12px;
+  color: var(--gn-text);
+  background: var(--gn-surface);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
 }
 
 .rewardsPanelHeader {
@@ -2844,7 +3001,7 @@
 .rewardsList {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2859,28 +3016,46 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 8px 10px;
+  gap: 8px;
+  min-height: 44px;
+  padding: 5px 8px;
   background: var(--gn-paper-1);
   border: 1px solid var(--gn-line);
-  border-radius: 6px;
+  border-radius: var(--gn-radius);
 }
 
+/* Icon + text column on the left; the action button stays right-aligned and
+   vertically centred by the row. */
 .rewardLabel {
   display: inline-flex;
+  flex: 1 1 auto;
   align-items: center;
   gap: 8px;
   min-width: 0;
 }
 
+/* Two lines: the name, then the rarity and Equipped chips. */
+.rewardText {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rewardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
 .rewardName {
   min-width: 0;
-  overflow: hidden;
   color: var(--gn-text);
   font-size: 13px;
-  line-height: 18px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 17px;
+  overflow-wrap: anywhere;
 }
 
 .rewardEquipped {
@@ -2888,7 +3063,283 @@
   padding: 1px 6px;
   color: var(--gn-accent-text);
   background: var(--gn-brand-tint);
-  border-radius: 10px;
+  border-radius: var(--gn-radius);
   font-size: 11px;
   line-height: 14px;
+}
+
+/* ==========================================================================
+   Reward cosmetics (design D4): License themes, stamp styles, avatar frames
+   and rarity tags. Hues come from the artwork palette in .root; the shared
+   rules mix them into the active theme surface/ink so the Guild stays
+   readable in GameNode (dark) and Ruins (light).
+   ========================================================================== */
+
+/* theme-exempt: Guild reward cosmetic hues (license themes, design D4) */
+.licenseTheme-license_travelers_ledger {
+  --guild-license-accent: var(--guild-license-travelers);
+  --guild-license-ink-share: 25%;
+}
+
+.licenseTheme-license_mapmakers_ledger {
+  --guild-license-accent: var(--guild-license-mapmakers);
+  --guild-license-ink-share: 30%;
+}
+
+.licenseTheme-license_royal_archive {
+  --guild-license-accent: var(--guild-license-royal);
+  --guild-license-ink-share: 35%;
+}
+
+.licenseTheme-license_tavern_ledger {
+  --guild-license-accent: var(--guild-license-tavern);
+  --guild-license-ink-share: 30%;
+}
+
+.licenseTheme-license_autumn_ledger {
+  --guild-license-accent: var(--guild-license-autumn);
+  --guild-license-ink-share: 25%;
+}
+
+.licenseTheme-license_obsidian_ledger {
+  --guild-license-accent: var(--guild-license-obsidian);
+  --guild-license-ink-share: 35%;
+}
+
+.licenseTheme-license_winter_ledger {
+  --guild-license-accent: var(--guild-license-winter);
+  --guild-license-ink-share: 25%;
+}
+
+.licenseTheme-license_gilded_ledger {
+  --guild-license-accent: var(--guild-license-gilded);
+  --guild-license-ink-share: 20%;
+}
+
+.licenseTheme-license_travelers_ledger,
+.licenseTheme-license_mapmakers_ledger,
+.licenseTheme-license_royal_archive,
+.licenseTheme-license_tavern_ledger,
+.licenseTheme-license_autumn_ledger,
+.licenseTheme-license_obsidian_ledger,
+.licenseTheme-license_winter_ledger,
+.licenseTheme-license_gilded_ledger {
+  border-color: color-mix(
+    in srgb,
+    var(--guild-license-accent) 72%,
+    var(--gn-line)
+  );
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--guild-license-accent) 16%, transparent),
+      transparent 58%
+    ),
+    var(--gn-surface);
+}
+
+.licenseTheme-license_travelers_ledger .licenseOverline,
+.licenseTheme-license_travelers_ledger .licenseNumber,
+.licenseTheme-license_mapmakers_ledger .licenseOverline,
+.licenseTheme-license_mapmakers_ledger .licenseNumber,
+.licenseTheme-license_royal_archive .licenseOverline,
+.licenseTheme-license_royal_archive .licenseNumber,
+.licenseTheme-license_tavern_ledger .licenseOverline,
+.licenseTheme-license_tavern_ledger .licenseNumber,
+.licenseTheme-license_autumn_ledger .licenseOverline,
+.licenseTheme-license_autumn_ledger .licenseNumber,
+.licenseTheme-license_obsidian_ledger .licenseOverline,
+.licenseTheme-license_obsidian_ledger .licenseNumber,
+.licenseTheme-license_winter_ledger .licenseOverline,
+.licenseTheme-license_winter_ledger .licenseNumber,
+.licenseTheme-license_gilded_ledger .licenseOverline,
+.licenseTheme-license_gilded_ledger .licenseNumber {
+  color: color-mix(
+    in srgb,
+    var(--guild-license-accent) var(--guild-license-ink-share, 25%),
+    var(--gn-text)
+  );
+}
+
+/* ---- Stamp styles: RankStamp border and ink. ----
+   The border keeps the full accent hue; the ink mixes only a per-accent share
+   (`--guild-*-ink-share`) into the theme text, tuned so every license theme x
+   stamp style reaches 4.5:1 on the License card in GameNode and Ruins (pale
+   accents such as silver/frost/gold get a small share). */
+
+.stampStyle-stamp_inkwell {
+  --guild-stamp-accent: var(--guild-stamp-inkwell);
+  --guild-stamp-ink-share: 45%;
+}
+
+.stampStyle-stamp_silver_quill {
+  --guild-stamp-accent: var(--guild-stamp-silver);
+  --guild-stamp-ink-share: 10%;
+}
+
+.stampStyle-stamp_pumpkin_wax {
+  --guild-stamp-accent: var(--guild-stamp-pumpkin);
+  --guild-stamp-ink-share: 20%;
+}
+
+.stampStyle-stamp_ember_wax {
+  --guild-stamp-accent: var(--guild-stamp-ember);
+  --guild-stamp-ink-share: 20%;
+}
+
+.stampStyle-stamp_royal_wax {
+  --guild-stamp-accent: var(--guild-stamp-royal);
+  --guild-stamp-ink-share: 45%;
+}
+
+.stampStyle-stamp_frost_seal {
+  --guild-stamp-accent: var(--guild-stamp-frost);
+  --guild-stamp-ink-share: 15%;
+}
+
+.stampStyle-stamp_gold_seal {
+  --guild-stamp-accent: var(--guild-stamp-gold);
+  --guild-stamp-ink-share: 15%;
+}
+
+.stampStyle-stamp_obsidian_seal {
+  --guild-stamp-accent: var(--guild-stamp-obsidian);
+  --guild-stamp-ink-share: 30%;
+}
+
+.stampStyle-stamp_inkwell,
+.stampStyle-stamp_silver_quill,
+.stampStyle-stamp_pumpkin_wax,
+.stampStyle-stamp_ember_wax,
+.stampStyle-stamp_royal_wax,
+.stampStyle-stamp_frost_seal,
+.stampStyle-stamp_gold_seal,
+.stampStyle-stamp_obsidian_seal {
+  color: color-mix(
+    in srgb,
+    var(--guild-stamp-accent) var(--guild-stamp-ink-share, 25%),
+    var(--gn-text)
+  );
+  border-color: var(--guild-stamp-accent);
+}
+
+/* ---- Avatar frames: 2 px border + inset glow, like the license frames. ---- */
+
+.frame-frame_parchment_seal {
+  border: 2px solid var(--guild-parchment-shade);
+}
+
+.frame-frame_lantern_glow {
+  border: 2px solid var(--guild-gold);
+  box-shadow: inset 0 0 10px var(--guild-gold);
+}
+
+.frame-frame_ember_rune {
+  border: 2px solid var(--guild-ember);
+  box-shadow: inset 0 0 10px var(--guild-ember-glow);
+}
+
+.frame-frame_moonlit_ivy {
+  border: 2px solid var(--guild-ivy);
+  box-shadow: inset 0 0 10px var(--guild-ivy-glow);
+}
+
+.frame-frame_gilded_compass {
+  border: 2px solid var(--guild-gilded);
+  box-shadow:
+    inset 0 0 0 2px var(--guild-gilded-deep),
+    inset 0 0 10px var(--guild-gilded-glow);
+}
+
+.frame-frame_wooden_badge {
+  border: 2px solid var(--guild-wood-light);
+  box-shadow: inset 0 0 0 2px var(--guild-wood-dark);
+}
+
+.frame-frame_candle_glow {
+  border: 2px solid var(--guild-gold);
+  box-shadow: inset 0 0 12px
+    color-mix(in srgb, var(--guild-gold) 60%, transparent);
+}
+
+.frame-frame_copper_compass {
+  border: 2px solid var(--guild-copper);
+  box-shadow: inset 0 0 0 2px var(--guild-wood-dark);
+}
+
+.frame-frame_silver_laurel {
+  border: 2px solid var(--guild-moon-silver);
+  box-shadow: inset 0 0 0 2px var(--guild-ivy);
+}
+
+.frame-frame_owl_wing {
+  border: 2px solid var(--guild-owl-wing);
+  box-shadow: inset 0 0 0 2px var(--guild-wood-dark);
+}
+
+.frame-frame_ruby_sigil {
+  border: 2px solid var(--guild-ruby);
+  box-shadow: inset 0 0 10px
+    color-mix(in srgb, var(--guild-ruby) 55%, transparent);
+}
+
+.frame-frame_forged_steel {
+  border: 2px solid var(--guild-steel);
+  box-shadow: inset 0 0 0 2px
+    color-mix(in srgb, var(--guild-steel) 55%, var(--guild-outline));
+}
+
+.frame-frame_dragonbone {
+  border: 2px solid var(--guild-bone);
+  box-shadow: inset 0 0 0 2px
+    color-mix(in srgb, var(--guild-bone) 45%, var(--guild-outline));
+}
+
+.frame-frame_harvest_crown {
+  border: 2px solid var(--guild-harvest);
+  box-shadow: inset 0 0 10px
+    color-mix(in srgb, var(--guild-gold) 45%, transparent);
+}
+
+.frame-frame_astral_crown {
+  border: 2px solid var(--guild-astral);
+  box-shadow:
+    inset 0 0 0 2px var(--guild-gilded-deep),
+    inset 0 0 10px color-mix(in srgb, var(--guild-astral) 55%, transparent);
+}
+
+.frame-frame_celestial_compass {
+  border: 2px solid var(--guild-celestial);
+  box-shadow: inset 0 0 0 2px var(--guild-gilded-deep);
+}
+
+/* ---- Rarity: border colour and a translucent tag tint. ---- */
+
+.rarity-common {
+  --guild-rarity: var(--guild-rarity-common);
+}
+
+.rarity-uncommon {
+  --guild-rarity: var(--guild-rarity-uncommon);
+}
+
+.rarity-rare {
+  --guild-rarity: var(--guild-rarity-rare);
+}
+
+.rarity-epic {
+  --guild-rarity: var(--guild-rarity-epic);
+}
+
+.rarity-legendary {
+  --guild-rarity: var(--guild-rarity-legendary);
+}
+
+.rarity-common,
+.rarity-uncommon,
+.rarity-rare,
+.rarity-epic,
+.rarity-legendary {
+  --guild-rarity-tint: color-mix(in srgb, var(--guild-rarity) 18%, transparent);
+  border-color: var(--guild-rarity);
 }

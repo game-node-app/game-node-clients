@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GuildActiveChainSummaryDto } from './GuildActiveChainSummaryDto';
 import type { GuildContractDto } from './GuildContractDto';
 import type { GuildLicenseDto } from './GuildLicenseDto';
 import type { GuildOverviewCountsDto } from './GuildOverviewCountsDto';
+import type { GuildPassportSummaryDto } from './GuildPassportSummaryDto';
 import type { GuildYearGoalDto } from './GuildYearGoalDto';
 import type { LinaReceptionDto } from './LinaReceptionDto';
 export type GuildOverviewResponseDto = {
@@ -21,5 +23,8 @@ export type GuildOverviewResponseDto = {
      */
     nextRefreshAt: string;
     lina: LinaReceptionDto;
+    passport: GuildPassportSummaryDto;
+    activeChain: GuildActiveChainSummaryDto | null;
+    activeBountiesCount: number;
 };
 

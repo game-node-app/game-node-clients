@@ -54,7 +54,7 @@ export function GuildEarlyAccess({ supporterHref }: GuildEarlyAccessProps) {
           <span className={cn(styles.pixelOverline, styles.guildGateBadge)}>
             {t("guild.earlyAccess.badge")}
           </span>
-          <h2 className={styles.pixelTitle}>{t("guild.earlyAccess.title")}</h2>
+          <h1 className={styles.pixelTitle}>{t("guild.earlyAccess.title")}</h1>
         </div>
       </header>
 

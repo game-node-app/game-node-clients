@@ -5,6 +5,7 @@ import { cn } from "#@/util";
 import styles from "../guild.module.css";
 
 import type { GuildAssetName } from "./assets";
+import { getDecorAsset } from "./cosmeticAssets";
 import { GuildIcon } from "./GuildIcon";
 import { LinaSprite, type LinaPose, type LinaScale } from "./LinaSprite";
 
@@ -16,6 +17,12 @@ export interface GuildSceneProps {
   isTalking: boolean;
   /** Shows the bobbing `!` balloon (design D6/D5). */
   showAlert: boolean;
+  /**
+   * Equipped tavern decor keys (`license.equippedDecorKeys`). Up to four sit on
+   * Lina's counter on desktop; the mobile composition only has room for the
+   * first two (design D8). Unknown keys draw the generic crate.
+   */
+  decorKeys?: string[];
   /**
    * Desktop dialogue overlay, positioned at top 150 / right 40 (design D6).
    * The mobile composition renders the dialogue below the scene, never over it.
@@ -63,6 +70,43 @@ const MOBILE_PROPS: { name: GuildAssetName; left: number; top: number }[] = [
   { name: "ledger", left: 226, top: 154 },
   { name: "stamp", left: 336, top: 172 },
 ];
+
+/** Counter-top x positions for the equipped decor (design D8). */
+const DESKTOP_DECOR_LEFT = [620, 700, 780, 860];
+const MOBILE_DECOR_LEFT = [110, 170];
+
+/** Distance from the stage bottom to the counter top (264 / 214 in the CSS). */
+const DESKTOP_COUNTER_BOTTOM = 96;
+const MOBILE_COUNTER_BOTTOM = 66;
+
+interface CounterDecorProps {
+  isMobile: boolean;
+  decorKeys?: string[];
+}
+
+/**
+ * Equipped tavern decor standing on Lina's counter. Rendered before Lina so the
+ * receptionist is never covered, and capped to the slots the composition has.
+ */
+function CounterDecor({ isMobile, decorKeys }: CounterDecorProps) {
+  const slots = isMobile ? MOBILE_DECOR_LEFT : DESKTOP_DECOR_LEFT;
+  const keys = (decorKeys ?? []).slice(0, slots.length);
+
+  return keys.map((key, index) => (
+    <span
+      key={`${key}-${index}`}
+      className={styles.sceneArt}
+      style={{
+        left: slots[index],
+        bottom: isMobile ? MOBILE_COUNTER_BOTTOM : DESKTOP_COUNTER_BOTTOM,
+      }}
+      data-decor-key={key}
+      data-decor-slot={index + 1}
+    >
+      <GuildIcon name={getDecorAsset(key)} size={40} />
+    </span>
+  ));
+}
 
 interface SceneArtProps {
   name: GuildAssetName;
@@ -137,6 +181,7 @@ export function GuildScene({
   pose,
   isTalking,
   showAlert,
+  decorKeys,
   dialogue,
 }: GuildSceneProps) {
   const isMobile = variant === "mobile";
@@ -220,6 +265,8 @@ export function GuildScene({
             top={prop.top}
           />
         ))}
+
+        <CounterDecor isMobile={isMobile} decorKeys={decorKeys} />
 
         <SceneArt
           name="lantern-glow"

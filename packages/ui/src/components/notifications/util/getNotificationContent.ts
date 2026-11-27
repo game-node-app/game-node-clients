@@ -483,6 +483,16 @@ export function getNotificationContent(
       };
     }
 
+    case "guild.community-bounty-ready": {
+      // Community Bounties are not tied to a single game, so the Guild shield
+      // is always the leading visual.
+      return {
+        name: t("notifications.guild.title"),
+        message: t("notifications.guild.communityBountyReady"),
+        leading: getGuildLeading(undefined),
+      };
+    }
+
     case "moderation.applied": {
       const action = textPreview?.action;
       const name =

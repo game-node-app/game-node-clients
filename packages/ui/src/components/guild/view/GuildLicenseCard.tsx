@@ -1,12 +1,21 @@
-import type { GuildLicenseDto } from "@repo/wrapper/server";
+import { useContext } from "react";
+import { QueryClientContext } from "@tanstack/react-query";
+import type { GuildLicenseDto, UserGuildRewardDto } from "@repo/wrapper/server";
+import { GuildRewardDescriptorDto } from "@repo/wrapper/server";
 import { useI18nContext, useTranslation } from "@repo/locales";
+import { useUserId } from "#@/components/auth/hooks/useUserId";
+import { UserAvatar } from "#@/components/general/avatar/UserAvatar";
+import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 import { cn } from "#@/util/cn";
 
 import styles from "../guild.module.css";
+import progressionStyles from "./GuildProgression.module.css";
+import { useGuildRewards } from "../hooks/useGuildRewards";
+import { getLicenseThemeClass } from "../scene/cosmeticAssets";
 import { GuildIcon } from "../scene/GuildIcon";
 import { RankStamp } from "../scene/RankStamp";
 import { formatLicenseNumber } from "../util/formatLicenseNumber";
-import { formatGuildXp, getRankProgress } from "../util/getRankProgress";
+import { getRewardLabel } from "../util/getRewardLabel";
 import { getGuildTitleLabel } from "./GuildHallTitles";
 
 export interface GuildLicenseCardProps {
@@ -29,9 +38,216 @@ function getFrameClass(key: string | null): string | undefined {
   return styles.licenseFrameGeneric;
 }
 
+function PrestigeStars({ level }: { level: number }) {
+  if (level <= 0) return null;
+
+  return (
+    <span
+      className={progressionStyles.prestigeStars}
+      data-prestige-level={level}
+      aria-hidden
+    >
+      {Array.from({ length: level }, (_, index) => (
+        <GuildIcon key={index} name="prestige-star" size={12} />
+      ))}
+    </span>
+  );
+}
+
+interface TrophyShowcaseProps {
+  license: GuildLicenseDto;
+  rewards?: UserGuildRewardDto[];
+}
+
+/**
+ * Trophy Showcase: always three slots; filled slots show the badge label from
+ * the rewards inventory matched by `achievementId`, empty slots stay dashed
+ * (design D8).
+ */
+function TrophyShowcase({ license, rewards }: TrophyShowcaseProps) {
+  const { t } = useTranslation();
+  const badgeIds = license.showcaseBadgeIds ?? [];
+  const badgesByAchievementId = new Map(
+    (rewards ?? [])
+      .filter(
+        (item) =>
+          item.reward.kind === GuildRewardDescriptorDto.kind.BADGE &&
+          item.reward.achievementId,
+      )
+      .map(
+        (item) => [item.reward.achievementId as string, item.reward] as const,
+      ),
+  );
+  const slots = Array.from(
+    { length: 3 },
+    (_, index) => badgeIds[index] ?? null,
+  );
+
+  return (
+    <section
+      className={progressionStyles.showcase}
+      aria-label={t("guild.license.showcase")}
+      data-showcase-badges={badgeIds.length}
+    >
+      <h3 className={cn(styles.captionMedium, progressionStyles.showcaseTitle)}>
+        {t("guild.license.showcase")}
+      </h3>
+      <ul className={progressionStyles.showcaseRow}>
+        {slots.map((badgeId, index) => {
+          const badge = badgeId
+            ? badgesByAchievementId.get(badgeId)
+            : undefined;
+          const label = badge
+            ? getRewardLabel(badge, t)
+            : badgeId
+              ? t("guild.rewards.generic.badge")
+              : null;
+
+          return (
+            <li
+              key={index}
+              className={cn(
+                progressionStyles.showcaseSlot,
+                !badgeId && progressionStyles.showcaseSlotEmpty,
+              )}
+              data-badge-id={badgeId ?? undefined}
+              aria-label={label ?? undefined}
+            >
+              {label ? (
+                <>
+                  <GuildIcon name="trophy" size={18} />
+                  <span className={progressionStyles.showcaseLabel}>
+                    {label}
+                  </span>
+                </>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+      {badgeIds.length === 0 ? (
+        <p className={cn(styles.captionText, progressionStyles.showcaseEmpty)}>
+          {t("guild.license.showcaseEmpty")}
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
+/**
+ * The rewards read is optional here so the card can render outside a query
+ * provider (storybook-style previews and primitive tests); inside the hall the
+ * query is already cached by the rewards panel.
+ */
+function TrophyShowcaseWithRewards({ license }: { license: GuildLicenseDto }) {
+  const rewardsQuery = useGuildRewards();
+
+  return (
+    <TrophyShowcase
+      license={license}
+      rewards={rewardsQuery.data?.unlockedRewards}
+    />
+  );
+}
+
+function PerksDisclosure({ license }: { license: GuildLicenseDto }) {
+  const { t } = useTranslation();
+  const perks = license.perks;
+
+  const rows: { key: string; label: string }[] = [];
+
+  if (perks) {
+    rows.push({
+      key: "maxActiveContracts",
+      label: t("guild.perks.maxActiveContracts", {
+        count: perks.maxActiveContracts,
+      }),
+    });
+
+    if (perks.weeklyRerolls > 0) {
+      rows.push({
+        key: "weeklyRerolls",
+        label: t("guild.perks.weeklyRerolls", { count: perks.weeklyRerolls }),
+      });
+    }
+
+    if (perks.monthlyExpedition) {
+      rows.push({
+        key: "monthlyExpedition",
+        label: t("guild.perks.monthlyExpedition"),
+      });
+    }
+
+    if (perks.monthlyExpeditionRankS) {
+      rows.push({
+        key: "monthlyExpeditionRankS",
+        label: t("guild.perks.monthlyExpeditionRankS"),
+      });
+    }
+
+    if (perks.monthlyFreeHourglass > 0) {
+      rows.push({
+        key: "monthlyFreeHourglass",
+        label: t("guild.perks.monthlyFreeHourglass", {
+          count: perks.monthlyFreeHourglass,
+        }),
+      });
+    }
+
+    if (perks.legendaryContracts) {
+      rows.push({
+        key: "legendaryContracts",
+        label: t("guild.perks.legendaryContracts"),
+      });
+    }
+  }
+
+  if (rows.length === 0) return null;
+
+  return (
+    <details className={progressionStyles.perks} data-license-perks>
+      <summary className={progressionStyles.perksSummary}>
+        {t("guild.license.perks")}
+      </summary>
+      <ul className={progressionStyles.perksList}>
+        {rows.map((row) => (
+          <li key={row.key} className={progressionStyles.perkRow}>
+            <GuildIcon name="star" size={12} />
+            <span>{row.label}</span>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+function LicenseAvatarWithProfile() {
+  const userId = useUserId();
+  const profileQuery = useUserProfile(userId);
+  const profile = profileQuery.data;
+  const hasAvatar = Boolean(profile?.avatar || profile?.avatarVideo);
+
+  if (!hasAvatar || !profile) {
+    return <GuildIcon name="silhouette" size={30} />;
+  }
+
+  return (
+    <UserAvatar
+      userId={userId}
+      profile={profile}
+      size={56}
+      radius={0}
+      alt={profile.username}
+      className={styles.licenseAvatarImage}
+    />
+  );
+}
+
 /**
  * Guild License card: number, equipped title (or rank title), member-since
- * year, rank stamp, the three collection stats and the next-rank progress.
+ * year, rank stamp with the equipped stamp style, Prestige stars, Trophy
+ * Showcase, perks disclosure and the three collection stats. An equipped
+ * License theme restyles the card root (design D8).
  */
 export function GuildLicenseCard({
   license,
@@ -39,9 +255,10 @@ export function GuildLicenseCard({
 }: GuildLicenseCardProps) {
   const { t } = useTranslation();
   const { language } = useI18nContext();
-  const progress = getRankProgress(license, language);
+  const queryClient = useContext(QueryClientContext);
   const numberFormat = new Intl.NumberFormat(language);
   const title = getGuildTitleLabel(license, t);
+  const prestigeLevel = license.prestigeLevel ?? 0;
 
   const memberSince = new Date(license.memberSince);
   const memberSinceYear = Number.isNaN(memberSince.getTime())
@@ -67,7 +284,14 @@ export function GuildLicenseCard({
   ];
 
   return (
-    <article className={cn(styles.licenseCard, className)}>
+    <article
+      className={cn(
+        styles.licenseCard,
+        getLicenseThemeClass(license.equippedLicenseThemeKey),
+        className,
+      )}
+      data-license-theme={license.equippedLicenseThemeKey ?? undefined}
+    >
       <div className={styles.licenseTop}>
         <span className={cn(styles.pixelOverline, styles.licenseOverline)}>
           {t("guild.license.overline")}
@@ -79,7 +303,11 @@ export function GuildLicenseCard({
 
       <div className={styles.licenseIdentity}>
         <div className={styles.licenseAvatar}>
-          <GuildIcon name="silhouette" size={30} />
+          {queryClient ? (
+            <LicenseAvatarWithProfile />
+          ) : (
+            <GuildIcon name="silhouette" size={30} />
+          )}
           {license.equippedFrameKey ? (
             <span
               className={cn(
@@ -101,12 +329,29 @@ export function GuildLicenseCard({
             </span>
           ) : null}
         </div>
-        <RankStamp
-          rank={license.rank}
-          size={52}
-          className={styles.licenseRankStamp}
-        />
+        <span className={progressionStyles.licenseRankBlock}>
+          <RankStamp
+            rank={license.rank}
+            size={52}
+            styleKey={license.equippedStampStyleKey}
+            className={styles.licenseRankStamp}
+          />
+          <PrestigeStars level={license.rank === "S" ? prestigeLevel : 0} />
+          {license.rank === "S" && prestigeLevel > 0 ? (
+            <span className={progressionStyles.prestigeLabel}>
+              {t("guild.rank.prestige", { count: prestigeLevel })}
+            </span>
+          ) : null}
+        </span>
       </div>
+
+      {queryClient ? (
+        <TrophyShowcaseWithRewards license={license} />
+      ) : (
+        <TrophyShowcase license={license} />
+      )}
+
+      <PerksDisclosure license={license} />
 
       <div className={styles.licenseStats}>
         {stats.map((stat) => (
@@ -119,40 +364,6 @@ export function GuildLicenseCard({
             </span>
           </div>
         ))}
-      </div>
-
-      <div>
-        <div className={styles.licenseNextRow}>
-          <span className={cn(styles.captionMedium, styles.licenseNext)}>
-            {progress.isMaxRank
-              ? t("guild.license.maxRank")
-              : t("guild.license.nextRank", { rank: progress.nextRank })}
-          </span>
-          {!progress.isMaxRank ? (
-            <span className={cn(styles.captionMedium, styles.licenseXpLeft)}>
-              {t("guild.license.xpLeft", {
-                xp: formatGuildXp(progress.xpToNextRank, language),
-              })}
-            </span>
-          ) : null}
-        </div>
-        <div
-          role="progressbar"
-          aria-label={
-            progress.isMaxRank
-              ? t("guild.license.maxRank")
-              : t("guild.license.nextRank", { rank: progress.nextRank })
-          }
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={Math.round(progress.percent)}
-          className={styles.xpBar}
-        >
-          <span
-            className={styles.xpBarFill}
-            style={{ width: `${progress.percent}%` }}
-          />
-        </div>
       </div>
     </article>
   );
