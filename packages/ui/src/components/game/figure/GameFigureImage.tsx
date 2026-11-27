@@ -50,7 +50,9 @@ const GameFigureImage = ({
   return (
     <AspectRatio ratio={ratio} pos="relative" w={"auto"}>
       <Link
-        className="w-full h-auto"
+        // Block so the AspectRatio above reserves the cover's space before
+        // the image loads; an inline link only gets its height from the image.
+        className="block w-full h-auto"
         onClick={onClick}
         {...linkProps}
         href={game?.href ?? defaultHref}

@@ -60,7 +60,7 @@ it("tells the shelves apart from the unfiltered overall ranking", () => {
   // an empty `criteria` would break SSR dehydration if it reached the key
   expect(getExploreRankingDto(ranking)).toStrictEqual({
     period: "all",
-    limit: 48,
+    limit: 96,
   });
 });
 

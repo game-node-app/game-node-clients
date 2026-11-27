@@ -14,7 +14,12 @@ export interface ExploreViewValue {
   criteria?: GameRankingCriteriaDto;
 }
 
-export const EXPLORE_RESULT_LIMIT = 48;
+/**
+ * Games per ranking page. The API accepts at most 100, and 96 fills whole rows
+ * in every ranking grid (4, 6 and 8 columns) so fewer "load more" rounds are
+ * needed to keep scrolling.
+ */
+export const EXPLORE_RESULT_LIMIT = 96;
 
 /**
  * Request of the paginated ranking. An empty `criteria` is left out entirely, so
