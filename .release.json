@@ -1,0 +1,22 @@
+{
+  "source": "ae8319775588f5d9dbc6fa04c7020561deb05d0c",
+  "changesets": [
+    ".changeset/guild-cached-perks-crash.md"
+  ],
+  "apps": [
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[2220a9ef9529bb1bacc7328848129d907456b658...ae8319775588f5d9dbc6fa04c7020561deb05d0c]",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "mobile": "patch"
+  },
+  "docker": [],
+  "mobile": true,
+  "ref": "releases/ae8319775588f5d9dbc6fa04c7020561deb05d0c",
+  "versions": {
+    "mobile": "1.30.1"
+  }
+}
