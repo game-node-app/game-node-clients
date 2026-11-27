@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { MantineProvider } from "@mantine/core";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import guildClasses from "../../../../../packages/ui/src/components/guild/guild.module.css";
 import { GuildScene } from "../../../../../packages/ui/src/components/guild/scene/GuildScene";
+import { LinaDialogue } from "../../../../../packages/ui/src/components/guild/scene/LinaDialogue";
 
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
@@ -16,6 +18,16 @@ function imageSources(container: HTMLElement): string[] {
     (image) => image.getAttribute("src") ?? "",
   );
 }
+
+beforeEach(() => {
+  window.matchMedia = vi.fn().mockReturnValue({
+    matches: false,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+  });
+});
 
 afterEach(() => {
   cleanup();
@@ -142,5 +154,39 @@ describe("GuildScene mobile (390 x 280 composition)", () => {
     expect(lina).toHaveAttribute("height", "170");
     expect(imageSources(container)).toContain("/img/guild/alert-bubble.svg");
     expect(imageSources(container)).toContain("/img/guild/lina-mouth-open.svg");
+  });
+});
+
+describe("LinaDialogue region semantics", () => {
+  it("renders with role=region and skips typing only when clicking the text area", () => {
+    const onSelect = vi.fn();
+
+    const { container } = render(
+      <MantineProvider>
+        <LinaDialogue
+          speaker="Lina · Guild Receptionist"
+          segments={[{ text: "Welcome to the Guild Hall, adventurer!" }]}
+          options={[{ id: "board", label: "Show board", onSelect }]}
+          variant="desktop"
+          startDelayMs={0}
+        />
+      </MantineProvider>,
+    );
+
+    expect(screen.queryByRole("dialog")).toBeNull();
+    const region = screen.getByRole("region", {
+      name: "Lina · Guild Receptionist",
+    });
+    expect(region).toHaveAttribute("data-typing", "true");
+
+    // Clicking the outer region container itself does not complete typing.
+    fireEvent.click(region);
+    expect(region).toHaveAttribute("data-typing", "true");
+
+    // Clicking the dialogue text paragraph completes typing.
+    const textParagraph = container.querySelector("p");
+    expect(textParagraph).not.toBeNull();
+    fireEvent.click(textParagraph as HTMLElement);
+    expect(region).toHaveAttribute("data-typing", "false");
   });
 });

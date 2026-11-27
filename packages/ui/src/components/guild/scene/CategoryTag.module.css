@@ -1,0 +1,7 @@
+/* Monthly Expedition tag (design D6): ink plate with gold lettering on the
+   parchment card; theme-exempt Guild palette. */
+.monthly {
+  color: var(--guild-gold);
+  background: var(--guild-ink);
+  border: 1px solid var(--guild-gold);
+}

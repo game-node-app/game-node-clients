@@ -6,16 +6,25 @@ import { useTranslation } from "@repo/locales";
 import { cn, Modal } from "#@/util";
 
 import styles from "../guild.module.css";
+import expansionStyles from "./GuildContractsExpansion.module.css";
 import {
   useAbandonGuildContract,
   useClaimGuildContract,
   useGuildContracts,
   type GuildContractsTab,
 } from "../hooks";
+import { useGuildOverview } from "../hooks/useGuildOverview";
+import { useGuildRewards } from "../hooks/useGuildRewards";
 import { PixelButton } from "../scene/PixelButton";
 import { getQuestCopy } from "../util";
 import { GuildClaimCelebration } from "./GuildClaimCelebration";
 import { GuildContractRow } from "./GuildContractRow";
+import { GuildExtendContractModal } from "./GuildExtendContractModal";
+import { GuildQueryError } from "./GuildQueryError";
+import {
+  canOfferContractExtension,
+  getChainStageLabel,
+} from "./guildContractExpansion";
 
 export type GuildContractListTab = GuildContractsTab;
 
@@ -35,11 +44,21 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
   const contractsQuery = useGuildContracts(tab);
   const claim = useClaimGuildContract();
   const abandon = useAbandonGuildContract();
+  const overviewQuery = useGuildOverview();
+  const rewardsQuery = useGuildRewards();
   const [celebration, setCelebration] =
     useState<ClaimGuildContractResponseDto | null>(null);
   const [abandonTarget, setAbandonTarget] = useState<GuildContractDto | null>(
     null,
   );
+  const [extendTarget, setExtendTarget] = useState<GuildContractDto | null>(
+    null,
+  );
+
+  const hourglass = rewardsQuery.data?.consumables?.hourglass ?? 0;
+  const monthlyFreeHourglass =
+    overviewQuery.data?.license?.perks?.monthlyFreeHourglass ?? 0;
+  const activeChain = overviewQuery.data?.activeChain ?? null;
 
   const contracts =
     contractsQuery.data?.pages.flatMap((page) => page.data) ?? [];
@@ -81,6 +100,14 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
           <Skeleton height={92} radius={8} />
           <Skeleton height={92} radius={8} />
         </div>
+      ) : contractsQuery.isError && !contractsQuery.data ? (
+        <GuildQueryError
+          error={contractsQuery.error}
+          onRetry={() => {
+            void contractsQuery.refetch();
+          }}
+          isRetrying={contractsQuery.isFetching}
+        />
       ) : orderedContracts.length === 0 ? (
         <p className={cn(styles.bodyText, styles.contractListEmpty)}>
           {emptyMessage}
@@ -92,6 +119,12 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
             contract={contract}
             onClaim={handleClaim}
             onAbandon={setAbandonTarget}
+            onExtend={setExtendTarget}
+            chainStageLabel={getChainStageLabel(contract, activeChain, t)}
+            canExtend={canOfferContractExtension(contract, {
+              hourglass,
+              monthlyFreeHourglass,
+            })}
             isClaiming={claim.isPending && claim.variables === contract.id}
             isAbandoning={
               abandon.isPending && abandon.variables === contract.id
@@ -121,7 +154,9 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
       >
         <div className={styles.root}>
           <p className={cn(styles.bodyText, styles.contractModalText)}>
-            {t("guild.contracts.abandon.body", { title: abandonTitle })}
+            {abandonTarget?.chainProgressId != null
+              ? t("guild.contracts.abandon.bodyChain", { title: abandonTitle })
+              : t("guild.contracts.abandon.body", { title: abandonTitle })}
           </p>
           <div className={styles.contractModalActions}>
             <PixelButton
@@ -133,6 +168,7 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
             </PixelButton>
             <PixelButton
               size="sm"
+              className={expansionStyles.dangerButton}
               onClick={handleAbandonConfirm}
               disabled={abandon.isPending}
             >
@@ -141,6 +177,14 @@ export function GuildContractList({ tab, className }: GuildContractListProps) {
           </div>
         </div>
       </Modal>
+
+      <GuildExtendContractModal
+        key={extendTarget?.id ?? "none"}
+        contract={extendTarget}
+        freeHourglassAvailable={monthlyFreeHourglass > 0}
+        ownedHourglasses={hourglass}
+        onClose={() => setExtendTarget(null)}
+      />
 
       <GuildClaimCelebration
         opened={celebration !== null}

@@ -1,0 +1,376 @@
+/**
+ * Progression surfaces of the Guild expansion (design D8): the header Seals
+ * pill and Prestige stars, the License card showcase/perks, the extended
+ * rewards panel and the Extra Slot Permit flow. Every colour is a --gn-* theme
+ * token or a --guild-* artwork variable so GameNode (dark) and Ruins (light)
+ * both stay readable.
+ */
+
+.headerBadges {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  /* Keeps the badges right-aligned when the mobile header wraps them below
+     the title instead of overlapping it. */
+  margin-left: auto;
+}
+
+.headerSealsPill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  color: var(--gn-text);
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.headerSealsValue {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.prestigeStars {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+}
+
+.prestigeLabel {
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.licenseRankBlock {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.licenseSealsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+}
+
+.licenseSealsValue {
+  color: var(--gn-text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.showcaseTitle {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.96px;
+}
+
+.showcaseRow {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.showcaseSlot {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 36px;
+  padding: 6px 8px;
+  color: var(--gn-text);
+  background: var(--gn-paper-1);
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.showcaseSlotEmpty {
+  background: transparent;
+  border-style: dashed;
+}
+
+.showcaseLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.showcaseEmpty {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.perks {
+  padding-top: 2px;
+  border-top: 1px solid var(--gn-line);
+}
+
+.perksSummary {
+  padding: 6px 0 0;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.96px;
+}
+
+.perksList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perkRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-text);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.sectionHint {
+  flex: none;
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+/* Rarity tags sit on theme paper, so the hue is mixed with the theme's own text
+   token: 20% keeps the rarity readable and reaches 5.1:1 on the tinted paper in
+   Ruins and 9.6:1 in GameNode. The border and tint keep the full hue. */
+.rarityTag {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding: 0 6px;
+  color: color-mix(
+    in srgb,
+    var(--guild-rarity, var(--gn-text-subtle)) 20%,
+    var(--gn-text)
+  );
+  background: var(--guild-rarity-tint, transparent);
+  border: 1px solid var(--guild-rarity, var(--gn-line));
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.consumableBlock {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 1px;
+  overflow: visible;
+  white-space: normal;
+}
+
+.consumableName {
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.consumableEffect {
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.consumableCount {
+  flex: none;
+  min-width: 24px;
+  padding: 2px 6px;
+  color: var(--gn-text);
+  background: var(--gn-paper-2);
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+  line-height: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.permitActive {
+  color: var(--gn-accent-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.consumableNote {
+  margin: 6px 0 0;
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.permitModal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.permitModalText {
+  margin: 0;
+}
+
+.permitModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ---- Collapsible Rewards sections (round-2 polish). The panel sits in the
+   340 px desktop aside, so the long cosmetic lists collapse behind native
+   disclosures; the summary keeps the section name, the owned count and the
+   equipped item visible. 40 px min height keeps the touch target usable on
+   mobile while the collapsed panel stays short on desktop. ---- */
+
+.rewardsSection {
+  border-top: 1px solid var(--gn-line);
+}
+
+.rewardsSection[open] {
+  padding-bottom: 8px;
+}
+
+.rewardsSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 2px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Hide the native marker (it rendered outside the card) and draw a pixel
+   chevron inside the summary instead; it turns down when the section opens. */
+.rewardsSummary::-webkit-details-marker {
+  display: none;
+}
+
+.rewardsSummary::marker {
+  content: "";
+}
+
+.rewardsSummary::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin: 0 3px 0 1px;
+  border-right: 2px solid var(--gn-text-subtle);
+  border-bottom: 2px solid var(--gn-text-subtle);
+  transform: rotate(-45deg);
+}
+
+.rewardsSection[open] > .rewardsSummary::before {
+  transform: rotate(45deg);
+}
+
+.rewardsSummary:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.rewardsSummaryRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rewardsSummaryCount {
+  flex: none;
+  min-width: 20px;
+  padding: 1px 6px;
+  color: var(--gn-text);
+  background: var(--gn-paper-2);
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: normal;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.rewardsSummaryTrailing {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.rewardsSummaryEquipped {
+  overflow: hidden;
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: normal;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.rewardsSummaryHint {
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}

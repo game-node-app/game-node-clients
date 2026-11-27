@@ -21,8 +21,16 @@ const session = vi.hoisted(() => ({
 vi.mock("@repo/locales", () => ({
   useTranslation: () => ({
     t: (key: string, options: Record<string, unknown> = {}) => {
-      if (key === "guild.reviewHint.counter" && options.count !== undefined) {
-        return `${options.count}/80`;
+      if (
+        key === "guild.reviewHint.counter" &&
+        options.count !== undefined &&
+        options.min !== undefined
+      ) {
+        return `${options.count}/${options.min}`;
+      }
+
+      if (key === "guild.reviewHint.short" && options.min !== undefined) {
+        return `t:guild.reviewHint.short:${options.min}`;
       }
 
       return `t:${key}`;
@@ -54,8 +62,13 @@ function makeContract(overrides: Partial<GuildContractDto>): GuildContractDto {
     templateKey: "captains_log",
     rank: GuildContractDto.rank.C,
     xpReward: 250,
+    sealsReward: 40,
     objectiveType: GuildContractDto.objectiveType.WRITE_REVIEW,
     criteria: {},
+    bonusObjective: null,
+    bonusCompleted: false,
+    extendedCount: 0,
+    chainProgressId: null,
     targetGameId: null,
     targetGame: null,
     progressCurrent: 0,
@@ -139,10 +152,7 @@ describe("GuildReviewLengthHint visibility", () => {
     const access = vi
       .spyOn(GuildService, "guildControllerGetAccessV1")
       .mockResolvedValue(ACCESS_FALSE);
-    const contracts = vi.spyOn(
-      GuildService,
-      "guildControllerListContractsV1",
-    );
+    const contracts = vi.spyOn(GuildService, "guildControllerListContractsV1");
 
     const { client } = renderHint(40);
 
@@ -155,7 +165,7 @@ describe("GuildReviewLengthHint visibility", () => {
     expect(GuildService.guildControllerGetOverviewV1).not.toHaveBeenCalled();
     expect(screen.queryByText("40/80")).not.toBeInTheDocument();
     expect(
-      screen.queryByText("t:guild.reviewHint.short"),
+      screen.queryByText(/t:guild\.reviewHint\.short/),
     ).not.toBeInTheDocument();
   });
 
@@ -163,10 +173,7 @@ describe("GuildReviewLengthHint visibility", () => {
     const access = vi
       .spyOn(GuildService, "guildControllerGetAccessV1")
       .mockResolvedValue(ACCESS_FALSE);
-    const contracts = vi.spyOn(
-      GuildService,
-      "guildControllerListContractsV1",
-    );
+    const contracts = vi.spyOn(GuildService, "guildControllerListContractsV1");
 
     const { client } = renderHint(40);
 
@@ -184,10 +191,7 @@ describe("GuildReviewLengthHint visibility", () => {
     vi.spyOn(GuildService, "guildControllerGetAccessV1").mockResolvedValue(
       ACCESS_TRUE,
     );
-    vi.spyOn(
-      GuildService,
-      "guildControllerListContractsV1",
-    ).mockResolvedValue(
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
       makeContracts([
         makeContract({
           objectiveType: GuildContractDto.objectiveType.FINISH_GAME,
@@ -218,17 +222,16 @@ describe("GuildReviewLengthHint counter", () => {
     vi.spyOn(GuildService, "guildControllerGetAccessV1").mockResolvedValue(
       ACCESS_TRUE,
     );
-    vi.spyOn(
-      GuildService,
-      "guildControllerListContractsV1",
-    ).mockResolvedValue(makeContracts([makeContract({})]));
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
+      makeContracts([makeContract({})]),
+    );
   });
 
   it("shows 40/80 and the short-review message for a 40-character review", async () => {
     renderHint(40);
 
     expect(await screen.findByText("40/80")).toBeInTheDocument();
-    expect(screen.getByText("t:guild.reviewHint.short")).toBeInTheDocument();
+    expect(screen.getByText("t:guild.reviewHint.short:80")).toBeInTheDocument();
     expect(screen.queryByText("t:guild.reviewHint.ok")).not.toBeInTheDocument();
     expect(GuildService.guildControllerGetOverviewV1).not.toHaveBeenCalled();
   });
@@ -239,9 +242,112 @@ describe("GuildReviewLengthHint counter", () => {
     expect(await screen.findByText("80/80")).toBeInTheDocument();
     expect(screen.getByText("t:guild.reviewHint.ok")).toBeInTheDocument();
     expect(
-      screen.queryByText("t:guild.reviewHint.short"),
+      screen.queryByText(/t:guild\.reviewHint\.short/),
     ).not.toBeInTheDocument();
     expect(GuildService.guildControllerGetOverviewV1).not.toHaveBeenCalled();
+  });
+
+  it("uses custom minReviewChars thresholds from contract criteria", async () => {
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
+      makeContracts([
+        makeContract({
+          templateKey: "deep_critic",
+          criteria: { minReviewChars: 200 },
+        }),
+      ]),
+    );
+
+    const { rerender } = renderHint(80);
+
+    expect(await screen.findByText("80/200")).toBeInTheDocument();
+    expect(
+      screen.getByText("t:guild.reviewHint.short:200"),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("t:guild.reviewHint.ok")).not.toBeInTheDocument();
+
+    rerender(
+      <QueryClientProvider
+        client={
+          new QueryClient({
+            defaultOptions: { queries: { retry: false } },
+          })
+        }
+      >
+        <MantineProvider>
+          <GuildReviewLengthHint length={200} />
+        </MantineProvider>
+      </QueryClientProvider>,
+    );
+
+    expect(await screen.findByText("200/200")).toBeInTheDocument();
+    expect(screen.getByText("t:guild.reviewHint.ok")).toBeInTheDocument();
+  });
+
+  it("shows for active contracts with an uncompleted also_write_review bonus", async () => {
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
+      makeContracts([
+        makeContract({
+          objectiveType: GuildContractDto.objectiveType.FINISH_GAME,
+          bonusCompleted: false,
+          bonusObjective: { type: "also_write_review", minChars: 150 },
+        }),
+      ]),
+    );
+
+    renderHint(100);
+
+    expect(await screen.findByText("100/150")).toBeInTheDocument();
+    expect(
+      screen.getByText("t:guild.reviewHint.short:150"),
+    ).toBeInTheDocument();
+  });
+
+  it("stays hidden when an also_write_review bonus is already completed", async () => {
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
+      makeContracts([
+        makeContract({
+          objectiveType: GuildContractDto.objectiveType.FINISH_GAME,
+          bonusCompleted: true,
+          bonusObjective: { type: "also_write_review", minChars: 150 },
+        }),
+      ]),
+    );
+
+    const { client } = renderHint(100);
+
+    await waitFor(() =>
+      expect(
+        client.getQueryData(guildKeys.contracts("user-1", "accepted")),
+      ).toBeTruthy(),
+    );
+
+    expect(screen.queryByText("100/150")).not.toBeInTheDocument();
+  });
+
+  it("uses the highest required threshold across multiple active review contracts", async () => {
+    vi.spyOn(GuildService, "guildControllerListContractsV1").mockResolvedValue(
+      makeContracts([
+        makeContract({ id: "c1", criteria: {} }),
+        makeContract({
+          id: "c2",
+          objectiveType: GuildContractDto.objectiveType.FINISH_GAME,
+          bonusCompleted: false,
+          bonusObjective: { type: "also_write_review", minChars: 150 },
+        }),
+        makeContract({
+          id: "c3",
+          templateKey: "deep_critic",
+          criteria: { minReviewChars: 200 },
+        }),
+      ]),
+    );
+
+    renderHint(180);
+
+    expect(await screen.findByText("180/200")).toBeInTheDocument();
+    expect(
+      screen.getByText("t:guild.reviewHint.short:200"),
+    ).toBeInTheDocument();
   });
 });
 

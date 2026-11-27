@@ -2,13 +2,15 @@ import type { ReactNode } from "react";
 import { cn } from "#@/util";
 
 import styles from "../guild.module.css";
+import monthlyStyles from "./CategoryTag.module.css";
 
 export type GuildCategory =
   | "library"
   | "event"
   | "weekly"
   | "gamenode"
-  | "goal";
+  | "goal"
+  | "monthly";
 
 export interface CategoryTagProps {
   category: GuildCategory;
@@ -22,11 +24,14 @@ const CATEGORY_CLASSES: Record<GuildCategory, string> = {
   weekly: styles.categoryTagWeekly,
   gamenode: styles.categoryTagGamenode,
   goal: styles.categoryTagGoal,
+  monthly: monthlyStyles.monthly,
 };
 
 /**
- * Quest category tag. Labels come from `guild.categoryTags.*`; this component
- * only owns the five colors of design D6 (theme tokens, no literals).
+ * Quest category tag. Labels come from `guild.board.tags.*`; this component
+ * only owns the colors of design D6 (theme tokens and the theme-exempt Guild
+ * palette, no literals). The Monthly Expedition variant uses the ink/gold
+ * plate of design D6.
  */
 export function CategoryTag({
   category,

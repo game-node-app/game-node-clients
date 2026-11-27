@@ -5,36 +5,85 @@ import type {
   GuildYearGoalDto,
 } from "@repo/wrapper/server";
 import { useI18nContext, useTranslation } from "@repo/locales";
-import { cn } from "#@/util/cn";
+import { usePresenter } from "#@/context";
+import { cn, Link } from "#@/util";
 
 import styles from "../guild.module.css";
+import expansionStyles from "./GuildContractsExpansion.module.css";
+import boardExpansionStyles from "./GuildBoardExpansion.module.css";
 import { useClaimGuildContract } from "../hooks/useClaimGuildContract";
+import { useGuildOverview } from "../hooks/useGuildOverview";
+import { useGuildRewards } from "../hooks/useGuildRewards";
+import { GuildIcon } from "../scene/GuildIcon";
 import { PixelButton } from "../scene/PixelButton";
+import { GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS } from "../util/guildErrors";
 import { getQuestCopy } from "../util/getQuestCopy";
 import { GuildClaimCelebration } from "./GuildClaimCelebration";
+import { GuildExtendContractModal } from "./GuildExtendContractModal";
+import {
+  canOfferContractExtension,
+  getBonusObjectiveCondition,
+  getChainStageLabel,
+} from "./guildContractExpansion";
 
 export interface GuildActiveContractsProps {
   contracts: GuildContractDto[];
   yearGoal: GuildYearGoalDto | null;
+  maxActiveContracts?: number;
+  onManageContracts?: () => void;
   className?: string;
 }
 
-const HOUR_MS = 60 * 60 * 1000;
-const DAY_MS = 24 * HOUR_MS;
+/**
+ * Duration since `acceptedAt` as a localized unit ("5 days", "2 hours") for
+ * `guild.activeContracts.acceptedAgo`, which already carries the "ago".
+ */
+function formatElapsed(acceptedAt: string, locale: string): string {
+  const acceptedMs = new Date(acceptedAt).getTime();
+  if (Number.isNaN(acceptedMs)) return "";
 
-/** Compact elapsed time for "accepted X ago" captions: `5d 3h`, `18h 20m`. */
-function formatElapsed(iso: string): string {
-  const acceptedAt = new Date(iso).getTime();
-  if (Number.isNaN(acceptedAt)) return "";
+  const minutes = Math.max(1, Math.round((Date.now() - acceptedMs) / 60_000));
 
-  const elapsed = Math.max(Date.now() - acceptedAt, 0);
-  const days = Math.floor(elapsed / DAY_MS);
-  const hours = Math.floor((elapsed % DAY_MS) / HOUR_MS);
-  const minutes = Math.floor((elapsed % HOUR_MS) / 60_000);
+  if (minutes < 60) {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit: "minute",
+      unitDisplay: "long",
+    }).format(minutes);
+  }
 
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes}m`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit: "hour",
+      unitDisplay: "long",
+    }).format(hours);
+  }
+
+  const days = Math.round(hours / 24);
+  if (days < 30) {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit: "day",
+      unitDisplay: "long",
+    }).format(days);
+  }
+
+  const months = Math.round(days / 30);
+  if (months < 12) {
+    return new Intl.NumberFormat(locale, {
+      style: "unit",
+      unit: "month",
+      unitDisplay: "long",
+    }).format(months);
+  }
+
+  return new Intl.NumberFormat(locale, {
+    style: "unit",
+    unit: "year",
+    unitDisplay: "long",
+  }).format(Math.round(months / 12));
 }
 
 function getContractPercent(contract: GuildContractDto): number {
@@ -69,14 +118,35 @@ function getProgressLabel(contract: GuildContractDto): string {
 export function GuildActiveContracts({
   contracts,
   yearGoal,
+  maxActiveContracts: maxActiveContractsProp,
+  onManageContracts,
   className,
 }: GuildActiveContractsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { language } = useI18nContext();
+  const locale = i18n.resolvedLanguage || i18n.language || language || "en";
+  const hasLink = Boolean(usePresenter("Link"));
   const claim = useClaimGuildContract();
-  const numberFormat = new Intl.NumberFormat(language);
+  const overviewQuery = useGuildOverview();
+  const rewardsQuery = useGuildRewards();
+  const numberFormat = new Intl.NumberFormat(locale);
   const [claimResult, setClaimResult] =
     useState<ClaimGuildContractResponseDto | null>(null);
+  const [extendTarget, setExtendTarget] = useState<GuildContractDto | null>(
+    null,
+  );
+
+  const maxActiveContracts =
+    maxActiveContractsProp ??
+    overviewQuery.data?.license?.perks?.maxActiveContracts ??
+    GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS;
+  const readyCount = contracts.filter(
+    (contract) => contract.status === GuildContractDto.status.READY_TO_CLAIM,
+  ).length;
+  const hourglass = rewardsQuery.data?.consumables?.hourglass ?? 0;
+  const monthlyFreeHourglass =
+    overviewQuery.data?.license?.perks?.monthlyFreeHourglass ?? 0;
+  const activeChain = overviewQuery.data?.activeChain ?? null;
 
   const goalPercent =
     yearGoal && yearGoal.target > 0
@@ -101,7 +171,40 @@ export function GuildActiveContracts({
         <span className={cn(styles.captionMedium, styles.contractsTitle)}>
           {t("guild.activeContracts.title")}
         </span>
+        <span
+          className={cn(styles.captionMedium, expansionStyles.contractsCap)}
+          data-contracts-cap
+          data-max-active-contracts={maxActiveContracts}
+        >
+          {maxActiveContractsProp !== undefined
+            ? t("guild.activeContracts.summary", {
+                active: contracts.length,
+                max: maxActiveContracts,
+              })
+            : t("guild.contracts.cap", {
+                active: contracts.length,
+                max: maxActiveContracts,
+              })}
+        </span>
+        {readyCount > 0 ? (
+          <span
+            className={boardExpansionStyles.contractsReadyBadge}
+            data-ready-count={readyCount}
+          >
+            {t("guild.activeContracts.readyCount", { count: readyCount })}
+          </span>
+        ) : null}
         <span className={styles.contractsRule} aria-hidden />
+        {onManageContracts ? (
+          <PixelButton
+            size="sm"
+            variant="ghost-dark"
+            className={styles.contractsManage}
+            onClick={onManageContracts}
+          >
+            {t("guild.activeContracts.manage")}
+          </PixelButton>
+        ) : null}
       </div>
 
       {contracts.length === 0 ? (
@@ -111,15 +214,12 @@ export function GuildActiveContracts({
       ) : null}
 
       {contracts.map((contract) => {
-        const copy = getQuestCopy(contract, t, language);
-        const name = contract.targetGame?.name
-          ? `${copy.title} · ${contract.targetGame.name}`
-          : copy.title;
+        const copy = getQuestCopy(contract, t, locale);
         const isReady =
           contract.status === GuildContractDto.status.READY_TO_CLAIM;
         const playtime = contract.playtimeProgress;
         const acceptedAgo = t("guild.activeContracts.acceptedAgo", {
-          time: formatElapsed(contract.acceptedAt),
+          time: formatElapsed(contract.acceptedAt, locale),
         });
         const caption =
           playtime?.estimatedTotalSeconds !== null &&
@@ -130,6 +230,39 @@ export function GuildActiveContracts({
               })}`
             : copy.description || acceptedAgo;
         const percent = getContractPercent(contract);
+        const sealsReward = contract.sealsReward ?? 0;
+        const canExtend = canOfferContractExtension(contract, {
+          hourglass,
+          monthlyFreeHourglass,
+        });
+        const chainStageLabel = getChainStageLabel(contract, activeChain, t);
+        const hasBonusObjective =
+          contract.bonusObjective !== null &&
+          contract.bonusObjective !== undefined;
+        const bonusCondition = hasBonusObjective
+          ? getBonusObjectiveCondition(contract.bonusObjective, t)
+          : null;
+
+        const targetGameContent = contract.targetGame ? (
+          <>
+            {contract.targetGame.coverUrl ? (
+              <img
+                src={contract.targetGame.coverUrl}
+                alt=""
+                width={20}
+                height={27}
+                loading="lazy"
+                draggable={false}
+                className={styles.contractTargetCover}
+              />
+            ) : (
+              <span className={styles.contractTargetCoverFallback} aria-hidden />
+            )}
+            <span className={styles.contractTargetName}>
+              {contract.targetGame.name}
+            </span>
+          </>
+        ) : null;
 
         return (
           <div
@@ -143,12 +276,31 @@ export function GuildActiveContracts({
           >
             <div className={styles.contractRowTop}>
               <span className={cn(styles.bodyMedium, styles.contractName)}>
-                {name}
+                {copy.title}
               </span>
               <span className={cn(styles.captionMedium, styles.contractValue)}>
                 {getProgressLabel(contract)}
               </span>
             </div>
+
+            {contract.targetGame ? (
+              hasLink && contract.targetGameId != null ? (
+                <Link
+                  href={`/game/${contract.targetGameId}`}
+                  className={cn(
+                    styles.contractTarget,
+                    "no-underline hover:underline",
+                  )}
+                >
+                  {targetGameContent}
+                </Link>
+              ) : (
+                <span className={styles.contractTarget}>
+                  {targetGameContent}
+                </span>
+              )
+            ) : null}
+
             <div className={styles.contractBar} aria-hidden>
               <span
                 className={styles.contractBarFill}
@@ -158,15 +310,87 @@ export function GuildActiveContracts({
             <span className={cn(styles.captionText, styles.contractCaption)}>
               {caption}
             </span>
-            {isReady ? (
-              <PixelButton
-                size="sm"
-                className={styles.contractClaim}
-                disabled={claim.isPending}
-                onClick={() => handleClaim(contract.id)}
+
+            <div className={expansionStyles.contractRewards}>
+              <span className={expansionStyles.contractReward} data-contract-xp>
+                <GuildIcon name="coin" size={14} />
+                {t("guild.board.xpReward", {
+                  xp: numberFormat.format(contract.xpReward ?? 0),
+                })}
+              </span>
+              {sealsReward > 0 ? (
+                <span
+                  className={expansionStyles.contractReward}
+                  data-contract-seals
+                >
+                  <GuildIcon name="seal" size={14} />
+                  {t("guild.seals.reward", {
+                    seals: numberFormat.format(sealsReward),
+                  })}
+                </span>
+              ) : null}
+            </div>
+
+            {chainStageLabel ? (
+              <span className={expansionStyles.contractChain} data-chain-stage>
+                {chainStageLabel}
+              </span>
+            ) : null}
+
+            {hasBonusObjective ? (
+              <p
+                className={cn(
+                  styles.captionText,
+                  expansionStyles.contractBonus,
+                  contract.bonusCompleted && expansionStyles.contractBonusDone,
+                )}
+                data-bonus-completed={String(Boolean(contract.bonusCompleted))}
               >
-                {t("guild.actions.turnIn")}
-              </PixelButton>
+                {contract.bonusCompleted ? (
+                  <span className={expansionStyles.contractCheck} aria-hidden>
+                    ✓
+                  </span>
+                ) : null}
+                {bonusCondition ? (
+                  <span data-bonus-condition>{bonusCondition}</span>
+                ) : null}
+                {bonusCondition ? (
+                  <span
+                    className={expansionStyles.contractBonusSeparator}
+                    aria-hidden
+                  >
+                    ·
+                  </span>
+                ) : null}
+                <span>
+                  {contract.bonusCompleted
+                    ? t("guild.contracts.bonus.completed")
+                    : t("guild.contracts.bonus.pending")}
+                </span>
+              </p>
+            ) : null}
+
+            {isReady || canExtend ? (
+              <div className={expansionStyles.contractRowActions}>
+                {canExtend ? (
+                  <PixelButton
+                    size="sm"
+                    variant="ghost-dark"
+                    onClick={() => setExtendTarget(contract)}
+                  >
+                    {t("guild.contracts.extend.action")}
+                  </PixelButton>
+                ) : null}
+                {isReady ? (
+                  <PixelButton
+                    size="sm"
+                    disabled={claim.isPending}
+                    onClick={() => handleClaim(contract.id)}
+                  >
+                    {t("guild.actions.turnIn")}
+                  </PixelButton>
+                ) : null}
+              </div>
             ) : null}
           </div>
         );
@@ -197,6 +421,12 @@ export function GuildActiveContracts({
           </span>
         </div>
       ) : null}
+
+      <GuildExtendContractModal
+        key={extendTarget?.id ?? "none"}
+        contract={extendTarget}
+        onClose={() => setExtendTarget(null)}
+      />
 
       <GuildClaimCelebration
         opened={claimResult !== null}

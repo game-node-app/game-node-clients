@@ -50,7 +50,7 @@ export function GuildSignInPrompt({ signInHref }: GuildSignInPromptProps) {
           <GuildIcon name="shield" />
         </span>
         <div className={styles.guildGateHeading}>
-          <h2 className={styles.pixelTitle}>{t("guild.signIn.title")}</h2>
+          <h1 className={styles.pixelTitle}>{t("guild.signIn.title")}</h1>
         </div>
       </header>
 

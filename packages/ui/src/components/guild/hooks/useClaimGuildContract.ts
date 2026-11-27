@@ -14,7 +14,7 @@ export function useClaimGuildContract() {
   return useMutation({
     mutationFn: (contractId: string) =>
       GuildService.guildControllerClaimContractV1(contractId),
-    onError: handleError,
+    onError: (error) => handleError(error),
     onSettled: () => {
       void invalidateGuild(queryClient);
     },

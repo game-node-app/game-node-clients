@@ -12,6 +12,18 @@ export type GuildBoardResponseDto = {
      * Next Monday 00:00 America/Sao_Paulo, in UTC
      */
     nextRefreshAt: string;
+    /**
+     * Free weekly rerolls left for the current São Paulo week
+     */
+    rerollsRemaining: number;
+    /**
+     * Owned `reroll_charter` consumables
+     */
+    rerollChartersOwned: number;
+    /**
+     * True below Rank C, when the Monthly Expedition slot is not generated
+     */
+    monthlyExpeditionLocked: boolean;
     quests: Array<GuildBoardQuestDto>;
 };
 

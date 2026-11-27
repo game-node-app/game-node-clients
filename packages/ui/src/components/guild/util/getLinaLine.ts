@@ -24,6 +24,10 @@ const SUPPORTED_TRIGGERS = new Set([
   "returning_after_inactivity",
   "weekly_board_refreshed",
   "stale_backlog_game",
+  "rank_promoted",
+  "chain_completed",
+  "community_bounty_ready",
+  "monthly_expedition_refreshed",
   "default",
 ]);
 

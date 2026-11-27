@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { useReducedMotion } from "@mantine/hooks";
+import type { TFunction } from "i18next";
+import { useMediaQuery, useReducedMotion } from "@mantine/hooks";
 import type {
   ClaimGuildContractResponseDto,
   GuildRewardDescriptorDto,
@@ -8,11 +9,14 @@ import { useTranslation } from "@repo/locales";
 import { cn, Modal } from "#@/util";
 
 import styles from "../guild.module.css";
+import expansionStyles from "./GuildContractsExpansion.module.css";
+import { GuildChestResult } from "./GuildChestResult";
+import { GUILD_CHAIN_TOTAL_STAGES } from "./guildContractExpansion";
 import { GuildIcon } from "../scene/GuildIcon";
+import { GuildRewardArt } from "../scene/GuildRewardArt";
 import { LinaSprite } from "../scene/LinaSprite";
 import { PixelButton } from "../scene/PixelButton";
-import { formatGuildXp, getRewardLabel } from "../util";
-import type { GuildAssetName } from "../scene/assets";
+import { formatGuildXp, getLinaLine, getRewardLabel } from "../util";
 
 export interface GuildClaimCelebrationProps {
   opened: boolean;
@@ -21,39 +25,57 @@ export interface GuildClaimCelebrationProps {
   result: ClaimGuildContractResponseDto | null;
 }
 
-const REWARD_ICONS: Record<string, GuildAssetName> = {
-  badge: "trophy",
-  title: "book",
-  avatar_frame: "shield",
-  weekly_chest: "chest",
-};
-
 const REWARD_KIND_KEYS: Record<string, string> = {
   badge: "guild.rewardsPanel.sections.badges",
   title: "guild.rewardsPanel.sections.titles",
   avatar_frame: "guild.rewardsPanel.sections.frames",
   weekly_chest: "guild.rewards.generic.chest",
+  license_theme: "guild.rewardsPanel.sections.licenseThemes",
+  stamp_style: "guild.rewardsPanel.sections.stampStyles",
+  tavern_decor: "guild.rewardsPanel.sections.decor",
+  consumable: "guild.rewardsPanel.sections.consumables",
+  chest_bronze: "guild.claim.chest",
+  chest_silver: "guild.claim.chest",
+  chest_gold: "guild.claim.chest",
+  chest_relic: "guild.claim.chest",
 };
 
+type Translate = (key: string, options?: Record<string, unknown>) => string;
+
+function translate(
+  t: TFunction,
+  key: string,
+  options?: Record<string, unknown>,
+): string {
+  return (t as unknown as Translate)(key, options);
+}
+
 /**
- * Bumped reward keys, chest cosmetic included, without duplicates.
+ * Newly granted rewards, chest cosmetic excluded because the chest block shows
+ * it with its rarity, without duplicates.
  */
 function collectRewards(
   result: ClaimGuildContractResponseDto,
 ): GuildRewardDescriptorDto[] {
-  const chestCosmetic = result.chestResult?.unlockedCosmetic ?? null;
-  const rewards = [...result.unlockedRewards];
-  const seen = new Set(rewards.map((reward) => reward.key));
-
-  if (chestCosmetic && !seen.has(chestCosmetic.key)) {
-    rewards.push(chestCosmetic);
+  // The main chest and the Relic chests of a prestige each show their cosmetic.
+  const chestKeys = new Set<string>();
+  const mainKey = result.chestResult?.unlockedCosmetic?.key;
+  if (mainKey) chestKeys.add(mainKey);
+  for (const relic of result.prestigeRewards ?? []) {
+    if (relic.unlockedCosmetic?.key) chestKeys.add(relic.unlockedCosmetic.key);
   }
+  const seen = new Set<string>();
 
-  return rewards;
+  return (result.unlockedRewards ?? []).filter((reward) => {
+    if (chestKeys.has(reward.key) || seen.has(reward.key)) return false;
+    seen.add(reward.key);
+    return true;
+  });
 }
 
 const COUNT_UP_MS = 800;
 const COUNT_UP_TICK_MS = 16;
+const MOBILE_QUERY = "(max-width: 47.99em)";
 
 /**
  * `xpAwarded` counts up over 800 ms with an ease-out (design D5). The counter
@@ -64,9 +86,10 @@ function GuildClaimXpCounter({ xpAwarded }: { xpAwarded: number }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage || i18n.language || "en";
   const reducedMotion = useReducedMotion();
-  const [displayXp, setDisplayXp] = useState(() =>
-    reducedMotion ? xpAwarded : 0,
-  );
+  const [countedXp, setCountedXp] = useState(0);
+  // `useReducedMotion` is false on the first render, so the final value has to
+  // be picked at render time rather than as the initial state.
+  const displayXp = reducedMotion ? xpAwarded : countedXp;
 
   useEffect(() => {
     if (reducedMotion || xpAwarded <= 0) return;
@@ -75,7 +98,7 @@ function GuildClaimXpCounter({ xpAwarded }: { xpAwarded: number }) {
     const interval = window.setInterval(() => {
       const progress = Math.min(1, (Date.now() - startedAt) / COUNT_UP_MS);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayXp(Math.round(xpAwarded * eased));
+      setCountedXp(Math.round(xpAwarded * eased));
 
       if (progress >= 1) {
         window.clearInterval(interval);
@@ -98,7 +121,9 @@ function GuildClaimXpCounter({ xpAwarded }: { xpAwarded: number }) {
 /**
  * Turn-in celebration (design D5/D6): the XP counter counts up over 800 ms
  * (final value immediately under reduced motion), the rank change slams in
- * with the stamp animation, and each newly unlocked reward enters staggered.
+ * with the stamp animation, and the expansion adds Seals, the bonus objective,
+ * the chest receipt, Rank packages, Prestige Relic chests, the Passport stamp
+ * and the Quest Chain progress, plus Lina's line from the claim response.
  */
 export function GuildClaimCelebration({
   opened,
@@ -107,6 +132,7 @@ export function GuildClaimCelebration({
 }: GuildClaimCelebrationProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage || i18n.language || "en";
+  const isMobile = useMediaQuery(MOBILE_QUERY, false);
 
   if (!result) return null;
 
@@ -116,10 +142,23 @@ export function GuildClaimCelebration({
   // `globalXpAwarded` is account XP, separate from the Guild XP counter. The
   // line is hidden at 0 (small claims), per spec guild-hall.
   const accountXp = result.globalXpAwarded ?? 0;
-  const translate = t as unknown as (
-    key: string,
-    options?: Record<string, unknown>,
-  ) => string;
+  const sealsAwarded = result.sealsAwarded ?? 0;
+  const promotionRewards = result.promotionRewards ?? [];
+  const prestigeRewards = result.prestigeRewards ?? [];
+  const passportCount = result.passportMonth?.completedContractsCount ?? 0;
+  const chainProgress = result.chainProgress ?? null;
+  const linaSegments = result.lina ? getLinaLine(result.lina, t) : [];
+  const promotionPackageKey = `guild.rankPackages.${result.rankAfter}`;
+  const promotionPackage = translate(t, promotionPackageKey);
+  const stampsKey = "guild.passport.stamps";
+  const stamps = translate(t, stampsKey, { count: passportCount });
+  const passportStamps = stamps === stampsKey ? `${passportCount} / 6` : stamps;
+
+  const kindLabel = (reward: GuildRewardDescriptorDto) =>
+    translate(
+      t,
+      REWARD_KIND_KEYS[reward.kind as string] ?? "guild.rewards.generic.badge",
+    );
 
   return (
     <Modal
@@ -127,6 +166,7 @@ export function GuildClaimCelebration({
       onClose={onClose}
       withCloseButton={false}
       centered
+      fullScreen={isMobile}
       padding={0}
       size="520px"
       classNames={{ content: styles.claimModalContent }}
@@ -140,6 +180,23 @@ export function GuildClaimCelebration({
           {t("guild.claim.title")}
         </h2>
 
+        {linaSegments.some((segment) => segment.text.length > 0) ? (
+          <p className={expansionStyles.claimLinaLine} data-claim-lina>
+            {linaSegments.map((segment, index) => (
+              <span
+                key={index}
+                className={
+                  segment.highlight
+                    ? expansionStyles.claimLinaHighlight
+                    : undefined
+                }
+              >
+                {segment.text}
+              </span>
+            ))}
+          </p>
+        ) : null}
+
         <GuildClaimXpCounter
           key={`${result.contract.id}-${result.xpAwarded}`}
           xpAwarded={result.xpAwarded}
@@ -152,6 +209,15 @@ export function GuildClaimCelebration({
           >
             {t("guild.claim.accountXp", {
               xp: formatGuildXp(accountXp, locale),
+            })}
+          </span>
+        ) : null}
+
+        {sealsAwarded > 0 ? (
+          <span className={expansionStyles.claimSeals} data-claim-seals>
+            <GuildIcon name="seal" size={22} />
+            {t("guild.claim.seals", {
+              seals: formatGuildXp(sealsAwarded, locale),
             })}
           </span>
         ) : null}
@@ -171,6 +237,32 @@ export function GuildClaimCelebration({
               to: result.rankAfter,
             })}
           </span>
+        ) : null}
+
+        {result.bonusCompleted ? (
+          <span
+            className={expansionStyles.claimBonus}
+            data-claim-bonus-completed
+          >
+            <span className={expansionStyles.claimCheck} aria-hidden>
+              ✓
+            </span>
+            {t("guild.claim.bonusCompleted")}
+          </span>
+        ) : null}
+
+        {chest ? (
+          <section
+            className={expansionStyles.celebrationSection}
+            data-claim-chest
+          >
+            <span
+              className={cn(styles.pixelOverline, styles.claimSectionTitle)}
+            >
+              {t("guild.claim.chest")}
+            </span>
+            <GuildChestResult result={chest} />
+          </section>
         ) : null}
 
         {rewards.length > 0 ? (
@@ -193,8 +285,10 @@ export function GuildClaimCelebration({
                   data-reward-key={reward.key}
                 >
                   <span className={styles.claimRewardLabel}>
-                    <GuildIcon
-                      name={REWARD_ICONS[reward.kind as string] ?? "star"}
+                    <GuildRewardArt
+                      kind={reward.kind}
+                      rewardKey={reward.key}
+                      consumableKey={reward.consumableKey}
                       size={20}
                     />
                     {getRewardLabel(reward, t)}
@@ -202,10 +296,7 @@ export function GuildClaimCelebration({
                   <span
                     className={cn(styles.captionMedium, styles.claimRewardKind)}
                   >
-                    {translate(
-                      REWARD_KIND_KEYS[reward.kind as string] ??
-                        "guild.rewards.generic.badge",
-                    )}
+                    {kindLabel(reward)}
                   </span>
                 </li>
               ))}
@@ -213,13 +304,139 @@ export function GuildClaimCelebration({
           </section>
         ) : null}
 
-        {chest ? (
-          <span className={cn(styles.bodyMedium, styles.claimChest)}>
-            <GuildIcon name="chest" size={20} />
-            {t("guild.claim.chestBonus", {
-              xp: formatGuildXp(chest.bonusXp, locale),
-            })}
+        {promotionRewards.length > 0 ? (
+          <section
+            className={expansionStyles.celebrationSection}
+            data-claim-promotion
+          >
+            <span
+              className={cn(styles.pixelOverline, styles.claimSectionTitle)}
+            >
+              {t("guild.claim.promotion")}
+            </span>
+            {promotionPackage !== promotionPackageKey ? (
+              <span className={expansionStyles.promotionPackage}>
+                {promotionPackage}
+              </span>
+            ) : null}
+            <ul className={styles.claimRewards}>
+              {promotionRewards.map((reward) => (
+                <li
+                  key={reward.key}
+                  className={styles.claimReward}
+                  data-reward-key={reward.key}
+                >
+                  <span className={styles.claimRewardLabel}>
+                    <GuildRewardArt
+                      kind={reward.kind}
+                      rewardKey={reward.key}
+                      consumableKey={reward.consumableKey}
+                      size={20}
+                    />
+                    {getRewardLabel(reward, t)}
+                  </span>
+                  <span
+                    className={cn(styles.captionMedium, styles.claimRewardKind)}
+                  >
+                    {kindLabel(reward)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {prestigeRewards.length > 0 ? (
+          <section
+            className={expansionStyles.celebrationSection}
+            data-claim-prestige
+          >
+            <span
+              className={cn(styles.pixelOverline, styles.claimSectionTitle)}
+            >
+              {t("guild.claim.prestige")}
+            </span>
+            {prestigeRewards.map((relicChest, index) => (
+              <GuildChestResult key={index} result={relicChest} />
+            ))}
+          </section>
+        ) : null}
+
+        {passportCount > 0 ? (
+          <span className={expansionStyles.claimPassport} data-claim-passport>
+            <GuildIcon name="stamp" size={18} />
+            <span>{t("guild.claim.passportStamp")}</span>
+            <span className={expansionStyles.claimPassportCount}>
+              {passportStamps}
+            </span>
           </span>
+        ) : null}
+
+        {chainProgress ? (
+          <section
+            className={expansionStyles.celebrationSection}
+            data-claim-chain
+            data-chain-completed={String(Boolean(chainProgress.chainCompleted))}
+          >
+            <span
+              className={cn(styles.pixelOverline, styles.claimSectionTitle)}
+            >
+              {chainProgress.chainCompleted
+                ? t("guild.claim.chainCompleted")
+                : t("guild.claim.chainProgress")}
+            </span>
+            {chainProgress.chainCompleted ? (
+              <>
+                {(chainProgress.finalRewards ?? []).length > 0 ? (
+                  <ul className={styles.claimRewards}>
+                    {(chainProgress.finalRewards ?? []).map((reward) => (
+                      <li
+                        key={reward.key}
+                        className={styles.claimReward}
+                        data-chain-reward-key={reward.key}
+                      >
+                        <span className={styles.claimRewardLabel}>
+                          <GuildRewardArt
+                            kind={reward.kind}
+                            rewardKey={reward.key}
+                            consumableKey={reward.consumableKey}
+                            size={20}
+                          />
+                          {getRewardLabel(reward, t)}
+                        </span>
+                        <span
+                          className={cn(
+                            styles.captionMedium,
+                            styles.claimRewardKind,
+                          )}
+                        >
+                          {kindLabel(reward)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {(chainProgress.bonusSealsAwarded ?? 0) > 0 ? (
+                  <span className={expansionStyles.chainBonus}>
+                    <GuildIcon name="seal" size={16} />
+                    {t("guild.claim.chainBonus", {
+                      seals: formatGuildXp(
+                        chainProgress.bonusSealsAwarded,
+                        locale,
+                      ),
+                    })}
+                  </span>
+                ) : null}
+              </>
+            ) : (
+              <span className={expansionStyles.chainStage}>
+                {t("guild.chains.stageOf", {
+                  current: (chainProgress.currentStageIndex ?? 0) + 1,
+                  total: GUILD_CHAIN_TOTAL_STAGES,
+                })}
+              </span>
+            )}
+          </section>
         ) : null}
 
         <div className={styles.claimActions}>

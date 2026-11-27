@@ -4,15 +4,29 @@
 /* eslint-disable */
 import type { AcceptGuildContractDto } from '../models/AcceptGuildContractDto';
 import type { AcceptGuildContractResponseDto } from '../models/AcceptGuildContractResponseDto';
+import type { AdvanceGuildChainDto } from '../models/AdvanceGuildChainDto';
+import type { ClaimGuildBountyResponseDto } from '../models/ClaimGuildBountyResponseDto';
 import type { ClaimGuildContractResponseDto } from '../models/ClaimGuildContractResponseDto';
+import type { ClaimGuildPassportMilestoneResponseDto } from '../models/ClaimGuildPassportMilestoneResponseDto';
+import type { ExtendGuildContractResponseDto } from '../models/ExtendGuildContractResponseDto';
 import type { GuildAccessResponseDto } from '../models/GuildAccessResponseDto';
 import type { GuildBoardResponseDto } from '../models/GuildBoardResponseDto';
 import type { GuildBoardSeenResponseDto } from '../models/GuildBoardSeenResponseDto';
+import type { GuildBountiesResponseDto } from '../models/GuildBountiesResponseDto';
+import type { GuildChainActionResponseDto } from '../models/GuildChainActionResponseDto';
+import type { GuildChainsResponseDto } from '../models/GuildChainsResponseDto';
 import type { GuildContractDto } from '../models/GuildContractDto';
 import type { GuildContractsListResponseDto } from '../models/GuildContractsListResponseDto';
 import type { GuildCosmeticsResponseDto } from '../models/GuildCosmeticsResponseDto';
+import type { GuildEmporiumPurchaseResponseDto } from '../models/GuildEmporiumPurchaseResponseDto';
+import type { GuildEmporiumResponseDto } from '../models/GuildEmporiumResponseDto';
+import type { GuildExtraSlotPermitStatusDto } from '../models/GuildExtraSlotPermitStatusDto';
 import type { GuildOverviewResponseDto } from '../models/GuildOverviewResponseDto';
+import type { GuildPassportResponseDto } from '../models/GuildPassportResponseDto';
 import type { GuildRewardsResponseDto } from '../models/GuildRewardsResponseDto';
+import type { PurchaseGuildEmporiumItemDto } from '../models/PurchaseGuildEmporiumItemDto';
+import type { RerollGuildBoardEntryResponseDto } from '../models/RerollGuildBoardEntryResponseDto';
+import type { StartGuildChainDto } from '../models/StartGuildChainDto';
 import type { UpdateGuildCosmeticsDto } from '../models/UpdateGuildCosmeticsDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -159,6 +173,181 @@ export class GuildService {
             url: '/v1/guild/cosmetics',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param entryId
+     * @returns RerollGuildBoardEntryResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerRerollBoardEntryV1(
+        entryId: string,
+    ): CancelablePromise<RerollGuildBoardEntryResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/board/{entryId}/reroll',
+            path: {
+                'entryId': entryId,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns ExtendGuildContractResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerExtendContractV1(
+        id: string,
+    ): CancelablePromise<ExtendGuildContractResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/contracts/{id}/extend',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
+     * @returns GuildEmporiumResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerGetEmporiumV1(): CancelablePromise<GuildEmporiumResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/guild/emporium',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns GuildEmporiumPurchaseResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerPurchaseEmporiumItemV1(
+        requestBody: PurchaseGuildEmporiumItemDto,
+    ): CancelablePromise<GuildEmporiumPurchaseResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/emporium/purchase',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns GuildExtraSlotPermitStatusDto
+     * @throws ApiError
+     */
+    public static guildControllerActivateExtraSlotPermitV1(): CancelablePromise<GuildExtraSlotPermitStatusDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/consumables/extra_slot_permit/activate',
+        });
+    }
+    /**
+     * @returns GuildPassportResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerGetPassportV1(): CancelablePromise<GuildPassportResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/guild/passport',
+        });
+    }
+    /**
+     * @param milestone
+     * @returns ClaimGuildPassportMilestoneResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerClaimPassportMilestoneV1(
+        milestone: string,
+    ): CancelablePromise<ClaimGuildPassportMilestoneResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/passport/claim/{milestone}',
+            path: {
+                'milestone': milestone,
+            },
+        });
+    }
+    /**
+     * @returns GuildChainsResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerListChainsV1(): CancelablePromise<GuildChainsResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/guild/chains',
+        });
+    }
+    /**
+     * @param chainKey
+     * @param requestBody
+     * @returns GuildChainActionResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerStartChainV1(
+        chainKey: string,
+        requestBody: StartGuildChainDto,
+    ): CancelablePromise<GuildChainActionResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/chains/{chainKey}/start',
+            path: {
+                'chainKey': chainKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param chainKey
+     * @param requestBody
+     * @returns GuildChainActionResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerAdvanceChainV1(
+        chainKey: string,
+        requestBody: AdvanceGuildChainDto,
+    ): CancelablePromise<GuildChainActionResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/chains/{chainKey}/advance',
+            path: {
+                'chainKey': chainKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param locale Preferred bounty translation; defaults to the base copy
+     * @returns GuildBountiesResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerListBountiesV1(
+        locale?: 'en' | 'pt-BR',
+    ): CancelablePromise<GuildBountiesResponseDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/guild/bounties',
+            query: {
+                'locale': locale,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns ClaimGuildBountyResponseDto
+     * @throws ApiError
+     */
+    public static guildControllerClaimBountyV1(
+        id: string,
+    ): CancelablePromise<ClaimGuildBountyResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/guild/bounties/{id}/claim',
+            path: {
+                'id': id,
+            },
         });
     }
 }

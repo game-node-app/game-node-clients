@@ -5,5 +5,9 @@
 export type UpdateGuildCosmeticsDto = {
     guildTitleKey?: string | null;
     guildFrameKey?: string | null;
+    equippedLicenseThemeKey?: string | null;
+    equippedStampStyleKey?: string | null;
+    equippedDecorKeys?: Array<string> | null;
+    showcaseBadgeIds?: Array<string> | null;
 };
 

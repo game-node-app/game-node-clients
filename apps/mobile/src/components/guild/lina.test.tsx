@@ -323,7 +323,7 @@ describe("LinaDialogue", () => {
       vi.advanceTimersByTime(500);
     });
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
     const quick = screen
       .getByText("Tem algum pedido mais rápido?")
       .closest("button");
@@ -362,7 +362,7 @@ describe("LinaDialogue", () => {
       />,
     );
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
     const board = screen
       .getByText("Me mostra o quadro de pedidos")
       .closest("button");
@@ -396,7 +396,7 @@ describe("LinaDialogue", () => {
       />,
     );
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
 
     act(() => {
       vi.advanceTimersByTime(100);
@@ -425,11 +425,11 @@ describe("LinaDialogue", () => {
       vi.advanceTimersByTime(100);
     });
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
 
     expect(dialogue).toHaveAttribute("data-typing", "true");
 
-    fireEvent.click(dialogue);
+    fireEvent.click(dialogue.querySelector("p")!);
 
     expect(dialogue).toHaveAttribute("data-typing", "false");
   });
@@ -448,7 +448,7 @@ describe("LinaDialogue", () => {
       vi.advanceTimersByTime(100);
     });
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
 
     fireEvent.keyDown(dialogue, { key: " " });
 
@@ -467,7 +467,7 @@ describe("LinaDialogue", () => {
       />,
     );
 
-    const dialogue = screen.getByRole("dialog");
+    const dialogue = screen.getByRole("region");
 
     expect(dialogue).toHaveAttribute("data-typing", "false");
     expect(screen.getAllByText(LONG_LINE).length).toBeGreaterThan(0);
@@ -528,7 +528,7 @@ describe("LinaDialogue", () => {
       />,
     );
 
-    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(screen.queryByRole("region")).toBeNull();
 
     fireEvent.click(
       screen.getByRole("button", { name: "Lina · Recepcionista da Guilda" }),

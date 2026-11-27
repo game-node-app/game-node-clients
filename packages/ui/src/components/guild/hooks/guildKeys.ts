@@ -16,6 +16,9 @@ export const GUILD_CONTRACTS_PAGE_SIZE = 20;
 
 export type GuildContractsTab = "accepted" | "completed";
 
+/** Translation requested from `GET /v1/guild/bounties`. */
+export type GuildBountyLocale = "en" | "pt-BR";
+
 function guildKey(...parts: unknown[]): unknown[] {
   return [GUILD_QUERY_ROOT, ...parts];
 }
@@ -48,6 +51,24 @@ export const guildKeys = {
   rewards: (userId?: string | null): unknown[] =>
     guildKey("rewards", userId ?? null),
   rewardsRoot: (): unknown[] => guildKey("rewards"),
+
+  emporium: (userId?: string | null): unknown[] =>
+    guildKey("emporium", userId ?? null),
+  emporiumRoot: (): unknown[] => guildKey("emporium"),
+
+  passport: (userId?: string | null): unknown[] =>
+    guildKey("passport", userId ?? null),
+  passportRoot: (): unknown[] => guildKey("passport"),
+
+  chains: (userId?: string | null): unknown[] =>
+    guildKey("chains", userId ?? null),
+  chainsRoot: (): unknown[] => guildKey("chains"),
+
+  bounties: (
+    userId: string | null | undefined,
+    locale: GuildBountyLocale,
+  ): unknown[] => guildKey("bounties", userId ?? null, { locale }),
+  bountiesRoot: (): unknown[] => guildKey("bounties"),
 };
 
 /**
@@ -60,5 +81,9 @@ export function invalidateGuild(queryClient: QueryClient): Promise<void> {
     queryClient.invalidateQueries({ queryKey: guildKeys.boardRoot() }),
     queryClient.invalidateQueries({ queryKey: guildKeys.contractsRoot() }),
     queryClient.invalidateQueries({ queryKey: guildKeys.rewardsRoot() }),
+    queryClient.invalidateQueries({ queryKey: guildKeys.emporiumRoot() }),
+    queryClient.invalidateQueries({ queryKey: guildKeys.passportRoot() }),
+    queryClient.invalidateQueries({ queryKey: guildKeys.chainsRoot() }),
+    queryClient.invalidateQueries({ queryKey: guildKeys.bountiesRoot() }),
   ]).then(() => undefined);
 }

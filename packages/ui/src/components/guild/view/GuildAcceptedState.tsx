@@ -11,6 +11,7 @@ import { useUserId } from "#@/components/auth/hooks/useUserId";
 import { useUserProfile } from "#@/components/profile/hooks/useUserProfile";
 
 import styles from "../guild.module.css";
+import expansionStyles from "./GuildBoardExpansion.module.css";
 import { GuildIcon } from "../scene/GuildIcon";
 import { LinaDialogue } from "../scene/LinaDialogue";
 import { LinaSprite } from "../scene/LinaSprite";
@@ -75,6 +76,9 @@ export function GuildAcceptedState({
           achievementId: null,
           inChestPool: false,
           chestBonusXp: 0,
+          chestBonusSeals: 0,
+          rarity: GuildRewardDescriptorDto.rarity.COMMON,
+          consumableKey: null,
         },
         t,
       )
@@ -253,14 +257,30 @@ export function GuildAcceptedState({
               <span
                 className={cn(
                   styles.acceptedXpChip,
+                  expansionStyles.acceptedChips,
                   styles.pixelLabel,
                   styles.animXpChip,
                 )}
               >
-                <GuildIcon name="coin" size={20} />
-                {t("guild.accepted.xpChip", {
-                  xp: formatGuildXp(contract.xpReward, locale),
-                })}
+                <span className={expansionStyles.acceptedChipGroup}>
+                  <GuildIcon name="coin" size={20} />
+                  {t("guild.accepted.xpChip", {
+                    xp: formatGuildXp(contract.xpReward, locale),
+                  })}
+                </span>
+                {contract.sealsReward > 0 ? (
+                  <span
+                    className={cn(
+                      expansionStyles.acceptedChipGroup,
+                      expansionStyles.acceptedSeals,
+                    )}
+                  >
+                    <GuildIcon name="seal" size={18} />
+                    {t("guild.seals.reward", {
+                      seals: formatGuildXp(contract.sealsReward, locale),
+                    })}
+                  </span>
+                ) : null}
               </span>
             </div>
           </div>

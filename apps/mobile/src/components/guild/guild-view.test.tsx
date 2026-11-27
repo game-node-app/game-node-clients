@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { type ReactNode } from "react";
+import { type ComponentProps, type ReactNode } from "react";
 import { MantineProvider } from "@mantine/core";
 import {
   cleanup,
@@ -25,10 +25,13 @@ import type {
   GuildBoardSeenResponseDto,
   GuildContractsListResponseDto,
   GuildOverviewResponseDto,
+  GuildPassportResponseDto,
   GuildRewardsResponseDto,
 } from "@repo/wrapper/server";
 import { GuildView } from "../../../../../packages/ui/src/components/guild/view/GuildView";
 import type { GuildViewProps } from "../../../../../packages/ui/src/components/guild/view/GuildView";
+import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
+import type { UIHookRegistry } from "../../../../../packages/ui/src/context/registry";
 
 const session = vi.hoisted(() => ({
   userId: "user-1" as string | undefined,
@@ -113,12 +116,14 @@ vi.mock(
       pose,
       isTalking,
       showAlert,
+      decorKeys,
       dialogue,
     }: {
       variant: string;
       pose: string;
       isTalking: boolean;
       showAlert: boolean;
+      decorKeys?: string[];
       dialogue?: ReactNode;
     }) => (
       <div
@@ -127,6 +132,7 @@ vi.mock(
         data-pose={pose}
         data-alert={String(showAlert)}
         data-talking={String(isTalking)}
+        data-decor={decorKeys?.join(",") ?? undefined}
       >
         {dialogue}
       </div>
@@ -241,6 +247,46 @@ vi.mock(
 );
 
 vi.mock(
+  "../../../../../packages/ui/src/components/guild/view/GuildChains",
+  () => ({
+    GuildChains: ({ onShowAccepted }: { onShowAccepted?(): void }) => (
+      <div data-testid="guild-chains">
+        <button type="button" onClick={onShowAccepted}>
+          show-accepted
+        </button>
+      </div>
+    ),
+  }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/guild/view/GuildBounties",
+  () => ({
+    GuildBounties: ({
+      initialBountyId,
+    }: {
+      initialBountyId?: string | null;
+    }) => (
+      <div
+        data-testid="guild-bounties"
+        data-bounty-id={initialBountyId ?? undefined}
+      >
+        {initialBountyId ? (
+          <article data-bounty-id={initialBountyId} data-highlighted="true" />
+        ) : null}
+      </div>
+    ),
+  }),
+);
+
+vi.mock(
+  "../../../../../packages/ui/src/components/guild/view/GuildEmporium",
+  () => ({
+    GuildEmporium: () => <div data-testid="guild-emporium" />,
+  }),
+);
+
+vi.mock(
   "../../../../../packages/ui/src/components/guild/view/GuildRewardsPanel",
   () => ({
     GuildRewardsPanel: () => <div data-testid="guild-rewards-panel" />,
@@ -269,6 +315,22 @@ const OVERVIEW = {
     memberSince: "2026-01-04T12:00:00.000Z",
     equippedTitleKey: null,
     equippedFrameKey: null,
+    sealsBalance: 150,
+    prestigeLevel: 0,
+    prestigeXpIntoCurrent: 0,
+    xpToNextPrestige: 0,
+    perks: {
+      maxActiveContracts: 3,
+      weeklyRerolls: 1,
+      monthlyExpedition: false,
+      monthlyExpeditionRankS: false,
+      monthlyFreeHourglass: 0,
+      legendaryContracts: false,
+    },
+    equippedLicenseThemeKey: null,
+    equippedStampStyleKey: null,
+    equippedDecorKeys: [],
+    showcaseBadgeIds: [],
     stats: { finishedGames: 47, backlogGames: 23, reviewsCount: 12 },
   },
   activeContracts: [],
@@ -282,6 +344,13 @@ const OVERVIEW = {
     context: { gameId: 1029, gameName: "Hollow Knight", sinceYear: 2023 },
     hasUnseenBoard: true,
   },
+  passport: {
+    monthKey: "2026-11",
+    completedContractsCount: 1,
+    claimableMilestones: [],
+  },
+  activeChain: null,
+  activeBountiesCount: 0,
 } as unknown as GuildOverviewResponseDto;
 
 const RANK_S_OVERVIEW = {
@@ -299,6 +368,22 @@ const RANK_S_OVERVIEW = {
   lina: {
     trigger: "default",
     pose: "neutral",
+    context: {},
+    hasUnseenBoard: false,
+  },
+} as unknown as GuildOverviewResponseDto;
+
+const ACTIVE_BOUNTIES_OVERVIEW = {
+  ...OVERVIEW,
+  activeBountiesCount: 2,
+} as unknown as GuildOverviewResponseDto;
+
+const BOUNTY_READY_OVERVIEW = {
+  ...OVERVIEW,
+  activeBountiesCount: 1,
+  lina: {
+    trigger: "community_bounty_ready",
+    pose: "happy",
     context: {},
     hasUnseenBoard: false,
   },
@@ -417,7 +502,20 @@ const REWARDS = {
   unlockedRewards: [],
   equippedTitleKey: null,
   equippedFrameKey: null,
+  equippedLicenseThemeKey: null,
+  equippedStampStyleKey: null,
+  equippedDecorKeys: [],
+  showcaseBadgeIds: [],
+  sealsBalance: 150,
+  consumables: { hourglass: 0, reroll_charter: 0, extra_slot_permit: 0 },
 } as GuildRewardsResponseDto;
+
+const PASSPORT = {
+  monthKey: "2026-11",
+  completedContractsCount: 1,
+  resetsAt: "2026-12-01T03:00:00.000Z",
+  milestones: [],
+} as GuildPassportResponseDto;
 
 const ACCEPTED_CONTRACT = {
   id: "contract-1",
@@ -464,22 +562,32 @@ const ACCEPT_RESPONSE = {
 function createClient() {
   return new QueryClient({
     defaultOptions: {
-      queries: { retry: false },
+      queries: { retry: false, retryDelay: 0 },
       mutations: { retry: false },
     },
   });
 }
 
-function renderView(props: Partial<GuildViewProps> = {}) {
-  const client = createClient();
+const MockLink = ({ children, ...props }: ComponentProps<"a">) => (
+  <a {...props}>{children}</a>
+);
 
-  return render(
+const HOOKS = {} as unknown as UIHookRegistry;
+
+function createTree(client: QueryClient, props: Partial<GuildViewProps> = {}) {
+  return (
     <MantineProvider>
       <QueryClientProvider client={client}>
-        <GuildView supporterHref="/premium" {...props} />
+        <UIProvider presenters={{ Link: MockLink }} hooks={HOOKS}>
+          <GuildView supporterHref="/premium" {...props} />
+        </UIProvider>
       </QueryClientProvider>
-    </MantineProvider>,
+    </MantineProvider>
   );
+}
+
+function renderView(props: Partial<GuildViewProps> = {}) {
+  return render(createTree(createClient(), props));
 }
 
 function setMatchMedia(matches: boolean) {
@@ -539,8 +647,20 @@ function mockGuildApi(
   const rewards = vi
     .spyOn(GuildService, "guildControllerGetRewardsV1")
     .mockResolvedValue(REWARDS);
+  const passport = vi
+    .spyOn(GuildService, "guildControllerGetPassportV1")
+    .mockResolvedValue(PASSPORT);
 
-  return { access, overview, board, markSeen, accept, contracts, rewards };
+  return {
+    access,
+    overview,
+    board,
+    markSeen,
+    accept,
+    contracts,
+    rewards,
+    passport,
+  };
 }
 
 beforeEach(() => {
@@ -620,6 +740,67 @@ describe("GuildView access gate", () => {
     expect(screen.queryByTestId("guild-sign-in-prompt")).toBeNull();
     expect(screen.queryByTestId("guild-early-access")).toBeNull();
   });
+
+  it("shows a retryable error instead of the early-access gate when access fails for a signed-in user", async () => {
+    const access = vi
+      .spyOn(GuildService, "guildControllerGetAccessV1")
+      .mockRejectedValueOnce(new Error("Network error"))
+      .mockResolvedValueOnce(ACCESS_FALSE);
+    const overview = vi.spyOn(GuildService, "guildControllerGetOverviewV1");
+    const board = vi.spyOn(GuildService, "guildControllerGetBoardV1");
+
+    renderView({ supporterHref: "/premium" });
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "Não foi possível verificar seu acesso à Guilda agora. Tente novamente em instantes.",
+    );
+    expect(screen.queryByTestId("guild-early-access")).toBeNull();
+    expect(screen.queryByTestId("guild-sign-in-prompt")).toBeNull();
+    expect(overview).not.toHaveBeenCalled();
+    expect(board).not.toHaveBeenCalled();
+
+    fireEvent.click(
+      within(alert).getByRole("button", { name: "Tentar novamente" }),
+    );
+
+    const earlyAccess = await screen.findByTestId("guild-early-access");
+    expect(earlyAccess).toHaveAttribute("data-href", "/premium");
+    expect(access).toHaveBeenCalledTimes(2);
+    expect(overview).not.toHaveBeenCalled();
+    expect(board).not.toHaveBeenCalled();
+  });
+
+  it("shows a retryable error instead of the sign-in prompt when access fails for a guest", async () => {
+    session.userId = undefined;
+    const access = vi
+      .spyOn(GuildService, "guildControllerGetAccessV1")
+      .mockRejectedValueOnce(new Error("Service unavailable"))
+      .mockResolvedValueOnce(ACCESS_FALSE);
+    const overview = vi.spyOn(GuildService, "guildControllerGetOverviewV1");
+    const board = vi.spyOn(GuildService, "guildControllerGetBoardV1");
+
+    renderView();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "Não foi possível verificar seu acesso à Guilda agora. Tente novamente em instantes.",
+    );
+    expect(screen.queryByTestId("guild-sign-in-prompt")).toBeNull();
+    expect(screen.queryByTestId("guild-early-access")).toBeNull();
+    expect(overview).not.toHaveBeenCalled();
+    expect(board).not.toHaveBeenCalled();
+
+    fireEvent.click(
+      within(alert).getByRole("button", { name: "Tentar novamente" }),
+    );
+
+    const prompt = await screen.findByTestId("guild-sign-in-prompt");
+    expect(prompt).toHaveAttribute("data-href", "/auth");
+    expect(access).toHaveBeenCalledTimes(2);
+    expect(overview).not.toHaveBeenCalled();
+    expect(board).not.toHaveBeenCalled();
+  });
 });
 
 describe("Guild Hall", () => {
@@ -633,13 +814,14 @@ describe("Guild Hall", () => {
     expect(api.overview).toHaveBeenCalled();
     expect(api.board).toHaveBeenCalledWith(undefined);
 
-    // Header: pt-BR XP formatting and rank badge.
+    // Header: pt-BR XP formatting and rank badge (single progressbar HUD).
     expect(screen.getByText("1.240 / 2.000 XP")).toBeInTheDocument();
     expect(screen.getByText("RANK C")).toBeInTheDocument();
+    expect(screen.getAllByRole("progressbar")).toHaveLength(1);
 
-    // License card.
-    expect(screen.getByText("Próximo rank: B")).toBeInTheDocument();
-    expect(screen.getByText("faltam 760 XP")).toBeInTheDocument();
+    // License card: identity, stamp and collection stats without duplicate XP bar.
+    expect(screen.queryByText("Próximo rank: B")).toBeNull();
+    expect(screen.queryByText("faltam 760 XP")).toBeNull();
     expect(screen.getByText("C").parentElement).toHaveAttribute(
       "data-rank",
       "C",
@@ -650,6 +832,15 @@ describe("Guild Hall", () => {
     expect(screen.getByText("47")).toBeInTheDocument();
     expect(screen.getByText("23")).toBeInTheDocument();
     expect(screen.getByText("12")).toBeInTheDocument();
+
+    // Lina dialogue options are trimmed to 3 contextual actions.
+    const dialogue = screen.getByTestId("lina-dialogue");
+    const linaOptions = within(dialogue).getAllByRole("button");
+    expect(linaOptions.map((btn) => btn.getAttribute("data-option"))).toEqual([
+      "board",
+      "emporium",
+      "goodbye",
+    ]);
 
     // Recommended forgotten_relic card.
     await screen.findByText("Relíquia Esquecida");
@@ -707,6 +898,9 @@ describe("Guild Hall", () => {
     expect(scene).toHaveAttribute("data-variant", "desktop");
     expect(within(scene).getByTestId("lina-dialogue")).toBeInTheDocument();
     expect(screen.getByTestId("guild-rewards-panel")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Passaporte Mensal da Guilda"),
+    ).toBeInTheDocument();
   });
 
   it("renders the mobile composition below md", async () => {
@@ -723,6 +917,91 @@ describe("Guild Hall", () => {
     expect(screen.getByRole("tab", { name: /Pedidos/ })).toBeInTheDocument();
   });
 
+  it("puts active contracts and the board before the License, Passport, and Rewards panel on mobile", async () => {
+    mockGuildApi();
+
+    const { container } = renderView();
+
+    expect(await screen.findByText("Nº 0047")).toBeInTheDocument();
+
+    const tablist = await screen.findByRole("tablist");
+    const tabpanel = screen.getByRole("tabpanel");
+    const rewards = screen.getByTestId("guild-rewards-panel");
+    const passport = await waitFor(() => {
+      const node = container.querySelector("[data-passport-month]");
+      expect(node).not.toBeNull();
+      return node as HTMLElement;
+    });
+    const license = container.querySelector("[data-license-perks]");
+    const contracts = container
+      .querySelector("[data-contracts-cap]")
+      ?.closest("section") as HTMLElement | null;
+
+    expect(tabpanel).toHaveAttribute("id", "guild-tabpanel-board");
+    expect(tabpanel).toHaveAttribute("aria-labelledby", "guild-tab-board");
+    expect(contracts).not.toBeNull();
+    expect(
+      (contracts as HTMLElement).compareDocumentPosition(tablist) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      tablist.compareDocumentPosition(tabpanel) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      tabpanel.compareDocumentPosition(passport) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      tabpanel.compareDocumentPosition(rewards) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      passport.compareDocumentPosition(rewards) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+
+    // The License card sits below the board and before the Passport on mobile.
+    if (license) {
+      expect(
+        tabpanel.compareDocumentPosition(license) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(
+        license.compareDocumentPosition(passport) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    }
+  });
+
+  it("leads the desktop board column with the active contracts, above the tab strip", async () => {
+    setMatchMedia(true);
+    mockGuildApi();
+
+    const { container } = renderView();
+
+    expect(await screen.findByText("Nº 0047")).toBeInTheDocument();
+
+    const tablist = await screen.findByRole("tablist");
+    const cap = container.querySelector("[data-contracts-cap]");
+    const contracts = cap?.closest("section") ?? null;
+    const sidebar = container.querySelector("aside");
+
+    expect(contracts).not.toBeNull();
+    expect(sidebar).not.toBeNull();
+    expect(
+      (contracts as HTMLElement).compareDocumentPosition(tablist) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    // Not in the sidebar any more: the sidebar holds License, Passport, Rewards.
+    expect(sidebar?.contains(contracts)).toBe(false);
+    expect(sidebar?.contains(screen.getByTestId("guild-rewards-panel"))).toBe(
+      true,
+    );
+    // The tab strip wrapper is the next sibling inside the same board column.
+    expect(contracts?.nextElementSibling?.contains(tablist)).toBe(true);
+  });
+
   it("opens the requested initial tab for notification deep-links", async () => {
     const api = mockGuildApi();
 
@@ -735,19 +1014,25 @@ describe("Guild Hall", () => {
     expect(api.board).not.toHaveBeenCalled();
   });
 
-  it("re-reads the board with quick=true and offers a way back", async () => {
+  it("re-reads the board with quick=true from the board toolbar and offers a way back", async () => {
     const api = mockGuildApi();
 
     renderView();
 
     await screen.findByText("Relíquia Esquecida");
 
-    fireEvent.click(
-      screen.getByRole("button", { name: "Tem algum pedido mais rápido?" }),
-    );
+    const toggle = screen.getByRole("button", { name: "Missões rápidas" });
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+
+    fireEvent.click(toggle);
 
     await waitFor(() => expect(api.board).toHaveBeenCalledWith(true));
     expect(screen.getByText("Pedidos rápidos")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Missões rápidas" }),
+      ).toHaveAttribute("aria-pressed", "true"),
+    );
 
     fireEvent.click(
       screen.getByRole("button", { name: "Voltar ao quadro completo" }),
@@ -894,21 +1179,263 @@ describe("Guild Hall", () => {
     expect(api.board).toHaveBeenCalledTimes(boardCallsBefore + 1);
   });
 
-  it("shows a full bar and no next rank at rank S", async () => {
+  it("shows a full bar and no next rank at rank S in the header HUD", async () => {
     mockGuildApi({ overview: RANK_S_OVERVIEW, board: EMPTY_BOARD });
 
     renderView();
 
-    expect(
-      await screen.findByText("Rank máximo alcançado"),
-    ).toBeInTheDocument();
+    await screen.findByText("Nº 0047");
     expect(screen.getByText("7.500 XP")).toBeInTheDocument();
     expect(screen.queryByText(/Próximo rank:/)).toBeNull();
+    expect(screen.queryByText("Rank máximo alcançado")).toBeNull();
 
     const bars = screen.getAllByRole("progressbar");
-    expect(bars.length).toBeGreaterThanOrEqual(2);
-    for (const bar of bars) {
-      expect(bar).toHaveAttribute("aria-valuenow", "100");
-    }
+    expect(bars).toHaveLength(1);
+    expect(bars[0]).toHaveAttribute("aria-valuenow", "100");
+  });
+
+  it("shows a retryable GuildQueryError when the hall overview fails", async () => {
+    vi.spyOn(GuildService, "guildControllerGetAccessV1").mockResolvedValue(
+      ACCESS_TRUE,
+    );
+    const overview = vi
+      .spyOn(GuildService, "guildControllerGetOverviewV1")
+      .mockRejectedValueOnce(new Error("Overview failed"))
+      .mockRejectedValueOnce(new Error("Overview failed"))
+      .mockRejectedValueOnce(new Error("Overview failed"))
+      .mockResolvedValueOnce(OVERVIEW);
+    vi.spyOn(GuildService, "guildControllerGetBoardV1").mockResolvedValue(
+      BOARD,
+    );
+    vi.spyOn(GuildService, "guildControllerGetRewardsV1").mockResolvedValue(
+      REWARDS,
+    );
+    vi.spyOn(GuildService, "guildControllerGetPassportV1").mockResolvedValue(
+      PASSPORT,
+    );
+
+    renderView();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("Overview failed");
+
+    fireEvent.click(
+      within(alert).getByRole("button", { name: "Tentar novamente" }),
+    );
+
+    expect(await screen.findByText("Nº 0047")).toBeInTheDocument();
+    expect(overview).toHaveBeenCalledTimes(4);
+  });
+
+  it("renders GuildActiveContracts compact summary, ready badge, localized elapsed time, target link, and manage button", async () => {
+    const readyContract = {
+      ...ACCEPTED_CONTRACT,
+      id: "contract-ready",
+      status: GuildContractDto.status.READY_TO_CLAIM,
+      acceptedAt: new Date(Date.now() - 5 * DAY_MS).toISOString(),
+      playtimeProgress: {
+        playedSeconds: 7200,
+        estimatedTotalSeconds: 36000,
+        estimatedPercent: 20,
+      },
+    } as unknown as GuildContractDto;
+
+    mockGuildApi({
+      overview: {
+        ...OVERVIEW,
+        activeContracts: [readyContract],
+        counts: { boardCount: 1, acceptedCount: 1, completedCount: 0 },
+      } as unknown as GuildOverviewResponseDto,
+    });
+
+    renderView();
+
+    expect(await screen.findByText("1 / 3 ativos")).toBeInTheDocument();
+    expect(screen.getByText("1 pronto para entregar")).toBeInTheDocument();
+    expect(screen.getByText(/Aceito há 5 dias/)).toBeInTheDocument();
+
+    const gameLink = screen.getByRole("link", { name: "Hollow Knight" });
+    expect(gameLink).toHaveAttribute("href", "/game/1029");
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Gerenciar contratos" }),
+    );
+
+    expect(await screen.findByTestId("guild-contract-list")).toHaveAttribute(
+      "data-tab",
+      "accepted",
+    );
+  });
+});
+
+describe("Guild Hall navigation", () => {
+  it("greets the Community Bounty and opens Bounties from Lina's first option", async () => {
+    mockGuildApi({ overview: BOUNTY_READY_OVERVIEW });
+
+    renderView();
+
+    await screen.findByText("Nº 0047");
+
+    expect(screen.getByTestId("lina-line").textContent).toContain(
+      "Desafio da Comunidade",
+    );
+
+    const dialogue = screen.getByTestId("lina-dialogue");
+    const options = within(dialogue).getAllByRole("button");
+
+    expect(options.map((btn) => btn.getAttribute("data-option"))).toEqual([
+      "bounties",
+      "board",
+      "goodbye",
+    ]);
+    expect(options[0]).toHaveTextContent("Me mostra o desafio da comunidade");
+
+    const bountiesTab = screen.getByRole("tab", { name: /Desafios/ });
+    expect(bountiesTab.querySelector("[data-bounty-marker]")).toHaveAttribute(
+      "data-bounty-marker",
+      "ready",
+    );
+
+    fireEvent.click(options[0]);
+
+    expect(await screen.findByTestId("guild-bounties")).toBeInTheDocument();
+    expect(bountiesTab).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("opens the Emporium from Lina's option", async () => {
+    mockGuildApi();
+
+    renderView();
+
+    await screen.findByText("Nº 0047");
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Me mostra o Empório" }),
+    );
+
+    expect(await screen.findByTestId("guild-emporium")).toBeInTheDocument();
+  });
+
+  it("shows the weekly board countdown only on the tabs that follow the board", async () => {
+    mockGuildApi();
+
+    renderView();
+
+    await screen.findByText("Nº 0047");
+
+    const countdown = document.querySelector("[data-tabs-renew]");
+    expect(countdown).toHaveAttribute("data-tabs-renew", "shown");
+    expect(countdown).toHaveTextContent("Renova em");
+
+    fireEvent.click(screen.getByRole("tab", { name: /Empório/ }));
+
+    expect(await screen.findByTestId("guild-emporium")).toBeInTheDocument();
+    const hiddenCountdown = document.querySelector("[data-tabs-renew]");
+    expect(hiddenCountdown).toHaveAttribute("data-tabs-renew", "hidden");
+    // The reserved row is empty: no hourglass and no countdown copy.
+    expect(hiddenCountdown?.querySelector("img")).toBeNull();
+    expect(hiddenCountdown?.textContent).toBe("");
+
+    fireEvent.click(screen.getByRole("tab", { name: /Aceitos/ }));
+
+    await waitFor(() =>
+      expect(document.querySelector("[data-tabs-renew]")).toHaveAttribute(
+        "data-tabs-renew",
+        "shown",
+      ),
+    );
+    expect(
+      within(countdown as HTMLElement).getByText(/Renova em/),
+    ).toBeInTheDocument();
+  });
+
+  it("opens the arcs, bounties and emporium tabs from the initial tab", async () => {
+    const api = mockGuildApi();
+
+    renderView({ initialTab: "arcs" });
+
+    expect(await screen.findByTestId("guild-chains")).toBeInTheDocument();
+
+    cleanup();
+
+    renderView({ initialTab: "bounties", bountyId: "bounty-1" });
+
+    expect(await screen.findByTestId("guild-bounties")).toHaveAttribute(
+      "data-bounty-id",
+      "bounty-1",
+    );
+
+    cleanup();
+
+    renderView({ initialTab: "emporium" });
+
+    expect(await screen.findByTestId("guild-emporium")).toBeInTheDocument();
+    expect(api.board).not.toHaveBeenCalled();
+  });
+
+  it("follows a tab and bounty deep link while the hall is already mounted", async () => {
+    mockGuildApi();
+
+    const client = createClient();
+    const view = render(createTree(client, { initialTab: "arcs" }));
+
+    expect(await screen.findByTestId("guild-chains")).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Arcos/ })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+
+    // Notification inbox navigation re-renders the same route with new props;
+    // the hall must follow the link without remounting the scene.
+    view.rerender(
+      createTree(client, { initialTab: "bounties", bountyId: "bounty-9" }),
+    );
+
+    const bounties = await screen.findByTestId("guild-bounties");
+    expect(screen.getByRole("tab", { name: /Desafios/ })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(bounties).toHaveAttribute("data-bounty-id", "bounty-9");
+
+    const card = bounties.querySelector('[data-highlighted="true"]');
+    expect(card).not.toBeNull();
+    expect(card).toHaveAttribute("data-bounty-id", "bounty-9");
+  });
+
+  it("marks the Bounties tab while there are active bounties", async () => {
+    mockGuildApi({ overview: ACTIVE_BOUNTIES_OVERVIEW });
+
+    renderView();
+
+    await screen.findByText("Nº 0047");
+
+    const bountiesTab = screen.getByRole("tab", { name: /Desafios/ });
+    expect(bountiesTab.querySelector("[data-bounty-marker]")).toHaveAttribute(
+      "data-bounty-marker",
+      "active",
+    );
+
+    const completedTab = screen.getByRole("tab", { name: /Concluídos/ });
+    expect(completedTab.querySelector("[data-bounty-marker]")).toBeNull();
+  });
+
+  it("draws the equipped tavern decor on the scene", async () => {
+    mockGuildApi({
+      overview: {
+        ...OVERVIEW,
+        license: {
+          ...OVERVIEW.license,
+          equippedDecorKeys: ["decor_oak_barrel", "decor_compass_rose"],
+        },
+      } as unknown as GuildOverviewResponseDto,
+    });
+
+    renderView();
+
+    expect(await screen.findByTestId("guild-scene")).toHaveAttribute(
+      "data-decor",
+      "decor_oak_barrel,decor_compass_rose",
+    );
   });
 });

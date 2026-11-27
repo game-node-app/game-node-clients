@@ -21,12 +21,14 @@ import type {
   ProfileResponseDto,
 } from "@repo/wrapper/server";
 import { GuildService, ProfileService } from "@repo/wrapper/server";
-import type { ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { GuildAcceptedState } from "../../../../../packages/ui/src/components/guild/view/GuildAcceptedState";
 import { GuildClaimCelebration } from "../../../../../packages/ui/src/components/guild/view/GuildClaimCelebration";
 import { GuildContractList } from "../../../../../packages/ui/src/components/guild/view/GuildContractList";
+import { GuildContractRow } from "../../../../../packages/ui/src/components/guild/view/GuildContractRow";
+import expansionStyles from "../../../../../packages/ui/src/components/guild/view/GuildContractsExpansion.module.css";
 import { GuildRewardsPanel } from "../../../../../packages/ui/src/components/guild/view/GuildRewardsPanel";
 import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
 import type { ModalComponentProps } from "../../../../../packages/ui/src/util/modal";
@@ -132,10 +134,14 @@ function TestModal({ opened, onClose, title, children }: ModalComponentProps) {
 function createClient() {
   return new QueryClient({
     defaultOptions: {
-      queries: { retry: false },
+      queries: { retry: false, retryDelay: 0 },
       mutations: { retry: false },
     },
   });
+}
+
+function MockLink({ children, ...props }: ComponentProps<"a">) {
+  return <a {...props}>{children}</a>;
 }
 
 function renderScreen(ui: ReactElement, language: SupportedLanguage = "pt-BR") {
@@ -144,7 +150,7 @@ function renderScreen(ui: ReactElement, language: SupportedLanguage = "pt-BR") {
       <MantineProvider>
         <QueryClientProvider client={createClient()}>
           <UIProvider
-            presenters={{ Modal: TestModal }}
+            presenters={{ Modal: TestModal, Link: MockLink }}
             hooks={{ useRouter: () => router }}
           >
             {ui}
@@ -478,7 +484,9 @@ describe("GuildContractList", () => {
 
     expect(within(activeRow).getByText(/Expira em 20d/)).toBeInTheDocument();
     expect(
-      within(activeRow).getByText(/Só contam jogos que você marcar como zerados/),
+      within(activeRow).getByText(
+        /Só contam jogos que você marcar como zerados/,
+      ),
     ).toBeInTheDocument();
 
     const readyRow = document.querySelector<HTMLElement>(
@@ -490,7 +498,9 @@ describe("GuildContractList", () => {
     ).toBeInTheDocument();
     expect(within(readyRow).queryByText(/Expira em/)).not.toBeInTheDocument();
     expect(
-      within(readyRow).queryByText(/Só contam jogos que você marcar como zerados/),
+      within(readyRow).queryByText(
+        /Só contam jogos que você marcar como zerados/,
+      ),
     ).not.toBeInTheDocument();
     expect(
       within(readyRow).getByRole("button", { name: "Entregar" }),
@@ -533,11 +543,95 @@ describe("GuildContractList", () => {
     const dialog = await screen.findByRole("dialog", {
       name: "Abandonar contrato?",
     });
-    expect(within(dialog).getByText(/Relíquia Esquecida/)).toBeInTheDocument();
+    expect(
+      within(dialog).getByText(
+        /Você vai devolver "Relíquia Esquecida" ao quadro/,
+      ),
+    ).toBeInTheDocument();
 
-    fireEvent.click(within(dialog).getByRole("button", { name: "Abandonar" }));
+    const confirmButton = within(dialog).getByRole("button", {
+      name: "Abandonar",
+    });
+    expect(confirmButton.className).toContain(expansionStyles.dangerButton);
+    fireEvent.click(confirmButton);
 
     await waitFor(() => expect(abandon).toHaveBeenCalledWith(CONTRACT.id));
+  });
+
+  it("shows Arc-specific abandon copy when abandoning a chain contract", async () => {
+    const chainContract = {
+      ...CONTRACT,
+      id: "contract-chain-1",
+      chainProgressId: "chain-progress-1",
+    } as unknown as GuildContractDto;
+    mockContracts([chainContract]);
+
+    renderScreen(<GuildContractList tab="accepted" />, "en");
+
+    fireEvent.click(await screen.findByRole("button", { name: "Abandon" }));
+
+    const dialog = await screen.findByRole("dialog", {
+      name: "Abandon this contract?",
+    });
+    expect(
+      within(dialog).getByText(
+        'This cancels the current stage of "Forgotten Relic". You can retry the stage from the Arcs tab.',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole("button", { name: "Abandon" }).className,
+    ).toContain(expansionStyles.dangerButton);
+  });
+
+  it("renders a retryable GuildQueryError when the contract list fails to load", async () => {
+    const list = vi
+      .spyOn(GuildService, "guildControllerListContractsV1")
+      .mockRejectedValue(new Error("Contracts unavailable"));
+
+    renderScreen(<GuildContractList tab="accepted" />, "en");
+
+    const alert = await screen.findByRole("alert");
+    expect(within(alert).getByText("Contracts unavailable")).toBeInTheDocument();
+
+    const callsBeforeRetry = list.mock.calls.length;
+    list.mockResolvedValueOnce({
+      data: [CONTRACT],
+      pagination: { totalItems: 1, totalPages: 1, hasNextPage: false },
+    } as GuildContractsListResponseDto);
+
+    fireEvent.click(within(alert).getByRole("button", { name: "Retry" }));
+
+    await waitFor(() =>
+      expect(list).toHaveBeenCalledTimes(callsBeforeRetry + 1),
+    );
+    expect(await screen.findByText("Forgotten Relic")).toBeInTheDocument();
+  });
+});
+
+describe("GuildContractRow", () => {
+  it("links the target game to its detail page with crisp 20x27 cover art", () => {
+    const coveredContract = {
+      ...CONTRACT,
+      targetGameId: 1029,
+      targetGame: {
+        gameId: 1029,
+        name: "Hollow Knight",
+        slug: "hollow-knight",
+        coverUrl: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rgi.jpg",
+      },
+    } as unknown as GuildContractDto;
+
+    renderScreen(<GuildContractRow contract={coveredContract} />, "en");
+
+    const link = screen.getByRole("link", { name: "Hollow Knight" });
+    expect(link).toHaveAttribute("href", "/game/1029");
+
+    const img = link.querySelector("img");
+    expect(img).not.toBeNull();
+    expect(img).toHaveAttribute("width", "20");
+    expect(img).toHaveAttribute("height", "27");
+    expect(img?.style.imageRendering).toBe("auto");
+    expect(img?.style.objectFit).toBe("cover");
   });
 });
 
@@ -551,11 +645,23 @@ describe("GuildRewardsPanel", () => {
       .mockResolvedValue({
         guildTitleKey: "title_chronist",
         guildFrameKey: null,
+        equippedLicenseThemeKey: null,
+        equippedStampStyleKey: null,
+        equippedDecorKeys: [],
+        showcaseBadgeIds: [],
       });
 
     renderScreen(<GuildRewardsPanel />, "en");
 
-    expect(await screen.findByText("Chronicler")).toBeInTheDocument();
+    const titlesSection = (await screen.findByText("Titles")).closest(
+      "details",
+    ) as HTMLDetailsElement | null;
+
+    expect(titlesSection?.open).toBe(false);
+    fireEvent.click(within(titlesSection as HTMLElement).getByText("Titles"));
+    expect(titlesSection?.open).toBe(true);
+
+    expect(screen.getByText("Chronicler")).toBeInTheDocument();
     expect(screen.getByText("Lantern Glow")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Equip: Chronicler" }));

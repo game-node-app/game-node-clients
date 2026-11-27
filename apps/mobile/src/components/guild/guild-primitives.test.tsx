@@ -4,7 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import { I18nProvider } from "@repo/locales";
 import type { GuildLicenseDto } from "@repo/wrapper/server";
 import { cleanup, render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
+import type { ComponentProps, ReactElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import guildClasses from "../../../../../packages/ui/src/components/guild/guild.module.css";
 import {
@@ -21,9 +21,23 @@ import {
 } from "../../../../../packages/ui/src/components/guild/scene/PixelButton";
 import { RankStamp } from "../../../../../packages/ui/src/components/guild/scene/RankStamp";
 import { GuildLicenseCard } from "../../../../../packages/ui/src/components/guild/view/GuildLicenseCard";
+import { UIProvider } from "../../../../../packages/ui/src/context/UIProvider";
+import type { UIHookRegistry } from "../../../../../packages/ui/src/context/registry";
+
+const MockLink = ({ children, ...props }: ComponentProps<"a">) => (
+  <a {...props}>{children}</a>
+);
+
+const HOOKS = {} as unknown as UIHookRegistry;
 
 function renderWithProvider(ui: ReactElement) {
-  return render(<MantineProvider>{ui}</MantineProvider>);
+  return render(
+    <MantineProvider>
+      <UIProvider presenters={{ Link: MockLink }} hooks={HOOKS}>
+        {ui}
+      </UIProvider>
+    </MantineProvider>,
+  );
 }
 
 function renderWithI18n(ui: ReactElement) {
@@ -62,7 +76,8 @@ describe("GUILD_ASSETS", () => {
   it("maps every exported SVG to its public path and intrinsic size", () => {
     const names = Object.keys(GUILD_ASSETS) as GuildAssetName[];
 
-    expect(names).toHaveLength(31);
+    // 31 hall/icon exports plus the 21 expansion assets (design D4).
+    expect(names).toHaveLength(52);
     expect(new Set(names.map((name) => GUILD_ASSETS[name].src)).size).toBe(
       names.length,
     );
@@ -169,7 +184,7 @@ describe("PixelButton", () => {
 
 describe("RankStamp", () => {
   it("renders the rank seal with the requested size", () => {
-    render(<RankStamp rank="C" />);
+    renderWithI18n(<RankStamp rank="C" />);
 
     const stamp = screen.getByText("C").parentElement;
 
@@ -182,7 +197,7 @@ describe("RankStamp", () => {
   });
 
   it("accepts the licence card's larger stamp", () => {
-    render(<RankStamp rank="S" size={52} />);
+    renderWithI18n(<RankStamp rank="S" size={52} />);
 
     expect(
       screen
@@ -214,8 +229,8 @@ describe("CategoryTag", () => {
 });
 
 describe("GameChip", () => {
-  it("renders a 16x20 pixelated cover, name and meta", () => {
-    const { container } = render(
+  it("renders a clickable link with a 20x27 auto-rendered cover, name and meta", () => {
+    const { container } = renderWithProvider(
       <GameChip
         gameId={1029}
         name="Hollow Knight"
@@ -224,20 +239,38 @@ describe("GameChip", () => {
       />,
     );
 
-    const chip = screen.getByText("Hollow Knight").closest("[data-game-id]");
+    const link = screen.getByRole("link", { name: /Hollow Knight/ });
     const cover = container.querySelector("img");
 
-    expect(chip).toHaveAttribute("data-game-id", "1029");
+    expect(link).toHaveAttribute("href", "/game/1029");
+    expect(link).toHaveAttribute("data-game-id", "1029");
     expect(cover).toHaveAttribute("src", "/img/games/hollow-knight.png");
-    expect(cover).toHaveAttribute("width", "16");
-    expect(cover).toHaveAttribute("height", "20");
-    expect(cover?.style.imageRendering).toBe("pixelated");
+    expect(cover).toHaveAttribute("width", "20");
+    expect(cover).toHaveAttribute("height", "27");
+    expect(cover?.style.imageRendering).toBe("auto");
     expect(screen.getByText("desde 2023")).toBeInTheDocument();
   });
 
-  it("falls back to an empty cover tile when the game has no cover", () => {
+  it("renders as a non-link span when linked is false", () => {
+    renderWithProvider(
+      <GameChip
+        gameId={1029}
+        name="Hollow Knight"
+        coverUrl={"/img/games/hollow-knight.png"}
+        linked={false}
+      />,
+    );
+
+    expect(screen.queryByRole("link")).toBeNull();
+    expect(
+      screen.getByText("Hollow Knight").closest("[data-game-id]"),
+    ).toHaveAttribute("data-game-id", "1029");
+  });
+
+  it("falls back to an empty cover tile and span when the game has no cover or id", () => {
     const { container } = render(<GameChip name="Celeste" />);
 
+    expect(screen.queryByRole("link")).toBeNull();
     expect(container.querySelector("img")).toBeNull();
     expect(container.querySelector("[data-empty-cover]")).toBeInTheDocument();
     expect(screen.getByText("Celeste")).toBeInTheDocument();
@@ -256,6 +289,22 @@ describe("GuildLicenseCard frames", () => {
     memberSince: "2024-05-01T00:00:00.000Z",
     equippedTitleKey: null,
     equippedFrameKey: null,
+    sealsBalance: 150,
+    prestigeLevel: 0,
+    prestigeXpIntoCurrent: 0,
+    xpToNextPrestige: 0,
+    perks: {
+      maxActiveContracts: 3,
+      weeklyRerolls: 1,
+      monthlyExpedition: false,
+      monthlyExpeditionRankS: false,
+      monthlyFreeHourglass: 0,
+      legendaryContracts: false,
+    },
+    equippedLicenseThemeKey: null,
+    equippedStampStyleKey: null,
+    equippedDecorKeys: [],
+    showcaseBadgeIds: [],
     stats: { finishedGames: 12, backlogGames: 30, reviewsCount: 4 },
   };
 

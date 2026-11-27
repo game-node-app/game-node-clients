@@ -56,6 +56,14 @@ export async function navigateToNotificationTarget(
   } else if (target.type === "achievement" && userId) {
     await router.push(`/feats/${userId}`);
   } else if (target.type === "guild") {
-    await router.push("/guild?tab=accepted");
+    // A Community Bounty target deep-links to its row on the Bounties tab;
+    // contract targets keep opening the Accepted tab.
+    if ("bountyId" in target && target.bountyId) {
+      await router.push(
+        `/guild?tab=bounties&bountyId=${encodeURIComponent(target.bountyId)}`,
+      );
+    } else {
+      await router.push("/guild?tab=accepted");
+    }
   }
 }

@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<g id="extra-slot-permit">
+  <path d="M18 6H21V18H18V6ZM6 9H9V12H6V9ZM12 9H15V12H12V9ZM6 15H9V18H6V15ZM12 15H15V18H12V15ZM3 21H15V24H3V21Z" fill="#EFE0B5"/>
+  <path d="M3 6H18V9H3V6ZM3 9H6V18H3V9ZM15 9H18V18H15V9ZM3 18H15V21H3V18Z" fill="#2B1A10"/>
+  <path d="M3 3H21V6H3V3ZM9 9H12V12H9V9ZM6 12H15V15H6V12ZM9 15H12V18H9V15Z" fill="#FFCC4D"/>
+  <path d="M15 18H21V21H15V18ZM15 21H18V24H15V21Z" fill="#C7362A"/>
+  <path d="M18 21H21V24H18V21Z" fill="#8E241B"/>
+  <path d="M3 0H21V3H3V0ZM0 3H3V24H0V3ZM21 3H24V24H21V3ZM0 24H24V27H0V24Z" fill="#1F120D"/>
+</g>
+</svg>

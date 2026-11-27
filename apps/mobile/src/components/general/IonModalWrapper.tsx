@@ -53,7 +53,14 @@ const IonModalWrapper = ({
       {(title || withCloseButton) && (
         <IonHeader>
           <IonToolbar>
-            {title && <IonTitle>{title}</IonTitle>}
+            {title && (
+              <IonTitle>
+                {/* IonTitle forces one line; wrap long titles instead of cutting them. */}
+                <span className="line-clamp-2 whitespace-normal leading-tight">
+                  {title}
+                </span>
+              </IonTitle>
+            )}
             {withCloseButton && (
               <IonButtons slot="end">
                 <IonButton

@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GuildLicensePerksDto } from './GuildLicensePerksDto';
 import type { GuildLicenseStatsDto } from './GuildLicenseStatsDto';
 export type GuildLicenseDto = {
     licenseNumber: number;
@@ -14,6 +15,15 @@ export type GuildLicenseDto = {
     memberSince: string;
     equippedTitleKey: string | null;
     equippedFrameKey: string | null;
+    sealsBalance: number;
+    prestigeLevel: number;
+    prestigeXpIntoCurrent: number;
+    xpToNextPrestige: number;
+    perks: GuildLicensePerksDto;
+    equippedLicenseThemeKey: string | null;
+    equippedStampStyleKey: string | null;
+    equippedDecorKeys: Array<string>;
+    showcaseBadgeIds: Array<string>;
     stats: GuildLicenseStatsDto;
 };
 export namespace GuildLicenseDto {

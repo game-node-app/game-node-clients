@@ -12,8 +12,10 @@ export type GuildAdminEventResponseDto = {
     rank: GuildAdminEventResponseDto.rank;
     xpReward: number;
     objectiveType: GuildAdminEventResponseDto.objectiveType;
+    sealsReward: number;
     targetCount: number;
     criteria: Record<string, any>;
+    bonusObjective: Record<string, any> | null;
     reward: GuildRewardDescriptorDto | null;
     startsAt: string;
     endsAt: string;
@@ -35,6 +37,14 @@ export namespace GuildAdminEventResponseDto {
     export enum objectiveType {
         FINISH_GAME = 'finish_game',
         WRITE_REVIEW = 'write_review',
+        LOG_PLAYTIME = 'log_playtime',
+        PLAY_DISTINCT_DAYS = 'play_distinct_days',
+        DAILY_CHALLENGE = 'daily_challenge',
+        EARN_GAME_ACHIEVEMENTS = 'earn_game_achievements',
+        COMPLETE_GAME_100 = 'complete_game_100',
+        CURATE_COLLECTION = 'curate_collection',
+        PUBLISH_POST = 'publish_post',
+        TRIAGE_BACKLOG = 'triage_backlog',
     }
     export enum status {
         DRAFT = 'draft',

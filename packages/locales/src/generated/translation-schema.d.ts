@@ -1879,6 +1879,11 @@ export type TranslationSchema = {
         backlog: string;
         reviews: string;
       };
+      prestige: string;
+      showcase: string;
+      showcaseEmpty: string;
+      seals: string;
+      perks: string;
     };
     rankLabel: string;
     scene: {
@@ -1889,13 +1894,21 @@ export type TranslationSchema = {
       boardShort: string;
       accepted: string;
       completed: string;
+      arcs: string;
+      bounties: string;
+      emporium: string;
     };
     board: {
       renewIn: string;
       quickTitle: string;
+      quickToggle: string;
       backToFull: string;
       empty: string;
       quickEmpty: string;
+      allHidden: string;
+      showHidden_one: string;
+      showHidden_other: string;
+      capReached: string;
       recommended: string;
       xpReward: string;
       duration_one: string;
@@ -1910,10 +1923,54 @@ export type TranslationSchema = {
         weekly: string;
         gamenode: string;
         goal: string;
+        monthly: string;
       };
       chips: {
         since: string;
         hours: string;
+      };
+      monthly: {
+        title: string;
+        locked: string;
+        acceptBy: string;
+      };
+      bonus: {
+        label: string;
+        also_write_review: string;
+        finish_before_half_deadline: string;
+        use_stale_backlog_game: string;
+        reward: string;
+        parts: {
+          xp: string;
+          seals: string;
+          chestUpgrade: string;
+        };
+      };
+      reroll: {
+        action: string;
+        free_one: string;
+        free_other: string;
+        charter: string;
+        none: string;
+        done: string;
+        charterConfirmTitle: string;
+        charterConfirmBody_one: string;
+        charterConfirmBody_other: string;
+        charterConfirmAction: string;
+      };
+      rerollsStatus: string;
+      rerollsStatusFree_zero: string;
+      rerollsStatusFree_one: string;
+      rerollsStatusFree_other: string;
+      rerollsStatusCharters_zero: string;
+      rerollsStatusCharters_one: string;
+      rerollsStatusCharters_other: string;
+      meta: {
+        genre: string;
+        franchise: string;
+        theme: string;
+        decade: string;
+        staleDays: string;
       };
     };
     activeContracts: {
@@ -1924,6 +1981,10 @@ export type TranslationSchema = {
       yearGoalLeft_other: string;
       acceptedAgo: string;
       playtime: string;
+      summary: string;
+      readyCount_one: string;
+      readyCount_other: string;
+      manage: string;
     };
     contracts: {
       emptyAccepted: string;
@@ -1939,9 +2000,29 @@ export type TranslationSchema = {
       abandon: {
         title: string;
         body: string;
+        bodyChain: string;
         confirm: string;
         cancel: string;
       };
+      extend: {
+        action: string;
+        confirmTitle: string;
+        confirmBody: string;
+        currentDeadline: string;
+        newDeadline: string;
+        costFree: string;
+        costConsumable_one: string;
+        costConsumable_other: string;
+        free: string;
+        consumable: string;
+        done: string;
+      };
+      bonus: {
+        pending: string;
+        completed: string;
+      };
+      chainStage: string;
+      cap: string;
     };
     reviewHint: {
       counter: string;
@@ -1974,6 +2055,16 @@ export type TranslationSchema = {
       newRewards: string;
       chestBonus: string;
       close: string;
+      seals: string;
+      bonusCompleted: string;
+      promotion: string;
+      prestige: string;
+      chest: string;
+      consumableDrop: string;
+      passportStamp: string;
+      chainProgress: string;
+      chainCompleted: string;
+      chainBonus: string;
     };
     rewardsPanel: {
       title: string;
@@ -1981,12 +2072,21 @@ export type TranslationSchema = {
         badges: string;
         titles: string;
         frames: string;
+        licenseThemes: string;
+        stampStyles: string;
+        decor: string;
+        showcase: string;
+        consumables: string;
       };
       equip: string;
       unequip: string;
       equipped: string;
       locked: string;
       empty: string;
+      decorLimit: string;
+      showcaseLimit: string;
+      add: string;
+      remove: string;
     };
     rewards: {
       generic: {
@@ -1994,6 +2094,10 @@ export type TranslationSchema = {
         title: string;
         frame: string;
         chest: string;
+        license_theme: string;
+        stamp_style: string;
+        tavern_decor: string;
+        consumable: string;
       };
       badge_archaeologist: string;
       title_chronist: string;
@@ -2008,6 +2112,71 @@ export type TranslationSchema = {
       frame_ember_rune: string;
       frame_moonlit_ivy: string;
       frame_gilded_compass: string;
+      title_tavern_regular: string;
+      title_weekend_warrior: string;
+      title_pixel_pilgrim: string;
+      title_guild_initiate: string;
+      title_field_scout: string;
+      title_swift_scholar: string;
+      title_dungeon_cartographer: string;
+      title_seasonal_explorer: string;
+      title_arcane_archivist: string;
+      title_pathfinder: string;
+      title_master_adventurer: string;
+      title_curator_prime: string;
+      title_realm_warden: string;
+      title_guild_legend: string;
+      title_relic_warden: string;
+      title_lina_chosen: string;
+      frame_wooden_badge: string;
+      frame_candle_glow: string;
+      frame_copper_compass: string;
+      frame_silver_laurel: string;
+      frame_owl_wing: string;
+      frame_ruby_sigil: string;
+      frame_forged_steel: string;
+      frame_dragonbone: string;
+      frame_harvest_crown: string;
+      frame_astral_crown: string;
+      frame_celestial_compass: string;
+      license_travelers_ledger: string;
+      license_mapmakers_ledger: string;
+      license_royal_archive: string;
+      license_tavern_ledger: string;
+      license_autumn_ledger: string;
+      license_obsidian_ledger: string;
+      license_winter_ledger: string;
+      license_gilded_ledger: string;
+      stamp_inkwell: string;
+      stamp_silver_quill: string;
+      stamp_pumpkin_wax: string;
+      stamp_ember_wax: string;
+      stamp_royal_wax: string;
+      stamp_frost_seal: string;
+      stamp_gold_seal: string;
+      stamp_obsidian_seal: string;
+      decor_mug_of_ale: string;
+      decor_brass_astrolabe: string;
+      decor_herb_planter: string;
+      decor_oak_barrel: string;
+      decor_crystal_chandelier: string;
+      decor_ancient_globe: string;
+      decor_tavern_lantern: string;
+      decor_curators_shelf: string;
+      decor_snowglobe: string;
+      decor_sleeping_cat: string;
+      decor_autumn_wreath: string;
+      decor_compass_rose: string;
+      decor_enchanted_tapestry: string;
+      decor_golden_griffin: string;
+      decor_relic_plinth: string;
+      hourglass: string;
+      reroll_charter: string;
+      extra_slot_permit: string;
+      chest_bronze: string;
+      chest_silver: string;
+      chest_gold: string;
+      chest_relic: string;
     };
     rank: {
       E: string;
@@ -2016,6 +2185,7 @@ export type TranslationSchema = {
       B: string;
       A: string;
       S: string;
+      prestige: string;
     };
     templates: {
       forgotten_relic: {
@@ -2050,6 +2220,98 @@ export type TranslationSchema = {
         title: string;
         description: string;
       };
+      recent_dust: {
+        title: string;
+        description: string;
+      };
+      off_the_map: {
+        title: string;
+        description: string;
+      };
+      continue_the_saga: {
+        title: string;
+        description: string;
+      };
+      time_machine: {
+        title: string;
+        description: string;
+      };
+      return_to_the_world: {
+        title: string;
+        description: string;
+      };
+      hidden_gem: {
+        title: string;
+        description: string;
+      };
+      field_vigil: {
+        title: string;
+        description: string;
+      };
+      backlog_taste_test: {
+        title: string;
+        description: string;
+      };
+      campaign_rhythm: {
+        title: string;
+        description: string;
+      };
+      trophy_hunter: {
+        title: string;
+        description: string;
+      };
+      deep_critic: {
+        title: string;
+        description: string;
+      };
+      guild_oracle: {
+        title: string;
+        description: string;
+      };
+      eagle_eye: {
+        title: string;
+        description: string;
+      };
+      cartographer: {
+        title: string;
+        description: string;
+      };
+      expedition_log: {
+        title: string;
+        description: string;
+      };
+      pack_cleanup: {
+        title: string;
+        description: string;
+      };
+      the_colossus: {
+        title: string;
+        description: string;
+      };
+      ancient_fossil: {
+        title: string;
+        description: string;
+      };
+      genre_marathon: {
+        title: string;
+        description: string;
+      };
+      deep_critic_anthology: {
+        title: string;
+        description: string;
+      };
+      platinum_crown: {
+        title: string;
+        description: string;
+      };
+      colossus_legend: {
+        title: string;
+        description: string;
+      };
+      saga_trilogy: {
+        title: string;
+        description: string;
+      };
     };
     lina: {
       name: string;
@@ -2059,6 +2321,8 @@ export type TranslationSchema = {
         board: string;
         quick: string;
         goodbye: string;
+        emporium: string;
+        bounties: string;
       };
       contract_accepted: string;
       contract_accepted_no_game: string;
@@ -2069,6 +2333,10 @@ export type TranslationSchema = {
       weekly_board_refreshed: string;
       stale_backlog_game: string;
       default: string;
+      rank_promoted: string;
+      chain_completed: string;
+      community_bounty_ready: string;
+      monthly_expedition_refreshed: string;
     };
     actions: {
       accept: string;
@@ -2088,12 +2356,223 @@ export type TranslationSchema = {
       cta: string;
     };
     errors: {
+      retry: string;
+      accessUnavailable: string;
       guild_active_contract_limit_reached: string;
       guild_contract_already_exists: string;
       guild_contract_not_ready: string;
       guild_contract_not_active: string;
       guild_cosmetic_not_owned: string;
       guild_early_access_required: string;
+      guild_cosmetic_limit_exceeded: string;
+      guild_passport_invalid_milestone: string;
+      guild_emporium_rank_required: string;
+      guild_chain_rank_required: string;
+      guild_bounty_not_eligible: string;
+      guild_board_entry_not_found: string;
+      guild_contract_expired: string;
+      guild_contract_already_extended: string;
+      guild_consumable_not_owned: string;
+      guild_permit_already_active: string;
+      guild_insufficient_seals: string;
+      guild_emporium_already_owned: string;
+      guild_emporium_monthly_limit_reached: string;
+      guild_reroll_not_available: string;
+      guild_reroll_unavailable: string;
+      guild_passport_milestone_not_reached: string;
+      guild_passport_milestone_already_claimed: string;
+      guild_chain_already_started: string;
+      guild_chain_already_completed: string;
+      guild_chain_stage_active: string;
+      guild_bounty_not_claimable: string;
+      guild_bounty_nothing_to_claim: string;
+      guild_bounty_rules_locked: string;
+      guild_event_rules_locked: string;
+      guild_reward_identity_locked: string;
+      guild_invalid_amount: string;
+    };
+    chains: {
+      tabTitle: string;
+      status: {
+        locked: string;
+        available: string;
+        in_progress: string;
+        completed: string;
+      };
+      stageOf: string;
+      minRank: string;
+      start: string;
+      advance: string;
+      retry: string;
+      viewContract: string;
+      boundGame: string;
+      pickGame: string;
+      pickGameHint: string;
+      inLibrary: string;
+      libraryOnlyHint: string;
+      finalRewards: string;
+      finalSeals: string;
+      stageRewards: string;
+      completedOn: string;
+      empty: string;
+      pathfinders_arc: {
+        title: string;
+        description: string;
+      };
+      curators_arc: {
+        title: string;
+        description: string;
+      };
+      relic_hunters_arc: {
+        title: string;
+        description: string;
+      };
+      stages: {
+        trail_head: {
+          title: string;
+          objective: string;
+        };
+        summit_push: {
+          title: string;
+          objective: string;
+        };
+        field_notes: {
+          title: string;
+          objective: string;
+        };
+        first_exhibit: {
+          title: string;
+          objective: string;
+        };
+        curated_finish: {
+          title: string;
+          objective: string;
+        };
+        curators_essay: {
+          title: string;
+          objective: string;
+        };
+        relic_triage: {
+          title: string;
+          objective: string;
+        };
+        relic_finish: {
+          title: string;
+          objective: string;
+        };
+        relic_chronicle: {
+          title: string;
+          objective: string;
+        };
+      };
+    };
+    rankPackages: {
+      D: string;
+      C: string;
+      B: string;
+      A: string;
+      S: string;
+    };
+    perks: {
+      title: string;
+      maxActiveContracts_one: string;
+      maxActiveContracts_other: string;
+      weeklyRerolls_one: string;
+      weeklyRerolls_other: string;
+      monthlyExpedition: string;
+      monthlyExpeditionRankS: string;
+      monthlyFreeHourglass_one: string;
+      monthlyFreeHourglass_other: string;
+      legendaryContracts: string;
+    };
+    seals: {
+      name: string;
+      short: string;
+      amount_one: string;
+      amount_other: string;
+      reward: string;
+    };
+    consumables: {
+      title: string;
+      owned: string;
+      activate: string;
+      activeUntil: string;
+      freeHourglass: string;
+      hourglass: {
+        name: string;
+        effect: string;
+      };
+      reroll_charter: {
+        name: string;
+        effect: string;
+      };
+      extra_slot_permit: {
+        name: string;
+        effect: string;
+      };
+    };
+    chests: {
+      chest_bronze: string;
+      chest_silver: string;
+      chest_gold: string;
+      chest_relic: string;
+      weekly_chest: string;
+      poolExhausted: string;
+    };
+    rarity: {
+      common: string;
+      uncommon: string;
+      rare: string;
+      epic: string;
+      legendary: string;
+    };
+    passport: {
+      title: string;
+      stamps: string;
+      resetsIn: string;
+      claim: string;
+      claimed: string;
+      locked: string;
+      milestone: string;
+      rewards: string;
+      contractsNeeded_one: string;
+      contractsNeeded_other: string;
+    };
+    emporium: {
+      title: string;
+      subtitle: string;
+      balance: string;
+      permanent: string;
+      rotating: string;
+      rotatesIn: string;
+      buy: string;
+      owned: string;
+      soldOut: string;
+      monthlyLimit: string;
+      minRank: string;
+      notEnoughSeals: string;
+      confirmTitle: string;
+      confirmBody: string;
+      confirm: string;
+      cancel: string;
+      purchased: string;
+      empty: string;
+    };
+    bounties: {
+      title: string;
+      empty: string;
+      progress: string;
+      contribution: string;
+      minContribution: string;
+      notEligible: string;
+      claim: string;
+      claimed: string;
+      claimWindow: string;
+      endsIn: string;
+      ended: string;
+      milestone: string;
+      overkill: string;
+      claimedResult: string;
     };
   };
   home: {
@@ -2813,6 +3292,7 @@ export type TranslationSchema = {
       contractReadyGame: string;
       contractExpiring: string;
       contractExpiringGame: string;
+      communityBountyReady: string;
     };
     recap: {
       title: string;

@@ -1,0 +1,18 @@
+/*
+ * The weekly countdown only belongs to the tabs that follow the board
+ * (board, accepted, completed). On the other tabs it is not rendered, but the
+ * row keeps the height of the 27 px hourglass so switching tabs never moves
+ * the tab strip or the content below it.
+ */
+.tabsRenewPlaceholder {
+  min-height: 27px;
+}
+
+.tab {
+  font-size: 13px;
+}
+
+.tab .tabCount {
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+}

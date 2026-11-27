@@ -1,0 +1,859 @@
+/* Lina's Arcs and Community Bounties (design D9). Theme-aware surface tokens
+   keep Arcs and Bounties cohesive across GameNode (dark) and Ruins (light). */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  color: var(--gn-text);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px 16px 14px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-surface);
+  color: var(--gn-text);
+}
+
+.bountyCard {
+  gap: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.headings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--gn-text);
+  overflow-wrap: break-word;
+}
+
+.description {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.statusTag {
+  flex: none;
+  padding: 2px 8px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.statusLocked {
+  color: var(--gn-text-subtle);
+  background: var(--gn-paper-2);
+  border-color: var(--gn-line-strong);
+  border-style: dashed;
+}
+
+.statusAvailable {
+  color: var(--gn-accent-text);
+  background: var(--gn-brand-tint);
+  border-color: color-mix(in srgb, var(--gn-brand) 45%, var(--gn-line));
+}
+
+.statusInProgress {
+  color: var(--gn-status-warning-text);
+  background: color-mix(
+    in srgb,
+    var(--gn-status-warning-text) 14%,
+    var(--gn-paper-1)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--gn-status-warning-text) 45%,
+    var(--gn-line)
+  );
+}
+
+.statusCompleted {
+  color: var(--gn-status-success-text);
+  background: color-mix(
+    in srgb,
+    var(--gn-status-success-text) 14%,
+    var(--gn-paper-1)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--gn-status-success-text) 45%,
+    var(--gn-line)
+  );
+}
+
+/* ---- Stage track. ---- */
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+}
+
+.stageCurrent {
+  border-color: var(--gn-brand);
+  background: color-mix(in srgb, var(--gn-brand) 12%, var(--gn-paper-1));
+  box-shadow: inset 0 0 0 1px var(--gn-brand);
+}
+
+.stageDone {
+  color: var(--gn-status-success-text);
+  border-color: color-mix(
+    in srgb,
+    var(--gn-status-success-text) 40%,
+    var(--gn-line)
+  );
+}
+
+.stageIndex {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stageTitle {
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Three columns are too narrow for stage names on phones: stack the track. */
+@media (max-width: 30em) {
+  .stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.stageDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px dashed var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+}
+
+.stageDetailHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.stageDetailTitle {
+  min-width: 0;
+  color: var(--gn-text);
+  overflow-wrap: break-word;
+}
+
+.stageObjective {
+  margin: 0;
+  color: var(--gn-text);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.stageRewards {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  color: var(--gn-status-warning-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 17px;
+}
+
+.overline {
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Bound game and final rewards. ---- */
+
+.boundGame {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+  text-decoration: none;
+}
+
+.boundGame:hover {
+  border-color: var(--gn-line-strong);
+  text-decoration: underline;
+}
+
+.boundGame:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.boundGameCover {
+  flex: none;
+  width: 20px;
+  height: 27px;
+  border-radius: 2px;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.boundGameCoverFallback {
+  flex: none;
+  width: 20px;
+  height: 27px;
+  border: 1px solid var(--gn-line);
+  border-radius: 2px;
+  background: var(--gn-paper-2);
+}
+
+.boundGameLabel {
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  overflow-wrap: break-word;
+}
+
+.finalRewards {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--gn-line);
+}
+
+.finalRewardList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finalReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--guild-rarity, var(--gn-line));
+  border-radius: var(--gn-radius);
+  background: var(--guild-rarity-tint, var(--gn-paper-1));
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.rarityTag {
+  color: color-mix(
+    in srgb,
+    var(--guild-rarity, var(--gn-text-subtle)) 20%,
+    var(--gn-text)
+  );
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.finalSeals {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-status-warning-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+/* ---- Actions and completion. ---- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.actionHint {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.completedStamp {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 2px solid var(--gn-status-success-text);
+  border-radius: var(--gn-radius);
+  color: var(--gn-status-success-text);
+  transform: rotate(-2deg);
+}
+
+.completedStampText {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.completedDate {
+  font-size: 11px;
+  line-height: 15px;
+}
+
+/* ---- Library-first chain game picker modal. ---- */
+
+.libraryPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.libraryHint {
+  margin: 0;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.librarySearch {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.librarySearch::placeholder {
+  color: var(--gn-text-subtle);
+}
+
+.librarySearch:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.libraryList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.libraryOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.libraryOption:hover {
+  border-color: var(--gn-line-strong);
+  background: var(--gn-paper-2);
+}
+
+.libraryOption:focus-visible {
+  outline: 2px solid var(--gn-focus);
+  outline-offset: 2px;
+}
+
+.libraryOptionMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.libraryOptionTitle {
+  min-width: 0;
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.libraryBadge {
+  flex: none;
+  padding: 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--gn-brand) 45%, var(--gn-line));
+  border-radius: var(--gn-radius);
+  background: var(--gn-brand-tint);
+  color: var(--gn-accent-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.libraryEmpty {
+  margin: 0;
+  padding: 16px 12px;
+  color: var(--gn-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.libraryFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ---- Shared states. ---- */
+
+.loading {
+  margin: 0;
+  color: var(--gn-text-subtle);
+}
+
+.empty {
+  margin: 0;
+  padding: 32px 16px;
+  border: 1px dashed var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  color: var(--gn-text-subtle);
+  text-align: center;
+}
+
+/* ---- Community Bounties. ---- */
+
+.bountyTime {
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.bountyMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.bountyMetaItem {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.progressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progressHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.progressLabel {
+  color: var(--gn-text-subtle);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.progressValue {
+  color: var(--gn-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.progressTrack {
+  position: relative;
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 0;
+  background: var(--gn-brand);
+}
+
+.progressMarker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  z-index: 1;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--gn-line-strong);
+}
+
+.progressMarkerReached {
+  background: var(--gn-accent-text);
+}
+
+.progressScale {
+  position: relative;
+  height: 16px;
+}
+
+.progressScaleLabel {
+  position: absolute;
+  top: 0;
+  color: var(--gn-text-subtle);
+  font-size: 11px;
+  line-height: 15px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.progressScaleFirst {
+  transform: translateX(0);
+}
+
+.progressScaleLast {
+  transform: translateX(-100%);
+}
+
+.progressScaleOverkill {
+  color: var(--gn-status-warning-text);
+  font-weight: 700;
+}
+
+.milestoneBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.milestones {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.milestone {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid var(--gn-line);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+}
+
+.milestoneClaimed {
+  border-color: var(--gn-status-success-text);
+  background: color-mix(
+    in srgb,
+    var(--gn-status-success-text) 12%,
+    var(--gn-paper-1)
+  );
+}
+
+.milestoneClaimable {
+  border-color: var(--gn-brand);
+  background: color-mix(in srgb, var(--gn-brand) 14%, var(--gn-paper-1));
+  box-shadow: inset 0 0 0 1px var(--gn-brand);
+}
+
+.milestoneLocked {
+  background: var(--gn-paper-2);
+  border-style: dashed;
+}
+
+.milestoneValue {
+  color: var(--gn-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.milestoneStatus {
+  color: var(--gn-status-success-text);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.milestoneRewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 6px;
+}
+
+.milestoneReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--gn-text);
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.milestoneChest {
+  display: inline-flex;
+  align-items: center;
+}
+
+.bountyFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.notEligible {
+  margin: 0;
+  color: var(--gn-status-warning-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.highlighted {
+  outline: 3px solid var(--gn-brand);
+  outline-offset: 2px;
+}
+
+@media (max-width: 30em) {
+  .milestones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---- Claim result (inside the injected Modal, on the theme surface). ---- */
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resultMilestones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultMilestone {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--gn-line-strong);
+  border-radius: var(--gn-radius);
+  background: var(--gn-paper-1);
+  color: var(--gn-text);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.resultMilestoneValue {
+  color: var(--gn-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.resultMilestoneRewards {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+
+.resultMilestoneReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gn-text);
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.resultTotals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.resultTotal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.resultRewards {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gn-text);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.resultChests {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resultActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}

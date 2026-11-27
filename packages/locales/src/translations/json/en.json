@@ -1874,7 +1874,12 @@
         "finished": "Finished",
         "backlog": "In backlog",
         "reviews": "Reviews"
-      }
+      },
+      "prestige": "Prestige",
+      "showcase": "Trophy showcase",
+      "showcaseEmpty": "No trophies on display yet.",
+      "seals": "Guild Seals",
+      "perks": "Perks"
     },
     "rankLabel": "RANK",
     "scene": {
@@ -1884,14 +1889,22 @@
       "board": "Quest board",
       "boardShort": "Quests",
       "accepted": "Accepted",
-      "completed": "Completed"
+      "completed": "Completed",
+      "arcs": "Arcs",
+      "bounties": "Bounties",
+      "emporium": "Emporium"
     },
     "board": {
       "renewIn": "Refreshes in {{time}}",
       "quickTitle": "Quick quests",
+      "quickToggle": "Quick quests",
       "backToFull": "Back to the full board",
       "empty": "No quests on the board this week. Come back on Monday!",
       "quickEmpty": "No quick quests right now. Take a look at the full board.",
+      "allHidden": "You hid every quest on the board.",
+      "showHidden_one": "Show {{count}} hidden quest",
+      "showHidden_other": "Show {{count}} hidden quests",
+      "capReached": "{{active}} / {{max}} active contracts — finish or abandon one to accept another.",
       "recommended": "★ Lina recommends",
       "xpReward": "+{{xp}} XP",
       "duration_one": "{{count}} day to finish after accepting",
@@ -1905,21 +1918,69 @@
         "event": "Curated event · {{days}} days",
         "weekly": "Weekly",
         "gamenode": "Using GameNode",
-        "goal": "Goal"
+        "goal": "Goal",
+        "monthly": "Monthly Expedition"
       },
       "chips": {
         "since": "since {{year}}",
         "hours": "~{{hours}}h"
+      },
+      "monthly": {
+        "title": "Monthly Expedition",
+        "locked": "Unlocks at Rank C",
+        "acceptBy": "Accept by {{date}}"
+      },
+      "bonus": {
+        "label": "Optional bonus",
+        "also_write_review": "Also write a review of {{chars}}+ characters",
+        "finish_before_half_deadline": "Finish before half the deadline",
+        "use_stale_backlog_game": "Use a game untouched for {{days}}+ days",
+        "reward": "Bonus reward",
+        "parts": {
+          "xp": "+{{xp}} XP",
+          "seals": "+{{seals}} Seals",
+          "chestUpgrade": "chest upgrade"
+        }
+      },
+      "reroll": {
+        "action": "Reroll",
+        "free_one": "Free reroll ({{count}} left)",
+        "free_other": "Free rerolls ({{count}} left)",
+        "charter": "Reroll with a charter",
+        "none": "No rerolls left",
+        "done": "Rerolled",
+        "charterConfirmTitle": "Spend a Reroll Charter?",
+        "charterConfirmBody_one": "You have no free rerolls left. This spends 1 Reroll Charter ({{count}} left after) to replace \"{{title}}\".",
+        "charterConfirmBody_other": "You have no free rerolls left. This spends 1 Reroll Charter ({{count}} left after) to replace \"{{title}}\".",
+        "charterConfirmAction": "Spend charter"
+      },
+      "rerollsStatus": "{{free}} · {{charters}}",
+      "rerollsStatusFree_zero": "{{count}} free rerolls",
+      "rerollsStatusFree_one": "{{count}} free reroll",
+      "rerollsStatusFree_other": "{{count}} free rerolls",
+      "rerollsStatusCharters_zero": "{{count}} charters",
+      "rerollsStatusCharters_one": "{{count}} charter",
+      "rerollsStatusCharters_other": "{{count}} charters",
+      "meta": {
+        "genre": "Genre: {{genre}}",
+        "franchise": "Franchise: {{franchise}}",
+        "theme": "Theme: {{theme}}",
+        "decade": "Decade: {{decade}}",
+        "staleDays": "Untouched for {{days}} days"
       }
     },
     "activeContracts": {
       "title": "ACTIVE CONTRACTS",
       "empty": "No active contracts yet. Pick a quest from the board to get started.",
       "yearGoal": "{{year}} goal: finish {{target}} games",
-      "yearGoalLeft_one": "{{count}} game left until 12/31",
-      "yearGoalLeft_other": "{{count}} games left until 12/31",
+      "yearGoalLeft_one": "{{count}} game left until Dec 31",
+      "yearGoalLeft_other": "{{count}} games left until Dec 31",
       "acceptedAgo": "Accepted {{time}} ago",
-      "playtime": "{{played}}h of {{estimated}}h"
+      "playtime": "{{played}}h of {{estimated}}h",
+      "summary": "{{active}} / {{max}} active",
+      "readyCount_one": "{{count}} ready to turn in",
+      "readyCount_other": "{{count}} ready to turn in",
+      "manage": "Manage contracts"
     },
     "contracts": {
       "emptyAccepted": "No contracts accepted yet. Pick a quest from the board!",
@@ -1935,13 +1996,33 @@
       "abandon": {
         "title": "Abandon this contract?",
         "body": "This returns \"{{title}}\" to the board. It stays available until the round resets.",
+        "bodyChain": "This cancels the current stage of \"{{title}}\". You can retry the stage from the Arcs tab.",
         "confirm": "Abandon",
         "cancel": "Cancel"
-      }
+      },
+      "extend": {
+        "action": "Extend +7 days",
+        "confirmTitle": "Extend this contract?",
+        "confirmBody": "This adds 7 days to the contract. A contract can be extended only once.",
+        "currentDeadline": "Current deadline: {{date}}",
+        "newDeadline": "New deadline (+7 days): {{date}}",
+        "costFree": "Uses your free monthly Hourglass (no inventory Hourglass spent).",
+        "costConsumable_one": "Spends 1 Hourglass from your inventory ({{count}} owned).",
+        "costConsumable_other": "Spends 1 Hourglass from your inventory ({{count}} owned).",
+        "free": "Free monthly Hourglass used",
+        "consumable": "Hourglass used",
+        "done": "Extended by 7 days"
+      },
+      "bonus": {
+        "pending": "Bonus objective pending",
+        "completed": "Bonus objective complete"
+      },
+      "chainStage": "{{chain}} · stage {{stage}}",
+      "cap": "{{active}} / {{max}} contracts"
     },
     "reviewHint": {
-      "counter": "{{count}}/80",
-      "short": "Reviews under 80 characters don't count for your Guild contract yet.",
+      "counter": "{{count}}/{{min}}",
+      "short": "Write at least {{min}} characters for this Guild contract.",
       "ok": "This review counts for your Guild contract."
     },
     "targetGame": {
@@ -1969,27 +2050,50 @@
       "rankChange": "Rank {{from}} → {{to}}",
       "newRewards": "New rewards",
       "chestBonus": "Chest bonus: +{{xp}} XP",
-      "close": "Continue"
+      "close": "Continue",
+      "seals": "+{{seals}} Seals",
+      "bonusCompleted": "Bonus objective complete",
+      "promotion": "Rank promotion",
+      "prestige": "New Prestige star",
+      "chest": "Chest rewards",
+      "consumableDrop": "Consumable found",
+      "passportStamp": "Passport stamp added",
+      "chainProgress": "Arc progress",
+      "chainCompleted": "Arc complete!",
+      "chainBonus": "+{{seals}} bonus Seals"
     },
     "rewardsPanel": {
       "title": "Rewards",
       "sections": {
         "badges": "Badges",
         "titles": "Titles",
-        "frames": "Frames"
+        "frames": "Frames",
+        "licenseThemes": "License themes",
+        "stampStyles": "Stamp styles",
+        "decor": "Tavern decor",
+        "showcase": "Trophy showcase",
+        "consumables": "Consumables"
       },
       "equip": "Equip",
       "unequip": "Unequip",
       "equipped": "Equipped",
       "locked": "Locked",
-      "empty": "Complete contracts to unlock rewards."
+      "empty": "Complete contracts to unlock rewards.",
+      "decorLimit": "Up to 4 on the counter",
+      "showcaseLimit": "Up to 3 badges",
+      "add": "Add",
+      "remove": "Remove"
     },
     "rewards": {
       "generic": {
         "badge": "Badge",
         "title": "Guild title",
         "frame": "Avatar frame",
-        "chest": "Weekly chest"
+        "chest": "Weekly chest",
+        "license_theme": "License theme",
+        "stamp_style": "Stamp style",
+        "tavern_decor": "Tavern decor",
+        "consumable": "Consumable"
       },
       "badge_archaeologist": "Archaeologist",
       "title_chronist": "Chronicler",
@@ -2003,7 +2107,72 @@
       "title_completionist": "Completionist",
       "frame_ember_rune": "Ember Rune",
       "frame_moonlit_ivy": "Moonlit Ivy",
-      "frame_gilded_compass": "Gilded Compass"
+      "frame_gilded_compass": "Gilded Compass",
+      "title_tavern_regular": "Tavern Regular",
+      "title_weekend_warrior": "Weekend Warrior",
+      "title_pixel_pilgrim": "Pixel Pilgrim",
+      "title_guild_initiate": "Guild Initiate",
+      "title_field_scout": "Field Scout",
+      "title_swift_scholar": "Swift Scholar",
+      "title_dungeon_cartographer": "Dungeon Cartographer",
+      "title_seasonal_explorer": "Seasonal Explorer",
+      "title_arcane_archivist": "Arcane Archivist",
+      "title_pathfinder": "Pathfinder",
+      "title_master_adventurer": "Master Adventurer",
+      "title_curator_prime": "Curator Prime",
+      "title_realm_warden": "Realm Warden",
+      "title_guild_legend": "Guild Legend",
+      "title_relic_warden": "Relic Warden",
+      "title_lina_chosen": "Lina's Chosen",
+      "frame_wooden_badge": "Wooden Badge",
+      "frame_candle_glow": "Candle Glow",
+      "frame_copper_compass": "Copper Compass",
+      "frame_silver_laurel": "Silver Laurel",
+      "frame_owl_wing": "Owl Wing",
+      "frame_ruby_sigil": "Ruby Sigil",
+      "frame_forged_steel": "Forged Steel",
+      "frame_dragonbone": "Dragonbone",
+      "frame_harvest_crown": "Harvest Crown",
+      "frame_astral_crown": "Astral Crown",
+      "frame_celestial_compass": "Celestial Compass",
+      "license_travelers_ledger": "Traveler's Ledger",
+      "license_mapmakers_ledger": "Mapmaker's Ledger",
+      "license_royal_archive": "Royal Archive",
+      "license_tavern_ledger": "Tavern Ledger",
+      "license_autumn_ledger": "Autumn Ledger",
+      "license_obsidian_ledger": "Obsidian Ledger",
+      "license_winter_ledger": "Winter Ledger",
+      "license_gilded_ledger": "Gilded Ledger",
+      "stamp_inkwell": "Inkwell Stamp",
+      "stamp_silver_quill": "Silver Quill",
+      "stamp_pumpkin_wax": "Pumpkin Wax",
+      "stamp_ember_wax": "Ember Wax",
+      "stamp_royal_wax": "Royal Wax",
+      "stamp_frost_seal": "Frost Seal",
+      "stamp_gold_seal": "Gold Seal",
+      "stamp_obsidian_seal": "Obsidian Seal",
+      "decor_mug_of_ale": "Mug of Ale",
+      "decor_brass_astrolabe": "Brass Astrolabe",
+      "decor_herb_planter": "Herb Planter",
+      "decor_oak_barrel": "Oak Barrel",
+      "decor_crystal_chandelier": "Crystal Chandelier",
+      "decor_ancient_globe": "Ancient Globe",
+      "decor_tavern_lantern": "Tavern Lantern",
+      "decor_curators_shelf": "Curator's Shelf",
+      "decor_snowglobe": "Snowglobe",
+      "decor_sleeping_cat": "Sleeping Cat",
+      "decor_autumn_wreath": "Autumn Wreath",
+      "decor_compass_rose": "Compass Rose",
+      "decor_enchanted_tapestry": "Enchanted Tapestry",
+      "decor_golden_griffin": "Golden Griffin",
+      "decor_relic_plinth": "Relic Plinth",
+      "hourglass": "Hourglass",
+      "reroll_charter": "Reroll Charter",
+      "extra_slot_permit": "Extra Slot Permit",
+      "chest_bronze": "Bronze Chest",
+      "chest_silver": "Silver Chest",
+      "chest_gold": "Gold Chest",
+      "chest_relic": "Relic Chest"
     },
     "rank": {
       "E": "Novice",
@@ -2011,7 +2180,8 @@
       "C": "Adventurer",
       "B": "Veteran",
       "A": "Elite",
-      "S": "Legend"
+      "S": "Legend",
+      "prestige": "Prestige {{count}}"
     },
     "templates": {
       "forgotten_relic": {
@@ -2045,6 +2215,98 @@
       "quick_take": {
         "title": "Quick Take",
         "description": "Write a review for any game."
+      },
+      "recent_dust": {
+        "title": "Recent Dust",
+        "description": "Finish a backlog game left untouched for 90+ days."
+      },
+      "off_the_map": {
+        "title": "Off the Map",
+        "description": "Finish a backlog game from a genre you rarely play."
+      },
+      "continue_the_saga": {
+        "title": "Continue the Saga",
+        "description": "Finish another game from a franchise you already started."
+      },
+      "time_machine": {
+        "title": "Time Machine",
+        "description": "Finish an unfinished game from a past decade."
+      },
+      "return_to_the_world": {
+        "title": "Return to the World",
+        "description": "Finish a DLC, expansion or remake of a game you completed."
+      },
+      "hidden_gem": {
+        "title": "Hidden Gem",
+        "description": "Finish a little-played indie gem from your backlog."
+      },
+      "field_vigil": {
+        "title": "Field Vigil",
+        "description": "Log 4 hours of playtime this week."
+      },
+      "backlog_taste_test": {
+        "title": "Backlog Taste Test",
+        "description": "Play 45 minutes of two planned backlog games."
+      },
+      "campaign_rhythm": {
+        "title": "Campaign Rhythm",
+        "description": "Play at least 15 minutes on 4 different days."
+      },
+      "trophy_hunter": {
+        "title": "Trophy Hunter",
+        "description": "Earn 10 synced platform achievements."
+      },
+      "deep_critic": {
+        "title": "Deep Critic",
+        "description": "Write 2 reviews of 200+ characters."
+      },
+      "guild_oracle": {
+        "title": "Guild Oracle",
+        "description": "Win 3 GameNode Daily puzzles."
+      },
+      "eagle_eye": {
+        "title": "Eagle Eye",
+        "description": "Win 2 Daily puzzles without hints in 3 attempts or fewer."
+      },
+      "cartographer": {
+        "title": "Cartographer",
+        "description": "Publish a public collection with 5+ games and a description."
+      },
+      "expedition_log": {
+        "title": "Expedition Log",
+        "description": "Publish a post of 80+ characters about a game."
+      },
+      "pack_cleanup": {
+        "title": "Pack Cleanup",
+        "description": "Triage 3 games stuck in your backlog for 30+ days."
+      },
+      "the_colossus": {
+        "title": "The Colossus",
+        "description": "Finish a 35+ hour epic."
+      },
+      "ancient_fossil": {
+        "title": "Ancient Fossil",
+        "description": "Finish a game untouched for 3+ years."
+      },
+      "genre_marathon": {
+        "title": "Genre Marathon",
+        "description": "Finish 3 games from the same genre."
+      },
+      "deep_critic_anthology": {
+        "title": "Deep Critic Anthology",
+        "description": "Write 5 reviews of 250+ characters."
+      },
+      "platinum_crown": {
+        "title": "Platinum Crown",
+        "description": "Earn 100% achievements on a game with 5+ achievements."
+      },
+      "colossus_legend": {
+        "title": "Colossus Legend",
+        "description": "Finish a 60+ hour legend."
+      },
+      "saga_trilogy": {
+        "title": "Saga Trilogy",
+        "description": "Finish 3 games from the same franchise or theme."
       }
     },
     "lina": {
@@ -2054,7 +2316,9 @@
       "options": {
         "board": "Show me the quest board",
         "quick": "Got anything quicker?",
-        "goodbye": "See you, Lina"
+        "goodbye": "See you, Lina",
+        "emporium": "Show me the Emporium",
+        "bounties": "Show me the bounty"
       },
       "contract_accepted": "All set! When you finish {{gameName}}, swing by the counter for your reward.",
       "contract_accepted_no_game": "All set! Once you finish this quest, swing by the counter for your reward.",
@@ -2064,7 +2328,11 @@
       "returning_after_inactivity": "Look who's back! It's been a while since you last stopped by.",
       "weekly_board_refreshed": "Just put new quests up on the board for the week. Want to take a look?",
       "stale_backlog_game": "Hey! Saw that {{gameName}} has been in your backlog since {{sinceYear}}. Ready to dust it off?",
-      "default": "Hey! Make yourself at home, the quest board is right over there."
+      "default": "Hey! Make yourself at home, the quest board is right over there.",
+      "rank_promoted": "A new rank! Your Guild License bears a new seal.",
+      "chain_completed": "The arc is complete! Lina keeps the final relic safe for you.",
+      "community_bounty_ready": "The whole Guild pitched in — the Community Bounty is ready to claim!",
+      "monthly_expedition_refreshed": "A new Monthly Expedition is pinned to your board."
     },
     "actions": {
       "accept": "Accept",
@@ -2084,12 +2352,223 @@
       "cta": "Sign in"
     },
     "errors": {
-      "guild_active_contract_limit_reached": "You already have 3 active contracts. Complete or abandon one before accepting another.",
+      "retry": "Retry",
+      "accessUnavailable": "We couldn't check your Guild access right now. Try again in a moment.",
+      "guild_active_contract_limit_reached": "You already have {{max}} active contracts. Complete or abandon one before accepting another.",
       "guild_contract_already_exists": "You already accepted this quest. Check your active contracts.",
       "guild_contract_not_ready": "This contract isn't ready to turn in yet. We refreshed your list.",
       "guild_contract_not_active": "This contract is no longer active. We refreshed your list.",
       "guild_cosmetic_not_owned": "You haven't unlocked this item yet. Your previous selection was kept.",
-      "guild_early_access_required": "The Adventurers Guild is in early access for supporters."
+      "guild_early_access_required": "The Adventurers Guild is in early access for supporters.",
+      "guild_cosmetic_limit_exceeded": "That's over the limit: up to 4 decor items and 3 showcase badges. Your previous selection was kept.",
+      "guild_passport_invalid_milestone": "That passport milestone doesn't exist. Only 2, 4 and 6 can be claimed.",
+      "guild_emporium_rank_required": "This item requires Rank {{rank}}. Keep climbing!",
+      "guild_chain_rank_required": "This arc unlocks at Rank {{rank}}.",
+      "guild_bounty_not_eligible": "Contribute to this Community Bounty before claiming its rewards.",
+      "guild_board_entry_not_found": "That quest is no longer on the board. We refreshed it for you.",
+      "guild_contract_expired": "This contract has expired. We refreshed your list.",
+      "guild_contract_already_extended": "This contract has already been extended once.",
+      "guild_consumable_not_owned": "You don't have the required consumable. We refreshed your rewards.",
+      "guild_permit_already_active": "An Extra Slot Permit is already active until next Monday.",
+      "guild_insufficient_seals": "Not enough Guild Seals for that. We refreshed your balance.",
+      "guild_emporium_already_owned": "You already own this item.",
+      "guild_emporium_monthly_limit_reached": "You've reached this month's limit for that item.",
+      "guild_reroll_not_available": "Only open weekly quests can be rerolled.",
+      "guild_reroll_unavailable": "No free reroll or charter available for this quest.",
+      "guild_passport_milestone_not_reached": "This passport milestone hasn't been reached yet.",
+      "guild_passport_milestone_already_claimed": "This passport milestone was already claimed.",
+      "guild_chain_already_started": "You're already on an arc. Finish it before starting another.",
+      "guild_chain_already_completed": "This arc is already complete.",
+      "guild_chain_stage_active": "Finish or abandon the current stage before advancing.",
+      "guild_bounty_not_claimable": "This bounty isn't open for claiming right now.",
+      "guild_bounty_nothing_to_claim": "There are no new milestones to claim. We refreshed the bounty.",
+      "guild_bounty_rules_locked": "These bounty rules are locked after contributions started.",
+      "guild_event_rules_locked": "These event rules are locked after the event started.",
+      "guild_reward_identity_locked": "This reward's identity is locked. Create a new reward instead.",
+      "guild_invalid_amount": "The Seals amount is invalid."
+    },
+    "chains": {
+      "tabTitle": "Lina's Arcs",
+      "status": {
+        "locked": "Locked",
+        "available": "Available",
+        "in_progress": "In progress",
+        "completed": "Completed"
+      },
+      "stageOf": "Stage {{current}} of {{total}}",
+      "minRank": "Unlocks at Rank {{rank}}",
+      "start": "Start",
+      "advance": "Start next stage",
+      "retry": "Retry stage",
+      "viewContract": "View contract",
+      "boundGame": "Chosen game: {{name}}",
+      "pickGame": "Pick a game",
+      "pickGameHint": "Choose the game this arc will follow.",
+      "inLibrary": "In your library",
+      "libraryOnlyHint": "Showing games from your library first.",
+      "finalRewards": "Final rewards",
+      "finalSeals": "+{{seals}} Seals on completion",
+      "stageRewards": "+{{xp}} XP · +{{seals}} Seals · {{days}} days",
+      "completedOn": "Arc completed",
+      "empty": "No arcs waiting for you right now. Lina is still drafting the next one.",
+      "pathfinders_arc": {
+        "title": "Pathfinder's Arc",
+        "description": "Chart a trail from first steps to a written field report."
+      },
+      "curators_arc": {
+        "title": "Curator's Arc",
+        "description": "Build an exhibit, complete it, and write its story."
+      },
+      "relic_hunters_arc": {
+        "title": "Relic Hunter's Arc",
+        "description": "Clean the vault, recover a relic, and chronicle it."
+      },
+      "stages": {
+        "trail_head": {
+          "title": "Trail Head",
+          "objective": "Play 2 hours of the chosen game."
+        },
+        "summit_push": {
+          "title": "Summit Push",
+          "objective": "Finish the chosen game."
+        },
+        "field_notes": {
+          "title": "Field Notes",
+          "objective": "Write a review of 80+ characters for the chosen game."
+        },
+        "first_exhibit": {
+          "title": "First Exhibit",
+          "objective": "Publish a collection with 5+ games and a 20+ character description."
+        },
+        "curated_finish": {
+          "title": "Curated Finish",
+          "objective": "Finish a game from your library."
+        },
+        "curators_essay": {
+          "title": "Curator's Essay",
+          "objective": "Publish a 200+ character post about a game."
+        },
+        "relic_triage": {
+          "title": "Relic Triage",
+          "objective": "Triage 3 games stuck in your backlog."
+        },
+        "relic_finish": {
+          "title": "Relic Recovery",
+          "objective": "Finish a game from your backlog."
+        },
+        "relic_chronicle": {
+          "title": "Relic Chronicle",
+          "objective": "Write 2 reviews of 150+ characters."
+        }
+      }
+    },
+    "rankPackages": {
+      "D": "Initiate's Kit",
+      "C": "Scout's Kit",
+      "B": "Veteran's Kit",
+      "A": "Master's Kit",
+      "S": "Legend's Kit"
+    },
+    "perks": {
+      "title": "Perks",
+      "maxActiveContracts_one": "Up to {{count}} active contract",
+      "maxActiveContracts_other": "Up to {{count}} active contracts",
+      "weeklyRerolls_one": "{{count}} free weekly reroll",
+      "weeklyRerolls_other": "{{count}} free weekly rerolls",
+      "monthlyExpedition": "Monthly Expeditions",
+      "monthlyExpeditionRankS": "Rank S expeditions",
+      "monthlyFreeHourglass_one": "{{count}} free Hourglass each month",
+      "monthlyFreeHourglass_other": "{{count}} free Hourglasses each month",
+      "legendaryContracts": "Legendary contracts"
+    },
+    "seals": {
+      "name": "Guild Seals",
+      "short": "Seals",
+      "amount_one": "{{count}} Seal",
+      "amount_other": "{{count}} Seals",
+      "reward": "+{{seals}} Seals"
+    },
+    "consumables": {
+      "title": "Consumables",
+      "owned": "Owned",
+      "activate": "Activate",
+      "activeUntil": "Active until {{date}}",
+      "freeHourglass": "Rank A and S include one free Hourglass each month.",
+      "hourglass": {
+        "name": "Hourglass",
+        "effect": "Extend one active contract by 7 days (once per contract)."
+      },
+      "reroll_charter": {
+        "name": "Reroll Charter",
+        "effect": "Reroll one open weekly board quest when free rerolls are exhausted."
+      },
+      "extra_slot_permit": {
+        "name": "Extra Slot Permit",
+        "effect": "+1 active contract slot until the next Monday."
+      }
+    },
+    "chests": {
+      "chest_bronze": "Bronze Chest",
+      "chest_silver": "Silver Chest",
+      "chest_gold": "Gold Chest",
+      "chest_relic": "Relic Chest",
+      "weekly_chest": "Weekly Chest (legacy Silver)",
+      "poolExhausted": "Every cosmetic from this chest was already owned — the cosmetic slot converted to extra XP and Seals."
+    },
+    "rarity": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic",
+      "legendary": "Legendary"
+    },
+    "passport": {
+      "title": "Monthly Guild Passport",
+      "stamps": "{{count}} / 6 contracts this month",
+      "resetsIn": "Resets in {{time}}",
+      "claim": "Claim",
+      "claimed": "Claimed",
+      "locked": "Locked",
+      "milestone": "Milestone",
+      "rewards": "Rewards",
+      "contractsNeeded_one": "{{count}} more contract needed",
+      "contractsNeeded_other": "{{count}} more contracts needed"
+    },
+    "emporium": {
+      "title": "Lina's Emporium",
+      "subtitle": "Spend your Guild Seals on treasures for the Tavern.",
+      "balance": "Your balance",
+      "permanent": "Permanent shelf",
+      "rotating": "Monthly showcase",
+      "rotatesIn": "Rotates in {{time}}",
+      "buy": "Buy",
+      "owned": "Owned",
+      "soldOut": "Sold out",
+      "monthlyLimit": "{{count}} / {{max}} this month",
+      "minRank": "Requires Rank {{rank}}",
+      "notEnoughSeals": "Not enough Seals",
+      "confirmTitle": "Confirm purchase?",
+      "confirmBody": "Your Guild Seals are spent right away.",
+      "confirm": "Buy",
+      "cancel": "Cancel",
+      "purchased": "Purchased!",
+      "empty": "The shelves are empty right now."
+    },
+    "bounties": {
+      "title": "Community Bounties",
+      "empty": "No Community Bounties right now. Lina will pin the next one here.",
+      "progress": "Guild progress",
+      "contribution": "Your contribution",
+      "minContribution": "Minimum contribution",
+      "notEligible": "Contribute to this bounty before claiming.",
+      "claim": "Claim rewards",
+      "claimed": "Claimed",
+      "claimWindow": "Claim window until {{date}}",
+      "endsIn": "Ends in {{time}}",
+      "ended": "Ended",
+      "milestone": "Milestone",
+      "overkill": "Overkill",
+      "claimedResult": "Rewards claimed"
     }
   },
   "home": {
@@ -2808,7 +3287,8 @@
       "contractReady": "Your Guild contract is ready to turn in.",
       "contractReadyGame": "Your Guild contract for {{game}} is ready to turn in.",
       "contractExpiring": "Your Guild contract expires in less than 24 hours.",
-      "contractExpiringGame": "Your Guild contract for {{game}} expires in less than 24 hours."
+      "contractExpiringGame": "Your Guild contract for {{game}} expires in less than 24 hours.",
+      "communityBountyReady": "A Community Bounty reached its goal. Claim your reward."
     },
     "recap": {
       "title": "Recap",
