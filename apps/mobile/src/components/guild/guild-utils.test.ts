@@ -11,6 +11,7 @@ import {
   formatLicenseNumber,
   formatTimeLeft,
   getGuildErrorCode,
+  getGuildMaxActiveContracts,
   getLinaLine,
   getQuestCopy,
   getRankProgress,
@@ -546,5 +547,21 @@ describe("Guild early-access errors", () => {
     expect(isGuildEarlyAccessError(noCode)).toBe(false);
     expect(getGuildErrorCode(noCode)).toBeUndefined();
     expect(isGuildEarlyAccessError(new Error("network"))).toBe(false);
+  });
+});
+
+describe("getGuildMaxActiveContracts", () => {
+  it("reads the cap from the license perks", () => {
+    expect(
+      getGuildMaxActiveContracts({ perks: { maxActiveContracts: 4 } }),
+    ).toBe(4);
+  });
+
+  it("falls back to the rank E–C cap for payloads cached before perks existed", () => {
+    expect(getGuildMaxActiveContracts(undefined)).toBe(3);
+    expect(getGuildMaxActiveContracts(null)).toBe(3);
+    expect(getGuildMaxActiveContracts({})).toBe(3);
+    expect(getGuildMaxActiveContracts({ perks: null })).toBe(3);
+    expect(getGuildMaxActiveContracts({ perks: {} })).toBe(3);
   });
 });

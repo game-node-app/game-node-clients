@@ -353,6 +353,38 @@ const OVERVIEW = {
   activeBountiesCount: 0,
 } as unknown as GuildOverviewResponseDto;
 
+/**
+ * Shape persisted by the mobile React Query cache before the Guild expansion:
+ * no perks, Prestige, Seals, cosmetics or Passport summary. Rehydrating it must
+ * not crash the hall (the app refetches in the background).
+ */
+const LEGACY_CACHED_OVERVIEW = {
+  license: {
+    licenseNumber: 47,
+    rank: "C",
+    xp: 1240,
+    currentRankMinXp: 800,
+    nextRank: "B",
+    nextRankXp: 2000,
+    xpToNextRank: 760,
+    memberSince: "2026-01-04T12:00:00.000Z",
+    equippedTitleKey: null,
+    equippedFrameKey: null,
+    stats: { finishedGames: 47, backlogGames: 23, reviewsCount: 12 },
+  },
+  activeContracts: [],
+  yearGoal: { year: 2026, target: 12, finished: 7 },
+  counts: { boardCount: 1, acceptedCount: 0, completedCount: 0 },
+  weekStart: "2026-11-16",
+  nextRefreshAt: "2026-11-23T03:00:00.000Z",
+  lina: {
+    trigger: "stale_backlog_game",
+    pose: "neutral",
+    context: { gameId: 1029, gameName: "Hollow Knight", sinceYear: 2023 },
+    hasUnseenBoard: true,
+  },
+} as unknown as GuildOverviewResponseDto;
+
 const RANK_S_OVERVIEW = {
   ...OVERVIEW,
   license: {
@@ -804,6 +836,21 @@ describe("GuildView access gate", () => {
 });
 
 describe("Guild Hall", () => {
+  it("renders a persisted overview cached before the license perks existed", async () => {
+    mockGuildApi({ overview: LEGACY_CACHED_OVERVIEW });
+
+    const { container } = renderView();
+
+    expect(await screen.findByText("Nº 0047")).toBeInTheDocument();
+
+    // No perks block to disclose, and the cap falls back to rank E–C's three.
+    expect(container.querySelector("[data-license-perks]")).toBeNull();
+    expect(container.querySelector("[data-contracts-cap]")).toHaveAttribute(
+      "data-max-active-contracts",
+      "3",
+    );
+  });
+
   it("renders the license scenario, the recommended quest and the Lina options", async () => {
     const api = mockGuildApi();
 

@@ -8,11 +8,11 @@ import { createErrorNotification } from "#@/util";
 import {
   GUILD_ACTIVE_CONTRACT_LIMIT_REACHED,
   GUILD_CHAIN_RANK_REQUIRED,
-  GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS,
   GUILD_EMPORIUM_RANK_REQUIRED,
   GUILD_REFRESH_ERROR_CODES,
   GUILD_TRANSLATED_ERROR_CODES,
   getGuildErrorCode,
+  getGuildMaxActiveContracts,
   isGuildEarlyAccessError,
 } from "../util/guildErrors";
 import { guildKeys, invalidateGuild } from "./guildKeys";
@@ -43,10 +43,7 @@ function getMaxActiveContracts(
     guildKeys.overview(userId),
   );
 
-  return (
-    overview?.license?.perks?.maxActiveContracts ??
-    GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS
-  );
+  return getGuildMaxActiveContracts(overview?.license);
 }
 
 /**

@@ -16,7 +16,7 @@ import { useGuildOverview } from "../hooks/useGuildOverview";
 import { useGuildRewards } from "../hooks/useGuildRewards";
 import { GuildIcon } from "../scene/GuildIcon";
 import { PixelButton } from "../scene/PixelButton";
-import { GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS } from "../util/guildErrors";
+import { getGuildMaxActiveContracts } from "../util/guildErrors";
 import { getQuestCopy } from "../util/getQuestCopy";
 import { GuildClaimCelebration } from "./GuildClaimCelebration";
 import { GuildExtendContractModal } from "./GuildExtendContractModal";
@@ -138,8 +138,7 @@ export function GuildActiveContracts({
 
   const maxActiveContracts =
     maxActiveContractsProp ??
-    overviewQuery.data?.license?.perks?.maxActiveContracts ??
-    GUILD_DEFAULT_MAX_ACTIVE_CONTRACTS;
+    getGuildMaxActiveContracts(overviewQuery.data?.license);
   const readyCount = contracts.filter(
     (contract) => contract.status === GuildContractDto.status.READY_TO_CLAIM,
   ).length;

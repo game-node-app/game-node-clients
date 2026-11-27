@@ -10,6 +10,7 @@ import { useMarkGuildBoardSeen } from "../hooks/useMarkGuildBoardSeen";
 import { GuildScene } from "../scene/GuildScene";
 import { LinaDialogue } from "../scene/LinaDialogue";
 import { getLinaLine } from "../util/getLinaLine";
+import { getGuildMaxActiveContracts } from "../util/guildErrors";
 import { GuildActiveContracts } from "./GuildActiveContracts";
 import { GuildBoard } from "./GuildBoard";
 import { GuildBounties } from "./GuildBounties";
@@ -165,7 +166,7 @@ export function GuildHall({
     lina,
     activeBountiesCount,
   } = overview.data;
-  const maxActiveContracts = license.perks.maxActiveContracts;
+  const maxActiveContracts = getGuildMaxActiveContracts(license);
   const hasReadyContract = activeContracts.some(
     (contract) => contract.status === GuildContractDto.status.READY_TO_CLAIM,
   );
