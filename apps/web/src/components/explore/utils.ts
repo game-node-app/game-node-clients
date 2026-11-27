@@ -4,21 +4,17 @@ import {
   GameRankingCriteriaDto,
   StatisticsRankingsRequestDto,
 } from "@repo/wrapper/server";
-import { InfiniteQueryTrendingGamesDto } from "@repo/ui";
+import type { ExploreViewValue } from "@repo/ui";
 import period = StatisticsRankingsRequestDto.period;
 
-export const DEFAULT_EXPLORE_RESULT_LIMIT = 20;
 export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH;
-export const DEFAULT_EXPLORE_TRENDING_GAMES_DTO: InfiniteQueryTrendingGamesDto =
-  {
-    limit: DEFAULT_EXPLORE_RESULT_LIMIT,
-    criteria: {},
-    period: DEFAULT_EXPLORE_SCREEN_PERIOD,
-  };
 
-export const exploreScreenUrlQueryToDto = (
+/** `?view=ranking` opens the overall ranking, which has no criteria to show. */
+const RANKING_VIEW = "ranking";
+
+export const exploreUrlQueryToValue = (
   query: ParsedUrlQuery,
-): InfiniteQueryTrendingGamesDto => {
+): ExploreViewValue => {
   const criteria: GameRankingCriteriaDto = {};
   for (const key of [
     "ids",
@@ -52,20 +48,21 @@ export const exploreScreenUrlQueryToDto = (
     typeof query.period === "string" &&
     Object.values(period).includes(query.period as period)
       ? (query.period as period)
-      : period.MONTH;
-  return {
-    limit: DEFAULT_EXPLORE_RESULT_LIMIT,
-    criteria,
-    period: selectedPeriod,
-  };
+      : DEFAULT_EXPLORE_SCREEN_PERIOD;
+  const showsRanking =
+    Object.keys(criteria).length > 0 || query.view === RANKING_VIEW;
+  return { period: selectedPeriod, ...(showsRanking && { criteria }) };
 };
 
-export const exploreScreenDtoToSearchParams = (
-  dto: InfiniteQueryTrendingGamesDto,
-) => {
-  const params = new URLSearchParams();
-  params.set("period", dto.period ?? period.MONTH);
-  for (const [key, value] of Object.entries(dto.criteria ?? {}))
-    if (value?.length) params.set(key, value.join(","));
-  return params;
+export const exploreValueToUrlQuery = ({
+  period,
+  criteria,
+}: ExploreViewValue) => {
+  const query: Record<string, string> = {};
+  if (period !== DEFAULT_EXPLORE_SCREEN_PERIOD) query.period = period;
+  for (const [key, value] of Object.entries(criteria ?? {}))
+    if (value?.length) query[key] = value.join(",");
+  if (criteria && !Object.values(criteria).some((value) => value?.length))
+    query.view = RANKING_VIEW;
+  return query;
 };

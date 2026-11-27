@@ -4,13 +4,12 @@ import type { ReactNode } from "react";
 import { MantineProvider } from "@mantine/core";
 import type { Game } from "@repo/wrapper/server";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UIProvider } from "../../../../packages/ui/src/context/UIProvider";
 import type { LinkComponentProps } from "../../../../packages/ui/src/util";
 import { setupDom } from "../components/mcp/testUtils";
 import HomePage from "../pages/home";
-import ExplorePage from "../pages/explore";
 
 const state = vi.hoisted(() => ({
   userId: undefined as string | undefined,
@@ -257,9 +256,6 @@ const renderHomePage = () =>
     }),
   });
 
-const renderExplorePage = () =>
-  render(<ExplorePage />, { wrapper: makeWrapper() });
-
 beforeEach(() => {
   setupDom();
   state.userId = undefined;
@@ -287,33 +283,5 @@ describe("mobile home caller under the console experience", () => {
     // the caller passes each platform-only section once
     expect(screen.getAllByText("events")).toHaveLength(1);
     expect(document.querySelectorAll("[data-slot='activity']")).toHaveLength(2);
-  });
-});
-
-describe("mobile explore caller under the console experience", () => {
-  it("hands the real filters and query to the presenter", async () => {
-    renderExplorePage();
-
-    expect(
-      await screen.findByRole("button", { name: "explore.filters.trendingIn" }),
-    ).toBeTruthy();
-    expect(screen.getByRole("button", { name: "RPG" })).toBeTruthy();
-    expect(
-      document.querySelector("[data-filtered]")?.getAttribute("data-filtered"),
-    ).toBe("false");
-  });
-
-  it("keeps the filters visible and passes the paginated results once filtered", async () => {
-    renderExplorePage();
-
-    fireEvent.click(await screen.findByRole("button", { name: "RPG" }));
-
-    expect(
-      screen.getByRole("button", { name: "explore.filters.trendingIn" }),
-    ).toBeTruthy();
-    expect(
-      document.querySelector("[data-filtered]")?.getAttribute("data-filtered"),
-    ).toBe("true");
-    expect(screen.getByText("Game 1")).toBeTruthy();
   });
 });

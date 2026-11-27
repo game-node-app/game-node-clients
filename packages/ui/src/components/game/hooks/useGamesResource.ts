@@ -1,11 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { Game, GameRepositoryService } from "../../../../../wrapper/src/server";
 
-export function useGamesResource<U extends keyof Game>(
-  resourceName: U,
-  enabled = true,
-) {
-  return useQuery({
+export function gamesResourceOptions<U extends keyof Game>(resourceName: U) {
+  return queryOptions({
     queryKey: ["game", "resource", resourceName],
     queryFn: async () => {
       const resource =
@@ -15,8 +12,14 @@ export function useGamesResource<U extends keyof Game>(
 
       return resource as Game[U];
     },
-    enabled,
     // Resources are constant
     staleTime: Infinity,
   });
+}
+
+export function useGamesResource<U extends keyof Game>(
+  resourceName: U,
+  enabled = true,
+) {
+  return useQuery({ ...gamesResourceOptions(resourceName), enabled });
 }

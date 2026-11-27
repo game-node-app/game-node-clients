@@ -3,3 +3,7 @@
  */
 
 export * from "./ExploreTrendingGames";
+export * from "./hooks/index";
+export * from "./shelf/index";
+export * from "./util/index";
+export * from "./view/index";

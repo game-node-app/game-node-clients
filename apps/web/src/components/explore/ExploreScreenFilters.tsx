@@ -1,213 +1,119 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { z } from "zod";
-import { StatisticsRankingsRequestDto } from "@repo/wrapper/server";
-import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ActionIcon,
-  Button,
-  Center,
-  ComboboxItem,
-  Drawer,
-  Group,
-  Select,
-  SimpleGrid,
-} from "@mantine/core";
-import ExploreScreenResourceSelector from "./ExploreScreenResourceSelector";
-import { useRouter } from "next/router";
-import { IconAdjustments } from "@tabler/icons-react";
+import { ActionIcon, Button, Drawer, Indicator, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  exploreScreenDtoToSearchParams,
-  exploreScreenUrlQueryToDto,
-} from "./utils";
-import { GameResourceFilter, InfiniteQueryTrendingGamesDto } from "@repo/ui";
 import { useTranslation } from "@repo/locales";
-import period = StatisticsRankingsRequestDto.period;
+import { GameRankingCriteriaDto } from "@repo/wrapper/server";
+import { IconAdjustments } from "@tabler/icons-react";
+import { Controller, useForm } from "react-hook-form";
+import ExploreScreenResourceSelector from "./ExploreScreenResourceSelector";
 
-export const DEFAULT_EXPLORE_SCREEN_PERIOD = period.MONTH.valueOf();
+const RESOURCES = [
+  { resource: "genres", label: "explore.filters.genres" },
+  { resource: "platforms", label: "explore.filters.platforms" },
+  { resource: "themes", label: "explore.filters.themes" },
+  { resource: "gameModes", label: "explore.filters.modes" },
+] as const;
 
-const FilterFormSchema = z.object({
-  themes: z.array(z.string()).optional(),
-  genres: z.array(z.string()).optional(),
-  platforms: z.array(z.string()).optional(),
-  category: z.array(z.string()).optional(),
-  gameModes: z.array(z.string()).optional(),
-  status: z.array(z.string()).optional(),
-  period: z.string(),
-});
+type FilterFormValues = Record<
+  (typeof RESOURCES)[number]["resource"],
+  string[]
+>;
 
-type FilterFormValues = z.infer<typeof FilterFormSchema>;
-
-/**
- * PS: DO NOT use this as 'data' for the MultiSelect component. This is only for reference when building the JSX below.
- */
 interface Props {
-  onFilterChange: Dispatch<SetStateAction<InfiniteQueryTrendingGamesDto>>;
-  hasLoadedQueryParams: boolean;
+  criteria: GameRankingCriteriaDto | undefined;
+  /** `undefined` clears every filter and goes back to the shelves. */
+  onApply: (criteria: GameRankingCriteriaDto | undefined) => void;
 }
 
-const ExploreScreenFilters = ({
-  onFilterChange,
-  hasLoadedQueryParams,
-}: Props) => {
+/** Mounted with the drawer, so every opening starts from the applied filters. */
+const ExploreScreenFiltersForm = ({ criteria, onApply }: Props) => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const [drawerOpened, drawerUtils] = useDisclosure();
-
-  const SELECT_PERIOD_DATA: ComboboxItem[] = [
-    { label: t("explore.periods.week"), value: period.WEEK.valueOf() },
-    { label: t("explore.periods.month"), value: period.MONTH.valueOf() },
-    {
-      label: t("explore.periods.threeMonths"),
-      value: period.QUARTER.valueOf(),
+  const { handleSubmit, control } = useForm<FilterFormValues>({
+    defaultValues: {
+      genres: criteria?.genres?.map(String) ?? [],
+      platforms: criteria?.platforms?.map(String) ?? [],
+      themes: criteria?.themes?.map(String) ?? [],
+      gameModes: criteria?.gameModes?.map(String) ?? [],
     },
-    {
-      label: t("explore.periods.sixMonths"),
-      value: period.HALF_YEAR.valueOf(),
-    },
-    {
-      label: t("explore.periods.year"),
-      value: period.YEAR.valueOf(),
-    },
-    {
-      label: t("explore.periods.allTime"),
-      value: period.ALL.valueOf(),
-    },
-  ];
-
-  const resources: (GameResourceFilter & {
-    resource: Exclude<keyof FilterFormValues, "period">;
-  })[] = [
-    {
-      label: t("explore.filters.themes"),
-      resource: "themes",
-    },
-    {
-      label: t("explore.filters.genres"),
-      resource: "genres",
-    },
-    {
-      label: t("explore.filters.platforms"),
-      resource: "platforms",
-    },
-    {
-      label: t("explore.filters.modes"),
-      resource: "gameModes",
-    },
-  ];
-
-  const { handleSubmit, register, setValue, control, getValues, formState } =
-    useForm<FilterFormValues>({
-      resolver: zodResolver(FilterFormSchema),
-      mode: "onBlur",
-      defaultValues: {
-        period: DEFAULT_EXPLORE_SCREEN_PERIOD,
-      },
-    });
-
-  const watchedValues = useWatch({ control });
+  });
 
   const onSubmit = (data: FilterFormValues) => {
-    const { period, ...criteria } = data;
-    onFilterChange((previousState) => {
-      const query: Record<string, string> = {
-        period,
-        ...Object.fromEntries(
-          Object.entries(criteria)
-            .filter(([, value]) => value != null)
-            .map(([key, value]) => [key, String(value)]),
-        ),
-      };
-      if (previousState.criteria?.ids)
-        query.ids = previousState.criteria.ids.join(",");
-      const updatedState = exploreScreenUrlQueryToDto(query);
-      const searchParams = exploreScreenDtoToSearchParams(updatedState);
-      router.replace({ query: searchParams.toString() }, undefined, {
-        shallow: false,
-      });
-      return updatedState;
-    });
-    drawerUtils.close();
+    // criteria without a selector here (ids, status, category) are kept
+    const next: GameRankingCriteriaDto = { ...criteria };
+    for (const { resource } of RESOURCES) {
+      if (data[resource].length) next[resource] = data[resource].map(Number);
+      else delete next[resource];
+    }
+    onApply(Object.keys(next).length ? next : undefined);
   };
 
-  useEffect(() => {
-    const query = router.query;
-    if (router.isReady && !hasLoadedQueryParams) {
-      const dto = exploreScreenUrlQueryToDto(query);
-      if (dto.criteria) {
-        for (const [k, v] of Object.entries(dto.criteria)) {
-          if (k !== "ids")
-            setValue(
-              k as
-                | "themes"
-                | "genres"
-                | "platforms"
-                | "gameModes"
-                | "status"
-                | "category",
-              v.map(String),
-            );
-        }
-      }
-      setValue("period", dto.period ?? period.MONTH);
-      onFilterChange((prevState) => ({ ...prevState, ...dto }));
-    }
-  }, [
-    hasLoadedQueryParams,
-    router.isReady,
-    router.query,
-    onFilterChange,
-    setValue,
-  ]);
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack>
+        {RESOURCES.map(({ resource, label }) => (
+          <Controller
+            key={resource}
+            control={control}
+            name={resource}
+            render={({ field }) => (
+              <ExploreScreenResourceSelector
+                label={t(label)}
+                resourceName={resource}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        ))}
+        <Button type={"submit"} mt={"md"}>
+          {t("common.search")}
+        </Button>
+        {criteria && (
+          <Button variant={"subtle"} onClick={() => onApply(undefined)}>
+            {t("explore.filters.clear")}
+          </Button>
+        )}
+      </Stack>
+    </form>
+  );
+};
+
+/** Web-only filters of the Explore screen, behind a button in the filter row. */
+const ExploreScreenFilters = ({ criteria, onApply }: Props) => {
+  const { t } = useTranslation();
+  const [opened, drawer] = useDisclosure();
+  const count = RESOURCES.reduce(
+    (total, { resource }) => total + (criteria?.[resource]?.length ?? 0),
+    0,
+  );
 
   return (
-    <Group justify={"space-between"} align={"center"} w={"100%"}>
+    <>
       <Drawer
-        onClose={drawerUtils.close}
-        opened={drawerOpened}
-        title={t("common.actions")}
+        opened={opened}
+        onClose={drawer.close}
+        position={"right"}
+        title={t("explore.filters.title")}
       >
-        <form className={"w-full h-full"} onSubmit={handleSubmit(onSubmit)}>
-          <SimpleGrid cols={2}>
-            {resources.map((resourceReference) => {
-              const valueName = resourceReference.resource;
-              return (
-                <ExploreScreenResourceSelector
-                  label={resourceReference.label}
-                  key={valueName}
-                  resourceName={valueName}
-                  value={watchedValues[valueName]}
-                  onChange={(value) => {
-                    setValue(valueName, value);
-                  }}
-                />
-              );
-            })}
-          </SimpleGrid>
-          <Center className={"mt-8"}>
-            <Button type="submit" loading={formState.isSubmitting}>
-              {t("common.search")}
-            </Button>
-          </Center>
-        </form>
+        <ExploreScreenFiltersForm
+          criteria={criteria}
+          onApply={(next) => {
+            drawer.close();
+            onApply(next);
+          }}
+        />
       </Drawer>
-      <ActionIcon className="mt-4 mb-2" onClick={() => drawerUtils.open()}>
-        <IconAdjustments />
-      </ActionIcon>
-      <Select
-        {...register("period")}
-        description={t("explore.filters.trendingIn")}
-        data={SELECT_PERIOD_DATA}
-        value={watchedValues.period}
-        allowDeselect={false}
-        onChange={(v) => {
-          const value = v ?? period.MONTH.valueOf();
-          setValue("period", value);
-          onSubmit({ ...getValues(), period: value });
-        }}
-      />
-    </Group>
+      <Indicator label={count} size={16} disabled={count === 0}>
+        <ActionIcon
+          variant={"default"}
+          radius={"xl"}
+          size={"md"}
+          aria-label={t("explore.filters.title")}
+          onClick={drawer.open}
+        >
+          <IconAdjustments size={18} />
+        </ActionIcon>
+      </Indicator>
+    </>
   );
 };
 

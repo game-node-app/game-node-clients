@@ -1634,14 +1634,18 @@
     "fetchError": "Error while trying to fetch games. Please reload this page.",
     "filters": {
       "all": "All",
+      "clear": "Clear filters",
       "genres": "Genres",
       "modes": "Modes",
       "platforms": "Platforms",
       "themes": "Themes",
+      "title": "Filters",
       "trendingIn": "Trending in"
     },
     "metaTitle": "Explore - GameNode",
     "sections": {
+      "scrollNext": "Scroll forward",
+      "scrollPrevious": "Scroll back",
       "seeAll": "See all",
       "topOverall": "Top overall"
     },
