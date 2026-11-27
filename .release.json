@@ -1,0 +1,28 @@
+{
+  "source": "2220a9ef9529bb1bacc7328848129d907456b658",
+  "changesets": [
+    ".changeset/expand-adventurers-guild-client.md"
+  ],
+  "apps": [
+    "web",
+    "mobile"
+  ],
+  "filters": [
+    "--filter=...[fb7deb0057bd43953f64d1b7075c5fd2f5bfe9b3...2220a9ef9529bb1bacc7328848129d907456b658]",
+    "--filter=web...",
+    "--filter=mobile..."
+  ],
+  "bumps": {
+    "web": "minor",
+    "mobile": "minor"
+  },
+  "docker": [
+    "web"
+  ],
+  "mobile": true,
+  "ref": "releases/2220a9ef9529bb1bacc7328848129d907456b658",
+  "versions": {
+    "web": "1.32.0",
+    "mobile": "1.30.0"
+  }
+}
