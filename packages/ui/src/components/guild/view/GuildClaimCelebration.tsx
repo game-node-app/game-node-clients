@@ -86,9 +86,10 @@ function GuildClaimXpCounter({ xpAwarded }: { xpAwarded: number }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.resolvedLanguage || i18n.language || "en";
   const reducedMotion = useReducedMotion();
-  const [displayXp, setDisplayXp] = useState(() =>
-    reducedMotion ? xpAwarded : 0,
-  );
+  const [countedXp, setCountedXp] = useState(0);
+  // `useReducedMotion` is false on the first render, so the final value has to
+  // be picked at render time rather than as the initial state.
+  const displayXp = reducedMotion ? xpAwarded : countedXp;
 
   useEffect(() => {
     if (reducedMotion || xpAwarded <= 0) return;
@@ -97,7 +98,7 @@ function GuildClaimXpCounter({ xpAwarded }: { xpAwarded: number }) {
     const interval = window.setInterval(() => {
       const progress = Math.min(1, (Date.now() - startedAt) / COUNT_UP_MS);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayXp(Math.round(xpAwarded * eased));
+      setCountedXp(Math.round(xpAwarded * eased));
 
       if (progress >= 1) {
         window.clearInterval(interval);

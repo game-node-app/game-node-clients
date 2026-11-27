@@ -2002,6 +2002,9 @@
         "confirmBody": "Isso adiciona 7 dias ao contrato. Só é possível estender um contrato uma vez.",
         "currentDeadline": "Prazo atual: {{date}}",
         "newDeadline": "Novo prazo (+7 dias): {{date}}",
+        "costFree": "Usa sua Ampulheta mensal gratuita (nenhuma Ampulheta do inventário é gasta).",
+        "costConsumable_one": "Gasta 1 Ampulheta do seu inventário (você tem {{count}}).",
+        "costConsumable_other": "Gasta 1 Ampulheta do seu inventário (você tem {{count}}).",
         "free": "Ampulheta grátis do mês usada",
         "consumable": "Ampulheta usada",
         "done": "Estendido por 7 dias"

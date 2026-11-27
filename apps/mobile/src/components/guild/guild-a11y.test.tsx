@@ -88,9 +88,11 @@ function renderScreen(ui: ReactElement, language: SupportedLanguage = "en") {
   );
 }
 
-function mockMatchMedia(mobileMatches: boolean) {
+function mockMatchMedia(mobileMatches: boolean, reducedMotion = false) {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-    matches: query === "(max-width: 47.99em)" ? mobileMatches : false,
+    matches: query.includes("prefers-reduced-motion")
+      ? reducedMotion
+      : query === "(max-width: 47.99em)" && mobileMatches,
     media: query,
     onchange: null,
     addEventListener: vi.fn(),
@@ -407,5 +409,17 @@ describe("GuildClaimCelebration mobile fullscreen", () => {
       "data-fullscreen",
       "false",
     );
+  });
+});
+
+describe("GuildClaimCelebration reduced motion", () => {
+  it("shows the awarded XP right away instead of zero", () => {
+    mockMatchMedia(false, true);
+
+    renderScreen(
+      <GuildClaimCelebration opened onClose={vi.fn()} result={CLAIM_RESULT} />,
+    );
+
+    expect(screen.getByText("+250 Guild XP")).toBeInTheDocument();
   });
 });

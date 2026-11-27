@@ -1244,8 +1244,9 @@
 
 .contractsTitleRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 8px 10px;
 }
 
 .contractsTitle {
@@ -1257,6 +1258,11 @@
   flex: 1;
   height: 1px;
   background: var(--gn-line);
+}
+
+/* Stays at the end of the title row, including when it wraps to its own line. */
+.pixelButton.contractsManage {
+  margin-inline-start: auto;
 }
 
 .contractsEmpty {
@@ -1633,6 +1639,7 @@
 
 .questFooter {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: 10px;
@@ -1642,9 +1649,9 @@
 
 .questRewards {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: 4px;
-  min-width: 0;
 }
 
 .questXp {
@@ -1665,6 +1672,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
+  margin-inline-start: auto;
 }
 
 /* ---- Target-game picker. ---- */

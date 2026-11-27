@@ -28,11 +28,11 @@ export function GuildQueryError({
     <div
       role="alert"
       className={cn(
-        "flex flex-col items-center gap-3 rounded-[var(--gn-radius)] border border-line bg-surface-1 p-4 text-center text-body",
+        "flex flex-col items-center gap-3 rounded-[var(--gn-radius)] border border-line bg-surface-1 p-4 text-center text-[var(--gn-text)]",
         className,
       )}
     >
-      <p className="m-0 text-sm text-body">{errorMessage}</p>
+      <p className="m-0 text-sm">{errorMessage}</p>
       <PixelButton size="sm" disabled={isRetrying} onClick={onRetry}>
         {t("guild.errors.retry")}
       </PixelButton>

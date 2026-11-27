@@ -199,6 +199,7 @@ export function GuildActiveContracts({
           <PixelButton
             size="sm"
             variant="ghost-dark"
+            className={styles.contractsManage}
             onClick={onManageContracts}
           >
             {t("guild.activeContracts.manage")}

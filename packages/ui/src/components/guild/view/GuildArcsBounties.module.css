@@ -191,6 +191,13 @@
   -webkit-line-clamp: 2;
 }
 
+/* Three columns are too narrow for stage names on phones: stack the track. */
+@media (max-width: 30em) {
+  .stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .stageDetail {
   display: flex;
   flex-direction: column;
